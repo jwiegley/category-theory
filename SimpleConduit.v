@@ -1,4 +1,4 @@
-Require Export Category.
+Require Export Functor.
 
 Inductive Source (M : Type -> Type) X : Type :=
   | ASource : (forall {R}, R -> (R -> X -> M R) -> M R) -> Source M X.
@@ -17,3 +17,6 @@ Global Instance Source_Functor (M : Type -> Type) (X : Type)
 Proof.
   intros. compute. destruct x. reflexivity.
   intros. compute. destruct x. reflexivity.  Qed.
+
+(* Extraction Language Haskell. *)
+(* Recursive Extraction Source. *)
