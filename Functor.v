@@ -1,4 +1,15 @@
 Definition id {X} (a : X) : X := a.
+
+Theorem id_inj : forall {X} (x y : X),
+  x = y -> id x = id y.
+Proof.
+  intros. apply H.  Qed.
+
+Theorem id_inj_r : forall {X} (x y : X),
+  id x = id y -> x = y.
+Proof.
+  intros. apply H.  Qed.
+
 Definition compose {A B C} (f : B -> C) (g : A -> B) (x : A) : C := f (g x).
 
 Notation "f ∘ g" := (compose f g) (at level 75).
@@ -13,6 +24,13 @@ Class Functor (F : Type -> Type) :=
 ; fun_composition : forall {X Y Z} (x : F X) (f : Y -> Z) (g : X -> Y),
     (fmap f ∘ fmap g) x = fmap (f ∘ g) x
 }.
+
+Theorem fmap_fmap_id
+  : forall {X} (F : Type -> Type) (f_dict : Functor F) (x : F (F X)),
+  fmap (fmap id) x = x.
+Proof.
+  intros. assert (fmap (@id X) = @id (F X)).
+    
 
 Class Applicative (F : Type -> Type) :=
 { is_functor :> Functor F
@@ -43,3 +61,8 @@ Class Monad (M : Type -> Type) :=
 ; monad_law_5 : forall {X Y} (x : M (M X)) (f : X -> Y),
     (mu ∘ fmap (fmap f)) x = (fmap f ∘ mu) x
 }.
+
+Definition bind {M X Y} {m_dict : Monad M} (x : M X) (f : (X -> M Y)) : M Y :=
+  mu (fmap f x).
+
+Notation "m >>= f" := (bind m f) (at level 70).

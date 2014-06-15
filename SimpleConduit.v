@@ -1,4 +1,4 @@
-Require Export Functor.
+Require Export Either.
 
 Inductive Source (M : Type -> Type) X : Type :=
   | ASource : (forall {R}, R -> (R -> X -> M R) -> M R) -> Source M X.
