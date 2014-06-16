@@ -33,6 +33,8 @@ Global Instance Either_Functor {E} (X : Type) : Functor (Either E) :=
 Proof.
   (* fun_identity *)
   intros. compute. destruct x. reflexivity. reflexivity.
+  (* fun_identity *)
+  intros. compute.
   (* fun_composition *)
   intros. compute. destruct x. reflexivity.  reflexivity.  Defined.
 
@@ -43,15 +45,18 @@ Global Instance Either_Applicative {E} (X : Type)
 ; apply := @Either_apply E
 }.
 Proof.
-  (* app_identity *)
-  intros. compute. destruct v. reflexivity. reflexivity.
-  (* app_composition *)
-  intros. compute. destruct u. reflexivity.
-    destruct v. reflexivity. destruct w. reflexivity. reflexivity.
-  (* app_homomorphism *)
-  intros. compute. reflexivity.
-  (* app_interchange *)
-  intros. compute. destruct u. reflexivity. reflexivity.  Defined.
+  - (* app_identity *)
+    intros. compute. destruct v. reflexivity. reflexivity.
+  - (* app_composition *)
+    intros. compute. destruct u. reflexivity.
+      destruct v. reflexivity. destruct w. reflexivity. reflexivity.
+  - (* app_homomorphism *)
+    intros. compute. reflexivity.
+  - (* app_interchange *)
+    intros. compute. destruct u. reflexivity. reflexivity.
+  - (* app_fmap_unit *)
+    admit.
+  Defined.
 
 Global Instance Either_Monad {E} (X : Type) : Monad (Either E) :=
 { is_applicative := Either_Applicative X
@@ -64,14 +69,13 @@ Proof.
     destruct e. reflexivity.
     reflexivity.
   (* monad_law_2 *)
-  intros. compute. destruct x. reflexivity. reflexivity.
+  intros. compute. destruct x; reflexivity.
   (* monad_law_3 *)
-  intros. compute. destruct x. reflexivity. reflexivity.
+  intros. compute. destruct x; reflexivity.
   (* monad_law_4 *)
   intros. compute. reflexivity.
   (* monad_law_5 *)
-  intros. compute. destruct x. reflexivity. destruct e.
-    reflexivity. reflexivity.  Defined.
+  intros. compute. destruct x. reflexivity. destruct e; reflexivity.  Defined.
 
 Inductive EitherT (X : Type) (M : Type -> Type) (Y : Type) : Type :=
   | EitherT_ : M (Either X Y) -> EitherT X M Y.
@@ -118,9 +122,6 @@ Proof.
   Typeclasses Transparent Either_Functor.
   (* fun_identity *)
   intros. unfold EitherT_map. destruct x.
-    
-    (* pose proof (@monad_law_4 M m_dict X) as H. *)
-
   (* fun_composition *)
   intros. admit.  Defined.
 

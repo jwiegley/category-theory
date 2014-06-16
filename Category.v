@@ -1,3 +1,5 @@
+Require Export Coq.Setoids.Setoid.
+
 Generalizable All Variables.
 
 Reserved Notation "a → b" (at level 70, right associativity).
@@ -27,6 +29,7 @@ Class Category Ob (Hom : Ob -> Ob -> Type) :=
 ; comp_assoc : forall {A B C D} (f : C → D) (g : B → C) (h : A → B) ,
     f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h
 }.
+
 Coercion ob : Category >-> Sortclass.
 
 Notation "a → b" := (hom a b).
@@ -42,7 +45,9 @@ Global Instance Coq : Category Type (fun X Y => X -> Y) :=
 Proof.
   (* right_identity *) intros. reflexivity.
   (* left_identity *)  intros. reflexivity.
-  (* comp_assoc *)     intros. reflexivity.  Qed.
+  (* comp_assoc *)     intros. reflexivity.  Defined.
+
+Typeclasses Transparent Coq.
 
 Definition homomorphisms A := A -> A -> Type.
 
@@ -59,3 +64,23 @@ Class Functor `(C : Category objC homC, D : Category objD homD) :=
 ; functor_law_2 : forall {X Y Z} (f : Y → Z) (g : X → Y),
     compose (fmap f) (fmap g) ≈ fmap (compose f g)
 }.
+
+Inductive Either (X : Type) (Y : Type): Type :=
+  | Left : X -> Either X Y
+  | Right : Y -> Either X Y.
+
+Definition Either_map {E X Y} (f : X -> Y) (x : Either E X) : Either E Y :=
+  match x with
+   | Left e => Left E Y e
+   | Right x' => Right E Y (f x')
+  end.
+
+Global Instance Either_Functor {E} (X : Type) : Functor Coq Coq :=
+{ Fobj := Either E
+; fmap := @Either_map E
+}.
+Proof.
+  (* fun_identity *)
+  - intros. compute.
+  (* fun_composition *)
+  - Abort.

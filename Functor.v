@@ -2,13 +2,11 @@ Definition id {X} (a : X) : X := a.
 
 Theorem id_inj : forall {X} (x y : X),
   x = y -> id x = id y.
-Proof.
-  intros. apply H.  Qed.
+Proof. intros. apply H.  Qed.
 
 Theorem id_inj_r : forall {X} (x y : X),
   id x = id y -> x = y.
-Proof.
-  intros. apply H.  Qed.
+Proof. intros. apply H.  Qed.
 
 Definition compose {A B C} (f : B -> C) (g : A -> B) (x : A) : C := f (g x).
 
@@ -20,17 +18,11 @@ Notation "f ∘ g" := (compose f g) (at level 75).
 
 Class Functor (F : Type -> Type) :=
 { fmap : forall {X Y}, (X -> Y) -> F X -> F Y
+
 ; fun_identity : forall {X} (x : F X), fmap id x = id x
 ; fun_composition : forall {X Y Z} (x : F X) (f : Y -> Z) (g : X -> Y),
     (fmap f ∘ fmap g) x = fmap (f ∘ g) x
 }.
-
-Theorem fmap_fmap_id
-  : forall {X} (F : Type -> Type) (f_dict : Functor F) (x : F (F X)),
-  fmap (fmap id) x = x.
-Proof.
-  intros. assert (fmap (@id X) = @id (F X)).
-    
 
 Class Applicative (F : Type -> Type) :=
 { is_functor :> Functor F
@@ -45,9 +37,22 @@ Class Applicative (F : Type -> Type) :=
     apply (eta f) (eta x) = eta (f x)
 ; app_interchange : forall {X Y} (y : X) (u : F (X -> Y)),
     apply u (eta y) = apply (eta (fun f => f y)) u
+; app_fmap_unit : forall {X Y} (f : X -> Y) (x : F X),
+    fmap f x = apply (eta f) x
 }.
 
 Notation "f <*> g" := (apply f g) (at level 70).
+
+Theorem fmap_unit
+    : forall (F : Type -> Type) (app_dict : Applicative F) (A B : Type) (f : A -> B) (x : A)
+    , fmap f (eta x) = eta (f x).
+Proof.
+    intros.
+    rewrite -> app_fmap_unit.
+    rewrite -> app_interchange.
+    rewrite -> app_homomorphism.
+    reflexivity.
+Qed.
 
 Class Monad (M : Type -> Type) :=
 { is_applicative :> Applicative M
@@ -62,7 +67,7 @@ Class Monad (M : Type -> Type) :=
     (mu ∘ fmap (fmap f)) x = (fmap f ∘ mu) x
 }.
 
-Definition bind {M X Y} {m_dict : Monad M} (x : M X) (f : (X -> M Y)) : M Y :=
-  mu (fmap f x).
+Definition bind {M X Y} {m_dict : Monad M}
+  (x : M X) (f : (X -> M Y)) : M Y := mu (fmap f x).
 
 Notation "m >>= f" := (bind m f) (at level 70).

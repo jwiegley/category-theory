@@ -1,4 +1,4 @@
-Require Export Category.
+Require Export Functor.
 
 Inductive Yoneda (F : Type -> Type) X : Type :=
   | Embed : forall {Y}, F Y -> (Y -> X) -> Yoneda F X.
@@ -50,7 +50,9 @@ Global Instance Yoneda_Lemma (F : Type -> Type) (f_dict : Functor F) X
   from := lower_yoneda F f_dict X
 }.
 Proof.
-  intros. compute. apply functor_law_1.
+  - (* iso_to *)
+    intros. compute. apply functor_law_1.
 
-  intros. unfold lower_yoneda. destruct y. unfold lift_yoneda.
-    apply yoneda_refl.  Qed.
+  - (* iso_from *)
+    intros. unfold lower_yoneda. destruct y. unfold lift_yoneda.
+      apply yoneda_refl.  Qed.
