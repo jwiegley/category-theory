@@ -1,7 +1,18 @@
-Inductive Identity (X : Type) : Prop :=
-  | Id : Identity X.
+Axiom ext_eq : forall {T1 T2 : Type} (f1 f2 : T1 -> T2),
+  (forall x, f1 x = f2 x) -> f1 = f2.
+
+Theorem ext_eqS : forall (T1 T2 : Type) (f1 f2 : T1 -> T2),
+  (forall x, f1 x = f2 x) -> f1 = f2.
+  intros; rewrite (ext_eq f1 f2); auto.
+Qed.
+
+Ltac ext_eq := (apply ext_eq || apply ext_eqS); intro.
 
 Definition id {X} (a : X) : X := a.
+
+Theorem id_def : forall {X} (x : X) (f : X -> X),
+  f = id -> f x = x.
+Proof. intros. unfold id in H. rewrite H. reflexivity.  Qed.
 
 Theorem id_inj : forall {X} (x y : X),
   x = y -> id x = id y.
@@ -11,9 +22,29 @@ Theorem id_inj_r : forall {X} (x y : X),
   id x = id y -> x = y.
 Proof. intros. apply H.  Qed.
 
-Definition compose {A B C} (f : B -> C) (g : A -> B) (x : A) : C := f (g x).
+Definition compose {A B C}
+  (f : B -> C) (g : A -> B) (x : A) : C := f (g x).
 
-Notation "f ∘ g" := (compose f g) (at level 75).
+Notation "f ∘ g" := (compose f g) (at level 65).
+
+Theorem comp_assoc : forall {A B C D} (f : C -> D) (g : B -> C) (h : A -> B),
+  f ∘ (g ∘ h) = (f ∘ g) ∘ h.
+Proof.
+  intros. compute. reflexivity.
+Qed.
+
+Theorem comp_ident : forall {A B C} {x : A} {y : C} (f : B -> C) (g : A -> B),
+  (f ∘ g) x = y -> f (g x) = y.
+Proof.
+  intros. compute. assumption.
+Qed.
+
+Theorem comp_ident2 : forall {A B C D} {x : A} {y : D}
+  (f : C -> D) (g : B -> C) (h : A -> B),
+  (f ∘ g) (h x) = y -> f (g (h x)) = y.
+Proof.
+  intros. compute. assumption.
+Qed.
 
 (* Even though we have the Category class in Category.v, the Functors
    and Monads I'm interested in reasoning about are all endofunctors on
@@ -23,8 +54,8 @@ Class Functor (F : Type -> Type) :=
 { fmap : forall {X Y}, (X -> Y) -> F X -> F Y
 
 ; fun_identity : forall {X}, fmap (@id X) = id
-; fun_composition : forall {X Y Z} (x : F X) (f : Y -> Z) (g : X -> Y),
-    (fmap f ∘ fmap g) x = fmap (f ∘ g) x
+; fun_composition : forall {X Y Z} (f : Y -> Z) (g : X -> Y),
+    fmap f ∘ fmap g = fmap (f ∘ g)
 }.
 
 Class Applicative (F : Type -> Type) :=
@@ -40,21 +71,30 @@ Class Applicative (F : Type -> Type) :=
     apply (eta f) (eta x) = eta (f x)
 ; app_interchange : forall {X Y} (y : X) (u : F (X -> Y)),
     apply u (eta y) = apply (eta (fun f => f y)) u
-; app_fmap_unit : forall {X Y} (f : X -> Y) (x : F X),
-    fmap f x = apply (eta f) x
+; app_fmap_unit : forall {X Y} (f : X -> Y), apply (eta f) = fmap f
 }.
 
 Notation "f <*> g" := (apply f g) (at level 70).
 
-Theorem fmap_unit
-    : forall (F : Type -> Type) (app_dict : Applicative F) (A B : Type) (f : A -> B) (x : A)
-    , fmap f (eta x) = eta (f x).
+Theorem fmap_unit_eq
+  : forall (F : Type -> Type) (app_dict : Applicative F)
+      (A B : Type) (f : A -> B) (x : A),
+  fmap f (eta x) = eta (f x).
 Proof.
-    intros.
-    rewrite -> app_fmap_unit.
-    rewrite -> app_interchange.
-    rewrite -> app_homomorphism.
-    reflexivity.
+  intros.
+  symmetry.
+  rewrite <- app_fmap_unit.
+  rewrite -> app_interchange.
+  rewrite -> app_homomorphism.
+  reflexivity.
+Qed.
+
+Theorem app_fmap_id
+  : forall (F : Type -> Type) (app_dict : Applicative F)
+      (A B : Type) (f : A -> B) (x : F A),
+   apply (eta id) x = fmap id x.
+Proof.
+  intros. rewrite app_fmap_unit. reflexivity.
 Qed.
 
 Class Monad (M : Type -> Type) :=
@@ -62,12 +102,13 @@ Class Monad (M : Type -> Type) :=
 
 ; mu : forall {X}, M (M X) -> M X
 
-; monad_law_1 : forall {X} (x : M (M (M X))), (mu ∘ fmap mu) x = (mu ∘ mu) x
-; monad_law_2 : forall {X} (x : M X), (mu ∘ fmap eta) x = x
-; monad_law_3 : forall {X} (x : M X), (mu ∘ eta) x = x
-; monad_law_4 : forall {X Y} (x : X) (f : X -> Y), (eta ∘ f) x = (fmap f ∘ eta) x
-; monad_law_5 : forall {X Y} (x : M (M X)) (f : X -> Y),
-    (mu ∘ fmap (fmap f)) x = (fmap f ∘ mu) x
+; monad_law_1 : forall {X}, mu ∘ fmap mu = (@mu (M X)) ∘ mu
+; monad_law_2 : forall {X}, mu ∘ fmap (@eta M is_applicative (M X)) = id
+; monad_law_2_x : forall {X} (x : M (M X)), mu (fmap (@eta M is_applicative (M X)) x) = x
+; monad_law_3 : forall {X}, (@ mu (M X)) ∘ eta = id
+; monad_law_3_x : forall {X} {x : M X}, mu (eta x) = x
+; monad_law_4 : forall {X Y} (f : X -> Y), eta ∘ f = fmap f ∘ eta
+; monad_law_5 : forall {X Y} (f : X -> Y), mu ∘ fmap (fmap f) = fmap f ∘ mu
 }.
 
 Definition bind {M X Y} {m_dict : Monad M}

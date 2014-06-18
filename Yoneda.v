@@ -13,7 +13,8 @@ Definition lower_yoneda (F : Type -> Type) (f_dict : Functor F)
 Theorem eq_remove_Embed : forall (F : Type -> Type) X Y (f : Y -> X) (n m : F Y),
     n = m -> Embed F X n f = Embed F X m f.
 Proof.
-  intros. inversion H. reflexivity.  Qed.
+  intros. inversion H. reflexivity.
+Qed.
 
 Definition yoneda_map {F : Type -> Type} {X Y}
   (f : X -> Y) (x : Yoneda F X) : Yoneda F Y :=
@@ -30,7 +31,8 @@ Proof.
     rewrite comp_left_identity. reflexivity.
 
   (* functor_law_2 *)
-  intros. compute. destruct x. reflexivity.  Qed.
+  intros. compute. destruct x. reflexivity
+Defined.
 
 Class Isomorphism X Y := {
   to : X -> Y; from : Y -> X;
@@ -55,4 +57,5 @@ Proof.
 
   - (* iso_from *)
     intros. unfold lower_yoneda. destruct y. unfold lift_yoneda.
-      apply yoneda_refl.  Qed.
+      apply yoneda_refl.
+Defined.

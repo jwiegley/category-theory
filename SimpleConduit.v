@@ -16,7 +16,8 @@ Global Instance Source_Functor (M : Type -> Type) (X : Type)
 }.
 Proof.
   intros. compute. destruct x. reflexivity.
-  intros. compute. destruct x. reflexivity.  Qed.
+  intros. compute. destruct x. reflexivity.
+Defined.
 
 (* Extraction Language Haskell. *)
 (* Recursive Extraction Source. *)

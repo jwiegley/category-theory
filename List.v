@@ -23,4 +23,5 @@ Proof.
   intros. induction x as [| x'].
     reflexivity.
     unfold compose. unfold compose in IHx.
-      simpl. rewrite IHx. reflexivity.  Qed.
+      simpl. rewrite IHx. reflexivity.
+Defined.
