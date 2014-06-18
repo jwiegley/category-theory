@@ -32,7 +32,7 @@ Global Instance Either_Functor {E} (X : Type) : Functor (Either E) :=
 }.
 Proof.
   (* fun_identity *)
-  intros. compute. destruct x. reflexivity. reflexivity.
+  intros. compute. destruct x; reflexivity.
   (* fun_identity *)
   intros. compute.
   (* fun_composition *)
@@ -121,9 +121,12 @@ Global Instance EitherT_Functor (E : Type) (M : Type -> Type)
 Proof.
   Typeclasses Transparent Either_Functor.
   (* fun_identity *)
-  intros. unfold EitherT_map. destruct x.
+  intros. unfold EitherT_map. destruct x. unfold fmap at 2. simpl.
+    assert (@Either_map E X X (@id X) = id).
+    
   (* fun_composition *)
-  intros. admit.  Defined.
+  intros. admit.
+Defined.
 
 Global Instance EitherT_Applicative `(MM : Monad M) {E M} (X : Type)
 : Applicative (EitherT E M) :=

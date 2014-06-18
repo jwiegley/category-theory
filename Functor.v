@@ -1,3 +1,6 @@
+Inductive Identity (X : Type) : Prop :=
+  | Id : Identity X.
+
 Definition id {X} (a : X) : X := a.
 
 Theorem id_inj : forall {X} (x y : X),
@@ -19,7 +22,7 @@ Notation "f ∘ g" := (compose f g) (at level 75).
 Class Functor (F : Type -> Type) :=
 { fmap : forall {X Y}, (X -> Y) -> F X -> F Y
 
-; fun_identity : forall {X} (x : F X), fmap id x = id x
+; fun_identity : forall {X}, fmap (@id X) = id
 ; fun_composition : forall {X Y Z} (x : F X) (f : Y -> Z) (g : X -> Y),
     (fmap f ∘ fmap g) x = fmap (f ∘ g) x
 }.
