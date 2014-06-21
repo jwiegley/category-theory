@@ -155,8 +155,7 @@ Proof.
   reflexivity.
 Qed.
 
-Definition flip {X Y} (x : X) (f : X -> Y) : Y :=
-  f x.
+Definition flip {X Y} (x : X) (f : X -> Y) : Y := f x.
 
 Theorem app_flip
   : forall {F : Type -> Type} {app_dict : Applicative F}
