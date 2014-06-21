@@ -1,24 +1,40 @@
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.Classes.Morphisms.
-Require Import Coq.Setoids.Setoid.
-Require Import Coq.Logic.FunctionalExtensionality.
-Require Setoid.
-Export Coq.Classes.RelationClasses.
-Export Coq.Classes.Morphisms.
-Export Coq.Setoids.Setoid.
-Export Coq.Logic.FunctionalExtensionality.
+Require Export Coq.Classes.Equivalence.
+Require Export Coq.Classes.Morphisms.
+Require Export Coq.Classes.RelationClasses.
+Require Export Coq.Logic.FunctionalExtensionality.
+Require Export Coq.Setoids.Setoid.
+Require        Setoid.
 
-Set Printing Width 130.       (* Proof General seems to add an extra two columns of overhead *)
+(* Proof General seems to add an extra two columns of overhead *)
+Set Printing Width 130.
 Generalizable All Variables.
 
+(* Unicode → is used to describe morphisms, even though it is rather similar
+   to the way ASCII -> is displayed in Emacs.
+
+   Unicode ≈ means equivalence.
+
+   Unicode ∘ is composition of morphisms.
+
+   {C}-> specifically types a morphism from category C.
+*)
 Reserved Notation "a → b" (at level 90, right associativity).
 Reserved Notation "f ≈ g" (at level 54).
 Reserved Notation "f ∘ g" (at level 45).
-Reserved Notation "a {C}-> b" (at level 100).
 
-(* I am not interested in general categories here, but just sub-categories
-   within Coq, the category of Coq types and functions. *)
+(* A Category is defined by objects, and morphisms between objects, plus the
+   following structure:
 
+   - Every object has an identity morphism.
+   - Morphisms may be compose.
+
+   - There is some notion of equivalence between objects in the category,
+     where the weakest form is just isomorphism.
+   - Composition must respect equivalence.
+
+   - Composition respect the monoid laws: left and right identity, plus
+     associativity.
+*)
 Class Category (Ob : Type) (Hom : Ob -> Ob -> Type) :=
 { hom := Hom where "a → b" := (hom a b)
 ; ob  := Ob
@@ -26,11 +42,10 @@ Class Category (Ob : Type) (Hom : Ob -> Ob -> Type) :=
 ; id : forall {A}, A → A
 ; compose : forall {A B C}, (B → C) -> (A → B) -> (A → C)
   where "f ∘ g" := (compose f g)
-
 ; eqv : forall {A B}, (A → B) -> (A → B) -> Prop where "f ≈ g" := (eqv f g)
+
 ; eqv_equivalence : forall {A B}, Equivalence (@eqv A B)
-; compose_respects : forall {A B C},
-  Proper (@eqv B C ==> @eqv A B ==> @eqv A C) compose
+; compose_respects : forall {A B C}, Proper (@eqv B C ==> @eqv A B ==> @eqv A C) compose
 
 ; right_identity : forall {A B} (f : A → B), f ∘ id ≈ f
 ; left_identity : forall {A B} (f : A → B), id ∘ f ≈ f
@@ -52,17 +67,16 @@ Hint Extern 1 => apply left_identity.
 Hint Extern 1 => apply right_identity.
 
 Add Parametric Relation
-  (Ob : Type)
-  (Hom : Ob -> Ob -> Type)
-  (C : Category Ob Hom)
-  (a b : Ob)
-  : (hom a b) (@eqv _ _ C a b)
+  (Ob : Type) (Hom : Ob -> Ob -> Type)
+  (C : Category Ob Hom) (a b : Ob) : (hom a b) (@eqv _ _ C a b)
+
   reflexivity proved by  (@Equivalence_Reflexive  _ _ eqv_equivalence)
   symmetry proved by     (@Equivalence_Symmetric  _ _ eqv_equivalence)
   transitivity proved by (@Equivalence_Transitive _ _ eqv_equivalence)
-  as parametric_relation_eqv.
+    as parametric_relation_eqv.
 
-  Add Parametric Morphism `(c:Category Ob Hom) (a b c : Ob) : (@compose _ _ _ a b c)
+  Add Parametric Morphism `(c:Category Ob Hom) (a b c : Ob)
+    : (@compose _ _ _ a b c)
     with signature (eqv ==> eqv ==> eqv) as parametric_morphism_comp.
     auto.
   Defined.
@@ -80,7 +94,8 @@ Hint Extern 8 (respectful _ _ _ _) => unfold respectful; auto.
 
 Hint Extern 4 (?A ≈ ?A) => reflexivity.
 Hint Extern 6 (?X ≈ ?Y) => apply Equivalence_Symmetric.
-Hint Extern 7 (?X ≈ ?Z) => match goal with [H : ?X ≈ ?Y, H' : ?Y ≈ ?Z |- ?X ≈ ?Z] => transitivity Y end.
+Hint Extern 7 (?X ≈ ?Z) => match goal
+  with [H : ?X ≈ ?Y, H' : ?Y ≈ ?Z |- ?X ≈ ?Z] => transitivity Y end.
 Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) => apply compose_respects; auto.
 
 (* handy for rewriting *)
@@ -108,11 +123,20 @@ Global Instance Coq : Category Type (fun X Y => X -> Y) :=
 ; eqv     := fun _ _ f g => f = g
 }.
 Proof.
-  (* eqv_equivalence *)  intros. admit.
-  (* compose_respects *) intros. admit.
-  (* right_identity *)   intros. reflexivity.
-  (* left_identity *)    intros. reflexivity.
-  (* comp_assoc *)     intros. reflexivity.  Defined.
+  - (* eqv_equivalence *)
+    intros. apply Build_Equivalence.
+    unfold Reflexive. reflexivity.
+    unfold Symmetric. intros. rewrite H. reflexivity.
+    unfold Transitive. intros. rewrite H. rewrite H0. reflexivity.
+
+  - (* compose_respects *)
+    intros. unfold Proper. unfold respectful.
+    intros. rewrite H0. rewrite H. reflexivity.
+
+  - (* right_identity *)   intros. reflexivity.
+  - (* left_identity *)    intros. reflexivity.
+  - (* comp_assoc *)       intros. reflexivity.
+Defined.
 
 Typeclasses Transparent Coq.
 
@@ -131,36 +155,44 @@ Class Functor `(C : Category objC homC, D : Category objD homD)
 ; fmap_respects : forall X Y (f f' : X → Y), f ≈ f' -> fmap f ≈ fmap f'
 ; functor_law_1 : forall {X : objC}, fmap (@id objC homC C X) ≈ id
 ; functor_law_2 : forall {X Y Z} (f : Y → Z) (g : X → Y),
-    compose (fmap f) (fmap g) ≈ fmap (compose f g)
+    fmap f ∘ fmap g ≈ fmap (f ∘ g)
 }.
   (* register "fmap" so we can rewrite through it *)
   Implicit Arguments fmap          [ objC homC objD homD C D Fobj X Y   ].
   Implicit Arguments fmap_respects [ objC homC objD homD C D Fobj X Y   ].
   Implicit Arguments functor_law_1 [ objC homC objD homD C D Fobj       ].
   Implicit Arguments functor_law_2 [ objC homC objD homD C D Fobj X Y Z ].
+
   Notation "F \ f" := (fmap F f) (at level 100) : category_scope.
-  Add Parametric Morphism `(C1:Category)`(C2:Category)
-    (Fobj:C1->C2)
-    (F:Functor C1 C2 Fobj)
-    (a b:C1)
-  : (@fmap _ _ C1 _ _ C2 Fobj F a b)
-  with signature ((@eqv C1 _ C1 a b) ==> (@eqv C2 _ C2 (Fobj a) (Fobj b)))
-    as parametric_morphism_fmap'.
-  intros; apply (@fmap_respects _ _ C1 _ _ C2 Fobj F a b x y); auto.
+
+  Add Parametric Morphism `(C1 : Category, C2 : Category)
+    (Fobj : C1 -> C2)
+    (F : Functor C1 C2 Fobj)
+    (a b : C1)
+    : (@fmap _ _ C1 _ _ C2 Fobj F a b)
+    with signature ((@eqv C1 _ C1 a b) ==> (@eqv C2 _ C2 (Fobj a) (Fobj b)))
+      as parametric_morphism_fmap'.
+    intros; apply (@fmap_respects _ _ C1 _ _ C2 Fobj F a b x y); auto.
   Defined.
-  Coercion functor_fobj : Functor >-> Funclass.
 
-Inductive Either (X : Type) (Y : Type): Type :=
-  | Left : X -> Either X Y
-  | Right : Y -> Either X Y.
+Coercion functor_fobj : Functor >-> Funclass.
 
-Definition Either_map {E X Y} (f : X -> Y) (x : Either E X) : Either E Y :=
+Inductive Either `(C : Category objC homC) (X Y : ob)  :=
+  | Left : objC -> Either C X Y
+  | Right : objC -> Either C X Y.
+
+Definition Either_map
+  `(C : Category objC homC)
+  (f : objC -> objC) E X Y (x : Either C E X) : Either C E Y :=
   match x with
-   | Left e => Left E Y e
-   | Right x' => Right E Y (f x')
+   | Left e => Left C E Y e
+   | Right x' => Right C E Y (f x')
   end.
 
-Definition Either_Functor (E : Type) : Functor Coq Coq (fun x => Either E x).
-  - intros; apply Build_Functor with (fmap := fun _ _ _ => @id (Either E _)).
+Definition Either_Functor
+   `(C : Category objC homC)
+   (E : objC) : Functor C C (Either C E).
+  apply Build_Functor with (fmap := Either_map).
+  - intros. 
   (* fun_composition *).
   - Abort.

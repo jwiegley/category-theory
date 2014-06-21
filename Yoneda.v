@@ -34,14 +34,6 @@ Proof.
   intros. compute. destruct x. reflexivity
 Defined.
 
-Class Isomorphism X Y := {
-  to : X -> Y; from : Y -> X;
-  iso_to    : forall (x : X), from (to x) = x;
-  iso_from  : forall (y : Y), to (from y) = y
-}.
-
-Notation "X ≅ Y" := (Isomorphism X Y) (at level 50) : type_scope.
-
 Hypothesis yoneda_refl : forall (F : Type -> Type) (f_dict : Functor F)
   X Y (f : Y -> X) (x : F Y),
   Embed F X (fmap f x) id = Embed F X x f.
