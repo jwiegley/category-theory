@@ -139,9 +139,9 @@ Class Applicative (F : Type -> Type) :=
 
 Notation "f <*> g" := (apply f g) (at level 68, left associativity).
 
-Notation "[| f x y .. z |]" := (.. (f <$> x <*> y) .. <*> z)
-    (at level 9, left associativity, f at level 9,
-     x at level 9, y at level 9, z at level 9).
+(* Notation "[| f x y .. z |]" := (.. (f <$> x <*> y) .. <*> z) *)
+(*     (at level 9, left associativity, f at level 9, *)
+(*      x at level 9, y at level 9, z at level 9). *)
 
 Theorem app_homomorphism_2
   : forall {F : Type -> Type} {app_dict : Applicative F}
@@ -265,14 +265,34 @@ Ltac rewrite_app_homomorphisms :=
    rewrite app_homomorphism;
    repeat (rewrite app_fmap_unit)).
 
+Theorem app_embed
+  : forall {F : Type -> Type} `{Applicative F}
+      {G : Type -> Type} `{Applicative G}
+      {X Y} (x : G (X -> Y)) (y : G X),
+  eta (x <*> y) = eta apply <*> eta x <*> eta y.
+Proof.
+  intros.
+  rewrite_app_homomorphisms.
+  rewrite <- app_homomorphism.
+  rewrite <- app_fmap_unit. reflexivity.
+Qed.
+
+Theorem app_eta_inj
+  : forall {F : Type -> Type} `{Applicative F}
+      {X} (x y : X),
+  x = y -> eta x = eta y.
+Proof.
+  intros. rewrite H0. reflexivity.
+Qed.
+
 Theorem app_naturality
   : forall (F : Type -> Type) (app_dict : Applicative F)
       A B C D (f : A -> C) (g : B -> D) (u : F A) (v : F B),
   fmap (f *** g) (u ** v) = fmap f u ** fmap g v.
 Proof.
   intros. unfold app_prod, app_merge.
-  admit.
-Qed.
+  (* How can we make progress from here? *)
+Abort.
 
 Theorem app_left_identity
   : forall (F : Type -> Type) (app_dict : Applicative F) A (v : F A)
@@ -317,8 +337,8 @@ Theorem app_associativity
   app_prod u (app_prod v w) |≅| app_prod (app_prod u v) w.
 Proof.
   intros. unfold app_prod.
-  admit.
-Qed.
+  (* I do not know how to proceed from here. *)
+Abort.
 
 Theorem fmap_unit_eq
   : forall (F : Type -> Type) (app_dict : Applicative F)
@@ -366,8 +386,7 @@ Definition bind {M X Y} {m_dict : Monad M}
 Notation "m >>= f" := (bind m f) (at level 67, left associativity).
 
 Theorem monad_law_1_x
-  : forall (M : Type -> Type) (m_dict : Monad M)
-      A B C (f : A -> B -> C) (x : M (M (M A))),
+  : forall (M : Type -> Type) (m_dict : Monad M) A (x : M (M (M A))),
   mu (fmap mu x) = (@mu M m_dict A) (mu x).
 Proof.
   intros.
@@ -380,8 +399,7 @@ Proof.
 Qed.
 
 Theorem monad_law_2_x
-  : forall (M : Type -> Type) (m_dict : Monad M)
-      A B C (f : A -> B -> C) (x : M A),
+  : forall (M : Type -> Type) (m_dict : Monad M) A (x : M A),
   mu (fmap (@eta M is_applicative A) x) = x.
 Proof.
   intros.
@@ -392,8 +410,7 @@ Proof.
 Qed.
 
 Theorem monad_law_3_x
-  : forall (M : Type -> Type) (m_dict : Monad M)
-      A B C (f : A -> B -> C) (x : M A),
+  : forall (M : Type -> Type) (m_dict : Monad M) A (x : M A),
   (@mu M m_dict A) (eta x) = x.
 Proof.
   intros.
@@ -404,8 +421,7 @@ Proof.
 Qed.
 
 Theorem monad_law_4_x
-  : forall (M : Type -> Type) (m_dict : Monad M)
-      A B C (f : A -> B -> C) (x : A),
+  : forall (M : Type -> Type) (m_dict : Monad M) A B (f : A -> B) (x : A),
   eta (f x) = fmap f (eta x).
 Proof.
   intros.
@@ -419,7 +435,7 @@ Qed.
 
 Theorem monad_law_5_x
   : forall (M : Type -> Type) (m_dict : Monad M)
-      A B C (f : A -> B -> C) (x : M (M A)),
+      A B (f : A -> B) (x : M (M A)),
   mu (fmap (fmap f) x) = fmap f (mu x).
 Proof.
   intros.
