@@ -1,5 +1,6 @@
 Require Export Category.
 
+(*
 Inductive list (X:Type) : Type :=
   | nil : list X
   | cons : X -> list X -> list X.
@@ -25,3 +26,4 @@ Proof.
     unfold compose. unfold compose in IHx.
       simpl. rewrite IHx. reflexivity.
 Defined.
+*)

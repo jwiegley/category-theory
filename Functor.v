@@ -1,4 +1,10 @@
-Require Export Coq.Setoids.Setoid.
+Require Import ZArith Permutation Omega List Classical_sets.
+Require Import FunctionalExtensionality.
+Require Export CpdtTactics.
+Axiom prop_ext: ClassicalFacts.prop_extensionality.
+Implicit Arguments prop_ext.
+
+Ltac inv H := inversion H; subst; clear H.
 
 (* Set Implicit Arguments. *)
 
@@ -7,18 +13,19 @@ Axiom ext_eq : forall {T1 T2 : Type} (f1 f2 : T1 -> T2),
 
 Theorem ext_eqS : forall (T1 T2 : Type) (f1 f2 : T1 -> T2),
   (forall x, f1 x = f2 x) -> f1 = f2.
-  intros; rewrite (ext_eq f1 f2); auto.
-Qed.
+Proof. intros; rewrite (ext_eq f1 f2); auto. Qed.
 
 Ltac ext_eq := (apply ext_eq || apply ext_eqS); intro.
+Ltac crush_ext := (intros; ext_eq; crush); intro.
+
+Hint Resolve ext_eq.
+Hint Resolve ext_eqS.
 
 Definition id {X} (a : X) : X := a.
 
 Theorem id_x : forall {A} (f : A -> A) (x : A),
   f = id -> f x = x.
-Proof.
-  intros. compute. rewrite H. reflexivity.
-Qed.
+Proof. crush. Defined.
 
 Definition compose {A B C}
   (f : B -> C) (g : A -> B) (x : A) : C := f (g x).
@@ -27,33 +34,23 @@ Notation "f ∘ g" := (compose f g) (at level 69, right associativity).
 
 Theorem comp_left_id : forall {A B C D} (f : C -> D) (g : B -> C) (h : A -> B),
   id ∘ f = f.
-Proof.
-  intros. compute. reflexivity.
-Qed.
+Proof. crush. Defined.
 
 Theorem comp_id_right : forall {A B C D} (f : C -> D) (g : B -> C) (h : A -> B),
   f ∘ id = f.
-Proof.
-  intros. compute. reflexivity.
-Qed.
+Proof. crush. Defined.
 
 Theorem comp_assoc : forall {A B C D} (f : C -> D) (g : B -> C) (h : A -> B),
   f ∘ g ∘ h = (f ∘ g) ∘ h.
-Proof.
-  intros. compute. reflexivity.
-Qed.
+Proof. crush. Defined.
 
 Theorem uncompose : forall {A B C} (f : B -> C) (g : A -> B) (x : A) (y : C),
   (f ∘ g) x = f (g x).
-Proof.
-  intros. compute. reflexivity.
-Qed.
+Proof. crush. Defined.
 
 Theorem compose_x : forall {A B C} (f : B -> C) (g : A -> B) (x : A) (y : C),
   (f ∘ g) x = y -> f (g x) = y.
-Proof.
-  intros. compute. apply H.
-Qed.
+Proof. crush. Defined.
 
 Class Isomorphism X Y :=
 { to   : X -> Y
@@ -67,20 +64,24 @@ Class Isomorphism X Y :=
   Arguments iso_to   {X} {Y} {Isomorphism}.
   Arguments iso_from {X} {Y} {Isomorphism}.
 
+Hint Resolve id_x.
+Hint Resolve compose_x.
+Hint Resolve iso_to.
+Hint Resolve iso_from.
+
 Notation "X ≅ Y" := (Isomorphism X Y) (at level 50) : type_scope.
 Notation "x |≅| y" := (from x = y /\ to y = x) (at level 50).
 
 Theorem iso_to_x : forall {X Y} {iso : X ≅ Y} (x : X),
   from (to x) = x.
-Proof.
-  intros. apply compose_x. apply id_x. apply iso_to.
-Qed.
+Proof. crush. Defined.
 
 Theorem iso_from_x : forall {X Y} {iso : X ≅ Y} (y : Y),
   to (from y) = y.
-Proof.
-  intros. apply compose_x. apply id_x. apply iso_from.
-Qed.
+Proof. crush. Defined.
+
+Hint Resolve iso_to_x.
+Hint Resolve iso_from_x.
 
 (* Even though we have the Category class in Category.v, the Functors
    and Monads I'm interested in reasoning about are all endofunctors on
@@ -97,15 +98,26 @@ Class Functor (F : Type -> Type) :=
   Arguments fun_identity    [F] [Functor] [X].
   Arguments fun_composition [F] [Functor] [X] [Y] [Z] f g.
 
+Hint Resolve fun_identity.
+Hint Resolve fun_composition.
+
 Notation "f <$> g" := (fmap f g) (at level 68, left associativity).
+
+Theorem fun_identity_x
+  : forall (F : Type -> Type) (app_dict : Functor F)
+      {X Y Z} (f : Y -> Z) (g : X -> Y) (x : F X),
+  fmap id x = id x.
+Proof. crush. Defined.
+
+Hint Resolve fun_identity_x.
 
 Theorem fun_composition_x
   : forall (F : Type -> Type) (app_dict : Functor F)
       {X Y Z} (f : Y -> Z) (g : X -> Y) (x : F X),
   f <$> (g <$> x) = (f ∘ g) <$> x.
-Proof.
-  intros. rewrite <- fun_composition. reflexivity.
-Qed.
+Proof. intros. rewrite <- fun_composition. reflexivity.  Defined.
+
+Hint Resolve fun_composition_x.
 
 Global Instance Functor_Isomorphism
   {F : Type -> Type} {app_dict : Functor F} {A B} (iso : A ≅ B)
@@ -114,8 +126,8 @@ Global Instance Functor_Isomorphism
 ; from := fmap from
 }.
 Proof.
-  - intros. rewrite fun_composition. rewrite iso_to. apply fun_identity.
-  - intros. rewrite fun_composition. rewrite iso_from. apply fun_identity.
+  - rewrite fun_composition. rewrite iso_to. crush.
+  - rewrite fun_composition. rewrite iso_from. crush.
 Defined.
 
 Reserved Notation "f <*> g" (at level 68, left associativity).
@@ -137,6 +149,12 @@ Class Applicative (F : Type -> Type) :=
 ; app_fmap_unit : forall {X Y} (f : X -> Y), apply (eta f) = fmap f
 }.
 
+Hint Resolve app_identity.
+Hint Resolve app_composition.
+Hint Resolve app_homomorphism.
+Hint Resolve app_interchange.
+Hint Resolve app_fmap_unit.
+
 Notation "f <*> g" := (apply f g) (at level 68, left associativity).
 
 (* Notation "[| f x y .. z |]" := (.. (f <$> x <*> y) .. <*> z) *)
@@ -153,7 +171,9 @@ Proof.
   rewrite <- app_homomorphism.
   rewrite app_fmap_unit.
   reflexivity.
-Qed.
+Defined.
+
+Hint Resolve app_homomorphism_2.
 
 Definition flip {X Y} (x : X) (f : X -> Y) : Y := f x.
 
@@ -169,7 +189,7 @@ Proof.
   rewrite app_homomorphism_2.
   unfold compose.
   rewrite app_fmap_unit. reflexivity.
-Qed.
+Defined.
 
 Definition app_unit {F : Type -> Type} {app_dict : Applicative F}
   : F unit := eta tt.
@@ -187,19 +207,13 @@ Global Instance LTuple_Isomorphism {A} : A ≅ Tuple unit A :=
 { to   := Pair unit A tt
 ; from := snd
 }.
-Proof.
-  - intros. ext_eq. reflexivity.
-  - intros. ext_eq. destruct x. destruct u. reflexivity.
-Defined.
+Proof. crush. crush_ext. Defined.
 
 Global Instance RTuple_Isomorphism {A} : A ≅ Tuple A unit :=
 { to   := fun x => Pair A unit x tt
 ; from := fst
 }.
-Proof.
-  - intros. ext_eq. reflexivity.
-  - intros. ext_eq. destruct x. destruct u. reflexivity.
-Defined.
+Proof. crush_ext. crush_ext. Defined.
 
 Definition tuple_swap_a_bc_to_ab_c {A B C} (x : Tuple A (Tuple B C))
   : Tuple (Tuple A B) C :=
@@ -218,22 +232,14 @@ Global Instance TupleAssoc_Isomorphism {A B C}
 { to   := tuple_swap_a_bc_to_ab_c
 ; from := tuple_swap_ab_c_to_a_bc
 }.
-Proof.
-  - intros. ext_eq. destruct x. destruct t. reflexivity.
-  - intros. ext_eq. destruct x. unfold id. unfold compose.
-    destruct t. reflexivity.
-Defined.
+Proof. crush_ext. crush_ext. Defined.
 
 Definition uncurry {X Y Z} (f : X -> Y -> Z) (xy : Tuple X Y) : Z :=
-  match xy with
-  | Pair x y => f x y
-  end.
+  match xy with Pair x y => f x y end.
 
 Theorem uncurry_works : forall {X Y Z} (x : X) (y : Y) (f : X -> Y -> Z),
   uncurry f (Pair X Y x y) = f x y.
-Proof.
-  intros. compute. reflexivity.
-Qed.
+Proof. crush. Defined.
 
 Theorem uncurry_under_functors
   : forall {F : Type -> Type} {app_dict : Applicative F}
@@ -243,20 +249,17 @@ Proof.
   intros.
   rewrite <- app_fmap_unit.
   rewrite app_homomorphism.
-  compute. reflexivity.
-Qed.
+  crush.
+Defined.
 
 Definition app_merge {X Y Z W} (f : X -> Y) (g : Z -> W)
   (t : Tuple X Z) : Tuple Y W  :=
-  match t with
-  | Pair x z => Pair Y W (f x) (g z)
-  end.
+  match t with Pair x z => Pair Y W (f x) (g z) end.
 
 Notation "f *** g" := (app_merge f g) (at level 68, left associativity).
 
 Definition app_prod {F : Type -> Type} {app_dict : Applicative F}
-  {X Y} (x : F X) (y : F Y) : F (Tuple X Y) :=
-  Pair X Y <$> x <*> y.
+  {X Y} (x : F X) (y : F Y) : F (Tuple X Y) := Pair X Y <$> x <*> y.
 
 Notation "f ** g" := (app_prod f g) (at level 68, left associativity).
 
@@ -275,15 +278,13 @@ Proof.
   rewrite_app_homomorphisms.
   rewrite <- app_homomorphism.
   rewrite <- app_fmap_unit. reflexivity.
-Qed.
+Defined.
 
 Theorem app_eta_inj
   : forall {F : Type -> Type} `{Applicative F}
       {X} (x y : X),
   x = y -> eta x = eta y.
-Proof.
-  intros. rewrite H0. reflexivity.
-Qed.
+Proof. crush. Defined.
 
 Theorem app_naturality
   : forall (F : Type -> Type) (app_dict : Applicative F)
@@ -300,15 +301,12 @@ Theorem app_left_identity
   app_prod app_unit v |≅| v.
 Proof.
   (* Prove the app identity *)
-  intros. unfold app_prod, app_unit.
-  rewrite_app_homomorphisms.
+  intros. unfold app_prod, app_unit. rewrite_app_homomorphisms.
 
   (* Prove that the result is isomorphic to v *)
   assert (fmap (Pair unit A tt) = to). reflexivity. rewrite H.
-  split.
-    - apply iso_to_x.
-    - reflexivity.
-Qed.
+  split. apply iso_to_x. reflexivity.
+Defined.
 
 Theorem app_right_identity
   : forall (F : Type -> Type) (app_dict : Applicative F)
@@ -325,10 +323,8 @@ Proof.
   unfold compose.
 
   assert (fmap (fun x => Pair A unit x tt) = to). reflexivity.
-  split.
-    - rewrite H. apply iso_to_x.
-    - reflexivity.
-Qed.
+  split. rewrite H. apply iso_to_x. reflexivity.
+Defined.
 
 Theorem app_associativity
   : forall (F : Type -> Type) (app_dict : Applicative F)
@@ -350,7 +346,7 @@ Proof.
   rewrite app_interchange.
   rewrite app_homomorphism.
   reflexivity.
-Qed.
+Defined.
 
 Definition liftA2 {F : Type -> Type} {app_dict : Applicative F}
   {A B C} (f : A -> B -> C) (x : F A) (y : F B) : F C := f <$> x <*> y.
@@ -364,9 +360,8 @@ Proof.
   repeat (rewrite <- app_fmap_unit).
   repeat (rewrite <- app_composition; f_equal).
   repeat (rewrite app_homomorphism).
-  unfold compose.
-  reflexivity.
-Qed.
+  crush.
+Defined.
 
 Class Monad (M : Type -> Type) :=
 { is_applicative :> Applicative M
@@ -390,48 +385,38 @@ Theorem monad_law_1_x
   mu (fmap mu x) = (@mu M m_dict A) (mu x).
 Proof.
   intros.
-  assert (mu (fmap mu x) = (mu ∘ fmap mu) x).
-    unfold compose. reflexivity.
-  assert (mu (mu x) = (mu ∘ mu) x).
-    unfold compose. reflexivity.
-  rewrite H. rewrite H0. rewrite monad_law_1.
-  reflexivity.
-Qed.
+  assert (mu (fmap mu x) = (mu ∘ fmap mu) x). unfold compose. reflexivity.
+  assert (mu (mu x) = (mu ∘ mu) x). unfold compose. reflexivity.
+  rewrite H. rewrite H0. rewrite monad_law_1. reflexivity.
+Defined.
 
 Theorem monad_law_2_x
   : forall (M : Type -> Type) (m_dict : Monad M) A (x : M A),
   mu (fmap (@eta M is_applicative A) x) = x.
 Proof.
   intros.
-  assert (mu (fmap eta x) = (mu ∘ fmap eta) x).
-    unfold compose. reflexivity.
-  rewrite H. rewrite monad_law_2.
-  reflexivity.
-Qed.
+  assert (mu (fmap eta x) = (mu ∘ fmap eta) x). unfold compose. reflexivity.
+  rewrite H. rewrite monad_law_2. reflexivity.
+Defined.
 
 Theorem monad_law_3_x
   : forall (M : Type -> Type) (m_dict : Monad M) A (x : M A),
   (@mu M m_dict A) (eta x) = x.
 Proof.
   intros.
-  assert (mu (eta x) = (mu ∘ eta) x).
-    unfold compose. reflexivity.
-  rewrite H. rewrite monad_law_3.
-  reflexivity.
-Qed.
+  assert (mu (eta x) = (mu ∘ eta) x). unfold compose. reflexivity.
+  rewrite H. rewrite monad_law_3. reflexivity.
+Defined.
 
 Theorem monad_law_4_x
   : forall (M : Type -> Type) (m_dict : Monad M) A B (f : A -> B) (x : A),
   eta (f x) = fmap f (eta x).
 Proof.
   intros.
-  assert (eta (f x) = (eta ∘ f) x).
-    unfold compose. reflexivity.
-  assert (fmap f (eta x) = (fmap f ∘ eta) x).
-    unfold compose. reflexivity.
-  rewrite H. rewrite H0. rewrite monad_law_4.
-  reflexivity.
-Qed.
+  assert (eta (f x) = (eta ∘ f) x). unfold compose. reflexivity.
+  assert (fmap f (eta x) = (fmap f ∘ eta) x). unfold compose. reflexivity.
+  rewrite H. rewrite H0. rewrite monad_law_4. reflexivity.
+Defined.
 
 Theorem monad_law_5_x
   : forall (M : Type -> Type) (m_dict : Monad M)
@@ -441,8 +426,6 @@ Proof.
   intros.
   assert (mu (fmap (fmap f) x) = (mu ∘ fmap (fmap f)) x).
     unfold compose. reflexivity.
-  assert (fmap f (mu x) = (fmap f ∘ mu) x).
-    unfold compose. reflexivity.
-  rewrite H. rewrite H0. rewrite monad_law_5.
-  reflexivity.
-Qed.
+  assert (fmap f (mu x) = (fmap f ∘ mu) x). unfold compose. reflexivity.
+  rewrite H. rewrite H0. rewrite monad_law_5. reflexivity.
+Defined.

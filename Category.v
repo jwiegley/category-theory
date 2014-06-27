@@ -189,10 +189,10 @@ Definition Either_map
    | Right x' => Right C E Y (f x')
   end.
 
-Definition Either_Functor
-   `(C : Category objC homC)
-   (E : objC) : Functor C C (Either C E).
-  apply Build_Functor with (fmap := Either_map).
-  - intros. 
-  (* fun_composition *).
-  - Abort.
+(* Definition Either_Functor *)
+(*    `(C : Category objC homC) *)
+(*    (E : objC) : Functor C C (Either C E). *)
+(*   apply Build_Functor with (fmap := Either_map). *)
+(*   - intros.  *)
+(*   (* fun_composition *). *)
+(*   - Abort. *)
