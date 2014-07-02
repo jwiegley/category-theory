@@ -6,6 +6,8 @@ Require Export Coq.Setoids.Setoid.
 Require        Setoid.
 Require Export CpdtTactics.
 
+Open Scope type_scope.
+
 Ltac inv H := inversion H; subst; clear H.
 
 (* Proof General seems to add an extra two columns of overhead *)
@@ -207,25 +209,22 @@ Definition fst_obj `{C : Category objC homC}
 (* Definition snd_obj x := match x with pair_obj _ b => b end. *)
 
 Class Product `{C : Category objC homC}
-  (P : objC -> objC -> objC) {A B : objC}
-  (p1 : P A B → A) (p2 : P A B → B) :=
+  {A B : objC} (P : objC) (p1 : P → A) (p2 : P → B) :=
 { product_ump :
-    forall (X : objC -> objC -> objC) (x1 : X A B → A) (x2 : X A B → B),
-    exists (u : X A B → P A B), x1 ≈ p1 ∘ u /\ x2 ≈ p2 ∘ u
-    /\ forall (v : X A B → P A B), p1 ∘ v ≈ x1 /\ p2 ∘ v ≈ x2 -> v ≈ u
+    forall (X : objC) (x1 : X → A) (x2 : X → B),
+    exists (u : X → P), x1 ≈ p1 ∘ u /\ x2 ≈ p2 ∘ u
+    /\ forall (v : X → P), p1 ∘ v ≈ x1 /\ p2 ∘ v ≈ x2 -> v ≈ u
 }.
 
-Inductive Tuple (X Y : Type) : Type :=
-  | Pair : X -> Y -> Tuple X Y.
+Inductive Tuple (X Y : Type) : Type := | Pair : X -> Y -> Tuple X Y.
 
-Definition fst {X Y} (p : Tuple X Y) : X :=
-  match p with Pair x _ => x end.
-
-Definition snd {X Y} (p : Tuple X Y) : Y :=
-  match p with Pair _ y => y end.
+(*
+Definition fst {X Y} (p : Tuple X Y) : X := match p with Pair x _ => x end.
+Definition snd {X Y} (p : Tuple X Y) : Y := match p with Pair _ y => y end.
+*)
 
 (* Tuples in the Coq category satisfy the UMP for products. *)
-Global Instance Tuple_Product : Product Tuple (@fst A B) snd.
+Global Instance Tuple_Product {A B : Type} : Product (A * B) fst snd.
 Proof.
   intros. constructor. intros.
     apply ex_intro with (x := fun x => Pair A B (x1 x) (x2 x)).

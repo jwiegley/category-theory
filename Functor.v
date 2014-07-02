@@ -1,7 +1,9 @@
 Require Import ZArith Permutation Omega List Classical_sets.
 Require Import FunctionalExtensionality.
 Require Export CpdtTactics.
+
 Axiom prop_ext: ClassicalFacts.prop_extensionality.
+
 Implicit Arguments prop_ext.
 
 Ltac inv H := inversion H; subst; clear H.
@@ -15,11 +17,11 @@ Theorem ext_eqS : forall (T1 T2 : Type) (f1 f2 : T1 -> T2),
   (forall x, f1 x = f2 x) -> f1 = f2.
 Proof. intros; rewrite (ext_eq f1 f2); auto. Qed.
 
-Ltac ext_eq := (apply ext_eq || apply ext_eqS); intro.
-Ltac crush_ext := (intros; ext_eq; crush); intro.
-
 Hint Resolve ext_eq.
 Hint Resolve ext_eqS.
+
+Ltac ext_eq := (apply ext_eq || apply ext_eqS); intro.
+Ltac crush_ext := (intros; ext_eq; crush); intro.
 
 Definition id {X} (a : X) : X := a.
 
@@ -88,7 +90,8 @@ Hint Resolve iso_from_x.
    Coq, so there is no reason to carry around that extra machinery. *)
 
 Class Functor (F : Type -> Type) :=
-{ fmap : forall {X Y}, (X -> Y) -> F X -> F Y
+{ fobj := F
+; fmap : forall {X Y}, (X -> Y) -> F X -> F Y
 
 ; fun_identity : forall {X}, fmap (@id X) = id
 ; fun_composition : forall {X Y Z} (f : Y -> Z) (g : X -> Y),
@@ -104,8 +107,7 @@ Hint Resolve fun_composition.
 Notation "f <$> g" := (fmap f g) (at level 68, left associativity).
 
 Theorem fun_identity_x
-  : forall (F : Type -> Type) (app_dict : Functor F)
-      {X Y Z} (f : Y -> Z) (g : X -> Y) (x : F X),
+  : forall (F : Type -> Type) (app_dict : Functor F) {X} (x : F X),
   fmap id x = id x.
 Proof. crush. Defined.
 
@@ -157,9 +159,16 @@ Hint Resolve app_fmap_unit.
 
 Notation "f <*> g" := (apply f g) (at level 68, left associativity).
 
-(* Notation "[| f x y .. z |]" := (.. (f <$> x <*> y) .. <*> z) *)
-(*     (at level 9, left associativity, f at level 9, *)
-(*      x at level 9, y at level 9, z at level 9). *)
+Theorem app_identity_x
+  : forall {F : Type -> Type} {app_dict : Applicative F}
+      {X} {x : F X}, apply (eta (@id X)) x = id x.
+Proof.
+  intros. rewrite app_fmap_unit. apply fun_identity_x.
+Defined.
+
+Notation "[| f x y .. z |]" := (.. (f <$> x <*> y) .. <*> z)
+    (at level 9, left associativity, f at level 9,
+     x at level 9, y at level 9, z at level 9).
 
 Theorem app_homomorphism_2
   : forall {F : Type -> Type} {app_dict : Applicative F}
@@ -169,8 +178,7 @@ Proof.
   intros.
   rewrite <- app_homomorphism.
   rewrite <- app_homomorphism.
-  rewrite app_fmap_unit.
-  reflexivity.
+  rewrite app_fmap_unit. reflexivity.
 Defined.
 
 Hint Resolve app_homomorphism_2.
@@ -246,10 +254,8 @@ Theorem uncurry_under_functors
       {X Y Z} (x : X) (y : Y) (f : X -> Y -> Z),
   uncurry f <$> eta (Pair X Y x y) = eta (f x y).
 Proof.
-  intros.
-  rewrite <- app_fmap_unit.
-  rewrite app_homomorphism.
-  crush.
+  intros. rewrite <- app_fmap_unit.
+  rewrite app_homomorphism. crush.
 Defined.
 
 Definition app_merge {X Y Z W} (f : X -> Y) (g : Z -> W)
@@ -348,9 +354,6 @@ Proof.
   reflexivity.
 Defined.
 
-Definition liftA2 {F : Type -> Type} {app_dict : Applicative F}
-  {A B C} (f : A -> B -> C) (x : F A) (y : F B) : F C := f <$> x <*> y.
-
 Theorem app_split
   : forall (F : Type -> Type) (app_dict : Applicative F)
       A B C (f : A -> B -> C) (x : F A) (y : F B),
@@ -362,6 +365,9 @@ Proof.
   repeat (rewrite app_homomorphism).
   crush.
 Defined.
+
+Definition liftA2 {F : Type -> Type} {app_dict : Applicative F}
+  {A B C} (f : A -> B -> C) (x : F A) (y : F B) : F C := f <$> x <*> y.
 
 Class Monad (M : Type -> Type) :=
 { is_applicative :> Applicative M
@@ -429,3 +435,76 @@ Proof.
   assert (fmap f (mu x) = (fmap f ∘ mu) x). unfold compose. reflexivity.
   rewrite H. rewrite H0. rewrite monad_law_5. reflexivity.
 Defined.
+
+(* Composition of functors produces a functor. *)
+
+Global Instance Compose_Functor
+  `{F : Functor} `{G : Functor}
+  : Functor (fun X => fobj (fobj X))  :=
+{ fmap := fun X Y f x => fmap (@fmap fobj G X Y f) x
+}.
+Proof.
+  - (* fun_identity *)
+    intros. ext_eq.
+    rewrite fun_identity.
+    rewrite fun_identity. reflexivity.
+
+  - (* fun_composition *)
+    intros. ext_eq.
+    rewrite fun_composition.
+    rewrite fun_composition. reflexivity.
+Defined.
+
+(* Composition of applicatives produces an applicative. *)
+
+Global Instance Compose_Applicative
+  `{F : Applicative} `{G : Applicative}
+  : Applicative (fun X => fobj (fobj X))  :=
+{ is_functor := Compose_Functor
+; eta := fun X x => eta (eta x)
+; apply := fun X Y f x => apply (fmap (@apply fobj G X Y) f) x
+}.
+Proof.
+  - (* app_identity *)
+    intros. ext_eq.
+    rewrite <- app_fmap_unit. rewrite app_homomorphism.
+    rewrite app_identity. rewrite app_fmap_unit.
+    rewrite fun_identity. reflexivity.
+
+  - (* app_composition *)
+    intros. repeat (rewrite <- app_fmap_unit).
+    rewrite app_homomorphism. admit.
+
+  - (* app_homomorphism *)
+    intros. rewrite <- app_fmap_unit.
+    repeat (rewrite app_homomorphism). reflexivity.
+
+  - (* app_interchange *)
+    intros.
+    repeat (rewrite <- app_fmap_unit).
+    rewrite app_interchange.
+    rewrite_app_homomorphisms.
+    rewrite fun_composition_x.
+    unfold compose. f_equal. ext_eq.
+    rewrite <- app_fmap_unit.
+    rewrite app_interchange. reflexivity.
+
+  - (* app_fmap_unit *)
+    intros. rewrite_app_homomorphisms. reflexivity.
+Defined.
+
+(* Composition of monads is a monad. *)
+
+(*
+Global Instance Either_Monad {E} : Monad (Either E) :=
+{ is_applicative := Either_Applicative
+; mu := @Either_join E
+}.
+Proof.
+  (* monad_law_1 *) crush_ext.
+  (* monad_law_2 *) crush_ext.
+  (* monad_law_3 *) crush_ext.
+  (* monad_law_4 *) crush.
+  (* monad_law_5 *) crush_ext.
+Defined.
+*)
