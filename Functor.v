@@ -1,3 +1,4 @@
+Require Import Coq.Init.Datatypes.
 Require Import ZArith Permutation Omega List Classical_sets.
 Require Import FunctionalExtensionality.
 Require Export CpdtTactics.
@@ -5,6 +6,8 @@ Require Export CpdtTactics.
 Axiom prop_ext: ClassicalFacts.prop_extensionality.
 
 Implicit Arguments prop_ext.
+
+Close Scope nat_scope.
 
 Ltac inv H := inversion H; subst; clear H.
 
@@ -72,14 +75,12 @@ Hint Resolve iso_to.
 Hint Resolve iso_from.
 
 Notation "X ≅ Y" := (Isomorphism X Y) (at level 50) : type_scope.
-Notation "x |≅| y" := (from x = y /\ to y = x) (at level 50).
+Notation "x ≡ y" := (to x = y /\ from y = x) (at level 50).
 
-Theorem iso_to_x : forall {X Y} {iso : X ≅ Y} (x : X),
-  from (to x) = x.
+Theorem iso_to_x : forall {X Y} `{X ≅ Y} (x : X), from (to x) = x.
 Proof. crush. Defined.
 
-Theorem iso_from_x : forall {X Y} {iso : X ≅ Y} (y : Y),
-  to (from y) = y.
+Theorem iso_from_x : forall {X Y} `{X ≅ Y} (y : Y), to (from y) = y.
 Proof. crush. Defined.
 
 Hint Resolve iso_to_x.
@@ -122,8 +123,7 @@ Proof. intros. rewrite <- fun_composition. reflexivity.  Defined.
 Hint Resolve fun_composition_x.
 
 Global Instance Functor_Isomorphism
-  {F : Type -> Type} {app_dict : Functor F} {A B} (iso : A ≅ B)
-  : F A ≅ F B :=
+  {F : Type -> Type} `{Functor F} {A B} `(A ≅ B) : F A ≅ F B :=
 { to   := fmap to
 ; from := fmap from
 }.
@@ -151,24 +151,44 @@ Class Applicative (F : Type -> Type) :=
 ; app_fmap_unit : forall {X Y} (f : X -> Y), apply (eta f) = fmap f
 }.
 
+Theorem app_fmap_compose
+  : forall (F : Type -> Type) `{Applicative F} A B (f : A -> B),
+  eta ∘ f = fmap f ∘ eta.
+Proof.
+  intros. ext_eq. unfold compose.
+  rewrite <- app_homomorphism.
+  rewrite app_fmap_unit. reflexivity.
+Defined.
+
+Theorem app_fmap_compose_x
+  : forall (F : Type -> Type) `{Applicative F} A B (f : A -> B) (x : A),
+  eta (f x) = fmap f (eta x).
+Proof.
+  intros.
+  assert (eta (f x) = (eta ∘ f) x). unfold compose. reflexivity.
+  assert (fmap f (eta x) = (fmap f ∘ eta) x). unfold compose. reflexivity.
+  rewrite H0. rewrite H1. rewrite app_fmap_compose. reflexivity.
+Defined.
+
 Hint Resolve app_identity.
 Hint Resolve app_composition.
 Hint Resolve app_homomorphism.
 Hint Resolve app_interchange.
 Hint Resolve app_fmap_unit.
+Hint Resolve app_fmap_compose.
 
 Notation "f <*> g" := (apply f g) (at level 68, left associativity).
 
 Theorem app_identity_x
-  : forall {F : Type -> Type} {app_dict : Applicative F}
-      {X} {x : F X}, apply (eta (@id X)) x = id x.
+  : forall {F : Type -> Type} `{Applicative F} {X} {x : F X},
+  apply (eta (@id X)) x = id x.
 Proof.
   intros. rewrite app_fmap_unit. apply fun_identity_x.
 Defined.
 
-Notation "[| f x y .. z |]" := (.. (f <$> x <*> y) .. <*> z)
-    (at level 9, left associativity, f at level 9,
-     x at level 9, y at level 9, z at level 9).
+(* Notation "[| f x y .. z |]" := (.. (f <$> x <*> y) .. <*> z) *)
+(*     (at level 9, left associativity, f at level 9, *)
+(*      x at level 9, y at level 9, z at level 9). *)
 
 Theorem app_homomorphism_2
   : forall {F : Type -> Type} {app_dict : Applicative F}
@@ -199,73 +219,60 @@ Proof.
   rewrite app_fmap_unit. reflexivity.
 Defined.
 
-Definition app_unit {F : Type -> Type} {app_dict : Applicative F}
-  : F unit := eta tt.
+Definition app_unit {F : Type -> Type} `{Applicative F} : F unit := eta tt.
 
-Inductive Tuple X Y : Type :=
-  | Pair : X -> Y -> Tuple X Y.
-
-Definition fst {X Y} (p : Tuple X Y) : X :=
-  match p with | Pair x _ => x end.
-
-Definition snd {X Y} (p : Tuple X Y) : Y :=
-  match p with | Pair _ x => x end.
-
-Global Instance LTuple_Isomorphism {A} : A ≅ Tuple unit A :=
-{ to   := Pair unit A tt
-; from := snd
+Global Instance LTuple_Isomorphism {A} : unit * A ≅ A :=
+{ to   := @snd unit A
+; from := pair tt
 }.
-Proof. crush. crush_ext. Defined.
+Proof. crush_ext. crush. Defined.
 
-Global Instance RTuple_Isomorphism {A} : A ≅ Tuple A unit :=
-{ to   := fun x => Pair A unit x tt
-; from := fst
+Global Instance RTuple_Isomorphism {A} : A * unit ≅ A :=
+{ to   := @fst A unit
+; from := fun x => (x, tt)
 }.
 Proof. crush_ext. crush_ext. Defined.
 
-Definition tuple_swap_a_bc_to_ab_c {A B C} (x : Tuple A (Tuple B C))
-  : Tuple (Tuple A B) C :=
+Definition tuple_swap_a_bc_to_ab_c {A B C} (x : A * (B * C)) : (A * B) * C :=
   match x with
-  | Pair a (Pair b c) => Pair (Tuple A B) C (Pair A B a b) c
+    (a, (b, c)) => ((a, b), c)
   end.
 
-Definition tuple_swap_ab_c_to_a_bc {A B C} (x : Tuple (Tuple A B) C)
-  : Tuple A (Tuple B C) :=
+Definition tuple_swap_ab_c_to_a_bc {A B C} (x : (A * B) * C) : A * (B * C) :=
   match x with
-  | Pair (Pair a b) c => Pair A (Tuple B C) a (Pair B C b c)
+    ((a, b), c) => (a, (b, c))
   end.
 
-Global Instance TupleAssoc_Isomorphism {A B C}
-  : Tuple A (Tuple B C) ≅ Tuple (Tuple A B) C :=
+Global Instance Tuple_Assoc {A B C} : A * (B * C) ≅ (A * B) * C :=
 { to   := tuple_swap_a_bc_to_ab_c
 ; from := tuple_swap_ab_c_to_a_bc
 }.
 Proof. crush_ext. crush_ext. Defined.
 
-Definition uncurry {X Y Z} (f : X -> Y -> Z) (xy : Tuple X Y) : Z :=
-  match xy with Pair x y => f x y end.
+Definition uncurry {X Y Z} (f : X -> Y -> Z) (xy : X * Y) : Z :=
+  match xy with (x, y) => f x y end.
 
 Theorem uncurry_works : forall {X Y Z} (x : X) (y : Y) (f : X -> Y -> Z),
-  uncurry f (Pair X Y x y) = f x y.
+  uncurry f (x, y) = f x y.
 Proof. crush. Defined.
 
 Theorem uncurry_under_functors
   : forall {F : Type -> Type} {app_dict : Applicative F}
       {X Y Z} (x : X) (y : Y) (f : X -> Y -> Z),
-  uncurry f <$> eta (Pair X Y x y) = eta (f x y).
+  uncurry f <$> eta (x, y) = eta (f x y).
 Proof.
   intros. rewrite <- app_fmap_unit.
   rewrite app_homomorphism. crush.
 Defined.
 
 Definition app_merge {X Y Z W} (f : X -> Y) (g : Z -> W)
-  (t : Tuple X Z) : Tuple Y W  :=
-  match t with Pair x z => Pair Y W (f x) (g z) end.
+  (t : X * Z) : Y * W  :=
+  match t with (x, z) => (f x, g z) end.
 
 Notation "f *** g" := (app_merge f g) (at level 68, left associativity).
 
-Definition app_prod {F : Type -> Type} {app_dict : Applicative F}
-  {X Y} (x : F X) (y : F Y) : F (Tuple X Y) := Pair X Y <$> x <*> y.
+Definition app_prod {F : Type -> Type} `{Applicative F}
+  {X Y} (x : F X) (y : F Y) : F (X * Y) := pair <$> x <*> y.
 
 Notation "f ** g" := (app_prod f g) (at level 68, left associativity).
 
@@ -283,41 +290,54 @@ Proof.
   intros.
   rewrite_app_homomorphisms.
   rewrite <- app_homomorphism.
-  rewrite <- app_fmap_unit. reflexivity.
+  rewrite <- app_fmap_unit.
+  reflexivity.
 Defined.
 
-Theorem app_eta_inj
-  : forall {F : Type -> Type} `{Applicative F}
-      {X} (x y : X),
+Theorem app_eta_inj : forall {F : Type -> Type} `{Applicative F} {X} (x y : X),
   x = y -> eta x = eta y.
 Proof. crush. Defined.
 
-Theorem app_naturality
-  : forall (F : Type -> Type) (app_dict : Applicative F)
-      A B C D (f : A -> C) (g : B -> D) (u : F A) (v : F B),
-  fmap (f *** g) (u ** v) = fmap f u ** fmap g v.
+Theorem app_split
+  : forall (F : Type -> Type) `{Applicative F}
+      A B C (f : A -> B -> C) (x : F A) (y : F B),
+  f <$> x <*> y = uncurry f <$> (x ** y).
 Proof.
-  intros. unfold app_prod, app_merge.
+  intros. unfold app_prod.
+  repeat (rewrite <- app_fmap_unit).
+  repeat (rewrite <- app_composition; f_equal).
+  repeat (rewrite app_homomorphism).
+  crush.
+Defined.
+
+Theorem app_naturality
+  : forall {F : Type -> Type} `{Applicative F}
+      {A B C D} (f : A -> C) (g : B -> D) (u : F A) (v : F B),
+  fmap (f *** g) (u ** v) = (fmap f u) ** (fmap g v).
+Proof.
+  intros. unfold app_prod.
+  rewrite app_split.
+  rewrite app_split.
   (* How can we make progress from here? *)
 Abort.
 
 Theorem app_left_identity
-  : forall (F : Type -> Type) (app_dict : Applicative F) A (v : F A)
-      (isoF : F (Tuple unit A) ≅ F A),
-  app_prod app_unit v |≅| v.
+  : forall (F : Type -> Type) `{Applicative F} {A} (v : F A),
+  (eta tt ** v) ≡ v.
 Proof.
-  (* Prove the app identity *)
   intros. unfold app_prod, app_unit. rewrite_app_homomorphisms.
-
-  (* Prove that the result is isomorphic to v *)
-  assert (fmap (Pair unit A tt) = to). reflexivity. rewrite H.
-  split. apply iso_to_x. reflexivity.
+  split.
+    assert (fmap (pair tt) =
+            (@from (F (unit * A)) (F A) 
+                   (Functor_Isomorphism LTuple_Isomorphism))).
+      reflexivity. rewrite H0.
+    apply iso_from_x.
+    reflexivity.
 Defined.
 
 Theorem app_right_identity
-  : forall (F : Type -> Type) (app_dict : Applicative F)
-      A (v : F A) (isoF : F (Tuple A unit) ≅ F A),
-  app_prod v app_unit |≅| v.
+  : forall (F : Type -> Type)`{Applicative F} {A : Type} (v : F A),
+  (v ** eta tt) ≡ v.
 Proof.
   intros. unfold app_prod, app_unit.
   rewrite <- app_fmap_unit.
@@ -328,23 +348,29 @@ Proof.
   rewrite app_fmap_unit.
   unfold compose.
 
-  assert (fmap (fun x => Pair A unit x tt) = to). reflexivity.
-  split. rewrite H. apply iso_to_x. reflexivity.
+  split.
+    assert (fmap (fun x : A => (x, tt)) =
+            (@from (F (A * unit)) (F A) 
+                   (Functor_Isomorphism RTuple_Isomorphism))).
+      reflexivity. rewrite H0.
+    apply iso_from_x. 
+    reflexivity.
 Defined.
 
 Theorem app_associativity
-  : forall (F : Type -> Type) (app_dict : Applicative F)
-      A B C (u : F A) (v : F B) (w : F C)
-      (iso : F (Tuple (Tuple A B) C) ≅ F (Tuple A (Tuple B C))),
-  app_prod u (app_prod v w) |≅| app_prod (app_prod u v) w.
+  : forall {F : Type -> Type} `{Applicative F}
+      A B C (u : F A) (v : F B) (w : F C),
+  (u ** (v ** w)) ≡ ((u ** v) ** w).
 Proof.
   intros. unfold app_prod.
+  split.
+    admit.
+    admit.
   (* I do not know how to proceed from here. *)
 Abort.
 
 Theorem fmap_unit_eq
-  : forall (F : Type -> Type) (app_dict : Applicative F)
-      A B (f : A -> B) (x : A),
+  : forall (F : Type -> Type) `{Applicative F} A B (f : A -> B) (x : A),
   fmap f (eta x) = eta (f x).
 Proof.
   intros.
@@ -352,18 +378,6 @@ Proof.
   rewrite app_interchange.
   rewrite app_homomorphism.
   reflexivity.
-Defined.
-
-Theorem app_split
-  : forall (F : Type -> Type) (app_dict : Applicative F)
-      A B C (f : A -> B -> C) (x : F A) (y : F B),
-  f <$> x <*> y = uncurry f <$> (x ** y).
-Proof.
-  intros. unfold app_prod.
-  repeat (rewrite <- app_fmap_unit).
-  repeat (rewrite <- app_composition; f_equal).
-  repeat (rewrite app_homomorphism).
-  crush.
 Defined.
 
 Definition liftA2 {F : Type -> Type} {app_dict : Applicative F}
@@ -377,8 +391,7 @@ Class Monad (M : Type -> Type) :=
 ; monad_law_1 : forall {X}, mu ∘ fmap mu = (@mu X) ∘ mu
 ; monad_law_2 : forall {X}, mu ∘ fmap (@eta M is_applicative X) = id
 ; monad_law_3 : forall {X}, (@mu X) ∘ eta = id
-; monad_law_4 : forall {X Y} (f : X -> Y), eta ∘ f = fmap f ∘ eta
-; monad_law_5 : forall {X Y} (f : X -> Y), mu ∘ fmap (fmap f) = fmap f ∘ mu
+; monad_law_4 : forall {X Y} (f : X -> Y), mu ∘ fmap (fmap f) = fmap f ∘ mu
 }.
 
 Definition bind {M X Y} {m_dict : Monad M}
@@ -415,16 +428,6 @@ Proof.
 Defined.
 
 Theorem monad_law_4_x
-  : forall (M : Type -> Type) (m_dict : Monad M) A B (f : A -> B) (x : A),
-  eta (f x) = fmap f (eta x).
-Proof.
-  intros.
-  assert (eta (f x) = (eta ∘ f) x). unfold compose. reflexivity.
-  assert (fmap f (eta x) = (fmap f ∘ eta) x). unfold compose. reflexivity.
-  rewrite H. rewrite H0. rewrite monad_law_4. reflexivity.
-Defined.
-
-Theorem monad_law_5_x
   : forall (M : Type -> Type) (m_dict : Monad M)
       A B (f : A -> B) (x : M (M A)),
   mu (fmap (fmap f) x) = fmap f (mu x).
@@ -433,7 +436,7 @@ Proof.
   assert (mu (fmap (fmap f) x) = (mu ∘ fmap (fmap f)) x).
     unfold compose. reflexivity.
   assert (fmap f (mu x) = (fmap f ∘ mu) x). unfold compose. reflexivity.
-  rewrite H. rewrite H0. rewrite monad_law_5. reflexivity.
+  rewrite H. rewrite H0. rewrite monad_law_4. reflexivity.
 Defined.
 
 (* Composition of functors produces a functor. *)
@@ -465,46 +468,55 @@ Global Instance Compose_Applicative
 ; apply := fun X Y f x => apply (fmap (@apply fobj G X Y) f) x
 }.
 Proof.
-  - (* app_identity *)
-    intros. ext_eq.
-    rewrite <- app_fmap_unit. rewrite app_homomorphism.
-    rewrite app_identity. rewrite app_fmap_unit.
-    rewrite fun_identity. reflexivity.
+  - (* app_identity *) intros.
+    ext_eq.
+    rewrite <- app_fmap_unit.
+    rewrite app_homomorphism.
+    rewrite app_identity.
+    rewrite app_fmap_unit.
+    rewrite fun_identity.
+    reflexivity.
 
-  - (* app_composition *)
-    intros. repeat (rewrite <- app_fmap_unit).
-    rewrite app_homomorphism. admit.
+  - (* app_composition *) intros.
+    rewrite <- app_composition.
+    f_equal.
+    rewrite_app_homomorphisms.
+    rewrite fun_composition_x.
+    rewrite app_split.
+    rewrite app_split.
+    rewrite <- app_naturality.
+    rewrite fun_composition_x.
+    rewrite fun_composition_x.
+    f_equal. ext_eq.
+    destruct x.
+    unfold compose at 4.
+    unfold app_merge.
+    rewrite uncurry_works.
+    unfold compose at 1.
+    unfold compose at 1.
+    rewrite uncurry_works.
+    ext_eq.
+    rewrite <- app_fmap_unit.
+    rewrite app_composition.
+    unfold compose.
+    reflexivity.
 
-  - (* app_homomorphism *)
-    intros. rewrite <- app_fmap_unit.
-    repeat (rewrite app_homomorphism). reflexivity.
+  - (* app_homomorphism *) intros.
+    rewrite <- app_fmap_unit.
+    repeat (rewrite app_homomorphism).
+    reflexivity.
 
-  - (* app_interchange *)
-    intros.
+  - (* app_interchange *) intros.
     repeat (rewrite <- app_fmap_unit).
     rewrite app_interchange.
     rewrite_app_homomorphisms.
     rewrite fun_composition_x.
     unfold compose. f_equal. ext_eq.
     rewrite <- app_fmap_unit.
-    rewrite app_interchange. reflexivity.
+    rewrite app_interchange.
+    reflexivity.
 
-  - (* app_fmap_unit *)
-    intros. rewrite_app_homomorphisms. reflexivity.
+  - (* app_fmap_unit *) intros.
+    rewrite_app_homomorphisms.
+    reflexivity.
 Defined.
-
-(* Composition of monads is a monad. *)
-
-(*
-Global Instance Either_Monad {E} : Monad (Either E) :=
-{ is_applicative := Either_Applicative
-; mu := @Either_join E
-}.
-Proof.
-  (* monad_law_1 *) crush_ext.
-  (* monad_law_2 *) crush_ext.
-  (* monad_law_3 *) crush_ext.
-  (* monad_law_4 *) crush.
-  (* monad_law_5 *) crush_ext.
-Defined.
-*)
