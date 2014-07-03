@@ -595,3 +595,61 @@ Proof.
     rewrite_app_homomorphisms.
     reflexivity.
 Defined.
+
+(* "Suppose that (S,μˢ,ηˢ) and (T,μᵗ,ηᵗ) are two monads on a category C.  In
+   general, there is no natural monad structure on the composite functor ST.
+   On the other hand, there is a natural monad structure on the functor ST if
+   there is a distr law of the monad S over the monad T."
+
+   http://en.wikipedia.org/wiki/Distr_law_between_monads
+*)
+
+Global Instance Compose_Monad
+  (F : Type -> Type) (G : Type -> Type)
+  `{f_dict : Monad F} `{g_dict : Monad G}
+  (distr : forall {A}, G (F A) -> F (G A))
+  (distr_law_1 : forall {A : Type},
+    distr ∘ eta = fmap (@eta G _ A))
+  (distr_law_2 : forall {A : Type},
+    distr ∘ mu = fmap mu ∘ distr ∘ fmap (@distr A))
+  (distr_law_3 : forall {A : Type},
+    distr ∘ fmap (@eta F _ A) = eta)
+  (distr_law_4 : forall {A : Type},
+    distr ∘ fmap (@mu F _ A) = mu ∘ fmap (@distr A) ∘ distr)
+  : Monad (fun X => F (G X)) :=
+{ is_applicative := Compose_Applicative F G
+; mu := fun X => fmap mu ∘ mu ∘ fmap (distr (G X))
+}.
+Proof.
+  (* Set Printing All. *)
+
+  - (* monad_law_1 *) intros.
+    repeat (rewrite <- comp_assoc).
+    repeat f_equal.
+
+    (* fmap (fmap mu ∘ mu ∘ fmap (distr (G X))) =
+       fmap mu ∘ mu ∘ fmap (distr (G (F (G X)))) *)
+    admit.
+
+  - (* monad_law_2 *) intros.
+    repeat (rewrite <- comp_assoc).
+
+    (* fmap mu ∘ mu ∘ fmap (distr (G X)) ∘ fmap eta = id *)
+
+    admit.
+
+  - (* monad_law_3 *) intros.
+    repeat (rewrite <- comp_assoc).
+
+    (* fmap mu ∘ mu ∘ fmap (distr (G X)) ∘ eta = id *)
+
+    admit.
+
+  - (* monad_law_4 *) intros.
+    repeat (rewrite <- comp_assoc).
+
+    (* fmap mu ∘ mu ∘ fmap (distr (G Y)) ∘ fmap (fmap f) =
+       fmap f ∘ fmap mu ∘ mu ∘ fmap (distr (G X)) *)
+
+    admit.
+Abort.
