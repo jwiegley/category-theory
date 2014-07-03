@@ -3,6 +3,8 @@ Require Import ZArith Permutation Omega List Classical_sets.
 Require Import FunctionalExtensionality.
 Require Export CpdtTactics.
 
+Require Setoid.
+
 Axiom prop_ext: ClassicalFacts.prop_extensionality.
 
 Implicit Arguments prop_ext.
@@ -233,19 +235,25 @@ Global Instance RTuple_Isomorphism {A} : A * unit ≅ A :=
 }.
 Proof. crush_ext. crush_ext. Defined.
 
-Definition tuple_swap_a_bc_to_ab_c {A B C} (x : A * (B * C)) : (A * B) * C :=
+Definition tuple_swap_a_bc_to_ab_c {A B C} (x : A * (B * C)) : A * B * C :=
   match x with
     (a, (b, c)) => ((a, b), c)
   end.
 
-Definition tuple_swap_ab_c_to_a_bc {A B C} (x : (A * B) * C) : A * (B * C) :=
+Definition tuple_swap_ab_c_to_a_bc {A B C} (x : A * B * C) : A * (B * C) :=
   match x with
     ((a, b), c) => (a, (b, c))
   end.
 
-Global Instance Tuple_Assoc {A B C} : A * (B * C) ≅ (A * B) * C :=
-{ to   := tuple_swap_a_bc_to_ab_c
-; from := tuple_swap_ab_c_to_a_bc
+Definition left_triple {A B C} (x : A) (y : B) (z : C) : A * B * C :=
+  ((x, y), z).
+
+Definition right_triple {A B C} (x : A) (y : B) (z : C) : A * (B * C) :=
+  (x, (y, z)).
+
+Global Instance Tuple_Assoc {A B C} : A * B * C ≅ A * (B * C) :=
+{ to   := tuple_swap_ab_c_to_a_bc
+; from := tuple_swap_a_bc_to_ab_c
 }.
 Proof. crush_ext. crush_ext. Defined.
 
@@ -316,10 +324,24 @@ Theorem app_naturality
   fmap (f *** g) (u ** v) = (fmap f u) ** (fmap g v).
 Proof.
   intros. unfold app_prod.
-  rewrite app_split.
-  rewrite app_split.
-  (* How can we make progress from here? *)
-Abort.
+  rewrite <- app_fmap_unit.
+  rewrite fun_composition_x.
+  repeat (rewrite <- app_fmap_unit).
+  rewrite <- app_composition.
+  rewrite <- app_composition.
+  rewrite <- app_composition.
+  rewrite <- app_composition.
+  rewrite app_composition.
+  rewrite app_composition.
+  f_equal.
+  rewrite_app_homomorphisms.
+  rewrite fun_composition_x.
+  rewrite fun_composition_x.
+  rewrite app_interchange.
+  rewrite app_fmap_unit.
+  rewrite fun_composition_x.
+  f_equal.
+Qed.
 
 Theorem app_left_identity
   : forall (F : Type -> Type) `{Applicative F} {A} (v : F A),
@@ -357,16 +379,65 @@ Proof.
     reflexivity.
 Defined.
 
-Theorem app_associativity
-  : forall {F : Type -> Type} `{Applicative F}
+Theorem app_embed_left_triple
+  : forall {F : Type -> Type} `{app_dict : Applicative F}
       A B C (u : F A) (v : F B) (w : F C),
-  (u ** (v ** w)) ≡ ((u ** v) ** w).
+  u ** v ** w = left_triple <$> u <*> v <*> w.
 Proof.
   intros. unfold app_prod.
+  repeat (rewrite <- app_fmap_unit).
+  rewrite <- app_composition.
+  f_equal. f_equal.
+  rewrite_app_homomorphisms.
+  rewrite fun_composition_x.
+  reflexivity.
+Defined.
+
+Theorem app_embed_right_triple
+  : forall {F : Type -> Type} `{app_dict : Applicative F}
+      A B C (u : F A) (v : F B) (w : F C),
+  u ** (v ** w) = right_triple <$> u <*> v <*> w.
+Proof.
+  intros. unfold app_prod.
+  repeat (rewrite <- app_fmap_unit).
+  rewrite <- app_composition.
+  f_equal. f_equal.
+  repeat (rewrite app_fmap_unit).
+  rewrite fun_composition_x.
+  repeat (rewrite <- app_fmap_unit).
+  rewrite <- app_composition.
+  f_equal.
+  repeat (rewrite app_fmap_unit).
+  rewrite fun_composition_x.
+  rewrite app_interchange.
+  rewrite app_fmap_unit.
+  rewrite fun_composition_x.
+  unfold compose.
+  reflexivity.
+Defined.
+
+Theorem app_associativity
+  : forall {F : Type -> Type} `{app_dict : Applicative F}
+      A B C (u : F A) (v : F B) (w : F C),
+  ((u ** v) ** w) ≡ (u ** (v ** w)).
+Proof.
+  intros.
+  rewrite app_embed_left_triple.
+  rewrite app_embed_right_triple.
+  repeat (rewrite app_split).
+  assert (forall {X Y Z} (x : X) (y : Y) (z : Z),
+          left_triple x y z ≡ right_triple x y z).
+    intros. split; reflexivity.
   split.
-    admit.
-    admit.
-  (* I do not know how to proceed from here. *)
+    pose proof (@iso_to_x (F (A * B * C)) (F (A * (B * C)))
+                          (Functor_Isomorphism Tuple_Assoc)).
+    specialize (H0 (u ** v ** w)).
+    rewrite <- H0. simpl.
+    repeat (rewrite fun_composition_x).
+    repeat f_equal.
+    ext_eq. unfold compose.
+    specialize (H (F A) (F B) (F C) u v w).
+    inversion H.
 Abort.
 
 Theorem fmap_unit_eq
