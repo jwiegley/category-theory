@@ -513,9 +513,10 @@ Defined.
 (* Composition of functors produces a functor. *)
 
 Global Instance Compose_Functor
-  `{F : Functor} `{G : Functor}
-  : Functor (fun X => fobj (fobj X))  :=
-{ fmap := fun X Y f x => fmap (@fmap fobj G X Y f) x
+  (F : Type -> Type) (G : Type -> Type)
+  `{f_dict : Functor F} `{g_dict : Functor G}
+  : Functor (fun X => F (G X))  :=
+{ fmap := fun X Y f x => fmap (@fmap G g_dict X Y f) x
 }.
 Proof.
   - (* fun_identity *)
@@ -532,11 +533,12 @@ Defined.
 (* Composition of applicatives produces an applicative. *)
 
 Global Instance Compose_Applicative
-  `{F : Applicative} `{G : Applicative}
-  : Applicative (fun X => fobj (fobj X))  :=
-{ is_functor := Compose_Functor
+  (F : Type -> Type) (G : Type -> Type)
+  `{f_dict : Applicative F} `{g_dict : Applicative G}
+  : Applicative (fun X => F (G X))  :=
+{ is_functor := Compose_Functor F G
 ; eta := fun X x => eta (eta x)
-; apply := fun X Y f x => apply (fmap (@apply fobj G X Y) f) x
+; apply := fun X Y f x => apply (fmap (@apply G g_dict X Y) f) x
 }.
 Proof.
   - (* app_identity *) intros.
@@ -549,6 +551,8 @@ Proof.
     reflexivity.
 
   - (* app_composition *) intros.
+    (* apply <$> (apply <$> (apply <$> eta (eta compose) <*> u) <*> v) <*> w =
+       apply <$> u <*> (apply <$> v <*> w) *)
     rewrite <- app_composition.
     f_equal.
     rewrite_app_homomorphisms.

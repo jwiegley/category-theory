@@ -123,29 +123,30 @@ Global Instance EitherT_Applicative (E : Type) (M : Type -> Type)
 ; apply := @EitherT_apply E M app_dict
 }.
 Proof.
+  Typeclasses Transparent Compose_Applicative.
+
   - (* app_identity *)
     intros. ext_eq. unfold EitherT_apply, EitherT_return.
-    destruct x. rewrite_app_homomorphisms.
-    rewrite fun_identity.
-    rewrite fun_identity. reflexivity.
+    destruct x. unfold id at 2. f_equal.
+    apply (@app_identity_x (fun X => fobj (fobj X))
+          (Compose_Applicative M (Either E))).
 
   - (* app_composition *)
     intros. unfold EitherT_apply, EitherT_return.
     destruct u. destruct v. destruct w. f_equal.
-    rewrite_app_homomorphisms.
-    admit.
+    apply (@app_composition (fun X => fobj (fobj X))
+          (Compose_Applicative M (Either E))).
 
   - (* app_homomorphism *)
-    intros. unfold EitherT_apply, EitherT_return.
-    rewrite_app_homomorphisms.
-    rewrite_app_homomorphisms. reflexivity.
+    intros. unfold EitherT_apply, EitherT_return. f_equal.
+    apply (@app_homomorphism (fun X => fobj (fobj X))
+          (Compose_Applicative M (Either E))).
 
   - (* app_interchange *)
     intros. unfold EitherT_apply, EitherT_return.
     destruct u. f_equal.
-    rewrite app_interchange.
-    rewrite_app_homomorphisms.
-    rewrite fun_composition_x. reflexivity.
+    apply (@app_interchange (fun X => fobj (fobj X))
+          (Compose_Applicative M (Either E))).
 
   - (* app_fmap_unit *)
     intros. unfold EitherT_apply, EitherT_return.
@@ -160,50 +161,52 @@ Global Instance EitherT_Monad {E M} (m_dict : Monad M) (X : Type)
 Proof.
   - (* monad_law_1 *)
     intros. ext_eq.
-    repeat (rewrite uncompose).
+    unfold compose.
     unfold EitherT_join. f_equal.
-    destruct x. simpl. f_equal.
-    admit. admit. admit.
+    unfold compose. simpl.
+    unfold EitherT_map. destruct x.
+    unfold EitherT_shallow_map. f_equal.
+    unfold EitherT_join'.
+    admit.
 
   - (* monad_law_2 *)
-    intros. ext_eq. unfold compose. simpl.
-    unfold EitherT_join, EitherT_return. unfold id.
-    unfold EitherT_map. destruct x. simpl. f_equal.
-    unfold compose.
-    assert ((fun x : X0 => EitherT_ E M X0 (eta (Right E X0 x))) =
-            (@eta (EitherT E M) _ _)).
-      reflexivity. rewrite H. clear H.
-    rewrite fun_composition_x.
-    assert (mu ((EitherT_join' ∘ Either_map eta) <$> m) =
-            (mu ∘ fmap (EitherT_join' ∘ Either_map eta)) m).
-      reflexivity. rewrite H. clear H.
-    assert (fmap ((@EitherT_join' E M _ X) ∘
-                  (@Either_map E X (EitherT E M X)) (@eta (EitherT E M) _ X)) =
-            eta).
-      assert (fmap (EitherT_join' ∘ Either_map eta) =
-              ((compose mu) ∘ fmap ∘ (compose EitherT_join') ∘ Either_map) eta).
-      ext_eq. rewrite <- fun_composition. unfold compose.
-      
-fmap f (((fmap ∘ map) ∘ g) x)
+    (* intros. ext_eq. unfold compose. simpl. *)
+    (* unfold EitherT_join, EitherT_return. unfold id. *)
+    (* unfold EitherT_map. destruct x. simpl. f_equal. *)
+    (* unfold compose. *)
+    (* assert ((fun x : X0 => EitherT_ E M X0 (eta (Right E X0 x))) = *)
+    (*         (@eta (EitherT E M) _ _)). *)
+    (*   reflexivity. rewrite H. clear H. *)
+    (* rewrite fun_composition_x. *)
+    (* assert (mu ((EitherT_join' ∘ Either_map eta) <$> m) = *)
+    (*         (mu ∘ fmap (EitherT_join' ∘ Either_map eta)) m). *)
+    (*   reflexivity. rewrite H. clear H. *)
+    (* assert (fmap ((@EitherT_join' E M _ X) ∘ *)
+    (*               (@Either_map E X (EitherT E M X)) (@eta (EitherT E M) _ X)) = *)
+    (*         eta). *)
+    (*   assert (fmap (EitherT_join' ∘ Either_map eta) = *)
+    (*           ((compose mu) ∘ fmap ∘ (compose EitherT_join') ∘ Either_map) eta). *)
+    (*   ext_eq. rewrite <- fun_composition. unfold compose. *)
     admit.
 
   - (* monad_law_3 *)
-    intros. ext_eq. unfold compose. simpl.
+    intros. ext_eq. unfold EitherT_join, compose. simpl.
     rewrite_app_homomorphisms.
     rewrite monad_law_3_x. simpl. destruct x. reflexivity.
 
   - (* monad_law_4 *)
     intros. ext_eq. simpl.
-    unfold EitherT_return. unfold compose. simpl. f_equal.
-    rewrite <- monad_law_4_x. f_equal.
-
-  - (* monad_law_5 *)
-    intros. ext_eq. simpl.
     unfold EitherT_return. unfold compose.
-    unfold EitherT_join. destruct x. simpl. f_equal.
-    rewrite <- monad_law_5_x. f_equal.
+    unfold EitherT_map. destruct x. simpl. f_equal.
+    unfold compose.
     rewrite fun_composition_x.
-    rewrite fun_composition_x. f_equal.
-    unfold EitherT_map. simpl.
-    admit.
+    rewrite <- app_fmap_unit.
+    rewrite <- monad_law_4_x. f_equal.
+    rewrite app_fmap_unit.
+    rewrite fun_composition_x. f_equal. ext_eq.
+    unfold compose. unfold EitherT_join'. destruct x.
+      simpl. unfold Either_map.
+        rewrite <- app_fmap_unit.
+        rewrite app_homomorphism. reflexivity.
+      simpl. destruct e. reflexivity.
 Defined.
