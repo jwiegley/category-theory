@@ -39,11 +39,11 @@ Definition compose {A B C}
 
 Notation "f ∘ g" := (compose f g) (at level 69, right associativity).
 
-Theorem comp_left_id : forall {A B C D} (f : C -> D) (g : B -> C) (h : A -> B),
+Theorem comp_id_left : forall {A B} (f : A -> B),
   id ∘ f = f.
 Proof. crush. Defined.
 
-Theorem comp_id_right : forall {A B C D} (f : C -> D) (g : B -> C) (h : A -> B),
+Theorem comp_id_right : forall {A B} (f : A -> B),
   f ∘ id = f.
 Proof. crush. Defined.
 
@@ -465,10 +465,10 @@ Class Monad (M : Type -> Type) :=
 ; monad_law_4 : forall {X Y} (f : X -> Y), mu ∘ fmap (fmap f) = fmap f ∘ mu
 }.
 
-Definition bind {M X Y} {m_dict : Monad M}
-  (x : M X) (f : (X -> M Y)) : M Y := mu (fmap f x).
+Definition bind {M} `{Monad M} {X Y}
+  (f : (X -> M Y)) (x : M X) : M Y := mu (fmap f x).
 
-Notation "m >>= f" := (bind m f) (at level 67, left associativity).
+Notation "m >>= f" := (bind f m) (at level 67, left associativity).
 
 Theorem monad_law_1_x
   : forall (M : Type -> Type) (m_dict : Monad M) A (x : M (M (M A))),
@@ -512,31 +512,30 @@ Defined.
 
 (* Composition of functors produces a functor. *)
 
-Global Instance Compose_Functor
-  (F : Type -> Type) (G : Type -> Type)
-  `{f_dict : Functor F} `{g_dict : Functor G}
+Global Instance Functor_Compose
+  (F : Type -> Type) (G : Type -> Type) `{Functor F} `{Functor G}
   : Functor (fun X => F (G X))  :=
-{ fmap := fun X Y f x => fmap (@fmap G g_dict X Y f) x
+{ fmap := fun A B => (@fmap F _ (G A) (G B)) ∘ (@fmap G _ A B)
 }.
 Proof.
   - (* fun_identity *)
-    intros. ext_eq.
+    intros. ext_eq. unfold compose.
     rewrite fun_identity.
     rewrite fun_identity. reflexivity.
 
   - (* fun_composition *)
-    intros. ext_eq.
-    rewrite fun_composition.
+    intros. ext_eq. unfold compose.
+    rewrite fun_composition_x.
     rewrite fun_composition. reflexivity.
 Defined.
 
 (* Composition of applicatives produces an applicative. *)
 
-Global Instance Compose_Applicative
+Global Instance Applicative_Compose
   (F : Type -> Type) (G : Type -> Type)
   `{f_dict : Applicative F} `{g_dict : Applicative G}
   : Applicative (fun X => F (G X))  :=
-{ is_functor := Compose_Functor F G
+{ is_functor := Functor_Compose F G
 ; eta := fun X x => eta (eta x)
 ; apply := fun X Y f x => apply (fmap (@apply G g_dict X Y) f) x
 }.
@@ -599,57 +598,149 @@ Defined.
 (* "Suppose that (S,μˢ,ηˢ) and (T,μᵗ,ηᵗ) are two monads on a category C.  In
    general, there is no natural monad structure on the composite functor ST.
    On the other hand, there is a natural monad structure on the functor ST if
-   there is a distr law of the monad S over the monad T."
+   there is a distribute law of the monad S over the monad T."
 
-   http://en.wikipedia.org/wiki/Distr_law_between_monads
+     http://en.wikipedia.org/wiki/Distr_law_between_monads
+
+   My main source for this material was the paper "Composing monads":
+
+     http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.138.4552
 *)
+Class MonadDistribute (M : Type -> Type) (N : Type -> Type)
+  `{Monad M} `{Monad N} `{Monad (fun X => M (N X))} :=
+{ swap {A : Type} : N (M A) -> M (N A) :=
+    mu ∘ (@eta M _ (N (M (N A)))) ∘ (fmap (fmap eta))
+; prod {A : Type} : N (M (N A)) -> M (N A) :=
+    mu ∘ (@eta M _ (N (M (N A))))
+; dorp {A : Type} : M (N (M A)) -> M (N A) :=
+    (@mu (fun A => M (N A)) _ A) ∘ (@fmap (fun A => M (N A)) _ _ _ (fmap eta))
 
-Global Instance Compose_Monad
-  (F : Type -> Type) (G : Type -> Type)
-  `{f_dict : Monad F} `{g_dict : Monad G}
-  (distr : forall {A}, G (F A) -> F (G A))
-  (distr_law_1 : forall {A : Type},
-    distr ∘ eta = fmap (@eta G _ A))
-  (distr_law_2 : forall {A : Type},
-    distr ∘ mu = fmap mu ∘ distr ∘ fmap (@distr A))
-  (distr_law_3 : forall {A : Type},
-    distr ∘ fmap (@eta F _ A) = eta)
-  (distr_law_4 : forall {A : Type},
-    distr ∘ fmap (@mu F _ A) = mu ∘ fmap (@distr A) ∘ distr)
-  : Monad (fun X => F (G X)) :=
-{ is_applicative := Compose_Applicative F G
-; mu := fun X => fmap mu ∘ mu ∘ fmap (distr (G X))
+; swap_law_1 : forall {A B : Type} (f : (A -> B)),
+    swap ∘ fmap (fmap f) = fmap (fmap f) ∘ swap
+; swap_law_2 : forall {A : Type},
+    swap ∘ eta = fmap (@eta N _ A)
+; swap_law_3 : forall {A : Type},
+    swap ∘ fmap (@eta M _ A) = eta
+; swap_law_4 : forall {A : Type},
+    prod ∘ fmap (@dorp A) = dorp ∘ prod
+}.
+
+Global Instance Monad_Compose (M : Type -> Type) (N : Type -> Type)
+  `{Monad M} `{Monad N} `{MonadDistribute M N}
+  : Monad (fun X => M (N X)) :=
+{ is_applicative := Applicative_Compose M N
+; mu := fun _ => mu ∘ fmap prod
 }.
 Proof.
-  (* Set Printing All. *)
-
   - (* monad_law_1 *) intros.
     repeat (rewrite <- comp_assoc).
+    rewrite <- fun_composition.
     repeat f_equal.
+    unfold prod.
+    rewrite <- fun_composition.
+    rewrite <- fun_composition.
+    rewrite <- fun_composition.
+    repeat (rewrite comp_assoc).
 
-    (* fmap (fmap mu ∘ mu ∘ fmap (distr (G X))) =
-       fmap mu ∘ mu ∘ fmap (distr (G (F (G X)))) *)
+    (* (fmap mu ∘ fmap (fmap mu)) ∘ fmap (fmap eta) = (mu ∘ fmap mu) ∘ fmap eta *)
     admit.
 
   - (* monad_law_2 *) intros.
     repeat (rewrite <- comp_assoc).
+    unfold swap.
 
-    (* fmap mu ∘ mu ∘ fmap (distr (G X)) ∘ fmap eta = id *)
+    (* fmap mu ∘ mu ∘ fmap (distr (N X)) ∘ fmap eta = id *)
 
     admit.
 
   - (* monad_law_3 *) intros.
     repeat (rewrite <- comp_assoc).
+    unfold swap.
 
-    (* fmap mu ∘ mu ∘ fmap (distr (G X)) ∘ eta = id *)
+    (* fmap mu ∘ mu ∘ fmap (distr (N X)) ∘ eta = id *)
 
     admit.
 
   - (* monad_law_4 *) intros.
     repeat (rewrite <- comp_assoc).
+    unfold swap.
 
-    (* fmap mu ∘ mu ∘ fmap (distr (G Y)) ∘ fmap (fmap f) =
-       fmap f ∘ fmap mu ∘ mu ∘ fmap (distr (G X)) *)
+    (* fmap mu ∘ mu ∘ fmap (distr (N Y)) ∘ fmap (fmap f) =
+       fmap f ∘ fmap mu ∘ mu ∘ fmap (distr (N X)) *)
 
     admit.
+Abort.
+
+Class CompoundMonad (M : Type -> Type) (N : Type -> Type)
+  `{Applicative M} `{Applicative N} `{Monad (fun X => M (N X))} :=
+{ dunit : forall {α : Type}, M α -> M (N α)
+; dmap  : forall {α β : Type}, (α -> M β) -> M (N α) -> M (N β)
+; djoin : forall {α : Type}, M (N (N α)) -> M (N α)
+
+; compound_law_1 : forall {A : Type},
+    dmap (@eta M _ A) = id
+; compound_law_2 : forall {A B C : Type} (f : (B -> M C)) (g : (A -> B)),
+    dmap (f ∘ g) = dmap f ∘ (@fmap (fun A => M (N A)) _ _ _ g)
+; compound_law_3 : forall {A B : Type} (f : (A -> M A)),
+    dmap f ∘ (@eta (fun A => M (N A)) _ A) = @dunit A ∘ f
+; compound_law_4 : forall {A B : Type} (f : (A -> M B)),
+    djoin ∘ dmap (dmap f) = dmap f ∘ (@mu (fun A => M (N A)) _ A)
+; compound_law_5 : forall {A : Type},
+    @djoin A ∘ dunit = id
+; compound_law_6 : forall {A : Type},
+    djoin ∘ dmap (@eta (fun A => M (N A)) _ A) = id
+; compound_law_7 : forall {A : Type},
+    djoin ∘ dmap djoin = djoin ∘ (@mu (fun A => M (N A)) _ (N A))
+; compound_law_8 : forall {A B : Type} (f : A -> M (N B)),
+    (@bind (fun A => M (N A)) _ A B f) = djoin ∘ dmap f
+}.
+
+(* "The following definition captures the idea that a triple with functor T2 ∘
+    T1 is in a natural way the composite of triples with functors T2 and T1."
+
+   "Toposes, Triples and Theories", Barr and Wells
+*)
+Class MonadCompatible (M : Type -> Type) (N : Type -> Type)
+  `{Monad M} `{Monad N} `{Monad (fun X => M (N X))} :=
+{ compatible_1a : forall {A : Type},
+    fmap (@eta N _ A) ∘ (@eta M _ A) = (@eta (fun X => M (N X)) _ A)
+; compatible_1b : forall {A : Type},
+    (@eta M _ (N A)) ∘ (@eta N _ A) = (@eta (fun X => M (N X)) _ A)
+; compatible_2 : forall {A : Type},
+    (@mu (fun X => M (N X)) _ A) ∘ fmap (fmap (@eta M _ (N A))) =
+    fmap (@mu N _ A)
+; compatible_3 : forall {A : Type},
+    (@mu (fun X => M (N X)) _ A) ∘ fmap eta = (@mu M _ (N A))
+}.
+
+(* These proofs are due to Jeremy E. Dawson in "Categories and Monads in
+   HOL-Omega".
+*)
+Theorem compatible_4 : forall (M : Type -> Type) (N : Type -> Type)
+  `{Monad M} `{Monad N} `{MonadDistribute M N} `{MonadCompatible M N}
+  {A},
+  (@mu M _ (N A)) ∘ fmap (@mu (fun X => M (N X)) _ A) =
+  (@mu (fun X => M (N X)) _ A) ∘ (@mu M _ (N (M (N A)))).
+Proof.
+  intros.
+  rewrite <- compatible_3.
+  rewrite <- compatible_3.
+  rewrite compatible_3. 
+  rewrite comp_assoc.
+  rewrite <- (@monad_law_1 (fun X => M (N X)) _).
+  rewrite <- comp_assoc.
+  replace (@fmap (fun X => M (N X)) _ _ _ (@mu (fun X => M (N X)) _ A))
+    with (@fmap M _ _ _ ((@fmap N _ _ _ (@mu (fun X => M (N X)) _ A)))).
+    rewrite fun_composition.
+    assert ((@eta N _ (M (N A))) ∘ (@mu (fun X => M (N X)) _ A) =
+            fmap (@mu (fun X => M (N X)) _ A) ∘ (@eta N _ (M (N (M (N A)))))).
+      ext_eq. unfold compose.
+      rewrite <- app_homomorphism.
+      rewrite <- app_fmap_unit.
+      reflexivity.
+    rewrite <- H9.
+    rewrite <- fun_composition.
+    rewrite <- compatible_3.
+    reflexivity.
+  admit. (* why isn't "fmap (fmap mu) = fmap mu" here? *)
 Abort.
