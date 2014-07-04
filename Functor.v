@@ -109,6 +109,10 @@ Hint Resolve fun_composition.
 
 Notation "f <$> g" := (fmap f g) (at level 68, left associativity).
 
+Notation "fmap[ M ]  f" := (@fmap M _ _ _ f) (at level 68).
+Notation "fmap[ M N ]  f" := (@fmap (fun X => M (N X)) _ _ _ f) (at level 66).
+Notation "fmap[ M N O ]  f" := (@fmap (fun X => M (N (O X))) _ _ _ f) (at level 64).
+
 Theorem fun_identity_x
   : forall (F : Type -> Type) (app_dict : Functor F) {X} (x : F X),
   fmap id x = id x.
@@ -153,6 +157,9 @@ Class Applicative (F : Type -> Type) :=
 ; app_fmap_unit : forall {X Y} (f : X -> Y), apply (eta f) = fmap f
 }.
 
+Notation "eta/ M" := (@eta M _ _) (at level 68).
+Notation "eta/ M N" := (@eta (fun X => M (N X)) _ _) (at level 66).
+
 Theorem app_fmap_compose
   : forall (F : Type -> Type) `{Applicative F} A B (f : A -> B),
   eta ∘ f = fmap f ∘ eta.
@@ -188,9 +195,9 @@ Proof.
   intros. rewrite app_fmap_unit. apply fun_identity_x.
 Defined.
 
-(* Notation "[| f x y .. z |]" := (.. (f <$> x <*> y) .. <*> z) *)
-(*     (at level 9, left associativity, f at level 9, *)
-(*      x at level 9, y at level 9, z at level 9). *)
+Notation "[| f x y .. z |]" := (.. (f <$> x <*> y) .. <*> z)
+    (at level 9, left associativity, f at level 9,
+     x at level 9, y at level 9, z at level 9).
 
 Theorem app_homomorphism_2
   : forall {F : Type -> Type} {app_dict : Applicative F}
@@ -424,20 +431,24 @@ Proof.
   intros.
   rewrite app_embed_left_triple.
   rewrite app_embed_right_triple.
-  repeat (rewrite app_split).
+  unfold left_triple.
+  unfold right_triple.
   assert (forall {X Y Z} (x : X) (y : Y) (z : Z),
           left_triple x y z ≡ right_triple x y z).
     intros. split; reflexivity.
-  split.
-    pose proof (@iso_to_x (F (A * B * C)) (F (A * (B * C)))
-                          (Functor_Isomorphism Tuple_Assoc)).
-    specialize (H0 (u ** v ** w)).
-    rewrite <- H0. simpl.
-    repeat (rewrite fun_composition_x).
-    repeat f_equal.
-    ext_eq. unfold compose.
+  split; simpl.
+  - (* pose proof (@iso_to_x (F (A * B * C)) (F (A * (B * C))) *)
+    (*                       (Functor_Isomorphism Tuple_Assoc)). *)
+    (* specialize (H0 (u ** v ** w)). *)
+    (* rewrite <- H0. simpl. *)
+    (* repeat (rewrite fun_composition_x). *)
+    (* repeat f_equal. *)
+    (* ext_eq. unfold compose. *)
     specialize (H (F A) (F B) (F C) u v w).
     inversion H.
+    admit.
+  - repeat (rewrite <- app_split).
+    admit.
 Abort.
 
 Theorem fmap_unit_eq
@@ -465,6 +476,9 @@ Class Monad (M : Type -> Type) :=
 ; monad_law_4 : forall {X Y} (f : X -> Y), mu ∘ fmap (fmap f) = fmap f ∘ mu
 }.
 
+Notation "mu/ M" := (@mu M _ _) (at level 68).
+Notation "mu/ M N" := (@mu (fun X => M (N X)) _ _) (at level 66).
+
 Definition bind {M} `{Monad M} {X Y}
   (f : (X -> M Y)) (x : M X) : M Y := mu (fmap f x).
 
@@ -482,7 +496,7 @@ Defined.
 
 Theorem monad_law_2_x
   : forall (M : Type -> Type) (m_dict : Monad M) A (x : M A),
-  mu (fmap (@eta M is_applicative A) x) = x.
+  mu (fmap (@eta M _ A) x) = x.
 Proof.
   intros.
   assert (mu (fmap eta x) = (mu ∘ fmap eta) x). unfold compose. reflexivity.
@@ -512,36 +526,60 @@ Defined.
 
 (* Composition of functors produces a functor. *)
 
+Definition compose_fmap
+  (F : Type -> Type) (G : Type -> Type)
+  `{Functor F} `{Functor G} {A B} :=
+  (@fmap F _ (G A) (G B)) ∘ (@fmap G _ A B).
+
 Global Instance Functor_Compose
   (F : Type -> Type) (G : Type -> Type) `{Functor F} `{Functor G}
-  : Functor (fun X => F (G X))  :=
-{ fmap := fun A B => (@fmap F _ (G A) (G B)) ∘ (@fmap G _ A B)
+  : Functor (fun X => F (G X)) :=
+{ fmap := fun _ _ => compose_fmap F G
 }.
 Proof.
   - (* fun_identity *)
-    intros. ext_eq. unfold compose.
+    intros. ext_eq. unfold compose_fmap, compose.
     rewrite fun_identity.
     rewrite fun_identity. reflexivity.
 
   - (* fun_composition *)
-    intros. ext_eq. unfold compose.
+    intros. ext_eq. unfold compose_fmap, compose.
     rewrite fun_composition_x.
     rewrite fun_composition. reflexivity.
 Defined.
 
+Theorem fmap_compose
+  : forall (F : Type -> Type) (G : Type -> Type)
+      `{f_dict : Functor F} `{g_dict : Functor G}
+      {X Y} (f : X -> Y),
+  (@fmap F f_dict (G X) (G Y) (@fmap G g_dict X Y f)) =
+  (@fmap (fun X => F (G X)) _ X Y f).
+Proof.
+  intros. simpl. unfold compose_fmap. reflexivity.
+Qed.
+
 (* Composition of applicatives produces an applicative. *)
+
+Definition compose_eta (F : Type -> Type) (G : Type -> Type)
+  `{Applicative F} `{Applicative G} {A} : A -> F (G A) :=
+  (@eta F _ (G A)) ∘ (@eta G _ A).
+
+Definition compose_apply (F : Type -> Type) (G : Type -> Type)
+  `{Applicative F} `{Applicative G} {A B}
+  : F (G (A -> B)) -> F (G A) -> F (G B) :=
+  apply ∘ fmap (@apply G _ A B).
 
 Global Instance Applicative_Compose
   (F : Type -> Type) (G : Type -> Type)
   `{f_dict : Applicative F} `{g_dict : Applicative G}
   : Applicative (fun X => F (G X))  :=
 { is_functor := Functor_Compose F G
-; eta := fun X x => eta (eta x)
-; apply := fun X Y f x => apply (fmap (@apply G g_dict X Y) f) x
+; eta := fun _ => compose_eta F G
+; apply := fun _ _ => compose_apply F G
 }.
 Proof.
   - (* app_identity *) intros.
-    ext_eq.
+    ext_eq. unfold compose_apply, compose_eta, compose.
     rewrite <- app_fmap_unit.
     rewrite app_homomorphism.
     rewrite app_identity.
@@ -552,6 +590,7 @@ Proof.
   - (* app_composition *) intros.
     (* apply <$> (apply <$> (apply <$> eta (eta compose) <*> u) <*> v) <*> w =
        apply <$> u <*> (apply <$> v <*> w) *)
+    unfold compose_apply, compose_eta, compose.
     rewrite <- app_composition.
     f_equal.
     rewrite_app_homomorphisms.
@@ -563,7 +602,7 @@ Proof.
     rewrite fun_composition_x.
     f_equal. ext_eq.
     destruct x.
-    unfold compose at 4.
+    unfold compose at 3.
     unfold app_merge.
     rewrite uncurry_works.
     unfold compose at 1.
@@ -576,11 +615,13 @@ Proof.
     reflexivity.
 
   - (* app_homomorphism *) intros.
+    unfold compose_apply, compose_eta, compose.
     rewrite <- app_fmap_unit.
     repeat (rewrite app_homomorphism).
     reflexivity.
 
   - (* app_interchange *) intros.
+    unfold compose_apply, compose_eta, compose.
     repeat (rewrite <- app_fmap_unit).
     rewrite app_interchange.
     rewrite_app_homomorphisms.
@@ -591,6 +632,7 @@ Proof.
     reflexivity.
 
   - (* app_fmap_unit *) intros.
+    unfold compose_apply, compose_eta, compose.
     rewrite_app_homomorphisms.
     reflexivity.
 Defined.
@@ -609,9 +651,9 @@ Defined.
 Class MonadDistribute (M : Type -> Type) (N : Type -> Type)
   `{Monad M} `{Monad N} `{Monad (fun X => M (N X))} :=
 { swap {A : Type} : N (M A) -> M (N A) :=
-    mu ∘ (@eta M _ (N (M (N A)))) ∘ (fmap (fmap eta))
+    (@mu (fun X => M (N X)) _ A) ∘ (@eta M _ _) ∘ (fmap (fmap eta))
 ; prod {A : Type} : N (M (N A)) -> M (N A) :=
-    mu ∘ (@eta M _ (N (M (N A))))
+    (@mu (fun X => M (N X)) _ A) ∘ (@eta M _ (N (M (N A))))
 ; dorp {A : Type} : M (N (M A)) -> M (N A) :=
     (@mu (fun A => M (N A)) _ A) ∘ (@fmap (fun A => M (N A)) _ _ _ (fmap eta))
 
@@ -625,24 +667,22 @@ Class MonadDistribute (M : Type -> Type) (N : Type -> Type)
     prod ∘ fmap (@dorp A) = dorp ∘ prod
 }.
 
+Definition compose_mu (M : Type -> Type) (N : Type -> Type)
+  `{Monad M} `{Monad N} `{MonadDistribute M N} {A}
+  : M (N (M (N A))) -> M (N A) := fmap mu ∘ mu ∘ fmap swap.
+
 Global Instance Monad_Compose (M : Type -> Type) (N : Type -> Type)
   `{Monad M} `{Monad N} `{MonadDistribute M N}
   : Monad (fun X => M (N X)) :=
 { is_applicative := Applicative_Compose M N
-; mu := fun _ => mu ∘ fmap prod
+; mu := fun _ => compose_mu M N
 }.
 Proof.
   - (* monad_law_1 *) intros.
-    repeat (rewrite <- comp_assoc).
-    rewrite <- fun_composition.
-    repeat f_equal.
-    unfold prod.
-    rewrite <- fun_composition.
-    rewrite <- fun_composition.
-    rewrite <- fun_composition.
-    repeat (rewrite comp_assoc).
-
-    (* (fmap mu ∘ fmap (fmap mu)) ∘ fmap (fmap eta) = (mu ∘ fmap mu) ∘ fmap eta *)
+    unfold compose_mu, prod. f_equal. simpl.
+    unfold compose_fmap.
+    unfold compose at 1.
+    (* fmap[M N] compose_mu M N = compose_mu M N *)
     admit.
 
   - (* monad_law_2 *) intros.
@@ -669,7 +709,7 @@ Proof.
        fmap f ∘ fmap mu ∘ mu ∘ fmap (distr (N X)) *)
 
     admit.
-Abort.
+Defined.
 
 Class CompoundMonad (M : Type -> Type) (N : Type -> Type)
   `{Applicative M} `{Applicative N} `{Monad (fun X => M (N X))} :=
@@ -717,8 +757,7 @@ Class MonadCompatible (M : Type -> Type) (N : Type -> Type)
    HOL-Omega".
 *)
 Theorem compatible_4 : forall (M : Type -> Type) (N : Type -> Type)
-  `{Monad M} `{Monad N} `{MonadDistribute M N} `{MonadCompatible M N}
-  {A},
+  `{Monad M} `{Monad N} `{MonadCompatible M N} {A},
   (@mu M _ (N A)) ∘ fmap (@mu (fun X => M (N X)) _ A) =
   (@mu (fun X => M (N X)) _ A) ∘ (@mu M _ (N (M (N A)))).
 Proof.
@@ -738,9 +777,10 @@ Proof.
       rewrite <- app_homomorphism.
       rewrite <- app_fmap_unit.
       reflexivity.
-    rewrite <- H9.
+    rewrite <- H5.
     rewrite <- fun_composition.
     rewrite <- compatible_3.
     reflexivity.
-  admit. (* why isn't "fmap (fmap mu) = fmap mu" here? *)
+  rewrite fmap_compose.
+  Set Printing All.
 Abort.
