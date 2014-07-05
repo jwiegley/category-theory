@@ -39,16 +39,14 @@ Definition compose_mu (M : Type -> Type) (N : Type -> Type)
 Global Instance Monad_Compose (M : Type -> Type) (N : Type -> Type)
   `{Monad M} `{Monad N}
   (swap : forall  {A : Type}, N (M A) -> M (N A))
-  (prod : forall  {A : Type}, N (M (N A)) -> M (N A))
-  (dorp : forall  {A : Type}, M (N (M A)) -> M (N A))
   (swap_law_1 : forall {A B : Type} (f : (A -> B)),
-     swap ∘ fmap (fmap f) = fmap (fmap f) ∘ swap)
+     swap ∘ fmap mu = mu ∘ fmap (@swap A) ∘ swap)
   (swap_law_2 : forall {A : Type},
      swap ∘ eta = fmap (@eta N _ A))
   (swap_law_3 : forall {A : Type},
      swap ∘ fmap (@eta M _ A) = eta)
   (swap_law_4 : forall {A : Type},
-     prod ∘ fmap (@dorp A) = dorp ∘ prod)
+     swap ∘ mu = fmap mu ∘ swap ∘ fmap (@swap A))
   : Monad (fun X => M (N X)) :=
 { is_applicative := Applicative_Compose M N
 ; mu := fun _ => compose_mu M N swap
