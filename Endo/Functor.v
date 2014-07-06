@@ -48,6 +48,22 @@ Qed.
 
 Hint Resolve fun_composition_x.
 
+(* Functions are trivial functors. *)
+
+Global Instance Hom_Functor {A} : Functor (fun X => A -> X) :=
+{ fmap := fun X Y f g => f ∘ g
+}.
+Proof.
+  - (* fun_identity *)
+    intros. ext_eq. rewrite comp_id_left; reflexivity.
+  - (* fun_composition *)
+    intros. ext_eq. compute. reflexivity.
+Defined.
+
+Theorem uncompose_fmap : forall {A B C} (x : A) (g : A -> B) (f : B -> C),
+  fmap f g = f ∘ g.
+Proof. reflexivity. Qed.
+
 Global Instance Functor_Isomorphism
   {F : Type -> Type} `{Functor F} {A B} `(A ≅ B) : F A ≅ F B :=
 { to   := fmap to
