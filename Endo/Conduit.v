@@ -109,25 +109,13 @@ Proof.
     unfold compose at 4.
     unfold compose at 4.
     simpl.
-    unfold getSource, compose.
-    assert ((fun x : Source M R (Source M R X) =>
-         match x with
-         | Source_ k => k
-         end) = getSource).
-      reflexivity. rewrite H0. clear H0.
-    assert ((fun x : Source M R X =>
-         match x with
-         | Source_ k => k
-         end) = getSource).
-      reflexivity. rewrite H0. clear H0.
-    destruct c. simpl. f_equal.
-    unfold compose, flip.
-    ext_eq. f_equal.
-    ext_eq.
-    destruct x0. simpl. ext_eq. destruct c. simpl.
-    assert ((fun x' : Source M R X => x x') = x).
-      reflexivity. rewrite H0. clear H0.
-    unfold compose, flip.
+    pose proof (@fun_composition _ (@Cont_Functor (R -> EitherT R M R))).
+    simpl in H0.
+    repeat (rewrite <- H0).
+    pose proof (@monad_law_4 _ (@Cont_Monad (R -> EitherT R M R))).
+    simpl in H1.
+    rewrite comp_assoc.
+    rewrite H0.
     admit.
 
   - (* monad_law_2 *)
