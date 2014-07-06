@@ -27,14 +27,6 @@ Ltac ext_eq := (apply ext_eq || apply ext_eqS); intro.
 
 Definition id {X} (a : X) : X := a.
 
-Theorem id_x : forall {A} (f : A -> A) (x : A),
-  f = id -> f x = x.
-Proof.
-  intros.
-  rewrite H.
-  reflexivity.
-Qed.
-
 (* Function composition. *)
 
 Definition compose {A B C}
@@ -57,14 +49,6 @@ Proof. reflexivity. Qed.
 Theorem uncompose : forall {A B C} (f : B -> C) (g : A -> B) (x : A) (y : C),
   (f ∘ g) x = f (g x).
 Proof. reflexivity. Qed.
-
-Theorem compose_x : forall {A B C} (f : B -> C) (g : A -> B) (x : A) (y : C),
-  (f ∘ g) x = y -> f (g x) = y.
-Proof.
-  intros.
-  unfold compose in H.
-  assumption.
-Qed.
 
 (* Some utility functions. *)
 

@@ -12,8 +12,6 @@ Class Isomorphism X Y :=
   Arguments iso_to   {X} {Y} {Isomorphism}.
   Arguments iso_from {X} {Y} {Isomorphism}.
 
-Hint Resolve id_x.
-Hint Resolve compose_x.
 Hint Resolve iso_to.
 Hint Resolve iso_from.
 
