@@ -150,15 +150,6 @@ beautify: $(VFILES:=.beautified)
 
 .PHONY: all opt byte archclean clean install userinstall depend html validate ./.
 
-###################
-#                 #
-# Subdirectories. #
-#                 #
-###################
-
-./.:
-	cd ./. ; $(MAKE) all
-
 ####################
 #                  #
 # Special targets. #
