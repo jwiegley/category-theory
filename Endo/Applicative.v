@@ -53,13 +53,6 @@ Proof.
   reflexivity.
 Qed.
 
-Hint Resolve app_identity.
-Hint Resolve app_composition.
-Hint Resolve app_homomorphism.
-Hint Resolve app_interchange.
-Hint Resolve app_fmap_unit.
-Hint Resolve app_fmap_compose.
-
 Notation "f <*> g" := (apply f g) (at level 68, left associativity).
 
 Theorem app_identity_x

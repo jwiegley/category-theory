@@ -3,8 +3,6 @@ Require Setoid.
 
 Close Scope nat_scope.
 
-Ltac inv H := inversion H; subst; clear H.
-
 (* Pose the axiom of extensionality.  This is not needed when we work with
    general categories, where we can make use of setoid equivalences to achieve
    the same thing. *)
