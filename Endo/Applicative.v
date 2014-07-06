@@ -82,10 +82,14 @@ Qed.
 
 Hint Resolve app_homomorphism_2.
 
+(* This theorem was given as an exercise by Brent Yorgey at:
+
+   http://www.haskell.org/haskellwiki/Typeclassopedia#Applicative
+*)
 Theorem app_flip
   : forall {F : Type -> Type} {app_dict : Applicative F}
       {X Y} (x : F X) (f : X -> Y),
-  eta f <*> x = eta flip <*> x <*> eta f.
+  eta f <*> x = eta (flip call) <*> x <*> eta f.
 Proof.
   intros.
   rewrite app_interchange.

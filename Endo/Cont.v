@@ -5,7 +5,7 @@ Inductive Cont (R A : Type) : Type :=
 
 Definition Cont_map {R X Y} (f : X -> Y) (x : Cont R X) : Cont R Y :=
   match x with
-    Cont_ k => Cont_ R Y (fun h => k (h ∘ f))
+    Cont_ k => Cont_ R Y (k ∘ (flip compose f))
   end.
 
 Global Instance Cont_Functor {R} : Functor (Cont R) :=

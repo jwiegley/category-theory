@@ -50,4 +50,6 @@ Proof. reflexivity. Qed.
 
 (* Some utility functions. *)
 
-Definition flip {X Y} (x : X) (f : X -> Y) : Y := f x.
+Definition flip {X Y Z} (f : X -> Y -> Z) (y : Y) (x : X) : Z := f x y.
+
+Definition call {X Y} (f : X -> Y) (x : X) : Y := f x.
