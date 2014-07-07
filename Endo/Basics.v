@@ -53,3 +53,7 @@ Proof. reflexivity. Qed.
 Definition flip {X Y Z} (f : X -> Y -> Z) (y : Y) (x : X) : Z := f x y.
 
 Definition call {X Y} (f : X -> Y) (x : X) : Y := f x.
+
+Theorem flip_call : forall {X Y} (f : X -> Y) (x : X),
+  f x = flip call x f.
+Proof. reflexivity. Qed.

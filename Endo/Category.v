@@ -24,8 +24,8 @@ Generalizable All Variables.
    -{ C }-> specifically types a morphism as being in category C.
 *)
 Reserved Notation "a → b" (at level 90, right associativity).
-Reserved Notation "f ≈ g" (at level 54).
-Reserved Notation "f ∘ g" (at level 45).
+Reserved Notation "f ≈ g" (at level 75).
+Reserved Notation "f ∘ g" (at level 69, right associativity).
 
 (* A Category is defined by objects and morphisms between objects, plus the
    following structure:
@@ -61,7 +61,7 @@ Coercion ob : Category >-> Sortclass.
 
 Notation "a → b" := (hom a b) : category_scope.
 Notation "f ≈ g" := (eqv f g) : category_scope.
-Notation "f ∘ g" := (compose f g) : category_scope.
+Notation "f ∘ g" := (compose f g).
 Notation "a -{ C }-> b" := (@hom _ _ C a b) (at level 100) : category_scope.
 
 Open Scope category_scope.
@@ -148,7 +148,7 @@ Record category := mkCat
 
 Class Functor `(C : Category objC homC, D : Category objD homD)
   (Fobj : C -> D) :=
-{ functor_fobj := Fobj
+{ fobj := Fobj
 ; fmap : forall {X Y : objC}, (X → Y) -> Fobj X → Fobj Y
 
 ; fmap_respects : forall X Y (f f' : X → Y), f ≈ f' -> fmap f ≈ fmap f'
@@ -175,7 +175,27 @@ Class Functor `(C : Category objC homC, D : Category objD homD)
     intros; apply fmap_respects; auto.
   Defined.
 
-Coercion functor_fobj : Functor >-> Funclass.
+Coercion fobj : Functor >-> Funclass.
+
+(* Fun is the category of Functors from C -> D. *)
+
+(*
+Global Instance Fun `{C : Category objC homC, D : Category objD homD}
+  : Category { Fobj : C -> D & Functor C D Fobj }
+             (fun F G => (projT2 F) ~~~> (projT2 G)) :=
+{ id      := fun _ x => x
+; compose := fun _ _ _ f g x => f (g x)
+; eqv     := fun X Y f g => forall {x : X}, f x = g x
+}.
+Proof.
+  (* The proofs of all of these follow trivially from their definitions. *)
+  - (* eqv_equivalence *)  crush.
+  - (* compose_respects *) crush.
+  - (* right_identity *)   crush.
+  - (* left_identity *)    crush.
+  - (* comp_assoc *)       crush.
+Defined.
+*)
 
 Inductive Maybe (X : Type) :=
   | Nothing : Maybe X

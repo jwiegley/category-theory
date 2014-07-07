@@ -1,6 +1,7 @@
 Require Export Cont.
 Require Export EitherT.
 Require Export MCompose.
+Require Category.
 
 Inductive Source (M : Type -> Type) (R : Type) (A : Type) : Type :=
   Source_ : Cont (R -> EitherT R M R) A -> Source M R A.
@@ -86,13 +87,44 @@ Defined.
 
 Definition getSource {M : Type -> Type} {R X} (x : Source M R X)
   : Cont (R -> EitherT R M R) X :=
-  match x with
-    Source_ k => k
-  end.
+  match x with Source_ k => k end.
 
 Definition Source_join {M : Type -> Type} `{Monad M}
   {R X} : Source M R (Source M R X) -> Source M R X :=
   Source_ M R X ∘ mu ∘ fmap getSource ∘ getSource.
+
+Definition Cont_Source_prod {M : Type -> Type} `{Monad M} {R A}
+  (x : Source M R (Cont (R -> EitherT R M R) (Source M R A)))
+  : Cont (R -> EitherT R M R) (Source M R A) :=
+  match x with
+  | Source_ x' => match x' with
+    | Cont_ src => Cont_ (R -> EitherT R M R) (Source M R A)
+      (fun yield => src (fun y => match y with
+         Cont_ y' => y' yield end))
+    end
+  end.
+
+Global Instance Cont_Source_Distr {M : Type -> Type} `{Monad M} {R}
+  : Monad_Distributes (Cont (R -> EitherT R M R)) (Source M R) :=
+{ prod := fun _ => Cont_Source_prod
+}.
+Proof.
+  - (* prod_law_1 *) intros. admit.
+  - (* prod_law_2 *) intros. admit.
+  - (* prod_law_3 *) intros. admit.
+  - (* prod_law_4 *) intros. admit.
+Defined.
+
+Definition Cont_Source_Monad {M : Type -> Type} `{Monad M} {R} (A : Type) :=
+  Cont (R -> EitherT R M R) (Source M R A).
+
+Definition Cont_Source_Compose {M : Type -> Type} `{Monad M} {R : Type} :=
+  @Monad_Compose (Cont (R -> EitherT R M R)) (Source M R) _ _ _ _
+    (@Cont_Source_Distr M _ R).
+
+Ltac uncompose k :=
+    rewrite <- uncompose with (f := k);
+    repeat (rewrite <- comp_assoc).
 
 Global Instance Source_Monad {M : Type -> Type} `{Monad M} {R}
   : Monad (Source M R) :=
@@ -102,21 +134,11 @@ Global Instance Source_Monad {M : Type -> Type} `{Monad M} {R}
 Proof.
   - (* monad_law_1 *)
     intros. ext_eq. simpl.
-    unfold compose, Source_join.
-    destruct x. simpl.
-    unfold compose at 10.
-    repeat f_equal.
-    unfold compose at 4.
-    unfold compose at 4.
-    simpl.
-    pose proof (@fun_composition _ (@Cont_Functor (R -> EitherT R M R))).
-    simpl in H0.
-    repeat (rewrite <- H0).
-    pose proof (@monad_law_4 _ (@Cont_Monad (R -> EitherT R M R))).
-    simpl in H1.
-    rewrite comp_assoc.
-    rewrite H0.
-    admit.
+    unfold compose. f_equal.
+    unfold Source_join, Source_map.
+    destruct x. destruct c. simpl.
+    unfold compose. f_equal.
+    unfold flip.
 
   - (* monad_law_2 *)
     intros. ext_eq. simpl.
@@ -155,3 +177,37 @@ Proof.
     destruct c. simpl.
     reflexivity.
 Abort.
+
+Require Export Category.
+
+(* Src is the category of simple-conduit Sources:
+
+   Objects are sources
+   Morphisms are the source homomorphisms (aka conduits)
+
+   Identity is just simple identity
+   Composition is just simple composition, since monadic folds
+     are simply functions modulo type wrapping.
+
+   Thus, the proof are extremely trivial and follow immediately from the
+   definitions.
+
+   Another way to say it is that since, by naturality, the image of a functor
+   is always a sub-category in its codomain, and since Sources are functors,
+   they must also then be categories.
+*)
+Global Instance Src {M : Type -> Type} `{Monad M} {R}
+  : Category (sigT (Source M R))
+             (fun dom ran => projT1 dom → projT1 ran) :=
+{ id      := fun _ x => id x
+; compose := fun _ _ _ f g x => f (g x)
+; eqv     := fun X Y f g => f ≈ g
+}.
+Proof.
+  (* The proofs of all of these follow trivially from their definitions. *)
+  - (* eqv_equivalence *)  crush.
+  - (* compose_respects *) crush.
+  - (* right_identity *)   crush.
+  - (* left_identity *)    crush.
+  - (* comp_assoc *)       crush.
+Defined.

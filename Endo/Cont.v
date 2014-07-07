@@ -3,6 +3,9 @@ Require Export Monad.
 Inductive Cont (R A : Type) : Type :=
   Cont_ : ((A -> R) -> R) -> Cont R A.
 
+Definition runCont {R A} (x : Cont R A) : (A -> R) -> R :=
+  match x with Cont_ k => k end.
+
 Definition Cont_map {R X Y} (f : X -> Y) (x : Cont R X) : Cont R Y :=
   match x with
     Cont_ k => Cont_ R Y (k ∘ (flip compose f))

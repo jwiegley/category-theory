@@ -1,6 +1,20 @@
 Require Export Monad.
 Require Export ACompose.
 
+Class Monad_Distributes (M : Type -> Type) (N : Type -> Type)
+  `{Monad M} `{Applicative N} :=
+{ prod : forall {A : Type}, N (M (N A)) -> M (N A)
+; prod_law_1 : forall {A B : Type} (f : A -> B),
+    prod ∘ fmap[N] (@fmap (fun X => M (N X)) _ _ _ f) =
+    (@fmap (fun X => M (N X)) _ _ _ f) ∘ prod
+; prod_law_2 : forall {A : Type}, (@prod A) ∘ eta/N = id
+; prod_law_3 : forall {A : Type},
+    prod ∘ fmap[N] (@eta (fun X => M (N X)) _ A) = eta/M
+; prod_law_4 : forall {A : Type},
+    prod ∘ fmap[N] (mu/M ∘ fmap[M] prod) =
+    mu/M ∘ fmap[M] prod ∘ (@prod (M (N A)))
+}.
+
 (* These proofs are due to Mark P. Jones and Luc Duponcheel in their article
    "Composing monads", Research Report YALEU/DCS/RR-1004, December 1993.
 
@@ -9,26 +23,16 @@ Require Export ACompose.
    N is closed under composition.
 *)
 Global Instance Monad_Compose (M : Type -> Type) (N : Type -> Type)
-  `{Monad M} `{Applicative N}
-  (prod : forall  {A : Type}, N (M (N A)) -> M (N A))
-  (prod_law_1 : forall {A B : Type} (f : A -> B),
-    (@prod B) ∘ fmap[N] (@fmap (fun X => M (N X)) _ _ _ f) =
-    (@fmap (fun X => M (N X)) _ _ _ f) ∘ (@prod A))
-  (prod_law_2 : forall {A : Type}, (@prod A) ∘ eta/N = id)
-  (prod_law_3 : forall {A : Type},
-    (@prod A) ∘ fmap[N] (@eta (fun X => M (N X)) _ _) = eta/M)
-  (prod_law_4 : forall {A : Type},
-    (@prod A) ∘ fmap[N] (mu/M ∘ fmap[M] (@prod A)) =
-    mu/M ∘ fmap[M] (@prod A) ∘ (@prod (M (N A))))
+  `{Monad M} `{Applicative N} `{Monad_Distributes M N}
   : Monad (fun X => M (N X)) :=
 { is_applicative := Applicative_Compose M N
-; mu := fun A => mu/M ∘ fmap[M] (prod A)
+; mu := fun A => mu/M ∘ fmap[M] (@prod M N _ _ _ A)
 }.
 Proof.
   - (* monad_law_1 *) intros.
     rewrite <- comp_assoc with (f := mu/M).
     rewrite <- comp_assoc with (f := mu/M).
-    rewrite comp_assoc with (f := fmap[M] prod X).
+    rewrite comp_assoc with (f := fmap[M] (@prod M N _ _ _ X)).
     rewrite <- monad_law_4.
     rewrite <- comp_assoc.
     rewrite comp_assoc with (f := mu/M).
@@ -70,10 +74,11 @@ Proof.
     repeat (rewrite <- comp_assoc).
     rewrite fun_composition.
     rewrite fun_composition.
-    simpl in prod_law_1.
-    unfold compose_fmap in prod_law_1.
-    unfold compose in prod_law_1 at 2.
-    unfold compose in prod_law_1 at 3.
-    rewrite <- prod_law_1.
+    pose proof (@prod_law_1 M N _ _ _ X).
+    simpl in H4.
+    unfold compose_fmap in H4.
+    unfold compose in H4 at 2.
+    unfold compose in H4 at 3.
+    rewrite <- H4.
     reflexivity.
 Defined.
