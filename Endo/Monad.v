@@ -71,3 +71,16 @@ Proof.
   rewrite monad_law_4.
   reflexivity.
 Qed.
+
+Theorem monad_assoc : forall `{M : Type -> Type} `{Monad M}
+  {A B C} (m : M A) (f : A -> M B) (g : B -> M C),
+  m >>= f >>= g = m >>= (fun x => f x >>= g).
+Proof.
+  intros.
+  unfold bind.
+  rewrite <- monad_law_4_x.
+  rewrite fun_composition_x.
+  rewrite <- monad_law_1_x.
+  rewrite fun_composition_x.
+  f_equal.
+Qed.

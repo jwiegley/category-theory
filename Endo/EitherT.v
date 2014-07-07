@@ -1,5 +1,6 @@
 Require Export Either.
 Require Export MCompose.
+Require Export Trans.
 
 Inductive EitherT (X : Type) (M : Type -> Type) (Y : Type) : Type :=
   EitherT_ : M (Either X Y) -> EitherT X M Y.
@@ -33,7 +34,7 @@ Proof.
 Defined.
 
 Definition EitherT_eta {E M} `{Applicative M} {X}
-  (x : X) : EitherT E M X := EitherT_ E M X (eta (eta x)).
+  : X -> EitherT E M X := EitherT_ E M X ∘ eta ∘ eta.
 
 Definition EitherT_apply {E M} `{Applicative M} {X Y}
   (f : EitherT E M (X -> Y)) (x : EitherT E M X) : EitherT E M Y :=
@@ -43,8 +44,8 @@ Definition EitherT_apply {E M} `{Applicative M} {X Y}
     end
   end.
 
-Global Instance EitherT_Applicative {E M}
-  `{Applicative M} : Applicative (EitherT E M) :=
+Global Instance EitherT_Applicative {E M} `{Applicative M}
+  : Applicative (EitherT E M) :=
 { is_functor := EitherT_Functor
 ; eta   := fun _ => EitherT_eta
 ; apply := fun _ _ => EitherT_apply
@@ -53,30 +54,38 @@ Proof.
   - (* app_identity *) intros. ext_eq.
     unfold EitherT_apply, EitherT_eta.
     destruct x.
-    unfold id at 2.
+    unfold id, compose.
     f_equal.
     apply (@app_identity_x (fun X => fobj (fobj X))
           (Applicative_Compose M (Either E))).
 
   - (* app_composition *) intros.
     unfold EitherT_apply, EitherT_eta.
-    destruct u. destruct v. destruct w. f_equal.
+    destruct u. destruct v. destruct w.
+    unfold compose.
+    f_equal.
     apply (@app_composition (fun X => fobj (fobj X))
           (Applicative_Compose M (Either E))).
 
   - (* app_homomorphism *) intros.
     unfold EitherT_apply, EitherT_eta. f_equal.
+    unfold compose.
+    f_equal.
     apply (@app_homomorphism (fun X => fobj (fobj X))
           (Applicative_Compose M (Either E))).
 
   - (* app_interchange *) intros.
     unfold EitherT_apply, EitherT_eta.
-    destruct u. f_equal.
+    destruct u.
+    unfold compose.
+    f_equal.
     apply (@app_interchange (fun X => fobj (fobj X))
           (Applicative_Compose M (Either E))).
 
   - (* app_fmap_unit *) intros.
     unfold EitherT_apply, EitherT_eta.
+    unfold compose.
+    f_equal.
     rewrite_app_homomorphisms.
     reflexivity.
 Defined.
@@ -144,7 +153,7 @@ Proof.
   - (* monad_law_3 *) intros. ext_eq. simpl.
     unfold compose, EitherT_join, EitherT_eta.
     simpl. destruct x.
-    unfold id. f_equal.
+    unfold compose, id. f_equal.
     rewrite fmap_unit_eq.
     rewrite <- uncompose with (f := mu).
       rewrite monad_law_3. reflexivity.
@@ -161,4 +170,22 @@ Proof.
     destruct x; simpl.
       unfold Either_map. simpl. rewrite fmap_unit_eq. reflexivity.
       destruct e. reflexivity.
+Defined.
+
+Global Instance Source_MonadTrans {E} {M : Type -> Type} `{Monad M}
+  : MonadTrans (EitherT E) :=
+{ lift := fun A => EitherT_ E M A ∘ fmap eta
+}.
+Proof.
+  - (* trans_law_1 *) intros. ext_eq.
+    repeat (rewrite <- comp_assoc).
+    rewrite <- app_fmap_compose.
+    reflexivity.
+  - (* trans_law_2 *) intros.
+    unfold bind, compose. simpl.
+    repeat (rewrite fun_composition_x).
+    unfold compose. simpl. f_equal.
+    rewrite <- monad_law_4_x. f_equal.
+    rewrite fun_composition_x.
+    reflexivity.
 Defined.

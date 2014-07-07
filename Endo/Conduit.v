@@ -1,5 +1,6 @@
 Require Export Cont.
 Require Export EitherT.
+Require Export Trans.
 Require Category.
 
 (* A type-wrapper is not strictly necessary here, since the Functor,
@@ -151,6 +152,100 @@ Proof.
     ext_eq.
     destruct x0.
     destruct c. simpl.
+    reflexivity.
+Defined.
+
+Definition source {M : Type -> Type} `{Monad M} {R A}
+   (await : R -> (R -> A -> EitherT R M R) -> EitherT R M R)
+  : Source M R A :=
+  Source_ M R A (Cont_ (R -> EitherT R M R) A (flip await ∘ flip)).
+
+Theorem fmap_join_distr : forall {M : Type -> Type} `{Monad M} {R A B C}
+   (m : EitherT R M A) (g : A -> EitherT R M B) (f : B -> EitherT R M C),
+   fmap (mu ∘ fmap f ∘ g) m = fmap f (mu (fmap g m)).
+Proof.
+  intros. simpl.
+  pose (@monad_law_4_x (EitherT R M) EitherT_Monad).
+  simpl in e. rewrite <- e. clear e.
+  pose (@fun_composition_x (EitherT R M) EitherT_Functor).
+  simpl in e. rewrite e. rewrite <- e. clear e.
+  remember (EitherT_map (EitherT_map f ∘ g) m) as x.
+  destruct x. simpl. f_equal.
+  assert (fmap[M] (fun y : Either R (EitherT R M (EitherT R M C)) =>
+        match y with
+        | Left e0 => (eta/M) (Left R (EitherT R M C) e0)
+        | Right (EitherT_ mx') => mx'
+        end) = (eta/M) ∘ (fmap[M] Either_map EitherT_join)).
+    unfold Either_map.
+    admit.
+    rewrite H0. clear H0.
+  unfold compose.
+  rewrite monad_law_3_x.
+  reflexivity.
+Qed.
+
+Theorem source_distributes
+  : forall {M : Type -> Type} `{Monad M} {R A}
+    (m : EitherT R M A) (f : A -> EitherT R M A),
+  source (fun (r : R) (yield : R -> A -> EitherT R M R) =>
+            m >>= yield r) >>=
+    (fun x : A =>
+       source (fun (r : R) (yield : R -> A -> EitherT R M R) =>
+                 f x >>= yield r)) =
+  source (fun (r : R) (yield : R -> A -> EitherT R M R) =>
+            m >>= f >>= yield r).
+Proof.
+  intros.
+  unfold bind, flip.
+  pose monad_law_4_x.
+  simpl mu. simpl fmap.
+  unfold source, flip, compose.
+  unfold Source_join, compose. f_equal.
+  simpl mu. simpl.
+  f_equal. ext_eq. ext_eq.
+  unfold compose, flip.
+  f_equal. simpl.
+  assert (EitherT_map
+            (fun x1 : A => EitherT_join
+               (EitherT_map (fun x2 : A => x x2 x0) (f x1))) m =
+          EitherT_map
+            (EitherT_join ∘ EitherT_map (fun x2 : A => x x2 x0) ∘ f) m).
+    reflexivity. rewrite H0. clear H0.
+  pose (@fmap_join_distr (EitherT R M) EitherT_Monad).
+  simpl fmap in e0.
+  simpl mu in e0.
+  apply e0.
+Qed.
+
+Global Instance Source_MonadTrans {M : Type -> Type} `{Monad M} {R}
+  : @MonadTrans (fun N => Source N R) M _ Source_Monad :=
+{ lift := fun _ m => source (fun r yield => lift m >>= yield r)
+}.
+Proof.
+  - (* trans_law_1 *) intros.
+    unfold source. simpl eta.
+    ext_eq. unfold compose at 1.
+    f_equal. f_equal.
+    unfold flip. unfold compose at 1.
+    unfold bind.
+    rewrite trans_law_1_x.
+    pose proof app_fmap_compose_x.
+    specialize (H0 (EitherT R M) is_applicative A (EitherT R M R)).
+    simpl mu.
+    simpl eta.
+    simpl eta in H0.
+    ext_eq. ext_eq.
+    rewrite <- H0.
+    pose proof monad_law_3_x.
+    specialize (H1 (EitherT R M) EitherT_Monad R (x0 x x1)).
+    simpl mu in H1.
+    simpl eta in H1.
+    assumption.
+
+  - (* trans_law_2 *) intros.
+    pose (@trans_law_2 (EitherT R) M _ _ _ A).
+    unfold compose. rewrite e.
+    rewrite source_distributes.
     reflexivity.
 Defined.
 
