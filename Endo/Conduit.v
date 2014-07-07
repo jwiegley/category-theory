@@ -160,29 +160,24 @@ Definition source {M : Type -> Type} `{Monad M} {R A}
   : Source M R A :=
   Source_ M R A (Cont_ (R -> EitherT R M R) A (flip await ∘ flip)).
 
-Theorem fmap_join_distr : forall {M : Type -> Type} `{Monad M} {R A B C}
-   (m : EitherT R M A) (g : A -> EitherT R M B) (f : B -> EitherT R M C),
+Theorem join_inj : forall {M : Type -> Type} `{Monad M} {R A}
+  {x y : EitherT R M (EitherT R M A)},
+  mu x = mu y -> x = y.
+Proof.
+  intros. destruct x. destruct y.
+  f_equal. inversion H. simpl in H0.
+
+Theorem fmap_join_distr : forall {M : Type -> Type} `{Monad M} {A B C}
+   (m : M A) (g : A -> M B) (f : B -> M C),
    fmap (mu ∘ fmap f ∘ g) m = fmap f (mu (fmap g m)).
 Proof.
   intros. simpl.
-  pose (@monad_law_4_x (EitherT R M) EitherT_Monad).
-  simpl in e. rewrite <- e. clear e.
-  pose (@fun_composition_x (EitherT R M) EitherT_Functor).
-  simpl in e. rewrite e. rewrite <- e. clear e.
-  remember (EitherT_map (EitherT_map f ∘ g) m) as x.
-  destruct x. simpl. f_equal.
-  assert (fmap[M] (fun y : Either R (EitherT R M (EitherT R M C)) =>
-        match y with
-        | Left e0 => (eta/M) (Left R (EitherT R M C) e0)
-        | Right (EitherT_ mx') => mx'
-        end) = (eta/M) ∘ (fmap[M] Either_map EitherT_join)).
-    unfold Either_map.
-    admit.
-    rewrite H0. clear H0.
-  unfold compose.
-  rewrite monad_law_3_x.
-  reflexivity.
-Qed.
+  rewrite <- monad_law_4_x.
+  rewrite fun_composition_x.
+  rewrite <- fun_composition.
+  unfold compose at 1.
+  remember ((fmap[M] (fmap[M] f ∘ g)) m) as x.
+Admitted.
 
 Theorem source_distributes
   : forall {M : Type -> Type} `{Monad M} {R A}
