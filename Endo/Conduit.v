@@ -2,6 +2,11 @@ Require Export Cont.
 Require Export EitherT.
 Require Category.
 
+(* A type-wrapper is not strictly necessary here, since the Functor,
+   Applicative and Monad behaviors are all directly based on Cont.  In Haskell
+   it is needed, so we match that behavior here, to prove that nothing is
+   violated owing to the wrapping.
+*)
 Inductive Source (M : Type -> Type) (R : Type) (A : Type) : Type :=
   Source_ : Cont (R -> EitherT R M R) A -> Source M R A.
 
