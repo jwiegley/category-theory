@@ -1,6 +1,5 @@
 Require Export Cont.
 Require Export EitherT.
-Require Export MCompose.
 Require Category.
 
 Inductive Source (M : Type -> Type) (R : Type) (A : Type) : Type :=
@@ -93,39 +92,6 @@ Definition Source_join {M : Type -> Type} `{Monad M}
   {R X} : Source M R (Source M R X) -> Source M R X :=
   Source_ M R X ∘ mu ∘ fmap getSource ∘ getSource.
 
-Definition Cont_Source_prod {M : Type -> Type} `{Monad M} {R A}
-  (x : Source M R (Cont (R -> EitherT R M R) (Source M R A)))
-  : Cont (R -> EitherT R M R) (Source M R A) :=
-  match x with
-  | Source_ x' => match x' with
-    | Cont_ src => Cont_ (R -> EitherT R M R) (Source M R A)
-      (fun yield => src (fun y => match y with
-         Cont_ y' => y' yield end))
-    end
-  end.
-
-Global Instance Cont_Source_Distr {M : Type -> Type} `{Monad M} {R}
-  : Monad_Distributes (Cont (R -> EitherT R M R)) (Source M R) :=
-{ prod := fun _ => Cont_Source_prod
-}.
-Proof.
-  - (* prod_law_1 *) intros. admit.
-  - (* prod_law_2 *) intros. admit.
-  - (* prod_law_3 *) intros. admit.
-  - (* prod_law_4 *) intros. admit.
-Defined.
-
-Definition Cont_Source_Monad {M : Type -> Type} `{Monad M} {R} (A : Type) :=
-  Cont (R -> EitherT R M R) (Source M R A).
-
-Definition Cont_Source_Compose {M : Type -> Type} `{Monad M} {R : Type} :=
-  @Monad_Compose (Cont (R -> EitherT R M R)) (Source M R) _ _ _ _
-    (@Cont_Source_Distr M _ R).
-
-Ltac uncompose k :=
-    rewrite <- uncompose with (f := k);
-    repeat (rewrite <- comp_assoc).
-
 Global Instance Source_Monad {M : Type -> Type} `{Monad M} {R}
   : Monad (Source M R) :=
 { is_applicative := Source_Applicative
@@ -134,11 +100,16 @@ Global Instance Source_Monad {M : Type -> Type} `{Monad M} {R}
 Proof.
   - (* monad_law_1 *)
     intros. ext_eq. simpl.
-    unfold compose. f_equal.
-    unfold Source_join, Source_map.
-    destruct x. destruct c. simpl.
-    unfold compose. f_equal.
-    unfold flip.
+    unfold Source_join, Source_map, id, compose.
+    destruct x.
+    destruct c. simpl.
+    unfold compose, flip.
+    repeat f_equal.
+    ext_eq. f_equal.
+    ext_eq. f_equal.
+    destruct x0.
+    destruct c.
+    reflexivity.
 
   - (* monad_law_2 *)
     intros. ext_eq. simpl.
@@ -176,7 +147,7 @@ Proof.
     destruct x0.
     destruct c. simpl.
     reflexivity.
-Abort.
+Defined.
 
 Require Export Category.
 

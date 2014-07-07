@@ -48,6 +48,10 @@ Theorem uncompose : forall {A B C} (f : B -> C) (g : A -> B) (x : A) (y : C),
   (f ∘ g) x = f (g x).
 Proof. reflexivity. Qed.
 
+Ltac uncompose k :=
+    rewrite <- uncompose with (f := k);
+    repeat (rewrite <- comp_assoc).
+
 (* Some utility functions. *)
 
 Definition flip {X Y Z} (f : X -> Y -> Z) (y : Y) (x : X) : Z := f x y.

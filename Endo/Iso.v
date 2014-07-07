@@ -30,3 +30,19 @@ Proof.
 Qed.
 
 Hint Resolve iso_from_x.
+
+Theorem exchange_from : forall {X Y} `{X ≅ Y} (x : X) (y : Y),
+  x ≡ y -> from y = x.
+Proof.
+  intros.
+  destruct H0.
+  assumption.
+Qed.
+
+Theorem exchange_to : forall {X Y} `{X ≅ Y} (x : X) (y : Y),
+  x ≡ y -> to x = y.
+Proof.
+  intros.
+  destruct H0.
+  assumption.
+Qed.
