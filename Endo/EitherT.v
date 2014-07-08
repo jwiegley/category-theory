@@ -1,6 +1,7 @@
 Require Export Either.
 Require Export MCompose.
 Require Export Trans.
+Require Export MMorph.
 
 Inductive EitherT (X : Type) (M : Type -> Type) (Y : Type) : Type :=
   EitherT_ : M (Either X Y) -> EitherT X M Y.
@@ -172,7 +173,7 @@ Proof.
       destruct e. reflexivity.
 Defined.
 
-Global Instance Source_MonadTrans {E} {M : Type -> Type} `{Monad M}
+Global Instance EitherT_MonadTrans {E} {M : Type -> Type} `{Monad M}
   : MonadTrans (EitherT E) :=
 { lift := fun A => EitherT_ E M A ∘ fmap eta
 }.
@@ -188,4 +189,47 @@ Proof.
     rewrite <- monad_law_4_x. f_equal.
     rewrite fun_composition_x.
     reflexivity.
+Defined.
+
+Global Instance EitherT_MFunctor {E}
+  : MFunctor (EitherT E) :=
+{ hoist := fun M N _ _ A nat m =>
+    match m with
+      EitherT_ m' => EitherT_ E N A (nat (Either E A) m')
+    end
+}.
+Proof.
+  - (* hoist_law_1 *) intros. ext_eq.
+    destruct x. subst.
+    reflexivity.
+  - (* hoist_law_2 *) intros. ext_eq.
+    destruct x.
+    unfold compose.
+    reflexivity.
+Defined.
+
+Global Instance EitherT_MMonad {E}
+  `{Monad (Either E)}
+  : MMonad (EitherT E) EitherT_MFunctor EitherT_MonadTrans :=
+{ embed := fun M N nd tnd A f m =>
+    EitherT_ E N A (match m with
+      EitherT_ m' => match f (Either E A) m' with
+        EitherT_ m'' =>
+          fmap (fun x => match x with
+            | Left e => Left E A e
+            | Right (Left e) => Left E A e
+            | Right (Right x) => Right E A x
+            end) m''
+      end
+    end)
+}.
+Proof.
+  - (* embed_law_1 *) intros. ext_eq.
+    destruct x.
+    unfold id.
+    f_equal.
+    inversion td.
+    admit.
+  - (* embed_law_2 *) intros. admit.
+  - (* embed_law_3 *) intros. admit.
 Defined.

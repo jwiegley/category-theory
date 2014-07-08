@@ -9,8 +9,8 @@ Class MFunctor (T : (Type -> Type) -> Type -> Type) :=
 { hoist : forall {M N : Type -> Type} `{Monad M} `{Monad (T M)} {A},
     (forall {X}, M X -> N X) -> T M A -> T N A
 
-; hoist_law_1 : forall {M N : Type -> Type} `{Monad M} `{Monad (T M)} {A}
-    (f : forall F G X, F X -> G X), M = N -> hoist (f M N) = f (T M) (T N) A
+; hoist_law_1 : forall {M : Type -> Type} `{Monad M} `{Monad (T M)} {A},
+    (@hoist M M _ _ A (fun X => id)) = id
 
 ; hoist_law_2 : forall {M N O : Type -> Type}
     `{Monad M} `{Monad (T M)} `{Monad N} `{Monad (T N)} {A : Type}
@@ -21,13 +21,13 @@ Class MFunctor (T : (Type -> Type) -> Type -> Type) :=
 Notation "hoist/ M N" := (@hoist M N _ _ _) (at level 68).
 
 Class MMonad (T : (Type -> Type) -> Type -> Type)
-  `{MFunctor T} `{MonadTrans T} :=
+  `(MFunctor T) `(MonadTrans T) :=
 { embed : forall {M N : Type -> Type} `{Monad N} `{Monad (T N)} {A},
     (forall {X}, M X -> T N X) -> T M A -> T N A
 
 ; embed_law_1 : forall {M : Type -> Type}
     `{md : Monad M} `{tmd : Monad (T M)}
-    `{td : @MonadTrans T M md tmd} {A : Type},
+    {td : @MonadTrans T M md tmd} {A : Type},
     @embed M M _ _ A (@lift T M md tmd td) = id
 
 ; embed_law_2 : forall {M N : Type -> Type}
