@@ -160,56 +160,35 @@ Definition source {M : Type -> Type} `{Monad M} {R A}
   : Source M R A :=
   Source_ M R A (Cont_ (R -> EitherT R M R) A (flip await ∘ flip)).
 
-Theorem join_inj : forall {M : Type -> Type} `{Monad M} {R A}
-  {x y : EitherT R M (EitherT R M A)},
-  mu x = mu y -> x = y.
-Proof.
-  intros. destruct x. destruct y.
-  f_equal. inversion H. simpl in H0.
-
-Theorem fmap_join_distr : forall {M : Type -> Type} `{Monad M} {A B C}
-   (m : M A) (g : A -> M B) (f : B -> M C),
-   fmap (mu ∘ fmap f ∘ g) m = fmap f (mu (fmap g m)).
-Proof.
-  intros. simpl.
-  rewrite <- monad_law_4_x.
-  rewrite fun_composition_x.
-  rewrite <- fun_composition.
-  unfold compose at 1.
-  remember ((fmap[M] (fmap[M] f ∘ g)) m) as x.
-Admitted.
-
 Theorem source_distributes
   : forall {M : Type -> Type} `{Monad M} {R A}
     (m : EitherT R M A) (f : A -> EitherT R M A),
   source (fun (r : R) (yield : R -> A -> EitherT R M R) =>
-            m >>= yield r) >>=
-    (fun x : A =>
-       source (fun (r : R) (yield : R -> A -> EitherT R M R) =>
-                 f x >>= yield r)) =
+            m >>= yield r)
+    >>= (fun x : A =>
+           source (fun (r : R) (yield : R -> A -> EitherT R M R) =>
+                     f x >>= yield r)) =
   source (fun (r : R) (yield : R -> A -> EitherT R M R) =>
-            m >>= f >>= yield r).
+           m >>= f >>= yield r).
 Proof.
   intros.
   unfold bind, flip.
-  pose monad_law_4_x.
-  simpl mu. simpl fmap.
+  simpl mu.
+  simpl fmap.
   unfold source, flip, compose.
-  unfold Source_join, compose. f_equal.
+  unfold Source_join, compose.
   simpl mu. simpl.
-  f_equal. ext_eq. ext_eq.
-  unfold compose, flip.
-  f_equal. simpl.
-  assert (EitherT_map
-            (fun x1 : A => EitherT_join
-               (EitherT_map (fun x2 : A => x x2 x0) (f x1))) m =
-          EitherT_map
-            (EitherT_join ∘ EitherT_map (fun x2 : A => x x2 x0) ∘ f) m).
-    reflexivity. rewrite H0. clear H0.
-  pose (@fmap_join_distr (EitherT R M) EitherT_Monad).
-  simpl fmap in e0.
-  simpl mu in e0.
-  apply e0.
+  unfold compose, flip. simpl.
+  f_equal. f_equal.
+  ext_eq. ext_eq.
+  pose (@monad_law_4_x (EitherT R M) EitherT_Monad).
+  simpl in e. rewrite <- e. clear e.
+  pose (@monad_law_1_x (EitherT R M) EitherT_Monad).
+  simpl in e. rewrite <- e. clear e.
+  f_equal.
+  pose (@fun_composition_x (EitherT R M) EitherT_Functor).
+  simpl in e. repeat (rewrite e). clear e.
+  f_equal.
 Qed.
 
 Global Instance Source_MonadTrans {M : Type -> Type} `{Monad M} {R}
