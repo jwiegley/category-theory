@@ -1,4 +1,5 @@
-Require Export Structures.
+Require Export Singletons.
+Require Export Separation.
 
 (* This file contains exercises from Paul Halmos book, Naive Set Theory, and
    from a few other places. *)
@@ -72,6 +73,61 @@ Proof.
   extension. union_e H0. union_2.
   compute. intros. rewrite <- H. union_1.
 Qed.
+
+Definition Inter (M : set) : set :=
+  Sep (Union M) (fun x : set => ∀ A : set, A ∈ M → x ∈ A).
+
+Lemma Inter_I : ∀ x M, inh_set M → (∀ A, A ∈ M → x ∈ A) → x ∈ Inter M.
+Proof.
+  intros. unfold Inter.
+  apply Sep_I. inv H. specialize (H0 x0).
+    apply Union_I with (Y := x0). auto. auto.
+    intros. auto.
+Qed.
+
+Hint Resolve Inter_I.
+
+Lemma Inter_E : ∀ x M, x ∈ Inter M → inh_set M ∧ ∀ A, A ∈ M → x ∈ A.
+Proof.
+  intros. unfold Inter in H.
+  apply Sep_E in H. inv H.
+  apply Union_E in H0. destruct H0. inv H.
+  split.
+    specialize (H1 x0). unfold inh_set. exists x0. auto.
+    auto.
+Qed.
+
+Hint Resolve Inter_E.
+
+Definition BinInter (A B : set) : set := Inter (UPair A B).
+
+Lemma BinInter_I : ∀ A B a: set, a ∈ A ∧ a ∈ B → a ∈ BinInter A B.
+Proof.
+  intros. unfold BinInter. inv H.
+  apply Inter_I.
+    unfold inh_set. exists A. pair_1.
+    intros. pair_e H.
+Qed.
+
+Hint Resolve BinInter_I.
+
+Lemma BinInter_E : ∀ A B x, x ∈ BinInter A B → x ∈ A ∧ x ∈ B.
+Proof.
+  intros. unfold BinInter in H.
+  apply Inter_E in H. inv H.
+  unfold inh_set in H0. destruct H0.
+  split.
+    apply H1. pair_1.
+    pair_e H.
+Qed.
+
+Hint Resolve BinInter_E.
+
+Notation "X ∩ Y" := (BinInter X Y) (at level 69).
+
+Ltac inter := apply BinInter_I ; split ; try auto.
+Ltac inter_e H :=
+  apply BinInter_E in H ; try (first [ inv H | destruct H ]) ; try auto.
 
 Theorem inter_zero : forall A, A ∩ ∅ = ∅.
 Proof.
