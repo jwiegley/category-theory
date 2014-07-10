@@ -7,21 +7,26 @@ Parameter In : set → set → Prop.
 Notation "x ∈ X" := (In x X) (at level 69).
 Notation "x ∉ X" := (not (In x X)) (at level 69).
 
-Definition Subq : set → set → Prop :=
-  fun X Y => ∀ (x : set), x ∈ X → x ∈ Y.
+Definition Subq (X Y : set) : Prop := ∀ x : set, x ∈ X → x ∈ Y.
 
 Notation "X ⊆ Y" := (Subq X Y) (at level 69).
 
 Lemma Subq_refl : ∀ (A : set), A ⊆ A.
 Proof. compute. auto. Qed.
 
+Hint Resolve Subq_refl.
+
 Lemma Subq_trans : ∀ (A B C : set), A ⊆ B → B ⊆ C → A ⊆ C.
 Proof. compute. auto. Qed.
+
+Hint Resolve Subq_trans.
 
 (* Axiom 1 (Extensionality). Two sets X and Y are equal if they contain the
    same elements. *)
 
 Axiom extensionality : ∀ X Y : set, X ⊆ Y → Y ⊆ X → X = Y.
+
+Hint Resolve extensionality.
 
 Lemma extensionality_E : ∀ X Y : set, X = Y -> X ⊆ Y ∧ Y ⊆ X.
 Proof.
@@ -82,6 +87,12 @@ Proof.
     apply UPair_E in H; inversion H; rewrite H0; auto.
 Qed.
 
+Hint Resolve pair_agnostic.
+
+Ltac pair_e H := apply UPair_E in H; inv H; try auto.
+Ltac pair_1 := apply UPair_I1; try auto.
+Ltac pair_2 := apply UPair_I2; try auto.
+
 (* Axiom 5 (Union). Given a collection of sets X, there ∃ a set whose
    elements are exactly those which are a member of at least one of the sets
    in the collection X.  We call this set the union over X and denote it by
@@ -92,18 +103,43 @@ Parameter Union : set → set.
 Axiom Union_I : ∀ X x Y : set, x ∈ Y → Y ∈ X → x ∈ (Union X).
 Axiom Union_E : ∀ X x : set, x ∈ (Union X) → ∃ Y : set, x ∈ Y ∧ Y ∈ X.
 
-Ltac union_e H := apply Union_E in H; destruct H; inv H.
+Hint Resolve Union_I.
+Hint Resolve Union_E.
 
 Definition BinUnion (A B : set) : set := Union (UPair A B).
 
 Lemma BinUnion_I1 : ∀ A B a: set, a ∈ A → a ∈ BinUnion A B.
-Admitted.
+Proof.
+  intros. compute.
+  apply Union_I with (Y := A). assumption.
+  pair_1.
+Qed.
+
+Hint Resolve BinUnion_I1.
+
 Lemma BinUnion_I2 : ∀ A B b: set, b ∈ B → b ∈ BinUnion A B.
-Admitted.
+Proof.
+  intros. compute.
+  apply Union_I with (Y := B). assumption.
+  pair_2.
+Qed.
+
+Hint Resolve BinUnion_I2.
+
 Lemma BinUnion_E : ∀ A B x, x ∈ BinUnion A B → x ∈ A ∨ x ∈ B.
-Admitted.
+Proof.
+  intros. compute in H.
+  apply Union_E in H. destruct H. inv H.
+  pair_e H1.
+Qed.
+
+Hint Resolve BinUnion_E.
 
 Notation "X ∪ Y" := (BinUnion X Y) (at level 69).
+
+Ltac union_e H := apply BinUnion_E in H; destruct H; try (inv H); try auto.
+Ltac union_1 := apply BinUnion_I1; try auto.
+Ltac union_2 := apply BinUnion_I2; try auto.
 
 (* Axiom 6 (Powerset). Given a set X, there ∃ a set which contains as its
    elements exactly those sets which are the subsets of X. We call this set the
@@ -113,6 +149,9 @@ Parameter Power : set → set.
 
 Axiom Power_I : ∀ X Y : set, Y ⊆ X → Y ∈ (Power X).
 Axiom Power_E : ∀ X Y : set, Y ∈ (Power X) → Y ⊆ X.
+
+Hint Resolve Power_I.
+Hint Resolve Power_E.
 
 (* Axiom 7 (Replacement). Given a unary set former F and a set X, there ∃
    a set which contains exactly those elements obtained by applying F to each
@@ -124,3 +163,6 @@ Axiom Repl_I : ∀ (X : set) (F : set → set) (x : set),
   x ∈ X → (F x) ∈ (Repl F X).
 Axiom Repl_E : ∀ (X : set) (F : set → set) (y : set),
   y ∈ (Repl F X) → ∃ x : set, x ∈ X ∧ y = F x.
+
+Hint Resolve Repl_I.
+Hint Resolve Repl_E.

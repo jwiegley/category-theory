@@ -29,6 +29,8 @@ Inductive inhabited (A : Type) : Prop := inhabits : A -> inhabited A.
 Axiom ε_statement : ∀ {A : Type} (P : A → Prop),
   inhabited A → { x : A | (exists x, P x) → P x }.
 
+Hint Resolve ε_statement.
+
 Definition ε {A : Type} (i : inhabited A) (P : A → Prop) : A :=
   proj1_sig (ε_statement P i).
 
