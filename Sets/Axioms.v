@@ -89,7 +89,7 @@ Qed.
 
 Hint Resolve pair_agnostic.
 
-Ltac pair_e H := apply UPair_E in H; inv H; try auto.
+Ltac pair_e H := apply UPair_E in H; try (inv H); try auto.
 Ltac pair_1 := apply UPair_I1; try auto.
 Ltac pair_2 := apply UPair_I2; try auto.
 

@@ -4,23 +4,70 @@ Definition ord_pair (x y : set) : set := UPair (Sing x) (UPair x y).
 
 Notation "⟨ a , b ⟩" := (ord_pair a b) (at level 69).
 
+Lemma Pair_Union : forall a b, Union(⟨a, b⟩) = {a, b}.
+Proof.
+  intros. unfold ord_pair.
+  extension. union_e H. sing_e H. rewrite H. pair_1.
+  apply Union_I with (Y := {a, b}). assumption. pair_2.
+Qed.
+
+Lemma Pair_Inter : forall a b, Inter(⟨a, b⟩) = Sing a.
+Proof.
+  intros. unfold ord_pair.
+  extension. inter_e H.
+  inter. sing_e H. rewrite H. pair_1.
+Qed.
+
 Definition π1 (p : set) : set := Union (Inter p).
 Definition π2 (p : set) : set :=
   Union (Sep (Union p) (fun x : set => x ∈ Inter p → Union p = Inter p)).
 
-(* Lemma 7. For all sets x and y, π1 ⟨x, y⟩ = x *)
+Lemma Pair_E1 : forall x y, π1(⟨x, y⟩) = x.
+Proof.
+  intros.
+  unfold π1, ord_pair.
+  extension.
+    apply Union_E in H. destruct H. inv H.
+      inter_e H1. sing_e H. rewrite <- H. auto.
+    apply Union_I with (Y := x).
+      assumption. inter.
+Qed.
 
-(* Lemma 8. For all sets x and y, π2 ⟨x, y⟩ = y *)
+Lemma Pair_E2 : forall x y, π2(⟨x, y⟩) = y.
+Proof.
+  intros.
+  unfold π2.
+  extension.
+  - apply Union_E in H. destruct H. inv H.
+    apply Sep_E in H1. inv H1.
+    apply Union_E in H. destruct H. inv H.
+    rewrite Pair_Union in *.
+    rewrite Pair_Inter in *.
+    unfold ord_pair in *.
+    pair_e H3.
+      apply US_ex in H2.
+        inv H2. sing_e H1. rewrite <- H1. auto.
+        auto.
+      admit.
+  - apply Union_I with (Y := y). auto.
+    apply Sep_I.
+      apply Union_I with (Y := {x, y}). auto.
+        auto. unfold ord_pair. auto.
+      intros.
+      rewrite Pair_Union.
+      rewrite Pair_Inter.
+      inter_e H0.
+      extension. pair_e H0. sing_e H0. rewrite H0. auto.
+Qed.
 
-(* Theorem 10 (Characteristic Property of Ordered Pairs).
-
-   For all sets a, b, c and d, ⟨a, b⟩ = ⟨c, d⟩ ↔ a = c ∧ b = d *)
+Lemma Pair_Char : forall a b c d, ⟨a, b⟩ = ⟨c, d⟩ ↔ a = c ∧ b = d.
 
 Definition is_pair (p : set) : Prop := ∃ x, ∃ y, p = ⟨x, y⟩.
 
 Lemma ord_pair_eta : ∀ p, is_pair p ↔ p = ⟨π1 p, π2 p⟩.
 Proof.
   intros. split; intros.
+  unfold π1, π2, ord_pair.
   extension.
     admit.
     apply UPair_E in H0. inv H0.
