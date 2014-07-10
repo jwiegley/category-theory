@@ -23,9 +23,10 @@ Proof.
   intros. split; intros.
   extension.
     admit.
-    unfold ord_pair in H0.
     apply UPair_E in H0. inv H0.
-      unfold π1.
+      unfold is_pair in H. unfold π1.
+      destruct H. destruct H.
+      rewrite H. unfold ord_pair, Inter.
 Admitted.
 
 Hint Resolve ord_pair_eta.
