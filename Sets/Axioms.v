@@ -108,30 +108,36 @@ Hint Resolve Union_E.
 
 Definition BinUnion (A B : set) : set := Union (UPair A B).
 
+Ltac obvious_PU :=
+  intros; repeat (match goal with
+  | [ |- ?X = ?Y ] => extension
+
+  | [ |- ?A ∈ ({?A, ?B}) ] => pair_1
+  | [ |- ?B ∈ ({?A, ?B}) ] => pair_2
+  | [ H : ?X ∈ ({?A, ?B}) |- _ ] => pair_e H
+
+  | [ H : ?X ∈ Union ?M |- _ ] =>
+    apply Union_E in H; destruct H; inv H
+
+  | [ H : ?X ∈ ?A |- ?X ∈ Union({?A, ?B}) ] =>
+    apply Union_I with (Y := A)
+  | [ H : ?X ∈ ?B |- ?X ∈ Union({?A, ?B}) ] =>
+    apply Union_I with (Y := B)
+
+  end; auto).
+
 Lemma BinUnion_I1 : ∀ A B a: set, a ∈ A → a ∈ BinUnion A B.
-Proof.
-  intros. compute.
-  apply Union_I with (Y := A). assumption.
-  pair_1.
-Qed.
+Proof. compute. obvious_PU. Qed.
 
 Hint Resolve BinUnion_I1.
 
 Lemma BinUnion_I2 : ∀ A B b: set, b ∈ B → b ∈ BinUnion A B.
-Proof.
-  intros. compute.
-  apply Union_I with (Y := B). assumption.
-  pair_2.
-Qed.
+Proof. compute. obvious_PU. Qed.
 
 Hint Resolve BinUnion_I2.
 
 Lemma BinUnion_E : ∀ A B x, x ∈ BinUnion A B → x ∈ A ∨ x ∈ B.
-Proof.
-  intros. compute in H.
-  apply Union_E in H. destruct H. inv H.
-  pair_e H1.
-Qed.
+Proof. compute. obvious_PU. Qed.
 
 Hint Resolve BinUnion_E.
 
@@ -166,3 +172,10 @@ Axiom Repl_E : ∀ (X : set) (F : set → set) (y : set),
 
 Hint Resolve Repl_I.
 Hint Resolve Repl_E.
+
+Ltac obvious_BUR :=
+  repeat (try obvious_PU; match goal with
+  | [ H : ?X ∈ (?A ∪ ?B) |- _ ] => union_e H
+  | [ |- ?A ∈ (?A ∪ ?B) ] => union_1
+  | [ |- ?B ∈ (?A ∪ ?B) ] => union_2
+  end; auto).

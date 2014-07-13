@@ -9,20 +9,14 @@ Proof.
   extension.
   - apply Union_E in H. destruct H. inv H.
     contradiction (Empty_E x0).
-  - apply Union_I with (Y := ∅).
-      assumption.
-      contradiction (Empty_E x).
+  - apply Union_I with (Y := ∅). auto.
+    contradiction (Empty_E x).
 Qed.
 
 Hint Resolve union_empty.
 
 Theorem union_sing : forall A, Union (Sing A) = A.
-Proof.
-  intros. symmetry. compute. extension.
-  apply Union_I with (Y := A). apply H. apply UPair_I1.
-  apply Union_E in H. destruct H. inv H.
-  apply UPair_E in H1. inv H1; assumption.
-Qed.
+Proof. intros. compute. extension; obvious_BUR. Qed.
 
 Hint Resolve union_sing.
 
@@ -52,25 +46,17 @@ Proof.
 Qed.
 
 Theorem union_comm : forall A B, A ∪ B = B ∪ A.
-Proof.
-  intros. extension; union_e H.
-Qed.
+Proof. obvious_BUR. Qed.
 
 Theorem union_assoc : forall A B C, A ∪ (B ∪ C) = (A ∪ B) ∪ C.
-Proof.
-  intros. extension; union_e H.
-  union_e H. union_e H.
-Qed.
+Proof. obvious_BUR. Qed.
 
 Theorem union_idem : forall A, A ∪ A = A.
-Proof.
-  intros. extension. union_e H. union_1.
-Qed.
+Proof. obvious_BUR. Qed.
 
 Theorem union_incl : forall A B, A ⊆ B ↔ A ∪ B = B.
 Proof.
-  intros. split; intros.
-  extension. union_e H0. union_2.
+  intros. split; intros. obvious_BUR.
   compute. intros. rewrite <- H. union_1.
 Qed.
 
@@ -81,8 +67,8 @@ Lemma Inter_I : ∀ x M, inh_set M → (∀ A, A ∈ M → x ∈ A) → x ∈ In
 Proof.
   intros. unfold Inter.
   apply Sep_I. inv H. specialize (H0 x0).
-    apply Union_I with (Y := x0). auto. auto.
-    intros. auto.
+    apply Union_I with (Y := x0); auto.
+    auto.
 Qed.
 
 Hint Resolve Inter_I.
@@ -93,8 +79,9 @@ Proof.
   apply Sep_E in H. inv H.
   apply Union_E in H0. destruct H0. inv H.
   split.
-    specialize (H1 x0). unfold inh_set. exists x0. auto.
-    auto.
+    specialize (H1 x0).
+    unfold inh_set. exists x0. auto.
+  auto.
 Qed.
 
 Hint Resolve Inter_E.
@@ -116,9 +103,7 @@ Proof.
   intros. unfold BinInter in H.
   apply Inter_E in H. inv H.
   unfold inh_set in H0. destruct H0.
-  split.
-    apply H1. pair_1.
-    pair_e H.
+  split; obvious_BUR.
 Qed.
 
 Hint Resolve BinInter_E.
@@ -129,6 +114,12 @@ Ltac inter := apply BinInter_I ; split ; try auto.
 Ltac inter_e H :=
   apply BinInter_E in H ; try (first [ inv H | destruct H ]) ; try auto.
 
+Ltac obvious :=
+  repeat (try obvious_BUR; match goal with
+  | [ H : ?X ∈ (?A ∩ ?B) |- _ ] => inter_e H
+  | [ |- ?X ∈ (?A ∩ ?B) ] => inter
+  end; auto).
+
 Theorem inter_zero : forall A, A ∩ ∅ = ∅.
 Proof.
   intros. extension.
@@ -137,43 +128,25 @@ Proof.
 Qed.
 
 Theorem inter_comm : forall A B, A ∩ B = B ∩ A.
-Proof.
-  intros. extension; inter_e H.
-Qed.
+Proof. intros. extension; obvious. Qed.
 
 Theorem inter_assoc : forall A B C, A ∩ (B ∩ C) = (A ∩ B) ∩ C.
-Proof.
-  intros. extension.
-  inter_e H. inter_e H1.
-  inter_e H. inter_e H0.
-Qed.
+Proof. intros. extension; obvious. Qed.
 
 Theorem inter_idem : forall A, A ∩ A = A.
-Proof.
-  intros. extension. inter_e H. inter.
-Qed.
+Proof. intros. extension; obvious. Qed.
 
 Theorem inter_incl : forall A B, A ⊆ B ↔ A ∩ B = A.
 Proof.
-  intros. split; intros.
-  extension. inter_e H0. inter.
+  intros. split; intros. extension; obvious.
   unfold Subq. intros. rewrite <- H in H0. inter_e H0.
 Qed.
 
 Theorem union_distr : forall A B C, A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C).
-Proof.
-  intros. extension.
-  inter_e H. union_e H1.
-  union_e H. inter_e H. inter_e H.
-Qed.
+Proof. intros. extension; obvious. Qed.
 
 Theorem inter_distr : forall A B C, A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C).
-Proof.
-  intros. extension.
-  union_e H.
-  inter_e H. inter_e H.
-  union_e H0. union_e H1.
-Qed.
+Proof. intros. extension; obvious. Qed.
 
 (* Exercise.  A necessary and sufficient condition that (A ∩ B) ∪ C = A ∩ (B ∪
    C) is that C ⊆ A.  Observe that the condition has nothing to do with the
@@ -184,7 +157,7 @@ Proof.
   intros. split; intros.
   - apply inter_incl.
     extension.
-    + apply BinInter_E in H0. inv H0; assumption.
+    + obvious.
     + apply BinInter_I. split.
         assumption.
         apply extensionality_E in H. inv H.
