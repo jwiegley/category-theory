@@ -24,27 +24,35 @@ Definition toLogicT (M : Type -> Type) `{Monad M} (A : Type)
 
 Theorem mu_fmap_eta : forall (M : Type -> Type) `{Monad M} (A B : Type)
   (f : M A -> M B) (x : M A),
-  mu ∘ fmap f ∘ fmap eta = f.
+  mu ∘ fmap f = f ∘ mu -> mu ∘ fmap f ∘ fmap eta = f.
 Proof.
   intros.
-Admitted.
+  rewrite comp_assoc.
+  rewrite H0.
+  rewrite <- comp_assoc.
+  rewrite monad_law_2.
+  rewrite comp_id_right.
+  reflexivity.
+Qed.
 
 Theorem bind_fmap_eta : forall (M : Type -> Type) `{Monad M} (A B : Type)
   (f : M A -> M B) (x : M A),
-  mu (fmap (fun y => f (eta y)) x) = f x.
+  mu ∘ fmap f = f ∘ mu -> mu (fmap (fun y => f (eta y)) x) = f x.
 Proof.
   intros.
   pose (mu_fmap_eta M A B f x).
   rewrite fun_composition in e.
   rewrite <- (uncompose mu).
   assert ((fun y : A => f ((eta/M) y)) = f ∘ (eta/M)).
-    unfold compose. reflexivity. rewrite H0. clear H0.
+    unfold compose. reflexivity. rewrite H1. clear H1.
   rewrite e. reflexivity.
+  assumption.
   apply f. assumption.
 Qed.
 
-Global Instance LogicT_Isomorphism
+Global Instance LogicT_Restricted_Isomorphism
   (M : Type -> Type) `{Monad M} (A : Type)
+  (J2 : forall A B (f : M A -> M B), mu ∘ fmap f = f ∘ mu)
   : LogicT' M A ≅ LogicT M A :=
 { to   := toLogicT M A
 ; from := fromLogicT M A
@@ -79,6 +87,9 @@ Proof.
               (mu/M) ((fmap[M] (fun x4 : R => x x2 ((eta/M) x4))) x3)) = x).
       ext_eq. ext_eq.
       rewrite bind_fmap_eta.
-      reflexivity. rewrite H0. clear H0.
-  reflexivity.
+      reflexivity.
+    apply J2.
+    rewrite H0. clear H0.
+    reflexivity.
+    apply J2.
 Defined.

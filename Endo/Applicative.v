@@ -270,16 +270,5 @@ Proof.
   reflexivity.
 Qed.
 
-Theorem fmap_unit_eq
-  : forall (F : Type -> Type) `{Applicative F} A B (f : A -> B) (x : A),
-  fmap f (eta x) = eta (f x).
-Proof.
-  intros.
-  rewrite <- app_fmap_unit.
-  rewrite app_interchange.
-  rewrite app_homomorphism.
-  reflexivity.
-Qed.
-
 Definition liftA2 {F : Type -> Type} {app_dict : Applicative F}
   {A B C} (f : A -> B -> C) (x : F A) (y : F B) : F C := f <$> x <*> y.

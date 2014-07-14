@@ -155,7 +155,7 @@ Proof.
     unfold compose, EitherT_join, EitherT_eta.
     simpl. destruct x.
     unfold compose, id. f_equal.
-    rewrite fmap_unit_eq.
+    rewrite <- app_fmap_compose_x.
     rewrite <- uncompose with (f := mu).
       rewrite monad_law_3. reflexivity.
       assumption.
@@ -169,7 +169,8 @@ Proof.
     unfold compose.
     f_equal. ext_eq.
     destruct x; simpl.
-      unfold Either_map. simpl. rewrite fmap_unit_eq. reflexivity.
+      unfold Either_map. simpl.
+      rewrite <- app_fmap_compose_x. reflexivity.
       destruct e. reflexivity.
 Defined.
 
@@ -208,6 +209,7 @@ Proof.
     reflexivity.
 Defined.
 
+(*
 Global Instance EitherT_MMonad {E}
   `{Monad (Either E)}
   : MMonad (EitherT E) EitherT_MFunctor EitherT_MonadTrans :=
@@ -233,3 +235,4 @@ Proof.
   - (* embed_law_2 *) intros. admit.
   - (* embed_law_3 *) intros. admit.
 Defined.
+*)

@@ -20,6 +20,7 @@ Class MFunctor (T : (Type -> Type) -> Type -> Type) :=
 
 Notation "hoist/ M N" := (@hoist M N _ _ _) (at level 68).
 
+(*
 Set Printing All.
 Class MMonad (T : (Type -> Type) -> Type -> Type)
   `{MFunctor T} `{td : MonadTrans T} :=
@@ -45,3 +46,4 @@ Class MMonad (T : (Type -> Type) -> Type -> Type)
 }.
 
 Notation "embed/ M N" := (@embed M N _ _ _) (at level 68).
+*)
