@@ -16,64 +16,52 @@ Class Functor (F : Type -> Type) :=
   Arguments fun_identity    [F] [Functor] [X].
   Arguments fun_composition [F] [Functor] [X] [Y] [Z] f g.
 
-Hint Resolve fun_identity.
-Hint Resolve fun_composition.
-
 Notation "f <$> g" := (fmap f g) (at level 68, left associativity).
 
 Notation "fmap[ M ]  f" := (@fmap M _ _ _ f) (at level 68).
 Notation "fmap[ M N ]  f" := (@fmap (fun X => M (N X)) _ _ _ f) (at level 66).
 Notation "fmap[ M N O ]  f" := (@fmap (fun X => M (N (O X))) _ _ _ f) (at level 64).
 
-Theorem fun_identity_x
-  : forall (F : Type -> Type) (app_dict : Functor F) {X} (x : F X),
-  fmap id x = id x.
-Proof.
-  intros.
-  rewrite fun_identity.
-  reflexivity.
-Qed.
+Section Functors.
 
-Hint Resolve fun_identity_x.
+  Variable F : Type -> Type.
+  Context `{Functor F}.
 
-Theorem fun_composition_x
-  : forall (F : Type -> Type) (app_dict : Functor F)
-      {X Y Z} (f : Y -> Z) (g : X -> Y) (x : F X),
-  f <$> (g <$> x) = (f ∘ g) <$> x.
-Proof.
-  intros.
-  rewrite <- fun_composition.
-  reflexivity.
-Qed.
+  Theorem fun_identity_x : forall {X} (x : F X), fmap id x = id x.
+  Proof.
+    intros.
+    rewrite fun_identity.
+    reflexivity.
+  Qed.
 
-Hint Resolve fun_composition_x.
+  Theorem fun_composition_x
+    : forall {X Y Z} (f : Y -> Z) (g : X -> Y) (x : F X),
+    f <$> (g <$> x) = (f ∘ g) <$> x.
+  Proof.
+    intros.
+    rewrite <- fun_composition.
+    reflexivity.
+  Qed.
+
+  Global Program Instance Functor_Isomorphism {A B} `(A ≅ B) : F A ≅ F B :=
+  { to   := fmap to
+  ; from := fmap from
+  }.
+  Next Obligation. (* fun_identity *)
+    rewrite fun_composition.
+    rewrite iso_to.
+    apply fun_identity.
+  Defined.
+  Next Obligation. (* fun_composition *)
+    rewrite fun_composition.
+    rewrite iso_from.
+    apply fun_identity.
+  Defined.
+
+End Functors.
 
 (* Functions are trivial functors. *)
 
-Global Instance Hom_Functor {A} : Functor (fun X => A -> X) :=
+Program Instance Hom_Functor {A} : Functor (fun X => A -> X) :=
 { fmap := fun X Y f g => f ∘ g
 }.
-Proof.
-  - (* fun_identity *)
-    intros. ext_eq. rewrite comp_id_left; reflexivity.
-  - (* fun_composition *)
-    intros. ext_eq. compute. reflexivity.
-Defined.
-
-Theorem uncompose_fmap : forall {A B C} (x : A) (g : A -> B) (f : B -> C),
-  fmap f g = f ∘ g.
-Proof. reflexivity. Qed.
-
-Global Instance Functor_Isomorphism
-  {F : Type -> Type} `{Functor F} {A B} `(A ≅ B) : F A ≅ F B :=
-{ to   := fmap to
-; from := fmap from
-}.
-Proof.
-  - rewrite fun_composition.
-    rewrite iso_to.
-    apply fun_identity.
-  - rewrite fun_composition.
-    rewrite iso_from.
-    apply fun_identity.
-Defined.

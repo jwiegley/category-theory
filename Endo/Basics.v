@@ -27,17 +27,14 @@ Definition id {X} (a : X) : X := a.
 
 (* Function composition. *)
 
-Definition compose {A B C}
-  (f : B -> C) (g : A -> B) (x : A) : C := f (g x).
+Definition compose {A B C} (f : B -> C) (g : A -> B) (x : A) : C := f (g x).
 
 Notation "f ∘ g" := (compose f g) (at level 69, right associativity).
 
-Theorem comp_id_left : forall {A B} (f : A -> B),
-  id ∘ f = f.
+Theorem comp_id_left : forall {A B} (f : A -> B), id ∘ f = f.
 Proof. reflexivity. Qed.
 
-Theorem comp_id_right : forall {A B} (f : A -> B),
-  f ∘ id = f.
+Theorem comp_id_right : forall {A B} (f : A -> B), f ∘ id = f.
 Proof. reflexivity. Qed.
 
 Theorem comp_assoc : forall {A B C D} (f : C -> D) (g : B -> C) (h : A -> B),
@@ -49,10 +46,10 @@ Theorem uncompose : forall {A B C} (f : B -> C) (g : A -> B) (x : A) (y : C),
 Proof. reflexivity. Qed.
 
 Ltac uncompose k :=
-    rewrite <- uncompose with (f := k);
-    repeat (rewrite <- comp_assoc).
+  rewrite <- (uncompose k);
+  repeat (rewrite <- comp_assoc).
 
-(* Some utility functions. *)
+(* Utility functions. *)
 
 Definition flip {X Y Z} (f : X -> Y -> Z) (y : Y) (x : X) : Z := f x y.
 
