@@ -26,9 +26,9 @@ Section Maybe.
     | Just : A -> Maybe A.
 
 
-  (** By registering our simple_solver as the obligation tactics, all of our
-      law obligations will be taken care of for us automatically by the Ltac
-      script above. *)
+  (** By registering our simple_solver as the obligation tactic, all our law
+      obligations will be taken care of for us automatically by the Ltac
+      scripts above. *)
   Obligation Tactic := simple_solver.
 
 
