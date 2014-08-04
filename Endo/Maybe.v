@@ -31,7 +31,6 @@ Section Maybe.
     | Nothing => Nothing Y
     | Just x' => Just Y (f x')
     end.
-  Hint Unfold Maybe_map.
 
   Global Program Instance Maybe_Functor : Functor Maybe :=
   { fmap := @Maybe_map
@@ -46,7 +45,6 @@ Section Maybe.
       | Just x' => Just Y (f' x')
       end
     end.
-  Hint Unfold Maybe_apply.
 
   Global Program Instance Maybe_Applicative : Applicative Maybe :=
   { is_functor := Maybe_Functor
@@ -61,7 +59,6 @@ Section Maybe.
     | Just Nothing => Nothing X
     | Just (Just x') => Just X x'
     end.
-  Hint Unfold Maybe_join.
 
   Global Program Instance Maybe_Monad : Monad Maybe :=
   { is_applicative := Maybe_Applicative
