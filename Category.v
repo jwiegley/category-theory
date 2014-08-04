@@ -37,14 +37,16 @@ Reserved Notation "f ∘ g" (at level 45).
    - There is a notion of equivalence of morphsims in the category.
    - Composition must respect equivalence.
 *)
-Class Category (Ob : Type) (Hom : Ob -> Ob -> Type) :=
-{ hom := Hom where "a ~> b" := (hom a b)
+Class Category (Ob : Type) :=
+{ hom : Ob -> Ob -> Type
+    where "a ~> b" := (hom a b)
 ; ob  := Ob
 
 ; id : forall {A}, A ~> A
 ; compose : forall {A B C}, (B ~> C) -> (A ~> B) -> (A ~> C)
     where "f ∘ g" := (compose f g)
-; eqv : forall {A B}, (A ~> B) -> (A ~> B) -> Prop where "f ≈ g" := (eqv f g)
+; eqv : forall {A B}, (A ~> B) -> (A ~> B) -> Prop
+    where "f ≈ g" := (eqv f g)
 
 ; eqv_equivalence : forall {A B}, Equivalence (@eqv A B)
 ; compose_respects : forall {A B C},
@@ -62,7 +64,7 @@ Notation "ob/ a" := (ob a) (at level 100) : category_scope.
 Notation "a ~> b" := (hom a b) : category_scope.
 Notation "f ≈ g" := (eqv f g) : category_scope.
 Notation "f ∘ g" := (compose f g) : category_scope.
-Notation "a ~{ C }~> b" := (@hom _ _ C a b) (at level 100) : category_scope.
+Notation "a ~{ C }~> b" := (@hom _ C a b) (at level 100) : category_scope.
 
 Open Scope category_scope.
 
@@ -70,16 +72,16 @@ Hint Extern 3 => apply compose_respects.
 Hint Extern 1 => apply left_identity.
 Hint Extern 1 => apply right_identity.
 
-Add Parametric Relation (Ob : Type) (Hom : Ob -> Ob -> Type)
-  `(C : Category Ob Hom) (a b : Ob) : (hom a b) (@eqv _ _ C a b)
+Add Parametric Relation (Ob : Type)
+  `(C : Category Ob) (a b : Ob) : (hom a b) (@eqv _ C a b)
 
   reflexivity proved by  (@Equivalence_Reflexive  _ _ eqv_equivalence)
   symmetry proved by     (@Equivalence_Symmetric  _ _ eqv_equivalence)
   transitivity proved by (@Equivalence_Transitive _ _ eqv_equivalence)
     as parametric_relation_eqv.
 
-  Add Parametric Morphism `(c : Category Ob Hom) (a b c : Ob)
-    : (@compose _ _ _ a b c)
+  Add Parametric Morphism `(c : Category Ob) (a b c : Ob)
+    : (@compose _ _ a b c)
     with signature (eqv ==> eqv ==> eqv) as parametric_morphism_comp.
     auto.
   Defined.
@@ -123,18 +125,11 @@ Lemma juggle3
   intros; repeat setoid_rewrite <- comp_assoc. reflexivity.
   Defined.
 
-Definition homomorphisms A := A -> A -> Type.
-
-Record category := mkCat
-{ objs : Type
-; homs : homomorphisms objs
-; cat  : Category objs homs
-}.
-
 (* Coq is the category of Coq types and functions. *)
 
-Program Instance Coq : Category Type (fun X Y => X -> Y) :=
-{ id      := fun _ x => x
+Program Instance Coq : Category Type :=
+{ hom     := fun X Y => X -> Y
+; id      := fun _ x => x
 ; compose := fun _ _ _ f g x => f (g x)
 ; eqv     := fun X Y f g => forall {x : X}, f x = g x
 }.

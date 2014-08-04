@@ -2,7 +2,7 @@ Require Export Category.
 
 Generalizable All Variables.
 
-Class Product `(C : Category objC homC) {A B : objC}
+Class Product `(C : Category objC) {A B : objC}
   (P : objC) (p1 : P ~> A) (p2 : P ~> B) :=
 { product_ump :
     forall (X : objC) (x1 : X ~> A) (x2 : X ~> B),
