@@ -1,11 +1,12 @@
-Require Export Functor.
-Require Export Coq.Setoids.Setoid.
+Require Export Functors.
 
 Inductive Identity (X : Type) : Type :=
   | Id : X -> Identity X.
 
 Definition Identity_map {X Y} (f : X -> Y) (x : Identity X) : Identity Y :=
   match x with | Id y => Id Y (f y) end.
+
+Hint Unfold Identity_map.
 
 Definition Identity_apply {X Y} (f : Identity (X -> Y)) (x : Identity X)
 : Identity Y :=
@@ -18,15 +19,13 @@ Definition Identity_apply {X Y} (f : Identity (X -> Y)) (x : Identity X)
 Definition Identity_join {X} (x : Identity (Identity X)) : Identity X :=
   match x with | Id (Id y) => Id X y end.
 
-Global Instance Identity_Functor (X : Type) : Functor Identity :=
+Program Instance Identity_Functor (X : Type) : Functor Identity :=
 { fmap := @Identity_map
 }.
-Proof.
-  (* fun_identity *)
-  intros. destruct x. reflexivity.
-  (* fun_composition *)
-  intros. compute. destruct x. reflexivity.  Defined.
+Next Obligation. ext_eq. autounfold. destruct x; auto. Defined.
+Next Obligation. ext_eq. autounfold. destruct x; auto. Defined.
 
+(*
 Global Instance Identity_Applicative (X : Type) : Applicative Identity :=
 { is_functor := Identity_Functor X
 ; eta := Id
@@ -57,3 +56,4 @@ Proof.
   intros. compute. reflexivity.
   (* monad_law_5 *)
   intros. compute. destruct x. destruct i. reflexivity.  Defined.
+*)

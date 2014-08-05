@@ -113,22 +113,27 @@ Definition Id `(C : Category objC) : Functor (fun X => X).
   apply Build_Functor with (fmap := fun X X f => f); crush.
 Defined.
 
-Instance Hom `(C : Category objC) (A : objC)
-  : @Functor objC C Type Sets (@hom objC C A) :=
-{ fmap := @compose objC C A
-}.
-Proof.
-  - (* fun_identity *)
-    intros. simpl.
-    ext_eq.
-    rewrite left_identity.
-    reflexivity.
-  - (* fun_composition *)
-    intros. simpl.
-    ext_eq.
-    rewrite comp_assoc.
-    reflexivity.
+Definition Op `(C : Category objC) : Category objC.
+  apply Build_Category with
+    (hom     := fun x y => hom y x)
+    (id      := @id objC C)
+    (compose := fun a b c f g => g ∘ f).
+
+  intros; apply (@left_identity objC C).
+  intros; apply (@right_identity objC C).
+  intros. symmetry; apply comp_assoc.
 Defined.
+
+Notation "C ^op" := (Op C) (at level 90) : category_scope.
+
+(* Instance Hom `(C : Category objC) (A : objC) *)
+(*   : @Functor _ C _ Sets (fun X => A ~> X) := *)
+(* { fmap := fun _ _ f g => f ∘ g *)
+(* }. *)
+(* Proof. *)
+(*   - (* fun_identity *)    crush. *)
+(*   - (* fun_composition *) crush. *)
+(* Defined. *)
 
 Reserved Notation "f ⊕ g" (at level 47, right associativity).
 
@@ -147,25 +152,17 @@ Definition Tuple_map {Z X Y} (f : X → Y) (p : Z * X) : Z * Y :=
   | pair z x => @pair Z Y z (f x)
   end.
 
-Definition Tuple_Functor {Z} : Functor (fun (X : Type) => Z * X).
-  apply Build_Functor with (fmap := @Tuple_map Z).
-  - (* fmap_respects *)   crush.
-  - (* fun_identity *)    crush.
-  - (* fun_composition *) crush.
-Defined.
+Program Instance Tuple_Functor {Z} : Functor (fun X => Z * X) :=
+{ fmap := @Tuple_map Z
+}.
+Obligation 1. ext_eq. crush. Defined.
+Obligation 2. ext_eq. crush. Defined.
 
 Definition Tuple_bimap {X Y W Z} (f : X → W) (g : Y → Z)
   (p : X * Y) : W * Z :=
   match p with
   | pair z x => @pair W Z (f z) (g x)
   end.
-
-(* Definition Tuple_Bifunctor : Bifunctor Coq Coq (fun (X Y : Type) => X * Y). *)
-(*   apply Build_Bifunctor with (bimap := @Tuple_bimap). *)
-(*   - (* bimap_respects *)    crush. *)
-(*   - (* bifun_identity *)    crush. *)
-(*   - (* bifun_composition *) crush. *)
-(* Defined. *)
 
 Inductive Either (E X : Type) :=
   | Left : E → Either E X
@@ -177,12 +174,11 @@ Definition Either_map {Z X Y} (f : X → Y) (p : Either Z X) : Either Z Y :=
   | Right x => Right Z Y (f x)
   end.
 
-Definition Either_Functor {Z} : Functor (fun (X : Type) => Either Z X).
-  apply Build_Functor with (fmap := @Either_map Z).
-  - (* fmap_respects *)   crush.
-  - (* fun_identity *)    crush.
-  - (* fun_composition *) crush.
-Defined.
+Program Instance Either_Functor {Z} : Functor (fun (X : Type) => Either Z X) :=
+{ fmap := @Either_map Z
+}.
+Obligation 1. ext_eq. crush. Defined.
+Obligation 2. ext_eq. crush. Defined.
 
 Definition Either_bimap {X Y W Z} (f : X → W) (g : Y → Z)
   (p : Either X Y) : Either W Z :=
@@ -190,10 +186,3 @@ Definition Either_bimap {X Y W Z} (f : X → W) (g : Y → Z)
   | Left z => Left W Z (f z)
   | Right x => Right W Z (g x)
   end.
-
-(* Definition Either_Bifunctor : Bifunctor (fun (X Y : Type) => Either X Y). *)
-(*   apply Build_Bifunctor with (bimap := @Either_bimap). *)
-(*   - (* bimap_respects *)    crush. *)
-(*   - (* bifun_identity *)    crush. *)
-(*   - (* bifun_composition *) crush. *)
-(* Defined. *)

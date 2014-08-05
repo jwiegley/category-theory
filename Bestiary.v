@@ -1,6 +1,8 @@
-Inductive Maybe (X : Type) :=
-  | Nothing : Maybe X
-  | Just    : X -> Maybe X.
+Require Import Functors.
+
+Inductive Maybe (A : Type): Type :=
+  | Nothing : Maybe A
+  | Just : A -> Maybe A.
 
 Definition Maybe_map {X Y} (f : X -> Y) (x : Maybe X) : Maybe Y :=
   match x with
@@ -8,14 +10,21 @@ Definition Maybe_map {X Y} (f : X -> Y) (x : Maybe X) : Maybe Y :=
    | Just x' => Just Y (f x')
   end.
 
-Definition Maybe_Functor : Functor Coq Coq Maybe.
-  apply Build_Functor with (fmap := @Maybe_map).
-  - (* fmap_respects *)
-    intros. reduce. unfold Maybe_map. destruct x.
-      reflexivity.
-      reduce_hyp H. f_equal. apply H.
-  - (* fun_identity *)
-    intros. reduce. unfold Maybe_map. destruct x; reflexivity.
-  - (* fun_composition *)
-    intros. reduce. unfold Maybe_map. destruct x; reflexivity.
-Defined.
+Hint Unfold Maybe_map.
+
+Ltac simple_solver :=
+  intros;
+  try ext_eq;
+  compute;
+  repeat (
+    match goal with
+    | [ |- context f [match ?X with _ => _ end] ] =>
+      is_var X; destruct X; auto
+    end);
+  auto.
+
+Program Instance Maybe_Functor : Functor Maybe :=
+{ fmap := @Maybe_map
+}.
+Obligation 1. simple_solver. Defined.
+Obligation 2. simple_solver. Defined.

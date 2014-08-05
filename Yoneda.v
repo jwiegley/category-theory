@@ -1,5 +1,6 @@
-Require Export Functor.
+Require Export Functors.
 
+(*
 Inductive Yoneda (F : Type -> Type) X : Type :=
   | Embed : forall {Y}, F Y -> (Y -> X) -> Yoneda F X.
 
@@ -51,3 +52,4 @@ Proof.
     intros. unfold lower_yoneda. destruct y. unfold lift_yoneda.
       apply yoneda_refl.
 Defined.
+*)

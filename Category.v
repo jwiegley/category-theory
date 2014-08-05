@@ -9,8 +9,10 @@ Generalizable All Variables.
 
 Set Printing Width 130.
 
-(* jww (2014-08-05): Assume functional extensionality for now. *)
-
+(* jww (2014-08-05): Assume functional extensionality for now, until I switch
+   to using higher inductive types. Setoids are just too cumbersome and slow
+   for the flexibility they offer.
+*)
 Axiom ext_eq : forall {T1 T2 : Type} (f1 f2 : T1 -> T2),
   (forall x, f1 x = f2 x) -> f1 = f2.
 
@@ -73,40 +75,18 @@ Open Scope category_scope.
 
 Hint Extern 1 => apply left_identity.
 Hint Extern 1 => apply right_identity.
+Hint Extern 1 => apply comp_assoc.
 
 Hint Extern 4 (?A = ?A) => reflexivity.
 Hint Extern 7 (?X = ?Z) => match goal
   with [H : ?X = ?Y, H' : ?Y = ?Z |- ?X = ?Z] => transitivity Y end.
 
-(* The following are handy for rewriting. *)
+(* Coq is the category of Coq types and functions.  *)
 
-Lemma juggle1 : ∀ `{Category}
-  `(f : d ~> e) `(g : c ~> d) `(h : b ~> c) `(k : a ~> b),
-  ((f ∘ g) ∘ h) ∘ k = f ∘ (g ∘ h) ∘ k.
-  intros; repeat rewrite <- comp_assoc. reflexivity.
-Defined.
-
-Lemma juggle2 : ∀ `{Category}
-  `(f : d ~> e) `(g : c ~> d) `(h : b ~> c) `(k : a ~> b),
-  f ∘ (g ∘ (h ∘ k)) = f ∘ (g ∘ h) ∘ k.
-  intros; repeat rewrite <- comp_assoc. reflexivity.
-Defined.
-
-Lemma juggle3 : ∀ `{Category}
-  `(f : d ~> e) `(g : c ~> d) `(h : b ~> c) `(k : a ~> b),
-  (f ∘ g) ∘ (h ∘ k) = f ∘ (g ∘ h) ∘ k.
-  intros; repeat rewrite <- comp_assoc. reflexivity.
-Defined.
-
-(* Coq is the category of Coq types and functions.  In this category,
-   equivalence of morphisms is given by functional extensionality.
-*)
 Program Instance Coq : Category Type :=
-{ hom     := fun X Y         => X → Y
-; id      := fun _ x         => x
+{ hom     := fun X Y => X → Y
+; id      := fun _ x => x
 ; compose := fun _ _ _ f g x => f (g x)
 }.
-
-Typeclasses Transparent Coq.
 
 Definition Sets := Coq.
