@@ -40,22 +40,22 @@ Reserved Notation "f ∘ g" (at level 45).
 *)
 Class Category (Ob : Type) :=
 { ob  := Ob
-; hom : Ob -> Ob -> Type
+; hom : Ob → Ob → Type
     where "a ~> b" := (hom a b)
 
-; id : forall {A}, A ~> A
-; compose : forall {A B C}, (B ~> C) -> (A ~> B) -> (A ~> C)
+; id : ∀ {A}, A ~> A
+; compose : ∀ {A B C}, (B ~> C) → (A ~> B) → (A ~> C)
     where "f ∘ g" := (compose f g)
 
-; eqv : forall {A B}, (A ~> B) -> (A ~> B) -> Prop
+; eqv : ∀ {A B}, (A ~> B) → (A ~> B) → Prop
     where "f ≈ g" := (eqv f g)
-; eqv_equivalence : forall {A B}, Equivalence (@eqv A B)
-; compose_respects : forall {A B C},
+; eqv_equivalence : ∀ A B, Equivalence (@eqv A B)
+; compose_respects : ∀ A B C,
     Proper (@eqv B C ==> @eqv A B ==> @eqv A C) compose
 
-; right_identity : forall {A B} (f : A ~> B), f ∘ id ≈ f
-; left_identity : forall {A B} (f : A ~> B), id ∘ f ≈ f
-; comp_assoc : forall {A B C D} (f : C ~> D) (g : B ~> C) (h : A ~> B),
+; right_identity : ∀ A B (f : A ~> B), f ∘ id ≈ f
+; left_identity : ∀ A B (f : A ~> B), id ∘ f ≈ f
+; comp_assoc : ∀ A B C D (f : C ~> D) (g : B ~> C) (h : A ~> B),
     f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h
 }.
 
@@ -72,13 +72,13 @@ Hint Extern 3 => apply compose_respects.
 Hint Extern 1 => apply left_identity.
 Hint Extern 1 => apply right_identity.
 
-Add Parametric Relation `(Category C) (a b : C) : (hom a b) eqv
-  reflexivity proved by  (@Equivalence_Reflexive  _ _ eqv_equivalence)
-  symmetry proved by     (@Equivalence_Symmetric  _ _ eqv_equivalence)
-  transitivity proved by (@Equivalence_Transitive _ _ eqv_equivalence)
+Add Parametric Relation `(C : Category objC) (a b : objC) : (hom a b) eqv
+  reflexivity proved by  (@Equivalence_Reflexive  _ _ (eqv_equivalence a b))
+  symmetry proved by     (@Equivalence_Symmetric  _ _ (eqv_equivalence a b))
+  transitivity proved by (@Equivalence_Transitive _ _ (eqv_equivalence a b))
     as parametric_relation_eqv.
 
-  Add Parametric Morphism `(Category C) (a b c : C)
+  Add Parametric Morphism `(C : Category objC) (a b c : objC)
     : (@compose _ _ a b c)
     with signature (eqv ==> eqv ==> eqv) as parametric_morphism_comp.
     auto.
@@ -105,31 +105,32 @@ Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) => apply compose_respects; auto.
 
 (* The following are handy for rewriting. *)
 
-Lemma juggle1 : forall `{Category}
+Lemma juggle1 : ∀ `{Category}
   `(f : d ~> e) `(g : c ~> d) `(h : b ~> c) `(k : a ~> b),
   ((f ∘ g) ∘ h) ∘ k ≈ f ∘ (g ∘ h) ∘ k.
   intros; repeat setoid_rewrite <- comp_assoc. reflexivity.
 Defined.
 
-Lemma juggle2 : forall `{Category}
+Lemma juggle2 : ∀ `{Category}
   `(f : d ~> e) `(g : c ~> d) `(h : b ~> c) `(k : a ~> b),
   f ∘ (g ∘ (h ∘ k)) ≈ f ∘ (g ∘ h) ∘ k.
   intros; repeat setoid_rewrite <- comp_assoc. reflexivity.
 Defined.
 
-Lemma juggle3 : forall `{C : Category}
+Lemma juggle3 : ∀ `{Category}
   `(f : d ~> e) `(g : c ~> d) `(h : b ~> c) `(k : a ~> b),
   (f ∘ g) ∘ (h ∘ k) ≈ f ∘ (g ∘ h) ∘ k.
   intros; repeat setoid_rewrite <- comp_assoc. reflexivity.
 Defined.
 
-(* Coq is the category of Coq types and functions. *)
-
+(* Coq is the category of Coq types and functions.  In this category,
+   equivalence of morphisms is given by functional extensionality.
+*)
 Program Instance Coq : Category Type :=
-{ hom     := fun X Y => X -> Y
-; id      := fun _ x => x
+{ hom     := fun X Y         => X → Y
+; id      := fun _ x         => x
 ; compose := fun _ _ _ f g x => f (g x)
-; eqv     := fun X _ f g => forall {x : X}, f x = g x
+; eqv     := fun X _ f g     => ∀ {x : X}, f x = g x
 }.
 Obligation 1. crush. Defined.
 Obligation 2. crush. Defined.
