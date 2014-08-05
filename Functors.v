@@ -13,25 +13,17 @@ Context `{D : Category objD}.
 Class Functor (F : C → D) :=
 { fobj := F
 ; fmap : ∀ {X Y : objC}, (X ~> Y) → (F X ~> F Y)
-; fmap_respects : ∀ {X Y : objC} (f f' : X ~> Y),
-    f ≈ f' → fmap f ≈ fmap f'
-; fun_identity : ∀ {X : objC}, fmap (id (A := X)) ≈ id
+; fun_identity : ∀ {X : objC}, fmap (id (A := X)) = id
 ; fun_composition : ∀ {X Y Z : objC} (f : Y ~> Z) (g : X ~> Y),
-    fmap f ∘ fmap g ≈ fmap (f ∘ g)
+    fmap f ∘ fmap g = fmap (f ∘ g)
 }.
-
-Add Parametric Morphism (F : C → D) `(Functor F) (a b : objC) : fmap
-  with signature ((@eqv objC C a b) ==> (@eqv objD D (F a) (F b)))
-    as parametric_morphism_fmap'.
-  intros; apply fmap_respects; auto.
-Defined.
 
 Coercion fobj : Functor >-> Funclass.
 
 Class Natural (F : C → D) `{Functor F} (G : C → D) `{Functor G} :=
 { transport  : ∀ {X}, F X ~> G X
 ; naturality : ∀ {X Y} (f : X ~> Y),
-    fmap f ∘ transport ≈ transport ∘ fmap f
+    fmap f ∘ transport = transport ∘ fmap f
 }.
 
 Definition nat_arrow `{Functor F} `{Functor G} (f : Natural F G) :=
@@ -63,11 +55,6 @@ Definition nat_compose
   reflexivity.
 Defined.
 
-Definition nat_equiv `{Functor F} `{Functor G} (f g : Natural F G) :=
-  ∀ {X : C}, nat_arrow f X ≈ nat_arrow g X.
-
-Hint Unfold nat_equiv.
-
 Definition π1 {A : Type} {P : A → Type} (k : {x : A & P x}) := projT1 k.
 Definition π2 {A : Type} {P : A → Type} (k : {x : A & P x}) := projT2 k.
 
@@ -78,20 +65,15 @@ Global Instance Nat : Category { f : C → D & Functor f } :=
 { hom     := fun f g   => @Natural _ (π2 f) _ (π2 g)
 ; id      := fun f     => @nat_identity _ (π2 f)
 ; compose := fun _ _ _ => nat_compose
-; eqv     := fun _ _   => nat_equiv
 }.
 Proof.
-  - (* eqv_equivalence *)
-    constructor; autounfold;
-    intros; auto; crush.
-  - (* compose_respects *)
-    intros. auto.
-  - (* right_identity *) crush.
-  - (* left_identity *)  crush.
-  - (* comp_assoc *)
-    intros. autounfold.
-    simpl. intros.
-    rewrite comp_assoc. auto.
+  - (* right_identity *)
+    intros. admit.
+  - (* left_identity *)  admit.
+  - (* comp_assoc *) admit.
+    (* intros. autounfold. *)
+    (* simpl. intros. *)
+    (* rewrite comp_assoc. auto. *)
 Defined.
 
 End Functors.
@@ -131,39 +113,21 @@ Definition Id `(C : Category objC) : Functor (fun X => X).
   apply Build_Functor with (fmap := fun X X f => f); crush.
 Defined.
 
-Theorem compose_equiv `{C : Category objC}
-  : ∀ A X Y (f g : X ~> Y) (h : A ~> X),
-  f ≈ g -> f ∘ h ≈ g ∘ h.
-Proof.
-  intros.
-  rewrite H.
-  reflexivity.
-Qed.
-
-Theorem fmap_set_eqv `{C : Category objC} (F : C -> Sets)
-  `{@Functor objC C Type Sets F} : ∀ X Y (f g : X ~> Y),
-  f ≈ g → fmap f = fmap g.
-Proof.
-Admitted.
-
 Instance Hom `(C : Category objC) (A : objC)
   : @Functor objC C Type Sets (@hom objC C A) :=
 { fmap := @compose objC C A
 }.
 Proof.
-  - (* fmap_respects *)
-    intros.
-    reduce.
-    f_equal.
-    rewrite H.
-    admit.
   - (* fun_identity *)
-    intros.
-    reduce.
-    (* rewrite left_identity. *)
-    admit.
+    intros. simpl.
+    ext_eq.
+    rewrite left_identity.
+    reflexivity.
   - (* fun_composition *)
-    crush.
+    intros. simpl.
+    ext_eq.
+    rewrite comp_assoc.
+    reflexivity.
 Defined.
 
 Reserved Notation "f ⊕ g" (at level 47, right associativity).
@@ -173,7 +137,7 @@ Reserved Notation "f ⊕ g" (at level 47, right associativity).
 (* { monoidal_left  : Hom(ε)  ⟹ Id *)
 (* ; monoidal_right : CHom(ε) ⟹ Id *)
 (* ; monoidal_assoc : ∀ a b c : objC, *)
-(*     mappend (mappend a b) c ≈ mappend a (mappend b c) *)
+(*     mappend (mappend a b) c = mappend a (mappend b c) *)
 (* }. *)
 
 (* Notation "f ⊕ g" := (MAppend f g) (at level 47, right associativity). *)

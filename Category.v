@@ -1,9 +1,4 @@
-Require Export Coq.Classes.Equivalence.
-Require Export Coq.Classes.Morphisms.
-Require Export Coq.Classes.RelationClasses.
-Require Export Coq.Setoids.Setoid.
 Require Export Coq.Unicode.Utf8.
-Require        Setoid.
 Require Export CpdtTactics.
 
 Open Scope type_scope.
@@ -14,16 +9,31 @@ Generalizable All Variables.
 
 Set Printing Width 130.
 
+(* jww (2014-08-05): Assume functional extensionality for now. *)
+
+Axiom ext_eq : forall {T1 T2 : Type} (f1 f2 : T1 -> T2),
+  (forall x, f1 x = f2 x) -> f1 = f2.
+
+Theorem ext_eqS : forall (T1 T2 : Type) (f1 f2 : T1 -> T2),
+  (forall x, f1 x = f2 x) -> f1 = f2.
+Proof.
+  intros; rewrite (ext_eq f1 f2); auto.
+Qed.
+
+Hint Resolve ext_eq.
+Hint Resolve ext_eqS.
+
+Ltac ext_eq := (apply ext_eq || apply ext_eqS); intro.
+
 (* ~> is used to describe morphisms.
 
-   Unicode ≈ means equivalence, while ≅ is isomorphism and = is identity.
+   Unicode = means equivalence, while ≅ is isomorphism and = is identity.
 
    Unicode ∘ is composition of morphisms.
 
    ~{ C }~> specifically types a morphisms in C.
 *)
 Reserved Notation "a ~> b" (at level 90, right associativity).
-Reserved Notation "f ≈ g" (at level 54).
 Reserved Notation "f ∘ g" (at level 45).
 
 (* A Category is defined by objects and morphisms between objects, plus the
@@ -47,80 +57,45 @@ Class Category (Ob : Type) :=
 ; compose : ∀ {A B C}, (B ~> C) → (A ~> B) → (A ~> C)
     where "f ∘ g" := (compose f g)
 
-; eqv : ∀ {A B}, (A ~> B) → (A ~> B) → Prop
-    where "f ≈ g" := (eqv f g)
-; eqv_equivalence : ∀ A B, Equivalence (@eqv A B)
-; compose_respects : ∀ A B C,
-    Proper (@eqv B C ==> @eqv A B ==> @eqv A C) compose
-
-; right_identity : ∀ A B (f : A ~> B), f ∘ id ≈ f
-; left_identity : ∀ A B (f : A ~> B), id ∘ f ≈ f
+; right_identity : ∀ A B (f : A ~> B), f ∘ id = f
+; left_identity : ∀ A B (f : A ~> B), id ∘ f = f
 ; comp_assoc : ∀ A B C D (f : C ~> D) (g : B ~> C) (h : A ~> B),
-    f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h
+    f ∘ (g ∘ h) = (f ∘ g) ∘ h
 }.
 
 Coercion ob : Category >-> Sortclass.
 
 Notation "a ~> b" := (hom a b) : category_scope.
-Notation "f ≈ g" := (eqv f g) : category_scope.
 Notation "f ∘ g" := (compose f g) : category_scope.
 Notation "a ~{ C }~> b" := (@hom _ C a b) (at level 100) : category_scope.
 
 Open Scope category_scope.
 
-Hint Extern 3 => apply compose_respects.
 Hint Extern 1 => apply left_identity.
 Hint Extern 1 => apply right_identity.
 
-Add Parametric Relation `(C : Category objC) (a b : objC) : (hom a b) eqv
-  reflexivity proved by  (@Equivalence_Reflexive  _ _ (eqv_equivalence a b))
-  symmetry proved by     (@Equivalence_Symmetric  _ _ (eqv_equivalence a b))
-  transitivity proved by (@Equivalence_Transitive _ _ (eqv_equivalence a b))
-    as parametric_relation_eqv.
-
-  Add Parametric Morphism `(C : Category objC) (a b c : objC)
-    : (@compose _ _ a b c)
-    with signature (eqv ==> eqv ==> eqv) as parametric_morphism_comp.
-    auto.
-Defined.
-
-Hint Constructors Equivalence.
-
-Hint Unfold Reflexive.
-Hint Unfold Symmetric.
-Hint Unfold Transitive.
-
-Hint Extern 1 (Proper _ _)         => unfold Proper; auto.
-Hint Extern 1 (Reflexive ?X)       => unfold Reflexive; auto.
-Hint Extern 1 (Symmetric ?X)       => unfold Symmetric; intros; auto.
-Hint Extern 1 (Transitive ?X)      => unfold Transitive; intros; auto.
-Hint Extern 1 (Equivalence ?X)     => apply Build_Equivalence.
-Hint Extern 8 (respectful _ _ _ _) => unfold respectful; auto.
-
-Hint Extern 4 (?A ≈ ?A) => reflexivity.
-Hint Extern 6 (?X ≈ ?Y) => apply Equivalence_Symmetric.
-Hint Extern 7 (?X ≈ ?Z) => match goal
-  with [H : ?X ≈ ?Y, H' : ?Y ≈ ?Z |- ?X ≈ ?Z] => transitivity Y end.
-Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) => apply compose_respects; auto.
+Hint Extern 4 (?A = ?A) => reflexivity.
+Hint Extern 7 (?X = ?Z) => match goal
+  with [H : ?X = ?Y, H' : ?Y = ?Z |- ?X = ?Z] => transitivity Y end.
 
 (* The following are handy for rewriting. *)
 
 Lemma juggle1 : ∀ `{Category}
   `(f : d ~> e) `(g : c ~> d) `(h : b ~> c) `(k : a ~> b),
-  ((f ∘ g) ∘ h) ∘ k ≈ f ∘ (g ∘ h) ∘ k.
-  intros; repeat setoid_rewrite <- comp_assoc. reflexivity.
+  ((f ∘ g) ∘ h) ∘ k = f ∘ (g ∘ h) ∘ k.
+  intros; repeat rewrite <- comp_assoc. reflexivity.
 Defined.
 
 Lemma juggle2 : ∀ `{Category}
   `(f : d ~> e) `(g : c ~> d) `(h : b ~> c) `(k : a ~> b),
-  f ∘ (g ∘ (h ∘ k)) ≈ f ∘ (g ∘ h) ∘ k.
-  intros; repeat setoid_rewrite <- comp_assoc. reflexivity.
+  f ∘ (g ∘ (h ∘ k)) = f ∘ (g ∘ h) ∘ k.
+  intros; repeat rewrite <- comp_assoc. reflexivity.
 Defined.
 
 Lemma juggle3 : ∀ `{Category}
   `(f : d ~> e) `(g : c ~> d) `(h : b ~> c) `(k : a ~> b),
-  (f ∘ g) ∘ (h ∘ k) ≈ f ∘ (g ∘ h) ∘ k.
-  intros; repeat setoid_rewrite <- comp_assoc. reflexivity.
+  (f ∘ g) ∘ (h ∘ k) = f ∘ (g ∘ h) ∘ k.
+  intros; repeat rewrite <- comp_assoc. reflexivity.
 Defined.
 
 (* Coq is the category of Coq types and functions.  In this category,
@@ -130,9 +105,8 @@ Program Instance Coq : Category Type :=
 { hom     := fun X Y         => X → Y
 ; id      := fun _ x         => x
 ; compose := fun _ _ _ f g x => f (g x)
-; eqv     := fun X _ f g     => ∀ {x : X}, f x = g x
 }.
-Obligation 1. crush. Defined.
-Obligation 2. crush. Defined.
+
+Typeclasses Transparent Coq.
 
 Definition Sets := Coq.
