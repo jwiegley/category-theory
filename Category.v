@@ -50,9 +50,9 @@ Reserved Notation "f ∘ g" (at level 45).
    - There is a notion of equivalence of morphsims in the category.
    - Composition must respect equivalence.
 *)
-Class Category (Ob : Type) :=
-{ ob  := Ob
-; hom : Ob → Ob → Type
+Class Category :=
+{ ob  : Type
+; hom : ob → ob → Type
     where "a ~> b" := (hom a b)
 
 ; id : ∀ {A}, A ~> A
@@ -69,7 +69,7 @@ Coercion ob : Category >-> Sortclass.
 
 Notation "a ~> b" := (hom a b) : category_scope.
 Notation "f ∘ g" := (compose f g) : category_scope.
-Notation "a ~{ C }~> b" := (@hom _ C a b) (at level 100) : category_scope.
+Notation "a ~{ C }~> b" := (@hom C a b) (at level 100) : category_scope.
 
 Open Scope category_scope.
 
@@ -83,8 +83,9 @@ Hint Extern 7 (?X = ?Z) => match goal
 
 (* Coq is the category of Coq types and functions.  *)
 
-Program Instance Coq : Category Type :=
-{ hom     := fun X Y => X → Y
+Program Instance Coq : Category :=
+{ ob      := Type
+; hom     := fun X Y => X → Y
 ; id      := fun _ x => x
 ; compose := fun _ _ _ f g x => f (g x)
 }.
