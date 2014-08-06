@@ -193,8 +193,7 @@ Program Instance ContraArrow {A : Type} : Arr^op ⟶ Arr :=
 
 Program Instance Arrow : Arr^op ⟶ Arr ⟹ Arr :=
 { fobj := @CoArrow
-; fmap := fun _ _ f =>
-  {| transport := fun X g x => g (unop f x) |}
+; fmap := fun _ _ f => {| transport := fun X g x => g (unop f x) |}
 }.
 
 Class FullyFaithful `(F : @Functor C D) :=
