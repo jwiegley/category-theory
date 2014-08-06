@@ -8,7 +8,7 @@ Inductive Maybe {A : Type} : Type :=
   | Nothing : @Maybe A
   | Just    : A -> @Maybe A.
 
-Program Instance Maybe_Functor : Coq ⟶ Coq :=
+Program Instance Maybe_Functor : Arr ⟶ Arr :=
 { fmap := fun _ _ f x => match x with
    | Nothing => Nothing
    | Just x' => Just (f x')
@@ -19,13 +19,13 @@ Obligation 2. simple_solver. Defined.
 
 End Maybe. (* jww (2014-08-06): Hiding instance for now *)
 
-(* Either is the canonical coproduct type in Coq. *)
+(* Either is the canonical coproduct type in Arr. *)
 
 Inductive Either {E X : Type} :=
   | Left  : E → @Either E X
   | Right : X → @Either E X.
 
-Program Instance Either_Bifunctor : Coq ⟶ Coq ⟹ Coq :=
+Program Instance Either_Bifunctor : Arr ⟶ Arr ⟹ Arr :=
 { fobj := fun Z =>
   {| fobj := @Either Z
    ; fmap := fun _ _ f e => match e with

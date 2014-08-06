@@ -35,9 +35,9 @@ Definition fun_compose
 Defined.
 
 Lemma fun_irrelevance `(C : Category) `(D : Category)
-  : forall (a : C → D)
-           (f g : forall {X Y : C}, (X ~> Y) → (a X ~> a Y))
-           i i' c c',
+  : ∀ (a : C → D)
+      (f g : ∀ {X Y : C}, (X ~> Y) → (a X ~> a Y))
+      i i' c c',
   @f = @g ->
   {| fobj := @a
    ; fmap := @f
@@ -54,7 +54,7 @@ Proof.
 Qed.
 
 Class Natural `(F : @Functor C D) `(G : @Functor C D) :=
-{ transport  : forall {X}, F X ~> G X
+{ transport  : ∀ {X}, F X ~> G X
 ; naturality : ∀ {X Y} (f : X ~> Y),
     fmap f ∘ transport = transport ∘ fmap f
 }.
@@ -91,7 +91,7 @@ Defined.
 
 Lemma nat_irrelevance
   `(C : Category) `(D : Category) `(F : @Functor C D) `(G : @Functor C D)
-  : forall (f g : forall {X}, F X ~> G X) n n',
+  : ∀ (f g : ∀ {X}, F X ~> G X) n n',
   @f = @g ->
   {| transport := @f; naturality := n |} =
   {| transport := @g; naturality := n' |}.
@@ -168,6 +168,12 @@ Definition bimap `{P : C ⟶ D ⟹ E} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
   P X Y ~{E}~> P W Z :=
   let N := @fmap _ _ P _ _ f in transport/N ∘ fmap1 g.
 
+Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
+  F Y ~{D}~> F X := fmap (unop f).
+
+Definition dimap `{P : C^op ⟶ D ⟹ E} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
+  P W Y ~{E}~> P X Z := bimap (unop f) g.
+
 (* The Identity [Functor] *)
 
 Definition Id `(C : Category) : Functor C C.
@@ -175,3 +181,27 @@ Definition Id `(C : Category) : Functor C C.
     (fobj := fun X => X)
     (fmap := fun X X f => f); crush.
 Defined.
+
+Program Instance CoArrow {A : Type} : Arr ⟶ Arr :=
+{ fobj := fun Y => A → Y
+; fmap := fun _ _ f g => f ∘ g
+}.
+
+Program Instance ContraArrow {A : Type} : Arr^op ⟶ Arr :=
+{ fobj := fun Y => Y → A
+; fmap := fun _ _ f g x => g (unop f x)
+}.
+
+Program Instance Arrow : Arr^op ⟶ Arr ⟹ Arr :=
+{ fobj := @CoArrow
+; fmap := fun _ _ f =>
+  {| transport := fun X g x => g (unop f x) |}
+}.
+
+Class FullyFaithful `(F : @Functor C D) :=
+{ unfmap : ∀ {X Y : C}, (F X ~> F Y) → (X ~> Y)
+}.
+
+Program Instance Arrow_Faithful : FullyFaithful Arrow :=
+{ unfmap := fun _ _ f => (transport/f) (fun X => X)
+}.

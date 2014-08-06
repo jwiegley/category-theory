@@ -39,6 +39,7 @@ Coercion ob : Category >-> Sortclass.
 Notation "a ~> b" := (hom a b) : category_scope.
 Notation "a ~{ C }~> b" := (@hom C a b) (at level 100) : category_scope.
 Notation "f ∘ g" := (compose f g) : category_scope.
+Notation "ob/ C" := (@ob C) (at level 44).
 
 Open Scope category_scope.
 
@@ -61,13 +62,22 @@ Defined.
 
 Notation "C ^op" := (Opposite C) (at level 90) : category_scope.
 
+Definition op `{C : Category}
+  : forall {X Y}, (X ~{C^op}~> Y) -> (Y ~{C}~> X).
+Proof. intros. auto. Defined.
+
+Definition unop `{C : Category}
+  : forall {X Y}, (Y ~{C}~> X) -> (X ~{C^op}~> Y).
+Proof. intros. auto. Defined.
+
 (* Coq is the category of Coq types and functions.  *)
 
-Program Instance Coq : Category :=
+Program Instance Arr : Category :=
 { ob      := Type
 ; hom     := fun X Y => X → Y
 ; id      := fun _ x => x
 ; compose := fun _ _ _ f g x => f (g x)
 }.
 
-Definition Sets := Coq.
+Definition coq  := Arr.
+Definition Sets := Arr.

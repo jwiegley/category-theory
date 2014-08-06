@@ -12,10 +12,10 @@ Class Product `(C : Category)
     /\ forall (v : X ~> P), p1 ∘ v = x1 /\ p2 ∘ v = x2 -> v = u
 }.
 
-(* Tuples in the Coq category satisfy the UMP for products.
+(* Tuples in the Arr category satisfy the UMP for products.
 *)
 Program Instance Tuple_Product {X Y : Set}
-  : Product Coq (X * Y) (@fst X Y) (@snd X Y).
+  : Product Arr (X * Y) (@fst X Y) (@snd X Y).
 Obligation 1. (* product ump *)
   exists (fun x => (x1 x, x2 x)).
   intros. constructor.
@@ -36,7 +36,7 @@ Definition Tuple_map {Z X Y} (f : X → Y) (p : Z * X) : Z * Y :=
   | pair z x => @pair Z Y z (f x)
   end.
 
-Program Instance Tuple_Functor {Z} : Coq ⟶ Coq :=
+Program Instance Tuple_Functor {Z} : Arr ⟶ Arr :=
 { fobj := fun X => Z * X
 ; fmap := @Tuple_map Z
 }.
