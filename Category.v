@@ -1,40 +1,12 @@
-Require Export Coq.Unicode.Utf8.
-Require Export CpdtTactics.
-
-Open Scope type_scope.
+Require Export Utils.
 
 Generalizable All Variables.
 
-(* Proof General seems to add an extra two columns of overhead *)
+(* X ~> Y is used to indicate morphisms from X to Y in some category.
+   X ~{ C }~> Y specifically indicates morphisms in C.
 
-Set Printing Width 130.
+   f ∘ g is composition of morphisms f and g in some category. *)
 
-(* jww (2014-08-05): Assume functional extensionality for now, until I switch
-   to using higher inductive types. Setoids are just too cumbersome and slow
-   for the flexibility they offer.
-*)
-Axiom ext_eq : forall {T1 T2 : Type} (f1 f2 : T1 -> T2),
-  (forall x, f1 x = f2 x) -> f1 = f2.
-
-Theorem ext_eqS : forall (T1 T2 : Type) (f1 f2 : T1 -> T2),
-  (forall x, f1 x = f2 x) -> f1 = f2.
-Proof.
-  intros; rewrite (ext_eq f1 f2); auto.
-Qed.
-
-Hint Resolve ext_eq.
-Hint Resolve ext_eqS.
-
-Ltac ext_eq := (apply ext_eq || apply ext_eqS); intro.
-
-(* ~> is used to describe morphisms.
-
-   Unicode = means equivalence, while ≅ is isomorphism and = is identity.
-
-   Unicode ∘ is composition of morphisms.
-
-   ~{ C }~> specifically types a morphisms in C.
-*)
 Reserved Notation "a ~> b" (at level 90, right associativity).
 Reserved Notation "f ∘ g" (at level 45).
 
@@ -44,16 +16,12 @@ Reserved Notation "f ∘ g" (at level 45).
    - Every object has an identity morphism.
    - Morphisms compose.
 
-   - Composition respect a monoidal structure: left and right identity with
-     identity morphisms, and associativity.
+   - Composition respect a monoidal structure: left and right identity using
+     the identity morphisms, and associativity. *)
 
-   - There is a notion of equivalence of morphsims in the category.
-   - Composition must respect equivalence.
-*)
 Class Category :=
 { ob  : Type
-; hom : ob → ob → Type
-    where "a ~> b" := (hom a b)
+; hom : ob → ob → Type where "a ~> b" := (hom a b)
 
 ; id : ∀ {A}, A ~> A
 ; compose : ∀ {A B C}, (B ~> C) → (A ~> B) → (A ~> C)
@@ -65,21 +33,33 @@ Class Category :=
     f ∘ (g ∘ h) = (f ∘ g) ∘ h
 }.
 
+(* Using a Category in a context requiring a Type DTRT with this coercion. *)
 Coercion ob : Category >-> Sortclass.
 
 Notation "a ~> b" := (hom a b) : category_scope.
-Notation "f ∘ g" := (compose f g) : category_scope.
 Notation "a ~{ C }~> b" := (@hom C a b) (at level 100) : category_scope.
+Notation "f ∘ g" := (compose f g) : category_scope.
 
 Open Scope category_scope.
 
-Hint Extern 1 => apply left_identity.
-Hint Extern 1 => apply right_identity.
-Hint Extern 1 => apply comp_assoc.
+Hint Resolve left_identity.
+Hint Resolve right_identity.
+Hint Resolve comp_assoc.
 
-Hint Extern 4 (?A = ?A) => reflexivity.
-Hint Extern 7 (?X = ?Z) => match goal
-  with [H : ?X = ?Y, H' : ?Y = ?Z |- ?X = ?Z] => transitivity Y end.
+(* The opposite category, C^op. *)
+
+Definition Opposite `(C : Category) : Category.
+  apply Build_Category with
+    (hom     := fun x y => hom y x)
+    (id      := @id C)
+    (compose := fun a b c f g => g ∘ f).
+
+  intros; apply (@left_identity C).
+  intros; apply (@right_identity C).
+  intros. symmetry; apply comp_assoc.
+Defined.
+
+Notation "C ^op" := (Opposite C) (at level 90) : category_scope.
 
 (* Coq is the category of Coq types and functions.  *)
 

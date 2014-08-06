@@ -1,4 +1,6 @@
-Require Export Category.
+Require Export Functors.
+
+Open Scope type_scope.
 
 Generalizable All Variables.
 
@@ -22,9 +24,27 @@ Obligation 1. (* product ump *)
     intros. unfold snd. reflexivity.
   intros.
   inversion H.
-  ext_eq.
+  extensionality e.
   rewrite <- H0.
   rewrite <- H1.
-  destruct (v x).
+  destruct (v e).
   reflexivity.
 Defined.
+
+Definition Tuple_map {Z X Y} (f : X → Y) (p : Z * X) : Z * Y :=
+  match p with
+  | pair z x => @pair Z Y z (f x)
+  end.
+
+Program Instance Tuple_Functor {Z} : Coq ⟶ Coq :=
+{ fobj := fun X => Z * X
+; fmap := @Tuple_map Z
+}.
+Obligation 1. extensionality e. crush. Defined.
+Obligation 2. extensionality e. crush. Defined.
+
+Definition Tuple_bimap {X Y W Z} (f : X → W) (g : Y → Z)
+  (p : X * Y) : W * Z :=
+  match p with
+  | pair z x => @pair W Z (f z) (g x)
+  end.
