@@ -165,8 +165,7 @@ Definition fmap1 `{P : C ⟶ D ⟹ E} `(f : X ~{D}~> Y) {A : C} :
   P A X ~{E}~> P A Y := fmap f.
 
 Definition bimap `{P : C ⟶ D ⟹ E} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
-  P X Y ~{E}~> P W Z :=
-  let N := @fmap _ _ P _ _ f in transport/N ∘ fmap1 g.
+  P X Y ~{E}~> P W Z := let N := @fmap _ _ P _ _ f in transport/N ∘ fmap1 g.
 
 Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
   F Y ~{D}~> F X := fmap (unop f).
