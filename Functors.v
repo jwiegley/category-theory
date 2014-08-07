@@ -65,7 +65,7 @@ Defined.
 (** [Fun] is the category whose morphisms are functors betwen categories.
     Traditionally this is called [Cat]. *)
 
-Program Instance Fun : Category :=
+Program Instance Cat : Category :=
 { ob      := Category
 ; hom     := @Functor
 ; id      := @Id

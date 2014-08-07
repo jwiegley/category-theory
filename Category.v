@@ -19,12 +19,6 @@ to [G]; it also a name for the category [Nat] ([F ⟹ G] is just sugar for [Nat
 F G]): the category of functors from some implied [C] to [D].  We can normally
 let the particular cateries be inferred from context, or they can be named
 using [@Nat C D F G].
-
-The objects of [Nat] are functors, aka the morphisms of [Fun] (called [Cat]
-traditionally), written in operator form as [C ⟶ D].  The objects of [Fun] are
-arrows, which are the morphisms of [Arr] (normally [Set]), written [c → d].
-[Arr] forms our "base category", rather than having [Fun] range over any
-category, since this best expresses the sub-domain of concern to Hask.
 *)
 
 Require Export Hask.Utils.
@@ -154,14 +148,11 @@ Proof.
   extensionality k. crush.
 Defined.
 
-(** [Arr] is the category of Coq types and functions.  *)
+(** [Sets] is the category of Coq types and functions.  *)
 
-Program Instance Arr : Category :=
+Program Instance Sets : Category :=
 { ob      := Type
 ; hom     := fun X Y => X → Y
 ; id      := fun _ x => x
 ; compose := fun _ _ _ f g x => f (g x)
 }.
-
-Definition coq  := Arr.
-Definition Sets := Arr.

@@ -9,7 +9,7 @@ Inductive Maybe {A : Type} : Type :=
   | Nothing : @Maybe A
   | Just    : A -> @Maybe A.
 
-Program Instance Maybe_Functor : Arr ⟶ Arr :=
+Program Instance Maybe_Functor : Sets ⟶ Sets :=
 { fmap := fun _ _ f x => match x with
    | Nothing => Nothing
    | Just x' => Just (f x')
@@ -20,13 +20,13 @@ Obligation 2. simple_solver. Defined.
 
 End Maybe. (* jww (2014-08-06): Hiding instance for now *)
 
-(* Either is the canonical coproduct type in Arr. *)
+(* Either is the canonical coproduct type in Sets. *)
 
 Inductive Either {E X : Type} :=
   | Left  : E → @Either E X
   | Right : X → @Either E X.
 
-Program Instance Either_Bifunctor : Arr ⟶ Arr ⟹ Arr :=
+Program Instance Either_Bifunctor : Sets ⟶ Sets ⟹ Sets :=
 { fobj := fun Z =>
   {| fobj := @Either Z
    ; fmap := fun _ _ f e => match e with
@@ -57,7 +57,7 @@ Obligation 5.
 Defined.
 
 (* jww (2014-08-07): TODO: Apparently I've lost the connection between values
-   and typeclass instances for objects in Arr, owing to recently added towers
+   and typeclass instances for objects in Sets, owing to recently added towers
    of abstraction. *)
 
 Example either_fmap_ex1 :

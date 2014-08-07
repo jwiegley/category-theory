@@ -11,7 +11,7 @@ Class Product (C : Category) (P : C) `(p1 : P ~> A) `(p2 : P ~> B) :=
     /\ forall (v : X ~> P), p1 ∘ v = x1 /\ p2 ∘ v = x2 -> v = u
 }.
 
-(* Tuples in the Arr category satisfy the UMP for products.
+(* Tuples in the Sets category satisfy the UMP for products.
 *)
 Set Printing All.
 Set Printing Universes.
@@ -37,7 +37,7 @@ Definition Tuple_map {Z X Y} (f : X → Y) (p : Z * X) : Z * Y :=
   | pair z x => @pair Z Y z (f x)
   end.
 
-Program Instance Tuple_Functor {Z} : Arr ⟶ Arr :=
+Program Instance Tuple_Functor {Z} : Sets ⟶ Sets :=
 { fobj := fun X => Z * X
 ; fmap := @Tuple_map Z
 }.

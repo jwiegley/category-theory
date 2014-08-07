@@ -49,14 +49,6 @@ to <span class="inlinecode"><a class="idref" href="Hask.Functors.html#G"><span c
 let the particular cateries be inferred from context, or they can be named
 using <span class="inlinecode">@<a class="idref" href="Hask.Functors.html#Nat"><span class="id" type="instance">Nat</span></a></span> <span class="inlinecode"><a class="idref" href="Hask.Products.html#C"><span class="id" type="variable">C</span></a></span> <span class="inlinecode"><a class="idref" href="Hask.Functors.html#D"><span class="id" type="variable">D</span></a></span> <span class="inlinecode"><a class="idref" href="Hask.Functors.html#F"><span class="id" type="variable">F</span></a></span> <span class="inlinecode"><a class="idref" href="Hask.Functors.html#G"><span class="id" type="variable">G</span></a></span>.
 
-<div class="paragraph"> </div>
-
-The objects of <span class="inlinecode"><a class="idref" href="Hask.Functors.html#Nat"><span class="id" type="instance">Nat</span></a></span> are functors, aka the morphisms of <span class="inlinecode"><a class="idref" href="Hask.Functors.html#Fun"><span class="id" type="instance">Fun</span></a></span> (called <span class="inlinecode"><span class="id" type="var">Cat</span></span>
-traditionally), written in operator form as <span class="inlinecode"><a class="idref" href="Hask.Products.html#C"><span class="id" type="variable">C</span></a></span> <span class="inlinecode">⟶</span> <span class="inlinecode"><a class="idref" href="Hask.Functors.html#D"><span class="id" type="variable">D</span></a></span>.  The objects of <span class="inlinecode"><a class="idref" href="Hask.Functors.html#Fun"><span class="id" type="instance">Fun</span></a></span> are
-arrows, which are the morphisms of <span class="inlinecode"><a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a></span> (normally <span class="inlinecode"><span class="id" type="keyword">Set</span></span>), written <span class="inlinecode"><a class="idref" href="Hask.Functors.html#c"><span class="id" type="variable">c</span></a></span> <span class="inlinecode">→</span> <span class="inlinecode"><span class="id" type="var">d</span></span>.
-<span class="inlinecode"><a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a></span> forms our "base category", rather than having <span class="inlinecode"><a class="idref" href="Hask.Functors.html#Fun"><span class="id" type="instance">Fun</span></a></span> range over any
-category, since this best expresses the sub-domain of concern to Hask.
-
 </div>
 <div class="code">
 
@@ -247,21 +239,17 @@ The opposite, or categorical dual, of any category is expressed as
 </div>
 
 <div class="doc">
-<span class="inlinecode"><a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a></span> is the category of Coq types and functions.  
+<span class="inlinecode"><a class="idref" href="Hask.Category.html#Sets"><span class="id" type="instance">Sets</span></a></span> is the category of Coq types and functions.  
 </div>
 <div class="code">
 
 <br/>
-<span class="id" type="keyword">Program Instance</span> <a name="Arr"><span class="id" type="instance">Arr</span></a> : <a class="idref" href="Hask.Category.html#Category"><span class="id" type="class">Category</span></a> :=<br/>
+<span class="id" type="keyword">Program Instance</span> <a name="Sets"><span class="id" type="instance">Sets</span></a> : <a class="idref" href="Hask.Category.html#Category"><span class="id" type="class">Category</span></a> :=<br/>
 { <a class="idref" href="Hask.Category.html#ob"><span class="id" type="method">ob</span></a>      := <span class="id" type="keyword">Type</span><br/>
 ; <a class="idref" href="Hask.Category.html#hom"><span class="id" type="method">hom</span></a>     := <span class="id" type="keyword">fun</span> <span class="id" type="var">X</span> <span class="id" type="var">Y</span> ⇒ <a class="idref" href="Hask.Category.html#X"><span class="id" type="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Unicode.Utf8_core.html#:type_scope:x_'→'_x"><span class="id" type="notation">→</span></a> <a class="idref" href="Hask.Category.html#Y"><span class="id" type="variable">Y</span></a><br/>
 ; <a class="idref" href="Hask.Category.html#id"><span class="id" type="method">id</span></a>      := <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">x</span> ⇒ <a class="idref" href="Hask.Category.html#x"><span class="id" type="variable">x</span></a><br/>
 ; <a class="idref" href="Hask.Category.html#compose"><span class="id" type="method">compose</span></a> := <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">_</span> <span class="id" type="var">_</span> <span class="id" type="var">f</span> <span class="id" type="var">g</span> <span class="id" type="var">x</span> ⇒ <a class="idref" href="Hask.Category.html#f"><span class="id" type="variable">f</span></a> (<a class="idref" href="Hask.Category.html#g"><span class="id" type="variable">g</span></a> <a class="idref" href="Hask.Category.html#x"><span class="id" type="variable">x</span></a>)<br/>
 }.<br/>
-
-<br/>
-<span class="id" type="keyword">Definition</span> <a name="coq"><span class="id" type="definition">coq</span></a>  := <a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a>.<br/>
-<span class="id" type="keyword">Definition</span> <a name="Sets"><span class="id" type="definition">Sets</span></a> := <a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a>.<br/>
 </div>
 </div>
 
