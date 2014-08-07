@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>Hask.Products</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Hask.Products</h1>
+
+<div class="code">
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="Hask.Functors.html#"><span class="id" type="library">Hask.Functors</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Open</span> <span class="id" type="keyword">Scope</span> <span class="id" type="var">type_scope</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Generalizable</span> <span class="id" type="keyword">All</span> <span class="id" type="keyword">Variables</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Class</span> <a name="Product"><span class="id" type="record">Product</span></a> (<span class="id" type="var">C</span> : <a class="idref" href="Hask.Category.html#Category"><span class="id" type="class">Category</span></a>) (<span class="id" type="var">P</span> : <a class="idref" href="Hask.Products.html#C"><span class="id" type="variable">C</span></a>) `(<span class="id" type="var">p1</span> : <a class="idref" href="Hask.Products.html#P"><span class="id" type="variable">P</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'~>'_x"><span class="id" type="notation">~&gt;</span></a> <span class="id" type="var">A</span>) `(<span class="id" type="var">p2</span> : <a class="idref" href="Hask.Products.html#P"><span class="id" type="variable">P</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'~>'_x"><span class="id" type="notation">~&gt;</span></a> <span class="id" type="var">B</span>) :=<br/>
+{ <a name="product_ump"><span class="id" type="projection">product_ump</span></a> :<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">∀</span> (<span class="id" type="var">X</span> : <a class="idref" href="Hask.Products.html#C"><span class="id" type="variable">C</span></a>) (<span class="id" type="var">x1</span> : <a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'~>'_x"><span class="id" type="notation">~&gt;</span></a> <a class="idref" href="Hask.Products.html#A"><span class="id" type="variable">A</span></a>) (<span class="id" type="var">x2</span> : <a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'~>'_x"><span class="id" type="notation">~&gt;</span></a> <a class="idref" href="Hask.Products.html#B"><span class="id" type="variable">B</span></a>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:'exists'_x_'..'_x_','_x"><span class="id" type="notation">∃</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:'exists'_x_'..'_x_','_x"><span class="id" type="notation">(</span></a><span class="id" type="var">u</span> : <a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'~>'_x"><span class="id" type="notation">~&gt;</span></a> <a class="idref" href="Hask.Products.html#P"><span class="id" type="variable">P</span></a><a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:'exists'_x_'..'_x_','_x"><span class="id" type="notation">),</span></a> <a class="idref" href="Hask.Products.html#x1"><span class="id" type="variable">x1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'='_x"><span class="id" type="notation">=</span></a> <a class="idref" href="Hask.Products.html#p1"><span class="id" type="variable">p1</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'∘'_x"><span class="id" type="notation">∘</span></a> <a class="idref" href="Hask.Products.html#u"><span class="id" type="variable">u</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'/\'_x"><span class="id" type="notation">∧</span></a> <a class="idref" href="Hask.Products.html#x2"><span class="id" type="variable">x2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'='_x"><span class="id" type="notation">=</span></a> <a class="idref" href="Hask.Products.html#p2"><span class="id" type="variable">p2</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'∘'_x"><span class="id" type="notation">∘</span></a> <a class="idref" href="Hask.Products.html#u"><span class="id" type="variable">u</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'/\'_x"><span class="id" type="notation">∧</span></a> <span class="id" type="keyword">∀</span> (<span class="id" type="var">v</span> : <a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'~>'_x"><span class="id" type="notation">~&gt;</span></a> <a class="idref" href="Hask.Products.html#P"><span class="id" type="variable">P</span></a>), <a class="idref" href="Hask.Products.html#p1"><span class="id" type="variable">p1</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'∘'_x"><span class="id" type="notation">∘</span></a> <a class="idref" href="Hask.Products.html#v"><span class="id" type="variable">v</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'='_x"><span class="id" type="notation">=</span></a> <a class="idref" href="Hask.Products.html#x1"><span class="id" type="variable">x1</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'/\'_x"><span class="id" type="notation">∧</span></a> <a class="idref" href="Hask.Products.html#p2"><span class="id" type="variable">p2</span></a> <a class="idref" href="Hask.Category.html#:category_scope:x_'∘'_x"><span class="id" type="notation">∘</span></a> <a class="idref" href="Hask.Products.html#v"><span class="id" type="variable">v</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'='_x"><span class="id" type="notation">=</span></a> <a class="idref" href="Hask.Products.html#x2"><span class="id" type="variable">x2</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'->'_x"><span class="id" type="notation">→</span></a> <a class="idref" href="Hask.Products.html#v"><span class="id" type="variable">v</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'='_x"><span class="id" type="notation">=</span></a> <a class="idref" href="Hask.Products.html#u"><span class="id" type="variable">u</span></a><br/>
+}.<br/>
+
+<br/>
+<span class="id" type="keyword">Set Printing All</span>.<br/>
+<span class="id" type="keyword">Set Printing Universes</span>.<br/>
+<span class="id" type="keyword">Program Instance</span> <a name="Pair"><span class="id" type="instance">Pair</span></a> {<span class="id" type="var">X</span> <span class="id" type="var">Y</span> : <span class="id" type="keyword">Set</span>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="Hask.Products.html#Product"><span class="id" type="class">Product</span></a> <a class="idref" href="Hask.Category.html#Sets"><span class="id" type="definition">Sets</span></a> (<a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">×</span></a> <a class="idref" href="Hask.Products.html#Y"><span class="id" type="variable">Y</span></a>) (@<a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#fst"><span class="id" type="definition">fst</span></a> <a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a> <a class="idref" href="Hask.Products.html#Y"><span class="id" type="variable">Y</span></a>) (@<a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#snd"><span class="id" type="definition">snd</span></a> <a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a> <a class="idref" href="Hask.Products.html#Y"><span class="id" type="variable">Y</span></a>).<br/>
+<span class="id" type="keyword">Obligation</span> 1. &nbsp;&nbsp;<span class="id" type="tactic">∃</span> (<span class="id" type="keyword">fun</span> <span class="id" type="var">x</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#:core_scope:'('_x_','_x_','_'..'_','_x_')'"><span class="id" type="notation">(</span></a><span class="id" type="var">x1</span> <a class="idref" href="Hask.Products.html#x"><span class="id" type="variable">x</span></a><a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#:core_scope:'('_x_','_x_','_'..'_','_x_')'"><span class="id" type="notation">,</span></a> <span class="id" type="var">x2</span> <a class="idref" href="Hask.Products.html#x"><span class="id" type="variable">x</span></a><a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#:core_scope:'('_x_','_x_','_'..'_','_x_')'"><span class="id" type="notation">)</span></a>).<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">intros</span>. <span class="id" type="tactic">constructor</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">intros</span>. <span class="id" type="tactic">unfold</span> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#fst"><span class="id" type="definition">fst</span></a>. <span class="id" type="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">split</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="tactic">intros</span>. <span class="id" type="tactic">unfold</span> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#snd"><span class="id" type="definition">snd</span></a>. <span class="id" type="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">intros</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">inversion</span> <span class="id" type="var">H</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">extensionality</span> <span class="id" type="var">e</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> &lt;- <span class="id" type="var">H0</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">rewrite</span> &lt;- <span class="id" type="var">H1</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">destruct</span> (<span class="id" type="var">v</span> <span class="id" type="var">e</span>).<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="Tuple_map"><span class="id" type="definition">Tuple_map</span></a> {<span class="id" type="var">Z</span> <span class="id" type="var">X</span> <span class="id" type="var">Y</span>} (<span class="id" type="var">f</span> : <a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Unicode.Utf8_core.html#:type_scope:x_'→'_x"><span class="id" type="notation">→</span></a> <a class="idref" href="Hask.Products.html#Y"><span class="id" type="variable">Y</span></a>) (<span class="id" type="var">p</span> : <a class="idref" href="Hask.Products.html#Z"><span class="id" type="variable">Z</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">×</span></a> <a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a>) : <a class="idref" href="Hask.Products.html#Z"><span class="id" type="variable">Z</span></a> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">×</span></a> <a class="idref" href="Hask.Products.html#Y"><span class="id" type="variable">Y</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <a class="idref" href="Hask.Products.html#p"><span class="id" type="variable">p</span></a> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#pair"><span class="id" type="constructor">pair</span></a> <span class="id" type="var">z</span> <span class="id" type="var">x</span> ⇒ @<a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#pair"><span class="id" type="constructor">pair</span></a> <a class="idref" href="Hask.Products.html#Z"><span class="id" type="variable">Z</span></a> <a class="idref" href="Hask.Products.html#Y"><span class="id" type="variable">Y</span></a> <span class="id" type="var">z</span> (<a class="idref" href="Hask.Products.html#f"><span class="id" type="variable">f</span></a> <span class="id" type="var">x</span>)<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Program Instance</span> <a name="Tuple_Functor"><span class="id" type="instance">Tuple_Functor</span></a> {<span class="id" type="var">Z</span>} : <a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a> <a class="idref" href="Hask.Functors.html#::x_'⟶'_x"><span class="id" type="notation">⟶</span></a> <a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a> :=<br/>
+{ <a class="idref" href="Hask.Functors.html#fobj"><span class="id" type="method">fobj</span></a> := <span class="id" type="keyword">fun</span> <span class="id" type="var">X</span> ⇒ <span class="id" type="var">Z</span> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Datatypes.html#:type_scope:x_'*'_x"><span class="id" type="notation">×</span></a> <a class="idref" href="Hask.Products.html#X"><span class="id" type="variable">X</span></a><br/>
+; <a class="idref" href="Hask.Functors.html#fmap"><span class="id" type="method">fmap</span></a> := @<a class="idref" href="Hask.Products.html#Tuple_map"><span class="id" type="definition">Tuple_map</span></a> <span class="id" type="var">Z</span><br/>
+}.<br/>
+<span class="id" type="keyword">Obligation</span> 1. <span class="id" type="tactic">extensionality</span> <span class="id" type="var">e</span>. <span class="id" type="var">crush</span>. <span class="id" type="keyword">Defined</span>.<br/>
+<span class="id" type="keyword">Obligation</span> 2. <span class="id" type="tactic">extensionality</span> <span class="id" type="var">e</span>. <span class="id" type="var">crush</span>. <span class="id" type="keyword">Defined</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

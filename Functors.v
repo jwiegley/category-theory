@@ -1,7 +1,8 @@
-Require Export Category.
+Require Export Hask.Category.
 
 Open Scope category_scope.
 
+Set Universe Polymorphism.
 Generalizable All Variables.
 
 Class Functor (C : Category) (D : Category) :=
@@ -52,6 +53,50 @@ Proof.
   apply proof_irrelevance.
   apply proof_irrelevance.
 Qed.
+
+(* The Identity [Functor] *)
+
+Definition Id `(C : Category) : Functor C C.
+  apply Build_Functor with
+    (fobj := fun X => X)
+    (fmap := fun X X f => f); crush.
+Defined.
+
+(** [Fun] is the category whose morphisms are functors betwen categories.
+    Traditionally this is called [Cat]. *)
+
+Program Instance Fun : Category :=
+{ ob      := Category
+; hom     := @Functor
+; id      := @Id
+; compose := @fun_compose
+}.
+Obligation 1.
+  unfold fun_compose.
+  destruct f.
+  apply fun_irrelevance.
+  extensionality e.
+  extensionality f.
+  extensionality g.
+  reflexivity.
+Defined.
+Obligation 2.
+  unfold fun_compose.
+  destruct f.
+  apply fun_irrelevance.
+  extensionality e.
+  extensionality f.
+  extensionality g.
+  reflexivity.
+Defined.
+Obligation 3.
+  unfold fun_compose.
+  destruct f.
+  apply fun_irrelevance.
+  extensionality e.
+  extensionality f.
+  reflexivity.
+Defined.
 
 Class Natural `(F : @Functor C D) `(G : @Functor C D) :=
 { transport  : ∀ {X}, F X ~> G X
@@ -139,6 +184,7 @@ Proof.
 Defined.
 
 Notation "C ⟹ D" := (Nat C D) (at level 90, right associativity).
+Notation "[ C , D ]" := (Nat C D) (at level 90, right associativity).
 
 Definition Copresheaves (C : Category) := C ⟹ Sets.
 Definition Presheaves   (C : Category) := C^op ⟹ Sets.
@@ -173,62 +219,42 @@ Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
 Definition dimap `{P : C^op ⟶ D ⟹ E} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
   P W Y ~{E}~> P X Z := bimap (unop f) g.
 
-(* The Identity [Functor] *)
-
-Definition Id `(C : Category) : Functor C C.
-  apply Build_Functor with
-    (fobj := fun X => X)
-    (fmap := fun X X f => f); crush.
+Program Instance Hom `(C : Category) : C^op ⟶ [C, Sets] :=
+{ fobj := fun X =>
+  {| fobj := @hom C X
+   ; fmap := @compose C X
+   |}
+; fmap := fun _ _ f => {| transport := fun X g => g ∘ unop f |}
+}.
+Obligation 1. intros. extensionality e. crush. Defined.
+Obligation 2. intros. extensionality e. crush. Defined.
+Obligation 3. extensionality e. crush. Defined.
+Obligation 4.
+  unfold nat_identity.
+  apply nat_irrelevance.
+  extensionality e.
+  extensionality f.
+  unfold unop.
+  rewrite right_identity.
+  auto.
+Defined.
+Obligation 5.
+  unfold nat_compose, nat_identity.
+  apply nat_irrelevance.
+  extensionality e.
+  simpl.
+  unfold unop.
+  extensionality h.
+  crush.
 Defined.
 
-Program Instance CoArrow {A : Type} : Arr ⟶ Arr :=
-{ fobj := fun Y => A → Y
-; fmap := fun _ _ f g => f ∘ g
-}.
-
-Program Instance ContraArrow {A : Type} : Arr^op ⟶ Arr :=
-{ fobj := fun Y => Y → A
-; fmap := fun _ _ f g x => g (unop f x)
-}.
-
-Program Instance Arrow : Arr^op ⟶ Arr ⟹ Arr :=
-{ fobj := @CoArrow
-; fmap := fun _ _ f => {| transport := fun X g x => g (unop f x) |}
-}.
+Program Instance Yoneda `(C : Category) : C ⟶ [C^op, Sets] := Hom (C^op).
+Obligation 1. apply op_involutive. Defined.
 
 Class FullyFaithful `(F : @Functor C D) :=
 { unfmap : ∀ {X Y : C}, (F X ~> F Y) → (X ~> Y)
 }.
 
-Program Instance Arrow_Faithful : FullyFaithful Arrow :=
-{ unfmap := fun _ _ f => (transport/f) (fun X => X)
-}.
-
-Instance CoHom `(C : Category) (X : C) : C ⟶ Sets :=
-{ fobj := @hom C X
-; fmap := @compose C X
-}.
-Proof.
-  - (* fun_identity *)    intros. extensionality e. crush.
-  - (* fun_composition *) intros. extensionality e. crush.
-Admitted.
-
-Instance Hom `(C : Category) : C ⟶ C ⟹ Sets :=
-{ fobj := @CoHom C
-; fmap := fun X Y f => @transport C (C ⟹ Sets) _ _ _ f
-}.
-Proof.
-  - (* fun_identity *)    intros. extensionality e. crush.
-  - (* fun_composition *) intros. extensionality e. crush.
-Defined.
-
-(* Covariant Yoneda, as opposed to ContraYoneda. *)
-Program Instance CoYoneda `(C : Category) : Yoneda C ⟶ Hom.
-{ fobj := fun Y => Y
-; fmap := fun _ _ f x => (transport/f) (op f x)
-}.
-
-Program Instance Yoneda_Functor `(C : Category) : C ⟶ Yoneda C ⟹ Arr :=
-{ fobj := fun Y => Y
-; fmap := fun _ _ f x => (transport/f) (op f x)
+Program Instance Hom_Faithful (C : Category) : FullyFaithful (Hom C) :=
+{ unfmap := fun _ _ f => (transport/f) id
 }.

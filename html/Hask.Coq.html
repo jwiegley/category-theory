@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>Hask.Coq</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Hask.Coq</h1>
+
+<div class="code">
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="Hask.Functors.html#"><span class="id" type="library">Hask.Functors</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" type="keyword">Set</span> <span class="id" type="var">Universe</span> <span class="id" type="var">Polymorphism</span>.<br/>
+<span class="id" type="keyword">Section</span> <a name="Maybe"><span class="id" type="section">Maybe</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Inductive</span> <a name="Maybe"><span class="id" type="inductive">Maybe</span></a> {<span class="id" type="var">A</span> : <span class="id" type="keyword">Type</span>} : <span class="id" type="keyword">Type</span> :=<br/>
+&nbsp;&nbsp;| <a name="Nothing"><span class="id" type="constructor">Nothing</span></a> : @<a class="idref" href="Hask.Coq.html#Maybe"><span class="id" type="inductive">Maybe</span></a> <span class="id" type="var">A</span><br/>
+&nbsp;&nbsp;| <a name="Just"><span class="id" type="constructor">Just</span></a>    : <span class="id" type="var">A</span> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Init.Logic.html#:type_scope:x_'->'_x"><span class="id" type="notation">→</span></a> @<a class="idref" href="Hask.Coq.html#Maybe"><span class="id" type="inductive">Maybe</span></a> <span class="id" type="var">A</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Program Instance</span> <a name="Maybe_Functor"><span class="id" type="instance">Maybe_Functor</span></a> : <a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a> <a class="idref" href="Hask.Functors.html#::x_'⟶'_x"><span class="id" type="notation">⟶</span></a> <a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a> :=<br/>
+{ <a class="idref" href="Hask.Functors.html#fmap"><span class="id" type="method">fmap</span></a> := <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">_</span> <span class="id" type="var">f</span> <span class="id" type="var">x</span> ⇒ <span class="id" type="keyword">match</span> <a class="idref" href="Hask.Coq.html#x"><span class="id" type="variable">x</span></a> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;| <a class="idref" href="Hask.Coq.html#Nothing"><span class="id" type="constructor">Nothing</span></a> ⇒ <a class="idref" href="Hask.Coq.html#Nothing"><span class="id" type="constructor">Nothing</span></a><br/>
+&nbsp;&nbsp;&nbsp;| <a class="idref" href="Hask.Coq.html#Just"><span class="id" type="constructor">Just</span></a> <span class="id" type="var">x'</span> ⇒ <a class="idref" href="Hask.Coq.html#Just"><span class="id" type="constructor">Just</span></a> (<a class="idref" href="Hask.Coq.html#f"><span class="id" type="variable">f</span></a> <span class="id" type="var">x'</span>)<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+}.<br/>
+<span class="id" type="keyword">Obligation</span> 1. <span class="id" type="var">simple_solver</span>. <span class="id" type="keyword">Defined</span>.<br/>
+<span class="id" type="keyword">Obligation</span> 2. <span class="id" type="var">simple_solver</span>. <span class="id" type="keyword">Defined</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="Hask.Coq.html#Maybe"><span class="id" type="section">Maybe</span></a>. 
+<br/>
+
+<br/>
+<span class="id" type="keyword">Inductive</span> <a name="Either"><span class="id" type="inductive">Either</span></a> {<span class="id" type="var">E</span> <span class="id" type="var">X</span> : <span class="id" type="keyword">Type</span>} :=<br/>
+&nbsp;&nbsp;| <a name="Left"><span class="id" type="constructor">Left</span></a>  : <span class="id" type="var">E</span> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Unicode.Utf8_core.html#:type_scope:x_'→'_x"><span class="id" type="notation">→</span></a> @<a class="idref" href="Hask.Coq.html#Either"><span class="id" type="inductive">Either</span></a> <span class="id" type="var">E</span> <span class="id" type="var">X</span><br/>
+&nbsp;&nbsp;| <a name="Right"><span class="id" type="constructor">Right</span></a> : <span class="id" type="var">X</span> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Unicode.Utf8_core.html#:type_scope:x_'→'_x"><span class="id" type="notation">→</span></a> @<a class="idref" href="Hask.Coq.html#Either"><span class="id" type="inductive">Either</span></a> <span class="id" type="var">E</span> <span class="id" type="var">X</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Program Instance</span> <a name="Either_Bifunctor"><span class="id" type="instance">Either_Bifunctor</span></a> : <a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a> <a class="idref" href="Hask.Functors.html#::x_'⟶'_x"><span class="id" type="notation">⟶</span></a> <a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a> <a class="idref" href="Hask.Functors.html#::x_'⟹'_x"><span class="id" type="notation">⟹</span></a> <a class="idref" href="Hask.Category.html#Arr"><span class="id" type="instance">Arr</span></a> :=<br/>
+{ <a class="idref" href="Hask.Functors.html#fobj"><span class="id" type="method">fobj</span></a> := <span class="id" type="keyword">fun</span> <span class="id" type="var">Z</span> ⇒<br/>
+&nbsp;&nbsp;{| <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">fobj</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">:=</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">@</span></a><a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">Either</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">Z</span></a><br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">;</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">fmap</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">:=</span></a> <span class="id" type="keyword">fun</span> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">_</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">_</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">f</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">e</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">⇒</span></a> <span class="id" type="keyword">match</span> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">e</span></a> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">|</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">Left</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">x</span></a>  <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">⇒</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">Left</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">x</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">|</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">Right</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">x</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">⇒</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">Right</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">(</span></a><a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">f</span></a> <a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">x</span></a><a class="idref" href="Hask.Functors.html#Build_Functor"><span class="id" type="constructor">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;|}<br/>
+; <a class="idref" href="Hask.Functors.html#fmap"><span class="id" type="method">fmap</span></a> := <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">_</span> <span class="id" type="var">f</span> ⇒<br/>
+&nbsp;&nbsp;{| <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">transport</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">:=</span></a> <span class="id" type="keyword">fun</span> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">_</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">e</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">⇒</span></a> <span class="id" type="keyword">match</span> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">e</span></a> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">|</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">Left</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">x</span></a>  <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">⇒</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">Left</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">(</span></a><a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">f</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">x</span></a><a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">)</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">|</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">Right</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">x</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">⇒</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">Right</span></a> <a class="idref" href="Hask.Functors.html#Build_Natural"><span class="id" type="constructor">x</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;|}<br/>
+}.<br/>
+<span class="id" type="keyword">Obligation</span> 1. <span class="id" type="tactic">extensionality</span> <span class="id" type="var">e</span>. <span class="id" type="var">crush</span>. <span class="id" type="keyword">Defined</span>.<br/>
+<span class="id" type="keyword">Obligation</span> 2. <span class="id" type="tactic">extensionality</span> <span class="id" type="var">e</span>. <span class="id" type="var">crush</span>. <span class="id" type="keyword">Defined</span>.<br/>
+<span class="id" type="keyword">Obligation</span> 3. <span class="id" type="tactic">extensionality</span> <span class="id" type="var">e</span>. <span class="id" type="var">crush</span>. <span class="id" type="keyword">Defined</span>.<br/>
+<span class="id" type="keyword">Obligation</span> 4.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <a class="idref" href="Hask.Functors.html#nat_irrelevance"><span class="id" type="lemma">nat_irrelevance</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">extensionality</span> <span class="id" type="var">e</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">extensionality</span> <span class="id" type="var">f</span>. <span class="id" type="var">crush</span>.<br/>
+<span class="id" type="keyword">Defined</span>.<br/>
+<span class="id" type="keyword">Obligation</span> 5.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">apply</span> <a class="idref" href="Hask.Functors.html#nat_irrelevance"><span class="id" type="lemma">nat_irrelevance</span></a>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">extensionality</span> <span class="id" type="var">e</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">unfold</span> <a class="idref" href="Hask.Category.html#compose"><span class="id" type="method">compose</span></a>. <span class="id" type="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">eapply</span> <a class="idref" href="http://coq.inria.fr/distrib/trunk/stdlib/Coq.Logic.FunctionalExtensionality.html#functional_extensionality"><span class="id" type="lemma">functional_extensionality</span></a>. <span class="id" type="var">crush</span>.<br/>
+<span class="id" type="keyword">Defined</span>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

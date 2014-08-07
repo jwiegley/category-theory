@@ -1,9 +1,9 @@
-Set Printing Width 100.
-
 Require Export Coq.Program.Equality.
 Require Export Coq.Unicode.Utf8.
 Require Export FunctionalExtensionality.
-Require Export CpdtTactics.
+Require Export Hask.CpdtTactics.
+
+Set Printing Width 100.
 
 Definition π1 {A : Type} {P : A → Type} (k : {x : A & P x}) := projT1 k.
 Definition π2 {A : Type} {P : A → Type} (k : {x : A & P x}) := projT2 k.

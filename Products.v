@@ -1,11 +1,10 @@
-Require Export Functors.
+Require Export Hask.Functors.
 
 Open Scope type_scope.
 
 Generalizable All Variables.
 
-Class Product `(C : Category)
-  (P : C) `(p1 : P ~> A) `(p2 : P ~> B) :=
+Class Product (C : Category) (P : C) `(p1 : P ~> A) `(p2 : P ~> B) :=
 { product_ump :
     forall (X : C) (x1 : X ~> A) (x2 : X ~> B),
        exists (u : X ~> P), x1 = p1 ∘ u /\ x2 = p2 ∘ u
@@ -14,8 +13,10 @@ Class Product `(C : Category)
 
 (* Tuples in the Arr category satisfy the UMP for products.
 *)
-Program Instance Tuple_Product {X Y : Set}
-  : Product Arr (X * Y) (@fst X Y) (@snd X Y).
+Set Printing All.
+Set Printing Universes.
+Program Instance Pair {X Y : Set}
+  : Product Sets (X * Y) (@fst X Y) (@snd X Y).
 Obligation 1. (* product ump *)
   exists (fun x => (x1 x, x2 x)).
   intros. constructor.
@@ -42,9 +43,3 @@ Program Instance Tuple_Functor {Z} : Arr ⟶ Arr :=
 }.
 Obligation 1. extensionality e. crush. Defined.
 Obligation 2. extensionality e. crush. Defined.
-
-Definition Tuple_bimap {X Y W Z} (f : X → W) (g : Y → Z)
-  (p : X * Y) : W * Z :=
-  match p with
-  | pair z x => @pair W Z (f z) (g x)
-  end.

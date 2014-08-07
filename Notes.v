@@ -1,35 +1,6 @@
 (* NOTE: In curried category theory, Op is Yoneda. *)
 
 (*
-Lemma cat_irrelevance `(C : Category) `(D : Category)
-  : forall (m n : ∀ {A}, A ~> A)
-           (p q : ∀ {A B C}, (B ~> C) → (A ~> B) → (A ~> C))
-           l l' r r' c c',
-  @m = @n ->
-  @p = @q ->
-  {| ob             := C
-   ; hom            := @hom C
-   ; id             := @m
-   ; compose        := @p
-   ; left_identity  := l
-   ; right_identity := r
-   ; comp_assoc     := c
- |} =
-  {| ob             := C
-   ; hom            := @hom C
-   ; id             := @n
-   ; compose        := @q
-   ; left_identity  := l'
-   ; right_identity := r'
-   ; comp_assoc     := c'
- |}.
-Proof.
-  intros. subst.
-  f_equal.
-  apply proof_irrelevance.
-  apply proof_irrelevance.
-  apply proof_irrelevance.
-Qed.
 *)
 
 (* Cat is the category of all locally small categories.  We cannot represent

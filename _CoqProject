@@ -1,0 +1,7 @@
+-R . Hask 
+./Category.v
+./Coq.v
+./CpdtTactics.v
+./Functors.v
+./Products.v
+./Utils.v

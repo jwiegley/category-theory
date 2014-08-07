@@ -1,7 +1,8 @@
-Require Export Functors.
+Require Export Hask.Functors.
 
 (* Maybe indicates optional values. *)
 
+Set Universe Polymorphism.
 Section Maybe.
 
 Inductive Maybe {A : Type} : Type :=
@@ -51,17 +52,19 @@ Defined.
 Obligation 5.
   apply nat_irrelevance.
   extensionality e.
+  unfold compose. simpl.
   eapply functional_extensionality. crush.
 Defined.
 
+(*
 Example either_fmap_ex1 :
-  ∀ n, fmap S nat (Left n)  = Left (S n)
-     ∧ fmap S nat (Right n) = @Right nat nat n.
+  ∀ n : nat, fmap S (Left n)  = Left (S n)
+           ∧ fmap S (Right n) = @Right nat nat n.
 Proof. split; reflexivity. Qed.
 
 Example either_fmap1_ex1 :
-  ∀ n, fmap1 S (Left n) = Left n
-     ∧ fmap1 S (Right n) = @Right nat nat (S n).
+  ∀ n : nat, fmap1 S (Left n) = Left n
+           ∧ fmap1 S (Right n) = @Right nat nat (S n).
 Proof. split; reflexivity. Qed.
 
 Example either_bimap_ex1 :
@@ -71,3 +74,4 @@ Proof. reflexivity. Qed.
 Example either_bimap_ex2 :
   ∀ n, bimap S pred (Right n) = Right (pred n).
 Proof. reflexivity. Qed.
+*)
