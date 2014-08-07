@@ -62,6 +62,8 @@ Defined.
 
 Notation "C ^op" := (Opposite C) (at level 90) : category_scope.
 
+Definition Yoneda := Opposite.
+
 Definition op `{C : Category}
   : forall {X Y}, (X ~{C^op}~> Y) -> (Y ~{C}~> X).
 Proof. intros. auto. Defined.

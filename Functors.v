@@ -203,3 +203,32 @@ Class FullyFaithful `(F : @Functor C D) :=
 Program Instance Arrow_Faithful : FullyFaithful Arrow :=
 { unfmap := fun _ _ f => (transport/f) (fun X => X)
 }.
+
+Instance CoHom `(C : Category) (X : C) : C ⟶ Sets :=
+{ fobj := @hom C X
+; fmap := @compose C X
+}.
+Proof.
+  - (* fun_identity *)    intros. extensionality e. crush.
+  - (* fun_composition *) intros. extensionality e. crush.
+Admitted.
+
+Instance Hom `(C : Category) : C ⟶ C ⟹ Sets :=
+{ fobj := @CoHom C
+; fmap := fun X Y f => @transport C (C ⟹ Sets) _ _ _ f
+}.
+Proof.
+  - (* fun_identity *)    intros. extensionality e. crush.
+  - (* fun_composition *) intros. extensionality e. crush.
+Defined.
+
+(* Covariant Yoneda, as opposed to ContraYoneda. *)
+Program Instance CoYoneda `(C : Category) : Yoneda C ⟶ Hom.
+{ fobj := fun Y => Y
+; fmap := fun _ _ f x => (transport/f) (op f x)
+}.
+
+Program Instance Yoneda_Functor `(C : Category) : C ⟶ Yoneda C ⟹ Arr :=
+{ fobj := fun Y => Y
+; fmap := fun _ _ f x => (transport/f) (op f x)
+}.

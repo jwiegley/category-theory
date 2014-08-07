@@ -1,5 +1,7 @@
 Require Export Functors.
 
+Definition Yoneda (C : Category) (A B : C) := Op { getOp :: p b a }
+
 (*
 Inductive Yoneda (F : Type -> Type) X : Type :=
   | Embed : forall {Y}, F Y -> (Y -> X) -> Yoneda F X.
