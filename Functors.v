@@ -207,7 +207,7 @@ and [fmap1]), and the [Natural] instance, can be found in the category of
 functors we're mapping to by applying [P].
 *)
 
-Definition fmap1 `{P : C ⟶ D ⟹ E} `(f : X ~{D}~> Y) {A : C} :
+Definition fmap1 `{P : C ⟶ D ⟹ E} {A : C} `(f : X ~{D}~> Y) :
   P A X ~{E}~> P A Y := fmap f.
 
 Definition bimap `{P : C ⟶ D ⟹ E} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :

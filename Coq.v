@@ -56,22 +56,28 @@ Obligation 5.
   eapply functional_extensionality. crush.
 Defined.
 
-(*
+(* jww (2014-08-07): TODO: Apparently I've lost the connection between values
+   and typeclass instances for objects in Arr, owing to recently added towers
+   of abstraction. *)
+
 Example either_fmap_ex1 :
-  ∀ n : nat, fmap S (Left n)  = Left (S n)
-           ∧ fmap S (Right n) = @Right nat nat n.
+  let fmap' f := @fmap _ _ Either_Bifunctor _ _ f _ in
+  ∀ n : nat, fmap' S (Left n)  = Left (S n)
+           ∧ fmap' S (Right n) = @Right nat nat n.
 Proof. split; reflexivity. Qed.
 
 Example either_fmap1_ex1 :
-  ∀ n : nat, fmap1 S (Left n) = Left n
-           ∧ fmap1 S (Right n) = @Right nat nat (S n).
+  let fmap1' f := @fmap1 _ _ _ Either_Bifunctor _ _ _ f in
+  ∀ n : nat, fmap1' S (Left n)  = Left n
+           ∧ fmap1' S (Right n) = @Right nat nat (S n).
 Proof. split; reflexivity. Qed.
 
 Example either_bimap_ex1 :
-  ∀ n, bimap S pred (Left n) = Left (S n).
+  let bimap' f g := @bimap _ _ _ Either_Bifunctor _ _ f _ _ g in
+  ∀ n, bimap' S pred (Left n) = Left (S n).
 Proof. reflexivity. Qed.
 
 Example either_bimap_ex2 :
-  ∀ n, bimap S pred (Right n) = Right (pred n).
+  let bimap' f g := @bimap _ _ _ Either_Bifunctor _ _ f _ _ g in
+  ∀ n, bimap' S pred (Right n) = Right (pred n).
 Proof. reflexivity. Qed.
-*)
