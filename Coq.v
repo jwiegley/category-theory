@@ -56,10 +56,6 @@ Obligation 5.
   eapply functional_extensionality. crush.
 Defined.
 
-(* jww (2014-08-07): TODO: Apparently I've lost the connection between values
-   and typeclass instances for objects in Sets, owing to recently added towers
-   of abstraction. *)
-
 Example either_fmap_ex1 :
   let fmap' f := @fmap _ _ Either_Bifunctor _ _ f _ in
   ∀ n : nat, fmap' S (Left n)  = Left (S n)
@@ -67,17 +63,12 @@ Example either_fmap_ex1 :
 Proof. split; reflexivity. Qed.
 
 Example either_fmap1_ex1 :
-  let fmap1' f := @fmap1 _ _ _ Either_Bifunctor _ _ _ f in
-  ∀ n : nat, fmap1' S (Left n)  = Left n
-           ∧ fmap1' S (Right n) = @Right nat nat (S n).
+  ∀ n : nat, fmap1 S (Left n)  = Left n
+           ∧ fmap1 S (Right n) = @Right nat nat (S n).
 Proof. split; reflexivity. Qed.
 
-Example either_bimap_ex1 :
-  let bimap' f g := @bimap _ _ _ Either_Bifunctor _ _ f _ _ g in
-  ∀ n, bimap' S pred (Left n) = Left (S n).
+Example either_bimap_ex1 : ∀ n, bimap S pred (Left n) = Left (S n).
 Proof. reflexivity. Qed.
 
-Example either_bimap_ex2 :
-  let bimap' f g := @bimap _ _ _ Either_Bifunctor _ _ f _ _ g in
-  ∀ n, bimap' S pred (Right n) = Right (pred n).
+Example either_bimap_ex2 : ∀ n, bimap S pred (Right n) = Right (pred n).
 Proof. reflexivity. Qed.

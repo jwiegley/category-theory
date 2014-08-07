@@ -65,6 +65,7 @@ Defined.
 (** [Fun] is the category whose morphisms are functors betwen categories.
     Traditionally this is called [Cat]. *)
 
+Section Hidden.
 Program Instance Cat : Category :=
 { ob      := Category
 ; hom     := @Functor
@@ -97,6 +98,7 @@ Obligation 3.
   extensionality f.
   reflexivity.
 Defined.
+End Hidden.
 
 Class Natural `(F : @Functor C D) `(G : @Functor C D) :=
 { transport  : ∀ {X}, F X ~> G X
@@ -210,7 +212,7 @@ functors we're mapping to by applying [P].
 Definition fmap1 `{P : C ⟶ D ⟹ E} {A : C} `(f : X ~{D}~> Y) :
   P A X ~{E}~> P A Y := fmap f.
 
-Definition bimap `{P : C ⟶ D ⟹ E} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
+Definition bimap `{P : C ⟶ D ⟹ E} {X W : C} {Y Z : D} (f : X ~{C}~> W) (g : Y ~{D}~> Z) :
   P X Y ~{E}~> P W Z := let N := @fmap _ _ P _ _ f in transport/N ∘ fmap1 g.
 
 Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
