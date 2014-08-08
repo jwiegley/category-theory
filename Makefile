@@ -12,5 +12,6 @@ Makefile.coq: *.v
 	sed -i -e 's#cd "./." && .(MAKE) all#cd ./. ; echo $(MAKE) all#' Makefile.coq
 
 clean:
-	rm -f *.d *.vo *.glob Makefile.coq
+	rm -f *.d *.vo *.glob Makefile.coq .*.aux
+	rm -fr .coq-native
 	rm -fr html
