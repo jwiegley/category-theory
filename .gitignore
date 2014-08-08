@@ -1,5 +1,17 @@
 *.v.d
+*.v.tex
 .*.aux
+*.aux
 .coq-native/
 /html/
 /Makefile.coq
+/Book.aux
+/Book.bbl
+/Book.blg
+/Book.idx
+/Book.ilg
+/Book.ind
+/Book.log
+/Book.out
+/Book.pdf
+/Book.toc

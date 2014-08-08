@@ -19,6 +19,9 @@ to [G]; it also a name for the category [Nat] ([F ⟹ G] is just sugar for [Nat
 F G]): the category of functors from some implied [C] to [D].  We can normally
 let the particular cateries be inferred from context, or they can be named
 using [@Nat C D F G].
+
+Reference: _Categories for the Working Mathematician_ %\cite{Categories}%, by
+Saunders Mac Lane.
 *)
 
 Require Export Hask.Utils.
@@ -67,6 +70,7 @@ Class Category :=
     f ∘ (g ∘ h) = (f ∘ g) ∘ h
 }.
 
+(* begin hide *)
 (** Using a [Category] in a context requiring a [Type] will do what is
     expected using this coercion. *)
 Coercion ob : Category >-> Sortclass.
@@ -111,6 +115,7 @@ Proof.
   apply proof_irrelevance.
   apply proof_irrelevance.
 Qed.
+(* end hide *)
 
 (** The opposite, or categorical dual, of any category is expressed as
     [C^op]. *)
