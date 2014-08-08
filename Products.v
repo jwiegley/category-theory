@@ -1,5 +1,5 @@
+Require Export Hask.Category.
 Require Export Hask.Functors.
-Require Export Coq.Logic.EqdepFacts.
 
 Open Scope type_scope.
 
@@ -46,15 +46,37 @@ Section EpisMonos.
   Proof.
     intros.
     unfold Epic.
-    intros.
     unfold Retraction in X0.
+    intros.
     destruct X0.
-  Admitted.
+    rewrite <- right_identity.
+    symmetry.
+    rewrite <- right_identity.
+    rewrite <- e.
+    rewrite comp_assoc.
+    rewrite comp_assoc.
+    f_equal.
+    auto.
+  Qed.
 
   Definition SplitEpi := Retraction.
 
   Lemma sections_are_monic : Section' → Monic.
-  Admitted.
+  Proof.
+    intros.
+    unfold Monic.
+    unfold Section' in X0.
+    intros.
+    destruct X0.
+    rewrite <- left_identity.
+    symmetry.
+    rewrite <- left_identity.
+    rewrite <- e.
+    rewrite <- comp_assoc.
+    rewrite <- comp_assoc.
+    f_equal.
+    auto.
+  Qed.
 
   Definition SplitMono := Section'.
 
@@ -62,10 +84,77 @@ Section EpisMonos.
     { s : Section' & { r : Retraction & projT1 s = projT1 r } }.
 
   Lemma monic_retractions_are_iso : Retraction → Monic → Isomorphism.
-  Admitted.
+  Proof.
+    intros.
+    unfold Isomorphism.
+    unfold Monic in H.
+    unfold Retraction in X0.
+    destruct X0.
+    unfold Section'.
+    unfold Retraction.
+    assert {g : Y ~{ C }~> X & g ∘ f = id}.
+      exists x. specialize (H X (x ∘ f) id).
+      rewrite H. reflexivity.
+      rewrite comp_assoc.
+      rewrite e.
+      rewrite left_identity.
+      rewrite right_identity.
+      reflexivity.
+    exists X0.
+    assert {g : Y ~{ C }~> X & f ∘ g = id}.
+      exists x. assumption.
+    exists X1.
+    destruct X0.
+    destruct X1.
+    simpl.
+    specialize (H X (x0 ∘ f) (x1 ∘ f)).
+    rewrite <- right_identity.
+    rewrite <- e1.
+    rewrite comp_assoc.
+    rewrite <- H.
+    rewrite <- comp_assoc.
+    rewrite e1.
+    auto.
+    symmetry.
+    rewrite comp_assoc.
+    rewrite e0.
+    rewrite e1.
+    rewrite left_identity.
+    rewrite right_identity.
+    reflexivity.
+  Qed.
 
   Lemma epic_sections_are_iso : Epic → Section' → Isomorphism.
-  Admitted.
+  Proof.
+    unfold Epic.
+    unfold Section'.
+    unfold Isomorphism.
+    intros.
+    unfold Section'.
+    unfold Retraction.
+    destruct X0.
+    assert {g : Y ~{ C }~> X & g ∘ f = id/ X}.
+      exists x. assumption.
+    exists X0.
+    assert {g : Y ~{ C }~> X & f ∘ g = id/ Y}.
+      exists x. specialize (H Y (f ∘ x) id).
+      rewrite H. reflexivity.
+      rewrite <- comp_assoc.
+      rewrite e.
+      rewrite left_identity.
+      rewrite right_identity.
+      reflexivity.
+    exists X1.
+    destruct X0.
+    destruct X1.
+    simpl.
+    specialize (H Y (f ∘ x0) (f ∘ x1)).
+    rewrite <- left_identity.
+    rewrite <- e0.
+    rewrite <- comp_assoc.
+    rewrite e1.
+    auto.
+  Qed.
 
 End EpisMonos.
 
@@ -143,9 +232,17 @@ Proof. split.
   + constructor.
 Qed.
 
-Lemma existence_exists {A} (a : A) (P : A → Prop) : (∃ y : A, P y) = P a.
+Lemma existence_exists :
+  ∀ {A} (a : A) (P : A → Prop), P a → (∃ y : A, P y) = P a.
 Proof.
-Admitted.
+  intros.
+  assert (forall P Q : Prop, P <-> Q -> P = Q).
+    intros. destruct H0. admit.
+  apply H0.
+  split; intros; auto.
+  exists a.
+  assumption.
+Qed.
 
 Lemma surjectivity_is_epic `(f : X ~> Y)
   : (∀ y, ∃ x, f x = y) ↔ @Epic Sets X Y f.
@@ -169,6 +266,7 @@ Proof. split.
   erewrite H. constructor.
   extensionality e.
   rewrite (existence_exists e).
+  reflexivity.
   reflexivity.
 Qed.
 
@@ -199,8 +297,7 @@ Qed.
 (* Notation "X ≅ Y" := (Isomorphism X Y) (at level 50) : type_scope. *)
 (* Notation "x ≡ y" := (to x = y /\ from y = x) (at level 50). *)
 
-Lemma uniqueness_of_products (C : Category) :
-  ∀ {X Y} (p q : @Product C X Y),
+Lemma uniqueness_of_products (C : Category) : ∀ {X Y} (p q : @Product C X Y),
   let    ump1 := product_ump q (fst p) (snd p)
   in let ump2 := product_ump p (fst q) (snd q)
   in projT1 ump1 ∘ projT1 ump2 = id ∧ projT1 ump2 ∘ projT1 ump1 = id.

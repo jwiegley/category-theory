@@ -74,7 +74,8 @@ Coercion ob : Category >-> Sortclass.
 Notation "a ~> b" := (hom a b) : category_scope.
 Notation "a ~{ C }~> b" := (@hom C a b) (at level 100) : category_scope.
 Notation "f ∘ g" := (compose f g) : category_scope.
-Notation "ob/ C" := (@ob C) (at level 44).
+Notation "ob/ C" := (@ob C) (at level 44) : category_scope.
+Notation "id/ X" := (@id _ X) (at level 44).
 
 Open Scope category_scope.
 
