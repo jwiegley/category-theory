@@ -35,19 +35,13 @@ Section EpisMonos.
   Variable X Y : C.
   Variable f : X ~{C}~> Y.
 
-  Definition Epic :=
-    ∀ {Z} (g1 g2 : Y ~> Z), g1 ∘ f = g2 ∘ f → g1 = g2.
-
-  Definition Monic :=
-    ∀ {Z} (g1 g2 : Z ~> X), f ∘ g1 = f ∘ g2 → g1 = g2.
-
-  Definition Bimorphic := Epic ∧ Monic.
-
-  Definition Section' := { g : Y ~> X & g ∘ f = id }.
-
+  Definition Epic       := ∀ {Z} (g1 g2 : Y ~> Z), g1 ∘ f = g2 ∘ f → g1 = g2.
+  Definition Monic      := ∀ {Z} (g1 g2 : Z ~> X), f ∘ g1 = f ∘ g2 → g1 = g2.
+  Definition Bimorphic  := Epic ∧ Monic.
+  Definition Section'   := { g : Y ~> X & g ∘ f = id }.
   Definition Retraction := { g : Y ~> X & f ∘ g = id }.
 
-  Lemma retraction_epic : Retraction → Epic.
+  Lemma retractions_are_epic : Retraction → Epic.
   Proof.
     intros.
     unfold Epic.
@@ -56,21 +50,115 @@ Section EpisMonos.
     destruct X0.
   Admitted.
 
-  Lemma section_monic : Section' → Monic.
+  Definition SplitEpi := Retraction.
+
+  Lemma sections_are_monic : Section' → Monic.
   Admitted.
+
+  Definition SplitMono := Section'.
 
   Definition Isomorphism :=
-    { s : Section' & ∃ r : Retraction, projT1 s = projT1 r }.
+    { s : Section' & { r : Retraction & projT1 s = projT1 r } }.
 
-  Lemma retraction_monic_iso :
-    Retraction → Monic → Isomorphism.
+  Lemma monic_retractions_are_iso : Retraction → Monic → Isomorphism.
   Admitted.
 
-  Lemma epic_section_iso :
-    Epic → Section' → Isomorphism.
+  Lemma epic_sections_are_iso : Epic → Section' → Isomorphism.
   Admitted.
 
 End EpisMonos.
+
+Definition flip_section (C : Category) `(f : X ~> Y)
+  (s : @Section' C X Y f) : @Retraction C Y X (projT1 s).
+Proof.
+  unfold Retraction.
+  unfold Section' in s.
+  destruct s.
+  exists f.
+  simpl.
+  assumption.
+Defined.
+
+Definition flip_retraction (C : Category) `(f : X ~> Y)
+  (s : @Retraction C X Y f) : @Section' C Y X (projT1 s).
+Proof.
+  unfold Section'.
+  unfold Retraction in s.
+  destruct s.
+  exists f.
+  simpl.
+  assumption.
+Defined.
+
+Definition flip_iso (C : Category) `(f : X ~> Y)
+  (i : @Isomorphism C X Y f) : @Isomorphism C Y X (projT1 (projT1 i)).
+Proof.
+  unfold Isomorphism in *.
+  unfold Section' in *.
+  unfold Retraction in *.
+  destruct i. simpl.
+  destruct x. simpl.
+  destruct s.
+  destruct x0. simpl in e0.
+  subst.
+  assert {g : X ~{ C }~> Y & g ∘ x0 = id} as H.
+    exists f. assumption.
+  exists H.
+  assert {g : X ~{ C }~> Y & x0 ∘ g = id} as H1.
+    exists f. assumption.
+  exists H1.
+  destruct H.
+  destruct H1.
+  simpl.
+  rewrite <- left_identity.
+  rewrite <- e0.
+  rewrite <- comp_assoc.
+  rewrite e2.
+  rewrite right_identity.
+  reflexivity.
+Defined.
+
+Lemma injectivity_is_monic `(f : X ~> Y)
+  : (∀ x y, f x = f y → x = y) ↔ @Monic Sets X Y f.
+Proof. split.
+- intros.
+  unfold Monic.
+  intros.
+  simpl in H0.
+  extensionality e.
+  apply H.
+  apply (equal_f H0).
+- intros.
+  unfold Monic in H.
+  simpl in *.
+  intuition.
+  pose (fun (_ : unit) => x) as const_x.
+  pose (fun (_ : unit) => y) as const_y.
+  specialize (H unit const_x const_y).
+  unfold const_x in H.
+  unfold const_y in H.
+  apply equal_f in H.
+  + assumption.
+  + extensionality e. assumption.
+  + constructor.
+Qed.
+
+Lemma surjectivity_is_epic `(f : X ~> Y)
+  : (∀ y, ∃ x, f x = y) ↔ @Epic Sets X Y f.
+Proof. split.
+- intros.
+  unfold Epic.
+  intros.
+  simpl in H0.
+  extensionality e.
+  specialize (H e).
+  destruct H.
+  rewrite <- H.
+  apply (equal_f H0).
+- intros.
+  unfold Epic in H.
+  simpl in H.
+Admitted.
 
 Lemma id_iso : ∀ (C : Category) (X : C), @Isomorphism C X X id.
 Proof.
@@ -94,6 +182,8 @@ Proof.
   reflexivity.
 Qed.
 
+(* Definition Uniqueness `(f : X ~> Y), *)
+
 (* Notation "X ≅ Y" := (Isomorphism X Y) (at level 50) : type_scope. *)
 (* Notation "x ≡ y" := (to x = y /\ from y = x) (at level 50). *)
 
@@ -112,11 +202,8 @@ Proof.
     destruct H0.
     destruct a0.
     destruct H3.
-    specialize (H1 x).
-    specialize (H4 x0).
-    intuition.
-    (* rewrite <- H0 in H2. *)
-    (* rewrite <- comp_assoc in H2. *)
+    pose id_iso.
+    unfold Isomorphism in i.
 Abort.
 
 (*
