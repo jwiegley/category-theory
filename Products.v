@@ -1,4 +1,5 @@
 Require Export Hask.Functors.
+Require Export Coq.Logic.EqdepFacts.
 
 Open Scope type_scope.
 
@@ -124,24 +125,27 @@ Proof. split.
 - intros.
   unfold Monic.
   intros.
-  simpl in H0.
   extensionality e.
   apply H.
+  simpl in H0.
   apply (equal_f H0).
 - intros.
   unfold Monic in H.
-  simpl in *.
-  intuition.
   pose (fun (_ : unit) => x) as const_x.
   pose (fun (_ : unit) => y) as const_y.
   specialize (H unit const_x const_y).
   unfold const_x in H.
   unfold const_y in H.
+  simpl in H.
   apply equal_f in H.
   + assumption.
   + extensionality e. assumption.
   + constructor.
 Qed.
+
+Lemma existence_exists {A} (a : A) (P : A → Prop) : (∃ y : A, P y) = P a.
+Proof.
+Admitted.
 
 Lemma surjectivity_is_epic `(f : X ~> Y)
   : (∀ y, ∃ x, f x = y) ↔ @Epic Sets X Y f.
@@ -157,8 +161,16 @@ Proof. split.
   apply (equal_f H0).
 - intros.
   unfold Epic in H.
-  simpl in H.
-Admitted.
+  specialize H with (Z := Prop).
+  specialize H with (g1 := fun y0 => ∃ x0, f x0 = y0).
+  simpl in *.
+  specialize H with (g2 := fun y  => y = y).
+  eapply equal_f in H.
+  erewrite H. constructor.
+  extensionality e.
+  rewrite (existence_exists e).
+  reflexivity.
+Qed.
 
 Lemma id_iso : ∀ (C : Category) (X : C), @Isomorphism C X X id.
 Proof.
