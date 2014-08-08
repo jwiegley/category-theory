@@ -1,3 +1,4 @@
 *.v.d
 .*.aux
 .coq-native/
+/html/
