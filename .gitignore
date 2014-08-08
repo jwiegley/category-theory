@@ -2,3 +2,4 @@
 .*.aux
 .coq-native/
 /html/
+/Makefile.coq
