@@ -185,16 +185,15 @@ Proof.
     reflexivity.
 Defined.
 
-Notation "C ⟹ D" := (Nat C D) (at level 90, right associativity).
 Notation "[ C , D ]" := (Nat C D) (at level 90, right associativity).
 
-Definition Copresheaves (C : Category) := C ⟹ Sets.
-Definition Presheaves   (C : Category) := C^op ⟹ Sets.
+Definition Copresheaves (C : Category) := [C, Sets].
+Definition Presheaves   (C : Category) := [C^op, Sets].
 
 (*
 Bifunctors can be curried:
 
-  C × D ⟶ E   -->  C ⟶ D ⟹ E
+  C × D ⟶ E   -->  C ⟶ [D, E]
   ~~~
   (C, D) -> E  -->  C -> D -> E
 
@@ -209,16 +208,16 @@ and [fmap1]), and the [Natural] instance, can be found in the category of
 functors we're mapping to by applying [P].
 *)
 
-Definition fmap1 `{P : C ⟶ D ⟹ E} {A : C} `(f : X ~{D}~> Y) :
+Definition fmap1 `{P : C ⟶ [D, E]} {A : C} `(f : X ~{D}~> Y) :
   P A X ~{E}~> P A Y := fmap f.
 
-Definition bimap `{P : C ⟶ D ⟹ E} {X W : C} {Y Z : D} (f : X ~{C}~> W) (g : Y ~{D}~> Z) :
+Definition bimap `{P : C ⟶ [D, E]} {X W : C} {Y Z : D} (f : X ~{C}~> W) (g : Y ~{D}~> Z) :
   P X Y ~{E}~> P W Z := let N := @fmap _ _ P _ _ f in transport/N ∘ fmap1 g.
 
 Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
   F Y ~{D}~> F X := fmap (unop f).
 
-Definition dimap `{P : C^op ⟶ D ⟹ E} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
+Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
   P W Y ~{E}~> P X Z := bimap (unop f) g.
 
 Program Instance Hom `(C : Category) : C^op ⟶ [C, Sets] :=
@@ -250,8 +249,31 @@ Obligation 5.
   crush.
 Defined.
 
+(** This is the Yoneda embedding. *)
 Program Instance Yoneda `(C : Category) : C ⟶ [C^op, Sets] := Hom (C^op).
 Obligation 1. apply op_involutive. Defined.
+
+(* jww (2014-08-10): I would like to use ≅ instead of ↔ here. *)
+Definition YonedaLemma `(C : Category) `(F : @Functor C Sets) {A : C^op}
+    : Natural (Hom C A) F ↔ F A.
+Proof. split.
+- intros.
+  destruct H.
+  apply transport0.
+  simpl.
+  destruct C.
+  crush.
+- intros.
+  simpl.
+  pose (@fmap C Sets F A).
+  apply Build_Natural with (transport := fun X φ => h X φ H).
+  intros.
+  inversion F. simpl.
+  extensionality e.
+  unfold h.
+  rewrite <- functor_compose_law.
+  crush.
+Qed.
 
 Class FullyFaithful `(F : @Functor C D) :=
 { unfmap : ∀ {X Y : C}, (F X ~> F Y) → (X ~> Y)
@@ -269,7 +291,7 @@ definition, [F^op] maps objects and morphisms identically to [F].
 
 *)
 
-Program Instance Opposite_Functor `(F : @Functor C D) : C^op ⟶ D^op := {
+Program Instance Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {
     fobj := @fobj C D F;
     fmap := fun X Y f => @fmap C D F Y X (op f)
 }.
@@ -279,7 +301,7 @@ Obligation 2. unfold op. apply functor_compose_law. Qed.
 (* jww (2014-08-10): Until I figure out how to make C^op^op implicitly unify
    with C, I need a way of undoing the action of Opposite_Functor. *)
 
-Program Instance Reverse_Opposite_Functor `(F : @Functor (C^op) (D^op)) : C ⟶ D := {
+Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {
     fobj := @fobj _ _ F;
     fmap := fun X Y f => unop (@fmap _ _ F Y X f)
 }.
@@ -298,6 +320,10 @@ Obligation 2.
   specialize (e Z Y X g f).
   auto.
 Qed.
+
+(* Definition Coerce_Functor `(F : C ⟶ D) := Opposite_Functor F. *)
+
+(* Coercion Coerce_Functor : Functor >-> Functor. *)
 
 Lemma op_functor_involutive `(F : Functor)
   : Reverse_Opposite_Functor (Opposite_Functor F) = F.

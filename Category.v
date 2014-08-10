@@ -84,6 +84,7 @@ indicated, it is stated in the arrow: [A ~{C}~> B]. *)
 (* Using a [Category] in a context requiring a [Type] will do what is expected
    using this coercion. *)
 Coercion ob : Category >-> Sortclass.
+(* Coercion hom : Category >-> Funclass. *)
 
 Notation "a ~> b" := (hom a b) : category_scope.
 Notation "a ~{ C }~> b" := (@hom C a b) (at level 100) : category_scope.

@@ -28,12 +28,12 @@ can be derived from very few core definitions.
 expresses many of the theories used by Haskell in the context of curried
 monoidal bifunctors.
 
-[EDIT] This is a specialized treatment of category theory, in that we
-narrowing our focus to closed monoidal categories equipped with enriched
-internal homs.  We do not attempt to formalize all of category theory, but
-only those aspects touching on this specific sub-domain.  We do this because
-it is directly applicable to the universe of Haskell types and functions, and
-gives us useful results there.
+[EDIT] This is a specialized treatment of category theory, in that we narrow
+our focus to locally small categories.  This allows us to curry the Hom
+functor.  We do not attempt to formalize all of category theory, but only
+those aspects touching on this specific sub-domain.  We do this because it is
+directly applicable to the universe of Haskell types and functions, and gives
+us useful results there.
 
 [EDIT] Another deviation from convention is that we name categories after
 their morphisms, rather than their objects.  Thus, operations always name
