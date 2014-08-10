@@ -9,7 +9,8 @@ TEX           := $(MODULES:%=%.v.tex)
 COQFLAGS = "-Q . Hask"
 
 MISSING = find . -name '*.v' ! -name Notes.v ! -name CpdtTactics.v |	\
-		xargs egrep -i -Hn '(admit|abort)'
+		xargs egrep -i -Hn '(admit|abort)' | \
+		egrep -v 'local axiom'
 
 all: Makefile.coq
 	make -f Makefile.coq COQFLAGS=$(COQFLAGS)
@@ -32,6 +33,9 @@ Makefile.coq: *.v
 
 Book.pdf: Book.tex $(TEX) Book.bib coqdoc.sty
 	perl -i -pe 's/\\~{}/∼/g;' *.v.tex
+	perl -i -pe 's/\\\^{}\\coqdocvar{op}/\\textsuperscript{op}/g;' *.v.tex
+	perl -i -pe 's#\\\^{}\\coqexternalref{op}{https://github.com/jwiegley/category-theory/Hask.Category}{\\coqdocdefinition{op}}#\\textsuperscript{op}#g;' *.v.tex
+	perl -i -pe 's/textit/texttt/;' coqdoc.sty
 	xelatex Book
 	xelatex Book
 	bibtex Book
@@ -45,4 +49,4 @@ clean:
 	rm -fr html
 	rm -f Book.aux Book.bbl Book.blg Book.idx Book.ilg Book.ind
 	rm -f Book.log Book.out Book.pdf Book.toc
-	rm -f *.aux *.v.tex *.log coqdoc.sty
+	rm -f *.aux *.v.tex *.log
