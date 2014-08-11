@@ -295,8 +295,6 @@ between value terms [a ≈ b].
 Notation "X ≅ Y" := (Isomorphism X Y) (at level 50) : category_scope.
 Notation "x ≈ y" := (to x = y ∧ from y = x) (at level 50).
 
-Definition eq_iso (C : Category) (X Y : C) : Prop := X ≅ Y.
-
 (**
 
 [id] witnesses the isomorphism between any object and itself.  Isomorphisms
@@ -348,29 +346,30 @@ Qed.
 (* end hide *)
 
 Program Instance Iso_Proper `{C : Category} {X Y Z : C}
-  : Proper (@eq_iso C ==> @eq_iso C ==> Basics.impl) Isomorphism.
+  : Proper (Isomorphism ==> Isomorphism ==> Basics.flip Basics.arrow)
+           Isomorphism.
 Obligation 1.
-  unfold eq_iso, respectful.
+  unfold respectful.
   intros.
-  unfold Basics.impl.
+  unfold Basics.impl, Basics.flip, Basics.arrow.
   intros.
   destruct H.
   destruct H0.
   destruct H1.
   apply Build_Isomorphism
-    with (to := to1 ∘ to2 ∘ from0)
-         (from := to0 ∘ from2 ∘ from1).
+    with (to := from1 ∘ to2 ∘ to0)
+         (from := from0 ∘ from2 ∘ to1).
     repeat (rewrite <- comp_assoc).
-    rewrite (comp_assoc _ _ _ _ from0).
-    rewrite iso_from0.
+    rewrite (comp_assoc _ _ _ _ to0).
+    rewrite iso_to0.
     rewrite left_identity.
     rewrite (comp_assoc _ _ _ _ to2).
     rewrite iso_to2.
     rewrite left_identity.
     auto.
   repeat (rewrite <- comp_assoc).
-  rewrite (comp_assoc _ _ _ _ from1).
-  rewrite iso_from1.
+  rewrite (comp_assoc _ _ _ _ to1).
+  rewrite iso_to1.
   rewrite left_identity.
   rewrite (comp_assoc _ _ _ _ from2).
   rewrite iso_from2.
@@ -378,11 +377,18 @@ Obligation 1.
   auto.
 Qed.
 
-Add Parametric Relation `{C : Category} {A B : C} : (@ob C) (@eq_iso C)
+Add Parametric Relation `{C : Category} {A B : C} : (@ob C) Isomorphism
   reflexivity proved by (@iso_identity C)
   symmetry proved by (@iso_symmetry C)
   transitivity proved by (fun X Y Z => Basics.flip (@iso_compose C X Y Z))
   as Isomorphic_relation.
+
+(*
+Lemma isos `{C : Category} {X Y Z : C} : X ≅ Y → Y ≅ Z → X ≅ Z.
+Proof.
+  intros.
+  rewrite X0.
+*)
 
 (**
 

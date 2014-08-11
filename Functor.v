@@ -358,10 +358,3 @@ Proof.
   apply fun_irrelevance.
   auto.
 Qed.
-
-(*
-Lemma isos `{C : Category} {X Y Z : C} : X ≅ Y → Y ≅ Z → X ≅ Z.
-Proof.
-  intros.
-  rewrite X0.
-*)
