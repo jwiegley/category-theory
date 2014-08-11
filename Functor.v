@@ -248,12 +248,16 @@ Obligation 5.
   crush.
 Defined.
 
+Coercion Hom : Category >-> Functor.
+
 (** This is the Yoneda embedding. *)
+(* jww (2014-08-10): It should be possible to get rid of Hom here, but the
+   coercion isn't firing. *)
 Program Instance Yoneda `(C : Category) : C ⟶ [C^op, Sets] := Hom (C^op).
 Obligation 1. apply op_involutive. Defined.
 
 Program Instance YonedaLemma `(C : Category) `(F : C ⟶ Sets) {A : C^op}
-    : @Isomorphism Sets (Hom C A ⟾ F) (F A).
+    : @Isomorphism Sets (C A ⟾ F) (F A).
 Obligation 1.
   intros.
   destruct X.
@@ -303,9 +307,22 @@ Class FullyFaithful `(F : @Functor C D) :=
 { unfmap : ∀ {X Y : C}, (F X ~> F Y) → (X ~> Y)
 }.
 
-Program Instance Hom_Faithful (C : Category) : FullyFaithful (Hom C) :=
+Program Instance Hom_Faithful (C : Category) : FullyFaithful C :=
 { unfmap := fun _ _ f => (transport/f) id
 }.
+
+(*
+Program Instance Hom_Faithful_Co (C : Category) {A : C} : FullyFaithful (C A).
+Obligation 1.
+  destruct C. crush.
+  clear left_identity.
+  clear right_identity.
+  clear comp_assoc.
+  specialize (compose X A Y).
+  apply compose in X0.
+    assumption.
+Abort.
+*)
 
 (** ** Opposite functor[edit]
 
