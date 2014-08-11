@@ -15,18 +15,6 @@ Record Pullback {C : Category} {X Y} (Z : C) (f : X ~> Z) (g : Y ~> Z) :=
     ∧ ∀ (v : Q ~> pullback_obj), pullback_snd ∘ v = q2 ∧ pullback_fst ∘ v = q1 → v = u }
 }.
 
-Class HasInitial {C : Category} :=
-{ init_obj    : C
-; init_mor    : ∀ {X}, init_obj ~> X
-; initial_law : ∀ {X} (f g : init_obj ~> X), f = g
-}.
-
-Class HasTerminal {C : Category} :=
-{ term_obj     : C
-; term_mor     : ∀ {X}, X ~> term_obj
-; terminal_law : ∀ {X} (f g : X ~> term_obj), f = g
-}.
-
 Definition Product {C : Category} `{@HasTerminal C} {X Y} :=
     @Pullback C X Y term_obj term_mor term_mor.
 

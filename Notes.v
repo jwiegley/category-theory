@@ -1,7 +1,23 @@
-(* NOTE: In curried category theory, Op is Yoneda. *)
+Require Export Hask.Category.
 
-(*
+(** ** Graphs
+
+Another trivial category is that of a simple graph, whose objects are elements
+of some [Set] [S], and where edges exist whenever a symmetric, reflexive
+relation holds between elements.
+
 *)
+
+Program Instance A_Graph (S : Set) : Category := {
+    ob      := S;
+    hom     := fun _ _   => bool;
+    id      := fun _     => true;
+    compose := fun x y z => andb
+}.
+(* begin hide *)
+Obligation 1. destruct f; auto. Qed.
+Obligation 3. destruct f; auto. Qed.
+(* end hide *)
 
 (* Cat is the category of all locally small categories.  We cannot represent
    this in Coq without universe polymorphism. *)

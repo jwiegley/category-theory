@@ -65,6 +65,7 @@ Defined.
 (** [Cat] is the category whose morphisms are functors betwen categories. *)
 
 Section Hidden.
+
 Program Instance Cat : Category :=
 { ob      := Category
 ; hom     := @Functor
@@ -97,6 +98,110 @@ Obligation 3.
   extensionality f.
   reflexivity.
 Defined.
+
+Program Instance One : Category := {
+    ob      := unit;
+    hom     := fun _ _ => unit;
+    id      := fun _ => tt;
+    compose := fun _ _ _ _ _ => tt
+}.
+Obligation 1. destruct f. reflexivity. Qed.
+Obligation 2. destruct f. reflexivity. Qed.
+
+Program Instance Fini `(C : Category) : C ⟶ One := {
+    fobj    := fun _ => tt;
+    fmap    := fun _ _ _ => id
+}.
+
+Program Instance Zero : Category := {
+    ob      := Empty_set;
+    hom     := fun _ _ => Empty_set
+}.
+Obligation 3.
+    unfold Zero_obligation_1.
+    unfold Zero_obligation_2.
+    destruct A.
+Qed.
+
+Program Instance Init `(C : Category) : Zero ⟶ C.
+Obligation 1. destruct C. crush. Defined.
+Obligation 2.
+  unfold Init_obligation_1.
+  destruct C. crush.
+Defined.
+Obligation 3.
+  unfold Zero_obligation_1.
+  unfold Init_obligation_1.
+  unfold Init_obligation_2.
+  destruct C. crush.
+Defined.
+Obligation 4.
+  unfold Init_obligation_2.
+  unfold Zero_obligation_2.
+  destruct C. crush.
+Qed.
+
+Class HasInitial (C : Category) :=
+{ init_obj    : C
+; init_mor    : ∀ {X}, init_obj ~> X
+; initial_law : ∀ {X} (f g : init_obj ~> X), f = g
+}.
+
+Class HasTerminal (C : Category) :=
+{ term_obj     : C
+; term_mor     : ∀ {X}, X ~> term_obj
+; terminal_law : ∀ {X} (f g : X ~> term_obj), f = g
+}.
+
+Program Instance Cat_HasTerminal : HasTerminal Cat := {
+    term_obj := One;
+    term_mor := Fini
+}.
+Obligation 1.
+  destruct f.
+  destruct g.
+  destruct X.
+  assert (fobj0 = fobj1).
+    extensionality e.
+    crush. rewrite H.
+  apply fun_irrelevance.
+  assert (fmap0 = fmap1).
+    extensionality e.
+    extensionality f.
+    extensionality g.
+    crush.
+  assumption.
+Qed.
+
+(*
+Program Instance Cat_HasInitial : HasInitial Cat := {
+    init_obj := Zero;
+    init_mor := Init
+}.
+Obligation 1.
+  destruct f.
+  destruct g.
+  destruct X.
+  simpl.
+  assert (fobj0 = fobj1).
+    extensionality e.
+    destruct e.
+    destruct Zero.
+    assert (ob = ob0).
+      admit.
+    subst.
+    apply fun_irrelevance.
+  assert (fmap0 = fmap1).
+    extensionality e.
+    extensionality f.
+    extensionality g.
+    destruct Zero.
+    subst.
+    admit.
+  auto.
+Qed.
+*)
+
 End Hidden.
 
 Class Natural `(F : @Functor C D) `(G : @Functor C D) :=
