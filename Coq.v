@@ -1,4 +1,4 @@
-Require Export Hask.Functors.
+Require Export Hask.Functor.
 
 (* Maybe indicates optional values. *)
 
@@ -26,7 +26,7 @@ Inductive Either {E X : Type} :=
   | Left  : E → @Either E X
   | Right : X → @Either E X.
 
-Program Instance Either_Bifunctor : Sets ⟶ Sets ⟹ Sets :=
+Program Instance Either_Bifunctor : Sets ⟶ [Sets, Sets] :=
 { fobj := fun Z =>
   {| fobj := @Either Z
    ; fmap := fun _ _ f e => match e with

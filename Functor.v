@@ -9,7 +9,7 @@ Class Functor (C : Category) (D : Category) :=
 { fobj : C → D
 ; fmap : ∀ {X Y : C}, (X ~> Y) → (fobj X ~> fobj Y)
 
-; functor_id_law      : ∀ {X : C}, fmap (id (A := X)) = id
+; functor_id_law : ∀ {X : C}, fmap (id (A := X)) = id
 ; functor_compose_law : ∀ {X Y Z : C} (f : Y ~> Z) (g : X ~> Y),
     fmap f ∘ fmap g = fmap (f ∘ g)
 }.
@@ -62,8 +62,7 @@ Definition Id `(C : Category) : Functor C C.
     (fmap := fun X X f => f); crush.
 Defined.
 
-(** [Fun] is the category whose morphisms are functors betwen categories.
-    Traditionally this is called [Cat]. *)
+(** [Cat] is the category whose morphisms are functors betwen categories. *)
 
 Section Hidden.
 Program Instance Cat : Category :=
@@ -297,7 +296,7 @@ Obligation 4.
           (fmap0 A f g ∘ transport0 A) (id A)).
     crush. rewrite H. clear H.
   rewrite naturality0.
-  simpl. crush.
+  crush.
 Qed.
 
 Class FullyFaithful `(F : @Functor C D) :=
@@ -359,3 +358,10 @@ Proof.
   apply fun_irrelevance.
   auto.
 Qed.
+
+(*
+Lemma isos `{C : Category} {X Y Z : C} : X ≅ Y → Y ≅ Z → X ≅ Z.
+Proof.
+  intros.
+  rewrite X0.
+*)

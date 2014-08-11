@@ -28,6 +28,7 @@ objects. *)
 (* begin hide *)
 Reserved Notation "a ~> b" (at level 90, right associativity).
 Reserved Notation "f ∘ g" (at level 45).
+Reserved Notation "C ^op" (at level 90).
 (* end hide *)
 
 Class Category := {
@@ -86,11 +87,12 @@ indicated, it is stated in the arrow: [A ~{C}~> B]. *)
 Coercion ob : Category >-> Sortclass.
 (* Coercion hom : Category >-> Funclass. *)
 
-Notation "a ~> b" := (hom a b) : category_scope.
-Notation "a ~{ C }~> b" := (@hom C a b) (at level 100) : category_scope.
-Notation "f ∘ g" := (compose f g) : category_scope.
+Infix "~>" := hom : category_scope.
+Infix "~{ C }~>" := (@hom C) (at level 100) : category_scope.
+Infix "∘" := compose : category_scope.
+
 Notation "ob/ C" := (@ob C) (at level 44) : category_scope.
-Notation "id/ X" := (@id _ X) (at level 44).
+Notation "id/ X" := (@id _ X) (at level 44) : category_scope.
 
 Open Scope category_scope.
 
@@ -153,6 +155,15 @@ We can also define relationships between two functions:
 Definition Section' `(f : X ~> Y) := { g : Y ~> X & g ∘ f = id }.
 Definition Retraction `(f : X ~> Y) := { g : Y ~> X & f ∘ g = id }.
 
+Class SplitIdempotent {X Y : C} := {
+    split_idem_retract := Y;
+    split_idem         : X ~> X;
+    split_idem_r       : X ~> split_idem_retract;
+    split_idem_s       : split_idem_retract ~> X;
+    split_idem_law_1   : split_idem_s ∘ split_idem_r = split_idem;
+    split_idem_law_2   : split_idem_r ∘ split_idem_s = id/Y
+}.
+
 (**
 
 A Σ-type (sigma type) is used to convey [Section'] and [Retraction] to make
@@ -161,11 +172,11 @@ existential quantifier (∃), but it would not convey which [g] was chosen.
 
 *)
 
-Definition Epic `(f : X ~> Y) := ∀ {Z} (g1 g2 : Y ~> Z), g1 ∘ f = g2 ∘ f → g1 = g2.
+Definition Epic `(f : X ~> Y)  := ∀ {Z} (g1 g2 : Y ~> Z), g1 ∘ f = g2 ∘ f → g1 = g2.
 Definition Monic `(f : X ~> Y) := ∀ {Z} (g1 g2 : Z ~> X), f ∘ g1 = f ∘ g2 → g1 = g2.
 
 Definition Bimorphic `(f : X ~> Y) := Epic f ∧ Monic f.
-Definition SplitEpi `(f : X ~> Y) := Retraction f.
+Definition SplitEpi `(f : X ~> Y)  := Retraction f.
 Definition SplitMono `(f : X ~> Y) := Section' f.
 
 (**
@@ -250,6 +261,28 @@ Class Isomorphism `{C : Category} (X Y : C) := {
   iso_from : from ∘ to = id/X
 }.
 
+(* begin hide *)
+Lemma iso_irrelevance `(C : Category) {X Y : C}
+  : ∀ (f g : X ~> Y) (k h : Y ~> X) tl tl' fl fl',
+  @f = @g →
+  @k = @h →
+  {| to       := f
+   ; from     := k
+   ; iso_to   := tl
+   ; iso_from := fl
+  |} =
+  {| to       := g
+   ; from     := h
+   ; iso_to   := tl'
+   ; iso_from := fl'
+  |}.
+Proof.
+  intros. subst. f_equal.
+  apply proof_irrelevance.
+  apply proof_irrelevance.
+Qed.
+(* end hide *)
+
 (**
 
 Typically isomorphisms are characterized by this pair of functions, but they
@@ -262,15 +295,127 @@ between value terms [a ≈ b].
 Notation "X ≅ Y" := (Isomorphism X Y) (at level 50) : category_scope.
 Notation "x ≈ y" := (to x = y ∧ from y = x) (at level 50).
 
+Definition eq_iso (C : Category) (X Y : C) : Prop := X ≅ Y.
+
 (**
 
-[id] witnesses an isomorphism between any object and itself.
+[id] witnesses the isomorphism between any object and itself.  Isomorphisms
+are likewise symmetric and transitivity, making them parametric relations.
+This will allows us to use them in proof rewriting as though they were
+equalities.
 
 *)
 
-Program Instance Id_Iso `{Category} : X ≅ X := {
+Program Instance iso_identity `{Category} : X ≅ X := {
     to := id; from := id
 }.
+
+Program Instance iso_symmetry `{C : Category} `(iso : X ≅ Y) : Y ≅ X := {
+    from := @to C X Y iso;
+    to := @from C X Y iso
+}.
+(* begin hide *)
+Obligation 1. apply iso_from. Qed.
+Obligation 2. apply iso_to. Qed.
+(* end hide *)
+
+Program Instance iso_compose `{C : Category} {X Y Z : C}
+    (iso_a : Y ≅ Z) (iso_b : X ≅ Y) : X ≅ Z := {
+    from := (@from C X Y iso_b) ∘ (@from C Y Z iso_a);
+    to := (@to C Y Z iso_a) ∘ (@to C X Y iso_b)
+}.
+(* begin hide *)
+Obligation 1.
+  destruct iso_a.
+  destruct iso_b.
+  simpl.
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc _ _ _ _ to1).
+  rewrite iso_to1.
+  rewrite left_identity.
+  assumption.
+Qed.
+Obligation 2.
+  destruct iso_a.
+  destruct iso_b.
+  simpl.
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc _ _ _ _ from0).
+  rewrite iso_from0.
+  rewrite left_identity.
+  assumption.
+Qed.
+(* end hide *)
+
+Program Instance Iso_Proper `{C : Category} {X Y Z : C}
+  : Proper (@eq_iso C ==> @eq_iso C ==> Basics.impl) Isomorphism.
+Obligation 1.
+  unfold eq_iso, respectful.
+  intros.
+  unfold Basics.impl.
+  intros.
+  destruct H.
+  destruct H0.
+  destruct H1.
+  apply Build_Isomorphism
+    with (to := to1 ∘ to2 ∘ from0)
+         (from := to0 ∘ from2 ∘ from1).
+    repeat (rewrite <- comp_assoc).
+    rewrite (comp_assoc _ _ _ _ from0).
+    rewrite iso_from0.
+    rewrite left_identity.
+    rewrite (comp_assoc _ _ _ _ to2).
+    rewrite iso_to2.
+    rewrite left_identity.
+    auto.
+  repeat (rewrite <- comp_assoc).
+  rewrite (comp_assoc _ _ _ _ from1).
+  rewrite iso_from1.
+  rewrite left_identity.
+  rewrite (comp_assoc _ _ _ _ from2).
+  rewrite iso_from2.
+  rewrite left_identity.
+  auto.
+Qed.
+
+Add Parametric Relation `{C : Category} {A B : C} : (@ob C) (@eq_iso C)
+  reflexivity proved by (@iso_identity C)
+  symmetry proved by (@iso_symmetry C)
+  transitivity proved by (fun X Y Z => Basics.flip (@iso_compose C X Y Z))
+  as Isomorphic_relation.
+
+(**
+
+A [Groupoid] is a [Category] where every morphism has an inverse, and is
+therefore an isomorphism.
+
+*)
+
+Program Instance Groupoid `(C : Category) : Category := {
+    ob      := @ob C;
+    hom     := @Isomorphism C;
+    id      := @iso_identity C;
+    compose := @iso_compose C
+}.
+(* begin hide *)
+Obligation 1.
+  unfold iso_compose, iso_identity.
+  destruct f.
+  apply iso_irrelevance; crush.
+Qed.
+Obligation 2.
+  unfold iso_compose, iso_identity.
+  destruct f.
+  apply iso_irrelevance; crush.
+Qed.
+Obligation 3.
+  unfold iso_compose.
+  destruct f.
+  destruct g.
+  destruct h. simpl.
+  apply iso_irrelevance; crush.
+Qed.
+(* end hide *)
 
 (**
 
@@ -344,7 +489,7 @@ Hint Unfold SplitMono.
 (**
 
 A section may be flipped using its witness to provide a retraction, and
-vice-versa.  Every isomorphism is likewise invertible.
+vice-versa.
 
 *)
 
@@ -365,15 +510,6 @@ Proof.
   exists f.
   crush.
 Qed.
-
-Program Instance Flip_Iso `{C : Category} `(iso : X ≅ Y) : Y ≅ X := {
-    from := @to C X Y iso;
-    to := @from C X Y iso
-}.
-(* begin hide *)
-Obligation 1. apply iso_from. Qed.
-Obligation 2. apply iso_to. Qed.
-(* end hide *)
 
 (** * Sets
 
@@ -447,8 +583,7 @@ Proof. split.
   eapply equal_f in H.
   erewrite H. constructor.
   extensionality e.
-  assert (∀ P : Prop, P → P = True). admit. (* local axiom *)
-  apply H0.
+  apply propositional_extensionality.
   exists e.
   reflexivity.
 Qed.
@@ -468,12 +603,8 @@ Program Instance A_Graph (S : Set) : Category := {
     compose := fun x y z => andb
 }.
 (* begin hide *)
-Obligation 1.
-  destruct f; auto.
-Qed.
-Obligation 3.
-  destruct f; auto.
-Qed.
+Obligation 1. destruct f; auto. Qed.
+Obligation 3. destruct f; auto. Qed.
 (* end hide *)
 
 (** * Dual Category

@@ -2,6 +2,7 @@
 ./Category.v
 ./Coq.v
 ./CpdtTactics.v
-./Functors.v
+./Functor.v
 ./Products.v
+./Axioms.v
 ./Utils.v

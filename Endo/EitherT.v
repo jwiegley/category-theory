@@ -231,8 +231,7 @@ Proof.
     unfold id.
     f_equal.
     inversion td.
-    admit.
-  - (* embed_law_2 *) intros. admit.
-  - (* embed_law_3 *) intros. admit.
+  - (* embed_law_2 *) intros.
+  - (* embed_law_3 *) intros.
 Defined.
 *)

@@ -1,5 +1,5 @@
 Require Export Hask.Category.
-Require Export Hask.Functors.
+Require Export Hask.Functor.
 
 Open Scope type_scope.
 
@@ -30,6 +30,7 @@ Class HasTerminal {C : Category} :=
 Definition Product {C : Category} `{@HasTerminal C} {X Y} :=
     @Pullback C X Y term_obj term_mor term_mor.
 
+(*
 Lemma uniqueness_of_products (C : Category) `{h : @HasTerminal C}
   : ∀ {X Y} (p q : @Product C h X Y),
   let    ump1 := pullback_ump_2 q (fst p) (snd p)
@@ -45,7 +46,7 @@ Proof.
     destruct H0.
     destruct a0.
     destruct H3.
-Abort.
+*)
 
 (*
 (* Tuples in the Sets category satisfy the UMP for products.
