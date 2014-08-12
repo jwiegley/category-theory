@@ -444,7 +444,7 @@ Obligation 1.
   specialize (compose X A Y).
   apply compose in X0.
     assumption.
-Abort.
+  (* jww (2014-08-12): Is this even provable?  Ed thinks no. *)
 *)
 
 (** ** Opposite functor[edit]
@@ -699,29 +699,37 @@ Lemma Const_Cone_Iso `(F : @Functor J C)
   : ∀ a, @Isomorphism Sets (Const a ⟾ F) (Cone a F).
 Proof.
   intros.
-  refine (Build_Isomorphism Sets (Const a ⟾ F) (Cone a F) _ _ _ _); simpl.
-  - crush. (* to *)
-    refine (Build_Cone C J _ F _ _); intros; simpl; destruct X.
-    + apply transport0. (* cone_mor *)
-    + destruct F. simpl. (* cone_law *)
+  refine (Build_Isomorphism _ _ _ _ _ _ _); simpl.
+  - (* to *)
+    crush.
+    refine (Build_Cone _ _ _ _ _ _); intros; simpl; destruct X.
+    + (* cone_mor *)
+      apply transport0.
+    + (* cone_law *)
+      destruct F. simpl.
       simpl in naturality0.
       specialize (naturality0 i j f).
       rewrite right_identity in naturality0.
       apply naturality0.
-  - crush. (* from *)
+  - (* from *)
+    crush.
     unfold Const.
     destruct X.
-    refine (Build_Natural J C (Const a) F _ _); intros; simpl.
-    + apply cone_mor0. (* transport *)
-    + rewrite right_identity. (* naturality *)
+    refine (Build_Natural _ _ _ _ _ _); intros; simpl.
+    + (* transport *)
+      apply cone_mor0.
+    + (* naturality *)
+      rewrite right_identity.
       rename X into transport.
       destruct F. simpl.
       simpl in cone_law0.
       apply cone_law0.
-  - extensionality e.
+  - (* iso_to *)
+    extensionality e.
     destruct e.
     apply proof_irrelevance.
-  - extensionality e.
+  - (* iso_from *)
+    extensionality e.
     destruct e.
     apply proof_irrelevance.
 Qed.
@@ -755,7 +763,7 @@ Obligation 2.
   destruct F. simpl. clear.
   destruct J.
   crush. clear.
-Abort. (* jww (2014-08-12): We don't believe this is true. *)
+  (* jww (2014-08-12): We don't believe this is true. *)
 
 Program Instance Sets_Const_Lim_Iso (J : Category) (a : Sets) (F : [J, Sets])
   : @Isomorphism Sets (Const a ⟾ F) (a → Lim_Sets J F).
