@@ -15,7 +15,14 @@ all: Makefile.coq
 	make -f Makefile.coq COQFLAGS=$(COQFLAGS)
 	$(MISSING) || exit 0
 
-book: html Book.pdf
+book: Book.pdf
+
+upload: all html book
+	rsync --checksum -av --delete html/ jw2:/srv/ftp/pub/hasq/
+	scp Book.pdf jw2:/srv/ftp/pub/hasq/Hasq.pdf
+	ssh jw2 chown -R nginx:nginx /srv/ftp/pub/hasq
+	ssh jw2 chmod -R ugo+rX /srv/ftp/pub/hasq
+	ssh jw2 chcon -R -u system_u -t httpd_sys_content_t /srv/ftp/pub/hasq
 
 html: Makefile.coq
 	make -f Makefile.coq COQFLAGS=$(COQFLAGS) gallinahtml
