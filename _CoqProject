@@ -1,4 +1,4 @@
--R . Hask 
+-Q . Hask 
 ./Category.v
 ./Coq.v
 ./CpdtTactics.v
