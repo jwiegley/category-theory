@@ -706,7 +706,7 @@ Proof.
     + (* cone_mor *)
       apply transport0.
     + (* cone_law *)
-      destruct F. simpl.
+      destruct F.
       simpl in naturality0.
       specialize (naturality0 i j f).
       rewrite right_identity in naturality0.
@@ -720,8 +720,7 @@ Proof.
       apply cone_mor0.
     + (* naturality *)
       rewrite right_identity.
-      rename X into transport.
-      destruct F. simpl.
+      destruct F.
       simpl in cone_law0.
       apply cone_law0.
   - (* iso_to *)
