@@ -6,13 +6,13 @@ MODULES       := $(MODULES_NODOC) $(MODULES_DOC)
 TEX           := $(MODULES:%=%.v.tex)
 
 #COQFLAGS = "-I $(HOME)/src/category-theory/Endo"
-COQFLAGS = "-Q . Hask"
+COQFLAGS = "-no-native-compiler"
 
 MISSING = find . -name '*.v' ! -name Notes.v ! -name CpdtTactics.v |	\
 		xargs egrep -i -Hn '(admit|abort)'
 
 all: Makefile.coq
-	make -f Makefile.coq COQFLAGS=$(COQFLAGS)
+	make -f Makefile.coq OPT=$(COQFLAGS)
 	$(MISSING) || exit 0
 
 book: Book.pdf
@@ -25,7 +25,7 @@ upload: all html book
 	ssh jw2 chcon -R -u system_u -t httpd_sys_content_t /srv/ftp/pub/hasq
 
 html: Makefile.coq
-	make -f Makefile.coq COQFLAGS=$(COQFLAGS) gallinahtml
+	make -f Makefile.coq OPT=$(COQFLAGS) gallinahtml
 
 Makefile.coq: *.v
 	coq_makefile -f _CoqProject  . *.v > Makefile.coq
