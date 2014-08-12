@@ -644,6 +644,9 @@ Program Instance Const `{C : Category} `{J : Category} (x : C) : J ⟶ C := {
     fmap := fun _ _ _ => id
 }.
 
+Lemma Const_Iso `{C : Category} : ∀ a b, Const a b ≅ a.
+Proof. intros. crush. Qed.
+
 Definition Sets_getConst `{J : Category} (a : Type) (b : J)
   (c : @Const Sets J a b) : Type := @fobj J Sets (@Const Sets J a) b.
 
@@ -686,10 +689,52 @@ Class Complete `(C : Category) := {
     complete : ∀ (J : Category), { Lim : [J, C] ⟶ C & @Delta C J ⊣ Lim }
 }.
 
-(*
+(* Here F is a diagram of type J in C. *)
+Record Cone `{C : Category} `{J : Category} (n : C) `(F : @Functor J C) := {
+    cone_mor : ∀ j : J, n ~> F j;
+    cone_law : ∀ i j (f : i ~{J}~> j), (@fmap J C F i j f) ∘ cone_mor i = cone_mor j
+}.
+
+Lemma Const_Cone_Iso `(F : @Functor J C)
+  : ∀ a, @Isomorphism Sets (Const a ⟾ F) (Cone a F).
+Proof.
+  intros.
+  refine (Build_Isomorphism Sets (Const a ⟾ F) (Cone a F) _ _ _ _).
+  - simpl. crush. (* to *)
+    refine (Build_Cone C J _ F _ _).
+    + intros. (* cone_mor *)
+      destruct X.
+      apply transport0.
+    + intros. (* cone_law *)
+      simpl. destruct X.
+      destruct F. simpl.
+      simpl in naturality0.
+      specialize (naturality0 i j f).
+      rewrite right_identity in naturality0.
+      apply naturality0.
+  - simpl. crush. (* from *)
+    unfold Const.
+    destruct X.
+    refine (Build_Natural J C (Const a) F _ _).
+    + intros. simpl. apply cone_mor0. (* transport *)
+    + intros. simpl. (* naturality *)
+      rewrite right_identity.
+      rename X into transport.
+      destruct F. simpl.
+      simpl in cone_law0.
+      apply cone_law0.
+  - simpl.
+    extensionality e.
+    destruct e.
+    apply proof_irrelevance.
+  - simpl.
+    extensionality e.
+    destruct e.
+    apply proof_irrelevance.
+Qed.
+
 Program Instance Lim_Sets `(J : Category) : [J, Sets] ⟶ Sets := {
-    fobj := fun F => ∀ x : J, { f : ∀ y : J, x ~> y &
-        ∀ y, x ~{J}~> y;
+    fobj := fun F => 
     fmap := fun _ _ n F_x z => (transport/n) (F_x z)
 }.
 
@@ -762,4 +807,3 @@ Obligation 1.
   intros. simpl.
   apply Sets_Const_Lim_Iso.
 Qed.
-*)

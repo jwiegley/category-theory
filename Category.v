@@ -248,7 +248,6 @@ End Morphisms.
 (* end hide *)
 
 Ltac reassociate_left := repeat (rewrite <- comp_assoc); auto.
-
 Ltac reassociate_right := repeat (rewrite comp_assoc); auto.
 
 Definition epi_compose `{C : Category} {X Y Z : C}
