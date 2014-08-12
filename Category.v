@@ -212,6 +212,12 @@ Variables X Y : C.
 Variable f : X ~> Y.
 (* end hide *)
 
+Ltac reassociate_left :=
+  repeat (rewrite <- comp_assoc); try f_equal; auto.
+
+Ltac reassociate_right :=
+  repeat (rewrite comp_assoc); try f_equal; auto.
+
 Lemma retractions_are_epic : Retraction f → Epic f.
 Proof.
   autounfold.
@@ -221,9 +227,7 @@ Proof.
   symmetry.
   rewrite <- right_identity.
   rewrite <- e.
-  rewrite comp_assoc.
-  rewrite comp_assoc.
-  f_equal. auto.
+  reassociate_right.
 Qed.
 
 Lemma sections_are_monic : Section' f → Monic f.
@@ -235,15 +239,35 @@ Proof.
   symmetry.
   rewrite <- left_identity.
   rewrite <- e.
-  rewrite <- comp_assoc.
-  rewrite <- comp_assoc.
-  f_equal. auto.
+  reassociate_left.
 Qed.
 
 (* begin hide *)
 End Lemmas.
 End Morphisms.
 (* end hide *)
+
+Ltac reassociate_left := repeat (rewrite <- comp_assoc); auto.
+
+Ltac reassociate_right := repeat (rewrite comp_assoc); auto.
+
+Definition epi_compose `{C : Category} {X Y Z : C}
+  `(ef : @Epic C Y Z f) `(eg : @Epic C X Y g) : Epic (f ∘ g).
+Proof.
+  unfold Epic in *. intros.
+  apply ef.
+  apply eg.
+  reassociate_left.
+Qed.
+
+Definition monic_compose `{C : Category} {X Y Z : C}
+  `(ef : @Monic C Y Z f) `(eg : @Monic C X Y g) : Monic (f ∘ g).
+Proof.
+  unfold Monic in *. intros.
+  apply eg.
+  apply ef.
+  reassociate_right.
+Qed.
 
 (** * Isomorphism
 
