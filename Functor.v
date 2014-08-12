@@ -416,11 +416,11 @@ Obligation 4.
   apply nat_irrelevance.
   extensionality f.
   extensionality g.
-  destruct C.
+  destruct C as [ob0 uhom0 hom0 id0].
   destruct F.
   simpl.
-  assert (fmap0 A f g (transport0 A (id A)) =
-          (fmap0 A f g ∘ transport0 A) (id A)).
+  assert (fmap0 A f g (transport0 A (id0 A)) =
+          (fmap0 A f g ∘ transport0 A) (id0 A)).
     crush. rewrite H. clear H.
   rewrite naturality0.
   crush.

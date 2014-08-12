@@ -1,5 +1,6 @@
 Require Export Coq.Unicode.Utf8.
 Require Export Coq.Classes.Morphisms.
+Require Export Coq.Program.Tactics.
 
 Require Export Hask.Axioms.
 Require Export Hask.CpdtTactics.
@@ -22,25 +23,3 @@ Ltac simple_solver :=
       is_var X; destruct X; auto
     end);
   auto.
-
-(* Copied from Jason Gross:
-
-  https://github.com/coq/coq/blob/f5bbb5ce34bb1ee2165086b0fdb3ee5f3d96a44e/theories/Program/Tactics.v#L173 *)
-
-Ltac rapply p :=
-  refine (p _ _ _ _ _ _ _ _ _ _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _ _ _ _ _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _ _ _ _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _ _ _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _ _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _ _) ||
-  refine (p _ _ _ _ _) ||
-  refine (p _ _ _ _) ||
-  refine (p _ _ _) ||
-  refine (p _ _) ||
-  refine (p _) ||
-  refine p.

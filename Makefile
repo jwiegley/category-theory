@@ -5,7 +5,6 @@ MODULES_DOC   := $(MODULES_PROSE) $(MODULES_CODE) Conclusion
 MODULES       := $(MODULES_NODOC) $(MODULES_DOC)
 TEX           := $(MODULES:%=%.v.tex)
 
-#COQFLAGS = "-I $(HOME)/src/category-theory/Endo"
 COQFLAGS = "-no-native-compiler"
 
 MISSING = find . -name '*.v' ! -name Notes.v ! -name CpdtTactics.v |	\

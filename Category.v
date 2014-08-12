@@ -91,8 +91,8 @@ Infix "~>" := hom : category_scope.
 Infix "~{ C }~>" := (@hom C) (at level 100) : category_scope.
 Infix "∘" := compose : category_scope.
 
-Notation "ob/ C" := (@ob C) (at level 44) : category_scope.
-Notation "id/ X" := (@id _ X) (at level 44) : category_scope.
+Notation "ob/ C" := (@ob C) (at level 1) : category_scope.
+Notation "id/ X" := (@id _ X) (at level 1) : category_scope.
 
 Open Scope category_scope.
 
