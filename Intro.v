@@ -42,8 +42,8 @@ categories, which Coq coerces implicitly to the morphisms of that category.
 [EDIT] For example, the notation [F ⟹ G] refers to natural transformations
 from [F] to [G]; it also a name for the category [Nat] ([F ⟹ G] is just sugar
 for [Nat F G]): the category of functors from some implied [C] to [D].  We can
-normally let the particular cateries be inferred from context, or they can be
-named using [@Nat C D F G].
+normally let the particular categories be inferred from context, or they can
+be named using [@Nat C D F G].
 
 [EDIT] Reference: _Categories for the Working Mathematician_
 %\cite{Categories}%, by Saunders Mac Lane.
