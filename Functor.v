@@ -2,6 +2,7 @@ Require Export Hask.Category.
 
 Open Scope category_scope.
 
+Set Primitive Projection.
 Set Universe Polymorphism.
 Generalizable All Variables.
 

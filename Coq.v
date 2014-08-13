@@ -2,6 +2,7 @@ Require Export Hask.Functor.
 
 (* Maybe indicates optional values. *)
 
+Set Primitive Projection.
 Set Universe Polymorphism.
 Section Maybe.
 

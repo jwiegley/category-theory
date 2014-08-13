@@ -8,6 +8,8 @@ relation holds between elements.
 
 *)
 
+(** This is a bad example *)
+
 Program Instance A_Graph (S : Set) : Category := {
     ob      := S;
     hom     := fun _ _   => bool;

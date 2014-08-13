@@ -1,6 +1,8 @@
 Require Export Hask.Category.
 Require Export Hask.Functor.
 
+Set Primitive Projection.
+
 Open Scope type_scope.
 
 Generalizable All Variables.

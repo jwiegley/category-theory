@@ -1,3 +1,4 @@
+
 (* Copyright (c) 2014, John Wiegley
  *
  * This work is licensed under a
@@ -11,6 +12,7 @@
 
 Require Export Hask.Utils.
 
+Set Primitive Projection.
 Set Universe Polymorphism.
 Generalizable All Variables.
 

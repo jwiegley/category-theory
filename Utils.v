@@ -5,6 +5,8 @@ Require Export Coq.Program.Tactics.
 Require Export Hask.Axioms.
 Require Export Hask.CpdtTactics.
 
+Set Primitive Projection.
+
 Definition π1 {A : Type} {P : A → Type} (k : {x : A & P x}) := projT1 k.
 Definition π2 {A : Type} {P : A → Type} (k : {x : A & P x}) := projT2 k.
 
