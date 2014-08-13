@@ -1,1 +1,1 @@
-((coq-mode . ((coq-prog-args "-emacs" "-no-native-compiler"))))
+((coq-mode . ((coq-prog-args "-emacs-U" "-no-native-compiler" "-R" "." "Hask"))))
