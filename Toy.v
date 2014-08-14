@@ -6,7 +6,7 @@ Require Export Coq.Program.Tactics.
 Set Implicit Arguments.
 Set Universe Polymorphism.
 Set Printing Projections.
-(* Set Primitive Projection. *)
+(* Set Primitive Projections. *)
 Set Automatic Introduction.
 Set Asymmetric Patterns.
 Generalizable All Variables.
@@ -36,10 +36,10 @@ Bind Scope category_scope with Presemicategory.
 Bind Scope ob_scope with ob.
 Bind Scope hom_scope with hom.
 
+(*
 Create HintDb category discriminated.
-Create HintDb ob discriminated.
 Create HintDb hom discriminated.
-
+*)
 Arguments ob C%category : rename.
 Arguments hom !C%category x y : rename.
 Arguments compose [!C%category x%ob y%ob z%ob] f%hom g%hom : rename.
@@ -110,13 +110,10 @@ Ltac path_induction :=
      end
   ); auto.
 
-Local Obligation Tactic := path_induction.
-
 Program Instance Paths_Presemicategory {A} : Presemicategory :=
 { ob := A
 ; hom := @paths A
-}
-
+}.
 Obligation 1. path_induction. Defined.
 Obligation 2. path_induction. Defined.
 Obligation 3. path_induction. Defined.
