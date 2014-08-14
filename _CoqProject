@@ -1,4 +1,4 @@
--R . Hask
+-R . Hask -indices-matter -no-native-compiler
 ./Axioms.v
 ./Utils.v
 ./CpdtTactics.v
@@ -6,3 +6,4 @@
 ./Functor.v
 ./Products.v
 ./Coq.v
+./Toy.v
