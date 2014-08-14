@@ -27,7 +27,7 @@ html: Makefile.coq
 	make -f Makefile.coq OPT=$(COQFLAGS) gallinahtml
 
 Makefile.coq: *.v
-	coq_makefile -f _CoqProject  . *.v > Makefile.coq
+	coq_makefile -f _CoqProject > Makefile.coq
 	sed -i -e 's#cd "./." && .(MAKE) all#cd ./. ; echo $(MAKE) all#' Makefile.coq
 
 %.v.tex: Makefile %.v %.glob
