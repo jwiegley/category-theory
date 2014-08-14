@@ -92,6 +92,7 @@ Class Precategory :=
 Coercion precategory_presemicategory : Precategory >-> Presemicategory.
 
 Notation "1" := id : hom_scope.
+Notation "1" := refl : path_scope.
 
 Arguments id [!C%category] x%ob : rename.
 Arguments right_id [!C%category] x%ob y%ob f%hom : rename.
@@ -115,6 +116,16 @@ Class Pregroupoid :=
 Coercion pregroupoid_precategory : Pregroupoid >-> Precategory. 
 
 Notation "! p" := (inverse p) (at level 50) : hom_scope.
+
+Arguments inverse [!C%category] x%ob y%ob f%hom : rename.
+Arguments inverse_inverse [!C%category] x%ob y%ob f%hom : rename.
+Arguments inverse_left_inverse [!C%category] x%ob y%ob f%hom : rename.
+Arguments inverse_right_inverse [!C%category] x%ob y%ob f%hom : rename.
+
+Hint Resolve @inverse_inverse @inverse_left_inverse @inverse_right_inverse : category hom path.
+Hint Rewrite @inverse_inverse @inverse_left_inverse @inverse_right_inverse : category.
+Hint Rewrite @inverse_inverse @inverse_left_inverse @inverse_right_inverse : hom.
+Hint Rewrite @inverse_inverse @inverse_left_inverse @inverse_right_inverse : path.
 
 (** Sets *)
 
@@ -224,6 +235,9 @@ Program Instance Op_Pregroupoid (C : Pregroupoid) : Pregroupoid :=
 Obligation 1. apply (@inverse_inverse C). Defined.
 Obligation 2. apply (@inverse_right_inverse C). Defined.
 Obligation 3. apply (@inverse_left_inverse C). Defined.
+
+
+
 
 (* We need funext for these *)
 
