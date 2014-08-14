@@ -1,3 +1,4 @@
+
 Require Export Hask.Category.
 
 Open Scope category_scope.
