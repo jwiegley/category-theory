@@ -1,15 +1,16 @@
+(* requires coq trunk newer than August 14th, 2014 *)
+
 Require Export Hask.CpdtTactics.
 Require Export Coq.Unicode.Utf8.
 Require Export Coq.Classes.Morphisms.
 Require Export Coq.Program.Tactics.
 
-Set Implicit Arguments.
-Set Universe Polymorphism.
-Set Printing Projections.
-Set Shrink Obligations.
-(* Set Primitive Projections. *)
 Set Automatic Introduction.
-Set Asymmetric Patterns.
+Set Implicit Arguments.
+Set Printing Projections.
+Set Primitive Projections.
+Set Shrink Obligations.
+Set Universe Polymorphism.
 Generalizable All Variables.
 
 Notation idmap := (fun x => x).
@@ -49,9 +50,8 @@ Ltac path_induction :=
 
 (* (∞, 1)-category *)
 Class Precategory :=
-{ ob               :> Type
-; uhom             := Type : Type
-; hom              : ob → ob → uhom where "x ~> y" := (hom x y)
+{ ob               : Type
+; hom              : ob → ob → Type where "x ~> y" := (hom x y)
 ; compose          : ∀ {x y z : ob}, (y ~> z) → (x ~> y) → (x ~> z) where "f ∘ g" := (compose f g)
 ; compose_assoc    : ∀ {w x y z : ob} (f : y ~> z) (g : x ~> y) (h : w ~> x), f ∘ (g ∘ h) ~ (f ∘ g) ∘ h
 ; compose_assoc_op : ∀ {w x y z : ob} (f : y ~> z) (g : x ~> y) (h : w ~> x), (f ∘ g) ∘ h ~ f ∘ (g ∘ h)
@@ -126,16 +126,13 @@ Hint Rewrite @inverse_inverse @inverse_left_inverse @inverse_right_inverse : pat
 
 (** Sets *)
 
+
 Program Instance Sets_Precategory : Precategory :=
 { ob      := Type
 ; hom     := fun x y => x → y
 ; compose := fun _ _ _ f g x => f (g x)
 }.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
+Solve All Obligations with path_induction.
 
 (*
 Program Instance Sets_Category : Category :=
@@ -156,21 +153,16 @@ Program Instance Paths_Precategory {A} : Precategory :=
 { ob := A
 ; hom := @paths A
 }.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
-Next Obligation. path_induction. Defined.
+Solve All Obligations with path_induction.
 
-Program Instance Paths_Pregroupoid {A} : Pregroupoid := {
-  pregroupoid_precategory := @Paths_Precategory A
+Program Instance Paths_Pregroupoid {A} : Pregroupoid :=
+{ pregroupoid_precategory := @Paths_Precategory A
 }.
 Next Obligation. path_induction. Defined.
 Next Obligation. path_induction. Defined.
 Next Obligation. path_induction. Defined.
 Next Obligation. path_induction. Defined.
+
  
 Definition Paths A := @Paths_Pregroupoid A.
 Definition path_compose {A} := @compose (@Paths_Precategory A).
