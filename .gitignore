@@ -3,6 +3,7 @@
 .*.aux
 *.aux
 .coq-native/
+/coqdoc.sty
 /html/
 /Makefile.coq
 /Book.aux
