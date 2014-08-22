@@ -6,4 +6,3 @@
 ./Functor.v
 ./Products.v
 ./Coq.v
-./Toy.v
