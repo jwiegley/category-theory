@@ -1,4 +1,4 @@
--R . Hask -indices-matter -no-native-compiler
+-R . Hask
 ./Axioms.v
 ./Utils.v
 ./CpdtTactics.v
