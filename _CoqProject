@@ -1,8 +1,3 @@
--R . Hask
-./Axioms.v
-./Utils.v
-./CpdtTactics.v
-./Category.v
-./Functor.v
-./Products.v
-./Coq.v
+-R coq-haskell/src Hask
+-R fiat/src Fiat
+Categorical.v
