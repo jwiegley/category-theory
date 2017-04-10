@@ -1,8 +1,6 @@
 MISSING	 =									\
-	find src \( \( -name coq-haskell -o -name fiat \) -prune \)		\
-	    -o \( -name '*.v'							\
-		! -name fiat							\
-		! -name coq-haskell -print \)				|	\
+	find . \( \( -name coq-haskell -o -name fiat \) -prune \)		\
+	  -o -name '*.v'						|	\
 		xargs egrep -i -Hn '(abort|admit|undefined|jww)'	|	\
 		      egrep -v 'Definition undefined'			|	\
 		      egrep -v '(old|new|research)/'
