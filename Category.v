@@ -136,13 +136,42 @@ Arguments iso_to {_ _ X Y} _.
 Arguments iso_from {_ _ X Y} _.
 Arguments iso_witness {_ _ X Y} _.
 
-Infix "≅" := isomorphic (at level 100) : category_scope.
+Infix "≅" := isomorphic (at level 90) : category_scope.
 
 Theorem iso_refl : ∀ `{Category ob} (X : ob), X ≅ X.
 Proof.
   intros.
   apply Build_isomorphic with (iso_to:=id) (iso_from:=id).
   constructor; rewrite id_left; auto.
+Defined.
+
+Theorem iso_sym : ∀ `{Category ob} (X Y : ob), X ≅ Y -> Y ≅ X.
+Proof.
+  intros.
+  destruct X0.
+  apply Build_isomorphic with (iso_to:=iso_from0) (iso_from:=iso_to0).
+  destruct iso_witness0.
+  constructor; auto.
+Defined.
+
+Theorem iso_trans : ∀ `{Category ob} (X Y Z : ob), X ≅ Y -> Y ≅ Z -> X ≅ Z.
+Proof.
+  intros.
+  destruct X0, X1.
+  apply Build_isomorphic with (iso_to:=iso_to1 ∘ iso_to0)
+                              (iso_from:=iso_from0 ∘ iso_from1).
+  destruct iso_witness0, iso_witness1.
+  constructor.
+    rewrite <- comp_assoc.
+    rewrite (@comp_assoc _ _ _ _ _ _ iso_to0).
+    rewrite iso_to_from0.
+    rewrite id_left.
+    assumption.
+  rewrite <- comp_assoc.
+  rewrite (@comp_assoc _ _ _ _ _ _ iso_from1).
+  rewrite iso_from_to1.
+  rewrite id_left.
+  assumption.
 Defined.
 
 Class Terminal (ob : Type) := {
@@ -155,7 +184,7 @@ Class Terminal (ob : Type) := {
 
 Notation "X ~> 1" := (X ~> One) (at level 50) : category_scope.
 
-Corollary one_comp `{Terminal ob} : ∀ {A} {f : A ~> 1},
+Corollary one_comp `{Terminal ob} : ∀ {A B} {f : A ~> B},
   one ∘ f ≈ one.
 Proof.
   intros.
@@ -207,6 +236,8 @@ Definition first `{Cartesian C} {X Y Z : C} (f : X ~> Y) : X × Z ~> Y × Z :=
 Definition second `{Cartesian C} {X Y Z : C} (f : X ~> Y) : Z × X ~> Z × Y :=
   exl △ (f ∘ exr).
 
+Definition swap `{Cartesian C} {X Y} : X × Y ~> Y × X := exr △ exl.
+
 Corollary exl_fork `{Cartesian C} : ∀ {X Z W} (f : X ~> Z) (g : X ~> W),
   exl ∘ f △ g ≈ f.
 Proof.
@@ -230,18 +261,65 @@ Proof.
   rewrite !id_right; auto.
 Qed.
 
-Corollary fork_compose `{Cartesian C} :
-  ∀ {X Y Z W} (f : Y ~> Z) (h : Y ~> W) (g : X ~> Y),
-    (f ∘ g) △ (h ∘ g) ≈ f △ h ∘ g.
+Corollary fork_inv `{Cartesian C}
+          {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
+  f △ g ≈ h △ i <-> f ≈ h ∧ g ≈ i.
+Proof.
+  pose proof (@univ_products _ _ X Y Z h i (f △ g)).
+  rewrite exl_fork in H0.
+  rewrite exr_fork in H0.
+  apply H0.
+Qed.
+
+Corollary fork_comp_hetero `{Cartesian C}
+          {X Y Z W : C} (f : Y ~> Z) (h : Y ~> W) (g i : X ~> Y) :
+  (f ∘ g) △ (h ∘ i) ≈ (f ∘ exl) △ (h ∘ exr) ∘ g △ i.
 Proof.
   intros.
   symmetry.
-  apply (@univ_products C H _ _ _ (f ∘ g) (h ∘ g) (f △ h ∘ g)).
+  apply univ_products.
+  rewrite !comp_assoc.
+  rewrite exl_fork.
+  rewrite exr_fork.
+  rewrite <- !comp_assoc.
+  rewrite exl_fork.
+  rewrite exr_fork.
+  auto.
+Qed.
+
+Corollary fork_comp `{Cartesian C}
+          {X Y Z W : C} (f : Y ~> Z) (h : Y ~> W) (g : X ~> Y) :
+  (f ∘ g) △ (h ∘ g) ≈ f △ h ∘ g.
+Proof.
+  intros.
+  symmetry.
+  apply univ_products.
   rewrite !comp_assoc.
   rewrite exl_fork.
   rewrite exr_fork.
   auto.
 Qed.
+
+Definition swap_inj_l `{Cartesian C} {X Y Z : C} (f g : X ~> Y × Z) :
+  swap ∘ f ≈ swap ∘ g -> f ≈ g.
+Proof.
+  unfold swap; intros.
+  rewrite <- !fork_comp in H0.
+  apply fork_inv in H0.
+  pose proof (@univ_products _ _ X Y Z (exl ∘ g) (exr ∘ g) f).
+  intuition.
+  rewrite H1.
+  rewrite fork_comp.
+  rewrite fork_exl_exr.
+  rewrite id_left.
+  reflexivity.
+Qed.
+
+Definition swap_inj_r `{Cartesian C} {X Y Z : C} (f g : X × Y ~> Z) :
+  f ∘ swap ≈ g ∘ swap -> f ≈ g.
+Proof.
+  unfold swap; intros.
+Admitted.
 
 Notation "1 × X" := (Prod One X) (at level 40).
 Notation "X × 1" := (Prod X One) (at level 40).
@@ -254,7 +332,7 @@ Proof.
   constructor; simpl; intros.
     rewrite exr_fork.
     reflexivity.
-  rewrite <- fork_compose.
+  rewrite <- fork_comp.
   rewrite id_left.
   rewrite <- fork_exl_exr.
   apply fork_respects; auto.
@@ -269,14 +347,45 @@ Proof.
   constructor; simpl; intros.
     rewrite exl_fork.
     reflexivity.
-  rewrite <- fork_compose.
+  rewrite <- fork_comp.
   rewrite id_left.
   rewrite <- fork_exl_exr.
   apply fork_respects; auto.
   apply one_eqv.
 Defined.
 
-Definition swap `{Cartesian C} {X Y} : X × Y ~> Y × X := exr △ exl.
+Theorem prod_comp `{Cartesian C} : ∀ {X Y Z},
+  (X × Y) × Z ≅ X × (Y × Z).
+Proof.
+  intros.
+  refine {| iso_to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr)
+          ; iso_from := (exl △ (exl ∘ exr)) △ (exr ∘ exr) |}.
+  constructor; simpl; intros.
+    rewrite <- !fork_comp.
+    rewrite exr_fork.
+    rewrite <- comp_assoc.
+    rewrite !exl_fork.
+    rewrite <- comp_assoc.
+    rewrite !exl_fork.
+    rewrite !exr_fork.
+    rewrite fork_comp.
+    rewrite fork_exl_exr.
+    rewrite id_left.
+    rewrite fork_exl_exr.
+    reflexivity.
+  rewrite <- !fork_comp.
+  rewrite exl_fork.
+  rewrite <- comp_assoc.
+  rewrite !exr_fork.
+  rewrite <- comp_assoc.
+  rewrite !exr_fork.
+  rewrite !exl_fork.
+  rewrite fork_comp.
+  rewrite fork_exl_exr.
+  rewrite id_left.
+  rewrite fork_exl_exr.
+  reflexivity.
+Qed.
 
 Global Program Instance Coq_Cartesian : Cartesian Type := {
   cartesian_terminal := Coq_Terminal;
@@ -295,35 +404,26 @@ Obligation 1.
   reflexivity.
 Qed.
 
-(* Reserved Infix "≈>" (at level 29, right associativity). *)
-
 Class Closed (ob : Type) := {
   closed_cartesian :> Cartesian ob;
 
   Exp : ob -> ob -> ob    (* internal homs *)
     where "Y ^ X" := (Exp X Y);
 
-  apply : ∀ {X Y}, Y^X × X ~> Y;
-
   curry : ∀ {X Y Z}, X × Y ~> Z -> X ~> Z^Y;
   uncurry : ∀ {X Y Z}, X ~> Z^Y -> X × Y ~> Z;
 
-  curry_respects : ∀ X Y Z,
-    Proper (@eqv _ _ (X × Y) Z ==> @eqv _ _ X (Z^Y)) curry;
-  uncurry_respects : ∀ X Y Z,
-    Proper (@eqv _ _ X (Z^Y) ==> @eqv _ _ (X × Y) Z) uncurry;
+  curry_respects   : ∀ X Y Z, Proper (eqv ==> @eqv _ _ X (Z^Y))   curry;
+  uncurry_respects : ∀ X Y Z, Proper (eqv ==> @eqv _ _ (X × Y) Z) uncurry;
 
-  curry_uncurry : ∀ {X Y Z} (f : X ~> Z^Y), curry (uncurry f) ≈ f;
-  uncurry_curry : ∀ {X Y Z} (f : X × Y ~> Z), uncurry (curry f) ≈ f;
-
-  curry_apply : ∀ {X Y}, curry apply ≈ @id _ _ (Y^X);
+  curry_uncurry : ∀ {X Y Z} (f : X ~> Z^Y),   curry   (uncurry f) ≈ f;
+  uncurry_curry : ∀ {X Y Z} (f : X × Y ~> Z), uncurry (curry   f) ≈ f;
 
   univ_exponentials : ∀ {X Y Z} (f : X × Y ~> Z),
-    apply ∘ first (curry f) ≈ f
+    uncurry id ∘ first (curry f) ≈ f
 }.
 
 Notation "Y ^ X" := (Exp X Y) : category_scope.
-(* Infix "≈>" := Exp : category_scope. *)
 
 Add Parametric Morphism `(_ : Closed C) (a b c : C) : (@curry C _ a b c)
   with signature (eqv ==> eqv) as parametric_morphism_curry.
@@ -337,21 +437,7 @@ Proof.
   exact (@uncurry_respects _ _ a b c).
 Defined.
 
-Corollary apply_curry `{Closed C} :
-  ∀ {X Y Z W} (f : Y × Z ~> W) (g : X ~> Y) (h : X ~> Z),
-    apply ∘ ((curry f ∘ g) △ h) ≈ f ∘ g △ h.
-Proof.
-  intros.
-  pose proof (@univ_exponentials C H _ _ _ f).
-  rewrite <- H0 at 2; clear H0.
-  rewrite <- comp_assoc.
-  unfold first.
-  rewrite <- fork_compose.
-  rewrite exr_fork.
-  rewrite <- comp_assoc.
-  rewrite exl_fork.
-  reflexivity.
-Qed.
+Definition eval `{Closed C} {X Y : C} : Y^X × X ~> Y := uncurry id.
 
 Corollary curry_inj `{Closed C} : ∀ {X Y Z} (f g : X × Y ~> Z),
   curry f ≈ curry g -> f ≈ g.
@@ -373,27 +459,84 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary curry_compose `{Closed C} :
+Corollary curry_eval `{Closed C} : ∀ {X Y},
+  curry eval ≈ @id _ _ (Y^X).
+Proof.
+  intros.
+  unfold eval.
+  rewrite curry_uncurry.
+  reflexivity.
+Qed.
+
+Corollary eval_curry `{Closed C} :
+  ∀ {X Y Z W} (f : Y × Z ~> W) (g : X ~> Y) (h : X ~> Z),
+    eval ∘ ((curry f ∘ g) △ h) ≈ f ∘ g △ h.
+Proof.
+  intros.
+  pose proof (@univ_exponentials C H _ _ _ f).
+  rewrite <- H0 at 2; clear H0.
+  rewrite <- comp_assoc.
+  unfold first.
+  rewrite <- fork_comp.
+  rewrite exr_fork.
+  rewrite <- comp_assoc.
+  rewrite exl_fork.
+  reflexivity.
+Qed.
+
+Corollary curry_comp `{Closed C} :
+  ∀ {X Y Z W} (f : Z ~> W) (g : X × Y ~> Z),
+    curry (f ∘ g) ≈ curry (f ∘ eval) ∘ curry g.
+Proof.
+  intros.
+Admitted.
+
+Corollary curry_comp_l `{Closed C} :
   ∀ {X Y Z W} (f : Y × Z ~> W) (g : X ~> Y),
     curry f ∘ g ≈ curry (f ∘ first g).
 Proof.
   intros.
+  unfold first.
 Admitted.
 
-Theorem exp_exp `{Closed C} : ∀ {X Y Z},
-  (X^Y)^Z ≅ X^(Y × Z).
+Corollary uncurry_comp `{Closed C} :
+  ∀ {X Y Z W} (f : Y ~> W^Z) (g : X ~> Y),
+    uncurry (f ∘ g) ≈ uncurry f ∘ uncurry (curry id ∘ g).
 Proof.
   intros.
-  refine {| iso_to   := _
-          ; iso_from := _ |}.
 Admitted.
 
-Theorem exp_prod `{Closed C} : ∀ {X Y Z},
+Corollary uncurry_comp_r `{Closed C} :
+  ∀ {X Y Z W} (f : Z ~> W) (g : X ~> Z^Y),
+    f ∘ uncurry g ≈ uncurry (curry (f ∘ eval) ∘ g).
+Proof.
+  intros.
+Admitted.
+
+Theorem curry_id `{Closed C} : ∀ {X Y Z} (f : X ~> Y),
+  curry (@id _ _ (Y × Z)) ∘ f ≈ curry (first f).
+Proof.
+  intros.
+  rewrite curry_comp_l.
+  apply uncurry_inj.
+  rewrite !uncurry_curry.
+  rewrite id_left.
+  reflexivity.
+Qed.
+
+Theorem exp_prod_l `{Closed C} : ∀ {X Y Z},
+  Z^(X × Y) ≅ (Z^Y)^X.
+Proof.
+  intros.
+  refine {| iso_to   := curry (curry (eval ∘ iso_to prod_comp))
+          ; iso_from := curry (uncurry eval ∘ iso_from prod_comp) |}.
+  constructor; simpl; intros.
+Admitted.
+
+Theorem exp_prod_r `{Closed C} : ∀ {X Y Z},
   (Y × Z)^X ≅ Y^X × Z^X.
 Proof.
   intros.
-  refine {| iso_to   := _
-          ; iso_from := _ |}.
 Admitted.
 
 Notation "X ^ 1" := (Exp One X) (at level 30).
@@ -401,24 +544,41 @@ Notation "X ^ 1" := (Exp One X) (at level 30).
 Theorem exp_one `{Closed C} : ∀ {X}, X^1 ≅ X.
 Proof.
   intros.
-  refine {| iso_to   := apply ∘ id △ one
+  refine {| iso_to   := eval ∘ id △ one
           ; iso_from := curry exl |}.
   constructor; simpl; intros.
     rewrite <- comp_assoc.
-    rewrite <- fork_compose.
+    rewrite <- fork_comp.
     rewrite id_left.
     rewrite <- (@id_right _ _ _ _ (curry exl)).
-    rewrite apply_curry.
+    rewrite eval_curry.
     rewrite exl_fork.
     reflexivity.
   rewrite comp_assoc.
-  rewrite curry_compose.
-Admitted.
+  rewrite curry_comp_l.
+  rewrite curry_comp_l.
+  apply uncurry_inj.
+  rewrite uncurry_curry.
+  unfold first.
+  rewrite exl_fork.
+  rewrite <- comp_assoc.
+  rewrite exl_fork.
+  rewrite <- fork_comp.
+  rewrite id_left.
+  cut (@one _ _ (X^1) ∘ exl ≈ exr).
+    intros.
+    rewrite H0.
+    rewrite fork_exl_exr.
+    rewrite id_right.
+    reflexivity.
+  rewrite one_comp.
+  rewrite (one_eqv (f:=exr) (g:=one)).
+  reflexivity.
+Qed.
 
 Global Program Instance Coq_Closed : Closed Type := {
   closed_cartesian := Coq_Cartesian;
   Exp := arrow;
-  apply := fun _ _ p => fst p (snd p);
   curry := fun _ _ _ f a b => f (a, b);
   uncurry := fun _ _ _ f p => f (fst p) (snd p)
 }.
@@ -427,7 +587,7 @@ Obligation 2.
   rewrite <- surjective_pairing.
   reflexivity.
 Qed.
-Obligation 4.
+Obligation 3.
   extensionality x.
   rewrite <- surjective_pairing.
   reflexivity.
@@ -443,12 +603,40 @@ Class Initial `(_ : Category ob) := {
 Arguments Initial ob {_}.
 
 Notation "0 ~> X" := (Zero ~> X) (at level 50).
-Notation "X ^ 0" := (Exp Zero X) (at level 30).
 
-Corollary zero_comp `{Initial ob} : ∀ {A} {f : 0 ~> A},
+Notation "X ^ 0" := (Exp Zero X) (at level 30).
+Notation "0 ^ X" := (Exp X Zero) (at level 30).
+
+Corollary zero_comp `{Initial ob} : ∀ {A B} {f : A ~> B},
   f ∘ zero ≈ zero.
 Proof.
   intros.
+  apply zero_eqv.
+Defined.
+
+Notation "0 × X" := (Prod Zero X) (at level 40).
+Notation "X × 0" := (Prod X Zero) (at level 40).
+
+Theorem prod_zero_l `{Closed C} `{@Initial C _} : ∀ {X}, 0 × X ≅ Zero.
+Proof.
+  intros.
+  refine {| iso_to   := uncurry zero
+          ; iso_from := zero |}.
+  constructor; simpl; intros.
+    apply zero_eqv.
+  apply curry_inj.
+  apply zero_eqv.
+Defined.
+
+Theorem prod_zero_r `{Closed C} `{@Initial C _} : ∀ {X}, X × 0 ≅ Zero.
+Proof.
+  intros.
+  refine {| iso_to   := uncurry zero ∘ swap
+          ; iso_from := zero |}.
+  constructor; simpl; intros.
+    apply zero_eqv.
+  apply swap_inj_r.
+  apply curry_inj.
   apply zero_eqv.
 Defined.
 
@@ -512,7 +700,7 @@ Proof.
   auto.
 Qed.
 
-Corollary join_compose `{Cocartesian C} :
+Corollary join_comp `{Cocartesian C} :
   ∀ {X Y Z W} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X),
     (g ∘ f) ▽ (g ∘ h) ≈ g ∘ f ▽ h.
 Proof.
@@ -535,7 +723,7 @@ Proof.
           ; iso_from := inr |}.
   constructor; simpl; intros.
     rewrite inr_join; auto.
-  rewrite <- join_compose.
+  rewrite <- join_comp.
   rewrite id_right.
   rewrite <- join_inl_inr.
   apply join_respects; auto.
@@ -549,7 +737,7 @@ Proof.
           ; iso_from := inl |}.
   constructor; simpl; intros.
     rewrite inl_join; auto.
-  rewrite <- join_compose.
+  rewrite <- join_comp.
   rewrite id_right.
   rewrite <- join_inl_inr.
   apply join_respects; auto.
@@ -584,13 +772,22 @@ Class Distributive `(_ : Bicartesian C) := {
   prod_sum_distr : ∀ {X Y Z : C}, X × (Y + Z) ≅ X × Y + X × Z
 }.
 
-Theorem exp_sum `{Closed C} : ∀ {X Y Z}, X^(Y + Z) ≅ X^Y + X^Z.
+Theorem exp_sum `{Closed C} : ∀ {X Y Z}, X^(Y + Z) ≅ X^Y × X^Z.
 Proof.
 Admitted.
 
-Theorem exp_zero `{Closed C} : ∀ {X}, X^0 ≅ One.
+Theorem exp_zero `{Closed C} `{@Initial C _} : ∀ {X : C}, X^0 ≅ One.
 Proof.
-Admitted.
+  intros.
+  refine {| iso_to   := one
+          ; iso_from := curry (zero ∘ iso_to prod_zero_r) |}.
+  constructor; simpl; intros.
+    apply one_eqv.
+  apply uncurry_inj.
+  apply swap_inj_r.
+  apply curry_inj.
+  apply zero_eqv.
+Qed.
 
 Global Program Instance Coq_Distributive : Distributive Coq_Bicartesian.
 Obligation 1.
@@ -742,8 +939,6 @@ Class ClosedFunctor `(_ : Closed C) `(_ : Closed D) := {
   exp_in  := fun X Y => iso_from (@fobj_exp_iso X Y);
   exp_out := fun X Y => iso_to   (@fobj_exp_iso X Y);
 
-  fmap_apply : ∀ {X Y : C},
-    fmap (@apply C _ X Y) ≈ uncurry (curry apply ∘ exp_out _ _) ∘ prod_out;
   fmap_curry : ∀ {X Y Z : C} {f : X × Y ~> Z},
     fmap (@curry C _ X Y Z f) ≈ exp_in _ _ ∘ curry (fmap f ∘ prod_in);
   fmap_uncurry : ∀ {X Y Z : C} (f : X ~> Z^Y),
@@ -754,6 +949,19 @@ Arguments ClosedFunctor C {_} D {_}.
 
 Arguments exp_in {C _ D _ _ _ _} /.
 Arguments exp_out {C _ D _ _ _ _} /.
+
+Corollary fmap_eval `{ClosedFunctor C D} : ∀ {X Y : C},
+  fmap (@eval C _ X Y) ≈ uncurry (curry eval ∘ exp_out) ∘ prod_out.
+Proof.
+  intros.
+  unfold eval.
+  rewrite fmap_uncurry.
+  rewrite curry_uncurry.
+  rewrite fmap_id.
+  rewrite id_left.
+  rewrite id_right.
+  reflexivity.
+Qed.
 
 Corollary exp_in_out `{ClosedFunctor C D} : ∀ (X Y : C),
   exp_in ∘ exp_out ≈ @id _ _ (fobj (Y^X)).
@@ -948,17 +1156,17 @@ Theorem ccc_apply :
     (V : a -> b) (V' : fobj a ~> fobj b),
   U ===> exp_in ∘ U' ->
   V ===> V' ->
-    (λ x, U x (V x)) ===> apply ∘ (U' △ V').
+    (λ x, U x (V x)) ===> eval ∘ (U' △ V').
 Proof.
   unfold rel; intros; subst.
-  step (λ x, U x (V x)) => (λ x, @apply Type _ b c (U x, V x)).
-  step (λ x, U x (V x)) => (λ x, @apply Type _ b c (U x, V x)).
-  step (λ x, @apply Type _ b c (U x, V x))
-    => (λ x, @apply Type _ b c ((U △ V) x)).
-  step (λ x, @apply Type _ b c ((U △ V) x))
-    => (@apply Type _ b c ∘ (U △ V)).
+  step (λ x, U x (V x)) => (λ x, @eval Type _ b c (U x, V x)).
+  step (λ x, U x (V x)) => (λ x, @eval Type _ b c (U x, V x)).
+  step (λ x, @eval Type _ b c (U x, V x))
+    => (λ x, @eval Type _ b c ((U △ V) x)).
+  step (λ x, @eval Type _ b c ((U △ V) x))
+    => (@eval Type _ b c ∘ (U △ V)).
   rewrite fmap_comp.
-  rewrite fmap_apply.
+  rewrite fmap_eval.
   rewrite fmap_fork.
   rewrite comp_assoc.
   rewrite <- (@comp_assoc _ _ _ _ _ _ _ prod_out).
@@ -969,9 +1177,9 @@ Proof.
   rewrite exp_out_in.
   rewrite id_left.
   intros; subst.
-  rewrite <- apply_curry.
+  rewrite <- eval_curry.
   rewrite curry_uncurry.
-  rewrite curry_apply.
+  rewrite curry_eval.
   rewrite id_left.
   rewrite H1, H2.
   reflexivity.
@@ -1048,7 +1256,6 @@ Inductive Hom : Obj -> Obj -> Type :=
   | Exr      : ∀ a b, Hom (Prod_ a b) b
   | Fork     : ∀ a c d, Hom a c -> Hom a d -> Hom a (Prod_ c d)
 
-  | Apply    : ∀ a b, Hom (Prod_ (Exp_ a b) a) b
   | Curry    : ∀ a b c, Hom (Prod_ a b) c -> Hom a (Exp_ b c)
   | Uncurry  : ∀ a b c, Hom a (Exp_ b c) -> Hom (Prod_ a b) c
 
@@ -1063,7 +1270,7 @@ Inductive Hom : Obj -> Obj -> Type :=
   | SumLProd : ∀ u v a, Hom (Sum_ (Prod_ u a) (Prod_ v a)) (Prod_ (Sum_ u v) a)
   | SumRProd : ∀ u v a, Hom (Sum_ (Prod_ a u) (Prod_ a v)) (Prod_ a (Sum_ u v)).
 
-Program Fixpoint eval `(c : Hom a b) :
+Program Fixpoint interp `(c : Hom a b) :
   ∀ `{Closed C}
     `{@Initial C _}
     `{@Cocartesian C _ _}
@@ -1071,23 +1278,22 @@ Program Fixpoint eval `(c : Hom a b) :
     `{@Distributive C _ _ _ _ _}, denote a ~{C}~> denote b := fun _ _ _ _ _ _ =>
   match c with
   | Id _              => id
-  | Compose _ _ _ f g => eval f ∘ eval g
+  | Compose _ _ _ f g => interp f ∘ interp g
 
   | One' _            => one
 
   | Exl _ _           => exl
   | Exr _ _           => exr
-  | Fork _ _ _ f g    => fork (eval f) (eval g)
+  | Fork _ _ _ f g    => fork (interp f) (interp g)
 
-  | Apply _ _         => apply
-  | Curry _ _ _ f     => curry (eval f)
-  | Uncurry _ _ _ f   => uncurry (eval f)
+  | Curry _ _ _ f     => curry (interp f)
+  | Uncurry _ _ _ f   => uncurry (interp f)
 
   | Zero' _           => zero
 
   | Inl _ _           => inl
   | Inr _ _           => inr
-  | Join _ _ _ f g    => join (eval f) (eval g)
+  | Join _ _ _ f g    => join (interp f) (interp g)
 
   | ProdSumL _ _ _    => iso_to   prod_sum_distl
   | SumLProd _ _ _    => iso_from prod_sum_distl
@@ -1105,7 +1311,7 @@ Global Program Instance Hom_Category : Category Obj := {
                   `{@Cocartesian C _ _}
                   `{@Bicartesian C _ _ _ _}
                   `{@Distributive C _ _ _ _ _},
-             @eqv C _ _ _ (eval f) (eval g)
+             @eqv C _ _ _ (interp f) (interp g)
 }.
 Obligation 1.
   constructor.
@@ -1171,7 +1377,7 @@ Obligation 2.
   destruct H.
   rewrite <- H.
   rewrite <- H5.
-  rewrite fork_compose.
+  rewrite fork_comp.
   rewrite fork_exl_exr.
   rewrite id_left.
   reflexivity.
@@ -1180,7 +1386,6 @@ Qed.
 Global Program Instance Hom_Closed : Closed Obj := {
   closed_cartesian := Hom_Cartesian;
   Exp := Exp_;
-  apply := Apply;
   curry := Curry;
   uncurry := Uncurry
 }.
@@ -1203,10 +1408,7 @@ Obligation 4.
   apply uncurry_curry.
 Qed.
 Obligation 5.
-  apply curry_apply.
-Qed.
-Obligation 6.
-  rewrite apply_curry.
+  rewrite eval_curry.
   rewrite fork_exl_exr.
   rewrite id_right.
   reflexivity.
@@ -1244,7 +1446,7 @@ Obligation 2.
   destruct H.
   rewrite <- H.
   rewrite <- H5.
-  rewrite join_compose.
+  rewrite join_comp.
   rewrite join_inl_inr.
   rewrite id_right.
   reflexivity.
@@ -1259,13 +1461,13 @@ Context `{@Distributive C _ _ _ _ _}.
 Global Program Instance Hom_C_CategoryFunctor :
   CategoryFunctor Obj C := {
   fobj := fun x => denote x;
-  fmap := fun _ _ f => eval f
+  fmap := fun _ _ f => interp f
 }.
 
 Global Program Instance Hom_CategoryFunctor :
   CategoryFunctor Obj C := {
   fobj := fun x => denote x;
-  fmap := fun _ _ f => eval f
+  fmap := fun _ _ f => interp f
 }.
 
 Global Program Instance Hom_TerminalFunctor :
@@ -1307,16 +1509,11 @@ Obligation 1.
   apply iso_refl.
 Defined.
 Obligation 2.
-  rewrite !id_right.
-  rewrite uncurry_curry.
-  reflexivity.
-Qed.
-Obligation 3.
   rewrite id_right.
   rewrite id_left.
   reflexivity.
 Qed.
-Obligation 4.
+Obligation 3.
   rewrite id_right.
   rewrite id_left.
   reflexivity.
@@ -1381,7 +1578,7 @@ Program Instance bool_Represented : Represented bool (Sum One One) := {
   abst := fun h => _
 }.
 Obligation 1.
-  pose proof (@eval _ _ h Type _ _ _ _ _).
+  pose proof (@interp _ _ h Type _ _ _ _ _).
   destruct (X tt).
     exact true.
   exact false.
@@ -1419,7 +1616,7 @@ Definition add `(f : Sum One One ~> A) :=
 Print add.
 
 Definition foo `(f : A × B ~> C) :=
-  Eval simpl in apply ∘ (curry f ∘ exl) △ exr.
+  Eval simpl in eval ∘ (curry f ∘ exl) △ exr.
 Print foo.
 
 End Expr.
