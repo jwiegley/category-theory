@@ -1429,50 +1429,50 @@ Fixpoint denote `(o : Obj) : ∀ `{BicartesianClosed C}, C := fun _ _ _ _ _ =>
   end.
 
 Inductive Hom : Obj -> Obj -> Type :=
-  | Id      : ∀ a, Hom a a
-  | Compose : ∀ a b c, Hom b c -> Hom a b -> Hom a c
+  | Id      : ∀ {a}, Hom a a
+  | Compose : ∀ {a b c}, Hom b c -> Hom a b -> Hom a c
 
-  | One'    : ∀ a, Hom a One_
+  | One'    : ∀ {a}, Hom a One_
 
-  | Exl     : ∀ a b, Hom (Prod_ a b) a
-  | Exr     : ∀ a b, Hom (Prod_ a b) b
-  | Fork    : ∀ a c d, Hom a c -> Hom a d -> Hom a (Prod_ c d)
+  | Exl     : ∀ {a b}, Hom (Prod_ a b) a
+  | Exr     : ∀ {a b}, Hom (Prod_ a b) b
+  | Fork    : ∀ {a c d}, Hom a c -> Hom a d -> Hom a (Prod_ c d)
 
-  | Curry   : ∀ a b c, Hom (Prod_ a b) c -> Hom a (Exp_ b c)
-  | Uncurry : ∀ a b c, Hom a (Exp_ b c) -> Hom (Prod_ a b) c
+  | Curry   : ∀ {a b c}, Hom (Prod_ a b) c -> Hom a (Exp_ b c)
+  | Uncurry : ∀ {a b c}, Hom a (Exp_ b c) -> Hom (Prod_ a b) c
 
-  | Zero'   : ∀ a, Hom Zero_ a
+  | Zero'   : ∀ {a}, Hom Zero_ a
 
-  | Inl     : ∀ a b, Hom a (Coprod_ a b)
-  | Inr     : ∀ a b, Hom b (Coprod_ a b)
-  | Merge   : ∀ a c d, Hom c a -> Hom d a -> Hom (Coprod_ c d) a.
+  | Inl     : ∀ {a b}, Hom a (Coprod_ a b)
+  | Inr     : ∀ {a b}, Hom b (Coprod_ a b)
+  | Merge   : ∀ {a c d}, Hom c a -> Hom d a -> Hom (Coprod_ c d) a.
 
 Program Fixpoint interp `(c : Hom a b) :
   ∀ `{BicartesianClosed C}, denote a ~{C}~> denote b := fun _ _ _ _ _ =>
   match c with
-  | Id _              => id
-  | Compose _ _ _ f g => interp f ∘ interp g
+  | Id          => id
+  | Compose f g => interp f ∘ interp g
 
-  | One' _            => one
+  | One'        => one
 
-  | Exl _ _           => exl
-  | Exr _ _           => exr
-  | Fork _ _ _ f g    => fork (interp f) (interp g)
+  | Exl         => exl
+  | Exr         => exr
+  | Fork f g    => fork (interp f) (interp g)
 
-  | Curry _ _ _ f     => curry (interp f)
-  | Uncurry _ _ _ f   => uncurry (interp f)
+  | Curry f     => curry (interp f)
+  | Uncurry f   => uncurry (interp f)
 
-  | Zero' _           => zero
+  | Zero'       => zero
 
-  | Inl _ _           => inl
-  | Inr _ _           => inr
-  | Merge _ _ _ f g   => merge (interp f) (interp g)
+  | Inl         => inl
+  | Inr         => inr
+  | Merge f g   => merge (interp f) (interp g)
   end.
 
 Global Program Instance Hom_Category : Category Obj := {
   hom := Hom;
-  id := Id;
-  compose := Compose;
+  id := @Id;
+  compose := @Compose;
   eqv := fun _ _ f g =>
            forall `{BicartesianClosed C},
              @eqv C _ _ _ (interp f) (interp g)
@@ -1510,7 +1510,7 @@ Qed.
 Global Program Instance Hom_Terminal : Terminal Obj := {
   terminal_category := Hom_Category;
   One := One_;
-  one := One'
+  one := @One'
 }.
 Obligation 1.
   apply one_eqv.
@@ -1519,9 +1519,9 @@ Qed.
 Global Program Instance Hom_Cartesian : Cartesian Obj := {
   cartesian_terminal := Hom_Terminal;
   Prod := Prod_;
-  fork := Fork;
-  exl  := Exl;
-  exr  := Exr
+  fork := @Fork;
+  exl  := @Exl;
+  exr  := @Exr
 }.
 Obligation 1.
   intros ?????? ?????.
@@ -1550,8 +1550,8 @@ Qed.
 Global Program Instance Hom_Closed : Closed Obj := {
   closed_cartesian := Hom_Cartesian;
   Exp := Exp_;
-  curry := Curry;
-  uncurry := Uncurry
+  curry := @Curry;
+  uncurry := @Uncurry
 }.
 Obligation 1.
   intros ??? ?????.
@@ -1580,7 +1580,7 @@ Qed.
 
 Global Program Instance Hom_Initial : Initial Obj := {
   Zero := Zero_;
-  zero := Zero'
+  zero := @Zero'
 }.
 Obligation 1.
   apply zero_eqv.
@@ -1588,9 +1588,9 @@ Qed.
 
 Global Program Instance Hom_Cocartesian : Cocartesian Obj := {
   Coprod  := Coprod_;
-  merge := Merge;
-  inl  := Inl;
-  inr  := Inr
+  merge := @Merge;
+  inl  := @Inl;
+  inr  := @Inr
 }.
 Obligation 1.
   intros ?????? ?????.
