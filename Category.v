@@ -493,6 +493,8 @@ Class Closed (ob : Type) := {
   curry   {X Y Z} (f : X × Y ~> Z) : X ~> Z^Y;
   uncurry {X Y Z} (f : X ~> Z^Y) : X × Y ~> Z;
 
+  eval {X Y} : Y^X × X ~> Y := uncurry id;
+
   curry_respects   : ∀ X Y Z, Proper (eqv ==> @eqv _ _ X (Z^Y))   curry;
   uncurry_respects : ∀ X Y Z, Proper (eqv ==> @eqv _ _ (X × Y) Z) uncurry;
 
@@ -500,7 +502,7 @@ Class Closed (ob : Type) := {
   uncurry_curry {X Y Z} (f : X × Y ~> Z) : uncurry (curry   f) ≈ f;
 
   univ_exponents {X Y Z} (f : X × Y ~> Z) :
-    uncurry id ∘ first (curry f) ≈ f
+    eval ∘ first (curry f) ≈ f
 }.
 
 Notation "Y ^ X" := (Exp X Y) : category_scope.
@@ -510,8 +512,6 @@ Global Program Instance parametric_morphism_curry `(_ : Closed C) (a b c : C) :
 
 Global Program Instance parametric_morphism_uncurry `(_ : Closed C) (a b c : C) :
   Proper (eqv ==> eqv)  (@uncurry C _ a b c) := uncurry_respects a b c.
-
-Definition eval `{Closed C} {X Y : C} : Y^X × X ~> Y := uncurry id.
 
 Corollary eval_curry `{Closed C}
           {X Y Z W : C} (f : Y × Z ~> W) (g : X ~> Y) (h : X ~> Z) :
@@ -529,8 +529,8 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary uncurry_first `{Closed C} {X Y Z : C} (f : X ~> Z^Y) :
-  uncurry id ∘ first f ≈ uncurry f.
+Corollary eval_first `{Closed C} {X Y Z : C} (f : X ~> Z^Y) :
+  eval ∘ first f ≈ uncurry f.
 Proof.
   rewrite <- (curry_uncurry f).
   rewrite univ_exponents.
@@ -591,6 +591,7 @@ Proof.
   rewrite <- H0; clear H0.
   unfold first in *.
   rewrite curry_uncurry.
+  unfold eval.
   rewrite <- curry_eval.
   rewrite uncurry_curry.
   rewrite <- comp_assoc.
@@ -1673,7 +1674,7 @@ Class Represented (A : Type) `{Terminal ob} `(Repr : ob) := {
 
 Arguments Represented A {_ _} Repr.
 
-Program Instance unit_Represented : Represented (unit : Type) One := {
+Global Program Instance unit_Represented : Represented (unit : Type) One := {
   repr := fun _ : unit => one;
   abst := fun _ : _ => tt
 }.
@@ -1682,7 +1683,7 @@ Obligation 1.
   reflexivity.
 Qed.
 
-Program Instance bool_Represented : Represented bool (Coprod One One) := {
+Global Program Instance bool_Represented : Represented bool (Coprod One One) := {
   repr := fun b => if b
                    then inl
                    else inr;
@@ -1699,7 +1700,7 @@ Obligation 2.
   destruct x; auto.
 Defined.
 
-Program Instance prod_Represented
+Global Program Instance prod_Represented
         `{H1 : @Represented A _ Hom_Terminal C}
         `{H2 : @Represented B _ Hom_Terminal D} :
   Represented (@Datatypes.prod A B) (C × D) := {
@@ -1734,3 +1735,5 @@ End Expr.
 (* Notation "f =/= g" := (f =/= g)%equiv : pequiv_scope. *)
 
 (* Delimit Scope pequiv_scope with pequiv. *)
+
+Print Assumptions prod_coprod.
