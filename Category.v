@@ -772,8 +772,17 @@ Class Distributive `(_ : Bicartesian C) := {
   prod_sum_distr : ∀ {X Y Z : C}, X × (Y + Z) ≅ X × Y + X × Z
 }.
 
-Theorem exp_sum `{Closed C} : ∀ {X Y Z}, X^(Y + Z) ≅ X^Y × X^Z.
+Theorem exp_sum `{Closed C}
+        `{@Initial C _} `{@Cocartesian C _ _}
+        `{@Bicartesian C _ _ _ _}
+        `{@Distributive C _ _ _ _ _} : ∀ {X Y Z : C},
+  X^(Y + Z) ≅ X^Y × X^Z.
 Proof.
+  intros.
+  refine {| iso_to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr)
+          ; iso_from := curry (join (eval ∘ first exl) (eval ∘ first exr)
+                                    ∘ iso_to prod_sum_distr) |}.
+  constructor; simpl; intros.
 Admitted.
 
 Theorem exp_zero `{Closed C} `{@Initial C _} : ∀ {X : C}, X^0 ≅ One.
