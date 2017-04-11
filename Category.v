@@ -1,13 +1,15 @@
 Require Import
   Coq.Unicode.Utf8
   Coq.Init.Datatypes
-  Coq.Classes.Morphisms
-  Coq.Classes.RelationClasses
-  Coq.Relations.Relation_Definitions
   Coq.Setoids.Setoid
   Coq.Logic.JMeq
   Coq.Program.Tactics
   FunctionalExtensionality.
+
+Require Import
+  Coq.Classes.Morphisms
+  Coq.Classes.Equivalence
+  Coq.Classes.RelationClasses.
 
 (*
 - Break into multiple files
@@ -57,34 +59,27 @@ Infix "∘" := compose : category_scope.
 
 Notation "id[ X  ]" := (@id _ _ X)  (at level 50) : category_scope.
 
-Add Parametric Relation `{Category C} (a b : C) : (hom a b) eqv
-  reflexivity proved by  (@Equivalence_Reflexive  _ _ (eqv_equivalence a b))
-  symmetry proved by     (@Equivalence_Symmetric  _ _ (eqv_equivalence a b))
-  transitivity proved by (@Equivalence_Transitive _ _ (eqv_equivalence a b))
-    as parametric_relation_eqv.
+Global Program Instance parametric_relation_eqv `{Category C} {a b : C} :
+  Equivalence (@eqv C _ a b) := eqv_equivalence a b.
 
-Add Parametric Morphism `{Category C} (a b c : C) : (@compose C _ a b c)
-  with signature (eqv ==> eqv ==> eqv) as parametric_morphism_compose.
-Proof.
-  exact (@compose_respects _ _ a b c).
-Defined.
+Global Program Instance parametric_morphism_compose `{Category C} {a b c : C} :
+  Proper (eqv ==> eqv ==> eqv) (@compose C _ a b c) := compose_respects a b c.
 
-Add Parametric Morphism `{Category C} (a b : C) : eqv
-  with signature (eqv --> @eqv _ _ a b ++> Basics.impl)
-    as impl_eqv.
-Proof.
-  intros.
-  rewrite H0, <- H1.
-  reflexivity.
+Global Program Instance impl_eqv `{Category C} {a b : C} :
+  Proper (eqv --> @eqv _ _ a b ++> Basics.impl) eqv.
+Obligation 1.
+  intros ???????.
+  transitivity x; auto.
+  transitivity x0; auto.
 Qed.
 
-Add Parametric Morphism `{Category C} (a b : C) : eqv
-  with signature (eqv --> @eqv _ _ a b ++> Basics.flip Basics.impl)
-    as flip_impl_eqv.
-Proof.
-  intros.
-  rewrite H0, <- H1.
-  reflexivity.
+Global Program Instance flip_impl_eqv `{Category C} (a b : C) :
+  Proper (eqv --> @eqv _ _ a b ++> Basics.flip Basics.impl) eqv.
+Obligation 1.
+  intros ???????.
+  unfold Basics.flip in H0.
+  rewrite <- H0, H1.
+  assumption.
 Qed.
 
 Hint Constructors Equivalence.
@@ -118,7 +113,7 @@ Global Program Instance Coq_Category : Category Type := {
 }.
 
 Record isomorphism `{Category ob}
-       `(iso_to : X ~> Y) `(iso_from: Y ~> X) : Prop := {
+       `(iso_to : X ~> Y) `(iso_from: Y ~> X) : Type := {
   iso_to_from : iso_to   ∘ iso_from ≈ id;
   iso_from_to : iso_from ∘ iso_to   ≈ id
 }.
@@ -138,32 +133,29 @@ Arguments iso_witness {_ _ X Y} _.
 
 Infix "≅" := isomorphic (at level 90) : category_scope.
 
-Theorem iso_refl `{Category ob} (X : ob) : X ≅ X.
-Proof.
-  intros.
+Global Program Instance isomorphic_equivalence `{Category ob} :
+  CRelationClasses.Equivalence isomorphic.
+Obligation 1.
+  intros ?.
   apply Build_isomorphic with (iso_to:=id) (iso_from:=id).
   constructor; rewrite id_left; auto.
 Defined.
-
-Theorem iso_sym `{Category ob} (X Y : ob) : X ≅ Y -> Y ≅ X.
-Proof.
-  intros.
-  destruct X0.
+Obligation 2.
+  intros ???.
+  destruct X.
   apply Build_isomorphic with (iso_to:=iso_from0) (iso_from:=iso_to0).
   destruct iso_witness0.
   constructor; auto.
 Defined.
-
-Theorem iso_trans `{Category ob} (X Y Z : ob) : X ≅ Y -> Y ≅ Z -> X ≅ Z.
-Proof.
-  intros.
-  destruct X0, X1.
+Obligation 3.
+  intros ?????.
+  destruct X, X0.
   apply Build_isomorphic with (iso_to:=iso_to1 ∘ iso_to0)
                               (iso_from:=iso_from0 ∘ iso_from1).
   destruct iso_witness0, iso_witness1.
   constructor.
     rewrite <- comp_assoc.
-    rewrite (@comp_assoc _ _ _ _ _ _ iso_to0).
+    rewrite (comp_assoc iso_to0).
     rewrite iso_to_from0.
     rewrite id_left.
     assumption.
@@ -173,6 +165,31 @@ Proof.
   rewrite id_left.
   assumption.
 Defined.
+
+Global Program Instance arrow_isomorphic `{Category C} :
+  CMorphisms.Proper
+    (@CMorphisms.respectful
+       _ _ (Basics.flip isomorphic)
+       (@CMorphisms.respectful
+          _ _ isomorphic Basics.arrow)) isomorphic.
+Obligation 1.
+  intros ???????.
+  transitivity x; auto.
+  transitivity x0; auto.
+Qed.
+
+Global Program Instance flip_arrow_isomorphic `{Category C} :
+  CMorphisms.Proper
+    (@CMorphisms.respectful
+       _ _ (Basics.flip isomorphic)
+       (@CMorphisms.respectful
+          _ _ isomorphic (Basics.flip Basics.arrow))) isomorphic.
+Obligation 1.
+  intros ???????.
+  unfold Basics.flip in X.
+  rewrite <- X, X0.
+  assumption.
+Qed.
 
 Class Terminal (ob : Type) := {
   terminal_category :> Category ob;
@@ -224,17 +241,24 @@ Class Cartesian (ob : Type) := {
 Infix "×" := Prod : category_scope.
 Infix "△" := fork (at level 28) : category_scope.
 
-Add Parametric Morphism `(_ : Cartesian ob) (a b c : ob) : (@fork ob _ a b c)
-  with signature (eqv ==> eqv ==> eqv) as parametric_morphism_fork.
-Proof.
-  exact (@fork_respects _ _ a b c).
-Defined.
+Global Program Instance parametric_morphism_fork `(_ : Cartesian ob) (a b c : ob) :
+  Proper (eqv ==> eqv ==> eqv) (@fork ob _ a b c) := fork_respects a b c.
 
 Definition first `{Cartesian C} {X Y Z : C} (f : X ~> Y) : X × Z ~> Y × Z :=
   (f ∘ exl) △ exr.
 
 Definition second `{Cartesian C} {X Y Z : C} (f : X ~> Y) : Z × X ~> Z × Y :=
   exl △ (f ∘ exr).
+
+Global Program Instance parametric_morphism_first `{Cartesian C} {a b c : C} :
+  Proper (eqv ==> eqv) (@first C _ a b c).
+Obligation 1.
+Admitted.
+
+Global Program Instance parametric_morphism_second `{Cartesian C} {a b c : C} :
+  Proper (eqv ==> eqv) (@second C _ a b c).
+Obligation 1.
+Admitted.
 
 Definition swap `{Cartesian C} {X Y : C} : X × Y ~> Y × X := exr △ exl.
 
@@ -336,6 +360,35 @@ Proof.
   reflexivity.
 Qed.
 
+Theorem first_comp `{Cartesian C} {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
+  first (Z:=W) (f ∘ g) ≈ first f ∘ first g.
+Proof.
+Admitted.
+
+Theorem second_comp `{Cartesian C} {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
+  second (Z:=W) (f ∘ g) ≈ second f ∘ second g.
+Proof.
+Admitted.
+
+Global Program Instance parametric_morphism_prod `(_ : Cartesian ob) :
+  CMorphisms.Proper
+    (@CMorphisms.respectful
+       _ _ isomorphic
+       (@CMorphisms.respectful _ _ isomorphic isomorphic)) Prod.
+Obligation 1.
+  intros ??????.
+  destruct X, X0.
+  refine {| iso_to   := second iso_to1 ∘ first iso_to0
+          ; iso_from := second iso_from1 ∘ first iso_from0 |}.
+  destruct iso_witness0, iso_witness1.
+  unfold first, second.
+  constructor; simpl; intros.
+    rewrite <- !fork_comp.
+    rewrite !exl_fork.
+    rewrite !fork_comp.
+    rewrite <- !comp_assoc.
+Admitted.
+
 Notation "1 × X" := (Prod One X) (at level 40).
 Notation "X × 1" := (Prod X One) (at level 40).
 
@@ -436,23 +489,17 @@ Class Closed (ob : Type) := {
   curry_uncurry {X Y Z} (f : X ~> Z^Y) :   curry   (uncurry f) ≈ f;
   uncurry_curry {X Y Z} (f : X × Y ~> Z) : uncurry (curry   f) ≈ f;
 
-  univ_exponentials {X Y Z} (f : X × Y ~> Z) :
+  univ_exponents {X Y Z} (f : X × Y ~> Z) :
     uncurry id ∘ first (curry f) ≈ f
 }.
 
 Notation "Y ^ X" := (Exp X Y) : category_scope.
 
-Add Parametric Morphism `(_ : Closed C) (a b c : C) : (@curry C _ a b c)
-  with signature (eqv ==> eqv) as parametric_morphism_curry.
-Proof.
-  exact (@curry_respects _ _ a b c).
-Defined.
+Global Program Instance parametric_morphism_curry `(_ : Closed C) (a b c : C) :
+  Proper (eqv ==> eqv)  (@curry C _ a b c) := curry_respects a b c.
 
-Add Parametric Morphism `(_ : Closed C) (a b c : C) : (@uncurry C _ a b c)
-  with signature (eqv ==> eqv) as parametric_morphism_uncurry.
-Proof.
-  exact (@uncurry_respects _ _ a b c).
-Defined.
+Global Program Instance parametric_morphism_uncurry `(_ : Closed C) (a b c : C) :
+  Proper (eqv ==> eqv)  (@uncurry C _ a b c) := uncurry_respects a b c.
 
 Definition eval `{Closed C} {X Y : C} : Y^X × X ~> Y := uncurry id.
 
@@ -461,7 +508,7 @@ Corollary eval_curry `{Closed C}
   eval ∘ ((curry f ∘ g) △ h) ≈ f ∘ g △ h.
 Proof.
   intros.
-  pose proof (@univ_exponentials C H _ _ _ f).
+  pose proof (@univ_exponents C H _ _ _ f).
   rewrite <- H0 at 2; clear H0.
   rewrite <- comp_assoc.
   unfold first.
@@ -475,6 +522,7 @@ Qed.
 Corollary curry_uncurry' `{Closed C} {X Y Z : C} (f : X ~> Z^Y) :
   curry (uncurry f) ≈ f.
 Proof.
+  (* Can this be proven in terms of the universal property? *)
 Abort.
 
 Corollary curry_inj `{Closed C} {X Y Z : C} (f g : X × Y ~> Z) :
@@ -520,7 +568,7 @@ Proof.
   intros.
   apply uncurry_inj.
   rewrite uncurry_curry.
-  pose proof (@univ_exponentials _ _ X Z W (uncurry (curry f ∘ g))).
+  pose proof (@univ_exponents _ _ X Z W (uncurry (curry f ∘ g))).
   rewrite <- H0; clear H0.
   unfold first in *.
   rewrite curry_uncurry.
@@ -675,6 +723,20 @@ Proof.
   apply zero_eqv.
 Defined.
 
+Theorem exp_zero `{Closed C} `{@Initial C _} {X : C} :
+  X^0 ≅ One.
+Proof.
+  intros.
+  refine {| iso_to   := one
+          ; iso_from := curry (zero ∘ iso_to prod_zero_r) |}.
+  constructor; simpl; intros.
+    apply one_eqv.
+  apply uncurry_inj.
+  apply swap_inj_r.
+  apply curry_inj.
+  apply zero_eqv.
+Qed.
+
 Global Program Instance Coq_Initial : Initial Type := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
@@ -685,8 +747,8 @@ Obligation 2.
 Qed.
 
 Class Cocartesian `(_ : Initial ob) := {
-  Sum : ob -> ob -> ob
-    where "X + Y" := (Sum X Y);
+  Coprod : ob -> ob -> ob
+    where "X + Y" := (Coprod X Y);
 
   merge {X Z W} (f : Z ~> X) (g : W ~> X) : Z + W ~> X;
   inl   {X Y} : X ~> X + Y;
@@ -695,34 +757,33 @@ Class Cocartesian `(_ : Initial ob) := {
   merge_respects : ∀ X Z W,
     Proper (@eqv _ _ Z X ==> @eqv _ _ W X ==> @eqv _ _ (Z + W) X) merge;
 
-  univ_sums {X Y Z} (f : Y ~> X) (g : Z ~> X) (h : Y + Z ~> X) :
+  univ_coproducts {X Y Z} (f : Y ~> X) (g : Z ~> X) (h : Y + Z ~> X) :
     h ≈ merge f g <-> h ∘ inl ≈ f ∧ h ∘ inr ≈ g
 }.
 
 Arguments Cocartesian ob {_ _}.
 
-Infix "+" := Sum : category_scope.
+Infix "+" := Coprod : category_scope.
 Infix "▽" := merge (at level 26) : category_scope.
 
-Add Parametric Morphism `(_ : Cocartesian ob) (a b c : ob) :
-  (@merge ob _ _ _ a b c)
-  with signature (eqv ==> eqv ==> eqv) as parametric_morphism_merge.
-Proof.
-  exact (@merge_respects _ _ _ _ a b c).
-Defined.
+Global Program Instance parametric_morphism_merge
+       `(H : Category ob)
+       `(J : @Initial ob H)
+       `(O : @Cocartesian ob H J) (a b c : ob) :
+  Proper (eqv ==> eqv ==> eqv) (@merge ob H J O a b c) := merge_respects a b c.
 
 Corollary inl_merge `{Cocartesian C} {X Z W : C} (f : Z ~> X) (g : W ~> X) :
   f ▽ g ∘ inl ≈ f.
 Proof.
   intros.
-  apply (proj1 (univ_sums f g (f ▽ g)) (reflexivity _)).
+  apply (proj1 (univ_coproducts f g (f ▽ g)) (reflexivity _)).
 Qed.
 
 Corollary inr_merge `{Cocartesian C} {X Z W : C} (f : Z ~> X) (g : W ~> X) :
   f ▽ g ∘ inr ≈ g.
 Proof.
   intros.
-  apply (proj1 (univ_sums f g (f ▽ g)) (reflexivity _)).
+  apply (proj1 (univ_coproducts f g (f ▽ g)) (reflexivity _)).
 Qed.
 
 Corollary merge_inl_inr `{Cocartesian C} {X Y : C} :
@@ -730,9 +791,18 @@ Corollary merge_inl_inr `{Cocartesian C} {X Y : C} :
 Proof.
   intros.
   symmetry.
-  apply (proj2 (univ_sums inl inr id)).
+  apply (proj2 (univ_coproducts inl inr id)).
   rewrite !id_left.
   auto.
+Qed.
+
+Corollary merge_inv `{Cocartesian C} {X Y Z : C} (f h : Y ~> X) (g i : Z ~> X) :
+  f ▽ g ≈ h ▽ i <-> f ≈ h ∧ g ≈ i.
+Proof.
+  pose proof (univ_coproducts h i (f ▽ g)).
+  rewrite inl_merge in H2.
+  rewrite inr_merge in H2.
+  apply H2.
 Qed.
 
 Corollary merge_comp `{Cocartesian C}
@@ -741,17 +811,23 @@ Corollary merge_comp `{Cocartesian C}
 Proof.
   intros.
   symmetry.
-  apply (univ_sums (g ∘ f) (g ∘ h) (g ∘ f ▽ h)).
+  apply (univ_coproducts (g ∘ f) (g ∘ h) (g ∘ f ▽ h)).
   rewrite <- !comp_assoc.
   rewrite inl_merge.
   rewrite inr_merge.
   auto.
 Qed.
 
-Notation "0 + X" := (Sum Zero X) (at level 30).
-Notation "X + 0" := (Sum X Zero) (at level 30).
+Corollary fork_merge `{Cartesian C} `{@Initial C _} `{@Cocartesian C _ _}
+          {X Y Z W : C} (f : X ~> Y) (g : X ~> Z) (h : W ~> Y) (i : W ~> Z) :
+  (f △ g) ▽ (h △ i) ≈ (f ▽ h) △ (g ▽ i).
+Proof.
+Admitted.
 
-Theorem sum_zero_l `{Cocartesian C} {X : C} :
+Notation "0 + X" := (Coprod Zero X) (at level 30).
+Notation "X + 0" := (Coprod X Zero) (at level 30).
+
+Theorem coprod_zero_l `{Cocartesian C} {X : C} :
   0 + X ≅ X.
 Proof.
   intros.
@@ -766,7 +842,7 @@ Proof.
   apply zero_eqv.
 Defined.
 
-Theorem sum_zero_r `{Cocartesian C} {X : C} :
+Theorem coprod_zero_r `{Cocartesian C} {X : C} :
   X + 0 ≅ X.
 Proof.
   intros.
@@ -782,7 +858,7 @@ Proof.
 Defined.
 
 Global Program Instance Coq_Cocartesian : Cocartesian Type := {
-  Sum := sum;
+  Coprod := sum;
   merge := fun _ _ _ f g x =>
             match x with
             | Datatypes.inl v => f v
@@ -805,24 +881,56 @@ Class Bicartesian `(_ : Cartesian C) `{Cocartesian C}.
 Global Program Instance Coq_Bicartesian : Bicartesian Coq_Cartesian.
 
 Class Distributive `(_ : Bicartesian C) := {
-  prod_sum_dist {X Y Z : C} : X × (Y + Z) ≅ X × Y + X × Z
+  prod_coprod_dist {X Y Z : C} : X × (Y + Z) ≅ X × Y + X × Z
 }.
 
-Theorem prod_sum `{Closed C} `{@Initial C _} `{@Cocartesian C _ _} {X Y Z : C} :
+(* Theorem: Products distribute over coproducts in every bicartesian closed
+   category. *)
+Theorem prod_coprod `{Closed C} `{@Initial C _} `{@Cocartesian C _ _} {X Y Z : C} :
   X × (Y + Z) ≅ X × Y + X × Z.
 Proof.
   intros.
   refine {| iso_to   :=
-              eval ∘ (curry (inl ∘ swap) ▽ curry (inr ∘ swap) ∘ exr) △ exl
-          ; iso_from :=
-              (exl △ (inl ∘ exr)) ▽ (exl △ (inr ∘ exr)) |}.
+              eval ∘ swap ∘ second (curry (inl ∘ swap) ▽ curry (inr ∘ swap))
+          ; iso_from := second inl ▽ second inr |}.
   constructor; simpl; intros.
+    rewrite <- !comp_assoc.
+    rewrite <- !merge_comp.
+    rewrite <- merge_inl_inr.
+    rewrite <- !second_comp.
+    apply merge_inv; split.
+      rewrite inl_merge.
+      unfold swap, second.
+      rewrite <- fork_comp.
+      rewrite exr_fork.
+      rewrite exl_fork.
+      rewrite eval_curry.
+      rewrite <- comp_assoc.
+      rewrite swap_invol.
+      rewrite id_right.
+      reflexivity.
+    rewrite inr_merge.
+    unfold swap, second.
+    rewrite <- fork_comp.
+    rewrite exr_fork.
+    rewrite exl_fork.
+    rewrite eval_curry.
     rewrite <- comp_assoc.
-    pose proof (@univ_sums C _ _ _).
-    unfold eval, first in *.
+    rewrite swap_invol.
+    rewrite id_right.
+    reflexivity.
+  unfold swap.
+  rewrite <- fork_comp.
+  unfold second.
+  rewrite exl_fork.
+  rewrite exr_fork.
+  rewrite fork_merge.
+  rewrite <- fork_comp.
+  rewrite <- fork_exl_exr.
+  apply fork_inv; split.
 Abort.
 
-Theorem exp_sum `{Closed C}
+Theorem exp_coprod `{Closed C}
         `{@Initial C _} `{@Cocartesian C _ _}
         `{@Bicartesian C _ _ _ _}
         `{@Distributive C _ _ _ _ _} {X Y Z : C} :
@@ -831,23 +939,10 @@ Proof.
   intros.
   refine {| iso_to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr)
           ; iso_from := curry (merge (eval ∘ first exl) (eval ∘ first exr)
-                                    ∘ iso_to prod_sum_dist) |}.
+                                    ∘ iso_to prod_coprod_dist) |}.
+  unfold first, second.
   constructor; simpl; intros.
 Abort.
-
-Theorem exp_zero `{Closed C} `{@Initial C _} {X : C} :
-  X^0 ≅ One.
-Proof.
-  intros.
-  refine {| iso_to   := one
-          ; iso_from := curry (zero ∘ iso_to prod_zero_r) |}.
-  constructor; simpl; intros.
-    apply one_eqv.
-  apply uncurry_inj.
-  apply swap_inj_r.
-  apply curry_inj.
-  apply zero_eqv.
-Qed.
 
 Global Program Instance Coq_Distributive : Distributive Coq_Bicartesian.
 Obligation 1.
@@ -885,11 +980,8 @@ Arguments Functor C {_} D {_}.
 
 Notation "C ⟶ D" := (Functor C D) (at level 90, right associativity).
 
-Add Parametric Morphism `(_ : Functor C D) (a b : C) : (@fmap C _ D _ _ a b)
-  with signature (eqv ==> eqv) as parametric_morphism_fmap.
-Proof.
-  exact (@fmap_respects _ _ _ _ _ a b).
-Defined.
+Global Program Instance parametric_morphism_fmap `(_ : Functor C D) (a b : C) :
+  Proper (eqv ==> eqv) (@fmap C _ D _ _ a b) := fmap_respects a b.
 
 Class TerminalFunctor `(_ : Terminal C) `(_ : Terminal D) := {
   terminal_category_functor :> @Functor C _ D _;
@@ -1071,50 +1163,50 @@ Arguments InitialFunctor C {_ _} D {_ _}.
 Class CocartesianFunctor `(_ : Cocartesian C) `(_ : Cocartesian D) := {
   initial_functor :> InitialFunctor C D;
 
-  fobj_sum_iso {X Y : C} : fobj (X + Y) ≅ fobj X + fobj Y;
+  fobj_coprod_iso {X Y : C} : fobj (X + Y) ≅ fobj X + fobj Y;
 
-  sum_in  := fun X Y => iso_from (@fobj_sum_iso X Y);
-  sum_out := fun X Y => iso_to   (@fobj_sum_iso X Y);
+  coprod_in  := fun X Y => iso_from (@fobj_coprod_iso X Y);
+  coprod_out := fun X Y => iso_to   (@fobj_coprod_iso X Y);
 
-  fmap_inl {X Y : C} : fmap (@inl C _ _ _ X Y) ≈ sum_in _ _ ∘ inl;
-  fmap_inr {X Y : C} : fmap (@inr C _ _ _ X Y) ≈ sum_in _ _ ∘ inr;
+  fmap_inl {X Y : C} : fmap (@inl C _ _ _ X Y) ≈ coprod_in _ _ ∘ inl;
+  fmap_inr {X Y : C} : fmap (@inr C _ _ _ X Y) ≈ coprod_in _ _ ∘ inr;
   fmap_merge {X Y Z : C} (f : Y ~> X) (g : Z ~> X) :
-    fmap (f ▽ g) ≈ fmap f ▽ fmap g ∘ sum_out _ _
+    fmap (f ▽ g) ≈ fmap f ▽ fmap g ∘ coprod_out _ _
 }.
 
 Arguments CocartesianFunctor C {_ _ _} D {_ _ _}.
 
-Arguments sum_in {C _ _ _ D _ _ _ _ _ _} /.
-Arguments sum_out {C _ _ _ D _ _ _ _ _ _} /.
+Arguments coprod_in {C _ _ _ D _ _ _ _ _ _} /.
+Arguments coprod_out {C _ _ _ D _ _ _ _ _ _} /.
 
-Notation "sum_in[ C -> D | X ~> Y  ]" := (@sum_in C _ _ _ D _ _ _ _ X Y).
-Notation "sum_out[ C -> D | X ~> Y  ]" := (@sum_out C _ _ _ D _ _ _ _ X Y).
+Notation "coprod_in[ C -> D | X ~> Y  ]" := (@coprod_in C _ _ _ D _ _ _ _ X Y).
+Notation "coprod_out[ C -> D | X ~> Y  ]" := (@coprod_out C _ _ _ D _ _ _ _ X Y).
 
-Corollary sum_in_out `{CocartesianFunctor C D} {X Y : C} :
-  sum_in ∘ sum_out ≈ @id _ _ (fobj (X + Y)).
+Corollary coprod_in_out `{CocartesianFunctor C D} {X Y : C} :
+  coprod_in ∘ coprod_out ≈ @id _ _ (fobj (X + Y)).
 Proof.
   intros.
-  exact (iso_from_to (iso_witness (@fobj_sum_iso _ _ _ _ _ _ _ _ _ X Y))).
+  exact (iso_from_to (iso_witness (@fobj_coprod_iso _ _ _ _ _ _ _ _ _ X Y))).
 Qed.
 
-Corollary sum_out_in `{CocartesianFunctor C D} {X Y : C} :
-  sum_out ∘ sum_in ≈ @id _ _ (fobj X + fobj Y).
+Corollary coprod_out_in `{CocartesianFunctor C D} {X Y : C} :
+  coprod_out ∘ coprod_in ≈ @id _ _ (fobj X + fobj Y).
 Proof.
   intros.
-  exact (iso_to_from (iso_witness (@fobj_sum_iso _ _ _ _ _ _ _ _ _ X Y))).
+  exact (iso_to_from (iso_witness (@fobj_coprod_iso _ _ _ _ _ _ _ _ _ X Y))).
 Qed.
 
-Corollary sum_in_surj `{CocartesianFunctor C D}
+Corollary coprod_in_surj `{CocartesianFunctor C D}
           {X Y Z : C} (f g : fobj (X + Y) ~> fobj X) :
-  f ∘ sum_in ≈ g ∘ sum_in <-> f ≈ g.
+  f ∘ coprod_in ≈ g ∘ coprod_in <-> f ≈ g.
 Proof.
   split; intros.
     rewrite <- id_right.
-    rewrite <- sum_in_out.
+    rewrite <- coprod_in_out.
     rewrite comp_assoc.
     rewrite H6.
     rewrite <- comp_assoc.
-    rewrite sum_in_out.
+    rewrite coprod_in_out.
     rewrite id_right.
     reflexivity.
   subst.
@@ -1122,17 +1214,17 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary sum_out_inj `{CocartesianFunctor C D}
+Corollary coprod_out_inj `{CocartesianFunctor C D}
           {X Y Z : C} (f g : fobj Y + fobj Z ~> fobj X) :
-  f ∘ sum_out ≈ g ∘ sum_out <-> f ≈ g.
+  f ∘ coprod_out ≈ g ∘ coprod_out <-> f ≈ g.
 Proof.
   split; intros.
     rewrite <- id_right.
-    rewrite <- sum_out_in.
+    rewrite <- coprod_out_in.
     rewrite comp_assoc.
     rewrite H6.
     rewrite <- comp_assoc.
-    rewrite sum_out_in.
+    rewrite coprod_out_in.
     rewrite id_right.
     reflexivity.
   subst.
@@ -1269,11 +1361,11 @@ Module Expr.
 Section Expr.
 
 Inductive Obj : Type :=
-  | One_   : Obj
-  | Prod_  : Obj -> Obj -> Obj
-  | Exp_   : Obj -> Obj -> Obj
-  | Zero_  : Obj
-  | Sum_   : Obj -> Obj -> Obj.
+  | One_    : Obj
+  | Prod_   : Obj -> Obj -> Obj
+  | Exp_    : Obj -> Obj -> Obj
+  | Zero_   : Obj
+  | Coprod_ : Obj -> Obj -> Obj.
 
 Fixpoint denote `(o : Obj) :
   ∀ `{Closed C}
@@ -1282,11 +1374,11 @@ Fixpoint denote `(o : Obj) :
     `{@Bicartesian C _ _ _ _}
     `{@Distributive C _ _ _ _ _}, C := fun _ _ _ _ _ _ =>
   match o with
-  | One_      => One
-  | Prod_ x y => denote x × denote y
-  | Exp_ x y  => denote y ^ denote x
-  | Zero_     => Zero
-  | Sum_ x y  => denote x + denote y
+  | One_        => One
+  | Prod_ x y   => denote x × denote y
+  | Exp_ x y    => denote y ^ denote x
+  | Zero_       => Zero
+  | Coprod_ x y => denote x + denote y
   end.
 
 Inductive Hom : Obj -> Obj -> Type :=
@@ -1304,12 +1396,14 @@ Inductive Hom : Obj -> Obj -> Type :=
 
   | Zero'   : ∀ a, Hom Zero_ a
 
-  | Inl     : ∀ a b, Hom a (Sum_ a b)
-  | Inr     : ∀ a b, Hom b (Sum_ a b)
-  | Merge   : ∀ a c d, Hom c a -> Hom d a -> Hom (Sum_ c d) a
+  | Inl     : ∀ a b, Hom a (Coprod_ a b)
+  | Inr     : ∀ a b, Hom b (Coprod_ a b)
+  | Merge   : ∀ a c d, Hom c a -> Hom d a -> Hom (Coprod_ c d) a
 
-  | ProdSum : ∀ u v a, Hom (Prod_ a (Sum_ u v)) (Sum_ (Prod_ a u) (Prod_ a v))
-  | SumProd : ∀ u v a, Hom (Sum_ (Prod_ a u) (Prod_ a v)) (Prod_ a (Sum_ u v)).
+  | ProdCoprod : ∀ u v a,
+      Hom (Prod_ a (Coprod_ u v)) (Coprod_ (Prod_ a u) (Prod_ a v))
+  | CoprodProd : ∀ u v a,
+      Hom (Coprod_ (Prod_ a u) (Prod_ a v)) (Prod_ a (Coprod_ u v)).
 
 Program Fixpoint interp `(c : Hom a b) :
   ∀ `{Closed C}
@@ -1336,8 +1430,8 @@ Program Fixpoint interp `(c : Hom a b) :
   | Inr _ _           => inr
   | Merge _ _ _ f g   => merge (interp f) (interp g)
 
-  | ProdSum _ _ _     => iso_to   prod_sum_dist
-  | SumProd _ _ _     => iso_from prod_sum_dist
+  | ProdCoprod _ _ _  => iso_to   prod_coprod_dist
+  | CoprodProd _ _ _  => iso_from prod_coprod_dist
   end.
 
 Global Program Instance Hom_Category : Category Obj := {
@@ -1462,7 +1556,7 @@ Obligation 1.
 Qed.
 
 Global Program Instance Hom_Cocartesian : Cocartesian Obj := {
-  Sum  := Sum_;
+  Coprod  := Coprod_;
   merge := Merge;
   inl  := Inl;
   inr  := Inr
@@ -1514,7 +1608,7 @@ Hint Rewrite (@id_left C _) : category.
 Hint Rewrite (@id_right C _) : category.
 
 Local Obligation Tactic :=
-  simpl; intros; try apply iso_refl; autorewrite with category; auto.
+  simpl; intros; try reflexivity; autorewrite with category; auto.
 
 Global Program Instance Hom_Functor : Functor Obj C := {
   fobj := fun x => denote x;
@@ -1542,7 +1636,7 @@ Global Program Instance Hom_InitialFunctor : InitialFunctor Obj C := {
 
 Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor Obj C := {
   initial_functor := Hom_InitialFunctor;
-  fobj_sum_iso := _
+  fobj_coprod_iso := _
 }.
 
 (* Global Program Instance Hom_BicartesianFunctor : *)
@@ -1570,7 +1664,7 @@ Obligation 1.
   reflexivity.
 Qed.
 
-Program Instance bool_Represented : Represented bool (Sum One One) := {
+Program Instance bool_Represented : Represented bool (Coprod One One) := {
   repr := fun b => if b
                    then inl
                    else inr;
@@ -1598,7 +1692,7 @@ Obligation 1.
   simpl.
 Admitted.
 
-Definition add `(f : Sum One One ~> A) :=
+Definition add `(f : Coprod One One ~> A) :=
   Eval simpl in f ∘ inl.
 Print add.
 
@@ -1607,3 +1701,17 @@ Definition foo `(f : A × B ~> C) :=
 Print foo.
 
 End Expr.
+
+(* Notation "f ++> g" := (f ++> g)%signature : csignature_scope. *)
+(* Notation "f ==> g" := (f ==> g)%signature : csignature_scope. *)
+(* Notation "f --> g" := (f --> g)%signature : csignature_scope. *)
+
+(* Delimit Scope csignature_scope with csignature. *)
+
+(* Delimit Scope equiv_scope with equiv. *)
+
+(* Notation "f === g" := (f === g)%equiv : pequiv_scope. *)
+(* Notation "f =~= g" := (f =~= g)%equiv : pequiv_scope. *)
+(* Notation "f =/= g" := (f =/= g)%equiv : pequiv_scope. *)
+
+(* Delimit Scope pequiv_scope with pequiv. *)
