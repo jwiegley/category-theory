@@ -370,6 +370,16 @@ Theorem second_comp `{Cartesian C} {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
 Proof.
 Admitted.
 
+Theorem swap_first `{Cartesian C} {X Y Z : C} (f : X ~> Y) :
+  swap ∘ first (Z:=Z) f ≈ second f ∘ swap.
+Proof.
+Admitted.
+
+Theorem swap_second `{Cartesian C} {X Y Z : C} (f : X ~> Y) :
+  swap ∘ second f ≈ first (Z:=Z) f ∘ swap.
+Proof.
+Admitted.
+
 Global Program Instance parametric_morphism_prod `(_ : Cartesian ob) :
   CMorphisms.Proper
     (@CMorphisms.respectful
@@ -519,6 +529,15 @@ Proof.
   reflexivity.
 Qed.
 
+Corollary uncurry_first `{Closed C} {X Y Z : C} (f : X ~> Z^Y) :
+  uncurry id ∘ first f ≈ uncurry f.
+Proof.
+  rewrite <- (curry_uncurry f).
+  rewrite univ_exponents.
+  rewrite curry_uncurry.
+  reflexivity.
+Qed.
+
 Corollary curry_uncurry' `{Closed C} {X Y Z : C} (f : X ~> Z^Y) :
   curry (uncurry f) ≈ f.
 Proof.
@@ -559,7 +578,7 @@ Corollary curry_comp `{Closed C}
   curry (f ∘ g) ≈ curry (f ∘ eval) ∘ curry g.
 Proof.
   intros.
-Abort.
+Admitted.
 
 Corollary curry_comp_l `{Closed C}
           {X Y Z W : C} (f : Y × Z ~> W) (g : X ~> Y) :
@@ -591,7 +610,7 @@ Corollary uncurry_comp_r `{Closed C}
   f ∘ uncurry g ≈ uncurry (curry (f ∘ eval) ∘ g).
 Proof.
   intros.
-Abort.
+Admitted.
 
 Theorem curry_id `{Closed C} {X Y Z : C} (f : X ~> Y) :
   curry (@id _ _ (Y × Z)) ∘ f ≈ curry (first f).
@@ -876,17 +895,17 @@ Obligation 1.
   destruct x; auto.
 Qed.
 
-Class Bicartesian `(_ : Cartesian C) `{Cocartesian C}.
+Class Bicartesian `(_ : Cartesian C) `{@Initial C _} `{@Cocartesian C _ _}.
 
 Global Program Instance Coq_Bicartesian : Bicartesian Coq_Cartesian.
 
-Class Distributive `(_ : Bicartesian C) := {
-  prod_coprod_dist {X Y Z : C} : X × (Y + Z) ≅ X × Y + X × Z
-}.
+Class BicartesianClosed `(_ : Closed C) `{@Initial C _} `{@Cocartesian C _ _}.
 
-(* Theorem: Products distribute over coproducts in every bicartesian closed
-   category. *)
+Global Program Instance Coq_BicartesianClosed : BicartesianClosed Coq_Closed.
+
 Theorem prod_coprod `{Closed C} `{@Initial C _} `{@Cocartesian C _ _} {X Y Z : C} :
+  (* Products distribute over coproducts in every bicartesian closed
+     category. *)
   X × (Y + Z) ≅ X × Y + X × Z.
 Proof.
   intros.
@@ -919,50 +938,82 @@ Proof.
     rewrite swap_invol.
     rewrite id_right.
     reflexivity.
-  unfold swap.
-  rewrite <- fork_comp.
+  rewrite swap_second.
+  rewrite <- curry_uncurry.
+  rewrite (comp_assoc eval).
+  rewrite univ_exponents.
+  rewrite comp_assoc.
+  apply swap_inj_r.
+  rewrite <- comp_assoc.
+  rewrite swap_invol.
+  rewrite id_left.
+  rewrite id_right.
   unfold second.
-  rewrite exl_fork.
-  rewrite exr_fork.
   rewrite fork_merge.
   rewrite <- fork_comp.
-  rewrite <- fork_exl_exr.
+  unfold swap at 5.
   apply fork_inv; split.
-Abort.
+    rewrite uncurry_comp_r.
+    rewrite <- merge_comp.
+    apply curry_inj.
+    rewrite curry_uncurry.
+    rewrite <- (id_right (curry exr)).
+    rewrite <- merge_inl_inr.
+    rewrite <- merge_comp.
+    apply merge_inv; split;
+    rewrite <- curry_comp;
+    rewrite curry_comp_l;
+    apply uncurry_inj;
+    rewrite !uncurry_curry;
+    apply swap_inj_r;
+    rewrite <- !comp_assoc;
+    rewrite swap_invol;
+    rewrite id_right;
+    unfold first, swap;
+    rewrite comp_assoc;
+    rewrite exr_fork;
+    rewrite exr_fork.
+      rewrite inl_merge.
+      reflexivity.
+    rewrite inr_merge.
+    reflexivity.
+  rewrite uncurry_comp_r.
+  rewrite <- merge_comp.
+  apply curry_inj.
+  rewrite curry_uncurry.
+  rewrite <- (id_right (curry exl)).
+  rewrite <- merge_inl_inr.
+  rewrite <- merge_comp.
+  apply merge_inv; split;
+  rewrite <- curry_comp;
+  rewrite curry_comp_l;
+  apply uncurry_inj;
+  rewrite !uncurry_curry;
+  apply swap_inj_r;
+  rewrite <- !comp_assoc;
+  rewrite swap_invol;
+  rewrite id_right;
+  unfold first, swap;
+  rewrite comp_assoc;
+  rewrite exl_fork;
+  rewrite <- comp_assoc;
+  rewrite exl_fork.
+    rewrite inl_merge.
+    reflexivity.
+  rewrite inr_merge.
+  reflexivity.
+Qed.
 
-Theorem exp_coprod `{Closed C}
-        `{@Initial C _} `{@Cocartesian C _ _}
-        `{@Bicartesian C _ _ _ _}
-        `{@Distributive C _ _ _ _ _} {X Y Z : C} :
+Theorem exp_coprod `{BicartesianClosed C} {X Y Z : C} :
   X^(Y + Z) ≅ X^Y × X^Z.
 Proof.
   intros.
   refine {| iso_to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr)
           ; iso_from := curry (merge (eval ∘ first exl) (eval ∘ first exr)
-                                    ∘ iso_to prod_coprod_dist) |}.
+                                    ∘ iso_to prod_coprod) |}.
   unfold first, second.
   constructor; simpl; intros.
 Abort.
-
-Global Program Instance Coq_Distributive : Distributive Coq_Bicartesian.
-Obligation 1.
-  apply Build_isomorphic with
-    (iso_to:=
-       fun p : (X × (Y + Z)) =>
-         match p with
-         | (x, Datatypes.inl y) => Datatypes.inl (x, y)
-         | (x, Datatypes.inr z) => Datatypes.inr (x, z)
-         end)
-    (iso_from:=
-       fun p : ((X × Y) + (X × Z)) =>
-         match p with
-         | Datatypes.inl (x, y) => (x, Datatypes.inl y)
-         | Datatypes.inr (x, z) => (x, Datatypes.inr z)
-         end).
-  constructor; simpl;
-  extensionality p;
-  intuition.
-Qed.
 
 Class Functor `(_ : Category C) `(_ : Category D) := {
   fobj : C -> D;
@@ -1367,12 +1418,7 @@ Inductive Obj : Type :=
   | Zero_   : Obj
   | Coprod_ : Obj -> Obj -> Obj.
 
-Fixpoint denote `(o : Obj) :
-  ∀ `{Closed C}
-    `{@Initial C _}
-    `{@Cocartesian C _ _}
-    `{@Bicartesian C _ _ _ _}
-    `{@Distributive C _ _ _ _ _}, C := fun _ _ _ _ _ _ =>
+Fixpoint denote `(o : Obj) : ∀ `{BicartesianClosed C}, C := fun _ _ _ _ _ =>
   match o with
   | One_        => One
   | Prod_ x y   => denote x × denote y
@@ -1398,19 +1444,10 @@ Inductive Hom : Obj -> Obj -> Type :=
 
   | Inl     : ∀ a b, Hom a (Coprod_ a b)
   | Inr     : ∀ a b, Hom b (Coprod_ a b)
-  | Merge   : ∀ a c d, Hom c a -> Hom d a -> Hom (Coprod_ c d) a
-
-  | ProdCoprod : ∀ u v a,
-      Hom (Prod_ a (Coprod_ u v)) (Coprod_ (Prod_ a u) (Prod_ a v))
-  | CoprodProd : ∀ u v a,
-      Hom (Coprod_ (Prod_ a u) (Prod_ a v)) (Prod_ a (Coprod_ u v)).
+  | Merge   : ∀ a c d, Hom c a -> Hom d a -> Hom (Coprod_ c d) a.
 
 Program Fixpoint interp `(c : Hom a b) :
-  ∀ `{Closed C}
-    `{@Initial C _}
-    `{@Cocartesian C _ _}
-    `{@Bicartesian C _ _ _ _}
-    `{@Distributive C _ _ _ _ _}, denote a ~{C}~> denote b := fun _ _ _ _ _ _ =>
+  ∀ `{BicartesianClosed C}, denote a ~{C}~> denote b := fun _ _ _ _ _ =>
   match c with
   | Id _              => id
   | Compose _ _ _ f g => interp f ∘ interp g
@@ -1429,9 +1466,6 @@ Program Fixpoint interp `(c : Hom a b) :
   | Inl _ _           => inl
   | Inr _ _           => inr
   | Merge _ _ _ f g   => merge (interp f) (interp g)
-
-  | ProdCoprod _ _ _  => iso_to   prod_coprod_dist
-  | CoprodProd _ _ _  => iso_from prod_coprod_dist
   end.
 
 Global Program Instance Hom_Category : Category Obj := {
@@ -1439,26 +1473,22 @@ Global Program Instance Hom_Category : Category Obj := {
   id := Id;
   compose := Compose;
   eqv := fun _ _ f g =>
-           forall `{Closed C}
-                  `{@Initial C _}
-                  `{@Cocartesian C _ _}
-                  `{@Bicartesian C _ _ _ _}
-                  `{@Distributive C _ _ _ _ _},
+           forall `{BicartesianClosed C},
              @eqv C _ _ _ (interp f) (interp g)
 }.
 Obligation 1.
   constructor.
-  - intros ???????.
+  - intros ??????.
     reflexivity.
-  - intros ?????????.
+  - intros ????????.
     symmetry.
     apply H.
-  - intros ???????????.
+  - intros ??????????.
     rewrite H, H0.
     reflexivity.
 Defined.
 Obligation 2.
-  intros ?????? ??????.
+  intros ?????? ?????.
   simpl.
   rewrite H, H0.
   reflexivity.
@@ -1493,7 +1523,7 @@ Global Program Instance Hom_Cartesian : Cartesian Obj := {
   exr  := Exr
 }.
 Obligation 1.
-  intros ?????? ??????.
+  intros ?????? ?????.
   simpl.
   rewrite H, H0.
   reflexivity.
@@ -1509,7 +1539,7 @@ Obligation 2.
     reflexivity.
   destruct H.
   rewrite <- H.
-  rewrite <- H5.
+  rewrite <- H4.
   rewrite fork_comp.
   rewrite fork_exl_exr.
   rewrite id_left.
@@ -1523,13 +1553,13 @@ Global Program Instance Hom_Closed : Closed Obj := {
   uncurry := Uncurry
 }.
 Obligation 1.
-  intros ??? ??????.
+  intros ??? ?????.
   simpl.
   rewrite H.
   reflexivity.
 Qed.
 Obligation 2.
-  intros ??? ??????.
+  intros ??? ?????.
   simpl.
   rewrite H.
   reflexivity.
@@ -1562,7 +1592,7 @@ Global Program Instance Hom_Cocartesian : Cocartesian Obj := {
   inr  := Inr
 }.
 Obligation 1.
-  intros ?????? ??????.
+  intros ?????? ?????.
   simpl.
   rewrite H, H0.
   reflexivity.
@@ -1578,31 +1608,18 @@ Obligation 2.
     reflexivity.
   destruct H.
   rewrite <- H.
-  rewrite <- H5.
+  rewrite <- H4.
   rewrite merge_comp.
   rewrite merge_inl_inr.
   rewrite id_right.
   reflexivity.
 Qed.
 
-Global Program Instance Hom_Bicartesian : @Bicartesian Obj _ _ _ _.
+Global Program Instance Hom_Bicartesian : @Bicartesian Obj _ _ _.
 
-Global Program Instance Hom_Distributive : @Distributive Obj _ _ _ _ _.
-Obligation 1.
-  intros.
-  refine {| iso_to   := _
-          ; iso_from := _ |}.
-  Unshelve.
-  Focus 2.
-  apply Uncurry.
-  constructor; simpl; intros.
-Admitted.
+Global Program Instance Hom_BicartesianClosed : @BicartesianClosed Obj _ _ _.
 
-Context `{Closed C}.
-Context `{@Initial C _}.
-Context `{@Cocartesian C _ _}.
-Context `{@Bicartesian C _ _ _ _}.
-Context `{@Distributive C _ _ _ _ _}.
+Context `{BicartesianClosed C}.
 
 Hint Rewrite (@id_left C _) : category.
 Hint Rewrite (@id_right C _) : category.
@@ -1640,7 +1657,8 @@ Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor Obj C := {
 }.
 
 (* Global Program Instance Hom_BicartesianFunctor : *)
-(* Global Program Instance Hom_DistributiveFunctor : *)
+
+(* Global Program Instance Hom_BicartesianClosedFunctor : *)
 
 End Expr.
 
@@ -1671,7 +1689,7 @@ Program Instance bool_Represented : Represented bool (Coprod One One) := {
   abst := fun h => _
 }.
 Obligation 1.
-  pose proof (@interp _ _ h Type _ _ _ _ _).
+  pose proof (@interp _ _ h Type _ _ _ _).
   destruct (X tt).
     exact true.
   exact false.
@@ -1690,9 +1708,10 @@ Program Instance prod_Represented
 }.
 Obligation 1.
   simpl.
+  (* jww (2017-04-11): Define what it means to abstract composition. *)
 Admitted.
 
-Definition add `(f : Coprod One One ~> A) :=
+Definition add `(f : One + One ~> A) :=
   Eval simpl in f ∘ inl.
 Print add.
 
