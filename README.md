@@ -1,3 +1,9 @@
+# Category Theory in Coq
+
+## Requirements
+
+Coq 8.5
+
 ## What is this development trying to accomplish?
 
 - Provide a practical basis for using category theory to abstract Coq
