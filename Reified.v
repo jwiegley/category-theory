@@ -62,7 +62,7 @@ Program Fixpoint interp `(c : Hom a b) :
 
 Local Obligation Tactic := simpl; intros; auto; cat.
 
-Global Program Instance Hom_Category : Category Obj := {
+Program Instance Hom_Category : Category Obj := {
   hom := Hom;
   id := @Id;
   compose := @Compose;
@@ -92,13 +92,13 @@ Obligation 5.
   reflexivity.
 Qed.
 
-Global Program Instance Hom_Terminal : Terminal Obj := {
+Program Instance Hom_Terminal : Terminal Obj := {
   terminal_category := Hom_Category;
   One := One_;
   one := @One'
 }.
 
-Global Program Instance Hom_Cartesian : Cartesian Obj := {
+Program Instance Hom_Cartesian : Cartesian Obj := {
   cartesian_terminal := Hom_Terminal;
   Prod := Prod_;
   fork := @Fork;
@@ -119,7 +119,7 @@ Obligation 2.
   rewrite fork_comp; cat.
 Qed.
 
-Global Program Instance Hom_Closed : Closed Obj := {
+Program Instance Hom_Closed : Closed Obj := {
   closed_cartesian := Hom_Cartesian;
   Exp := Exp_;
   curry := @Curry;
@@ -138,12 +138,12 @@ Obligation 2.
   reflexivity.
 Qed.
 
-Global Program Instance Hom_Initial : Initial Obj := {
+Program Instance Hom_Initial : Initial Obj := {
   Zero := Zero_;
   zero := @Zero'
 }.
 
-Global Program Instance Hom_Cocartesian : Cocartesian Obj := {
+Program Instance Hom_Cocartesian : Cocartesian Obj := {
   Coprod  := Coprod_;
   merge := @Merge;
   inl  := @Inl;
@@ -163,9 +163,9 @@ Obligation 2.
   rewrite merge_comp; cat.
 Qed.
 
-Global Program Instance Hom_Bicartesian : @Bicartesian Obj _ _ _.
+Program Instance Hom_Bicartesian : @Bicartesian Obj _ _ _.
 
-Global Program Instance Hom_BiCCC : @BiCCC Obj _ _ _.
+Program Instance Hom_BiCCC : @BiCCC Obj _ _ _.
 
 Section Reified.
 
@@ -205,9 +205,5 @@ Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor Obj C := {
   initial_functor := Hom_InitialFunctor;
   fobj_coprod_iso := _
 }.
-
-(* Global Program Instance Hom_BicartesianFunctor : *)
-
-(* Global Program Instance Hom_BiCCCFunctor : *)
 
 End Reified.

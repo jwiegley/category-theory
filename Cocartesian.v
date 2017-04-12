@@ -24,7 +24,7 @@ Arguments Cocartesian ob {_ _}.
 Infix "+" := Coprod : category_scope.
 Infix "▽" := merge (at level 26) : category_scope.
 
-Global Program Instance parametric_morphism_merge
+Program Instance parametric_morphism_merge
        `(H : Category ob)
        `(J : @Initial ob H)
        `(O : @Cocartesian ob H J) (a b c : ob) :

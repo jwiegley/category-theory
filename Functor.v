@@ -21,5 +21,5 @@ Notation "C ⟶ D" := (Functor C D) (at level 90, right associativity).
 
 Hint Rewrite @fmap_id : categories.
 
-Global Program Instance parametric_morphism_fmap `(_ : Functor C D) (a b : C) :
+Program Instance parametric_morphism_fmap `(_ : Functor C D) (a b : C) :
   Proper (eqv ==> eqv) (@fmap C _ D _ _ a b) := fmap_respects a b.

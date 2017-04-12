@@ -40,13 +40,21 @@ Hint Rewrite @id_right : categories.
 
 Ltac cat := autorewrite with categories; auto with category_laws.
 
-Global Program Instance parametric_relation_eqv `{Category C} {a b : C} :
+Program Instance parametric_relation_eqv `{Category C} {a b : C} :
   Equivalence (@eqv C _ a b) := eqv_equivalence a b.
 
-Global Program Instance parametric_morphism_compose `{Category C} {a b c : C} :
+Program Instance parametric_morphism_compose `{Category C} {a b c : C} :
   Proper (eqv ==> eqv ==> eqv) (@compose C _ a b c) := compose_respects a b c.
 
-Global Program Instance impl_eqv `{Category C} {a b : C} :
+Theorem eq_eqv `{Category C} {X Y : C} (f g : X ~> Y) :
+  f = g -> f ≈ g.
+Proof.
+  intros.
+  rewrite H0.
+  reflexivity.
+Qed.
+
+Program Instance impl_eqv `{Category C} {a b : C} :
   Proper (eqv --> @eqv _ _ a b ++> Basics.impl) eqv.
 Obligation 1.
   intros ???????.
@@ -54,7 +62,7 @@ Obligation 1.
   transitivity x0; auto.
 Qed.
 
-Global Program Instance flip_impl_eqv `{Category C} (a b : C) :
+Program Instance flip_impl_eqv `{Category C} (a b : C) :
   Proper (eqv --> @eqv _ _ a b ++> Basics.flip Basics.impl) eqv.
 Obligation 1.
   intros ???????.

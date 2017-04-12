@@ -24,7 +24,7 @@ Arguments iso_witness {_ _ X Y} _.
 
 Infix "≅" := isomorphic (at level 90) : category_scope.
 
-Global Program Instance isomorphic_equivalence `{Category ob} :
+Program Instance isomorphic_equivalence `{Category ob} :
   CRelationClasses.Equivalence isomorphic.
 Obligation 1.
   intros ?.
@@ -53,27 +53,25 @@ Obligation 3.
   rewrite iso_from_to1; cat.
 Defined.
 
-Global Program Instance arrow_isomorphic `{Category C} :
+Program Instance arrow_isomorphic `{Category C} :
   CMorphisms.Proper
-    (@CMorphisms.respectful
-       _ _ (Basics.flip isomorphic)
-       (@CMorphisms.respectful
-          _ _ isomorphic Basics.arrow)) isomorphic.
+    (CMorphisms.respectful isomorphic
+       (CMorphisms.respectful isomorphic Basics.arrow)) isomorphic.
 Obligation 1.
   intros ???????.
   transitivity x; auto.
+    symmetry; assumption.
   transitivity x0; auto.
-Qed.
+Defined.
 
-Global Program Instance flip_arrow_isomorphic `{Category C} :
+Program Instance flip_arrow_isomorphic `{Category C} :
   CMorphisms.Proper
-    (@CMorphisms.respectful
-       _ _ (Basics.flip isomorphic)
-       (@CMorphisms.respectful
-          _ _ isomorphic (Basics.flip Basics.arrow))) isomorphic.
+    (CMorphisms.respectful isomorphic
+       (CMorphisms.respectful isomorphic
+                              (Basics.flip Basics.arrow))) isomorphic.
 Obligation 1.
   intros ???????.
-  unfold Basics.flip in X.
-  rewrite <- X, X0.
-  assumption.
-Qed.
+  transitivity y; auto.
+  transitivity y0; auto.
+  symmetry; assumption.
+Defined.

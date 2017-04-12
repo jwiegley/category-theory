@@ -49,15 +49,16 @@ Proof.
   apply curry_inj; cat.
 Qed.
 
-Theorem prod_coprod `{Closed C} `{@Initial C _} `{@Cocartesian C _ _} {X Y Z : C} :
+Program Instance prod_coprod
+        `{Closed C} `{@Initial C _} `{@Cocartesian C _ _} {X Y Z : C} :
   (* Products distribute over coproducts in every bicartesian closed
      category. *)
-  X × (Y + Z) ≅ X × Y + X × Z.
-Proof.
-  intros.
-  refine {| iso_to   :=
-              eval ∘ swap ∘ second (curry (inl ∘ swap) ▽ curry (inr ∘ swap))
-          ; iso_from := second inl ▽ second inr |}.
+  X × (Y + Z) ≅ X × Y + X × Z := {
+  iso_to   :=
+    eval ∘ swap ∘ second (curry (inl ∘ swap) ▽ curry (inr ∘ swap));
+  iso_from := second inl ▽ second inr
+}.
+Obligation 1.
   constructor; simpl; intros.
     rewrite <- !comp_assoc.
     rewrite <- !merge_comp.
@@ -98,14 +99,14 @@ Qed.
 
 Hint Rewrite @prod_coprod : isos.
 
-Theorem exp_coprod `{BiCCC C} {X Y Z : C} :
-  X^(Y + Z) ≅ X^Y × X^Z.
-Proof.
-  intros.
-  refine {| iso_to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr)
-          ; iso_from := curry (merge (eval ∘ first exl) (eval ∘ first exr)
-                                    ∘ iso_to prod_coprod) |}.
-  unfold first, second.
+Program Instance exp_coprod `{BiCCC C} {X Y Z : C} :
+  X^(Y + Z) ≅ X^Y × X^Z := {
+  iso_to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
+  iso_from := curry (merge (eval ∘ first exl) (eval ∘ first exr)
+                          ∘ iso_to prod_coprod)
+}.
+Obligation 1.
+  unfold first, second, swap.
   constructor; simpl; intros.
 Admitted.
 

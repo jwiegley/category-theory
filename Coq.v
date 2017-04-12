@@ -6,14 +6,14 @@ Generalizable All Variables.
 
 Definition arrow (A B : Type) := A -> B.
 
-Global Program Instance Coq_Category : Category Type := {
+Program Instance Coq_Category : Category Type := {
   hom     := arrow;
   id      := fun _ x => x;
   compose := fun _ _ _ g f x => g (f x);
   eqv     := fun _ _ => eq
 }.
 
-Global Program Instance Coq_Terminal : Terminal Type := {
+Program Instance Coq_Terminal : Terminal Type := {
   terminal_category := Coq_Category;
   One := unit : Type;
   one := fun _ a => tt
@@ -24,7 +24,7 @@ Obligation 1.
   reflexivity.
 Qed.
 
-Global Program Instance Coq_Cartesian : Cartesian Type := {
+Program Instance Coq_Cartesian : Cartesian Type := {
   cartesian_terminal := Coq_Terminal;
   Prod := prod;
   fork := fun _ _ _ f g x => (f x, g x);
@@ -41,7 +41,7 @@ Obligation 1.
   reflexivity.
 Qed.
 
-Global Program Instance Coq_Closed : Closed Type := {
+Program Instance Coq_Closed : Closed Type := {
   closed_cartesian := Coq_Cartesian;
   Exp := arrow;
   curry := fun _ _ _ f a b => f (a, b);
@@ -58,7 +58,7 @@ Obligation 3.
   reflexivity.
 Qed.
 
-Global Program Instance Coq_Initial : Initial Type := {
+Program Instance Coq_Initial : Initial Type := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
@@ -67,7 +67,7 @@ Obligation 2.
   contradiction.
 Qed.
 
-Global Program Instance Coq_Cocartesian : Cocartesian Type := {
+Program Instance Coq_Cocartesian : Cocartesian Type := {
   Coprod := sum;
   merge := fun _ _ _ f g x =>
             match x with
@@ -86,11 +86,11 @@ Obligation 1.
   destruct x; auto.
 Qed.
 
-Global Program Instance Coq_Bicartesian : Bicartesian Coq_Cartesian.
+Program Instance Coq_Bicartesian : Bicartesian Coq_Cartesian.
 
-Global Program Instance Coq_BiCCC : BiCCC Coq_Closed.
+Program Instance Coq_BiCCC : BiCCC Coq_Closed.
 
-Global Program Instance Coq_Constant : Constant Type := {
+Program Instance Coq_Constant : Constant Type := {
   Const := fun A => A;
   constant := fun _ => Basics.const
 }.

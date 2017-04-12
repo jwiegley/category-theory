@@ -16,7 +16,7 @@ Class Represented (A : Type) `{Terminal ob} `(Repr : ob) := {
 
 Arguments Represented A {_ _} Repr.
 
-Global Program Instance unit_Represented : Represented (unit : Type) One := {
+Program Instance unit_Represented : Represented (unit : Type) One := {
   repr := fun _ : unit => one;
   abst := fun _ : _ => tt
 }.
@@ -25,7 +25,7 @@ Obligation 1.
   reflexivity.
 Qed.
 
-Global Program Instance bool_Represented : Represented bool (Coprod One One) := {
+Program Instance bool_Represented : Represented bool (Coprod One One) := {
   repr := fun b => if b
                    then inl
                    else inr;
@@ -42,7 +42,7 @@ Obligation 2.
   destruct x; auto.
 Defined.
 
-Global Program Instance prod_Represented
+Program Instance prod_Represented
         `{H1 : @Represented A _ Hom_Terminal C}
         `{H2 : @Represented B _ Hom_Terminal D} :
   Represented (@Datatypes.prod A B) (C × D) := {

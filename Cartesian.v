@@ -26,7 +26,7 @@ Class Cartesian (ob : Type) := {
 Infix "×" := Prod : category_scope.
 Infix "△" := fork (at level 28) : category_scope.
 
-Global Program Instance parametric_morphism_fork `(_ : Cartesian ob) (a b c : ob) :
+Program Instance parametric_morphism_fork `(_ : Cartesian ob) (a b c : ob) :
   Proper (eqv ==> eqv ==> eqv) (@fork ob _ a b c) := fork_respects a b c.
 
 Definition first `{Cartesian C} {X Y Z : C} (f : X ~> Y) : X × Z ~> Y × Z :=
@@ -35,7 +35,7 @@ Definition first `{Cartesian C} {X Y Z : C} (f : X ~> Y) : X × Z ~> Y × Z :=
 Definition second `{Cartesian C} {X Y Z : C} (f : X ~> Y) : Z × X ~> Z × Y :=
   exl △ (f ∘ exr).
 
-Global Program Instance parametric_morphism_first `{Cartesian C} {a b c : C} :
+Program Instance parametric_morphism_first `{Cartesian C} {a b c : C} :
   Proper (eqv ==> eqv) (@first C _ a b c).
 Obligation 1.
   intros ???.
@@ -44,7 +44,7 @@ Obligation 1.
   reflexivity.
 Qed.
 
-Global Program Instance parametric_morphism_second `{Cartesian C} {a b c : C} :
+Program Instance parametric_morphism_second `{Cartesian C} {a b c : C} :
   Proper (eqv ==> eqv) (@second C _ a b c).
 Obligation 1.
   intros ???.
@@ -181,11 +181,10 @@ Proof.
   rewrite <- !comp_assoc; cat.
 Qed.
 
-Global Program Instance parametric_morphism_prod `(_ : Cartesian ob) :
+Program Instance parametric_morphism_prod `(_ : Cartesian ob) :
   CMorphisms.Proper
-    (@CMorphisms.respectful
-       _ _ isomorphic
-       (@CMorphisms.respectful _ _ isomorphic isomorphic)) Prod.
+    (CMorphisms.respectful isomorphic
+       (CMorphisms.respectful isomorphic isomorphic)) Prod.
 Obligation 1.
   intros ??????.
   destruct X, X0.
@@ -235,18 +234,18 @@ Defined.
 
 Hint Rewrite @prod_one_r : isos.
 
-Theorem prod_comp `{Cartesian C} {X Y Z : C} :
-  (X × Y) × Z ≅ X × (Y × Z).
-Proof.
-  intros.
-  refine {| iso_to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr)
-          ; iso_from := (exl △ (exl ∘ exr)) △ (exr ∘ exr) |}.
+Program Instance prod_assoc `{Cartesian C} {X Y Z : C} :
+  (X × Y) × Z ≅ X × (Y × Z) := {
+  iso_to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr);
+  iso_from := (exl △ (exl ∘ exr)) △ (exr ∘ exr)
+}.
+Obligation 1.
   constructor; simpl; intros;
   rewrite <- !fork_comp; cat;
   rewrite <- comp_assoc; cat;
   rewrite <- comp_assoc; cat;
   rewrite fork_comp; cat.
-Qed.
+Defined.
 
 Class CartesianFunctor `(_ : Cartesian C) `(_ : Cartesian D) := {
   terminal_functor :> TerminalFunctor C D;

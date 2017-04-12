@@ -30,10 +30,10 @@ Hint Rewrite @curry_uncurry : categories.
 Hint Rewrite @uncurry_curry : categories.
 Hint Rewrite @univ_exponents : categories.
 
-Global Program Instance parametric_morphism_curry `(_ : Closed C) (a b c : C) :
+Program Instance parametric_morphism_curry `(_ : Closed C) (a b c : C) :
   Proper (eqv ==> eqv)  (@curry C _ a b c) := curry_respects a b c.
 
-Global Program Instance parametric_morphism_uncurry `(_ : Closed C) (a b c : C) :
+Program Instance parametric_morphism_uncurry `(_ : Closed C) (a b c : C) :
   Proper (eqv ==> eqv)  (@uncurry C _ a b c) := uncurry_respects a b c.
 
 Corollary eval_curry `{Closed C}
@@ -50,17 +50,19 @@ Qed.
 
 Hint Rewrite @eval_curry : categories.
 
+Corollary curry_eval `{Closed C} {X Y : C} :
+  curry eval ≈ @id _ _ (Y^X).
+Proof.
+  intros; unfold eval; cat.
+Qed.
+
+Hint Rewrite @curry_eval : categories.
+
 Corollary eval_first `{Closed C} {X Y Z : C} (f : X ~> Z^Y) :
   eval ∘ first f ≈ uncurry f.
 Proof.
   rewrite <- (curry_uncurry f); cat.
 Qed.
-
-Corollary curry_uncurry' `{Closed C} {X Y Z : C} (f : X ~> Z^Y) :
-  curry (uncurry f) ≈ f.
-Proof.
-  (* Can this be proven in terms of the universal property? *)
-Abort.
 
 Corollary curry_inj `{Closed C} {X Y Z : C} (f g : X × Y ~> Z) :
   curry f ≈ curry g -> f ≈ g.
@@ -79,14 +81,6 @@ Proof.
   rewrite <- (curry_uncurry g).
   rewrite H0; reflexivity.
 Qed.
-
-Corollary curry_eval `{Closed C} {X Y : C} :
-  curry eval ≈ @id _ _ (Y^X).
-Proof.
-  intros; unfold eval; cat.
-Qed.
-
-Hint Rewrite @curry_eval : categories.
 
 Corollary curry_comp_l `{Closed C}
           {X Y Z W : C} (f : Y × Z ~> W) (g : X ~> Y) :
@@ -147,12 +141,12 @@ Proof.
   apply uncurry_inj; cat.
 Qed.
 
-Theorem exp_prod_l `{Closed C} {X Y Z : C} :
-  Z^(X × Y) ≅ (Z^Y)^X.
-Proof.
-  intros.
-  refine {| iso_to   := curry (curry (eval ∘ iso_to prod_comp))
-          ; iso_from := curry (uncurry eval ∘ iso_from prod_comp) |}.
+Program Instance exp_prod_l `{Closed C} {X Y Z : C} :
+  Z^(X × Y) ≅ (Z^Y)^X := {
+  iso_to   := curry (curry (eval ∘ iso_to prod_assoc));
+  iso_from := curry (uncurry eval ∘ iso_from prod_assoc)
+}.
+Obligation 1.
   constructor; simpl; intros.
 Admitted.
 
