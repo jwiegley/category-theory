@@ -1,10 +1,10 @@
-* What is this development trying to accomplish?
+## What is this development trying to accomplish?
 
 Provide a practical, working basis for using category theory to abstract
 programs and reinterpret them to other categories; plus exploring ideas and
 results in the field of category theory.
 
-* Future directions
+## Future directions
 
 - see how we can use univalence to avoid predicative extensionality
 - start using -indices-matter (forces `eq` to be in `Type`)
