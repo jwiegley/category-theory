@@ -1,3 +1,17 @@
--R coq-haskell/src Hask
--R fiat/src Fiat
+-R . ""
+Lib.v
 Category.v
+Functor.v
+Iso.v
+Terminal.v
+Cartesian.v
+Closed.v
+Initial.v
+Cocartesian.v
+Bicartesian.v
+BiCCC.v
+Constant.v
+Coq.v
+Abstraction.v
+Represented.v
+Reified.v
