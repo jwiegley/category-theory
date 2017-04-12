@@ -148,29 +148,52 @@ Program Instance exp_prod_l `{Closed C} {X Y Z : C} :
 }.
 Obligation 1.
   constructor; simpl; intros.
+    rewrite curry_comp_l.
+    unfold first.
+    rewrite curry_comp_l.
+    unfold first.
+    rewrite <- comp_assoc.
+    rewrite <- fork_comp.
+    rewrite <- comp_assoc; cat.
+    rewrite comp_assoc; cat.
+    rewrite <- fork_comp; cat.
+    rewrite <- comp_assoc; cat.
+    rewrite <- comp_assoc; cat.
+    rewrite <- comp_assoc; cat.
+    rewrite comp_assoc; cat.
+    rewrite comp_assoc; cat.
+    rewrite <- comp_assoc; cat.
+    rewrite <- fork_comp.
+    rewrite <- fork_comp; cat.
+    rewrite <- comp_assoc; cat.
+    rewrite <- comp_assoc; cat.
+    rewrite fork_comp; cat.
 Admitted.
 
 Hint Rewrite @exp_prod_l : isos.
 
-Theorem exp_prod_r `{Closed C} {X Y Z : C} :
-  (Y × Z)^X ≅ Y^X × Z^X.
-Proof.
-  intros.
-  refine {| iso_to   := _
-          ; iso_from := _ |}.
-  constructor; simpl; intros.
+Program Instance exp_prod_r `{Closed C} {X Y Z : C} :
+  (Y × Z)^X ≅ Y^X × Z^X := {
+  iso_to   := _;
+  iso_from := _
+}.
+Obligation 1.
+Admitted.
+Obligation 2.
+Admitted.
+Obligation 3.
 Admitted.
 
 Hint Rewrite @exp_prod_r : isos.
 
 Notation "X ^ 1" := (Exp One X) (at level 30).
 
-Theorem exp_one `{Closed C} {X : C} :
-  X^1 ≅ X.
-Proof.
-  intros.
-  refine {| iso_to   := eval ∘ id △ one
-          ; iso_from := curry exl |}.
+Program Instance exp_one `{Closed C} {X : C} :
+  X^1 ≅ X := {
+  iso_to   := eval ∘ id △ one;
+  iso_from := curry exl
+}.
+Obligation 1.
   constructor; simpl; intros.
     rewrite <- comp_assoc.
     rewrite <- fork_comp; cat.

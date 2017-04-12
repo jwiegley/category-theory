@@ -210,31 +210,31 @@ Qed.
 Notation "1 × X" := (Prod One X) (at level 40).
 Notation "X × 1" := (Prod X One) (at level 40).
 
-Theorem prod_one_l `{Cartesian C} {X : C} :
-  1 × X ≅ X.
-Proof.
-  intros.
-  refine {| iso_to   := exr
-          ; iso_from := one △ id |}.
+Program Instance prod_one_l `{Cartesian C} {X : C} :
+  1 × X ≅ X := {
+  iso_to   := exr;
+  iso_from := one △ id
+}.
+Obligation 1.
   constructor; simpl; intros; cat.
   rewrite <- fork_comp; cat.
   rewrite <- fork_exl_exr.
   apply fork_respects; cat.
-Defined.
+Qed.
 
 Hint Rewrite @prod_one_l : isos.
 
-Theorem prod_one_r `{Cartesian C} {X : C} :
-  X × 1 ≅ X.
-Proof.
-  intros.
-  refine {| iso_to   := exl
-          ; iso_from := id △ one |}.
+Program Instance prod_one_r `{Cartesian C} {X : C} :
+  X × 1 ≅ X := {
+  iso_to   := exl;
+  iso_from := id △ one
+}.
+Obligation 1.
   constructor; simpl; intros; cat.
   rewrite <- fork_comp; cat.
   rewrite <- fork_exl_exr.
   apply fork_respects; cat.
-Defined.
+Qed.
 
 Hint Rewrite @prod_one_r : isos.
 
@@ -249,7 +249,7 @@ Obligation 1.
   rewrite <- comp_assoc; cat;
   rewrite <- comp_assoc; cat;
   rewrite fork_comp; cat.
-Defined.
+Qed.
 
 Class CartesianFunctor `(_ : Cartesian C) `(_ : Cartesian D) := {
   terminal_functor :> TerminalFunctor C D;

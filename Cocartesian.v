@@ -82,31 +82,31 @@ Qed.
 Notation "0 + X" := (Coprod Zero X) (at level 30).
 Notation "X + 0" := (Coprod X Zero) (at level 30).
 
-Theorem coprod_zero_l `{Cocartesian C} {X : C} :
-  0 + X ≅ X.
-Proof.
-  intros.
-  refine {| iso_to   := zero ▽ id
-          ; iso_from := inr |}.
+Program Instance coprod_zero_l `{Cocartesian C} {X : C} :
+  0 + X ≅ X := {
+  iso_to   := zero ▽ id;
+  iso_from := inr
+}.
+Obligation 1.
   constructor; simpl; intros; cat.
   rewrite <- merge_comp; cat.
   rewrite <- merge_inl_inr.
   apply merge_respects; cat.
-Defined.
+Qed.
 
 Hint Rewrite @coprod_zero_l : isos.
 
-Theorem coprod_zero_r `{Cocartesian C} {X : C} :
-  X + 0 ≅ X.
-Proof.
-  intros.
-  refine {| iso_to   := id ▽ zero
-          ; iso_from := inl |}.
+Program Instance coprod_zero_r `{Cocartesian C} {X : C} :
+  X + 0 ≅ X := {
+  iso_to   := id ▽ zero;
+  iso_from := inl
+}.
+Obligation 1.
   constructor; simpl; intros; cat.
   rewrite <- merge_comp; cat.
   rewrite <- merge_inl_inr.
   apply merge_respects; cat.
-Defined.
+Qed.
 
 Hint Rewrite @coprod_zero_r : isos.
 
