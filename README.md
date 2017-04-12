@@ -1,8 +1,10 @@
 ## What is this development trying to accomplish?
 
-Provide a practical, working basis for using category theory to abstract
-programs and reinterpret them to other categories; plus exploring ideas and
-results in the field of category theory.
+- Provide a practical basis for using category theory to abstract Coq
+  functions and reinterpret them in other categories;
+- Explore ideas and results in the field of category theory;
+- Work on exercises from Mac Lane and Awodey;
+- Use as the basis for principled Monads and Functors in coq-haskell.
 
 ## Future directions
 
