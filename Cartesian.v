@@ -35,6 +35,10 @@ Definition first `{Cartesian C} {X Y Z : C} (f : X ~> Y) : X × Z ~> Y × Z :=
 Definition second `{Cartesian C} {X Y Z : C} (f : X ~> Y) : Z × X ~> Z × Y :=
   exl △ (f ∘ exr).
 
+Definition split `{Cartesian C} {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
+  X × Z ~> Y × W :=
+  (f ∘ exl) △ (g ∘ exr).
+
 Program Instance parametric_morphism_first `{Cartesian C} {a b c : C} :
   Proper (eqv ==> eqv) (@first C _ a b c).
 Obligation 1.
@@ -93,9 +97,9 @@ Qed.
 
 Corollary fork_comp_hetero `{Cartesian C} {X Y Z W : C}
           (f : Y ~> Z) (h : Y ~> W) (g i : X ~> Y) :
-  (f ∘ g) △ (h ∘ i) ≈ (f ∘ exl) △ (h ∘ exr) ∘ g △ i.
+  (f ∘ g) △ (h ∘ i) ≈ split f h ∘ g △ i.
 Proof.
-  intros.
+  unfold split; intros.
   symmetry.
   apply univ_products.
   rewrite !comp_assoc; cat.
