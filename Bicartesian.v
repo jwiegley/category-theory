@@ -3,6 +3,8 @@ Require Export Cartesian.
 Require Export Cocartesian.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Class Bicartesian `(_ : Cartesian C) `{@Initial C _} `{@Cocartesian C _ _}.
 

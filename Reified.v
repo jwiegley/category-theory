@@ -2,6 +2,8 @@ Require Import Lib.
 Require Export BiCCC.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Inductive Obj : Type :=
   | One_    : Obj

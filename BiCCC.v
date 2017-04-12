@@ -3,6 +3,8 @@ Require Export Bicartesian.
 Require Export Closed.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Class BiCCC `(_ : Closed C) `{@Initial C _} `{@Cocartesian C _ _}.
 

@@ -3,6 +3,8 @@ Require Export BiCCC.
 Require Export Constant.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Definition arrow (A B : Type) := A -> B.
 

@@ -2,6 +2,8 @@ Require Import Lib.
 Require Export Cartesian.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Class Closed (ob : Type) := {
   closed_cartesian :> Cartesian ob;

@@ -18,3 +18,6 @@ Notation "f -> g" := (f -> g)%type : category_scope.
 
 Open Scope category_scope.
 Delimit Scope category_scope with category.
+
+Set Primitive Projection.
+Set Universe Polymorphism.

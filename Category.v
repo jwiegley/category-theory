@@ -1,6 +1,8 @@
 Require Import Lib.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Reserved Infix "∘" (at level 30, right associativity).
 Reserved Infix "~>" (at level 90, right associativity).

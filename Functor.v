@@ -2,6 +2,8 @@ Require Import Lib.
 Require Export Category.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Class Functor `(_ : Category C) `(_ : Category D) := {
   fobj : C -> D;

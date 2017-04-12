@@ -3,6 +3,8 @@ Require Export Category.
 Require Export Functor.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Class Initial `(_ : Category ob) := {
   Zero : ob;

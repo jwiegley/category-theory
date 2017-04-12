@@ -3,6 +3,8 @@ Require Export Category.
 Require Export Functor.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Class Terminal (ob : Type) := {
   terminal_category :> Category ob;

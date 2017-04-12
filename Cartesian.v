@@ -3,6 +3,8 @@ Require Export Iso.
 Require Export Terminal.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Reserved Infix "×" (at level 40, left associativity).
 

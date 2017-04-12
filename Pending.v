@@ -1,19 +1,387 @@
-Require Export Hask.Category.
+Set Automatic Introduction.
+Set Implicit Arguments.
+Set Printing Projections.
+Set Shrink Obligations.
 
-Open Scope category_scope.
+Reserved Notation "C ^op" (at level 90).
 
-Set Primitive Projection.
-Set Universe Polymorphism.
-Generalizable All Variables.
+Coercion ob : Category >-> Sortclass.
+(* Coercion hom : Category >-> Funclass. *)
 
-Class Functor (C : Category) (D : Category) :=
-{ fobj : C → D
-; fmap : ∀ {X Y : C}, (X ~> Y) → (fobj X ~> fobj Y)
+Notation "ob/ C" := (@ob C) (at level 1) : category_scope.
+Notation "id/ X" := (@id _ X) (at level 1) : category_scope.
 
-; functor_id_law : ∀ {X : C}, fmap (id (A := X)) = id
-; functor_compose_law : ∀ {X Y Z : C} (f : Y ~> Z) (g : X ~> Y),
-    fmap f ∘ fmap g = fmap (f ∘ g)
+Lemma cat_irrelevance `(C : Category) `(D : Category)
+  : ∀ (m n : ∀ {A}, A ~> A)
+      (p q : ∀ {A B C}, (B ~> C) → (A ~> B) → (A ~> C))
+      l l' r r' c c',
+  @m = @n →
+  @p = @q →
+  {| ob             := C
+   ; hom            := @hom C
+   ; id             := @m
+   ; compose        := @p
+   ; left_identity  := l
+   ; right_identity := r
+   ; comp_assoc     := c
+ |} =
+  {| ob             := C
+   ; hom            := @hom C
+   ; id             := @n
+   ; compose        := @q
+   ; left_identity  := l'
+   ; right_identity := r'
+   ; comp_assoc     := c'
+ |}.
+Proof.
+  intros. subst. f_equal.
+  apply proof_irrelevance.
+  apply proof_irrelevance.
+  apply proof_irrelevance.
+Qed.
+
+Section Morphisms.
+
+Definition Idempotent `(f : X ~> X) := f ∘ f = f.
+Definition Involutive `(f : X ~> X) := f ∘ f = id.
+
+Definition Section' `(f : X ~> Y) := { g : Y ~> X & g ∘ f = id }.
+Definition Retraction `(f : X ~> Y) := { g : Y ~> X & f ∘ g = id }.
+
+Class SplitIdempotent {X Y : C} := {
+    split_idem_retract := Y;
+    split_idem         : X ~> X;
+    split_idem_r       : X ~> split_idem_retract;
+    split_idem_s       : split_idem_retract ~> X;
+    split_idem_law_1   : split_idem_s ∘ split_idem_r = split_idem;
+    split_idem_law_2   : split_idem_r ∘ split_idem_s = id/Y
 }.
+
+Definition Epic `(f : X ~> Y)  := ∀ {Z} (g1 g2 : Y ~> Z), g1 ∘ f = g2 ∘ f → g1 = g2.
+Definition Monic `(f : X ~> Y) := ∀ {Z} (g1 g2 : Z ~> X), f ∘ g1 = f ∘ g2 → g1 = g2.
+
+Definition Bimorphic `(f : X ~> Y) := Epic f ∧ Monic f.
+Definition SplitEpi `(f : X ~> Y)  := Retraction f.
+Definition SplitMono `(f : X ~> Y) := Section' f.
+
+Lemma id_idempotent : ∀ X, Idempotent (id (A := X)).
+Proof. auto. Qed.
+
+Lemma id_involutive : ∀ X, Involutive (id (A := X)).
+Proof. auto. Qed.
+
+Section Lemmas.
+
+Variables X Y : C.
+Variable f : X ~> Y.
+
+Ltac reassociate_left :=
+  repeat (rewrite <- comp_assoc); try f_equal; auto.
+
+Ltac reassociate_right :=
+  repeat (rewrite comp_assoc); try f_equal; auto.
+
+Lemma retractions_are_epic : Retraction f → Epic f.
+Proof.
+  autounfold.
+  intros.
+  destruct X0.
+  rewrite <- right_identity.
+  symmetry.
+  rewrite <- right_identity.
+  rewrite <- e.
+  reassociate_right.
+Qed.
+
+Lemma sections_are_monic : Section' f → Monic f.
+Proof.
+  autounfold.
+  intros.
+  destruct X0.
+  rewrite <- left_identity.
+  symmetry.
+  rewrite <- left_identity.
+  rewrite <- e.
+  reassociate_left.
+Qed.
+
+End Lemmas.
+End Morphisms.
+
+Ltac reassociate_left := repeat (rewrite <- comp_assoc); auto.
+Ltac reassociate_right := repeat (rewrite comp_assoc); auto.
+
+Definition epi_compose `{C : Category} {X Y Z : C}
+  `(ef : @Epic C Y Z f) `(eg : @Epic C X Y g) : Epic (f ∘ g).
+Proof.
+  unfold Epic in *. intros.
+  apply ef.
+  apply eg.
+  reassociate_left.
+Qed.
+
+Definition monic_compose `{C : Category} {X Y Z : C}
+  `(ef : @Monic C Y Z f) `(eg : @Monic C X Y g) : Monic (f ∘ g).
+Proof.
+  unfold Monic in *. intros.
+  apply eg.
+  apply ef.
+  reassociate_right.
+Qed.
+
+Lemma iso_irrelevance `(C : Category) {X Y : C}
+  : ∀ (f g : X ~> Y) (k h : Y ~> X) tl tl' fl fl',
+  @f = @g →
+  @k = @h →
+  {| to       := f
+   ; from     := k
+   ; iso_to   := tl
+   ; iso_from := fl
+  |} =
+  {| to       := g
+   ; from     := h
+   ; iso_to   := tl'
+   ; iso_from := fl'
+  |}.
+Proof.
+  intros. subst. f_equal.
+  apply proof_irrelevance.
+  apply proof_irrelevance.
+Qed.
+
+Notation "x ≈ y" := (to x = y ∧ from y = x) (at level 50).
+
+Program Instance Groupoid `(C : Category) : Category := {
+    ob      := @ob C;
+    hom     := @Isomorphism C;
+    id      := @iso_identity C;
+    compose := @iso_compose C
+}.
+(* begin hide *)
+Obligation 1.
+  unfold iso_compose, iso_identity.
+  destruct f.
+  apply iso_irrelevance; crush.
+Qed.
+Obligation 2.
+  unfold iso_compose, iso_identity.
+  destruct f.
+  apply iso_irrelevance; crush.
+Qed.
+Obligation 3.
+  unfold iso_compose.
+  destruct f.
+  destruct g.
+  destruct h. simpl.
+  apply iso_irrelevance; crush.
+Qed.
+
+Program Instance Monic_Retraction_Iso
+    `{C : Category} {X Y : C} `(r : Retraction f) `(m : Monic f) : X ≅ Y := {
+    to := f;
+    from := projT1 r
+}.
+Obligation 1.
+  autounfold in *.
+  destruct r.
+  auto.
+Qed.
+Obligation 2.
+  autounfold in *.
+  destruct r.
+  simpl.
+  specialize (m X (x ∘ f) id).
+  apply m.
+  rewrite comp_assoc.
+  rewrite e.
+  auto.
+  rewrite left_identity.
+  rewrite right_identity.
+  reflexivity.
+Qed.
+
+Program Instance Epic_Section_Iso
+    `{C : Category} {X Y} `(s : Section' f) `(e : Epic f) : X ≅ Y := {
+    to := f;
+    from := projT1 s
+}.
+Obligation 1.
+  autounfold in *.
+  destruct s.
+  simpl.
+  specialize (e Y (f ∘ x) id).
+  apply e.
+  rewrite <- comp_assoc.
+  rewrite e0.
+  rewrite left_identity.
+  rewrite right_identity.
+  reflexivity.
+Qed.
+Obligation 2.
+  autounfold in *.
+  destruct s.
+  specialize (e Y (f ∘ x) id).
+  auto.
+Qed.
+
+Definition flip_section `{Category} `(f : X ~> Y)
+  (s : @Section' _ X Y f) : @Retraction _ Y X (projT1 s).
+Proof.
+  autounfold.
+  destruct s.
+  exists f.
+  crush.
+Qed.
+
+Definition flip_retraction `{Category} `(f : X ~> Y)
+  (s : @Retraction _ X Y f) : @Section' _ Y X (projT1 s).
+Proof.
+  autounfold.
+  destruct s.
+  exists f.
+  crush.
+Qed.
+
+Lemma injectivity_is_monic `(f : X ~> Y) : (∀ x y, f x = f y → x = y) ↔ Monic f.
+Proof. split.
+- intros.
+  unfold Monic.
+  intros.
+  extensionality e.
+  apply H.
+  simpl in H0.
+  apply (equal_f H0).
+- intros.
+  unfold Monic in H.
+  pose (fun (_ : unit) => x) as const_x.
+  pose (fun (_ : unit) => y) as const_y.
+  specialize (H unit const_x const_y).
+  unfold const_x in H.
+  unfold const_y in H.
+  simpl in H.
+  apply equal_f in H.
+  + assumption.
+  + extensionality e. assumption.
+  + constructor.
+Qed.
+
+Lemma surjectivity_is_epic `(f : X ~> Y) : (∀ y, ∃ x, f x = y) ↔ Epic f.
+Proof. split.
+- intros.
+  unfold Epic.
+  intros.
+  simpl in H0.
+  extensionality e.
+  specialize (H e).
+  destruct H.
+  rewrite <- H.
+  apply (equal_f H0).
+- intros.
+  unfold Epic in H.
+  specialize H with (Z := Prop).
+  specialize H with (g1 := fun y0 => ∃ x0, f x0 = y0).
+  simpl in *.
+  specialize H with (g2 := fun y  => True).
+  eapply equal_f in H.
+  erewrite H. constructor.
+  extensionality e.
+  apply propositional_extensionality.
+  exists e.
+  reflexivity.
+Qed.
+
+Program Instance Opposite `(C : Category) : Category := {
+    ob      := @ob C;
+    hom     := fun x y => @hom C y x;
+    id      := @id C;
+    compose := fun _ _ _ f g => g ∘ f
+}.
+
+Notation "C ^op" := (Opposite C) (at level 90) : category_scope.
+
+Lemma op_involutive (C : Category) : (C^op)^op = C.
+Proof.
+  unfold Opposite.
+  induction C.
+  apply f_equal3.
+  unfold Opposite_obligation_1.
+  repeat (extensionality e; simpl; crush).
+  unfold Opposite_obligation_2.
+  repeat (extensionality e; simpl; crush).
+  unfold Opposite_obligation_3.
+  repeat (extensionality e; simpl; crush).
+  extensionality f.
+  extensionality g.
+  extensionality h.
+  extensionality i.
+  extensionality j.
+  extensionality k. crush.
+Qed.
+
+Definition op `{C : Category} : ∀ {X Y}, (X ~{C^op}~> Y) → (Y ~{C}~> X).
+Proof. auto. Defined.
+
+Definition unop `{C : Category} : ∀ {X Y}, (Y ~{C}~> X) → (X ~{C^op}~> Y).
+Proof. auto. Defined.
+
+Record Pullback {C : Category} {X Y} (Z : C) (f : X ~> Z) (g : Y ~> Z) :=
+{ pullback_obj : C
+; pullback_fst : pullback_obj ~> X
+; pullback_snd : pullback_obj ~> Y
+; pullback_ump_1 : f ∘ pullback_fst = g ∘ pullback_snd
+; pullback_ump_2 : ∀ Q (q1 : Q ~> X) (q2 : Q ~> Y),
+    {    u : Q ~> pullback_obj & pullback_snd ∘ u = q2 ∧ pullback_fst ∘ u = q1
+    ∧ ∀ (v : Q ~> pullback_obj), pullback_snd ∘ v = q2 ∧ pullback_fst ∘ v = q1 → v = u }
+}.
+
+Definition Product {C : Category} `{@HasTerminal C} {X Y} :=
+    @Pullback C X Y term_obj term_mor term_mor.
+
+Lemma uniqueness_of_products (C : Category) `{h : @HasTerminal C}
+  : ∀ {X Y} (p q : @Product C h X Y),
+  let    ump1 := pullback_ump_2 q (fst p) (snd p)
+  in let ump2 := pullback_ump_2 p (fst q) (snd q)
+  in projT1 ump1 ∘ projT1 ump2 = id ∧ projT1 ump2 ∘ projT1 ump1 = id.
+Proof.
+  intros.
+  split.
+    destruct ump1.
+    destruct ump2.
+    simpl.
+    destruct a.
+    destruct H0.
+    destruct a0.
+    destruct H3.
+Abort.
+
+Program Instance Pair {X Y : Set}
+  : Product Sets (X * Y) (@fst X Y) (@snd X Y).
+Obligation 1. (* product ump *)
+  exists (fun x => (x1 x, x2 x)).
+  intros. constructor.
+    intros. unfold fst. reflexivity.
+  split.
+    intros. unfold snd. reflexivity.
+  intros.
+  inversion H.
+  extensionality e.
+  rewrite <- H0.
+  rewrite <- H1.
+  destruct (v e).
+  reflexivity.
+Defined.
+
+Definition Tuple_map {Z X Y} (f : X → Y) (p : Z * X) : Z * Y :=
+  match p with
+  | pair z x => @pair Z Y z (f x)
+  end.
+
+Program Instance Tuple_Functor {Z} : Sets ⟶ Sets :=
+{ fobj := fun X => Z * X
+; fmap := @Tuple_map Z
+}.
+Obligation 1. extensionality e. crush. Defined.
+Obligation 2. extensionality e. crush. Defined.
 
 Notation "C ⟶ D" := (Functor C D) (at level 90, right associativity).
 

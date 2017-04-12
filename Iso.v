@@ -2,6 +2,8 @@ Require Import Lib.
 Require Export Category.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Class isomorphism `{Category ob}
        `(iso_to : X ~> Y) `(iso_from: Y ~> X) : Type := {

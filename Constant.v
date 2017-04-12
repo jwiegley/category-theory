@@ -2,6 +2,8 @@ Require Import Lib.
 Require Export Terminal.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 Class Constant `(_ : Terminal ob) := {
   Const : ob -> Type;

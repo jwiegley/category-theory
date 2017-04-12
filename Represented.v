@@ -4,6 +4,8 @@ Require Export Coq.
 Require Export Reified.
 
 Generalizable All Variables.
+Set Primitive Projection.
+Set Universe Polymorphism.
 
 (* Coq abstract data types are represented in CCC by identifying their
    equivalent construction. *)
