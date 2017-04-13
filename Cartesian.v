@@ -3,8 +3,9 @@ Require Export Iso.
 Require Export Terminal.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Reserved Infix "×" (at level 40, left associativity).
 
@@ -27,6 +28,8 @@ Class Cartesian (ob : Type) := {
 
 Infix "×" := Prod : category_scope.
 Infix "△" := fork (at level 28) : category_scope.
+
+Coercion cartesian_terminal : Cartesian >-> Terminal.
 
 Program Instance parametric_morphism_fork `(_ : Cartesian ob) (a b c : ob) :
   Proper (eqv ==> eqv ==> eqv) (@fork ob _ a b c) := fork_respects a b c.

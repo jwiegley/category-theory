@@ -3,10 +3,25 @@ Require Export Bicartesian.
 Require Export Closed.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Class BiCCC `(_ : Closed C) `{@Initial C _} `{@Cocartesian C _ _}.
+
+Definition biccc_closed
+           `{O : Closed C} `{I : @Initial C _} `{A : @Cocartesian C _ _}
+           `(_ : @BiCCC C O I A) : Closed C := O.
+Definition biccc_initial
+           `{O : Closed C} `{I : @Initial C _} `{A : @Cocartesian C _ _}
+           `(_ : @BiCCC C O I A) : Initial C := I.
+Definition biccc_cocartesian
+           `{O : Closed C} `{I : @Initial C _} `{A : @Cocartesian C _ _}
+           `(_ : @BiCCC C O I A) : Cocartesian C := A.
+
+Coercion biccc_closed : BiCCC >-> Closed.
+Coercion biccc_initial : BiCCC >-> Initial.
+Coercion biccc_cocartesian : BiCCC >-> Cocartesian.
 
 Notation "0 × X" := (Prod Zero X) (at level 40).
 Notation "X × 0" := (Prod X Zero) (at level 40).

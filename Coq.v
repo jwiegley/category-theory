@@ -1,12 +1,15 @@
 Require Import Lib.
 Require Export BiCCC.
+Require Export Morphisms.
 Require Export Constant.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Definition arrow (A B : Type) := A -> B.
+Hint Unfold arrow.
 
 Program Instance Coq_Category : Category Type := {
   hom     := arrow;
@@ -96,3 +99,55 @@ Program Instance Coq_Constant : Constant Type := {
   Const := fun A => A;
   constant := fun _ => Basics.const
 }.
+
+Lemma injectivity_is_monic `(f : X ~> Y) :
+  (∀ x y, f x = f y → x = y) ↔ Monic f.
+Proof. split.
+- intros.
+  autounfold in *.
+  intros.
+  simpl in *.
+  extensionality e.
+  apply H.
+  simpl in H0.
+  apply (equal_f H0).
+- intros.
+  autounfold in *.
+  simpl in *.
+  pose (fun (_ : unit) => x) as const_x.
+  pose (fun (_ : unit) => y) as const_y.
+  specialize (H unit const_x const_y).
+  unfold const_x in H.
+  unfold const_y in H.
+  simpl in H.
+  apply equal_f in H.
+  + assumption.
+  + extensionality e. assumption.
+  + constructor.
+Qed.
+
+Lemma surjectivity_is_epic `(f : X ~> Y) :
+  (∀ y, ∃ x, f x = y)%type ↔ Epic f.
+Proof. split.
+- intros.
+  autounfold in *.
+  intros.
+  simpl in *.
+  extensionality e.
+  specialize (H e).
+  destruct H.
+  rewrite <- H.
+  apply (equal_f H0).
+- intros.
+  unfold Epic in H.
+  specialize H with (Z := Prop).
+  specialize H with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
+  simpl in *.
+  specialize H with (g2 := fun y  => True).
+  eapply equal_f in H.
+  erewrite H. constructor.
+  extensionality e.
+  apply propositional_extensionality.
+  exists e.
+  reflexivity.
+Qed.

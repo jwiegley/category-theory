@@ -2,17 +2,44 @@ Require Import Lib.
 Require Export Category.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Class isomorphism `{Category ob}
-       `(iso_to : X ~> Y) `(iso_from: Y ~> X) : Type := {
+      `(iso_to : X ~> Y) `(iso_from: Y ~> X) : Type := {
   iso_to_from : iso_to   ∘ iso_from ≈ id;
   iso_from_to : iso_from ∘ iso_to   ≈ id
 }.
 
 Arguments iso_to_from {_ _ _ _ _ _} _.
 Arguments iso_from_to {_ _ _ _ _ _} _.
+
+Definition isomorphism_eqv `{Category C}
+           `{iso_to : X ~> Y} `{iso_from: Y ~> X}
+           (F G : @isomorphism C _ X Y iso_to iso_from) : Prop :=
+  proof_eq (iso_to_from F) (iso_to_from G) /\
+  proof_eq (iso_from_to F) (iso_from_to G).
+
+Program Instance isomorphism_eqv_Equivalence
+        `{Category C} `{iso_to : X ~> Y} `{iso_from: Y ~> X} :
+  Equivalence (@isomorphism_eqv C _ _ _ iso_to iso_from).
+Obligation 1.
+  intros ?.
+  destruct x.
+  unfold isomorphism_eqv, proof_eq; auto.
+Qed.
+Obligation 2.
+  intros ???.
+  destruct x, y.
+  unfold isomorphism_eqv, proof_eq in *; simpl in *; intuition.
+Qed.
+Obligation 3.
+  intros ?????.
+  unfold isomorphism_eqv, proof_eq in *; simpl in *; intuition.
+  transitivity (iso_to_from y); auto.
+  transitivity (iso_from_to y); auto.
+Qed.
 
 Class isomorphic `{Category ob} (X Y : ob) : Type := {
   iso_to   : X ~> Y;
@@ -77,3 +104,59 @@ Obligation 1.
   transitivity y0; auto.
   symmetry; assumption.
 Defined.
+
+Lemma isomorphic_transport `{Category C} {X Y : C}
+      (F G : @isomorphic C _ X Y)
+      (iso_to_eqv : iso_to F ≈ iso_to G)
+      (iso_from_eqv : iso_from F ≈ iso_from G) :
+  isomorphism (iso_to F) (iso_from F).
+Proof.
+  destruct G, iso_witness0; simpl in *.
+  rewrite <- iso_to_eqv in *.
+  rewrite <- iso_from_eqv in *.
+  constructor; auto.
+Qed.
+
+Record isomorphic_eqv `{Category C}
+       {X Y : C} (F G : @isomorphic C _ X Y) : Prop := {
+  iso_to_eqv      : iso_to F ≈ iso_to G;
+  iso_from_eqv    : iso_from F ≈ iso_from G;
+  iso_witness_eqv :
+    isomorphism_eqv (iso_witness F)
+                    (isomorphic_transport F G iso_to_eqv iso_from_eqv)
+}.
+
+Program Instance isomorphic_eqv_Equivalence `{Category C} {X Y : C} :
+  Equivalence (@isomorphic_eqv C _ X Y).
+Obligation 1.
+  intros ?.
+  econstructor.
+  split; apply proof_irrelevance.
+  Unshelve.
+  - reflexivity.
+  - reflexivity.
+Qed.
+Obligation 2.
+  intros ???.
+  econstructor.
+  split; apply proof_irrelevance.
+  Unshelve.
+  - symmetry.
+    destruct H0.
+    assumption.
+  - symmetry.
+    destruct H0.
+    assumption.
+Qed.
+Obligation 3.
+  intros ?????.
+  econstructor.
+  split; apply proof_irrelevance.
+  Unshelve.
+  - destruct H0.
+    destruct H1.
+    transitivity (iso_to y); auto.
+  - destruct H0.
+    destruct H1.
+    transitivity (iso_from y); auto.
+Qed.

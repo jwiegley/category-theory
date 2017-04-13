@@ -1,8 +1,9 @@
 Require Import Lib.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Reserved Infix "∘" (at level 30, right associativity).
 Reserved Infix "~>" (at level 90, right associativity).
@@ -32,15 +33,18 @@ Class Category (ob : Type) := {
 
 Infix "~>" := hom : category_scope.
 Infix "≈" := eqv : category_scope.
-Infix "~{ C }~>" := (@hom C _) (at level 90) : category_scope.
+Infix "~{ C }~>" := (@hom _ C) (at level 90) : category_scope.
 Infix "∘" := compose : category_scope.
 
 Notation "id[ X  ]" := (@id _ _ X)  (at level 50) : category_scope.
 
+Coercion hom : Category >-> Funclass.
+
 Hint Rewrite @id_left : categories.
 Hint Rewrite @id_right : categories.
 
-Ltac cat := autorewrite with categories; auto with category_laws.
+Ltac cat :=
+  autorewrite with categories; auto with category_laws; try reflexivity.
 
 Program Instance parametric_relation_eqv `{Category C} {a b : C} :
   Equivalence (@eqv C _ a b) := eqv_equivalence a b.

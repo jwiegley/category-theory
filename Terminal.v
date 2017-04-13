@@ -3,8 +3,9 @@ Require Export Category.
 Require Export Functor.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Class Terminal (ob : Type) := {
   terminal_category :> Category ob;
@@ -13,6 +14,8 @@ Class Terminal (ob : Type) := {
 
   one_eqv {A} (f g : A ~> One) : f ≈ g
 }.
+
+Coercion terminal_category : Terminal >-> Category.
 
 Notation "X ~> 1" := (X ~> One) (at level 50) : category_scope.
 

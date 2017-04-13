@@ -2,8 +2,9 @@ Require Import Lib.
 Require Export Cartesian.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Class Closed (ob : Type) := {
   closed_cartesian :> Cartesian ob;
@@ -27,6 +28,8 @@ Class Closed (ob : Type) := {
 }.
 
 Notation "Y ^ X" := (Exp X Y) : category_scope.
+
+Coercion closed_cartesian : Closed >-> Cartesian.
 
 Hint Rewrite @curry_uncurry : categories.
 Hint Rewrite @uncurry_curry : categories.

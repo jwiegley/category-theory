@@ -3,8 +3,9 @@ Require Export BiCCC.
 Require Export Coq.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Section Abstraction.
 

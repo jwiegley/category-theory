@@ -3,8 +3,9 @@ Require Export Initial.
 Require Export Iso.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Class Cocartesian `(_ : Initial ob) := {
   Coprod : ob -> ob -> ob

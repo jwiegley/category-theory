@@ -4,8 +4,9 @@ Require Export Coq.
 Require Export Reified.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 (* Coq abstract data types are represented in CCC by identifying their
    equivalent construction. *)

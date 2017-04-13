@@ -2,8 +2,9 @@ Require Import Lib.
 Require Export BiCCC.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
 Inductive Obj : Type :=
   | One_    : Obj
@@ -41,7 +42,7 @@ Inductive Hom : Obj -> Obj -> Type :=
   | Merge   : ∀ {a c d}, Hom c a -> Hom d a -> Hom (Coprod_ c d) a.
 
 Program Fixpoint interp `(c : Hom a b) :
-  ∀ `{BiCCC C}, denote a ~{C}~> denote b := fun _ _ _ _ _ =>
+  ∀ `{cat : BiCCC C}, denote a ~{cat}~> denote b := fun _ _ _ _ _ =>
   match c with
   | Id          => id
   | Compose f g => interp f ∘ interp g
@@ -183,6 +184,10 @@ Global Program Instance Hom_Functor : Functor Obj C := {
   fobj := fun x => denote x;
   fmap := fun _ _ f => interp f
 }.
+Obligation 1.
+  intros ???.
+  apply H3.
+Defined.
 
 Global Program Instance Hom_TerminalFunctor : TerminalFunctor Obj C := {
   terminal_category_functor := Hom_Functor;

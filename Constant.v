@@ -2,20 +2,25 @@ Require Import Lib.
 Require Export Terminal.
 
 Generalizable All Variables.
-Set Primitive Projection.
+Set Primitive Projections.
 Set Universe Polymorphism.
+Set Shrink Obligations.
 
-Class Constant `(_ : Terminal ob) := {
+Class Constant `(T : Terminal ob) := {
   Const : ob -> Type;
-  constant {A} (x : Const A) : One ~{ob}~> A
+  constant {A} (x : Const A) : One ~{T}~> A
 }.
 
 Arguments Constant ob {_}.
 
-Class ConstantFunctor `(_ : Constant C) `(_ : Constant D) := {
+Definition constant_terminal `(_ : @Constant C T) : Terminal C := T.
+
+Coercion constant_terminal : Constant >-> Terminal.
+
+Class ConstantFunctor `(_ : Constant C) `(Dcat : Constant D) := {
   constant_closed_functor :> Functor C D;
 
-  unmap_one : fobj One ~{D}~> One;
+  unmap_one : fobj One ~{Dcat}~> One;
 
   map_const {A} (x : @Const C _ _ A) : @Const D _ _ (fobj A);
 
