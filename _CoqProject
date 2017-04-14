@@ -2,13 +2,13 @@
 Lib.v
 Category.v
 Functor.v
-Yoneda.v
-NatTrans.v
+Natural.v
 Faithful.v
+Bifunctor.v
+Yoneda.v
 Cat.v
 Opposite.v
 Iso.v
-Bifunctor.v
 Adjunction.v
 Monad.v
 Cone.v

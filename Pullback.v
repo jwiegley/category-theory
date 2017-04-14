@@ -6,7 +6,7 @@ Record Pullback `{Category C} {X Y : C} (Z : C) (f : X ~> Z) (g : Y ~> Z) := {
   pullback_ump_1 : f ∘ pullback_fst ≈ g ∘ pullback_snd;
   pullback_ump_2 : ∀ Q (q1 : Q ~> X) (q2 : Q ~> Y),
     { u : Q ~> pullback_obj
-    & pullback_snd ∘ u ≈ q2 ∧ pullback_fst ∘ u = q1
+    & pullback_snd ∘ u ≈ q2 ∧ pullback_fst ∘ u ≈ q1
       ∧ ∀ (v : Q ~> pullback_obj),
           pullback_snd ∘ v ≈ q2 ∧ pullback_fst ∘ v ≈ q1 → v ≈ u }%type
 }.

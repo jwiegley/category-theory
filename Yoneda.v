@@ -1,34 +1,42 @@
-(* jww (2017-04-13): TODO
+Require Import Lib.
+Require Export Functor.
+Require Import Iso.
+Require Import Natural.
+Require Import Opposite.
+Require Import Bifunctor.
+Require Import Coq.
+
+Generalizable All Variables.
+Set Primitive Projections.
+Set Universe Polymorphism.
+Set Shrink Obligations.
+
 (** This is the Yoneda embedding. *)
-(* jww (2014-08-10): It should be possible to get rid of Hom here, but the
-   coercion isn't firing. *)
-Program Instance Yoneda `(C : Category) : C ⟶ [C^op, Sets] := Hom (C^op).
+Program Instance Yoneda `(C : Category) : C ⟶ [C^op, Coq] := Hom (C^op).
 Obligation 1. apply op_involutive. Defined.
 
-Program Instance YonedaLemma `(C : Category) `(F : C ⟶ Sets) {A : C^op}
-    : @Isomorphism Sets (C A ⟾ F) (F A).
+Program Instance YonedaLemma `(C : Category) `(F : C ⟶ Coq) {A : C^op} :
+  @isomorphic Coq (C A ⟹ F) (F A).
 Obligation 1.
   intros.
   destruct X.
-  apply transport0.
+  apply transform.
   simpl.
   destruct C.
-  crush.
-Defined.
+Admitted.
 Obligation 2.
   intros.
   simpl.
-  pose (@fmap C Sets F A).
-  apply Build_Natural with (transport := fun Y φ => h Y φ X).
+  pose (@fmap C Coq F A).
+  apply Build_Natural with (transform := fun Y φ => h Y φ X).
   intros.
   inversion F. simpl.
-  extensionality e.
+  intro e.
   unfold h.
-  rewrite <- functor_compose_law.
-  crush.
-Defined.
+Admitted.
 Obligation 3.
-  extensionality e.
+Admitted.
+(*
   pose (f := fun (_ : unit) => e).
   destruct C.
   destruct F. simpl.

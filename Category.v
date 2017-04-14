@@ -22,8 +22,8 @@ Class Category := {
   eqv {A B : ob} : relation (A ~> B)
     where "f ≈ g" := (eqv f g);
 
-  eqv_equivalence : ∀ A B, Equivalence (@eqv A B);
-  compose_respects : ∀ A B C,
+  eqv_equivalence (A B : ob) : Equivalence (@eqv A B);
+  compose_respects (A B C : ob) :
     Proper (@eqv B C ==> @eqv A B ==> @eqv A C) compose;
 
   id_left {X Y} (f : X ~> Y) : id ∘ f ≈ f;

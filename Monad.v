@@ -193,7 +193,6 @@ Proof.
   intros.
   pose proof (@join_fmap_join _ _ _ _ J m a).
   simpl in H.
-  apply equal_f with (x0:=x) in H.
   unfold join.
   simpl in *.
   rewrite <- H.

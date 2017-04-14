@@ -13,15 +13,25 @@ Program Instance Coq : Category := {
   hom     := fun A B : Type => A -> B;
   id      := fun _ x => x;
   compose := fun _ _ _ g f x => g (f x);
-  eqv     := fun _ _ => eq
+  eqv     := fun _ _ f g => forall x, f x = g x
 }.
+Obligation 1.
+  constructor.
+  - intros ??; auto.
+  - intros ????; auto.
+  - intros ??????; congruence.
+Defined.
+Obligation 2.
+  intros ?? HA ?? HB ?.
+  rewrite HA, HB.
+  reflexivity.
+Defined.
 
 Program Instance Coq_Terminal : @Terminal _ := {
   One := unit : Type;
   one := fun _ a => tt
 }.
 Obligation 1.
-  extensionality x.
   destruct (f x), (g x).
   reflexivity.
 Qed.
@@ -33,11 +43,17 @@ Program Instance Coq_Cartesian : @Cartesian _ := {
   exr  := fun _ _ p => snd p
 }.
 Obligation 1.
+  intros ?? HA ?? HB ?.
+  rewrite HA, HB.
+  reflexivity.
+Defined.
+Obligation 2.
   split; intros Hcart; subst.
-    split; extensionality x; reflexivity.
-  destruct Hcart.
-  subst; simpl.
-  extensionality x.
+    split; intros;
+    rewrite Hcart; reflexivity.
+  destruct Hcart as [HA HB].
+  subst; intros.
+  rewrite <- HA, <- HB.
   rewrite <- surjective_pairing.
   reflexivity.
 Qed.
@@ -47,25 +63,23 @@ Program Instance Coq_Closed : @Closed _ _ := {
   curry := fun _ _ _ f a b => f (a, b);
   uncurry := fun _ _ _ f p => f (fst p) (snd p)
 }.
+Obligation 1.
+  intros ?? HA ?.
+  extensionality b.
+  rewrite HA.
+  reflexivity.
+Defined.
 Obligation 2.
-  extensionality x.
-  rewrite <- surjective_pairing.
+  intros ?? HA ?.
+  rewrite HA.
   reflexivity.
-Qed.
-Obligation 3.
-  extensionality x.
-  rewrite <- surjective_pairing.
-  reflexivity.
-Qed.
+Defined.
 
 Program Instance Coq_Initial : Initial _ := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
-Obligation 2.
-  extensionality x.
-  contradiction.
-Qed.
+Obligation 2. contradiction. Qed.
 
 Program Instance Coq_Cocartesian : @Cocartesian _ := {
   Coprod := sum;
@@ -78,11 +92,17 @@ Program Instance Coq_Cocartesian : @Cocartesian _ := {
   inr  := fun _ _ p => Datatypes.inr p
 }.
 Obligation 1.
+  intros ?? HA ?? HB ?.
+  destruct x1.
+    rewrite HA; reflexivity.
+  rewrite HB; reflexivity.
+Defined.
+Obligation 2.
   split; intros Hcocart; subst.
-    split; extensionality x; reflexivity.
+    split; intros;
+    rewrite Hcocart; reflexivity.
   destruct Hcocart.
-  subst; simpl.
-  extensionality x.
+  subst; simpl; intros.
   destruct x; auto.
 Qed.
 
@@ -95,13 +115,10 @@ Lemma injectivity_is_monic `(f : X ~> Y) :
   (∀ x y, f x = f y → x = y) ↔ Monic f.
 Proof. split.
 - intros.
-  autounfold in *.
-  intros.
-  simpl in *.
-  extensionality e.
+  autounfold in *; intros.
+  simpl in *; intros.
   apply H.
-  simpl in H0.
-  apply (equal_f H0).
+  apply H0.
 - intros.
   autounfold in *.
   simpl in *.
@@ -111,34 +128,30 @@ Proof. split.
   unfold const_x in H.
   unfold const_y in H.
   simpl in H.
-  apply equal_f in H.
-  + assumption.
-  + extensionality e. assumption.
-  + constructor.
+  apply H; intros.
+    assumption.
+  exact tt.
 Qed.
 
 Lemma surjectivity_is_epic `(f : X ~> Y) :
   (∀ y, ∃ x, f x = y)%type ↔ Epic f.
 Proof. split.
 - intros.
-  autounfold in *.
-  intros.
-  simpl in *.
-  extensionality e.
-  specialize (H e).
+  autounfold in *; intros.
+  simpl in *; intros.
+  specialize (H x).
   destruct H.
   rewrite <- H.
-  apply (equal_f H0).
+  apply H0.
 - intros.
   unfold Epic in H.
   specialize H with (Z := Prop).
   specialize H with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
   simpl in *.
   specialize H with (g2 := fun y  => True).
-  eapply equal_f in H.
   erewrite H. constructor.
-  extensionality e.
+  intros.
   apply propositional_extensionality.
-  exists e.
+  exists x.
   reflexivity.
 Qed.

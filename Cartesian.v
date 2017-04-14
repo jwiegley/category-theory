@@ -353,3 +353,30 @@ Arguments prod_out {_ _ _ _ _ _ _ _} /.
 
 Hint Rewrite @prod_in_out : functors.
 Hint Rewrite @prod_out_in : functors.
+
+(* This only works if 'f' was previously the result of merging two functions,
+   so that the left result is only determined from the left side, and vice-
+   versa. *)
+(* Definition bridge `{Cartesian} `(f : X × Y ~> Z × W) : (X ~> Z) * (Y ~> W) := *)
+(*   (exl ∘ f ∘ (id △ id), exr ∘ f ∘ (id △ id)). *)
+
+Program Definition functor_prod `{C : Category} `{D : Category}
+        `{@Cartesian D} (F : C ⟶ D) (G : C ⟶ D) : C ⟶ D :=
+  {| fobj := fun x => Prod (F x) (G x)
+   ; fmap := fun _ _ f => (fmap f ∘ exl) △ (fmap f ∘ exr) |}.
+Next Obligation.
+  intros ?? HA.
+  rewrite HA; reflexivity.
+Defined.
+Next Obligation. cat. Qed.
+Next Obligation.
+  rewrite <- fork_comp.
+  rewrite <- !comp_assoc; cat.
+  rewrite !fmap_comp.
+  rewrite <- !comp_assoc; cat.
+Qed.
+
+Delimit Scope functor_scope with functor.
+Bind Scope functor_scope with Functor.
+
+Notation "F × G" := (@functor_prod _ _ _ F G) : functor_scope.
