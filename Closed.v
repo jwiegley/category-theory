@@ -44,6 +44,9 @@ Global Program Instance parametric_morphism_curry (a b c : C) :
 Global Program Instance parametric_morphism_uncurry (a b c : C) :
   Proper (eqv ==> eqv) uncurry := uncurry_respects a b c.
 
+Definition flip {X Y Z : C} `(f : X ~> Z ^ Y) : Y ~> Z ^ X :=
+  curry (uncurry f ∘ swap).
+
 Corollary eval_curry {X Y Z W : C} (f : Y × Z ~> W) (g : X ~> Y) (h : X ~> Z) :
   eval ∘ ((curry f ∘ g) △ h) ≈ f ∘ g △ h.
 Proof.

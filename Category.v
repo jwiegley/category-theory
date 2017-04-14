@@ -41,7 +41,7 @@ Infix "∘" := compose : category_scope.
 Notation "id[ X  ]" := (@id _ _ X)  (at level 50) : category_scope.
 
 Coercion ob : Category >-> Sortclass.
-Coercion hom : Category >-> Funclass.
+(* Coercion hom : Category >-> Funclass. *)
 
 Hint Rewrite @id_left : categories.
 Hint Rewrite @id_right : categories.

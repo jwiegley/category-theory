@@ -10,6 +10,7 @@ Opposite.v
 Iso.v
 Bifunctor.v
 Adjunction.v
+Monad.v
 Cone.v
 Const.v
 Limit.v

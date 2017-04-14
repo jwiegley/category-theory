@@ -8,26 +8,6 @@ Set Universe Polymorphism.
 Set Shrink Obligations.
 Set Implicit Arguments.
 
-Program Definition functor_comp
-  `{C : Category} `{D : Category} `{E : Category}
-  (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E :=
-  {| fobj := fun x => fobj (fobj x)
-   ; fmap := fun _ _ f => fmap (fmap f) |}.
-Next Obligation.
-  intros ?? HA.
-  rewrite HA; reflexivity.
-Defined.
-Next Obligation.
-  intros.
-  rewrite !fmap_id.
-  reflexivity.
-Qed.
-Next Obligation.
-  intros.
-  rewrite !fmap_comp.
-  reflexivity.
-Qed.
-
 Program Instance Cat : Category := {
   hom     := @Functor;
   id      := @Identity;

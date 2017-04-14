@@ -50,6 +50,30 @@ Notation "fmap[ F ]" := (@fmap _ _ F _ _) (at level 9).
 
 Hint Rewrite @fmap_id : categories.
 
+Program Definition functor_comp
+  `{C : Category} `{D : Category} `{E : Category}
+  (G : C ⟶ D) (F : D ⟶ E) : C ⟶ E :=
+  {| fobj := fun x => fobj (fobj x)
+   ; fmap := fun _ _ f => fmap (fmap f) |}.
+Next Obligation.
+  intros ?? HA.
+  rewrite HA; reflexivity.
+Defined.
+Next Obligation.
+  intros.
+  rewrite !fmap_id.
+  reflexivity.
+Qed.
+Next Obligation.
+  intros.
+  rewrite !fmap_comp.
+  reflexivity.
+Qed.
+
+Notation "fmap[ F G ]" := (@fmap _ _ (@functor_comp _ _ _ F G) _ _) (at level 9).
+Notation "fmap[ F G H ]" :=
+  (@fmap _ _ (@functor_comp _ _ _ F (@functor_comp _ _ _ G H)) _ _) (at level 9).
+
 (* The Identity [Functor] *)
 
 Program Instance Identity : C ⟶ C := {

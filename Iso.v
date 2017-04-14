@@ -6,24 +6,28 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
 
-Class isomorphism `{Category}
-      `(iso_to : X ~> Y) `(iso_from: Y ~> X) : Type := {
+Section Iso.
+
+Context `{C : Category}.
+
+Class isomorphism `(iso_to : X ~> Y) `(iso_from: Y ~> X) : Type := {
   iso_to_from : iso_to   ∘ iso_from ≈ id;
   iso_from_to : iso_from ∘ iso_to   ≈ id
 }.
 
-Arguments iso_to_from {_ _ _ _ _} _.
-Arguments iso_from_to {_ _ _ _ _} _.
+Arguments iso_to_from {_ _ _ _} _.
+Arguments iso_from_to {_ _ _ _} _.
 
-Definition isomorphism_eqv `{C : Category}
-           `{iso_to : X ~> Y} `{iso_from: Y ~> X}
-           (F G : @isomorphism C X Y iso_to iso_from) : Prop :=
+Infix "≃" := isomorphism (at level 91) : category_scope.
+
+Definition isomorphism_eqv `{iso_to : X ~> Y} `{iso_from: Y ~> X}
+           (F G : iso_to ≃ iso_from) : Prop :=
   proof_eq (iso_to_from F) (iso_to_from G) /\
   proof_eq (iso_from_to F) (iso_from_to G).
 
-Program Instance isomorphism_eqv_Equivalence
-        `{C : Category} `{iso_to : X ~> Y} `{iso_from: Y ~> X} :
-  Equivalence (@isomorphism_eqv C _ _ iso_to iso_from).
+Global Program Instance isomorphism_eqv_Equivalence
+       `{iso_to : X ~> Y} `{iso_from: Y ~> X} :
+  Equivalence (@isomorphism_eqv _ _ iso_to iso_from).
 Obligation 1.
   intros ?.
   destruct x.
@@ -41,19 +45,19 @@ Obligation 3.
   transitivity (iso_from_to y); auto.
 Qed.
 
-Class isomorphic `{C : Category} (X Y : C) : Type := {
+Class isomorphic (X Y : C) : Type := {
   iso_to   : X ~> Y;
   iso_from : Y ~> X;
-  iso_witness : isomorphism iso_to iso_from
+  iso_witness : iso_to ≃ iso_from
 }.
 
-Arguments iso_to {_ X Y} _.
-Arguments iso_from {_ X Y} _.
-Arguments iso_witness {_ X Y} _.
+Arguments iso_to {X Y} _.
+Arguments iso_from {X Y} _.
+Arguments iso_witness {X Y} _.
 
 Infix "≅" := isomorphic (at level 90) : category_scope.
 
-Program Instance isomorphic_equivalence `{Category} :
+Global Program Instance isomorphic_equivalence :
   CRelationClasses.Equivalence isomorphic.
 Obligation 1.
   intros ?.
@@ -82,7 +86,7 @@ Obligation 3.
   rewrite iso_from_to1; cat.
 Defined.
 
-Program Instance arrow_isomorphic `{C : Category} :
+Global Program Instance arrow_isomorphic :
   CMorphisms.Proper
     (CMorphisms.respectful isomorphic
        (CMorphisms.respectful isomorphic Basics.arrow)) isomorphic.
@@ -93,7 +97,7 @@ Obligation 1.
   transitivity x0; auto.
 Defined.
 
-Program Instance flip_arrow_isomorphic `{C : Category} :
+Global Program Instance flip_arrow_isomorphic :
   CMorphisms.Proper
     (CMorphisms.respectful isomorphic
        (CMorphisms.respectful isomorphic
@@ -105,11 +109,11 @@ Obligation 1.
   symmetry; assumption.
 Defined.
 
-Lemma isomorphic_transport `{C : Category} {X Y : C}
-      (F G : @isomorphic C X Y)
+Lemma isomorphic_transport {X Y : C}
+      (F G : X ≅ Y)
       (iso_to_eqv : iso_to F ≈ iso_to G)
       (iso_from_eqv : iso_from F ≈ iso_from G) :
-  isomorphism (iso_to F) (iso_from F).
+  iso_to F ≃ iso_from F.
 Proof.
   destruct G, iso_witness0; simpl in *.
   rewrite <- iso_to_eqv in *.
@@ -117,8 +121,7 @@ Proof.
   constructor; auto.
 Qed.
 
-Record isomorphic_eqv `{C : Category}
-       {X Y : C} (F G : @isomorphic C X Y) : Prop := {
+Record isomorphic_eqv {X Y : C} (F G : X ≅ Y) : Prop := {
   iso_to_eqv      : iso_to F ≈ iso_to G;
   iso_from_eqv    : iso_from F ≈ iso_from G;
   iso_witness_eqv :
@@ -126,8 +129,8 @@ Record isomorphic_eqv `{C : Category}
                     (isomorphic_transport F G iso_to_eqv iso_from_eqv)
 }.
 
-Program Instance isomorphic_eqv_Equivalence `{C : Category} {X Y : C} :
-  Equivalence (@isomorphic_eqv C X Y).
+Global Program Instance isomorphic_eqv_Equivalence {X Y : C} :
+  Equivalence (@isomorphic_eqv X Y).
 Obligation 1.
   intros ?.
   econstructor.
@@ -137,26 +140,38 @@ Obligation 1.
   - reflexivity.
 Qed.
 Obligation 2.
-  intros ???.
+  intros ?? HA.
   econstructor.
   split; apply proof_irrelevance.
   Unshelve.
   - symmetry.
-    destruct H.
+    destruct HA.
     assumption.
   - symmetry.
-    destruct H.
+    destruct HA.
     assumption.
 Qed.
 Obligation 3.
-  intros ?????.
+  intros ??? HA HB.
   econstructor.
   split; apply proof_irrelevance.
   Unshelve.
-  - destruct H.
-    destruct H0.
+  - destruct HA.
+    destruct HB.
     transitivity (iso_to y); auto.
-  - destruct H.
-    destruct H0.
+  - destruct HA.
+    destruct HB.
     transitivity (iso_from y); auto.
 Qed.
+
+End Iso.
+
+Infix "≃" := isomorphism (at level 91) : category_scope.
+Infix "≅" := isomorphic (at level 90) : category_scope.
+
+Arguments iso_to_from {_ _ _ _ _} _.
+Arguments iso_from_to {_ _ _ _ _} _.
+
+Arguments iso_to {_ X Y} _.
+Arguments iso_from {_ X Y} _.
+Arguments iso_witness {_ X Y} _.
