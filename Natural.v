@@ -36,13 +36,15 @@ Section Nat.
 Context `{C : Category}.
 Context `{D : Category}.
 
-Program Definition nat_identity `{F : C ⟶ D} : F ⟹ F :=
-  {| transform := fun X => fmap (@id C X) |}.
+Program Definition nat_identity `{F : C ⟶ D} : F ⟹ F := {|
+  transform := fun X => fmap (@id C X)
+|}.
 Obligation 1. cat. Qed.
 
 Program Definition nat_compose `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D}
-  (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K :=
-  {| transform := fun X => transform[f] X ∘ transform[g] X |}.
+  (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
+  transform := fun X => transform[f] X ∘ transform[g] X
+|}.
 Obligation 1.
   intros.
   rewrite comp_assoc.

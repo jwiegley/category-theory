@@ -64,15 +64,17 @@ Program Instance Coq_Closed : @Closed _ _ := {
   uncurry := fun _ _ _ f p => f (fst p) (snd p)
 }.
 Obligation 1.
-  intros ?? HA ?.
-  extensionality b.
-  rewrite HA.
-  reflexivity.
-Defined.
-Obligation 2.
-  intros ?? HA ?.
-  rewrite HA.
-  reflexivity.
+  constructor; intros; simpl; auto.
+  - intros.
+    rewrite <- surjective_pairing.
+    reflexivity.
+  - intros ?? HA ?.
+    extensionality b.
+    rewrite HA.
+    reflexivity.
+  - intros ?? HA ?.
+    rewrite HA.
+    reflexivity.
 Defined.
 
 Program Instance Coq_Initial : Initial _ := {

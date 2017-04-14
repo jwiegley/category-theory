@@ -52,9 +52,10 @@ Hint Rewrite @fmap_id : categories.
 
 Program Definition functor_comp
   `{C : Category} `{D : Category} `{E : Category}
-  (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E :=
-  {| fobj := fun x => fobj (fobj x)
-   ; fmap := fun _ _ f => fmap (fmap f) |}.
+  (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
+  fobj := fun x => fobj (fobj x);
+  fmap := fun _ _ f => fmap (fmap f)
+|}.
 Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.

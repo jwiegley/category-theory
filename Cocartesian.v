@@ -117,15 +117,16 @@ Hint Rewrite @coprod_zero_r : isos.
 
 Global Program Instance coprod_assoc  {X Y Z : C} :
   (X + Y) + Z ≅ X + (Y + Z) := {
-  iso_to   := _;
-  iso_from := _
+  iso_to   := (inl ▽ (inr ∘ inl)) ▽ (inr ∘ inr);
+  iso_from := (inl ∘ inl) ▽ ((inl ∘ inr) ▽ inr)
 }.
 Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
+  constructor; simpl; intros;
+  rewrite <- !merge_comp; cat;
+  rewrite comp_assoc; cat;
+  rewrite comp_assoc; cat;
+  rewrite merge_comp; cat.
+Qed.
 
 End Cocartesian.
 

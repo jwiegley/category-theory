@@ -9,8 +9,10 @@ Yoneda.v
 Cat.v
 Opposite.v
 Iso.v
-Adjunction.v
 Monad.v
+MonadCompose.v
+Adjunction.v
+MonadAdjunction.v
 Cone.v
 Const.v
 Limit.v

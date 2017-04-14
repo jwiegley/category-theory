@@ -361,9 +361,10 @@ Hint Rewrite @prod_out_in : functors.
 (*   (exl ∘ f ∘ (id △ id), exr ∘ f ∘ (id △ id)). *)
 
 Program Definition functor_prod `{C : Category} `{D : Category}
-        `{@Cartesian D} (F : C ⟶ D) (G : C ⟶ D) : C ⟶ D :=
-  {| fobj := fun x => Prod (F x) (G x)
-   ; fmap := fun _ _ f => (fmap f ∘ exl) △ (fmap f ∘ exr) |}.
+        `{@Cartesian D} (F : C ⟶ D) (G : C ⟶ D) : C ⟶ D := {|
+  fobj := fun x => Prod (F x) (G x);
+  fmap := fun _ _ f => (fmap f ∘ exl) △ (fmap f ∘ exr)
+|}.
 Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.

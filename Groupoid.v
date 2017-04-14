@@ -29,9 +29,7 @@ Defined.
 Obligation 3.
   unfold Groupoid_obligation_2.
   intros ??????.
-  econstructor.
-  split; apply proof_irrelevance.
-  Unshelve.
+  constructor.
   - destruct x, y, x0, y0, H, H0; simpl in *.
     rewrite iso_to_eqv.
     rewrite iso_to_eqv0.
@@ -44,27 +42,21 @@ Qed.
 Obligation 4.
   unfold Groupoid_obligation_1.
   unfold Groupoid_obligation_2.
-  econstructor.
-  split; apply proof_irrelevance.
-  Unshelve.
+  constructor.
   - destruct f; simpl; cat.
   - destruct f; simpl; cat.
 Qed.
 Obligation 5.
   unfold Groupoid_obligation_1.
   unfold Groupoid_obligation_2.
-  econstructor.
-  split; apply proof_irrelevance.
-  Unshelve.
+  constructor.
   - destruct f; simpl; cat.
   - destruct f; simpl; cat.
 Qed.
 Obligation 6.
   unfold Groupoid_obligation_1.
   unfold Groupoid_obligation_2.
-  econstructor.
-  split; apply proof_irrelevance.
-  Unshelve.
+  constructor.
   - destruct f, g, h; simpl.
     rewrite comp_assoc; reflexivity.
   - destruct f, g, h; simpl.

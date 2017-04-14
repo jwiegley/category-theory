@@ -39,12 +39,14 @@ Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
   P W Y ~{E}~> P X Z := bimap (unop f) g.
 
 Program Instance Hom `(C : Category) : C^op ⟶ [C, Coq] := {
-  fobj := fun X : C^op =>
-            {| fobj := fun Y : C => @hom C X Y
-             ; fmap := fun (Y Z : C) (f : Y ~> Z) (g : X ~{C}~> Y) =>
-                         (f ∘ g) : X ~{C}~> Z  |};
-  fmap := fun _ _ f =>
-            {| transform := fun _ g => g ∘ unop f |}
+  fobj := fun X : C^op => {|
+              fobj := fun Y : C => @hom C X Y;
+              fmap := fun (Y Z : C) (f : Y ~> Z) (g : X ~{C}~> Y) =>
+                        (f ∘ g) : X ~{C}~> Z
+            |};
+  fmap := fun _ _ f => {|
+              transform := fun _ g => g ∘ unop f
+            |}
 }.
 Next Obligation.
   intros ????.

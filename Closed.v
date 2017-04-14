@@ -20,11 +20,7 @@ Class Closed := {
 
   eval {X Y} : Y^X × X ~> Y := uncurry id;
 
-  curry_respects   : ∀ X Y Z, Proper (eqv ==> @eqv _ X (Z^Y))   curry;
-  uncurry_respects : ∀ X Y Z, Proper (eqv ==> @eqv _ (X × Y) Z) uncurry;
-
-  curry_uncurry {X Y Z} (f : X ~> Z^Y) :   curry   (uncurry f) ≈ f;
-  uncurry_curry {X Y Z} (f : X × Y ~> Z) : uncurry (curry   f) ≈ f;
+  curry_uncurry_iso {X Y Z} : hom_iso (@curry X Y Z) uncurry;
 
   univ_exponents {X Y Z} (f : X × Y ~> Z) :
     eval ∘ first (curry f) ≈ f
@@ -34,15 +30,25 @@ Notation "Y ^ X" := (Exp X Y) : category_scope.
 
 Context `{@Closed}.
 
+Corollary curry_uncurry {X Y Z} (f : X ~> Z^Y) :
+  curry (uncurry f) ≈ f.
+Proof. apply curry_uncurry_iso. Qed.
+
+Corollary uncurry_curry {X Y Z} (f : X × Y ~> Z) :
+  uncurry (curry f) ≈ f.
+Proof. apply curry_uncurry_iso. Qed.
+
 Hint Rewrite @curry_uncurry : categories.
 Hint Rewrite @uncurry_curry : categories.
 Hint Rewrite @univ_exponents : categories.
 
 Global Program Instance parametric_morphism_curry (a b c : C) :
-  Proper (eqv ==> eqv) curry := curry_respects a b c.
+  Proper (eqv ==> eqv) (@curry _ a b c) :=
+  hom_iso_to_respects (hom_iso:=curry_uncurry_iso).
 
 Global Program Instance parametric_morphism_uncurry (a b c : C) :
-  Proper (eqv ==> eqv) uncurry := uncurry_respects a b c.
+  Proper (eqv ==> eqv) (@uncurry _ a b c) :=
+  hom_iso_from_respects (hom_iso:=curry_uncurry_iso).
 
 Definition flip {X Y Z : C} `(f : X ~> Z ^ Y) : Y ~> Z ^ X :=
   curry (uncurry f ∘ swap).
@@ -95,7 +101,6 @@ Qed.
 Corollary curry_comp_l {X Y Z W : C} (f : Y × Z ~> W) (g : X ~> Y) :
   curry f ∘ g ≈ curry (f ∘ first g).
 Proof.
-  intros.
   apply uncurry_inj; cat.
   rewrite <- (univ_exponents (uncurry (curry f ∘ g))).
   rewrite curry_uncurry.
@@ -108,9 +113,7 @@ Qed.
 Corollary curry_comp {X Y Z W : C} (f : Z ~> W) (g : X × Y ~> Z) :
   curry (f ∘ g) ≈ curry (f ∘ eval) ∘ curry g.
 Proof.
-  intros.
   rewrite curry_comp_l.
-  apply uncurry_inj; cat.
   rewrite <- comp_assoc.
   rewrite eval_first; cat.
 Qed.
@@ -118,25 +121,17 @@ Qed.
 Corollary uncurry_comp_r {X Y Z W : C} (f : Z ~> W) (g : X ~> Z^Y) :
   f ∘ uncurry g ≈ uncurry (curry (f ∘ eval) ∘ g).
 Proof.
-  intros.
-  apply curry_inj; cat.
-  rewrite <- (univ_exponents (f ∘ eval)).
-  rewrite eval_first; cat.
-  rewrite curry_comp_l.
-  apply uncurry_inj; cat.
+  rewrite curry_comp_l; cat.
   rewrite <- comp_assoc.
-  rewrite eval_first.
-  reflexivity.
+  rewrite eval_first; reflexivity.
 Qed.
 
 Corollary uncurry_comp {X Y Z W : C} (f : Y ~> W^Z) (g : X ~> Y) :
-  uncurry (f ∘ g) ≈ uncurry f ∘ uncurry (curry id ∘ g).
+  uncurry (f ∘ g) ≈ uncurry f ∘ first g.
 Proof.
   intros.
-  rewrite uncurry_comp_r.
   apply curry_inj; cat.
-  rewrite comp_assoc.
-  rewrite <- curry_comp; cat.
+  rewrite <- curry_comp_l; cat.
 Qed.
 
 Theorem curry_id {X Y Z : C} (f : X ~> Y) :
@@ -174,21 +169,55 @@ Obligation 1.
     rewrite <- comp_assoc; cat.
     rewrite <- comp_assoc; cat.
     rewrite fork_comp; cat.
-Admitted.
+  rewrite curry_comp_l.
+  apply uncurry_inj; cat.
+  rewrite <- comp_assoc.
+  rewrite <- eval_first.
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc (first eval)).
+  unfold first at 1.
+  rewrite <- fork_comp.
+  rewrite <- comp_assoc; cat.
+  unfold first.
+  rewrite <- fork_comp.
+  rewrite <- comp_assoc; cat.
+  rewrite <- comp_assoc; cat.
+  rewrite <- fork_comp.
+  rewrite <- comp_assoc; cat.
+  rewrite <- comp_assoc; cat.
+  rewrite <- fork_comp; cat.
+  rewrite <- fork_comp; cat.
+  rewrite <- comp_assoc; cat.
+  rewrite <- comp_assoc; cat.
+  rewrite fork_comp; cat.
+Qed.
 
 Hint Rewrite @exp_prod_l : isos.
 
+(* (Y × Z)^X ~> Y^X × Z^X *)
 Global Program Instance exp_prod_r {X Y Z : C} :
   (Y × Z)^X ≅ Y^X × Z^X := {
-  iso_to   := _;
-  iso_from := _
+  iso_to   := curry (exl ∘ eval) △ curry (exr ∘ eval);
+  iso_from := curry (uncurry exl △ uncurry exr)
 }.
 Obligation 1.
-Admitted.
-Obligation 2.
-Admitted.
-Obligation 3.
-Admitted.
+  constructor; simpl; intros.
+    rewrite <- fork_comp.
+    rewrite <- fork_exl_exr.
+    apply fork_inv; split;
+    rewrite <- curry_comp; cat;
+    pose proof (@eval_first) as HA;
+    unfold first in HA;
+    rewrite HA; cat.
+  apply uncurry_inj.
+  rewrite uncurry_comp; cat.
+  rewrite <- fork_comp.
+  rewrite <- !eval_first.
+  rewrite <- !comp_assoc.
+  rewrite <- !first_comp; cat.
+  rewrite fork_comp; cat.
+  unfold first; cat.
+Qed.
 
 Hint Rewrite @exp_prod_r : isos.
 

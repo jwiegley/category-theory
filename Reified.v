@@ -143,17 +143,16 @@ Program Instance Hom_Closed : @Closed _ _ := {
   uncurry := @Uncurry
 }.
 Obligation 1.
-  intros ?? HA ??????.
-  simpl.
-  rewrite HA.
-  reflexivity.
-Qed.
-Obligation 2.
-  intros ?? HA ??????.
-  simpl.
-  rewrite HA.
-  reflexivity.
-Qed.
+  constructor; simpl; intros; cat.
+  - intros ?? HA ??????.
+    simpl.
+    rewrite HA.
+    reflexivity.
+  - intros ?? HA ??????.
+    simpl.
+    rewrite HA.
+    reflexivity.
+Defined.
 
 Program Instance Hom_Initial : @Initial _ := {
   Zero := Zero_;

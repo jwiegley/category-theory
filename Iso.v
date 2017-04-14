@@ -10,7 +10,9 @@ Section Iso.
 
 Context `{C : Category}.
 
-Class isomorphism `(iso_to : X ~> Y) `(iso_from: Y ~> X) : Type := {
+(* Two morphisms in a category C form an isomorphism if they compose to
+   identity in both directions. *)
+Class isomorphism `(iso_to : X ~> Y) `(iso_from: Y ~> X) : Prop := {
   iso_to_from : iso_to   ∘ iso_from ≈ id;
   iso_from_to : iso_from ∘ iso_to   ≈ id
 }.
@@ -20,31 +22,26 @@ Arguments iso_from_to {_ _ _ _} _.
 
 Infix "≃" := isomorphism (at level 91) : category_scope.
 
-Definition isomorphism_eqv `{iso_to : X ~> Y} `{iso_from: Y ~> X}
-           (F G : iso_to ≃ iso_from) : Prop :=
-  proof_eq (iso_to_from F) (iso_to_from G) /\
-  proof_eq (iso_from_to F) (iso_from_to G).
-
-Global Program Instance isomorphism_eqv_Equivalence
-       `{iso_to : X ~> Y} `{iso_from: Y ~> X} :
-  Equivalence (@isomorphism_eqv _ _ iso_to iso_from).
-Obligation 1.
-  intros ?.
-  destruct x.
-  unfold isomorphism_eqv, proof_eq; auto.
-Qed.
-Obligation 2.
-  intros ???.
-  destruct x, y.
-  unfold isomorphism_eqv, proof_eq in *; simpl in *; intuition.
-Qed.
-Obligation 3.
-  intros ?????.
-  unfold isomorphism_eqv, proof_eq in *; simpl in *; intuition.
-  transitivity (iso_to_from y); auto.
-  transitivity (iso_from_to y); auto.
+(* Two isomorphisms for the same pair of morphisms are equivalent by proof
+   irrelevance. *)
+Lemma isomorphism_eqv
+      `{iso_toF : X ~> Y} `{iso_fromF: Y ~> X}
+      `{iso_toG : X ~> Y} `{iso_fromG: Y ~> X} :
+  iso_toF ≈ iso_toG ->
+  iso_fromF ≈ iso_fromG ->
+  iso_toF ≃ iso_fromF <-> iso_toG ≃ iso_fromG.
+Proof.
+  intros HF HG; split; intros HE;
+  destruct HE.
+    rewrite HF, HG in *.
+    constructor; auto.
+  rewrite <- HF, <- HG in *.
+  constructor; auto.
 Qed.
 
+(* Two objects in C are isomorphic, if there is an isomorphism between theme.
+   Note that this definition has computational content, so we can make use of
+   the morphisms. *)
 Class isomorphic (X Y : C) : Type := {
   iso_to   : X ~> Y;
   iso_from : Y ~> X;
@@ -109,41 +106,22 @@ Obligation 1.
   symmetry; assumption.
 Defined.
 
-Lemma isomorphic_transport {X Y : C}
-      (F G : X ≅ Y)
-      (iso_to_eqv : iso_to F ≈ iso_to G)
-      (iso_from_eqv : iso_from F ≈ iso_from G) :
-  iso_to F ≃ iso_from F.
-Proof.
-  destruct G, iso_witness0; simpl in *.
-  rewrite <- iso_to_eqv in *.
-  rewrite <- iso_from_eqv in *.
-  constructor; auto.
-Qed.
-
 Record isomorphic_eqv {X Y : C} (F G : X ≅ Y) : Prop := {
-  iso_to_eqv      : iso_to F ≈ iso_to G;
-  iso_from_eqv    : iso_from F ≈ iso_from G;
-  iso_witness_eqv :
-    isomorphism_eqv (iso_witness F)
-                    (isomorphic_transport F G iso_to_eqv iso_from_eqv)
+  iso_to_eqv   : iso_to F   ≈ iso_to G;
+  iso_from_eqv : iso_from F ≈ iso_from G
 }.
 
 Global Program Instance isomorphic_eqv_Equivalence {X Y : C} :
   Equivalence (@isomorphic_eqv X Y).
 Obligation 1.
   intros ?.
-  econstructor.
-  split; apply proof_irrelevance.
-  Unshelve.
+  constructor.
   - reflexivity.
   - reflexivity.
 Qed.
 Obligation 2.
   intros ?? HA.
-  econstructor.
-  split; apply proof_irrelevance.
-  Unshelve.
+  constructor.
   - symmetry.
     destruct HA.
     assumption.
@@ -153,9 +131,7 @@ Obligation 2.
 Qed.
 Obligation 3.
   intros ??? HA HB.
-  econstructor.
-  split; apply proof_irrelevance.
-  Unshelve.
+  constructor.
   - destruct HA.
     destruct HB.
     transitivity (iso_to y); auto.
@@ -163,6 +139,16 @@ Obligation 3.
     destruct HB.
     transitivity (iso_from y); auto.
 Qed.
+
+Class hom_iso {X Y Z W : C}
+      `(hom_iso_to   : X ~{C}~> Y -> Z ~{C}~> W)
+      `(hom_iso_from : Z ~{C}~> W -> X ~{C}~> Y) := {
+  hom_iso_to_from {f} : hom_iso_to   (hom_iso_from f) ≈ f;
+  hom_iso_from_to {f} : hom_iso_from (hom_iso_to f)   ≈ f;
+
+  hom_iso_to_respects   : Proper (eqv ==> @eqv _ Z W) hom_iso_to;
+  hom_iso_from_respects : Proper (eqv ==> @eqv _ X Y) hom_iso_from
+}.
 
 End Iso.
 
