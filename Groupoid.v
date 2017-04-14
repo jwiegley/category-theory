@@ -9,15 +9,16 @@ Set Shrink Obligations.
 
 Section Groupoid.
 
-Context `{cat : Category C}.
+Context `{C : Category}.
 
 (* A Groupoid is a category where all the morphisms are isomorphisms, and
    morphism equivalence is equivalence of isomorphisms. *)
-Program Instance Groupoid : Category C := {
-  hom     := @isomorphic C _;
+Program Instance Groupoid : Category := {
+  ob      := @ob C;
+  hom     := @isomorphic C;
   id      := fun _ => _;
   compose := fun _ _ _ => _;
-  eqv     := @isomorphic_eqv C _
+  eqv     := @isomorphic_eqv C
 }.
 Next Obligation.
   reflexivity.                  (* identity is reflexivity *)

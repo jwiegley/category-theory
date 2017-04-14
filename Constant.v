@@ -6,26 +6,31 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
 
-Class Constant `(T : Terminal ob) := {
+Section Constant.
+
+Context `{C : Category}.
+Context `{@Terminal C}.
+
+Class Constant := {
   Const : ob -> Type;
-  constant {A} (x : Const A) : One ~{T}~> A
+  constant {A} (x : Const A) : One ~{C}~> A
 }.
 
-Arguments Constant ob {_}.
+End Constant.
 
-Definition constant_terminal `(_ : @Constant C T) : Terminal C := T.
+Section ConstantFunctor.
 
-Coercion constant_terminal : Constant >-> Terminal.
+Context `{F : C ⟶ D}.
+Context `{@Constant C CT}.
+Context `{@Constant D DT}.
 
-Class ConstantFunctor `(_ : Constant C) `(Dcat : Constant D) := {
-  constant_closed_functor :> Functor C D;
+Class ConstantFunctor := {
+  unmap_one : F One ~{D}~> One;
 
-  unmap_one : fobj One ~{Dcat}~> One;
-
-  map_const {A} (x : @Const C _ _ A) : @Const D _ _ (fobj A);
+  map_const {A} (x : @Const C _ _ A) : @Const D _ _ (F A);
 
   fmap_constant {A : C} (x : Const A) :
     fmap (constant x) ≈ constant (map_const x) ∘ unmap_one;
 }.
 
-Arguments ConstantFunctor C {_ _} D {_ _}.
+End ConstantFunctor.

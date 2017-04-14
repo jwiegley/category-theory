@@ -7,67 +7,14 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
 
-Class BiCCC `(_ : Closed C) `{@Initial C _} `{@Cocartesian C _ _}.
+Section BiCCC.
 
-Definition biccc_closed
-           `{O : Closed C} `{I : @Initial C _} `{A : @Cocartesian C _ _}
-           `(_ : @BiCCC C O I A) : Closed C := O.
-Definition biccc_initial
-           `{O : Closed C} `{I : @Initial C _} `{A : @Cocartesian C _ _}
-           `(_ : @BiCCC C O I A) : Initial C := I.
-Definition biccc_cocartesian
-           `{O : Closed C} `{I : @Initial C _} `{A : @Cocartesian C _ _}
-           `(_ : @BiCCC C O I A) : Cocartesian C := A.
+Context `{C : Category}.
+Context `{A : @Cartesian C}.
+Context `{@Closed C A}.
+Context `{@Cocartesian C}.
 
-Coercion biccc_closed : BiCCC >-> Closed.
-Coercion biccc_initial : BiCCC >-> Initial.
-Coercion biccc_cocartesian : BiCCC >-> Cocartesian.
-
-Notation "0 × X" := (Prod Zero X) (at level 40).
-Notation "X × 0" := (Prod X Zero) (at level 40).
-
-Program Instance prod_zero_l `{Closed C} `{@Initial C _} {X : C} :
-  0 × X ≅ Zero := {
-  iso_to := uncurry zero;
-  iso_from := zero
-}.
-Obligation 1.
-  constructor; simpl; intros; cat.
-  apply curry_inj; cat.
-Qed.
-
-Hint Rewrite @prod_zero_l : isos.
-
-Program Instance prod_zero_r `{Closed C} `{@Initial C _} {X : C} :
-  X × 0 ≅ Zero := {
-  iso_to   := uncurry zero ∘ swap;
-  iso_from := zero
-}.
-Obligation 1.
-  constructor; simpl; intros; cat.
-  apply swap_inj_r.
-  apply curry_inj; cat.
-Qed.
-
-Hint Rewrite @prod_zero_r : isos.
-
-Notation "X ^ 0" := (Exp Zero X) (at level 30).
-Notation "0 ^ X" := (Exp X Zero) (at level 30).
-
-Program Instance exp_zero `{Closed C} `{@Initial C _} {X : C} :
-  X^0 ≅ One := {
-  iso_to   := one;
-  iso_from := curry (zero ∘ iso_to prod_zero_r)
-}.
-Obligation 1.
-  constructor; simpl; intros; cat.
-  apply uncurry_inj.
-  apply swap_inj_r.
-  apply curry_inj; cat.
-Qed.
-
-Program Instance prod_coprod
-        `{Closed C} `{@Initial C _} `{@Cocartesian C _ _} {X Y Z : C} :
+Global Program Instance prod_coprod {X Y Z : C} :
   (* Products distribute over coproducts in every bicartesian closed
      category. *)
   X × (Y + Z) ≅ X × Y + X × Z := {
@@ -116,7 +63,7 @@ Qed.
 
 Hint Rewrite @prod_coprod : isos.
 
-Program Instance exp_coprod `{BiCCC C} {X Y Z : C} :
+Global Program Instance exp_coprod `{BiCCC C} {X Y Z : C} :
   X^(Y + Z) ≅ X^Y × X^Z := {
   iso_to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
   iso_from := curry (merge (eval ∘ first exl) (eval ∘ first exr)
@@ -128,3 +75,52 @@ Obligation 1.
 Admitted.
 
 Hint Rewrite @exp_coprod : isos.
+
+Context `{@Initial C}.
+
+Notation "0 × X" := (Prod Zero X) (at level 40).
+Notation "X × 0" := (Prod X Zero) (at level 40).
+
+Global Program Instance prod_zero_l {X : C} :
+  0 × X ≅ Zero := {
+  iso_to := uncurry zero;
+  iso_from := zero
+}.
+Obligation 1.
+  constructor; simpl; intros; cat.
+  apply curry_inj; cat.
+Qed.
+
+Hint Rewrite @prod_zero_l : isos.
+
+Global Program Instance prod_zero_r {X : C} :
+  X × 0 ≅ Zero := {
+  iso_to   := uncurry zero ∘ swap;
+  iso_from := zero
+}.
+Obligation 1.
+  constructor; simpl; intros; cat.
+  apply swap_inj_r.
+  apply curry_inj; cat.
+Qed.
+
+Hint Rewrite @prod_zero_r : isos.
+
+Context `{@Terminal C}.
+
+Notation "X ^ 0" := (Exp Zero X) (at level 30).
+Notation "0 ^ X" := (Exp X Zero) (at level 30).
+
+Global Program Instance exp_zero {X : C} :
+  X^0 ≅ One := {
+  iso_to   := one;
+  iso_from := curry (zero ∘ iso_to prod_zero_r)
+}.
+Obligation 1.
+  constructor; simpl; intros; cat.
+  apply uncurry_inj.
+  apply swap_inj_r.
+  apply curry_inj; cat.
+Qed.
+
+End BiCCC.

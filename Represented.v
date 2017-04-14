@@ -10,7 +10,7 @@ Set Shrink Obligations.
 
 (* Coq abstract data types are represented in CCC by identifying their
    equivalent construction. *)
-Class Represented (A : Type) `{Terminal ob} `(Repr : ob) := {
+Class Represented (A : Type) `{@Terminal C} `(Repr : ob) := {
   repr : A -> One ~> Repr;
   abst : One ~> Repr -> A;
 
@@ -35,7 +35,7 @@ Program Instance bool_Represented : Represented bool (Coprod One One) := {
   abst := fun h => _
 }.
 Obligation 1.
-  pose proof (@interp _ _ h Type _ _ _ _).
+  pose proof (@interp _ _ h Coq _ _ _ _ _).
   destruct (X tt).
     exact true.
   exact false.

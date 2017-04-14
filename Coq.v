@@ -8,18 +8,15 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
 
-Definition arrow (A B : Type) := A -> B.
-Hint Unfold arrow.
-
-Program Instance Coq_Category : Category Type := {
-  hom     := arrow;
+Program Instance Coq : Category := {
+  ob      := Type;
+  hom     := fun A B : Type => A -> B;
   id      := fun _ x => x;
   compose := fun _ _ _ g f x => g (f x);
   eqv     := fun _ _ => eq
 }.
 
-Program Instance Coq_Terminal : Terminal Type := {
-  terminal_category := Coq_Category;
+Program Instance Coq_Terminal : @Terminal _ := {
   One := unit : Type;
   one := fun _ a => tt
 }.
@@ -29,26 +26,24 @@ Obligation 1.
   reflexivity.
 Qed.
 
-Program Instance Coq_Cartesian : Cartesian Type := {
-  cartesian_terminal := Coq_Terminal;
+Program Instance Coq_Cartesian : @Cartesian _ := {
   Prod := prod;
   fork := fun _ _ _ f g x => (f x, g x);
   exl  := fun _ _ p => fst p;
   exr  := fun _ _ p => snd p
 }.
 Obligation 1.
-  split; intros; subst.
+  split; intros Hcart; subst.
     split; extensionality x; reflexivity.
-  destruct H.
+  destruct Hcart.
   subst; simpl.
   extensionality x.
   rewrite <- surjective_pairing.
   reflexivity.
 Qed.
 
-Program Instance Coq_Closed : Closed Type := {
-  closed_cartesian := Coq_Cartesian;
-  Exp := arrow;
+Program Instance Coq_Closed : @Closed _ _ := {
+  Exp := fun A B : Type => A -> B;
   curry := fun _ _ _ f a b => f (a, b);
   uncurry := fun _ _ _ f p => f (fst p) (snd p)
 }.
@@ -63,7 +58,7 @@ Obligation 3.
   reflexivity.
 Qed.
 
-Program Instance Coq_Initial : Initial Type := {
+Program Instance Coq_Initial : Initial _ := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
@@ -72,7 +67,7 @@ Obligation 2.
   contradiction.
 Qed.
 
-Program Instance Coq_Cocartesian : Cocartesian Type := {
+Program Instance Coq_Cocartesian : @Cocartesian _ := {
   Coprod := sum;
   merge := fun _ _ _ f g x =>
             match x with
@@ -83,19 +78,15 @@ Program Instance Coq_Cocartesian : Cocartesian Type := {
   inr  := fun _ _ p => Datatypes.inr p
 }.
 Obligation 1.
-  split; intros; subst.
+  split; intros Hcocart; subst.
     split; extensionality x; reflexivity.
-  destruct H.
+  destruct Hcocart.
   subst; simpl.
   extensionality x.
   destruct x; auto.
 Qed.
 
-Program Instance Coq_Bicartesian : Bicartesian Coq_Cartesian.
-
-Program Instance Coq_BiCCC : BiCCC Coq_Closed.
-
-Program Instance Coq_Constant : Constant Type := {
+Program Instance Coq_Constant : @Constant _ _ := {
   Const := fun A => A;
   constant := fun _ => Basics.const
 }.

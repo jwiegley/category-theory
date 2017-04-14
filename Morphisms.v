@@ -8,7 +8,7 @@ Set Shrink Obligations.
 
 Section Morphisms.
 
-Context `{Category C}.
+Context `{C : Category}.
 
 Open Scope type_scope.
 
@@ -118,7 +118,7 @@ Hint Unfold SplitMono.
 Require Export Iso.
 
 Program Instance Monic_Retraction_Iso
-        `{Category C} {X Y : C} `(r : Retraction f) `(m : Monic f) :
+        `{C : Category} {X Y : C} `(r : Retraction f) `(m : Monic f) :
   X ≅ Y := {
   iso_to := f;
   iso_from := projT1 r
@@ -134,7 +134,7 @@ Obligation 1.
 Qed.
 
 Program Instance Epic_Section_Iso
-    `{Category C} {X Y : C} `(s : Section f) `(e : Epic f) :
+    `{C : Category} {X Y : C} `(s : Section f) `(e : Epic f) :
   X ≅ Y := {
   iso_to := f;
   iso_from := projT1 s
@@ -150,8 +150,8 @@ Obligation 1.
   rewrite e0; cat.
 Qed.
 
-Definition flip_Section `{Category C} `(f : X ~> Y)
-  (s : @Section C _ X Y f) : @Retraction C _ Y X (projT1 s).
+Definition flip_Section `{C : Category} `(f : X ~> Y)
+  (s : @Section C X Y f) : @Retraction C Y X (projT1 s).
 Proof.
   autounfold.
   destruct s.
@@ -159,8 +159,8 @@ Proof.
   assumption.
 Qed.
 
-Definition flip_Retraction `{Category C} `(f : X ~> Y)
-  (s : @Retraction C _ X Y f) : @Section C _ Y X (projT1 s).
+Definition flip_Retraction `{C : Category} `(f : X ~> Y)
+  (s : @Retraction C X Y f) : @Section C Y X (projT1 s).
 Proof.
   autounfold.
   destruct s.

@@ -7,10 +7,14 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
 
-Class Bicartesian `(_ : Cartesian C) `{@Initial C _} `{@Cocartesian C _ _}.
+Section Bicartesian.
 
-Corollary fork_merge `{Cartesian C} `{@Initial C _} `{@Cocartesian C _ _}
-          {X Y Z W : C} (f : X ~> Y) (g : X ~> Z) (h : W ~> Y) (i : W ~> Z) :
+Context `{C : Category}.
+Context `{@Cartesian C}.
+Context `{@Cocartesian C}.
+
+Corollary fork_merge {X Y Z W : C}
+          (f : X ~> Y) (g : X ~> Z) (h : W ~> Y) (i : W ~> Z) :
   (f △ g) ▽ (h △ i) ≈ (f ▽ h) △ (g ▽ i).
 Proof.
   rewrite <- id_left.
@@ -19,3 +23,5 @@ Proof.
   apply fork_respects;
   rewrite <- merge_comp; cat.
 Qed.
+
+End Bicartesian.

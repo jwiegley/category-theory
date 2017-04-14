@@ -9,17 +9,14 @@ Set Shrink Obligations.
 
 Section Abstraction.
 
-Variable ob : Type.
-Context `{Closed ob}.
-Context `{F : @ClosedFunctor Type _ ob _}.
+Context `{C : Category}.
+Context `{F : Coq ⟶ C}.
+Context `{AF : @CartesianFunctor _ _ F _ HA}.
+Context `{@ClosedFunctor _ _ F _ _ AF _ HC}.
+Context `{TF : @TerminalFunctor _ _ F _ HT}.
 
-Import EqNotations.
-
-Definition rel `(lam : a -> b) (ccc : fobj a ~> fobj b) : Prop :=
-  fmap (H:=terminal_category
-          (Terminal:=cartesian_terminal
-             (Cartesian:=closed_cartesian
-                (Closed:=Coq_Closed)))) lam ≈ ccc.
+Definition rel `(lam : a -> b) (ccc : F a ~> F b) : Prop :=
+  fmap[F] lam ≈ ccc.
 
 Infix "===>" := rel (at level 99) : category_scope.
 
@@ -33,21 +30,21 @@ Qed.
 Tactic Notation "step" constr(x) "=>" constr(y) :=
   replace x with y by auto.
 
+(*
 Theorem ccc_apply :
   ∀ (a b c : Type)
-    (U : a -> b -> c) (U' : fobj a ~> fobj c ^ fobj b)
-    (V : a -> b) (V' : fobj a ~> fobj b),
+    (U : a -> b -> c) (U' : F a ~> F c ^ F b)
+    (V : a -> b) (V' : F a ~> F b),
   U ===> exp_in ∘ U' ->
   V ===> V' ->
     (λ x, U x (V x)) ===> eval ∘ (U' △ V').
 Proof.
   unfold rel; intros; subst.
-  step (λ x, U x (V x)) => (λ x, @eval Type _ b c (U x, V x)).
-  step (λ x, U x (V x)) => (λ x, @eval Type _ b c (U x, V x)).
-  step (λ x, @eval Type _ b c (U x, V x))
-    => (λ x, @eval Type _ b c ((U △ V) x)).
-  step (λ x, @eval Type _ b c ((U △ V) x))
-    => (@eval Type _ b c ∘ (U △ V)).
+  step (λ x, U x (V x)) => (λ x, @eval Coq _ _ b c (U x, V x)).
+  step (λ x, @eval Coq _ _ b c (U x, V x))
+    => (λ x, @eval Coq _ _ b c ((U △ V) x)).
+  step (λ x, @eval Coq _ _ b c ((U △ V) x))
+    => (@eval Coq _ _ b c ∘ (U △ V)).
   rewrite fmap_comp.
   rewrite fmap_eval.
   rewrite fmap_fork.
@@ -67,37 +64,35 @@ Proof.
   rewrite H1, H2.
   reflexivity.
 Qed.
+*)
 
 Theorem ccc_curry :
   ∀ (a b c : Type)
-    (U : a * b -> c) (U' : fobj a × fobj b ~> fobj c),
+    (U : a * b -> c) (U' : F a × F b ~> F c),
     U ===> U' ∘ prod_out ->
       (λ x, λ y, U (x, y)) ===> exp_in ∘ curry U'.
 Proof.
   unfold rel; intros; subst.
-  generalize (@fmap_curry Type _ ob _ _ a b c U).
+  generalize (@fmap_curry Coq _ _ _ _ _ _ _ _ a b c U).
   simpl.
-  unfold arrow.
-  intro H1; rewrite H1; clear H1.
-  pose proof (@exp_in_inj Type _ ob _ _ a b c) as H1.
-  apply H1; clear H1.
+  intro H2; rewrite H2; clear H2.
+  pose proof (@exp_in_inj Coq _ _ _ _ _ _ _ _ a b c) as H2.
+  apply H2; clear H2.
   simpl in H0; rewrite H0; clear H0.
   rewrite <- comp_assoc.
-  pose proof (@prod_out_in Type _ ob _ _ a b) as H1.
-  simpl in H1; rewrite H1; clear H1.
+  pose proof (@prod_out_in Coq _ _ _ _ _ a b) as H2.
+  simpl in H2; rewrite H2; clear H2.
   rewrite id_right.
   reflexivity.
 Qed.
 
 Theorem ccc_terminal : ∀ (a : Type),
-  (λ _ : a, tt) ===> map_one ∘ @one _ _ (fobj a).
+  (λ _ : a, tt) ===> map_one ∘ @one _ _ (F a).
 Proof.
   unfold rel; intros.
-  step (λ _ : a, tt) => (@one _ _ a).
-  pose proof @fmap_one.
-  simpl in H0.
-  rewrite H0.
-  reflexivity.
+  step (λ _ : a, tt) => (@one Coq _ a).
+  pose proof (@fmap_one _ _ _ _ _ _) as H1.
+  apply H1.
 Qed.
 
 End Abstraction.

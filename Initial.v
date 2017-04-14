@@ -7,20 +7,18 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
 
-Class Initial `(_ : Category ob) := {
+Class Initial `(C : Category) := {
   Zero : ob;
   zero {A} : Zero ~> A;
 
   zero_eqv {A} {f g : Zero ~> A} : f ≈ g
 }.
 
-Arguments Initial ob {_}.
-
 Hint Resolve @zero_eqv : category_laws.
 
 Notation "0 ~> X" := (Zero ~> X) (at level 50).
 
-Corollary zero_comp `{Initial C} {A B : C} {f : A ~> B} :
+Corollary zero_comp `{@Initial C} {A B : C} {f : A ~> B} :
   f ∘ zero ≈ zero.
 Proof.
   intros.
@@ -29,13 +27,17 @@ Defined.
 
 Hint Rewrite @zero_comp : categories.
 
-Class InitialFunctor `(_ : Initial C) `(_ : Initial D) := {
-  initial_category_functor :> @Functor C _ D _;
+Section InitialFunctor.
 
-  map_zero : fobj Zero ~> Zero;
+Context `{F : C ⟶ D}.
+Context `{@Initial C}.
+Context `{@Initial D}.
+
+Class InitialFunctor := {
+  map_zero : F Zero ~> Zero;
 
   fmap_zero {X : C} :
-    @fmap C _ D _ _ Zero X zero ≈ @zero _ _ _ (fobj X) ∘ map_zero
+    fmap[F] zero ≈ @zero _ _ (F X) ∘ map_zero
 }.
 
-Arguments InitialFunctor C {_ _} D {_ _}.
+End InitialFunctor.

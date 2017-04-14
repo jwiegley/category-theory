@@ -8,14 +8,15 @@ Set Shrink Obligations.
 
 Reserved Notation "C ^op" (at level 90).
 
-Program Instance Opposite `(_ : Category C) : Category C := {
-  hom     := fun x y => @hom C _ y x;
-  id      := @id C _;
+Program Instance Opposite `(C : Category) : Category := {
+  ob      := @ob C;
+  hom     := fun x y => @hom C y x;
+  id      := @id C;
   compose := fun _ _ _ f g => g ∘ f
 }.
 Obligation 1.
   intros ??????.
-  rewrite H0, H1.
+  rewrite H, H0.
   reflexivity.
 Defined.
 Obligation 2. cat. Qed.
@@ -25,27 +26,23 @@ Obligation 4.
   reflexivity.
 Qed.
 
-Notation "C ^op" := (@Opposite _ C) (at level 90) : category_scope.
+Notation "C ^op" := (@Opposite C) (at level 90) : category_scope.
 
 Open Scope equiv_scope.
 
-(* jww (2017-04-13): Need to define equivalence of categories. *)
-Lemma op_involutive `{C : Category ob} : (C^op)^op === C.
+Lemma op_involutive `{C : Category} : (C^op)^op === C.
 Proof.
   unfold Opposite.
   induction C.
   unfold Opposite_obligation_1.
+  (* jww (2017-04-13): Need to define equivalence of categories. *)
 Admitted.
 
-Definition obj `(_ : Category C) := C.
-
-Coercion obj : Category >-> Sortclass.
-
-Definition op `{C : Category ob} : ∀ {X Y : ob},
+Definition op `{C : Category} : ∀ {X Y : C},
   (X ~{C^op}~> Y) → (Y ~{C}~> X).
 Proof. intros; assumption. Defined.
 
-Definition unop `{C : Category ob} : ∀ {X Y : ob},
+Definition unop `{C : Category} : ∀ {X Y : C},
   (Y ~{C}~> X) → (X ~{C^op}~> Y).
 Proof. auto. Defined.
 

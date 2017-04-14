@@ -9,7 +9,9 @@ Reserved Infix "∘" (at level 30, right associativity).
 Reserved Infix "~>" (at level 90, right associativity).
 Reserved Infix "≈" (at level 79).
 
-Class Category (ob : Type) := {
+Class Category := {
+  ob : Type;
+
   uhom := Type : Type;
   hom  : ob → ob → uhom where "a ~> b" := (hom a b);
 
@@ -33,11 +35,12 @@ Class Category (ob : Type) := {
 
 Infix "~>" := hom : category_scope.
 Infix "≈" := eqv : category_scope.
-Infix "~{ C }~>" := (@hom _ C) (at level 90) : category_scope.
+Infix "~{ C }~>" := (@hom C) (at level 90) : category_scope.
 Infix "∘" := compose : category_scope.
 
 Notation "id[ X  ]" := (@id _ _ X)  (at level 50) : category_scope.
 
+Coercion ob : Category >-> Sortclass.
 Coercion hom : Category >-> Funclass.
 
 Hint Rewrite @id_left : categories.
@@ -46,34 +49,34 @@ Hint Rewrite @id_right : categories.
 Ltac cat :=
   autorewrite with categories; auto with category_laws; try reflexivity.
 
-Program Instance parametric_relation_eqv `{Category C} {a b : C} :
-  Equivalence (@eqv C _ a b) := eqv_equivalence a b.
+Program Instance parametric_relation_eqv `{C : Category} {a b : C} :
+  Equivalence (@eqv C a b) := eqv_equivalence a b.
 
-Program Instance parametric_morphism_compose `{Category C} {a b c : C} :
-  Proper (eqv ==> eqv ==> eqv) (@compose C _ a b c) := compose_respects a b c.
+Program Instance parametric_morphism_compose `{C : Category} {a b c : C} :
+  Proper (eqv ==> eqv ==> eqv) (@compose C a b c) := compose_respects a b c.
 
-Theorem eq_eqv `{Category C} {X Y : C} (f g : X ~> Y) :
+Theorem eq_eqv `{C : Category} {X Y : C} (f g : X ~> Y) :
   f = g -> f ≈ g.
 Proof.
   intros.
-  rewrite H0.
+  rewrite H.
   reflexivity.
 Qed.
 
-Program Instance impl_eqv `{Category C} {a b : C} :
-  Proper (eqv --> @eqv _ _ a b ++> Basics.impl) eqv.
+Program Instance impl_eqv `{C : Category} {a b : C} :
+  Proper (eqv --> @eqv C a b ++> Basics.impl) eqv.
 Obligation 1.
   intros ???????.
   transitivity x; auto.
   transitivity x0; auto.
 Qed.
 
-Program Instance flip_impl_eqv `{Category C} (a b : C) :
-  Proper (eqv --> @eqv _ _ a b ++> Basics.flip Basics.impl) eqv.
+Program Instance flip_impl_eqv `{C : Category} (a b : C) :
+  Proper (eqv --> @eqv C a b ++> Basics.flip Basics.impl) eqv.
 Obligation 1.
   intros ???????.
-  unfold Basics.flip in H0.
-  rewrite <- H0, H1.
+  unfold Basics.flip in H.
+  rewrite <- H, H0.
   assumption.
 Qed.
 

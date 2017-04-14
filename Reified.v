@@ -13,7 +13,13 @@ Inductive Obj : Type :=
   | Zero_   : Obj
   | Coprod_ : Obj -> Obj -> Obj.
 
-Fixpoint denote `(o : Obj) : ∀ `{BiCCC C}, C := fun _ _ _ _ _ =>
+Fixpoint denote `(o : Obj) :
+  ∀ `{C : Category}
+    `{A : @Cartesian C}
+    `{@Closed C A}
+    `{@Cocartesian C}
+    `{@Terminal C}
+    `{@Initial C}, C := fun _ _ _ _ _ _ =>
   match o with
   | One_        => One
   | Prod_ x y   => denote x × denote y
@@ -42,7 +48,12 @@ Inductive Hom : Obj -> Obj -> Type :=
   | Merge   : ∀ {a c d}, Hom c a -> Hom d a -> Hom (Coprod_ c d) a.
 
 Program Fixpoint interp `(c : Hom a b) :
-  ∀ `{cat : BiCCC C}, denote a ~{cat}~> denote b := fun _ _ _ _ _ =>
+  ∀ `{C : Category}
+    `{A : @Cartesian C}
+    `{@Closed C A}
+    `{@Cocartesian C}
+    `{@Terminal C}
+    `{@Initial C}, denote a ~{C}~> denote b := fun _ _ _ _ _ _ =>
   match c with
   | Id          => id
   | Compose f g => interp f ∘ interp g
@@ -65,13 +76,18 @@ Program Fixpoint interp `(c : Hom a b) :
 
 Local Obligation Tactic := simpl; intros; auto; cat.
 
-Program Instance Hom_Category : Category Obj := {
+Program Instance DSL : Category := {
   hom := Hom;
   id := @Id;
   compose := @Compose;
   eqv := fun _ _ f g =>
-           forall `{BiCCC C},
-             @eqv C _ _ _ (interp f) (interp g)
+           forall `{C : Category}
+                  `{A : @Cartesian C}
+                  `{@Closed C A}
+                  `{@Cocartesian C}
+                  `{@Terminal C}
+                  `{@Initial C},
+             @eqv C _ _ (interp f) (interp g)
 }.
 Obligation 1.
   constructor.
@@ -80,14 +96,14 @@ Obligation 1.
   - intros ????????.
     symmetry.
     apply H.
-  - intros ??????????.
-    rewrite H, H0.
+  - intros ??? HA HB ??????.
+    rewrite HA, HB.
     reflexivity.
 Defined.
 Obligation 2.
-  intros ?????? ?????.
+  intros ?? HA ?? HB ??????.
   simpl.
-  rewrite H, H0.
+  rewrite HA, HB.
   reflexivity.
 Qed.
 Obligation 5.
@@ -95,121 +111,110 @@ Obligation 5.
   reflexivity.
 Qed.
 
-Program Instance Hom_Terminal : Terminal Obj := {
-  terminal_category := Hom_Category;
+Program Instance Hom_Terminal : @Terminal _ := {
   One := One_;
   one := @One'
 }.
 
-Program Instance Hom_Cartesian : Cartesian Obj := {
-  cartesian_terminal := Hom_Terminal;
+Program Instance Hom_Cartesian : @Cartesian _ := {
   Prod := Prod_;
   fork := @Fork;
   exl  := @Exl;
   exr  := @Exr
 }.
 Obligation 1.
-  intros ?????? ?????.
+  intros ?? HA ?? HB ?? ????.
   simpl.
-  rewrite H, H0.
+  rewrite HA, HB.
   reflexivity.
 Qed.
 Obligation 2.
-  split; intros.
-    split; intros; rewrite H; cat.
-  destruct H.
-  rewrite <- H, <- H4.
+  split; intros HA.
+    split; intros; rewrite HA; cat.
+  intros.
+  destruct HA as [HA HB].
+  rewrite <- HA, <- HB.
   rewrite fork_comp; cat.
 Qed.
 
-Program Instance Hom_Closed : Closed Obj := {
-  closed_cartesian := Hom_Cartesian;
+Program Instance Hom_Closed : @Closed _ _ := {
   Exp := Exp_;
   curry := @Curry;
   uncurry := @Uncurry
 }.
 Obligation 1.
-  intros ??? ?????.
+  intros ?? HA ??????.
   simpl.
-  rewrite H.
+  rewrite HA.
   reflexivity.
 Qed.
 Obligation 2.
-  intros ??? ?????.
+  intros ?? HA ??????.
   simpl.
-  rewrite H.
+  rewrite HA.
   reflexivity.
 Qed.
 
-Program Instance Hom_Initial : Initial Obj := {
+Program Instance Hom_Initial : @Initial _ := {
   Zero := Zero_;
   zero := @Zero'
 }.
 
-Program Instance Hom_Cocartesian : Cocartesian Obj := {
+Program Instance Hom_Cocartesian : @Cocartesian _ := {
   Coprod  := Coprod_;
   merge := @Merge;
   inl  := @Inl;
   inr  := @Inr
 }.
 Obligation 1.
-  intros ?????? ?????.
+  intros ?? HA ?? HB ??????.
   simpl.
-  rewrite H, H0.
+  rewrite HA, HB.
   reflexivity.
 Qed.
 Obligation 2.
-  split; intros.
-    split; intros; rewrite H; cat.
-  destruct H.
-  rewrite <- H, <- H4.
+  split; intros HA.
+    split; intros; rewrite HA; cat.
+  intros.
+  destruct HA as [HA HB].
+  rewrite <- HA, <- HB.
   rewrite merge_comp; cat.
 Qed.
 
-Program Instance Hom_Bicartesian : @Bicartesian Obj _ _ _.
-
-Program Instance Hom_BiCCC : @BiCCC Obj _ _ _.
-
 Section Reified.
 
-Context `{BiCCC C}.
-
-Hint Rewrite (@id_left C _) : category.
-Hint Rewrite (@id_right C _) : category.
+Context `{C : Category}.
+Context `{A : @Cartesian C}.
+Context `{@Closed C A}.
+Context `{@Cocartesian C}.
+Context `{@Terminal C}.
+Context `{@Initial C}.
 
 Local Obligation Tactic :=
-  simpl; intros; auto; autorewrite with category; try reflexivity; auto.
+  simpl; intros; auto; cat; try reflexivity; auto.
 
-Global Program Instance Hom_Functor : Functor Obj C := {
+Global Program Instance Hom_Functor : DSL ⟶ C := {
   fobj := fun x => denote x;
   fmap := fun _ _ f => interp f
 }.
-Obligation 1.
-  intros ???.
-  apply H3.
-Defined.
 
-Global Program Instance Hom_TerminalFunctor : TerminalFunctor Obj C := {
-  terminal_category_functor := Hom_Functor;
+Global Program Instance Hom_TerminalFunctor : TerminalFunctor := {
   map_one := id
 }.
 
-Global Program Instance Hom_CartesianFunctor : CartesianFunctor Obj C := {
-  terminal_functor := Hom_TerminalFunctor;
+Global Program Instance Hom_CartesianFunctor : CartesianFunctor := {
   fobj_prod_iso := _
 }.
 
-Global Program Instance Hom_ClosedFunctor : ClosedFunctor Obj C := {
-  cartesian_functor := Hom_CartesianFunctor;
+Global Program Instance Hom_ClosedFunctor : ClosedFunctor := {
   fobj_exp_iso := _
 }.
 
-Global Program Instance Hom_InitialFunctor : InitialFunctor Obj C := {
+Global Program Instance Hom_InitialFunctor : InitialFunctor := {
   map_zero := id
 }.
 
-Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor Obj C := {
-  initial_functor := Hom_InitialFunctor;
+Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor := {
   fobj_coprod_iso := _
 }.
 

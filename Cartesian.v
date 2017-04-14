@@ -9,9 +9,11 @@ Set Shrink Obligations.
 
 Reserved Infix "×" (at level 40, left associativity).
 
-Class Cartesian (ob : Type) := {
-  cartesian_terminal :> Terminal ob;
+Section Cartesian.
 
+Context `{C : Category}.
+
+Class Cartesian:= {
   Prod : ob -> ob -> ob
     where "X × Y" := (Prod X Y);
 
@@ -20,7 +22,7 @@ Class Cartesian (ob : Type) := {
   exr  {X Y} : X × Y ~> Y;
 
   fork_respects : ∀ X Z W,
-    Proper (@eqv _ _ X Z ==> @eqv _ _ X W ==> @eqv _ _ X (Z × W)) fork;
+    Proper (@eqv _ X Z ==> @eqv _ X W ==> @eqv _ X (Z × W)) fork;
 
   univ_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
     h ≈ fork f g <-> exl ∘ h ≈ f ∧ exr ∘ h ≈ g
@@ -29,23 +31,23 @@ Class Cartesian (ob : Type) := {
 Infix "×" := Prod : category_scope.
 Infix "△" := fork (at level 28) : category_scope.
 
-Coercion cartesian_terminal : Cartesian >-> Terminal.
+Context `{@Cartesian}.
 
-Program Instance parametric_morphism_fork `(_ : Cartesian ob) (a b c : ob) :
-  Proper (eqv ==> eqv ==> eqv) (@fork ob _ a b c) := fork_respects a b c.
+Global Program Instance parametric_morphism_fork (a b c : C) :
+  Proper (eqv ==> eqv ==> eqv) fork := fork_respects a b c.
 
-Definition first `{Cartesian C} {X Y Z : C} (f : X ~> Y) : X × Z ~> Y × Z :=
+Definition first  {X Y Z : C} (f : X ~> Y) : X × Z ~> Y × Z :=
   (f ∘ exl) △ exr.
 
-Definition second `{Cartesian C} {X Y Z : C} (f : X ~> Y) : Z × X ~> Z × Y :=
+Definition second  {X Y Z : C} (f : X ~> Y) : Z × X ~> Z × Y :=
   exl △ (f ∘ exr).
 
-Definition split `{Cartesian C} {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
+Definition split  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
   X × Z ~> Y × W :=
   (f ∘ exl) △ (g ∘ exr).
 
-Program Instance parametric_morphism_first `{Cartesian C} {a b c : C} :
-  Proper (eqv ==> eqv) (@first C _ a b c).
+Global Program Instance parametric_morphism_first {a b c : C} :
+  Proper (eqv ==> eqv) (@first a b c).
 Obligation 1.
   intros ???.
   unfold first.
@@ -53,8 +55,8 @@ Obligation 1.
   reflexivity.
 Qed.
 
-Program Instance parametric_morphism_second `{Cartesian C} {a b c : C} :
-  Proper (eqv ==> eqv) (@second C _ a b c).
+Global Program Instance parametric_morphism_second {a b c : C} :
+  Proper (eqv ==> eqv) (@second a b c).
 Obligation 1.
   intros ???.
   unfold second.
@@ -62,9 +64,9 @@ Obligation 1.
   reflexivity.
 Qed.
 
-Definition swap `{Cartesian C} {X Y : C} : X × Y ~> Y × X := exr △ exl.
+Definition swap {X Y : C} : X × Y ~> Y × X := exr △ exl.
 
-Corollary exl_fork `{Cartesian C} {X Z W : C} (f : X ~> Z) (g : X ~> W) :
+Corollary exl_fork {X Z W : C} (f : X ~> Z) (g : X ~> W) :
   exl ∘ f △ g ≈ f.
 Proof.
   intros.
@@ -74,7 +76,7 @@ Qed.
 
 Hint Rewrite @exl_fork : categories.
 
-Corollary exr_fork `{Cartesian C} {X Z W : C} (f : X ~> Z) (g : X ~> W) :
+Corollary exr_fork {X Z W : C} (f : X ~> Z) (g : X ~> W) :
   exr ∘ f △ g ≈ g.
 Proof.
   intros.
@@ -84,8 +86,8 @@ Qed.
 
 Hint Rewrite @exr_fork : categories.
 
-Corollary fork_exl_exr `{Cartesian C} {X Y : C} :
-  exl △ exr ≈ @id C _ (X × Y).
+Corollary fork_exl_exr {X Y : C} :
+  exl △ exr ≈ @id C (X × Y).
 Proof.
   intros.
   symmetry.
@@ -94,13 +96,13 @@ Qed.
 
 Hint Rewrite @fork_exl_exr : categories.
 
-Corollary fork_inv `{Cartesian C} {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
+Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
   f △ g ≈ h △ i <-> f ≈ h ∧ g ≈ i.
 Proof.
   generalize (univ_products h i (f △ g)); cat.
 Qed.
 
-Corollary fork_comp_hetero `{Cartesian C} {X Y Z W : C}
+Corollary fork_comp_hetero {X Y Z W : C}
           (f : Y ~> Z) (h : Y ~> W) (g i : X ~> Y) :
   (f ∘ g) △ (h ∘ i) ≈ split f h ∘ g △ i.
 Proof.
@@ -111,7 +113,7 @@ Proof.
   rewrite <- !comp_assoc; cat.
 Qed.
 
-Corollary fork_comp `{Cartesian C} {X Y Z W : C}
+Corollary fork_comp {X Y Z W : C}
           (f : Y ~> Z) (h : Y ~> W) (g : X ~> Y) :
   (f ∘ g) △ (h ∘ g) ≈ f △ h ∘ g.
 Proof.
@@ -121,8 +123,8 @@ Proof.
   rewrite !comp_assoc; cat.
 Qed.
 
-Definition swap_invol `{Cartesian C} {X Y : C} :
-  swap ∘ swap ≈ @id _ _ (X × Y).
+Definition swap_invol {X Y : C} :
+  swap ∘ swap ≈ @id C (X × Y).
 Proof.
   unfold swap.
   rewrite <- fork_comp; cat.
@@ -130,7 +132,7 @@ Qed.
 
 Hint Rewrite @swap_invol : categories.
 
-Definition swap_inj_l `{Cartesian C} {X Y Z : C} (f g : X ~> Y × Z) :
+Definition swap_inj_l {X Y Z : C} (f g : X ~> Y × Z) :
   swap ∘ f ≈ swap ∘ g -> f ≈ g.
 Proof.
   intros.
@@ -143,7 +145,7 @@ Proof.
   reflexivity.
 Qed.
 
-Definition swap_inj_r `{Cartesian C} {X Y Z : C} (f g : X × Y ~> Z) :
+Definition swap_inj_r {X Y Z : C} (f g : X × Y ~> Z) :
   f ∘ swap ≈ g ∘ swap -> f ≈ g.
 Proof.
   intros.
@@ -156,7 +158,7 @@ Proof.
   reflexivity.
 Qed.
 
-Theorem first_comp `{Cartesian C} {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
+Theorem first_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
   first (Z:=W) (f ∘ g) ≈ first f ∘ first g.
 Proof.
   unfold first.
@@ -164,7 +166,7 @@ Proof.
   rewrite <- !comp_assoc; cat.
 Qed.
 
-Theorem second_comp `{Cartesian C} {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
+Theorem second_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
   second (Z:=W) (f ∘ g) ≈ second f ∘ second g.
 Proof.
   unfold second.
@@ -172,7 +174,7 @@ Proof.
   rewrite <- !comp_assoc; cat.
 Qed.
 
-Theorem swap_first `{Cartesian C} {X Y Z : C} (f : X ~> Y) :
+Theorem swap_first {X Y Z : C} (f : X ~> Y) :
   swap ∘ first (Z:=Z) f ≈ second f ∘ swap.
 Proof.
   unfold first, second, swap.
@@ -181,7 +183,7 @@ Proof.
   rewrite <- !comp_assoc; cat.
 Qed.
 
-Theorem swap_second `{Cartesian C} {X Y Z : C} (f : X ~> Y) :
+Theorem swap_second {X Y Z : C} (f : X ~> Y) :
   swap ∘ second f ≈ first (Z:=Z) f ∘ swap.
 Proof.
   unfold first, second, swap.
@@ -190,7 +192,7 @@ Proof.
   rewrite <- !comp_assoc; cat.
 Qed.
 
-Program Instance parametric_morphism_prod `(_ : Cartesian ob) :
+Global Program Instance parametric_morphism_prod :
   CMorphisms.Proper
     (CMorphisms.respectful isomorphic
        (CMorphisms.respectful isomorphic isomorphic)) Prod.
@@ -212,10 +214,12 @@ Obligation 1.
   rewrite iso_from_to0; cat.
 Qed.
 
+Context `{@Terminal C}.
+
 Notation "1 × X" := (Prod One X) (at level 40).
 Notation "X × 1" := (Prod X One) (at level 40).
 
-Program Instance prod_one_l `{Cartesian C} {X : C} :
+Global Program Instance prod_one_l  {X : C} :
   1 × X ≅ X := {
   iso_to   := exr;
   iso_from := one △ id
@@ -229,7 +233,7 @@ Qed.
 
 Hint Rewrite @prod_one_l : isos.
 
-Program Instance prod_one_r `{Cartesian C} {X : C} :
+Global Program Instance prod_one_r  {X : C} :
   X × 1 ≅ X := {
   iso_to   := exl;
   iso_from := id △ one
@@ -243,7 +247,7 @@ Qed.
 
 Hint Rewrite @prod_one_r : isos.
 
-Program Instance prod_assoc `{Cartesian C} {X Y Z : C} :
+Global Program Instance prod_assoc  {X Y Z : C} :
   (X × Y) × Z ≅ X × (Y × Z) := {
   iso_to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr);
   iso_from := (exl △ (exl ∘ exr)) △ (exr ∘ exr)
@@ -256,10 +260,29 @@ Obligation 1.
   rewrite fork_comp; cat.
 Qed.
 
-Class CartesianFunctor `(_ : Cartesian C) `(_ : Cartesian D) := {
-  terminal_functor :> TerminalFunctor C D;
+End Cartesian.
 
-  fobj_prod_iso {X Y : C} : fobj (X × Y) ≅ fobj X × fobj Y;
+Infix "×" := (@Prod _ _) : category_scope.
+Infix "△" := (@fork _ _ _ _ _) (at level 28) : category_scope.
+
+Notation "1 × X" := (Prod One X) (at level 40).
+Notation "X × 1" := (Prod X One) (at level 40).
+
+Hint Rewrite @exl_fork : categories.
+Hint Rewrite @exr_fork : categories.
+Hint Rewrite @fork_exl_exr : categories.
+Hint Rewrite @swap_invol : categories.
+Hint Rewrite @prod_one_l : isos.
+Hint Rewrite @prod_one_r : isos.
+
+Section CartesianFunctor.
+
+Context `{F : C ⟶ D}.
+Context `{@Cartesian C}.
+Context `{@Cartesian D}.
+
+Class CartesianFunctor := {
+  fobj_prod_iso {X Y : C} : F (X × Y) ≅ F X × F Y;
 
   prod_in  := fun X Y => iso_from (@fobj_prod_iso X Y);
   prod_out := fun X Y => iso_to   (@fobj_prod_iso X Y);
@@ -270,60 +293,63 @@ Class CartesianFunctor `(_ : Cartesian C) `(_ : Cartesian D) := {
     fmap (f △ g) ≈ prod_in _ _ ∘ fmap f △ fmap g
 }.
 
-Arguments CartesianFunctor C {_} D {_}.
+Arguments prod_in {_ _ _} /.
+Arguments prod_out {_ _ _} /.
 
-Arguments prod_in {C _ D _ _ _ _} /.
-Arguments prod_out {C _ D _ _ _ _} /.
+Context `{@CartesianFunctor}.
 
-Notation "prod_in[ C -> D | X ~> Y  ]" := (@prod_in C _ _ _ D _ _ _ _ X Y).
-Notation "prod_out[ C -> D | X ~> Y  ]" := (@prod_out C _ _ _ D _ _ _ _ X Y).
-
-Corollary prod_in_out `{CartesianFunctor C D} (X Y : C) :
-  prod_in ∘ prod_out ≈ @id _ _ (fobj (X × Y)).
+Corollary prod_in_out (X Y : C) :
+  prod_in ∘ prod_out ≈ @id _ (F (X × Y)).
 Proof.
   intros.
-  exact (iso_from_to (iso_witness (@fobj_prod_iso _ _ _ _ _ X Y))).
+  exact (iso_from_to (iso_witness fobj_prod_iso)).
 Qed.
 
 Hint Rewrite @prod_in_out : functors.
 
-Corollary prod_out_in `{CartesianFunctor C D} (X Y : C) :
-  prod_out ∘ prod_in ≈ @id _ _ (fobj X × fobj Y).
+Corollary prod_out_in (X Y : C) :
+  prod_out ∘ prod_in ≈ @id _ (F X × F Y).
 Proof.
   intros.
-  exact (iso_to_from (iso_witness (@fobj_prod_iso _ _ _ _ _ X Y))).
+  exact (iso_to_from (iso_witness fobj_prod_iso)).
 Qed.
 
 Hint Rewrite @prod_out_in : functors.
 
-Corollary prod_in_inj `{CartesianFunctor C D}
-          {X Y Z : C} (f g : fobj X ~> fobj X × fobj Y) :
+Corollary prod_in_inj {X Y Z : C} (f g : F X ~> F X × F Y) :
   prod_in ∘ f ≈ prod_in ∘ g <-> f ≈ g.
 Proof.
-  split; intros.
+  split; intros Hprod.
     rewrite <- id_left.
     rewrite <- prod_out_in.
     rewrite <- comp_assoc.
-    rewrite H2.
+    rewrite Hprod.
     rewrite comp_assoc.
     autorewrite with functors; cat.
   subst.
-  rewrite H2.
+  rewrite Hprod.
   reflexivity.
 Qed.
 
-Corollary prod_out_inj `{CartesianFunctor C D}
-          {X Y Z : C} (f g : fobj X ~> fobj (Y × Z)) :
+Corollary prod_out_inj {X Y Z : C} (f g : F X ~> F (Y × Z)) :
   prod_out ∘ f ≈ prod_out ∘ g <-> f ≈ g.
 Proof.
-  split; intros.
+  split; intros Hprod.
     rewrite <- id_left.
     rewrite <- prod_in_out.
     rewrite <- comp_assoc.
-    rewrite H2.
+    rewrite Hprod.
     rewrite comp_assoc.
     autorewrite with functors; cat.
   subst.
-  rewrite H2.
+  rewrite Hprod.
   reflexivity.
 Qed.
+
+End CartesianFunctor.
+
+Arguments prod_in {_ _ _ _ _ _ _ _} /.
+Arguments prod_out {_ _ _ _ _ _ _ _} /.
+
+Hint Rewrite @prod_in_out : functors.
+Hint Rewrite @prod_out_in : functors.
