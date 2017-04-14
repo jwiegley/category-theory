@@ -16,7 +16,8 @@ Class Adjunction := {
   leftAdjunct  {a b} (f : F a ~> b) : a ~> U b := fmap f ∘ unit;
   rightAdjunct {a b} (f : a ~> U b) : F a ~> b := counit ∘ fmap f;
 
-  adj_iso {a b} (f : a ~> U b) : leftAdjunct (rightAdjunct f) ≈ f
+  adj_left_right {a b} (f : a ~> U b) : leftAdjunct (rightAdjunct f) ≈ f;
+  adj_right_left {a b} (f : F a ~> b) : rightAdjunct (leftAdjunct f) ≈ f
 }.
 
 End Adjunction.
@@ -30,6 +31,7 @@ Program Instance adj_identity `{C : Category} : Identity ⊣ Identity := {
   counit := fun _ => id
 }.
 Obligation 1. cat. Qed.
+Obligation 2. cat. Qed.
 
 Program Definition adj_compose `{C : Category} `{D : Category} `{E : Category}
    (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E) (X : F ⊣ U) (Y : F' ⊣ U')
@@ -37,14 +39,24 @@ Program Definition adj_compose `{C : Category} `{D : Category} `{E : Category}
   {| unit   := fun _ => fmap unit ∘ unit
    ; counit := fun _ => counit ∘ fmap counit |}.
 Obligation 1.
-  pose proof (adj_iso (counit ∘ fmap[ F'] f)) as Hadj.
+  pose proof (adj_left_right (counit ∘ fmap f)) as Hadj.
   unfold leftAdjunct, rightAdjunct in Hadj.
   rewrite !comp_assoc.
   rewrite <- !fmap_comp.
   rewrite <- !comp_assoc.
   rewrite <- !fmap_comp.
   rewrite Hadj.
-  apply adj_iso.
+  apply adj_left_right.
+Qed.
+Obligation 2.
+  pose proof (adj_right_left (fmap f ∘ unit)) as Hadj.
+  unfold leftAdjunct, rightAdjunct in Hadj.
+  rewrite !comp_assoc.
+  rewrite <- !fmap_comp.
+  rewrite <- !comp_assoc.
+  rewrite <- !fmap_comp.
+  rewrite Hadj.
+  apply adj_right_left.
 Qed.
 
 Record Adj_Morphism `{C : Category} `{D : Category} := {
