@@ -46,13 +46,13 @@ Notation "x <$ m" :=
 Notation "x <&> f" :=
   (fmap f x) (at level 29, left associativity, only parsing).
 
-Notation "fmap[ F ]" := (@fmap _ _ F _ _) (at level 9).
+Notation "fmap[ F  ]" := (@fmap _ _ F _ _) (at level 9).
 
 Hint Rewrite @fmap_id : categories.
 
 Program Definition functor_comp
   `{C : Category} `{D : Category} `{E : Category}
-  (G : C ⟶ D) (F : D ⟶ E) : C ⟶ E :=
+  (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E :=
   {| fobj := fun x => fobj (fobj x)
    ; fmap := fun _ _ f => fmap (fmap f) |}.
 Next Obligation.
@@ -70,9 +70,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Notation "fmap[ F G ]" := (@fmap _ _ (@functor_comp _ _ _ F G) _ _) (at level 9).
-Notation "fmap[ F G H ]" :=
-  (@fmap _ _ (@functor_comp _ _ _ F (@functor_comp _ _ _ G H)) _ _) (at level 9).
+Infix "○" := functor_comp (at level 30, right associativity).
 
 (* The Identity [Functor] *)
 

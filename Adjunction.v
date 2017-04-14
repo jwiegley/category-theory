@@ -2,6 +2,11 @@ Require Import Lib.
 Require Export Functor.
 Require Export Iso.
 
+Generalizable All Variables.
+Set Primitive Projections.
+Set Universe Polymorphism.
+Set Shrink Obligations.
+
 Section Adjunction.
 
 Context `{C : Category}.
@@ -35,7 +40,7 @@ Obligation 2. cat. Qed.
 
 Program Definition adj_compose `{C : Category} `{D : Category} `{E : Category}
    (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E) (X : F ⊣ U) (Y : F' ⊣ U')
-   : functor_comp F' F ⊣ functor_comp U U' :=
+   : functor_comp F F' ⊣ functor_comp U' U :=
   {| unit   := fun _ => fmap unit ∘ unit
    ; counit := fun _ => counit ∘ fmap counit |}.
 Obligation 1.
@@ -93,6 +98,8 @@ Proof.
 Qed.
 *)
 
+(*
+jww (2017-04-13): TODO
 Program Instance Adj : Category := {
   ob := Category;
   hom := @Adj_Morphism
@@ -107,6 +114,7 @@ Obligation 2.
 Defined.
 Obligation 3.
   destruct f.
+  admit.
 Admitted.
 Obligation 4.
   destruct f.
@@ -114,3 +122,4 @@ Admitted.
 Obligation 5.
   destruct f.
 Admitted.
+*)
