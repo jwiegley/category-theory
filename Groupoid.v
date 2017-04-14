@@ -1,6 +1,6 @@
 Require Import Lib.
 Require Export Category.
-Require Export Iso.
+Require Export Isomorphism.
 
 Generalizable All Variables.
 Set Primitive Projections.

@@ -1,6 +1,6 @@
 Require Import Lib.
 Require Export Functor.
-Require Import Iso.
+Require Import Isomorphism.
 Require Import Natural.
 Require Import Opposite.
 Require Import Bifunctor.

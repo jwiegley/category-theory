@@ -8,7 +8,7 @@ Bifunctor.v
 Yoneda.v
 Cat.v
 Opposite.v
-Iso.v
+Isomorphism.v
 Monad.v
 MonadCompose.v
 Adjunction.v

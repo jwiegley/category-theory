@@ -115,7 +115,7 @@ Hint Unfold Bimorphic.
 Hint Unfold SplitEpi.
 Hint Unfold SplitMono.
 
-Require Export Iso.
+Require Export Isomorphism.
 
 Program Instance Monic_Retraction_Iso
         `{C : Category} {X Y : C} `(r : Retraction f) `(m : Monic f) :

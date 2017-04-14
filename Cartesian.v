@@ -1,5 +1,5 @@
 Require Import Lib.
-Require Export Iso.
+Require Export Isomorphism.
 Require Export Terminal.
 
 Generalizable All Variables.

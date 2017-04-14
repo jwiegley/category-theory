@@ -6,7 +6,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
 
-Section Iso.
+Section Isomorphism.
 
 Context `{C : Category}.
 
@@ -150,7 +150,7 @@ Class hom_iso {X Y Z W : C}
   hom_iso_from_respects : Proper (eqv ==> @eqv _ X Y) hom_iso_from
 }.
 
-End Iso.
+End Isomorphism.
 
 Infix "≃" := isomorphism (at level 91) : category_scope.
 Infix "≅" := isomorphic (at level 90) : category_scope.
