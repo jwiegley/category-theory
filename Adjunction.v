@@ -155,7 +155,6 @@ Qed.
 *)
 
 (*
-jww (2017-04-13): TODO
 Program Instance Adj : Category := {
   ob := Category;
   hom := @Adj_Morphism
@@ -170,7 +169,6 @@ Obligation 2.
 Defined.
 Obligation 3.
   destruct f.
-  admit.
 Admitted.
 Obligation 4.
   destruct f.

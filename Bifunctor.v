@@ -50,8 +50,6 @@ Program Instance Hom `(C : Category) : C^op ⟶ [C, Coq] := {
 }.
 Next Obligation.
   intros ????.
-  (* jww (2017-04-14): I need to use a subcategory of Coq, call it Sets, since
-     Coq's equivalence is too strong. *)
 Admitted.
 Next Obligation.
 Admitted.
