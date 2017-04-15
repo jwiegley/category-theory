@@ -1,3 +1,4 @@
-* Pending
-** Natural Transformations
-** Adjunction
+* Monad Transformers
+* Move the various Monad submodules into their own directory
+* Build the category of setoids, name it Sets
+* Change Hom to use the category of setoids, to preserve morphisms equivalences
