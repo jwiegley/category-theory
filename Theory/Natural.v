@@ -41,34 +41,31 @@ Context `{C : Category}.
 Context `{D : Category}.
 
 Program Instance fobj_respects `{F : C ⟶ D} {A : C} :
-  Proper (Isomorphism ==> Isomorphism) (@fobj C D F).
+  Proper (equiv ==> equiv) (@fobj C D F).
 Next Obligation.
-  repeat intro.
+  repeat intros ?? HA.
   destruct F; simpl in *.
-  destruct X; simpl in *.
-  eapply {| to   := fmap x y to
-          ; from := fmap y x from |}.
-  Unshelve.
-  - rewrite <- fmap_comp.
-    rewrite iso_to_from; cat.
-  - rewrite <- fmap_comp.
-    rewrite iso_from_to; cat.
-Defined.
+  destruct HA as [to [from [to_from from_to]]]; simpl in *.
+  exists (fmap x y to), (fmap y x from).
+  rewrite <- fmap_comp.
+  rewrite to_from; cat.
+  rewrite <- fmap_comp.
+  rewrite from_to; cat.
+Qed.
 
-Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} :
-  Setoid (F A).
+Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A).
 
 Definition functor_equiv : crelation (C ⟶ D) :=
-  fun F G => (∀ X : C, F X ≅ G X)%type.
+  fun F G => (∀ X : C, F X ≃ G X)%type.
 
 Global Program Definition functor_equiv_equivalence :
   Equivalence functor_equiv.
 Proof.
   unfold functor_equiv.
   constructor; cat; repeat intro; cat.
-  - symmetry; apply X.
-  - transitivity (y X1); auto.
-Defined.
+  - symmetry; apply H.
+  - transitivity (y X); auto.
+Qed.
 
 Global Program Instance functor_Setoid : Setoid (C ⟶ D) := {
   equiv := functor_equiv;

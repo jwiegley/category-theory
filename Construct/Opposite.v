@@ -71,8 +71,8 @@ Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {
     fmap := fun X Y f => unop (@fmap _ _ F Y X f)
 }.
 Next Obligation.
-  repeat intro; unfold unop.
-  rewrite X0; reflexivity.
+  repeat intros ?? HA; unfold unop.
+  rewrite HA; reflexivity.
 Defined.
 Next Obligation.
   unfold unop.

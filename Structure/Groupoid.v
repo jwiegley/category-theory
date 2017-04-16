@@ -39,11 +39,11 @@ Next Obligation.
   apply iso_from_to.
 Defined.
 Next Obligation.
-  repeat intro.
+  repeat intros ?? HA ?? HB.
   unfold isomorphism_equiv.
-  destruct X0, X1; simpl; split.
-    rewrite e, e1; reflexivity.
-  rewrite e0, e2; reflexivity.
+  destruct HA, HB; simpl; split.
+    rewrite H, H1; reflexivity.
+  rewrite H0, H2; reflexivity.
 Defined.
 Next Obligation.
   unfold isomorphism_equiv.

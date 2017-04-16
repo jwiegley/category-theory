@@ -16,7 +16,7 @@ Context `{F : D ⟶ C}.
 Context `{U : C ⟶ D}.
 
 Class Adjunction := {
-  adj_iso  {a b} : F a ~{C}~> b ≃ a ~{D}~> U b;
+  adj_iso  {a b} : F a ~{C}~> b ≊ a ~{D}~> U b;
 
   adj_left'  {X Y} := to (@adj_iso X Y);
   adj_right' {X Y} := from (@adj_iso X Y);
@@ -57,17 +57,17 @@ Definition counit {a : C} : F (U a) ~> a := adj_right id.
 Corollary adj_left_right {a b} (f : a ~> U b) : adj_left (adj_right f) ≈ f.
 Proof.
   unfold adj_left, adj_right; simpl.
-  pose proof (iso_to_from (@adj_iso H a b)).
-  simpl in X.
-  apply X.
+  pose proof (iso_to_from (@adj_iso H a b)) as HA.
+  simpl in HA.
+  apply HA.
 Qed.
 
 Definition adj_right_left {a b} (f : F a ~> b) : adj_right (adj_left f) ≈ f.
 Proof.
   unfold adj_left, adj_right; simpl.
-  pose proof (iso_from_to (@adj_iso H a b)).
-  simpl in X.
-  apply X.
+  pose proof (iso_from_to (@adj_iso H a b)) as HA.
+  simpl in HA.
+  apply HA.
 Qed.
 
 Global Program Instance parametric_morphism_adj_left a b :
@@ -188,17 +188,16 @@ Program Instance adj_morphism_setoid `{C : Category} `{D : Category} :
              forgetful_functor f ≈ forgetful_functor g
 }.
 Next Obligation.
-  pose proof (@functor_equiv_equivalence C D).
-  pose proof (@functor_equiv_equivalence D C).
-  constructor; repeat intro; split; auto.
+  pose proof (@functor_equiv_equivalence C D) as HA.
+  pose proof (@functor_equiv_equivalence D C) as HB.
+  constructor; split; auto.
   - reflexivity.
   - reflexivity.
-  - destruct X1; symmetry; assumption.
-  - destruct X1; symmetry; assumption.
-  - destruct X1, X2; transitivity (free_functor y); assumption.
-  - destruct X1, X2;
-    transitivity (forgetful_functor y);
-    assumption.
+  - destruct H; symmetry; assumption.
+  - destruct H; symmetry; assumption.
+  - destruct H, H0; transitivity (free_functor y); assumption.
+  - destruct H, H0;
+    transitivity (forgetful_functor y); assumption.
 Defined.
 
 Program Instance Adj : Category := {
@@ -216,29 +215,27 @@ Next Obligation.
                        adjunction1 adjunction0 |}.
 Defined.
 Next Obligation.
-  repeat intro.
+  repeat intros ?? [f f0] HA HB [f1 f2].
   apply adj_morphism_setoid.
   unfold Adj_obligation_1; simpl.
-  destruct X0, X1; split.
-    unfold functor_equiv in *; simpl in *; intros.
-    destruct x, x0, y, y0; simpl in *.
-    specialize (f1 (free_functor0 X0)).
+  destruct HA, HB; split;
+  unfold functor_equiv in *; simpl in *; intros;
+  destruct x, y; simpl in *.
+    specialize (f1 (free_functor2 X0)).
     symmetry.
     etransitivity.
       apply f1.
     eapply fobj_respects.
     apply f.
-  unfold functor_equiv in *; simpl in *; intros.
-  destruct x, x0, y, y0; simpl in *.
-  specialize (f0 (forgetful_functor1 X0)).
+  specialize (f0 (forgetful_functor0 X0)).
   symmetry.
   etransitivity.
     apply f0.
   eapply fobj_respects.
   apply f2.
   Unshelve.
-  - apply (free_functor0 X0).
-  - apply (forgetful_functor1 X0).
+  - apply (free_functor2 X0).
+  - apply (forgetful_functor0 X0).
 Defined.
 Next Obligation.
   destruct f.

@@ -75,6 +75,6 @@ Global Program Instance Identity : C ⟶ C := {
   fobj := fun X => X;
   fmap := fun _ _ f => f
 }.
-Next Obligation. repeat intro; auto. Defined.
+(* Next Obligation. repeat intro; auto. Defined. *)
 Next Obligation. reflexivity. Defined.
 Next Obligation. reflexivity. Defined.

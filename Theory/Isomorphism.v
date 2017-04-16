@@ -29,45 +29,54 @@ Arguments iso_from_to {X Y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
-Global Program Instance isomorphism_equivalence :
-  CRelationClasses.Equivalence Isomorphism.
+Definition Isomorphism_Prop (X Y : C) : Prop :=
+  exists (f : X ~> Y) (g : Y ~> X), f ∘ g ≈ id //\\ g ∘ f ≈ id.
+
+Infix "≃" := Isomorphism_Prop (at level 91) : category_scope.
+
+Definition ob_equiv : crelation C := fun X Y => X ≃ Y.
+
+Global Program Instance isomorphism_equivalence : Equivalence Isomorphism_Prop.
 Obligation 1.
   intros ?.
-  apply Build_Isomorphism with (to:=id) (from:=id); cat.
-Defined.
+  exists id, id; cat.
+Qed.
 Obligation 2.
-  intros ???.
-  destruct X.
-  apply Build_Isomorphism with (to:=from0) (from:=to0); cat.
-Defined.
+  intros ?? HA.
+  destruct HA as [to [from [to_from from_to]]].
+  exists from, to; cat.
+Qed.
 Obligation 3.
-  intros ?????.
-  destruct X, X0.
-  apply Build_Isomorphism with (to:=to1 ∘ to0) (from:=from0 ∘ from1).
+  intros ??? HA HB.
+  destruct HA as [to0 [from0 [to_from0 from_to0]]].
+  destruct HB as [to1 [from1 [to_from1 from_to1]]].
+  exists (to1 ∘ to0), (from0 ∘ from1).
     rewrite <- comp_assoc.
     rewrite (comp_assoc to0).
-    rewrite iso_to_from0; cat.
+    rewrite to_from0; cat.
   rewrite <- comp_assoc.
   rewrite (@comp_assoc _ _ _ _ _ from1).
-  rewrite iso_from_to1; cat.
-Defined.
+  rewrite from_to1; cat.
+Qed.
+
+Global Program Instance ob_setoid : Setoid C.
 
 Definition isomorphism_equiv {X Y : C} : crelation (X ≅ Y) :=
   fun f g => to f ≈ to g //\\ from f ≈ from g.
 
 Global Program Instance isomorphism_equiv_equivalence {X Y : C} :
-  CRelationClasses.Equivalence (@isomorphism_equiv X Y).
+  Equivalence (@isomorphism_equiv X Y).
 Next Obligation.
   repeat intro.
   split; reflexivity.
 Defined.
 Next Obligation.
-  repeat intro.
-  split; symmetry; apply X0.
+  repeat intros ?? HA.
+  split; symmetry; apply HA.
 Defined.
 Next Obligation.
-  repeat intro.
-  destruct X0, X1.
+  repeat intros ? y ? HA HB.
+  destruct HA, HB.
   split.
     transitivity (to y); auto.
   transitivity (from y); auto.
@@ -84,6 +93,10 @@ Infix "≅" := (@Isomorphism _) (at level 91) : category_scope.
 Notation "F ≅[ C ] G" := (@Isomorphism C F G)
   (at level 91, only parsing) : category_scope.
 
+Infix "≃" := Isomorphism_Prop (at level 91) : category_scope.
+Notation "F ≃[ C ] G" := (@Isomorphism_Prop C F G)
+  (at level 91, only parsing) : category_scope.
+
 Arguments to {_ X Y} _.
 Arguments from {_ X Y} _.
 Arguments iso_to_from {_ _ _} _.
@@ -94,5 +107,5 @@ Arguments iso_from_to {_ _ _} _.
    arrow equivalence to be the setoid. By using Sets in this way, we gain the
    fact that the arrows on both sides are respectful of C's notion of arrow
    equivalence. *)
-Notation "X ≃ Y" := ({| carrier := X |} ≅[Sets] {| carrier := Y |})
+Notation "X ≊ Y" := ({| carrier := X |} ≅[Sets] {| carrier := Y |})
   (at level 99) : category_scope.

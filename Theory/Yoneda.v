@@ -28,16 +28,16 @@ Program Instance YonedaLemma `(C : Category) `(F : C ⟶ Sets) {A : C} :
                      @fmap C Sets F A X phi Y |} |} |}
 }.
 Next Obligation.
-  repeat intro.
+  repeat intros x y HA.
   destruct x, y; simpl in *.
-  unfold nat_equiv in X; simpl in X.
-  rewrite X; reflexivity.
+  unfold nat_equiv in HA; simpl in HA.
+  rewrite HA; reflexivity.
 Defined.
 Next Obligation.
-  repeat intro.
+  repeat intros ?? HA.
   destruct F; simpl in *.
   apply fmap_respects.
-  apply X0.
+  apply HA.
 Defined.
 Next Obligation.
   destruct F; simpl in *.
@@ -80,16 +80,16 @@ Program Instance CoonedaLemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
                      @fmap (C^op) Sets F A X phi Y |} |} |}
 }.
 Next Obligation.
-  repeat intro.
+  repeat intros x y HA.
   destruct x, y; simpl in *.
-  unfold nat_equiv in X; simpl in X.
-  rewrite X; reflexivity.
+  unfold nat_equiv in HA; simpl in HA.
+  rewrite HA; reflexivity.
 Defined.
 Next Obligation.
-  repeat intro.
+  repeat intros x y HA.
   destruct F; simpl in *.
   apply fmap_respects.
-  apply X0.
+  apply HA.
 Defined.
 Next Obligation.
   destruct F; simpl in *.

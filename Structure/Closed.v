@@ -16,7 +16,7 @@ Class Closed := {
   Exp : ob -> ob -> ob    (* internal homs *)
     where "Y ^ X" := (Exp X Y);
 
-  exp_iso {X Y Z} : X × Y ~{C}~> Z ≃ X ~> Z^Y;
+  exp_iso {X Y Z} : X × Y ~{C}~> Z ≊ X ~> Z^Y;
 
   curry'   {X Y Z} := to (@exp_iso X Y Z);
   uncurry' {X Y Z} := from (@exp_iso X Y Z);

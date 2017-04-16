@@ -65,9 +65,9 @@ Corollary merge_inv {X Y Z : C} (f h : Y ~> X) (g i : Z ~> X) :
 Proof.
   pose proof (ump_coproducts h i (f ▽ g)) as Huniv.
   firstorder.
-  - rewrite <- a; cat.
-  - rewrite <- b; cat.
-  - rewrite a0, b; reflexivity.
+  - rewrite <- H0; cat.
+  - rewrite <- H3; cat.
+  - rewrite H2, H3; reflexivity.
 Qed.
 
 Corollary merge_comp {X Y Z W : C} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X) :

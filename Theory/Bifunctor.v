@@ -68,9 +68,9 @@ Next Obligation.
   rewrite comp_assoc; reflexivity.
 Defined.
 Next Obligation.
-  repeat intro; intuition; simpl in *.
-  unfold unop.
-  rewrite X0; reflexivity.
+  repeat intros ?? HA; intuition; simpl in *.
+  unfold unop, nat_equiv; simpl; intros.
+  rewrite HA; reflexivity.
 Defined.
 Next Obligation.
   intro; simpl; unfold unop; intros; cat.
@@ -117,9 +117,9 @@ Next Obligation.
   rewrite comp_assoc; reflexivity.
 Defined.
 Next Obligation.
-  repeat intro; intuition; simpl in *.
-  unfold op.
-  rewrite X0; reflexivity.
+  repeat intros ?? HA; intuition; simpl in *.
+  unfold op, nat_equiv; simpl; intros.
+  rewrite HA; reflexivity.
 Defined.
 Next Obligation.
   intro; simpl; unfold unop; intros; cat.

@@ -70,7 +70,7 @@ Theorem ccc_curry :
     U ===> U' ∘ prod_out ->
       (λ x, λ y, U (x, y)) ===> exp_in ∘ curry U'.
 Proof.
-  unfold rel; intros; subst.
+  unfold rel; intros ????? X; subst.
   pose proof (@fmap_curry Coq _ _ _ _ _ _ _ _ a b c U) as HA.
   simpl in HA.
   etransitivity.

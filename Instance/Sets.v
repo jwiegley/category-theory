@@ -38,11 +38,11 @@ Program Definition setoid_morphism_compose {A B C : SetoidObject}
   morphism := Basics.compose g f
 |}.
 Next Obligation.
-  repeat intro; unfold compose.
+  repeat intros ?? HA; unfold compose.
   destruct A, B, C; simpl.
   destruct g, f; simpl.
   unfold Basics.compose.
-  rewrite X; reflexivity.
+  rewrite HA; reflexivity.
 Qed.
 
 (* The category of setoids.
@@ -59,11 +59,11 @@ Program Instance Sets : Category := {
   compose := @setoid_morphism_compose
 }.
 Next Obligation.
-  repeat intro.
+  repeat intros ?? HA ?? HB ?.
   unfold setoid_morphism_compose; simpl.
   unfold Basics.compose.
   destruct x0, y0, x, y; simpl in *.
-  rewrite X0, X1; reflexivity.
+  rewrite HA, HB; reflexivity.
 Qed.
 Next Obligation. reflexivity. Qed.
 Next Obligation. reflexivity. Qed.

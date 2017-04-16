@@ -2,9 +2,8 @@ Require Export
   Coq.Unicode.Utf8
   Coq.Init.Datatypes
   Coq.Setoids.Setoid
+  Coq.Classes.Morphisms
   Coq.Classes.RelationClasses
-  Coq.Classes.CMorphisms
-  Coq.Classes.CRelationClasses
   Coq.Logic.JMeq
   Coq.Program.Tactics
   Coq.Logic.ProofIrrelevance
@@ -24,6 +23,14 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
 
+Notation crelation := relation.
+
+(* Infix "<<>>" := iffT (at level 199). *)
+(* Infix "//\\" := Datatypes.prod (at level 198). *)
+
+Infix "<<>>" := iff (at level 199).
+Infix "//\\" := and (at level 198).
+
 Class Setoid A := {
   equiv : crelation A;
   setoid_equiv :> Equivalence equiv
@@ -42,6 +49,3 @@ Obligation 1.
   destruct setoid_equiv0.
   eapply Equivalence_Transitive; eauto.
 Defined.
-
-Infix "<<>>" := iffT (at level 199).
-Infix "//\\" := Datatypes.prod (at level 198).

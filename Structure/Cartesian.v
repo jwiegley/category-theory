@@ -97,9 +97,9 @@ Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
 Proof.
   pose proof (ump_products h i (f △ g)) as HA.
   firstorder.
-  - rewrite <- a; cat.
-  - rewrite <- b; cat.
-  - rewrite a0, b; reflexivity.
+  - rewrite <- H0; cat.
+  - rewrite <- H3; cat.
+  - rewrite H2, H3; reflexivity.
 Qed.
 
 Corollary fork_comp_hetero {X Y Z W : C}
@@ -194,9 +194,9 @@ Qed.
 
 (*
 Global Program Instance parametric_morphism_prod :
-  CMorphisms.Proper
-    (CMorphisms.respectful Isomorphism
-       (CMorphisms.respectful Isomorphism Isomorphism)) Prod.
+  Proper
+    (respectful Isomorphism
+       (respectful Isomorphism Isomorphism)) Prod.
 Obligation 1.
   intros ?? XA ?? XB.
   destruct XA, XB.

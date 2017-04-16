@@ -19,21 +19,19 @@ Next Obligation.
   unfold functor_comp.
   intros ?? HA ?? HB ?; simpl.
   unfold functor_equiv in *.
-  destruct (HA (x0 X0)).
-  destruct (HB X0).
-  eapply {| to := fmap to0 ∘ to
-          ; from := from ∘ fmap from0 |}.
-  Unshelve.
-  - rewrite <- comp_assoc.
-    rewrite (comp_assoc to).
-    rewrite iso_to_from; cat.
-    rewrite <- fmap_comp.
-    rewrite iso_to_from0; cat.
-  - rewrite <- comp_assoc.
-    rewrite (comp_assoc (fmap from0)).
-    rewrite <- fmap_comp.
-    rewrite iso_from_to0; cat.
-Defined.
+  destruct (HA (x0 X0)) as [to [from [to_from from_to]]].
+  destruct (HB X0) as [to0 [from0 [to_from0 from_to0]]].
+  exists (fmap to0 ∘ to), (from ∘ fmap from0).
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc to).
+  rewrite to_from; cat.
+  rewrite <- fmap_comp.
+  rewrite to_from0; cat.
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc (fmap from0)).
+  rewrite <- fmap_comp.
+  rewrite from_to0; cat.
+Qed.
 Next Obligation.
   unfold functor_equiv; intros.
   unfold functor_comp; cat.
@@ -61,7 +59,6 @@ Program Instance Fini `(C : Category) : C ⟶ Termi := {
   fobj := fun _ => tt;
   fmap := fun _ _ _ => id
 }.
-Next Obligation. repeat intros; auto. Defined.
 
 Program Instance Ini : Category := {
   ob  := Empty_set;
@@ -82,7 +79,11 @@ Program Instance Cat_Terminal : @Terminal Cat := {
   One := Termi;
   one := Fini
 }.
-Next Obligation. econstructor; intros; cat. Defined.
+Next Obligation.
+  econstructor; intros; cat.
+  exists (@id Termi (f X)).
+  eexists; split.
+Qed.
 
 Require Import Category.Structure.Initial.
 

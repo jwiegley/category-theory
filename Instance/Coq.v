@@ -113,21 +113,20 @@ Program Instance Coq_Constant : @Constant _ _ := {
 Lemma injectivity_is_monic `(f : X ~> Y) :
   (∀ x y, f x = f y → x = y) <<>> Monic f.
 Proof. split.
-- intros.
-  autounfold in *; intros.
+- intros HA.
+  autounfold in *; intros ??? HB.
   simpl in *; intros.
-  apply H.
-  apply X0.
-- intros.
+  apply HA, HB.
+- intros HA ?? HB.
   autounfold in *.
   simpl in *.
   pose (fun (_ : unit) => x) as const_x.
   pose (fun (_ : unit) => y) as const_y.
-  specialize (X0 unit const_x const_y).
-  unfold const_x in H.
-  unfold const_y in H.
-  simpl in H.
-  eapply X0; eauto.
+  specialize (HA unit const_x const_y).
+  unfold const_x in HB.
+  unfold const_y in HB.
+  simpl in HB.
+  eapply HA; eauto.
   Unshelve.
   eexact tt.
 Qed.
@@ -135,20 +134,21 @@ Qed.
 Lemma surjectivity_is_epic `(f : X ~> Y) :
   (∀ y, ∃ x, f x = y)%type <<>> Epic f.
 Proof. split.
-- intros.
-  autounfold in *; intros.
+- intros HA.
+  autounfold in *; intros ??? HB.
   simpl in *; intros.
-  specialize (H x).
-  destruct H.
-  rewrite <- H.
-  apply X0.
-- intros.
-  unfold Epic in X0.
-  specialize X0 with (Z := Prop).
-  specialize X0 with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
+  specialize (HA x).
+  destruct HA as [? HA].
+  rewrite <- HA.
+  apply HB.
+- intros HA ?.
+  unfold Epic in HA.
+  specialize HA with (Z := Prop).
+  specialize HA with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
   simpl in *.
-  specialize X0 with (g2 := fun y  => True).
-  erewrite X0. constructor.
+  specialize HA with (g2 := fun y  => True).
+  erewrite HA.
+    constructor.
   intros.
   Axiom propositional_extensionality : forall P : Prop, P -> P = True.
   apply propositional_extensionality.
