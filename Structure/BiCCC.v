@@ -66,11 +66,51 @@ Hint Rewrite @prod_coprod : isos.
 Global Program Instance exp_coprod `{BiCCC C} {X Y Z : C} :
   X^(Y + Z) ≅ X^Y × X^Z := {
   to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
-  from := curry (merge (eval ∘ first exl) (eval ∘ first exr)
-                          ∘ to prod_coprod)
+  from := curry (merge (eval ∘ first exl) (eval ∘ first exr) ∘ to prod_coprod)
 }.
 Next Obligation.
-  unfold first, second, swap.
+  rewrite (curry_comp (_ ▽ _)).
+  rewrite comp_assoc.
+  rewrite swap_second.
+  rewrite eval_first.
+  rewrite eval_first.
+  rewrite comp_assoc.
+  rewrite eval_first.
+  rewrite <- comp_assoc.
+  rewrite <- curry_comp.
+  rewrite comp_assoc.
+  rewrite uncurry_comp_r.
+  rewrite (curry_comp (uncurry _)).
+  rewrite <- uncurry_comp_r.
+  rewrite <- curry_comp.
+  rewrite <- comp_assoc.
+  rewrite (curry_comp _ (_ ∘ swap)).
+  rewrite comp_assoc.
+  rewrite <- fork_comp.
+  rewrite <- fork_comp.
+  rewrite <- fork_exl_exr.
+  apply fork_inv; split.
+    rewrite <- comp_assoc.
+    rewrite <- curry_comp.
+    rewrite curry_comp_l.
+    rewrite <- comp_assoc.
+    unfold second, first.
+    rewrite <- fork_comp; cat.
+    rewrite <- !comp_assoc.
+    rewrite exr_fork.
+    unfold swap.
+    rewrite <- fork_comp; cat.
+    rewrite comp_assoc.
+    rewrite uncurry_comp_r.
+    rewrite <- merge_comp.
+    rewrite <- curry_comp.
+    rewrite <- curry_comp.
+    rewrite comp_assoc.
+    rewrite inl_merge.
+    rewrite comp_assoc.
+    rewrite inr_merge.
+    rewrite (curry_comp (uncurry exl)).
+    rewrite (curry_comp (uncurry exr)).
 Admitted.
 Next Obligation.
   unfold first, second, swap.
