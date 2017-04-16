@@ -29,6 +29,51 @@ Arguments iso_from_to {X Y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
+Global Program Instance isomorphism_equivalence :
+  CRelationClasses.Equivalence Isomorphism.
+Obligation 1.
+  intros ?.
+  apply Build_Isomorphism with (to:=id) (from:=id); cat.
+Defined.
+Obligation 2.
+  intros ???.
+  destruct X.
+  apply Build_Isomorphism with (to:=from0) (from:=to0); cat.
+Defined.
+Obligation 3.
+  intros ?????.
+  destruct X, X0.
+  apply Build_Isomorphism with (to:=to1 ∘ to0) (from:=from0 ∘ from1).
+    rewrite <- comp_assoc.
+    rewrite (comp_assoc to0).
+    rewrite iso_to_from0; cat.
+  rewrite <- comp_assoc.
+  rewrite (@comp_assoc _ _ _ _ _ from1).
+  rewrite iso_from_to1; cat.
+Defined.
+
+Global Program Instance arrow_Isomorphism :
+  CMorphisms.Proper
+    (CMorphisms.respectful Isomorphism
+       (CMorphisms.respectful Isomorphism Basics.arrow)) Isomorphism.
+Obligation 1.
+  intros ???????.
+  rewrite <- X.
+  transitivity x0; auto.
+Defined.
+
+Global Program Instance flip_arrow_Isomorphism :
+  CMorphisms.Proper
+    (CMorphisms.respectful Isomorphism
+       (CMorphisms.respectful Isomorphism
+                              (Basics.flip Basics.arrow))) Isomorphism.
+Obligation 1.
+  intros ???????.
+  transitivity y; auto.
+  transitivity y0; auto.
+  symmetry; assumption.
+Defined.
+
 Definition Isomorphism_Prop (X Y : C) : Prop :=
   exists (f : X ~> Y) (g : Y ~> X), f ∘ g ≈ id //\\ g ∘ f ≈ id.
 
@@ -36,7 +81,8 @@ Infix "≃" := Isomorphism_Prop (at level 91) : category_scope.
 
 Definition ob_equiv : crelation C := fun X Y => X ≃ Y.
 
-Global Program Instance isomorphism_equivalence : Equivalence Isomorphism_Prop.
+Global Program Instance isomorphism_prop_equivalence :
+  Equivalence Isomorphism_Prop.
 Obligation 1.
   intros ?.
   exists id, id; cat.
@@ -58,6 +104,29 @@ Obligation 3.
   rewrite (@comp_assoc _ _ _ _ _ from1).
   rewrite from_to1; cat.
 Qed.
+
+Global Program Instance impl_Isomorphism_Prop :
+  Proper
+    (respectful Isomorphism_Prop
+       (respectful Isomorphism_Prop Basics.impl)) Isomorphism_Prop.
+Obligation 1.
+  intros ???????.
+  transitivity x; auto.
+    symmetry; assumption.
+  transitivity x0; auto.
+Defined.
+
+Global Program Instance flip_impl_Isomorphism_Prop :
+  Proper
+    (respectful Isomorphism_Prop
+       (respectful Isomorphism_Prop
+                              (Basics.flip Basics.impl))) Isomorphism_Prop.
+Obligation 1.
+  intros ???????.
+  transitivity y; auto.
+  transitivity y0; auto.
+  symmetry; assumption.
+Defined.
 
 Global Program Instance ob_setoid : Setoid C.
 
