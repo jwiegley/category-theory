@@ -1,4 +1,5 @@
-Require Import Category.Theory.Monad.
+(*
+Require Import Category.Theory.Functor.Monad.
 
 Generalizable All Variables.
 
@@ -87,3 +88,4 @@ Inductive Alg (c f g : Type -> Type) a :=
 (* T (t1 ∘ t2 ∘ t3 (l)) m *)
 
 (* t1 ∘ t2 ∘ t3 ∘ tl (m ) *)
+*)

@@ -28,6 +28,7 @@ Obligation 1.
   reflexivity.
 Qed.
 
+(* jww (2017-04-15): TODO
 Program Instance bool_Represented : Represented bool (Coprod One One) := {
   repr := fun b => if b
                    then inl
@@ -56,3 +57,4 @@ Obligation 1.
   simpl.
   (* jww (2017-04-11): Define what it means to abstract composition. *)
 Admitted.
+*)

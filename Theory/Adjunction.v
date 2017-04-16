@@ -15,38 +15,75 @@ Context `{F : D ⟶ C}.
 Context `{U : C ⟶ D}.
 
 Class Adjunction := {
-  adj_left  {a b} (f : F a ~{C}~> b) : a ~{D}~> U b;
-  adj_right {a b} (f : a ~{D}~> U b) : F a ~{C}~> b;
+  adj_iso  {a b} : F a ~{C}~> b ≃ a ~{D}~> U b;
 
-  adj_left_respects  : ∀ X Y, Proper (@eqv _ (F X) Y ==> eqv) adj_left;
-  adj_right_respects : ∀ X Y, Proper (@eqv _ X (U Y) ==> eqv) adj_right;
-
-  unit   {a : D} : a ~> U (F a) := adj_left id;
-  counit {a : C} : F (U a) ~> a := adj_right id;
-
-  adj_left_right {a b} (f : a ~> U b) : adj_left (adj_right f) ≈ f;
-  adj_right_left {a b} (f : F a ~> b) : adj_right (adj_left f) ≈ f;
+  adj_left'  {X Y} := to (@adj_iso X Y);
+  adj_right' {X Y} := from (@adj_iso X Y);
 
   (* adj_left and adj_right must be natural in both arguments *)
 
-  adj_left_nat_l {a b c} (f : F b ~> c) (g : a ~> b) :
-    adj_left (f ∘ fmap[F] g) ≈ adj_left f ∘ g;
-  adj_left_nat_r {a} {b} {c : C} (f : b ~> c) (g : F a ~> b) :
-    adj_left (f ∘ g) ≈ fmap[U] f ∘ adj_left g;
+  adj_left_nat_l' {a b c} (f : F b ~> c) (g : a ~> b) :
+    adj_left' _ _ (f ∘ fmap[F] g) ≈ adj_left' _ _ f ∘ g;
+  adj_left_nat_r' {a} {b} {c : C} (f : b ~> c) (g : F a ~> b) :
+    adj_left' _ _ (f ∘ g) ≈ fmap[U] f ∘ adj_left' _ _ g;
 
-  adj_right_nat_l {a b c} (f : b ~> U c) (g : a ~> b) :
-    adj_right (f ∘ g) ≈ adj_right f ∘ fmap[F] g;
-  adj_right_nat_r {a} {b} {c : C} (f : b ~> c) (g : a ~> U b) :
-    adj_right (fmap[U] f ∘ g) ≈ f ∘ adj_right g
+  adj_right_nat_l' {a b c} (f : b ~> U c) (g : a ~> b) :
+    adj_right' _ _ (f ∘ g) ≈ adj_right' _ _ f ∘ fmap[F] g;
+  adj_right_nat_r' {a} {b} {c : C} (f : b ~> c) (g : a ~> U b) :
+    adj_right' _ _ (fmap[U] f ∘ g) ≈ f ∘ adj_right' _ _ g
 }.
 
 Context `{@Adjunction}.
 
+Definition adj_left  {X Y} := @adj_left' _ X Y.
+Definition adj_right {X Y} := @adj_right' _ X Y.
+Arguments adj_left' {_ _ _} /.
+Arguments adj_right' {_ _ _} /.
+
+Definition adj_left_nat_l {a b c} (f : F b ~> c) (g : a ~> b) :
+  adj_left (f ∘ fmap[F] g) ≈ adj_left f ∘ g := @adj_left_nat_l' _ a b c f g.
+Definition adj_left_nat_r {a} {b} {c : C} (f : b ~> c) (g : F a ~> b) :
+  adj_left (f ∘ g) ≈ fmap[U] f ∘ adj_left g := @adj_left_nat_r' _ a b c f g.
+
+Definition adj_right_nat_l {a b c} (f : b ~> U c) (g : a ~> b) :
+  adj_right (f ∘ g) ≈ adj_right f ∘ fmap[F] g := @adj_right_nat_l' _ a b c f g.
+Definition adj_right_nat_r {a} {b} {c : C} (f : b ~> c) (g : a ~> U b) :
+  adj_right (fmap[U] f ∘ g) ≈ f ∘ adj_right g := @adj_right_nat_r' _ a b c f g.
+
+Definition unit   {a : D} : a ~> U (F a) := adj_left id.
+Definition counit {a : C} : F (U a) ~> a := adj_right id.
+
+Corollary adj_left_right {a b} (f : a ~> U b) : adj_left (adj_right f) ≈ f.
+Proof.
+  unfold adj_left, adj_right; simpl.
+  apply (iso_to_from adj_iso).
+Qed.
+
+Definition adj_right_left {a b} (f : F a ~> b) : adj_right (adj_left f) ≈ f.
+Proof.
+  unfold adj_left, adj_right; simpl.
+  apply (iso_from_to adj_iso).
+Qed.
+
 Global Program Instance parametric_morphism_adj_left a b :
-  Proper (eqv ==> eqv) adj_left := adj_left_respects a b.
+  Proper (equiv ==> equiv) (@adj_left a b).
+Next Obligation.
+  intros ?? HA.
+  unfold adj_left; simpl in *.
+  destruct adj_iso; simpl in *.
+  destruct to; simpl in *.
+  rewrite HA; reflexivity.
+Defined.
 
 Global Program Instance parametric_morphism_adj_right a b :
-  Proper (eqv ==> eqv) adj_right := adj_right_respects a b.
+  Proper (equiv ==> equiv) (@adj_right a b).
+Next Obligation.
+  intros ?? HA.
+  unfold adj_right; simpl in *.
+  destruct adj_iso; simpl in *.
+  destruct from; simpl in *.
+  rewrite HA; reflexivity.
+Defined.
 
 Corollary adj_left_unit  {a b} (f : F a ~> b) :
   adj_left f ≈ fmap f ∘ unit.
@@ -95,8 +132,9 @@ Arguments Adjunction {C D} F U.
 Notation "F ⊣ G" := (@Adjunction _ _ F G) (at level 70) : category_scope.
 
 Program Instance adj_identity `{C : Category} : Identity ⊣ Identity := {
-  adj_left  := fun _ _ => _;
-  adj_right := fun _ _ => _
+  adj_iso := fun _ _ =>
+    {| to   := {| morphism := _ |}
+     ; from := {| morphism := _ |} |}
 }.
 Next Obligation. cat. Qed.
 Next Obligation. cat. Qed.
@@ -108,13 +146,20 @@ Next Obligation. cat. Qed.
 Program Definition adj_compose `{C : Category} `{D : Category} `{E : Category}
    (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E) (X : F ⊣ U) (Y : F' ⊣ U') :
   functor_comp F F' ⊣ functor_comp U' U := {|
-  adj_left  := fun a b (f : F (F' a) ~> b) => adj_left (adj_left f);
-  adj_right := fun a b (f : a ~> U' (U b)) => adj_right (adj_right f)
+  adj_iso := fun a b =>
+    {| to   := {| morphism := fun (f : F (F' a) ~> b) => adj_left (adj_left f) |}
+     ; from := {| morphism := fun (f : a ~> U' (U b)) => adj_right (adj_right f) |} |}
 |}.
 Next Obligation. intros ?? HA; rewrite HA; reflexivity. Defined.
 Next Obligation. intros ?? HA; rewrite HA; reflexivity. Defined.
-Next Obligation. rewrite adj_left_right, adj_left_right; reflexivity. Qed.
-Next Obligation. rewrite adj_right_left, adj_right_left; reflexivity. Qed.
+Next Obligation.
+  unfold Basics.compose.
+  rewrite adj_left_right, adj_left_right; reflexivity.
+Qed.
+Next Obligation.
+  unfold Basics.compose.
+  rewrite adj_right_left, adj_right_left; reflexivity.
+Qed.
 Next Obligation. rewrite <- !adj_left_nat_l; reflexivity. Qed.
 Next Obligation. rewrite <- !adj_left_nat_r; reflexivity. Qed.
 Next Obligation. rewrite <- !adj_right_nat_l; reflexivity. Qed.

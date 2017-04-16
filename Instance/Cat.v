@@ -13,18 +13,21 @@ Program Instance Cat : Category := {
   id      := @Identity;
   compose := @functor_comp
 }.
-Obligation 1.
+Next Obligation.
   unfold functor_comp.
-  destruct f.
   (* jww (2017-04-13): Need to define functor equivalence. *)
 Admitted.
-Obligation 2.
+Next Obligation.
   unfold functor_comp.
-  destruct f; simpl.
 Admitted.
-Obligation 3.
+Next Obligation.
   unfold functor_comp.
-  destruct f; simpl.
+Admitted.
+Next Obligation.
+  unfold functor_comp.
+Admitted.
+Next Obligation.
+  unfold functor_comp.
 Admitted.
 
 Lemma fun_id_left `{C : Category} `{D : Category} `(F : C ⟶ D) :
@@ -48,9 +51,13 @@ Program Instance Termi : Category := {
   id      := fun _ => tt;
   compose := fun _ _ _ _ _ => tt
 }.
-Obligation 1. destruct f. reflexivity. Qed.
-Obligation 2. destruct f. reflexivity. Qed.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
 
+(*
 Program Instance Fini `(C : Category) : C ⟶ Termi := {
   fobj := fun _ => tt;
   fmap := fun _ _ _ => id
@@ -60,16 +67,17 @@ Program Instance Ini : Category := {
   ob  := Empty_set;
   hom := fun _ _ => Empty_set
 }.
-Obligation 4.
-  destruct f.
-Defined.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
 
 Program Instance Init `(C : Category) : Ini ⟶ C.
-
-Obligation 1. destruct H. Defined.
-Obligation 2. destruct f. Defined.
-Obligation 3. destruct X. Qed.
-Obligation 4. destruct f. Qed.
+Next Obligation. destruct H. Defined.
+Next Obligation. destruct f. Defined.
+Next Obligation. destruct X. Qed.
+Next Obligation. destruct f. Qed.
 
 Require Import Category.Structure.Terminal.
 
@@ -77,7 +85,7 @@ Program Instance Cat_Terminal : @Terminal Cat := {
   One := Termi;
   one := Fini
 }.
-Obligation 1.
+Next Obligation.
   destruct f as [F].
   destruct g as [G].
 Admitted.
@@ -88,7 +96,8 @@ Program Instance Cat_Initial : @Initial Cat := {
   Zero := Ini;
   zero := Init
 }.
-Obligation 1.
+Next Obligation.
   induction f as [F].
   induction g as [G].
 Admitted.
+*)

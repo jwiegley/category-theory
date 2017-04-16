@@ -1,6 +1,6 @@
 Require Import Category.Lib.
-Require Export Category.Theory.Monad.
 Require Export Category.Theory.Adjunction.
+Require Export Category.Functor.Monad.
 
 Generalizable All Variables.
 Set Primitive Projections.

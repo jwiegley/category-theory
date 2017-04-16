@@ -3,7 +3,7 @@ Require Export Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Natural.
 Require Import Category.Construct.Opposite.
-Require Import Category.Structure.Bifunctor.
+Require Import Category.Functor.Bifunctor.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -14,8 +14,9 @@ Set Shrink Obligations.
 Program Instance Yoneda `(C : Category) : C ⟶ [C^op, Sets] := Hom (C^op).
 Obligation 1. apply op_involutive. Defined.
 
+(* jww (2017-04-15):  TODO
 Program Instance YonedaLemma `(C : Category) `(F : C ⟶ Sets) {A : C^op} :
-  @isomorphic Sets (C A ⟹ F) (F A).
+  C A ⟹ F ≃ F A.
 Obligation 1.
   intros.
   destruct X.
@@ -58,4 +59,5 @@ Obligation 4.
   rewrite naturality0.
   crush.
 Qed.
+*)
 *)

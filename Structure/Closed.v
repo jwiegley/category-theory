@@ -42,6 +42,26 @@ Arguments eval' {_ _ _} /.
 Definition ump_exponents {X Y Z} (f : X × Y ~> Z) :
   eval ∘ first (curry f) ≈ f := @ump_exponents' _ X Y Z f.
 
+Global Program Instance parametric_morphism_curry (a b c : C) :
+  Proper (equiv ==> equiv) (@curry a b c).
+Next Obligation.
+  intros ?? HA.
+  unfold curry; simpl in *.
+  destruct exp_iso; simpl in *.
+  destruct to; simpl in *.
+  rewrite HA; reflexivity.
+Defined.
+
+Global Program Instance parametric_morphism_uncurry (a b c : C) :
+  Proper (equiv ==> equiv) (@uncurry a b c).
+Next Obligation.
+  intros ?? HA.
+  unfold uncurry; simpl in *.
+  destruct exp_iso; simpl in *.
+  destruct from; simpl in *.
+  rewrite HA; reflexivity.
+Defined.
+
 Corollary curry_uncurry {X Y Z} (f : X ~> Z^Y) :
   curry (uncurry f) ≈ f.
 Proof.
@@ -65,26 +85,6 @@ Qed.
 Hint Rewrite @curry_uncurry : categories.
 Hint Rewrite @uncurry_curry : categories.
 Hint Rewrite @ump_exponents : categories.
-
-Global Program Instance parametric_morphism_curry (a b c : C) :
-  Proper (equiv ==> equiv) (@curry a b c).
-Next Obligation.
-  intros ?? HA.
-  unfold curry; simpl in *.
-  destruct exp_iso; simpl in *.
-  destruct to; simpl in *.
-  rewrite HA; reflexivity.
-Defined.
-
-Global Program Instance parametric_morphism_uncurry (a b c : C) :
-  Proper (equiv ==> equiv) (@uncurry a b c).
-Next Obligation.
-  intros ?? HA.
-  unfold uncurry; simpl in *.
-  destruct exp_iso; simpl in *.
-  destruct from; simpl in *.
-  rewrite HA; reflexivity.
-Defined.
 
 Definition flip {X Y Z : C} `(f : X ~> Z ^ Y) : Y ~> Z ^ X :=
   curry (uncurry f ∘ swap).
@@ -314,6 +314,7 @@ Context `{@Closed D CB}.
 Class ClosedFunctor := {
   fobj_exp_iso {X Y : C} : F (Y^X) ≅ F Y ^ F X;
 
+  (* jww (2017-04-15): Use exp_in' here, following the pattern *)
   exp_in  := fun X Y => from (@fobj_exp_iso X Y);
   exp_out := fun X Y => to   (@fobj_exp_iso X Y);
 

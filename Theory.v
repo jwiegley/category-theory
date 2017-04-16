@@ -94,5 +94,3 @@ Hint Extern 7 (?X ≈ ?Z) =>
   end : category_laws.
 Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.
-
-Arguments ob : clear implicits.

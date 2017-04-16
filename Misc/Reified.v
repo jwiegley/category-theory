@@ -76,6 +76,7 @@ Program Fixpoint interp `(c : Hom a b) :
 
 Local Obligation Tactic := simpl; intros; auto; cat.
 
+(* jww (2017-04-15): TODO
 Program Instance DSL : Category := {
   hom := Hom;
   id := @Id;
@@ -218,3 +219,4 @@ Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor := {
 }.
 
 End Reified.
+*)

@@ -12,6 +12,11 @@ Section Monoidal.
 
 Context `{C : Category}.
 
+(* jww (2017-04-15): Need to define products of categories *)
+(*
 Class Monoidal := {
   tensor : C × C ⟶ C
 }.
+*)
+
+End Monoidal.
