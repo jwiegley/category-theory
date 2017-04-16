@@ -12,43 +12,48 @@ Reserved Notation "C ^op" (at level 90).
 Program Instance Opposite `(C : Category) : Category := {
   ob      := @ob C;
   hom     := fun x y => @hom C y x;
+  homset  := fun x y => @homset C y x;
   id      := @id C;
-  compose := fun _ _ _ f g => g ∘ f
+  compose := fun _ _ _ f g => g ∘ f;
+
+  compose_respects := fun X Y Z f g fg h i hi =>
+    @compose_respects C Z Y X h i hi f g fg;
+
+  id_left  := fun X Y (f : Y ~{ C }~> X) => @id_right C Y X f;
+  id_right := fun X Y f => @id_left C Y X f;
+
+  comp_assoc := fun X Y Z W (f : W ~> Z) (g : Z ~> Y) (h : Y ~> X) =>
+                  symmetry (@comp_assoc C W Z Y X h g f)
 }.
-Obligation 1.
-  intros ?? HA ?? HB.
-  rewrite HA, HB; reflexivity.
-Defined.
-Obligation 2. cat. Defined.
-Obligation 3. cat. Defined.
-Obligation 4. rewrite comp_assoc; reflexivity. Defined.
 
 Notation "C ^op" := (@Opposite C)
   (at level 90, format "C ^op") : category_scope.
 
 Open Scope equiv_scope.
 
+Lemma symmetry_involutive
+      `{R : crelation A} `{Symmetric _ R} {x y : A} (f : R x y) :
+  symmetry (symmetry f) = f.
+Proof.
+  compute.
+  unfold Symmetric in H.
+Admitted.
+
 Lemma op_involutive `{C : Category} : (C^op)^op = C.
 Proof.
   unfold Opposite; simpl.
   destruct C; simpl.
-  unfold Opposite_obligation_1; simpl.
-  unfold Opposite_obligation_2; simpl.
-  unfold Opposite_obligation_3; simpl.
-  unfold Opposite_obligation_4; simpl.
   f_equal.
   extensionality X.
   extensionality Y.
   extensionality Z.
-  extensionality x.
-  extensionality y.
-  extensionality HA.
-  extensionality x0.
-  extensionality y0.
-  extensionality HB.
-  compute.
-  (* jww (2017-04-13): Need to define equivalence of categories. *)
-Abort.
+  extensionality W.
+  extensionality f.
+  extensionality g.
+  extensionality h.
+  rewrite symmetry_involutive.
+  reflexivity.
+Defined.
 
 Definition op `{C : Category} : ∀ {X Y : C},
   (X ~{C^op}~> Y) → (Y ~{C}~> X).

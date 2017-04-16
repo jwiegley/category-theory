@@ -50,37 +50,85 @@ Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
 Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.
-Qed.
+Defined.
 Next Obligation.
   intros ?? HA ?; simpl.
   rewrite HA; reflexivity.
-Qed.
-Next Obligation. cat. Qed.
+Defined.
+Next Obligation. cat. Defined.
 Next Obligation.
   unfold Basics.compose.
   rewrite comp_assoc; reflexivity.
-Qed.
+Defined.
 Next Obligation.
   repeat intro; intuition.
-Qed.
+Defined.
 Next Obligation.
   unfold Basics.compose.
   rewrite comp_assoc; reflexivity.
-Qed.
+Defined.
 Next Obligation.
   repeat intro; intuition; simpl in *.
   unfold unop.
   rewrite X0; reflexivity.
-Qed.
+Defined.
 Next Obligation.
   intro; simpl; unfold unop; intros; cat.
-Qed.
+Defined.
 Next Obligation.
   intro; simpl; unfold unop, Basics.compose; intros.
   rewrite comp_assoc; reflexivity.
-Qed.
+Defined.
 
 Coercion HomFunctor : Category >-> Functor.
 
-Notation "'Hom' ( A , ─ )" := (@HomFunctor _ A).
-Notation "'Hom' ( ─ , A )" := (@HomFunctor (_ ^op) A).
+Notation "'Hom' ( A , ─ )" := (@HomFunctor _ A) : category_scope.
+
+Program Instance CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
+  fobj := fun X => {|
+    fobj := fun Y => {| carrier := @hom (C^op) X Y
+                      ; is_setoid := @homset (C^op) X Y |};
+    fmap := fun Y Z (f : Y ~{C^op}~> Z) =>
+              {| morphism := fun (g : X ~{C^op}~> Y) =>
+                               (f ∘ g) : X ~{C^op}~> Z |}
+  |};
+  fmap := fun X Y (f : X ~{C}~> Y) => {|
+    transform := fun _ => {| morphism := fun g => g ∘ op f |}
+  |}
+}.
+Next Obligation.
+  intros ?? HA.
+  rewrite HA; reflexivity.
+Defined.
+Next Obligation.
+  intros ?? HA ?; simpl.
+  rewrite HA; reflexivity.
+Defined.
+Next Obligation. cat. Defined.
+Next Obligation.
+  unfold Basics.compose.
+  rewrite comp_assoc; reflexivity.
+Defined.
+Next Obligation.
+  repeat intro; intuition.
+Defined.
+Next Obligation.
+  unfold Basics.compose.
+  rewrite comp_assoc; reflexivity.
+Defined.
+Next Obligation.
+  repeat intro; intuition; simpl in *.
+  unfold op.
+  rewrite X0; reflexivity.
+Defined.
+Next Obligation.
+  intro; simpl; unfold unop; intros; cat.
+Defined.
+Next Obligation.
+  intro; simpl; unfold unop, Basics.compose; intros.
+  rewrite comp_assoc; reflexivity.
+Defined.
+
+Coercion CoHomFunctor : Category >-> Functor.
+
+Notation "'Hom' ( ─ , A )" := (@CoHomFunctor _ A) : category_scope.

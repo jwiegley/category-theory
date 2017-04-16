@@ -135,7 +135,7 @@ Arguments Adjunction {C D} F U.
 
 Notation "F ⊣ G" := (@Adjunction _ _ F G) (at level 70) : category_scope.
 
-Program Instance adj_identity `{C : Category} : Identity ⊣ Identity := {
+Program Instance adj_id `{C : Category} : Identity ⊣ Identity := {
   adj_iso := fun _ _ =>
     {| to   := {| morphism := _ |}
      ; from := {| morphism := _ |} |}
@@ -147,9 +147,11 @@ Next Obligation. cat. Qed.
 Next Obligation. cat. Qed.
 Next Obligation. cat. Qed.
 
-Program Definition adj_compose `{C : Category} `{D : Category} `{E : Category}
-   (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E) (X : F ⊣ U) (Y : F' ⊣ U') :
-  functor_comp F F' ⊣ functor_comp U' U := {|
+Program Definition adj_comp
+        `{C : Category} `{D : Category} `{E : Category}
+        (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E)
+        (X : F ⊣ U) (Y : F' ⊣ U') :
+  F ○ F' ⊣ U' ○ U := {|
   adj_iso := fun a b =>
     {| to   := {| morphism := fun (f : F (F' a) ~> b) => adj_left (adj_left f) |}
      ; from := {| morphism := fun (f : a ~> U' (U b)) => adj_right (adj_right f) |} |}
@@ -169,55 +171,34 @@ Next Obligation. rewrite <- !adj_left_nat_r; reflexivity. Qed.
 Next Obligation. rewrite <- !adj_right_nat_l; reflexivity. Qed.
 Next Obligation. rewrite <- !adj_right_nat_r; reflexivity. Qed.
 
+Notation "F ⊚ G" := (@adj_comp _ _ _ _ _ _ _ F G)
+  (at level 30, right associativity) : category_scope.
+
 Record Adj_Morphism `{C : Category} `{D : Category} := {
   free_functor : D ⟶ C;
   forgetful_functor : C ⟶ D;
   adjunction : free_functor ⊣ forgetful_functor
 }.
 
-(* jww (2017-04-13): Define adjoint equivalence. *)
-(*
-Lemma adj_id_left `{C : Category} `{D : Category} `(F : D ⟶ C) `(U : C ⟶ D) :
-  adj_compose Id Id F U adj_identity (F ⊣ U) = F ⊣ U.
-Proof.
-  destruct F.
-  unfold functor_comp.
-  simpl.
-  apply fun_irrelevance.
-  extensionality e.
-  extensionality f.
-  extensionality g.
-  reflexivity.
-Qed.
-
-Lemma adj_id_right `(F : @Functor C D) : functor_comp F Id = F.
-Proof.
-  destruct F.
-  unfold functor_comp.
-  simpl.
-  apply fun_irrelevance.
-  extensionality e.
-  extensionality f.
-  extensionality g.
-  reflexivity.
-Qed.
-*)
-
 (*
 Program Instance Adj : Category := {
   ob := Category;
   hom := @Adj_Morphism
 }.
-Obligation 1.
+Next Obligation.
+Admitted.
+Next Obligation.
   apply {| free_functor      := Identity
          ; forgetful_functor := Identity |}.
 Defined.
-Obligation 2.
+Next Obligation.
   destruct f, g.
-  apply {| adjunction := adj_compose _ _ _ _ _ _ |}.
+  apply {| adjunction := adj_comp _ _ _ _ _ _ |}.
 Defined.
-Obligation 3.
-  destruct f.
+Next Obligation.
+  repeat intro.
+  destruct x, y, x0, y0;
+  unfold Adj_obligation_3; simpl.
 Admitted.
 Obligation 4.
   destruct f.

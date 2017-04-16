@@ -32,15 +32,17 @@ Notation "C ⟶ D" := (@Functor C D) (at level 90, right associativity).
 
 Arguments fmap {C D Functor X Y} f.
 
-Infix "<$>" := fmap (at level 29, left associativity, only parsing).
+Infix "<$>" := fmap
+  (at level 29, left associativity, only parsing) : category_scope.
 Infix "<$[ F ]>" := (@fmap _ _ F _ _)
-  (at level 29, left associativity, only parsing).
-Notation "x <$ m" :=
-  (fmap (Basics.const x) m) (at level 29, left associativity, only parsing).
-Notation "x <&> f" :=
-  (fmap f x) (at level 29, left associativity, only parsing).
+  (at level 29, left associativity, only parsing) : category_scope.
+Notation "x <$ m" := (fmap (Basics.const x) m)
+  (at level 29, left associativity, only parsing) : category_scope.
+Notation "x <&> f" := (fmap f x)
+  (at level 29, left associativity, only parsing) : category_scope.
 
-Notation "fmap[ F ]" := (@fmap _ _ F _ _) (at level 9, format "fmap[ F ]").
+Notation "fmap[ F ]" := (@fmap _ _ F _ _)
+  (at level 9, format "fmap[ F ]") : category_scope.
 
 Hint Rewrite @fmap_id : categories.
 
@@ -58,14 +60,14 @@ Next Obligation.
   intros.
   rewrite !fmap_id.
   reflexivity.
-Qed.
+Defined.
 Next Obligation.
   intros.
   rewrite !fmap_comp.
   reflexivity.
-Qed.
+Defined.
 
-Infix "○" := functor_comp (at level 30, right associativity).
+Infix "○" := functor_comp (at level 30, right associativity) : category_scope.
 
 (* The Identity [Functor] *)
 

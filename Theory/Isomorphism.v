@@ -29,7 +29,7 @@ Arguments iso_from_to {X Y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
-Global Program Instance isomorphic_equivalence :
+Global Program Instance isomorphism_equivalence :
   CRelationClasses.Equivalence Isomorphism.
 Obligation 1.
   intros ?.
@@ -52,29 +52,6 @@ Obligation 3.
   rewrite iso_from_to1; cat.
 Defined.
 
-Global Program Instance arrow_Isomorphism :
-  CMorphisms.Proper
-    (CMorphisms.respectful Isomorphism
-       (CMorphisms.respectful Isomorphism Basics.arrow)) Isomorphism.
-Obligation 1.
-  intros ???????.
-  transitivity x; auto.
-    symmetry; assumption.
-  transitivity x0; auto.
-Defined.
-
-Global Program Instance flip_arrow_Isomorphism :
-  CMorphisms.Proper
-    (CMorphisms.respectful Isomorphism
-       (CMorphisms.respectful Isomorphism
-                              (Basics.flip Basics.arrow))) Isomorphism.
-Obligation 1.
-  intros ???????.
-  transitivity y; auto.
-  transitivity y0; auto.
-  symmetry; assumption.
-Defined.
-
 End Isomorphism.
 
 Infix "≅" := (@Isomorphism _) (at level 91) : category_scope.
@@ -91,5 +68,5 @@ Arguments iso_from_to {_ _ _} _.
    arrow equivalence to be the setoid. By using Sets in this way, we gain the
    fact that the arrows on both sides are respectful of C's notion of arrow
    equivalence. *)
-Notation "X ≃ Y" :=
-  ({| carrier := X |} ≅[Sets] {| carrier := Y |}) (at level 99).
+Notation "X ≃ Y" := ({| carrier := X |} ≅[Sets] {| carrier := Y |})
+  (at level 99) : category_scope.

@@ -85,7 +85,7 @@ Global Program Instance nat_Setoid `{F : C ⟶ D} `{G : C ⟶ D} :
 Global Program Definition nat_identity `{F : C ⟶ D} : F ⟹ F := {|
   transform := fun X => fmap (@id C X)
 |}.
-Obligation 1. cat. Qed.
+Obligation 1. cat. Defined.
 
 Global Program Definition nat_compose `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D}
   (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
@@ -99,7 +99,7 @@ Obligation 1.
   rewrite natural_transformation.
   rewrite comp_assoc.
   reflexivity.
-Qed.
+Defined.
 
 Global Program Definition nat_compose_respects
        `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D} :
@@ -111,7 +111,7 @@ Proof.
   unfold nat_equiv in *; simpl in *.
   rewrite HA, HB.
   reflexivity.
-Qed.
+Defined.
 
 (* Nat is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
@@ -126,14 +126,14 @@ Global Program Instance Nat : Category := {
 }.
 Next Obligation.
   unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
-Qed.
+Defined.
 Next Obligation.
   unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
-Qed.
+Defined.
 Next Obligation.
   unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
   rewrite comp_assoc; reflexivity.
-Qed.
+Defined.
 
 End Nat.
 
