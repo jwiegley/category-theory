@@ -76,27 +76,27 @@ Program Fixpoint interp `(c : Hom a b) :
 
 Local Obligation Tactic := simpl; intros; auto; cat.
 
-(* jww (2017-04-15): TODO
 Program Instance DSL : Category := {
   hom := Hom;
   id := @Id;
   compose := @Compose;
-  eqv := fun _ _ f g =>
-           forall `{C : Category}
-                  `{A : @Cartesian C}
-                  `{@Closed C A}
-                  `{@Cocartesian C}
-                  `{@Terminal C}
-                  `{@Initial C},
-             @eqv C _ _ (interp f) (interp g)
+  homset := fun _ _ =>
+    {| equiv := fun f g =>
+         forall `{C : Category}
+                `{A : @Cartesian C}
+                `{@Closed C A}
+                `{@Cocartesian C}
+                `{@Terminal C}
+                `{@Initial C},
+           interp f ≈ interp g |}
 }.
 Obligation 1.
   constructor.
   - intros ??????.
     reflexivity.
-  - intros ????????.
+  - intros ?? HA ?????.
     symmetry.
-    apply H.
+    apply HA.
   - intros ??? HA HB ??????.
     rewrite HA, HB.
     reflexivity.
@@ -140,19 +140,21 @@ Qed.
 
 Program Instance Hom_Closed : @Closed _ _ := {
   Exp := Exp_;
-  curry := @Curry;
-  uncurry := @Uncurry
+  exp_iso := fun X Y Z =>
+    {| to   := {| morphism := @Curry X Y Z |}
+     ; from := {| morphism := @Uncurry X Y Z |} |}
 }.
 Obligation 1.
-  constructor; simpl; intros; cat.
-  - intros ?? HA ??????.
-    simpl.
-    rewrite HA.
-    reflexivity.
-  - intros ?? HA ??????.
-    simpl.
-    rewrite HA.
-    reflexivity.
+  intros ?? HA ??????.
+  simpl.
+  rewrite HA.
+  reflexivity.
+Qed.
+Obligation 2.
+  intros ?? HA ??????.
+  simpl.
+  rewrite HA.
+  reflexivity.
 Qed.
 
 Program Instance Hom_Initial : @Initial _ := {
@@ -219,4 +221,3 @@ Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor := {
 }.
 
 End Reified.
-*)
