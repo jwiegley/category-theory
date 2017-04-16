@@ -1,10 +1,9 @@
-Require Import Lib.
-Require Export Functor.
-Require Import Isomorphism.
-Require Import Natural.
-Require Import Opposite.
-Require Import Bifunctor.
-Require Import Coq.
+Require Import Category.Lib.
+Require Export Category.Theory.Functor.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Natural.
+Require Import Category.Construct.Opposite.
+Require Import Category.Structure.Bifunctor.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -12,11 +11,11 @@ Set Universe Polymorphism.
 Set Shrink Obligations.
 
 (** This is the Yoneda embedding. *)
-Program Instance Yoneda `(C : Category) : C ⟶ [C^op, Coq] := Hom (C^op).
+Program Instance Yoneda `(C : Category) : C ⟶ [C^op, Sets] := Hom (C^op).
 Obligation 1. apply op_involutive. Defined.
 
-Program Instance YonedaLemma `(C : Category) `(F : C ⟶ Coq) {A : C^op} :
-  @isomorphic Coq (C A ⟹ F) (F A).
+Program Instance YonedaLemma `(C : Category) `(F : C ⟶ Sets) {A : C^op} :
+  @isomorphic Sets (C A ⟹ F) (F A).
 Obligation 1.
   intros.
   destruct X.
@@ -27,7 +26,7 @@ Admitted.
 Obligation 2.
   intros.
   simpl.
-  pose (@fmap C Coq F A).
+  pose (@fmap C Sets F A).
   apply Build_Natural with (transform := fun Y φ => h Y φ X).
   intros.
   inversion F. simpl.

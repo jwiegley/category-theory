@@ -1,6 +1,6 @@
-Require Import Lib.
-Require Export Category.
-Require Export Functor.
+Require Import Category.Lib.
+Require Export Category.Theory.
+Require Export Category.Theory.Functor.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -71,7 +71,7 @@ Obligation 2. destruct f. Defined.
 Obligation 3. destruct X. Qed.
 Obligation 4. destruct f. Qed.
 
-Require Import Terminal.
+Require Import Category.Structure.Terminal.
 
 Program Instance Cat_Terminal : @Terminal Cat := {
   One := Termi;
@@ -82,7 +82,7 @@ Obligation 1.
   destruct g as [G].
 Admitted.
 
-Require Import Initial.
+Require Import Category.Structure.Initial.
 
 Program Instance Cat_Initial : @Initial Cat := {
   Zero := Ini;

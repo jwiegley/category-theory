@@ -6,3 +6,4 @@
 This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.
 * Move Tuple into Coq/Tuple, etc.
+* Should the identity functor be Identity, or just id?

@@ -1,7 +1,7 @@
-Require Import Lib.
-Require Export BiCCC.
-Require Export Morphisms.
-Require Export Constant.
+Require Import Category.Lib.
+Require Export Category.Theory.Morphisms.
+Require Export Category.Structure.BiCCC.
+Require Export Category.Structure.Constant.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -11,9 +11,9 @@ Set Shrink Obligations.
 Program Instance Coq : Category := {
   ob      := Type;
   hom     := fun A B : Type => A -> B;
+  homset  := fun _ _ => {| equiv := fun f g => forall x, f x = g x |};
   id      := fun _ x => x;
-  compose := fun _ _ _ g f x => g (f x);
-  eqv     := fun _ _ f g => forall x, f x = g x
+  compose := fun _ _ _ g f x => g (f x)
 }.
 Obligation 1.
   constructor.
@@ -59,23 +59,20 @@ Obligation 2.
 Qed.
 
 Program Instance Coq_Closed : @Closed _ _ := {
-  Exp := fun A B : Type => A -> B;
-  curry := fun _ _ _ f a b => f (a, b);
-  uncurry := fun _ _ _ f p => f (fst p) (snd p)
+  Exp := Basics.arrow;
+  exp_iso := fun _ _ _ =>
+    {| to   := {| morphism := fun f a b => f (a, b) |}
+     ; from := {| morphism := fun f p => f (fst p) (snd p) |} |}
 }.
-Obligation 1.
-  constructor; intros; simpl; auto.
-  - intros.
-    rewrite <- surjective_pairing.
-    reflexivity.
-  - intros ?? HA ?.
-    extensionality b.
-    rewrite HA.
-    reflexivity.
-  - intros ?? HA ?.
-    rewrite HA.
-    reflexivity.
-Defined.
+Next Obligation.
+  intros ?? HA ?.
+  extensionality b.
+  apply HA.
+Qed.
+Next Obligation.
+  intros ?? HA ?.
+  rewrite HA; reflexivity.
+Qed.
 
 Program Instance Coq_Initial : Initial _ := {
   Zero := False;

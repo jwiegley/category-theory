@@ -1,6 +1,6 @@
-Require Import Lib.
-Require Export Bicartesian.
-Require Export Closed.
+Require Import Category.Lib.
+Require Export Category.Structure.Bicartesian.
+Require Export Category.Structure.Closed.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -18,20 +18,20 @@ Global Program Instance prod_coprod {X Y Z : C} :
   (* Products distribute over coproducts in every bicartesian closed
      category. *)
   X × (Y + Z) ≅ X × Y + X × Z := {
-  iso_to   :=
-    eval ∘ swap ∘ second (curry (inl ∘ swap) ▽ curry (inr ∘ swap));
-  iso_from := second inl ▽ second inr
+  to   := eval ∘ swap ∘ second (curry (inl ∘ swap) ▽ curry (inr ∘ swap));
+  from := second inl ▽ second inr
 }.
-Obligation 1.
-  constructor; simpl; intros.
-    rewrite <- !comp_assoc.
-    rewrite <- !merge_comp.
-    rewrite <- merge_inl_inr.
-    rewrite <- !second_comp.
-    apply merge_inv; split;
-    unfold swap, second; cat;
-    rewrite <- fork_comp; cat;
-    rewrite <- comp_assoc; cat.
+Next Obligation.
+  rewrite <- !comp_assoc.
+  rewrite <- !merge_comp.
+  rewrite <- merge_inl_inr.
+  rewrite <- !second_comp.
+  apply merge_inv; split;
+  unfold swap, second; cat;
+  rewrite <- fork_comp; cat;
+  rewrite <- comp_assoc; cat.
+Qed.
+Next Obligation.
   rewrite swap_second.
   rewrite <- curry_uncurry.
   rewrite (comp_assoc eval); cat.
@@ -65,13 +65,15 @@ Hint Rewrite @prod_coprod : isos.
 
 Global Program Instance exp_coprod `{BiCCC C} {X Y Z : C} :
   X^(Y + Z) ≅ X^Y × X^Z := {
-  iso_to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
-  iso_from := curry (merge (eval ∘ first exl) (eval ∘ first exr)
-                          ∘ iso_to prod_coprod)
+  to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
+  from := curry (merge (eval ∘ first exl) (eval ∘ first exr)
+                          ∘ to prod_coprod)
 }.
-Obligation 1.
+Next Obligation.
   unfold first, second, swap.
-  constructor; simpl; intros.
+Admitted.
+Next Obligation.
+  unfold first, second, swap.
 Admitted.
 
 Hint Rewrite @exp_coprod : isos.
@@ -83,26 +85,21 @@ Notation "X × 0" := (Prod X Zero) (at level 40).
 
 Global Program Instance prod_zero_l {X : C} :
   0 × X ≅ Zero := {
-  iso_to := uncurry zero;
-  iso_from := zero
+  to   := uncurry zero;
+  from := zero
 }.
-Obligation 1.
-  constructor; simpl; intros; cat.
-  apply curry_inj; cat.
-Qed.
+Next Obligation. cat. Qed.
+Next Obligation. apply curry_inj; simpl; cat. Qed.
 
 Hint Rewrite @prod_zero_l : isos.
 
 Global Program Instance prod_zero_r {X : C} :
   X × 0 ≅ Zero := {
-  iso_to   := uncurry zero ∘ swap;
-  iso_from := zero
+  to   := uncurry zero ∘ swap;
+  from := zero
 }.
-Obligation 1.
-  constructor; simpl; intros; cat.
-  apply swap_inj_r.
-  apply curry_inj; cat.
-Qed.
+Next Obligation. cat. Qed.
+Next Obligation. apply swap_inj_r, curry_inj; simpl; cat. Qed.
 
 Hint Rewrite @prod_zero_r : isos.
 
@@ -113,14 +110,14 @@ Notation "0 ^ X" := (Exp X Zero) (at level 30).
 
 Global Program Instance exp_zero {X : C} :
   X^0 ≅ One := {
-  iso_to   := one;
-  iso_from := curry (zero ∘ iso_to prod_zero_r)
+  to   := one;
+  from := curry (zero ∘ to prod_zero_r)
 }.
-Obligation 1.
-  constructor; simpl; intros; cat.
+Next Obligation. cat. Qed.
+Next Obligation.
   apply uncurry_inj.
   apply swap_inj_r.
-  apply curry_inj; cat.
+  apply curry_inj; simpl; cat.
 Qed.
 
 End BiCCC.

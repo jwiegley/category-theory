@@ -1,5 +1,5 @@
-Require Import Lib.
-Require Export BiCCC.
+Require Import Category.Lib.
+Require Export Category.Structure.BiCCC.
 
 Generalizable All Variables.
 Set Primitive Projections.

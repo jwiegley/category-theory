@@ -1,5 +1,5 @@
-Require Import Lib.
-Require Export Category.
+Require Import Category.Lib.
+Require Export Category.Theory.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -15,18 +15,12 @@ Class Functor := {
   fobj : C -> D;
   fmap {X Y : C} (f : X ~> Y) : fobj X ~> fobj Y;
 
-  fmap_respects : ∀ X Y,
-    Proper (@eqv _ X Y ==> @eqv _ (fobj X) (fobj Y)) fmap;
+  fmap_respects {X Y} :> Proper (equiv ==> equiv) (@fmap X Y);
 
   fmap_id {X : C} : fmap (@id C X) ≈ id;
   fmap_comp {X Y Z : C} (f : Y ~> Z) (g : X ~> Y) :
     fmap (f ∘ g) ≈ fmap f ∘ fmap g
 }.
-
-Context `{Functor}.
-
-Global Program Instance parametric_morphism_fmap (a b : C) :
-  Proper (eqv ==> eqv) fmap := fmap_respects a b.
 
 End Functor.
 

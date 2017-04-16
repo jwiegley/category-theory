@@ -1,6 +1,6 @@
-Require Import Lib.
-Require Export Isomorphism.
-Require Export Terminal.
+Require Import Category.Lib.
+Require Export Category.Theory.Isomorphism.
+Require Export Category.Structure.Terminal.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -17,14 +17,13 @@ Class Cartesian:= {
   Prod : ob -> ob -> ob
     where "X × Y" := (Prod X Y);
 
-  fork {X Z W} (f : X ~> Z) (g : X ~> W) : X ~> Z × W;
+  fork {X Y Z} (f : X ~> Y) (g : X ~> Z) : X ~> Y × Z;
   exl  {X Y} : X × Y ~> X;
   exr  {X Y} : X × Y ~> Y;
 
-  fork_respects : ∀ X Z W,
-    Proper (@eqv _ X Z ==> @eqv _ X W ==> @eqv _ X (Z × W)) fork;
+  fork_respects {X Y Z} :> Proper (equiv ==> equiv ==> equiv) (@fork X Y Z);
 
-  univ_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
+  ump_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
     h ≈ fork f g <-> exl ∘ h ≈ f ∧ exr ∘ h ≈ g
 }.
 
@@ -32,9 +31,6 @@ Infix "×" := Prod : category_scope.
 Infix "△" := fork (at level 28) : category_scope.
 
 Context `{@Cartesian}.
-
-Global Program Instance parametric_morphism_fork (a b c : C) :
-  Proper (eqv ==> eqv ==> eqv) fork := fork_respects a b c.
 
 Definition first  {X Y Z : C} (f : X ~> Y) : X × Z ~> Y × Z :=
   (f ∘ exl) △ exr.
@@ -47,20 +43,20 @@ Definition split  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
   (f ∘ exl) △ (g ∘ exr).
 
 Global Program Instance parametric_morphism_first {a b c : C} :
-  Proper (eqv ==> eqv) (@first a b c).
+  Proper (equiv ==> equiv) (@first a b c).
 Obligation 1.
-  intros ???.
+  intros ?? HA.
   unfold first.
-  rewrite H0.
+  rewrite HA.
   reflexivity.
 Qed.
 
 Global Program Instance parametric_morphism_second {a b c : C} :
-  Proper (eqv ==> eqv) (@second a b c).
+  Proper (equiv ==> equiv) (@second a b c).
 Obligation 1.
-  intros ???.
+  intros ?? HA.
   unfold second.
-  rewrite H0.
+  rewrite HA.
   reflexivity.
 Qed.
 
@@ -70,7 +66,7 @@ Corollary exl_fork {X Z W : C} (f : X ~> Z) (g : X ~> W) :
   exl ∘ f △ g ≈ f.
 Proof.
   intros.
-  apply (proj1 (univ_products f g (f △ g))).
+  apply (proj1 (ump_products f g (f △ g))).
   reflexivity.
 Qed.
 
@@ -80,7 +76,7 @@ Corollary exr_fork {X Z W : C} (f : X ~> Z) (g : X ~> W) :
   exr ∘ f △ g ≈ g.
 Proof.
   intros.
-  apply (proj1 (univ_products f g (f △ g))).
+  apply (proj1 (ump_products f g (f △ g))).
   reflexivity.
 Qed.
 
@@ -91,7 +87,7 @@ Corollary fork_exl_exr {X Y : C} :
 Proof.
   intros.
   symmetry.
-  apply univ_products; cat.
+  apply ump_products; cat.
 Qed.
 
 Hint Rewrite @fork_exl_exr : categories.
@@ -99,7 +95,7 @@ Hint Rewrite @fork_exl_exr : categories.
 Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
   f △ g ≈ h △ i <-> f ≈ h ∧ g ≈ i.
 Proof.
-  generalize (univ_products h i (f △ g)); cat.
+  generalize (ump_products h i (f △ g)); cat.
 Qed.
 
 Corollary fork_comp_hetero {X Y Z W : C}
@@ -108,7 +104,7 @@ Corollary fork_comp_hetero {X Y Z W : C}
 Proof.
   unfold split; intros.
   symmetry.
-  apply univ_products.
+  apply ump_products.
   rewrite !comp_assoc; cat.
   rewrite <- !comp_assoc; cat.
 Qed.
@@ -119,7 +115,7 @@ Corollary fork_comp {X Y Z W : C}
 Proof.
   intros.
   symmetry.
-  apply univ_products.
+  apply ump_products.
   rewrite !comp_assoc; cat.
 Qed.
 
@@ -192,13 +188,14 @@ Proof.
   rewrite <- !comp_assoc; cat.
 Qed.
 
+(*
 Global Program Instance parametric_morphism_prod :
   CMorphisms.Proper
-    (CMorphisms.respectful isomorphic
-       (CMorphisms.respectful isomorphic isomorphic)) Prod.
+    (CMorphisms.respectful Isomorphism
+       (CMorphisms.respectful Isomorphism Isomorphism)) Prod.
 Obligation 1.
-  intros ??????.
-  destruct X, X0.
+  intros ?? XA ?? XB.
+  destruct XA, XB.
   refine {| iso_to   := second iso_to0 ∘ first iso_to
           ; iso_from := second iso_from0 ∘ first iso_from |}.
   destruct iso_witness, iso_witness0.
@@ -213,6 +210,7 @@ Obligation 1.
   rewrite iso_from_to.
   rewrite iso_from_to0; cat.
 Qed.
+*)
 
 Context `{@Terminal C}.
 
@@ -221,12 +219,12 @@ Notation "X × 1" := (Prod X One) (at level 40).
 
 Global Program Instance prod_one_l  {X : C} :
   1 × X ≅ X := {
-  iso_to   := exr;
-  iso_from := one △ id
+  to   := exr;
+  from := one △ id
 }.
-Obligation 1.
-  constructor; simpl; intros; cat.
-  rewrite <- fork_comp; cat.
+Next Obligation. cat. Qed.
+Next Obligation.
+  rewrite <- fork_comp.
   rewrite <- fork_exl_exr.
   apply fork_respects; cat.
 Qed.
@@ -235,11 +233,11 @@ Hint Rewrite @prod_one_l : isos.
 
 Global Program Instance prod_one_r  {X : C} :
   X × 1 ≅ X := {
-  iso_to   := exl;
-  iso_from := id △ one
+  to   := exl;
+  from := id △ one
 }.
-Obligation 1.
-  constructor; simpl; intros; cat.
+Next Obligation. cat. Qed.
+Next Obligation.
   rewrite <- fork_comp; cat.
   rewrite <- fork_exl_exr.
   apply fork_respects; cat.
@@ -249,11 +247,16 @@ Hint Rewrite @prod_one_r : isos.
 
 Global Program Instance prod_assoc  {X Y Z : C} :
   (X × Y) × Z ≅ X × (Y × Z) := {
-  iso_to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr);
-  iso_from := (exl △ (exl ∘ exr)) △ (exr ∘ exr)
+  to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr);
+  from := (exl △ (exl ∘ exr)) △ (exr ∘ exr)
 }.
-Obligation 1.
-  constructor; simpl; intros;
+Next Obligation.
+  rewrite <- !fork_comp; cat;
+  rewrite <- comp_assoc; cat;
+  rewrite <- comp_assoc; cat;
+  rewrite fork_comp; cat.
+Qed.
+Next Obligation.
   rewrite <- !fork_comp; cat;
   rewrite <- comp_assoc; cat;
   rewrite <- comp_assoc; cat;
@@ -284,8 +287,8 @@ Context `{@Cartesian D}.
 Class CartesianFunctor := {
   fobj_prod_iso {X Y : C} : F (X × Y) ≅ F X × F Y;
 
-  prod_in  := fun X Y => iso_from (@fobj_prod_iso X Y);
-  prod_out := fun X Y => iso_to   (@fobj_prod_iso X Y);
+  prod_in  := fun X Y => from (@fobj_prod_iso X Y);
+  prod_out := fun X Y => to   (@fobj_prod_iso X Y);
 
   fmap_exl {X Y : C} : fmap (@exl C _ X Y) ≈ exl ∘ prod_out _ _;
   fmap_exr {X Y : C} : fmap (@exr C _ X Y) ≈ exr ∘ prod_out _ _;
@@ -302,7 +305,7 @@ Corollary prod_in_out (X Y : C) :
   prod_in ∘ prod_out ≈ @id _ (F (X × Y)).
 Proof.
   intros.
-  exact (iso_from_to (iso_witness fobj_prod_iso)).
+  exact (iso_from_to fobj_prod_iso).
 Qed.
 
 Hint Rewrite @prod_in_out : functors.
@@ -311,7 +314,7 @@ Corollary prod_out_in (X Y : C) :
   prod_out ∘ prod_in ≈ @id _ (F X × F Y).
 Proof.
   intros.
-  exact (iso_to_from (iso_witness fobj_prod_iso)).
+  exact (iso_to_from fobj_prod_iso).
 Qed.
 
 Hint Rewrite @prod_out_in : functors.

@@ -1,5 +1,5 @@
-Require Import Lib.
-Require Export Terminal.
+Require Import Category.Lib.
+Require Export Category.Structure.Terminal.
 
 Generalizable All Variables.
 Set Primitive Projections.

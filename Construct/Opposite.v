@@ -1,5 +1,5 @@
-Require Import Lib.
-Require Export Category.
+Require Import Category.Lib.
+Require Export Category.Theory.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -30,7 +30,7 @@ Notation "C ^op" := (@Opposite C) (at level 90) : category_scope.
 
 Open Scope equiv_scope.
 
-Lemma op_involutive `{C : Category} : (C^op)^op === C.
+Lemma op_involutive `{C : Category} : (C^op)^op = C.
 Proof.
   unfold Opposite.
   induction C.
@@ -47,7 +47,7 @@ Definition unop `{C : Category} : ∀ {X Y : C},
 Proof. auto. Defined.
 
 (*
-Require Export Functor.
+Require Export Category.Theory.Functor.
 
 (* jww (2017-04-13): Right now this loops indefinitely. *)
 Program Instance Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {

@@ -1,6 +1,6 @@
-Require Import Lib.
-Require Export Cartesian.
-Require Export Cocartesian.
+Require Import Category.Lib.
+Require Export Category.Structure.Cartesian.
+Require Export Category.Structure.Cocartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.

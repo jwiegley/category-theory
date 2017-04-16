@@ -1,7 +1,7 @@
-Require Import Lib.
-Require Export BiCCC.
-Require Export Coq.
-Require Export Reified.
+Require Import Category.Lib.
+Require Export Category.Structure.BiCCC.
+Require Export Category.Instance.Coq.
+Require Export Category.Misc.Reified.
 
 Generalizable All Variables.
 Set Primitive Projections.

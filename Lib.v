@@ -9,8 +9,7 @@ Require Export
 
 Require Export
   Coq.Classes.Morphisms
-  Coq.Classes.Equivalence
-  Coq.Classes.RelationClasses.
+  Coq.Classes.SetoidClass.
 
 Close Scope nat_scope.
 Close Scope type_scope.

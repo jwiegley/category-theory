@@ -1,6 +1,6 @@
 (* jww (2017-04-13): TODO
-Require Import Lib.
-Require Export Coq.
+Require Import Category.Lib.
+Require Export Category.Instance.Coq.
 
 Program Instance Pair {X Y : Set} : @Product Type _ (X * Y)%type Y X (@fst X Y) (@snd X Y).
 Obligation 1. (* product ump *)

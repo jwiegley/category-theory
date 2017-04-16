@@ -1,7 +1,7 @@
-Require Import Lib.
-Require Export Natural.
-Require Import Opposite.
-Require Import Coq.
+Require Import Category.Lib.
+Require Export Category.Theory.Natural.
+Require Import Category.Construct.Opposite.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -32,40 +32,50 @@ Definition fmap1 `{P : C ⟶ [D, E]} {A : C} `(f : X ~{D}~> Y) :
 Definition bimap `{P : C ⟶ [D, E]} {X W : C} {Y Z : D} (f : X ~{C}~> W) (g : Y ~{D}~> Z) :
   P X Y ~{E}~> P W Z := let N := @fmap _ _ P _ _ f in transform[N] _ ∘ fmap1 g.
 
+(* jww (2017-04-15): TODO
 Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
   F Y ~{D}~> F X := fmap (unop f).
 
 Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
   P W Y ~{E}~> P X Z := bimap (unop f) g.
+*)
 
-Program Instance Hom `(C : Category) : C^op ⟶ [C, Coq] := {
+Program Instance Hom `(C : Category) : C^op ⟶ [C, Sets] := {
   fobj := fun X : C^op => {|
-              fobj := fun Y : C => @hom C X Y;
-              fmap := fun (Y Z : C) (f : Y ~> Z) (g : X ~{C}~> Y) =>
-                        (f ∘ g) : X ~{C}~> Z
+              fobj := fun Y : C => {| carrier := @hom C X Y
+                                    ; is_setoid := @homset C X Y |};
+              fmap := fun (Y Z : C) (f : Y ~> Z) =>
+                        {| morphism := fun (g : X ~{C}~> Y) =>
+                                         (f ∘ g) : X ~{C}~> Z |}
             |};
   fmap := fun _ _ f => {|
-              transform := fun _ g => g ∘ unop f
+              transform := fun g => _ (* g ∘ unop f *)
             |}
 }.
 Next Obligation.
-  intros ????.
+  intros ?? HA.
+  rewrite HA; reflexivity.
+Qed.
+Next Obligation.
+  intros ?? HA ?; simpl.
+  rewrite HA; reflexivity.
+Qed.
+Next Obligation. cat. Qed.
+Next Obligation.
+  unfold Basics.compose.
+  rewrite comp_assoc.
+  reflexivity.
+Qed.
+Next Obligation.
+Admitted.
+Next Obligation.
+  unfold Basics.compose.
 Admitted.
 Next Obligation.
 Admitted.
 Next Obligation.
 Admitted.
 Next Obligation.
-  unfold nat_identity.
-Admitted.
-Next Obligation.
-  unfold nat_compose, nat_identity.
-Admitted.
-Next Obligation.
-  unfold nat_compose, nat_identity.
-Admitted.
-Next Obligation.
-  unfold nat_compose, nat_identity.
 Admitted.
 
 Coercion Hom : Category >-> Functor.

@@ -1,5 +1,5 @@
-Require Import Lib.
-Require Export Closed.
+Require Import Category.Lib.
+Require Export Category.Structure.Closed.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -44,7 +44,7 @@ Program Definition bind {a b : C} (f : a ~> M b) : M a ~> M b :=
 
 End MonadLib.
 
-Require Import Coq.
+Require Import Category.Instance.Coq.
 
 Module CoqMonad.
 

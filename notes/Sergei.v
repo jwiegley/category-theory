@@ -1,4 +1,4 @@
-Require Import Hask.Control.Monad.
+Require Import Category.Theory.Monad.
 
 Generalizable All Variables.
 

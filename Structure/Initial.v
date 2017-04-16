@@ -1,6 +1,6 @@
-Require Import Lib.
-Require Export Category.
-Require Export Functor.
+Require Import Category.Lib.
+Require Export Category.Theory.
+Require Export Category.Theory.Functor.
 
 Generalizable All Variables.
 Set Primitive Projections.

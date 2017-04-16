@@ -1,47 +1,44 @@
-Require Import Lib.
+Require Import Category.Lib.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
 
-Reserved Infix "∘" (at level 30, right associativity).
+Infix "≈" := equiv (at level 79) : category_scope.
+
 Reserved Infix "~>" (at level 90, right associativity).
-Reserved Infix "≈" (at level 79).
+Reserved Infix "∘" (at level 30, right associativity).
 
 Class Category := {
   ob : Type;
 
   uhom := Type : Type;
-  hom  : ob → ob → uhom where "a ~> b" := (hom a b);
+  hom : ob -> ob -> uhom where "a ~> b" := (hom a b);
+
+  homset :> ∀ X Y, Setoid (X ~> Y);
 
   id {A} : A ~> A;
   compose {A B C} (f: B ~> C) (g : A ~> B) : A ~> C
     where "f ∘ g" := (compose f g);
 
-  eqv {A B : ob} : relation (A ~> B)
-    where "f ≈ g" := (eqv f g);
+  compose_respects (X Y Z : ob) :>
+    Proper (equiv ==> equiv ==> equiv) (@compose X Y Z);
 
-  eqv_equivalence (A B : ob) : Equivalence (@eqv A B);
-  compose_respects (A B C : ob) :
-    Proper (@eqv B C ==> @eqv A B ==> @eqv A C) compose;
-
-  id_left {X Y} (f : X ~> Y) : id ∘ f ≈ f;
+  id_left  {X Y} (f : X ~> Y) : id ∘ f ≈ f;
   id_right {X Y} (f : X ~> Y) : f ∘ id ≈ f;
 
   comp_assoc {X Y Z W} (f : Z ~> W) (g : Y ~> Z) (h : X ~> Y) :
     f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h
 }.
 
-Infix "~>" := hom : category_scope.
-Infix "≈" := eqv : category_scope.
+Infix "~>" := hom (at level 90, right associativity) : category_scope.
 Infix "~{ C }~>" := (@hom C) (at level 90) : category_scope.
 Infix "∘" := compose : category_scope.
 
-Notation "id[ X  ]" := (@id _ _ X)  (at level 50) : category_scope.
+Notation "id[ X  ]" := (@id _ X)  (at level 50) : category_scope.
 
 Coercion ob : Category >-> Sortclass.
-(* Coercion hom : Category >-> Funclass. *)
 
 Hint Rewrite @id_left : categories.
 Hint Rewrite @id_right : categories.
@@ -49,13 +46,7 @@ Hint Rewrite @id_right : categories.
 Ltac cat :=
   autorewrite with categories; auto with category_laws; try reflexivity.
 
-Program Instance parametric_relation_eqv `{C : Category} {a b : C} :
-  Equivalence (@eqv C a b) := eqv_equivalence a b.
-
-Program Instance parametric_morphism_compose `{C : Category} {a b c : C} :
-  Proper (eqv ==> eqv ==> eqv) (@compose C a b c) := compose_respects a b c.
-
-Theorem eq_eqv `{C : Category} {X Y : C} (f g : X ~> Y) :
+Lemma eq_eqv `{C : Category} {X Y : C} (f g : X ~> Y) :
   f = g -> f ≈ g.
 Proof.
   intros.
@@ -63,8 +54,9 @@ Proof.
   reflexivity.
 Qed.
 
+(*
 Program Instance impl_eqv `{C : Category} {a b : C} :
-  Proper (eqv --> @eqv C a b ++> Basics.impl) eqv.
+  Proper (equiv --> equiv ++> Basics.impl) equiv.
 Obligation 1.
   intros ???????.
   transitivity x; auto.
@@ -79,6 +71,7 @@ Obligation 1.
   rewrite <- H, H0.
   assumption.
 Qed.
+*)
 
 Hint Constructors Equivalence.
 
@@ -101,3 +94,5 @@ Hint Extern 7 (?X ≈ ?Z) =>
   end : category_laws.
 Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.
+
+Arguments ob : clear implicits.

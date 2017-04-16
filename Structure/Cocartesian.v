@@ -1,6 +1,6 @@
-Require Import Lib.
-Require Export Initial.
-Require Export Isomorphism.
+Require Import Category.Lib.
+Require Export Category.Theory.Isomorphism.
+Require Export Category.Structure.Initial.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -15,14 +15,13 @@ Class Cocartesian := {
   Coprod : ob -> ob -> ob
     where "X + Y" := (Coprod X Y);
 
-  merge {X Z W} (f : Z ~> X) (g : W ~> X) : Z + W ~> X;
+  merge {X Y Z} (f : Y ~> X) (g : Z ~> X) : Y + Z ~> X;
   inl   {X Y} : X ~> X + Y;
   inr   {X Y} : Y ~> X + Y;
 
-  merge_respects : ∀ X Z W,
-    Proper (@eqv _ Z X ==> @eqv _ W X ==> @eqv _ (Z + W) X) merge;
+  merge_respects {X Y Z} :> Proper (equiv ==> equiv ==> equiv) (@merge X Y Z);
 
-  univ_coproducts {X Y Z} (f : Y ~> X) (g : Z ~> X) (h : Y + Z ~> X) :
+  ump_coproducts {X Y Z} (f : Y ~> X) (g : Z ~> X) (h : Y + Z ~> X) :
     h ≈ merge f g <-> h ∘ inl ≈ f ∧ h ∘ inr ≈ g
 }.
 
@@ -31,14 +30,11 @@ Infix "▽" := merge (at level 26) : category_scope.
 
 Context `{@Cocartesian}.
 
-Global Program Instance parametric_morphism_merge (a b c : C) :
-  Proper (eqv ==> eqv ==> eqv) merge := merge_respects a b c.
-
 Corollary inl_merge {X Z W : C} (f : Z ~> X) (g : W ~> X) :
   f ▽ g ∘ inl ≈ f.
 Proof.
   intros.
-  apply (proj1 (univ_coproducts f g (f ▽ g))).
+  apply (proj1 (ump_coproducts f g (f ▽ g))).
   reflexivity.
 Qed.
 
@@ -48,7 +44,7 @@ Corollary inr_merge {X Z W : C} (f : Z ~> X) (g : W ~> X) :
   f ▽ g ∘ inr ≈ g.
 Proof.
   intros.
-  apply (proj1 (univ_coproducts f g (f ▽ g))).
+  apply (proj1 (ump_coproducts f g (f ▽ g))).
   reflexivity.
 Qed.
 
@@ -59,7 +55,7 @@ Corollary merge_inl_inr {X Y : C} :
 Proof.
   intros.
   symmetry.
-  apply univ_coproducts; cat.
+  apply ump_coproducts; cat.
 Qed.
 
 Hint Rewrite @merge_inl_inr : categories.
@@ -67,7 +63,7 @@ Hint Rewrite @merge_inl_inr : categories.
 Corollary merge_inv {X Y Z : C} (f h : Y ~> X) (g i : Z ~> X) :
   f ▽ g ≈ h ▽ i <-> (f ≈ h ∧ g ≈ i).
 Proof.
-  pose proof (univ_coproducts h i (f ▽ g)) as Huniv.
+  pose proof (ump_coproducts h i (f ▽ g)) as Huniv.
   rewrite inl_merge in Huniv.
   rewrite inr_merge in Huniv.
   apply Huniv.
@@ -78,7 +74,7 @@ Corollary merge_comp {X Y Z W : C} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X) :
 Proof.
   intros.
   symmetry.
-  apply univ_coproducts.
+  apply ump_coproducts.
   rewrite <- !comp_assoc; cat.
 Qed.
 
@@ -89,11 +85,11 @@ Notation "X + 0" := (Coprod X Zero) (at level 30).
 
 Global Program Instance coprod_zero_l {X : C} :
   0 + X ≅ X := {
-  iso_to   := zero ▽ id;
-  iso_from := inr
+  to   := zero ▽ id;
+  from := inr
 }.
-Obligation 1.
-  constructor; simpl; intros; cat.
+Next Obligation. cat. Qed.
+Next Obligation.
   rewrite <- merge_comp; cat.
   rewrite <- merge_inl_inr.
   apply merge_respects; cat.
@@ -103,11 +99,11 @@ Hint Rewrite @coprod_zero_l : isos.
 
 Global Program Instance coprod_zero_r {X : C} :
   X + 0 ≅ X := {
-  iso_to   := id ▽ zero;
-  iso_from := inl
+  to   := id ▽ zero;
+  from := inl
 }.
-Obligation 1.
-  constructor; simpl; intros; cat.
+Next Obligation. cat. Qed.
+Next Obligation.
   rewrite <- merge_comp; cat.
   rewrite <- merge_inl_inr.
   apply merge_respects; cat.
@@ -117,11 +113,16 @@ Hint Rewrite @coprod_zero_r : isos.
 
 Global Program Instance coprod_assoc  {X Y Z : C} :
   (X + Y) + Z ≅ X + (Y + Z) := {
-  iso_to   := (inl ▽ (inr ∘ inl)) ▽ (inr ∘ inr);
-  iso_from := (inl ∘ inl) ▽ ((inl ∘ inr) ▽ inr)
+  to   := (inl ▽ (inr ∘ inl)) ▽ (inr ∘ inr);
+  from := (inl ∘ inl) ▽ ((inl ∘ inr) ▽ inr)
 }.
 Next Obligation.
-  constructor; simpl; intros;
+  rewrite <- !merge_comp; cat;
+  rewrite comp_assoc; cat;
+  rewrite comp_assoc; cat;
+  rewrite merge_comp; cat.
+Qed.
+Next Obligation.
   rewrite <- !merge_comp; cat;
   rewrite comp_assoc; cat;
   rewrite comp_assoc; cat;
@@ -151,8 +152,8 @@ Context `{@Cocartesian D}.
 Class CocartesianFunctor := {
   fobj_coprod_iso {X Y : C} : F (X + Y) ≅ F X + F Y;
 
-  coprod_in  := fun X Y => iso_from (@fobj_coprod_iso X Y);
-  coprod_out := fun X Y => iso_to   (@fobj_coprod_iso X Y);
+  coprod_in  := fun X Y => from (@fobj_coprod_iso X Y);
+  coprod_out := fun X Y => to   (@fobj_coprod_iso X Y);
 
   fmap_inl {X Y : C} : fmap (@inl C _ X Y) ≈ coprod_in _ _ ∘ inl;
   fmap_inr {X Y : C} : fmap (@inr C _ X Y) ≈ coprod_in _ _ ∘ inr;
@@ -167,19 +168,13 @@ Context `{@CocartesianFunctor}.
 
 Corollary coprod_in_out {X Y : C} :
   coprod_in ∘ coprod_out ≈ @id _ (F (X + Y)).
-Proof.
-  intros.
-  exact (iso_from_to (iso_witness fobj_coprod_iso)).
-Qed.
+Proof. apply iso_from_to. Qed.
 
 Hint Rewrite @coprod_in_out : functors.
 
 Corollary coprod_out_in {X Y : C} :
   coprod_out ∘ coprod_in ≈ @id _ (F X + F Y).
-Proof.
-  intros.
-  exact (iso_to_from (iso_witness fobj_coprod_iso)).
-Qed.
+Proof. apply iso_to_from. Qed.
 
 Hint Rewrite @coprod_out_in : functors.
 
@@ -220,3 +215,4 @@ Arguments coprod_out {_ _ _ _ _ _ _ _} /.
 
 Hint Rewrite @coprod_in_out : functors.
 Hint Rewrite @coprod_out_in : functors.
+

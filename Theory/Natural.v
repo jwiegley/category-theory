@@ -1,6 +1,6 @@
-Require Import Lib.
-Require Export Functor.
-Require Export Isomorphism.
+Require Import Category.Lib.
+Require Export Category.Theory.Functor.
+Require Export Category.Theory.Isomorphism.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -64,13 +64,17 @@ Global Program Instance Nat : Category := {
   id      := @nat_identity;
   compose := @nat_compose
 }.
-Obligation 1.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
   destruct f.
 Admitted.
-Obligation 2.
+Next Obligation.
   destruct f.
 Admitted.
-Obligation 3.
+Next Obligation.
   destruct f.
 Admitted.
 
@@ -78,8 +82,10 @@ End Nat.
 
 Notation "[ C , D ]" := (@Nat C D) (at level 90, right associativity).
 
-Require Import Coq.
-Require Import Opposite.
+Require Import Category.Construct.Opposite.
+(* jww (2017-04-15): TODO
+Require Import Category.Instance.Sets.
 
-Definition Copresheaves (C : Category) := [C, Coq].
-Definition Presheaves   (C : Category) := [C^op, Coq].
+Definition Copresheaves (C : Category) := [C, Sets].
+Definition Presheaves   (C : Category) := [C^op, Sets].
+*)

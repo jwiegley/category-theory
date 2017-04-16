@@ -1,5 +1,5 @@
-Require Import Lib.
-Require Export Category.
+Require Import Category.Lib.
+Require Export Category.Theory.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -115,43 +115,40 @@ Hint Unfold Bimorphic.
 Hint Unfold SplitEpi.
 Hint Unfold SplitMono.
 
-Require Export Isomorphism.
+Require Export Category.Theory.Isomorphism.
 
 Program Instance Monic_Retraction_Iso
         `{C : Category} {X Y : C} `(r : Retraction f) `(m : Monic f) :
   X ≅ Y := {
-  iso_to := f;
-  iso_from := projT1 r
+  to := f;
+  from := projT1 r
 }.
-Obligation 1.
-  autounfold in *.
-  destruct r.
-  auto.
-  constructor; simpl; auto.
+Next Obligation. destruct r; auto. Qed.
+Next Obligation.
+  destruct r; simpl.
   apply m.
   rewrite comp_assoc.
   rewrite e; cat.
 Qed.
 
 Program Instance Epic_Section_Iso
-    `{C : Category} {X Y : C} `(s : Section f) `(e : Epic f) :
+        `{C : Category} {X Y : C} `(s : Section f) `(e : Epic f) :
   X ≅ Y := {
-  iso_to := f;
-  iso_from := projT1 s
+  to := f;
+  from := projT1 s
 }.
-Obligation 1.
-  autounfold in *.
-  destruct s.
+Next Obligation.
+  destruct s; auto.
   simpl.
   specialize (e Y (f ∘ x) id).
-  constructor; auto.
   apply e.
   rewrite <- comp_assoc.
   rewrite e0; cat.
 Qed.
+Next Obligation. destruct s; auto. Qed.
 
 Definition flip_Section `{C : Category} `(f : X ~> Y)
-  (s : @Section C X Y f) : @Retraction C Y X (projT1 s).
+           (s : @Section C X Y f) : @Retraction C Y X (projT1 s).
 Proof.
   autounfold.
   destruct s.
@@ -160,7 +157,7 @@ Proof.
 Qed.
 
 Definition flip_Retraction `{C : Category} `(f : X ~> Y)
-  (s : @Retraction C X Y f) : @Section C Y X (projT1 s).
+           (s : @Retraction C X Y f) : @Section C Y X (projT1 s).
 Proof.
   autounfold.
   destruct s.
