@@ -40,11 +40,11 @@ Obligation 1.
   destruct (X tt).
     exact true.
   exact false.
-Defined.
+Qed.
 Obligation 2.
   unfold bool_Represented_obligation_1.
   destruct x; auto.
-Defined.
+Qed.
 
 Program Instance prod_Represented
         `{H1 : @Represented A _ Hom_Terminal C}

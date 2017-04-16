@@ -19,10 +19,10 @@ Program Instance Product_Terminal `{Terminal C} {X Y : C} :
   Category (@Product C _ X Y).
 Next Obligation.
   reflexivity.
-Defined.
+Qed.
 Next Obligation.
   reflexivity.
-Defined.
+Qed.
 Next Obligation.
   econstructor.
   constructor; apply proof_irrelevance.

@@ -36,11 +36,11 @@ Obligation 1.
   destruct X.
   apply transport0.
   auto.
-Defined.
+Qed.
 Obligation 2.
   apply Sets_Const_Nat.
   auto.
-Defined.
+Qed.
 Obligation 3.
   extensionality e.
   unfold Sets_Const_Lim_Iso_obligation_1.

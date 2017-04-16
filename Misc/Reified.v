@@ -100,7 +100,7 @@ Obligation 1.
   - intros ??? HA HB ??????.
     rewrite HA, HB.
     reflexivity.
-Defined.
+Qed.
 Obligation 2.
   intros ?? HA ?? HB ??????.
   simpl.
@@ -153,7 +153,7 @@ Obligation 1.
     simpl.
     rewrite HA.
     reflexivity.
-Defined.
+Qed.
 
 Program Instance Hom_Initial : @Initial _ := {
   Zero := Zero_;

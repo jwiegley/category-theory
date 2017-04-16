@@ -52,8 +52,8 @@ Program Instance Termi : Category := {
   id      := fun _ => tt;
   compose := fun _ _ _ _ _ => tt
 }.
-Next Obligation. destruct f; reflexivity. Defined.
-Next Obligation. destruct f; reflexivity. Defined.
+Next Obligation. destruct f; reflexivity. Qed.
+Next Obligation. destruct f; reflexivity. Qed.
 
 Program Instance Fini `(C : Category) : C ⟶ Termi := {
   fobj := fun _ => tt;
@@ -65,11 +65,11 @@ Program Instance Ini : Category := {
   hom := fun _ _ => Empty_set;
   homset := fun _ _ => {| equiv := eq |}
 }.
-Next Obligation. destruct f. Defined.
+Next Obligation. destruct f. Qed.
 
 Program Instance Init `(C : Category) : Ini ⟶ C.
-Next Obligation. destruct H. Defined.
-Next Obligation. destruct X. Defined.
+Next Obligation. destruct H. Qed.
+Next Obligation. destruct X. Qed.
 Next Obligation. destruct X. Qed.
 Next Obligation. destruct X. Qed.
 
@@ -93,4 +93,4 @@ Program Instance Cat_Initial : @Initial Cat := {
 }.
 Next Obligation.
   unfold functor_equiv; intros; destruct X.
-Defined.
+Qed.

@@ -375,7 +375,7 @@ Program Definition functor_prod `{C : Category} `{D : Category}
 Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation. cat. Qed.
 Next Obligation.
   rewrite <- fork_comp.

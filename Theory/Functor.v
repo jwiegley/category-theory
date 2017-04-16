@@ -55,17 +55,17 @@ Program Definition functor_comp
 Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   intros.
   rewrite !fmap_id.
   reflexivity.
-Defined.
+Qed.
 Next Obligation.
   intros.
   rewrite !fmap_comp.
   reflexivity.
-Defined.
+Qed.
 
 Infix "○" := functor_comp (at level 30, right associativity) : category_scope.
 
@@ -75,6 +75,6 @@ Global Program Instance Identity : C ⟶ C := {
   fobj := fun X => X;
   fmap := fun _ _ f => f
 }.
-(* Next Obligation. repeat intro; auto. Defined. *)
-Next Obligation. reflexivity. Defined.
-Next Obligation. reflexivity. Defined.
+(* Next Obligation. repeat intro; auto. Qed. *)
+Next Obligation. reflexivity. Qed.
+Next Obligation. reflexivity. Qed.

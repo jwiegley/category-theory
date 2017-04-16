@@ -50,7 +50,7 @@ Next Obligation.
   destruct exp_iso; simpl in *.
   destruct to; simpl in *.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 
 Global Program Instance parametric_morphism_uncurry (a b c : C) :
   Proper (equiv ==> equiv) (@uncurry a b c).
@@ -60,7 +60,7 @@ Next Obligation.
   destruct exp_iso; simpl in *.
   destruct from; simpl in *.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 
 Corollary curry_uncurry {X Y Z} (f : X ~> Z^Y) :
   curry (uncurry f) ≈ f.

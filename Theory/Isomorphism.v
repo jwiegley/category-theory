@@ -69,18 +69,18 @@ Global Program Instance isomorphism_equiv_equivalence {X Y : C} :
 Next Obligation.
   repeat intro.
   split; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intros ?? HA.
   split; symmetry; apply HA.
-Defined.
+Qed.
 Next Obligation.
   repeat intros ? y ? HA HB.
   destruct HA, HB.
   split.
     transitivity (to y); auto.
   transitivity (from y); auto.
-Defined.
+Qed.
 
 Global Program Instance isomorphism_setoid {X Y : C} : Setoid (X ≅ Y) := {
   equiv := isomorphism_equiv;

@@ -25,35 +25,35 @@ Program Instance Profunctor `(D : Category) `(C : Category) : D^op ⟶ [C, Sets]
 Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   intros ?? HA ?; simpl.
   rewrite HA; reflexivity.
-Defined.
-Next Obligation. cat. Defined.
+Qed.
+Next Obligation. cat. Qed.
 Next Obligation.
   unfold Basics.compose.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intro; intuition.
-Defined.
+Qed.
 Next Obligation.
   unfold Basics.compose.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intro; intuition; simpl in *.
   unfold unop.
   rewrite X0; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   intro; simpl; unfold unop; intros; cat.
-Defined.
+Qed.
 Next Obligation.
   intro; simpl; unfold unop, Basics.compose; intros.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 
 Coercion HomFunctor : Category >-> Functor.
 

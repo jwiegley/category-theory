@@ -23,7 +23,7 @@ Corollary zero_comp `{@Initial C} {A B : C} {f : A ~> B} :
 Proof.
   intros.
   apply zero_eqv.
-Defined.
+Qed.
 
 Hint Rewrite @zero_comp : categories.
 

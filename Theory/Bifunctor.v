@@ -50,35 +50,35 @@ Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
 Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   intros ?? HA ?; simpl.
   rewrite HA; reflexivity.
-Defined.
-Next Obligation. cat. Defined.
+Qed.
+Next Obligation. cat. Qed.
 Next Obligation.
   unfold Basics.compose.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intro; intuition.
-Defined.
+Qed.
 Next Obligation.
   unfold Basics.compose.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intros ?? HA; intuition; simpl in *.
   unfold unop, nat_equiv; simpl; intros.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   intro; simpl; unfold unop; intros; cat.
-Defined.
+Qed.
 Next Obligation.
   intro; simpl; unfold unop, Basics.compose; intros.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 
 Coercion HomFunctor : Category >-> Functor.
 
@@ -99,35 +99,35 @@ Program Instance CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
 Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   intros ?? HA ?; simpl.
   rewrite HA; reflexivity.
-Defined.
-Next Obligation. cat. Defined.
+Qed.
+Next Obligation. cat. Qed.
 Next Obligation.
   unfold Basics.compose.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intro; intuition.
-Defined.
+Qed.
 Next Obligation.
   unfold Basics.compose.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intros ?? HA; intuition; simpl in *.
   unfold op, nat_equiv; simpl; intros.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   intro; simpl; unfold unop; intros; cat.
-Defined.
+Qed.
 Next Obligation.
   intro; simpl; unfold unop, Basics.compose; intros.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 
 Coercion CoHomFunctor : Category >-> Functor.
 

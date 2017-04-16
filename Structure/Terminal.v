@@ -32,7 +32,7 @@ Corollary one_comp `{@Terminal C} {A B : C} {f : A ~> B} :
 Proof.
   intros.
   apply one_eqv.
-Defined.
+Qed.
 
 Hint Rewrite @one_comp : categories.
 

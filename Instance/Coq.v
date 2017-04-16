@@ -20,12 +20,12 @@ Obligation 1.
   - intros ??; auto.
   - intros ????; auto.
   - intros ??????; congruence.
-Defined.
+Qed.
 Obligation 2.
   intros ?? HA ?? HB ?.
   rewrite HA, HB.
   reflexivity.
-Defined.
+Qed.
 
 Program Instance Coq_Terminal : @Terminal _ := {
   One := unit : Type;
@@ -46,7 +46,7 @@ Obligation 1.
   intros ?? HA ?? HB ?.
   rewrite HA, HB.
   reflexivity.
-Defined.
+Qed.
 Obligation 2.
   split; intros Hcart; subst.
     split; intros;
@@ -95,7 +95,7 @@ Obligation 1.
   destruct x1.
     rewrite HA; reflexivity.
   rewrite HB; reflexivity.
-Defined.
+Qed.
 Obligation 2.
   split; intros Hcocart; subst.
     split; intros;

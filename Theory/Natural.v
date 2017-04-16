@@ -73,24 +73,21 @@ Global Program Instance functor_Setoid : Setoid (C ⟶ D) := {
 }.
 
 Program Definition nat_equiv `{F : C ⟶ D} `{G : C ⟶ D} : crelation (F ⟹ G) :=
-  fun n m => @equiv _ _ (transform[n]) (transform[m]).
+  fun n m =>
+    let setoid := {| equiv := fun X Y : ∀ X, F X ~> G X =>
+                                forall A, X A ≈ Y A|} in
+    @equiv _ setoid (transform[n]) (transform[m]).
 Next Obligation.
-  pose proof (@homset D) as HD.
-  eapply {| equiv := fun X Y : ∀ X, F X ~> G X =>
-                       forall A, X A ≈ Y A|}.
-  Unshelve.
-  - apply HD.
-  - constructor; cat.
-    intros ??????.
-    transitivity (y A); auto.
-Defined.
+  constructor; repeat intro; cat.
+  transitivity (y A); auto.
+Qed.
 
 Global Program Definition nat_equiv_equivalence `{F : C ⟶ D} `{G : C ⟶ D} :
   Equivalence (@nat_equiv F G).
 Proof.
   constructor; cat; repeat intro; cat.
   transitivity (y A); auto.
-Defined.
+Qed.
 
 Global Program Instance nat_Setoid `{F : C ⟶ D} `{G : C ⟶ D} :
   Setoid (F ⟹ G) := {
@@ -101,7 +98,7 @@ Global Program Instance nat_Setoid `{F : C ⟶ D} `{G : C ⟶ D} :
 Global Program Definition nat_identity `{F : C ⟶ D} : F ⟹ F := {|
   transform := fun X => fmap (@id C X)
 |}.
-Obligation 1. cat. Defined.
+Obligation 1. cat. Qed.
 
 Global Program Definition nat_compose `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D}
   (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
@@ -115,7 +112,7 @@ Obligation 1.
   rewrite natural_transformation.
   rewrite comp_assoc.
   reflexivity.
-Defined.
+Qed.
 
 Global Program Definition nat_compose_respects
        `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D} :
@@ -127,7 +124,7 @@ Proof.
   unfold nat_equiv in *; simpl in *.
   rewrite HA, HB.
   reflexivity.
-Defined.
+Qed.
 
 (* Nat is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
@@ -142,14 +139,14 @@ Global Program Instance Nat : Category := {
 }.
 Next Obligation.
   unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
-Defined.
+Qed.
 Next Obligation.
   unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
-Defined.
+Qed.
 Next Obligation.
   unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 
 End Nat.
 

@@ -24,7 +24,7 @@ Obligation 2.
   rewrite right_identity.
   unfold Const_Transport_obligation_1.
   reflexivity.
-Defined.
+Qed.
 
 Program Instance Delta `{C : Category} `{J : Category} : C ⟶ [J, C] := {
     fobj := @Const C J
@@ -32,7 +32,7 @@ Program Instance Delta `{C : Category} `{J : Category} : C ⟶ [J, C] := {
 Obligation 1.
   apply Const_Transport.
   assumption.
-Defined.
+Qed.
 Obligation 2.
   unfold Delta_obligation_1.
   unfold Const_Transport.

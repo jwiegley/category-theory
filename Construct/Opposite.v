@@ -45,13 +45,8 @@ Proof.
   extensionality h.
 Abort.
 
-Definition op `{C : Category} : ∀ {X Y : C},
-  (X ~{C^op}~> Y) → (Y ~{C}~> X).
-Proof. intros; assumption. Defined.
-
-Definition unop `{C : Category} : ∀ {X Y : C},
-  (Y ~{C}~> X) → (X ~{C^op}~> Y).
-Proof. auto. Defined.
+Definition op `{C : Category} {X Y : C} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
+Definition unop `{C : Category} {X Y : C} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
 
 Program Instance Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {
     fobj := @fobj C D F;
@@ -62,7 +57,7 @@ Next Obligation.
   apply fmap_respects.
   unfold op.
   assumption.
-Defined.
+Qed.
 Next Obligation. unfold op; apply fmap_id. Qed.
 Next Obligation. unfold op; apply fmap_comp. Qed.
 
@@ -73,14 +68,14 @@ Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {
 Next Obligation.
   repeat intros ?? HA; unfold unop.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   unfold unop.
   unfold fmap. simpl.
   pose (@fmap_id _ _ F).
   unfold fmap in e. simpl in e.
   specialize (e X). auto.
-Defined.
+Qed.
 Next Obligation.
   unfold unop.
   unfold fmap. simpl.
@@ -88,7 +83,7 @@ Next Obligation.
   unfold fmap in e. simpl in e.
   specialize (e Z Y X g f).
   auto.
-Defined.
+Qed.
 
 Lemma op_functor_involutive `(F : Functor) :
   Reverse_Opposite_Functor (Opposite_Functor F) ≈ F.
@@ -98,4 +93,4 @@ Proof.
   destruct F; simpl;
   unfold functor_equiv; simpl; intros.
   reflexivity.
-Defined.
+Qed.

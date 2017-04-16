@@ -32,32 +32,32 @@ Next Obligation.
   destruct x, y; simpl in *.
   unfold nat_equiv in HA; simpl in HA.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intros ?? HA.
   destruct F; simpl in *.
   apply fmap_respects.
   apply HA.
-Defined.
+Qed.
 Next Obligation.
   destruct F; simpl in *.
   unfold Basics.compose in *.
   rewrite <- fmap_comp.
   reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intro; simpl in *.
   destruct F; simpl in *.
   destruct (fmap A A0 x0); simpl.
   apply proper_morphism.
   assumption.
-Defined.
+Qed.
 Next Obligation.
   unfold Basics.compose; simpl.
   destruct F; simpl in *.
   rewrite fmap_id.
   reflexivity.
-Defined.
+Qed.
 Next Obligation.
   unfold Basics.compose; simpl.
   destruct F; simpl in *.
@@ -66,7 +66,7 @@ Next Obligation.
   unfold Basics.compose in *; simpl.
   rewrite natural_transformation.
   apply transform; cat.
-Defined.
+Qed.
 
 Program Instance CoonedaLemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
 
@@ -84,32 +84,32 @@ Next Obligation.
   destruct x, y; simpl in *.
   unfold nat_equiv in HA; simpl in HA.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intros x y HA.
   destruct F; simpl in *.
   apply fmap_respects.
   apply HA.
-Defined.
+Qed.
 Next Obligation.
   destruct F; simpl in *.
   unfold Basics.compose in *.
   rewrite <- fmap_comp.
   reflexivity.
-Defined.
+Qed.
 Next Obligation.
   repeat intro; simpl in *.
   destruct F; simpl in *.
   destruct (fmap A A0 x0); simpl.
   apply proper_morphism.
   assumption.
-Defined.
+Qed.
 Next Obligation.
   unfold Basics.compose; simpl.
   destruct F; simpl in *.
   rewrite fmap_id.
   reflexivity.
-Defined.
+Qed.
 Next Obligation.
   unfold Basics.compose; simpl.
   destruct F; simpl in *.
@@ -118,4 +118,4 @@ Next Obligation.
   unfold Basics.compose in *; simpl.
   rewrite natural_transformation.
   apply transform; cat.
-Defined.
+Qed.

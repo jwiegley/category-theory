@@ -78,7 +78,7 @@ Next Obligation.
   destruct adj_iso; simpl in *.
   destruct to; simpl in *.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 
 Global Program Instance parametric_morphism_adj_right a b :
   Proper (equiv ==> equiv) (@adj_right a b).
@@ -88,7 +88,7 @@ Next Obligation.
   destruct adj_iso; simpl in *.
   destruct from; simpl in *.
   rewrite HA; reflexivity.
-Defined.
+Qed.
 
 Corollary adj_left_unit  {a b} (f : F a ~> b) :
   adj_left f ≈ fmap f ∘ unit.
@@ -157,8 +157,8 @@ Program Definition adj_comp
     {| to   := {| morphism := fun (f : F (F' a) ~> b) => adj_left (adj_left f) |}
      ; from := {| morphism := fun (f : a ~> U' (U b)) => adj_right (adj_right f) |} |}
 |}.
-Next Obligation. intros ?? HA; rewrite HA; reflexivity. Defined.
-Next Obligation. intros ?? HA; rewrite HA; reflexivity. Defined.
+Next Obligation. intros ?? HA; rewrite HA; reflexivity. Qed.
+Next Obligation. intros ?? HA; rewrite HA; reflexivity. Qed.
 Next Obligation.
   unfold Basics.compose.
   rewrite adj_left_right, adj_left_right; reflexivity.
@@ -198,29 +198,26 @@ Next Obligation.
   - destruct H, H0; transitivity (free_functor y); assumption.
   - destruct H, H0;
     transitivity (forgetful_functor y); assumption.
-Defined.
+Qed.
 
 Program Instance Adj : Category := {
   ob := Category;
   hom := @adj_morphism;
   id := fun X =>
           {| free_functor      := @Identity X
-           ; forgetful_functor := @Identity X |}
+           ; forgetful_functor := @Identity X |};
+  compose := fun A B C f g =>
+    {| adjunction :=
+             @adj_comp A B C (free_functor g) (forgetful_functor g)
+                       (free_functor f) (forgetful_functor f)
+                       (adjunction g) (adjunction f) |}
 }.
-Next Obligation.
-  destruct f, g.
-  apply {| adjunction :=
-             @adj_comp A B C free_functor1 forgetful_functor1
-                       free_functor0 forgetful_functor0
-                       adjunction1 adjunction0 |}.
-Defined.
 Next Obligation.
   repeat intros ?? [f f0] HA HB [f1 f2].
   apply adj_morphism_setoid.
-  unfold Adj_obligation_1; simpl.
   destruct HA, HB; split;
   unfold functor_equiv in *; simpl in *; intros;
-  destruct x, y; simpl in *.
+  destruct x, y; simpl in *; intro X0; simpl.
     specialize (f1 (free_functor2 X0)).
     symmetry.
     etransitivity.
@@ -236,19 +233,19 @@ Next Obligation.
   Unshelve.
   - apply (free_functor2 X0).
   - apply (forgetful_functor0 X0).
-Defined.
+Qed.
 Next Obligation.
   destruct f.
   unfold functor_equiv; simpl; split; intros;
   reflexivity.
-Defined.
+Qed.
 Next Obligation.
   destruct f.
   unfold functor_equiv; simpl; split; intros;
   reflexivity.
-Defined.
+Qed.
 Next Obligation.
   destruct f, g, h.
   unfold functor_equiv; simpl; split; intros;
   reflexivity.
-Defined.
+Qed.

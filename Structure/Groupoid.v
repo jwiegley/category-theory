@@ -24,39 +24,39 @@ Program Instance Groupoid : Category := {
     {| to := to f ∘ to g
      ; from := from g ∘ from f |}
 }.
-Next Obligation. cat. Defined.
-Next Obligation. cat. Defined.
+Next Obligation. cat. Qed.
+Next Obligation. cat. Qed.
 Next Obligation.
   rewrite <- comp_assoc.
   rewrite (comp_assoc (to g)).
   rewrite iso_to_from; cat.
   apply iso_to_from.
-Defined.
+Qed.
 Next Obligation.
   rewrite <- comp_assoc.
   rewrite (comp_assoc (from f)).
   rewrite iso_from_to; cat.
   apply iso_from_to.
-Defined.
+Qed.
 Next Obligation.
   repeat intros ?? HA ?? HB.
   unfold isomorphism_equiv.
   destruct HA, HB; simpl; split.
     rewrite H, H1; reflexivity.
   rewrite H0, H2; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   unfold isomorphism_equiv.
   destruct f; simpl; split; cat.
-Defined.
+Qed.
 Next Obligation.
   unfold isomorphism_equiv.
   destruct f; simpl; split; cat.
-Defined.
+Qed.
 Next Obligation.
   unfold isomorphism_equiv.
   destruct f, g, h; simpl; split;
   rewrite comp_assoc; reflexivity.
-Defined.
+Qed.
 
 End Groupoid.
