@@ -11,7 +11,6 @@ Theory/Bifunctor.v
 Theory/Monad.v
 Construct/Opposite.v
 Structure/Groupoid.v
-Structure/Monoidal.v
 Structure/Terminal.v
 Structure/Cartesian.v
 Structure/Initial.v
@@ -27,6 +26,7 @@ Theory.v
 Misc/Abstraction.v
 Misc/Reified.v
 Misc/Represented.v
+Pending/Monoidal.v
 Pending/Faithful.v
 Pending/Cone.v
 Pending/Limit.v
