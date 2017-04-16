@@ -52,6 +52,32 @@ Obligation 3.
   rewrite iso_from_to1; cat.
 Defined.
 
+Definition isomorphism_equiv {X Y : C} : crelation (X ≅ Y) :=
+  fun f g => to f ≈ to g //\\ from f ≈ from g.
+
+Global Program Instance isomorphism_equiv_equivalence {X Y : C} :
+  CRelationClasses.Equivalence (@isomorphism_equiv X Y).
+Next Obligation.
+  repeat intro.
+  split; reflexivity.
+Defined.
+Next Obligation.
+  repeat intro.
+  split; symmetry; apply X0.
+Defined.
+Next Obligation.
+  repeat intro.
+  destruct X0, X1.
+  split.
+    transitivity (to y); auto.
+  transitivity (from y); auto.
+Defined.
+
+Global Program Instance isomorphism_setoid {X Y : C} : Setoid (X ≅ Y) := {
+  equiv := isomorphism_equiv;
+  setoid_equiv := isomorphism_equiv_equivalence
+}.
+
 End Isomorphism.
 
 Infix "≅" := (@Isomorphism _) (at level 91) : category_scope.

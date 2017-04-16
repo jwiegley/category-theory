@@ -16,59 +16,47 @@ Context `{C : Category}.
 Program Instance Groupoid : Category := {
   ob      := @ob C;
   hom     := @Isomorphism C;
-  id      := fun _ => _;
-  compose := fun _ _ _ => _;
+  homset  := @isomorphism_setoid C;
+  id      := fun _ =>
+    {| to := id
+     ; from := id |};
+  compose := fun _ _ _ f g =>
+    {| to := to f ∘ to g
+     ; from := from g ∘ from f |}
 }.
-Next Obligation. Admitted.
+Next Obligation. cat. Defined.
+Next Obligation. cat. Defined.
 Next Obligation.
-  reflexivity.                  (* identity is reflexivity *)
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc (to g)).
+  rewrite iso_to_from; cat.
+  apply iso_to_from.
 Defined.
 Next Obligation.
-  transitivity H0; assumption.  (* composition is transitivity *)
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc (from f)).
+  rewrite iso_from_to; cat.
+  apply iso_from_to.
 Defined.
 Next Obligation.
-  unfold Groupoid_obligation_3.
-  intros ??????.
-(*
-  - destruct x, y, x0, y0, H, H0; simpl in *.
-    rewrite iso_to_eqv.
-    rewrite iso_to_eqv0.
-    reflexivity.
-  - destruct x, y, x0, y0, H, H0; simpl in *.
-    rewrite iso_from_eqv.
-    rewrite iso_from_eqv0.
-    reflexivity.
-Qed.
-*)
-Admitted.
+  repeat intro.
+  unfold isomorphism_equiv.
+  destruct X0, X1; simpl; split.
+    rewrite e, e1; reflexivity.
+  rewrite e0, e2; reflexivity.
+Defined.
 Next Obligation.
-  unfold Groupoid_obligation_2.
-  unfold Groupoid_obligation_3.
-(*
-  - destruct f; simpl; cat.
-  - destruct f; simpl; cat.
-Qed.
-*)
-Admitted.
+  unfold isomorphism_equiv.
+  destruct f; simpl; split; cat.
+Defined.
 Next Obligation.
-  unfold Groupoid_obligation_2.
-  unfold Groupoid_obligation_3.
-(*
-  - destruct f; simpl; cat.
-  - destruct f; simpl; cat.
-Qed.
-*)
-Admitted.
+  unfold isomorphism_equiv.
+  destruct f; simpl; split; cat.
+Defined.
 Next Obligation.
-  unfold Groupoid_obligation_2.
-  unfold Groupoid_obligation_3.
-(*
-  - destruct f, g, h; simpl.
-    rewrite comp_assoc; reflexivity.
-  - destruct f, g, h; simpl.
-    rewrite comp_assoc; reflexivity.
-Qed.
-*)
-Admitted.
+  unfold isomorphism_equiv.
+  destruct f, g, h; simpl; split;
+  rewrite comp_assoc; reflexivity.
+Defined.
 
 End Groupoid.

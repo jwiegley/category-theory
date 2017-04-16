@@ -31,14 +31,6 @@ Notation "C ^op" := (@Opposite C)
 
 Open Scope equiv_scope.
 
-Lemma symmetry_involutive
-      `{R : crelation A} `{Symmetric _ R} {x y : A} (f : R x y) :
-  symmetry (symmetry f) = f.
-Proof.
-  compute.
-  unfold Symmetric in H.
-Admitted.
-
 Lemma op_involutive `{C : Category} : (C^op)^op = C.
 Proof.
   unfold Opposite; simpl.
@@ -51,9 +43,7 @@ Proof.
   extensionality f.
   extensionality g.
   extensionality h.
-  rewrite symmetry_involutive.
-  reflexivity.
-Defined.
+Abort.
 
 Definition op `{C : Category} : ∀ {X Y : C},
   (X ~{C^op}~> Y) → (Y ~{C}~> X).
