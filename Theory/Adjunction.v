@@ -56,13 +56,17 @@ Definition counit {a : C} : F (U a) ~> a := adj_right id.
 Corollary adj_left_right {a b} (f : a ~> U b) : adj_left (adj_right f) ≈ f.
 Proof.
   unfold adj_left, adj_right; simpl.
-  apply (iso_to_from adj_iso).
+  pose proof (iso_to_from (@adj_iso H a b)).
+  simpl in X.
+  apply X.
 Qed.
 
 Definition adj_right_left {a b} (f : F a ~> b) : adj_right (adj_left f) ≈ f.
 Proof.
   unfold adj_left, adj_right; simpl.
-  apply (iso_from_to adj_iso).
+  pose proof (iso_from_to (@adj_iso H a b)).
+  simpl in X.
+  apply X.
 Qed.
 
 Global Program Instance parametric_morphism_adj_left a b :

@@ -1,5 +1,5 @@
 Require Import Category.Lib.
-Require Export Category.Theory.
+Require Export Category.Theory.Category.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -30,7 +30,7 @@ Class SplitIdempotent {X Y : C} := {
 Definition Epic  `(f : X ~> Y) := ∀ {Z} (g1 g2 : Y ~> Z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2.
 Definition Monic `(f : X ~> Y) := ∀ {Z} (g1 g2 : Z ~> X), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2.
 
-Definition Bimorphic `(f : X ~> Y) := Epic f ∧ Monic f.
+Definition Bimorphic `(f : X ~> Y) := (Epic f * Monic f)%type.
 Definition SplitEpi  `(f : X ~> Y) := Retraction f.
 Definition SplitMono `(f : X ~> Y) := Section f.
 

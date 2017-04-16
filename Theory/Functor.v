@@ -1,5 +1,5 @@
 Require Import Category.Lib.
-Require Export Category.Theory.
+Require Export Category.Theory.Category.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -45,8 +45,8 @@ Notation "fmap[ F ]" := (@fmap _ _ F _ _) (at level 9, format "fmap[ F ]").
 Hint Rewrite @fmap_id : categories.
 
 Program Definition functor_comp
-  `{C : Category} `{D : Category} `{E : Category}
-  (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
+        `{C : Category} `{D : Category} `{E : Category}
+        (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
   fobj := fun x => fobj (fobj x);
   fmap := fun _ _ f => fmap (fmap f)
 |}.
@@ -69,9 +69,10 @@ Infix "○" := functor_comp (at level 30, right associativity).
 
 (* The Identity [Functor] *)
 
-Program Instance Identity : C ⟶ C := {
+Global Program Instance Identity : C ⟶ C := {
   fobj := fun X => X;
   fmap := fun _ _ f => f
 }.
-Next Obligation. reflexivity. Qed.
-Next Obligation. reflexivity. Qed.
+Next Obligation. repeat intro; auto. Defined.
+Next Obligation. reflexivity. Defined.
+Next Obligation. reflexivity. Defined.

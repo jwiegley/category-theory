@@ -1,5 +1,5 @@
 Require Import Category.Lib.
-Require Export Category.Theory.
+Require Export Category.Theory.Category.
 Require Export Category.Instance.Sets.
 
 Generalizable All Variables.
@@ -79,7 +79,7 @@ End Isomorphism.
 
 Infix "≅" := (@Isomorphism _) (at level 91) : category_scope.
 Notation "F ≅[ C ] G" := (@Isomorphism C F G)
-  (at level 91, format "F ≅[ C ] G") : category_scope.
+  (at level 91, only parsing) : category_scope.
 
 Arguments to {_ X Y} _.
 Arguments from {_ X Y} _.

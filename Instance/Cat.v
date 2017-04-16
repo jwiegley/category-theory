@@ -1,6 +1,7 @@
 Require Import Category.Lib.
-Require Export Category.Theory.
+Require Export Category.Theory.Category.
 Require Export Category.Theory.Functor.
+Require Export Category.Theory.Natural.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -9,75 +10,71 @@ Set Shrink Obligations.
 Set Implicit Arguments.
 
 Program Instance Cat : Category := {
+  ob      := Category;
   hom     := @Functor;
   id      := @Identity;
   compose := @functor_comp
 }.
 Next Obligation.
   unfold functor_comp.
-  (* jww (2017-04-13): Need to define functor equivalence. *)
-Admitted.
+  intros ?? HA ?? HB ?; simpl.
+  unfold functor_equiv in *.
+  destruct (HA (x0 X0)).
+  destruct (HB X0).
+  eapply {| to := fmap to0 ∘ to
+          ; from := from ∘ fmap from0 |}.
+  Unshelve.
+  - rewrite <- comp_assoc.
+    rewrite (comp_assoc to).
+    rewrite iso_to_from; cat.
+    rewrite <- fmap_comp.
+    rewrite iso_to_from0; cat.
+  - rewrite <- comp_assoc.
+    rewrite (comp_assoc (fmap from0)).
+    rewrite <- fmap_comp.
+    rewrite iso_from_to0; cat.
+Defined.
 Next Obligation.
-  unfold functor_comp.
-Admitted.
+  unfold functor_equiv; intros.
+  unfold functor_comp; cat.
+Qed.
 Next Obligation.
-  unfold functor_comp.
-Admitted.
+  unfold functor_equiv; intros.
+  unfold functor_comp; cat.
+Qed.
 Next Obligation.
-  unfold functor_comp.
-Admitted.
-Next Obligation.
-  unfold functor_comp.
-Admitted.
-
-Lemma fun_id_left `{C : Category} `{D : Category} `(F : C ⟶ D) :
-  functor_comp Identity F = F.
-Proof.
-  destruct F.
-  unfold functor_comp.
-  simpl.
-Admitted.
-
-Lemma fun_id_right `(F : @Functor C D) : functor_comp F Identity = F.
-Proof.
-  destruct F.
-  unfold functor_comp.
-  simpl.
-Admitted.
+  unfold functor_equiv; intros.
+  unfold functor_comp; cat.
+Qed.
 
 Program Instance Termi : Category := {
   ob      := unit;
   hom     := fun _ _ => unit;
+  homset  := fun _ _ => {| equiv := eq |};
   id      := fun _ => tt;
   compose := fun _ _ _ _ _ => tt
 }.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
+Next Obligation. destruct f; reflexivity. Defined.
+Next Obligation. destruct f; reflexivity. Defined.
 
-(*
 Program Instance Fini `(C : Category) : C ⟶ Termi := {
   fobj := fun _ => tt;
   fmap := fun _ _ _ => id
 }.
+Next Obligation. repeat intros; auto. Defined.
 
 Program Instance Ini : Category := {
   ob  := Empty_set;
-  hom := fun _ _ => Empty_set
+  hom := fun _ _ => Empty_set;
+  homset := fun _ _ => {| equiv := eq |}
 }.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
+Next Obligation. destruct f. Defined.
 
 Program Instance Init `(C : Category) : Ini ⟶ C.
 Next Obligation. destruct H. Defined.
-Next Obligation. destruct f. Defined.
+Next Obligation. destruct X. Defined.
 Next Obligation. destruct X. Qed.
-Next Obligation. destruct f. Qed.
+Next Obligation. destruct X. Qed.
 
 Require Import Category.Structure.Terminal.
 
@@ -85,10 +82,7 @@ Program Instance Cat_Terminal : @Terminal Cat := {
   One := Termi;
   one := Fini
 }.
-Next Obligation.
-  destruct f as [F].
-  destruct g as [G].
-Admitted.
+Next Obligation. econstructor; intros; cat. Defined.
 
 Require Import Category.Structure.Initial.
 
@@ -97,7 +91,5 @@ Program Instance Cat_Initial : @Initial Cat := {
   zero := Init
 }.
 Next Obligation.
-  induction f as [F].
-  induction g as [G].
-Admitted.
-*)
+  unfold functor_equiv; intros; destruct X.
+Defined.

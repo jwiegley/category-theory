@@ -15,7 +15,7 @@ Context `{AF : @CartesianFunctor _ _ F _ HA'}.
 Context `{@ClosedFunctor _ _ F _ _ AF _ HC'}.
 Context `{TF : @TerminalFunctor _ _ F _ HT'}.
 
-Definition rel `(lam : a -> b) (ccc : F a ~> F b) : Prop :=
+Definition rel `(lam : a -> b) (ccc : F a ~> F b) : Type :=
   fmap[F] lam ≈ ccc.
 
 Infix "===>" := rel (at level 99) : category_scope.
@@ -51,16 +51,16 @@ Proof.
   rewrite <- (comp_assoc _ prod_out).
   rewrite prod_out_in.
   rewrite id_right.
-  generalize (proj2 (exp_out_inj (fmap[F] U) (exp_in ∘ U')) HA).
-  rewrite comp_assoc.
-  rewrite exp_out_in.
-  rewrite id_left.
-  intros HC; subst.
+  pose proof (exp_out_inj (fmap[F] U) (exp_in ∘ U')) as X.
+  rewrite comp_assoc in X.
+  rewrite exp_out_in in X.
+  rewrite id_left in X.
   rewrite <- eval_curry.
   rewrite curry_uncurry.
   rewrite curry_eval.
   rewrite id_left.
-  rewrite HB, HC.
+  destruct X as [X0 X1].
+  rewrite HB, X1; auto.
   reflexivity.
 Qed.
 
@@ -77,7 +77,7 @@ Proof.
   apply HA.
   pose proof (@exp_in_inj Coq _ _ _ _ _ _ _ _ a b c) as HB.
   apply HB; clear HB.
-  simpl in H0; rewrite H0; clear H0.
+  simpl in X; rewrite X; clear X.
   rewrite <- comp_assoc.
   pose proof (@prod_out_in Coq _ _ _ _ _ a b) as HC.
   simpl in HC; rewrite HC; clear HC.

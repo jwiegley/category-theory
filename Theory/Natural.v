@@ -21,6 +21,8 @@ Class Natural := {
     fmap f ∘ transform ≈ transform ∘ fmap f
 }.
 
+Global Program Instance Natural_Setoid : Setoid Natural.
+
 End Natural.
 
 Notation "F ⟹ G" := (@Natural _ _ F G) (at level 90, right associativity).
@@ -37,12 +39,55 @@ Section Nat.
 Context `{C : Category}.
 Context `{D : Category}.
 
-Program Definition nat_identity `{F : C ⟶ D} : F ⟹ F := {|
+Definition functor_equiv : crelation (C ⟶ D) :=
+  fun F G => (∀ X : C, F X ≅ G X)%type.
+
+Global Program Definition functor_equiv_equivalence :
+  Equivalence functor_equiv.
+Proof.
+  unfold functor_equiv.
+  constructor; cat; repeat intro; cat.
+  - symmetry; apply X.
+  - transitivity (y X1); auto.
+Defined.
+
+Global Program Instance functor_Setoid : Setoid (C ⟶ D) := {
+  equiv := functor_equiv;
+  setoid_equiv := functor_equiv_equivalence
+}.
+
+Program Definition nat_equiv `{F : C ⟶ D} `{G : C ⟶ D} : crelation (F ⟹ G) :=
+  fun n m => @equiv _ _ (transform[n]) (transform[m]).
+Next Obligation.
+  pose proof (@homset D) as HD.
+  eapply {| equiv := fun X Y : ∀ X, F X ~> G X =>
+                       forall A, X A ≈ Y A|}.
+  Unshelve.
+  - apply HD.
+  - constructor; cat.
+    intros ??????.
+    transitivity (y A); auto.
+Defined.
+
+Global Program Definition nat_equiv_equivalence `{F : C ⟶ D} `{G : C ⟶ D} :
+  Equivalence (@nat_equiv F G).
+Proof.
+  constructor; cat; repeat intro; cat.
+  transitivity (y A); auto.
+Defined.
+
+Global Program Instance nat_Setoid `{F : C ⟶ D} `{G : C ⟶ D} :
+  Setoid (F ⟹ G) := {
+  equiv := nat_equiv;
+  setoid_equiv := nat_equiv_equivalence
+}.
+
+Global Program Definition nat_identity `{F : C ⟶ D} : F ⟹ F := {|
   transform := fun X => fmap (@id C X)
 |}.
 Obligation 1. cat. Qed.
 
-Program Definition nat_compose `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D}
+Global Program Definition nat_compose `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D}
   (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
   transform := fun X => transform[f] X ∘ transform[g] X
 |}.
@@ -56,6 +101,18 @@ Obligation 1.
   reflexivity.
 Qed.
 
+Global Program Definition nat_compose_respects
+       `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D} :
+  Proper (equiv ==> equiv ==> equiv) (@nat_compose F G K).
+Proof.
+  intros ?? HA ?? HB ?.
+  simpl in *.
+  destruct x, y, x0, y0.
+  unfold nat_equiv in *; simpl in *.
+  rewrite HA, HB.
+  reflexivity.
+Qed.
+
 (* Nat is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
 
@@ -63,31 +120,22 @@ Global Program Instance Nat : Category := {
   ob      := C ⟶ D;
   hom     := @Natural C D;
   id      := @nat_identity;
-  compose := @nat_compose
+  compose := @nat_compose;
+
+  compose_respects := @nat_compose_respects
 }.
 Next Obligation.
-Admitted.
+  unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
+Qed.
 Next Obligation.
-Admitted.
+  unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
+Qed.
 Next Obligation.
-  destruct f.
-Admitted.
-Next Obligation.
-  destruct f.
-Admitted.
-Next Obligation.
-  destruct f.
-Admitted.
+  unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
+  rewrite comp_assoc; reflexivity.
+Qed.
 
 End Nat.
 
 Notation "[ C , D ]" := (@Nat C D)
-  (at level 90, right associativity, format "[ C , D ]").
-
-Require Import Category.Construct.Opposite.
-(* jww (2017-04-15): TODO
-Require Import Category.Instance.Sets.
-
-Definition Copresheaves (C : Category) := [C, Sets].
-Definition Presheaves   (C : Category) := [C^op, Sets].
-*)
+  (at level 90, right associativity, format "[ C ,  D ]").

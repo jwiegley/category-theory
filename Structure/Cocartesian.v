@@ -22,7 +22,7 @@ Class Cocartesian := {
   merge_respects {X Y Z} :> Proper (equiv ==> equiv ==> equiv) (@merge X Y Z);
 
   ump_coproducts {X Y Z} (f : Y ~> X) (g : Z ~> X) (h : Y + Z ~> X) :
-    h ≈ merge f g <-> h ∘ inl ≈ f ∧ h ∘ inr ≈ g
+    h ≈ merge f g <<>> h ∘ inl ≈ f //\\ h ∘ inr ≈ g
 }.
 
 Infix "+" := Coprod : category_scope.
@@ -34,7 +34,7 @@ Corollary inl_merge {X Z W : C} (f : Z ~> X) (g : W ~> X) :
   f ▽ g ∘ inl ≈ f.
 Proof.
   intros.
-  apply (proj1 (ump_coproducts f g (f ▽ g))).
+  apply (ump_coproducts f g (f ▽ g)).
   reflexivity.
 Qed.
 
@@ -44,7 +44,7 @@ Corollary inr_merge {X Z W : C} (f : Z ~> X) (g : W ~> X) :
   f ▽ g ∘ inr ≈ g.
 Proof.
   intros.
-  apply (proj1 (ump_coproducts f g (f ▽ g))).
+  apply (ump_coproducts f g (f ▽ g)).
   reflexivity.
 Qed.
 
@@ -55,18 +55,19 @@ Corollary merge_inl_inr {X Y : C} :
 Proof.
   intros.
   symmetry.
-  apply ump_coproducts; cat.
+  apply ump_coproducts; split; cat.
 Qed.
 
 Hint Rewrite @merge_inl_inr : categories.
 
 Corollary merge_inv {X Y Z : C} (f h : Y ~> X) (g i : Z ~> X) :
-  f ▽ g ≈ h ▽ i <-> (f ≈ h ∧ g ≈ i).
+  f ▽ g ≈ h ▽ i <<>> f ≈ h //\\ g ≈ i.
 Proof.
   pose proof (ump_coproducts h i (f ▽ g)) as Huniv.
-  rewrite inl_merge in Huniv.
-  rewrite inr_merge in Huniv.
-  apply Huniv.
+  firstorder.
+  - rewrite <- a; cat.
+  - rewrite <- b; cat.
+  - rewrite a0, b; reflexivity.
 Qed.
 
 Corollary merge_comp {X Y Z W : C} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X) :
@@ -74,7 +75,7 @@ Corollary merge_comp {X Y Z W : C} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X) :
 Proof.
   intros.
   symmetry.
-  apply ump_coproducts.
+  apply ump_coproducts; split;
   rewrite <- !comp_assoc; cat.
 Qed.
 
@@ -179,7 +180,7 @@ Proof. apply iso_to_from. Qed.
 Hint Rewrite @coprod_out_in : functors.
 
 Corollary coprod_in_surj {X Y Z : C} (f g : F (X + Y) ~> F X) :
-  f ∘ coprod_in ≈ g ∘ coprod_in <-> f ≈ g.
+  f ∘ coprod_in ≈ g ∘ coprod_in <<>> f ≈ g.
 Proof.
   split; intros Hcoprod.
     rewrite <- id_right.
@@ -194,7 +195,7 @@ Proof.
 Qed.
 
 Corollary coprod_out_inj {X Y Z : C} (f g : F Y + F Z ~> F X) :
-  f ∘ coprod_out ≈ g ∘ coprod_out <-> f ≈ g.
+  f ∘ coprod_out ≈ g ∘ coprod_out <<>> f ≈ g.
 Proof.
   split; intros Hcoprod.
     rewrite <- id_right.
@@ -215,4 +216,3 @@ Arguments coprod_out {_ _ _ _ _ _ _ _} /.
 
 Hint Rewrite @coprod_in_out : functors.
 Hint Rewrite @coprod_out_in : functors.
-

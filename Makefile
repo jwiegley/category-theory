@@ -3,7 +3,7 @@ MISSING	 =									\
 	  -o -name '*.v'						|	\
 		xargs egrep -i -Hn '(abort|admit|undefined|jww)'	|	\
 		      egrep -v 'Definition undefined'			|	\
-		      egrep -v '(old|new|research)/'
+		      egrep -v '(old|new|research|Pending)/'
 
 all: Makefile.coq
 	make -f Makefile.coq

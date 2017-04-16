@@ -24,7 +24,7 @@ Class Cartesian:= {
   fork_respects {X Y Z} :> Proper (equiv ==> equiv ==> equiv) (@fork X Y Z);
 
   ump_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
-    h ≈ fork f g <-> exl ∘ h ≈ f ∧ exr ∘ h ≈ g
+    h ≈ fork f g <<>> exl ∘ h ≈ f //\\ exr ∘ h ≈ g
 }.
 
 Infix "×" := Prod : category_scope.
@@ -66,7 +66,7 @@ Corollary exl_fork {X Z W : C} (f : X ~> Z) (g : X ~> W) :
   exl ∘ f △ g ≈ f.
 Proof.
   intros.
-  apply (proj1 (ump_products f g (f △ g))).
+  apply (ump_products f g (f △ g)).
   reflexivity.
 Qed.
 
@@ -76,7 +76,7 @@ Corollary exr_fork {X Z W : C} (f : X ~> Z) (g : X ~> W) :
   exr ∘ f △ g ≈ g.
 Proof.
   intros.
-  apply (proj1 (ump_products f g (f △ g))).
+  apply (ump_products f g (f △ g)).
   reflexivity.
 Qed.
 
@@ -87,15 +87,19 @@ Corollary fork_exl_exr {X Y : C} :
 Proof.
   intros.
   symmetry.
-  apply ump_products; cat.
+  apply ump_products; split; cat.
 Qed.
 
 Hint Rewrite @fork_exl_exr : categories.
 
 Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
-  f △ g ≈ h △ i <-> f ≈ h ∧ g ≈ i.
+  f △ g ≈ h △ i <<>> f ≈ h //\\ g ≈ i.
 Proof.
-  generalize (ump_products h i (f △ g)); cat.
+  pose proof (ump_products h i (f △ g)) as HA.
+  firstorder.
+  - rewrite <- a; cat.
+  - rewrite <- b; cat.
+  - rewrite a0, b; reflexivity.
 Qed.
 
 Corollary fork_comp_hetero {X Y Z W : C}
@@ -104,8 +108,8 @@ Corollary fork_comp_hetero {X Y Z W : C}
 Proof.
   unfold split; intros.
   symmetry.
-  apply ump_products.
-  rewrite !comp_assoc; cat.
+  apply ump_products; split;
+  rewrite !comp_assoc; cat;
   rewrite <- !comp_assoc; cat.
 Qed.
 
@@ -115,7 +119,7 @@ Corollary fork_comp {X Y Z W : C}
 Proof.
   intros.
   symmetry.
-  apply ump_products.
+  apply ump_products; split;
   rewrite !comp_assoc; cat.
 Qed.
 
@@ -131,12 +135,12 @@ Hint Rewrite @swap_invol : categories.
 Definition swap_inj_l {X Y Z : C} (f g : X ~> Y × Z) :
   swap ∘ f ≈ swap ∘ g -> f ≈ g.
 Proof.
-  intros.
+  intro HA.
   rewrite <- id_left.
   rewrite <- (id_left g).
   rewrite <- swap_invol.
   rewrite <- comp_assoc.
-  rewrite H0.
+  rewrite HA.
   rewrite comp_assoc.
   reflexivity.
 Qed.
@@ -144,12 +148,12 @@ Qed.
 Definition swap_inj_r {X Y Z : C} (f g : X × Y ~> Z) :
   f ∘ swap ≈ g ∘ swap -> f ≈ g.
 Proof.
-  intros.
+  intro HA.
   rewrite <- id_right.
   rewrite <- (id_right g).
   rewrite <- swap_invol.
   rewrite comp_assoc.
-  rewrite H0.
+  rewrite HA.
   rewrite <- comp_assoc.
   reflexivity.
 Qed.
@@ -320,7 +324,7 @@ Qed.
 Hint Rewrite @prod_out_in : functors.
 
 Corollary prod_in_inj {X Y Z : C} (f g : F X ~> F X × F Y) :
-  prod_in ∘ f ≈ prod_in ∘ g <-> f ≈ g.
+  prod_in ∘ f ≈ prod_in ∘ g <<>> f ≈ g.
 Proof.
   split; intros Hprod.
     rewrite <- id_left.
@@ -335,7 +339,7 @@ Proof.
 Qed.
 
 Corollary prod_out_inj {X Y Z : C} (f g : F X ~> F (Y × Z)) :
-  prod_out ∘ f ≈ prod_out ∘ g <-> f ≈ g.
+  prod_out ∘ f ≈ prod_out ∘ g <<>> f ≈ g.
 Proof.
   split; intros Hprod.
     rewrite <- id_left.

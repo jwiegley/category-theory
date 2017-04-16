@@ -1,5 +1,5 @@
 Require Import Category.Lib.
-Require Export Category.Theory.
+Require Export Category.Theory.Category.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -41,7 +41,8 @@ Next Obligation.
   repeat intro; unfold compose.
   destruct A, B, C; simpl.
   destruct g, f; simpl.
-  rewrite H; reflexivity.
+  unfold Basics.compose.
+  rewrite X; reflexivity.
 Qed.
 
 (* The category of setoids.
@@ -62,7 +63,7 @@ Next Obligation.
   unfold setoid_morphism_compose; simpl.
   unfold Basics.compose.
   destruct x0, y0, x, y; simpl in *.
-  rewrite H, H0; reflexivity.
+  rewrite X0, X1; reflexivity.
 Qed.
 Next Obligation. reflexivity. Qed.
 Next Obligation. reflexivity. Qed.

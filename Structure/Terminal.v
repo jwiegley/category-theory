@@ -1,5 +1,5 @@
 Require Import Category.Lib.
-Require Export Category.Theory.
+Require Export Category.Theory.Category.
 Require Export Category.Theory.Functor.
 
 Generalizable All Variables.

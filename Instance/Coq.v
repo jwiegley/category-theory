@@ -111,29 +111,29 @@ Program Instance Coq_Constant : @Constant _ _ := {
 }.
 
 Lemma injectivity_is_monic `(f : X ~> Y) :
-  (∀ x y, f x = f y → x = y) ↔ Monic f.
+  (∀ x y, f x = f y → x = y) <<>> Monic f.
 Proof. split.
 - intros.
   autounfold in *; intros.
   simpl in *; intros.
   apply H.
-  apply H0.
+  apply X0.
 - intros.
   autounfold in *.
   simpl in *.
   pose (fun (_ : unit) => x) as const_x.
   pose (fun (_ : unit) => y) as const_y.
-  specialize (H unit const_x const_y).
+  specialize (X0 unit const_x const_y).
   unfold const_x in H.
   unfold const_y in H.
   simpl in H.
-  apply H; intros.
-    assumption.
-  exact tt.
+  eapply X0; eauto.
+  Unshelve.
+  eexact tt.
 Qed.
 
 Lemma surjectivity_is_epic `(f : X ~> Y) :
-  (∀ y, ∃ x, f x = y)%type ↔ Epic f.
+  (∀ y, ∃ x, f x = y)%type <<>> Epic f.
 Proof. split.
 - intros.
   autounfold in *; intros.
@@ -141,15 +141,16 @@ Proof. split.
   specialize (H x).
   destruct H.
   rewrite <- H.
-  apply H0.
+  apply X0.
 - intros.
-  unfold Epic in H.
-  specialize H with (Z := Prop).
-  specialize H with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
+  unfold Epic in X0.
+  specialize X0 with (Z := Prop).
+  specialize X0 with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
   simpl in *.
-  specialize H with (g2 := fun y  => True).
-  erewrite H. constructor.
+  specialize X0 with (g2 := fun y  => True).
+  erewrite X0. constructor.
   intros.
+  Axiom propositional_extensionality : forall P : Prop, P -> P = True.
   apply propositional_extensionality.
   exists x.
   reflexivity.
