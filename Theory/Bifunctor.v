@@ -38,7 +38,7 @@ Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
 Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom C X Y
-                          ; is_setoid := @homset C X Y |};
+                      ; is_setoid := @homset C X Y |};
     fmap := fun Y Z (f : Y ~{C}~> Z) =>
               {| morphism := fun (g : X ~{C}~> Y) =>
                                (f ∘ g) : X ~{C}~> Z |}
