@@ -60,6 +60,15 @@ Obligation 1.
   reflexivity.
 Qed.
 
+Global Program Instance parametric_morphism_split {a b c d : C} :
+  Proper (equiv ==> equiv ==> equiv) (@split a b c d).
+Obligation 1.
+  intros ?? HA ?? HB.
+  unfold split.
+  rewrite HA, HB.
+  reflexivity.
+Qed.
+
 Definition swap {X Y : C} : X × Y ~> Y × X := exr △ exl.
 
 Corollary exl_fork {X Z W : C} (f : X ~> Z) (g : X ~> W) :
@@ -166,6 +175,14 @@ Proof.
   rewrite <- !comp_assoc; cat.
 Qed.
 
+Theorem first_fork {X Y Z W : C} (f : X ~> Y) (g : X ~> Z) (h : Y ~> W) :
+  first h ∘ f △ g ≈ (h ∘ f) △ g.
+Proof.
+  unfold first.
+  rewrite <- fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+Qed.
+
 Theorem second_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
   second (Z:=W) (f ∘ g) ≈ second f ∘ second g.
 Proof.
@@ -173,6 +190,38 @@ Proof.
   rewrite <- fork_comp; cat.
   rewrite <- !comp_assoc; cat.
 Qed.
+
+Theorem second_fork {X Y Z W : C} (f : X ~> Y) (g : X ~> Z) (h : Z ~> W) :
+  second h ∘ f △ g ≈ f △ (h ∘ g).
+Proof.
+  unfold second.
+  rewrite <- fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+Qed.
+
+Corollary exl_first {X Y Z : C} (f : X ~> Y) :
+  @exl _ Y Z ∘ first f ≈ f ∘ exl.
+Proof. unfold first; cat. Qed.
+
+Hint Rewrite @exl_first : categories.
+
+Corollary exr_first {X Y Z : C} (f : X ~> Y) :
+  @exr _ Y Z ∘ first f ≈ exr.
+Proof. unfold first; cat. Qed.
+
+Hint Rewrite @exr_first : categories.
+
+Corollary exl_second {X Y Z : C} (f : X ~> Y) :
+  @exl _ Z Y ∘ second f ≈ exl.
+Proof. unfold second; cat. Qed.
+
+Hint Rewrite @exl_second : categories.
+
+Corollary exr_second {X Y Z : C} (f : X ~> Y) :
+  @exr _ Z Y ∘ second f ≈ f ∘ exr.
+Proof. unfold second; cat. Qed.
+
+Hint Rewrite @exr_second : categories.
 
 Theorem swap_first {X Y Z : C} (f : X ~> Y) :
   swap ∘ first (Z:=Z) f ≈ second f ∘ swap.
@@ -192,29 +241,22 @@ Proof.
   rewrite <- !comp_assoc; cat.
 Qed.
 
-(*
-Global Program Instance parametric_morphism_prod :
-  Proper
-    (respectful Isomorphism
-       (respectful Isomorphism Isomorphism)) Prod.
-Obligation 1.
-  intros ?? XA ?? XB.
-  destruct XA, XB.
-  refine {| iso_to   := second iso_to0 ∘ first iso_to
-          ; iso_from := second iso_from0 ∘ first iso_from |}.
-  destruct iso_witness, iso_witness0.
-  unfold first, second.
-  constructor; simpl; intros;
-  rewrite <- !fork_comp; cat;
-  rewrite <- !comp_assoc; cat;
-  rewrite <- !fork_comp; cat;
-  rewrite !comp_assoc.
-    rewrite iso_to_from.
-    rewrite iso_to_from0; cat.
-  rewrite iso_from_to.
-  rewrite iso_from_to0; cat.
+Theorem first_second {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
+  first f ∘ second g ≈ second g ∘ first f.
+Proof.
+  unfold second.
+  rewrite first_fork.
+  unfold first.
+  rewrite <- fork_comp; cat.
+  rewrite <- comp_assoc; cat.
 Qed.
-*)
+
+Theorem swap_fork {X Y Z : C} (f : X ~> Y) (g : X ~> Z) :
+  swap ∘ f △ g ≈ g △ f.
+Proof.
+  unfold swap.
+  rewrite <- fork_comp; cat.
+Qed.
 
 Context `{@Terminal C}.
 

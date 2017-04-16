@@ -36,7 +36,7 @@ Definition uncurry {X Y Z} := @uncurry' _ X Y Z.
 Arguments curry' {_ _ _ _} /.
 Arguments uncurry' {_ _ _ _} /.
 
-Definition eval {X Y} : Y^X × X ~> Y := @eval' _ X Y.
+Definition eval {X Y} : Y^X × X ~> Y := uncurry id.
 Arguments eval' {_ _ _} /.
 
 Definition ump_exponents {X Y Z} (f : X × Y ~> Z) :
@@ -231,7 +231,6 @@ Qed.
 
 Hint Rewrite @exp_prod_l : isos.
 
-(* (Y × Z)^X ~> Y^X × Z^X *)
 Global Program Instance exp_prod_r {X Y Z : C} :
   (Y × Z)^X ≅ Y^X × Z^X := {
   to   := curry (exl ∘ eval) △ curry (exr ∘ eval);
@@ -258,6 +257,20 @@ Next Obligation.
 Qed.
 
 Hint Rewrite @exp_prod_r : isos.
+
+Corollary curry_fork {X Y Z W : C} (f : X × Y ~> Z) (g : X × Y ~> W) :
+  curry (f △ g) ≈ from exp_prod_r ∘ curry f △ curry g.
+Proof.
+  simpl.
+  apply uncurry_inj; cat.
+  rewrite uncurry_comp; cat.
+  unfold first.
+  rewrite <- fork_comp.
+  apply fork_inv; split;
+  rewrite <- eval_curry;
+  rewrite curry_uncurry;
+  rewrite comp_assoc; cat.
+Qed.
 
 Context `{@Terminal C}.
 

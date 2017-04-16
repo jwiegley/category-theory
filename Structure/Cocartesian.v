@@ -30,6 +30,45 @@ Infix "▽" := merge (at level 26) : category_scope.
 
 Context `{@Cocartesian}.
 
+Definition left  {X Y Z : C} (f : X ~> Y) : X + Z ~> Y + Z :=
+  (inl ∘ f) ▽ inr.
+
+Definition right  {X Y Z : C} (f : X ~> Y) : Z + X ~> Z + Y :=
+  inl ▽ (inr ∘ f).
+
+Definition cover  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
+  X + Z ~> Y + W :=
+  (inl ∘ f) ▽ (inr ∘ g).
+
+Global Program Instance parametric_morphism_left {a b c : C} :
+  Proper (equiv ==> equiv) (@left a b c).
+Obligation 1.
+  intros ?? HA.
+  unfold left.
+  rewrite HA.
+  reflexivity.
+Qed.
+
+Global Program Instance parametric_morphism_right {a b c : C} :
+  Proper (equiv ==> equiv) (@right a b c).
+Obligation 1.
+  intros ?? HA.
+  unfold right.
+  rewrite HA.
+  reflexivity.
+Qed.
+
+Global Program Instance parametric_morphism_cover {a b c d : C} :
+  Proper (equiv ==> equiv ==> equiv) (@cover a b c d).
+Obligation 1.
+  intros ?? HA ?? HB.
+  unfold cover.
+  rewrite HA, HB.
+  reflexivity.
+Qed.
+
+Definition twist {X Y : C} : X + Y ~> Y + X := inr ▽ inl.
+
 Corollary inl_merge {X Z W : C} (f : Z ~> X) (g : W ~> X) :
   f ▽ g ∘ inl ≈ f.
 Proof.
@@ -77,6 +116,97 @@ Proof.
   symmetry.
   apply ump_coproducts; split;
   rewrite <- !comp_assoc; cat.
+Qed.
+
+Theorem left_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
+  left (Z:=W) (f ∘ g) ≈ left f ∘ left g.
+Proof.
+  unfold left.
+  rewrite <- merge_comp; cat.
+  rewrite !comp_assoc; cat.
+Qed.
+
+Theorem left_fork {X Y Z W : C} (f : Y ~> X) (g : Z ~> X) (h : W ~> Y) :
+  f ▽ g ∘ left h ≈ (f ∘ h) ▽ g.
+Proof.
+  unfold left.
+  rewrite <- merge_comp; cat.
+  rewrite !comp_assoc; cat.
+Qed.
+
+Theorem right_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
+  right (Z:=W) (f ∘ g) ≈ right f ∘ right g.
+Proof.
+  unfold right.
+  rewrite <- merge_comp; cat.
+  rewrite !comp_assoc; cat.
+Qed.
+
+Theorem right_fork {X Y Z W : C} (f : Y ~> X) (g : Z ~> X) (h : W ~> Z) :
+  f ▽ g ∘ right h ≈ f ▽ (g ∘ h).
+Proof.
+  unfold right.
+  rewrite <- merge_comp; cat.
+  rewrite !comp_assoc; cat.
+Qed.
+
+Corollary inl_left {X Y Z : C} (f : X ~> Y) :
+  left f ∘ @inl _ X Z ≈ inl ∘ f.
+Proof. unfold left; cat. Qed.
+
+Hint Rewrite @inl_left : categories.
+
+Corollary inr_left {X Y Z : C} (f : X ~> Y) :
+  left f ∘ @inr _ X Z ≈ inr.
+Proof. unfold left; cat. Qed.
+
+Hint Rewrite @inr_left : categories.
+
+Corollary inl_right {X Y Z : C} (f : X ~> Y) :
+  right f ∘ @inl _ Z X ≈ inl.
+Proof. unfold right; cat. Qed.
+
+Hint Rewrite @inl_right : categories.
+
+Corollary inr_right {X Y Z : C} (f : X ~> Y) :
+  right f ∘ @inr _ Z X ≈ inr ∘ f.
+Proof. unfold right; cat. Qed.
+
+Hint Rewrite @inr_right : categories.
+
+Theorem twist_left {X Y Z : C} (f : X ~> Y) :
+  twist ∘ left (Z:=Z) f ≈ right f ∘ twist.
+Proof.
+  unfold left, right, twist.
+  rewrite <- merge_comp; cat.
+  rewrite <- merge_comp; cat.
+  rewrite !comp_assoc; cat.
+Qed.
+
+Theorem twist_right {X Y Z : C} (f : X ~> Y) :
+  twist ∘ right f ≈ left (Z:=Z) f ∘ twist.
+Proof.
+  unfold left, right, twist.
+  rewrite <- merge_comp; cat.
+  rewrite <- merge_comp; cat.
+  rewrite !comp_assoc; cat.
+Qed.
+
+Theorem left_right {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
+  left f ∘ right g ≈ right g ∘ left f.
+Proof.
+  unfold right.
+  rewrite left_fork.
+  unfold left.
+  rewrite <- merge_comp; cat.
+  rewrite comp_assoc; cat.
+Qed.
+
+Theorem twist_fork {X Y Z : C} (f : Y ~> X) (g : Z ~> X) :
+  f ▽ g ∘ twist ≈ g ▽ f.
+Proof.
+  unfold twist.
+  rewrite <- merge_comp; cat.
 Qed.
 
 Context `{@Initial C}.
