@@ -1,6 +1,7 @@
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Theory.Isomorphism.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -38,6 +39,24 @@ Section Nat.
 
 Context `{C : Category}.
 Context `{D : Category}.
+
+Program Instance fobj_respects `{F : C ⟶ D} {A : C} :
+  Proper (Isomorphism ==> Isomorphism) (@fobj C D F).
+Next Obligation.
+  repeat intro.
+  destruct F; simpl in *.
+  destruct X; simpl in *.
+  eapply {| to   := fmap x y to
+          ; from := fmap y x from |}.
+  Unshelve.
+  - rewrite <- fmap_comp.
+    rewrite iso_to_from; cat.
+  - rewrite <- fmap_comp.
+    rewrite iso_from_to; cat.
+Defined.
+
+Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} :
+  Setoid (F A).
 
 Definition functor_equiv : crelation (C ⟶ D) :=
   fun F G => (∀ X : C, F X ≅ G X)%type.

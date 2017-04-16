@@ -1,6 +1,7 @@
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
 Require Export Category.Theory.Isomorphism.
+Require Export Category.Theory.Functor.
+Require Export Category.Theory.Natural.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -174,36 +175,83 @@ Next Obligation. rewrite <- !adj_right_nat_r; reflexivity. Qed.
 Notation "F ⊚ G" := (@adj_comp _ _ _ _ _ _ _ F G)
   (at level 30, right associativity) : category_scope.
 
-Record Adj_Morphism `{C : Category} `{D : Category} := {
+Record adj_morphism `{C : Category} `{D : Category} := {
   free_functor : D ⟶ C;
   forgetful_functor : C ⟶ D;
   adjunction : free_functor ⊣ forgetful_functor
 }.
 
-(*
-Program Instance Adj : Category := {
-  ob := Category;
-  hom := @Adj_Morphism
+Program Instance adj_morphism_setoid `{C : Category} `{D : Category} :
+  Setoid (@adj_morphism C D) := {
+  equiv := fun f g =>
+             free_functor f ≈ free_functor g //\\
+             forgetful_functor f ≈ forgetful_functor g
 }.
 Next Obligation.
-Admitted.
-Next Obligation.
-  apply {| free_functor      := Identity
-         ; forgetful_functor := Identity |}.
+  pose proof (@functor_equiv_equivalence C D).
+  pose proof (@functor_equiv_equivalence D C).
+  constructor; repeat intro; split; auto.
+  - reflexivity.
+  - reflexivity.
+  - destruct X1; symmetry; assumption.
+  - destruct X1; symmetry; assumption.
+  - destruct X1, X2; transitivity (free_functor y); assumption.
+  - destruct X1, X2;
+    transitivity (forgetful_functor y);
+    assumption.
 Defined.
+
+Program Instance Adj : Category := {
+  ob := Category;
+  hom := @adj_morphism;
+  id := fun X =>
+          {| free_functor      := @Identity X
+           ; forgetful_functor := @Identity X |}
+}.
 Next Obligation.
   destruct f, g.
-  apply {| adjunction := adj_comp _ _ _ _ _ _ |}.
+  apply {| adjunction :=
+             @adj_comp A B C free_functor1 forgetful_functor1
+                       free_functor0 forgetful_functor0
+                       adjunction1 adjunction0 |}.
 Defined.
 Next Obligation.
   repeat intro.
-  destruct x, y, x0, y0;
-  unfold Adj_obligation_3; simpl.
-Admitted.
-Obligation 4.
+  apply adj_morphism_setoid.
+  unfold Adj_obligation_1; simpl.
+  destruct X0, X1; split.
+    unfold functor_equiv in *; simpl in *; intros.
+    destruct x, x0, y, y0; simpl in *.
+    specialize (f1 (free_functor0 X0)).
+    symmetry.
+    etransitivity.
+      apply f1.
+    eapply fobj_respects.
+    apply f.
+  unfold functor_equiv in *; simpl in *; intros.
+  destruct x, x0, y, y0; simpl in *.
+  specialize (f0 (forgetful_functor1 X0)).
+  symmetry.
+  etransitivity.
+    apply f0.
+  eapply fobj_respects.
+  apply f2.
+  Unshelve.
+  - apply (free_functor0 X0).
+  - apply (forgetful_functor1 X0).
+Defined.
+Next Obligation.
   destruct f.
-Admitted.
-Obligation 5.
+  unfold functor_equiv; simpl; split; intros;
+  reflexivity.
+Defined.
+Next Obligation.
   destruct f.
-Admitted.
-*)
+  unfold functor_equiv; simpl; split; intros;
+  reflexivity.
+Defined.
+Next Obligation.
+  destruct f, g, h.
+  unfold functor_equiv; simpl; split; intros;
+  reflexivity.
+Defined.

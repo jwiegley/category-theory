@@ -4,8 +4,6 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Natural.
 Require Import Category.Theory.Bifunctor.
 Require Import Category.Construct.Opposite.
-Require Import Category.Instance.Sets.
-Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -14,9 +12,6 @@ Set Shrink Obligations.
 
 Definition Presheaves   (C : Category) := [C^op, Sets].
 Definition Copresheaves (C : Category) := [C, Sets].
-
-Program Instance fobj_setoid `{C : Category} `{F : C ⟶ Sets} {A : C} :
-  Setoid (F A).
 
 (** This is the Yoneda embedding. *)
 Instance Yoneda `{C : Category} : C ⟶ [C^op, Sets] := CoHomFunctor C.
