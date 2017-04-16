@@ -15,7 +15,6 @@ Class Category := {
 
   uhom := Type : Type;
   hom : ob -> ob -> uhom where "a ~> b" := (hom a b);
-
   homset :> ∀ X Y, Setoid (X ~> Y);
 
   id {A} : A ~> A;
@@ -36,42 +35,13 @@ Infix "~>" := hom (at level 90, right associativity) : category_scope.
 Infix "~{ C }~>" := (@hom C) (at level 90) : category_scope.
 Infix "∘" := compose : category_scope.
 
-Notation "id[ X  ]" := (@id _ X)  (at level 50) : category_scope.
+Notation "id[ X ]" :=
+  (@id _ X)  (at level 50, format "id[ X ]") : category_scope.
 
 Coercion ob : Category >-> Sortclass.
 
 Hint Rewrite @id_left : categories.
 Hint Rewrite @id_right : categories.
-
-Ltac cat :=
-  autorewrite with categories; auto with category_laws; try reflexivity.
-
-Lemma eq_eqv `{C : Category} {X Y : C} (f g : X ~> Y) :
-  f = g -> f ≈ g.
-Proof.
-  intros.
-  rewrite H.
-  reflexivity.
-Qed.
-
-(*
-Program Instance impl_eqv `{C : Category} {a b : C} :
-  Proper (equiv --> equiv ++> Basics.impl) equiv.
-Obligation 1.
-  intros ???????.
-  transitivity x; auto.
-  transitivity x0; auto.
-Qed.
-
-Program Instance flip_impl_eqv `{C : Category} (a b : C) :
-  Proper (eqv --> @eqv C a b ++> Basics.flip Basics.impl) eqv.
-Obligation 1.
-  intros ???????.
-  unfold Basics.flip in H.
-  rewrite <- H, H0.
-  assumption.
-Qed.
-*)
 
 Hint Constructors Equivalence.
 
@@ -94,3 +64,6 @@ Hint Extern 7 (?X ≈ ?Z) =>
   end : category_laws.
 Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.
+
+Ltac cat :=
+  autorewrite with categories; auto with category_laws; try reflexivity.

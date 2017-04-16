@@ -25,7 +25,8 @@ End Natural.
 
 Notation "F ⟹ G" := (@Natural _ _ F G) (at level 90, right associativity).
 
-Notation "transform[ F  ]" := (@transform _ _ _ _ F) (at level 9).
+Notation "transform[ F ]" := (@transform _ _ _ _ F)
+  (at level 9, format "transform[ F ]").
 
 (* Natural transformations can be applied directly to functorial values to
    perform the functor mapping they imply. *)
@@ -80,7 +81,8 @@ Admitted.
 
 End Nat.
 
-Notation "[ C , D ]" := (@Nat C D) (at level 90, right associativity).
+Notation "[ C , D ]" := (@Nat C D)
+  (at level 90, right associativity, format "[ C , D ]").
 
 Require Import Category.Construct.Opposite.
 (* jww (2017-04-15): TODO

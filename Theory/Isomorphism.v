@@ -78,7 +78,8 @@ Defined.
 End Isomorphism.
 
 Infix "≅" := (@Isomorphism _) (at level 91) : category_scope.
-Infix "≅[ C  ]" := (@Isomorphism C) (at level 91) : category_scope.
+Notation "F ≅[ C ] G" := (@Isomorphism C F G)
+  (at level 91, format "F ≅[ C ] G") : category_scope.
 
 Arguments to {_ X Y} _.
 Arguments from {_ X Y} _.

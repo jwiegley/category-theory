@@ -26,10 +26,7 @@ Class Monad := {
 
 End Monad.
 
-Notation "join[ M  ]" := (@join _ _ _ _ _ M _) (at level 9).
-
-Coercion monad_functor `{C : Category} `{F : C ⟶ C} `{M : @Monad C F} :
-  C ⟶ C := F.
+Notation "join[ M ]" := (@join _ _ _ _ _ M _) (at level 9, format "join[ M ]").
 
 Section MonadLib.
 
@@ -77,9 +74,11 @@ Notation "f <=< g" :=
   (kleisli_compose g f) (at level 42, right associativity) : monad_scope.
 
 Notation "f >=[ m ]=> g" :=
-  (@kleisli_compose _ m _ _ f _ g) (at level 42, right associativity) : monad_scope.
+  (@kleisli_compose _ m _ _ f _ g) (at level 42, right associativity,
+                                    format "f >=[ m ]=> g") : monad_scope.
 Notation "f <=[ m ]=< g" :=
-  (@kleisli_compose _ m _ _ g _ f) (at level 42, right associativity) : monad_scope.
+  (@kleisli_compose _ m _ _ g _ f) (at level 42, right associativity,
+                                    format "f <=[ m ]=< g") : monad_scope.
 
 Notation "X <- A ; B" := (A >>= (fun X => B))%monad
   (at level 81, right associativity, only parsing) : monad_scope.
