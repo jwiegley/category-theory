@@ -38,10 +38,10 @@ Class Setoid A := {
 }.
 
 Program Instance setoid_refl `(sa : Setoid A) : Reflexive equiv.
-Obligation 1. apply setoid_equiv. Qed.
+Obligation 1. apply setoid_equiv. Defined.
 
 Program Instance setoid_sym `(sa : Setoid A) : Symmetric equiv.
-Obligation 1. apply setoid_equiv; auto. Qed.
+Obligation 1. apply setoid_equiv; auto. Defined.
 
 Program Instance setoid_trans `(sa : Setoid A) : Transitive equiv.
 Obligation 1.
@@ -49,4 +49,4 @@ Obligation 1.
   destruct sa; simpl in *.
   destruct setoid_equiv0.
   eapply Equivalence_Transitive; eauto.
-Qed.
+Defined.

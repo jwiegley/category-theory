@@ -43,7 +43,8 @@ Proof.
   extensionality f.
   extensionality g.
   extensionality h.
-Abort.
+  apply proof_irrelevance.
+Qed.
 
 Definition op `{C : Category} {X Y : C} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
 Definition unop `{C : Category} {X Y : C} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
