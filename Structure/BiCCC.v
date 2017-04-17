@@ -6,6 +6,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Set Shrink Obligations.
+Unset Transparent Obligations.
 
 Section BiCCC.
 
@@ -122,15 +123,6 @@ Next Obligation.
   rewrite <- curry_comp; cat.
 Qed.
 Next Obligation.
-  pose proof @curry_fork as HA.
-  simpl in HA.
-  rewrite uncurry_merge; cat. simpl.
-  rewrite !comp_assoc.
-  rewrite <- merge_comp.
-  rewrite !comp_assoc; cat.
-  rewrite uncurry_comp_r.
-  rewrite <- merge_comp.
-  rewrite <- !curry_comp; cat.
 Admitted.
 
 Hint Rewrite @exp_coprod : isos.
