@@ -163,10 +163,10 @@ Program Instance Hom_Initial : @Initial _ := {
 }.
 
 Program Instance Hom_Cocartesian : @Cocartesian _ := {
-  Coprod  := Coprod_;
-  merge := @Merge;
-  inl  := @Inl;
-  inr  := @Inr
+  Coprod := Coprod_;
+  merge  := @Merge;
+  inl    := @Inl;
+  inr    := @Inr
 }.
 Obligation 1.
   intros ?? HA ?? HB ??????.
@@ -182,6 +182,14 @@ Obligation 2.
   rewrite <- HA, <- HB.
   rewrite merge_comp; cat.
 Qed.
+
+Program Instance interp_proper {X Y : Obj}
+        `{C : Category} `{A : @Cartesian C}
+        `{@Closed C A} `{@Cocartesian C}
+        `{@Terminal C} `{@Initial C} :
+  Proper (@equiv _ (@homset DSL X Y) ==>
+          @equiv _ (@homset C _ _))
+         (fun f => @interp X Y f C A _ _ _ _).
 
 Section Reified.
 
