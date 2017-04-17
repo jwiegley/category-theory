@@ -68,3 +68,8 @@ Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
 
 Ltac cat :=
   autorewrite with categories; auto with category_laws; try reflexivity.
+
+Ltac equivalence := constructor; repeat intro; simpl; cat; intuition.
+Ltac proper := repeat intro; simpl; cat; intuition.
+
+Hint Unfold Basics.compose.
