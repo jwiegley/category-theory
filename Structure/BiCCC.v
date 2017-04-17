@@ -40,7 +40,7 @@ Qed.
 
 Hint Rewrite @prod_coprod_l : isos.
 
-Corollary uncurry_merge {X Y Z W : C} (f : X ~> Y^Z) (g : W ~> Y^Z) :
+Lemma uncurry_merge {X Y Z W : C} (f : X ~> Y^Z) (g : W ~> Y^Z) :
   uncurry (f ▽ g) ≈ uncurry f ▽ uncurry g ∘ to prod_coprod_l.
 Proof.
   simpl.
@@ -49,6 +49,14 @@ Proof.
   rewrite <- merge_comp.
   apply merge_inv; split;
   rewrite <- curry_comp; cat.
+Qed.
+
+Corollary unmerge_uncurry {X Y Z W : C} (f : X ~> Y^Z) (g : W ~> Y^Z) :
+  uncurry f ▽ uncurry g ≈ uncurry (f ▽ g) ∘ from prod_coprod_l.
+Proof.
+  rewrite uncurry_merge.
+  rewrite <- comp_assoc.
+  rewrite iso_to_from; cat.
 Qed.
 
 Global Program Instance prod_coprod_r {X Y Z : C} :
@@ -93,6 +101,17 @@ Next Obligation.
 Qed.
 
 Hint Rewrite @prod_coprod_r : isos.
+
+Lemma to_prod_coprod_r_l {X Y Z : C} :
+  to (@prod_coprod_r X Y Z) ≈ cover swap swap ∘ to prod_coprod_l ∘ swap.
+Proof.
+  simpl.
+  unfold swap, cover.
+  rewrite comp_assoc.
+  rewrite uncurry_comp_r.
+  rewrite <- merge_comp.
+  rewrite <- !curry_comp; cat.
+Qed.
 
 Global Program Instance exp_coprod {X Y Z : C} :
   X^(Y + Z) ≅ X^Y × X^Z := {

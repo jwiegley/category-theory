@@ -258,7 +258,7 @@ Qed.
 
 Hint Rewrite @exp_prod_r : isos.
 
-Corollary curry_fork {X Y Z W : C} (f : X × Y ~> Z) (g : X × Y ~> W) :
+Lemma curry_fork {X Y Z W : C} (f : X × Y ~> Z) (g : X × Y ~> W) :
   curry (f △ g) ≈ from exp_prod_r ∘ curry f △ curry g.
 Proof.
   simpl.
@@ -270,6 +270,14 @@ Proof.
   rewrite <- eval_curry;
   rewrite curry_uncurry;
   rewrite comp_assoc; cat.
+Qed.
+
+Corollary curry_unfork {X Y Z W : C} (f : X × Y ~> Z) (g : X × Y ~> W) :
+  curry f △ curry g ≈ to exp_prod_r ∘ curry (f △ g).
+Proof.
+  rewrite curry_fork.
+  rewrite comp_assoc.
+  rewrite iso_to_from; cat.
 Qed.
 
 Context `{@Terminal C}.
