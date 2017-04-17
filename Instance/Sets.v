@@ -1,5 +1,8 @@
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
+Require Export Category.Theory.Isomorphism.
+Require Export Category.Structure.Cartesian.
+Require Export Category.Structure.Cocartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -68,3 +71,81 @@ Qed.
 Next Obligation. reflexivity. Qed.
 Next Obligation. reflexivity. Qed.
 Next Obligation. reflexivity. Qed.
+
+Program Instance Sets_Cartesian : @Cartesian Sets := {
+  Prod := fun X Y =>
+            {| carrier := (carrier X * carrier Y)%type
+             ; is_setoid :=
+                 {| equiv := fun x y =>
+                               @equiv _ X (fst x) (fst y) //\\
+                               @equiv _ Y (snd x) (snd y)
+                  ; setoid_equiv := _
+                  |}
+             |};
+  fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |};
+  exl := fun _ _ => {| morphism := fst |};
+  exr := fun _ _ => {| morphism := snd |}
+}.
+Next Obligation. equivalence. Qed.
+Next Obligation. proper; destruct f, g; intuition. Qed.
+Next Obligation. proper. Qed.
+Next Obligation. proper. Qed.
+Next Obligation. proper. Qed.
+Next Obligation. firstorder. Qed.
+
+Program Instance Sets_Cocartesian : @Cocartesian Sets := {
+  Coprod := fun X Y =>
+            {| carrier := (carrier X + carrier Y)%type
+             ; is_setoid :=
+                 {| equiv := fun x y =>
+                      match x with
+                      | Datatypes.inl x =>
+                        match y with
+                        | Datatypes.inl y => @equiv _ X x y
+                        | Datatypes.inr _ => False
+                        end
+                      | Datatypes.inr x =>
+                        match y with
+                        | Datatypes.inl _ => False
+                        | Datatypes.inr y => @equiv _ Y x y
+                        end
+                      end
+                  ; setoid_equiv := _
+                  |}
+             |};
+  merge := fun _ _ _ f g =>
+             {| morphism := fun x =>
+                  match x with
+                  | Datatypes.inl x => f x
+                  | Datatypes.inr x => g x
+                  end |};
+  inl := fun _ _ => {| morphism := Datatypes.inl |};
+  inr := fun _ _ => {| morphism := Datatypes.inr |}
+}.
+Next Obligation.
+  equivalence;
+  destruct y, x; intuition;
+  destruct z; intuition.
+Qed.
+Next Obligation.
+  proper; destruct f, g; intuition.
+  destruct y, x; intuition;
+  destruct z; intuition.
+Qed.
+Next Obligation. proper. Qed.
+Next Obligation.
+  destruct h;
+  firstorder;
+  autounfold; simpl in *.
+  - rewrite H; reflexivity.
+  - rewrite H; reflexivity.
+  - destruct x; firstorder.
+Qed.
+
+(* An isomorphism between arrows in a category C is an isomorphism of objects
+   in the category of set(oid)s, taking [hom] to the be the carrier type, and
+   arrow equivalence to be the setoid. By using Sets in this way, we gain the
+   fact that the arrows on both sides are respectful of C's notion of arrow
+   equivalence. *)
+Notation "X ≊ Y" := ({| carrier := X |} ≅[Sets] {| carrier := Y |})
+  (at level 99) : category_scope.

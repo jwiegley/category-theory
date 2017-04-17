@@ -1,6 +1,5 @@
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
-Require Export Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -170,11 +169,3 @@ Arguments to {_ X Y} _.
 Arguments from {_ X Y} _.
 Arguments iso_to_from {_ _ _} _.
 Arguments iso_from_to {_ _ _} _.
-
-(* An isomorphism between arrows in a category C is an isomorphism of objects
-   in the category of set(oid)s, taking [hom] to the be the carrier type, and
-   arrow equivalence to be the setoid. By using Sets in this way, we gain the
-   fact that the arrows on both sides are respectful of C's notion of arrow
-   equivalence. *)
-Notation "X ≊ Y" := ({| carrier := X |} ≅[Sets] {| carrier := Y |})
-  (at level 99) : category_scope.

@@ -4,6 +4,7 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Natural.
 Require Import Category.Theory.Bifunctor.
 Require Import Category.Construct.Opposite.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.

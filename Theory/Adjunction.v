@@ -2,6 +2,7 @@ Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
 Require Export Category.Theory.Natural.
+Require Export Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.
