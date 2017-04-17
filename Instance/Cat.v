@@ -12,6 +12,7 @@ Set Implicit Arguments.
 Program Instance Cat : Category := {
   ob      := Category;
   hom     := @Functor;
+  homset  := @functor_setoid;
   id      := @Identity;
   compose := @functor_comp
 }.
