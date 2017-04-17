@@ -36,13 +36,7 @@ Proof.
   unfold Opposite; simpl.
   destruct C; simpl.
   f_equal.
-  extensionality X.
-  extensionality Y.
-  extensionality Z.
-  extensionality W.
-  extensionality f.
-  extensionality g.
-  extensionality h.
+  repeat let X := fresh "X" in extensionality X.
   apply proof_irrelevance.
 Qed.
 
