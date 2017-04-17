@@ -67,7 +67,7 @@ Proof.
   - transitivity (y X); auto.
 Qed.
 
-Global Program Instance functor_Setoid : Setoid (C ⟶ D) := {
+Global Program Instance functor_setoid : Setoid (C ⟶ D) := {
   equiv := functor_equiv;
   setoid_equiv := functor_equiv_equivalence
 }.
