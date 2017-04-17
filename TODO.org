@@ -7,3 +7,7 @@ This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.
 * Move Tuple into Coq/Tuple, etc.
 * Should the identity functor be Identity, or just id?
+* Make Distributive into a structure, which every BiCCC automatically satisfies
+* Show that exp_prod, prod_coprod and exp_coprod arise from adjunctions
+Some of these involve the diagonal functor.
+* Define BiCCC characteristics for Cat and Sets
