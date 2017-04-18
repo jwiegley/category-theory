@@ -11,26 +11,28 @@ Section Constant.
 Context `{C : Category}.
 Context `{@Terminal C}.
 
-Class Constant := {
-  Const : ob -> Type;
-  constant {A} (x : Const A) : One ~{C}~> A
+Class Constant (A : Type) := {
+  Const : ob;
+  constant (x : A) : One ~{C}~> Const
 }.
 
 End Constant.
 
+Arguments Const {_ _} A {_}.
+
 Section ConstantFunctor.
 
 Context `{F : C ⟶ D}.
-Context `{@Constant C CT}.
-Context `{@Constant D DT}.
+Context `{@Constant C CT T}.
+Context `{@Constant D DT T}.
 
 Class ConstantFunctor := {
   unmap_one : F One ~{D}~> One;
 
-  map_const {A} (x : @Const C _ _ A) : @Const D _ _ (F A);
+  map_const {x : T} : Const T ~> F (Const T);
 
-  fmap_constant {A : C} (x : Const A) :
-    fmap (constant x) ≈ constant (map_const x) ∘ unmap_one;
+  fmap_constant (x : T) :
+    fmap (constant x) ≈ @map_const x ∘ constant x ∘ unmap_one;
 }.
 
 End ConstantFunctor.
