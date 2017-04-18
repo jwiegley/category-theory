@@ -105,11 +105,6 @@ Obligation 2.
   destruct x; auto.
 Qed.
 
-Program Instance Coq_Constant : @Constant _ _ := {
-  Const := fun A => A;
-  constant := fun _ => Basics.const
-}.
-
 Lemma injectivity_is_monic `(f : X ~> Y) :
   (∀ x y, f x = f y → x = y) <<>> Monic f.
 Proof. split.

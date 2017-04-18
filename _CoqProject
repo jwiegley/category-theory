@@ -23,10 +23,10 @@ Instance/Cat.v
 Instance/Coq.v
 Instance/Sets.v
 Instance/Sets/Closed.v
+Instance/AST.v
 Theory.v
-Misc/Abstraction.v
-Misc/Reified.v
-Misc/Represented.v
+Tools/Abstraction.v
+Tools/Represented.v
 Pending/Monoidal.v
 Pending/Faithful.v
 Pending/Cone.v

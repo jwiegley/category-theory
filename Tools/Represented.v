@@ -1,7 +1,6 @@
 Require Import Category.Lib.
 Require Export Category.Structure.BiCCC.
 Require Export Category.Instance.Coq.
-Require Export Category.Misc.Reified.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -50,11 +49,11 @@ Program Instance false_Represented : Represented False Zero := {
   repr := fun _ : False => False_rect _ _;
   abst := fun h => _
 }.
-*)
 
 Program Instance bool_Represented : Represented bool (One + (One × One)) := {
   repr := fun b => if b then inr ∘ one △ one else inl;
   abst := fun h => interp (C:=Coq) h
 }.
+*)
 
 End Represented.

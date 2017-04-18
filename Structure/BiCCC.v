@@ -113,6 +113,20 @@ Proof.
   rewrite <- !curry_comp; cat.
 Qed.
 
+Lemma exp_coprod_from_alt {X Y Z : C} :
+   curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r)
+     ≈
+  (curry (uncurry (curry (uncurry exl ∘ swap) ▽
+                   curry (uncurry exr ∘ swap)) ∘ swap)
+                                    : X^Y × X^Z ~> X^(Y + Z)).
+Proof.
+  apply uncurry_inj; simpl; cat.
+  rewrite !uncurry_merge.
+  rewrite !comp_assoc.
+  rewrite <- merge_comp; cat.
+  rewrite !comp_assoc; cat.
+Qed.
+
 Global Program Instance exp_coprod {X Y Z : C} :
   X^(Y + Z) ≅ X^Y × X^Z := {
   to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
@@ -142,6 +156,27 @@ Next Obligation.
   rewrite <- curry_comp; cat.
 Qed.
 Next Obligation.
+  rewrite exp_coprod_from_alt.
+  rewrite curry_comp_l.
+  rewrite <- eval_first.
+  rewrite <- !comp_assoc.
+  rewrite swap_first.
+  unfold swap, first, second.
+  rewrite <- fork_comp.
+  rewrite <- !comp_assoc.
+  rewrite <- !eval_first.
+  rewrite <- !fork_comp.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- (curry_uncurry (_ ▽ _)).
+  rewrite eval_curry.
+  apply uncurry_inj; cat.
+  rewrite <- eval_first.
+  unfold swap, first, second.
+  rewrite <- !fork_comp.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp.
+  rewrite <- !comp_assoc; cat.
+  rewrite fork_comp.
 Admitted.
 
 Hint Rewrite @exp_coprod : isos.
