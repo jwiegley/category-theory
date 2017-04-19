@@ -160,23 +160,9 @@ Next Obligation.
   rewrite curry_comp_l.
   rewrite <- eval_first.
   rewrite <- !comp_assoc.
+  rewrite comp_assoc.
+  rewrite eval_first.
   rewrite swap_first.
-  unfold swap, first, second.
-  rewrite <- fork_comp.
-  rewrite <- !comp_assoc.
-  rewrite <- !eval_first.
-  rewrite <- !fork_comp.
-  rewrite <- !comp_assoc; cat.
-  rewrite <- (curry_uncurry (_ ▽ _)).
-  rewrite eval_curry.
-  apply uncurry_inj; cat.
-  rewrite <- eval_first.
-  unfold swap, first, second.
-  rewrite <- !fork_comp.
-  rewrite <- !comp_assoc; cat.
-  rewrite <- !fork_comp.
-  rewrite <- !comp_assoc; cat.
-  rewrite fork_comp.
 Admitted.
 
 Hint Rewrite @exp_coprod : isos.
