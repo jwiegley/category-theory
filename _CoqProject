@@ -9,7 +9,7 @@ Theory/Natural.v
 Theory/Adjunction.v
 Theory/Bifunctor.v
 Theory/Monad.v
-Construct/Opposite.v
+Construction/Opposite.v
 Structure/Groupoid.v
 Structure/Terminal.v
 Structure/Cartesian.v

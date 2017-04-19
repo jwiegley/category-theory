@@ -3,7 +3,7 @@ Require Export Category.Theory.Functor.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Natural.
 Require Import Category.Theory.Bifunctor.
-Require Import Category.Construct.Opposite.
+Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.

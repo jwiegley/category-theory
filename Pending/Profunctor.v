@@ -1,6 +1,6 @@
 Require Import Category.Lib.
 Require Export Category.Theory.Natural.
-Require Import Category.Construct.Opposite.
+Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
