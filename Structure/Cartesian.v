@@ -40,7 +40,7 @@ Definition second  {X Y Z : C} (f : X ~> Y) : Z × X ~> Z × Y :=
 
 Definition split  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
   X × Z ~> Y × W :=
-  (f ∘ exl) △ (g ∘ exr).
+  first f ∘ second g.
 
 Global Program Instance parametric_morphism_first {a b c : C} :
   Proper (equiv ==> equiv) (@first a b c).
@@ -109,17 +109,6 @@ Proof.
   - rewrite <- H0; cat.
   - rewrite <- H3; cat.
   - rewrite H2, H3; reflexivity.
-Qed.
-
-Corollary fork_comp_hetero {X Y Z W : C}
-          (f : Y ~> Z) (h : Y ~> W) (g i : X ~> Y) :
-  (f ∘ g) △ (h ∘ i) ≈ split f h ∘ g △ i.
-Proof.
-  unfold split; intros.
-  symmetry.
-  apply ump_products; split;
-  rewrite !comp_assoc; cat;
-  rewrite <- !comp_assoc; cat.
 Qed.
 
 Corollary fork_comp {X Y Z W : C}
@@ -256,6 +245,17 @@ Theorem swap_fork {X Y Z : C} (f : X ~> Y) (g : X ~> Z) :
 Proof.
   unfold swap.
   rewrite <- fork_comp; cat.
+Qed.
+
+Corollary fork_comp_hetero {X Y Z W : C}
+          (f : Y ~> Z) (h : Y ~> W) (g i : X ~> Y) :
+  (f ∘ g) △ (h ∘ i) ≈ split f h ∘ g △ i.
+Proof.
+  unfold split; intros.
+  unfold first, second.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
 Qed.
 
 Context `{@Terminal C}.
