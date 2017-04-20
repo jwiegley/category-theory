@@ -127,13 +127,6 @@ Proof.
   rewrite !comp_assoc; cat.
 Qed.
 
-Lemma uncurry_comp_l {X Y Z W : C} (f : Y ~> W^Z) (g : X ~> Y × Z) :
-   uncurry f ∘ g ≈ exl ∘ (eval ∘ first f) △ exr ∘ g.
-Proof.
-  rewrite eval_first.
-  rewrite comp_assoc; cat.
-Qed.
-
 Lemma uncurry_second {X Y Z W : C} (f : Y ~> W^Z) (g : X ~> Z) :
    uncurry f ∘ second g ≈ eval ∘ split f g.
 Proof.
@@ -155,6 +148,47 @@ Proof.
   rewrite <- !comp_assoc; cat.
   rewrite <- !fork_comp; cat.
   rewrite <- !comp_assoc; cat.
+Qed.
+
+Lemma second_inl_inr_sur {X Y Z W : C} (f g : X × (Y + Z) ~> W) :
+  f ∘ second inl ≈ g ∘ second inl
+    -> f ∘ second inr ≈ g ∘ second inr
+    -> f ≈ g.
+Proof.
+  intros.
+  unfold second in H1, H2.
+  rewrite <- id_right.
+  rewrite <- (id_right g).
+  rewrite <- (iso_from_to prod_coprod_r).
+  simpl.
+  rewrite !comp_assoc.
+  rewrite <- !merge_comp.
+  rewrite H1, H2.
+  reflexivity.
+Qed.
+
+Lemma exp_coprod_to_inj {X Y Z W : C} (f g : W ~> X^(Y + Z)) :
+  curry (eval ∘ second inl) △ curry (eval ∘ second inr) ∘ f
+    ≈ curry (eval ∘ second inl) △ curry (eval ∘ second inr) ∘ g
+    -> f ≈ g.
+Proof.
+  intro e.
+  rewrite <- !fork_comp in e.
+  apply fork_inv in e.
+  destruct e.
+  rewrite !curry_comp_l in H1.
+  rewrite !curry_comp_l in H2.
+  apply curry_inj in H1.
+  apply curry_inj in H2.
+  rewrite <- !comp_assoc in H1.
+  rewrite <- !comp_assoc in H2.
+  rewrite <- !first_second in H1.
+  rewrite <- !first_second in H2.
+  rewrite !comp_assoc in H1.
+  rewrite !comp_assoc in H2.
+  apply uncurry_inj.
+  rewrite <- !eval_first.
+  exact (second_inl_inr_sur _ _ H1 H2).
 Qed.
 
 Global Program Instance exp_coprod {X Y Z : C} :
@@ -186,23 +220,10 @@ Next Obligation.
   rewrite <- curry_comp; cat.
 Qed.
 Next Obligation.
-  apply uncurry_inj.
-  rewrite uncurry_comp.
-  rewrite curry_comp.
-  rewrite uncurry_comp.
-  rewrite uncurry_curry.
-  rewrite <- comp_assoc.
-  rewrite <- first_comp.
-  rewrite <- comp_assoc.
-  rewrite eval_first.
-  rewrite uncurry_comp.
-  rewrite uncurry_curry.
-  rewrite <- comp_assoc.
-  rewrite swap_first.
-  apply swap_inj_r.
-  rewrite <- !comp_assoc.
-  rewrite swap_invol, id_right.
-Admitted.
+  apply exp_coprod_to_inj.
+  rewrite comp_assoc.
+  rewrite exp_coprod_obligation_1; cat.
+Qed.
 
 Hint Rewrite @exp_coprod : isos.
 
