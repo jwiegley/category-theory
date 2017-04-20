@@ -17,10 +17,8 @@ Definition Copresheaves (C : Category) := [C, Sets].
 (** This is the Yoneda embedding. *)
 Instance Yoneda `{C : Category} : C ⟶ [C^op, Sets] := CoHomFunctor C.
 
-Program Instance YonedaLemma `(C : Category) `(F : C ⟶ Sets) {A : C} :
-
+Program Instance CovariantYonedaLemma `(C : Category) `(F : C ⟶ Sets) {A : C} :
   [C, Sets] Hom(A,─) F ≅ F A
-
 := {
   to   := {| morphism := fun X => X A id |};
   from := {| morphism := fun Y : F A =>
@@ -69,7 +67,7 @@ Next Obligation.
   apply transform; cat.
 Qed.
 
-Program Instance CoonedaLemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
+Program Instance YonedaLemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
 
   [C^op, Sets] Hom(─,A) F ≅ F A
 
