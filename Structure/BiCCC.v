@@ -113,84 +113,6 @@ Proof.
   rewrite <- !curry_comp; cat.
 Qed.
 
-Lemma exp_coprod_from_alt {X Y Z : C} :
-   curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r)
-     ≈
-  (curry (uncurry (curry (uncurry exl ∘ swap) ▽
-                   curry (uncurry exr ∘ swap)) ∘ swap)
-                                    : X^Y × X^Z ~> X^(Y + Z)).
-Proof.
-  apply uncurry_inj; simpl; cat.
-  rewrite !uncurry_merge.
-  rewrite !comp_assoc.
-  rewrite <- merge_comp; cat.
-  rewrite !comp_assoc; cat.
-Qed.
-
-Lemma uncurry_second {X Y Z W : C} (f : Y ~> W^Z) (g : X ~> Z) :
-   uncurry f ∘ second g ≈ eval ∘ split f g.
-Proof.
-  rewrite <- eval_first.
-  unfold first, second, split.
-  rewrite <- !comp_assoc; cat.
-Qed.
-
-Lemma uncurry_curry_fork {X Y Z W : C} (f : X × Y ~> Z) (g : X × Y ~> W) h :
-  h ≈ from exp_prod_r
-    -> uncurry (h ∘ curry f △ curry g) ≈ f △ g.
-Proof.
-  simpl; intro H1; rewrite H1.
-  rewrite <- !eval_first.
-  unfold first.
-  rewrite <- !comp_assoc.
-  rewrite <- !fork_comp; cat.
-  rewrite <- !fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-  rewrite <- !fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
-
-Lemma second_inl_inr_sur {X Y Z W : C} (f g : X × (Y + Z) ~> W) :
-  f ∘ second inl ≈ g ∘ second inl
-    -> f ∘ second inr ≈ g ∘ second inr
-    -> f ≈ g.
-Proof.
-  intros.
-  unfold second in H1, H2.
-  rewrite <- id_right.
-  rewrite <- (id_right g).
-  rewrite <- (iso_from_to prod_coprod_r).
-  simpl.
-  rewrite !comp_assoc.
-  rewrite <- !merge_comp.
-  rewrite H1, H2.
-  reflexivity.
-Qed.
-
-Lemma exp_coprod_to_inj {X Y Z W : C} (f g : W ~> X^(Y + Z)) :
-  curry (eval ∘ second inl) △ curry (eval ∘ second inr) ∘ f
-    ≈ curry (eval ∘ second inl) △ curry (eval ∘ second inr) ∘ g
-    -> f ≈ g.
-Proof.
-  intro e.
-  rewrite <- !fork_comp in e.
-  apply fork_inv in e.
-  destruct e.
-  rewrite !curry_comp_l in H1.
-  rewrite !curry_comp_l in H2.
-  apply curry_inj in H1.
-  apply curry_inj in H2.
-  rewrite <- !comp_assoc in H1.
-  rewrite <- !comp_assoc in H2.
-  rewrite <- !first_second in H1.
-  rewrite <- !first_second in H2.
-  rewrite !comp_assoc in H1.
-  rewrite !comp_assoc in H2.
-  apply uncurry_inj.
-  rewrite <- !eval_first.
-  exact (second_inl_inr_sur _ _ H1 H2).
-Qed.
-
 Global Program Instance exp_coprod {X Y Z : C} :
   X^(Y + Z) ≅ X^Y × X^Z := {
   to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
@@ -220,9 +142,43 @@ Next Obligation.
   rewrite <- curry_comp; cat.
 Qed.
 Next Obligation.
-  apply exp_coprod_to_inj.
-  rewrite comp_assoc.
-  rewrite exp_coprod_obligation_1; cat.
+  remember (_ △ _) as p.
+  enough (∀ {W : C} (f g : W ~> X^(Y + Z)), p ∘ f ≈ p ∘ g -> f ≈ g) as HA.
+    apply HA.
+    rewrite comp_assoc.
+    rewrite Heqp.
+    rewrite exp_coprod_obligation_1; cat.
+  intros ??? e.
+  rewrite Heqp in e.
+  rewrite <- !fork_comp in e.
+  apply fork_inv in e.
+  destruct e as [HA HB].
+  rewrite !curry_comp_l in HA.
+  rewrite !curry_comp_l in HB.
+  apply curry_inj in HA.
+  apply curry_inj in HB.
+  rewrite <- !comp_assoc in HA.
+  rewrite <- !comp_assoc in HB.
+  rewrite <- !first_second in HA.
+  rewrite <- !first_second in HB.
+  rewrite !comp_assoc in HA.
+  rewrite !comp_assoc in HB.
+  apply uncurry_inj.
+  rewrite <- !eval_first.
+  enough (∀ {W : C} (f g : W × (Y + Z) ~> X),
+             f ∘ second inl ≈ g ∘ second inl ->
+             f ∘ second inr ≈ g ∘ second inr -> f ≈ g) as HC.
+    exact (HC _ _ _ HA HB).
+  intros ? h i HD HE.
+  unfold second in HD, HE.
+  rewrite <- id_right.
+  rewrite <- (id_right i).
+  rewrite <- (iso_from_to prod_coprod_r).
+  simpl.
+  rewrite !comp_assoc.
+  rewrite <- !merge_comp.
+  rewrite HD, HE.
+  reflexivity.
 Qed.
 
 Hint Rewrite @exp_coprod : isos.
