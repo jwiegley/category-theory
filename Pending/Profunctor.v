@@ -6,7 +6,6 @@ Require Import Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 (* jww (2017-04-16): How to represent heteromorphisms? *)
 

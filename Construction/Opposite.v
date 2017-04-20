@@ -5,7 +5,6 @@ Require Export Category.Instance.Cat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 Reserved Notation "C ^op" (at level 90).
 

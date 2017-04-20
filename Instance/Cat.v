@@ -6,7 +6,6 @@ Require Export Category.Theory.Natural.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 Set Implicit Arguments.
 
 Program Instance Cat : Category := {

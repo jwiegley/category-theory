@@ -5,7 +5,6 @@ Require Export Category.Theory.Isomorphism.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 Section Groupoid.
 

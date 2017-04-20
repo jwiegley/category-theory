@@ -3,7 +3,6 @@ Require Import Category.Lib.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 Infix "≈" := equiv (at level 79) : category_scope.
 

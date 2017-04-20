@@ -9,7 +9,6 @@ Require Import Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 Definition Presheaves   (C : Category) := [C^op, Sets].
 Definition Copresheaves (C : Category) := [C, Sets].

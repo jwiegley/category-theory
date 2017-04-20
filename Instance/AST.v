@@ -4,7 +4,6 @@ Require Export Category.Structure.BiCCC.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 Inductive Obj : Type :=
   | One_    : Obj
