@@ -11,3 +11,5 @@ forgotten to provide the right context.
 * Show that exp_prod, prod_coprod and exp_coprod arise from adjunctions
 Some of these involve the diagonal functor.
 * Define BiCCC characteristics for Cat and Sets
+* Instead of HomFunctor, use the closed structure of Cat
+And just apply curry to [C^op, C] ⟶ Sets

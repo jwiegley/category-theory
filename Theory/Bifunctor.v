@@ -84,7 +84,6 @@ Coercion HomFunctor : Category >-> Functor.
 
 Notation "'Hom' ( A , ─ )" := (@HomFunctor _ A) : category_scope.
 
-(* jww (2017-04-17): Use the closed structure of Cat. *)
 Program Instance CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom (C^op) X Y
