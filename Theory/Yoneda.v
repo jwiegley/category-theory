@@ -28,6 +28,7 @@ Program Instance YonedaLemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
                      @fmap (C^op) Sets F A X phi Y |} |} |}
 }.
 Next Obligation.
+  (* [to] preserves morphism equivalences. *)
   proper.
   destruct x, y; simpl in *.
   unfold nat_equiv in H.
@@ -35,31 +36,35 @@ Next Obligation.
   rewrite H; reflexivity.
 Qed.
 Next Obligation.
+  (* [transform] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
   apply fmap_respects, H.
 Qed.
 Next Obligation.
+  (* The action of [transform] is natural. *)
   autounfold.
   destruct F; simpl in *.
   symmetry.
   apply fmap_comp.
 Qed.
 Next Obligation.
+  (* [from] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
   apply proper_morphism; assumption.
 Qed.
 Next Obligation.
+  (* The result of [from] respects the laws of the functor category. *)
   autounfold; simpl.
   destruct F; simpl in *.
   rewrite fmap_id; reflexivity.
 Qed.
 Next Obligation.
+  (* The result of [from] preserves morphism equivalences. *)
   autounfold.
-  destruct F; simpl in *.
-  unfold nat_equiv; simpl; intros.
-  destruct x; simpl in *.
+  unfold nat_equiv; simpl.
+  destruct F, x; simpl in *; intros.
   autounfold in *.
   rewrite natural_transformation.
   apply transform; cat.
