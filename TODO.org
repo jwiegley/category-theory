@@ -31,3 +31,50 @@ forgotten to provide the right context.
 *** Monoidal functors
 ** "Applicative functors" (strong lax monoidal functors)
 ** Symmetric
+* Type refinement
+Comments from contextualMatters on /r/haskell:
+
+With closed monoidal structure on presheaves, shouldn't it be possible to not
+have to deal with point free style though ?
+
+The term would look pretty much like haskell, but with a typing context to
+account for the bindings (cf agda code in paper below).
+
+It seems that in this work, Conal extracts from a haskell expression a "pure
+categorical" term, in the form of an arrow between types existing in a single
+context : the empty context. that is, closed terms. (Then he gains the freedom
+to change the meaning of arrows to what he wants).
+
+So he "steals" from haskell the surface language, but he does not "steal" the
+binding structure, which is why you have to first remove the bindings. keeping
+them means moving away from "type system as categories" and into "type system
+as functor" :
+
+In categories, this idea of a binding structure can be represented through
+"pre sheaves", which associate to a context C the set of terms inhabiting a
+type.
+
+So there is a 2 level structure : above are all those "terms with context",
+which is a category, and they can be projected onto a category of "contexts".
+you can transport term above a context to terms above another by explicit
+operations (corresponding in CS to weakening etc.. the point is those are
+really of a different nature).
+
+In the classical math literature, it's linked to the fibration approach. This
+treatment for environments is one specific example.
+
+That does not mean fibrations as a general concept is the panacea : they are
+actually a very strong requirement, so there is some work to break them apart
+in some weaker structure. ( fibrations like structures deal with many other
+things (e.g. dependent types but not only)).
+
+Atkey, McKinna etc use terms with environments and provide useful reference
+here:
+
+    A Scope Safe Universe of Syntaxes with Binding
+
+Mellies and Zeilberger provide a categorical view for this:
+
+    Isbell duality - (succinct presentation of presheaves)
+
+    Functor are type refinement system
