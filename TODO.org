@@ -10,3 +10,24 @@ forgotten to provide the right context.
 * Should the identity functor be Identity, or just id?
 * Move Tuple into Coq/Tuple, etc.
 * Monad Transformers
+* Proofs to be done
+** "Coyoneda lemma" states that every presheaf is a colimit of representables
+* Theory to add
+** Diagram
+** Cone
+** Limit/Colimit
+** Pushout/Pullback
+** Faithful, Full, Fully Faithful functors (inj, surj, bi, resp.)
+** Functoral strength
+** Kan extensions
+* Instances to add
+** Posets
+* Constructions to add
+** Diagonal
+** Arrow category
+** Slice/Coslice
+* Structures to add
+** Monoidal
+*** Monoidal functors
+** "Applicative functors" (strong lax monoidal functors)
+** Symmetric
