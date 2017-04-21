@@ -6,7 +6,6 @@ Require Import Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 (* Bifunctors can be curried:
 

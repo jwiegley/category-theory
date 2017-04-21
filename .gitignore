@@ -2,6 +2,8 @@
 *.v.tex
 .*.aux
 *.aux
+*.vo
+*.glob
 .coq-native/
 /coqdoc.sty
 /html/

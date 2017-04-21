@@ -21,7 +21,6 @@ Delimit Scope category_scope with category.
 
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 Unset Transparent Obligations.
 
 Notation crelation := relation.

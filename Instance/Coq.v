@@ -6,7 +6,6 @@ Require Export Category.Structure.Constant.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 Program Instance Coq : Category := {
   ob      := Type;

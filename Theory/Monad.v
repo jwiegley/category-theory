@@ -4,7 +4,6 @@ Require Export Category.Structure.Closed.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 Section Monad.
 

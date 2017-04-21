@@ -5,7 +5,6 @@ Require Export Category.Structure.Terminal.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 Reserved Infix "×" (at level 40, left associativity).
 

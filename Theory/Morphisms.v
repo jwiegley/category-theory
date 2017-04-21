@@ -4,7 +4,6 @@ Require Export Category.Theory.Category.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Set Shrink Obligations.
 
 Section Morphisms.
 
@@ -27,8 +26,8 @@ Class SplitIdempotent {X Y : C} := {
   split_idem_law_2   : split_idem_r ∘ split_idem_s ≈ id
 }.
 
-Definition Epic  `(f : X ~> Y) := ∀ {Z} (g1 g2 : Y ~> Z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2.
-Definition Monic `(f : X ~> Y) := ∀ {Z} (g1 g2 : Z ~> X), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2.
+Definition Epic  `(f : X ~> Y) := ∀ Z (g1 g2 : Y ~> Z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2.
+Definition Monic `(f : X ~> Y) := ∀ Z (g1 g2 : Z ~> X), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2.
 
 Definition Bimorphic `(f : X ~> Y) := (Epic f * Monic f)%type.
 Definition SplitEpi  `(f : X ~> Y) := Retraction f.
