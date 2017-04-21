@@ -69,7 +69,7 @@ Next Obligation.
   apply transform; cat.
 Qed.
 
-Program Instance CoonedaLemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
+Program Instance CoyonedaLemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
 
   [C^op, Sets] Hom(─,A) F ≅ F A
 
