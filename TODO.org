@@ -1,15 +1,12 @@
-* Monad Transformers
-* Move the various Monad submodules into their own directory
-* Build the category of setoids, name it Sets
-* Change Hom to use the category of setoids, to preserve morphisms equivalences
-* Move all instances not related to isomorphism or equivalence into modules
-This will prevent Identity from being used whenever 'fmap' is called and I've
-forgotten to provide the right context.
-* Move Tuple into Coq/Tuple, etc.
-* Should the identity functor be Identity, or just id?
 * Make Distributive into a structure, which every BiCCC automatically satisfies
 * Show that exp_prod, prod_coprod and exp_coprod arise from adjunctions
 Some of these involve the diagonal functor.
 * Define BiCCC characteristics for Cat and Sets
 * Instead of HomFunctor, use the closed structure of Cat
 And just apply curry to [C^op, C] ⟶ Sets
+* Move all instances not related to isomorphism or equivalence into modules
+This will prevent Identity from being used whenever 'fmap' is called and I've
+forgotten to provide the right context.
+* Should the identity functor be Identity, or just id?
+* Move Tuple into Coq/Tuple, etc.
+* Monad Transformers
