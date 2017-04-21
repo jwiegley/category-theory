@@ -1,6 +1,7 @@
 Require Import Category.Lib.
 Require Export Category.Structure.Bicartesian.
 Require Export Category.Structure.Closed.
+Require Export Category.Structure.Distributive.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -100,17 +101,6 @@ Next Obligation.
 Qed.
 
 Hint Rewrite @prod_coprod_r : isos.
-
-Lemma to_prod_coprod_r_l {X Y Z : C} :
-  to (@prod_coprod_r X Y Z) ≈ cover swap swap ∘ to prod_coprod_l ∘ swap.
-Proof.
-  simpl.
-  unfold swap, cover.
-  rewrite comp_assoc.
-  rewrite uncurry_comp_r.
-  rewrite <- merge_comp.
-  rewrite <- !curry_comp; cat.
-Qed.
 
 Global Program Instance exp_coprod {X Y Z : C} :
   X^(Y + Z) ≅ X^Y × X^Z := {
@@ -223,5 +213,12 @@ Next Obligation.
   apply swap_inj_r.
   apply curry_inj; simpl; cat.
 Qed.
+
+Context `{@Bicartesian C _ _}.
+
+Global Program Instance BiCCC_Distributive : @Distributive C _ _ _ := {
+  distr_prod_coprod := @prod_coprod_r;
+  distr_zero := @prod_zero_r
+}.
 
 End BiCCC.
