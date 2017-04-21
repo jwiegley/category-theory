@@ -28,42 +28,39 @@ Program Instance YonedaLemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
                      @fmap (C^op) Sets F A X phi Y |} |} |}
 }.
 Next Obligation.
-  repeat intros x y HA.
+  proper.
   destruct x, y; simpl in *.
-  unfold nat_equiv in HA; simpl in HA.
-  rewrite HA; reflexivity.
+  unfold nat_equiv in H.
+  simpl in H.
+  rewrite H; reflexivity.
 Qed.
 Next Obligation.
-  repeat intros x y HA.
+  proper.
   destruct F; simpl in *.
-  apply fmap_respects.
-  apply HA.
+  apply fmap_respects, H.
 Qed.
 Next Obligation.
+  autounfold.
   destruct F; simpl in *.
-  unfold Basics.compose in *.
-  rewrite <- fmap_comp.
-  reflexivity.
+  symmetry.
+  apply fmap_comp.
 Qed.
 Next Obligation.
-  repeat intro; simpl in *.
+  proper.
   destruct F; simpl in *.
-  destruct (fmap A A0 x0); simpl.
-  apply proper_morphism.
-  assumption.
+  apply proper_morphism; assumption.
 Qed.
 Next Obligation.
-  unfold Basics.compose; simpl.
+  autounfold; simpl.
   destruct F; simpl in *.
-  rewrite fmap_id.
-  reflexivity.
+  rewrite fmap_id; reflexivity.
 Qed.
 Next Obligation.
-  unfold Basics.compose; simpl.
+  autounfold.
   destruct F; simpl in *.
   unfold nat_equiv; simpl; intros.
   destruct x; simpl in *.
-  unfold Basics.compose in *; simpl.
+  autounfold in *.
   rewrite natural_transformation.
   apply transform; cat.
 Qed.
@@ -80,42 +77,39 @@ Program Instance CovariantYonedaLemma `(C : Category) `(F : C ⟶ Sets) {A : C} 
                      @fmap C Sets F A X phi Y |} |} |}
 }.
 Next Obligation.
-  repeat intros x y HA.
+  proper.
   destruct x, y; simpl in *.
-  unfold nat_equiv in HA; simpl in HA.
-  rewrite HA; reflexivity.
+  unfold nat_equiv in H.
+  simpl in H.
+  rewrite H; reflexivity.
 Qed.
 Next Obligation.
-  repeat intros ?? HA.
+  proper.
   destruct F; simpl in *.
-  apply fmap_respects.
-  apply HA.
+  apply fmap_respects, H.
 Qed.
 Next Obligation.
+  autounfold.
   destruct F; simpl in *.
-  unfold Basics.compose in *.
-  rewrite <- fmap_comp.
-  reflexivity.
+  symmetry.
+  apply fmap_comp.
 Qed.
 Next Obligation.
-  repeat intro; simpl in *.
+  proper.
   destruct F; simpl in *.
-  destruct (fmap A A0 x0); simpl.
-  apply proper_morphism.
-  assumption.
+  apply proper_morphism; assumption.
 Qed.
 Next Obligation.
-  unfold Basics.compose; simpl.
+  autounfold; simpl.
   destruct F; simpl in *.
-  rewrite fmap_id.
-  reflexivity.
+  rewrite fmap_id; reflexivity.
 Qed.
 Next Obligation.
-  unfold Basics.compose; simpl.
+  autounfold.
   destruct F; simpl in *.
   unfold nat_equiv; simpl; intros.
   destruct x; simpl in *.
-  unfold Basics.compose in *; simpl.
+  autounfold in *.
   rewrite natural_transformation.
   apply transform; cat.
 Qed.
