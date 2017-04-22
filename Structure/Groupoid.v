@@ -10,8 +10,9 @@ Section Groupoid.
 
 Context `{C : Category}.
 
-(* A Groupoid is a category where all the morphisms are isomorphisms, and
-   morphism equivalence is equivalence of isomorphisms. *)
+(* A Groupoid is a category where all morphisms are isomorphisms, and morphism
+   equivalence is equivalence of isomorphisms. *)
+
 Program Instance Groupoid : Category := {
   ob      := @ob C;
   hom     := @Isomorphism C;
