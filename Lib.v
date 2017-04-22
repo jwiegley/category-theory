@@ -49,3 +49,14 @@ Obligation 1.
   destruct setoid_equiv0.
   eapply Equivalence_Transitive; eauto.
 Defined.
+
+Axiom propositional_extensionality : forall P : Prop, P -> P = True.
+
+(* Proof irrelevant equality. *)
+Definition proof_eq {P : Prop} (x y : P) := (x = y)%type.
+
+Hint Unfold proof_eq.
+Hint Unfold Basics.compose.
+Hint Unfold Basics.arrow.
+Hint Unfold Basics.impl.
+Hint Unfold Datatypes.id.

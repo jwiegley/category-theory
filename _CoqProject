@@ -23,6 +23,8 @@ Instance/Cat.v
 Instance/Coq.v
 Instance/Sets.v
 Instance/Sets/Closed.v
+Instance/Props.v
+Instance/Rel.v
 Instance/AST.v
 Theory.v
 Tools/Abstraction.v

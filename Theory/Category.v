@@ -70,5 +70,3 @@ Ltac cat :=
 
 Ltac equivalence := constructor; repeat intro; simpl; cat; intuition.
 Ltac proper := repeat intro; simpl; cat; intuition.
-
-Hint Unfold Basics.compose.
