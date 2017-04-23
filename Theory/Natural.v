@@ -54,7 +54,7 @@ Qed.
 
 Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A).
 
-Definition functor_equiv : crelation (C ⟶ D) :=
+Definition functor_equiv : relation (C ⟶ D) :=
   fun F G => (∀ X : C, F X ≃ G X)%type.
 
 Global Program Definition functor_equiv_equivalence :
@@ -71,7 +71,7 @@ Global Program Instance functor_setoid : Setoid (C ⟶ D) := {
   setoid_equiv := functor_equiv_equivalence
 }.
 
-Program Definition nat_equiv `{F : C ⟶ D} `{G : C ⟶ D} : crelation (F ⟹ G) :=
+Program Definition nat_equiv `{F : C ⟶ D} `{G : C ⟶ D} : relation (F ⟹ G) :=
   fun n m =>
     let setoid := {| equiv := fun X Y : ∀ X, F X ~> G X =>
                                 forall A, X A ≈ Y A|} in

@@ -77,7 +77,7 @@ Definition Isomorphism_Prop (X Y : C) : Prop :=
 
 Infix "≃" := Isomorphism_Prop (at level 91) : category_scope.
 
-Definition ob_equiv : crelation C := fun X Y => X ≃ Y.
+Definition ob_equiv : relation C := fun X Y => X ≃ Y.
 
 Global Program Instance isomorphism_prop_equivalence :
   Equivalence Isomorphism_Prop.
@@ -128,7 +128,7 @@ Defined.
 
 Global Program Instance ob_setoid : Setoid C.
 
-Definition isomorphism_equiv {X Y : C} : crelation (X ≅ Y) :=
+Definition isomorphism_equiv {X Y : C} : relation (X ≅ Y) :=
   fun f g => to f ≈ to g //\\ from f ≈ from g.
 
 Global Program Instance isomorphism_equiv_equivalence {X Y : C} :

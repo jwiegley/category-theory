@@ -23,8 +23,6 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Notation crelation := relation.
-
 (* Infix "<<>>" := iffT (at level 199). *)
 (* Infix "//\\" := Datatypes.prod (at level 198). *)
 
@@ -32,7 +30,7 @@ Infix "<<>>" := iff (at level 199).
 Infix "//\\" := and (at level 198).
 
 Class Setoid A := {
-  equiv : crelation A;
+  equiv : relation A;
   setoid_equiv :> Equivalence equiv
 }.
 
