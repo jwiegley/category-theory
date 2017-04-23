@@ -9,6 +9,8 @@ Theory/Natural.v
 Theory/Adjunction.v
 Theory/Bifunctor.v
 Theory/Monad.v
+Theory/Cone.v
+Theory/Limit.v
 Construction/Opposite.v
 Structure/Groupoid.v
 Structure/Terminal.v

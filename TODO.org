@@ -23,9 +23,10 @@ forgotten to provide the right context.
 * Instances to add
 ** Posets
 * Constructions to add
-** Diagonal
-** Arrow category
-** Slice/Coslice
+** Comma category (F ↓ G)
+** Diagonal (Δ F)
+** Arrow category (C⃗)
+** Slice/Coslice (C/c)
 * Structures to add
 ** Monoidal
 *** Monoidal functors
