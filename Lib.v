@@ -60,3 +60,5 @@ Hint Unfold Basics.compose.
 Hint Unfold Basics.arrow.
 Hint Unfold Basics.impl.
 Hint Unfold Datatypes.id.
+
+Program Instance proof_eq_equivalence {P : Prop} : Equivalence (@proof_eq P).

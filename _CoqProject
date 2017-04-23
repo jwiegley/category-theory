@@ -26,6 +26,8 @@ Instance/Sets/Closed.v
 Instance/Props.v
 Instance/Rel.v
 Instance/AST.v
+Instance/Proset.v
+Instance/Poset.v
 Theory.v
 Tools/Abstraction.v
 Tools/Represented.v
