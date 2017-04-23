@@ -14,7 +14,7 @@ Class Terminal := {
   One : ob;
   one {A} : A ~> One;
 
-  one_eqv {A} (f g : A ~> One) : f ≈ g
+  one_unique {A} (f g : A ~> One) : f ≈ g
 }.
 
 End Terminal.
@@ -24,14 +24,11 @@ End Terminal.
 
 Notation "X ~> 1" := (X ~> One) (at level 50) : category_scope.
 
-Hint Resolve @one_eqv : category_laws.
+Hint Resolve @one_unique : category_laws.
 
 Corollary one_comp `{@Terminal C} {A B : C} {f : A ~> B} :
   one ∘ f ≈ one.
-Proof.
-  intros.
-  apply one_eqv.
-Qed.
+Proof. intros; apply one_unique. Qed.
 
 Hint Rewrite @one_comp : categories.
 

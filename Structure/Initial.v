@@ -10,19 +10,16 @@ Class Initial `(C : Category) := {
   Zero : ob;
   zero {A} : Zero ~> A;
 
-  zero_eqv {A} {f g : Zero ~> A} : f ≈ g
+  zero_unique {A} {f g : Zero ~> A} : f ≈ g
 }.
 
-Hint Resolve @zero_eqv : category_laws.
+Hint Resolve @zero_unique : category_laws.
 
 Notation "0 ~> X" := (Zero ~> X) (at level 50).
 
 Corollary zero_comp `{@Initial C} {A B : C} {f : A ~> B} :
   f ∘ zero ≈ zero.
-Proof.
-  intros.
-  apply zero_eqv.
-Qed.
+Proof. intros; apply zero_unique. Qed.
 
 Hint Rewrite @zero_comp : categories.
 
