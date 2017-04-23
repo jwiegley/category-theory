@@ -18,6 +18,7 @@ Structure/Cartesian.v
 Structure/Initial.v
 Structure/Cocartesian.v
 Structure/Bicartesian.v
+Structure/Distributive.v
 Structure/Closed.v
 Structure/BiCCC.v
 Structure/Constant.v
