@@ -7,7 +7,7 @@ Set Universe Polymorphism.
 Infix "≈" := equiv (at level 79) : category_scope.
 
 Reserved Infix "~>" (at level 90, right associativity).
-Reserved Infix "∘" (at level 30, right associativity).
+Reserved Infix "∘" (at level 40, left associativity).
 
 Class Category := {
   ob : Type;
