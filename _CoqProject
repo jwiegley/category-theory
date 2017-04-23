@@ -22,6 +22,7 @@ Structure/Distributive.v
 Structure/Closed.v
 Structure/BiCCC.v
 Structure/Constant.v
+Instance/Discrete.v
 Instance/Cat.v
 Instance/Coq.v
 Instance/Sets.v
