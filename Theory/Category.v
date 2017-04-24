@@ -23,6 +23,9 @@ Class Category := {
   compose_respects (X Y Z : ob) :>
     Proper (equiv ==> equiv ==> equiv) (@compose X Y Z);
 
+  dom {A B} (f: A ~> B) := A;
+  cod {A B} (f: A ~> B) := B;
+
   id_left  {X Y} (f : X ~> Y) : id ∘ f ≈ f;
   id_right {X Y} (f : X ~> Y) : f ∘ id ≈ f;
 
@@ -42,6 +45,29 @@ Coercion ob : Category >-> Sortclass.
 
 Hint Rewrite @id_left : categories.
 Hint Rewrite @id_right : categories.
+
+Arguments dom {_ _ _} _.
+Arguments cod {_ _ _} _.
+
+Section Category.
+
+Context `{C : Category}.
+
+Corollary dom_id {X : C} : dom (@id C X) = X.
+Proof. auto. Qed.
+
+Corollary cod_id {X : C} : dom (@id C X) = X.
+Proof. auto. Qed.
+
+Corollary dom_comp {X Y Z : C} (g : Y ~> Z) (f : X ~> Y) :
+  dom g = cod f <-> dom (g ∘ f) = dom f.
+Proof. split; auto. Qed.
+
+Corollary cod_comp {X Y Z : C} (g : Y ~> Z) (f : X ~> Y) :
+  dom g = cod f <-> cod (g ∘ f) = cod g.
+Proof. split; auto. Qed.
+
+End Category.
 
 Hint Constructors Equivalence.
 
