@@ -8,6 +8,7 @@ And just apply curry to [C^op, C] ⟶ Sets
 This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.
 * Should the identity functor be Identity, or just id?
+* Should Cat be moved into Functor.v?
 * Move Tuple into Coq/Tuple, etc.
 * Monad Transformers
 * Proofs to be done
