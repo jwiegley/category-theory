@@ -41,7 +41,6 @@ Program Instance unit_Represented : Represented (unit : Type) One := {
   repr := fun _ : unit => one;
   abst := fun _ : _ => tt
 }.
-Obligation 1. cat. Qed.
 
 (*
 Program Instance false_Represented : Represented False Zero := {

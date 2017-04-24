@@ -218,7 +218,6 @@ Global Program Instance coprod_zero_l {X : C} :
   to   := zero ▽ id;
   from := inr
 }.
-Next Obligation. cat. Qed.
 Next Obligation.
   rewrite <- merge_comp; cat.
   rewrite <- merge_inl_inr.
@@ -232,7 +231,6 @@ Global Program Instance coprod_zero_r {X : C} :
   to   := id ▽ zero;
   from := inl
 }.
-Next Obligation. cat. Qed.
 Next Obligation.
   rewrite <- merge_comp; cat.
   rewrite <- merge_inl_inr.

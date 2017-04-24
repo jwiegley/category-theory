@@ -182,7 +182,6 @@ Global Program Instance prod_zero_l {X : C} :
   to   := uncurry zero;
   from := zero
 }.
-Next Obligation. cat. Qed.
 Next Obligation. apply curry_inj; simpl; cat. Qed.
 
 Hint Rewrite @prod_zero_l : isos.
@@ -192,7 +191,6 @@ Global Program Instance prod_zero_r {X : C} :
   to   := uncurry zero ∘ swap;
   from := zero
 }.
-Next Obligation. cat. Qed.
 Next Obligation. apply swap_inj_r, curry_inj; simpl; cat. Qed.
 
 Hint Rewrite @prod_zero_r : isos.
@@ -207,7 +205,6 @@ Global Program Instance exp_zero {X : C} :
   to   := one;
   from := curry (zero ∘ to prod_zero_r)
 }.
-Next Obligation. cat. Qed.
 Next Obligation.
   apply uncurry_inj.
   apply swap_inj_r.

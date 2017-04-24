@@ -1,7 +1,4 @@
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.
-Require Export Category.Theory.Bifunctor.
-Require Export Category.Structure.Closed.
 
 Generalizable All Variables.
 Set Primitive Projections.

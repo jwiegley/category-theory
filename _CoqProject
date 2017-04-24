@@ -7,7 +7,6 @@ Theory/Functor.v
 Theory/Yoneda.v
 Theory/Natural.v
 Theory/Adjunction.v
-Theory/Bifunctor.v
 Theory/Monad.v
 Theory/Cone.v
 Theory/Limit.v
@@ -22,8 +21,12 @@ Structure/Distributive.v
 Structure/Closed.v
 Structure/BiCCC.v
 Structure/Constant.v
-Instance/Discrete.v
 Instance/Cat.v
+Instance/One.v
+Instance/Zero.v
+Instance/Nat.v
+Instance/Adj.v
+Instance/Concrete.v
 Instance/Coq.v
 Instance/Sets.v
 Instance/Sets/Closed.v
@@ -33,6 +36,7 @@ Instance/AST.v
 Instance/Proset.v
 Instance/Poset.v
 Instance/Cones.v
+Functor/Hom.v
 Theory.v
 Tools/Abstraction.v
 Tools/Represented.v
@@ -47,4 +51,4 @@ Pending/Monad/Composition.v
 Pending/Const.v
 Pending/Tuple.v
 Pending/Tactics.v
-notes/Sergei.v
+Pending/Sergei.v

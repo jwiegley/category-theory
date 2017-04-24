@@ -1,6 +1,7 @@
 Require Import Category.Lib.
 Require Export Category.Theory.Natural.
 Require Import Category.Construction.Opposite.
+Require Import Category.Instance.Nat.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
@@ -46,36 +47,13 @@ Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
     transform := fun _ => {| morphism := fun g => g ∘ unop f |}
   |}
 }.
+Next Obligation. proper. Qed.
+Next Obligation. rewrite comp_assoc; reflexivity. Qed.
+Next Obligation. rewrite comp_assoc; reflexivity. Qed.
+Next Obligation. proper. Qed.
+Next Obligation. unfold unop, nat_equiv; simpl; intros; cat. Qed.
 Next Obligation.
-  intros ?? HA.
-  rewrite HA; reflexivity.
-Qed.
-Next Obligation.
-  intros ?? HA ?; simpl.
-  rewrite HA; reflexivity.
-Qed.
-Next Obligation. cat. Qed.
-Next Obligation.
-  unfold Basics.compose.
-  rewrite comp_assoc; reflexivity.
-Qed.
-Next Obligation.
-  repeat intro; intuition.
-Qed.
-Next Obligation.
-  unfold Basics.compose.
-  rewrite comp_assoc; reflexivity.
-Qed.
-Next Obligation.
-  repeat intros ?? HA; intuition; simpl in *.
-  unfold unop, nat_equiv; simpl; intros.
-  rewrite HA; reflexivity.
-Qed.
-Next Obligation.
-  intro; simpl; unfold unop; intros; cat.
-Qed.
-Next Obligation.
-  intro; simpl; unfold unop, Basics.compose; intros.
+  unfold unop, nat_equiv; simpl; autounfold; intros; cat.
   rewrite comp_assoc; reflexivity.
 Qed.
 
@@ -95,36 +73,13 @@ Program Instance CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
     transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
 }.
+Next Obligation. proper. Qed.
+Next Obligation. rewrite comp_assoc; reflexivity. Qed.
+Next Obligation. rewrite comp_assoc; reflexivity. Qed.
+Next Obligation. proper. Qed.
+Next Obligation. unfold unop, nat_equiv; simpl; intros; cat. Qed.
 Next Obligation.
-  intros ?? HA.
-  rewrite HA; reflexivity.
-Qed.
-Next Obligation.
-  intros ?? HA ?; simpl.
-  rewrite HA; reflexivity.
-Qed.
-Next Obligation. cat. Qed.
-Next Obligation.
-  unfold Basics.compose.
-  rewrite comp_assoc; reflexivity.
-Qed.
-Next Obligation.
-  repeat intro; intuition.
-Qed.
-Next Obligation.
-  unfold Basics.compose.
-  rewrite comp_assoc; reflexivity.
-Qed.
-Next Obligation.
-  repeat intros ?? HA; intuition; simpl in *.
-  unfold op, nat_equiv; simpl; intros.
-  rewrite HA; reflexivity.
-Qed.
-Next Obligation.
-  intro; simpl; unfold unop; intros; cat.
-Qed.
-Next Obligation.
-  intro; simpl; unfold unop, Basics.compose; intros.
+  unfold unop, nat_equiv; simpl; autounfold; intros; cat.
   rewrite comp_assoc; reflexivity.
 Qed.
 

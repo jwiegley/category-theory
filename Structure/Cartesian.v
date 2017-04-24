@@ -267,7 +267,6 @@ Global Program Instance prod_one_l  {X : C} :
   to   := exr;
   from := one △ id
 }.
-Next Obligation. cat. Qed.
 Next Obligation.
   rewrite <- fork_comp.
   rewrite <- fork_exl_exr.
@@ -281,7 +280,6 @@ Global Program Instance prod_one_r  {X : C} :
   to   := exl;
   from := id △ one
 }.
-Next Obligation. cat. Qed.
 Next Obligation.
   rewrite <- fork_comp; cat.
   rewrite <- fork_exl_exr.
@@ -417,7 +415,6 @@ Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.
 Qed.
-Next Obligation. cat. Qed.
 Next Obligation.
   rewrite <- fork_comp.
   rewrite <- !comp_assoc; cat.

@@ -4,39 +4,21 @@ Require Export
   Coq.Setoids.Setoid
   Coq.Classes.Morphisms
   Coq.Classes.RelationClasses
+  Coq.Classes.SetoidClass
   Coq.Logic.JMeq
   Coq.Program.Tactics
   Coq.Logic.ProofIrrelevance
   FunctionalExtensionality.
 
 Generalizable All Variables.
+Set Primitive Projections.
+Set Universe Polymorphism.
 
 Close Scope nat_scope.
 Delimit Scope category_scope with category.
 Open Scope category_scope.
 
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
-
-Class Setoid A := {
-  equiv : relation A;
-  setoid_equiv :> Equivalence equiv
-}.
-
-Program Instance setoid_refl `(sa : Setoid A) : Reflexive equiv.
-Obligation 1. apply setoid_equiv. Defined.
-
-Program Instance setoid_sym `(sa : Setoid A) : Symmetric equiv.
-Obligation 1. apply setoid_equiv; auto. Defined.
-
-Program Instance setoid_trans `(sa : Setoid A) : Transitive equiv.
-Obligation 1.
-  apply setoid_equiv.
-  destruct sa; simpl in *.
-  destruct setoid_equiv0.
-  eapply Equivalence_Transitive; eauto.
-Defined.
+Infix "≈" := equiv (at level 79) : category_scope.
 
 Axiom propositional_extensionality : forall P : Prop, P -> P = True.
 
@@ -50,3 +32,32 @@ Hint Unfold Basics.impl.
 Hint Unfold Datatypes.id.
 
 Program Instance proof_eq_equivalence {P : Prop} : Equivalence (@proof_eq P).
+
+Hint Constructors Equivalence.
+
+Hint Unfold Reflexive.
+Hint Unfold Symmetric.
+Hint Unfold Transitive.
+
+Hint Extern 1 (Proper _ _) => unfold Proper; auto.
+Hint Extern 1 (Reflexive ?X) => unfold Reflexive; auto.
+Hint Extern 1 (Symmetric ?X) => unfold Symmetric; intros; auto.
+Hint Extern 1 (Transitive ?X) => unfold Transitive; intros; auto.
+Hint Extern 1 (Equivalence ?X) => apply Build_Equivalence.
+Hint Extern 8 (respectful _ _ _ _) => unfold respectful; auto.
+
+Hint Extern 4 (?A ≈ ?A) => reflexivity : category_laws.
+Hint Extern 6 (?X ≈ ?Y) => apply Equivalence_Symmetric : category_laws.
+Hint Extern 7 (?X ≈ ?Z) =>
+  match goal with
+    [H : ?X ≈ ?Y, H' : ?Y ≈ ?Z |- ?X ≈ ?Z] => transitivity Y
+  end : category_laws.
+
+Ltac cat :=
+  autorewrite with categories; auto with category_laws; try reflexivity.
+
+Ltac equivalence := constructor; repeat intro; simpl; cat; intuition.
+Ltac proper := repeat intro; simpl; cat; intuition.
+
+Global Obligation Tactic :=
+  program_simpl; autounfold; simpl; cat; intuition.

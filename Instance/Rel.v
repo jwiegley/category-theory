@@ -38,15 +38,14 @@ Next Obligation.
   destruct H1 as [z [H1 H2]];
   exists z; firstorder.
 Qed.
-Next Obligation. firstorder; destruct H0; intuition. Qed.
-Next Obligation. firstorder; destruct H; intuition. Qed.
-Next Obligation. firstorder. Qed.
+Next Obligation. all: firstorder; destruct H0; intuition. Qed.
+Next Obligation. all: firstorder; destruct H; intuition. Qed.
+Next Obligation. all: firstorder. Qed.
 
 Program Instance Rel_Initial : @Initial Rel := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
-Next Obligation. contradiction. Qed.
 
 (*
 Program Instance Rel_Cartesian : @Cartesian Rel := {
@@ -108,9 +107,9 @@ Next Obligation.
   rewrite <- H;
   constructor.
 Qed.
-Next Obligation. firstorder. Qed.
 Next Obligation.
   firstorder.
+  destruct H, H.
   destruct H, H0.
   constructor.
 Qed.

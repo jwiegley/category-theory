@@ -14,9 +14,9 @@ Context `{F : J ⟶ C}.
 Class Cone := {
   vertex : C;
 
-  vertex_map : ∀ {X : J}, vertex ~{C}~> F X;
+  vertex_map {X : J} : vertex ~{C}~> F X;
 
-  ump_cones : ∀ {X Y : J} (f : X ~{J}~> Y),
+  ump_cones {X Y : J} (f : X ~{J}~> Y) :
     fmap[F] f ∘ @vertex_map X ≈ @vertex_map Y
 }.
 

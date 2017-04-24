@@ -1,12 +1,79 @@
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
 Require Export Category.Theory.Functor.
-Require Export Category.Theory.Natural.
+Require Export Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Set Implicit Arguments.
+
+Section FunctorEquiv.
+
+Context `{C : Category}.
+Context `{D : Category}.
+
+Global Program Instance fobj_respects `{F : C ⟶ D} {A : C} :
+  Proper (equiv ==> equiv) (@fobj C D F).
+Next Obligation.
+  repeat intros ?? HA.
+  destruct F; simpl in *.
+  destruct HA as [to [from [to_from from_to]]]; simpl in *.
+  exists (fmap x y to), (fmap y x from).
+  rewrite <- fmap_comp.
+  rewrite to_from; cat.
+  rewrite <- fmap_comp.
+  rewrite from_to; cat.
+Qed.
+
+Global Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A).
+
+Definition functor_equiv : relation (C ⟶ D) :=
+  fun F G => (∀ X : C, F X ≃ G X)%type.
+
+Global Program Definition functor_equiv_equivalence :
+  Equivalence functor_equiv.
+Proof.
+  unfold functor_equiv.
+  constructor; cat; repeat intro; cat.
+  - symmetry; apply H.
+  - transitivity (y X); auto.
+Qed.
+
+Global Program Instance functor_setoid : Setoid (C ⟶ D) := {
+  equiv := functor_equiv;
+  setoid_equiv := functor_equiv_equivalence
+}.
+
+(* The Identity Functor *)
+
+Global Program Instance Identity : C ⟶ C := {
+  fobj := fun X => X;
+  fmap := fun _ _ f => f
+}.
+
+End FunctorEquiv.
+
+Hint Unfold functor_equiv.
+
+(* Horizontal composition of functors. *)
+
+Program Definition functor_comp
+        `{C : Category} `{D : Category} `{E : Category}
+        (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
+  fobj := fun x => fobj (fobj x);
+  fmap := fun _ _ f => fmap (fmap f)
+|}.
+Next Obligation.
+  proper.
+  rewrite H; reflexivity.
+Qed.
+Next Obligation.
+  intros.
+  rewrite !fmap_comp.
+  reflexivity.
+Qed.
+
+Infix "○" := functor_comp (at level 30, right associativity) : category_scope.
 
 Program Instance Cat : Category := {
   ob      := Category;
@@ -16,81 +83,14 @@ Program Instance Cat : Category := {
   compose := @functor_comp
 }.
 Next Obligation.
-  unfold functor_comp.
-  intros ?? HA ?? HB ?; simpl.
+  proper.
   unfold functor_equiv in *.
-  destruct (HA (x0 X0)) as [to [from [to_from from_to]]].
-  destruct (HB X0) as [to0 [from0 [to_from0 from_to0]]].
+  destruct (H (x0 X0)) as [to [from [to_from from_to]]].
+  destruct (H0 X0) as [to0 [from0 [to_from0 from_to0]]].
   exists (fmap to0 ∘ to), (from ∘ fmap from0).
   rewrite <- comp_assoc.
-  rewrite (comp_assoc to).
-  rewrite to_from; cat.
-  rewrite <- fmap_comp.
-  rewrite to_from0; cat.
-  rewrite <- comp_assoc.
-  rewrite (comp_assoc (fmap from0)).
-  rewrite <- fmap_comp.
-  rewrite from_to0; cat.
-Qed.
-Next Obligation.
-  unfold functor_equiv; intros.
-  unfold functor_comp; cat.
-Qed.
-Next Obligation.
-  unfold functor_equiv; intros.
-  unfold functor_comp; cat.
-Qed.
-Next Obligation.
-  unfold functor_equiv; intros.
-  unfold functor_comp; cat.
-Qed.
-
-Program Instance Termi : Category := {
-  ob      := unit;
-  hom     := fun _ _ => unit;
-  homset  := fun _ _ => {| equiv := eq |};
-  id      := fun _ => tt;
-  compose := fun _ _ _ _ _ => tt
-}.
-Next Obligation. destruct f; reflexivity. Qed.
-Next Obligation. destruct f; reflexivity. Qed.
-
-Program Instance Fini `(C : Category) : C ⟶ Termi := {
-  fobj := fun _ => tt;
-  fmap := fun _ _ _ => id
-}.
-
-Program Instance Ini : Category := {
-  ob  := Empty_set;
-  hom := fun _ _ => Empty_set;
-  homset := fun _ _ => {| equiv := eq |}
-}.
-Next Obligation. destruct f. Qed.
-
-Program Instance Init `(C : Category) : Ini ⟶ C.
-Next Obligation. destruct H. Qed.
-Next Obligation. destruct X. Qed.
-Next Obligation. destruct X. Qed.
-Next Obligation. destruct X. Qed.
-
-Require Import Category.Structure.Terminal.
-
-Program Instance Cat_Terminal : @Terminal Cat := {
-  One := Termi;
-  one := Fini
-}.
-Next Obligation.
-  econstructor; intros; cat.
-  exists (@id Termi (f X)).
-  eexists; split.
-Qed.
-
-Require Import Category.Structure.Initial.
-
-Program Instance Cat_Initial : @Initial Cat := {
-  Zero := Ini;
-  zero := Init
-}.
-Next Obligation.
-  unfold functor_equiv; intros; destruct X.
+  rewrite (comp_assoc to), to_from; cat.
+  rewrite <- fmap_comp, to_from0; cat.
+  rewrite <- comp_assoc, (comp_assoc (fmap from0)).
+  rewrite <- fmap_comp, from_to0; cat.
 Qed.

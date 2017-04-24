@@ -1,5 +1,6 @@
 Require Import Category.Lib.
 Require Export Category.Structure.Closed.
+Require Export Category.Instance.Cat.
 
 Generalizable All Variables.
 Set Primitive Projections.

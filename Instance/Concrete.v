@@ -6,7 +6,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Module Discrete (O : DecidableType) (S : WSetsOn O).
+Module Concrete (O : DecidableType) (S : WSetsOn O).
 
 Fixpoint In' (f : O.t * O.t) (l : list (O.t * O.t)) : Prop :=
     match l with
@@ -45,7 +45,9 @@ Proof.
   destruct H; subst; auto.
 Qed.
 
-Program Instance Discrete (Obs : S.t) (Homs : list (O.t * O.t)) : Category := {
+Local Obligation Tactic := program_simpl.
+
+Program Instance Concrete (Obs : S.t) (Homs : list (O.t * O.t)) : Category := {
   ob  := { x : O.t | S.In x Obs };
   hom := fun X Y =>
     { f : list (O.t * O.t)
@@ -68,7 +70,7 @@ Next Obligation.
 Qed.
 Next Obligation. firstorder. Defined.
 Next Obligation.
-  unfold Discrete_obligation_3; simpl.
+  unfold Concrete_obligation_3; simpl.
   proper; simpl in *;
   destruct x, x0, y, y0; simpl in *;
   firstorder.
@@ -90,4 +92,4 @@ Next Obligation.
 Admitted.
 Next Obligation. firstorder. Qed.
 
-End Discrete.
+End Concrete.

@@ -67,9 +67,6 @@ Next Obligation.
   destruct x0, y0, x, y; simpl in *.
   rewrite HA, HB; reflexivity.
 Qed.
-Next Obligation. reflexivity. Qed.
-Next Obligation. reflexivity. Qed.
-Next Obligation. reflexivity. Qed.
 
 Program Instance Sets_Cartesian : @Cartesian Sets := {
   Prod := fun X Y =>
@@ -90,7 +87,10 @@ Next Obligation. proper; destruct f, g; intuition. Qed.
 Next Obligation. proper. Qed.
 Next Obligation. proper. Qed.
 Next Obligation. proper. Qed.
-Next Obligation. firstorder. Qed.
+Next Obligation.
+  firstorder.
+  firstorder.
+Qed.
 
 Program Instance Sets_Cocartesian : @Cocartesian Sets := {
   Coprod := fun X Y =>
@@ -137,8 +137,8 @@ Next Obligation.
   firstorder;
   autounfold; simpl in *.
   - rewrite H; reflexivity.
-  - rewrite H; reflexivity.
-  - destruct x; firstorder.
+  - autounfold.
+    rewrite H; reflexivity.
 Qed.
 
 (* An isomorphism between arrows in a category C is an isomorphism of objects

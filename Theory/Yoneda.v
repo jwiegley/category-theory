@@ -1,9 +1,8 @@
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Natural.
-Require Import Category.Theory.Bifunctor.
 Require Import Category.Construction.Opposite.
+Require Import Category.Functor.Hom.
+Require Import Category.Instance.Nat.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.

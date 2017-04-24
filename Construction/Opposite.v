@@ -46,38 +46,19 @@ Program Instance Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {
     fobj := @fobj C D F;
     fmap := fun X Y f => @fmap C D F Y X (op f)
 }.
-Next Obligation.
-  repeat intro.
-  apply fmap_respects.
-  unfold op.
-  assumption.
-Qed.
-Next Obligation. unfold op; apply fmap_id. Qed.
-Next Obligation. unfold op; apply fmap_comp. Qed.
+Next Obligation. apply fmap_comp. Qed.
 
 Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {
     fobj := @fobj _ _ F;
     fmap := fun X Y f => unop (@fmap _ _ F Y X f)
 }.
 Next Obligation.
-  repeat intros ?? HA; unfold unop.
-  rewrite HA; reflexivity.
-Qed.
-Next Obligation.
+  proper.
   unfold unop.
-  unfold fmap. simpl.
-  pose (@fmap_id _ _ F).
-  unfold fmap in e. simpl in e.
-  specialize (e X). auto.
+  rewrite H; reflexivity.
 Qed.
-Next Obligation.
-  unfold unop.
-  unfold fmap. simpl.
-  pose (@fmap_comp _ _ F).
-  unfold fmap in e. simpl in e.
-  specialize (e Z Y X g f).
-  auto.
-Qed.
+Next Obligation. exact (@fmap_id _ _ F _). Qed.
+Next Obligation. exact (@fmap_comp _ _ F _ _ _ _ _). Qed.
 
 Lemma op_functor_involutive `(F : Functor) :
   Reverse_Opposite_Functor (Opposite_Functor F) ≈ F.

@@ -37,7 +37,7 @@ Class Limit := {
   limit {N : Cone} : N ~> Lim;
   limit_unique {N : Cone} (f g : N ~> Lim) : f ≈ g;
 
-  ump_limits {N} : vertex_map[Lim] ∘ limit ≈ @vertex_map _ _ _ N Lim
+  ump_limits {N : Cone} {X : J} : vertex_map[Lim] ∘ limit ≈ @vertex_map _ _ _ N X
 }.
 
 End Limit.

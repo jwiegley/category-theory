@@ -42,6 +42,3 @@ Next Obligation.
   apply proper_morphism0; auto.
 Qed.
 Next Obligation. proper. Qed.
-Next Obligation. proper. Qed.
-Next Obligation. proper. Qed.
-Next Obligation. proper. Qed.

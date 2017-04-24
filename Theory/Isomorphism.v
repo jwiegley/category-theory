@@ -29,17 +29,14 @@ Infix "≅" := Isomorphism (at level 91) : category_scope.
 
 Global Program Instance isomorphism_equivalence :
   CRelationClasses.Equivalence Isomorphism.
-Obligation 1.
-  intros ?.
+Next Obligation.
   apply Build_Isomorphism with (to:=id) (from:=id); cat.
 Defined.
-Obligation 2.
-  intros ???.
+Next Obligation.
   destruct X.
   apply Build_Isomorphism with (to:=from0) (from:=to0); cat.
 Defined.
-Obligation 3.
-  intros ?????.
+Next Obligation.
   destruct X, X0.
   apply Build_Isomorphism with (to:=to1 ∘ to0) (from:=from0 ∘ from1).
     rewrite <- comp_assoc.
@@ -54,8 +51,8 @@ Global Program Instance arrow_Isomorphism :
   CMorphisms.Proper
     (CMorphisms.respectful Isomorphism
        (CMorphisms.respectful Isomorphism Basics.arrow)) Isomorphism.
-Obligation 1.
-  intros ???????.
+Next Obligation.
+  proper.
   rewrite <- X.
   transitivity x0; auto.
 Defined.
@@ -65,8 +62,8 @@ Global Program Instance flip_arrow_Isomorphism :
     (CMorphisms.respectful Isomorphism
        (CMorphisms.respectful Isomorphism
                               (Basics.flip Basics.arrow))) Isomorphism.
-Obligation 1.
-  intros ???????.
+Next Obligation.
+  proper.
   transitivity y; auto.
   transitivity y0; auto.
   symmetry; assumption.
@@ -81,25 +78,19 @@ Definition ob_equiv : relation C := fun X Y => X ≃ Y.
 
 Global Program Instance isomorphism_prop_equivalence :
   Equivalence Isomorphism_Prop.
-Obligation 1.
-  intros ?.
+Next Obligation.
   exists id, id; cat.
 Qed.
-Obligation 2.
-  intros ?? HA.
-  destruct HA as [to [from [to_from from_to]]].
-  exists from, to; cat.
-Qed.
-Obligation 3.
-  intros ??? HA HB.
-  destruct HA as [to0 [from0 [to_from0 from_to0]]].
-  destruct HB as [to1 [from1 [to_from1 from_to1]]].
+Next Obligation. firstorder. Qed.
+Next Obligation.
+  destruct H as [to0 [from0 [to_from0 from_to0]]].
+  destruct H0 as [to1 [from1 [to_from1 from_to1]]].
   exists (to1 ∘ to0), (from0 ∘ from1).
-    rewrite <- comp_assoc.
-    rewrite (comp_assoc to0).
-    rewrite to_from0; cat.
-  rewrite <- comp_assoc.
-  rewrite (@comp_assoc _ _ _ _ _ from1).
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc to0).
+  rewrite to_from0; cat.
+  rewrite to_from1; cat.
+  rewrite (comp_assoc from1).
   rewrite from_to1; cat.
 Qed.
 
@@ -107,8 +98,8 @@ Global Program Instance impl_Isomorphism_Prop :
   Proper
     (respectful Isomorphism_Prop
        (respectful Isomorphism_Prop Basics.impl)) Isomorphism_Prop.
-Obligation 1.
-  intros ???????.
+Next Obligation.
+  proper.
   transitivity x; auto.
     symmetry; assumption.
   transitivity x0; auto.
@@ -119,8 +110,8 @@ Global Program Instance flip_impl_Isomorphism_Prop :
     (respectful Isomorphism_Prop
        (respectful Isomorphism_Prop
                               (Basics.flip Basics.impl))) Isomorphism_Prop.
-Obligation 1.
-  intros ???????.
+Next Obligation.
+  proper.
   transitivity y; auto.
   transitivity y0; auto.
   symmetry; assumption.
@@ -133,21 +124,9 @@ Definition isomorphism_equiv {X Y : C} : relation (X ≅ Y) :=
 
 Global Program Instance isomorphism_equiv_equivalence {X Y : C} :
   Equivalence (@isomorphism_equiv X Y).
-Next Obligation.
-  repeat intro.
-  split; reflexivity.
-Qed.
-Next Obligation.
-  repeat intros ?? HA.
-  split; symmetry; apply HA.
-Qed.
-Next Obligation.
-  repeat intros ? y ? HA HB.
-  destruct HA, HB.
-  split.
-    transitivity (to y); auto.
-  transitivity (from y); auto.
-Qed.
+Next Obligation. firstorder. Qed.
+Next Obligation. firstorder. Qed.
+Next Obligation. firstorder. Qed.
 
 Global Program Instance isomorphism_setoid {X Y : C} : Setoid (X ≅ Y) := {
   equiv := isomorphism_equiv;

@@ -14,7 +14,15 @@ Makefile.coq: _CoqProject
 
 clean: _CoqProject Makefile.coq
 	make -f Makefile.coq clean
-	rm -f *.glob *.v.d *.vo *.hi *.o Main result *.hp .*.aux
+	find . \( -name '*.glob' -o				\
+		  -name '*.v.d' -o				\
+		  -name '*.vo' -o				\
+		  -name '*.hi' -o				\
+		  -name '*.o' -o				\
+		  -name '.*.aux' -o				\
+		  -name '*.hp' -o				\
+		  -name 'result' -o				\
+		  -name 'dist' \) -print0 | xargs -0 rm -fr
 
 fullclean: clean
 	rm -f Makefile.coq

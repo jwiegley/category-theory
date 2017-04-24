@@ -41,20 +41,11 @@ Program Instance Coq_Cartesian : @Cartesian _ := {
   exl  := fun _ _ p => fst p;
   exr  := fun _ _ p => snd p
 }.
-Obligation 1.
-  intros ?? HA ?? HB ?.
-  rewrite HA, HB.
-  reflexivity.
-Qed.
-Obligation 2.
-  split; intros Hcart; subst.
-    split; intros;
-    rewrite Hcart; reflexivity.
-  destruct Hcart as [HA HB].
-  subst; intros.
-  rewrite <- HA, <- HB.
-  rewrite <- surjective_pairing.
-  reflexivity.
+Next Obligation. proper; congruence. Qed.
+Next Obligation.
+  - rewrite H; reflexivity.
+  - rewrite H; reflexivity.
+  - rewrite <- H0, <- H1, <- surjective_pairing; reflexivity.
 Qed.
 
 Program Instance Coq_Closed : @Closed _ _ := {
@@ -63,21 +54,13 @@ Program Instance Coq_Closed : @Closed _ _ := {
     {| to   := {| morphism := fun f a b => f (a, b) |}
      ; from := {| morphism := fun f p => f (fst p) (snd p) |} |}
 }.
-Next Obligation.
-  intros ?? HA ?.
-  extensionality b.
-  apply HA.
-Qed.
-Next Obligation.
-  intros ?? HA ?.
-  rewrite HA; reflexivity.
-Qed.
+Next Obligation. proper; extensionality b; intuition. Qed.
+Next Obligation. proper; congruence. Qed.
 
 Program Instance Coq_Initial : Initial _ := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
-Obligation 2. contradiction. Qed.
 
 Program Instance Coq_Cocartesian : @Cocartesian _ := {
   Coprod := sum;
@@ -89,63 +72,56 @@ Program Instance Coq_Cocartesian : @Cocartesian _ := {
   inl  := fun _ _ p => Datatypes.inl p;
   inr  := fun _ _ p => Datatypes.inr p
 }.
-Obligation 1.
-  intros ?? HA ?? HB ?.
-  destruct x1.
-    rewrite HA; reflexivity.
-  rewrite HB; reflexivity.
-Qed.
-Obligation 2.
-  split; intros Hcocart; subst.
-    split; intros;
-    rewrite Hcocart; reflexivity.
-  destruct Hcocart.
-  subst; simpl; intros.
-  destruct x; auto.
+Next Obligation. proper. Qed.
+Next Obligation.
+  rewrite H; reflexivity.
+  rewrite H; reflexivity.
 Qed.
 
 Lemma injectivity_is_monic `(f : X ~> Y) :
   (∀ x y, f x = f y → x = y) <-> Monic f.
-Proof. split.
-- intros HA.
-  autounfold in *; intros ??? HB.
-  simpl in *; intros.
-  apply HA, HB.
-- intros HA ?? HB.
-  autounfold in *.
-  simpl in *.
-  pose (fun (_ : unit) => x) as const_x.
-  pose (fun (_ : unit) => y) as const_y.
-  specialize (HA unit const_x const_y).
-  unfold const_x in HB.
-  unfold const_y in HB.
-  simpl in HB.
-  eapply HA; eauto.
-  Unshelve.
-  eexact tt.
+Proof.
+  split.
+  - intros HA.
+    autounfold in *; intros ??? HB.
+    simpl in *; intros.
+    apply HA, HB.
+  - intros HA ?? HB.
+    autounfold in *.
+    simpl in *.
+    pose (fun (_ : unit) => x) as const_x.
+    pose (fun (_ : unit) => y) as const_y.
+    specialize (HA unit const_x const_y).
+    unfold const_x in HB.
+    unfold const_y in HB.
+    simpl in HB.
+    eapply HA; eauto.
+    Unshelve.
+    eexact tt.
 Qed.
 
 Lemma surjectivity_is_epic `(f : X ~> Y) :
   (∀ y, ∃ x, f x = y)%type <-> Epic f.
-Proof. split.
-- intros HA.
-  autounfold in *; intros ??? HB.
-  simpl in *; intros.
-  specialize (HA x).
-  destruct HA as [? HA].
-  rewrite <- HA.
-  apply HB.
-- intros HA ?.
-  unfold Epic in HA.
-  specialize HA with (Z := Prop).
-  specialize HA with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
-  simpl in *.
-  specialize HA with (g2 := fun y  => True).
-  erewrite HA.
-    constructor.
-  intros.
-  Axiom propositional_extensionality : forall P : Prop, P -> P = True.
-  apply propositional_extensionality.
-  exists x.
-  reflexivity.
+Proof.
+  split.
+  - intros HA.
+    autounfold in *; intros ??? HB.
+    simpl in *; intros.
+    specialize (HA x).
+    destruct HA as [? HA].
+    rewrite <- HA.
+    apply HB.
+  - intros HA ?.
+    unfold Epic in HA.
+    specialize HA with (Z := Prop).
+    specialize HA with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
+    simpl in *.
+    specialize HA with (g2 := fun y  => True).
+    erewrite HA.
+      constructor.
+    intros.
+    Axiom propositional_extensionality : forall P : Prop, P -> P = True.
+    apply propositional_extensionality.
+    exists x.
+    reflexivity.
 Qed.
