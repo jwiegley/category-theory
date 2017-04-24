@@ -13,8 +13,8 @@ Context `{C : Category}.
    Note that this definition has computational content, so we can make use of
    the morphisms. *)
 Class Isomorphism (X Y : C) : Type := {
-  to   : X ~> Y;
-  from : Y ~> X;
+  to   :> X ~> Y;
+  from :  Y ~> X;
 
   iso_to_from : to ∘ from ≈ id;
   iso_from_to : from ∘ to ≈ id
@@ -168,3 +168,5 @@ Arguments to {_ X Y} _.
 Arguments from {_ X Y} _.
 Arguments iso_to_from {_ _ _} _.
 Arguments iso_from_to {_ _ _} _.
+
+Coercion to : Isomorphism >-> hom.
