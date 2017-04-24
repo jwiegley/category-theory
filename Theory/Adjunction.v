@@ -249,3 +249,30 @@ Next Obligation.
   unfold functor_equiv; simpl; split; intros;
   reflexivity.
 Qed.
+
+(* From mathoverflow:
+
+   You will have to make an arbitrary choice for the direction of morphisms:
+   is the left adjoint "forward" or "backward"? To prevent that, you can add
+   involutions. The resulting category [InvAdj] of involutive categories and
+   adjunctions has a lot of interesting structure. It is a dagger category,
+   and in fact the `mother of all dagger categories', as it universally embeds
+   any dagger category. In particular, the full subcategory of (ortho)posets
+   and Galois connections has dagger kernels, dagger biproducts, an an
+   opclassifier. See these two papers. Now for the definition (from 3.1.8 of
+   my thesis):
+
+   A functor ∗ : C^op → C is called involutive when ∗ ∘ ∗ = Id. Define a
+   category [InvAdj] as follows. Objects are pairs (C,∗) of a category with an
+   involution. A morphism (C,∗) → (D,∗) is functor F : C^op → D that has a
+   left adjoint, where two such functors are identified when they are
+   naturally isomorphic. The identity morphism on (C,∗) is the functor ∗ :
+   C^op → C ; its left adjoint is ∗^op : C → C^op. The composition of F : C^op
+   → D and G : D^op → E is defined by G ∘ ∗^op ∘ F : C^op → E; its left
+   adjoint is F′ ∘ ∗ ∘ G′, where F′ ⊣ F and G′ ⊣ G.
+
+   (It is not arbitrary to require a left adjoint instead of a right one. A
+   contravariant functor from C to D can be written both as a (covariant)
+   functor F : C^op → D or as a (covariant) functor F^op : C → D^op. The
+   latter version has a right adjoint precisely when the former version has a
+   left adjoint.) *)
