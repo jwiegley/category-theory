@@ -125,6 +125,10 @@ Proof.
   reflexivity.
 Qed.
 
+Hint Unfold nat_compose.
+Hint Unfold nat_identity.
+Hint Unfold nat_equiv.
+
 (* Nat is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
 
@@ -136,14 +140,10 @@ Global Program Instance Nat : Category := {
 
   compose_respects := @nat_compose_respects
 }.
+Next Obligation. autounfold; simpl; intros; cat. Qed.
+Next Obligation. autounfold; simpl; intros; cat. Qed.
 Next Obligation.
-  unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
-Qed.
-Next Obligation.
-  unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
-Qed.
-Next Obligation.
-  unfold nat_compose, nat_identity, nat_equiv; simpl; intros; cat.
+  autounfold; simpl; intros; cat.
   rewrite comp_assoc; reflexivity.
 Qed.
 
