@@ -9,11 +9,30 @@ This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.
 * Should the identity functor be Identity, or just id?
 * Should Cat be moved into Functor.v?
+* Create dom(f) and cod(f) functions
+* Create Theory/Algebra.v, with constructions like Magma, Semigroup, Monoid, etc.
 * Move Tuple into Coq/Tuple, etc.
+* A category of homogeneous relations in Prop
+* A category of constructive homogeneous crelations in Type
+* Discrete has no arrows; rename the current one to Concrete
+* Awodey Theorem 1.6
+Every category C with a set of arrows is isomorphic to one in which the
+objects are sets and the arrows are functions.
+* Awodey Exercise 1.13
+Use the Cayley representation to show that every small category is isomorphic
+to a “concrete” one, that is, one in which the objects are sets and the arrows
+are functions between them.
+* Awodey Exercise 1.14
+The notion of a category can also be defined with just one sort (arrows)
+rather than two (arrows and objects); the domains and codomains are taken to
+be certain arrows that act as units under composition, which is partially
+defined. Read about this definition in section I.1 of Mac Lane’s Categories
+for the Working Mathematician, and do the exercise mentioned there, showing
+that it is equivalent to the usual definition.
 * Monad Transformers
 * Proofs to be done
 ** "Coyoneda lemma" states that every presheaf is a colimit of representables
-* Theory to add
+* Theory
 ** Diagram
 ** Cone
 ** Limit/Colimit
@@ -21,14 +40,24 @@ forgotten to provide the right context.
 ** Faithful, Full, Fully Faithful functors (inj, surj, bi, resp.)
 ** Functoral strength
 ** Kan extensions
-* Instances to add
-** Posets
-* Constructions to add
+* Instances
+** Ensembles (mathematical sets)
+** Finite sets
+** 0
+** 1
+** 2
+** 3
+** Monoid
+** Mon
+** Graphs
+* Constructions
+** Product (C × D)
 ** Comma category (F ↓ G)
 ** Diagonal (Δ F)
 ** Arrow category (C⃗)
 ** Slice/Coslice (C/c)
-* Structures to add
+** Free category
+* Structures
 ** Monoidal
 *** Monoidal functors
 ** "Applicative functors" (strong lax monoidal functors)
