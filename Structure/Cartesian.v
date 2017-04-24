@@ -23,7 +23,7 @@ Class Cartesian:= {
   fork_respects {X Y Z} :> Proper (equiv ==> equiv ==> equiv) (@fork X Y Z);
 
   ump_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
-    h ≈ fork f g <<>> exl ∘ h ≈ f //\\ exr ∘ h ≈ g
+    h ≈ fork f g <-> exl ∘ h ≈ f ∧ exr ∘ h ≈ g
 }.
 
 Infix "×" := Prod : category_scope.
@@ -101,7 +101,7 @@ Qed.
 Hint Rewrite @fork_exl_exr : categories.
 
 Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
-  f △ g ≈ h △ i <<>> f ≈ h //\\ g ≈ i.
+  f △ g ≈ h △ i <-> f ≈ h ∧ g ≈ i.
 Proof.
   pose proof (ump_products h i (f △ g)) as HA.
   firstorder.
@@ -365,7 +365,7 @@ Qed.
 Hint Rewrite @prod_out_in : functors.
 
 Corollary prod_in_inj {X Y Z : C} (f g : F X ~> F X × F Y) :
-  prod_in ∘ f ≈ prod_in ∘ g <<>> f ≈ g.
+  prod_in ∘ f ≈ prod_in ∘ g <-> f ≈ g.
 Proof.
   split; intros Hprod.
     rewrite <- id_left.
@@ -380,7 +380,7 @@ Proof.
 Qed.
 
 Corollary prod_out_inj {X Y Z : C} (f g : F X ~> F (Y × Z)) :
-  prod_out ∘ f ≈ prod_out ∘ g <<>> f ≈ g.
+  prod_out ∘ f ≈ prod_out ∘ g <-> f ≈ g.
 Proof.
   split; intros Hprod.
     rewrite <- id_left.

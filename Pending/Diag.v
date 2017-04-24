@@ -22,7 +22,7 @@ Program Instance Product `{C : Category} `{D : Category} : Category := {
                             {| carrier := π2 A ~{D}~> π2 B |};
   homset  := fun X Y : C × D =>
                {| equiv := fun f g =>
-                    equiv (π1 X) (π1 Y) //\\ equiv (π2 X) (π2 Y) |};
+                    equiv (π1 X) (π1 Y) ∧ equiv (π2 X) (π2 Y) |};
   id      := fun A => split id id;
   compose := fun X Y Z f g =>
                tt

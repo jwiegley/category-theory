@@ -73,7 +73,7 @@ Obligation 1.
 Defined.
 
 Definition Isomorphism_Prop (X Y : C) : Prop :=
-  exists (f : X ~> Y) (g : Y ~> X), f ∘ g ≈ id //\\ g ∘ f ≈ id.
+  exists (f : X ~> Y) (g : Y ~> X), f ∘ g ≈ id ∧ g ∘ f ≈ id.
 
 Infix "≃" := Isomorphism_Prop (at level 91) : category_scope.
 
@@ -129,7 +129,7 @@ Defined.
 Global Program Instance ob_setoid : Setoid C.
 
 Definition isomorphism_equiv {X Y : C} : relation (X ≅ Y) :=
-  fun f g => to f ≈ to g //\\ from f ≈ from g.
+  fun f g => to f ≈ to g ∧ from f ≈ from g.
 
 Global Program Instance isomorphism_equiv_equivalence {X Y : C} :
   Equivalence (@isomorphism_equiv X Y).

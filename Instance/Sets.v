@@ -76,7 +76,7 @@ Program Instance Sets_Cartesian : @Cartesian Sets := {
             {| carrier := (carrier X * carrier Y)%type
              ; is_setoid :=
                  {| equiv := fun x y =>
-                               @equiv _ X (fst x) (fst y) //\\
+                               @equiv _ X (fst x) (fst y) ∧
                                @equiv _ Y (snd x) (snd y)
                   ; setoid_equiv := _
                   |}

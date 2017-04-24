@@ -21,7 +21,7 @@ Class Cocartesian := {
   merge_respects {X Y Z} :> Proper (equiv ==> equiv ==> equiv) (@merge X Y Z);
 
   ump_coproducts {X Y Z} (f : Y ~> X) (g : Z ~> X) (h : Y + Z ~> X) :
-    h ≈ merge f g <<>> h ∘ inl ≈ f //\\ h ∘ inr ≈ g
+    h ≈ merge f g <-> h ∘ inl ≈ f ∧ h ∘ inr ≈ g
 }.
 
 Infix "+" := Coprod : category_scope.
@@ -99,7 +99,7 @@ Qed.
 Hint Rewrite @merge_inl_inr : categories.
 
 Corollary merge_inv {X Y Z : C} (f h : Y ~> X) (g i : Z ~> X) :
-  f ▽ g ≈ h ▽ i <<>> f ≈ h //\\ g ≈ i.
+  f ▽ g ≈ h ▽ i <-> f ≈ h ∧ g ≈ i.
 Proof.
   pose proof (ump_coproducts h i (f ▽ g)) as Huniv.
   firstorder.
@@ -309,7 +309,7 @@ Proof. apply iso_to_from. Qed.
 Hint Rewrite @coprod_out_in : functors.
 
 Corollary coprod_in_surj {X Y Z : C} (f g : F (X + Y) ~> F X) :
-  f ∘ coprod_in ≈ g ∘ coprod_in <<>> f ≈ g.
+  f ∘ coprod_in ≈ g ∘ coprod_in <-> f ≈ g.
 Proof.
   split; intros Hcoprod.
     rewrite <- id_right.
@@ -324,7 +324,7 @@ Proof.
 Qed.
 
 Corollary coprod_out_inj {X Y Z : C} (f g : F Y + F Z ~> F X) :
-  f ∘ coprod_out ≈ g ∘ coprod_out <<>> f ≈ g.
+  f ∘ coprod_out ≈ g ∘ coprod_out <-> f ≈ g.
 Proof.
   split; intros Hcoprod.
     rewrite <- id_right.

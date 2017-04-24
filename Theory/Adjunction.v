@@ -184,7 +184,7 @@ Record adj_morphism `{C : Category} `{D : Category} := {
 Program Instance adj_morphism_setoid `{C : Category} `{D : Category} :
   Setoid (@adj_morphism C D) := {
   equiv := fun f g =>
-             free_functor f ≈ free_functor g //\\
+             free_functor f ≈ free_functor g ∧
              forgetful_functor f ≈ forgetful_functor g
 }.
 Next Obligation.

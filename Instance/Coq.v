@@ -105,7 +105,7 @@ Obligation 2.
 Qed.
 
 Lemma injectivity_is_monic `(f : X ~> Y) :
-  (∀ x y, f x = f y → x = y) <<>> Monic f.
+  (∀ x y, f x = f y → x = y) <-> Monic f.
 Proof. split.
 - intros HA.
   autounfold in *; intros ??? HB.
@@ -126,7 +126,7 @@ Proof. split.
 Qed.
 
 Lemma surjectivity_is_epic `(f : X ~> Y) :
-  (∀ y, ∃ x, f x = y)%type <<>> Epic f.
+  (∀ y, ∃ x, f x = y)%type <-> Epic f.
 Proof. split.
 - intros HA.
   autounfold in *; intros ??? HB.

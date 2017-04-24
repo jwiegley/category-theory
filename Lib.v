@@ -12,22 +12,12 @@ Require Export
 Generalizable All Variables.
 
 Close Scope nat_scope.
-Close Scope type_scope.
-
-Notation "f -> g" := (f -> g)%type : category_scope.
-
-Open Scope category_scope.
 Delimit Scope category_scope with category.
+Open Scope category_scope.
 
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-
-(* Infix "<<>>" := iffT (at level 199). *)
-(* Infix "//\\" := Datatypes.prod (at level 198). *)
-
-Infix "<<>>" := iff (at level 199).
-Infix "//\\" := and (at level 198).
 
 Class Setoid A := {
   equiv : relation A;
