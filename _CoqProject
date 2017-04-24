@@ -46,4 +46,5 @@ Pending/Monad/Adjoint.v
 Pending/Monad/Composition.v
 Pending/Const.v
 Pending/Tuple.v
+Pending/Tactics.v
 notes/Sergei.v

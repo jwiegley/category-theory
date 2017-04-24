@@ -8,8 +8,6 @@ Set Universe Polymorphism.
 
 Module Discrete (O : DecidableType) (S : WSetsOn O).
 
-(* Local Obligation Tactic := simpl; intros; intuition. *)
-
 Fixpoint In' (f : O.t * O.t) (l : list (O.t * O.t)) : Prop :=
     match l with
       | nil => False
@@ -24,18 +22,28 @@ Fixpoint Subset' (X Y : O.t) (l : list (O.t * O.t)) : list (O.t * O.t) :=
                    else false) l.
 Arguments Subset' X Y l : simpl never.
 
-(*
-  repeat (
-    match goal with
-    | [ H : { _ | _ }%type |- _ ] => destruct H
-    | [ |- { _ | _ }%type ] => econstructor
-    | [ H : { _ | _  & _ }%type |- _ ] => destruct H
-    | [ |- { _ | _  & _ }%type ] => econstructor
-    | [ H : _ //\\ _ |- _ ] => destruct H
-    | [ |- _ //\\ _ ] => econstructor
-    end; simpl in *; intuition; eauto).
-  destruct f.
-*)
+Lemma Subset'_cons X Y x xs :
+  Subset' X Y (x :: xs)
+    = if O.eq_dec (fst x) X
+      then if O.eq_dec (snd x) Y
+           then x :: Subset' X Y xs
+           else Subset' X Y xs
+      else Subset' X Y xs.
+Proof.
+  induction xs; unfold Subset'; simpl;
+  destruct (O.eq_dec (fst x) X);
+  destruct (O.eq_dec (snd x) Y); auto.
+Qed.
+
+Lemma In_Subset'_inv X Y x y xs :
+  In (x, y) (Subset' X Y xs) -> O.eq x X ∧ O.eq y Y.
+Proof.
+  induction xs; simpl; intros; [tauto|].
+  rewrite Subset'_cons in H.
+  destruct (O.eq_dec (fst a) X);
+  destruct (O.eq_dec (snd a) Y); auto.
+  destruct H; subst; auto.
+Qed.
 
 Program Instance Discrete (Obs : S.t) (Homs : list (O.t * O.t)) : Category := {
   ob  := { x : O.t | S.In x Obs };
@@ -48,23 +56,38 @@ Program Instance Discrete (Obs : S.t) (Homs : list (O.t * O.t)) : Category := {
 }.
 Next Obligation.
   equivalence.
-Admitted.
+  - apply H1; assumption.
+  - apply H1; assumption.
+  - apply H2, H1; assumption.
+  - apply H1, H2; assumption.
+Qed.
 Next Obligation.
   firstorder.
-  induction Homs; simpl in *; auto.
-  destruct a; simpl in *.
-  destruct (O.eq_dec t1 X); intuition.
-  destruct (O.eq_dec t2 X); intuition.
+  apply In_Subset'_inv in H0.
+  constructor; auto.
+Qed.
+Next Obligation. firstorder. Defined.
+Next Obligation.
+  unfold Discrete_obligation_3; simpl.
+  proper; simpl in *;
+  destruct x, x0, y, y0; simpl in *;
+  firstorder.
+Qed.
+Next Obligation.
+  firstorder; simpl in *.
+  - destruct f.
+      pose proof (proj2 (H (X, Y))).
+      simpl in H4.
+      firstorder.
+      specialize (H4 (reflexivity _) (reflexivity _)).
+      contradiction.
+    destruct p; simpl in *.
+    pose proof (proj2 (H (t, t0))).
+    firstorder.
 Admitted.
 Next Obligation.
+  firstorder; simpl in *.
 Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
+Next Obligation. firstorder. Qed.
 
 End Discrete.
