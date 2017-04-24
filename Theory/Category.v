@@ -33,10 +33,10 @@ Class Category := {
 Infix "~>" := hom (at level 90, right associativity) : category_scope.
 Infix "~{ C }~>" := (@hom C) (at level 90) : category_scope.
 Infix "∘" := compose : category_scope.
-Notation "ob[ C ]" := (@ob C) (at level 0, format "ob[ C ]") : category_scope.
 
-Notation "id[ X ]" :=
-  (@id _ X)  (at level 50, format "id[ X ]") : category_scope.
+Notation "ob[ C ]" := (@ob C) (at level 0, format "ob[ C ]") : category_scope.
+Notation "id[ X ]" := (@id _ X)
+  (at level 50, format "id[ X ]") : category_scope.
 
 Coercion ob : Category >-> Sortclass.
 
