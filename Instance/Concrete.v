@@ -140,15 +140,63 @@ End Concrete.
 
 Module ConcreteInstances.
 
+Require Import Category.Theory.Functor.
+Require Import Category.Structure.Initial.
+Require Import Category.Structure.Terminal.
+Require Import Category.Instance.Cat.
+
 Import ListNotations.
+
+(* The 0 category has no objects and no morphisms. It is initial in Cat. *)
 
 Program Definition Concrete_0 := Concrete False _ [] [].
 
+Program Instance Map_0 `(C : Category) : Concrete_0 ⟶ C.
+
+Program Instance Initial_0 : @Initial Cat := {
+  Zero := Concrete_0;
+  zero := Map_0
+}.
+Next Obligation.
+  intros.
+  destruct X.
+  contradiction.
+Qed.
+
+(* The 1 category has one object and its identity morphism. It is terminal in
+   Cat. *)
+
 Program Definition Concrete_1 := Concrete unit _ [tt] [].
-Next Obligation. destruct x, y; auto. Qed.
+Next Obligation. destruct x, y; auto. Defined.
+
+Program Instance Map_1 `(C : Category) : C ⟶ Concrete_1 := {
+  fobj := fun _ => tt;
+  fmap := fun _ _ _ => id
+}.
+
+Program Instance Terminal_1 : @Terminal Cat := {
+  One := Concrete_1;
+  one := Map_1
+}.
+Next Obligation.
+  intros.
+  destruct (f X), (g X), x, x0.
+  eexists (exist _ [(tt, tt)] _).
+  Unshelve. 2:split; auto.
+  eexists (exist _ [(tt, tt)] _).
+  Unshelve. 2:split; auto.
+  simpl; intuition.
+Qed.
+
+(* The 2 category has two objects, their identity morphisms, and a morphism
+   from the first to the second object. *)
 
 Definition Concrete_2 :=
   Concrete bool Bool.bool_dec [true; false] [(true, false)].
+
+(* The 3 category has three objects, their identity morphisms, and morphisms
+   from the first to the second object, the second to the third, and the first
+   to the third (required by composition). *)
 
 Inductive three : Set := One_ | Two_ | Three_.
 
