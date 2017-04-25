@@ -22,8 +22,9 @@ Structure/Closed.v
 Structure/BiCCC.v
 Structure/Constant.v
 Instance/Cat.v
-Instance/One.v
 Instance/Zero.v
+Instance/One.v
+Instance/Two.v
 Instance/Nat.v
 Instance/Adj.v
 Instance/Concrete.v
