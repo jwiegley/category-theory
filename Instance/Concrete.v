@@ -138,13 +138,13 @@ Qed.
 
 End Concrete.
 
-Module ConcreteInstances.
-
 Require Import Category.Theory.Functor.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Cat.
 Require Import Category.Instance.One.
+
+Module ConcreteInstances.
 
 Import ListNotations.
 
