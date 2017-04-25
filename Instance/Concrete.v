@@ -208,7 +208,7 @@ Qed.
    from the first to the second object. *)
 
 Definition Concrete_2 :=
-  Concrete bool Bool.bool_dec [true; false] [(true, false)].
+  Concrete bool Bool.bool_dec [false; true] [(false, true)].
 
 (* The 3 category has three objects, their identity morphisms, and morphisms
    from the first to the second object, the second to the third, and the first
