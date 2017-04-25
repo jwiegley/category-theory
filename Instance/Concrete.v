@@ -70,7 +70,6 @@ Next Obligation.
 Qed.
 Next Obligation. firstorder. Defined.
 Next Obligation.
-  unfold Concrete_obligation_3; simpl.
   proper; simpl in *;
   destruct x, x0, y, y0; simpl in *;
   firstorder.
@@ -78,18 +77,35 @@ Qed.
 Next Obligation.
   firstorder; simpl in *.
   - destruct f.
-      pose proof (proj2 (H (X, Y))).
-      simpl in H4.
-      firstorder.
+      pose proof (proj2 (H (X, Y))); firstorder.
       specialize (H4 (reflexivity _) (reflexivity _)).
       contradiction.
-    destruct p; simpl in *.
-    pose proof (proj2 (H (t, t0))).
-    firstorder.
-Admitted.
+    pose proof (proj2 (H (t, t0))); firstorder.
+  - destruct f.
+      pose proof (proj2 (H (X, Y))); firstorder.
+      specialize (H3 (reflexivity _) (reflexivity _)).
+      contradiction.
+    pose proof (proj2 (H (t, t0))); firstorder.
+  - destruct f.
+      contradiction.
+    pose proof (proj1 (H (t, t0))); firstorder.
+Qed.
 Next Obligation.
   firstorder; simpl in *.
-Admitted.
+  - destruct f.
+      pose proof (proj2 (H (X, Y))); firstorder.
+      specialize (H4 (reflexivity _) (reflexivity _)).
+      contradiction.
+    pose proof (proj2 (H (t, t0))); firstorder.
+  - destruct f.
+      pose proof (proj2 (H (X, Y))); firstorder.
+      specialize (H3 (reflexivity _) (reflexivity _)).
+      contradiction.
+    pose proof (proj2 (H (t, t0))); firstorder.
+  - destruct f.
+      contradiction.
+    pose proof (proj1 (H (t, t0))); firstorder.
+Qed.
 Next Obligation. firstorder. Qed.
 
 End Concrete.
