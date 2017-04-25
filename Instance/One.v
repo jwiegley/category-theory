@@ -1,5 +1,6 @@
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
+Require Import Category.Structure.Terminal.
 Require Export Category.Instance.Cat.
 
 Generalizable All Variables.
@@ -7,7 +8,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Implicit Arguments.
 
-Program Instance Termi : Category := {
+Program Instance _1 : Category := {
   ob      := unit;
   hom     := fun _ _ => unit;
   homset  := fun _ _ => {| equiv := eq |};
@@ -17,19 +18,17 @@ Program Instance Termi : Category := {
 Next Obligation. destruct f; reflexivity. Qed.
 Next Obligation. destruct f; reflexivity. Qed.
 
-Program Instance Fini `(C : Category) : C ⟶ Termi := {
+Program Instance To_1 `(C : Category) : C ⟶ _1 := {
   fobj := fun _ => tt;
   fmap := fun _ _ _ => id
 }.
 
-Require Import Category.Structure.Terminal.
-
 Program Instance Cat_Terminal : @Terminal Cat := {
-  One := Termi;
-  one := Fini
+  One := _1;
+  one := To_1
 }.
 Next Obligation.
   econstructor; intros; cat.
-  exists (@id Termi (f X)).
+  exists (@id _1 (f X)).
   eexists; split.
 Qed.

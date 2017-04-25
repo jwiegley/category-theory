@@ -189,7 +189,7 @@ Next Obligation.
   simpl; intuition.
 Qed.
 
-Program Instance Terminal_1_is_One : @One Cat Terminal_1 ≅ Termi.
+Program Instance Terminal_1_is_1 : @One Cat Terminal_1 ≅ _1.
 Next Obligation. destruct X; reflexivity. Qed.
 Next Obligation.
   destruct X; simpl.
