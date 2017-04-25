@@ -12,7 +12,7 @@ Theory/Cone.v
 Theory/Limit.v
 Construction/Comma.v
 Construction/Opposite.v
-Structure/Groupoid.v
+Construction/Groupoid.v
 Structure/Terminal.v
 Structure/Cartesian.v
 Structure/Initial.v
