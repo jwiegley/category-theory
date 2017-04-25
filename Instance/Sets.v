@@ -25,10 +25,7 @@ Program Instance SetoidMorphism_Setoid {A B : SetoidObject} :
   Setoid (SetoidMorphism A B) := {|
   equiv := fun f g => forall x, @equiv _ B (f x) (g x)
 |}.
-Next Obligation.
-  constructor; repeat intro; intuition.
-  transitivity (y x0); auto.
-Qed.
+Next Obligation. equivalence; transitivity (y x0); auto. Qed.
 
 Definition setoid_morphism_id {A : SetoidObject} : SetoidMorphism A A := {|
   morphism := Datatypes.id
@@ -40,11 +37,10 @@ Program Definition setoid_morphism_compose {A B C : SetoidObject}
   morphism := Basics.compose g f
 |}.
 Next Obligation.
-  repeat intros ?? HA; unfold compose.
+  proper.
   destruct A, B, C; simpl.
   destruct g, f; simpl.
-  unfold Basics.compose.
-  rewrite HA; reflexivity.
+  rewrite H; reflexivity.
 Qed.
 
 (* The category of setoids.
@@ -61,11 +57,10 @@ Program Instance Sets : Category := {
   compose := @setoid_morphism_compose
 }.
 Next Obligation.
-  repeat intros ?? HA ?? HB ?.
-  unfold setoid_morphism_compose; simpl.
-  unfold Basics.compose.
+  proper.
+  autounfold.
   destruct x0, y0, x, y; simpl in *.
-  rewrite HA, HB; reflexivity.
+  rewrite H, H0; reflexivity.
 Qed.
 
 Program Instance Sets_Cartesian : @Cartesian Sets := {
@@ -82,15 +77,8 @@ Program Instance Sets_Cartesian : @Cartesian Sets := {
   exl := fun _ _ => {| morphism := fst |};
   exr := fun _ _ => {| morphism := snd |}
 }.
-Next Obligation. equivalence. Qed.
 Next Obligation. proper; destruct f, g; intuition. Qed.
-Next Obligation. proper. Qed.
-Next Obligation. proper. Qed.
-Next Obligation. proper. Qed.
-Next Obligation.
-  firstorder.
-  firstorder.
-Qed.
+Next Obligation. firstorder. Qed.
 
 Program Instance Sets_Cocartesian : @Cocartesian Sets := {
   Coprod := fun X Y =>
@@ -127,18 +115,19 @@ Next Obligation.
   destruct z; intuition.
 Qed.
 Next Obligation.
-  proper; destruct f, g; intuition.
+  proper.
+  destruct f, g; intuition.
   destruct y, x; intuition;
   destruct z; intuition.
 Qed.
-Next Obligation. proper. Qed.
 Next Obligation.
   destruct h;
   firstorder;
-  autounfold; simpl in *.
+  autounfold; simpl in *;
+  autounfold.
   - rewrite H; reflexivity.
-  - autounfold.
-    rewrite H; reflexivity.
+  - rewrite H; reflexivity.
+  - destruct x; auto.
 Qed.
 
 (* An isomorphism between arrows in a category C is an isomorphism of objects

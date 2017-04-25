@@ -60,4 +60,10 @@ Ltac equivalence := constructor; repeat intro; simpl; cat; intuition.
 Ltac proper := repeat intro; simpl; cat; intuition.
 
 Global Obligation Tactic :=
-  program_simpl; autounfold; simpl; cat; intuition.
+  program_simpl; autounfold;
+  try solve [repeat match goal with
+  | [ |- Proper _ _ ] => proper
+  | [ |- respectful _ _ _ _ ] => proper
+  | [ |- Equivalence _ ] => equivalence
+  | _ => simpl; intros; cat; intuition
+  end].

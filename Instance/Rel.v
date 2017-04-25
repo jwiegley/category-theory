@@ -109,7 +109,6 @@ Next Obligation.
 Qed.
 Next Obligation.
   firstorder.
-  destruct H, H.
   destruct H, H0.
   constructor.
 Qed.

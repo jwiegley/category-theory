@@ -14,26 +14,14 @@ Program Instance Coq : Category := {
   id      := fun _ x => x;
   compose := fun _ _ _ g f x => g (f x)
 }.
-Obligation 1.
-  constructor.
-  - intros ??; auto.
-  - intros ????; auto.
-  - intros ??????; congruence.
-Qed.
-Obligation 2.
-  intros ?? HA ?? HB ?.
-  rewrite HA, HB.
-  reflexivity.
-Qed.
+Obligation 1. equivalence; congruence. Qed.
+Obligation 2. proper; congruence. Qed.
 
 Program Instance Coq_Terminal : @Terminal _ := {
   One := unit : Type;
   one := fun _ a => tt
 }.
-Obligation 1.
-  destruct (f x), (g x).
-  reflexivity.
-Qed.
+Next Obligation. destruct (f x), (g x); reflexivity. Qed.
 
 Program Instance Coq_Cartesian : @Cartesian _ := {
   Prod := prod;
@@ -41,11 +29,11 @@ Program Instance Coq_Cartesian : @Cartesian _ := {
   exl  := fun _ _ p => fst p;
   exr  := fun _ _ p => snd p
 }.
-Next Obligation. proper; congruence. Qed.
+Next Obligation. congruence. Qed.
 Next Obligation.
-  - rewrite H; reflexivity.
-  - rewrite H; reflexivity.
-  - rewrite <- H0, <- H1, <- surjective_pairing; reflexivity.
+  split; intros; intuition;
+  try (rewrite H; simpl; reflexivity).
+  rewrite <- H0, <- H1, <- surjective_pairing; reflexivity.
 Qed.
 
 Program Instance Coq_Closed : @Closed _ _ := {
@@ -72,10 +60,11 @@ Program Instance Coq_Cocartesian : @Cocartesian _ := {
   inl  := fun _ _ p => Datatypes.inl p;
   inr  := fun _ _ p => Datatypes.inr p
 }.
-Next Obligation. proper. Qed.
 Next Obligation.
-  rewrite H; reflexivity.
-  rewrite H; reflexivity.
+  split; intros.
+    split; intros;
+    rewrite H; reflexivity.
+  destruct x; firstorder.
 Qed.
 
 Lemma injectivity_is_monic `(f : X ~> Y) :
@@ -120,7 +109,6 @@ Proof.
     erewrite HA.
       constructor.
     intros.
-    Axiom propositional_extensionality : forall P : Prop, P -> P = True.
     apply propositional_extensionality.
     exists x.
     reflexivity.

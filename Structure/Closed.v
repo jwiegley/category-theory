@@ -44,21 +44,21 @@ Definition ump_exponents {X Y Z} (f : X × Y ~> Z) :
 Global Program Instance parametric_morphism_curry (a b c : C) :
   Proper (equiv ==> equiv) (@curry a b c).
 Next Obligation.
-  intros ?? HA.
+  proper.
   unfold curry; simpl in *.
   destruct exp_iso; simpl in *.
   destruct to; simpl in *.
-  rewrite HA; reflexivity.
+  rewrite H1; reflexivity.
 Qed.
 
 Global Program Instance parametric_morphism_uncurry (a b c : C) :
   Proper (equiv ==> equiv) (@uncurry a b c).
 Next Obligation.
-  intros ?? HA.
+  proper.
   unfold uncurry; simpl in *.
   destruct exp_iso; simpl in *.
   destruct from; simpl in *.
-  rewrite HA; reflexivity.
+  rewrite H1; reflexivity.
 Qed.
 
 Corollary curry_uncurry {X Y Z} (f : X ~> Z^Y) :

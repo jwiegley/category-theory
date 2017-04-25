@@ -42,27 +42,27 @@ Definition cover  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
 Global Program Instance parametric_morphism_left {a b c : C} :
   Proper (equiv ==> equiv) (@left a b c).
 Obligation 1.
-  intros ?? HA.
+  proper.
   unfold left.
-  rewrite HA.
+  rewrite H0.
   reflexivity.
 Qed.
 
 Global Program Instance parametric_morphism_right {a b c : C} :
   Proper (equiv ==> equiv) (@right a b c).
 Obligation 1.
-  intros ?? HA.
+  proper.
   unfold right.
-  rewrite HA.
+  rewrite H0.
   reflexivity.
 Qed.
 
 Global Program Instance parametric_morphism_cover {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@cover a b c d).
 Obligation 1.
-  intros ?? HA ?? HB.
+  proper.
   unfold cover.
-  rewrite HA, HB.
+  rewrite H0, H1.
   reflexivity.
 Qed.
 

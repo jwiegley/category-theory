@@ -32,7 +32,6 @@ Next Obligation.
   apply proper_morphism.
   simpl; split; intuition.
 Qed.
-Next Obligation. proper. Qed.
 Next Obligation.
   proper; destruct f; simpl.
   destruct x, y; simpl in *.
@@ -41,4 +40,3 @@ Next Obligation.
   destruct (morphism c1); simpl.
   apply proper_morphism0; auto.
 Qed.
-Next Obligation. proper. Qed.

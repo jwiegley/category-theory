@@ -15,14 +15,12 @@ Context `{D : Category}.
 Global Program Instance fobj_respects `{F : C ⟶ D} {A : C} :
   Proper (equiv ==> equiv) (@fobj C D F).
 Next Obligation.
-  repeat intros ?? HA.
+  proper.
   destruct F; simpl in *.
-  destruct HA as [to [from [to_from from_to]]]; simpl in *.
+  destruct H as [to [from [to_from from_to]]]; simpl in *.
   exists (fmap x y to), (fmap y x from).
-  rewrite <- fmap_comp.
-  rewrite to_from; cat.
-  rewrite <- fmap_comp.
-  rewrite from_to; cat.
+  rewrite <- fmap_comp, to_from; cat.
+  rewrite <- fmap_comp, from_to; cat.
 Qed.
 
 Global Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A).
@@ -34,7 +32,7 @@ Global Program Definition functor_equiv_equivalence :
   Equivalence functor_equiv.
 Proof.
   unfold functor_equiv.
-  constructor; cat; repeat intro; cat.
+  equivalence.
   - symmetry; apply H.
   - transitivity (y X); auto.
 Qed.

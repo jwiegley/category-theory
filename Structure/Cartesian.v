@@ -43,28 +43,28 @@ Definition split  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
 
 Global Program Instance parametric_morphism_first {a b c : C} :
   Proper (equiv ==> equiv) (@first a b c).
-Obligation 1.
-  intros ?? HA.
+Next Obligation.
+  proper.
   unfold first.
-  rewrite HA.
+  rewrite H0.
   reflexivity.
 Qed.
 
 Global Program Instance parametric_morphism_second {a b c : C} :
   Proper (equiv ==> equiv) (@second a b c).
-Obligation 1.
-  intros ?? HA.
+Next Obligation.
+  proper.
   unfold second.
-  rewrite HA.
+  rewrite H0.
   reflexivity.
 Qed.
 
 Global Program Instance parametric_morphism_split {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@split a b c d).
-Obligation 1.
-  intros ?? HA ?? HB.
+Next Obligation.
+  proper.
   unfold split.
-  rewrite HA, HB.
+  rewrite H0, H1.
   reflexivity.
 Qed.
 
@@ -412,8 +412,8 @@ Program Definition functor_prod `{C : Category} `{D : Category}
   fmap := fun _ _ f => (fmap f ∘ exl) △ (fmap f ∘ exr)
 |}.
 Next Obligation.
-  intros ?? HA.
-  rewrite HA; reflexivity.
+  proper.
+  rewrite H0; reflexivity.
 Qed.
 Next Obligation.
   rewrite <- fork_comp.

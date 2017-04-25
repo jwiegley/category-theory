@@ -72,21 +72,21 @@ Qed.
 Global Program Instance parametric_morphism_adj_left a b :
   Proper (equiv ==> equiv) (@adj_left a b).
 Next Obligation.
-  intros ?? HA.
+  proper.
   unfold adj_left; simpl in *.
   destruct adj_iso; simpl in *.
   destruct to; simpl in *.
-  rewrite HA; reflexivity.
+  rewrite H0; reflexivity.
 Qed.
 
 Global Program Instance parametric_morphism_adj_right a b :
   Proper (equiv ==> equiv) (@adj_right a b).
 Next Obligation.
-  intros ?? HA.
+  proper.
   unfold adj_right; simpl in *.
   destruct adj_iso; simpl in *.
   destruct from; simpl in *.
-  rewrite HA; reflexivity.
+  rewrite H0; reflexivity.
 Qed.
 
 Corollary adj_left_unit  {a b} (f : F a ~> b) :

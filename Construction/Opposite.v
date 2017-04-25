@@ -46,6 +46,7 @@ Program Instance Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {
     fobj := @fobj C D F;
     fmap := fun X Y f => @fmap C D F Y X (op f)
 }.
+Next Obligation. proper; apply fmap_respects, H. Qed.
 Next Obligation. apply fmap_comp. Qed.
 
 Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {

@@ -45,8 +45,8 @@ Program Instance Props_Cartesian : @Cartesian Props := {
   exl  := fun _ _ p => proj1 p;
   exr  := fun _ _ p => proj2 p
 }.
-Obligation 1. proper; autounfold in *; congruence. Qed.
-Obligation 2. all:apply proof_irrelevance. Qed.
+Obligation 1. proper; congruence. Qed.
+Obligation 2. firstorder; apply proof_irrelevance. Qed.
 
 Program Instance Props_Cocartesian : @Cocartesian Props := {
   Coprod := or;
@@ -58,8 +58,8 @@ Program Instance Props_Cocartesian : @Cocartesian Props := {
   inl  := fun _ _ p => or_introl p;
   inr  := fun _ _ p => or_intror p
 }.
-Obligation 1. proper; autounfold in *; apply proof_irrelevance. Qed.
-Obligation 2. all:apply proof_irrelevance. Qed.
+Obligation 1. proper; apply proof_irrelevance. Qed.
+Obligation 2. firstorder; apply proof_irrelevance. Qed.
 
 Program Instance Props_Closed : @Closed Props _ := {
   Exp := Basics.impl;
@@ -67,8 +67,8 @@ Program Instance Props_Closed : @Closed Props _ := {
     {| to   := {| morphism := fun f a b => f (conj a b) |}
      ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |}
 }.
-Next Obligation. proper; autounfold in *; apply proof_irrelevance. Qed.
-Next Obligation. proper; autounfold in *; apply proof_irrelevance. Qed.
-Next Obligation. all:apply proof_irrelevance. Qed.
-Next Obligation. all:apply proof_irrelevance. Qed.
-Next Obligation. all:apply proof_irrelevance. Qed.
+Next Obligation. proper; apply proof_irrelevance. Qed.
+Next Obligation. proper; apply proof_irrelevance. Qed.
+Next Obligation. apply proof_irrelevance. Qed.
+Next Obligation. apply proof_irrelevance. Qed.
+Next Obligation. apply proof_irrelevance. Qed.

@@ -47,15 +47,7 @@ Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
     transform := fun _ => {| morphism := fun g => g ∘ unop f |}
   |}
 }.
-Next Obligation. proper. Qed.
-Next Obligation. rewrite comp_assoc; reflexivity. Qed.
-Next Obligation. rewrite comp_assoc; reflexivity. Qed.
-Next Obligation. proper. Qed.
-Next Obligation. unfold unop, nat_equiv; simpl; intros; cat. Qed.
-Next Obligation.
-  unfold unop, nat_equiv; simpl; autounfold; intros; cat.
-  rewrite comp_assoc; reflexivity.
-Qed.
+Next Obligation. unfold unop; simpl; autounfold; cat. Qed.
 
 Coercion HomFunctor : Category >-> Functor.
 
@@ -73,15 +65,7 @@ Program Instance CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
     transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
 }.
-Next Obligation. proper. Qed.
-Next Obligation. rewrite comp_assoc; reflexivity. Qed.
-Next Obligation. rewrite comp_assoc; reflexivity. Qed.
-Next Obligation. proper. Qed.
-Next Obligation. unfold unop, nat_equiv; simpl; intros; cat. Qed.
-Next Obligation.
-  unfold unop, nat_equiv; simpl; autounfold; intros; cat.
-  rewrite comp_assoc; reflexivity.
-Qed.
+Next Obligation. unfold op; simpl; autounfold; cat. Qed.
 
 Coercion CoHomFunctor : Category >-> Functor.
 

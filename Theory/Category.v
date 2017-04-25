@@ -69,3 +69,7 @@ End Category.
 
 Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.
+Hint Extern 10 (?X ∘ (?Y ∘ ?Z) ≈ ?W) =>
+  rewrite <- comp_assoc; cat : category_laws.
+Hint Extern 10 ((?X ∘ ?Y) ∘ ?Z ≈ ?W) =>
+  rewrite comp_assoc; cat : category_laws.

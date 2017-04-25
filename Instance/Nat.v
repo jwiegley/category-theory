@@ -15,15 +15,12 @@ Program Definition nat_equiv `{F : C ⟶ D} `{G : C ⟶ D} : relation (F ⟹ G) 
     let setoid := {| equiv := fun X Y : ∀ X, F X ~> G X =>
                                 forall A, X A ≈ Y A|} in
     @equiv _ setoid (transform[n]) (transform[m]).
-Next Obligation.
-  constructor; repeat intro; cat.
-  transitivity (y A); auto.
-Qed.
+Next Obligation. equivalence; transitivity (y A); auto. Qed.
 
 Global Program Definition nat_equiv_equivalence `{F : C ⟶ D} `{G : C ⟶ D} :
   Equivalence (@nat_equiv F G).
 Proof.
-  constructor; cat; repeat intro; cat.
+  equivalence.
   transitivity (y A); auto.
 Qed.
 
@@ -42,7 +39,6 @@ Global Program Definition nat_compose `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ 
   transform := fun X => transform[f] X ∘ transform[g] X
 |}.
 Obligation 1.
-  intros.
   rewrite comp_assoc.
   rewrite natural_transformation.
   rewrite <- comp_assoc.
@@ -54,14 +50,7 @@ Qed.
 Global Program Definition nat_compose_respects
        `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D} :
   Proper (equiv ==> equiv ==> equiv) (@nat_compose F G K).
-Proof.
-  intros ?? HA ?? HB ?.
-  simpl in *.
-  destruct x, y, x0, y0.
-  unfold nat_equiv in *; simpl in *.
-  rewrite HA, HB.
-  reflexivity.
-Qed.
+Proof. proper. Qed.
 
 Hint Unfold nat_compose.
 Hint Unfold nat_identity.
@@ -78,14 +67,12 @@ Global Program Instance Nat : Category := {
 
   compose_respects := @nat_compose_respects
 }.
-Next Obligation. autounfold; simpl; intros; cat. Qed.
-Next Obligation. autounfold; simpl; intros; cat. Qed.
-Next Obligation.
-  autounfold; simpl; intros; cat.
-  rewrite comp_assoc; reflexivity.
-Qed.
 
 End Nat.
 
 Notation "[ C , D ]" := (@Nat C D)
   (at level 90, right associativity, format "[ C ,  D ]").
+
+Hint Unfold nat_compose.
+Hint Unfold nat_identity.
+Hint Unfold nat_equiv.

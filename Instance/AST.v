@@ -106,10 +106,6 @@ Obligation 2.
   rewrite HA, HB.
   reflexivity.
 Qed.
-Obligation 5.
-  rewrite comp_assoc.
-  reflexivity.
-Qed.
 
 Program Instance Hom_Terminal : @Terminal _ := {
   One := One_;
@@ -190,7 +186,7 @@ Program Instance interp_proper {X Y : Obj}
           @equiv _ (@homset C _ _))
          (fun f => @interp X Y f C A _ _ _ _).
 
-Section Reified.
+Section AST.
 
 Context `{C : Category}.
 Context `{A : @Cartesian C}.
@@ -227,4 +223,4 @@ Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor := {
   fobj_coprod_iso := _
 }.
 
-End Reified.
+End AST.

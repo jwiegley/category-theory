@@ -30,14 +30,15 @@ Infix "≅" := Isomorphism (at level 91) : category_scope.
 Global Program Instance isomorphism_equivalence :
   CRelationClasses.Equivalence Isomorphism.
 Next Obligation.
+  intros.
   apply Build_Isomorphism with (to:=id) (from:=id); cat.
 Defined.
 Next Obligation.
-  destruct X.
+  intros; destruct X.
   apply Build_Isomorphism with (to:=from0) (from:=to0); cat.
 Defined.
 Next Obligation.
-  destruct X, X0.
+  intros; destruct X, X0.
   apply Build_Isomorphism with (to:=to1 ∘ to0) (from:=from0 ∘ from1).
     rewrite <- comp_assoc.
     rewrite (comp_assoc to0).
@@ -79,10 +80,12 @@ Definition ob_equiv : relation C := fun X Y => X ≃ Y.
 Global Program Instance isomorphism_prop_equivalence :
   Equivalence Isomorphism_Prop.
 Next Obligation.
+  intros.
   exists id, id; cat.
 Qed.
 Next Obligation. firstorder. Qed.
 Next Obligation.
+  intros.
   destruct H as [to0 [from0 [to_from0 from_to0]]].
   destruct H0 as [to1 [from1 [to_from1 from_to1]]].
   exists (to1 ∘ to0), (from0 ∘ from1).
@@ -149,3 +152,5 @@ Arguments iso_to_from {_ _ _} _.
 Arguments iso_from_to {_ _ _} _.
 
 Coercion to : Isomorphism >-> hom.
+
+Hint Unfold isomorphism_equiv.

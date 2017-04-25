@@ -36,14 +36,5 @@ Next Obligation.
   rewrite iso_from_to; cat.
   apply iso_from_to.
 Qed.
-Next Obligation.
-  proper; firstorder; simpl; firstorder.
-Qed.
-Next Obligation. unfold isomorphism_equiv; simpl; cat. Qed.
-Next Obligation. unfold isomorphism_equiv; simpl; cat. Qed.
-Next Obligation.
-  unfold isomorphism_equiv; simpl; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
 
 End Groupoid.

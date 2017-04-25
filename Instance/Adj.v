@@ -67,12 +67,12 @@ Program Instance Adj : Category := {
 }.
 Next Obligation.
   proper.
-    rewrite H.
+  - rewrite H.
     apply (@fobj_respects _ _ _ ((free_functor y) X0)).
     apply H1.
-  rewrite H2.
-  apply (@fobj_respects _ _ _ ((forgetful_functor x0) X0)).
-  apply H3.
+  - rewrite H2.
+    apply (@fobj_respects _ _ _ ((forgetful_functor x0) X0)).
+    apply H3.
 Qed.
 
 (* From mathoverflow:
