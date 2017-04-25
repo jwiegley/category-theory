@@ -10,6 +10,7 @@ Theory/Adjunction.v
 Theory/Monad.v
 Theory/Cone.v
 Theory/Limit.v
+Construction/Comma.v
 Construction/Opposite.v
 Structure/Groupoid.v
 Structure/Terminal.v
