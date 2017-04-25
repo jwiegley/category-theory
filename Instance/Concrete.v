@@ -144,6 +144,7 @@ Require Import Category.Theory.Functor.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Cat.
+Require Import Category.Instance.One.
 
 Import ListNotations.
 
@@ -185,6 +186,17 @@ Next Obligation.
   Unshelve. 2:split; auto.
   eexists (exist _ [(tt, tt)] _).
   Unshelve. 2:split; auto.
+  simpl; intuition.
+Qed.
+
+Program Instance Terminal_1_is_One : @One Cat Terminal_1 ≅ Termi.
+Next Obligation. destruct X; reflexivity. Qed.
+Next Obligation.
+  destruct X; simpl.
+  eexists (exist _ [(tt, x)] _).
+  Unshelve. Focus 2. intuition.
+  eexists (exist _ [(x, tt)] _).
+  Unshelve. Focus 2. intuition.
   simpl; intuition.
 Qed.
 
