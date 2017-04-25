@@ -1,22 +1,48 @@
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
-Require Import Coq.MSets.MSetInterface.
+Require Import Coq.Lists.List.
+Require Import Coq.Lists.ListSet.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Module Concrete (O : DecidableType) (S : WSetsOn O).
+Section Concrete.
 
-Fixpoint In' (f : O.t * O.t) (l : list (O.t * O.t)) : Prop :=
+Variable A : Type.
+Hypothesis Aeq_dec : forall x y : A, {x = y} + {x <> y}.
+
+Definition Aeq (x y : A) := if Aeq_dec x y then True else False.
+
+Program Instance Aeq_equivalence : Equivalence Aeq.
+Next Obligation.
+  unfold Aeq; intros.
+  destruct (Aeq_dec _ _); auto.
+Qed.
+Next Obligation.
+  unfold Aeq; intros.
+  destruct (Aeq_dec _ _).
+    subst.
+    apply Aeq_equivalence_obligation_1.
+  contradiction.
+Qed.
+Next Obligation.
+  unfold Aeq; intros.
+  destruct (Aeq_dec _ _).
+    subst.
+    apply H0.
+  contradiction.
+Qed.
+
+Fixpoint In' (f : A * A) (l : list (A * A)) : Prop :=
     match l with
       | nil => False
-      | (x, y) :: m => (O.eq (fst f) x /\ O.eq (snd f) y) \/ In f m
+      | (x, y) :: m => (Aeq (fst f) x /\ Aeq (snd f) y) \/ In f m
     end.
 
-Fixpoint Subset' (X Y : O.t) (l : list (O.t * O.t)) : list (O.t * O.t) :=
-  filter (fun p => if O.eq_dec (fst p) X
-                   then if O.eq_dec (snd p) Y
+Fixpoint Subset' (X Y : A) (l : list (A * A)) : list (A * A) :=
+  filter (fun p => if Aeq_dec (fst p) X
+                   then if Aeq_dec (snd p) Y
                         then true
                         else false
                    else false) l.
@@ -24,33 +50,36 @@ Arguments Subset' X Y l : simpl never.
 
 Lemma Subset'_cons X Y x xs :
   Subset' X Y (x :: xs)
-    = if O.eq_dec (fst x) X
-      then if O.eq_dec (snd x) Y
+    = if Aeq_dec (fst x) X
+      then if Aeq_dec (snd x) Y
            then x :: Subset' X Y xs
            else Subset' X Y xs
       else Subset' X Y xs.
 Proof.
   induction xs; unfold Subset'; simpl;
-  destruct (O.eq_dec (fst x) X);
-  destruct (O.eq_dec (snd x) Y); auto.
+  destruct (Aeq_dec (fst x) X);
+  destruct (Aeq_dec (snd x) Y); auto.
 Qed.
 
 Lemma In_Subset'_inv X Y x y xs :
-  In (x, y) (Subset' X Y xs) -> O.eq x X ∧ O.eq y Y.
+  In (x, y) (Subset' X Y xs) -> Aeq x X ∧ Aeq y Y.
 Proof.
   induction xs; simpl; intros; [tauto|].
   rewrite Subset'_cons in H.
-  destruct (O.eq_dec (fst a) X);
-  destruct (O.eq_dec (snd a) Y); auto.
-  destruct H; subst; auto.
+  destruct (Aeq_dec (fst a) X);
+  destruct (Aeq_dec (snd a) Y); auto.
+  destruct H; subst; simpl; auto.
+  split; reflexivity.
 Qed.
 
-Local Obligation Tactic := program_simpl.
+(* A concrete category has a fixed set of objects (of some decidable type, to
+   differentiate them), and a fixed set of arrows between those objects. A
+   frequent use of these is as index categories to build diagrams. *)
 
-Program Instance Concrete (Obs : S.t) (Homs : list (O.t * O.t)) : Category := {
-  ob  := { x : O.t | S.In x Obs };
+Program Instance Concrete (Obs : set A) (Homs : list (A * A)) : Category := {
+  ob  := { x : A | In x Obs };
   hom := fun X Y =>
-    { f : list (O.t * O.t)
+    { f : list (A * A)
     | ∀ h, In' h f <-> In' h ((X, Y) :: Subset' X Y  Homs) }%type;
   homset := fun X Y =>
     {| equiv := fun f g => ∀ h, In' h f <-> In' h g |}%type;
@@ -80,15 +109,15 @@ Next Obligation.
       pose proof (proj2 (H (X, Y))); firstorder.
       specialize (H4 (reflexivity _) (reflexivity _)).
       contradiction.
-    pose proof (proj2 (H (t, t0))); firstorder.
+    pose proof (proj2 (H (a, a0))); firstorder.
   - destruct f.
       pose proof (proj2 (H (X, Y))); firstorder.
       specialize (H3 (reflexivity _) (reflexivity _)).
       contradiction.
-    pose proof (proj2 (H (t, t0))); firstorder.
+    pose proof (proj2 (H (a, a0))); firstorder.
   - destruct f.
       contradiction.
-    pose proof (proj1 (H (t, t0))); firstorder.
+    pose proof (proj1 (H (a, a0))); firstorder.
 Qed.
 Next Obligation.
   firstorder; simpl in *.
@@ -96,16 +125,42 @@ Next Obligation.
       pose proof (proj2 (H (X, Y))); firstorder.
       specialize (H4 (reflexivity _) (reflexivity _)).
       contradiction.
-    pose proof (proj2 (H (t, t0))); firstorder.
+    pose proof (proj2 (H (a, a0))); firstorder.
   - destruct f.
       pose proof (proj2 (H (X, Y))); firstorder.
       specialize (H3 (reflexivity _) (reflexivity _)).
       contradiction.
-    pose proof (proj2 (H (t, t0))); firstorder.
+    pose proof (proj2 (H (a, a0))); firstorder.
   - destruct f.
       contradiction.
-    pose proof (proj1 (H (t, t0))); firstorder.
+    pose proof (proj1 (H (a, a0))); firstorder.
 Qed.
-Next Obligation. firstorder. Qed.
 
 End Concrete.
+
+Module ConcreteInstances.
+
+Import ListNotations.
+
+Program Definition Concrete_0 := Concrete False _ [] [].
+
+Program Definition Concrete_1 := Concrete unit _ [tt] [].
+Next Obligation. destruct x, y; auto. Qed.
+
+Definition Concrete_2 :=
+  Concrete bool Bool.bool_dec [true; false] [(true, false)].
+
+Inductive three : Set := One_ | Two_ | Three_.
+
+Definition three_dec (x y : three) : {x = y} + {x ≠ y}.
+Proof.
+  destruct x, y; intuition;
+  solve [ left; reflexivity
+        | right; intros; discriminate ].
+Defined.
+
+Definition Concrete_3 :=
+  Concrete three three_dec [One_; Two_; Three_]
+           [(One_, Two_); (Two_, Three_); (One_, Three_)].
+
+End ConcreteInstances.
