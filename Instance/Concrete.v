@@ -142,6 +142,7 @@ Require Import Category.Theory.Functor.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Cat.
+Require Import Category.Instance.Zero.
 Require Import Category.Instance.One.
 
 Module ConcreteInstances.
@@ -163,6 +164,9 @@ Next Obligation.
   destruct X.
   contradiction.
 Qed.
+
+Program Instance Initial_0_is_0 : @Zero Cat Initial_0 ≅ _0.
+Next Obligation. destruct X; contradiction. Qed.
 
 (* The 1 category has one object and its identity morphism. It is terminal in
    Cat. *)
