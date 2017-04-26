@@ -51,6 +51,8 @@ Global Program Instance Identity : C ⟶ C := {
 
 End FunctorEquiv.
 
+Arguments Identity {C} /.
+
 Hint Unfold functor_equiv.
 
 (* Horizontal composition of functors. *)

@@ -11,6 +11,7 @@ Theory/Monad.v
 Theory/Cone.v
 Theory/Limit.v
 Construction/Comma.v
+Construction/Arrow.v
 Construction/Opposite.v
 Construction/Groupoid.v
 Structure/Terminal.v
