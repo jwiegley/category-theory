@@ -20,6 +20,8 @@ Open Scope category_scope.
 
 Infix "≈" := equiv (at level 79) : category_scope.
 
+Infix "<-->" := CRelationClasses.iffT (at level 100) : category_scope.
+
 Notation "` x" := (projT1 x) (at level 100).
 
 Axiom propositional_extensionality : forall P : Prop, P -> P = True.
