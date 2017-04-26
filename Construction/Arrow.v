@@ -7,6 +7,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Instance Arrow `{C : Category} : Category := @Comma C C C Identity Identity.
+Instance Arrow `{C : Category} : Category := (Identity ↓ Identity).
 
 Notation "C ⃗" := (@Arrow C) (at level 90).
