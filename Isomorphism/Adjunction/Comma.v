@@ -1,150 +1,179 @@
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
 Require Export Category.Theory.Adjunction.
 Require Export Category.Construction.Comma.
 Require Export Category.Instance.Cat.
+Require Export Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
+Tactic Notation "given" "(" ident(H) ":" lconstr(type) ")" :=
+  refine (let H := (_ : type) in _).
+
+(* Wikipedia: "Lawvere showed that the functors F : C → D and G : D → C are
+   adjoint if and only if the comma categories (F ↓ id D) and (id C ↓ G), with
+   id D and id C the identity functors on D and C respectively, are
+   isomorphic, and equivalent elements in the comma category can be projected
+   onto the same element of C × D. This allows adjunctions to be described
+   without involving sets, and was in fact the original motivation for
+   introducing comma categories." *)
+
 Theorem Lawvere_Adjunction `{C : Category} `{D : Category}
         (G : C ⟶ D) (F : D ⟶ C) :
   F ⊣ G  <-->  (F ↓ Identity) ≅[Cat] (Identity ↓ G).
 Proof.
-  split; intros.
+  split; intros H. {
 
-  destruct X.
-  refine {| to   := _; from := _ |}.
+    given (to : (F ↓ Identity) ~{Cat}~> (Identity ↓ G)).
+    Unshelve. all:swap 1 2. {
 
-  Unshelve. Focus 4.
-  refine {| fobj := _; fmap := _ |}.
+      given (fobj : F ↓ Identity -> Identity ↓ G).
+      Unshelve. all:swap 1 2. {
+        destruct 1 as [x ?]; exists x.
+        apply H; assumption.
+      }
 
-  Unshelve. Focus 4.
-  simpl in *; intros.
-  destruct X.
-  exists x.
-  apply adj_iso.
-  exact h.
+      given (fmap : ∀ X Y, X ~> Y -> fobj X ~> fobj Y).
+      Unshelve. all:swap 1 2.
+        destruct X, Y; auto.
 
-  Unshelve. Focus 4.
-  simpl in *; intros.
-  destruct X, Y; simpl in *.
-  assumption.
+      assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y))
+        by (destruct X, Y; auto).
 
-  intros.
-  destruct X, Y; simpl.
-  proper.
+      assert (∀ X, fmap X X (id[X]) ≈ id)
+        by (destruct X; cat).
 
-  destruct X; cat.
+      assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g)
+        by (destruct X, Y, Z; cat).
 
-  intros.
-  destruct X, Y, Z; simpl; cat.
+      econstructor; eauto.
+    }
 
-  Unshelve. Focus 4.
-  refine {| fobj := _; fmap := _ |}.
+    given (from : (Identity ↓ G) ~{Cat}~> (F ↓ Identity)).
+    Unshelve. all:swap 1 2. {
 
-  Unshelve. Focus 4.
-  simpl; intros.
-  destruct X.
-  exists x.
-  apply adj_iso.
-  exact h.
+      given (fobj : Identity ↓ G -> F ↓ Identity).
+      Unshelve. all:swap 1 2. {
+        destruct 1 as [x ?]; exists x.
+        apply H; assumption.
+      }
 
-  Unshelve. Focus 4.
-  destruct X, Y; simpl; intros.
-  assumption.
+      given (fmap : ∀ X Y, X ~> Y -> fobj X ~> fobj Y).
+      Unshelve. all:swap 1 2.
+        destruct X, Y; auto.
 
-  destruct X, Y.
-  proper.
+      assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y))
+        by (destruct X, Y; auto).
 
-  destruct X; simpl; cat.
+      assert (∀ X, fmap X X (id[X]) ≈ id)
+        by (destruct X; cat).
 
-  destruct X, Y, Z; cat.
+      assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g)
+        by (destruct X, Y, Z; cat).
 
-  simpl; autounfold; simpl; intros.
-  destruct X; simpl.
-  exists (id, id); simpl.
-  exists (id, id); simpl.
-  cat.
+      econstructor; eauto.
+    }
 
-  simpl; autounfold; simpl; intros.
-  destruct X; simpl.
-  exists (id, id); simpl.
-  exists (id, id); simpl.
-  cat.
+    assert (from ∘ to ≈ id) as from_to. {
+      unfold from, to; clear from to; simpl.
+      autounfold; simpl; intro X.
+      destruct X; simpl.
+      exists (id, id).
+      exists (id, id).
+      simpl; cat.
+    }
 
-  econstructor.
+    assert (to ∘ from ≈ id). {
+      unfold to, from; clear from_to to from; simpl.
+      autounfold; simpl; intro X.
+      destruct X; simpl.
+      exists (id, id).
+      exists (id, id).
+      simpl; cat.
+    }
 
-  Unshelve. Focus 5.
-  intros;
-  destruct X; simpl in *.
-  autounfold in *; simpl in *.
-  econstructor.
+    econstructor; eauto.
+  }
 
-  Unshelve. Focus 4.
-  simpl.
-  econstructor.
+  given (adj_iso : ∀ a b, F a ~{C}~> b ≊ a ~{D}~> G b).
+  Unshelve. all:swap 1 2. {
 
-  Unshelve. Focus 2.
-  intros.
-  pose (existT _ (a, b) X : {p : D * C & fst p ~{ D }~> G (snd p)}) as X0.
-  pose proof (iso_to_from X0).
-  destruct to, from; simpl in *.
-  clear -fobj0 fmap0 H X X0.
-  destruct (fobj0 X0) eqn:Heqe.
-  unfold X0 in *.
-  destruct x; simpl in *.
-  destruct F, G; simpl in *.
-  ?.
+    given (to : ∀ a b,
+              {| carrier := F a ~{C}~> b |}
+                ~{Sets}~> {| carrier := a ~{D}~> G b |}).
+    Unshelve. all:swap 1 2. {
 
-  proper.
-  destruct to, from; simpl in *.
-  ?.
+      given (to' : ∀ a b, F a ~{ C }~> b -> a ~{ D }~> G b).
+      Unshelve. all:swap 1 2. {
+        intros.
+        destruct H; simpl in *;
+        autounfold in *; simpl in *;
+        destruct to, from; simpl in *;
+        clear fmap_id fmap_comp fmap_respects
+              fmap_id0 fmap_comp0 fmap_respects0.
+        admit.
+      }
 
-  simpl; intros.
-  autounfold.
+      assert (∀ a b, Proper (equiv ==> equiv) (to' a b)).
+        admit.
 
-  Unshelve. Focus 3.
-  simpl.
-  econstructor.
+      econstructor; eauto.
+    }
 
-  Unshelve. Focus 2.
-  intros.
-  pose (existT _ (a, b) X : {p : D * C & F (fst p) ~{ C }~> snd p}) as X0.
-  pose proof (iso_from_to X0).
-  destruct to, from; simpl in *.
-  clear -fobj fmap H X X0.
-  destruct (fobj X0) eqn:Heqe.
-  unfold X0 in *.
-  destruct x; simpl in *.
-  destruct F, G; simpl in *.
-  ?.
+    given (from : ∀ a b,
+              {| carrier := a ~{D}~> G b |}
+                ~{Sets}~> {| carrier := F a ~{C}~> b |}).
+    Unshelve. all:swap 1 2. {
 
-  proper.
-  destruct to, from; simpl in *.
-  ?.
+      given (from' : ∀ a b, a ~{ D }~> G b -> F a ~{ C }~> b).
+      Unshelve. all:swap 1 2. {
+        clear to.
+        intros.
+        destruct H; simpl in *;
+        autounfold in *; simpl in *;
+        destruct to, from; simpl in *;
+        clear fmap_id fmap_comp fmap_respects
+              fmap_id0 fmap_comp0 fmap_respects0.
+        admit.
+      }
 
-  simpl; intros.
-  destruct to, from; simpl in *.
-  ?.
+      assert (∀ a b, Proper (equiv ==> equiv) (from' a b)).
+        admit.
 
-  simpl; intros.
-  autounfold.
-  destruct to, from; simpl in *.
-  ?.
+      econstructor; eauto.
+    }
 
-  simpl; intros.
-  ?.
+    assert (∀ a b, from a b ∘ to a b ≈ id). {
+      admit.
+    }
 
-  simpl; intros.
-  ?.
+    assert (∀ a b, to a b ∘ from a b ≈ id). {
+      admit.
+    }
 
-  simpl; intros.
-  ?.
+    econstructor; eauto.
+  }
 
-  simpl; intros.
-  ?.
+  assert (∀ a b c f g,
+             (to (adj_iso a c)) (f ∘ fmap g) ≈ (to (adj_iso b c)) f ∘ g). {
+    admit.
+  }
 
-  Unshelve.
-?
+  assert (∀ a b c f g,
+             (to (adj_iso a c)) (f ∘ g) ≈ fmap f ∘ (to (adj_iso a b)) g). {
+    admit.
+  }
+
+  assert (∀ a b c f g,
+             (from (adj_iso a c)) (f ∘ g) ≈ (from (adj_iso b c)) f ∘ fmap g). {
+    admit.
+  }
+
+  assert (∀ a b c f g,
+             (from (adj_iso a c)) (fmap f ∘ g) ≈ f ∘ (from (adj_iso a b)) g). {
+    admit.
+  }
+
+  econstructor; auto.
+Abort.
