@@ -42,6 +42,9 @@ Notation "ob[ C ]" := (@ob C) (at level 0, format "ob[ C ]") : category_scope.
 Notation "id[ X ]" := (@id _ X)
   (at level 50, format "id[ X ]") : category_scope.
 
+Notation "f ≈[ C ] g" := (@equiv _ (@homset C _ _) f g)
+  (at level 79, only parsing) : category_scope.
+
 Coercion ob : Category >-> Sortclass.
 
 Hint Rewrite @id_left : categories.
