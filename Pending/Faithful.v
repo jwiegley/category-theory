@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (* jww (2017-04-13): TODO
 Class FullyFaithful `(F : @Functor C D) :=
 { unfmap : ∀ {X Y : C}, (F X ~> F Y) → (X ~> Y)

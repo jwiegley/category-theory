@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (* jww (2017-04-13): TODO
 Program Instance Lim_Sets `(J : Category) : [J, Sets] ⟶ Sets := {
     fobj := fun F => 

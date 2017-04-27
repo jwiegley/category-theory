@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (*
   repeat (
     match goal with

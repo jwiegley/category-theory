@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
 
@@ -75,8 +77,6 @@ Definition Isomorphism_Prop (X Y : C) : Prop :=
 
 Infix "≃" := Isomorphism_Prop (at level 91) : category_scope.
 
-Definition ob_equiv : relation C := fun X Y => X ≃ Y.
-
 Global Program Instance isomorphism_prop_equivalence :
   Equivalence Isomorphism_Prop.
 Next Obligation.
@@ -112,13 +112,15 @@ Global Program Instance flip_impl_Isomorphism_Prop :
   Proper
     (respectful Isomorphism_Prop
        (respectful Isomorphism_Prop
-                              (Basics.flip Basics.impl))) Isomorphism_Prop.
+                   (Basics.flip Basics.impl))) Isomorphism_Prop.
 Next Obligation.
   proper.
   transitivity y; auto.
   transitivity y0; auto.
   symmetry; assumption.
 Defined.
+
+Definition ob_equiv : relation C := fun X Y => X ≃ Y.
 
 Global Program Instance ob_setoid : Setoid C.
 
@@ -142,7 +144,7 @@ Infix "≅" := (@Isomorphism _) (at level 91) : category_scope.
 Notation "F ≅[ C ] G" := (@Isomorphism C F G)
   (at level 91, only parsing) : category_scope.
 
-Infix "≃" := Isomorphism_Prop (at level 91) : category_scope.
+Infix "≃" := (@Isomorphism_Prop _) (at level 91) : category_scope.
 Notation "F ≃[ C ] G" := (@Isomorphism_Prop C F G)
   (at level 91, only parsing) : category_scope.
 
@@ -154,3 +156,13 @@ Arguments iso_from_to {_ _ _} _.
 Coercion to : Isomorphism >-> hom.
 
 Hint Unfold isomorphism_equiv.
+
+Theorem Isomorphism_to_equiv `{C : Category} (X Y : C) :
+  X ≅ Y -> X ≃ Y.
+Proof.
+  intros.
+  destruct X0.
+  exists to0.
+  exists from0.
+  auto.
+Qed.

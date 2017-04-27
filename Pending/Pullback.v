@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (* jww (2017-04-13): TODO
 Record Pullback `{Category C} {X Y : C} (Z : C) (f : X ~> Z) (g : Y ~> Z) := {
   pullback_obj : C;

@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (* jww (2017-04-13): TODO
 (* Here F is a diagram of type J in C. *)
 Record Cone `{C : Category} `{J : Category} (n : C) `(F : @Functor J C) := {

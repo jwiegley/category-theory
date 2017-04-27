@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (* Wikipedia: "We can define the category of cones to F as the comma category
   (Δ ↓ F). Morphisms of cones are then just morphisms in this category. This
   equivalence is rooted in the observation that a natural map between constant

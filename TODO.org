@@ -1,4 +1,4 @@
-* Make Distributive into a structure, which every BiCCC automatically satisfies
+* DONE Make Distributive into a structure, which every BiCCC automatically satisfies
 * Show that exp_prod, prod_coprod and exp_coprod arise from adjunctions
 Some of these involve the diagonal functor.
 * Define BiCCC characteristics for Cat and Sets
@@ -7,13 +7,11 @@ And just apply curry to [C^op, C] ⟶ Sets
 * Move all instances not related to isomorphism or equivalence into modules
 This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.
-* Should the identity functor be Identity, or just id?
-* Should Cat be moved into Functor.v?
-* Create dom(f) and cod(f) functions
+* Should the identity functor be Identity, or Id?
+* CANCELED Should Cat be moved into Functor.v?
+* DONE Create dom(f) and cod(f) functions
 * Create Theory/Algebra.v, with constructions like Magma, Semigroup, Monoid, etc.
 * Move Tuple into Coq/Tuple, etc.
-* A category of homogeneous relations in Prop
-* A category of constructive homogeneous crelations in Type
 * Discrete has no arrows; rename the current one to Concrete
 * Awodey Theorem 1.6
 Every category C with a set of arrows is isomorphic to one in which the
@@ -33,29 +31,33 @@ that it is equivalent to the usual definition.
 * Proofs to be done
 ** "Coyoneda lemma" states that every presheaf is a colimit of representables
 * Theory
-** Diagram
-** Cone
-** Limit/Colimit
-** Pushout/Pullback
+** DONE Diagram
+** DONE Cone
+** DONE Limit
+** Colimit
+** Pullback
+** Pushout
 ** Faithful, Full, Fully Faithful functors (inj, surj, bi, resp.)
 ** Functoral strength
 ** Kan extensions
 * Instances
 ** Ensembles (mathematical sets)
 ** Finite sets
-** 0
-** 1
-** 2
+** DONE 0
+** DONE 1
+** DONE 2
 ** 3
 ** Monoid
 ** Mon
 ** Graphs
+** Homogeneous relations in Prop
+** Constructive homogeneous crelations in Type
 * Constructions
-** Product (C × D)
-** Comma category (F ↓ G)
+** DONE Product (C × D)
+** DONE Comma category (F ↓ G)
 ** Diagonal (Δ F)
-** Arrow category (C⃗)
-** Slice/Coslice (C/c)
+** DONE Arrow category (C⃗)
+** DONE Slice/Coslice (C/c)
 ** Free category
 * Structures
 ** Monoidal
@@ -109,3 +111,22 @@ Mellies and Zeilberger provide a categorical view for this:
     Isbell duality - (succinct presentation of presheaves)
 
     Functor are type refinement system
+* Comma category functors
+For each comma category there are forgetful functors from it.
+
+    Domain functor, S ↓ T → A
+        objects: ( α , β , f ) ↦ α
+        morphisms: ( g , h ) ↦ g
+    Codomain functor, S ↓ T → B
+        objects: ( α , β , f ) ↦ β
+        morphisms: ( g , h ) ↦ h
+    Arrow functor, S ↓ T → C↓
+        objects: ( α , β , f ) ↦ f
+        morphisms: ( g , h ) ↦ ( S g , T h )
+
+* Colophon
+#+STARTUP: content fninline hidestars
+#+OPTIONS: ^:{}
+#+SEQ_TODO: STARTED TODO APPT WAITING(@) DELEGATED(@) DEFERRED(@) SOMEDAY(@) PROJECT | DONE(@) CANCELED(@) NOTE
+#+TAGS: Call(c) Errand(e) Home(h) Net(n) Reply(r)
+#+DRAWERS: PROPERTIES LOGBOOK OUTPUT SCRIPT SOURCE DATA

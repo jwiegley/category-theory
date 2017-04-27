@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (*
 Class Applicative := {
   pure {a} : a ~> M a;

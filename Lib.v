@@ -1,9 +1,15 @@
+Set Warnings "-notation-overridden".
+
 Require Export
   Coq.Unicode.Utf8
   Coq.Init.Datatypes
   Coq.Setoids.Setoid
+  Coq.Classes.CMorphisms
+  Coq.Classes.CRelationClasses
+  Coq.Classes.CEquivalence
   Coq.Classes.Morphisms
   Coq.Classes.RelationClasses
+  Coq.Classes.Equivalence
   Coq.Classes.SetoidClass
   Coq.Logic.JMeq
   Coq.Program.Tactics
@@ -19,6 +25,7 @@ Delimit Scope category_scope with category.
 Open Scope category_scope.
 
 Infix "≈" := equiv (at level 79) : category_scope.
+Infix "≋" := CEquivalence.equiv (at level 79) : category_scope.
 
 Infix "<-->" := CRelationClasses.iffT (at level 100) : category_scope.
 

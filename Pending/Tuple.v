@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (* jww (2017-04-13): TODO
 Require Import Category.Lib.
 Require Export Category.Instance.Coq.

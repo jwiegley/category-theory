@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (*
 (*
 Class Monad_Distributes `{M : Monad} `{N : Applicative} := {

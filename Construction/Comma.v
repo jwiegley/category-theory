@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
@@ -39,13 +41,26 @@ End Comma.
 
 Notation "S ↓ T" := (@Comma _ _ _ S T) (at level 90).
 
-Theorem equiv_projects_to_same A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
+Theorem iso_commas_iso_projection A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
+  x ≅ y -> `x ≅[A ∏ B] `y.
+Proof.
+  intros.
+  destruct X.
+  simpl in *.
+  econstructor.
+  Unshelve.
+  3:apply to.
+  3:apply from.
+  assumption.
+  assumption.
+Defined.
+
+Theorem equiv_projects_to_iso_prop A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
   x ≈ y -> `x ≃[A ∏ B] `y.
 Proof.
   intros.
-  destruct H, H, H.
-  simpl in *.
-  exists x0.
-  exists x1.
-  firstorder.
+  destruct H as [to [from [? ?]]].
+  exists to.
+  exists from.
+  auto.
 Qed.

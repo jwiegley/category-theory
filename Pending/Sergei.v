@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (*
 Require Import Category.Theory.Functor.Monad.
 

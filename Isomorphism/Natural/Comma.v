@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 (* Wikipedia: "If the domains of S, T are equal, then the diagram which
    defines morphisms in S↓T with α=β, α′=β′, g=h is identical to the diagram
    which defines a natural transformation S ⟹ T. The difference between the

@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 Require Import Category.Lib.
 Require Export Category.Structure.BiCCC.
 Require Export Category.Instance.Coq.

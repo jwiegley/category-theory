@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Cocartesian.
@@ -11,6 +13,8 @@ Section Bicartesian.
 Context `{C : Category}.
 Context `{Cart : @Cartesian C}.
 Context `{Cocart : @Cocartesian C}.
+
+Set Warnings "-non-primitive-record".
 
 Class Bicartesian := {
   bicartesian_is_cartesian := Cart;

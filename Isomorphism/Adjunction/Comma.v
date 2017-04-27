@@ -1,3 +1,5 @@
+Set Warnings "-notation-overridden".
+
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
 Require Export Category.Construction.Comma.
@@ -8,6 +10,18 @@ Require Export Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+
+Theorem iso_commas_impl {A B C D}
+        {S : A ⟶ C} {T : B ⟶ C} {U : A ⟶ D} {V : B ⟶ D}
+        (iso : S ↓ T ≅[Cat] U ↓ V) (x : S ↓ T) :
+  ` (fobj[to iso] x) ≅[A ∏ B] `x.
+Proof.
+  destruct iso; simpl in *;
+  autounfold in *; simpl in *;
+  destruct x, x; simpl in *;
+  unfold Comma in *; simpl in *;
+  destruct to, from; simpl in *.
+Admitted.
 
 Section Lawvere.
 
@@ -111,10 +125,11 @@ Proof.
       given (to' : ∀ a b, F a ~{ C }~> b -> a ~{ D }~> G b).
       Unshelve. all:swap 1 2. {
         intros a b f.
-        pose (fobj[to H] ((a, b); f)).
-        pose (projT2 o) as h; simpl in h.
-        pose proof (equiv_projects_to_same _ _ _ _ _ o).
-        admit.
+        pose proof (iso_commas_impl H) as X.
+        pose (existT (fun p => F (fst p) ~> snd p) (a, b) f) as g.
+        exact (fmap (snd (to (X g)))
+                 ∘ projT2 (fobj[to H] g)
+                 ∘ fst (from (X g))).
       }
 
       assert (∀ a b, Proper (equiv ==> equiv) (to' a b)).
