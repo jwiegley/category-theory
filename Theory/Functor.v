@@ -40,6 +40,8 @@ Notation "x <$ m" := (fmap (Basics.const x) m)
 Notation "x <&> f" := (fmap f x)
   (at level 29, left associativity, only parsing) : category_scope.
 
+Notation "fobj[ F ]" := (@fobj _ _ F)
+  (at level 9, format "fobj[ F ]") : category_scope.
 Notation "fmap[ F ]" := (@fmap _ _ F _ _)
   (at level 9, format "fmap[ F ]") : category_scope.
 
