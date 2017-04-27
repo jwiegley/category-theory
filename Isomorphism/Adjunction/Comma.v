@@ -1,6 +1,7 @@
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
 Require Export Category.Construction.Comma.
+Require Export Category.Construction.Product.
 Require Export Category.Instance.Cat.
 Require Export Category.Instance.Sets.
 
@@ -8,8 +9,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Tactic Notation "given" "(" ident(H) ":" lconstr(type) ")" :=
-  refine (let H := (_ : type) in _).
+Section Lawvere.
 
 (* Wikipedia: "Lawvere showed that the functors F : C → D and G : D → C are
    adjoint if and only if the comma categories (F ↓ id D) and (id C ↓ G), with
@@ -19,8 +19,12 @@ Tactic Notation "given" "(" ident(H) ":" lconstr(type) ")" :=
    without involving sets, and was in fact the original motivation for
    introducing comma categories." *)
 
-Theorem Lawvere_Adjunction `{C : Category} `{D : Category}
-        (G : C ⟶ D) (F : D ⟶ C) :
+Context `{C : Category}.
+Context `{D : Category}.
+Context `{G : C ⟶ D}.
+Context `{F : D ⟶ C}.
+
+Theorem Lawvere_Adjunction :
   F ⊣ G  <-->  (F ↓ Identity) ≅[Cat] (Identity ↓ G).
 Proof.
   split; intros H. {
@@ -106,12 +110,10 @@ Proof.
 
       given (to' : ∀ a b, F a ~{ C }~> b -> a ~{ D }~> G b).
       Unshelve. all:swap 1 2. {
-        intros.
-        destruct H; simpl in *;
-        autounfold in *; simpl in *;
-        destruct to, from; simpl in *;
-        clear fmap_id fmap_comp fmap_respects
-              fmap_id0 fmap_comp0 fmap_respects0.
+        intros a b f.
+        pose (fobj[to H] ((a, b); f)).
+        pose (projT2 o) as h; simpl in h.
+        pose proof (equiv_projects_to_same _ _ _ _ _ o).
         admit.
       }
 
@@ -128,13 +130,6 @@ Proof.
 
       given (from' : ∀ a b, a ~{ D }~> G b -> F a ~{ C }~> b).
       Unshelve. all:swap 1 2. {
-        clear to.
-        intros.
-        destruct H; simpl in *;
-        autounfold in *; simpl in *;
-        destruct to, from; simpl in *;
-        clear fmap_id fmap_comp fmap_respects
-              fmap_id0 fmap_comp0 fmap_respects0.
         admit.
       }
 
@@ -177,3 +172,5 @@ Proof.
 
   econstructor; auto.
 Abort.
+
+End Lawvere.
