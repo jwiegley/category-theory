@@ -82,6 +82,16 @@ For each comma category there are forgetful functors from it.
         objects: ( α , β , f ) ↦ f
         morphisms: ( g , h ) ↦ ( S g , T h )
 
+** Representable functors
+Wikipedia: "We can generalize the previous example to any category C. To every
+pair X, Y of objects in C one can assign the set Hom(X, Y) of morphisms from X
+to Y. This defines a functor to Set which is contravariant in the first
+argument and covariant in the second, i.e. it is a functor Cop × C → Set. If
+f : X1 → X2 and g : Y1 → Y2 are morphisms in C, then the group homomorphism
+Hom(f, g) : Hom(X2, Y1) → Hom(X1, Y2) is given by φ ↦ g ∘ φ ∘ f.
+
+"Functors like these are called representable functors. An important goal in
+many settings is to determine whether a given functor is representable."
 * Type refinement
 Comments from contextualMatters on /r/haskell:
 
