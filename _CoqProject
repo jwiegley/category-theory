@@ -44,6 +44,8 @@ Instance/Poset.v
 Instance/Cones.v
 Functor/Hom.v
 Functor/Diagonal.v
+Functor/Product.v
+Functor/Coproduct.v
 Isomorphism/Functor/Hom.v
 Isomorphism/Natural/Comma.v
 Isomorphism/Adjunction/Comma.v
