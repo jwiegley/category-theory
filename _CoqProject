@@ -4,7 +4,6 @@ Theory/Category.v
 Theory/Morphisms.v
 Theory/Isomorphism.v
 Theory/Functor.v
-Theory/Yoneda.v
 Theory/Natural.v
 Theory/Adjunction.v
 Theory/Monad.v
@@ -44,6 +43,7 @@ Instance/Proset.v
 Instance/Poset.v
 Instance/Cones.v
 Functor/Hom.v
+Isomorphism/Functor/Hom.v
 Isomorphism/Natural/Comma.v
 Isomorphism/Adjunction/Comma.v
 Isomorphism/Adjunction/Monad.v
