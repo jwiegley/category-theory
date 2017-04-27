@@ -210,11 +210,8 @@ Qed.
 
 Context `{@Initial C}.
 
-Notation "0 + X" := (Coprod Zero X) (at level 30).
-Notation "X + 0" := (Coprod X Zero) (at level 30).
-
 Global Program Instance coprod_zero_l {X : C} :
-  0 + X ≅ X := {
+  Zero + X ≅ X := {
   to   := zero ▽ id;
   from := inr
 }.
@@ -227,7 +224,7 @@ Qed.
 Hint Rewrite @coprod_zero_l : isos.
 
 Global Program Instance coprod_zero_r {X : C} :
-  X + 0 ≅ X := {
+  X + Zero ≅ X := {
   to   := id ▽ zero;
   from := inl
 }.
@@ -261,9 +258,6 @@ End Cocartesian.
 
 Infix "+" := Coprod : category_scope.
 Infix "▽" := merge (at level 26) : category_scope.
-
-Notation "0 + X" := (Coprod Zero X) (at level 30).
-Notation "X + 0" := (Coprod X Zero) (at level 30).
 
 Hint Rewrite @inl_merge : categories.
 Hint Rewrite @inr_merge : categories.

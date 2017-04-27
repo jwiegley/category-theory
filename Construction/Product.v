@@ -22,3 +22,5 @@ Program Instance Product : Category := {
 }.
 
 End Product.
+
+Notation "C ∏ D" := (@Product C D) (at level 90).

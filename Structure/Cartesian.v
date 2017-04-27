@@ -259,11 +259,8 @@ Qed.
 
 Context `{@Terminal C}.
 
-Notation "1 × X" := (Prod One X) (at level 40).
-Notation "X × 1" := (Prod X One) (at level 40).
-
 Global Program Instance prod_one_l  {X : C} :
-  1 × X ≅ X := {
+  One × X ≅ X := {
   to   := exr;
   from := one △ id
 }.
@@ -276,7 +273,7 @@ Qed.
 Hint Rewrite @prod_one_l : isos.
 
 Global Program Instance prod_one_r  {X : C} :
-  X × 1 ≅ X := {
+  X × One ≅ X := {
   to   := exl;
   from := id △ one
 }.
@@ -309,10 +306,9 @@ Qed.
 End Cartesian.
 
 Infix "×" := (@Prod _ _) : category_scope.
+Notation "X ×[ C ] Y" := (@Prod C _ X Y)
+  (at level 40, only parsing) : category_scope.
 Infix "△" := (@fork _ _ _ _ _) (at level 28) : category_scope.
-
-Notation "1 × X" := (Prod One X) (at level 40).
-Notation "X × 1" := (Prod X One) (at level 40).
 
 Hint Rewrite @exl_fork : categories.
 Hint Rewrite @exr_fork : categories.
@@ -421,8 +417,3 @@ Next Obligation.
   rewrite !fmap_comp.
   rewrite <- !comp_assoc; cat.
 Qed.
-
-Delimit Scope functor_scope with functor.
-Bind Scope functor_scope with Functor.
-
-Notation "F × G" := (@functor_prod _ _ _ F G) : functor_scope.
