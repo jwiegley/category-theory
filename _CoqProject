@@ -43,6 +43,7 @@ Instance/Proset.v
 Instance/Poset.v
 Instance/Cones.v
 Functor/Hom.v
+Functor/Diagonal.v
 Isomorphism/Functor/Hom.v
 Isomorphism/Natural/Comma.v
 Isomorphism/Adjunction/Comma.v
