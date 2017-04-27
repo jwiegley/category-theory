@@ -24,8 +24,6 @@ End Terminal.
 (* Coercion terminal_category `{C : Category} `(_ : @Terminal C) := C. *)
 (* Arguments terminal_category {_ } _ /. *)
 
-Notation "X ~> 1" := (X ~> One) (at level 50) : category_scope.
-
 Hint Resolve @one_unique : category_laws.
 
 Corollary one_comp `{@Terminal C} {A B : C} {f : A ~> B} :

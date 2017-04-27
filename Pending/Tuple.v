@@ -32,5 +32,5 @@ Program Instance Tuple_Functor {Z} : Sets ⟶ Sets :=
 Obligation 1. extensionality e. crush. Qed.
 Obligation 2. extensionality e. crush. Qed.
 
-Notation "C ⟶ D" := (Functor C D) (at level 90, right associativity).
+Notation "C ⟶ D" := (Functor C D) (at level 90, right associativity) : category_scope.
 *)

@@ -28,7 +28,8 @@ Class Monad := {
 
 End Monad.
 
-Notation "join[ M ]" := (@join _ _ _ _ _ M _) (at level 9, format "join[ M ]").
+Notation "join[ M ]" := (@join _ _ _ _ _ M _)
+  (at level 9, format "join[ M ]") : category_scope.
 
 Section MonadLib.
 
@@ -45,9 +46,9 @@ End MonadLib.
 
 Require Import Category.Instance.Coq.
 
-Module CoqMonad.
+Module Coq_Monad.
 
-Section CoqMonad.
+Section Coq_Monad.
 
 Context `{m : Coq ⟶ Coq}.
 Context `{M : @Monad Coq m}.
@@ -55,7 +56,7 @@ Context `{M : @Monad Coq m}.
 Definition pure {a} := @ret Coq m _ a.
 Arguments pure {a} _ /.
 
-Notation "()" := Datatypes.unit.
+Notation "()" := Datatypes.unit : category_scope.
 
 Delimit Scope monad_scope with monad.
 
@@ -200,6 +201,6 @@ Proof.
   rewrite <- join_fmap_fmap0; reflexivity.
 Qed.
 
-End CoqMonad.
+End Coq_Monad.
 
-End CoqMonad.
+End Coq_Monad.

@@ -41,8 +41,8 @@ Proof.
   apply proof_irrelevance.
 Qed.
 
-Definition op `{C : Category} {X Y : C} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
-Definition unop `{C : Category} {X Y : C} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
+Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
+Definition unop `{C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
 
 Program Instance Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {
     fobj := @fobj C D F;

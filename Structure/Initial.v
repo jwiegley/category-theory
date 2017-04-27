@@ -17,8 +17,6 @@ Class Initial `(C : Category) := {
 
 Hint Resolve @zero_unique : category_laws.
 
-Notation "0 ~> X" := (Zero ~> X) (at level 50).
-
 Corollary zero_comp `{@Initial C} {A B : C} {f : A ~> B} :
   f ∘ zero ≈ zero.
 Proof. intros; apply zero_unique. Qed.

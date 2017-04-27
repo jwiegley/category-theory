@@ -29,7 +29,8 @@ End Functor.
    way type constructors behave in Haskell. *)
 Coercion fobj : Functor >-> Funclass.
 
-Notation "C ⟶ D" := (@Functor C D) (at level 90, right associativity).
+Notation "C ⟶ D" := (@Functor C D)
+  (at level 90, right associativity) : category_scope.
 
 Arguments fmap {C D Functor X Y} f.
 

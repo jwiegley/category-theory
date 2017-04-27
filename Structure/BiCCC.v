@@ -176,11 +176,8 @@ Hint Rewrite @exp_coprod : isos.
 
 Context `{@Initial C}.
 
-Notation "0 × X" := (Prod Zero X) (at level 40).
-Notation "X × 0" := (Prod X Zero) (at level 40).
-
 Global Program Instance prod_zero_l {X : C} :
-  0 × X ≅ Zero := {
+  Zero × X ≅ Zero := {
   to   := uncurry zero;
   from := zero
 }.
@@ -189,7 +186,7 @@ Next Obligation. apply curry_inj; simpl; cat. Qed.
 Hint Rewrite @prod_zero_l : isos.
 
 Global Program Instance prod_zero_r {X : C} :
-  X × 0 ≅ Zero := {
+  X × Zero ≅ Zero := {
   to   := uncurry zero ∘ swap;
   from := zero
 }.
@@ -199,11 +196,8 @@ Hint Rewrite @prod_zero_r : isos.
 
 Context `{@Terminal C}.
 
-Notation "X ^ 0" := (Exp Zero X) (at level 30).
-Notation "0 ^ X" := (Exp X Zero) (at level 30).
-
 Global Program Instance exp_zero {X : C} :
-  X^0 ≅ One := {
+  X^Zero ≅ One := {
   to   := one;
   from := curry (zero ∘ to prod_zero_r)
 }.

@@ -18,7 +18,7 @@ Program Instance Slice `(C : Category) `(c : C) : Category := {
   compose := fun _ _ _ f g => f ∘ g
 }.
 
-Notation "C ̸ c" := (@Slice C c) (at level 90).
+Notation "C ̸ c" := (@Slice C c) (at level 90) : category_scope.
 
 (* Although the encoding of Slice above is more convenient, theoretically it's
    the comma category (Identity ↓ Select c). *)
@@ -57,7 +57,7 @@ Program Instance Coslice `(C : Category) `(c : C) : Category := {
   compose := fun _ _ _ f g => f ∘ g
 }.
 
-Notation "C ̸co c" := (@Coslice C c) (at level 90).
+Notation "C ̸co c" := (@Coslice C c) (at level 90) : category_scope.
 
 Program Instance Comma_Coslice `(C : Category) `(c : C) :
   C ̸co c ≅[Cat] (Select c ↓ Identity) := {

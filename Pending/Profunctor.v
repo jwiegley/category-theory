@@ -20,7 +20,7 @@ Program Instance Profunctor `(D : Category) `(C : Category) : D^op ⟶ [C, Sets]
                                (f ∘ g) : X ~{C}~> Z |}
   |};
   fmap := fun X Y (f : X ~{C^op}~> Y) => {|
-    transform := fun _ => {| morphism := fun g => g ∘ unop f |}
+    transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
 }.
 Next Obligation.
@@ -45,14 +45,14 @@ Next Obligation.
 Qed.
 Next Obligation.
   repeat intro; intuition; simpl in *.
-  unfold unop.
+  unfold op.
   rewrite X0; reflexivity.
 Qed.
 Next Obligation.
-  intro; simpl; unfold unop; intros; cat.
+  intro; simpl; unfold op; intros; cat.
 Qed.
 Next Obligation.
-  intro; simpl; unfold unop, Basics.compose; intros.
+  intro; simpl; unfold op, Basics.compose; intros.
   rewrite comp_assoc; reflexivity.
 Qed.
 

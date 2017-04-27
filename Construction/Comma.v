@@ -39,7 +39,7 @@ Program Instance Comma : Category := {
 
 End Comma.
 
-Notation "S ↓ T" := (@Comma _ _ _ S T) (at level 90).
+Notation "S ↓ T" := (@Comma _ _ _ S T) (at level 90) : category_scope.
 
 Theorem iso_commas_iso_projection A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
   x ≅ y -> `x ≅[A ∏ B] `y.

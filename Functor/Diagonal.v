@@ -13,4 +13,4 @@ Program Instance Diagonal `(C : Category) : C ⟶ C ∏ C := {
   fmap := fun _ _ f => (f, f)
 }.
 
-Notation "Δ( C )" := (@Diagonal C) (at level 90).
+Notation "Δ( C )" := (@Diagonal C) (at level 90) : category_scope.

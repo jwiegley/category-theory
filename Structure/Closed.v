@@ -283,10 +283,8 @@ Qed.
 
 Context `{@Terminal C}.
 
-Notation "X ^ 1" := (Exp One X) (at level 30).
-
 Global Program Instance exp_one {X : C} :
-  X^1 ≅ X := {
+  X^One ≅ X := {
   to   := eval ∘ id △ one;
   from := curry exl
 }.
@@ -303,7 +301,7 @@ Next Obligation.
   rewrite <- comp_assoc; cat.
   rewrite <- fork_comp.
   rewrite id_left.
-  cut (@one _ _ (X^1) ∘ exl ≈ exr).
+  cut (@one _ _ (X^One) ∘ exl ≈ exr).
     intro Hone.
     rewrite Hone; cat.
   cat.
@@ -314,8 +312,6 @@ Hint Rewrite @exp_one : isos.
 End Closed.
 
 Notation "Y ^ X" := (Exp X Y) : category_scope.
-
-Notation "X ^ 1" := (Exp One X) (at level 30).
 
 Hint Rewrite @curry_uncurry : categories.
 Hint Rewrite @uncurry_curry : categories.

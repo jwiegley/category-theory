@@ -27,4 +27,4 @@ End Cone.
 Coercion vertex : Cone >-> ob.
 
 Notation "vertex_map[ C ]" := (@vertex_map _ _ _ C _)
-  (at level 9, format "vertex_map[ C ]").
+  (at level 9, format "vertex_map[ C ]") : category_scope.

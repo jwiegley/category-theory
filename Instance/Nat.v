@@ -73,7 +73,7 @@ Global Program Instance Nat : Category := {
 End Nat.
 
 Notation "[ C , D ]" := (@Nat C D)
-  (at level 90, right associativity, format "[ C ,  D ]").
+  (at level 90, right associativity, format "[ C ,  D ]") : category_scope.
 
 Hint Unfold nat_compose.
 Hint Unfold nat_identity.

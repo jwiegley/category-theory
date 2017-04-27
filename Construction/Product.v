@@ -25,4 +25,4 @@ Program Instance Product : Category := {
 
 End Product.
 
-Notation "C ∏ D" := (@Product C D) (at level 90).
+Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.

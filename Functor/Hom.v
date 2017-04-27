@@ -32,10 +32,10 @@ Definition bimap `{P : C ⟶ [D, E]} {X W : C} {Y Z : D}
   P X Y ~{E}~> P W Z := let N := @fmap _ _ P _ _ f in transform[N] _ ∘ fmap1 g.
 
 Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
-  F Y ~{D}~> F X := fmap (unop f).
+  F Y ~{D}~> F X := fmap (op f).
 
 Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
-  P W Y ~{E}~> P X Z := bimap (unop f) g.
+  P W Y ~{E}~> P X Z := bimap (op f) g.
 
 Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
   fobj := fun X => {|
@@ -46,10 +46,10 @@ Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
                                (f ∘ g) : X ~{C}~> Z |}
   |};
   fmap := fun X Y (f : X ~{C^op}~> Y) => {|
-    transform := fun _ => {| morphism := fun g => g ∘ unop f |}
+    transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
 }.
-Next Obligation. unfold unop; simpl; autounfold; cat. Qed.
+Next Obligation. unfold op; simpl; autounfold; cat. Qed.
 
 Coercion HomFunctor : Category >-> Functor.
 

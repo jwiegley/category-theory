@@ -11,4 +11,4 @@ Set Universe Polymorphism.
 
 Instance Arrow `{C : Category} : Category := (Identity ↓ Identity).
 
-Notation "C ⃗" := (@Arrow C) (at level 90).
+Notation "C ⃗" := (@Arrow C) (at level 90) : category_scope.
