@@ -1,5 +1,7 @@
 Require Import Category.Lib.
+Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
+Require Export Category.Construction.Product.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -36,3 +38,14 @@ Program Instance Comma : Category := {
 End Comma.
 
 Notation "S ↓ T" := (@Comma _ _ _ S T) (at level 90).
+
+Theorem equiv_projects_to_same A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
+  x ≈ y -> `x ≃[A ∏ B] `y.
+Proof.
+  intros.
+  destruct H, H, H.
+  simpl in *.
+  exists x0.
+  exists x1.
+  firstorder.
+Qed.
