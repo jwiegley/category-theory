@@ -10,6 +10,7 @@ Theory/Adjunction.v
 Theory/Monad.v
 Theory/Cone.v
 Theory/Limit.v
+Construction/Product.v
 Construction/Comma.v
 Construction/Arrow.v
 Construction/Opposite.v
@@ -24,6 +25,7 @@ Structure/Closed.v
 Structure/BiCCC.v
 Structure/Constant.v
 Instance/Cat.v
+Instance/Cat/Cartesian.v
 Instance/Zero.v
 Instance/One.v
 Instance/Two.v
