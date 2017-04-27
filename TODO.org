@@ -1,69 +1,87 @@
-* DONE Make Distributive into a structure, which every BiCCC automatically satisfies
-* Show that exp_prod, prod_coprod and exp_coprod arise from adjunctions
-Some of these involve the diagonal functor.
-* Define BiCCC characteristics for Cat and Sets
-* Instead of HomFunctor, use the closed structure of Cat
+TODO  -*- mode: org; fill-column: 78 -*-
+
+* Inbox
+** Define BiCCC characteristics for Cat and Sets
+** Instead of HomFunctor, use the closed structure of Cat
 And just apply curry to [C^op, C] ⟶ Sets
-* Move all instances not related to isomorphism or equivalence into modules
+** Move all instances not related to isomorphism or equivalence into modules
 This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.
-* Should the identity functor be Identity, or Id?
-* CANCELED Should Cat be moved into Functor.v?
-* DONE Create dom(f) and cod(f) functions
-* Create Theory/Algebra.v, with constructions like Magma, Semigroup, Monoid, etc.
-* Move Tuple into Coq/Tuple, etc.
-* Discrete has no arrows; rename the current one to Concrete
-* Awodey Theorem 1.6
+** Should the identity functor be Identity, or Id?
+** Create Theory/Algebra.v, with constructions like Magma, Semigroup, Monoid, etc.
+** Move Tuple into Coq/Tuple, etc.
+** DONE Discrete has no arrows; rename the current one to Concrete
+** Monad Transformers
+** CANCELED Should Cat be moved into Functor.v?
+** DONE Make Distributive into a structure, which every BiCCC automatically satisfies
+** DONE Create dom(f) and cod(f) functions
+* Proofs
+** Prod ⊣ Diag ⊣ Coprod
+** Show that exp_prod, prod_coprod and exp_coprod arise from adjunctions
+Some of these involve the diagonal functor.
+** Awodey Theorem 1.6
 Every category C with a set of arrows is isomorphic to one in which the
 objects are sets and the arrows are functions.
-* Awodey Exercise 1.13
+** Awodey Exercise 1.13
 Use the Cayley representation to show that every small category is isomorphic
 to a “concrete” one, that is, one in which the objects are sets and the arrows
 are functions between them.
-* Awodey Exercise 1.14
+** Awodey Exercise 1.14
 The notion of a category can also be defined with just one sort (arrows)
 rather than two (arrows and objects); the domains and codomains are taken to
 be certain arrows that act as units under composition, which is partially
 defined. Read about this definition in section I.1 of Mac Lane’s Categories
 for the Working Mathematician, and do the exercise mentioned there, showing
 that it is equivalent to the usual definition.
-* Monad Transformers
-* Proofs to be done
 ** "Coyoneda lemma" states that every presheaf is a colimit of representables
 * Theory
-** DONE Diagram
-** DONE Cone
-** DONE Limit
 ** Colimit
 ** Pullback
 ** Pushout
 ** Faithful, Full, Fully Faithful functors (inj, surj, bi, resp.)
 ** Functoral strength
 ** Kan extensions
+** DONE Diagram
+** DONE Cone
+** DONE Limit
+* Constructions
+** Free category
+** DONE Product (C × D)
+** DONE Comma category (F ↓ G)
+** DONE Arrow category (C⃗)
+** DONE Slice/Coslice (C/c)
+* Structures
+** Monoidal
+*** Monoidal functors
+**** "Applicative functors" (strong lax monoidal functors)
+** Symmetric
 * Instances
 ** Ensembles (mathematical sets)
 ** Finite sets
-** DONE 0
-** DONE 1
-** DONE 2
 ** 3
 ** Monoid
 ** Mon
 ** Graphs
 ** Homogeneous relations in Prop
 ** Constructive homogeneous crelations in Type
-* Constructions
-** DONE Product (C × D)
-** DONE Comma category (F ↓ G)
-** Diagonal (Δ F)
-** DONE Arrow category (C⃗)
-** DONE Slice/Coslice (C/c)
-** Free category
-* Structures
-** Monoidal
-*** Monoidal functors
-** "Applicative functors" (strong lax monoidal functors)
-** Symmetric
+** DONE 0
+** DONE 1
+** DONE 2
+* Functors
+** DONE Diagonal (Δ F)
+** Comma category functors
+For each comma category there are forgetful functors from it.
+
+    Domain functor, S ↓ T → A
+        objects: ( α , β , f ) ↦ α
+        morphisms: ( g , h ) ↦ g
+    Codomain functor, S ↓ T → B
+        objects: ( α , β , f ) ↦ β
+        morphisms: ( g , h ) ↦ h
+    Arrow functor, S ↓ T → C↓
+        objects: ( α , β , f ) ↦ f
+        morphisms: ( g , h ) ↦ ( S g , T h )
+
 * Type refinement
 Comments from contextualMatters on /r/haskell:
 
@@ -111,19 +129,6 @@ Mellies and Zeilberger provide a categorical view for this:
     Isbell duality - (succinct presentation of presheaves)
 
     Functor are type refinement system
-* Comma category functors
-For each comma category there are forgetful functors from it.
-
-    Domain functor, S ↓ T → A
-        objects: ( α , β , f ) ↦ α
-        morphisms: ( g , h ) ↦ g
-    Codomain functor, S ↓ T → B
-        objects: ( α , β , f ) ↦ β
-        morphisms: ( g , h ) ↦ h
-    Arrow functor, S ↓ T → C↓
-        objects: ( α , β , f ) ↦ f
-        morphisms: ( g , h ) ↦ ( S g , T h )
-
 * Colophon
 #+STARTUP: content fninline hidestars
 #+OPTIONS: ^:{}
