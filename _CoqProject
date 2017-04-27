@@ -27,6 +27,7 @@ Structure/BiCCC.v
 Structure/Constant.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
+Instance/Cat/Cocartesian.v
 Instance/Zero.v
 Instance/One.v
 Instance/Two.v
