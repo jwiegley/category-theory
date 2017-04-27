@@ -25,6 +25,7 @@ Structure/Distributive.v
 Structure/Closed.v
 Structure/BiCCC.v
 Structure/Constant.v
+Structure/Monoidal.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cocartesian.v
