@@ -22,7 +22,11 @@ Infix "≈" := equiv (at level 79) : category_scope.
 
 Infix "<-->" := CRelationClasses.iffT (at level 100) : category_scope.
 
-Notation "` x" := (projT1 x) (at level 100).
+Notation "` x" := (@projT1 _ _ x) (at level 0).
+Notation "( x ; y )" := (existT _ x y) (at level 0).
+
+Tactic Notation "given" "(" ident(H) ":" lconstr(type) ")" :=
+  refine (let H := (_ : type) in _).
 
 Axiom propositional_extensionality : forall P : Prop, P -> P = True.
 
