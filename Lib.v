@@ -24,6 +24,8 @@ Close Scope nat_scope.
 Delimit Scope category_scope with category.
 Open Scope category_scope.
 
+Infix "\o" := Basics.compose (at level 40, left associativity) : category_scope.
+
 Infix "≈" := equiv (at level 79) : category_scope.
 Infix "≋" := CEquivalence.equiv (at level 79) : category_scope.
 

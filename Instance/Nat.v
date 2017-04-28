@@ -75,6 +75,8 @@ End Nat.
 Notation "[ C , D ]" := (@Nat C D)
   (at level 90, right associativity, format "[ C ,  D ]") : category_scope.
 
+Notation "F ⊚ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
+
 Hint Unfold nat_compose.
 Hint Unfold nat_identity.
 Hint Unfold nat_equiv.

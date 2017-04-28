@@ -41,8 +41,9 @@ Infix "~{ C }~>" := (@hom C) (at level 90) : category_scope.
 Infix "∘" := compose : category_scope.
 
 Notation "X <~ Y" := (@hom _ Y X)
-  (at level 90, right associativity) : category_scope.
-Notation "X <~{ C }~ Y" := (@hom C Y X) (at level 90) : category_scope.
+  (at level 90, right associativity, only parsing) : category_scope.
+Notation "X <~{ C }~ Y" := (@hom C Y X)
+  (at level 90, only parsing) : category_scope.
 
 Notation "ob[ C ]" := (@ob C) (at level 0, format "ob[ C ]") : category_scope.
 Notation "id[ X ]" := (@id _ X)
