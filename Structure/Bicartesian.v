@@ -7,6 +7,7 @@ Require Export Category.Structure.Cocartesian.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Bicartesian.
 

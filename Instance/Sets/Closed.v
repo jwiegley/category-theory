@@ -7,14 +7,17 @@ Require Export Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 (* This instance must appear in a separate file, because the Closed structure
    makes use of isomorphisms in [Sets]. *)
 
+(*
+jww (2017-04-28): TODO
 Program Instance Sets_Closed : @Closed Sets _ := {
   Exp := fun X Y =>
             {| carrier := SetoidMorphism X Y
-             ; is_setoid := @SetoidMorphism_Setoid X Y
+             ; is_csetoid := @SetoidMorphism_Setoid X Y
              |};
   exp_iso := fun _ _ _ =>
     {| to   := {| morphism := fun f =>
@@ -27,18 +30,39 @@ Program Instance Sets_Closed : @Closed Sets _ := {
 Next Obligation.
   proper; destruct f; simpl.
   apply proper_morphism.
-  simpl; split; intuition.
+  split; simpl; intuition.
 Qed.
 Next Obligation.
   proper; destruct f; simpl.
+  simplify equiv; intros.
   apply proper_morphism.
-  simpl; split; intuition.
+  split; simpl; intuition.
 Qed.
 Next Obligation.
-  proper; destruct f; simpl.
-  destruct x, y; simpl in *.
-  pose proof (proper_morphism c c1 H3) as HA.
-  simpl in HA; rewrite HA; clear HA.
-  destruct (morphism c1); simpl.
-  apply proper_morphism0; auto.
+  proper; destruct x, y; simpl in *.
+  simplify equiv in all; intros.
+  simplify equiv; intros.
+  apply X.
 Qed.
+Next Obligation.
+  proper.
+  destruct x, y; simpl in *.
+  destruct X; simpl in *.
+  destruct f; simpl in *.
+  unfold CMorphisms.Proper, CMorphisms.respectful in proper_morphism.
+  simplify equiv in proper_morphism.
+  rewrite (proper_morphism _ _ c3).
+  destruct (morphism c1).
+  apply proper_morphism0; assumption.
+Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  destruct x0, x, y; simpl in *.
+  unfold CMorphisms.Proper, CMorphisms.respectful in *.
+  simplify equiv in X.
+  apply X.
+Qed.
+Next Obligation.
+Admitted.
+*)

@@ -8,6 +8,7 @@ Require Export Category.Construction.Product.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Comma.
 
@@ -31,18 +32,20 @@ Context `{T : B ⟶ C}.
 
 Program Instance Comma : Category := {
   ob      := { p : A * B & S (fst p) ~> T (snd p) };
-  hom     := fun x y => (fst (` x) ~> fst (` y)) * (snd (` x) ~> snd (` y));
-  homset  := fun _ _ => {| equiv := fun f g => fst f ≈ fst g ∧ snd f ≈ snd g |} ;
+  hom     := fun x y => (fst (`` x) ~> fst (`` y)) * (snd (`` x) ~> snd (`` y));
+  homset  := fun _ _ =>
+    {| cequiv := fun f g => (fst f ≈ fst g) * (snd f ≈ snd g) |};
   id      := fun _ => (id, id);
   compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g)
 }.
+Next Obligation. proper; simpl in *; firstorder. Qed.
 
 End Comma.
 
 Notation "S ↓ T" := (@Comma _ _ _ S T) (at level 90) : category_scope.
 
 Theorem iso_commas_iso_projection A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
-  x ≅ y -> `x ≅[A ∏ B] `y.
+  x ≅ y -> ``x ≅[A ∏ B] ``y.
 Proof.
   intros.
   destruct X.
@@ -53,14 +56,14 @@ Proof.
   3:apply from.
   assumption.
   assumption.
-Defined.
-
-Theorem equiv_projects_to_iso_prop A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
-  x ≈ y -> `x ≃[A ∏ B] `y.
-Proof.
-  intros.
-  destruct H as [to [from [? ?]]].
-  exists to.
-  exists from.
-  auto.
 Qed.
+
+(* Theorem equiv_projects_to_iso_prop A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) : *)
+(*   x ≈ y -> `x ≃[A ∏ B] `y. *)
+(* Proof. *)
+(*   intros. *)
+(*   destruct H as [to [from [? ?]]]. *)
+(*   exists to. *)
+(*   exists from. *)
+(*   auto. *)
+(* Qed. *)

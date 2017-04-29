@@ -9,6 +9,7 @@ Require Import Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 (* Bifunctors can be curried:
 
@@ -37,10 +38,12 @@ Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
 Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
   P W Y ~{E}~> P X Z := bimap (op f) g.
 
+(*
+jww (2017-04-28): TODO
 Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom C X Y
-                      ; is_setoid := @homset C X Y |};
+                      ; is_csetoid := @homset C X Y |};
     fmap := fun Y Z (f : Y ~{C}~> Z) =>
               {| morphism := fun (g : X ~{C}~> Y) =>
                                (f ∘ g) : X ~{C}~> Z |}
@@ -72,3 +75,4 @@ Next Obligation. unfold op; simpl; autounfold; cat. Qed.
 Coercion CoHomFunctor : Category >-> Functor.
 
 Notation "'Hom' ( ─ , A )" := (@CoHomFunctor _ A) : category_scope.
+*)

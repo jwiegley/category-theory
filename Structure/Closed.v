@@ -7,6 +7,7 @@ Require Export Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Closed.
 
@@ -51,7 +52,7 @@ Next Obligation.
   destruct exp_iso; simpl in *.
   destruct to; simpl in *.
   rewrite X; reflexivity.
-Defined.
+Qed.
 
 Global Program Instance parametric_morphism_uncurry (a b c : C) :
   CMorphisms.Proper (cequiv ===> cequiv) (@uncurry a b c).
@@ -61,7 +62,7 @@ Next Obligation.
   destruct exp_iso; simpl in *.
   destruct from; simpl in *.
   rewrite X; reflexivity.
-Defined.
+Qed.
 
 Corollary curry_uncurry {X Y Z} (f : X ~> Z^Y) :
   curry (uncurry f) ≈ f.
@@ -69,15 +70,10 @@ Proof.
   replace (curry (uncurry f)) with ((curry ∘ uncurry) f) by auto.
   unfold curry, uncurry; simpl.
   pose proof (iso_to_from (@exp_iso _ X Y Z)) as HA.
-  simpl in HA.
-  rewrite HA; cat.
-
-  autounfold in HA.
   unfold equiv in HA; simpl in HA.
+  autounfold in HA.
   unfold cequiv in HA; simpl in HA.
-  destruct HA.
-  apply inhabits.
-  apply X0.
+  apply HA.
 Qed.
 
 Corollary uncurry_curry {X Y Z} (f : X × Y ~> Z) :
@@ -87,12 +83,10 @@ Proof.
   unfold curry, uncurry; simpl.
   pose proof (iso_from_to (@exp_iso _ X Y Z)) as HA.
   simpl in HA.
-  autounfold in HA.
   unfold equiv in HA; simpl in HA.
+  autounfold in HA.
   unfold cequiv in HA; simpl in HA.
-  destruct HA.
-  apply inhabits.
-  apply X0.
+  apply HA.
 Qed.
 
 Hint Rewrite @curry_uncurry : categories.
@@ -379,7 +373,7 @@ Proof. apply iso_to_from. Qed.
 Hint Rewrite @exp_out_in : functors.
 
 Corollary exp_in_inj {X Y Z : C} (f g : F X ~> F Z ^ F Y) :
-  exp_in ∘ f ≈ exp_in ∘ g <-> f ≈ g.
+  exp_in ∘ f ≈ exp_in ∘ g <--> f ≈ g.
 Proof.
   split; intros Hexp.
     rewrite <- id_left.
@@ -394,7 +388,7 @@ Proof.
 Qed.
 
 Corollary exp_out_inj {X Y Z : C} (f g : F X ~> F (Z^Y)) :
-  exp_out ∘ f ≈ exp_out ∘ g <-> f ≈ g.
+  exp_out ∘ f ≈ exp_out ∘ g <--> f ≈ g.
 Proof.
   split; intros Hexp.
     rewrite <- id_left.

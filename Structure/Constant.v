@@ -6,6 +6,7 @@ Require Export Category.Structure.Terminal.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Constant.
 

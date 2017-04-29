@@ -7,6 +7,7 @@ Require Export Category.Instance.Coq.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Abstraction.
 
@@ -19,9 +20,9 @@ Context `{TF : @TerminalFunctor _ _ F _ HT'}.
 Definition rel `(lam : a -> b) (ccc : F a ~> F b) : Type :=
   fmap[F] lam ≈ ccc.
 
-Infix "===>" := rel (at level 99) : category_scope.
+Infix ">==>" := rel (at level 99) : category_scope.
 
-Theorem ccc_id : ∀ (a : Type), (λ x : a, x) ===> id.
+Theorem ccc_id : ∀ (a : Type), (λ x : a, x) >==> id.
 Proof.
   unfold rel; intros.
   rewrite <- fmap_id.
@@ -35,9 +36,9 @@ Theorem ccc_apply :
   ∀ (a b c : Type)
     (U : a -> b -> c) (U' : F a ~> F c ^ F b)
     (V : a -> b) (V' : F a ~> F b),
-  U ===> exp_in ∘ U' ->
-  V ===> V' ->
-    (λ x, U x (V x)) ===> eval ∘ (U' △ V').
+  U >==> exp_in ∘ U' ->
+  V >==> V' ->
+    (λ x, U x (V x)) >==> eval ∘ (U' △ V').
 Proof.
   unfold rel; intros ??????? HA HB; subst.
   step (λ x, U x (V x)) => (λ x, @eval Coq _ _ b c (U x, V x)).
@@ -68,8 +69,8 @@ Qed.
 Theorem ccc_curry :
   ∀ (a b c : Type)
     (U : a * b -> c) (U' : F a × F b ~> F c),
-    U ===> U' ∘ prod_out ->
-      (λ x, λ y, U (x, y)) ===> exp_in ∘ curry U'.
+    U >==> U' ∘ prod_out ->
+      (λ x, λ y, U (x, y)) >==> exp_in ∘ curry U'.
 Proof.
   unfold rel; intros ????? X; subst.
   pose proof (@fmap_curry Coq _ _ _ _ _ _ _ _ a b c U) as HA.
@@ -87,7 +88,7 @@ Proof.
 Qed.
 
 Theorem ccc_terminal : ∀ (a : Type),
-  (λ _ : a, tt) ===> map_one ∘ @one _ _ (F a).
+  (λ _ : a, tt) >==> map_one ∘ @one _ _ (F a).
 Proof.
   unfold rel; intros.
   step (λ _ : a, tt) => (@one Coq _ a).

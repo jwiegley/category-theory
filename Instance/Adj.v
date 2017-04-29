@@ -7,7 +7,10 @@ Require Export Category.Instance.Cat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
+(*
+jww (2017-04-28): TODO
 Program Instance adj_id `{C : Category} : Identity ⊣ Identity := {
   adj_iso := fun _ _ =>
     {| to   := {| morphism := _ |}
@@ -103,3 +106,4 @@ Qed.
    functor F : C^op → D or as a (covariant) functor F^op : C → D^op. The
    latter version has a right adjoint precisely when the former version has a
    left adjoint.) *)
+*)

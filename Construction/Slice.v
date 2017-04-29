@@ -9,6 +9,7 @@ Require Export Category.Instance.Cat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Program Instance Slice `(C : Category) `(c : C) : Category := {
   ob      := { a : C & a ~> c };
@@ -31,11 +32,11 @@ Program Instance Comma_Slice `(C : Category) `(c : C) :
 Next Obligation.
   exists (X, tt); simpl.
   assumption.
-Defined.
+Qed.
 Next Obligation.
   exists o.
   assumption.
-Defined.
+Qed.
 Next Obligation.
   unfold Comma_Slice_obligation_1.
   simpl; intros.
@@ -67,11 +68,11 @@ Program Instance Comma_Coslice `(C : Category) `(c : C) :
 Next Obligation.
   exists (tt, X); simpl.
   assumption.
-Defined.
+Qed.
 Next Obligation.
   exists o.
   assumption.
-Defined.
+Qed.
 Next Obligation.
   unfold Comma_Slice_obligation_1.
   simpl; intros.

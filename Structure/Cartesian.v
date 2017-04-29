@@ -7,6 +7,7 @@ Require Export Category.Structure.Terminal.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Reserved Infix "×" (at level 40, left associativity).
 
@@ -26,7 +27,7 @@ Class Cartesian:= {
     CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@fork X Y Z);
 
   ump_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
-    h ≈ fork f g <-> exl ∘ h ≈ f ∧ exr ∘ h ≈ g
+    h ≈ fork f g <--> (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
 }.
 
 Infix "×" := Prod : category_scope.
@@ -51,7 +52,7 @@ Next Obligation.
   unfold first.
   rewrite X.
   reflexivity.
-Defined.
+Qed.
 
 Global Program Instance parametric_morphism_second {a b c : C} :
   CMorphisms.Proper (cequiv ===> cequiv) (@second a b c).
@@ -60,7 +61,7 @@ Next Obligation.
   unfold second.
   rewrite X.
   reflexivity.
-Defined.
+Qed.
 
 Global Program Instance parametric_morphism_split {a b c d : C} :
   CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@split a b c d).
@@ -69,7 +70,7 @@ Next Obligation.
   unfold split.
   rewrite X, X0.
   reflexivity.
-Defined.
+Qed.
 
 Definition swap {X Y : C} : X × Y ~> Y × X := exr △ exl.
 
@@ -104,15 +105,16 @@ Qed.
 Hint Rewrite @fork_exl_exr : categories.
 
 Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
-  f △ g ≈ h △ i <-> f ≈ h ∧ g ≈ i.
+  f △ g ≈ h △ i <--> (f ≈ h) * (g ≈ i).
 Proof.
   pose proof (ump_products h i (f △ g)) as HA.
   destruct HA.
   split; intros.
     intuition.
-      rewrite <- H0; cat.
-    rewrite <- H4; cat.
-  apply H1; cat.
+      rewrite <- a; cat.
+    rewrite <- b; cat.
+  destruct X0.
+  apply c; split; cat.
 Qed.
 
 Corollary fork_comp {X Y Z W : C}
@@ -272,7 +274,7 @@ Global Program Instance prod_one_l  {X : C} :
 Next Obligation.
   rewrite <- fork_comp.
   rewrite <- fork_exl_exr.
-  apply cequiv_proper2; [apply fork_respects|..]; cat.
+  apply fork_respects; cat.
 Qed.
 
 Hint Rewrite @prod_one_l : isos.
@@ -285,7 +287,7 @@ Global Program Instance prod_one_r  {X : C} :
 Next Obligation.
   rewrite <- fork_comp; cat.
   rewrite <- fork_exl_exr.
-  apply cequiv_proper2; [apply fork_respects|..]; cat.
+  apply fork_respects; cat.
 Qed.
 
 Hint Rewrite @prod_one_r : isos.
@@ -364,7 +366,7 @@ Qed.
 Hint Rewrite @prod_out_in : functors.
 
 Corollary prod_in_inj {X Y Z : C} (f g : F X ~> F X × F Y) :
-  prod_in ∘ f ≈ prod_in ∘ g <-> f ≈ g.
+  prod_in ∘ f ≈ prod_in ∘ g <--> f ≈ g.
 Proof.
   split; intros Hprod.
     rewrite <- id_left.
@@ -379,7 +381,7 @@ Proof.
 Qed.
 
 Corollary prod_out_inj {X Y Z : C} (f g : F X ~> F (Y × Z)) :
-  prod_out ∘ f ≈ prod_out ∘ g <-> f ≈ g.
+  prod_out ∘ f ≈ prod_out ∘ g <--> f ≈ g.
 Proof.
   split; intros Hprod.
     rewrite <- id_left.
@@ -415,7 +417,7 @@ Program Definition functor_prod `{C : Category} `{D : Category}
 Next Obligation.
   proper.
   rewrite X0; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   rewrite <- fork_comp.
   rewrite <- !comp_assoc; cat.

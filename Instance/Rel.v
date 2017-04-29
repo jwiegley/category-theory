@@ -15,10 +15,13 @@ Require Export Coq.Sets.Ensembles.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 Set Implicit Arguments.
 
 (* The category of heterogenous relations on Coq objects. *)
 
+(*
+jww (2017-04-28): TODO
 Program Instance Rel : Category := {
   ob      := @ob Coq;
   hom     := fun A B => A ~> Ensemble B;
@@ -114,3 +117,4 @@ Next Obligation.
   destruct H, H0.
   constructor.
 Qed.
+*)

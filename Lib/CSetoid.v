@@ -7,6 +7,7 @@ Require Import Coq.Logic.ChoiceFacts.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Class CSetoid A := {
   cequiv : crelation A;
@@ -16,14 +17,15 @@ Class CSetoid A := {
 Arguments cequiv {A _} : simpl never.
 
 Infix "≋" := cequiv (at level 79) : category_scope.
+Infix "≈" := cequiv (at level 79) : category_scope.
 
 Program Instance csetoid_refl `(sa : CSetoid A) :
   CRelationClasses.Reflexive cequiv.
-Obligation 1. apply setoid_cequiv. Defined.
+Obligation 1. apply setoid_cequiv. Qed.
 
 Program Instance csetoid_sym `(sa : CSetoid A) :
   CRelationClasses.Symmetric cequiv.
-Obligation 1. apply setoid_cequiv; auto. Defined.
+Obligation 1. apply setoid_cequiv; auto. Qed.
 
 Program Instance csetoid_trans `(sa : CSetoid A) :
   CRelationClasses.Transitive cequiv.
@@ -32,7 +34,7 @@ Obligation 1.
   destruct sa; simpl in *.
   destruct setoid_cequiv0.
   eapply Equivalence_Transitive; eauto.
-Defined.
+Qed.
 
 Program Instance CSetoid_is_Setoid `(S : CSetoid A) : Setoid A := {
   equiv := fun x y => inhabited (@cequiv A S x y)
@@ -82,11 +84,12 @@ Next Obligation.
   apply P; auto.
 Qed.
 
+(*
 Lemma nonconstructive_cequiv (A : Type) `{CSetoid A} (x y : A) :
   x ≈ y -> inhabited (x ≋ y).
 Proof.
   intros.
-  destruct H0.
+  destruct X.
   apply inhabits.
   assumption.
 Qed.
@@ -147,19 +150,25 @@ Proof.
   repeat intro.
   apply choice, H.
 Qed.
+*)
 
 Tactic Notation "simplify" "equiv" :=
   unfold equiv; simpl;
   unfold cequiv; simpl;
-  autounfold; simpl;
-  try first
-      [ apply nonconstructive_cequiv
-      | apply inhabited_forall ].
+  autounfold; simpl.
+  (* try first *)
+  (*     [ apply nonconstructive_cequiv *)
+  (*     | apply inhabited_forall ]. *)
 
 Tactic Notation "simplify" "equiv" "in" ident(H) :=
   unfold equiv in H; simpl in H;
   unfold cequiv in H; simpl in H;
   autounfold in H; simpl in H.
+
+Tactic Notation "simplify" "equiv" "in" "all" :=
+  unfold equiv in *; simpl in *;
+  unfold cequiv in *; simpl in *;
+  autounfold in *; simpl in *.
 
 Hint Constructors CRelationClasses.Equivalence.
 

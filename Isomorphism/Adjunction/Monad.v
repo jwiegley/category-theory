@@ -7,6 +7,7 @@ Require Export Category.Theory.Monad.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section MonadAdjunction.
 

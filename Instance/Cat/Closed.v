@@ -9,6 +9,7 @@ Require Export Category.Instance.Cat.Cartesian.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 (*
 Program Instance Cat_Closed : @Closed Cat _ := {
@@ -41,7 +42,7 @@ Next Obligation.
     exact (@fmap _ _ f (X0, X) (Y0, X) (f0, @id Y X)).
   rewrite <- !fmap_comp.
   apply fmap_respects; simpl; cat.
-Defined.
+Qed.
 Next Obligation.
   proper.
   apply fmap_respects; simpl; cat.

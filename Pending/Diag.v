@@ -10,6 +10,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
+Unset Transparent Obligations.
 
 Section BiCCC.
 

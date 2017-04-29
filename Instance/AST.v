@@ -6,6 +6,7 @@ Require Export Category.Structure.BiCCC.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Inductive Obj : Type :=
   | One_    : Obj
@@ -82,7 +83,7 @@ Program Instance DSL : Category := {
   id := @Id;
   compose := @Compose;
   homset := fun _ _ =>
-    {| equiv := fun f g =>
+    {| cequiv := fun f g =>
          forall `{C : Category}
                 `{A : @Cartesian C}
                 `{@Closed C A}
@@ -91,24 +92,31 @@ Program Instance DSL : Category := {
                 `{@Initial C},
            interp f ≈ interp g |}
 }.
-Obligation 1.
-  constructor.
-  - intros ??????.
-    reflexivity.
-  - intros ?? HA ?????.
-    symmetry.
-    apply HA.
-  - intros ??? HA HB ??????.
-    rewrite HA, HB.
-    reflexivity.
+Next Obligation.
+  repeat intro.
+  transitivity (interp y); auto.
 Qed.
-Obligation 2.
-  intros ?? HA ?? HB ??????.
-  simpl.
-  rewrite HA, HB.
+Next Obligation.
+  proper.
+  simplify equiv in all.
+  intuition.
+  rewrite X0, X1.
+  reflexivity.
+Qed.
+Next Obligation.
+  proper; simplify equiv in all; intros; cat.
+Qed.
+Next Obligation.
+  proper; simplify equiv in all; intros; cat.
+Qed.
+Next Obligation.
+  proper; simplify equiv in all; intros.
+  rewrite comp_assoc.
   reflexivity.
 Qed.
 
+(*
+jww (2017-04-28): TODO
 Program Instance Hom_Terminal : @Terminal _ := {
   One := One_;
   one := @One'
@@ -226,3 +234,4 @@ Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor := {
 }.
 
 End AST.
+*)

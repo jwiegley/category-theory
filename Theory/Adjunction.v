@@ -8,6 +8,7 @@ Require Export Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Adjunction.
 
@@ -79,7 +80,7 @@ Next Obligation.
   destruct adj_iso; simpl in *.
   destruct to; simpl in *.
   rewrite X; reflexivity.
-Defined.
+Qed.
 
 Global Program Instance parametric_morphism_adj_right a b :
   CMorphisms.Proper (cequiv ===> cequiv) (@adj_right a b).
@@ -89,7 +90,7 @@ Next Obligation.
   destruct adj_iso; simpl in *.
   destruct from; simpl in *.
   rewrite X; reflexivity.
-Defined.
+Qed.
 
 Corollary adj_left_unit  {a b} (f : F a ~> b) :
   adj_left f ≈ fmap f ∘ unit.

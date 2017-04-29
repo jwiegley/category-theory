@@ -10,11 +10,12 @@ Require Export Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Theorem iso_commas_impl {A B C D}
         {S : A ⟶ C} {T : B ⟶ C} {U : A ⟶ D} {V : B ⟶ D}
         (iso : S ↓ T ≅[Cat] U ↓ V) (x : S ↓ T) :
-  ` (fobj[to iso] x) ≅[A ∏ B] `x.
+  `` (fobj[to iso] x) ≅[A ∏ B] ``x.
 Proof.
   destruct iso; simpl in *;
   autounfold in *; simpl in *;
@@ -38,6 +39,8 @@ Context `{D : Category}.
 Context `{G : C ⟶ D}.
 Context `{F : D ⟶ C}.
 
+(*
+jww (2017-04-28): TODO
 Theorem Lawvere_Adjunction :
   F ⊣ G  <-->  (F ↓ Identity) ≅[Cat] (Identity ↓ G).
 Proof.
@@ -187,5 +190,6 @@ Proof.
 
   econstructor; auto.
 Abort.
+*)
 
 End Lawvere.

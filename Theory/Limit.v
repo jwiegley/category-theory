@@ -6,6 +6,7 @@ Require Export Category.Theory.Cone.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Limit.
 

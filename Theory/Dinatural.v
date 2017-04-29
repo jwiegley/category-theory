@@ -10,6 +10,7 @@ Require Export Category.Instance.Nat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Dinatural.
 

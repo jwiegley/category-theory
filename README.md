@@ -40,19 +40,9 @@ objects. All of the library has `Universe Polymorphism` enabled, allowing
 categories whose objects are categories, etc.
 
 The morphisms identified by `A ~> B` form a hom-set, except that in this
-library it is a hom-setoid, requiring the meaning of equivalence between
-morphisms to be given. Note that this is the only non-constructive aspect,
-since it has only been necessary to know *that* two morphisms are equivalent
-for proving laws, rather than *how* they are (which would be needed to convert
-between them in a computational setting, for example).
+library it is a hom-setoid, requiring the meaning of (constructive)
+equivalence between morphisms to be given.
    
-In a previous version all aspects were constructive, including equivalence,
-but this slowed down rewriting by an order of magnitude without any needed
-benefit. If full constructivity is needed in future, this impact will need to
-be resolved, but there is no technical difficulty in making it so: simply
-import `CMorphisms` instead of `Morphisms`, use `crelation` instead of
-`relation`, etc., and modify all proofs in the obvious ways.
-
 ##### Structure and laws
 
 Identity, composition, and the related laws.

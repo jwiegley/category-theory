@@ -8,6 +8,7 @@ Require Export Category.Instance.Nat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 Set Implicit Arguments.
 
 Section FunctorEquiv.
@@ -24,7 +25,7 @@ Next Obligation.
           ; from := fmap y x from |}.
     rewrite <- fmap_comp, iso_to_from; cat.
   rewrite <- fmap_comp, iso_from_to; cat.
-Defined.
+Qed.
 
 Global Program Instance fobj_csetoid `{F : C ⟶ Sets} {A : C} : CSetoid (F A).
 
@@ -50,7 +51,7 @@ Program Definition functor_comp
 Next Obligation.
   proper.
   rewrite X0; reflexivity.
-Defined.
+Qed.
 Next Obligation.
   intros; rewrite !fmap_comp; reflexivity.
 Qed.
@@ -77,7 +78,7 @@ Program Instance Cat : Category := {
 Next Obligation.
   equivalence.
   transitivity y; auto.
-Defined.
+Qed.
 Next Obligation.
   proper.
   refine {| to := _; from := _ |}; simpl.
@@ -97,10 +98,6 @@ Next Obligation.
     simpl in *.
     simplify equiv in iso_to_from0.
     simplify equiv in iso_to_from1.
-    apply forall_inhabited with (x:=x0 x1) in iso_to_from0.
-    apply forall_inhabited with (x:=x1) in iso_to_from1.
-    apply nonconstructive_cequiv_inv in iso_to_from0.
-    apply nonconstructive_cequiv_inv in iso_to_from1.
     rewrite <- natural_transformation.
     rewrite <- !comp_assoc.
     rewrite (comp_assoc (transform[to0] _)).
@@ -127,21 +124,15 @@ Next Obligation.
     simpl in *.
     simplify equiv in iso_from_to0.
     simplify equiv in iso_from_to1.
-    apply forall_inhabited with (x:=y0 x1) in iso_from_to0.
-    apply forall_inhabited with (x:=x1) in iso_from_to1.
-    apply nonconstructive_cequiv_inv in iso_from_to0.
-    apply nonconstructive_cequiv_inv in iso_from_to1.
     rewrite <- natural_transformation.
     rewrite <- !comp_assoc.
     rewrite (comp_assoc (transform[from0] _)).
-    Arguments transform {_ _ _ _} _ _.
     rewrite iso_from_to0; cat.
     rewrite <- fmap_comp.
     rewrite iso_from_to1; cat.
-Defined.
+Qed.
 Next Obligation.
   simplify equiv.
-  apply inhabits.
   refine {| to := _; from := _ |}; simpl.
   Unshelve.
   all:swap 1 3. refine {| transform := _ |}; simpl.
@@ -157,7 +148,6 @@ Next Obligation.
 Qed.
 Next Obligation.
   simplify equiv.
-  apply inhabits.
   refine {| to := _; from := _ |}; simpl.
   Unshelve.
   all:swap 1 3. refine {| transform := _ |}; simpl.
@@ -173,7 +163,6 @@ Next Obligation.
 Qed.
 Next Obligation.
   simplify equiv.
-  apply inhabits.
   refine {| to := _; from := _ |}; simpl.
   Unshelve.
   all:swap 1 3. refine {| transform := _ |}; simpl.

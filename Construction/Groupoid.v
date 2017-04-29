@@ -7,6 +7,7 @@ Require Export Category.Theory.Isomorphism.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Groupoid.
 
@@ -37,6 +38,15 @@ Next Obligation.
   rewrite (comp_assoc (from f)).
   rewrite iso_from_to; cat.
   apply iso_from_to.
+Qed.
+Next Obligation.
+  proper; simpl.
+    apply compose_respects.
+      apply X0.
+    apply X1.
+  apply compose_respects.
+    destruct X1; assumption.
+  destruct X0; assumption.
 Qed.
 
 End Groupoid.

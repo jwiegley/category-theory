@@ -15,6 +15,7 @@ Require Export Category.Instance.Proset.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 Set Implicit Arguments.
 
 (* Any partially-ordered set forms a category (directly from its preorder,

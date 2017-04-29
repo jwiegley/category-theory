@@ -14,6 +14,7 @@ Require Export Category.Instance.Coq.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 Set Implicit Arguments.
 
 (* Any pre-ordered set forms a category. See also [Ord], for the category of
@@ -29,7 +30,7 @@ Program Instance Proset `{C : Category} `{R : relation C} `(P : PreOrder C R) :
   Category := {
   ob      := C;
   hom     := R;
-  homset  := fun A B => {| equiv := proof_eq |};
+  homset  := fun A B => {| cequiv := proof_eq |};
   id      := fun X => @reflexivity C R (@PreOrder_Reflexive C R P) X;
   compose := fun X Y Z f g =>
                @transitivity C R (@PreOrder_Transitive C R P) X Y Z g f

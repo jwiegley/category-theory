@@ -7,6 +7,7 @@ Require Export Category.Construction.Product.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Program Instance Diagonal `(C : Category) : C ⟶ C ∏ C := {
   fobj := fun x => (x, x);

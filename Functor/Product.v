@@ -8,6 +8,7 @@ Require Export Category.Construction.Product.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Program Instance ProductFunctor `(C : Category) `{@Cartesian C} :
   C ∏ C ⟶ C := {
@@ -16,7 +17,9 @@ Program Instance ProductFunctor `(C : Category) `{@Cartesian C} :
 }.
 Next Obligation.
   proper.
-  rewrite H1, H2.
+  destruct x, y; simpl.
+  destruct X; simpl in *.
+  rewrite c, c0.
   reflexivity.
 Qed.
 Next Obligation.

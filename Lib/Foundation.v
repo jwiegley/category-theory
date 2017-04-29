@@ -19,14 +19,13 @@ Require Export
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Close Scope nat_scope.
 Delimit Scope category_scope with category.
 Open Scope category_scope.
 
 Infix "\o" := Basics.compose (at level 40, left associativity) : category_scope.
-
-Infix "≈" := equiv (at level 79) : category_scope.
 
 Infix "<-->" := CRelationClasses.iffT (at level 100) : category_scope.
 
@@ -67,15 +66,18 @@ Hint Extern 1 (Equivalence ?X) => apply Build_Equivalence.
 Hint Extern 1 (Proper _ _) => unfold Proper; auto.
 Hint Extern 8 (respectful _ _ _ _) => unfold respectful; auto.
 
-Hint Extern 4 (?A ≈ ?A) => reflexivity : category_laws.
-Hint Extern 6 (?X ≈ ?Y) => apply Equivalence_Symmetric : category_laws.
-Hint Extern 7 (?X ≈ ?Z) =>
-  match goal with
-    [H : ?X ≈ ?Y, H' : ?Y ≈ ?Z |- ?X ≈ ?Z] => transitivity Y
-  end : category_laws.
+(* Hint Extern 4 (?A ≈ ?A) => reflexivity : category_laws. *)
+(* Hint Extern 6 (?X ≈ ?Y) => apply Equivalence_Symmetric : category_laws. *)
+(* Hint Extern 7 (?X ≈ ?Z) => *)
+(*   match goal with *)
+(*     [H : ?X ≈ ?Y, H' : ?Y ≈ ?Z |- ?X ≈ ?Z] => transitivity Y *)
+(*   end : category_laws. *)
 
 Ltac cat :=
-  autorewrite with categories; auto with category_laws; try reflexivity.
+  try split;
+  autorewrite with categories;
+  auto with category_laws;
+  try reflexivity.
 
 Ltac equivalence := constructor; repeat intro; simpl; cat; intuition.
 Ltac proper := repeat intro; simpl; cat; intuition.

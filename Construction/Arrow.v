@@ -8,6 +8,7 @@ Require Export Category.Instance.Cat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Instance Arrow `{C : Category} : Category := (Identity ↓ Identity).
 

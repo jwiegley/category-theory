@@ -5,6 +5,7 @@ Require Import Category.Lib.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Monoidal.
 

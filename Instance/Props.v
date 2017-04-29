@@ -13,12 +13,15 @@ Require Export Category.Structure.Terminal.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 Set Implicit Arguments.
 
 (* The category of propositions. Note that since proofs are opaque, we must
    assert proof irrelevance and judge them always equivalent if they have the
    same type. *)
 
+(*
+jww (2017-04-28): TODO
 Program Instance Props : Category := {
   ob      := Prop;
   hom     := Basics.impl;
@@ -74,3 +77,4 @@ Next Obligation. proper; apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.
+*)

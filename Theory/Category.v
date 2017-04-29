@@ -5,6 +5,7 @@ Require Import Category.Lib.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Reserved Infix "~>" (at level 90, right associativity).
 Reserved Infix "∘" (at level 40, left associativity).

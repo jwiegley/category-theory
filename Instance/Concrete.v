@@ -8,6 +8,7 @@ Require Import Coq.Lists.ListSet.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Concrete.
 
@@ -78,6 +79,8 @@ Qed.
    differentiate them), and a fixed set of arrows between those objects. A
    frequent use of these is as index categories to build diagrams. *)
 
+(*
+jww (2017-04-28): TODO
 Program Instance Concrete (Obs : set A) (Homs : list (A * A)) : Category := {
   ob  := { x : A | In x Obs };
   hom := fun X Y =>
@@ -99,7 +102,7 @@ Next Obligation.
   apply In_Subset'_inv in H0.
   constructor; auto.
 Qed.
-Next Obligation. firstorder. Defined.
+Next Obligation. firstorder. Qed.
 Next Obligation.
   proper; simpl in *;
   destruct x, x0, y, y0; simpl in *;
@@ -137,9 +140,12 @@ Next Obligation.
       contradiction.
     pose proof (proj1 (H (a, a0))); firstorder.
 Qed.
+*)
 
 End Concrete.
 
+(*
+jww (2017-04-28): TODO
 Require Import Category.Theory.Functor.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
@@ -174,7 +180,7 @@ Next Obligation. destruct X; contradiction. Qed.
    Cat. *)
 
 Program Definition Concrete_1 := Concrete unit _ [tt] [].
-Next Obligation. destruct x, y; auto. Defined.
+Next Obligation. destruct x, y; auto. Qed.
 
 Program Instance Map_1 `(C : Category) : C ⟶ Concrete_1 := {
   fobj := fun _ => tt;
@@ -223,10 +229,11 @@ Proof.
   destruct x, y; intuition;
   solve [ left; reflexivity
         | right; intros; discriminate ].
-Defined.
+Qed.
 
 Definition Concrete_3 :=
   Concrete three three_dec [One_; Two_; Three_]
            [(One_, Two_); (Two_, Three_); (One_, Three_)].
 
 End ConcreteInstances.
+*)

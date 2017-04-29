@@ -6,6 +6,7 @@ Require Export Category.Theory.Natural.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Nat.
 
@@ -24,7 +25,7 @@ Proof.
   transitivity (transform[y] A).
     apply X.
   apply X0.
-Defined.
+Qed.
 
 Global Program Instance nat_CSetoid `{F : C ⟶ D} `{G : C ⟶ D} :
   CSetoid (F ⟹ G) := {
@@ -64,7 +65,7 @@ Proof.
   intros.
   rewrite X, X0.
   reflexivity.
-Defined.
+Qed.
 
 (* Nat is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
@@ -77,18 +78,9 @@ Global Program Instance Nat : Category := {
 
   compose_respects := @nat_compose_respects
 }.
-Next Obligation.
-  simplify equiv; intros.
-  simplify equiv; cat.
-Qed.
-Next Obligation.
-  simplify equiv; intros.
-  simplify equiv; cat.
-Qed.
-Next Obligation.
-  simplify equiv; intros.
-  simplify equiv; cat.
-Qed.
+Next Obligation. simplify equiv; intros; cat. Qed.
+Next Obligation. simplify equiv; intros; cat. Qed.
+Next Obligation. simplify equiv; intros; cat. Qed.
 
 End Nat.
 

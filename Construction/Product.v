@@ -6,6 +6,7 @@ Require Export Category.Theory.Category.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Product.
 
@@ -24,19 +25,11 @@ Program Instance Product : Category := {
   compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g)
 }.
 Next Obligation.
-  proper.
-  split; simpl.
-    apply compose_respects.
-      destruct X; assumption.
-    destruct X0; assumption.
-  apply compose_respects.
-    destruct X; assumption.
-  destruct X0; assumption.
-Defined.
-Next Obligation.
-  split; simpl.
-    split; simpl in *.
-Abort.
+  proper;
+  (apply compose_respects;
+   [ destruct X; assumption
+   | destruct X0; assumption ]).
+Qed.
 
 End Product.
 

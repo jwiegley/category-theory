@@ -7,6 +7,7 @@ Require Export Category.Instance.Cat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 Set Implicit Arguments.
 
 Local Ltac crush :=
@@ -19,39 +20,47 @@ Local Ltac crush :=
 (* The category 2 has two objects, their identity morphisms, and one morphism
    from the first object to the second (here denoted false and true). *)
 
+(*
+jww (2017-04-28): TODO
 Program Instance _2 : Category := {
   ob      := bool;
-  hom     := fun x y => x = y ∨ (x = false ∧ y = true);
-  homset  := fun x y => {| equiv := proof_eq |};
-  id      := fun x => or_introl (eq_refl x);
+  hom     := fun x y => ((x = y) + ((x = false) * (y = true)))%type;
+  homset  := fun x y => {| cequiv := fun f g => tt |};
+  id      := fun x => Datatypes.inl (eq_refl x);
   compose := fun _ _ _ f g =>
                match f with
-               | or_introl H =>
+               | Datatypes.inl H =>
                  match g with
-                 | or_introl H0 => or_introl (eq_trans H0 H)
-                 | or_intror H0 =>
-                   or_intror
+                 | Datatypes.inl H0 => Datatypes.inl (eq_trans H0 H)
+                 | Datatypes.inr H0 =>
+                   Datatypes.inr
                      match H0 with
-                     | conj H1 H2 => conj H1 (eq_trans (eq_sym H) H2)
+                     | pair H1 H2 => pair H1 (eq_trans (eq_sym H) H2)
                      end
                  end
-               | or_intror H =>
-                 or_intror
+               | Datatypes.inr H =>
+                 Datatypes.inr
                    match g with
-                   | or_introl H0 =>
+                   | Datatypes.inl H0 =>
                      match H with
-                     | conj H1 H2 => conj (eq_trans H0 H1) H2
+                     | pair H1 H2 => pair (eq_trans H0 H1) H2
                      end
-                   | or_intror H0 =>
+                   | Datatypes.inr H0 =>
                      match H with
-                     | conj _ H2 =>
+                     | pair _ H2 =>
                        match H0 with
-                       | conj H3 _ => conj H3 H2
+                       | pair H3 _ => pair H3 H2
                        end
                      end
                    end
                end
 }.
+Next Obligation.
+  destruct f.
+    reflexivity.
+  destruct p; subst.
+  reflexivity.
+Qed.
 Next Obligation. crush. Qed.
 Next Obligation. crush. Qed.
-Next Obligation. crush. Qed.
+*)

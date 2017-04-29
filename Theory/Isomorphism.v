@@ -6,6 +6,7 @@ Require Export Category.Theory.Category.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Isomorphism.
 
@@ -34,11 +35,11 @@ Global Program Instance isomorphism_equivalence :
 Next Obligation.
   intros.
   apply Build_Isomorphism with (to:=id) (from:=id); cat.
-Defined.
+Qed.
 Next Obligation.
   intros; destruct X.
   apply Build_Isomorphism with (to:=from0) (from:=to0); cat.
-Defined.
+Qed.
 Next Obligation.
   intros; destruct X, X0.
   apply Build_Isomorphism with (to:=to1 ∘ to0) (from:=from0 ∘ from1).
@@ -48,7 +49,7 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite (@comp_assoc _ _ _ _ _ from1).
   rewrite iso_from_to1; cat.
-Defined.
+Qed.
 
 Global Program Instance arrow_Isomorphism :
   CMorphisms.Proper
@@ -56,9 +57,10 @@ Global Program Instance arrow_Isomorphism :
        (CMorphisms.respectful Isomorphism Basics.arrow)) Isomorphism.
 Next Obligation.
   proper.
-  rewrite <- X.
+  transitivity x; auto.
+    symmetry; assumption.
   transitivity x0; auto.
-Defined.
+Qed.
 
 Global Program Instance flip_arrow_Isomorphism :
   CMorphisms.Proper
@@ -70,24 +72,23 @@ Next Obligation.
   transitivity y; auto.
   transitivity y0; auto.
   symmetry; assumption.
-Defined.
+Qed.
 
 Definition ob_equiv : crelation C := fun X Y => X ≅ Y.
 
 Global Program Instance ob_csetoid : CSetoid C.
 
-Definition isomorphism_equiv {X Y : C} : relation (X ≅ Y) :=
-  fun f g => to f ≈ to g ∧ from f ≈ from g.
+Definition isomorphism_equiv {X Y : C} : crelation (X ≅ Y) :=
+  fun f g => (to f ≈ to g) * (from f ≈ from g).
 
 Global Program Instance isomorphism_equiv_equivalence {X Y : C} :
-  Equivalence (@isomorphism_equiv X Y).
-Next Obligation. firstorder. Qed.
+  CRelationClasses.Equivalence (@isomorphism_equiv X Y).
 Next Obligation. firstorder. Qed.
 Next Obligation. firstorder. Qed.
 
-Global Program Instance isomorphism_setoid {X Y : C} : Setoid (X ≅ Y) := {
-  equiv := isomorphism_equiv;
-  setoid_equiv := isomorphism_equiv_equivalence
+Global Program Instance isomorphism_setoid {X Y : C} : CSetoid (X ≅ Y) := {
+  cequiv := isomorphism_equiv;
+  setoid_cequiv := isomorphism_equiv_equivalence
 }.
 
 End Isomorphism.

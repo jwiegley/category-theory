@@ -7,6 +7,7 @@ Require Export Category.Instance.Coq.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Represented.
 

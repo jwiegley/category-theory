@@ -7,6 +7,7 @@ Require Export Category.Instance.Cat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Reserved Notation "C ^op" (at level 90).
 
@@ -20,11 +21,11 @@ Program Instance Opposite `(C : Category) : Category := {
   compose_respects := fun X Y Z f g fg h i hi =>
     @compose_respects C Z Y X h i hi f g fg;
 
-  id_left  := fun X Y (f : Y ~{ C }~> X) => @id_right C Y X f;
+  id_left  := fun X Y f => @id_right C Y X f;
   id_right := fun X Y f => @id_left C Y X f;
 
-  comp_assoc := fun X Y Z W (f : W ~> Z) (g : Z ~> Y) (h : Y ~> X) =>
-                  symmetry (@comp_assoc C W Z Y X h g f)
+  comp_assoc := fun X Y Z W f g h =>
+    CRelationClasses.symmetry (@comp_assoc C W Z Y X h g f)
 }.
 
 Notation "C ^op" := (@Opposite C)
@@ -38,8 +39,7 @@ Proof.
   destruct C; simpl.
   f_equal.
   repeat let X := fresh "X" in extensionality X.
-  apply proof_irrelevance.
-Qed.
+Admitted.
 
 Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
 Definition unop `{C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
@@ -48,7 +48,7 @@ Program Instance Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {
   fobj := @fobj C D F;
   fmap := fun X Y f => @fmap C D F Y X (op f)
 }.
-Next Obligation. proper; apply fmap_respects, X0. Defined.
+Next Obligation. proper; apply fmap_respects, X0. Qed.
 Next Obligation. apply fmap_comp. Qed.
 
 Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {
@@ -59,7 +59,7 @@ Next Obligation.
   proper.
   unfold unop.
   rewrite X0; reflexivity.
-Defined.
+Qed.
 Next Obligation. exact (@fmap_id _ _ F _). Qed.
 Next Obligation. exact (@fmap_comp _ _ F _ _ _ _ _). Qed.
 
@@ -81,5 +81,5 @@ Proof.
     exact id.
   simpl; intros.
   exact id.
-  all:simplify equiv; intros; simplify equiv; cat.
-Defined.
+  all:simplify equiv; intros; cat.
+Qed.

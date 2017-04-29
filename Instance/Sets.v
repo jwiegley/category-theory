@@ -9,6 +9,7 @@ Require Export Category.Structure.Cocartesian.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Record SetoidObject := {
   carrier :> Type;
@@ -38,7 +39,7 @@ Next Obligation.
   - transitivity (y x0).
       apply X.
     apply X0.
-Defined.
+Qed.
 
 Definition setoid_morphism_id {A : SetoidObject} : SetoidMorphism A A := {|
   morphism := Datatypes.id
@@ -56,10 +57,10 @@ Next Obligation.
   apply proper_morphism.
   apply proper_morphism.
   assumption.
-Defined.
+Qed.
 
 Hint Unfold setoid_morphism_compose.
-Hint Unfold setoid_morphism_compose_obligation_1.
+(* Hint Unfold setoid_morphism_compose_obligation_1. *)
 
 (* The category of setoids.
 
@@ -79,17 +80,21 @@ Next Obligation.
   unfold cequiv in *; simpl in *; intros.
   rewrite X0.
   apply proper_morphism, X1.
-Defined.
+Qed.
+Next Obligation.
+  unfold equiv, cequiv; simpl.
+  reflexivity.
+Qed.
 Next Obligation.
   unfold equiv, cequiv; simpl.
   unfold cequiv; simpl.
-  apply inhabits; reflexivity.
-Defined.
+  reflexivity.
+Qed.
 Next Obligation.
   unfold equiv, cequiv; simpl.
   unfold cequiv; simpl.
-  apply inhabits; reflexivity.
-Defined.
+  reflexivity.
+Qed.
 
 Program Instance Sets_Cartesian : @Cartesian Sets := {
   Prod := fun X Y =>
@@ -106,32 +111,22 @@ Program Instance Sets_Cartesian : @Cartesian Sets := {
   exr := fun _ _ => {| morphism := snd |}
 }.
 Next Obligation.
-  proper.
-  split; simpl;
-  apply proper_morphism; assumption.
-Defined.
-Next Obligation. proper; destruct X; assumption. Defined.
-Next Obligation. proper; destruct X; assumption. Defined.
+  proper; apply proper_morphism; assumption.
+Qed.
+Next Obligation. proper; destruct X; assumption. Qed.
+Next Obligation. proper; destruct X; assumption. Qed.
 Next Obligation.
   proper.
   unfold cequiv; simpl; intro.
   split.
     apply X0.
   apply X1.
-Defined.
+Qed.
 Next Obligation.
-  autounfold; simpl;
-  unfold Sets_Cartesian_obligation_2; simpl;
-  unfold Sets_Cartesian_obligation_3; simpl;
-  unfold Sets_Cartesian_obligation_4; simpl;
+  autounfold; simpl.
   unfold equiv; simpl;
   unfold cequiv; simpl.
-  simpl; split; intros.
-    destruct H.
-    split; apply inhabits;
-    firstorder.
-  destruct H, H, H0.
-  apply inhabits.
+  simpl; split; intros;
   firstorder.
 Qed.
 
@@ -168,40 +163,32 @@ Next Obligation.
   equivalence;
   destruct y, x; intuition;
   destruct z; intuition.
-Defined.
+Qed.
 Next Obligation.
   proper.
   destruct f, g; intuition.
   destruct y, x; intuition;
   destruct z; intuition.
-Defined.
+Qed.
 Next Obligation.
   proper.
   unfold cequiv; simpl; intros.
   destruct x1.
     apply X0.
   apply X1.
-Defined.
+Qed.
 Next Obligation.
   autounfold; simpl;
-  unfold Sets_Cocartesian_obligation_2; simpl;
-  unfold Sets_Cocartesian_obligation_3; simpl;
-  unfold Sets_Cocartesian_obligation_4; simpl;
   unfold equiv; simpl;
   unfold cequiv; simpl.
   simpl; split; intros.
-    destruct H.
-    split; apply inhabits; intros.
+    split; intros.
       specialize (X0 (Datatypes.inl x)); simpl in X0.
       assumption.
     specialize (X0 (Datatypes.inr x)); simpl in X0.
     assumption.
-  destruct H, H, H0.
-  apply inhabits; intros.
-  destruct x.
-    apply X0.
-  apply X1.
-Defined.
+  destruct x; apply X0.
+Qed.
 
 (* An isomorphism between arrows in a category C is an isomorphism of objects
    in the category of set(oid)s, taking [hom] to the be the carrier type, and

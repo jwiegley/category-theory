@@ -7,6 +7,7 @@ Require Export Category.Instance.Cat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Monad.
 
@@ -174,6 +175,7 @@ Corollary join_fmap_join_x : forall a (x : (m ○ m ○ m) a),
   join (fmap join x) = join (join x).
 Proof.
   destruct m, M; simpl in *; intros.
+  simplify equiv in all.
   rewrite <- join_fmap_join0; reflexivity.
 Qed.
 
@@ -183,6 +185,7 @@ Proof.
   intros.
   replace x with (id x) at 2; auto.
   pose proof (@join_fmap_pure Coq m M a) as HA.
+  simplify equiv in all.
   rewrite <- HA; reflexivity.
 Qed.
 
@@ -191,6 +194,7 @@ Corollary join_pure_x : forall a x,
 Proof.
   intros.
   pose proof (@join_pure Coq m M a) as HA.
+  simplify equiv in all.
   rewrite <- HA; reflexivity.
 Qed.
 
@@ -198,6 +202,7 @@ Corollary join_fmap_fmap_x : forall (a b : Type) (f : a -> b) x,
   join (fmap (fmap f) x) = fmap f (join x).
 Proof.
   destruct m, M; simpl in *; intros.
+  simplify equiv in all.
   rewrite <- join_fmap_fmap0; reflexivity.
 Qed.
 
