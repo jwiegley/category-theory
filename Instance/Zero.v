@@ -24,13 +24,6 @@ Program Instance Cat_Initial : @Initial Cat := {
   zero := From_0
 }.
 Next Obligation.
-  refine {| to   := _; from := _ |}; simpl.
-  Unshelve.
-  all:swap 1 3. refine {| transform := _ |}; simpl.
-  all:swap 1 4. refine {| transform := _ |}; simpl.
-  Unshelve.
-  all:swap 1 5.
-  all:swap 2 6.
-  all:intros; try contradiction.
-  all:simplify equiv; intros; contradiction.
+  constructive; try contradiction;
+  simplify equiv; intros; contradiction.
 Qed.

@@ -51,13 +51,8 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper.
-  refine {| to   := _; from := _ |}; simpl.
-  Unshelve.
-  all:swap 1 3. refine {| transform := _ |}; simpl.
-  all:swap 1 4. refine {| transform := _ |}; simpl.
-  Unshelve.
-  all:swap 1 5.
-  all:swap 2 6.
+  constructive.
+  all:swap 2 3.
   - simpl; intros.
     destruct X2.
       apply X0.
@@ -66,6 +61,14 @@ Next Obligation.
     destruct X2.
       apply X0.
     apply X1.
+  - simpl; intros.
+    destruct X2, Y0; simpl;
+    try contradiction;
+    apply natural_transformation.
+  - simpl; intros.
+    destruct X2, Y0; simpl;
+    try contradiction;
+    apply natural_transformation.
   - simplify equiv; intros.
     destruct A; simpl.
       destruct X0, to, from; simpl.
@@ -74,14 +77,6 @@ Next Obligation.
     destruct X1, to, from; simpl.
     simplify equiv in iso_to_from.
     apply iso_to_from.
-  - simpl; intros.
-    destruct X2, Y0; simpl;
-    try contradiction;
-    apply natural_transformation.
-  - simpl; intros.
-    destruct X2, Y0; simpl;
-    try contradiction;
-    apply natural_transformation.
   - simplify equiv; intros.
     destruct A; simpl.
       destruct X0, to, from; simpl.
@@ -95,49 +90,35 @@ Next Obligation.
   simpl; split; intros.
   { destruct X0; simpl in *.
     split.
-    { refine {| to   := _; from := _ |}; simpl.
-      Unshelve.
-      all:swap 1 3. refine {| transform := _ |}; simpl.
-      all:swap 1 4. refine {| transform := _ |}; simpl.
-      Unshelve.
-      all:swap 1 5.
-      all:swap 2 6.
-      - simpl; intros.
-        apply to.
-      - simpl; intros.
-        destruct from; simpl in *.
+    { constructive.
+      all:swap 2 3.
+      - apply to.
+      - destruct from; simpl in *.
         apply (transform (Datatypes.inl X0)).
-      - simplify equiv in all; intros.
-        apply (iso_to_from (Datatypes.inl A)).
       - simpl; intros.
         destruct to; simpl in *.
         apply (natural_transformation (Datatypes.inl X0) (Datatypes.inl Y0)).
       - simpl; intros.
         destruct from; simpl in *.
         apply (natural_transformation (Datatypes.inl X0) (Datatypes.inl Y0)).
+      - simplify equiv in all; intros.
+        apply (iso_to_from (Datatypes.inl A)).
       - simplify equiv in all; intros.
         apply (iso_from_to (Datatypes.inl A)).
     }
-    { refine {| to   := _; from := _ |}; simpl.
-      Unshelve.
-      all:swap 1 3. refine {| transform := _ |}; simpl.
-      all:swap 1 4. refine {| transform := _ |}; simpl.
-      Unshelve.
-      all:swap 1 5.
-      all:swap 2 6.
-      - simpl; intros.
-        apply to.
-      - simpl; intros.
-        destruct from; simpl in *.
+    { constructive.
+      all:swap 2 3.
+      - apply to.
+      - destruct from; simpl in *.
         apply (transform (Datatypes.inr X0)).
-      - simplify equiv in all; intros.
-        apply (iso_to_from (Datatypes.inr A)).
       - simpl; intros.
         destruct to; simpl in *.
         apply (natural_transformation (Datatypes.inr X0) (Datatypes.inr Y0)).
       - simpl; intros.
         destruct from; simpl in *.
         apply (natural_transformation (Datatypes.inr X0) (Datatypes.inr Y0)).
+      - simplify equiv in all; intros.
+        apply (iso_to_from (Datatypes.inr A)).
       - simplify equiv in all; intros.
         apply (iso_from_to (Datatypes.inr A)).
     }
@@ -145,25 +126,14 @@ Next Obligation.
   { destruct X0.
     destruct c, c0.
     simpl in *.
-    refine {| to   := _; from := _ |}; simpl.
-    Unshelve.
-    all:swap 1 3. refine {| transform := _ |}; simpl.
-    all:swap 1 4. refine {| transform := _ |}; simpl.
-    Unshelve.
-    all:swap 1 5.
-    all:swap 2 6.
-    - intros.
-      destruct X0; simpl.
+    constructive.
+    all:swap 2 3.
+    - destruct X0; simpl.
         apply to.
       apply to0.
-    - intros.
-      destruct X0; simpl.
+    - destruct X0; simpl.
         apply from.
       apply from0.
-    - simplify equiv in all; intros.
-      destruct A; simpl.
-        apply iso_to_from.
-      apply iso_to_from0.
     - simpl; intros.
       destruct X0, Y0; simpl;
       try contradiction;
@@ -176,6 +146,10 @@ Next Obligation.
       destruct from, from0; simpl in *.
         apply natural_transformation.
       apply natural_transformation0.
+    - simplify equiv in all; intros.
+      destruct A; simpl.
+        apply iso_to_from.
+      apply iso_to_from0.
     - simplify equiv in all; intros.
       destruct A.
         apply iso_from_to.

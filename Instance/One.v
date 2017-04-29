@@ -30,12 +30,7 @@ Program Instance Cat_Terminal : @Terminal Cat := {
   One := _1;
   one := To_1
 }.
-Next Obligation.
-Admitted.
-(*   econstructor; intros; cat. *)
-(*   exists (@id _1 (f X)). *)
-(*   eexists; split. *)
-(* Qed. *)
+Next Obligation. constructive; simplify equiv; intros; cat. Qed.
 
 Program Instance Select `{C : Category} (c : C) : _1 ⟶ C := {|
   fobj := fun _ => c;

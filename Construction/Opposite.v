@@ -70,16 +70,5 @@ Proof.
   unfold Opposite_Functor, unop, op.
   destruct F; simpl.
   simplify equiv.
-  refine {| to := _; from := _ |}; simpl.
-  Unshelve.
-  all:swap 1 3. refine {| transform := _ |}; simpl.
-  all:swap 1 4. refine {| transform := _ |}; simpl.
-  Unshelve.
-  all:swap 1 5.
-  all:swap 2 6.
-    simpl; intros.
-    exact id.
-  simpl; intros.
-  exact id.
-  all:simplify equiv; intros; cat.
+  constructive; simplify equiv; intros; cat.
 Qed.

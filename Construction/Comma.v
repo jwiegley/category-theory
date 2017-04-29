@@ -57,13 +57,3 @@ Proof.
   assumption.
   assumption.
 Qed.
-
-(* Theorem equiv_projects_to_iso_prop A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) : *)
-(*   x ≈ y -> `x ≃[A ∏ B] `y. *)
-(* Proof. *)
-(*   intros. *)
-(*   destruct H as [to [from [? ?]]]. *)
-(*   exists to. *)
-(*   exists from. *)
-(*   auto. *)
-(* Qed. *)

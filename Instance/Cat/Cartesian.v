@@ -24,31 +24,24 @@ Program Instance Cat_Cartesian : @Cartesian Cat := {
 }.
 Next Obligation. proper; apply fmap_respects; auto. Qed.
 Next Obligation. split; simpl; rewrite !fmap_comp; intuition. Qed.
+Next Obligation. proper; destruct X; assumption. Qed.
+Next Obligation. proper; destruct X; assumption. Qed.
 Next Obligation.
   proper.
-  destruct X; assumption.
-Qed.
-Next Obligation.
-  proper.
-  destruct X; assumption.
-Qed.
-Next Obligation.
-  proper.
-  refine {| to   := _; from := _ |}; simpl.
-  Unshelve.
-  all:swap 1 3. refine {| transform := _ |}; simpl.
-  all:swap 1 4. refine {| transform := _ |}; simpl.
-  Unshelve.
-  all:swap 1 5.
-  all:swap 2 6.
-  - simpl; intros.
-    split.
+  constructive.
+  all:swap 2 3.
+  - split.
       apply (transform[to X0]).
     apply (transform[to X1]).
-  - simpl; intros.
-    split.
+  - split.
       apply (transform[from X0]).
     apply (transform[from X1]).
+  - simpl; intros.
+    split; simpl;
+    apply natural_transformation.
+  - simpl; intros.
+    split; simpl;
+    apply natural_transformation.
   - simplify equiv; intros.
     split; simpl.
       destruct X0; simpl.
@@ -57,12 +50,6 @@ Next Obligation.
     destruct X1; simpl.
     destruct to, from; simpl in *.
     apply iso_to_from.
-  - simpl; intros.
-    split; simpl;
-    apply natural_transformation.
-  - simpl; intros.
-    split; simpl;
-    apply natural_transformation.
   - simplify equiv; intros.
     split; simpl.
       destruct X0; simpl.
@@ -76,43 +63,33 @@ Next Obligation.
   simpl; split; intros.
   { destruct X0; simpl in *.
     split.
-    { refine {| to   := _; from := _ |}; simpl.
-      Unshelve.
-      all:swap 1 3. refine {| transform := _ |}; simpl.
-      all:swap 1 4. refine {| transform := _ |}; simpl.
-      Unshelve.
-      all:swap 1 5.
-      all:swap 2 6.
+    { constructive.
+      all:swap 2 3.
       - apply to.
       - apply from.
-      - simplify equiv in all.
-        apply iso_to_from.
       - simpl; intros.
         destruct to; simpl in *.
         apply natural_transformation.
       - simpl; intros.
         destruct from; simpl in *.
         apply natural_transformation.
+      - simplify equiv in all.
+        apply iso_to_from.
       - simplify equiv in all.
         apply iso_from_to.
     }
-    { refine {| to   := _; from := _ |}; simpl.
-      Unshelve.
-      all:swap 1 3. refine {| transform := _ |}; simpl.
-      all:swap 1 4. refine {| transform := _ |}; simpl.
-      Unshelve.
-      all:swap 1 5.
-      all:swap 2 6.
+    { constructive.
+      all:swap 2 3.
       - apply to.
       - apply from.
-      - simplify equiv in all.
-        apply iso_to_from.
       - simpl; intros.
         destruct to; simpl in *.
         apply natural_transformation.
       - simpl; intros.
         destruct from; simpl in *.
         apply natural_transformation.
+      - simplify equiv in all.
+        apply iso_to_from.
       - simplify equiv in all.
         apply iso_from_to.
     }
@@ -120,23 +97,14 @@ Next Obligation.
   { destruct X0.
     destruct c, c0.
     simpl in *.
-    refine {| to   := _; from := _ |}; simpl.
-    Unshelve.
-    all:swap 1 3. refine {| transform := _ |}; simpl.
-    all:swap 1 4. refine {| transform := _ |}; simpl.
-    Unshelve.
-    all:swap 1 5.
-    all:swap 2 6.
+    constructive.
+    all:swap 2 3.
     - split; simpl.
         apply to.
       apply to0.
     - split; simpl.
         apply from.
       apply from0.
-    - simplify equiv in all.
-      split.
-        apply iso_to_from.
-      apply iso_to_from0.
     - simpl; intros.
       destruct to, to0; simpl in *.
       split; simpl.
@@ -147,6 +115,10 @@ Next Obligation.
       split; simpl.
         apply natural_transformation.
       apply natural_transformation0.
+    - simplify equiv in all.
+      split.
+        apply iso_to_from.
+      apply iso_to_from0.
     - simplify equiv in all.
       split.
         apply iso_from_to.

@@ -18,14 +18,11 @@ Record SetoidObject := {
 
 Record SetoidMorphism `{CSetoid A} `{CSetoid B} := {
   morphism :> A -> B;
-  proper_morphism :> CMorphisms.Proper (cequiv ===> cequiv) morphism;
-  proper_morphism_prop :> Proper (equiv ==> equiv) morphism :=
-    cequiv_proper1 proper_morphism
+  proper_morphism :> CMorphisms.Proper (cequiv ===> cequiv) morphism
 }.
 
 Arguments SetoidMorphism {_} _ {_} _.
 Arguments morphism {_ _ _ _ _} _.
-Arguments proper_morphism_prop {_ _ _ _ _ _ _} /.
 
 Program Instance SetoidMorphism_Setoid {A B : SetoidObject} :
   CSetoid (SetoidMorphism A B) := {|
