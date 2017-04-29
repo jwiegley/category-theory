@@ -45,10 +45,10 @@ Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
 Definition unop `{C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
 
 Program Instance Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {
-    fobj := @fobj C D F;
-    fmap := fun X Y f => @fmap C D F Y X (op f)
+  fobj := @fobj C D F;
+  fmap := fun X Y f => @fmap C D F Y X (op f)
 }.
-Next Obligation. proper; apply fmap_respects, H. Qed.
+Next Obligation. proper; apply fmap_respects, X0. Defined.
 Next Obligation. apply fmap_comp. Qed.
 
 Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {
@@ -58,17 +58,28 @@ Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {
 Next Obligation.
   proper.
   unfold unop.
-  rewrite H; reflexivity.
-Qed.
+  rewrite X0; reflexivity.
+Defined.
 Next Obligation. exact (@fmap_id _ _ F _). Qed.
 Next Obligation. exact (@fmap_comp _ _ F _ _ _ _ _). Qed.
 
 Lemma op_functor_involutive `(F : Functor) :
-  Reverse_Opposite_Functor (Opposite_Functor F) ≈ F.
+  Reverse_Opposite_Functor (Opposite_Functor F) ≋[Cat] F.
 Proof.
   unfold Reverse_Opposite_Functor.
-  unfold Opposite_Functor.
-  destruct F; simpl;
-  unfold functor_equiv; simpl; intros.
-  reflexivity.
-Qed.
+  unfold Opposite_Functor, unop, op.
+  destruct F; simpl.
+  simplify equiv.
+  refine {| to := _; from := _ |}; simpl.
+  Unshelve.
+  all:swap 1 3. refine {| transform := _ |}; simpl.
+  all:swap 1 4. refine {| transform := _ |}; simpl.
+  Unshelve.
+  all:swap 1 5.
+  all:swap 2 6.
+    simpl; intros.
+    exact id.
+  simpl; intros.
+  exact id.
+  all:simplify equiv; intros; simplify equiv; cat.
+Defined.

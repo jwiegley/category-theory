@@ -72,57 +72,9 @@ Next Obligation.
   symmetry; assumption.
 Defined.
 
-Definition Isomorphism_Prop (X Y : C) : Prop :=
-  exists (f : X ~> Y) (g : Y ~> X), f ∘ g ≈ id ∧ g ∘ f ≈ id.
+Definition ob_equiv : crelation C := fun X Y => X ≅ Y.
 
-Infix "≃" := Isomorphism_Prop (at level 91) : category_scope.
-
-Global Program Instance isomorphism_prop_equivalence :
-  Equivalence Isomorphism_Prop.
-Next Obligation.
-  intros.
-  exists id, id; cat.
-Qed.
-Next Obligation. firstorder. Qed.
-Next Obligation.
-  intros.
-  destruct H as [to0 [from0 [to_from0 from_to0]]].
-  destruct H0 as [to1 [from1 [to_from1 from_to1]]].
-  exists (to1 ∘ to0), (from0 ∘ from1).
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc to0).
-  rewrite to_from0; cat.
-  rewrite to_from1; cat.
-  rewrite (comp_assoc from1).
-  rewrite from_to1; cat.
-Qed.
-
-Global Program Instance impl_Isomorphism_Prop :
-  Proper
-    (respectful Isomorphism_Prop
-       (respectful Isomorphism_Prop Basics.impl)) Isomorphism_Prop.
-Next Obligation.
-  proper.
-  transitivity x; auto.
-    symmetry; assumption.
-  transitivity x0; auto.
-Defined.
-
-Global Program Instance flip_impl_Isomorphism_Prop :
-  Proper
-    (respectful Isomorphism_Prop
-       (respectful Isomorphism_Prop
-                   (Basics.flip Basics.impl))) Isomorphism_Prop.
-Next Obligation.
-  proper.
-  transitivity y; auto.
-  transitivity y0; auto.
-  symmetry; assumption.
-Defined.
-
-Definition ob_equiv : relation C := fun X Y => X ≃ Y.
-
-Global Program Instance ob_setoid : Setoid C.
+Global Program Instance ob_csetoid : CSetoid C.
 
 Definition isomorphism_equiv {X Y : C} : relation (X ≅ Y) :=
   fun f g => to f ≈ to g ∧ from f ≈ from g.
@@ -144,10 +96,6 @@ Infix "≅" := (@Isomorphism _) (at level 91) : category_scope.
 Notation "F ≅[ C ] G" := (@Isomorphism C F G)
   (at level 91, only parsing) : category_scope.
 
-Infix "≃" := (@Isomorphism_Prop _) (at level 91) : category_scope.
-Notation "F ≃[ C ] G" := (@Isomorphism_Prop C F G)
-  (at level 91, only parsing) : category_scope.
-
 Arguments to {_ X Y} _.
 Arguments from {_ X Y} _.
 Arguments iso_to_from {_ _ _} _.
@@ -156,13 +104,3 @@ Arguments iso_from_to {_ _ _} _.
 Coercion to : Isomorphism >-> hom.
 
 Hint Unfold isomorphism_equiv.
-
-Theorem Isomorphism_to_equiv `{C : Category} (X Y : C) :
-  X ≅ Y -> X ≃ Y.
-Proof.
-  intros.
-  destruct X0.
-  exists to0.
-  exists from0.
-  auto.
-Qed.

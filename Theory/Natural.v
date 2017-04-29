@@ -1,6 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
 
 Generalizable All Variables.
@@ -21,7 +22,7 @@ Class Natural := {
     fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f
 }.
 
-Global Program Instance Natural_Setoid : Setoid Natural.
+Global Program Instance Natural_CSetoid : CSetoid Natural.
 
 End Natural.
 
@@ -30,7 +31,3 @@ Notation "F ⟹ G" := (@Natural _ _ F G)
 
 Notation "transform[ F ]" := (@transform _ _ _ _ F)
   (at level 9, format "transform[ F ]") : category_scope.
-
-(* Natural transformations can be applied directly to functorial values to
-   perform the functor mapping they imply. *)
-Coercion transform : Natural >-> Funclass.

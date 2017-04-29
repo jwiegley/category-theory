@@ -22,7 +22,8 @@ Class Cartesian:= {
   exl  {X Y} : X × Y ~> X;
   exr  {X Y} : X × Y ~> Y;
 
-  fork_respects {X Y Z} :> Proper (equiv ==> equiv ==> equiv) (@fork X Y Z);
+  fork_respects :> ∀ X Y Z,
+    CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@fork X Y Z);
 
   ump_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
     h ≈ fork f g <-> exl ∘ h ≈ f ∧ exr ∘ h ≈ g
@@ -44,31 +45,31 @@ Definition split  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
   first f ∘ second g.
 
 Global Program Instance parametric_morphism_first {a b c : C} :
-  Proper (equiv ==> equiv) (@first a b c).
+  CMorphisms.Proper (cequiv ===> cequiv) (@first a b c).
 Next Obligation.
   proper.
   unfold first.
-  rewrite H0.
+  rewrite X.
   reflexivity.
-Qed.
+Defined.
 
 Global Program Instance parametric_morphism_second {a b c : C} :
-  Proper (equiv ==> equiv) (@second a b c).
+  CMorphisms.Proper (cequiv ===> cequiv) (@second a b c).
 Next Obligation.
   proper.
   unfold second.
-  rewrite H0.
+  rewrite X.
   reflexivity.
-Qed.
+Defined.
 
 Global Program Instance parametric_morphism_split {a b c d : C} :
-  Proper (equiv ==> equiv ==> equiv) (@split a b c d).
+  CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@split a b c d).
 Next Obligation.
   proper.
   unfold split.
-  rewrite H0, H1.
+  rewrite X, X0.
   reflexivity.
-Qed.
+Defined.
 
 Definition swap {X Y : C} : X × Y ~> Y × X := exr △ exl.
 
@@ -106,10 +107,12 @@ Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
   f △ g ≈ h △ i <-> f ≈ h ∧ g ≈ i.
 Proof.
   pose proof (ump_products h i (f △ g)) as HA.
-  firstorder.
-  - rewrite <- H0; cat.
-  - rewrite <- H3; cat.
-  - rewrite H2, H3; reflexivity.
+  destruct HA.
+  split; intros.
+    intuition.
+      rewrite <- H0; cat.
+    rewrite <- H4; cat.
+  apply H1; cat.
 Qed.
 
 Corollary fork_comp {X Y Z W : C}
@@ -269,7 +272,7 @@ Global Program Instance prod_one_l  {X : C} :
 Next Obligation.
   rewrite <- fork_comp.
   rewrite <- fork_exl_exr.
-  apply fork_respects; cat.
+  apply cequiv_proper2; [apply fork_respects|..]; cat.
 Qed.
 
 Hint Rewrite @prod_one_l : isos.
@@ -282,7 +285,7 @@ Global Program Instance prod_one_r  {X : C} :
 Next Obligation.
   rewrite <- fork_comp; cat.
   rewrite <- fork_exl_exr.
-  apply fork_respects; cat.
+  apply cequiv_proper2; [apply fork_respects|..]; cat.
 Qed.
 
 Hint Rewrite @prod_one_r : isos.
@@ -411,8 +414,8 @@ Program Definition functor_prod `{C : Category} `{D : Category}
 |}.
 Next Obligation.
   proper.
-  rewrite H0; reflexivity.
-Qed.
+  rewrite X0; reflexivity.
+Defined.
 Next Obligation.
   rewrite <- fork_comp.
   rewrite <- !comp_assoc; cat.

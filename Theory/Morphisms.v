@@ -56,8 +56,8 @@ Section Lemmas.
 Variables X Y : C.
 Variable f : X ~> Y.
 
-Ltac reassociate_left  := repeat (rewrite <- comp_assoc); try f_equal; cat.
-Ltac reassociate_right := repeat (rewrite comp_assoc); try f_equal; cat.
+Ltac reassociate_left  := repeat (rewrite <- comp_assoc); try f_equiv; cat.
+Ltac reassociate_right := repeat (rewrite comp_assoc); try f_equiv; cat.
 
 Lemma retractions_are_epic : Retraction f → Epic f.
 Proof.

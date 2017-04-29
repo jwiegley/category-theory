@@ -44,24 +44,24 @@ Definition ump_exponents {X Y Z} (f : X × Y ~> Z) :
   eval ∘ first (curry f) ≈ f := @ump_exponents' _ X Y Z f.
 
 Global Program Instance parametric_morphism_curry (a b c : C) :
-  Proper (equiv ==> equiv) (@curry a b c).
+  CMorphisms.Proper (cequiv ===> cequiv) (@curry a b c).
 Next Obligation.
   proper.
   unfold curry; simpl in *.
   destruct exp_iso; simpl in *.
   destruct to; simpl in *.
-  rewrite H1; reflexivity.
-Qed.
+  rewrite X; reflexivity.
+Defined.
 
 Global Program Instance parametric_morphism_uncurry (a b c : C) :
-  Proper (equiv ==> equiv) (@uncurry a b c).
+  CMorphisms.Proper (cequiv ===> cequiv) (@uncurry a b c).
 Next Obligation.
   proper.
   unfold uncurry; simpl in *.
   destruct exp_iso; simpl in *.
   destruct from; simpl in *.
-  rewrite H1; reflexivity.
-Qed.
+  rewrite X; reflexivity.
+Defined.
 
 Corollary curry_uncurry {X Y Z} (f : X ~> Z^Y) :
   curry (uncurry f) ≈ f.
@@ -71,6 +71,13 @@ Proof.
   pose proof (iso_to_from (@exp_iso _ X Y Z)) as HA.
   simpl in HA.
   rewrite HA; cat.
+
+  autounfold in HA.
+  unfold equiv in HA; simpl in HA.
+  unfold cequiv in HA; simpl in HA.
+  destruct HA.
+  apply inhabits.
+  apply X0.
 Qed.
 
 Corollary uncurry_curry {X Y Z} (f : X × Y ~> Z) :
@@ -80,7 +87,12 @@ Proof.
   unfold curry, uncurry; simpl.
   pose proof (iso_from_to (@exp_iso _ X Y Z)) as HA.
   simpl in HA.
-  rewrite HA; cat.
+  autounfold in HA.
+  unfold equiv in HA; simpl in HA.
+  unfold cequiv in HA; simpl in HA.
+  destruct HA.
+  apply inhabits.
+  apply X0.
 Qed.
 
 Hint Rewrite @curry_uncurry : categories.

@@ -4,6 +4,18 @@ TODO  -*- mode: org; fill-column: 78 -*-
 ** Define BiCCC characteristics for Cat and Sets
 ** Instead of HomFunctor, use the closed structure of Cat
 And just apply curry to [C^op, C] ⟶ Sets
+** Define equivalence and isomorphism of categories
+** Isomorphism of objects is given by isomorphism of arrows
+** Equivalence of objects should given by pair of arrows to isomorphic objects
+An equivalence of categories consists of a functor between the involved
+categories, which is required to have an "inverse" functor. However, in
+contrast to the situation common for isomorphisms in an algebraic setting, the
+composition of the functor and its "inverse" is not necessarily the identity
+mapping. Instead it is sufficient that each object be naturally isomorphic to
+its image under this composition. Thus one may describe the functors as being
+"inverse up to isomorphism". There is indeed a concept of isomorphism of
+categories where a strict form of inverse functor is required, but this is of
+much less practical use than the equivalence concept.
 ** Move all instances not related to isomorphism or equivalence into modules
 This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.

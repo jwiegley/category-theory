@@ -3,6 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Instance.Sets.
+Require Export Category.Instance.Nat.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -15,34 +16,17 @@ Context `{C : Category}.
 Context `{D : Category}.
 
 Global Program Instance fobj_respects `{F : C ⟶ D} {A : C} :
-  Proper (equiv ==> equiv) (@fobj C D F).
+  CMorphisms.Proper (cequiv ===> cequiv) (@fobj C D F).
 Next Obligation.
   proper.
-  destruct F; simpl in *.
-  destruct H as [to [from [to_from from_to]]]; simpl in *.
-  exists (fmap x y to), (fmap y x from).
-  rewrite <- fmap_comp, to_from; cat.
-  rewrite <- fmap_comp, from_to; cat.
-Qed.
+  destruct F, X; simpl.
+  refine {| to   := fmap x y to
+          ; from := fmap y x from |}.
+    rewrite <- fmap_comp, iso_to_from; cat.
+  rewrite <- fmap_comp, iso_from_to; cat.
+Defined.
 
-Global Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A).
-
-Definition functor_equiv : relation (C ⟶ D) :=
-  fun F G => (∀ X : C, F X ≃ G X)%type.
-
-Global Program Definition functor_equiv_equivalence :
-  Equivalence functor_equiv.
-Proof.
-  unfold functor_equiv.
-  equivalence.
-  - symmetry; apply H.
-  - transitivity (y X); auto.
-Qed.
-
-Global Program Instance functor_setoid : Setoid (C ⟶ D) := {
-  equiv := functor_equiv;
-  setoid_equiv := functor_equiv_equivalence
-}.
+Global Program Instance fobj_csetoid `{F : C ⟶ Sets} {A : C} : CSetoid (F A).
 
 (* The Identity Functor *)
 
@@ -55,8 +39,6 @@ End FunctorEquiv.
 
 Arguments Identity {C} /.
 
-Hint Unfold functor_equiv.
-
 (* Horizontal composition of functors. *)
 
 Program Definition functor_comp
@@ -67,32 +49,141 @@ Program Definition functor_comp
 |}.
 Next Obligation.
   proper.
-  rewrite H; reflexivity.
-Qed.
+  rewrite X0; reflexivity.
+Defined.
 Next Obligation.
-  intros.
-  rewrite !fmap_comp.
-  reflexivity.
+  intros; rewrite !fmap_comp; reflexivity.
 Qed.
 
+Hint Unfold functor_comp.
+
 Infix "○" := functor_comp (at level 30, right associativity) : category_scope.
+
+(* Cat is the category of all small categories:
+
+    objects               Categories
+    arrows                Functors
+    arrow equivalence     Natural Isomorphisms
+    identity              Identity Functor
+    composition           Horizontal composition of Functors *)
 
 Program Instance Cat : Category := {
   ob      := Category;
   hom     := @Functor;
-  homset  := @functor_setoid;
+  homset  := fun _ _ => {| cequiv := fun F G => F ≅[Nat] G |};
   id      := @Identity;
   compose := @functor_comp
 }.
 Next Obligation.
+  equivalence.
+  transitivity y; auto.
+Defined.
+Next Obligation.
   proper.
-  unfold functor_equiv in *.
-  destruct (H (x0 X0)) as [to [from [to_from from_to]]].
-  destruct (H0 X0) as [to0 [from0 [to_from0 from_to0]]].
-  exists (fmap to0 ∘ to), (from ∘ fmap from0).
-  rewrite <- comp_assoc.
-  rewrite (comp_assoc to), to_from; cat.
-  rewrite <- fmap_comp, to_from0; cat.
-  rewrite <- comp_assoc, (comp_assoc (fmap from0)).
-  rewrite <- fmap_comp, from_to0; cat.
+  refine {| to := _; from := _ |}; simpl.
+  Unshelve.
+  all:swap 1 3. refine {| transform := _ |}; simpl.
+  all:swap 1 4. refine {| transform := _ |}; simpl.
+  Unshelve.
+  all:swap 1 5.
+  all:swap 2 6.
+  - simpl; intros.
+    apply (transform[to X0] (y0 X2) ∘ fmap (transform[to X1] X2)).
+  - simpl; intros.
+    apply (transform[from X0] (x0 X2) ∘ fmap (transform[from X1] X2)).
+  - simplify equiv; intros; simplify equiv.
+    destruct X0 as [to0 from0 iso_to_from0 ?].
+    destruct X1 as [to1 from1 iso_to_from1 ?].
+    simpl in *.
+    simplify equiv in iso_to_from0.
+    simplify equiv in iso_to_from1.
+    apply forall_inhabited with (x:=x0 x1) in iso_to_from0.
+    apply forall_inhabited with (x:=x1) in iso_to_from1.
+    apply nonconstructive_cequiv_inv in iso_to_from0.
+    apply nonconstructive_cequiv_inv in iso_to_from1.
+    rewrite <- natural_transformation.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (transform[to0] _)).
+    rewrite iso_to_from0; cat.
+    rewrite <- fmap_comp.
+    rewrite iso_to_from1; cat.
+  - simplify equiv; intros; simplify equiv.
+    rewrite <- !comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite <- !natural_transformation.
+    rewrite !fmap_comp.
+    rewrite comp_assoc.
+    reflexivity.
+  - simplify equiv; intros; simplify equiv.
+    rewrite <- !comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite <- !natural_transformation.
+    rewrite !fmap_comp.
+    rewrite comp_assoc.
+    reflexivity.
+  - simplify equiv; intros; simplify equiv.
+    destruct X0 as [to0 from0 ? iso_from_to0 ?].
+    destruct X1 as [to1 from1 ? iso_from_to1 ?].
+    simpl in *.
+    simplify equiv in iso_from_to0.
+    simplify equiv in iso_from_to1.
+    apply forall_inhabited with (x:=y0 x1) in iso_from_to0.
+    apply forall_inhabited with (x:=x1) in iso_from_to1.
+    apply nonconstructive_cequiv_inv in iso_from_to0.
+    apply nonconstructive_cequiv_inv in iso_from_to1.
+    rewrite <- natural_transformation.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (transform[from0] _)).
+    Arguments transform {_ _ _ _} _ _.
+    rewrite iso_from_to0; cat.
+    rewrite <- fmap_comp.
+    rewrite iso_from_to1; cat.
+Defined.
+Next Obligation.
+  simplify equiv.
+  apply inhabits.
+  refine {| to := _; from := _ |}; simpl.
+  Unshelve.
+  all:swap 1 3. refine {| transform := _ |}; simpl.
+  all:swap 1 4. refine {| transform := _ |}; simpl.
+  Unshelve.
+  all:swap 1 5.
+  all:swap 2 6.
+    simpl; intros.
+    exact (fmap id).
+  simpl; intros.
+  exact (fmap id).
+  all:simplify equiv; intros; simplify equiv; cat.
+Qed.
+Next Obligation.
+  simplify equiv.
+  apply inhabits.
+  refine {| to := _; from := _ |}; simpl.
+  Unshelve.
+  all:swap 1 3. refine {| transform := _ |}; simpl.
+  all:swap 1 4. refine {| transform := _ |}; simpl.
+  Unshelve.
+  all:swap 1 5.
+  all:swap 2 6.
+    simpl; intros.
+    exact (fmap id).
+  simpl; intros.
+  exact (fmap id).
+  all:simplify equiv; intros; simplify equiv; cat.
+Qed.
+Next Obligation.
+  simplify equiv.
+  apply inhabits.
+  refine {| to := _; from := _ |}; simpl.
+  Unshelve.
+  all:swap 1 3. refine {| transform := _ |}; simpl.
+  all:swap 1 4. refine {| transform := _ |}; simpl.
+  Unshelve.
+  all:swap 1 5.
+  all:swap 2 6.
+    simpl; intros.
+    exact (fmap id).
+  simpl; intros.
+  exact (fmap id).
+  all:simplify equiv; intros; simplify equiv; cat.
 Qed.

@@ -72,24 +72,24 @@ Proof.
 Qed.
 
 Global Program Instance parametric_morphism_adj_left a b :
-  Proper (equiv ==> equiv) (@adj_left a b).
+  CMorphisms.Proper (cequiv ===> cequiv) (@adj_left a b).
 Next Obligation.
   proper.
   unfold adj_left; simpl in *.
   destruct adj_iso; simpl in *.
   destruct to; simpl in *.
-  rewrite H0; reflexivity.
-Qed.
+  rewrite X; reflexivity.
+Defined.
 
 Global Program Instance parametric_morphism_adj_right a b :
-  Proper (equiv ==> equiv) (@adj_right a b).
+  CMorphisms.Proper (cequiv ===> cequiv) (@adj_right a b).
 Next Obligation.
   proper.
   unfold adj_right; simpl in *.
   destruct adj_iso; simpl in *.
   destruct from; simpl in *.
-  rewrite H0; reflexivity.
-Qed.
+  rewrite X; reflexivity.
+Defined.
 
 Corollary adj_left_unit  {a b} (f : F a ~> b) :
   adj_left f ≈ fmap f ∘ unit.

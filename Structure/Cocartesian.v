@@ -20,7 +20,8 @@ Class Cocartesian := {
   inl   {X Y} : X ~> X + Y;
   inr   {X Y} : Y ~> X + Y;
 
-  merge_respects {X Y Z} :> Proper (equiv ==> equiv ==> equiv) (@merge X Y Z);
+  merge_respects :> ∀ X Y Z,
+    CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@merge X Y Z);
 
   ump_coproducts {X Y Z} (f : Y ~> X) (g : Z ~> X) (h : Y + Z ~> X) :
     h ≈ merge f g <-> h ∘ inl ≈ f ∧ h ∘ inr ≈ g
@@ -42,31 +43,31 @@ Definition cover  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
   (inl ∘ f) ▽ (inr ∘ g).
 
 Global Program Instance parametric_morphism_left {a b c : C} :
-  Proper (equiv ==> equiv) (@left a b c).
+  CMorphisms.Proper (cequiv ===> cequiv) (@left a b c).
 Obligation 1.
   proper.
   unfold left.
-  rewrite H0.
+  rewrite X.
   reflexivity.
-Qed.
+Defined.
 
 Global Program Instance parametric_morphism_right {a b c : C} :
-  Proper (equiv ==> equiv) (@right a b c).
+  CMorphisms.Proper (cequiv ===> cequiv) (@right a b c).
 Obligation 1.
   proper.
   unfold right.
-  rewrite H0.
+  rewrite X.
   reflexivity.
-Qed.
+Defined.
 
 Global Program Instance parametric_morphism_cover {a b c d : C} :
-  Proper (equiv ==> equiv ==> equiv) (@cover a b c d).
+  CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@cover a b c d).
 Obligation 1.
   proper.
   unfold cover.
-  rewrite H0, H1.
+  rewrite X, X0.
   reflexivity.
-Qed.
+Defined.
 
 Definition twist {X Y : C} : X + Y ~> Y + X := inr ▽ inl.
 
@@ -104,10 +105,12 @@ Corollary merge_inv {X Y Z : C} (f h : Y ~> X) (g i : Z ~> X) :
   f ▽ g ≈ h ▽ i <-> f ≈ h ∧ g ≈ i.
 Proof.
   pose proof (ump_coproducts h i (f ▽ g)) as Huniv.
-  firstorder.
-  - rewrite <- H0; cat.
-  - rewrite <- H3; cat.
-  - rewrite H2, H3; reflexivity.
+  destruct Huniv.
+  split; intros.
+    intuition.
+      rewrite <- H0; cat.
+    rewrite <- H4; cat.
+  apply H1; cat.
 Qed.
 
 Corollary merge_comp {X Y Z W : C} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X) :
@@ -220,7 +223,7 @@ Global Program Instance coprod_zero_l {X : C} :
 Next Obligation.
   rewrite <- merge_comp; cat.
   rewrite <- merge_inl_inr.
-  apply merge_respects; cat.
+  apply cequiv_proper2; [apply merge_respects|..]; cat.
 Qed.
 
 Hint Rewrite @coprod_zero_l : isos.
@@ -233,7 +236,7 @@ Global Program Instance coprod_zero_r {X : C} :
 Next Obligation.
   rewrite <- merge_comp; cat.
   rewrite <- merge_inl_inr.
-  apply merge_respects; cat.
+  apply cequiv_proper2; [apply merge_respects|..]; cat.
 Qed.
 
 Hint Rewrite @coprod_zero_r : isos.
