@@ -73,7 +73,7 @@ Proof.
 Qed.
 
 Global Program Instance parametric_morphism_adj_left a b :
-  CMorphisms.Proper (cequiv ===> cequiv) (@adj_left a b).
+  Proper (equiv ==> equiv) (@adj_left a b).
 Next Obligation.
   proper.
   unfold adj_left; simpl in *.
@@ -83,7 +83,7 @@ Next Obligation.
 Qed.
 
 Global Program Instance parametric_morphism_adj_right a b :
-  CMorphisms.Proper (cequiv ===> cequiv) (@adj_right a b).
+  Proper (equiv ==> equiv) (@adj_right a b).
 Next Obligation.
   proper.
   unfold adj_right; simpl in *.

@@ -51,11 +51,7 @@ Next Obligation.
   apply fmap_respects; cat.
 Qed.
 Next Obligation.
-  simplify equiv; intros.
-  apply fmap_respects; cat.
-Qed.
-Next Obligation.
-  simplify equiv; intros.
+  simpl; intros.
   rewrite <- fmap_comp.
   apply fmap_respects; cat; simpl; cat.
 Qed.
@@ -88,10 +84,10 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper.
-  destruct x, y, X; simpl in *.
+  rewrite b.
   apply compose_respects.
     apply fmap_respects.
-    assumption.
+    reflexivity.
   destruct F; simpl in *.
   apply fmap_respects.
   assumption.

@@ -24,7 +24,7 @@ Class Cartesian:= {
   exr  {X Y} : X × Y ~> Y;
 
   fork_respects :> ∀ X Y Z,
-    CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@fork X Y Z);
+    Proper (equiv ==> equiv ==> equiv) (@fork X Y Z);
 
   ump_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
     h ≈ fork f g <--> (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
@@ -46,7 +46,7 @@ Definition split  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
   first f ∘ second g.
 
 Global Program Instance parametric_morphism_first {a b c : C} :
-  CMorphisms.Proper (cequiv ===> cequiv) (@first a b c).
+  Proper (equiv ==> equiv) (@first a b c).
 Next Obligation.
   proper.
   unfold first.
@@ -55,7 +55,7 @@ Next Obligation.
 Qed.
 
 Global Program Instance parametric_morphism_second {a b c : C} :
-  CMorphisms.Proper (cequiv ===> cequiv) (@second a b c).
+  Proper (equiv ==> equiv) (@second a b c).
 Next Obligation.
   proper.
   unfold second.
@@ -64,7 +64,7 @@ Next Obligation.
 Qed.
 
 Global Program Instance parametric_morphism_split {a b c d : C} :
-  CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@split a b c d).
+  Proper (equiv ==> equiv ==> equiv) (@split a b c d).
 Next Obligation.
   proper.
   unfold split.
@@ -114,7 +114,7 @@ Proof.
       rewrite <- a; cat.
     rewrite <- b; cat.
   destruct X0.
-  apply c; split; cat.
+  apply e; split; cat.
 Qed.
 
 Corollary fork_comp {X Y Z W : C}

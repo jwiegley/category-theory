@@ -13,13 +13,13 @@ Section Nat.
 Context `{C : Category}.
 Context `{D : Category}.
 
-Program Definition nat_cequiv `{F : C ⟶ D} `{G : C ⟶ D} : crelation (F ⟹ G) :=
-  fun n m => ∀ A, transform[n] A ≋ transform[m] A.
+Program Definition nat_equiv `{F : C ⟶ D} `{G : C ⟶ D} : crelation (F ⟹ G) :=
+  fun n m => ∀ A, transform[n] A ≈ transform[m] A.
 
-Hint Unfold nat_cequiv.
+Hint Unfold nat_equiv.
 
-Global Program Definition nat_cequiv_equivalence `{F : C ⟶ D} `{G : C ⟶ D} :
-  CRelationClasses.Equivalence (@nat_cequiv F G).
+Global Program Definition nat_equiv_equivalence `{F : C ⟶ D} `{G : C ⟶ D} :
+  Equivalence (@nat_equiv F G).
 Proof.
   equivalence.
   transitivity (transform[y] A).
@@ -27,10 +27,10 @@ Proof.
   apply X0.
 Qed.
 
-Global Program Instance nat_CSetoid `{F : C ⟶ D} `{G : C ⟶ D} :
-  CSetoid (F ⟹ G) := {
-  cequiv := nat_cequiv;
-  setoid_cequiv := nat_cequiv_equivalence
+Global Program Instance nat_Setoid `{F : C ⟶ D} `{G : C ⟶ D} :
+  Setoid (F ⟹ G) := {
+  equiv := nat_equiv;
+  setoid_equiv := nat_equiv_equivalence
 }.
 
 Global Program Definition nat_identity `{F : C ⟶ D} : F ⟹ F := {|
@@ -56,16 +56,8 @@ Hint Unfold nat_compose.
 
 Global Program Definition nat_compose_respects
        `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ D} :
-  CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@nat_compose F G K).
-Proof.
-  proper.
-  autounfold.
-  unfold cequiv in *; simpl in *.
-  autounfold in *; simpl in *.
-  intros.
-  rewrite X, X0.
-  reflexivity.
-Qed.
+  Proper (equiv ==> equiv ==> equiv) (@nat_compose F G K).
+Proof. proper. Qed.
 
 (* Nat is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
@@ -78,9 +70,6 @@ Global Program Instance Nat : Category := {
 
   compose_respects := @nat_compose_respects
 }.
-Next Obligation. simplify equiv; intros; cat. Qed.
-Next Obligation. simplify equiv; intros; cat. Qed.
-Next Obligation. simplify equiv; intros; cat. Qed.
 
 End Nat.
 
@@ -91,4 +80,4 @@ Notation "F ⊙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativ
 
 Hint Unfold nat_compose.
 Hint Unfold nat_identity.
-Hint Unfold nat_cequiv.
+Hint Unfold nat_equiv.

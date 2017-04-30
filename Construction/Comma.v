@@ -34,11 +34,10 @@ Program Instance Comma : Category := {
   ob      := { p : A * B & S (fst p) ~> T (snd p) };
   hom     := fun x y => (fst (`` x) ~> fst (`` y)) * (snd (`` x) ~> snd (`` y));
   homset  := fun _ _ =>
-    {| cequiv := fun f g => (fst f ≈ fst g) * (snd f ≈ snd g) |};
+    {| equiv := fun f g => (fst f ≈ fst g) * (snd f ≈ snd g) |};
   id      := fun _ => (id, id);
   compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g)
 }.
-Next Obligation. proper; simpl in *; firstorder. Qed.
 
 End Comma.
 

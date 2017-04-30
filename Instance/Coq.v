@@ -13,7 +13,7 @@ Unset Transparent Obligations.
 Program Instance Coq : Category := {
   ob      := Type;
   hom     := fun A B : Type => A -> B;
-  homset  := fun _ _ => {| cequiv := fun f g => forall x, f x = g x |};
+  homset  := fun _ _ => {| equiv := fun f g => forall x, f x = g x |};
   id      := fun _ x => x;
   compose := fun _ _ _ g f x => g (f x)
 }.
@@ -70,31 +70,11 @@ Next Obligation.
   simplify equiv; intros.
   congruence.
 Qed.
-Next Obligation.
-  simplify equiv; intros.
-  simplify equiv; cat.
-Qed.
-Next Obligation.
-  simplify equiv; intros.
-  simplify equiv; intros.
-  rewrite <- surjective_pairing.
-  reflexivity.
-Qed.
-Next Obligation.
-  simplify equiv; intros.
-  simplify equiv; intros.
-  rewrite <- surjective_pairing.
-  reflexivity.
-Qed.
 
 Program Instance Coq_Initial : Initial _ := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
-Next Obligation.
-  simplify equiv; intros.
-  contradiction.
-Qed.
 
 Program Instance Coq_Cocartesian : @Cocartesian _ := {
   Coprod := sum;
@@ -107,12 +87,6 @@ Program Instance Coq_Cocartesian : @Cocartesian _ := {
   inr  := fun _ _ p => Datatypes.inr p
 }.
 Next Obligation.
-  proper.
-  simplify equiv; intros.
-  destruct x1; congruence.
-Qed.
-Next Obligation.
-  simplify equiv; intros.
   split; intros.
     split; intros;
     rewrite H; reflexivity.
@@ -166,6 +140,7 @@ Proof.
     erewrite HA.
       constructor.
     intros.
+    Axiom propositional_extensionality : forall P : Prop, P -> P = True.
     apply propositional_extensionality.
     exists x.
     reflexivity.

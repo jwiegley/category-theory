@@ -17,7 +17,7 @@ Context `{C : Category}.
 Context `{D : Category}.
 
 Global Program Instance fobj_respects `{F : C ⟶ D} :
-  CMorphisms.Proper (cequiv ===> cequiv) (@fobj C D F).
+  Proper (equiv ==> equiv) (@fobj C D F).
 Next Obligation.
   proper.
   destruct F, X; simpl.
@@ -27,7 +27,7 @@ Next Obligation.
   rewrite <- fmap_comp, iso_from_to; cat.
 Qed.
 
-Global Program Instance fobj_csetoid `{F : C ⟶ Sets} {A : C} : CSetoid (F A).
+Global Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A).
 
 (* The Identity Functor *)
 
@@ -80,7 +80,7 @@ Ltac constructive :=
 Program Instance Cat : Category := {
   ob      := Category;
   hom     := @Functor;
-  homset  := fun _ _ => {| cequiv := fun F G => F ≅[Nat] G |};
+  homset  := fun _ _ => {| equiv := fun F G => F ≅[Nat] G |};
   id      := @Identity;
   compose := @functor_comp
 }.

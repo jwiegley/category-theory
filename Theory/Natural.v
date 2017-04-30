@@ -23,7 +23,7 @@ Class Natural := {
     fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f
 }.
 
-Global Program Instance Natural_CSetoid : CSetoid Natural.
+Global Program Instance Natural_Setoid : Setoid Natural.
 
 End Natural.
 

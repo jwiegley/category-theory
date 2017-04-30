@@ -31,7 +31,7 @@ Arguments iso_from_to {X Y} _.
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
 Global Program Instance isomorphism_equivalence :
-  CRelationClasses.Equivalence Isomorphism.
+  Equivalence Isomorphism.
 Next Obligation.
   intros.
   apply Build_Isomorphism with (to:=id) (from:=id); cat.
@@ -52,9 +52,9 @@ Next Obligation.
 Defined.
 
 Global Program Instance arrow_Isomorphism :
-  CMorphisms.Proper
-    (CMorphisms.respectful Isomorphism
-       (CMorphisms.respectful Isomorphism Basics.arrow)) Isomorphism.
+  Proper
+    (respectful Isomorphism
+       (respectful Isomorphism Basics.arrow)) Isomorphism.
 Next Obligation.
   proper.
   transitivity x; auto.
@@ -63,9 +63,9 @@ Next Obligation.
 Qed.
 
 Global Program Instance flip_arrow_Isomorphism :
-  CMorphisms.Proper
-    (CMorphisms.respectful Isomorphism
-       (CMorphisms.respectful Isomorphism
+  Proper
+    (respectful Isomorphism
+       (respectful Isomorphism
                               (Basics.flip Basics.arrow))) Isomorphism.
 Next Obligation.
   proper.
@@ -76,19 +76,19 @@ Qed.
 
 Definition ob_equiv : crelation C := fun X Y => X ≅ Y.
 
-Global Program Instance ob_csetoid : CSetoid C.
+Global Program Instance ob_setoid : Setoid C.
 
 Definition isomorphism_equiv {X Y : C} : crelation (X ≅ Y) :=
   fun f g => (to f ≈ to g) * (from f ≈ from g).
 
 Global Program Instance isomorphism_equiv_equivalence {X Y : C} :
-  CRelationClasses.Equivalence (@isomorphism_equiv X Y).
+  Equivalence (@isomorphism_equiv X Y).
 Next Obligation. firstorder. Qed.
 Next Obligation. firstorder. Qed.
 
-Global Program Instance isomorphism_setoid {X Y : C} : CSetoid (X ≅ Y) := {
-  cequiv := isomorphism_equiv;
-  setoid_cequiv := isomorphism_equiv_equivalence
+Global Program Instance isomorphism_setoid {X Y : C} : Setoid (X ≅ Y) := {
+  equiv := isomorphism_equiv;
+  setoid_equiv := isomorphism_equiv_equivalence
 }.
 
 End Isomorphism.

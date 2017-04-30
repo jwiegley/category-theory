@@ -25,7 +25,7 @@ jww (2017-04-28): TODO
 Program Instance _2 : Category := {
   ob      := bool;
   hom     := fun x y => ((x = y) + ((x = false) * (y = true)))%type;
-  homset  := fun x y => {| cequiv := fun f g => tt |};
+  homset  := fun x y => {| equiv := fun f g => tt |};
   id      := fun x => Datatypes.inl (eq_refl x);
   compose := fun _ _ _ f g =>
                match f with

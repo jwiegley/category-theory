@@ -13,20 +13,20 @@ Unset Transparent Obligations.
 
 Record SetoidObject := {
   carrier :> Type;
-  is_csetoid :> CSetoid carrier
+  is_setoid :> Setoid carrier
 }.
 
-Record SetoidMorphism `{CSetoid A} `{CSetoid B} := {
+Record SetoidMorphism `{Setoid A} `{Setoid B} := {
   morphism :> A -> B;
-  proper_morphism :> CMorphisms.Proper (cequiv ===> cequiv) morphism
+  proper_morphism :> Proper (equiv ==> equiv) morphism
 }.
 
 Arguments SetoidMorphism {_} _ {_} _.
 Arguments morphism {_ _ _ _ _} _.
 
 Program Instance SetoidMorphism_Setoid {A B : SetoidObject} :
-  CSetoid (SetoidMorphism A B) := {|
-  cequiv := fun f g => forall x, @cequiv _ B (f x) (g x)
+  Setoid (SetoidMorphism A B) := {|
+  equiv := fun f g => forall x, @equiv _ B (f x) (g x)
 |}.
 Next Obligation.
   constructor; repeat intro.
@@ -74,77 +74,46 @@ Program Instance Sets : Category := {
 }.
 Next Obligation.
   proper.
-  unfold cequiv in *; simpl in *; intros.
+  unfold equiv in *; simpl in *; intros.
   rewrite X0.
   apply proper_morphism, X1.
-Qed.
-Next Obligation.
-  unfold equiv, cequiv; simpl.
-  reflexivity.
-Qed.
-Next Obligation.
-  unfold equiv, cequiv; simpl.
-  unfold cequiv; simpl.
-  reflexivity.
-Qed.
-Next Obligation.
-  unfold equiv, cequiv; simpl.
-  unfold cequiv; simpl.
-  reflexivity.
 Qed.
 
 Program Instance Sets_Cartesian : @Cartesian Sets := {
   Prod := fun X Y =>
             {| carrier := (carrier X * carrier Y)%type
-             ; is_csetoid :=
-                 {| cequiv := fun x y =>
-                               @cequiv _ X (fst x) (fst y) *
-                               @cequiv _ Y (snd x) (snd y)
-                  ; setoid_cequiv := _
+             ; is_setoid :=
+                 {| equiv := fun x y =>
+                               @equiv _ X (fst x) (fst y) *
+                               @equiv _ Y (snd x) (snd y)
+                  ; setoid_equiv := _
                   |}
              |};
   fork := fun _ _ _ f g => {| morphism := fun x => (f x, g x) |};
   exl := fun _ _ => {| morphism := fst |};
   exr := fun _ _ => {| morphism := snd |}
 }.
-Next Obligation.
-  proper; apply proper_morphism; assumption.
-Qed.
-Next Obligation. proper; destruct X; assumption. Qed.
-Next Obligation. proper; destruct X; assumption. Qed.
-Next Obligation.
-  proper.
-  unfold cequiv; simpl; intro.
-  split.
-    apply X0.
-  apply X1.
-Qed.
-Next Obligation.
-  autounfold; simpl.
-  unfold equiv; simpl;
-  unfold cequiv; simpl.
-  simpl; split; intros;
-  firstorder.
-Qed.
+Next Obligation. proper; apply proper_morphism; assumption. Qed.
+Next Obligation. split; intros; firstorder. Qed.
 
 Program Instance Sets_Cocartesian : @Cocartesian Sets := {
   Coprod := fun X Y =>
             {| carrier := (carrier X + carrier Y)%type
-             ; is_csetoid :=
-                 {| cequiv := fun x y =>
+             ; is_setoid :=
+                 {| equiv := fun x y =>
                       match x with
                       | Datatypes.inl x =>
                         match y with
-                        | Datatypes.inl y => @cequiv _ X x y
+                        | Datatypes.inl y => @equiv _ X x y
                         | Datatypes.inr _ => False
                         end
                       | Datatypes.inr x =>
                         match y with
                         | Datatypes.inl _ => False
-                        | Datatypes.inr y => @cequiv _ Y x y
+                        | Datatypes.inr y => @equiv _ Y x y
                         end
                       end
-                  ; setoid_cequiv := _
+                  ; setoid_equiv := _
                   |}
              |};
   merge := fun _ _ _ f g =>
@@ -168,16 +137,6 @@ Next Obligation.
   destruct z; intuition.
 Qed.
 Next Obligation.
-  proper.
-  unfold cequiv; simpl; intros.
-  destruct x1.
-    apply X0.
-  apply X1.
-Qed.
-Next Obligation.
-  autounfold; simpl;
-  unfold equiv; simpl;
-  unfold cequiv; simpl.
   simpl; split; intros.
     split; intros.
       specialize (X0 (Datatypes.inl x)); simpl in X0.

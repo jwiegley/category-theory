@@ -19,17 +19,11 @@ Context `{D : Category}.
 Program Instance Product : Category := {
   ob      := C * D;
   hom     := fun X Y => (fst X ~> fst Y) * (snd X ~> snd Y);
-  homset  := fun _ _ => {| cequiv := fun f g =>
-                             (fst f ≋ fst g) * (snd f ≋ snd g) |} ;
+  homset  := fun _ _ => {| equiv := fun f g =>
+                             (fst f ≈ fst g) * (snd f ≈ snd g) |} ;
   id      := fun _ => (id, id);
   compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g)
 }.
-Next Obligation.
-  proper;
-  (apply compose_respects;
-   [ destruct X; assumption
-   | destruct X0; assumption ]).
-Qed.
 
 End Product.
 

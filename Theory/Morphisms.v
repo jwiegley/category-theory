@@ -68,7 +68,7 @@ Proof.
   rewrite <- id_right.
   symmetry.
   rewrite <- id_right.
-  rewrite <- c.
+  rewrite <- e.
   reassociate_right.
 Qed.
 
@@ -80,7 +80,7 @@ Proof.
   rewrite <- id_left.
   symmetry.
   rewrite <- id_left.
-  rewrite <- c.
+  rewrite <- e.
   reassociate_left.
 Qed.
 
@@ -130,7 +130,7 @@ Next Obligation.
   destruct r; simpl.
   apply m.
   rewrite comp_assoc.
-  rewrite c; cat.
+  rewrite e; cat.
 Qed.
 
 Program Instance Epic_Section_Iso
@@ -145,7 +145,7 @@ Next Obligation.
   specialize (e Y (f ∘ x) id).
   apply e.
   rewrite <- comp_assoc.
-  rewrite c; cat.
+  rewrite e0; cat.
 Qed.
 Next Obligation. destruct s; auto. Qed.
 

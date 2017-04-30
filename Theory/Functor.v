@@ -17,7 +17,7 @@ Class Functor := {
   fobj : C -> D;
   fmap {X Y : C} (f : X ~> Y) : fobj X ~> fobj Y;
 
-  fmap_respects :> ∀ X Y, CMorphisms.Proper (cequiv ===> cequiv) (@fmap X Y);
+  fmap_respects :> ∀ X Y, Proper (equiv ==> equiv) (@fmap X Y);
 
   fmap_id {X : C} : fmap (@id C X) ≈ id;
   fmap_comp {X Y Z : C} (f : Y ~> Z) (g : X ~> Y) :

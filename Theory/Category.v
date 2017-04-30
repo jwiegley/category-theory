@@ -15,14 +15,14 @@ Class Category := {
 
   uhom := Type : Type;
   hom : ob -> ob -> uhom where "a ~> b" := (hom a b);
-  homset :> ∀ X Y, CSetoid (X ~> Y);
+  homset :> ∀ X Y, Setoid (X ~> Y);
 
   id {A} : A ~> A;
   compose {A B C} (f: B ~> C) (g : A ~> B) : A ~> C
     where "f ∘ g" := (compose f g);
 
   compose_respects (X Y Z : ob) :>
-    CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@compose X Y Z);
+    Proper (equiv ==> equiv ==> equiv) (@compose X Y Z);
 
   dom {A B} (f: A ~> B) := A;
   cod {A B} (f: A ~> B) := B;
@@ -52,7 +52,7 @@ Notation "id[ X ]" := (@id _ X)
 
 Notation "f ≈[ C ] g" := (@equiv _ (@homset C _ _) f g)
   (at level 79, only parsing) : category_scope.
-Notation "f ≋[ C ] g" := (@cequiv _ (@homset C _ _) f g)
+Notation "f ≈[ C ] g" := (@equiv _ (@homset C _ _) f g)
   (at level 79, only parsing) : category_scope.
 
 Coercion ob : Category >-> Sortclass.

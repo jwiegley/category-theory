@@ -31,7 +31,7 @@ Program Instance Coproduct : Category := {
                  | Datatypes.inr Y => X ~> Y
                  end
                end;
-  homset  := fun X Y => {| cequiv := fun f g => _ |};
+  homset  := fun X Y => {| equiv := fun f g => _ |};
   id      := fun X =>
                match X with
                | Datatypes.inl X => id

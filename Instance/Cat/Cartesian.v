@@ -24,8 +24,6 @@ Program Instance Cat_Cartesian : @Cartesian Cat := {
 }.
 Next Obligation. proper; apply fmap_respects; auto. Qed.
 Next Obligation. split; simpl; rewrite !fmap_comp; intuition. Qed.
-Next Obligation. proper; destruct X; assumption. Qed.
-Next Obligation. proper; destruct X; assumption. Qed.
 Next Obligation.
   proper.
   constructive.
@@ -95,7 +93,7 @@ Next Obligation.
     }
   }
   { destruct X0.
-    destruct c, c0.
+    destruct i, i0.
     simpl in *.
     constructive.
     all:swap 2 3.

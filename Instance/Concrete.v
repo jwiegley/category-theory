@@ -71,7 +71,7 @@ Proof.
   destruct (Aeq_dec (fst a) X);
   destruct (Aeq_dec (snd a) Y); auto.
   destruct H; subst; simpl; auto.
-  split; reflexivity.
+  split; unfold Aeq; destruct (Aeq_dec); auto.
 Qed.
 
 (* A concrete category has a fixed set of objects (of some decidable type, to
@@ -84,7 +84,7 @@ Program Instance Concrete (Obs : set A) (Homs : list (A * A)) : Category := {
     { f : list (A * A)
     | ∀ h, In' h f <-> In' h ((X, Y) :: Subset' X Y  Homs) }%type;
   homset := fun X Y =>
-    {| cequiv := fun f g => ∀ h, In' h f <-> In' h g |}%type;
+    {| equiv := fun f g => ∀ h, In' h f <-> In' h g |}%type;
   id := fun X => exist _ ((X, X) :: nil) _
 }.
 Next Obligation.
@@ -101,11 +101,16 @@ Next Obligation.
 Qed.
 Next Obligation. firstorder. Defined.
 Next Obligation.
-  proper; simpl in *.
-  unfold Concrete_obligation_3; simpl.
-  simplify equiv; simpl.
-  destruct x, x0, y, y0; simpl in *.
+  proper; simpl in *;
+  unfold Concrete_obligation_3; simpl;
+  destruct x, x0, y, y0; simpl in *;
   firstorder.
+Qed.
+Next Obligation.
+  split; intros; apply H, H2.
+Qed.
+Next Obligation.
+  split; intros; apply H, H2.
 Qed.
 
 End Concrete.
@@ -167,7 +172,6 @@ Program Instance Map_1 `(C : Category) : C ⟶ Concrete_1 := {
   fobj := fun _ => tt;
   fmap := fun _ _ _ => id
 }.
-Next Obligation. simplify equiv; intros; intuition. Qed.
 
 Program Instance Terminal_1 : @Terminal Cat := {
   One := Concrete_1;

@@ -12,6 +12,8 @@ Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Coq.
 Require Export Coq.Sets.Ensembles.
 
+Require Import Coq.Logic.ProofIrrelevance.
+
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
@@ -24,7 +26,7 @@ Program Instance Rel : Category := {
   ob      := @ob Coq;
   hom     := fun A B => A ~> Ensemble B;
   homset  := fun P Q =>
-               {| cequiv := fun f g => forall x y, f x y <-> g x y |};
+               {| equiv := fun f g => forall x y, f x y <-> g x y |};
   id      := Singleton;
   compose := fun X Y Z f g x z =>
                (exists y : Y, In Y (g x) y ∧ In Z (f y) z)%type
@@ -37,14 +39,11 @@ Next Obligation.
   - apply H, H0; assumption.
 Qed.
 Next Obligation.
-  proper.
-  simplify equiv; intros.
-  split; intros;
-  destruct H as [z [H1 H2]];
+  proper;
+  destruct H1 as [z [H1 H2]];
   exists z; firstorder.
 Qed.
 Next Obligation.
-  simplify equiv; intros.
   split; intros.
     destruct H as [z [H1 H2]].
     destruct H2; assumption.
@@ -52,7 +51,6 @@ Next Obligation.
   intuition.
 Qed.
 Next Obligation.
-  simplify equiv; intros.
   split; intros.
     destruct H as [z [H1 H2]].
     destruct H1; assumption.
@@ -60,7 +58,6 @@ Next Obligation.
   intuition.
 Qed.
 Next Obligation.
-  simplify equiv; intros.
   split; intros.
     destruct H as [z [H1 H2]].
     destruct H1, H.
@@ -83,10 +80,6 @@ Program Instance Rel_Initial : @Initial Rel := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
-Next Obligation.
-  simplify equiv; intros.
-  contradiction.
-Qed.
 
 (*
 Program Instance Rel_Cartesian : @Cartesian Rel := {
@@ -160,15 +153,12 @@ Program Instance Relation_Functor : Coq ⟶ Rel := {
   fmap := fun X Y (f : X ~{Coq}~> Y) x y => In _ (Singleton _ (f x)) y
 }.
 Next Obligation.
-  proper.
-  simplify equiv in all; intros.
-  split; intros;
-  destruct H;
-  rewrite X0;
+  proper;
+  destruct H0;
+  rewrite H;
   constructor.
 Qed.
 Next Obligation.
-  simplify equiv in all; intros.
   split; intros;
   destruct H.
     exists (g x).

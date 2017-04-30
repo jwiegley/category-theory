@@ -124,7 +124,7 @@ Next Obligation.
     }
   }
   { destruct X0.
-    destruct c, c0.
+    destruct i, i0.
     simpl in *.
     constructive.
     all:swap 2 3.

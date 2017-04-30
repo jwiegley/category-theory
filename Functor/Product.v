@@ -17,9 +17,8 @@ Program Instance ProductFunctor `(C : Category) `{@Cartesian C} :
 }.
 Next Obligation.
   proper.
-  destruct x, y; simpl.
-  destruct X; simpl in *.
-  rewrite c, c0.
+  destruct x, y; simpl in *.
+  rewrite a, b.
   reflexivity.
 Qed.
 Next Obligation.

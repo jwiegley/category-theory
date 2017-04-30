@@ -80,7 +80,7 @@ Program Instance DSL : Category := {
   id      := @Id;
   compose := @Compose;
   homset  := fun _ _ =>
-    {| cequiv := fun f g =>
+    {| equiv := fun f g =>
          forall `{C : Category}
                 `{A : @Cartesian C}
                 `{@Closed C A}
@@ -93,28 +93,11 @@ Next Obligation.
   equivalence.
   transitivity (interp y); auto.
 Qed.
-Next Obligation.
-  proper.
-  simplify equiv in all.
-  intuition.
-  rewrite X0, X1.
-  reflexivity.
-Qed.
-Next Obligation. proper; simplify equiv in all; intros; cat. Qed.
-Next Obligation. proper; simplify equiv in all; intros; cat. Qed.
-Next Obligation.
-  proper; simplify equiv in all; intros.
-  rewrite comp_assoc; reflexivity.
-Qed.
 
 Program Instance Hom_Terminal : @Terminal _ := {
   One := One_;
   one := @One'
 }.
-Next Obligation.
-  simplify equiv; intros.
-  apply one_unique.
-Qed.
 
 Program Instance Hom_Cartesian : @Cartesian _ := {
   Prod := Prod_;
@@ -156,30 +139,11 @@ Next Obligation.
   rewrite X0.
   reflexivity.
 Qed.
-Next Obligation.
-  simplify equiv in all; intros.
-  simplify equiv in all; intros.
-  apply curry_uncurry.
-Qed.
-Next Obligation.
-  simplify equiv in all; intros.
-  simplify equiv in all; intros.
-  apply uncurry_curry.
-Qed.
-Next Obligation.
-  simplify equiv in all; intros.
-  simplify equiv in all; intros.
-  apply ump_exponents.
-Qed.
 
 Program Instance Hom_Initial : @Initial _ := {
   Zero := Zero_;
   zero := @Zero'
 }.
-Next Obligation.
-  simplify equiv in all; intros.
-  apply zero_unique.
-Qed.
 
 Program Instance Hom_Cocartesian : @Cocartesian _ := {
   Coprod := Coprod_;
@@ -207,15 +171,9 @@ Program Instance interp_proper {X Y : Obj}
         `{C : Category} `{A : @Cartesian C}
         `{@Closed C A} `{@Cocartesian C}
         `{@Terminal C} `{@Initial C} :
-  CMorphisms.Proper (@cequiv _ (@homset DSL X Y) ===>
-                     @cequiv _ (@homset C _ _))
+  Proper (@equiv _ (@homset DSL X Y) ==>
+                     @equiv _ (@homset C _ _))
          (fun f => @interp X Y f C A _ _ _ _).
-Next Obligation.
-  proper.
-  simplify equiv in all.
-  rewrite X0.
-  reflexivity.
-Qed.
 
 Section AST.
 

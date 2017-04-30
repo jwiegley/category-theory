@@ -1,3 +1,3 @@
 Set Warnings "-notation-overridden".
 
-Require Export Lib.CSetoid.
+Require Export Lib.Setoid.

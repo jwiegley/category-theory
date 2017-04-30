@@ -25,7 +25,7 @@ Program Instance Opposite `(C : Category) : Category := {
   id_right := fun X Y f => @id_left C Y X f;
 
   comp_assoc := fun X Y Z W f g h =>
-    CRelationClasses.symmetry (@comp_assoc C W Z Y X h g f)
+    symmetry (@comp_assoc C W Z Y X h g f)
 }.
 
 Notation "C ^op" := (@Opposite C)
@@ -38,7 +38,6 @@ Proof.
   unfold Opposite; simpl.
   destruct C; simpl.
   f_equal.
-  repeat let X := fresh "X" in extensionality X.
 Admitted.
 
 Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
@@ -64,7 +63,7 @@ Next Obligation. exact (@fmap_id _ _ F _). Qed.
 Next Obligation. exact (@fmap_comp _ _ F _ _ _ _ _). Qed.
 
 Lemma op_functor_involutive `(F : Functor) :
-  Reverse_Opposite_Functor (Opposite_Functor F) ≋[Cat] F.
+  Reverse_Opposite_Functor (Opposite_Functor F) ≈[Cat] F.
 Proof.
   unfold Reverse_Opposite_Functor.
   unfold Opposite_Functor, unop, op.

@@ -14,8 +14,6 @@ Program Instance adj_id `{C : Category} : Identity ⊣ Identity := {
     {| to   := {| morphism := _ |}
      ; from := {| morphism := _ |} |}
 }.
-Next Obligation. simplify equiv; intros; reflexivity. Qed.
-Next Obligation. simplify equiv; intros; reflexivity. Qed.
 
 Program Definition adj_comp
         `{C : Category} `{D : Category} `{E : Category}
@@ -29,11 +27,9 @@ Program Definition adj_comp
 Next Obligation. proper. rewrite X0; reflexivity. Qed.
 Next Obligation. proper; rewrite X0; reflexivity. Qed.
 Next Obligation.
-  simplify equiv; intros.
   rewrite adj_left_right, adj_left_right; reflexivity.
 Qed.
 Next Obligation.
-  simplify equiv; intros.
   rewrite adj_right_left, adj_right_left; reflexivity.
 Qed.
 Next Obligation. rewrite <- !adj_left_nat_l; reflexivity. Qed.
@@ -51,8 +47,8 @@ Record adj_morphism `{C : Category} `{D : Category} := {
 }.
 
 Program Instance adj_morphism_setoid `{C : Category} `{D : Category} :
-  CSetoid (@adj_morphism C D) := {
-  cequiv := fun f g =>
+  Setoid (@adj_morphism C D) := {
+  equiv := fun f g =>
               (free_functor f ≅[Nat] free_functor g) *
               (forgetful_functor f ≅[Nat] forgetful_functor g)
 }.

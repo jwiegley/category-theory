@@ -1,7 +1,7 @@
 -R . Category
 Lib.v
 Lib/Foundation.v
-Lib/CSetoid.v
+Lib/Setoid.v
 Theory/Category.v
 Theory/Morphisms.v
 Theory/Isomorphism.v

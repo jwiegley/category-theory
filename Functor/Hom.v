@@ -41,7 +41,7 @@ Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
 Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom C X Y
-                      ; is_csetoid := @homset C X Y |};
+                      ; is_setoid := @homset C X Y |};
     fmap := fun Y Z (f : Y ~{C}~> Z) =>
               {| morphism := fun (g : X ~{C}~> Y) =>
                                (f ∘ g) : X ~{C}~> Z |}
@@ -51,30 +51,7 @@ Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
   |}
 }.
 Next Obligation.
-  proper.
-  simplify equiv; intros.
-  apply compose_respects.
-    assumption.
-  reflexivity.
-Qed.
-Next Obligation. simplify equiv; intros; cat. Qed.
-Next Obligation. simplify equiv; intros; cat. Qed.
-Next Obligation. simplify equiv; intros; cat. Qed.
-Next Obligation.
-  proper.
-  simplify equiv; intros.
-  simplify equiv; intros.
-  apply compose_respects.
-    reflexivity.
-  assumption.
-Qed.
-Next Obligation.
-  simplify equiv; intros;
-  simplify equiv; intros; cat.
-Qed.
-Next Obligation.
-  simplify equiv; intros;
-  simplify equiv; intros; cat.
+  simpl; intros.
   unfold op.
   apply comp_assoc.
 Qed.
@@ -86,7 +63,7 @@ Notation "'Hom' ( A , ─ )" := (@HomFunctor _ A) : category_scope.
 Program Instance CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom (C^op) X Y
-                      ; is_csetoid := @homset (C^op) X Y |};
+                      ; is_setoid := @homset (C^op) X Y |};
     fmap := fun Y Z (f : Y ~{C^op}~> Z) =>
               {| morphism := fun (g : X ~{C^op}~> Y) =>
                                (f ∘ g) : X ~{C^op}~> Z |}
@@ -96,30 +73,7 @@ Program Instance CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
   |}
 }.
 Next Obligation.
-  proper.
-  simplify equiv; intros.
-  apply compose_respects.
-    reflexivity.
-  assumption.
-Qed.
-Next Obligation. simplify equiv; intros; cat. Qed.
-Next Obligation. simplify equiv; intros; cat. Qed.
-Next Obligation. simplify equiv; intros; cat. Qed.
-Next Obligation.
-  proper.
-  simplify equiv; intros.
-  simplify equiv; intros.
-  apply compose_respects.
-    assumption.
-  reflexivity.
-Qed.
-Next Obligation.
-  simplify equiv; intros;
-  simplify equiv; intros; cat.
-Qed.
-Next Obligation.
-  simplify equiv; intros;
-  simplify equiv; intros; cat.
+  simpl; intros.
   symmetry.
   apply comp_assoc.
 Qed.

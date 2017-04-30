@@ -22,7 +22,7 @@ Class Cocartesian := {
   inr   {X Y} : Y ~> X + Y;
 
   merge_respects :> ∀ X Y Z,
-    CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@merge X Y Z);
+    Proper (equiv ==> equiv ==> equiv) (@merge X Y Z);
 
   ump_coproducts {X Y Z} (f : Y ~> X) (g : Z ~> X) (h : Y + Z ~> X) :
     h ≈ merge f g <--> (h ∘ inl ≈ f) * (h ∘ inr ≈ g)
@@ -44,7 +44,7 @@ Definition cover  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
   (inl ∘ f) ▽ (inr ∘ g).
 
 Global Program Instance parametric_morphism_left {a b c : C} :
-  CMorphisms.Proper (cequiv ===> cequiv) (@left a b c).
+  Proper (equiv ==> equiv) (@left a b c).
 Obligation 1.
   proper.
   unfold left.
@@ -53,7 +53,7 @@ Obligation 1.
 Qed.
 
 Global Program Instance parametric_morphism_right {a b c : C} :
-  CMorphisms.Proper (cequiv ===> cequiv) (@right a b c).
+  Proper (equiv ==> equiv) (@right a b c).
 Obligation 1.
   proper.
   unfold right.
@@ -62,7 +62,7 @@ Obligation 1.
 Qed.
 
 Global Program Instance parametric_morphism_cover {a b c d : C} :
-  CMorphisms.Proper (cequiv ===> cequiv ===> cequiv) (@cover a b c d).
+  Proper (equiv ==> equiv ==> equiv) (@cover a b c d).
 Obligation 1.
   proper.
   unfold cover.
@@ -112,7 +112,7 @@ Proof.
       rewrite <- a; cat.
     rewrite <- b; cat.
   destruct X0.
-  apply c; split; cat.
+  apply e; split; cat.
 Qed.
 
 Corollary merge_comp {X Y Z W : C} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X) :

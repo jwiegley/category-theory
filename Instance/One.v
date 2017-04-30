@@ -14,7 +14,7 @@ Set Implicit Arguments.
 Program Instance _1 : Category := {
   ob      := unit;
   hom     := fun _ _ => unit;
-  homset  := fun _ _ => {| cequiv := eq |};
+  homset  := fun _ _ => {| equiv := eq |};
   id      := fun _ => tt;
   compose := fun _ _ _ _ _ => tt
 }.
@@ -30,7 +30,12 @@ Program Instance Cat_Terminal : @Terminal Cat := {
   One := _1;
   one := To_1
 }.
-Next Obligation. constructive; simplify equiv; intros; cat. Qed.
+Next Obligation.
+  constructive; autounfold; cat; simpl; intros;
+  destruct f, g; simpl;
+  rewrite ?fmap_id, ?fmap_id0;
+  reflexivity.
+Qed.
 
 Program Instance Select `{C : Category} (c : C) : _1 ⟶ C := {|
   fobj := fun _ => c;

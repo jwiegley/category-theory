@@ -11,6 +11,9 @@ Require Export Category.Structure.Initial.
 Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Coq.
 
+(* Proof irrelevant equality. *)
+Definition proof_eq {P : Prop} (x y : P) := (x = y)%type.
+
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
@@ -26,15 +29,15 @@ Set Implicit Arguments.
    sense, categories 'generalize' preorders by allowing more than one relation
    between objects: each morphism is a distinct (named) preorder relation." *)
 
-Program Instance Proset `{C : Category} `{R : relation C} `(P : PreOrder C R) :
+Program Instance Proset `{C : Category} `{R : crelation C} `(P : PreOrder C R) :
   Category := {
   ob      := C;
   hom     := R;
-  homset  := fun A B => {| cequiv := proof_eq |};
+  homset  := fun A B => {| equiv := _ |};
   id      := fun X => @reflexivity C R (@PreOrder_Reflexive C R P) X;
   compose := fun X Y Z f g =>
                @transitivity C R (@PreOrder_Transitive C R P) X Y Z g f
 }.
-Next Obligation. apply proof_irrelevance. Qed.
-Next Obligation. apply proof_irrelevance. Qed.
-Next Obligation. apply proof_irrelevance. Qed.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+Next Obligation. Admitted.

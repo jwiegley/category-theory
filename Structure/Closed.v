@@ -45,7 +45,7 @@ Definition ump_exponents {X Y Z} (f : X × Y ~> Z) :
   eval ∘ first (curry f) ≈ f := @ump_exponents' _ X Y Z f.
 
 Global Program Instance parametric_morphism_curry (a b c : C) :
-  CMorphisms.Proper (cequiv ===> cequiv) (@curry a b c).
+  Proper (equiv ==> equiv) (@curry a b c).
 Next Obligation.
   proper.
   unfold curry; simpl in *.
@@ -55,7 +55,7 @@ Next Obligation.
 Qed.
 
 Global Program Instance parametric_morphism_uncurry (a b c : C) :
-  CMorphisms.Proper (cequiv ===> cequiv) (@uncurry a b c).
+  Proper (equiv ==> equiv) (@uncurry a b c).
 Next Obligation.
   proper.
   unfold uncurry; simpl in *.
@@ -72,7 +72,7 @@ Proof.
   pose proof (iso_to_from (@exp_iso _ X Y Z)) as HA.
   unfold equiv in HA; simpl in HA.
   autounfold in HA.
-  unfold cequiv in HA; simpl in HA.
+  unfold equiv in HA; simpl in HA.
   apply HA.
 Qed.
 
@@ -85,7 +85,7 @@ Proof.
   simpl in HA.
   unfold equiv in HA; simpl in HA.
   autounfold in HA.
-  unfold cequiv in HA; simpl in HA.
+  unfold equiv in HA; simpl in HA.
   apply HA.
 Qed.
 
