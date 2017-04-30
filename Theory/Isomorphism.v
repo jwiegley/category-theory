@@ -35,11 +35,11 @@ Global Program Instance isomorphism_equivalence :
 Next Obligation.
   intros.
   apply Build_Isomorphism with (to:=id) (from:=id); cat.
-Qed.
+Defined.
 Next Obligation.
   intros; destruct X.
   apply Build_Isomorphism with (to:=from0) (from:=to0); cat.
-Qed.
+Defined.
 Next Obligation.
   intros; destruct X, X0.
   apply Build_Isomorphism with (to:=to1 ∘ to0) (from:=from0 ∘ from1).
@@ -49,7 +49,7 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite (@comp_assoc _ _ _ _ _ from1).
   rewrite iso_from_to1; cat.
-Qed.
+Defined.
 
 Global Program Instance arrow_Isomorphism :
   CMorphisms.Proper

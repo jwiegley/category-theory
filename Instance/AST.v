@@ -6,7 +6,6 @@ Require Export Category.Structure.BiCCC.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Inductive Obj : Type :=
   | One_    : Obj
@@ -76,13 +75,11 @@ Program Fixpoint interp `(c : Hom a b) :
   | Merge f g   => merge (interp f) (interp g)
   end.
 
-Local Obligation Tactic := simpl; intros; auto; cat.
-
 Program Instance DSL : Category := {
-  hom := Hom;
-  id := @Id;
+  hom     := Hom;
+  id      := @Id;
   compose := @Compose;
-  homset := fun _ _ =>
+  homset  := fun _ _ =>
     {| cequiv := fun f g =>
          forall `{C : Category}
                 `{A : @Cartesian C}
@@ -93,7 +90,7 @@ Program Instance DSL : Category := {
            interp f ≈ interp g |}
 }.
 Next Obligation.
-  repeat intro.
+  equivalence.
   transitivity (interp y); auto.
 Qed.
 Next Obligation.
@@ -103,24 +100,21 @@ Next Obligation.
   rewrite X0, X1.
   reflexivity.
 Qed.
-Next Obligation.
-  proper; simplify equiv in all; intros; cat.
-Qed.
-Next Obligation.
-  proper; simplify equiv in all; intros; cat.
-Qed.
+Next Obligation. proper; simplify equiv in all; intros; cat. Qed.
+Next Obligation. proper; simplify equiv in all; intros; cat. Qed.
 Next Obligation.
   proper; simplify equiv in all; intros.
-  rewrite comp_assoc.
-  reflexivity.
+  rewrite comp_assoc; reflexivity.
 Qed.
 
-(*
-jww (2017-04-28): TODO
 Program Instance Hom_Terminal : @Terminal _ := {
   One := One_;
   one := @One'
 }.
+Next Obligation.
+  simplify equiv; intros.
+  apply one_unique.
+Qed.
 
 Program Instance Hom_Cartesian : @Cartesian _ := {
   Prod := Prod_;
@@ -128,13 +122,14 @@ Program Instance Hom_Cartesian : @Cartesian _ := {
   exl  := @Exl;
   exr  := @Exr
 }.
-Obligation 1.
-  intros ?? HA ?? HB ?? ????.
-  simpl.
-  rewrite HA, HB.
+Next Obligation.
+  proper.
+  simplify equiv in all; intros.
+  rewrite X0, X1.
   reflexivity.
 Qed.
-Obligation 2.
+Next Obligation.
+  simplify equiv.
   split; intros HA.
     split; intros; rewrite HA; cat.
   intros.
@@ -149,23 +144,42 @@ Program Instance Hom_Closed : @Closed _ _ := {
     {| to   := {| morphism := @Curry X Y Z |}
      ; from := {| morphism := @Uncurry X Y Z |} |}
 }.
-Obligation 1.
-  intros ?? HA ??????.
-  simpl.
-  rewrite HA.
+Next Obligation.
+  proper.
+  simplify equiv in all; intros.
+  rewrite X0.
   reflexivity.
 Qed.
-Obligation 2.
-  intros ?? HA ??????.
-  simpl.
-  rewrite HA.
+Next Obligation.
+  proper.
+  simplify equiv in all; intros.
+  rewrite X0.
   reflexivity.
+Qed.
+Next Obligation.
+  simplify equiv in all; intros.
+  simplify equiv in all; intros.
+  apply curry_uncurry.
+Qed.
+Next Obligation.
+  simplify equiv in all; intros.
+  simplify equiv in all; intros.
+  apply uncurry_curry.
+Qed.
+Next Obligation.
+  simplify equiv in all; intros.
+  simplify equiv in all; intros.
+  apply ump_exponents.
 Qed.
 
 Program Instance Hom_Initial : @Initial _ := {
   Zero := Zero_;
   zero := @Zero'
 }.
+Next Obligation.
+  simplify equiv in all; intros.
+  apply zero_unique.
+Qed.
 
 Program Instance Hom_Cocartesian : @Cocartesian _ := {
   Coprod := Coprod_;
@@ -173,13 +187,14 @@ Program Instance Hom_Cocartesian : @Cocartesian _ := {
   inl    := @Inl;
   inr    := @Inr
 }.
-Obligation 1.
-  intros ?? HA ?? HB ??????.
-  simpl.
-  rewrite HA, HB.
+Next Obligation.
+  proper.
+  simplify equiv in all; intros.
+  rewrite X0, X1.
   reflexivity.
 Qed.
-Obligation 2.
+Next Obligation.
+  simplify equiv.
   split; intros HA.
     split; intros; rewrite HA; cat.
   intros.
@@ -192,9 +207,15 @@ Program Instance interp_proper {X Y : Obj}
         `{C : Category} `{A : @Cartesian C}
         `{@Closed C A} `{@Cocartesian C}
         `{@Terminal C} `{@Initial C} :
-  Proper (@equiv _ (@homset DSL X Y) ==>
-          @equiv _ (@homset C _ _))
+  CMorphisms.Proper (@cequiv _ (@homset DSL X Y) ===>
+                     @cequiv _ (@homset C _ _))
          (fun f => @interp X Y f C A _ _ _ _).
+Next Obligation.
+  proper.
+  simplify equiv in all.
+  rewrite X0.
+  reflexivity.
+Qed.
 
 Section AST.
 
@@ -204,9 +225,6 @@ Context `{@Closed C A}.
 Context `{@Cocartesian C}.
 Context `{@Terminal C}.
 Context `{@Initial C}.
-
-Local Obligation Tactic :=
-  simpl; intros; auto; cat; try reflexivity; auto.
 
 Global Program Instance Hom_Functor : DSL ⟶ C := {
   fobj := fun x => denote x;
@@ -234,4 +252,3 @@ Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor := {
 }.
 
 End AST.
-*)

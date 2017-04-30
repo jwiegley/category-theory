@@ -32,3 +32,5 @@ Notation "F ⟹ G" := (@Natural _ _ F G)
 
 Notation "transform[ F ]" := (@transform _ _ _ _ F)
   (at level 9, format "transform[ F ]") : category_scope.
+
+Coercion transform : Natural >-> Funclass.

@@ -20,29 +20,38 @@ Set Implicit Arguments.
    assert proof irrelevance and judge them always equivalent if they have the
    same type. *)
 
-(*
-jww (2017-04-28): TODO
 Program Instance Props : Category := {
   ob      := Prop;
   hom     := Basics.impl;
   homset  := fun P Q =>
-               {| equiv := fun f g => forall x, proof_eq (f x) (g x) |};
+               {| cequiv := fun f g => forall x, proof_eq (f x) (g x) |};
   id      := fun _ x => x;
   compose := fun _ _ _ g f x => g (f x)
 }.
 Next Obligation. equivalence; autounfold in *; congruence. Qed.
-Next Obligation. proper; autounfold in *; congruence. Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  congruence.
+Qed.
 
 Program Instance Props_Terminal : @Terminal Props := {
   One := True;
   one := fun _ _ => I
 }.
-Next Obligation. apply proof_irrelevance. Qed.
+Next Obligation.
+  simplify equiv; intros.
+  apply proof_irrelevance.
+Qed.
 
 Program Instance Props_Initial : @Initial Props := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
+Next Obligation.
+  simplify equiv; intros.
+  contradiction.
+Qed.
 
 Program Instance Props_Cartesian : @Cartesian Props := {
   Prod := and;
@@ -50,8 +59,19 @@ Program Instance Props_Cartesian : @Cartesian Props := {
   exl  := fun _ _ p => proj1 p;
   exr  := fun _ _ p => proj2 p
 }.
-Obligation 1. proper; congruence. Qed.
-Obligation 2. firstorder; apply proof_irrelevance. Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  congruence.
+Qed.
+Next Obligation.
+  split; intros.
+    split; intros;
+    simplify equiv in all; intros;
+    apply proof_irrelevance.
+  simplify equiv in all; intros;
+  apply proof_irrelevance.
+Qed.
 
 Program Instance Props_Cocartesian : @Cocartesian Props := {
   Coprod := or;
@@ -63,8 +83,19 @@ Program Instance Props_Cocartesian : @Cocartesian Props := {
   inl  := fun _ _ p => or_introl p;
   inr  := fun _ _ p => or_intror p
 }.
-Obligation 1. proper; apply proof_irrelevance. Qed.
-Obligation 2. firstorder; apply proof_irrelevance. Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  apply proof_irrelevance.
+Qed.
+Next Obligation.
+  split; intros.
+    split; intros;
+    simplify equiv; intros;
+    apply proof_irrelevance.
+  simplify equiv; intros;
+  apply proof_irrelevance.
+Qed.
 
 Program Instance Props_Closed : @Closed Props _ := {
   Exp := Basics.impl;
@@ -72,9 +103,31 @@ Program Instance Props_Closed : @Closed Props _ := {
     {| to   := {| morphism := fun f a b => f (conj a b) |}
      ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |}
 }.
-Next Obligation. proper; apply proof_irrelevance. Qed.
-Next Obligation. proper; apply proof_irrelevance. Qed.
-Next Obligation. apply proof_irrelevance. Qed.
-Next Obligation. apply proof_irrelevance. Qed.
-Next Obligation. apply proof_irrelevance. Qed.
-*)
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  apply proof_irrelevance.
+Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  apply proof_irrelevance.
+Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros;
+  simplify equiv; intros;
+  apply proof_irrelevance.
+Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros;
+  simplify equiv; intros;
+  apply proof_irrelevance.
+Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros;
+  simplify equiv; intros;
+  apply proof_irrelevance.
+Qed.

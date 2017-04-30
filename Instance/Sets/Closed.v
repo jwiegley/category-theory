@@ -12,8 +12,6 @@ Unset Transparent Obligations.
 (* This instance must appear in a separate file, because the Closed structure
    makes use of isomorphisms in [Sets]. *)
 
-(*
-jww (2017-04-28): TODO
 Program Instance Sets_Closed : @Closed Sets _ := {
   Exp := fun X Y =>
             {| carrier := SetoidMorphism X Y
@@ -64,5 +62,19 @@ Next Obligation.
   apply X.
 Qed.
 Next Obligation.
-Admitted.
-*)
+  simplify equiv; intros.
+  simplify equiv; intros.
+  simplify equiv; intros.
+  reflexivity.
+Qed.
+Next Obligation.
+  simplify equiv; intros.
+  simplify equiv; intros.
+  rewrite <- surjective_pairing.
+  reflexivity.
+Qed.
+Next Obligation.
+  simplify equiv; intros.
+  rewrite <- surjective_pairing.
+  reflexivity.
+Qed.

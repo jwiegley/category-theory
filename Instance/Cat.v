@@ -16,7 +16,7 @@ Section FunctorEquiv.
 Context `{C : Category}.
 Context `{D : Category}.
 
-Global Program Instance fobj_respects `{F : C ⟶ D} {A : C} :
+Global Program Instance fobj_respects `{F : C ⟶ D} :
   CMorphisms.Proper (cequiv ===> cequiv) (@fobj C D F).
 Next Obligation.
   proper.

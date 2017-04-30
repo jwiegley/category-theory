@@ -8,7 +8,6 @@ Require Import Coq.Lists.ListSet.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section Concrete.
 
@@ -79,15 +78,13 @@ Qed.
    differentiate them), and a fixed set of arrows between those objects. A
    frequent use of these is as index categories to build diagrams. *)
 
-(*
-jww (2017-04-28): TODO
 Program Instance Concrete (Obs : set A) (Homs : list (A * A)) : Category := {
   ob  := { x : A | In x Obs };
   hom := fun X Y =>
     { f : list (A * A)
     | ∀ h, In' h f <-> In' h ((X, Y) :: Subset' X Y  Homs) }%type;
   homset := fun X Y =>
-    {| equiv := fun f g => ∀ h, In' h f <-> In' h g |}%type;
+    {| cequiv := fun f g => ∀ h, In' h f <-> In' h g |}%type;
   id := fun X => exist _ ((X, X) :: nil) _
 }.
 Next Obligation.
@@ -102,50 +99,17 @@ Next Obligation.
   apply In_Subset'_inv in H0.
   constructor; auto.
 Qed.
-Next Obligation. firstorder. Qed.
+Next Obligation. firstorder. Defined.
 Next Obligation.
-  proper; simpl in *;
-  destruct x, x0, y, y0; simpl in *;
+  proper; simpl in *.
+  unfold Concrete_obligation_3; simpl.
+  simplify equiv; simpl.
+  destruct x, x0, y, y0; simpl in *.
   firstorder.
 Qed.
-Next Obligation.
-  firstorder; simpl in *.
-  - destruct f.
-      pose proof (proj2 (H (X, Y))); firstorder.
-      specialize (H4 (reflexivity _) (reflexivity _)).
-      contradiction.
-    pose proof (proj2 (H (a, a0))); firstorder.
-  - destruct f.
-      pose proof (proj2 (H (X, Y))); firstorder.
-      specialize (H3 (reflexivity _) (reflexivity _)).
-      contradiction.
-    pose proof (proj2 (H (a, a0))); firstorder.
-  - destruct f.
-      contradiction.
-    pose proof (proj1 (H (a, a0))); firstorder.
-Qed.
-Next Obligation.
-  firstorder; simpl in *.
-  - destruct f.
-      pose proof (proj2 (H (X, Y))); firstorder.
-      specialize (H4 (reflexivity _) (reflexivity _)).
-      contradiction.
-    pose proof (proj2 (H (a, a0))); firstorder.
-  - destruct f.
-      pose proof (proj2 (H (X, Y))); firstorder.
-      specialize (H3 (reflexivity _) (reflexivity _)).
-      contradiction.
-    pose proof (proj2 (H (a, a0))); firstorder.
-  - destruct f.
-      contradiction.
-    pose proof (proj1 (H (a, a0))); firstorder.
-Qed.
-*)
 
 End Concrete.
 
-(*
-jww (2017-04-28): TODO
 Require Import Category.Theory.Functor.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
@@ -168,42 +132,71 @@ Program Instance Initial_0 : @Initial Cat := {
   zero := Map_0
 }.
 Next Obligation.
-  intros.
-  destruct X.
+  simplify equiv; intros.
+  constructive;
+  try destruct X;
+  try contradiction;
+  simplify equiv; intros;
+  destruct A0;
   contradiction.
 Qed.
 
 Program Instance Initial_0_is_0 : @Zero Cat Initial_0 ≅ _0.
-Next Obligation. destruct X; contradiction. Qed.
+Next Obligation.
+  simplify equiv; intros.
+  constructive; try contradiction;
+  simplify equiv; intros;
+  contradiction.
+Qed.
+Next Obligation.
+  simplify equiv; intros.
+  constructive;
+  try destruct X;
+  try contradiction;
+  simplify equiv; intros;
+  destruct A; contradiction.
+Qed.
 
 (* The 1 category has one object and its identity morphism. It is terminal in
    Cat. *)
 
 Program Definition Concrete_1 := Concrete unit _ [tt] [].
-Next Obligation. destruct x, y; auto. Qed.
+Next Obligation. destruct x, y; auto. Defined.
 
 Program Instance Map_1 `(C : Category) : C ⟶ Concrete_1 := {
   fobj := fun _ => tt;
   fmap := fun _ _ _ => id
 }.
+Next Obligation. simplify equiv; intros; intuition. Qed.
 
 Program Instance Terminal_1 : @Terminal Cat := {
   One := Concrete_1;
   one := Map_1
 }.
 Next Obligation.
-  intros.
-  destruct (f X), (g X), x, x0.
-  eexists (exist _ [(tt, tt)] _).
-  Unshelve. 2:split; auto.
-  eexists (exist _ [(tt, tt)] _).
-  Unshelve. 2:split; auto.
-  simpl; intuition.
-Qed.
+  simplify equiv; intros.
+  constructive; simpl;
+  try destruct (f X), (g X);
+  try destruct x, x0;
+  unfold Concrete_obligation_3, Concrete_1_obligation_1.
+  all:swap 2 3; simpl.
+  - eexists [(tt, tt)]; intros; intuition.
+  - eexists [(tt, tt)]; intros; intuition.
+Admitted.
 
+(*
+jww (2017-04-29): TODO
 Program Instance Terminal_1_is_1 : @One Cat Terminal_1 ≅ _1.
-Next Obligation. destruct X; reflexivity. Qed.
 Next Obligation.
+  simplify equiv.
+  constructive; intuition;
+  simplify equiv; intuition.
+Qed.
+Next Obligation.
+  simplify equiv.
+  constructive; intuition;
+  simplify equiv; intuition;
+  unfold Concrete_obligation_3, Concrete_1_obligation_1.
   destruct X; simpl.
   eexists (exist _ [(tt, x)] _).
   Unshelve. Focus 2. intuition.
@@ -211,6 +204,7 @@ Next Obligation.
   Unshelve. Focus 2. intuition.
   simpl; intuition.
 Qed.
+*)
 
 (* The 2 category has two objects, their identity morphisms, and a morphism
    from the first to the second object. *)
@@ -236,4 +230,3 @@ Definition Concrete_3 :=
            [(One_, Two_); (Two_, Three_); (One_, Three_)].
 
 End ConcreteInstances.
-*)

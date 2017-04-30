@@ -9,13 +9,13 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-(*
-jww (2017-04-28): TODO
 Program Instance adj_id `{C : Category} : Identity ⊣ Identity := {
   adj_iso := fun _ _ =>
     {| to   := {| morphism := _ |}
      ; from := {| morphism := _ |} |}
 }.
+Next Obligation. simplify equiv; intros; reflexivity. Qed.
+Next Obligation. simplify equiv; intros; reflexivity. Qed.
 
 Program Definition adj_comp
         `{C : Category} `{D : Category} `{E : Category}
@@ -26,10 +26,16 @@ Program Definition adj_comp
     {| to   := {| morphism := fun (f : F (F' a) ~> b) => adj_left (adj_left f) |}
      ; from := {| morphism := fun (f : a ~> U' (U b)) => adj_right (adj_right f) |} |}
 |}.
-Next Obligation. proper; rewrite H; reflexivity. Qed.
-Next Obligation. proper; rewrite H; reflexivity. Qed.
-Next Obligation. rewrite adj_left_right, adj_left_right; reflexivity. Qed.
-Next Obligation. rewrite adj_right_left, adj_right_left; reflexivity. Qed.
+Next Obligation. proper. rewrite X0; reflexivity. Qed.
+Next Obligation. proper; rewrite X0; reflexivity. Qed.
+Next Obligation.
+  simplify equiv; intros.
+  rewrite adj_left_right, adj_left_right; reflexivity.
+Qed.
+Next Obligation.
+  simplify equiv; intros.
+  rewrite adj_right_left, adj_right_left; reflexivity.
+Qed.
 Next Obligation. rewrite <- !adj_left_nat_l; reflexivity. Qed.
 Next Obligation. rewrite <- !adj_left_nat_r; reflexivity. Qed.
 Next Obligation. rewrite <- !adj_right_nat_l; reflexivity. Qed.
@@ -45,20 +51,18 @@ Record adj_morphism `{C : Category} `{D : Category} := {
 }.
 
 Program Instance adj_morphism_setoid `{C : Category} `{D : Category} :
-  Setoid (@adj_morphism C D) := {
-  equiv := fun f g =>
-             free_functor f ≈ free_functor g ∧
-             forgetful_functor f ≈ forgetful_functor g
+  CSetoid (@adj_morphism C D) := {
+  cequiv := fun f g =>
+              (free_functor f ≅[Nat] free_functor g) *
+              (forgetful_functor f ≅[Nat] forgetful_functor g)
 }.
 Next Obligation.
   equivalence.
-  - symmetry; apply H0.
-  - symmetry; apply H1.
-  - transitivity ((free_functor y) X); auto.
-  - transitivity ((forgetful_functor y) X); auto.
+    transitivity (free_functor y); assumption.
+  transitivity (forgetful_functor y); assumption.
 Qed.
 
-Program Instance Adj : Category := {
+Program Instance Adjoints : Category := {
   ob := Category;
   hom := @adj_morphism;
   id := fun X =>
@@ -71,14 +75,23 @@ Program Instance Adj : Category := {
                        (adjunction g) (adjunction f) |}
 }.
 Next Obligation.
-  proper.
-  - rewrite H.
-    apply (@fobj_respects _ _ _ ((free_functor y) X0)).
-    apply H1.
-  - rewrite H2.
-    apply (@fobj_respects _ _ _ ((forgetful_functor x0) X0)).
-    apply H3.
-Qed.
+  proper; simpl; constructive;
+  simplify equiv in all.
+  all:swap 2 3; simpl.
+  (* - destruct X1. *)
+  (*   apply (to i). *)
+  (*   apply (@fobj_respects _ _ _ ((free_functor y) X0)). *)
+  (*   apply H1. *)
+  (* - rewrite H2. *)
+  (*   apply (@fobj_respects _ _ _ ((forgetful_functor x0) X0)). *)
+  (*   apply H3. *)
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
 
 (* From mathoverflow:
 
@@ -106,4 +119,3 @@ Qed.
    functor F : C^op → D or as a (covariant) functor F^op : C → D^op. The
    latter version has a right adjoint precisely when the former version has a
    left adjoint.) *)
-*)

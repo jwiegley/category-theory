@@ -20,16 +20,14 @@ Set Implicit Arguments.
 
 (* The category of heterogenous relations on Coq objects. *)
 
-(*
-jww (2017-04-28): TODO
 Program Instance Rel : Category := {
   ob      := @ob Coq;
   hom     := fun A B => A ~> Ensemble B;
   homset  := fun P Q =>
-               {| equiv := fun f g => forall x y, f x y <-> g x y |};
+               {| cequiv := fun f g => forall x y, f x y <-> g x y |};
   id      := Singleton;
   compose := fun X Y Z f g x z =>
-               (exists y : Y, In Y (g x) y /\ In Z (f y) z)%type
+               (exists y : Y, In Y (g x) y ∧ In Z (f y) z)%type
 }.
 Next Obligation.
   equivalence.
@@ -39,33 +37,88 @@ Next Obligation.
   - apply H, H0; assumption.
 Qed.
 Next Obligation.
-  proper;
-  destruct H1 as [z [H1 H2]];
+  proper.
+  simplify equiv; intros.
+  split; intros;
+  destruct H as [z [H1 H2]];
   exists z; firstorder.
 Qed.
-Next Obligation. all: firstorder; destruct H0; intuition. Qed.
-Next Obligation. all: firstorder; destruct H; intuition. Qed.
-Next Obligation. all: firstorder. Qed.
+Next Obligation.
+  simplify equiv; intros.
+  split; intros.
+    destruct H as [z [H1 H2]].
+    destruct H2; assumption.
+  exists y.
+  intuition.
+Qed.
+Next Obligation.
+  simplify equiv; intros.
+  split; intros.
+    destruct H as [z [H1 H2]].
+    destruct H1; assumption.
+  exists x.
+  intuition.
+Qed.
+Next Obligation.
+  simplify equiv; intros.
+  split; intros.
+    destruct H as [z [H1 H2]].
+    destruct H1, H.
+    exists x0; intuition.
+    esplit.
+    esplit.
+      apply H0.
+    apply H2.
+  destruct H, H, H0, H0.
+  exists x1.
+  split.
+    esplit.
+      esplit.
+      apply H.
+    apply H0.
+  apply H1.
+Qed.
 
 Program Instance Rel_Initial : @Initial Rel := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
+Next Obligation.
+  simplify equiv; intros.
+  contradiction.
+Qed.
 
 (*
 Program Instance Rel_Cartesian : @Cartesian Rel := {
-  Prod := prod;
-  fork := fun _ _ _ f g x => conj (f x) (g x);
-  exl  := fun _ _ p => proj1 p;
-  exr  := fun _ _ p => proj2 p
+  Prod := @Prod Coq _;
+  fork := fun _ _ _ f g x y => f x (fst y) ∧ g x (snd y);
+  exl  := fun _ _ p x => In _ (Singleton _ (fst p)) x;
+  exr  := fun _ _ p x => In _ (Singleton _ (snd p)) x
 }.
-Obligation 1. proper; autounfold in *; congruence. Qed.
-Obligation 2.
-  autounfold in *.
+Next Obligation.
+  proper.
+  simplify equiv in all; intros.
   split; intros.
-    split; intros;
-    apply proof_irrelevance.
-  apply proof_irrelevance.
+    destruct H.
+    split; intros.
+      apply X0; assumption.
+    apply X1; assumption.
+  destruct H.
+  split; intros.
+    apply X0; assumption.
+  apply X1; assumption.
+Qed.
+Next Obligation.
+  simplify equiv in all.
+  firstorder.
+  - destruct H1.
+    apply H, H0.
+  - eexists (y, _).
+    split.
+      apply H; simpl.
+      split.
+        assumption.
+      apply H.
 Qed.
 
 Program Instance Rel_Cocartesian : @Cocartesian Rel := {
@@ -107,14 +160,19 @@ Program Instance Relation_Functor : Coq ⟶ Rel := {
   fmap := fun X Y (f : X ~{Coq}~> Y) x y => In _ (Singleton _ (f x)) y
 }.
 Next Obligation.
-  proper;
-  destruct H0;
-  rewrite <- H;
+  proper.
+  simplify equiv in all; intros.
+  split; intros;
+  destruct H;
+  rewrite X0;
   constructor.
 Qed.
 Next Obligation.
-  firstorder.
-  destruct H, H0.
+  simplify equiv in all; intros.
+  split; intros;
+  destruct H.
+    exists (g x).
+    firstorder.
+  destruct H, H, H0.
   constructor.
 Qed.
-*)

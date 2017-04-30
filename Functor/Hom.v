@@ -38,8 +38,6 @@ Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
 Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
   P W Y ~{E}~> P X Z := bimap (op f) g.
 
-(*
-jww (2017-04-28): TODO
 Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom C X Y
@@ -52,7 +50,34 @@ Program Instance HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
     transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
 }.
-Next Obligation. unfold op; simpl; autounfold; cat. Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  apply compose_respects.
+    assumption.
+  reflexivity.
+Qed.
+Next Obligation. simplify equiv; intros; cat. Qed.
+Next Obligation. simplify equiv; intros; cat. Qed.
+Next Obligation. simplify equiv; intros; cat. Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  simplify equiv; intros.
+  apply compose_respects.
+    reflexivity.
+  assumption.
+Qed.
+Next Obligation.
+  simplify equiv; intros;
+  simplify equiv; intros; cat.
+Qed.
+Next Obligation.
+  simplify equiv; intros;
+  simplify equiv; intros; cat.
+  unfold op.
+  apply comp_assoc.
+Qed.
 
 Coercion HomFunctor : Category >-> Functor.
 
@@ -61,7 +86,7 @@ Notation "'Hom' ( A , ─ )" := (@HomFunctor _ A) : category_scope.
 Program Instance CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom (C^op) X Y
-                      ; is_setoid := @homset (C^op) X Y |};
+                      ; is_csetoid := @homset (C^op) X Y |};
     fmap := fun Y Z (f : Y ~{C^op}~> Z) =>
               {| morphism := fun (g : X ~{C^op}~> Y) =>
                                (f ∘ g) : X ~{C^op}~> Z |}
@@ -70,9 +95,35 @@ Program Instance CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
     transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
 }.
-Next Obligation. unfold op; simpl; autounfold; cat. Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  apply compose_respects.
+    reflexivity.
+  assumption.
+Qed.
+Next Obligation. simplify equiv; intros; cat. Qed.
+Next Obligation. simplify equiv; intros; cat. Qed.
+Next Obligation. simplify equiv; intros; cat. Qed.
+Next Obligation.
+  proper.
+  simplify equiv; intros.
+  simplify equiv; intros.
+  apply compose_respects.
+    assumption.
+  reflexivity.
+Qed.
+Next Obligation.
+  simplify equiv; intros;
+  simplify equiv; intros; cat.
+Qed.
+Next Obligation.
+  simplify equiv; intros;
+  simplify equiv; intros; cat.
+  symmetry.
+  apply comp_assoc.
+Qed.
 
 Coercion CoHomFunctor : Category >-> Functor.
 
 Notation "'Hom' ( ─ , A )" := (@CoHomFunctor _ A) : category_scope.
-*)

@@ -16,8 +16,6 @@ Definition Presheaves   (C : Category) := [C^op, Sets].
 Definition Copresheaves (C : Category) := [C, Sets].
 
 (** This is the Yoneda embedding. *)
-(*
-jww (2017-04-28): TODO
 Instance Yoneda `{C : Category} : C ⟶ [C^op, Sets] := CoHomFunctor C.
 
 Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
@@ -32,41 +30,46 @@ Next Obligation.
   (* [to] preserves morphism equivalences. *)
   proper.
   destruct x, y; simpl in *.
-  unfold nat_equiv in H.
-  simpl in H.
-  rewrite H; reflexivity.
+  simplify equiv in X.
+  apply X.
 Qed.
 Next Obligation.
   (* [transform] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
-  apply fmap_respects, H.
+  apply fmap_respects, X0.
 Qed.
 Next Obligation.
   (* The action of [transform] is natural. *)
   autounfold.
   destruct F; simpl in *.
   symmetry.
+  simplify equiv; intros.
   apply fmap_comp.
 Qed.
 Next Obligation.
   (* [from] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
+  simplify equiv; intros.
+  simplify equiv; intros.
   apply proper_morphism; assumption.
 Qed.
 Next Obligation.
   (* The result of [from] respects the laws of the functor category. *)
   autounfold; simpl.
   destruct F; simpl in *.
-  rewrite fmap_id; reflexivity.
+  simplify equiv; intros.
+  apply fmap_id.
 Qed.
 Next Obligation.
   (* The result of [from] preserves morphism equivalences. *)
   autounfold.
-  unfold nat_equiv; simpl.
+  simplify equiv; intros.
   destruct F, x; simpl in *; intros.
   autounfold in *.
+  simplify equiv in all; intros.
+  simplify equiv; intros.
   rewrite natural_transformation.
   apply transform; cat.
 Qed.
@@ -80,40 +83,49 @@ Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) {A : C
                      @fmap C Sets F A X phi Y |} |} |}
 }.
 Next Obligation.
+  (* [to] preserves morphism equivalences. *)
   proper.
   destruct x, y; simpl in *.
-  unfold nat_equiv in H.
-  simpl in H.
-  rewrite H; reflexivity.
+  simplify equiv in X.
+  apply X.
 Qed.
 Next Obligation.
+  (* [transform] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
-  apply fmap_respects, H.
+  apply fmap_respects, X0.
 Qed.
 Next Obligation.
+  (* The action of [transform] is natural. *)
   autounfold.
   destruct F; simpl in *.
   symmetry.
+  simplify equiv; intros.
   apply fmap_comp.
 Qed.
 Next Obligation.
+  (* [from] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
+  simplify equiv; intros.
+  simplify equiv; intros.
   apply proper_morphism; assumption.
 Qed.
 Next Obligation.
+  (* The result of [from] respects the laws of the functor category. *)
   autounfold; simpl.
   destruct F; simpl in *.
-  rewrite fmap_id; reflexivity.
+  simplify equiv; intros.
+  apply fmap_id.
 Qed.
 Next Obligation.
+  (* The result of [from] preserves morphism equivalences. *)
   autounfold.
-  destruct F; simpl in *.
-  unfold nat_equiv; simpl; intros.
-  destruct x; simpl in *.
+  simplify equiv; intros.
+  destruct F, x; simpl in *; intros.
   autounfold in *.
+  simplify equiv in all; intros.
+  simplify equiv; intros.
   rewrite natural_transformation.
   apply transform; cat.
 Qed.
-*)
