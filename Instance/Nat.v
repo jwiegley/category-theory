@@ -81,3 +81,5 @@ Notation "F ⊙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativ
 Hint Unfold nat_compose.
 Hint Unfold nat_identity.
 Hint Unfold nat_equiv.
+
+Arguments nat_equiv {_ _ _ _} _ _ /.

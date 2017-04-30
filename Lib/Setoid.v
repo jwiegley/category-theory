@@ -48,21 +48,6 @@ Notation "f --> g" := (respectful (Basics.flip f) g)%signature
 Arguments Proper {A}%type R%signature m.
 Arguments respectful {A B}%type (R R')%signature _ _.
 
-Tactic Notation "simplify" "equiv" :=
-  unfold equiv; simpl;
-  unfold equiv; simpl;
-  autounfold; simpl.
-
-Tactic Notation "simplify" "equiv" "in" ident(H) :=
-  unfold equiv in H; simpl in H;
-  unfold equiv in H; simpl in H;
-  autounfold in H; simpl in H.
-
-Tactic Notation "simplify" "equiv" "in" "all" :=
-  unfold equiv in *; simpl in *;
-  unfold equiv in *; simpl in *;
-  autounfold in *; simpl in *.
-
 Hint Constructors Equivalence.
 
 Hint Unfold Reflexive.

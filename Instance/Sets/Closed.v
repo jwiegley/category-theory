@@ -32,7 +32,6 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper; destruct f; simpl.
-  simplify equiv; intros.
   apply proper_morphism.
   split; simpl; intuition.
 Qed.

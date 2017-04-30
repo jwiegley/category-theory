@@ -6,6 +6,7 @@ TODO  -*- mode: org; fill-column: 78 -*-
 And just apply curry to [C^op, C] ⟶ Sets
 ** Define equivalence and isomorphism of categories
 ** Isomorphism of objects is given by isomorphism of arrows
+** Is my definition of nat_equiv and adjoint equivalence correct?
 ** Equivalence of objects should given by pair of arrows to isomorphic objects
 An equivalence of categories consists of a functor between the involved
 categories, which is required to have an "inverse" functor. However, in

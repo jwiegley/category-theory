@@ -107,12 +107,10 @@ Program Instance Hom_Cartesian : @Cartesian _ := {
 }.
 Next Obligation.
   proper.
-  simplify equiv in all; intros.
   rewrite X0, X1.
   reflexivity.
 Qed.
 Next Obligation.
-  simplify equiv.
   split; intros HA.
     split; intros; rewrite HA; cat.
   intros.
@@ -129,13 +127,11 @@ Program Instance Hom_Closed : @Closed _ _ := {
 }.
 Next Obligation.
   proper.
-  simplify equiv in all; intros.
   rewrite X0.
   reflexivity.
 Qed.
 Next Obligation.
   proper.
-  simplify equiv in all; intros.
   rewrite X0.
   reflexivity.
 Qed.
@@ -153,12 +149,10 @@ Program Instance Hom_Cocartesian : @Cocartesian _ := {
 }.
 Next Obligation.
   proper.
-  simplify equiv in all; intros.
   rewrite X0, X1.
   reflexivity.
 Qed.
 Next Obligation.
-  simplify equiv.
   split; intros HA.
     split; intros; rewrite HA; cat.
   intros.

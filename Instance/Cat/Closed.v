@@ -47,7 +47,6 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper.
-  simplify equiv; intros.
   apply fmap_respects; cat.
 Qed.
 Next Obligation.
@@ -57,7 +56,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper.
-  constructive; simpl.
+  constructive; simpl; intros.
   all:swap 2 3.
   - unshelve (refine {| transform := fun Y0 : B => _ (to X (X0, Y0)) |});
     simpl; intros.
@@ -67,19 +66,11 @@ Next Obligation.
     simpl; intros.
       exact x0.
     apply natural_transformation.
-  - simplify equiv; intros.
-    apply natural_transformation.
-  - simplify equiv; intros.
-    apply natural_transformation.
-  - simplify equiv; intros.
-    simplify equiv; intros.
-    destruct X; simpl.
-    simplify equiv in iso_to_from.
+  - simpl; apply natural_transformation.
+  - simpl; apply natural_transformation.
+  - destruct X; simpl in *.
     apply iso_to_from.
-  - simplify equiv; intros.
-    simplify equiv; intros.
-    destruct X; simpl.
-    simplify equiv in iso_from_to.
+  - destruct X; simpl in *.
     apply iso_from_to.
 Qed.
 Next Obligation.
@@ -95,7 +86,6 @@ Qed.
 Next Obligation.
   simpl; cat.
   destruct F; simpl in *.
-  simplify equiv in fmap_id.
   rewrite fmap_id.
   destruct (fobj o); simpl in *.
   apply fmap_id0.
@@ -110,7 +100,6 @@ Next Obligation.
   rewrite natural_transformation.
   rewrite comp_assoc.
   destruct F; simpl in *.
-  simplify equiv in fmap_comp.
   rewrite <- !fmap_comp.
   rewrite natural_transformation.
   reflexivity.
@@ -143,21 +132,14 @@ Next Obligation.
     destruct (from X); simpl.
     specialize (natural_transformation _ _ h); simpl in *.
     apply natural_transformation.
-  - simplify equiv; intros.
-    destruct A0; simpl; cat.
+  - destruct A0; simpl; cat.
     destruct X; simpl in *.
-    simplify equiv in iso_to_from.
-    simplify equiv in iso_to_from.
     apply iso_to_from.
-  - simplify equiv; intros.
-    destruct A0; simpl; cat.
+  - destruct A0; simpl; cat.
     destruct X; simpl in *.
-    simplify equiv in iso_from_to.
-    simplify equiv in iso_from_to.
     apply iso_from_to.
 Qed.
 Next Obligation.
-  simplify equiv; intros.
   constructive; simpl.
   all:swap 2 3.
   - unshelve (refine {| transform := fun Y0 : B => _ |});
@@ -165,32 +147,25 @@ Next Obligation.
       apply (x X).
       apply id.
     simpl; cat.
-    destruct x; simpl.
-    simplify equiv in fmap_id.
+    destruct x; simpl in *.
     rewrite fmap_id; cat.
   - unshelve (refine {| transform := fun Y0 : B => _ |});
     simpl; intros.
       apply (x X).
       apply id.
     simpl; cat.
-    destruct x; simpl.
-    simplify equiv in fmap_id.
-    rewrite fmap_id; cat.
-  - simplify equiv; intros; cat.
-  - simplify equiv; intros; cat.
-  - simplify equiv; intros.
-    simplify equiv; intros; cat.
     destruct x; simpl in *.
-    simplify equiv in fmap_id.
     rewrite fmap_id; cat.
-  - simplify equiv; intros.
-    simplify equiv; intros; cat.
+  - simpl; intros; cat.
+  - simpl; intros; cat.
+  - simpl; intros; cat.
     destruct x; simpl in *.
-    simplify equiv in fmap_id.
+    rewrite fmap_id; cat.
+  - simpl; intros; cat.
+    destruct x; simpl in *.
     rewrite fmap_id; cat.
 Qed.
 Next Obligation.
-  simplify equiv; intros.
   constructive; simpl.
   all:swap 2 3.
   - rewrite <- pairing.
@@ -203,13 +178,10 @@ Next Obligation.
   - destruct X, Y, f; simpl; cat.
     rewrite <- fmap_comp.
     apply fmap_respects; cat; simpl; cat.
-  - simplify equiv; intros.
-    destruct A0; simpl; cat.
-  - simplify equiv; intros.
-    destruct A0; simpl; cat.
+  - destruct A0; simpl; cat.
+  - destruct A0; simpl; cat.
 Qed.
 Next Obligation.
-  simplify equiv.
   constructive; simpl.
   all:swap 2 3.
   - rewrite <- pairing.
@@ -222,8 +194,6 @@ Next Obligation.
   - destruct X0, Y0, f0; simpl; cat.
     rewrite <- fmap_comp.
     apply fmap_respects; cat; simpl; cat.
-  - simplify equiv; intros.
-    destruct A; simpl; cat.
-  - simplify equiv; intros.
-    destruct A; simpl; cat.
+  - destruct A; simpl; cat.
+  - destruct A; simpl; cat.
 Qed.

@@ -30,7 +30,6 @@ Next Obligation.
   (* [to] preserves morphism equivalences. *)
   proper.
   destruct x, y; simpl in *.
-  simplify equiv in X.
   apply X.
 Qed.
 Next Obligation.
@@ -44,32 +43,25 @@ Next Obligation.
   autounfold.
   destruct F; simpl in *.
   symmetry.
-  simplify equiv; intros.
   apply fmap_comp.
 Qed.
 Next Obligation.
   (* [from] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
-  simplify equiv; intros.
-  simplify equiv; intros.
   apply proper_morphism; assumption.
 Qed.
 Next Obligation.
   (* The result of [from] respects the laws of the functor category. *)
   autounfold; simpl.
   destruct F; simpl in *.
-  simplify equiv; intros.
   apply fmap_id.
 Qed.
 Next Obligation.
   (* The result of [from] preserves morphism equivalences. *)
   autounfold.
-  simplify equiv; intros.
   destruct F, x; simpl in *; intros.
   autounfold in *.
-  simplify equiv in all; intros.
-  simplify equiv; intros.
   rewrite natural_transformation.
   apply transform; cat.
 Qed.
@@ -86,7 +78,6 @@ Next Obligation.
   (* [to] preserves morphism equivalences. *)
   proper.
   destruct x, y; simpl in *.
-  simplify equiv in X.
   apply X.
 Qed.
 Next Obligation.
@@ -100,32 +91,25 @@ Next Obligation.
   autounfold.
   destruct F; simpl in *.
   symmetry.
-  simplify equiv; intros.
   apply fmap_comp.
 Qed.
 Next Obligation.
   (* [from] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
-  simplify equiv; intros.
-  simplify equiv; intros.
   apply proper_morphism; assumption.
 Qed.
 Next Obligation.
   (* The result of [from] respects the laws of the functor category. *)
   autounfold; simpl.
   destruct F; simpl in *.
-  simplify equiv; intros.
   apply fmap_id.
 Qed.
 Next Obligation.
   (* The result of [from] preserves morphism equivalences. *)
   autounfold.
-  simplify equiv; intros.
   destruct F, x; simpl in *; intros.
   autounfold in *.
-  simplify equiv in all; intros.
-  simplify equiv; intros.
   rewrite natural_transformation.
   apply transform; cat.
 Qed.

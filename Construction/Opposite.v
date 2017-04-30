@@ -68,6 +68,5 @@ Proof.
   unfold Reverse_Opposite_Functor.
   unfold Opposite_Functor, unop, op.
   destruct F; simpl.
-  simplify equiv.
-  constructive; simplify equiv; intros; cat.
+  constructive; simpl; intros; cat.
 Qed.

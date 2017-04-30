@@ -137,28 +137,22 @@ Program Instance Initial_0 : @Initial Cat := {
   zero := Map_0
 }.
 Next Obligation.
-  simplify equiv; intros.
   constructive;
   try destruct X;
   try contradiction;
-  simplify equiv; intros;
   destruct A0;
   contradiction.
 Qed.
 
 Program Instance Initial_0_is_0 : @Zero Cat Initial_0 ≅ _0.
 Next Obligation.
-  simplify equiv; intros.
   constructive; try contradiction;
-  simplify equiv; intros;
   contradiction.
 Qed.
 Next Obligation.
-  simplify equiv; intros.
   constructive;
   try destruct X;
   try contradiction;
-  simplify equiv; intros;
   destruct A; contradiction.
 Qed.
 
@@ -178,7 +172,6 @@ Program Instance Terminal_1 : @Terminal Cat := {
   one := Map_1
 }.
 Next Obligation.
-  simplify equiv; intros.
   constructive; simpl;
   try destruct (f X), (g X);
   try destruct x, x0;
@@ -192,14 +185,12 @@ Admitted.
 jww (2017-04-29): TODO
 Program Instance Terminal_1_is_1 : @One Cat Terminal_1 ≅ _1.
 Next Obligation.
-  simplify equiv.
   constructive; intuition;
-  simplify equiv; intuition.
+  intuition.
 Qed.
 Next Obligation.
-  simplify equiv.
   constructive; intuition;
-  simplify equiv; intuition;
+  intuition;
   unfold Concrete_obligation_3, Concrete_1_obligation_1.
   destruct X; simpl.
   eexists (exist _ [(tt, x)] _).

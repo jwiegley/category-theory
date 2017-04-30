@@ -71,8 +71,7 @@ Program Instance Adjoints : Category := {
                        (adjunction g) (adjunction f) |}
 }.
 Next Obligation.
-  proper; simpl; constructive;
-  simplify equiv in all.
+  proper; simpl; constructive.
   all:swap 2 3; simpl.
   (* - destruct X1. *)
   (*   apply (to i). *)

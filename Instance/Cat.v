@@ -106,22 +106,16 @@ Next Obligation.
     rewrite !fmap_comp.
     rewrite comp_assoc.
     reflexivity.
-  - simplify equiv; intros; simplify equiv.
-    destruct X0 as [to0 from0 iso_to_from0 ?];
+  - destruct X0 as [to0 from0 iso_to_from0 ?];
     destruct X1 as [to1 from1 iso_to_from1 ?]; simpl in *.
-    simplify equiv in iso_to_from0.
-    simplify equiv in iso_to_from1.
     rewrite <- natural_transformation.
     rewrite <- !comp_assoc.
     rewrite (comp_assoc (transform[to0] _)).
     rewrite iso_to_from0; cat.
     rewrite <- fmap_comp.
     rewrite iso_to_from1; cat.
-  - simplify equiv; intros; simplify equiv.
-    destruct X0 as [to0 from0 ? iso_from_to0 ?];
+  - destruct X0 as [to0 from0 ? iso_from_to0 ?];
     destruct X1 as [to1 from1 ? iso_from_to1 ?]; simpl in *.
-    simplify equiv in iso_from_to0.
-    simplify equiv in iso_from_to1.
     rewrite <- natural_transformation.
     rewrite <- !comp_assoc.
     rewrite (comp_assoc (transform[from0] _)).
@@ -130,20 +124,17 @@ Next Obligation.
     rewrite iso_from_to1; cat.
 Qed.
 Next Obligation.
-  simplify equiv.
   constructive.
   all:swap 2 3;try exact (fmap id).
-  all:simplify equiv; intros; simplify equiv; cat.
+  all:simpl; intros; cat.
 Qed.
 Next Obligation.
-  simplify equiv.
   constructive.
   all:swap 2 3;try exact (fmap id).
-  all:simplify equiv; intros; simplify equiv; cat.
+  all:simpl; intros; cat.
 Qed.
 Next Obligation.
-  simplify equiv.
   constructive.
   all:swap 2 3;try exact (fmap id).
-  all:simplify equiv; intros; simplify equiv; cat.
+  all:simpl; intros; cat.
 Qed.

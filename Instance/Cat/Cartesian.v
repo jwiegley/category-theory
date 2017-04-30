@@ -40,16 +40,14 @@ Next Obligation.
   - simpl; intros.
     split; simpl;
     apply natural_transformation.
-  - simplify equiv; intros.
-    split; simpl.
+  - split; simpl.
       destruct X0; simpl.
       destruct to, from; simpl in *.
       apply iso_to_from.
     destruct X1; simpl.
     destruct to, from; simpl in *.
     apply iso_to_from.
-  - simplify equiv; intros.
-    split; simpl.
+  - split; simpl.
       destruct X0; simpl.
       destruct to, from; simpl in *.
       apply iso_from_to.
@@ -71,10 +69,8 @@ Next Obligation.
       - simpl; intros.
         destruct from; simpl in *.
         apply natural_transformation.
-      - simplify equiv in all.
-        apply iso_to_from.
-      - simplify equiv in all.
-        apply iso_from_to.
+      - apply iso_to_from.
+      - apply iso_from_to.
     }
     { constructive.
       all:swap 2 3.
@@ -86,10 +82,8 @@ Next Obligation.
       - simpl; intros.
         destruct from; simpl in *.
         apply natural_transformation.
-      - simplify equiv in all.
-        apply iso_to_from.
-      - simplify equiv in all.
-        apply iso_from_to.
+      - apply iso_to_from.
+      - apply iso_from_to.
     }
   }
   { destruct X0.
@@ -113,12 +107,10 @@ Next Obligation.
       split; simpl.
         apply natural_transformation.
       apply natural_transformation0.
-    - simplify equiv in all.
-      split.
+    - split.
         apply iso_to_from.
       apply iso_to_from0.
-    - simplify equiv in all.
-      split.
+    - split.
         apply iso_from_to.
       apply iso_from_to0.
   }

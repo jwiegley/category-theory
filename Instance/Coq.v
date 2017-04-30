@@ -20,7 +20,6 @@ Program Instance Coq : Category := {
 Next Obligation. equivalence; congruence. Qed.
 Next Obligation.
   proper.
-  simplify equiv; intros.
   congruence.
 Qed.
 
@@ -29,7 +28,6 @@ Program Instance Coq_Terminal : @Terminal _ := {
   one := fun _ a => tt
 }.
 Next Obligation.
-  simplify equiv; intros.
   destruct (f x), (g x); reflexivity.
 Qed.
 
@@ -41,12 +39,10 @@ Program Instance Coq_Cartesian : @Cartesian _ := {
 }.
 Next Obligation.
   proper.
-  simplify equiv; intros.
   congruence.
 Qed.
 Next Obligation.
-  split;
-  simplify equiv; intros.
+  simpl; split; intros.
     split; intros;
     rewrite H; reflexivity.
   destruct H.
@@ -61,13 +57,11 @@ Program Instance Coq_Closed : @Closed _ _ := {
 }.
 Next Obligation.
   proper.
-  simplify equiv; intros.
   extensionality X0.
   congruence.
 Qed.
 Next Obligation.
   proper.
-  simplify equiv; intros.
   congruence.
 Qed.
 
@@ -100,10 +94,7 @@ Proof.
   - intros HA.
     autounfold in *; intros ??? HB.
     simpl in *; intros.
-    simplify equiv; intros.
-    apply HA.
-    simplify equiv in HB.
-    apply HB.
+    apply HA, HB.
   - intros HA ?? HB.
     autounfold in *.
     simpl in *.
@@ -112,7 +103,6 @@ Proof.
     specialize (HA unit const_x const_y).
     unfold const_x in HA.
     unfold const_y in HA.
-    simplify equiv in HA.
     eapply HA; eauto.
     exact tt.
 Qed.
@@ -124,8 +114,6 @@ Proof.
   - intros HA.
     autounfold in *; intros ??? HB.
     simpl in *; intros.
-    simplify equiv; intros.
-    simplify equiv in HB.
     specialize (HA x).
     destruct HA as [? HA].
     rewrite <- HA.
@@ -136,7 +124,6 @@ Proof.
     specialize HA with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
     simpl in *.
     specialize HA with (g2 := fun y  => True).
-    simplify equiv in HA.
     erewrite HA.
       constructor.
     intros.

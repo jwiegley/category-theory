@@ -90,7 +90,6 @@ Program Instance Rel_Cartesian : @Cartesian Rel := {
 }.
 Next Obligation.
   proper.
-  simplify equiv in all; intros.
   split; intros.
     destruct H.
     split; intros.
@@ -102,7 +101,6 @@ Next Obligation.
   apply X1; assumption.
 Qed.
 Next Obligation.
-  simplify equiv in all.
   firstorder.
   - destruct H1.
     apply H, H0.

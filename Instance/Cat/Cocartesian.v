@@ -69,21 +69,15 @@ Next Obligation.
     destruct X2, Y0; simpl;
     try contradiction;
     apply natural_transformation.
-  - simplify equiv; intros.
-    destruct A; simpl.
-      destruct X0, to, from; simpl.
-      simplify equiv in iso_to_from.
+  - destruct A; simpl.
+      destruct X0, to, from; simpl in *.
       apply iso_to_from.
-    destruct X1, to, from; simpl.
-    simplify equiv in iso_to_from.
+    destruct X1, to, from; simpl in *.
     apply iso_to_from.
-  - simplify equiv; intros.
-    destruct A; simpl.
-      destruct X0, to, from; simpl.
-      simplify equiv in iso_from_to.
+  - destruct A; simpl.
+      destruct X0, to, from; simpl in *.
       apply iso_from_to.
-    destruct X1, to, from; simpl.
-    simplify equiv in iso_from_to.
+    destruct X1, to, from; simpl in *.
     apply iso_from_to.
 Qed.
 Next Obligation.
@@ -101,10 +95,8 @@ Next Obligation.
       - simpl; intros.
         destruct from; simpl in *.
         apply (natural_transformation (Datatypes.inl X0) (Datatypes.inl Y0)).
-      - simplify equiv in all; intros.
-        apply (iso_to_from (Datatypes.inl A)).
-      - simplify equiv in all; intros.
-        apply (iso_from_to (Datatypes.inl A)).
+      - apply (iso_to_from (Datatypes.inl A)).
+      - apply (iso_from_to (Datatypes.inl A)).
     }
     { constructive.
       all:swap 2 3.
@@ -117,10 +109,8 @@ Next Obligation.
       - simpl; intros.
         destruct from; simpl in *.
         apply (natural_transformation (Datatypes.inr X0) (Datatypes.inr Y0)).
-      - simplify equiv in all; intros.
-        apply (iso_to_from (Datatypes.inr A)).
-      - simplify equiv in all; intros.
-        apply (iso_from_to (Datatypes.inr A)).
+      - apply (iso_to_from (Datatypes.inr A)).
+      - apply (iso_from_to (Datatypes.inr A)).
     }
   }
   { destruct X0.
@@ -146,12 +136,10 @@ Next Obligation.
       destruct from, from0; simpl in *.
         apply natural_transformation.
       apply natural_transformation0.
-    - simplify equiv in all; intros.
-      destruct A; simpl.
+    - destruct A; simpl.
         apply iso_to_from.
       apply iso_to_from0.
-    - simplify equiv in all; intros.
-      destruct A.
+    - destruct A.
         apply iso_from_to.
       apply iso_from_to0.
   }
