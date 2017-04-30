@@ -12,6 +12,10 @@ Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Coq.
 Require Export Category.Instance.Proset.
 
+Require Import Coq.Classes.Equivalence.
+Require Import Coq.Classes.RelationClasses.
+Require Import Coq.Relations.Relation_Definitions.
+
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
@@ -34,5 +38,5 @@ Set Implicit Arguments.
    set is equivalent to a poset. Finally, every subcategory of a poset is
    isomorphism-closed." *)
 
-Instance Poset `{C : Category} `{R : crelation C}
+Instance Poset `{C : Category} `{R : relation C}
          `(P : PreOrder C R) `{A : Asymmetric C R} : Category := Proset P.

@@ -14,6 +14,11 @@ Require Export Category.Instance.Coq.
 (* Proof irrelevant equality. *)
 Definition proof_eq {P : Prop} (x y : P) := (x = y)%type.
 
+(* jww (2017-04-30): Can this be done for constructive relations? *)
+Require Import Coq.Classes.Equivalence.
+Require Import Coq.Classes.RelationClasses.
+Require Import Coq.Relations.Relation_Definitions.
+
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
@@ -29,15 +34,15 @@ Set Implicit Arguments.
    sense, categories 'generalize' preorders by allowing more than one relation
    between objects: each morphism is a distinct (named) preorder relation." *)
 
-Program Instance Proset `{C : Category} `{R : crelation C} `(P : PreOrder C R) :
+Program Instance Proset `{C : Category} `{R : relation C} `(P : PreOrder C R) :
   Category := {
   ob      := C;
   hom     := R;
-  homset  := fun A B => {| equiv := _ |};
+  homset  := fun A B => {| Setoid.equiv := proof_eq |};
   id      := fun X => @reflexivity C R (@PreOrder_Reflexive C R P) X;
   compose := fun X Y Z f g =>
                @transitivity C R (@PreOrder_Transitive C R P) X Y Z g f
 }.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
-Next Obligation. Admitted.
+Next Obligation. apply proof_irrelevance. Qed.
+Next Obligation. apply proof_irrelevance. Qed.
+Next Obligation. apply proof_irrelevance. Qed.
