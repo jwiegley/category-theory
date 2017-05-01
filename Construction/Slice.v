@@ -9,11 +9,10 @@ Require Export Category.Instance.Cat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Program Instance Slice `(C : Category) `(c : C) : Category := {
   ob      := { a : C & a ~> c };
-  hom     := fun x y => (` x) ~> (` y);
+  hom     := fun x y => (`` x) ~> (`` y);
   homset  := fun _ _ => {| equiv := fun f g => f ≈ g |} ;
   id      := fun _ => id;
   compose := fun _ _ _ f g => f ∘ g
@@ -25,34 +24,51 @@ Notation "C ̸ c" := (@Slice C c) (at level 90) : category_scope.
    the comma category (Id[C] ↓ Select c). *)
 
 Program Instance Comma_Slice `(C : Category) `(c : C) :
-  C̸c ≅[Cat] (Id ↓ Select c) := {
+  C ̸ c ≅[Cat] (Id ↓ Select c) := {
   to   := {| fobj := _; fmap := _ |};
   from := {| fobj := _; fmap := _ |}
 }.
 Next Obligation.
   exists (X, tt); simpl.
   assumption.
-Qed.
+Defined.
 Next Obligation.
+  proper; simpl.
   exists o.
   assumption.
+Defined.
+Next Obligation.
+  constructive; simpl.
+  all:swap 2 3.
+  - destruct X, x, u; simpl.
+    split.
+      exact id.
+    exact tt.
+  - destruct X, x, u; simpl.
+    split.
+      exact id.
+    exact tt.
+  - destruct X, Y, x, x0, u, u0, f; simpl; cat.
+  - destruct X, Y, x, x0, u, u0, f; simpl; cat.
+  - destruct A, x, u; simpl; cat.
+  - destruct A, x, u; simpl; cat.
 Qed.
 Next Obligation.
-  unfold Comma_Slice_obligation_1.
-  simpl; intros.
-  destruct X, x, u; simpl.
-  reflexivity.
-Qed.
-Next Obligation.
-  unfold Comma_Slice_obligation_1.
-  simpl; intros.
-  destruct X; simpl.
-  reflexivity.
+  constructive; simpl.
+  all:swap 2 3.
+  - destruct X; simpl.
+    exact id.
+  - destruct X; simpl.
+    exact id.
+  - destruct X, Y; simpl; cat.
+  - destruct X, Y; simpl; cat.
+  - destruct A; simpl; cat.
+  - destruct A; simpl; cat.
 Qed.
 
 Program Instance Coslice `(C : Category) `(c : C) : Category := {
   ob      := { a : C & c ~> a };
-  hom     := fun x y => (` x) ~> (` y);
+  hom     := fun x y => (`` x) ~> (`` y);
   homset  := fun _ _ => {| equiv := fun f g => f ≈ g |} ;
   id      := fun _ => id;
   compose := fun _ _ _ f g => f ∘ g
@@ -68,20 +84,37 @@ Program Instance Comma_Coslice `(C : Category) `(c : C) :
 Next Obligation.
   exists (tt, X); simpl.
   assumption.
-Qed.
+Defined.
 Next Obligation.
+  proper; simpl.
   exists o.
   assumption.
+Defined.
+Next Obligation.
+  constructive; simpl.
+  all:swap 2 3.
+  - destruct X, x, u; simpl.
+    split.
+      exact tt.
+    exact id.
+  - destruct X, x, u; simpl.
+    split.
+      exact tt.
+    exact id.
+  - destruct X, Y, x, x0, u, u0, f; simpl; cat.
+  - destruct X, Y, x, x0, u, u0, f; simpl; cat.
+  - destruct A, x, u; simpl; cat.
+  - destruct A, x, u; simpl; cat.
 Qed.
 Next Obligation.
-  unfold Comma_Slice_obligation_1.
-  simpl; intros.
-  destruct X, x, u; simpl.
-  reflexivity.
-Qed.
-Next Obligation.
-  unfold Comma_Slice_obligation_1.
-  simpl; intros.
-  destruct X; simpl.
-  reflexivity.
+  constructive; simpl.
+  all:swap 2 3.
+  - destruct X; simpl.
+    exact id.
+  - destruct X; simpl.
+    exact id.
+  - destruct X, Y; simpl; cat.
+  - destruct X, Y; simpl; cat.
+  - destruct A; simpl; cat.
+  - destruct A; simpl; cat.
 Qed.

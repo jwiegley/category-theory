@@ -12,9 +12,11 @@ Theory/Adjunction.v
 Theory/Monad.v
 Theory/Cone.v
 Theory/Limit.v
+Theory/Equivalence.v
 Construction/Product.v
 Construction/Coproduct.v
 Construction/Comma.v
+Construction/Slice.v
 Construction/Arrow.v
 Construction/Opposite.v
 Construction/Groupoid.v
@@ -39,6 +41,8 @@ Instance/Nat.v
 Instance/Adj.v
 Instance/Concrete.v
 Instance/Coq.v
+Instance/Coq/Applicative.v
+Instance/Coq/Monad.v
 Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cocartesian.v
@@ -58,9 +62,9 @@ Isomorphism/Functor/Hom.v
 Isomorphism/Natural/Comma.v
 Isomorphism/Adjunction/Comma.v
 Isomorphism/Adjunction/Monad.v
-Theory.v
 Tools/Abstraction.v
 Tools/Represented.v
+Theory.v
 Pending/Monoidal.v
 Pending/Faithful.v
 Pending/Pullback.v

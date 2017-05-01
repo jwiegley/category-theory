@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Monad.
+Require Export Category.Instance.Cat.
 Require Export Category.Instance.Coq.
 
 Generalizable All Variables.
@@ -135,7 +136,7 @@ Corollary join_fmap_join_x : forall a (x : (m ○ m ○ m) a),
   join (fmap join x) = join (join x).
 Proof.
   destruct m, M; simpl in *; intros.
-  rewrite <- join_fmap_join0; reflexivity.
+  rewrite <- join_fmap_join; reflexivity.
 Qed.
 
 Corollary join_fmap_pure_x : forall a x,
@@ -159,7 +160,7 @@ Corollary join_fmap_fmap_x : forall (a b : Type) (f : a -> b) x,
   join (fmap (fmap f) x) = fmap f (join x).
 Proof.
   destruct m, M; simpl in *; intros.
-  rewrite <- join_fmap_fmap0; reflexivity.
+  rewrite <- join_fmap_fmap; reflexivity.
 Qed.
 
 End Monad.
