@@ -40,6 +40,8 @@ Instance/Adj.v
 Instance/Concrete.v
 Instance/Coq.v
 Instance/Sets.v
+Instance/Sets/Cartesian.v
+Instance/Sets/Cocartesian.v
 Instance/Sets/Closed.v
 Instance/Props.v
 Instance/Rel.v
