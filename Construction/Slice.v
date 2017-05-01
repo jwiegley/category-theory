@@ -22,10 +22,10 @@ Program Instance Slice `(C : Category) `(c : C) : Category := {
 Notation "C ̸ c" := (@Slice C c) (at level 90) : category_scope.
 
 (* Although the encoding of Slice above is more convenient, theoretically it's
-   the comma category (Identity ↓ Select c). *)
+   the comma category (Id[C] ↓ Select c). *)
 
 Program Instance Comma_Slice `(C : Category) `(c : C) :
-  C̸c ≅[Cat] (Identity ↓ Select c) := {
+  C̸c ≅[Cat] (Id ↓ Select c) := {
   to   := {| fobj := _; fmap := _ |};
   from := {| fobj := _; fmap := _ |}
 }.
@@ -61,7 +61,7 @@ Program Instance Coslice `(C : Category) `(c : C) : Category := {
 Notation "C ̸co c" := (@Coslice C c) (at level 90) : category_scope.
 
 Program Instance Comma_Coslice `(C : Category) `(c : C) :
-  C ̸co c ≅[Cat] (Select c ↓ Identity) := {
+  C ̸co c ≅[Cat] (Select c ↓ Id) := {
   to   := {| fobj := _; fmap := _ |};
   from := {| fobj := _; fmap := _ |}
 }.

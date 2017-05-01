@@ -9,7 +9,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Instance adj_id `{C : Category} : Identity ⊣ Identity := {
+Program Instance adj_id `{C : Category} : Id ⊣ Id := {
   adj_iso := fun _ _ =>
     {| to   := {| morphism := _ |}
      ; from := {| morphism := _ |} |}
@@ -58,12 +58,18 @@ Next Obligation.
   transitivity (forgetful_functor y); assumption.
 Qed.
 
+(* The category of Adjoints:
+
+    objects                Categories
+    arrows                 Adjunctions between categories
+    identity               Id ⊣ Id
+    composition            F ⊣ G -> G ⊣ H -> F ⊣ H *)
+
 Program Instance Adjoints : Category := {
   ob := Category;
   hom := @adj_morphism;
-  id := fun X =>
-          {| free_functor      := @Identity X
-           ; forgetful_functor := @Identity X |};
+  id := fun X => {| free_functor      := Id[X]
+                  ; forgetful_functor := Id[X] |};
   compose := fun A B C f g =>
     {| adjunction :=
              @adj_comp A B C (free_functor g) (forgetful_functor g)
@@ -72,21 +78,78 @@ Program Instance Adjoints : Category := {
 }.
 Next Obligation.
   proper; simpl; constructive.
-  all:swap 2 3; simpl.
-  (* - destruct X1. *)
-  (*   apply (to i). *)
-  (*   apply (@fobj_respects _ _ _ ((free_functor y) X0)). *)
-  (*   apply H1. *)
-  (* - rewrite H2. *)
-  (*   apply (@fobj_respects _ _ _ ((forgetful_functor x0) X0)). *)
-  (*   apply H3. *)
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
+  - exact (fmap (transform[to a] _) ∘ transform[to a0] _).
+  - rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite !natural_transformation.
+    rewrite <- comp_assoc.
+    rewrite <- fmap_comp.
+    reflexivity.
+  - exact (fmap (transform[from a] _) ∘ transform[from a0] _).
+  - rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite !natural_transformation.
+    rewrite <- comp_assoc.
+    rewrite <- fmap_comp.
+    reflexivity.
+  - rewrite natural_transformation.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (fmap (to a _))).
+    rewrite <- fmap_comp.
+    rewrite natural_transformation.
+    rewrite comp_assoc.
+    destruct a; simpl in *.
+    rewrite iso_to_from; cat.
+    destruct a0; simpl in *.
+    rewrite iso_to_from0; cat.
+  - rewrite natural_transformation.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (fmap (from a _))).
+    rewrite <- fmap_comp.
+    rewrite natural_transformation.
+    rewrite comp_assoc.
+    destruct a; simpl in *.
+    rewrite iso_from_to; cat.
+    destruct a0; simpl in *.
+    rewrite iso_from_to0; cat.
+  - exact (fmap (transform[to b0] _) ∘ transform[to b] _).
+  - rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite !natural_transformation.
+    rewrite <- comp_assoc.
+    rewrite <- fmap_comp.
+    reflexivity.
+  - exact (fmap (transform[from b0] _) ∘ transform[from b] _).
+  - rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite !natural_transformation.
+    rewrite <- comp_assoc.
+    rewrite <- fmap_comp.
+    reflexivity.
+  - rewrite natural_transformation.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (fmap (to b0 _))).
+    rewrite <- fmap_comp.
+    rewrite natural_transformation.
+    rewrite comp_assoc.
+    destruct b0; simpl in *.
+    rewrite iso_to_from; cat.
+    destruct b; simpl in *.
+    rewrite iso_to_from0; cat.
+  - rewrite natural_transformation.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (fmap (from b0 _))).
+    rewrite <- fmap_comp.
+    rewrite natural_transformation.
+    rewrite comp_assoc.
+    destruct b0; simpl in *.
+    rewrite iso_from_to; cat.
+    destruct b; simpl in *.
+    rewrite iso_from_to0; cat.
+Qed.
+Next Obligation. split; simpl; constructive; cat. Qed.
+Next Obligation. split; simpl; constructive; cat. Qed.
+Next Obligation. split; simpl; constructive; cat. Qed.
 
 (* From mathoverflow:
 

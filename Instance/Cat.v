@@ -29,16 +29,16 @@ Qed.
 
 Global Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A).
 
-(* The Identity Functor *)
+(* The identity Functor *)
 
-Global Program Instance Identity : C ⟶ C := {
+Global Program Instance Id : C ⟶ C := {
   fobj := fun X => X;
   fmap := fun _ _ f => f
 }.
 
 End FunctorEquiv.
 
-Arguments Identity {C} /.
+Arguments Id {C} /.
 
 (* Horizontal composition of functors. *)
 
@@ -60,6 +60,8 @@ Hint Unfold functor_comp.
 
 Infix "○" := functor_comp (at level 30, right associativity) : category_scope.
 
+Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : category_scope.
+
 Ltac constructive :=
   isomorphism; simpl; intros;
   [ natural; simpl; intros
@@ -78,7 +80,7 @@ Program Instance Cat : Category := {
   ob      := Category;
   hom     := @Functor;
   homset  := fun _ _ => {| equiv := fun F G => F ≅[Nat] G |};
-  id      := @Identity;
+  id      := @Id;
   compose := @functor_comp
 }.
 Next Obligation.

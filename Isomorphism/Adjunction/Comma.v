@@ -27,7 +27,7 @@ Context `{G : C ⟶ D}.
 Context `{F : D ⟶ C}.
 
 Definition fibered_equivalence :=
-  { iso : (F ↓ Identity) ≅[Cat] (Identity ↓ G)
+  { iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G)
   & ∀ p f, `` (to   iso (p; f)) = p
   & ∀ p g, `` (from iso (p; g)) = p }.
 
@@ -35,9 +35,9 @@ Theorem Lawvere_Adjunction :
   F ⊣ G  <-->  fibered_equivalence.
 Proof.
   split; intros H. {
-    given (to : (F ↓ Identity) ~{Cat}~> (Identity ↓ G)). {
+    given (to : (F ↓ Id) ~{Cat}~> (Id ↓ G)). {
 
-      given (fobj : F ↓ Identity -> Identity ↓ G). {
+      given (fobj : F ↓ Id -> Id ↓ G). {
         destruct 1 as [x ?]; exists x.
         apply H; assumption.
       }
@@ -57,9 +57,9 @@ Proof.
       econstructor; eauto.
     }
 
-    given (from : (Identity ↓ G) ~{Cat}~> (F ↓ Identity)). {
+    given (from : (Id ↓ G) ~{Cat}~> (F ↓ Id)). {
 
-      given (fobj : Identity ↓ G -> F ↓ Identity). {
+      given (fobj : Id ↓ G -> F ↓ Id). {
         destruct 1 as [x ?]; exists x.
         apply H; assumption.
       }
