@@ -50,3 +50,6 @@ Notation "fmap[ F ]" := (@fmap _ _ F _ _)
   (at level 9, format "fmap[ F ]") : category_scope.
 
 Hint Rewrite @fmap_id : categories.
+
+Ltac functor :=
+  unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).

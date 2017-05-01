@@ -142,26 +142,22 @@ Qed.
 Next Obligation.
   constructive; simpl.
   all:swap 2 3.
-  - unshelve (refine {| transform := fun Y0 : B => _ |});
-    simpl; intros.
-      apply (x X).
-      apply id.
+  - natural; simpl; intros.
+      apply (x X), id.
     simpl; cat.
     destruct x; simpl in *.
     rewrite fmap_id; cat.
-  - unshelve (refine {| transform := fun Y0 : B => _ |});
-    simpl; intros.
-      apply (x X).
-      apply id.
+  - natural; simpl; intros.
+      apply (x X), id.
     simpl; cat.
     destruct x; simpl in *.
     rewrite fmap_id; cat.
-  - simpl; intros; cat.
-  - simpl; intros; cat.
-  - simpl; intros; cat.
+  - simpl; cat.
+  - simpl; cat.
+  - simpl; cat.
     destruct x; simpl in *.
     rewrite fmap_id; cat.
-  - simpl; intros; cat.
+  - simpl; cat.
     destruct x; simpl in *.
     rewrite fmap_id; cat.
 Qed.
