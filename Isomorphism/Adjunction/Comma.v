@@ -10,19 +10,6 @@ Require Export Category.Instance.Sets.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
-
-Theorem iso_commas_impl {A B C D}
-        {S : A ⟶ C} {T : B ⟶ C} {U : A ⟶ D} {V : B ⟶ D}
-        (iso : S ↓ T ≅[Cat] U ↓ V) (x : S ↓ T) :
-  `` (fobj[to iso] x) ≅[A ∏ B] ``x.
-Proof.
-  destruct iso; simpl in *;
-  autounfold in *; simpl in *;
-  destruct x, x; simpl in *;
-  unfold Comma in *; simpl in *;
-  destruct to, from; simpl in *.
-Admitted.
 
 Section Lawvere.
 
@@ -39,157 +26,116 @@ Context `{D : Category}.
 Context `{G : C ⟶ D}.
 Context `{F : D ⟶ C}.
 
-(*
-jww (2017-04-28): TODO
+Definition fibered_equivalence :=
+  { iso : (F ↓ Identity) ≅[Cat] (Identity ↓ G)
+  & ∀ p f, `` (to   iso (p; f)) = p
+  & ∀ p g, `` (from iso (p; g)) = p }.
+
 Theorem Lawvere_Adjunction :
-  F ⊣ G  <-->  (F ↓ Identity) ≅[Cat] (Identity ↓ G).
+  F ⊣ G  <-->  fibered_equivalence.
 Proof.
   split; intros H. {
+    given (to : (F ↓ Identity) ~{Cat}~> (Identity ↓ G)). {
 
-    given (to : (F ↓ Identity) ~{Cat}~> (Identity ↓ G)).
-    Unshelve. all:swap 1 2. {
-
-      given (fobj : F ↓ Identity -> Identity ↓ G).
-      Unshelve. all:swap 1 2. {
+      given (fobj : F ↓ Identity -> Identity ↓ G). {
         destruct 1 as [x ?]; exists x.
         apply H; assumption.
       }
 
       given (fmap : ∀ X Y, X ~> Y -> fobj X ~> fobj Y).
-      Unshelve. all:swap 1 2.
         destruct X, Y; auto.
 
       assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y))
         by (destruct X, Y; auto).
 
       assert (∀ X, fmap X X (id[X]) ≈ id)
-        by (destruct X; cat).
+        by (destruct X0; cat).
 
       assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g)
-        by (destruct X, Y, Z; cat).
+        by (destruct X1, Y, Z; cat).
 
       econstructor; eauto.
     }
 
-    given (from : (Identity ↓ G) ~{Cat}~> (F ↓ Identity)).
-    Unshelve. all:swap 1 2. {
+    given (from : (Identity ↓ G) ~{Cat}~> (F ↓ Identity)). {
 
-      given (fobj : Identity ↓ G -> F ↓ Identity).
-      Unshelve. all:swap 1 2. {
+      given (fobj : Identity ↓ G -> F ↓ Identity). {
         destruct 1 as [x ?]; exists x.
         apply H; assumption.
       }
 
       given (fmap : ∀ X Y, X ~> Y -> fobj X ~> fobj Y).
-      Unshelve. all:swap 1 2.
         destruct X, Y; auto.
 
       assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y))
         by (destruct X, Y; auto).
 
       assert (∀ X, fmap X X (id[X]) ≈ id)
-        by (destruct X; cat).
+        by (destruct X0; cat).
 
       assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g)
-        by (destruct X, Y, Z; cat).
+        by (destruct X1, Y, Z; cat).
 
       econstructor; eauto.
     }
 
     assert (from ∘ to ≈ id) as from_to. {
-      unfold from, to; clear from to; simpl.
-      autounfold; simpl; intro X.
-      destruct X; simpl.
-      exists (id, id).
-      exists (id, id).
-      simpl; cat.
+      constructive; simpl; intros.
+      all:swap 2 3.
+      - destruct X; simpl.
+        exact (id, id).
+      - destruct X; simpl.
+        exact (id, id).
+      - destruct X, Y; simpl; cat.
+      - destruct X, Y; simpl; cat.
+      - destruct A; cat.
+      - destruct A; cat.
     }
 
     assert (to ∘ from ≈ id). {
-      unfold to, from; clear from_to to from; simpl.
-      autounfold; simpl; intro X.
-      destruct X; simpl.
-      exists (id, id).
-      exists (id, id).
-      simpl; cat.
+      constructive; simpl; intros.
+      all:swap 2 3.
+      - destruct X; simpl.
+        exact (id, id).
+      - destruct X; simpl.
+        exact (id, id).
+      - destruct X, Y; simpl; cat.
+      - destruct X, Y; simpl; cat.
+      - destruct A; cat.
+      - destruct A; cat.
     }
 
-    econstructor; eauto.
+    unshelve eexists.
+    - econstructor; eauto.
+    - simpl; intros; reflexivity.
+    - simpl; intros; reflexivity.
   }
 
-  given (adj_iso : ∀ a b, F a ~{C}~> b ≊ a ~{D}~> G b).
-  Unshelve. all:swap 1 2. {
+  destruct H as [H iso_to iso_from].
+  unshelve (eapply adj_from_unit_conuit).
 
-    given (to : ∀ a b,
-              {| carrier := F a ~{C}~> b |}
-                ~{Sets}~> {| carrier := a ~{D}~> G b |}).
-    Unshelve. all:swap 1 2. {
+  - intros.
+    pose (a, fobj[F] a) as p.
+    pose (existT (fun p : D * C => F (fst p) ~{ C }~> snd p) p id) as FI.
+    pose proof (iso_to p (projT2 FI)) as h; subst.
+    pose (fobj[to H] FI) as IG.
+    repeat unfold p, FI in *; simpl in *; clear p FI.
+    pose (projT2 IG) as i; unfold IG in i; simpl in i; clear IG.
+    rewrite h in i; simpl in i.
+    exact i.
 
-      given (to' : ∀ a b, F a ~{ C }~> b -> a ~{ D }~> G b).
-      Unshelve. all:swap 1 2. {
-        intros a b f.
-        pose proof (iso_commas_impl H) as X.
-        pose (existT (fun p => F (fst p) ~> snd p) (a, b) f) as g.
-        exact (fmap (snd (to (X g)))
-                 ∘ projT2 (fobj[to H] g)
-                 ∘ fst (from (X g))).
-      }
+  - intros.
+    pose (fobj[G] a, a) as p.
+    pose (existT (fun p : D * C => fst p ~{ D }~> G (snd p)) p id) as IG.
+    pose proof (iso_from p (projT2 IG)) as h; subst.
+    pose (fobj[from H] IG) as FI.
+    repeat unfold p, IG in *; simpl in *; clear p IG.
+    pose (projT2 FI) as i; unfold FI in i; simpl in i; clear FI.
+    rewrite h in i; simpl in i.
+    exact i.
 
-      assert (∀ a b, Proper (equiv ==> equiv) (to' a b)).
-        admit.
-
-      econstructor; eauto.
-    }
-
-    given (from : ∀ a b,
-              {| carrier := a ~{D}~> G b |}
-                ~{Sets}~> {| carrier := F a ~{C}~> b |}).
-    Unshelve. all:swap 1 2. {
-
-      given (from' : ∀ a b, a ~{ D }~> G b -> F a ~{ C }~> b).
-      Unshelve. all:swap 1 2. {
-        admit.
-      }
-
-      assert (∀ a b, Proper (equiv ==> equiv) (from' a b)).
-        admit.
-
-      econstructor; eauto.
-    }
-
-    assert (∀ a b, from a b ∘ to a b ≈ id). {
-      admit.
-    }
-
-    assert (∀ a b, to a b ∘ from a b ≈ id). {
-      admit.
-    }
-
-    econstructor; eauto.
-  }
-
-  assert (∀ a b c f g,
-             (to (adj_iso a c)) (f ∘ fmap g) ≈ (to (adj_iso b c)) f ∘ g). {
-    admit.
-  }
-
-  assert (∀ a b c f g,
-             (to (adj_iso a c)) (f ∘ g) ≈ fmap f ∘ (to (adj_iso a b)) g). {
-    admit.
-  }
-
-  assert (∀ a b c f g,
-             (from (adj_iso a c)) (f ∘ g) ≈ (from (adj_iso b c)) f ∘ fmap g). {
-    admit.
-  }
-
-  assert (∀ a b c f g,
-             (from (adj_iso a c)) (fmap f ∘ g) ≈ f ∘ (from (adj_iso a b)) g). {
-    admit.
-  }
-
-  econstructor; auto.
+  - simpl; intros; clear.
+    unfold eq_rect; simpl.
 Abort.
-*)
 
 End Lawvere.
