@@ -37,7 +37,7 @@ Proof.
   unfold Opposite; simpl.
   destruct C; simpl.
   f_equal.
-Admitted.
+Abort.
 
 Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
 Definition unop `{C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
@@ -50,8 +50,8 @@ Next Obligation. proper; apply fmap_respects, X0. Qed.
 Next Obligation. apply fmap_comp. Qed.
 
 Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {
-    fobj := @fobj _ _ F;
-    fmap := fun X Y f => unop (@fmap _ _ F Y X f)
+  fobj := @fobj _ _ F;
+  fmap := fun X Y f => unop (@fmap _ _ F Y X f)
 }.
 Next Obligation.
   proper.
