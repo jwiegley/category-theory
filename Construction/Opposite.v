@@ -30,9 +30,10 @@ Instance Opposite `(C : Category) : Category := {
 Notation "C ^op" := (@Opposite C)
   (at level 90, format "C ^op") : category_scope.
 
-Open Scope equiv_scope.
+Theorem op_involutive `{C : Category} : (C^op)^op ≅[Cat] C.
+Proof. isomorphism; functor || constructive; cat. Qed.
 
-Lemma op_involutive `{C : Category} : (C^op)^op = C.
+Lemma op_eq_involutive `{C : Category} : (C^op)^op = C.
 Proof.
   unfold Opposite; simpl.
   destruct C; simpl.
