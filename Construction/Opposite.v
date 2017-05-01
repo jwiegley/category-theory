@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Reserved Notation "C ^op" (at level 90).
 
-Program Instance Opposite `(C : Category) : Category := {
+Instance Opposite `(C : Category) : Category := {
   ob      := @ob C;
   hom     := fun x y => @hom C y x;
   homset  := fun x y => @homset C y x;
@@ -24,8 +24,7 @@ Program Instance Opposite `(C : Category) : Category := {
   id_left  := fun X Y f => @id_right C Y X f;
   id_right := fun X Y f => @id_left C Y X f;
 
-  comp_assoc := fun X Y Z W f g h =>
-    symmetry (@comp_assoc C W Z Y X h g f)
+  comp_assoc := fun X Y Z W f g h => symmetry (@comp_assoc C W Z Y X h g f)
 }.
 
 Notation "C ^op" := (@Opposite C)

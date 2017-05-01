@@ -73,7 +73,6 @@ Class LaxMonoidalFunctor := {
 (* also called OpLax *)
 (* Class CoLaxMonoidalFunctor := { *)
   (* copure : munit <~ F munit; *)
-  (* (* jww (2017-04-27): This needs to be a natural transformation *) *)
   (* coap {X Y} : F X ⨂ F Y <~ F (X ⨂ Y); *)
 
 Class StrongMonoidalFunctor := {
