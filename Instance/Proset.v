@@ -14,7 +14,6 @@ Require Export Category.Instance.Coq.
 (* Proof irrelevant equality. *)
 Definition proof_eq {P : Prop} (x y : P) := (x = y)%type.
 
-(* jww (2017-04-30): Can this be done for constructive relations? *)
 Require Import Coq.Classes.Equivalence.
 Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Relations.Relation_Definitions.
