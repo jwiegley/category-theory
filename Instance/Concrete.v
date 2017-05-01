@@ -2,119 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
-Require Import Coq.Lists.List.
-Require Import Coq.Lists.ListSet.
-
-Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-
-Section Concrete.
-
-Variable A : Type.
-Hypothesis Aeq_dec : forall x y : A, {x = y} + {x <> y}.
-
-Definition Aeq (x y : A) := if Aeq_dec x y then True else False.
-
-Program Instance Aeq_equivalence : Equivalence Aeq.
-Next Obligation.
-  unfold Aeq; intros.
-  destruct (Aeq_dec _ _); auto.
-Qed.
-Next Obligation.
-  unfold Aeq; intros.
-  destruct (Aeq_dec _ _).
-    subst.
-    apply Aeq_equivalence_obligation_1.
-  contradiction.
-Qed.
-Next Obligation.
-  unfold Aeq; intros.
-  destruct (Aeq_dec _ _).
-    subst.
-    apply H0.
-  contradiction.
-Qed.
-
-Fixpoint In' (f : A * A) (l : list (A * A)) : Prop :=
-    match l with
-      | nil => False
-      | (x, y) :: m => (Aeq (fst f) x /\ Aeq (snd f) y) \/ In f m
-    end.
-
-Fixpoint Subset' (X Y : A) (l : list (A * A)) : list (A * A) :=
-  filter (fun p => if Aeq_dec (fst p) X
-                   then if Aeq_dec (snd p) Y
-                        then true
-                        else false
-                   else false) l.
-Arguments Subset' X Y l : simpl never.
-
-Lemma Subset'_cons X Y x xs :
-  Subset' X Y (x :: xs)
-    = if Aeq_dec (fst x) X
-      then if Aeq_dec (snd x) Y
-           then x :: Subset' X Y xs
-           else Subset' X Y xs
-      else Subset' X Y xs.
-Proof.
-  induction xs; unfold Subset'; simpl;
-  destruct (Aeq_dec (fst x) X);
-  destruct (Aeq_dec (snd x) Y); auto.
-Qed.
-
-Lemma In_Subset'_inv X Y x y xs :
-  In (x, y) (Subset' X Y xs) -> Aeq x X ∧ Aeq y Y.
-Proof.
-  induction xs; simpl; intros; [tauto|].
-  rewrite Subset'_cons in H.
-  destruct (Aeq_dec (fst a) X);
-  destruct (Aeq_dec (snd a) Y); auto.
-  destruct H; subst; simpl; auto.
-  split; unfold Aeq; destruct (Aeq_dec); auto.
-Qed.
-
-(* A concrete category has a fixed set of objects (of some decidable type, to
-   differentiate them), and a fixed set of arrows between those objects. A
-   frequent use of these is as index categories to build diagrams. *)
-
-Program Instance Concrete (Obs : set A) (Homs : list (A * A)) : Category := {
-  ob  := { x : A | In x Obs };
-  hom := fun X Y =>
-    { f : list (A * A)
-    | ∀ h, In' h f <-> In' h ((X, Y) :: Subset' X Y  Homs) }%type;
-  homset := fun X Y =>
-    {| equiv := fun f g => ∀ h, In' h f <-> In' h g |}%type;
-  id := fun X => exist _ ((X, X) :: nil) _
-}.
-Next Obligation.
-  equivalence.
-  - apply H1; assumption.
-  - apply H1; assumption.
-  - apply H2, H1; assumption.
-  - apply H1, H2; assumption.
-Qed.
-Next Obligation.
-  firstorder.
-  apply In_Subset'_inv in H0.
-  constructor; auto.
-Qed.
-Next Obligation. firstorder. Defined.
-Next Obligation.
-  proper; simpl in *;
-  unfold Concrete_obligation_3; simpl;
-  destruct x, x0, y, y0; simpl in *;
-  firstorder.
-Qed.
-Next Obligation.
-  split; intros; apply H, H2.
-Qed.
-Next Obligation.
-  split; intros; apply H, H2.
-Qed.
-
-End Concrete.
-
 Require Import Category.Theory.Functor.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
@@ -122,13 +9,92 @@ Require Import Category.Instance.Cat.
 Require Import Category.Instance.Zero.
 Require Import Category.Instance.One.
 
-Module ConcreteInstances.
+Require Import Coq.Arith.PeanoNat.
+Require Import Coq.Lists.ListSet.
 
-Import ListNotations.
+Generalizable All Variables.
+Set Primitive Projections.
+Set Universe Polymorphism.
+
+Ltac mini_omega :=
+  match goal with
+  | [ |- ?X = ?X ∨ _ ] => left; reflexivity
+  | [ H : (_ < 0)%nat |- _ ] =>
+    pose proof (Nat.nlt_0_r _ H); contradiction
+  | [ H : (S _ <= 0)%nat |- _ ] =>
+    pose proof (Nat.nle_succ_0 _ H); contradiction
+  | [ H : (S _ < 1)%nat |- _ ] =>
+    unfold lt in H;
+    pose proof (le_S_n _ _ H);
+    mini_omega
+  end.
+
+Local Obligation Tactic :=
+  timeout 1 program_simpl;
+  intros; simpl;
+  try solve [ mini_omega
+            | proper
+            | apply proof_irrelevance ].
+
+Definition prod_dec (x y : nat * nat) : {x = y} + {x <> y}.
+Proof.
+  destruct x, y.
+  destruct (Nat.eq_dec n n1).
+    destruct (Nat.eq_dec n0 n2).
+      left.
+      congruence.
+    right.
+    congruence.
+  right.
+  congruence.
+Defined.
+
+Local Notation "[set ]" := (empty_set _).
+Local Notation "[set a ; .. ; b ]" :=
+  (set_add prod_dec a%nat .. (set_add prod_dec b%nat [set]) ..).
+
+(* This record establishes the structure of a concrete category's objects and
+   arrows, in terms of fixed sets of natural numbers. It's main practical use
+   is for building diagrams. *)
+
+Record Concrete_Structure := {
+  obs  : nat;
+  arrs : set (nat * nat);
+
+  identity_property :
+    ∀ (n : nat | (n < obs)%nat), set_In (`n, `n) arrs;
+
+  composition_property :
+    ∀ (n : nat | (n < obs)%nat)
+      (m : nat | (m < obs)%nat)
+      (o : nat | (o < obs)%nat),
+     set_In (`m, `o) arrs ->
+     set_In (`n, `m) arrs ->
+     set_In (`n, `o) arrs
+}.
+
+(* A concrete category has a fixed set of objects (of some decidable type, to
+   differentiate them), and a fixed set of arrows between those objects. A
+   frequent use of these is as index categories to build diagrams. *)
+
+Program Instance Concrete `(S : Concrete_Structure) : Category := {
+  ob      := { n : nat | n < obs S }%nat;
+  hom     := fun x y => set_In (`x, `y) (arrs S);
+  homset  := fun _ _ => {| equiv := eq |};
+  id      := identity_property S;
+  compose := composition_property S
+}.
+
+Module ConcreteInstances.
 
 (* The 0 category has no objects and no morphisms. It is initial in Cat. *)
 
-Program Definition Concrete_0 := Concrete False _ [] [].
+Program Definition Structure_0 : Concrete_Structure := {|
+  obs  := 0;
+  arrs := empty_set (nat * nat)
+|}.
+
+Program Definition Concrete_0 := Concrete Structure_0.
 
 Program Instance Map_0 `(C : Category) : Concrete_0 ⟶ C.
 
@@ -140,8 +106,8 @@ Next Obligation.
   constructive;
   try destruct X;
   try contradiction;
-  destruct A0;
-  contradiction.
+  try destruct A0;
+  mini_omega.
 Qed.
 
 Program Instance Initial_0_is_0 : @Zero Cat Initial_0 ≅ _0.
@@ -153,17 +119,25 @@ Next Obligation.
   constructive;
   try destruct X;
   try contradiction;
-  destruct A; contradiction.
+  try destruct A;
+  pose proof (Nat.nlt_0_r _ l);
+  contradiction.
 Qed.
 
 (* The 1 category has one object and its identity morphism. It is terminal in
    Cat. *)
 
-Program Definition Concrete_1 := Concrete unit _ [tt] [].
-Next Obligation. destruct x, y; auto. Defined.
+Program Definition Structure_1 : Concrete_Structure := {|
+  obs  := 1;
+  arrs := [set (0, 0)]
+|}.
+Next Obligation. destruct n; mini_omega. Defined.
+Next Obligation. destruct n, m, o; mini_omega. Defined.
+
+Program Definition Concrete_1 := Concrete Structure_1.
 
 Program Instance Map_1 `(C : Category) : C ⟶ Concrete_1 := {
-  fobj := fun _ => tt;
+  fobj := fun _ => 0%nat;
   fmap := fun _ _ _ => id
 }.
 
@@ -172,17 +146,14 @@ Program Instance Terminal_1 : @Terminal Cat := {
   one := Map_1
 }.
 Next Obligation.
-  constructive; simpl;
+  constructive;
   try destruct (f X), (g X);
   try destruct x, x0;
-  unfold Concrete_obligation_3, Concrete_1_obligation_1.
-  all:swap 2 3; simpl.
-  - eexists [(tt, tt)]; intros; intuition.
-  - eexists [(tt, tt)]; intros; intuition.
-Admitted.
+  simpl in *; auto;
+  try mini_omega;
+  apply proof_irrelevance.
+Qed.
 
-(*
-jww (2017-04-29): TODO
 Program Instance Terminal_1_is_1 : @One Cat Terminal_1 ≅ _1.
 Next Obligation.
   constructive; intuition;
@@ -191,37 +162,73 @@ Qed.
 Next Obligation.
   constructive; intuition;
   intuition;
-  unfold Concrete_obligation_3, Concrete_1_obligation_1.
-  destruct X; simpl.
-  eexists (exist _ [(tt, x)] _).
-  Unshelve. Focus 2. intuition.
-  eexists (exist _ [(x, tt)] _).
-  Unshelve. Focus 2. intuition.
-  simpl; intuition.
+  try apply proof_irrelevance;
+  destruct X; simpl;
+  destruct x; mini_omega.
 Qed.
-*)
 
 (* The 2 category has two objects, their identity morphisms, and a morphism
    from the first to the second object. *)
 
-Definition Concrete_2 :=
-  Concrete bool Bool.bool_dec [false; true] [(false, true)].
+Program Definition Structure_2 : Concrete_Structure := {|
+  obs  := 2;
+  arrs := [set (0, 0); (1, 1); (0, 1)]
+|}.
+Next Obligation.
+  destruct n; auto.
+  destruct n; auto.
+  apply le_S_n in H.
+  apply le_S_n in H.
+  mini_omega.
+Defined.
+Next Obligation.
+  intuition; try congruence.
+  - left; congruence.
+  - left; congruence.
+  - right; left; congruence.
+  - right; right; left; congruence.
+Defined.
+
+Definition Concrete_2 := Concrete Structure_2.
 
 (* The 3 category has three objects, their identity morphisms, and morphisms
    from the first to the second object, the second to the third, and the first
    to the third (required by composition). *)
 
-Inductive three : Set := One_ | Two_ | Three_.
+Local Obligation Tactic := intros.
 
-Definition three_dec (x y : three) : {x = y} + {x ≠ y}.
-Proof.
-  destruct x, y; intuition;
-  solve [ left; reflexivity
-        | right; intros; discriminate ].
-Qed.
+Program Definition Structure_3 : Concrete_Structure := {|
+  obs  := 3;
+  arrs := [set (0, 0); (1, 1); (2, 2)
+          ;    (0, 1); (1, 2); (0, 2) ]
+|}.
+Next Obligation.
+  destruct n.
+  destruct x; simpl; try congruence.
+    intuition.
+  destruct x; simpl; intuition.
+  destruct x; simpl; intuition.
+  apply le_S_n in l.
+  apply le_S_n in l.
+  apply le_S_n in l.
+  mini_omega.
+Defined.
+Next Obligation.
+  destruct n, m, o;
+  destruct x, x0, x1; simpl in *; try congruence;
+  repeat
+    match goal with
+    | [ H : _ ∨ _ |- _ ] => destruct H
+    end; try congruence; intuition.
+  - left; congruence.
+  - left; congruence.
+  - right; right; left; congruence.
+  - right; left; congruence.
+  - right; right; right; left; congruence.
+  - right; left; congruence.
+  - right; right; right; right; left; congruence.
+Defined.
 
-Definition Concrete_3 :=
-  Concrete three three_dec [One_; Two_; Three_]
-           [(One_, Two_); (Two_, Three_); (One_, Three_)].
+Definition Concrete_3 := Concrete Structure_3.
 
 End ConcreteInstances.
