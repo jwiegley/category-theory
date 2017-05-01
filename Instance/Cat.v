@@ -62,6 +62,8 @@ Infix "○" := functor_comp (at level 30, right associativity) : category_scope.
 
 Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : category_scope.
 
+Coercion Id : Category >-> Functor.
+
 Ltac constructive :=
   isomorphism; simpl; intros;
   [ natural; simpl; intros
