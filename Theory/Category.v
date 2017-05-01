@@ -55,6 +55,9 @@ Notation "f ≈[ C ] g" := (@equiv _ (@homset C _ _) f g)
 Notation "f ≈[ C ] g" := (@equiv _ (@homset C _ _) f g)
   (at level 79, only parsing) : category_scope.
 
+Notation "f ∘[ C ] g" := (@compose C _ _ _ _ f g)
+  (at level 40, only parsing) : category_scope.
+
 Coercion ob : Category >-> Sortclass.
 
 Hint Rewrite @id_left : categories.
