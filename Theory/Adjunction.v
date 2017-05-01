@@ -108,7 +108,7 @@ Proof.
   rewrite fmap_comp; cat.
 Qed.
 
-Corollary counit_unit  {a} : counit ∘ fmap[F] unit ≈ @id C (F a).
+Corollary counit_fmap_unit  {a} : counit ∘ fmap[F] unit ≈ @id C (F a).
 Proof.
   unfold unit, counit.
   rewrite <- adj_right_nat_l.
@@ -117,7 +117,7 @@ Proof.
   apply adj_right_left.
 Qed.
 
-Corollary unit_counit  {a} : fmap[U] counit ∘ unit ≈ @id D (U a).
+Corollary fmap_counit_unit  {a} : fmap[U] counit ∘ unit ≈ @id D (U a).
 Proof.
   unfold unit, counit.
   rewrite <- adj_left_nat_r.
@@ -137,3 +137,70 @@ End Adjunction.
 Arguments Adjunction {C D} F U.
 
 Notation "F ⊣ G" := (@Adjunction _ _ F G) (at level 70) : category_scope.
+
+Section AdjunctionFrom.
+
+Context `{C : Category}.
+Context `{D : Category}.
+Context `{F : D ⟶ C}.
+Context `{U : C ⟶ D}.
+
+(* Another way to define an adjunction is by providing the unit and counit. *)
+
+Program Definition adj_from_unit_conuit
+        (unit : ∀ {a : D}, a ~> U (F a))
+        (counit : ∀ {a : C}, F (U a) ~> a)
+        (unit_nat :
+           ∀ X Y (f : X ~> Y), fmap[U] (fmap[F] f) ∘ @unit X ≈ @unit Y ∘ f)
+        (counit_nat :
+           ∀ X Y (f : X ~> Y), f ∘ @counit X ≈ @counit Y ∘ fmap[F] (fmap[U] f))
+        (counit_fmap_unit :
+           ∀ a, counit ∘ fmap[F] unit ≈ @id C (F a))
+        (fmap_counit_unit :
+           ∀ a, fmap[U] counit ∘ unit ≈ @id D (U a)) : F ⊣ U := {|
+  adj_iso := fun a b =>
+    {| to   := {| morphism := fun f => fmap f ∘ @unit a |}
+     ; from := {| morphism := fun f => @counit b ∘ fmap f |} |}
+|}.
+Next Obligation. proper; rewrite X; reflexivity. Qed.
+Next Obligation. proper; rewrite X; reflexivity. Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  rewrite <- comp_assoc.
+  rewrite unit_nat.
+  rewrite comp_assoc.
+  rewrite fmap_counit_unit0; cat.
+Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  rewrite comp_assoc.
+  rewrite <- counit_nat.
+  rewrite <- comp_assoc.
+  rewrite counit_fmap_unit0; cat.
+Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  rewrite <- comp_assoc.
+  rewrite unit_nat.
+  rewrite comp_assoc.
+  reflexivity.
+Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  rewrite comp_assoc.
+  reflexivity.
+Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  rewrite comp_assoc.
+  reflexivity.
+Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  rewrite comp_assoc.
+  rewrite <- counit_nat.
+  rewrite <- comp_assoc.
+  reflexivity.
+Qed.
+
+End AdjunctionFrom.
