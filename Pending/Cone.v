@@ -11,7 +11,7 @@ Lemma Const_Cone_Iso `(F : @Functor J C)
   : ∀ a, @Isomorphism Sets (Const a ⟾ F) (Cone a F).
 Proof.
   intros.
-  refine (Build_Isomorphism _ _ _ _ _ _ _); simpl.
+  isomorphism.
   - (* to *)
     crush.
     refine (Build_Cone _ _ _ _ _ _); intros; simpl; destruct X.
@@ -27,7 +27,7 @@ Proof.
     crush.
     unfold Const.
     destruct X.
-    refine (Build_Natural _ _ _ _ _ _); intros; simpl.
+    natural.
     + (* transport *)
       apply cone_mor0.
     + (* naturality *)

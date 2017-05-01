@@ -102,6 +102,7 @@ Arguments from {_ X Y} _.
 Arguments iso_to_from {_ _ _} _.
 Arguments iso_from_to {_ _ _} _.
 
-Coercion to : Isomorphism >-> hom.
-
 Hint Unfold isomorphism_equiv.
+
+Ltac isomorphism :=
+  unshelve (refine {| to := _; from := _ |}; simpl; intros).

@@ -280,7 +280,7 @@ Proof.
 Qed.
 
 Corollary curry_unfork {X Y Z W : C} (f : X × Y ~> Z) (g : X × Y ~> W) :
-  curry f △ curry g ≈ exp_prod_r ∘ curry (f △ g).
+  curry f △ curry g ≈ to exp_prod_r ∘ curry (f △ g).
 Proof.
   rewrite curry_fork.
   rewrite comp_assoc.

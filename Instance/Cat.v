@@ -61,12 +61,9 @@ Hint Unfold functor_comp.
 Infix "○" := functor_comp (at level 30, right associativity) : category_scope.
 
 Ltac constructive :=
-  unshelve (refine {| to := _; from := _ |}; simpl);
-  simpl; intros;
-  [ unshelve (refine {| transform := _ |}; simpl; intros);
-    simpl; intros
-  | unshelve (refine {| transform := _ |}; simpl; intros);
-    simpl; intros
+  isomorphism; simpl; intros;
+  [ natural; simpl; intros
+  | natural; simpl; intros
   | .. ]; simpl; intros.
 
 (* Cat is the category of all small categories:

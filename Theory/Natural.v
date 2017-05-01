@@ -34,3 +34,6 @@ Notation "transform[ F ]" := (@transform _ _ _ _ F)
   (at level 9, format "transform[ F ]") : category_scope.
 
 Coercion transform : Natural >-> Funclass.
+
+Ltac natural :=
+  unshelve (refine {| transform := _ |}; simpl; intros).

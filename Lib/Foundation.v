@@ -20,7 +20,7 @@ Notation "`` x" := (@projT1 _ _ x) (at level 0) : category_scope.
 Notation "( x ; y )" := (existT _ x y) (at level 0) : category_scope.
 
 Tactic Notation "given" "(" ident(H) ":" lconstr(type) ")" :=
-  refine (let H := (_ : type) in _).
+  unshelve (refine (let H := (_ : type) in _)).
 
 Hint Unfold Basics.compose.
 Hint Unfold Basics.arrow.
