@@ -31,7 +31,7 @@ Context `{T : B ⟶ C}.
    punctuation mark." *)
 
 Program Instance Comma : Category := {
-  ob      := { p : A * B & S (fst p) ~> T (snd p) };
+  ob      := { p : A ∏ B & S (fst p) ~> T (snd p) };
   hom     := fun x y => (fst (`` x) ~> fst (`` y)) * (snd (`` x) ~> snd (`` y));
   homset  := fun _ _ =>
     {| equiv := fun f g => (fst f ≈ fst g) * (snd f ≈ snd g) |};
@@ -43,16 +43,9 @@ End Comma.
 
 Notation "S ↓ T" := (@Comma _ _ _ S T) (at level 90) : category_scope.
 
-Theorem iso_commas_iso_projection A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
+Theorem comma_proj_iso A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
   x ≅ y -> ``x ≅[A ∏ B] ``y.
 Proof.
-  intros.
-  destruct X.
-  simpl in *.
-  econstructor.
-  Unshelve.
-  3:apply to.
-  3:apply from.
-  assumption.
-  assumption.
+  destruct 1; simpl.
+  isomorphism; assumption.
 Qed.
