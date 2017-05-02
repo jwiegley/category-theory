@@ -1,69 +1,167 @@
 TODO  -*- mode: org; fill-column: 78 -*-
 
 * Inbox
-** Separate adj_from_unit_conuit into its own class AdjunctionFunctional
-** Define equivalence of categories
-** Monad Transformers
-** Instead of HomFunctor, use the closed structure of Cat
+** TODO Separate adj_from_unit_conuit into its own class AdjunctionFunctional
+** TODO Define equivalence of categories
+** TODO Monad Transformers
+** TODO Instead of HomFunctor, use the closed structure of Cat
 And just apply curry to [C^op, C] ⟶ Sets
-** Isomorphism of objects is given by isomorphism of arrows
-** Move all instances not related to isomorphism or equivalence into modules
+** TODO Isomorphism of objects is given by isomorphism of arrows
+** TODO Move all instances not related to isomorphism or equivalence into modules
 This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.
 ** DONE Discrete has no arrows; rename the current one to Concrete
 ** CANCELED Should Cat be moved into Functor.v?
 ** DONE Make Distributive into a structure, which every BiCCC automatically satisfies
 ** DONE Create dom(f) and cod(f) functions
-* Proofs
-** Prod ⊣ Diag ⊣ Coprod
-** Show that exp_prod, prod_coprod and exp_coprod arise from adjunctions
-Some of these involve the diagonal functor.
-** Awodey Theorem 1.6
-Every category C with a set of arrows is isomorphic to one in which the
-objects are sets and the arrows are functions.
-** Awodey Exercise 1.13
-Use the Cayley representation to show that every small category is isomorphic
-to a “concrete” one, that is, one in which the objects are sets and the arrows
-are functions between them.
-** Awodey Exercise 1.14
-The notion of a category can also be defined with just one sort (arrows)
-rather than two (arrows and objects); the domains and codomains are taken to
-be certain arrows that act as units under composition, which is partially
-defined. Read about this definition in section I.1 of Mac Lane’s Categories
-for the Working Mathematician, and do the exercise mentioned there, showing
-that it is equivalent to the usual definition.
-** "Coyoneda lemma" states that every presheaf is a colimit of representables
+* Coq improvements
+** TODO variables arguments specifiers, to avoid @foo _ _ _ _ _ _
+#+begin_src coq
+Arguments Obj {_}, _.
+Arguments id {_ _}, {_} _, _ _.
+Arguments Hom {_} _ _, _ _ _.
+Arguments compose {_} {_ _ _} _ _, _ {_ _ _} _ _, _ _ _ _ _ _.
+Arguments assoc {_ _ _ _ _} _ _ _.
+Arguments assoc_sym {_ _ _ _ _} _ _ _.
+#+end_src coq
+** TODO separate scopes for objects, categories and morphisms
+#+begin_src coq
+Notation "f ∘ g" := (compose g f) : morphism_scope.
+Notation "a –≻ b" := (Hom a b) : morphism_scope.
+
+Bind Scope category_scope with Category.
+Bind Scope morphism_scope with Hom.
+Bind Scope object_scope with Obj.
+
+Delimit Scope category_scope with category.
+Delimit Scope morphism_scope with morphism.
+Delimit Scope object_scope with object.
+Delimit Scope functor_scope with functor.
+Delimit Scope nattrans_scope with nattrans.
+Delimit Scope nattrans_scope with nattrans.
+Delimit Scope natiso_scope with natiso.
+Delimit Scope isomorphism_scope with isomorphism.
+Delimit Scope preorder_scope with preorder.
+#+end_src coq
+** TODO use a targeted ltac macro for rewriting identities
+#+begin_src coq
+Ltac simpl_ids :=
+  let id_detected B :=
+      let J := fresh "H" in
+      cut (B = id); [intros J; rewrite J; clear J | trivial]
+  in
+  repeat(
+      match goal with
+        | [|- context[(?A ∘ id)%morphism] ] => rewrite id_unit_right
+        | [|- context[(id ∘ ?A)%morphism] ] => rewrite id_unit_left
+        | [|- (?A ∘ ?B)%morphism = ?A] => id_detected B
+        | [|- (?A = ?A ∘ ?B) %morphism] => id_detected B
+        | [|- (?B ∘ ?A = ?A)%morphism] => id_detected B
+        | [|- (?A = ?B ∘ ?A)%morphism] => id_detected B
+      end
+    )
+.
+#+end_src coq
+** TODO Use the "progress" tactical
+#+begin_src coq
+Hint Extern 1 => progress simpl_ids.
+
+Hint Extern 3 => progress (dohyps (fun H => simpl_ids in H)).
+#+end_src coq
+** TODO Notation for accessing an isomorphism's inverse
+#+begin_src coq
+Notation "f '⁻¹'" := (inverse_morphism f) : morphism_scope.
+#+end_src coq
+** TODO Make monic, epic, etc., into type classes
+** TODO Create subcategories
+Where each object/arrow of a category maps to some subobject, such as Obj ->
+Type and Hom -> Prop.
+** TODO Use notations for 1, 0, etc.
+#+begin_src coq
+Notation "1" := (SingletonCat) : category_scope.
+
+Notation "1" := (terminal term) : object_scope.
+#+end_src coq
+** TODO Define dependent and non-dependent products using records
+#+begin_src coq
+(** The product type, defined as a record to enjoy eta rule for records. *)
+Record prod (A B : Type) := {fst : A; snd : B}.
+
+Arguments fst {_ _ } _.
+Arguments snd {_ _ } _.
+Arguments Build_prod {_ _ } _ _.
+
+Notation "( X , Y )" := (Build_prod X Y).
+Notation "X * Y" := (prod X Y) : type_scope.
+#+end_src coq
+** TODO Define representable functors using an existential for the representor
 * Theory
-** Faithful, Full, Fully Faithful functors (inj, surj, bi, resp.)
-** Colimit
-** Pullback
-** Pushout
+** TODO Faithful, Full, Fully Faithful functors (inj, surj, bi, resp.)
+** Colimits
+*** TODO as (left)right local kan extensions along the unique functor to the terminal category
+*** TODO (sum)product-(co)equalizer (co)limits
+*** TODO pointwise (as kan extensions)
+** TODO Pullback
+** TODO Pushout
+** TODO Equalizer
+** TODO Coequalizer
+** TODO Complete
+** TODO Cocomplete
+** TODO Subojects
 ** Kan extensions
+*** TODO global definition
+*** TODO local definition with both hom-functor and cones (along a functor)
+*** TODO uniqueness
+*** TODO preservation by adjoint functors
+*** TODO pointwise kan extensions (preserved by representable functors)
+** Adjunctions
+*** TODO hom-functor adjunction
+*** TODO unit-counit adjunction
+*** TODO universal morphism adjunction
+*** TODO and their conversions
+*** TODO duality : F ⊣ G ⇒ Gop ⊣ F op
+*** TODO uniqueness up to natural isomorphism
+** TODO Polymorphic unit?
+On the other hand, if we show that Set has the type unit as its terminal
+object, we, strangely, get the restriction that the level of the type of
+arrows of Set is universe Set but, expectedly, not for objects. A similar
+problem happens with showing that the category whose object type and arrow
+type are unit is the terminal object of Cat. It is not clear to the authors
+wether this is intensional or the result of a bug. In any case, we have
+elected to go around this problem by postulating existence of a universe
+polymorphic type that has a single inhabitant:
+
+#+begin_src coq
+Parameter UNIT : Type.
+Parameter TT : UNIT.
+
+Axiom UNIT_SINGLETON : forall x y : UNIT, x = y.
+#+end_src
 ** DONE Diagram
 ** DONE Cone
 ** DONE Limit
 * Constructions
-** Free category
+** TODO Free category
 ** DONE Product (C × D)
 ** DONE Comma category (F ↓ G)
 ** DONE Arrow category (C⃗)
 ** DONE Slice/Coslice (C/c)
 * Structures
 * Instances
-** Ensembles (mathematical sets)
-** Finite sets
-** 3
-** Monoid
-** Mon
-** Graphs
-** Homogeneous relations in Prop
-** Constructive homogeneous crelations in Type (possible?)
+** TODO Ensembles (mathematical sets)
+** TODO Finite sets
+** TODO 3
+** TODO Monoid
+** TODO Mon
+** TODO Graphs
+** TODO Homogeneous relations in Prop
+** TODO Constructive homogeneous crelations in Type (possible?)
 ** DONE 0
 ** DONE 1
 ** DONE 2
 * Functors
 ** DONE Diagonal (Δ F)
-** Comma category functors
+** TODO Comma category functors
 For each comma category there are forgetful functors from it.
 
     Domain functor, S ↓ T → A
@@ -76,7 +174,7 @@ For each comma category there are forgetful functors from it.
         objects: ( α , β , f ) ↦ f
         morphisms: ( g , h ) ↦ ( S g , T h )
 
-** Representable functors
+** TODO Representable functors
 Wikipedia: "We can generalize the previous example to any category C. To every
 pair X, Y of objects in C one can assign the set Hom(X, Y) of morphisms from X
 to Y. This defines a functor to Set which is contravariant in the first
@@ -86,7 +184,33 @@ Hom(f, g) : Hom(X2, Y1) → Hom(X1, Y2) is given by φ ↦ g ∘ φ ∘ f.
 
 "Functors like these are called representable functors. An important goal in
 many settings is to determine whether a given functor is representable."
-* Type refinement
+** TODO F-algebras
+** TODO F-coalgebras
+* Proofs
+** TODO Prod ⊣ Diag ⊣ Coprod
+** TODO Show that exp_prod, prod_coprod and exp_coprod arise from adjunctions
+Some of these involve the diagonal functor.
+** TODO Awodey Theorem 1.6
+Every category C with a set of arrows is isomorphic to one in which the
+objects are sets and the arrows are functions.
+** TODO Awodey Exercise 1.13
+Use the Cayley representation to show that every small category is isomorphic
+to a “concrete” one, that is, one in which the objects are sets and the arrows
+are functions between them.
+** TODO Awodey Exercise 1.14
+The notion of a category can also be defined with just one sort (arrows)
+rather than two (arrows and objects); the domains and codomains are taken to
+be certain arrows that act as units under composition, which is partially
+defined. Read about this definition in section I.1 of Mac Lane’s Categories
+for the Working Mathematician, and do the exercise mentioned there, showing
+that it is equivalent to the usual definition.
+** TODO "Coyoneda lemma" states that every presheaf is a colimit of representables
+** TODO small preorders are complete
+#+begin_src coq
+Theorem Complete_Preorder (C : Category) (CC : Complete C) :
+  forall x y: (ObjC), Hom x y’ ≃ (Arrow C → Hom x y)
+#+end_src
+* TODO Type refinement
 Comments from contextualMatters on /r/haskell:
 
 With closed monoidal structure on presheaves, shouldn't it be possible to not
@@ -133,152 +257,6 @@ Mellies and Zeilberger provide a categorical view for this:
     Isbell duality - (succinct presentation of presheaves)
 
     Functor are type refinement system
-* Match "Category Theory in Coq 8.5"
-** basic constructions
-*** terminal/initial object
-*** products/sums
-*** equalizers/coequalizers
-*** pullbacks/pushouts
-*** exponentials
-*** +⊣∆⊣×and(−×a)⊣a−
-** external constructions
-*** comma categories
-*** product category
-** for Cat: (Obj := Category, Hom := Functor)
-*** cartesian closure
-*** initial object
-** for Set: (Obj:=Type,Hom:=funAB⇒A→B)
-*** initial object
-*** sums
-*** equalizers
-*** coequalizers
-*** pullbacks
-*** cartesian closure
-*** local cartesian closure
-*** completeness
-*** co-completeness
-*** sub-object classifier (Prop : Type)
-*** topos
-** the Yoneda lemma
-** adjunction
-*** hom-functor adjunction
-*** unit-counit adjunction
-*** universal morphism adjunction
-*** and their conversions
-*** duality : F ⊣ G ⇒ Gop ⊣ F op
-*** uniqueness up to natural isomorphism
-** kan extensions
-*** global definition
-*** local definition with both hom-functor and cones (along a functor)
-*** uniqueness
-*** preservation by adjoint functors
-*** pointwise kan extensions (preserved by representable functors)
-** (co)limits
-*** as (left)right local kan extensions along the unique functor to the terminal category
-*** (sum)product-(co)equalizer (co)limits
-*** pointwise (as kan extensions)
-** T − (co)algebras (for an endofunctor T )
-** small preorders are complete
-#+begin_src coq
-Theorem Complete_Preorder (C : Category) (CC : Complete C) :
-  forall x y: (ObjC), Hom x y’ ≃ (Arrow C → Hom x y)
-#+end_src
-** polymorphic unit
-On the other hand, if we show that Set has the type unit as its terminal
-object, we, strangely, get the restric- tion that the level of the type of
-arrows of Set is universe Set but, expectedly, not for objects. A similar
-problem happens with showing that the category whose object type and arrow
-type are unit is the terminal object of Cat. It is not clear to the authors
-wether this is inten- sional or the result of a bug. In any case, we have
-elected to go around this problem by postulating existence of a universe
-polymorphic type that has a single inhabitant:
-
-#+begin_src coq
-Parameter UNIT : Type.
-Parameter TT : UNIT.
-
-Axiom UNIT_SINGLETON : forall x y : UNIT, x = y.
-#+end_src
-* Ideas from "Categories"
-** variables arguments specifiers, to avoid @foo _ _ _ _ _ _
-#+begin_src coq
-Arguments Obj {_}, _.
-Arguments id {_ _}, {_} _, _ _.
-Arguments Hom {_} _ _, _ _ _.
-Arguments compose {_} {_ _ _} _ _, _ {_ _ _} _ _, _ _ _ _ _ _.
-Arguments assoc {_ _ _ _ _} _ _ _.
-Arguments assoc_sym {_ _ _ _ _} _ _ _.
-#+end_src coq
-** separate scopes for objects, categories and morphisms
-#+begin_src coq
-Notation "f ∘ g" := (compose g f) : morphism_scope.
-Notation "a –≻ b" := (Hom a b) : morphism_scope.
-
-Bind Scope category_scope with Category.
-Bind Scope morphism_scope with Hom.
-Bind Scope object_scope with Obj.
-
-Delimit Scope category_scope with category.
-Delimit Scope morphism_scope with morphism.
-Delimit Scope object_scope with object.
-Delimit Scope functor_scope with functor.
-Delimit Scope nattrans_scope with nattrans.
-Delimit Scope nattrans_scope with nattrans.
-Delimit Scope natiso_scope with natiso.
-Delimit Scope isomorphism_scope with isomorphism.
-Delimit Scope preorder_scope with preorder.
-#+end_src coq
-** use a targeted ltac macro for rewriting identities
-#+begin_src coq
-Ltac simpl_ids :=
-  let id_detected B :=
-      let J := fresh "H" in
-      cut (B = id); [intros J; rewrite J; clear J | trivial]
-  in
-  repeat(
-      match goal with
-        | [|- context[(?A ∘ id)%morphism] ] => rewrite id_unit_right
-        | [|- context[(id ∘ ?A)%morphism] ] => rewrite id_unit_left
-        | [|- (?A ∘ ?B)%morphism = ?A] => id_detected B
-        | [|- (?A = ?A ∘ ?B) %morphism] => id_detected B
-        | [|- (?B ∘ ?A = ?A)%morphism] => id_detected B
-        | [|- (?A = ?B ∘ ?A)%morphism] => id_detected B
-      end
-    )
-.
-#+end_src coq
-** Use the "progress" tactical
-#+begin_src coq
-Hint Extern 1 => progress simpl_ids.
-
-Hint Extern 3 => progress (dohyps (fun H => simpl_ids in H)).
-#+end_src coq
-** Notation for accessing an isomorphism's inverse
-#+begin_src coq
-Notation "f '⁻¹'" := (inverse_morphism f) : morphism_scope.
-#+end_src coq
-** Make monic, epic, etc., into type classes
-** Create subcategories
-Where each object/arrow of a category maps to some subobject, such as Obj ->
-Type and Hom -> Prop.
-** Use notations for 1, 0, etc.
-#+begin_src coq
-Notation "1" := (SingletonCat) : category_scope.
-
-Notation "1" := (terminal term) : object_scope.
-#+end_src coq
-** Define dependent and non-dependent products using records
-#+begin_src coq
-(** The product type, defined as a record to enjoy eta rule for records. *)
-Record prod (A B : Type) := {fst : A; snd : B}.
-
-Arguments fst {_ _ } _.
-Arguments snd {_ _ } _.
-Arguments Build_prod {_ _ } _ _.
-
-Notation "( X , Y )" := (Build_prod X Y).
-Notation "X * Y" := (prod X Y) : type_scope.
-#+end_src coq
 * Colophon
 #+STARTUP: content fninline hidestars
 #+OPTIONS: ^:{}
