@@ -1,13 +1,5 @@
-MISSING	 =									\
-	find . \( \( -name coq-haskell -o -name fiat \) -prune \)		\
-	  -o -name '*.v'						|	\
-		xargs egrep -i -Hn '(admit|undefined|jww)'		|	\
-		      egrep -v 'Definition undefined'			|	\
-		      egrep -v '(old|new|research|Pending)/'
-
 all: Makefile.coq
 	make -f Makefile.coq
-	-@$(MISSING) || exit 0
 
 Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
@@ -26,3 +18,11 @@ clean: _CoqProject Makefile.coq
 
 fullclean: clean
 	rm -f Makefile.coq
+
+todo:
+	find . \( \( -name coq-haskell -o -name fiat \) -prune \)		\
+	  -o -name '*.v'						|	\
+		xargs egrep -i -Hn '(abort|admit|undefined|jww)'	|	\
+		      egrep -v 'Definition undefined'			|	\
+		      egrep -v '(old|new|research|Pending)/'
+
