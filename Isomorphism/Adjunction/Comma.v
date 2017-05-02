@@ -18,7 +18,11 @@ Section Lawvere.
    isomorphic, and equivalent elements in the comma category can be projected
    onto the same element of C × D. This allows adjunctions to be described
    without involving sets, and was in fact the original motivation for
-   introducing comma categories." *)
+   introducing comma categories."
+
+   From ncatlab: "To give an adjunction i ⊣ r it suffices to give, for each
+   k : x → pe in B ↓ p, an object rk in E such that prk = x and an arrow
+   irk = 1x → k in B ↓ p that is universal from i to k." *)
 
 Context `{C : Category}.
 Context `{D : Category}.
