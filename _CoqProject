@@ -58,6 +58,7 @@ Functor/Diagonal.v
 Functor/Product.v
 Functor/Coproduct.v
 Functor/Constant.v
+Functor/Representable.v
 Isomorphism/Functor/Hom.v
 Isomorphism/Natural/Comma.v
 Isomorphism/Adjunction/Comma.v
