@@ -84,3 +84,6 @@ Qed.
    equivalence. *)
 Notation "X ≊ Y" := ({| carrier := X |} ≅[Sets] {| carrier := Y |})
   (at level 99) : category_scope.
+
+Ltac morphism :=
+  unshelve (refine {| morphism := _ |}; simpl; intros).
