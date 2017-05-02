@@ -133,6 +133,152 @@ Mellies and Zeilberger provide a categorical view for this:
     Isbell duality - (succinct presentation of presheaves)
 
     Functor are type refinement system
+* Match "Category Theory in Coq 8.5"
+** basic constructions
+*** terminal/initial object
+*** products/sums
+*** equalizers/coequalizers
+*** pullbacks/pushouts
+*** exponentials
+*** +⊣∆⊣×and(−×a)⊣a−
+** external constructions
+*** comma categories
+*** product category
+** for Cat: (Obj := Category, Hom := Functor)
+*** cartesian closure
+*** initial object
+** for Set: (Obj:=Type,Hom:=funAB⇒A→B)
+*** initial object
+*** sums
+*** equalizers
+*** coequalizers
+*** pullbacks
+*** cartesian closure
+*** local cartesian closure
+*** completeness
+*** co-completeness
+*** sub-object classifier (Prop : Type)
+*** topos
+** the Yoneda lemma
+** adjunction
+*** hom-functor adjunction
+*** unit-counit adjunction
+*** universal morphism adjunction
+*** and their conversions
+*** duality : F ⊣ G ⇒ Gop ⊣ F op
+*** uniqueness up to natural isomorphism
+** kan extensions
+*** global definition
+*** local definition with both hom-functor and cones (along a functor)
+*** uniqueness
+*** preservation by adjoint functors
+*** pointwise kan extensions (preserved by representable functors)
+** (co)limits
+*** as (left)right local kan extensions along the unique functor to the terminal category
+*** (sum)product-(co)equalizer (co)limits
+*** pointwise (as kan extensions)
+** T − (co)algebras (for an endofunctor T )
+** small preorders are complete
+#+begin_src coq
+Theorem Complete_Preorder (C : Category) (CC : Complete C) :
+  forall x y: (ObjC), Hom x y’ ≃ (Arrow C → Hom x y)
+#+end_src
+** polymorphic unit
+On the other hand, if we show that Set has the type unit as its terminal
+object, we, strangely, get the restric- tion that the level of the type of
+arrows of Set is universe Set but, expectedly, not for objects. A similar
+problem happens with showing that the category whose object type and arrow
+type are unit is the terminal object of Cat. It is not clear to the authors
+wether this is inten- sional or the result of a bug. In any case, we have
+elected to go around this problem by postulating existence of a universe
+polymorphic type that has a single inhabitant:
+
+#+begin_src coq
+Parameter UNIT : Type.
+Parameter TT : UNIT.
+
+Axiom UNIT_SINGLETON : forall x y : UNIT, x = y.
+#+end_src
+* Ideas from "Categories"
+** variables arguments specifiers, to avoid @foo _ _ _ _ _ _
+#+begin_src coq
+Arguments Obj {_}, _.
+Arguments id {_ _}, {_} _, _ _.
+Arguments Hom {_} _ _, _ _ _.
+Arguments compose {_} {_ _ _} _ _, _ {_ _ _} _ _, _ _ _ _ _ _.
+Arguments assoc {_ _ _ _ _} _ _ _.
+Arguments assoc_sym {_ _ _ _ _} _ _ _.
+#+end_src coq
+** separate scopes for objects, categories and morphisms
+#+begin_src coq
+Notation "f ∘ g" := (compose g f) : morphism_scope.
+Notation "a –≻ b" := (Hom a b) : morphism_scope.
+
+Bind Scope category_scope with Category.
+Bind Scope morphism_scope with Hom.
+Bind Scope object_scope with Obj.
+
+Delimit Scope category_scope with category.
+Delimit Scope morphism_scope with morphism.
+Delimit Scope object_scope with object.
+Delimit Scope functor_scope with functor.
+Delimit Scope nattrans_scope with nattrans.
+Delimit Scope nattrans_scope with nattrans.
+Delimit Scope natiso_scope with natiso.
+Delimit Scope isomorphism_scope with isomorphism.
+Delimit Scope preorder_scope with preorder.
+#+end_src coq
+** use a targeted ltac macro for rewriting identities
+#+begin_src coq
+Ltac simpl_ids :=
+  let id_detected B :=
+      let J := fresh "H" in
+      cut (B = id); [intros J; rewrite J; clear J | trivial]
+  in
+  repeat(
+      match goal with
+        | [|- context[(?A ∘ id)%morphism] ] => rewrite id_unit_right
+        | [|- context[(id ∘ ?A)%morphism] ] => rewrite id_unit_left
+        | [|- (?A ∘ ?B)%morphism = ?A] => id_detected B
+        | [|- (?A = ?A ∘ ?B) %morphism] => id_detected B
+        | [|- (?B ∘ ?A = ?A)%morphism] => id_detected B
+        | [|- (?A = ?B ∘ ?A)%morphism] => id_detected B
+      end
+    )
+.
+#+end_src coq
+** Use the "progress" tactical
+#+begin_src coq
+Hint Extern 1 => progress simpl_ids.
+
+Hint Extern 3 => progress (dohyps (fun H => simpl_ids in H)).
+#+end_src coq
+** Notation for accessing an isomorphism's inverse
+#+begin_src coq
+Notation "f '⁻¹'" := (inverse_morphism f) : morphism_scope.
+#+end_src coq
+** Make monic, epic, etc., into type classes
+** Create subcategories
+Where each object/arrow of a category maps to some subobject, such as Obj ->
+Type and Hom -> Prop.
+** Use notations for 1, 0, etc.
+#+begin_src coq
+Notation "1" := (SingletonCat) : category_scope.
+
+Notation "1" := (terminal term) : object_scope.
+#+end_src coq
+** Define dependent and non-dependent products using records
+#+begin_src coq
+(** The product type, defined as a record to enjoy eta rule for records. *)
+Record prod (A B : Type) := {fst : A; snd : B}.
+
+Arguments fst {_ _ } _.
+Arguments snd {_ _ } _.
+Arguments Build_prod {_ _ } _ _.
+
+Notation "( X , Y )" := (Build_prod X Y).
+Notation "X * Y" := (prod X Y) : type_scope.
+#+end_src coq
 * Colophon
 #+STARTUP: content fninline hidestars
 #+OPTIONS: ^:{}

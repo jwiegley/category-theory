@@ -45,3 +45,4 @@ Program Instance Proset `{C : Category} `{R : relation C} `(P : PreOrder C R) :
 Next Obligation. apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.
+Next Obligation. apply proof_irrelevance. Qed.

@@ -24,14 +24,24 @@ Instance Opposite `(C : Category) : Category := {
   id_left  := fun X Y f => @id_right C Y X f;
   id_right := fun X Y f => @id_left C Y X f;
 
-  comp_assoc := fun X Y Z W f g h => symmetry (@comp_assoc C W Z Y X h g f)
+  comp_assoc := fun X Y Z W f g h => @comp_assoc_sym C W Z Y X h g f;
+  comp_assoc_sym := fun X Y Z W f g h => @comp_assoc C W Z Y X h g f
 }.
 
 Notation "C ^op" := (@Opposite C)
   (at level 90, format "C ^op") : category_scope.
 
-Theorem op_involutive `{C : Category} : (C^op)^op ≅[Cat] C.
+Theorem op_involutive_iso `{C : Category} : (C^op)^op ≅[Cat] C.
 Proof. isomorphism; functor || constructive; cat. Qed.
+
+Lemma op_involutive `{C : Category} : (C^op)^op = C.
+Proof.
+  unfold Opposite; simpl.
+  destruct C; simpl.
+  f_equal.
+Qed.
+
+Hint Rewrite op_involutive.
 
 Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
 Definition unop `{C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.

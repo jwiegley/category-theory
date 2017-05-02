@@ -82,6 +82,12 @@ Next Obligation.
   unfold Coproduct_obligation_3 in *;
   intuition; cat.
 Qed.
+Next Obligation.
+  destruct X, Y, Z, W;
+  unfold Coproduct_obligation_1 in *;
+  unfold Coproduct_obligation_3 in *;
+  intuition; cat.
+Qed.
 
 End Coproduct.
 

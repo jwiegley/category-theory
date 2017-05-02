@@ -74,3 +74,8 @@ Next Obligation.
   subst; simpl; intuition;
   subst; simpl; auto.
 Qed.
+Next Obligation.
+  destruct f, g, h;
+  subst; simpl; intuition;
+  subst; simpl; auto.
+Qed.

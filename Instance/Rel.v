@@ -57,24 +57,8 @@ Next Obligation.
   exists x.
   intuition.
 Qed.
-Next Obligation.
-  split; intros.
-    destruct H as [z [H1 H2]].
-    destruct H1, H.
-    exists x0; intuition.
-    esplit.
-    esplit.
-      apply H0.
-    apply H2.
-  destruct H, H, H0, H0.
-  exists x1.
-  split.
-    esplit.
-      esplit.
-      apply H.
-    apply H0.
-  apply H1.
-Qed.
+Next Obligation. firstorder. Qed.
+Next Obligation. firstorder. Qed.
 
 Program Instance Rel_Initial : @Initial Rel := {
   Zero := False;

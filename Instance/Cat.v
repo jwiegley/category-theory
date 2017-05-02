@@ -137,3 +137,8 @@ Next Obligation.
   all:swap 2 3;try exact (fmap id).
   all:simpl; intros; cat.
 Qed.
+Next Obligation.
+  constructive.
+  all:swap 2 3;try exact (fmap id).
+  all:simpl; intros; cat.
+Qed.

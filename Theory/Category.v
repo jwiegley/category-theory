@@ -31,7 +31,10 @@ Class Category := {
   id_right {X Y} (f : X ~> Y) : f ∘ id ≈ f;
 
   comp_assoc {X Y Z W} (f : Z ~> W) (g : Y ~> Z) (h : X ~> Y) :
-    f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h
+    f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h;
+
+  comp_assoc_sym {X Y Z W} (f : Z ~> W) (g : Y ~> Z) (h : X ~> Y) :
+    (f ∘ g) ∘ h ≈ f ∘ (g ∘ h)
 }.
 
 Arguments dom {_ _ _} _.
