@@ -39,7 +39,7 @@ Instance/One.v
 Instance/Two.v
 Instance/Nat.v
 Instance/Adj.v
-Instance/Concrete.v
+Instance/Finite.v
 Instance/Coq.v
 Instance/Coq/Applicative.v
 Instance/Coq/Monad.v
