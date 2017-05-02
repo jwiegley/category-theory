@@ -32,7 +32,8 @@ Context `{F : D ⟶ C}.
 Record fibered_equivalence := {
   fiber_iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G);
 
-  fiber_iso_mor {a b} : F a ~> b ≊ a ~> G b
+  projG_commutes : comma_proj ≈[Cat] comma_proj ○ from fiber_iso;
+  projF_commutes : comma_proj ≈[Cat] comma_proj ○ to fiber_iso
 }.
 
 Theorem Lawvere_Adjunction :
@@ -109,30 +110,83 @@ Proof.
       - destruct A; cat.
     }
 
-    constructor.
-      econstructor; eauto.
-    simpl; intros.
-    isomorphism; simpl.
-    - morphism.
-    - morphism.
-    - simpl; apply adj_left_right.
-    - simpl; apply adj_right_left.
+    unshelve econstructor.
+    - isomorphism; auto.
+    - isomorphism; simpl.
+      + natural; simpl; intros.
+        * destruct X0; simpl.
+          exact (id, id).
+        * destruct X0, Y; simpl; cat.
+      + natural; simpl; intros.
+        * destruct X0; simpl.
+          exact (id, id).
+        * destruct X0, Y; simpl; cat.
+      + destruct A; simpl; cat.
+      + destruct A; simpl; cat.
+    - isomorphism; simpl.
+      + natural; simpl; intros.
+        * destruct X0; simpl.
+          exact (id, id).
+        * destruct X0, Y; simpl; cat.
+      + natural; simpl; intros.
+        * destruct X0; simpl.
+          exact (id, id).
+        * destruct X0, Y; simpl; cat.
+      + destruct A; simpl; cat.
+      + destruct A; simpl; cat.
   }
 
-  destruct H as [H iso_to iso_from].
+  destruct H.
   unshelve (eapply adj_from_unit_conuit).
+  unshelve econstructor.
 
-  - intros.
-    apply iso_to.
-    exact id.
+  - intro a.
+(*
+    assert (comma_proj f ≈ (a, F a)). {
+      isomorphism; unfold f; simpl.
+      - apply projF_commutes0.
+      - apply (transform[to projF_commutes0] ((a, F a); id[F a])).
+      - simpl; cat; simpl; cat.
+          destruct projF_commutes0; simpl in *.
+          apply (fst (iso_from_to ((a, F a); id[F a]))).
+        destruct projF_commutes0; simpl in *.
+        apply (snd (iso_from_to ((a, F a); id[F a]))).
+      - simpl; cat; simpl; cat.
+          destruct projF_commutes0; simpl in *.
+          rewrite (fst (iso_to_from ((a, F a); id[F a]))).
+          simpl.
+          destruct (Isomorphism.to fiber_iso0); simpl in *.
+          rewrite (fst (@fmap_id _)).
+          reflexivity.
+        destruct projF_commutes0; simpl in *.
+        rewrite (snd (iso_to_from ((a, F a); id[F a]))).
+        simpl.
+        destruct (Isomorphism.to fiber_iso0); simpl in *.
+        rewrite (snd (@fmap_id _)).
+        reflexivity.
+    }
+*)
+    exact (fmap (snd (transform[from projF_commutes0] ((a, F a); id[F a])))
+                ∘ projT2 (to fiber_iso0 ((a, F a); id[F a]))
+                ∘ fst (transform[to projF_commutes0] ((a, F a); id[F a]))).
 
-  - intros.
-    apply iso_to.
-    exact id.
+  - intro a.
+    exact (snd (transform[from projG_commutes0] ((G a, a); id[G a]))
+               ∘ projT2 (from fiber_iso0 ((G a, a); id[G a]))
+               ∘ fmap (fst (transform[to projG_commutes0] ((G a, a); id[G a])))).
 
   - simpl; intros.
-    destruct (iso_to X (F X)); simpl in *.
-    destruct (iso_to Y (F Y)); simpl in *.
+(*
+  fmap[G] (fmap[F] f)
+    ∘ fmap[G] (snd ((from projF_commutes0) ((X, F X); id[F X])))
+    ∘ projT2 (to1 ((X, F X); id[F X]))
+    ∘ fst (transform ((X, F X); id[F X]))
+      ≈
+      fmap[G] (snd (transform0 ((Y, F Y); id[F Y])))
+    ∘ projT2 (to1 ((Y, F Y); id[F Y]))
+    ∘ fst (transform ((Y, F Y); id[F Y]))
+  ∘ f
+*)
 Abort.
 
 End Lawvere.

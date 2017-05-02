@@ -39,6 +39,8 @@ Program Instance Comma : Category := {
   compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g)
 }.
 
+Program Instance comma_proj : Comma ⟶ A ∏ B.
+
 End Comma.
 
 Notation "S ↓ T" := (@Comma _ _ _ S T) (at level 90) : category_scope.
