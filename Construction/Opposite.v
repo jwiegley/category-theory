@@ -33,13 +33,6 @@ Notation "C ^op" := (@Opposite C)
 Theorem op_involutive `{C : Category} : (C^op)^op ≅[Cat] C.
 Proof. isomorphism; functor || constructive; cat. Qed.
 
-Lemma op_eq_involutive `{C : Category} : (C^op)^op = C.
-Proof.
-  unfold Opposite; simpl.
-  destruct C; simpl.
-  f_equal.
-Abort.
-
 Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
 Definition unop `{C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
 
