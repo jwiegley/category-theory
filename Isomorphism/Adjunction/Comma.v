@@ -14,8 +14,7 @@ Set Universe Polymorphism.
 Section Lawvere.
 
 (* Wikipedia: "Lawvere showed that the functors F : C → D and G : D → C are
-   adjoint if and only if the comma categories (F ↓ id D) and (id C ↓ G), with
-   id D and id C the identity functors on D and C respectively, are
+   adjoint if and only if the comma categories (F ↓ Id[D]) and (Id[C] ↓ G) are
    isomorphic, and equivalent elements in the comma category can be projected
    onto the same element of C × D. This allows adjunctions to be described
    without involving sets, and was in fact the original motivation for
@@ -26,10 +25,11 @@ Context `{D : Category}.
 Context `{G : C ⟶ D}.
 Context `{F : D ⟶ C}.
 
-Definition fibered_equivalence :=
-  { iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G)
-  & ∀ p f, `` (to   iso (p; f)) = p
-  & ∀ p g, `` (from iso (p; g)) = p }.
+Record fibered_equivalence := {
+  fiber_iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G);
+
+  fiber_iso_mor {a b} : F a ~> b ≊ a ~> G b
+}.
 
 Theorem Lawvere_Adjunction :
   F ⊣ G  <-->  fibered_equivalence.
@@ -105,37 +105,30 @@ Proof.
       - destruct A; cat.
     }
 
-    unshelve eexists.
-    - econstructor; eauto.
-    - simpl; intros; reflexivity.
-    - simpl; intros; reflexivity.
+    constructor.
+      econstructor; eauto.
+    simpl; intros.
+    isomorphism; simpl.
+    - morphism.
+    - morphism.
+    - simpl; apply adj_left_right.
+    - simpl; apply adj_right_left.
   }
 
   destruct H as [H iso_to iso_from].
   unshelve (eapply adj_from_unit_conuit).
 
   - intros.
-    pose (a, fobj[F] a) as p.
-    pose (existT (fun p : D * C => F (fst p) ~{ C }~> snd p) p id) as FI.
-    pose proof (iso_to p (projT2 FI)) as h; subst.
-    pose (fobj[to H] FI) as IG.
-    repeat unfold p, FI in *; simpl in *; clear p FI.
-    pose (projT2 IG) as i; unfold IG in i; simpl in i; clear IG.
-    rewrite h in i; simpl in i.
-    exact i.
+    apply iso_to.
+    exact id.
 
   - intros.
-    pose (fobj[G] a, a) as p.
-    pose (existT (fun p : D * C => fst p ~{ D }~> G (snd p)) p id) as IG.
-    pose proof (iso_from p (projT2 IG)) as h; subst.
-    pose (fobj[from H] IG) as FI.
-    repeat unfold p, IG in *; simpl in *; clear p IG.
-    pose (projT2 FI) as i; unfold FI in i; simpl in i; clear FI.
-    rewrite h in i; simpl in i.
-    exact i.
+    apply iso_to.
+    exact id.
 
-  - simpl; intros; clear.
-    unfold eq_rect; simpl.
+  - simpl; intros.
+    destruct (iso_to X (F X)); simpl in *.
+    destruct (iso_to Y (F Y)); simpl in *.
 Abort.
 
 End Lawvere.
