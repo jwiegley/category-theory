@@ -53,9 +53,6 @@ Definition adj_right_nat_l {a b c} (f : b ~> U c) (g : a ~> b) :
 Definition adj_right_nat_r {a} {b} {c : C} (f : b ~> c) (g : a ~> U b) :
   adj_right (fmap[U] f ∘ g) ≈ f ∘ adj_right g := @adj_right_nat_r' _ a b c f g.
 
-Definition unit   {a : D} : a ~> U (F a) := adj_left id.
-Definition counit {a : C} : F (U a) ~> a := adj_right id.
-
 Corollary adj_left_right {a b} (f : a ~> U b) : adj_left (adj_right f) ≈ f.
 Proof.
   unfold adj_left, adj_right; simpl.
@@ -91,6 +88,9 @@ Next Obligation.
   destruct from; simpl in *.
   rewrite X; reflexivity.
 Qed.
+
+Definition unit   {a : D} : a ~> U (F a) := adj_left id.
+Definition counit {a : C} : F (U a) ~> a := adj_right id.
 
 Corollary adj_left_unit  {a b} (f : F a ~> b) :
   adj_left f ≈ fmap f ∘ unit.
@@ -138,29 +138,33 @@ Arguments Adjunction {C D} F U.
 
 Notation "F ⊣ G" := (@Adjunction _ _ F G) (at level 70) : category_scope.
 
-Section AdjunctionFrom.
+Section AdjunctionMor.
 
 Context `{C : Category}.
 Context `{D : Category}.
 Context `{F : D ⟶ C}.
 Context `{U : C ⟶ D}.
 
-(* Another way to define an adjunction is by providing the unit and counit. *)
+(* Another way to define an adjunction is by providing the unit and counit
+   morphisms. *)
 
-Program Definition adj_from_unit_conuit
-        (unit : ∀ {a : D}, a ~> U (F a))
-        (counit : ∀ {a : C}, F (U a) ~> a)
-        (unit_nat :
-           ∀ X Y (f : X ~> Y), fmap[U] (fmap[F] f) ∘ @unit X ≈ @unit Y ∘ f)
-        (counit_nat :
-           ∀ X Y (f : X ~> Y), f ∘ @counit X ≈ @counit Y ∘ fmap[F] (fmap[U] f))
-        (counit_fmap_unit :
-           ∀ a, counit ∘ fmap[F] unit ≈ @id C (F a))
-        (fmap_counit_unit :
-           ∀ a, fmap[U] counit ∘ unit ≈ @id D (U a)) : F ⊣ U := {|
+Class AdjunctionMor := {
+  unit' {a : D} : a ~> U (F a);
+  counit' {a : C} : F (U a) ~> a;
+
+  unit_nat {X Y} (f : X ~> Y) :
+    fmap[U] (fmap[F] f) ∘ @unit' X ≈ @unit' Y ∘ f;
+  counit_nat {X Y} (f : X ~> Y) :
+    f ∘ @counit' X ≈ @counit' Y ∘ fmap[F] (fmap[U] f);
+
+  counit_fmap_unit' {X} : counit' ∘ fmap[F] unit' ≈ @id C (F X);
+  fmap_counit_unit' {X} : fmap[U] counit' ∘ unit' ≈ @id D (U X)
+}.
+
+Program Definition adj_from_unit_conuit `{A : AdjunctionMor} : F ⊣ U := {|
   adj_iso := fun a b =>
-    {| to   := {| morphism := fun f => fmap f ∘ @unit a |}
-     ; from := {| morphism := fun f => @counit b ∘ fmap f |} |}
+    {| to   := {| morphism := fun f => fmap f ∘ @unit' A a |}
+     ; from := {| morphism := fun f => @counit' A b ∘ fmap f |} |}
 |}.
 Next Obligation. proper; rewrite X; reflexivity. Qed.
 Next Obligation. proper; rewrite X; reflexivity. Qed.
@@ -169,14 +173,14 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite unit_nat.
   rewrite comp_assoc.
-  rewrite fmap_counit_unit0; cat.
+  rewrite fmap_counit_unit'; cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite comp_assoc.
   rewrite <- counit_nat.
   rewrite <- comp_assoc.
-  rewrite counit_fmap_unit0; cat.
+  rewrite counit_fmap_unit'; cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
@@ -203,4 +207,4 @@ Next Obligation.
   reflexivity.
 Qed.
 
-End AdjunctionFrom.
+End AdjunctionMor.
