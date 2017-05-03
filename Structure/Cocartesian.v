@@ -105,14 +105,11 @@ Hint Rewrite @merge_inl_inr : categories.
 Corollary merge_inv {X Y Z : C} (f h : Y ~> X) (g i : Z ~> X) :
   f ▽ g ≈ h ▽ i <--> (f ≈ h) * (g ≈ i).
 Proof.
-  pose proof (ump_coproducts h i (f ▽ g)) as Huniv.
-  destruct Huniv.
-  split; intros.
-    intuition.
-      rewrite <- a; cat.
-    rewrite <- b; cat.
-  destruct X0.
-  apply e; split; cat.
+  pose proof (ump_coproducts h i (f ▽ g)) as Huniv;
+  simplify; intuition.
+  - rewrite <- a; cat.
+  - rewrite <- b; cat.
+  - apply X0; cat.
 Qed.
 
 Corollary merge_comp {X Y Z W : C} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X) :

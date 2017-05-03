@@ -1,3 +1,3 @@
 Set Warnings "-notation-overridden".
 
-Require Export Lib.Setoid.
+Require Export Lib.Tactics.

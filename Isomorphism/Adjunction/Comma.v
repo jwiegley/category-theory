@@ -36,6 +36,11 @@ Record fibered_equivalence := {
   projF_commutes : comma_proj ≈[Cat] comma_proj ○ to fiber_iso
 }.
 
+Lemma fiber_projT2 (a : D) (b c : C) g (f : G b ~> G c) :
+  f ∘ projT2 (((a, b); g) : (Id[D] ↓ G)) ≈
+    projT2 (((a, c); f ∘ g) : (Id[D] ↓ G)).
+Proof. reflexivity. Qed.
+
 Theorem Lawvere_Adjunction :
   F ⊣ G  <-->  fibered_equivalence.
 Proof.

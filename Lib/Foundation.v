@@ -29,9 +29,3 @@ Hint Unfold Datatypes.id.
 Arguments Basics.compose {_ _ _} _ _ /.
 Arguments Basics.arrow _ _ /.
 Arguments Datatypes.id {_} _ /.
-
-Ltac cat :=
-  try split;
-  autorewrite with categories;
-  auto with category_laws;
-  try reflexivity.

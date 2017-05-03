@@ -54,9 +54,6 @@ Program Instance _2 : Category := {
     end
 }.
 Next Obligation.
-  equivalence; congruence.
-Qed.
-Next Obligation.
   destruct f.
     reflexivity.
   destruct p; subst.

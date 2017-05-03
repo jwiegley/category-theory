@@ -125,7 +125,6 @@ Program Instance Monic_Retraction_Iso
   to := f;
   from := projT1 r
 }.
-Next Obligation. destruct r; auto. Qed.
 Next Obligation.
   destruct r; simpl.
   apply m.
@@ -147,7 +146,6 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite e0; cat.
 Qed.
-Next Obligation. destruct s; auto. Qed.
 
 Definition flip_Section `{C : Category} `(f : X ~> Y)
            (s : @Section C X Y f) : @Retraction C Y X (projT1 s).

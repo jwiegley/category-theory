@@ -27,4 +27,5 @@ Program Instance CoproductFunctor `(C : Category) `{@Cocartesian C} :
             end;
 }.
 Next Obligation. proper; destruct X, Y; simpl; tauto. Qed.
+Next Obligation. destruct X; simpl; reflexivity. Qed.
 Next Obligation. destruct X, Y, Z; simpl; cat; tauto. Qed.

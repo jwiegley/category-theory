@@ -134,17 +134,9 @@ Program Instance Relation_Functor : Coq ⟶ Rel := {
   fobj := fun X => X;
   fmap := fun X Y (f : X ~{Coq}~> Y) x y => In _ (Singleton _ (f x)) y
 }.
+Next Obligation. proper; congruence. Qed.
+Next Obligation. proper; congruence. Qed.
 Next Obligation.
-  proper;
-  destruct H0;
-  rewrite H;
-  constructor.
-Qed.
-Next Obligation.
-  split; intros;
-  destruct H.
-    exists (g x).
-    firstorder.
-  destruct H, H, H0.
-  constructor.
+  simplify; firstorder.
+  destruct H, H0; constructor.
 Qed.

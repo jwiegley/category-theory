@@ -46,6 +46,9 @@ Next Obligation.
   solve [ apply fmap_respects; auto | contradiction ].
 Qed.
 Next Obligation.
+  destruct X; simpl in *; cat.
+Qed.
+Next Obligation.
   destruct X, Y, Z; simpl in *; try tauto;
   apply fmap_comp.
 Qed.
@@ -81,66 +84,60 @@ Next Obligation.
     apply iso_from_to.
 Qed.
 Next Obligation.
-  simpl; split; intros.
-  { destruct X0; simpl in *.
-    split.
-    { constructive.
-      all:swap 2 3.
-      - apply to.
-      - destruct from; simpl in *.
-        apply (transform (Datatypes.inl X0)).
-      - simpl; intros.
-        destruct to; simpl in *.
-        apply (natural_transformation (Datatypes.inl X0) (Datatypes.inl Y0)).
-      - simpl; intros.
-        destruct from; simpl in *.
-        apply (natural_transformation (Datatypes.inl X0) (Datatypes.inl Y0)).
-      - apply (iso_to_from (Datatypes.inl A)).
-      - apply (iso_from_to (Datatypes.inl A)).
-    }
-    { constructive.
-      all:swap 2 3.
-      - apply to.
-      - destruct from; simpl in *.
-        apply (transform (Datatypes.inr X0)).
-      - simpl; intros.
-        destruct to; simpl in *.
-        apply (natural_transformation (Datatypes.inr X0) (Datatypes.inr Y0)).
-      - simpl; intros.
-        destruct from; simpl in *.
-        apply (natural_transformation (Datatypes.inr X0) (Datatypes.inr Y0)).
-      - apply (iso_to_from (Datatypes.inr A)).
-      - apply (iso_from_to (Datatypes.inr A)).
-    }
-  }
-  { destruct X0.
-    destruct i, i0.
-    simpl in *.
+  simplify; simpl; intros; simplify;
+  try destruct X0; simpl in *.
+  - constructive.
+    all:swap 2 3.
+    + apply to.
+    + destruct from; simpl in *.
+      apply (transform (Datatypes.inl X0)).
+    + simpl; intros.
+      destruct to; simpl in *.
+      apply (natural_transformation (Datatypes.inl X0) (Datatypes.inl Y0)).
+    + simpl; intros.
+      destruct from; simpl in *.
+      apply (natural_transformation (Datatypes.inl X0) (Datatypes.inl Y0)).
+    + apply (iso_to_from (Datatypes.inl A)).
+    + apply (iso_from_to (Datatypes.inl A)).
+  - constructive.
+    all:swap 2 3.
+    + apply to.
+    + destruct from; simpl in *.
+      apply (transform (Datatypes.inr X0)).
+    + simpl; intros.
+      destruct to; simpl in *.
+      apply (natural_transformation (Datatypes.inr X0) (Datatypes.inr Y0)).
+    + simpl; intros.
+      destruct from; simpl in *.
+      apply (natural_transformation (Datatypes.inr X0) (Datatypes.inr Y0)).
+    + apply (iso_to_from (Datatypes.inr A)).
+    + apply (iso_from_to (Datatypes.inr A)).
+  - intros; simplify.
+    destruct x, y; simpl in *.
     constructive.
     all:swap 2 3.
-    - destruct X0; simpl.
+    + destruct X0; simpl.
         apply to.
       apply to0.
-    - destruct X0; simpl.
+    + destruct X0; simpl.
         apply from.
       apply from0.
-    - simpl; intros.
+    + simpl; intros.
       destruct X0, Y0; simpl;
       try contradiction;
       destruct to, to0; simpl in *.
         apply natural_transformation.
       apply natural_transformation0.
-    - simpl; intros.
+    + simpl; intros.
       destruct X0, Y0; simpl;
       try contradiction;
       destruct from, from0; simpl in *.
         apply natural_transformation.
       apply natural_transformation0.
-    - destruct A; simpl.
+    + destruct A; simpl.
         apply iso_to_from.
       apply iso_to_from0.
-    - destruct A.
+    + destruct A.
         apply iso_from_to.
       apply iso_from_to0.
-  }
 Qed.

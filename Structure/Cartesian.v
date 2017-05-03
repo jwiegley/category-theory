@@ -107,14 +107,11 @@ Hint Rewrite @fork_exl_exr : categories.
 Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
   f △ g ≈ h △ i <--> (f ≈ h) * (g ≈ i).
 Proof.
-  pose proof (ump_products h i (f △ g)) as HA.
-  destruct HA.
-  split; intros.
-    intuition.
-      rewrite <- a; cat.
-    rewrite <- b; cat.
-  destruct X0.
-  apply e; split; cat.
+  pose proof (ump_products h i (f △ g)) as HA;
+  simplify; intuition.
+  - rewrite <- a; cat.
+  - rewrite <- b; cat.
+  - apply X0; cat.
 Qed.
 
 Corollary fork_comp {X Y Z W : C}

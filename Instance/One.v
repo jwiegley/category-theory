@@ -18,8 +18,6 @@ Program Instance _1 : Category := {
   id      := fun _ => tt;
   compose := fun _ _ _ _ _ => tt
 }.
-Next Obligation. destruct f; reflexivity. Qed.
-Next Obligation. destruct f; reflexivity. Qed.
 
 Program Instance To_1 `(C : Category) : C ⟶ _1 := {
   fobj := fun _ => tt;
@@ -31,7 +29,7 @@ Program Instance Cat_Terminal : @Terminal Cat := {
   one := To_1
 }.
 Next Obligation.
-  constructive; autounfold; cat; simpl; intros;
+  constructive; simplify; auto;
   destruct f, g; simpl;
   rewrite ?fmap_id, ?fmap_id0;
   reflexivity.

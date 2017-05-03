@@ -27,12 +27,6 @@ Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
                      @fmap (C^op) Sets F A X phi Y |} |} |}
 }.
 Next Obligation.
-  (* [to] preserves morphism equivalences. *)
-  proper.
-  destruct x, y; simpl in *.
-  apply X.
-Qed.
-Next Obligation.
   (* [transform] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
@@ -74,12 +68,6 @@ Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) {A : C
                 {| morphism := fun phi : A ~{ C }~> X =>
                      @fmap C Sets F A X phi Y |} |} |}
 }.
-Next Obligation.
-  (* [to] preserves morphism equivalences. *)
-  proper.
-  destruct x, y; simpl in *.
-  apply X.
-Qed.
 Next Obligation.
   (* [transform] preserves morphism equivalences. *)
   proper.

@@ -24,4 +24,4 @@ Program Instance Sets_Cartesian : @Cartesian Sets := {
   exr := fun _ _ => {| morphism := snd |}
 }.
 Next Obligation. proper; apply proper_morphism; assumption. Qed.
-Next Obligation. split; intros; firstorder. Qed.
+Next Obligation. all:firstorder. Qed.

@@ -18,18 +18,13 @@ Program Instance Coq : Category := {
   compose := fun _ _ _ g f x => g (f x)
 }.
 Next Obligation. equivalence; congruence. Qed.
-Next Obligation.
-  proper.
-  congruence.
-Qed.
+Next Obligation. proper; congruence. Qed.
 
 Program Instance Coq_Terminal : @Terminal _ := {
   One := unit : Type;
   one := fun _ a => tt
 }.
-Next Obligation.
-  destruct (f x), (g x); reflexivity.
-Qed.
+Next Obligation. destruct (f x), (g x); reflexivity. Qed.
 
 Program Instance Coq_Cartesian : @Cartesian _ := {
   Prod := prod;
@@ -37,16 +32,13 @@ Program Instance Coq_Cartesian : @Cartesian _ := {
   exl  := fun _ _ p => fst p;
   exr  := fun _ _ p => snd p
 }.
+Next Obligation. proper; congruence. Qed.
 Next Obligation.
-  proper.
-  congruence.
-Qed.
-Next Obligation.
-  simpl; split; intros.
-    split; intros;
-    rewrite H; reflexivity.
-  destruct H.
-  rewrite <- e, <- e0, <- surjective_pairing; reflexivity.
+  intros; simplify; intros.
+  - rewrite H; reflexivity.
+  - rewrite H; reflexivity.
+  - intros; simplify.
+    rewrite <- x0, <- y, <- surjective_pairing; reflexivity.
 Qed.
 
 Program Instance Coq_Closed : @Closed _ _ := {
@@ -60,15 +52,13 @@ Next Obligation.
   extensionality X0.
   congruence.
 Qed.
-Next Obligation.
-  proper.
-  congruence.
-Qed.
+Next Obligation. proper; congruence. Qed.
 
 Program Instance Coq_Initial : Initial _ := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
+Next Obligation. contradiction. Qed.
 
 Program Instance Coq_Cocartesian : @Cocartesian _ := {
   Coprod := sum;

@@ -28,43 +28,8 @@ Program Instance Comma_Slice `(C : Category) `(c : C) :
   to   := {| fobj := _; fmap := _ |};
   from := {| fobj := _; fmap := _ |}
 }.
-Next Obligation.
-  exists (X, tt); simpl.
-  assumption.
-Defined.
-Next Obligation.
-  proper; simpl.
-  exists o.
-  assumption.
-Defined.
-Next Obligation.
-  constructive; simpl.
-  all:swap 2 3.
-  - destruct X, x, u; simpl.
-    split.
-      exact id.
-    exact tt.
-  - destruct X, x, u; simpl.
-    split.
-      exact id.
-    exact tt.
-  - destruct X, Y, x, x0, u, u0, f; simpl; cat.
-  - destruct X, Y, x, x0, u, u0, f; simpl; cat.
-  - destruct A, x, u; simpl; cat.
-  - destruct A, x, u; simpl; cat.
-Qed.
-Next Obligation.
-  constructive; simpl.
-  all:swap 2 3.
-  - destruct X; simpl.
-    exact id.
-  - destruct X; simpl.
-    exact id.
-  - destruct X, Y; simpl; cat.
-  - destruct X, Y; simpl; cat.
-  - destruct A; simpl; cat.
-  - destruct A; simpl; cat.
-Qed.
+Next Obligation. constructive; simplify; simpl in *; cat. Qed.
+Next Obligation. constructive; simplify; simpl in *; cat. Qed.
 
 Program Instance Coslice `(C : Category) `(c : C) : Category := {
   ob      := { a : C & c ~> a };
@@ -81,40 +46,5 @@ Program Instance Comma_Coslice `(C : Category) `(c : C) :
   to   := {| fobj := _; fmap := _ |};
   from := {| fobj := _; fmap := _ |}
 }.
-Next Obligation.
-  exists (tt, X); simpl.
-  assumption.
-Defined.
-Next Obligation.
-  proper; simpl.
-  exists o.
-  assumption.
-Defined.
-Next Obligation.
-  constructive; simpl.
-  all:swap 2 3.
-  - destruct X, x, u; simpl.
-    split.
-      exact tt.
-    exact id.
-  - destruct X, x, u; simpl.
-    split.
-      exact tt.
-    exact id.
-  - destruct X, Y, x, x0, u, u0, f; simpl; cat.
-  - destruct X, Y, x, x0, u, u0, f; simpl; cat.
-  - destruct A, x, u; simpl; cat.
-  - destruct A, x, u; simpl; cat.
-Qed.
-Next Obligation.
-  constructive; simpl.
-  all:swap 2 3.
-  - destruct X; simpl.
-    exact id.
-  - destruct X; simpl.
-    exact id.
-  - destruct X, Y; simpl; cat.
-  - destruct X, Y; simpl; cat.
-  - destruct A; simpl; cat.
-  - destruct A; simpl; cat.
-Qed.
+Next Obligation. constructive; simplify; simpl in *; cat. Qed.
+Next Obligation. constructive; simplify; simpl in *; cat. Qed.

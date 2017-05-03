@@ -52,11 +52,8 @@ Next Obligation.
   destruct z; intuition.
 Qed.
 Next Obligation.
-  simpl; split; intros.
-    split; intros.
-      specialize (X0 (Datatypes.inl x)); simpl in X0.
-      assumption.
-    specialize (X0 (Datatypes.inr x)); simpl in X0.
-    assumption.
-  destruct x; apply X0.
+  simplify.
+  - specialize (X0 (Datatypes.inl x)); auto.
+  - specialize (X0 (Datatypes.inr x)); auto.
+  - destruct x; auto.
 Qed.
