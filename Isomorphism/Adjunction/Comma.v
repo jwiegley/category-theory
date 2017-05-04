@@ -11,7 +11,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Section Lawvere.
+Section AdjunctionComma.
 
 (* Wikipedia: "Lawvere showed that the functors F : C → D and G : D → C are
    adjoint if and only if the comma categories (F ↓ Id[D]) and (Id[C] ↓ G) are
@@ -20,14 +20,37 @@ Section Lawvere.
    without involving sets, and was in fact the original motivation for
    introducing comma categories."
 
-   From ncatlab: "To give an adjunction i ⊣ r it suffices to give, for each
-   k : x → pe in B ↓ p, an object rk in E such that prk = x and an arrow
-   irk = 1x → k in B ↓ p that is universal from i to k." *)
+   From ncatlab: "To give an adjunction i ⊣ r it suffices to give, for each k
+   : x → pe in B ↓ p, an object rk in E such that prk = x and an arrow irk =
+   1x → k in B ↓ p that is universal from i to k."
+
+   Lawvere's own statement of the theorem, from his thesis (page 40):
+
+   "For each functor f : A ⟶ B, there exists a functor g : B ⟶ A such that g
+   is adjoint to f iff for every object B ∈ |B| there exists an object A ∈ |A|
+   and a map φ : B ~> Af in B such that for every object A′ ∈ |A| and every
+   map x : B ~> A′f in B, there exists a unique map y : A ~> A′ in A such that
+   x = φ(yf) in B."
+
+   Repeating this using the names and syntax of this module:
+
+   "∀ (G : C ⟶ D) (F : D ⟶ C),
+      F ⊣ G
+      <-->
+      ∀ d : D,
+        { c : C
+        & { phi : d ~{D}~> G c)
+          & ∀ (c′ : C) (psi : d ~{D}~> G c′),
+            { y : c ~{C}~> c′
+            & uniqueT (fun x => psi ≈ fmap[G] x ∘ phi) y } }." *)
 
 Context `{C : Category}.
 Context `{D : Category}.
 Context `{G : C ⟶ D}.
 Context `{F : D ⟶ C}.
+
+Definition uniqueT (A : Type) (P : A -> Type) (x : A) :=
+  P x * ∀ x' : A, P x' -> x = x'.
 
 Record fibered_equivalence := {
   fiber_iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G);
@@ -41,7 +64,7 @@ Lemma fiber_projT2 (a : D) (b c : C) g (f : G b ~> G c) :
     projT2 (((a, c); f ∘ g) : (Id[D] ↓ G)).
 Proof. reflexivity. Qed.
 
-Theorem Lawvere_Adjunction :
+Theorem Adjunction_Comma :
   F ⊣ G  <-->  fibered_equivalence.
 Proof.
   split; intros H. {
@@ -146,31 +169,6 @@ Proof.
   unshelve econstructor.
 
   - intro a.
-(*
-    assert (comma_proj f ≈ (a, F a)). {
-      isomorphism; unfold f; simpl.
-      - apply projF_commutes0.
-      - apply (transform[to projF_commutes0] ((a, F a); id[F a])).
-      - simpl; cat; simpl; cat.
-          destruct projF_commutes0; simpl in *.
-          apply (fst (iso_from_to ((a, F a); id[F a]))).
-        destruct projF_commutes0; simpl in *.
-        apply (snd (iso_from_to ((a, F a); id[F a]))).
-      - simpl; cat; simpl; cat.
-          destruct projF_commutes0; simpl in *.
-          rewrite (fst (iso_to_from ((a, F a); id[F a]))).
-          simpl.
-          destruct (Isomorphism.to fiber_iso0); simpl in *.
-          rewrite (fst (@fmap_id _)).
-          reflexivity.
-        destruct projF_commutes0; simpl in *.
-        rewrite (snd (iso_to_from ((a, F a); id[F a]))).
-        simpl.
-        destruct (Isomorphism.to fiber_iso0); simpl in *.
-        rewrite (snd (@fmap_id _)).
-        reflexivity.
-    }
-*)
     exact (fmap (snd (transform[from projF_commutes0] ((a, F a); id[F a])))
                 ∘ projT2 (to fiber_iso0 ((a, F a); id[F a]))
                 ∘ fst (transform[to projF_commutes0] ((a, F a); id[F a]))).
@@ -181,17 +179,7 @@ Proof.
                ∘ fmap (fst (transform[to projG_commutes0] ((G a, a); id[G a])))).
 
   - simpl; intros.
-(*
-  fmap[G] (fmap[F] f)
-    ∘ fmap[G] (snd ((from projF_commutes0) ((X, F X); id[F X])))
-    ∘ projT2 (to1 ((X, F X); id[F X]))
-    ∘ fst (transform ((X, F X); id[F X]))
-      ≈
-      fmap[G] (snd (transform0 ((Y, F Y); id[F Y])))
-    ∘ projT2 (to1 ((Y, F Y); id[F Y]))
-    ∘ fst (transform ((Y, F Y); id[F Y]))
-  ∘ f
-*)
+
 Abort.
 
-End Lawvere.
+End AdjunctionComma.
