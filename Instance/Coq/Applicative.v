@@ -78,7 +78,7 @@ Program Definition Coq_Product_Monoidal : @Monoidal Coq := {|
           ; fmap := fun _ _ f x => (fst x, f (snd x)) |}
      ; fmap := fun _ _ f =>
                  {| transform := _ |} |};
-  munit  := unit : Type
+  I  := unit : Type
 |}.
 Next Obligation. proper; congruence. Qed.
 Next Obligation.
@@ -116,7 +116,7 @@ Program Definition Coq_Product_Monoidal_F : @Monoidal Coq := {|
           ; fmap := fun _ _ f x => (fst x, fmap[F] f (snd x)) |}
      ; fmap := fun _ _ f =>
                  {| transform := _ |} |};
-  munit  := F (unit : Type)
+  I  := F (unit : Type)
 |}.
 Next Obligation.
   proper; simpl.
@@ -144,7 +144,7 @@ Qed.
 
 (* Definition applicative_is_lax : *)
 (*   @LaxMonoidalFunctor Coq Coq Coq_Product_Monoidal Coq_Product_Monoidal_F F := {| *)
-(*   pure := fun _ => @munit Coq Coq_Product_Monoidal_F; *)
+(*   pure := fun _ => @I Coq Coq_Product_Monoidal_F; *)
 (*   ap_functor_nat := _ *)
 (* |}. *)
 

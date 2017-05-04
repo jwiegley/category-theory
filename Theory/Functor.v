@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
+Require Export Category.Theory.Isomorphism.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -51,5 +52,19 @@ Notation "fmap[ F ]" := (@fmap _ _ F _ _)
 
 Hint Rewrite @fmap_id : categories.
 
-Ltac functor :=
-  unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
+Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
+
+Program Instance fmap_iso `{C : Category} `{D : Category}
+        `(F : C ⟶ D) {X Y : C} `(iso : X ≅ Y) :
+  F X ≅ F Y := {
+  to   := fmap[F] (to iso);
+  from := fmap (from iso)
+}.
+Next Obligation.
+  rewrite <- fmap_comp.
+  rewrite iso_to_from; cat.
+Qed.
+Next Obligation.
+  rewrite <- fmap_comp.
+  rewrite iso_from_to; cat.
+Qed.

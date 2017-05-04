@@ -1,12 +1,11 @@
 TODO  -*- mode: org; fill-column: 78 -*-
 
 * Inbox
-** TODO Separate adj_from_unit_conuit into its own class AdjunctionFunctional
-** TODO Define equivalence of categories
 ** TODO Monad Transformers
+** TODO Define equivalence of categories
+** DONE Separate adj_from_unit_conuit into its own class AdjunctionFunctional
 ** TODO Instead of HomFunctor, use the closed structure of Cat
 And just apply curry to [C^op, C] ⟶ Sets
-** TODO Isomorphism of objects is given by isomorphism of arrows
 ** TODO Move all instances not related to isomorphism or equivalence into modules
 This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.
@@ -186,6 +185,49 @@ Hom(f, g) : Hom(X2, Y1) → Hom(X1, Y2) is given by φ ↦ g ∘ φ ∘ f.
 many settings is to determine whether a given functor is representable."
 ** TODO F-algebras
 ** TODO F-coalgebras
+** TODO Internal hom
+Some categories may possess a functor that behaves like a Hom functor, but
+takes values in the category C itself, rather than Set. Such a functor is
+referred to as the internal Hom functor, and is often written as
+
+    [−  −] : C^op × C → C
+
+to emphasize its product-like nature, or as
+
+    ⇒ : C^op × C → C
+
+to emphasize its functorial nature, or sometimes merely in lower-case:
+
+    hom(−,−) : C^op × C → C
+
+Categories that possess an internal Hom functor are referred to as closed
+categories. The forgetful functor U : C → Set on such categories takes the
+internal Hom functor to the external Hom functor. That is,
+
+    U ∘ hom(−,−) ≃ Hom(−,−)
+
+where ≃ denotes a natural isomorphism; the isomorphism is natural in both
+sites. Alternately, one has that
+
+    Hom(I ,hom(−,−)) ≃ Hom(−,−)
+
+where I is the unit object of the closed category. For the case of a closed
+monoidal category, this extends to the notion of currying, namely, that
+
+    Hom(X, Y ⇒ Z) ≃ Hom(X ⊗ Y, Z)
+
+where ⊗ is a bifunctor, the internal product functor defining a monoidal
+category. The isomorphism is natural in both X and Z. In other words, in a
+closed monoidal category, the internal hom functor is an adjoint functor to
+the internal product functor. The object Y ⇒ Z is called the internal Hom.
+When ⊗ is the Cartesian product ×, the object Y ⇒ Z is called the exponential
+object, and is often written as Z^Y.
+
+Internal Homs, when chained together, form a language, called the internal
+language of the category. The most famous of these are simply typed lambda
+calculus, which is the internal language of Cartesian closed categories, and
+the linear type system, which is the internal language of closed symmetric
+monoidal categories.
 * Proofs
 ** TODO Prod ⊣ Diag ⊣ Coprod
 ** TODO Show that exp_prod, prod_coprod and exp_coprod arise from adjunctions
@@ -205,11 +247,16 @@ defined. Read about this definition in section I.1 of Mac Lane’s Categories
 for the Working Mathematician, and do the exercise mentioned there, showing
 that it is equivalent to the usual definition.
 ** TODO "Coyoneda lemma" states that every presheaf is a colimit of representables
-** TODO small preorders are complete
+** TODO Small preorders are complete
 #+begin_src coq
 Theorem Complete_Preorder (C : Category) (CC : Complete C) :
   forall x y: (ObjC), Hom x y’ ≃ (Arrow C → Hom x y)
 #+end_src
+** TODO Show that the opposite the comma category of (Comma F G)
+is isomorphic to the comma category (Comma Gᵒᵖ Fᵒᵖ)
+** TODO Whenever F and F' are two naturally isomorphic functors
+then (Comma F G) is isomorphic to (Comma F' G)
+** TODO Functors produced from a natural isomorphism and its inverse are inverses
 * TODO Type refinement
 Comments from contextualMatters on /r/haskell:
 

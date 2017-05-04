@@ -16,18 +16,10 @@ Section FunctorEquiv.
 Context `{C : Category}.
 Context `{D : Category}.
 
-Global Program Instance fobj_respects `{F : C ⟶ D} :
-  Proper (equiv ==> equiv) (@fobj C D F).
-Next Obligation.
-  proper.
-  destruct F, X; simpl.
-  refine {| to   := fmap x y to
-          ; from := fmap y x from |}.
-    rewrite <- fmap_comp, iso_to_from; cat.
-  rewrite <- fmap_comp, iso_from_to; cat.
-Qed.
+Instance fobj_respects `{F : C ⟶ D} :
+  Proper (equiv ==> equiv) (@fobj C D F) := @fmap_iso _ _ _.
 
-Global Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A).
+(* Global Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A). *)
 
 (* The identity Functor *)
 
