@@ -9,7 +9,6 @@ Require Export Category.Construction.Groupoid.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section MonoidalFunctor.
 
@@ -114,8 +113,6 @@ Local Obligation Tactic := program_simpl.
 (* Any two monoidal functors compose to create a monoidal functor. This is
    composition in the groupoid of categories with monoidal structure. *)
 
-(*
-jww (2017-05-03): TODO
 Global Program Instance MonoidalFunctor_compose
        `(M : @MonoidalFunctor D E _ _ F)
        `(N : @MonoidalFunctor C D _ _ G) :
@@ -123,8 +120,11 @@ Global Program Instance MonoidalFunctor_compose
   pure_iso := compose_iso (fmap_iso F (@pure_iso _ _ _ _ G _))
                           (@pure_iso _ _ _ _ F _);
   ap_functor_iso :=
-    {| to   := {| transform := fun _ => fmap (to ap_iso) ∘ to ap_iso |}
-     ; from := {| transform := fun _ => from ap_iso ∘ fmap (from ap_iso) |} |}
+    {| to   := {| transform := fun p =>
+         fmap (to ap_iso) ∘ to (@ap_iso _ _ _ _ F _ (G (fst p)) (G (snd p))) |}
+     ; from := {| transform := fun p =>
+         from (@ap_iso _ _ _ _ F _ (G (fst p)) (G (snd p))) ∘ fmap (from ap_iso) |}
+     |}
 }.
 Next Obligation.
   simpl.
@@ -134,100 +134,83 @@ Next Obligation.
              _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ N))
              (o1, o2) (o, o0) (h, h0)).
   simpl.
-  rewrite comp_assoc.
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
-  rewrite (comp_assoc (fmap[F] (fmap[tensor (G o)] (fmap[G] h0)))).
   pose proof (@natural_transformation
                 _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ M))
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   simpl in X; rewrite <- X.
-  rewrite !fmap_comp; reflexivity.
+  reflexivity.
 Qed.
 Next Obligation.
   simpl.
   rewrite comp_assoc.
-  rewrite fmap_comp.
   pose proof (@natural_transformation
                 _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ M))
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   simpl in X; rewrite X.
   simpl.
-  rewrite <- comp_assoc.
-  rewrite !fmap_comp.
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc (fmap[F] (fmap[tensor (G o)] (fmap[G] h0)))).
   rewrite <- !comp_assoc.
   rewrite <- !fmap_comp.
   rewrite <- (@natural_transformation
                 _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ N))
                 (o1, o2) (o, o0) (h, h0)).
-  rewrite !comp_assoc.
   reflexivity.
 Qed.
 Next Obligation.
   simpl.
   rewrite fmap_id.
-  rewrite id_left.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc ((@to _ _ _ (@ap_functor_iso _ _ _ _ _ M)) (G o, G o0))).
   pose proof (@iso_to_from _ _ _ (@ap_functor_iso _ _ _ _ _ M) (G o, G o0)).
   simpl in X; rewrite X.
   rewrite fmap_id.
-  rewrite id_left.
   rewrite comp_assoc.
   rewrite <- !fmap_comp.
   apply fmap_respects.
   rewrite <- comp_assoc.
   pose proof (@fmap_id _ _ (@tensor D H0)).
   simpl in X0; rewrite X0.
-  pose proof (@fmap_id _ _ (@tensor C H)).
-  simpl in X1; rewrite X1.
-  rewrite !fmap_id.
   rewrite id_left.
+  pose proof (@fmap_id _ _ (@tensor C H)).
   rewrite (@iso_to_from _ _ _ (@ap_functor_iso _ _ _ _ _ N) (o, o0)).
   simpl.
   rewrite fmap_id.
-  rewrite id_left.
-  rewrite X1.
-  rewrite !fmap_id.
-  reflexivity.
+  apply fmap_id.
 Qed.
 Next Obligation.
   simpl.
-  rewrite !fmap_id.
-  rewrite id_left.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc (fmap ((@from _ _ _ (@ap_functor_iso _ _ _ _ _ N)) (o, o0)))).
   rewrite <- fmap_comp.
   rewrite (@iso_from_to _ _ _ (@ap_functor_iso _ _ _ _ _ N) (o, o0)).
   simpl.
-  rewrite !fmap_id.
-  rewrite id_left.
-  pose proof (@fmap_respects _ _ (@tensor D H0) (G o) (G o)
-                             (fmap[G] (id[o])) (@id D (G o)) fmap_id).
+  pose proof (@fmap_respects _ _ (@tensor D H0) (G o, G o0) (G o, G o0)
+                             (fmap[G] (id[o]), fmap[G] (id[o0]))).
   simpl in X; rewrite X.
-  pose proof (@fmap_id _ _ (@tensor D H0)) as X0.
-  simpl in X0; rewrite X0.
-  rewrite !fmap_id.
-  rewrite id_left.
-  rewrite (@iso_from_to _ _ _ (@ap_functor_iso _ _ _ _ _ M) (G o, G o0)).
-  simpl.
-  rewrite fmap_id.
-  pose proof (@fmap_respects _ _ (@tensor E H1) (F (G o)) (F (G o))
-                             (fmap[F] (fmap[G] (id[o]))) (id[F (G o)])) as X1.
-  simpl in X1; rewrite X1.
-    pose proof (@fmap_id _ _ (@tensor E H1)) as X2.
-    simpl in X2; rewrite X2.
-    rewrite fmap_id.
+    pose proof (@fmap_id _ _ (@tensor D H0)) as X0.
+    simpl in X0; rewrite X0.
+    rewrite !fmap_id.
     rewrite id_left.
-    pose proof (@fmap_respects _ _ (@tensor E H1) (F (G o)) (F (G o))
-                               (fmap[F] (id[G o])) (id[F (G o)])) as X3.
-    simpl in X3; rewrite X3.
-      rewrite X2.
+    rewrite (@iso_from_to _ _ _ (@ap_functor_iso _ _ _ _ _ M) (G o, G o0)).
+    simpl.
+    pose proof (@fmap_respects _ _ (@tensor E H1)
+                               (F (G o), F (G o0)) (F (G o), F (G o0))
+                               (fmap[F] (fmap[G] (id[o])),
+                                fmap[F] (fmap[G] (id[o0])))) as X1.
+    simpl in X1; rewrite X1.
+      pose proof (@fmap_id _ _ (@tensor E H1)) as X2.
+      simpl in X2; rewrite X2.
+      pose proof (@fmap_respects _ _ (@tensor E H1)) as X3.
+      simpl in X3; rewrite X3.
+        rewrite X2.
+        reflexivity.
+      simpl; split;
       apply fmap_id.
+    simpl; split;
+    rewrite fmap_id;
     apply fmap_id.
-  rewrite fmap_id.
+  simpl; split;
   apply fmap_id.
 Qed.
 Next Obligation.
@@ -269,7 +252,8 @@ Global Program Instance LaxMonoidalFunctor_compose
        `(N : @LaxMonoidalFunctor C D _ _ G) :
   `{@LaxMonoidalFunctor C E _ _ (F ○ G)} := {
   pure := fmap pure ∘ pure;
-  ap_functor_nat := {| transform := fun _ => fmap ap ∘ ap |}
+  ap_functor_nat := {| transform := fun p =>
+    fmap ap ∘ @ap _ _ _ _ F _ (G (fst p)) (G (snd p)) |}
 }.
 Next Obligation.
   simpl.
@@ -279,15 +263,13 @@ Next Obligation.
              _ _ _ _ (@ap_functor_nat _ _ _ _ _ N)
              (o1, o2) (o, o0) (h, h0)).
   simpl.
-  rewrite comp_assoc.
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
-  rewrite (comp_assoc (fmap[F] (fmap[tensor (G o)] (fmap[G] h0)))).
   pose proof (@natural_transformation
                 _ _ _ _ (@ap_functor_nat _ _ _ _ _ M)
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   simpl in X; rewrite <- X.
-  rewrite !fmap_comp; reflexivity.
+  reflexivity.
 Qed.
 Next Obligation.
   transitivity (F (I ⨂ G X)).
@@ -318,7 +300,6 @@ Next Obligation.
     apply tensor_assoc.
   apply ap_assoc.
 Qed.
-*)
 
 Global Program Instance StrongFunctor_compose (S : C ⟶ C)
        `{@StrongFunctor C _ S} :

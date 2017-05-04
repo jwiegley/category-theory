@@ -69,6 +69,7 @@ Isomorphism/Functor/Hom.v
 Isomorphism/Natural/Comma.v
 Isomorphism/Adjunction/Comma.v
 Isomorphism/Adjunction/Monad.v
+Isomorphism/Monoid/Monad.v
 Tools/Abstraction.v
 Tools/Represented.v
 Theory.v

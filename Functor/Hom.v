@@ -50,9 +50,10 @@ Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
   P W Y ~{E}~> P X Z := curried_bimap (op f) g.
 
 Program Instance HomFunctor `(C : Category) : C^op × C ⟶ Sets := {
-  fobj := fun p => {| carrier := @hom C (fst p) (snd p) |};
+  fobj := fun p => {| carrier   := @hom C (fst p) (snd p)
+                    ; is_setoid := @homset (C) (fst p) (snd p) |};
   fmap := fun X Y (f : X ~{C^op × C}~> Y) =>
-            {| morphism := fun g : fst X ~{C}~> snd X => snd f ∘ g ∘ fst f |}
+            {| morphism := fun g => snd f ∘ g ∘ fst f |}
 }.
 
 Program Definition Internal_HomFunctor `(C : Category)
@@ -91,17 +92,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-(*
-jww (2017-05-03): TODO
-Program Instance CoHomFunctor `(C : Category) : C × C^op ⟶ Sets := {
-  fobj := fun p => {| carrier := @hom (C^op) (fst p) (snd p) |};
-  fmap := fun X Y (f : X ~{C × C^op}~> Y) =>
-            {| morphism := fun g : fst X ~{C^op}~> snd X =>
-                 snd f ∘ g ∘ fst f : fst Y ~{C^op}~> snd Y |}
-}.
-*)
-
-Program Instance Curried_HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
+Program Definition Curried_HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {|
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom C X Y
                       ; is_setoid := @homset C X Y |};
@@ -112,7 +103,7 @@ Program Instance Curried_HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {
   fmap := fun X Y (f : X ~{C^op}~> Y) => {|
     transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
-}.
+|}.
 Next Obligation.
   simpl; intros.
   unfold op.
@@ -122,6 +113,16 @@ Qed.
 Coercion Curried_HomFunctor : Category >-> Functor.
 
 Notation "'Hom' ( A , ─ )" := (@Curried_HomFunctor _ A) : category_scope.
+
+Program Instance CoHomFunctor_Alt `(C : Category) : C × C^op ⟶ Sets :=
+  HomFunctor C ○ @swap Cat _ _ _.
+
+Program Instance CoHomFunctor `(C : Category) : C × C^op ⟶ Sets := {
+  fobj := fun p => {| carrier   := @hom (C^op) (fst p) (snd p)
+                    ; is_setoid := @homset (C^op) (fst p) (snd p) |};
+  fmap := fun X Y (f : X ~{C × C^op}~> Y) =>
+    {| morphism := fun g => snd f ∘ g ∘ fst f |}
+}.
 
 Program Instance Curried_CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
   fobj := fun X => {|
@@ -140,6 +141,18 @@ Next Obligation.
   symmetry.
   apply comp_assoc.
 Qed.
+
+(*
+Require Import Category.Instance.Cat.Closed.
+
+Program Instance CoHomFunctor `(C : Category) : C × C^op ⟶ Sets.
+Next Obligation.
+  pose (Curried_CoHomFunctor C).
+  pose (@uncurry Cat _ _ C (C^op) Sets).
+  destruct h; simpl in morphism.
+  (* This does not work due to universe problems. *)
+  apply (morphism f).
+*)
 
 (* Coercion Curried_CoHomFunctor : Category >-> Functor. *)
 

@@ -10,7 +10,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Section MonadAdjunction.
+Section AdjunctionMonad.
 
 Context `{C : Category}.
 Context `{D : Category}.
@@ -20,7 +20,7 @@ Context `{J : F ⊣ U}.
 
 (* Every adjunction gives rise to a monad. *)
 
-Program Definition Monad_Adjunction : @Monad D (U ○ F) := {|
+Program Definition Adjunction_Monad : @Monad D (U ○ F) := {|
   ret  := @unit _ _ _ _ J;
   join := fun a => fmap (@counit _ _ _ _ J (F a))
 |}.
@@ -48,4 +48,4 @@ Obligation 4.
   rewrite <- adj_right_nat_l; cat.
 Qed.
 
-End MonadAdjunction.
+End AdjunctionMonad.
