@@ -9,7 +9,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Reserved Notation "C ^op" (at level 90).
+Reserved Notation "C ^op" (at level 7).
 
 Instance Opposite `(C : Category) : Category := {
   ob      := @ob C;
@@ -29,7 +29,7 @@ Instance Opposite `(C : Category) : Category := {
 }.
 
 Notation "C ^op" := (@Opposite C)
-  (at level 90, format "C ^op") : category_scope.
+  (at level 7, format "C ^op") : category_scope.
 
 Theorem op_involutive_iso `{C : Category} : (C^op)^op ≅[Cat] C.
 Proof. isomorphism; functor || constructive; cat. Qed.
@@ -46,17 +46,17 @@ Hint Rewrite op_involutive.
 Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
 Definition unop `{C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
 
-Program Instance Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {
+Program Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {|
   fobj := @fobj C D F;
   fmap := fun X Y f => @fmap C D F Y X (op f)
-}.
+|}.
 Next Obligation. proper; apply fmap_respects, X0. Qed.
 Next Obligation. apply fmap_comp. Qed.
 
-Program Instance Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {
+Program Definition Reverse_Opposite_Functor `(F : C^op ⟶ D^op) : C ⟶ D := {|
   fobj := @fobj _ _ F;
   fmap := fun X Y f => unop (@fmap _ _ F Y X f)
-}.
+|}.
 Next Obligation.
   proper.
   unfold unop.
