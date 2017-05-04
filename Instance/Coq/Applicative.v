@@ -71,6 +71,7 @@ Context `{J : @Applicative F}.
 (* Program Definition Coq_Product_Monoidal : @Monoidal Coq := *)
 (*   @Product_Monoidal Coq Coq_Cartesian Coq_Terminal. *)
 
+(*
 Program Definition Coq_Product_Monoidal : @Monoidal Coq := {|
   tensor :=
     {| fobj := fun X : Type =>
@@ -107,6 +108,7 @@ Program Definition applicative_is_strong :
   @StrongFunctor Coq Coq_Product_Monoidal F := {|
   strength := fun _ _ x => fmap[F] (λ y, (fst x, y)) (snd x)
 |}.
+*)
 
 (*
 Program Definition Coq_Product_Monoidal_F : @Monoidal Coq := {|

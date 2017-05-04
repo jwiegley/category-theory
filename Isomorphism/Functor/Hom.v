@@ -15,9 +15,6 @@ Unset Transparent Obligations.
 Definition Presheaves   (C : Category) := [C^op, Sets].
 Definition Copresheaves (C : Category) := [C, Sets].
 
-(** This is the Yoneda embedding. *)
-Instance Yoneda `{C : Category} : C ⟶ [C^op, Sets] := CoHomFunctor C.
-
 Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
   [C^op, Sets] Hom(─,A) F ≅ F A := {
   to   := {| morphism := fun X => X A id |};
