@@ -11,6 +11,8 @@ Theory/Natural.v
 Theory/Dinatural.v
 Theory/Adjunction.v
 Theory/Monad.v
+Theory/Monad/Composition.v
+Theory/Monad/Transformer.v
 Theory/Cone.v
 Theory/Limit.v
 Theory/Equivalence.v
@@ -31,6 +33,7 @@ Structure/Closed.v
 Structure/BiCCC.v
 Structure/Constant.v
 Structure/Monoidal.v
+Structure/Monoid.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cocartesian.v
@@ -60,6 +63,8 @@ Functor/Product.v
 Functor/Coproduct.v
 Functor/Constant.v
 Functor/Representable.v
+Functor/Strong.v
+Functor/Monoidal.v
 Isomorphism/Functor/Hom.v
 Isomorphism/Natural/Comma.v
 Isomorphism/Adjunction/Comma.v
@@ -67,12 +72,3 @@ Isomorphism/Adjunction/Monad.v
 Tools/Abstraction.v
 Tools/Represented.v
 Theory.v
-Pending/Monoidal.v
-Pending/Faithful.v
-Pending/Pullback.v
-Pending/Applicative.v
-Pending/Monad/Composition.v
-Pending/Const.v
-Pending/Tuple.v
-Pending/Tactics.v
-Pending/Sergei.v
