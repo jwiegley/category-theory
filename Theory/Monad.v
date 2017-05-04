@@ -34,8 +34,6 @@ Notation "join[ M ]" := (@join _ M _ _)
 Section MonadLib.
 
 Context `{C : Category}.
-Context `{A : @Cartesian C}.
-Context `{@Closed C A}.
 Context `{M : C ⟶ C}.
 Context `{@Monad C M}.
 

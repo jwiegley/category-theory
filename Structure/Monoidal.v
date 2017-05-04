@@ -4,7 +4,6 @@ Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Product.
-Require Export Category.Instance.Nat.
 Require Export Category.Instance.Cat.
 Require Export Category.Instance.Cat.Cartesian.
 
