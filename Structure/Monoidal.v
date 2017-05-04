@@ -3,9 +3,10 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
+Require Export Category.Construction.Product.
 Require Export Category.Functor.Product.
+Require Export Category.Instance.Nat.
 Require Export Category.Instance.Cat.
-Require Export Category.Instance.Cat.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -19,7 +20,7 @@ Context `{C : Category}.
 Reserved Infix "⨂" (at level 30, right associativity).
 
 Class Monoidal := {
-  tensor : C × C ⟶ C           (* uncurried = C ∏ C ⟶ C *)
+  tensor : C ∏ C ⟶ C
     where "x ⨂ y" := (tensor (x, y));
 
   I : C;
