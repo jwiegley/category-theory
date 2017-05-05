@@ -5,6 +5,8 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Strong.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Construction.Groupoid.
+Require Export Category.Instance.Cat.
+Require Export Category.Instance.Cat.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
