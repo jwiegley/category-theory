@@ -15,8 +15,8 @@ Context `{C : Category}.
 Context `{@Monoidal C}.
 
 Class Monoid (mon : C) := {
-  mappend : mon ⨂ mon ~> mon;
   mempty : I ~> mon;
+  mappend : mon ⨂ mon ~> mon;
 
   (* I ⨂ mon ≈ mon, mon ⨂ I ≈ mon *)
   mempty_left : mappend ∘ bimap mempty id ≈ to (@unit_left C _ mon);
