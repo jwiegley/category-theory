@@ -3,6 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Monad.
 Require Export Category.Structure.Monoid.
+Require Export Category.Isomorphism.Adjunction.Monad.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -19,29 +20,44 @@ Context `{M : C ⟶ C}.
 
 Definition Endofunctors `(C : Category) := ([C, C]).
 
-Program Definition Monoid_Monad
-        (m : @Monoid (Endofunctors C) Composition_Monoidal M) : Monad := {|
-  ret  := transform[mempty[m]];
-  join := transform[mappend[m]]
-|}.
-Next Obligation.
-  pose proof (@mappend_assoc _ _ _ m a) as X; simpl in X.
-  autorewrite with categories in X.
-  symmetry; assumption.
-Qed.
-Next Obligation.
-  pose proof (@mempty_right _ _ _ m a) as X; simpl in X.
-  autorewrite with categories in X.
-  assumption.
-Qed.
-Next Obligation.
-  pose proof (@mempty_left _ _ _ m a) as X; simpl in X.
-  autorewrite with categories in X.
-  assumption.
-Qed.
-Next Obligation.
-  symmetry.
-  apply (@natural_transformation _ _ _ _ (@mappend _ _ _ m)).
-Qed.
+Theorem Monoid_Monad :
+  @Monoid (Endofunctors C) Composition_Monoidal M <--> Monad.
+Proof.
+  split; intros m.
+  - refine {| join := transform[mappend[m]]
+            ; ret  := transform[mempty[m]] |}; intros.
+    + symmetry.
+      apply (@natural_transformation _ _ _ _ (@mempty _ _ _ m)).
+    + pose proof (@mappend_assoc _ _ _ m a) as X; simpl in X.
+      autorewrite with categories in X.
+      symmetry; assumption.
+    + pose proof (@mempty_right _ _ _ m a) as X; simpl in X.
+      autorewrite with categories in X.
+      assumption.
+    + pose proof (@mempty_left _ _ _ m a) as X; simpl in X.
+      autorewrite with categories in X.
+      assumption.
+    + symmetry.
+      apply (@natural_transformation _ _ _ _ (@mappend _ _ _ m)).
+  - unshelve (refine {| mempty  := _
+                      ; mappend := _ |}).
+    + natural; intros.
+        exact ret.
+      simpl.
+      symmetry.
+      apply fmap_ret.
+    + natural; intros.
+        exact join.
+      simpl.
+      symmetry.
+      apply join_fmap_fmap.
+    + simpl; intros; cat.
+      apply join_ret.
+    + simpl; intros; cat.
+      apply join_fmap_ret.
+    + simpl; intros; cat.
+      symmetry.
+      apply join_fmap_join.
+Defined.
 
 End MonoidMonad.
