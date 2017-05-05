@@ -16,36 +16,32 @@ Context `{C : Category}.
 Context `{D : Category}.
 Context `{F : D ⟶ C}.
 Context `{U : C ⟶ D}.
-Context `{J : F ⊣ U}.
 
-(* Every adjunction gives rise to a monad. *)
+(* Every adjunction gives rise to a monad. However, for the reverse direction,
+   just knowing that the monad is formed from the product of two functors is
+   not enough information, since one could always just compose [Id] to some
+   monad [M], and this would not give an adjoint. *)
 
-Program Definition Adjunction_Monad : @Monad D (U ○ F) := {|
-  ret  := @unit _ _ _ _ J;
-  join := fun a => fmap (@counit _ _ _ _ J (F a))
-|}.
-Obligation 1.
-  unfold counit.
-  rewrite <- !fmap_comp.
-  rewrite <- adj_right_nat_l; cat.
-  rewrite <- adj_right_nat_r; cat.
-Qed.
-Obligation 2.
-  unfold unit, counit.
-  rewrite <- !fmap_comp.
-  rewrite <- adj_right_nat_l; cat.
-  rewrite adj_right_left; cat.
-Qed.
-Obligation 3.
-  unfold unit, counit.
-  rewrite <- adj_left_nat_r; cat.
-  rewrite adj_left_right; cat.
-Qed.
-Obligation 4.
-  unfold unit, counit.
-  rewrite <- !fmap_comp.
-  rewrite <- adj_right_nat_r; cat.
-  rewrite <- adj_right_nat_l; cat.
-Qed.
+Theorem Adjunction_Monad : F ⊣ U -> @Monad D (U ○ F).
+Proof.
+  intros.
+  unshelve econstructor; simpl; intros.
+  - exact unit.
+  - exact (fmap counit).
+  - unfold unit.
+    rewrite <- adj_left_nat_l; cat.
+    rewrite <- adj_left_nat_r; cat.
+  - unfold counit.
+    rewrite <- !fmap_comp.
+    rewrite <- adj_right_nat_l; cat.
+    rewrite <- adj_right_nat_r; cat.
+  - rewrite <- fmap_comp.
+    rewrite counit_fmap_unit; cat.
+  - apply fmap_counit_unit.
+  - rewrite <- !fmap_comp.
+    unfold counit.
+    rewrite <- adj_right_nat_r; cat.
+    rewrite <- adj_right_nat_l; cat.
+Defined.
 
 End AdjunctionMonad.
