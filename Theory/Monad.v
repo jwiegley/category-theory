@@ -17,9 +17,13 @@ Class Monad := {
   ret {a}  : a ~> M a;          (* Id    ⟹ M *)
   join {a} : M (M a) ~> M a;    (* M ○ M ⟹ M *)
 
+  fmap_ret {a b} (f : a ~> b) : ret ∘ f ≈ fmap f ∘ ret;
   join_fmap_join {a} : join ∘ fmap (@join a) ≈ join ∘ join;
-  join_fmap_pure {a} : join ∘ fmap (@ret a) ≈ id;
-  join_pure      {a} : join ∘ ret ≈ @id _ (M a);
+  join_fmap_ret  {a} : join ∘ fmap (@ret a) ≈ id;
+  join_ret       {a} : join ∘ @ret (M a) ≈ id;
+
+  (* This law states that join is a natural transformation from [fmap . fmap]
+     to [fmap]. *)
   join_fmap_fmap {a b} (f : a ~> b) :
     join ∘ fmap (fmap f) ≈ fmap f ∘ join
 }.
