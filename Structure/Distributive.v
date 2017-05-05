@@ -15,7 +15,6 @@ Section Distributive.
 Context `{C : Category}.
 Context `{@Cartesian C}.
 Context `{@Cocartesian C}.
-Context `{@Bicartesian C _ _}.
 Context `{@Initial C}.
 
 Class Distributive := {

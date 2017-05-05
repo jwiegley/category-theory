@@ -29,11 +29,7 @@ supporting theorems for the following core concepts:
 In this library, everything is rooted in categories, which support
 the following notions:
 
-##### Objects
-
 The objects of a category are all of some `Type`.
-
-##### Arrows
 
 Morphisms, or arrows, are also of type `Type`, but always in a universe above
 objects. All of the library has `Universe Polymorphism` enabled, allowing
@@ -43,11 +39,7 @@ The morphisms identified by `A ~> B` form a hom-set, except that in this
 library it is a hom-setoid, requiring the meaning of (constructive)
 equivalence between morphisms to be given.
    
-##### Structure and laws
-
 Identity, composition, and the related laws.
-
-#### Morphisms
 
 Defines the various properties and relationships of morphisms, as well as
 specific types such as epis, monos, split epis, etc.

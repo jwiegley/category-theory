@@ -14,9 +14,9 @@ Unset Transparent Obligations.
 Section BiCCC.
 
 Context `{C : Category}.
-Context `{A : @Cartesian C}.
-Context `{@Closed C A}.
+Context `{@Cartesian C}.
 Context `{@Cocartesian C}.
+Context `{@Closed C _}.
 
 Global Program Instance prod_coprod_l {X Y Z : C} :
   (* Products distribute over coproducts in every bicartesian closed
@@ -207,8 +207,6 @@ Next Obligation.
   apply swap_inj_r.
   apply curry_inj; simpl; cat.
 Qed.
-
-Context `{@Bicartesian C _ _}.
 
 Global Program Instance BiCCC_Distributive : @Distributive C _ _ _ := {
   distr_prod_coprod := @prod_coprod_r;

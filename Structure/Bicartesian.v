@@ -12,18 +12,8 @@ Unset Transparent Obligations.
 Section Bicartesian.
 
 Context `{C : Category}.
-Context `{Cart : @Cartesian C}.
-Context `{Cocart : @Cocartesian C}.
-
-Set Warnings "-non-primitive-record".
-
-Class Bicartesian := {
-  bicartesian_is_cartesian := Cart;
-  bicartesian_is_cocartesian := Cocart
-}.
-
-Coercion bicartesian_is_cartesian : Bicartesian >-> Cartesian.
-Coercion bicartesian_is_cocartesian : Bicartesian >-> Cocartesian.
+Context `{@Cartesian C}.
+Context `{@Cocartesian C}.
 
 Corollary fork_merge {X Y Z W : C}
           (f : X ~> Y) (g : X ~> Z) (h : W ~> Y) (i : W ~> Z) :
