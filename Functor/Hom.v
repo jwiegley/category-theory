@@ -92,6 +92,11 @@ Next Obligation.
   reflexivity.
 Qed.
 
+Notation "a ≈> b":= (Internal_HomFunctor _ (a, b))
+  (at level 89) : category_scope.
+Notation "a ≈{ C }≈> b":= (Internal_HomFunctor C (a, b))
+  (at level 89) : category_scope.
+
 Program Definition Curried_HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {|
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom C X Y
