@@ -34,15 +34,10 @@ Section AdjunctionComma.
 
    Repeating this using the names and syntax of this module:
 
-   "∀ (G : C ⟶ D) (F : D ⟶ C),
-      F ⊣ G
-      <-->
-      ∀ d : D,
-        { c : C
-        & { phi : d ~{D}~> G c)
-          & ∀ (c′ : C) (psi : d ~{D}~> G c′),
-            { y : c ~{C}~> c′
-            & uniqueT (fun x => psi ≈ fmap[G] x ∘ phi) y } }." *)
+   "∀ (G : C ⟶ D) (F : D ⟶ C), F ⊣ G <-->
+      ∀ d : D, ∃ (c : C) (phi : d ~{D}~> G c),
+        ∀ (c′ : C) (psi : d ~{D}~> G c′), ∃! y : c ~{C}~> c′,
+          psi ≈ fmap[G] y ∘ phi" *)
 
 Context `{C : Category}.
 Context `{D : Category}.
