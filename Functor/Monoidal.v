@@ -3,6 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Strong.
+Require Export Category.Functor.Hom.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Construction.Groupoid.
 Require Export Category.Instance.Cat.
@@ -26,7 +27,7 @@ Context `{F : C ⟶ D}.
    definition below in [LaxMonoidalFunctor]. *)
 
 Class LaxMonoidalFunctor := {
-  pure : I ~> F I;
+  lax_pure : I ~> F I;
 
   ap_functor_nat :
     (@functor_comp (C × C) (D × D) D (@tensor D _) (split F F))
@@ -51,7 +52,7 @@ Program Definition project_monoidal_iso
                               (@tensor D _) (split F F))
                  ≅[[C × C, D]]
                (@functor_comp (C × C) C D F (@tensor C _)))
-        (X Y : C) :
+      (X Y : C) :
   F X ⨂ F Y ≅[D] F (X ⨂ Y) := {|
   to   := to   iso (X, Y);
   from := from iso (X, Y)
@@ -86,7 +87,7 @@ Class MonoidalFunctor := {
 
 Program Definition MonoidalFunctor_Is_Lax (S : MonoidalFunctor) :
   LaxMonoidalFunctor := {|
-  pure := to (@pure_iso S);
+  lax_pure := to (@pure_iso S);
   ap_functor_nat := to (@ap_functor_iso S)
 |}.
 Next Obligation. apply pure_iso_left. Qed.
@@ -95,8 +96,31 @@ Next Obligation. apply ap_iso_assoc. Qed.
 
 End MonoidalFunctor.
 
-Notation "pure[ F ]" := (@pure _ _ _ _ F _) (at level 9, format "pure[ F ]").
 Notation "ap[ F ]" := (@ap _ _ _ _ F _ _ _) (at level 9, format "ap[ F ]").
+
+Section Pure.
+
+Context `{C : Category}.
+Context `{@Monoidal C}.
+Context `{F : C ⟶ C}.
+Context `{@StrongFunctor C _ F}.
+Context `{@LaxMonoidalFunctor C C _ _ F}.
+
+Definition pure {A} : A ~> F A :=
+  fmap[F] (to (@unit_right _ _ A))
+      ∘ strength
+      ∘ bimap id lax_pure
+      ∘ from (@unit_right _ _ A).
+
+Lemma fmap_pure {a b} (f : a ~> b) : pure ∘ f ≈ fmap f ∘ pure.
+Proof.
+Admitted.
+
+End Pure.
+
+Arguments pure {C _ F _ _ A}.
+
+Notation "pure[ F ]" := (@pure _ _ F _ _ _) (at level 9, format "pure[ F ]").
 
 Section MonoidalFunctorComposition.
 
@@ -253,7 +277,7 @@ Global Program Instance LaxMonoidalFunctor_compose
        `(M : @LaxMonoidalFunctor D E _ _ F)
        `(N : @LaxMonoidalFunctor C D _ _ G) :
   `{@LaxMonoidalFunctor C E _ _ (F ○ G)} := {
-  pure := fmap pure ∘ pure;
+  lax_pure := fmap lax_pure ∘ lax_pure;
   ap_functor_nat := {| transform := fun p =>
     fmap ap ∘ @ap _ _ _ _ F _ (G (fst p)) (G (snd p)) |}
 }.
@@ -303,10 +327,11 @@ Next Obligation.
   apply ap_assoc.
 Qed.
 
-Global Program Instance StrongFunctor_compose (S : C ⟶ C)
-       `{@StrongFunctor C _ S} :
-  `{@StrongFunctor C _ (S ○ S)} := {
-  strength := fun _ _ => fmap[S] strength ∘ strength
+Global Program Instance StrongFunctor_compose (F G : C ⟶ C)
+       `{@StrongFunctor C _ F}
+       `{@StrongFunctor C _ G} :
+  `{@StrongFunctor C _ (F ○ G)} := {
+  strength := fun _ _ => fmap[F] strength ∘ strength
 }.
 
 End MonoidalFunctorComposition.
