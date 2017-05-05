@@ -139,7 +139,7 @@ Local Obligation Tactic := program_simpl.
 (* Any two monoidal functors compose to create a monoidal functor. This is
    composition in the groupoid of categories with monoidal structure. *)
 
-Global Program Instance MonoidalFunctor_compose
+Global Program Instance MonoidalFunctor_Composition
        `(M : @MonoidalFunctor D E _ _ F)
        `(N : @MonoidalFunctor C D _ _ G) :
   `{@MonoidalFunctor C E _ _ (F ○ G)} := {
@@ -273,7 +273,7 @@ Qed.
    functor. This is composition in the category of categories with monoidal
    structure. *)
 
-Global Program Instance LaxMonoidalFunctor_compose
+Global Program Instance LaxMonoidalFunctor_Composition
        `(M : @LaxMonoidalFunctor D E _ _ F)
        `(N : @LaxMonoidalFunctor C D _ _ G) :
   `{@LaxMonoidalFunctor C E _ _ (F ○ G)} := {
@@ -327,7 +327,7 @@ Next Obligation.
   apply ap_assoc.
 Qed.
 
-Global Program Instance StrongFunctor_compose (F G : C ⟶ C)
+Global Program Instance StrongFunctor_Composition (F G : C ⟶ C)
        `{@StrongFunctor C _ F}
        `{@StrongFunctor C _ G} :
   `{@StrongFunctor C _ (F ○ G)} := {
