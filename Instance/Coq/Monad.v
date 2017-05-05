@@ -15,9 +15,6 @@ Section Monad.
 Context `{m : Coq ⟶ Coq}.
 Context `{M : @Monad Coq m}.
 
-Definition pure {a} := @ret Coq m _ a.
-Arguments pure {a} _ /.
-
 Notation "()" := Datatypes.unit : category_scope.
 
 Delimit Scope monad_scope with monad.
@@ -52,16 +49,16 @@ Notation "A ;; B" := (A >>= (fun _ => B))%monad
   (at level 81, right associativity, only parsing) : monad_scope.
 
 Definition when `(b : bool) (x : m ()) : m () :=
-  if b then x else pure tt.
+  if b then x else ret tt.
 
 Definition unless `(b : bool) (x : m ()) : m () :=
-  if negb b then x else pure tt.
+  if negb b then x else ret tt.
 
 (*
 Fixpoint mapM `{Applicative m} {A B} (f : A -> m B) (l : list A) :
   m (list B) :=
   match l with
-  | nil => pure nil
+  | nil => ret nil
   | cons x xs => liftA2 (@cons _) (f x) (mapM f xs)
   end.
 
@@ -70,7 +67,7 @@ Definition forM `{Applicative m} {A B} (l : list A) (f : A -> m B) :
 
 Fixpoint mapM_ `{Applicative m} {A B} (f : A -> m B) (l : list A) : m () :=
   match l with
-  | nil => pure tt
+  | nil => ret tt
   | cons x xs => liftA2 (const id) (f x) (mapM_ f xs)
   end.
 
@@ -82,7 +79,7 @@ Definition foldM {A : Type} {B : Type}
   (f : A -> B -> m A) (s : A) (l : list B) : m A :=
   let fix go xs z :=
       match xs with
-        | nil => pure z
+        | nil => ret z
         | cons y ys => f z y >>= go ys
       end in
   go l s.
@@ -94,7 +91,7 @@ Definition foldrM {A : Type} {B : Type}
   (f : B -> A -> m A) (s : A) (l : list B) : m A :=
   let fix go xs z :=
       match xs with
-        | nil => pure z
+        | nil => ret z
         | cons y ys => go ys z >>= f y
       end in
   go l s.
@@ -116,19 +113,19 @@ Definition concatMapM `{Applicative m} {A B}
 
 Fixpoint replicateM_ (n : nat) (x : m ()) : m () :=
   match n with
-  | O => pure tt
+  | O => ret tt
   | S n' => x >> replicateM_ n' x
   end.
 
 Fixpoint insertM {a} (P : a -> a -> m bool)
   (z : a) (l : list a) : m (list a) :=
   match l with
-  | nil => pure (cons z nil)
+  | nil => ret (cons z nil)
   | cons x xs =>
     b <- P x z ;
     if (b : bool)
     then cons x <$> insertM P z xs
-    else pure (cons z (cons x xs))
+    else ret (cons z (cons x xs))
   end.
 Arguments insertM {a} P z l : simpl never.
 
@@ -139,20 +136,20 @@ Proof.
   rewrite <- join_fmap_join; reflexivity.
 Qed.
 
-Corollary join_fmap_pure_x : forall a x,
-  join (fmap (pure (a:=a)) x) = x.
+Corollary join_fmap_ret_x : forall a x,
+  join (fmap (ret (a:=a)) x) = x.
 Proof.
   intros.
   replace x with (id x) at 2; auto.
-  pose proof (@join_fmap_pure Coq m M a) as HA.
+  pose proof (@join_fmap_ret Coq m M a) as HA.
   rewrite <- HA; reflexivity.
 Qed.
 
-Corollary join_pure_x : forall a x,
-  join (pure x) = @id _ (m a) x.
+Corollary join_ret_x : forall a x,
+  join (ret x) = @id _ (m a) x.
 Proof.
   intros.
-  pose proof (@join_pure Coq m M a) as HA.
+  pose proof (@join_ret Coq m M a) as HA.
   rewrite <- HA; reflexivity.
 Qed.
 
