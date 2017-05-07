@@ -10,16 +10,20 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Instance ProductFunctor `(C : Category) `{@Cartesian C} :
-  C ∏ C ⟶ C := {
-  fobj := fun p => Prod (fst p) (snd p);
-  fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr)
+Program Instance ProductFunctor
+        `{C : Category} `{D : Category} `{F : C ⟶ D}
+        `{J : Category} `{K : Category} `{G : J ⟶ K} :
+  (C ∏ J) ⟶ (D ∏ K) := {
+  fobj := fun x => (F (fst x), G (snd x));
+  fmap := fun _ _ f => (fmap[F] (fst f), fmap[G] (snd f))
 }.
 Next Obligation.
   proper.
-  destruct x, y; simpl in *.
-  rewrite a, b.
-  reflexivity.
+    rewrite a; reflexivity.
+  rewrite b; reflexivity.
+Qed.
+Next Obligation.
+  simplify; simpl in *; apply fmap_comp.
 Qed.
 Next Obligation.
   simpl.
