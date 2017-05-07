@@ -3,6 +3,7 @@ Lib.v
 Lib/Foundation.v
 Lib/Setoid.v
 Lib/Tactics.v
+Lib/Datatypes.v
 Theory/Category.v
 Theory/Morphisms.v
 Theory/Isomorphism.v
