@@ -63,6 +63,7 @@ Functor/Hom/Internal.v
 Functor/Bifunctor.v
 Functor/Diagonal.v
 Functor/Product.v
+Functor/Product/Internal.v
 Functor/Coproduct.v
 Functor/Constant.v
 Functor/Representable.v
