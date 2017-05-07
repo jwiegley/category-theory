@@ -55,47 +55,7 @@ Program Instance HomFunctor `(C : Category) : C^op × C ⟶ Sets := {
   fmap := fun X Y (f : X ~{C^op × C}~> Y) =>
             {| morphism := fun g => snd f ∘ g ∘ fst f |}
 }.
-
-Program Definition Internal_HomFunctor `(C : Category)
-        `{E : @Cartesian C} `{O : @Closed C _} : C^op ∏ C ⟶ C := {|
-  fobj := fun p => @Exp C E O (fst p) (snd p);
-  fmap := fun X Y f => _
 |}.
-Next Obligation.
-  exact (curry (h0 ∘ eval ∘ (second h))).
-Defined.
-Next Obligation.
-  unfold Internal_HomFunctor_obligation_1.
-  proper; simpl.
-  destruct x, y; simpl in *.
-  rewrite a, b.
-  reflexivity.
-Qed.
-Next Obligation. unfold second; simpl; cat. Qed.
-Next Obligation.
-  unfold Internal_HomFunctor_obligation_1; simpl.
-  rewrite <- !comp_assoc.
-  rewrite curry_comp.
-  symmetry.
-  rewrite curry_comp.
-  rewrite <- comp_assoc.
-  apply compose_respects.
-    reflexivity.
-  symmetry.
-  rewrite curry_comp_l.
-  rewrite <- !comp_assoc.
-  rewrite <- first_second.
-  rewrite !comp_assoc.
-  rewrite ump_exponents.
-  rewrite <- !comp_assoc.
-  rewrite second_comp.
-  reflexivity.
-Qed.
-
-Notation "a ≈> b":= (Internal_HomFunctor _ (a, b))
-  (at level 89) : category_scope.
-Notation "a ≈{ C }≈> b":= (Internal_HomFunctor C (a, b))
-  (at level 89) : category_scope.
 
 Program Definition Curried_HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {|
   fobj := fun X => {|

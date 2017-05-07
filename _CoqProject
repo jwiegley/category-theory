@@ -59,6 +59,7 @@ Instance/Proset.v
 Instance/Poset.v
 Instance/Cones.v
 Functor/Hom.v
+Functor/Hom/Internal.v
 Functor/Diagonal.v
 Functor/Product.v
 Functor/Coproduct.v
