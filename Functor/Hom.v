@@ -28,12 +28,11 @@ Unset Transparent Obligations.
   [fmap] and [fmap1]), and the [Natural] instance, can be found in the
   category of functors we're mapping to by applying [P]. *)
 
-Program Instance HomFunctor `(C : Category) : C^op × C ⟶ Sets := {
+Program Definition HomFunctor `(C : Category) : C^op × C ⟶ Sets := {|
   fobj := fun p => {| carrier   := @hom C (fst p) (snd p)
                     ; is_setoid := @homset (C) (fst p) (snd p) |};
   fmap := fun X Y (f : X ~{C^op × C}~> Y) =>
             {| morphism := fun g => snd f ∘ g ∘ fst f |}
-}.
 |}.
 
 Program Definition Curried_HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {|
@@ -58,17 +57,17 @@ Coercion Curried_HomFunctor : Category >-> Functor.
 
 Notation "'Hom' ( A , ─ )" := (@Curried_HomFunctor _ A) : category_scope.
 
-Program Instance CoHomFunctor_Alt `(C : Category) : C × C^op ⟶ Sets :=
+Program Definition CoHomFunctor_Alt `(C : Category) : C × C^op ⟶ Sets :=
   HomFunctor C ○ @swap Cat _ _ _.
 
-Program Instance CoHomFunctor `(C : Category) : C × C^op ⟶ Sets := {
+Program Definition CoHomFunctor `(C : Category) : C × C^op ⟶ Sets := {|
   fobj := fun p => {| carrier   := @hom (C^op) (fst p) (snd p)
                     ; is_setoid := @homset (C^op) (fst p) (snd p) |};
   fmap := fun X Y (f : X ~{C × C^op}~> Y) =>
     {| morphism := fun g => snd f ∘ g ∘ fst f |}
-}.
+|}.
 
-Program Instance Curried_CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
+Program Definition Curried_CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {|
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom (C^op) X Y
                       ; is_setoid := @homset (C^op) X Y |};
@@ -79,7 +78,7 @@ Program Instance Curried_CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {
   fmap := fun X Y (f : X ~{C}~> Y) => {|
     transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
-}.
+|}.
 Next Obligation.
   simpl; intros.
   symmetry.
