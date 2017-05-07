@@ -68,7 +68,7 @@ Context `{C : Category}.
 Context `{@Monoidal C}.
 Context `{F : C ⟶ C}.
 
-Program Instance Id_Strong : StrongFunctor Id[C] := {
+Global Program Instance Id_Strong : StrongFunctor Id[C] := {
   strength_nat := {| transform := fun p => _ |}
 }.
 Next Obligation.
