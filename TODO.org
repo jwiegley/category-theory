@@ -2,6 +2,7 @@ TODO  -*- mode: org; fill-column: 78 -*-
 
 * Inbox
 ** TODO Move notations into modules
+** TODO Have 'make' error if a file is not in _CoqProject
 ** TODO Do not open scopes, but associate them with types and Arguments
 ** TODO Monad Transformers
 ** TODO Define equivalence of categories
