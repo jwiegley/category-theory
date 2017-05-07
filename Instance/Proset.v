@@ -33,15 +33,16 @@ Set Implicit Arguments.
    sense, categories 'generalize' preorders by allowing more than one relation
    between objects: each morphism is a distinct (named) preorder relation." *)
 
-Program Instance Proset `{C : Category} `{R : relation C} `(P : PreOrder C R) :
-  Category := {
+Program Definition Proset `{C : Category}
+        `{R : relation C} `(P : PreOrder C R) :
+  Category := {|
   ob      := C;
   hom     := R;
   homset  := fun A B => {| Setoid.equiv := proof_eq |};
   id      := fun X => @reflexivity C R (@PreOrder_Reflexive C R P) X;
   compose := fun X Y Z f g =>
                @transitivity C R (@PreOrder_Transitive C R P) X Y Z g f
-}.
+|}.
 Next Obligation. apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.

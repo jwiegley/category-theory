@@ -22,7 +22,7 @@ Set Implicit Arguments.
 
 (* The category of heterogenous relations on Coq objects. *)
 
-Program Instance Rel : Category := {
+Program Definition Rel : Category := {|
   ob      := @ob Coq;
   hom     := fun A B => A ~> Ensemble B;
   homset  := fun P Q =>
@@ -30,7 +30,7 @@ Program Instance Rel : Category := {
   id      := Singleton;
   compose := fun X Y Z f g x z =>
                (exists y : Y, In Y (g x) y ∧ In Z (f y) z)%type
-}.
+|}.
 Next Obligation.
   equivalence.
   - apply H; assumption.

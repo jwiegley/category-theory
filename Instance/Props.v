@@ -28,14 +28,14 @@ Set Implicit Arguments.
 Local Obligation Tactic :=
   first [ proper; apply proof_irrelevance | program_simpl ].
 
-Program Instance Props : Category := {
+Program Definition Props : Category := {|
   ob      := Prop;
   hom     := Basics.impl;
   homset  := fun P Q =>
                {| equiv := fun f g => forall x, proof_eq (f x) (g x) |};
   id      := fun _ x => x;
   compose := fun _ _ _ g f x => g (f x)
-}.
+|}.
 Next Obligation. equivalence; autounfold in *; congruence. Qed.
 
 Program Instance Props_Terminal : @Terminal Props := {

@@ -38,5 +38,5 @@ Set Implicit Arguments.
    set is equivalent to a poset. Finally, every subcategory of a poset is
    isomorphism-closed." *)
 
-Instance Poset `{C : Category} `{R : relation C}
-         `(P : PreOrder C R) `{A : Asymmetric C R} : Category := Proset P.
+Definition Poset `{C : Category} `{R : relation C}
+           `(P : PreOrder C R) `{A : Asymmetric C R} : Category := Proset P.

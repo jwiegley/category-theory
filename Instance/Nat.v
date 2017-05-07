@@ -62,14 +62,14 @@ Proof. proper. Qed.
 (* Nat is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
 
-Global Program Instance Nat : Category := {
+Global Program Definition Nat : Category := {|
   ob      := C ⟶ D;
   hom     := @Natural C D;
   id      := @nat_identity;
   compose := @nat_compose;
 
   compose_respects := @nat_compose_respects
-}.
+|}.
 
 End Nat.
 

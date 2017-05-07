@@ -8,10 +8,10 @@ Set Warnings "-notation-overridden".
 (*   | Const_ x => x *)
 (*   end. *)
 
-Program Instance Const `{C : Category} `{J : Category} (x : C) : J ⟶ C := {
+Program Definition Const `{C : Category} `{J : Category} (x : C) : J ⟶ C := {|
     fobj := fun _ => x;
     fmap := fun _ _ _ => id
-}.
+|}.
 
 Lemma Const_Iso `{C : Category} : ∀ a b, Const a b ≅ a.
 Proof. intros. crush. Qed.

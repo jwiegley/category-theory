@@ -1,10 +1,10 @@
 Set Warnings "-notation-overridden".
 
 (* jww (2017-04-13): TODO
-Program Instance Lim_Sets `(J : Category) : [J, Sets] ⟶ Sets := {
-    fobj := fun F => 
+Program Definition Lim_Sets `(J : Category) : [J, Sets] ⟶ Sets := {|
+    fobj := fun F =>
     fmap := fun _ _ n F_x z => (transport/n) (F_x z)
-}.
+|}.
 
 Lemma distribute_forall : ∀ a {X} P, (a → ∀ (x : X), P x) → (∀ x, a → P x).
 Proof.
@@ -20,7 +20,7 @@ Proof.
   assumption.
 Qed.
 
-Program Instance Sets_Const_Nat (J : Category) (F : [J, Sets])
+Program Definition Sets_Const_Nat (J : Category) (F : [J, Sets])
   (a : Type) (f : a → ∀ x : J, F x) : @Const Sets J a ⟾ F.
 Obligation 2.
   extensionality e.

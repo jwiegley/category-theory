@@ -20,13 +20,13 @@ Program Instance Coq : Category := {
 Next Obligation. equivalence; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
 
-Program Instance Coq_Terminal : @Terminal _ := {
+Program Instance Coq_Terminal : @Terminal Coq := {
   One := unit : Type;
   one := fun _ a => tt
 }.
 Next Obligation. destruct (f x), (g x); reflexivity. Qed.
 
-Program Instance Coq_Cartesian : @Cartesian _ := {
+Program Instance Coq_Cartesian : @Cartesian Coq := {
   Prod := prod;
   fork := fun _ _ _ f g x => (f x, g x);
   exl  := fun _ _ p => fst p;
@@ -41,7 +41,7 @@ Next Obligation.
     rewrite <- x0, <- y, <- surjective_pairing; reflexivity.
 Qed.
 
-Program Instance Coq_Closed : @Closed _ _ := {
+Program Instance Coq_Closed : @Closed Coq _ := {
   Exp := Basics.arrow;
   exp_iso := fun _ _ _ =>
     {| to   := {| morphism := fun f a b => f (a, b) |}
@@ -54,13 +54,13 @@ Next Obligation.
 Qed.
 Next Obligation. proper; congruence. Qed.
 
-Program Instance Coq_Initial : Initial _ := {
+Program Instance Coq_Initial : Initial Coq := {
   Zero := False;
   zero := fun _ _ => False_rect _ _
 }.
 Next Obligation. contradiction. Qed.
 
-Program Instance Coq_Cocartesian : @Cocartesian _ := {
+Program Instance Coq_Cocartesian : @Cocartesian Coq := {
   Coprod := sum;
   merge := fun _ _ _ f g x =>
             match x with

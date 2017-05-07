@@ -8,7 +8,8 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Instance Constant `(C : Category) `{D : Category} (x : D) : C ⟶ D := {
+Program Definition Constant `(C : Category) `{D : Category} (x : D) :
+  C ⟶ D := {|
   fobj := fun _ => x;
   fmap := fun _ _ _ => id
-}.
+|}.

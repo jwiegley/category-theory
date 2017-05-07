@@ -41,11 +41,6 @@ Program Instance Sets_Cocartesian : @Cocartesian Sets := {
   inr := fun _ _ => {| morphism := Datatypes.inr |}
 }.
 Next Obligation.
-  equivalence;
-  destruct y, x; intuition;
-  destruct z; intuition.
-Qed.
-Next Obligation.
   proper.
   destruct f, g; intuition.
   destruct y, x; intuition;

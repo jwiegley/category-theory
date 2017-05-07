@@ -65,9 +65,10 @@ Qed.
     identity               Id ⊣ Id
     composition            F ⊣ G -> G ⊣ H -> F ⊣ H *)
 
-Program Instance Adjoints : Category := {
+Program Definition Adjoints : Category := {|
   ob := Category;
   hom := @adj_morphism;
+  homset := @adj_morphism_setoid;
   id := fun X => {| free_functor      := Id[X]
                   ; forgetful_functor := Id[X] |};
   compose := fun A B C f g =>
@@ -75,7 +76,7 @@ Program Instance Adjoints : Category := {
              @adj_comp A B C (free_functor g) (forgetful_functor g)
                        (free_functor f) (forgetful_functor f)
                        (adjunction g) (adjunction f) |}
-}.
+|}.
 Next Obligation.
   proper; simpl; constructive.
   - exact (fmap (transform[to a] _) ∘ transform[to a0] _).

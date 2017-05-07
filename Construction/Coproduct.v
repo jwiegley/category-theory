@@ -16,7 +16,7 @@ Context `{D : Category}.
 (* A Groupoid is a category where all morphisms are isomorphisms, and morphism
    equivalence is equivalence of isomorphisms. *)
 
-Program Instance Coproduct : Category := {
+Program Definition Coproduct : Category := {|
   ob      := C + D;
   hom     := fun X Y =>
                match X return Type with
@@ -38,7 +38,7 @@ Program Instance Coproduct : Category := {
                | Datatypes.inr X => id
                end;
   compose := fun _ _ _ f g => _
-}.
+|}.
 Next Obligation.
   destruct X.
     destruct Y.

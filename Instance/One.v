@@ -11,13 +11,13 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 Set Implicit Arguments.
 
-Program Instance _1 : Category := {
+Program Definition _1 : Category := {|
   ob      := unit;
   hom     := fun _ _ => unit;
   homset  := fun _ _ => {| equiv := eq |};
   id      := fun _ => tt;
   compose := fun _ _ _ _ _ => tt
-}.
+|}.
 
 Program Instance To_1 `(C : Category) : C ⟶ _1 := {
   fobj := fun _ => tt;

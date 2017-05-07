@@ -64,18 +64,20 @@ Hint Unfold setoid_morphism_compose.
       identity: typical identity of sets
    composition: composition of set maps, preserving equivalence
  *)
-Program Instance Sets : Category := {
+Program Definition Sets : Category := {|
   ob      := SetoidObject;
   hom     := fun A B => SetoidMorphism A B;
+  homset  := @SetoidMorphism_Setoid;
   id      := @setoid_morphism_id;
   compose := @setoid_morphism_compose
-}.
+|}.
 Next Obligation.
   proper.
   unfold equiv in *; simpl in *; intros.
   rewrite X0.
   apply proper_morphism, X1.
 Qed.
+
 
 (* An isomorphism between arrows in a category C is an isomorphism of objects
    in the category of set(oid)s, taking [hom] to the be the carrier type, and

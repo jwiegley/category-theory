@@ -2,14 +2,15 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Functor.Product.
+Require Export Category.Functor.Bifunctor.
+Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Monoidal.
-Require Export Category.Construction.Product.
+Require Export Category.Instance.Cat.
+Require Export Category.Instance.Cat.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Class StrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
   strength_nat : (* (⨂) ○ second F ⟹ F ○ (⨂) *)
@@ -60,3 +61,80 @@ Class RightStrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
     rstrength ∘ bimap rstrength id ∘ from (@tensor_assoc _ _ (F X) Y Z)
       ≈ fmap[F] (from (@tensor_assoc _ _ X Y Z)) ∘ rstrength
 }.
+
+Section Strong.
+
+Context `{C : Category}.
+Context `{@Monoidal C}.
+Context `{F : C ⟶ C}.
+
+Program Instance Id_Strong : StrongFunctor Id[C] := {
+  strength_nat := {| transform := fun p => _ |}
+}.
+Next Obligation.
+  exact id.
+Defined.
+Next Obligation.
+  unfold bimap; cat.
+Qed.
+
+Local Obligation Tactic := program_simpl.
+
+Global Program Instance Compose_StrongFunctor (F G : C ⟶ C)
+       `{@StrongFunctor C _ F}
+       `{@StrongFunctor C _ G} :
+  `{@StrongFunctor C _ (F ○ G)} := {
+  strength_nat := {| transform := fun _ => fmap[F] strength ∘ strength |}
+}.
+Next Obligation.
+  destruct H0, H1; simpl in *.
+  unfold strength in *.
+  unfold strength_nat in *.
+  unfold strength0, strength1 in *.
+  destruct strength_nat0, strength_nat1; simpl in *.
+  rewrite !comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite (natural_transformation0 (o1, o2) (o, o0) (h, h0)).
+  rewrite fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  apply (natural_transformation (o1, G o2) (o, G o0) (h, fmap[G] h0)).
+Qed.
+Next Obligation.
+  destruct H0, H1; simpl in *.
+  unfold strength in *.
+  unfold strength_nat in *.
+  unfold strength0, strength1 in *.
+  destruct strength_nat0, strength_nat1; simpl in *.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite strength_id_left1.
+  apply strength_id_left0.
+Qed.
+Next Obligation.
+  destruct H0, H1; simpl in *.
+  unfold strength in *.
+  unfold strength_nat in *.
+  unfold strength0, strength1 in *.
+  destruct strength_nat0, strength_nat1; simpl in *.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite <- strength_assoc1.
+  rewrite !fmap_comp.
+  rewrite <- !comp_assoc.
+  rewrite <- strength_assoc0.
+  apply compose_respects; [reflexivity|].
+  rewrite !comp_assoc.
+  rewrite (natural_transformation (X, Y ⨂ G Z) (X, G (Y ⨂ Z))
+                                  (id[X], transform0 (Y, Z))).
+  unfold bimap; simpl.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite comp_assoc.
+  rewrite <- fmap_comp; simpl.
+  apply compose_respects; [|reflexivity].
+  apply fmap_respects.
+  split; simpl; cat.
+Qed.
+
+End Strong.

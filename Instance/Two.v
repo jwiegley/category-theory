@@ -20,7 +20,7 @@ Local Ltac crush :=
 (* The category 2 has two objects, their identity morphisms, and one morphism
    from the first object to the second (here denoted false and true). *)
 
-Program Instance _2 : Category := {
+Program Definition _2 : Category := {|
   ob      := bool;
   hom     := fun x y => ((x = y) + ((x = false) * (y = true)))%type;
   homset  := fun x y => {| equiv := fun f g => f = g |};
@@ -52,7 +52,7 @@ Program Instance _2 : Category := {
           end
         end
     end
-}.
+|}.
 Next Obligation.
   destruct f.
     reflexivity.

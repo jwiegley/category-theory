@@ -12,7 +12,8 @@ Unset Transparent Obligations.
 
 (* jww (2017-04-16): How to represent heteromorphisms? *)
 
-Program Instance Profunctor `(D : Category) `(C : Category) : D^op ⟶ [C, Sets] := {
+Program Definition Profunctor `(D : Category) `(C : Category) :
+  D^op ⟶ [C, Sets] := {|
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom C X Y
                       ; is_setoid := @homset C X Y |};
@@ -23,7 +24,7 @@ Program Instance Profunctor `(D : Category) `(C : Category) : D^op ⟶ [C, Sets]
   fmap := fun X Y (f : X ~{C^op}~> Y) => {|
     transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
-}.
+|}.
 Next Obligation.
   intros ?? HA.
   rewrite HA; reflexivity.

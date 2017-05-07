@@ -94,12 +94,12 @@ Next Obligation.
   transitivity (interp y); auto.
 Qed.
 
-Program Instance Hom_Terminal : @Terminal _ := {
+Program Instance Hom_Terminal : @Terminal DSL := {
   One := One_;
   one := @One'
 }.
 
-Program Instance Hom_Cartesian : @Cartesian _ := {
+Program Instance Hom_Cartesian : @Cartesian DSL := {
   Prod := Prod_;
   fork := @Fork;
   exl  := @Exl;
@@ -119,7 +119,7 @@ Next Obligation.
   rewrite fork_comp; cat.
 Qed.
 
-Program Instance Hom_Closed : @Closed _ _ := {
+Program Instance Hom_Closed : @Closed DSL _ := {
   Exp := Exp_;
   exp_iso := fun X Y Z =>
     {| to   := {| morphism := @Curry X Y Z |}
@@ -136,12 +136,12 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Instance Hom_Initial : @Initial _ := {
+Program Instance Hom_Initial : @Initial DSL := {
   Zero := Zero_;
   zero := @Zero'
 }.
 
-Program Instance Hom_Cocartesian : @Cocartesian _ := {
+Program Instance Hom_Cocartesian : @Cocartesian DSL := {
   Coprod := Coprod_;
   merge  := @Merge;
   inl    := @Inl;

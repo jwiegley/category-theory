@@ -41,8 +41,6 @@ Proof.
   f_equal.
 Qed.
 
-Hint Rewrite op_involutive.
-
 Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
 Definition unop `{C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
 

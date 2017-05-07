@@ -77,13 +77,13 @@ Record Concrete_Structure := {
    differentiate them), and a fixed set of arrows between those objects. A
    frequent use of these is as index categories to build diagrams. *)
 
-Program Instance Concrete `(S : Concrete_Structure) : Category := {
+Program Definition Concrete `(S : Concrete_Structure) : Category := {|
   ob      := { n : nat | n < obs S }%nat;
   hom     := fun x y => set_In (`x, `y) (arrs S);
   homset  := fun _ _ => {| equiv := eq |};
   id      := identity_property S;
   compose := composition_property S
-}.
+|}.
 
 Module ConcreteInstances.
 
