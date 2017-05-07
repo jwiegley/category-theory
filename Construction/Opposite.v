@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Reserved Notation "C ^op" (at level 7).
 
-Instance Opposite `(C : Category) : Category := {
+Definition Opposite `(C : Category) : Category := {|
   ob      := @ob C;
   hom     := fun x y => @hom C y x;
   homset  := fun x y => @homset C y x;
@@ -26,7 +26,7 @@ Instance Opposite `(C : Category) : Category := {
 
   comp_assoc := fun X Y Z W f g h => @comp_assoc_sym C W Z Y X h g f;
   comp_assoc_sym := fun X Y Z W f g h => @comp_assoc C W Z Y X h g f
-}.
+|}.
 
 Notation "C ^op" := (@Opposite C)
   (at level 7, format "C ^op") : category_scope.
