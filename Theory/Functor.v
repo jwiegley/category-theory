@@ -55,16 +55,14 @@ Hint Rewrite @fmap_id : categories.
 Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
 
 Program Instance fmap_iso `{C : Category} `{D : Category}
-        `(F : C ⟶ D) {X Y : C} `(iso : X ≅ Y) :
-  F X ≅ F Y := {
-  to   := fmap[F] (to iso);
-  from := fmap (from iso)
-}.
+        `(F : C ⟶ D) :
+  Proper (Isomorphism ==> Isomorphism) F.
 Next Obligation.
-  rewrite <- fmap_comp.
-  rewrite iso_to_from; cat.
-Qed.
-Next Obligation.
+  proper.
+  refine {| to   := fmap[F] (to X)
+          ; from := fmap (from X) |}.
+    rewrite <- fmap_comp.
+    rewrite iso_to_from; cat.
   rewrite <- fmap_comp.
   rewrite iso_from_to; cat.
 Qed.
