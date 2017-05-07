@@ -60,6 +60,7 @@ Instance/Poset.v
 Instance/Cones.v
 Functor/Hom.v
 Functor/Hom/Internal.v
+Functor/Bifunctor.v
 Functor/Diagonal.v
 Functor/Product.v
 Functor/Coproduct.v

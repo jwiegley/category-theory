@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Structure.Cartesian.
 Require Export Category.Construction.Product.
 
 Generalizable All Variables.
@@ -25,8 +24,45 @@ Qed.
 Next Obligation.
   simplify; simpl in *; apply fmap_comp.
 Qed.
-Next Obligation.
-  simpl.
-  rewrite <- fork_comp.
-  rewrite <- !comp_assoc; cat.
-Qed.
+
+Program Definition ProductFunctor_proj1
+        `{C : Category} `{D : Category}
+        `{J : Category} `{K : Category}
+        (F : (C ∏ J) ⟶ (D ∏ K)) {A : J} : C ⟶ D.
+Proof.
+  destruct F; simpl in *.
+  functor; intros.
+  - apply (fst (fobj (X, A))).
+  - apply (fmap (X, A) (Y, A) (f, id)).
+  - proper; simpl in *.
+    apply fmap_respects; split; cat.
+  - apply fmap_id.
+  - simpl.
+    specialize (fmap_comp (X, A) (Y, A) (Z, A) (f, id) (g, id)).
+    simpl in fmap_comp.
+    destruct fmap_comp.
+    rewrite <- e.
+    rewrite id_left.
+    reflexivity.
+Defined.
+
+Program Definition ProductFunctor_proj2
+        `{C : Category} `{D : Category}
+        `{J : Category} `{K : Category}
+        (F : (C ∏ J) ⟶ (D ∏ K)) {A : C} : J ⟶ K.
+Proof.
+  destruct F; simpl in *.
+  functor; intros.
+  - apply (snd (fobj (A, X))).
+  - apply (fmap (A, X) (A, Y) (id, f)).
+  - proper; simpl in *.
+    apply fmap_respects; split; cat.
+  - apply fmap_id.
+  - simpl.
+    specialize (fmap_comp (A, X) (A, Y) (A, Z) (id, f) (id, g)).
+    simpl in fmap_comp.
+    destruct fmap_comp.
+    rewrite <- e0.
+    rewrite id_left.
+    reflexivity.
+Defined.

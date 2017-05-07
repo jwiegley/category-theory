@@ -31,18 +31,6 @@ Unset Transparent Obligations.
 Definition fmap1 `{P : C ⟶ [D, E]} {A : C} `(f : X ~{D}~> Y) :
   P A X ~{E}~> P A Y := fmap f.
 
-Definition bimap `{P : C × D ⟶ E} {X W : C} {Y Z : D}
-           (f : X ~{C}~> W) (g : Y ~{D}~> Z) :
-  P (X, Y) ~{E}~> P (W, Z).
-Proof.
-  apply fmap.
-  exact (f, g).
-Defined.
-
-Definition curried_bimap `{P : C ⟶ [D, E]} {X W : C} {Y Z : D}
-           (f : X ~{C}~> W) (g : Y ~{D}~> Z) :
-  P X Y ~{E}~> P W Z := let N := @fmap _ _ P _ _ f in transform[N] _ ∘ fmap1 g.
-
 Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
   F Y ~{D}~> F X := fmap (op f).
 
