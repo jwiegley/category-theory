@@ -71,8 +71,8 @@ Hint Extern 7 (?X ≈ ?Z) =>
     [H : ?X ≈ ?Y, H' : ?Y ≈ ?Z |- ?X ≈ ?Z] => transitivity Y
   end : category_laws.
 
-Ltac equivalence := constructor; repeat intro; simpl; cat; intuition.
-Ltac proper := repeat intro; simpl; cat; intuition.
+Ltac equivalence := constructor; repeat intro; simpl; try cat; intuition.
+Ltac proper := repeat intro; simpl; try cat; intuition.
 
 Global Obligation Tactic :=
   program_simpl; autounfold;
