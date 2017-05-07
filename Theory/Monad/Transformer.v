@@ -15,10 +15,10 @@ Section Transformer.
 
 Context `{C : Category}.
 Context `{M : C ⟶ C}.
-Context `{T : [C, C] ⟶ [C, C]}.
+Context `{@Monad C M}.
+Context `{T : (C ⟶ C) -> (C ⟶ C)}.
 Context `{@Monad C (T M)}.
 
-(*
 Class MonadTransformer := {
   lift {a} : M a ~> T M a;
 
@@ -26,9 +26,36 @@ Class MonadTransformer := {
   lift_bind {a b} (f : a ~> M b) :
     lift ∘ join ∘ fmap f ≈ join ∘ fmap (lift ∘ f) ∘ lift
 }.
-*)
 
 End Transformer.
+
+Arguments MonadTransformer {_ _ _} T {_}.
+
+(******************************************************************************
+ * Species 1: Identity transformations.
+ ******************************************************************************)
+
+Program Definition IdentityT `{C : Category} (M : C ⟶ C) : C ⟶ C := {|
+  fobj := fobj[M];
+  fmap := fun _ _ => fmap[M]
+|}.
+Next Obligation. apply fmap_comp. Qed.
+
+Program Definition IdentityT_Monad `{C : Category} (M : C ⟶ C) `{@Monad C M} :
+  @Monad C (@IdentityT C M) := {|
+  ret  := fun _ => ret[M];
+  join := fun _ => join[M]
+|}.
+Next Obligation. destruct H; intuition. Qed.
+Next Obligation. destruct H; intuition. Qed.
+Next Obligation. destruct H; intuition. Qed.
+Next Obligation. destruct H; intuition. Qed.
+Next Obligation. destruct H; intuition. Qed.
+
+Program Instance IdentityT_MonadTransformer `{C : Category} (M : C ⟶ C) `{@Monad C M} :
+  @MonadTransformer C M _ (@IdentityT C) (IdentityT_Monad M) := {
+  lift := fun _ => id
+}.
 
 (*
 (******************************************************************************)
@@ -117,3 +144,32 @@ Inductive Alg (c f g : Type -> Type) a :=
 
 (* t1 ∘ t2 ∘ t3 ∘ tl (m ) *)
 *)
+
+(******************************************************************************
+ * Species 2: Constant mapping transformations.
+ ******************************************************************************)
+
+Program Definition ConstT `{C : Category} (K M : C ⟶ C) : C ⟶ C := {|
+  fobj := fobj[K];
+  fmap := fun _ _ => fmap[K]
+|}.
+Next Obligation. apply fmap_comp. Qed.
+
+Program Definition ConstT_Monad `{C : Category} (K M : C ⟶ C) `{@Monad C K} :
+  @Monad C (@ConstT C K M) := {|
+  ret  := fun _ => ret[K];
+  join := fun _ => join[K]
+|}.
+Next Obligation. apply H. Qed.
+Next Obligation. apply H. Qed.
+Next Obligation. apply H. Qed.
+Next Obligation. apply H. Qed.
+Next Obligation. apply H. Qed.
+
+(* This is not a valid monad transformer, since there cannot be a morphism
+   [M A ~> K A]. *)
+Fail Definition ConstT_MonadTransformer `{C : Category} (K M : C ⟶ C)
+        `{@Monad C K} `{@Monad C M} :
+  @MonadTransformer C M _ (@ConstT C K) (ConstT_Monad K M) := {|
+  lift := fun _ => _
+|}.
