@@ -73,3 +73,6 @@ Proof.
   destruct F; simpl.
   constructive; simpl; intros; cat.
 Qed.
+
+Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
+  F Y ~{D}~> F X := fmap (op f).

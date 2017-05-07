@@ -28,15 +28,6 @@ Unset Transparent Obligations.
   [fmap] and [fmap1]), and the [Natural] instance, can be found in the
   category of functors we're mapping to by applying [P]. *)
 
-Definition fmap1 `{P : C ⟶ [D, E]} {A : C} `(f : X ~{D}~> Y) :
-  P A X ~{E}~> P A Y := fmap f.
-
-Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
-  F Y ~{D}~> F X := fmap (op f).
-
-Definition dimap `{P : C^op ⟶ [D, E]} `(f : X ~{C}~> W) `(g : Y ~{D}~> Z) :
-  P W Y ~{E}~> P X Z := curried_bimap (op f) g.
-
 Program Instance HomFunctor `(C : Category) : C^op × C ⟶ Sets := {
   fobj := fun p => {| carrier   := @hom C (fst p) (snd p)
                     ; is_setoid := @homset (C) (fst p) (snd p) |};
