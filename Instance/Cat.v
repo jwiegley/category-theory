@@ -19,14 +19,12 @@ Context `{D : Category}.
 Instance fobj_respects `{F : C ⟶ D} :
   Proper (equiv ==> equiv) (@fobj C D F) := @fmap_iso _ _ _.
 
-(* Global Program Instance fobj_setoid `{F : C ⟶ Sets} {A : C} : Setoid (F A). *)
-
 (* The identity Functor *)
 
-Global Program Instance Id : C ⟶ C := {
+Global Program Definition Id : C ⟶ C := {|
   fobj := fun X => X;
   fmap := fun _ _ f => f
-}.
+|}.
 
 End FunctorEquiv.
 
@@ -34,7 +32,7 @@ Arguments Id {C} /.
 
 (* Horizontal composition of functors. *)
 
-Program Definition functor_comp
+Program Definition Compose
         `{C : Category} `{D : Category} `{E : Category}
         (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
   fobj := fun x => fobj (fobj x);
@@ -48,9 +46,9 @@ Next Obligation.
   intros; rewrite !fmap_comp; reflexivity.
 Qed.
 
-Hint Unfold functor_comp.
+Hint Unfold Compose.
 
-Infix "○" := functor_comp (at level 30, right associativity) : category_scope.
+Infix "○" := Compose (at level 30, right associativity) : category_scope.
 
 Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : category_scope.
 
@@ -73,12 +71,9 @@ Program Instance Cat : Category := {
   hom     := @Functor;
   homset  := fun _ _ => {| equiv := fun F G => F ≅[Nat] G |};
   id      := @Id;
-  compose := @functor_comp
+  compose := @Compose
 }.
-Next Obligation.
-  equivalence.
-  transitivity y; auto.
-Qed.
+Next Obligation. equivalence; transitivity y; auto. Qed.
 Next Obligation.
   proper.
   constructive.
@@ -114,23 +109,7 @@ Next Obligation.
     rewrite <- fmap_comp.
     rewrite iso_from_to1; cat.
 Qed.
-Next Obligation.
-  constructive.
-  all:swap 2 3;try exact (fmap id).
-  all:simpl; intros; cat.
-Qed.
-Next Obligation.
-  constructive.
-  all:swap 2 3;try exact (fmap id).
-  all:simpl; intros; cat.
-Qed.
-Next Obligation.
-  constructive.
-  all:swap 2 3;try exact (fmap id).
-  all:simpl; intros; cat.
-Qed.
-Next Obligation.
-  constructive.
-  all:swap 2 3;try exact (fmap id).
-  all:simpl; intros; cat.
-Qed.
+Next Obligation. constructive; cat. Qed.
+Next Obligation. constructive; cat. Qed.
+Next Obligation. constructive; cat. Qed.
+Next Obligation. constructive; cat. Qed.

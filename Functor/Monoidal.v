@@ -29,10 +29,10 @@ Context `{F : C ⟶ D}.
 Class LaxMonoidalFunctor := {
   lax_pure : I ~> F I;
 
-  ap_functor_nat :
-    (@functor_comp (C × C) (D × D) D (@tensor D _) (split F F))
+  ap_functor_nat : (* (⨂) ○ split F F ⟹ F ○ (⨂) *)
+    (@Compose (C × C) (D × D) D (@tensor D _) (split F F))
       ~{[C × C, D]}~>
-    (@functor_comp (C × C) C D F (@tensor C _));
+    (@Compose (C × C) C D F (@tensor C _));
 
   ap {X Y} : F X ⨂ F Y ~> F (X ⨂ Y) := transform[ap_functor_nat] (X, Y);
 
@@ -48,10 +48,10 @@ Class LaxMonoidalFunctor := {
    below in [StrongMonoidalFunctor]. *)
 
 Program Definition project_monoidal_iso
-        (iso : (@functor_comp (C × C) (D × D) D
+        (iso : (@Compose (C × C) (D × D) D
                               (@tensor D _) (split F F))
                  ≅[[C × C, D]]
-               (@functor_comp (C × C) C D F (@tensor C _)))
+               (@Compose (C × C) C D F (@tensor C _)))
       (X Y : C) :
   F X ⨂ F Y ≅[D] F (X ⨂ Y) := {|
   to   := to   iso (X, Y);
@@ -72,9 +72,9 @@ Class MonoidalFunctor := {
   pure_iso : I ≅ F I;
 
   ap_functor_iso :
-    (@functor_comp (C × C) (D × D) D (@tensor D _) (split F F))
+    (@Compose (C × C) (D × D) D (@tensor D _) (split F F))
       ≅[[C × C, D]]
-    (@functor_comp (C × C) C D F (@tensor C _));
+    (@Compose (C × C) C D F (@tensor C _));
 
   ap_iso {X Y} : F X ⨂ F Y ≅ F (X ⨂ Y) :=
     project_monoidal_iso ap_functor_iso X Y;
@@ -97,6 +97,9 @@ Next Obligation. apply ap_iso_assoc. Qed.
 End MonoidalFunctor.
 
 Notation "ap[ F ]" := (@ap _ _ _ _ F _ _ _) (at level 9, format "ap[ F ]").
+
+Arguments LaxMonoidalFunctor {C D _ _} F.
+Arguments MonoidalFunctor {C D _ _} F.
 
 Section Pure.
 
@@ -133,6 +136,9 @@ Context `{G : C ⟶ D}.
 Context `{E : Category}.
 Context `{@Monoidal E}.
 Context `{F : D ⟶ E}.
+
+(* jww (2017-05-05): Move the below into its own file.
+   Separate functors from  Cartesian, Closed, etc. *)
 
 Local Obligation Tactic := program_simpl.
 
@@ -224,15 +230,13 @@ Next Obligation.
                                (F (G o), F (G o0)) (F (G o), F (G o0))
                                (fmap[F] (fmap[G] (id[o])),
                                 fmap[F] (fmap[G] (id[o0])))) as X1.
-    simpl in X1; rewrite X1.
+    rewrite <- (@fmap_id _ _ G o).
+    rewrite <- (@fmap_id _ _ G o0).
+    rewrite X1.
       pose proof (@fmap_id _ _ (@tensor E H1)) as X2.
       simpl in X2; rewrite X2.
       pose proof (@fmap_respects _ _ (@tensor E H1)) as X3.
-      simpl in X3; rewrite X3.
-        rewrite X2.
-        reflexivity.
-      simpl; split;
-      apply fmap_id.
+      reflexivity.
     simpl; split;
     rewrite fmap_id;
     apply fmap_id.
@@ -331,7 +335,57 @@ Global Program Instance StrongFunctor_Composition (F G : C ⟶ C)
        `{@StrongFunctor C _ F}
        `{@StrongFunctor C _ G} :
   `{@StrongFunctor C _ (F ○ G)} := {
-  strength := fun _ _ => fmap[F] strength ∘ strength
+  strength_nat := {| transform := fun _ => fmap[F] strength ∘ strength |}
 }.
+Next Obligation.
+  destruct H2, H3; simpl in *.
+  unfold Strong.strength in *.
+  unfold Strong.strength_nat in *.
+  unfold strength, strength0 in *.
+  destruct strength_nat, strength_nat0; simpl in *.
+  rewrite !comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite (natural_transformation0 (o1, o2) (o, o0) (h, h0)).
+  rewrite fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  apply (natural_transformation (o1, G0 o2) (o, G0 o0) (h, fmap[G0] h0)).
+Qed.
+Next Obligation.
+  destruct H2, H3; simpl in *.
+  unfold Strong.strength in *.
+  unfold Strong.strength_nat in *.
+  unfold strength, strength0 in *.
+  destruct strength_nat, strength_nat0; simpl in *.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite strength_id_left0.
+  apply strength_id_left.
+Qed.
+Next Obligation.
+  destruct H2, H3; simpl in *.
+  unfold Strong.strength in *.
+  unfold Strong.strength_nat in *.
+  unfold strength, strength0 in *.
+  destruct strength_nat, strength_nat0; simpl in *.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite <- strength_assoc0.
+  rewrite !fmap_comp.
+  rewrite <- !comp_assoc.
+  rewrite <- strength_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite !comp_assoc.
+  rewrite (natural_transformation (X, Y ⨂ G0 Z) (X, G0 (Y ⨂ Z))
+                                  (id[X], transform0 (Y, Z))).
+  unfold bimap; simpl.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite comp_assoc.
+  rewrite <- fmap_comp; simpl.
+  apply compose_respects; [|reflexivity].
+  apply fmap_respects.
+  split; simpl; cat.
+Qed.
 
 End MonoidalFunctorComposition.

@@ -4,7 +4,6 @@ Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
 Require Export Category.Construction.Product.
-Require Export Category.Functor.Product.
 Require Export Category.Instance.Nat.
 Require Export Category.Instance.Cat.
 
@@ -52,7 +51,7 @@ Program Definition Composition_Monoidal `{C : Category} :
 Next Obligation.
   functor; simpl.
   - intros [X Y].
-    exact (functor_comp X Y).
+    exact (Compose X Y).
   - intros [F G] [F' G'] [N M]; simpl in *.
     natural; simpl; intros.
     + exact (transform[N] (G' X) ∘ fmap[F] (transform[M] X)).
@@ -88,8 +87,10 @@ Next Obligation. constructive; cat. Defined.
 (* Every cartesian category with terminal objects gives rise to a monoidal
    category taking the terminal object as unit, and the tensor as product. *)
 
+Require Import Category.Functor.Product.Internal.
+
 Program Definition Product_Monoidal
         `{C : Category} `{@Cartesian C} `{@Terminal C} : @Monoidal C := {|
-  tensor := ProductFunctor C;
+  tensor := InternalProductFunctor C;
   I := One
 |}.
