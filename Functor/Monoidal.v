@@ -18,24 +18,6 @@ Context `{@Monoidal C}.
 Context `{@Monoidal D}.
 Context `{F : C ⟶ D}.
 
-(* A lax monoidal functor's natural transformation can be projected to a
-   morphism between objects in D. This forgets the naturality of the
-   transformation, which is why it is only provided as a convenience
-   definition below in [LaxMonoidalFunctor]. *)
-
-Class LaxMonoidalFunctor := {
-  lax_pure : I ~> F I;
-
-  ap_functor_nat : ((⨂) ○ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ○ (⨂));
-
-  ap {X Y} : F X ⨂ F Y ~> F (X ⨂ Y) := transform[ap_functor_nat] (X, Y);
-
-  pure_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
-  pure_right {X} : F X ⨂ I ≅ F (X ⨂ I);
-
-  ap_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z))
-}.
-
 (* The strong monoidal functor isomorphism can be projected to an isomorphism
    between objects in D. This forgets the naturality of the original natural
    isomorphism, which is why it is only provided as a convenience definition
@@ -70,6 +52,24 @@ Class MonoidalFunctor := {
   pure_iso_right {X} : F X ⨂ I ≅ F (X ⨂ I);
 
   ap_iso_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z))
+}.
+
+(* A lax monoidal functor's natural transformation can be projected to a
+   morphism between objects in D. This forgets the naturality of the
+   transformation, which is why it is only provided as a convenience
+   definition below in [LaxMonoidalFunctor]. *)
+
+Class LaxMonoidalFunctor := {
+  lax_pure : I ~> F I;
+
+  ap_functor_nat : ((⨂) ○ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ○ (⨂));
+
+  ap {X Y} : F X ⨂ F Y ~> F (X ⨂ Y) := transform[ap_functor_nat] (X, Y);
+
+  pure_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
+  pure_right {X} : F X ⨂ I ≅ F (X ⨂ I);
+
+  ap_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z))
 }.
 
 Program Definition MonoidalFunctor_Is_Lax (S : MonoidalFunctor) :
@@ -130,10 +130,11 @@ Context `{F : D ⟶ E}.
 
 Local Obligation Tactic := program_simpl.
 
-Global Program Instance Id_LaxMonoidalFunctor :
-  @LaxMonoidalFunctor C C _ _ Id[C] := {
-  lax_pure := id;
-  ap_functor_nat := {| transform := fun _ => _ |}
+Global Program Instance Id_MonoidalFunctor :
+  @MonoidalFunctor C C _ _ Id[C] := {
+  pure_iso := id_iso;
+  ap_functor_iso := {| to   := {| transform := fun _ => _ |}
+                     ; from := {| transform := fun _ => _ |} |}
 }.
 Next Obligation.
   simpl; intros.
@@ -141,6 +142,14 @@ Next Obligation.
   exact id.
 Defined.
 Next Obligation. simpl; intros; simplify; cat. Qed.
+Next Obligation.
+  simpl; intros.
+  destruct H1; simpl.
+  exact id.
+Defined.
+Next Obligation. simpl; intros; simplify; cat. Qed.
+Next Obligation. cat. Qed.
+Next Obligation. cat. Qed.
 Next Obligation. apply tensor_assoc. Qed.
 
 (* Any two monoidal functors compose to create a monoidal functor. This is
@@ -274,6 +283,171 @@ Next Obligation.
   apply ap_iso_assoc.
 Qed.
 
+Theorem ProductFunctor_Monoidal :
+  MonoidalFunctor F * MonoidalFunctor G <--> MonoidalFunctor (F ∏⟶ G).
+Proof.
+  split; intros.
+  { unshelve econstructor.
+    destruct X as [O P].
+    - simpl; unshelve esplit; simpl; simplify; apply pure_iso.
+    - isomorphism; simpl.
+      + natural; simplify; intros;
+        simplify; simpl in *; simplify; simpl in *.
+        * exact (transform[to (@ap_functor_iso _ _ _ _ _ x)] (x2, x1)).
+        * exact (transform[to (@ap_functor_iso _ _ _ _ _ y)] (y0, y1)).
+        * abstract apply (@natural_transformation
+                            _ _ _ _
+                            (to (@ap_functor_iso _ _ _ _ _ x)) (x5, x4)).
+        * abstract apply (@natural_transformation
+                            _ _ _ _
+                            (to (@ap_functor_iso _ _ _ _ _ y5)) (y3, y4)).
+      + natural; simplify; intros;
+        simplify; simpl in *; simplify; simpl in *.
+        * exact (transform[from (@ap_functor_iso _ _ _ _ _ x)] (x2, x1)).
+        * exact (transform[from (@ap_functor_iso _ _ _ _ _ y)] (y0, y1)).
+        * abstract apply (@natural_transformation
+                            _ _ _ _
+                            (from (@ap_functor_iso _ _ _ _ _ x))
+                            (x5, x4) (x3, x2) (x1, x0)).
+        * abstract apply (@natural_transformation
+                            _ _ _ _
+                            (from (@ap_functor_iso _ _ _ _ _ y5))
+                            (y3, y4) (y1, y2) (y, y0)).
+      + destruct X, A, p, p0; simpl.
+        split.
+          pose proof (iso_to_from (@ap_functor_iso _ _ _ _ _ m)).
+          simpl in X; abstract apply X.
+        pose proof (iso_to_from (@ap_functor_iso _ _ _ _ _ m0)).
+        simpl in X; abstract apply X.
+      + destruct X, A, p, p0; simpl.
+        split.
+          pose proof (iso_from_to (@ap_functor_iso _ _ _ _ _ m) (o, o1)).
+          simpl in X; abstract apply X.
+        pose proof (iso_from_to (@ap_functor_iso _ _ _ _ _ m0) (o0, o2)).
+        simpl in X; abstract apply X.
+    - intros.
+      destruct X, X0; simpl.
+      isomorphism; simpl; simplify;
+      apply pure_iso_left || apply pure_iso_right.
+    - intros.
+      destruct X, X0; simpl.
+      isomorphism; simpl; simplify;
+      apply pure_iso_left || apply pure_iso_right.
+    - simpl; intros; simplify; simpl.
+      isomorphism; simpl; simplify;
+      apply ap_iso_assoc.
+  }
+  { split.
+    { destruct X.
+      unshelve econstructor.
+      - simpl; unshelve esplit; simpl; simplify; apply pure_iso0.
+      - isomorphism; simpl.
+        + natural; simplify; simpl; intros; simplify; simpl.
+          * exact (fst (transform[to (ap_functor_iso0)] ((x, I), (y, I)))).
+          * simpl in *.
+            abstract exact (fst (@natural_transformation
+                                   _ _ _ _ (to ap_functor_iso0)
+                                   (x1, I, (y1, I)) (x0, I, (y0, I))
+                                   ((x, id), (y, id)))).
+        + natural; simplify; simpl; intros; simplify; simpl.
+          * exact (fst (transform[from (ap_functor_iso0)] ((x, I), (y, I)))).
+          * simpl in *.
+            abstract exact (fst (@natural_transformation
+                                   _ _ _ _ (from ap_functor_iso0)
+                                   (x1, I, (y1, I)) (x0, I, (y0, I))
+                                   ((x, id), (y, id)))).
+        + destruct A; simpl.
+          abstract apply (iso_to_from ap_functor_iso0 (o, I, (o0, I))).
+        + destruct A; simpl.
+          abstract apply (iso_from_to ap_functor_iso0 (o, I, (o0, I))).
+      - simpl; intros.
+        pose (fst (to (pure_iso_left0 (X, I)))).
+        pose (fst (from (pure_iso_left0 (X, I)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (pure_iso_left0 _); simpl.
+          abstract apply (fst iso_to_from).
+        abstract apply (fst iso_from_to).
+      - simpl; intros.
+        pose (fst (to (pure_iso_right0 (X, I)))).
+        pose (fst (from (pure_iso_right0 (X, I)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (pure_iso_right0 _); simpl.
+          abstract apply (fst iso_to_from).
+        abstract apply (fst iso_from_to).
+      - simpl; intros.
+        pose (fst (to (ap_iso_assoc0 (X, I) (Y, I) (Z, I)))).
+        pose (fst (from (ap_iso_assoc0 (X, I) (Y, I) (Z, I)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (ap_iso_assoc0 _ _ _); simpl.
+          abstract apply (fst iso_to_from).
+        abstract apply (fst iso_from_to).
+    }
+    { destruct X.
+      unshelve econstructor.
+      - simpl; unshelve esplit; simpl; simplify; apply pure_iso0.
+      - isomorphism; simpl.
+        + natural; simplify; simpl; intros; simplify; simpl.
+          * exact (snd (transform[to (ap_functor_iso0)] ((I, x), (I, y)))).
+          * simpl in *.
+            abstract exact (snd (@natural_transformation
+                                   _ _ _ _ (to ap_functor_iso0)
+                                   (I, x1, (I, y1)) (I, x0, (I, y0))
+                                   ((id, x), (id, y)))).
+        + natural; simplify; simpl; intros; simplify; simpl.
+          * exact (snd (transform[from (ap_functor_iso0)] ((I, x), (I, y)))).
+          * simpl in *.
+            abstract exact (snd (@natural_transformation
+                                   _ _ _ _ (from ap_functor_iso0)
+                                   (I, x1, (I, y1)) (I, x0, (I, y0))
+                                   ((id, x), (id, y)))).
+        + destruct A; simpl.
+          apply (iso_to_from ap_functor_iso0 (I, o, (I, o0))).
+        + destruct A; simpl.
+          apply (iso_from_to ap_functor_iso0 (I, o, (I, o0))).
+      - simpl; intros.
+        pose (snd (to (pure_iso_left0 (I, X)))).
+        pose (snd (from (pure_iso_left0 (I, X)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (pure_iso_left0 _); simpl.
+          abstract apply (snd iso_to_from).
+        abstract apply (snd iso_from_to).
+      - simpl; intros.
+        pose (snd (to (pure_iso_right0 (I, X)))).
+        pose (snd (from (pure_iso_right0 (I, X)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (pure_iso_right0 _); simpl.
+          abstract apply (snd iso_to_from).
+        abstract apply (snd iso_from_to).
+      - simpl; intros.
+        pose (snd (to (ap_iso_assoc0 (I, X) (I, Y) (I, Z)))).
+        pose (snd (from (ap_iso_assoc0 (I, X) (I, Y) (I, Z)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (ap_iso_assoc0 _ _ _); simpl.
+          abstract apply (snd iso_to_from).
+        abstract apply (snd iso_from_to).
+    }
+  }
+Qed.
+
+Global Program Instance Id_LaxMonoidalFunctor :
+  @LaxMonoidalFunctor C C _ _ Id[C] := {
+  lax_pure := id;
+  ap_functor_nat := {| transform := fun _ => _ |}
+}.
+Next Obligation.
+  simpl; intros.
+  destruct H0; simpl.
+  exact id.
+Defined.
+Next Obligation. simpl; intros; simplify; cat. Qed.
+Next Obligation. apply tensor_assoc. Qed.
+
 (* Likewise, any two lax monoidal functors compose to create a lax monoidal
    functor. This is composition in the category of categories with monoidal
    structure. *)
@@ -332,30 +506,105 @@ Next Obligation.
   apply ap_assoc.
 Qed.
 
-(*
-Program Instance Product_LaxMonoidal
-        `{C : Category} `{@Cartesian C} `{@Monoidal C} :
-  @LaxMonoidalFunctor (C ∏ C) C _ _ (@ProductFunctor C _) := {
-  lax_pure := fork (@id C I) (@id C I);
-  ap_functor_nat := {| transform := fun _ => _ |}
-}.
-Next Obligation.
-  simpl; intros.
-  unfold pure, bimap; simpl.
-  destruct H, H1, H4; simpl in *.
-  destruct ap_functor_nat, ap_functor_nat0; simpl in *.
-  rewrite !comp_assoc.
-  rewrite <- !fmap_comp.
-  rewrite <- !comp_assoc.
-  rewrite iso_from_to.
-  rewrite id_right.
-  rewrite !comp_assoc.
-  symmetry.
-  rewrite fmap_comp.
-  rewrite <- !comp_assoc.
-  apply compose_respects; [reflexivity|].
-  rewrite !comp_assoc.
-  apply compose_respects; [|reflexivity].
-*)
+Theorem ProductFunctor_LaxMonoidal :
+  LaxMonoidalFunctor F * LaxMonoidalFunctor G <--> LaxMonoidalFunctor (F ∏⟶ G).
+Proof.
+  split; intros.
+  { unshelve econstructor.
+    destruct X as [O P].
+    - simpl; simplify; apply lax_pure.
+    - natural; simplify; intros;
+      simplify; simpl in *; simplify; simpl in *.
+      + exact (transform[@ap_functor_nat _ _ _ _ _ x] (x2, x1)).
+      + exact (transform[@ap_functor_nat _ _ _ _ _ y] (y0, y1)).
+      + destruct x, ap_functor_nat0; simpl in *.
+        abstract apply (natural_transformation (x5, x4)).
+      + destruct y5, ap_functor_nat0; simpl in *.
+        abstract apply (natural_transformation (y3, y4)).
+    - intros.
+      destruct X, X0; simpl.
+      isomorphism; simpl; simplify;
+      apply pure_left || apply pure_right.
+    - intros.
+      destruct X, X0; simpl.
+      isomorphism; simpl; simplify;
+      apply pure_left || apply pure_right.
+    - simpl; intros; simplify; simpl.
+      isomorphism; simpl; simplify;
+      apply ap_assoc.
+  }
+  { split.
+    { destruct X.
+      unshelve econstructor.
+      - apply lax_pure0.
+      - natural; simplify; simpl; intros; simplify; simpl.
+        + exact (fst (transform[ap_functor_nat0] ((x, I), (y, I)))).
+        + simpl in *.
+          abstract exact (fst (@natural_transformation
+                                 _ _ _ _ ap_functor_nat0
+                                 (x1, I, (y1, I)) (x0, I, (y0, I))
+                                 ((x, id), (y, id)))).
+      - simpl; intros.
+        pose (fst (to (pure_left0 (X, I)))).
+        pose (fst (from (pure_left0 (X, I)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (pure_left0 _); simpl.
+          abstract apply (fst iso_to_from).
+        abstract apply (fst iso_from_to).
+      - simpl; intros.
+        pose (fst (to (pure_right0 (X, I)))).
+        pose (fst (from (pure_right0 (X, I)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (pure_right0 _); simpl.
+          abstract apply (fst iso_to_from).
+        abstract apply (fst iso_from_to).
+      - simpl; intros.
+        pose (fst (to (ap_assoc0 (X, I) (Y, I) (Z, I)))).
+        pose (fst (from (ap_assoc0 (X, I) (Y, I) (Z, I)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (ap_assoc0 _ _ _); simpl.
+          abstract apply (fst iso_to_from).
+        abstract apply (fst iso_from_to).
+    }
+    { destruct X.
+      unshelve econstructor.
+      - abstract apply lax_pure0.
+      - natural; simplify; simpl; intros; simplify; simpl.
+        + exact (snd (transform[ap_functor_nat0] ((I, x), (I, y)))).
+        + simpl in *.
+          abstract exact (snd (@natural_transformation
+                                 _ _ _ _ ap_functor_nat0
+                                 (I, x1, (I, y1)) (I, x0, (I, y0))
+                                 ((id, x), (id, y)))).
+      - simpl; intros.
+        pose (snd (to (pure_left0 (I, X)))).
+        pose (snd (from (pure_left0 (I, X)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (pure_left0 _); simpl.
+          abstract apply (snd iso_to_from).
+        abstract apply (snd iso_from_to).
+      - simpl; intros.
+        pose (snd (to (pure_right0 (I, X)))).
+        pose (snd (from (pure_right0 (I, X)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (pure_right0 _); simpl.
+          abstract apply (snd iso_to_from).
+        abstract apply (snd iso_from_to).
+      - simpl; intros.
+        pose (snd (to (ap_assoc0 (I, X) (I, Y) (I, Z)))).
+        pose (snd (from (ap_assoc0 (I, X) (I, Y) (I, Z)))).
+        isomorphism; simpl; simplify; auto;
+        unfold h, h0; simpl;
+        destruct (ap_assoc0 _ _ _); simpl.
+          abstract apply (snd iso_to_from).
+        abstract apply (snd iso_from_to).
+    }
+  }
+Qed.
 
 End MonoidalFunctors.
