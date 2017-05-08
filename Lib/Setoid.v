@@ -10,14 +10,12 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Infix "<-->" := iffT (at level 100) : category_scope.
+Infix "<-->" := iffT (at level 100) : category_theory_scope.
 
 Class Setoid A := {
   equiv : crelation A;
   setoid_equiv :> Equivalence equiv
 }.
-
-Infix "≈" := equiv (at level 79) : category_scope.
 
 Program Instance setoid_refl `(sa : Setoid A) :
   Reflexive equiv.

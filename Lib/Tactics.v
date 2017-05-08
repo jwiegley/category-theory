@@ -63,12 +63,12 @@ Hint Extern 1 (Proper _ _) => unfold Proper; auto.
 Hint Extern 8 (respectful _ _ _ _) =>
   unfold respectful; auto.
 
-Hint Extern 4 (?A ≈ ?A) => reflexivity : category_laws.
-Hint Extern 6 (?X ≈ ?Y) =>
+Hint Extern 4 (equiv ?A ?A) => reflexivity : category_laws.
+Hint Extern 6 (equiv ?X ?Y) =>
   apply Equivalence_Symmetric : category_laws.
-Hint Extern 7 (?X ≈ ?Z) =>
+Hint Extern 7 (equiv ?X ?Z) =>
   match goal with
-    [H : ?X ≈ ?Y, H' : ?Y ≈ ?Z |- ?X ≈ ?Z] => transitivity Y
+    [H : equiv ?X ?Y, H' : equiv ?Y ?Z |- equiv ?X ?Z] => transitivity Y
   end : category_laws.
 
 Ltac equivalence := constructor; repeat intro; simpl; try cat; intuition.

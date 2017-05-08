@@ -27,11 +27,17 @@ Global Program Instance Natural_Setoid : Setoid Natural.
 
 End Natural.
 
-Notation "F ⟹ G" := (@Natural _ _ F G)
-  (at level 90, right associativity) : category_scope.
+Bind Scope natural_scope with Natural.
+Delimit Scope natural_type_scope with natural_type.
+Delimit Scope natural_scope with natural.
+Open Scope natural_type_scope.
+Open Scope natural_scope.
 
-Notation "transform[ F ]" := (@transform _ _ _ _ F)
-  (at level 9, format "transform[ F ]") : category_scope.
+Notation "F ⟹ G" := (@Natural _ _ F%functor G%functor)
+  (at level 90, right associativity) : natural_type_scope.
+
+Notation "transform[ F ]" := (@transform _ _ _ _ F%natural)
+  (at level 9, format "transform[ F ]") : morphism_scope.
 
 Coercion transform : Natural >-> Funclass.
 

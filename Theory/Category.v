@@ -10,6 +10,9 @@ Unset Transparent Obligations.
 Reserved Infix "~>" (at level 90, right associativity).
 Reserved Infix "∘" (at level 40, left associativity).
 
+Notation "f ≈ g" := (equiv f g)
+  (at level 79, only parsing) : category_theory_scope.
+
 Class Category := {
   ob : Type;
 
@@ -37,34 +40,60 @@ Class Category := {
     (f ∘ g) ∘ h ≈ f ∘ (g ∘ h)
 }.
 
-Arguments dom {_ _ _} _.
-Arguments cod {_ _ _} _.
+Bind Scope category_scope with Category.
+Bind Scope homset_scope with hom.
+Bind Scope object_scope with ob.
 
-Infix "~>" := hom (at level 90, right associativity) : category_scope.
-Infix "~{ C }~>" := (@hom C) (at level 90) : category_scope.
-Infix "∘" := compose : category_scope.
+Delimit Scope category_scope with category.
+Delimit Scope object_scope with object.
+Delimit Scope homset_scope with homset.
+Delimit Scope morphism_scope with morphism.
 
-Notation "X <~ Y" := (@hom _ Y X)
-  (at level 90, right associativity, only parsing) : category_scope.
-Notation "X <~{ C }~ Y" := (@hom C Y X)
-  (at level 90, only parsing) : category_scope.
+Arguments dom {_%category _%object _%object} _%morphism.
+Arguments cod {_%category _%object _%object} _%morphism.
 
-Notation "ob[ C ]" := (@ob C) (at level 0, format "ob[ C ]") : category_scope.
-Notation "id[ X ]" := (@id _ X)
-  (at level 50, format "id[ X ]") : category_scope.
+Notation "ob[ C ]" := (@ob C%category)
+  (at level 0, format "ob[ C ]") : object_scope.
 
-Notation "f ≈[ C ] g" := (@equiv _ (@homset C _ _) f g)
-  (at level 79, only parsing) : category_scope.
-Notation "f ≈[ C ] g" := (@equiv _ (@homset C _ _) f g)
-  (at level 79, only parsing) : category_scope.
+Notation "X ~> Y" := (@hom _%category X%object Y%object)
+  (at level 90, right associativity) : homset_scope.
+Notation "X ~{ C }~> Y" := (@hom C%category X%object Y%object)
+  (at level 90) : homset_scope.
 
-Infix "∘[ C ]" := (@compose C _ _ _ _)
-  (at level 40, only parsing) : category_scope.
+Notation "X <~ Y" := (@hom _%category Y%object X%object)
+  (at level 90, right associativity, only parsing) : homset_scope.
+Notation "X <~{ C }~ Y" := (@hom C%category Y%object X%object)
+  (at level 90, only parsing) : homset_scope.
+
+Notation "id[ X ]" := (@id _%category X%object)
+  (at level 50, format "id[ X ]") : morphism_scope.
+
+Notation "f ∘ g" :=
+  (@compose _%category _%object _%object _%object f%morphism g%morphism)
+  : morphism_scope.
+Notation "f ∘[ C ] g" :=
+  (@compose C%category _%object _%object _%object _%morphism _%morphism)
+  (at level 40, only parsing) : morphism_scope.
+
+Notation "f ≈ g" :=
+  (@equiv _ (@homset _%category _%object _%object) f%morphism g%morphism)
+  (at level 79, only parsing) : category_theory_scope.
+Notation "f ≈[ C ] g" :=
+  (@equiv _ (@homset C%category _%object _%object) f%morphism g%morphism)
+  (at level 79, only parsing) : category_theory_scope.
+Notation "f ≈[ C ] g" :=
+  (@equiv _ (@homset C%category _%object _%object) f%morphism g%morphism)
+  (at level 79, only parsing) : category_theory_scope.
 
 Coercion ob : Category >-> Sortclass.
 
 Hint Rewrite @id_left : categories.
 Hint Rewrite @id_right : categories.
+
+Open Scope category_scope.
+Open Scope object_scope.
+Open Scope homset_scope.
+Open Scope morphism_scope.
 
 Section Category.
 

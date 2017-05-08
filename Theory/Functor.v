@@ -27,28 +27,34 @@ Class Functor := {
 
 End Functor.
 
+Bind Scope functor_scope with Functor.
+Delimit Scope functor_type_scope with functor_type.
+Delimit Scope functor_scope with functor.
+Open Scope functor_type_scope.
+Open Scope functor_scope.
+
 (* Functors used as functions will map objects of categories, similar to the
    way type constructors behave in Haskell. *)
 Coercion fobj : Functor >-> Funclass.
 
-Notation "C ⟶ D" := (@Functor C D)
-  (at level 90, right associativity) : category_scope.
+Notation "C ⟶ D" := (@Functor C%category D%category)
+  (at level 90, right associativity) : functor_type_scope.
 
-Arguments fmap {C D Functor X Y} f.
+Arguments fmap {C%category D%category Functor%functor X%object Y%object} f%morphism.
 
 Infix "<$>" := fmap
-  (at level 29, left associativity, only parsing) : category_scope.
-Infix "<$[ F ]>" := (@fmap _ _ F _ _)
-  (at level 29, left associativity, only parsing) : category_scope.
+  (at level 29, left associativity, only parsing) : morphism_scope.
+Infix "<$[ F ]>" := (@fmap _ _ F%functor _ _)
+  (at level 29, left associativity, only parsing) : morphism_scope.
 Notation "x <$ m" := (fmap (Basics.const x) m)
-  (at level 29, left associativity, only parsing) : category_scope.
+  (at level 29, left associativity, only parsing) : morphism_scope.
 Notation "x <&> f" := (fmap f x)
-  (at level 29, left associativity, only parsing) : category_scope.
+  (at level 29, left associativity, only parsing) : morphism_scope.
 
-Notation "fobj[ F ]" := (@fobj _ _ F)
-  (at level 9, format "fobj[ F ]") : category_scope.
-Notation "fmap[ F ]" := (@fmap _ _ F _ _)
-  (at level 9, format "fmap[ F ]") : category_scope.
+Notation "fobj[ F ]" := (@fobj _ _ F%functor)
+  (at level 9, format "fobj[ F ]") : object_scope.
+Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
+  (at level 9, format "fmap[ F ]") : morphism_scope.
 
 Hint Rewrite @fmap_id : categories.
 

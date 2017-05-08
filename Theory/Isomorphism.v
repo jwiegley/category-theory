@@ -93,12 +93,16 @@ Global Program Instance isomorphism_setoid {X Y : C} : Setoid (X ≅ Y) := {
 
 End Isomorphism.
 
-Infix "≅" := (@Isomorphism _) (at level 91) : category_scope.
-Notation "F ≅[ C ] G" := (@Isomorphism C F G)
-  (at level 91, only parsing) : category_scope.
+Delimit Scope isomorphism_scope with isomorphism.
+Open Scope isomorphism_scope.
 
-Arguments to {_ X Y} _.
-Arguments from {_ X Y} _.
+Notation "X ≅ Y" := (@Isomorphism _%category X%object Y%object)
+  (at level 91) : isomorphism_scope.
+Notation "X ≅[ C ] Y" := (@Isomorphism C%category X%object Y%object)
+  (at level 91, only parsing) : isomorphism_scope.
+
+Arguments to {_%category X%object Y%object} _%morphism.
+Arguments from {_%category X%object Y%object} _%morphism.
 Arguments iso_to_from {_ _ _} _.
 Arguments iso_from_to {_ _ _} _.
 

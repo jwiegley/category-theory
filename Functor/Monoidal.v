@@ -36,10 +36,10 @@ Class LaxMonoidalFunctor := {
 
   ap {X Y} : F X ⨂ F Y ~> F (X ⨂ Y) := transform[ap_functor_nat] (X, Y);
 
-  pure_left {X}  : I ⨂ F X ≈ F (I ⨂ X);
-  pure_right {X} : F X ⨂ I ≈ F (X ⨂ I);
+  pure_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
+  pure_right {X} : F X ⨂ I ≅ F (X ⨂ I);
 
-  ap_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≈ F (X ⨂ (Y ⨂ Z))
+  ap_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z))
 }.
 
 (* The strong monoidal functor isomorphism can be projected to an isomorphism
@@ -79,10 +79,10 @@ Class MonoidalFunctor := {
   ap_iso {X Y} : F X ⨂ F Y ≅ F (X ⨂ Y) :=
     project_monoidal_iso ap_functor_iso X Y;
 
-  pure_iso_left {X}  : I ⨂ F X ≈ F (I ⨂ X);
-  pure_iso_right {X} : F X ⨂ I ≈ F (X ⨂ I);
+  pure_iso_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
+  pure_iso_right {X} : F X ⨂ I ≅ F (X ⨂ I);
 
-  ap_iso_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≈ F (X ⨂ (Y ⨂ Z))
+  ap_iso_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z))
 }.
 
 Program Definition MonoidalFunctor_Is_Lax (S : MonoidalFunctor) :
