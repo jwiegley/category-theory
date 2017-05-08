@@ -51,6 +51,13 @@ Proof.
   reflexivity.
 Qed.
 
+Lemma bimap_id_id `{F : C ∏ D ⟶ E} {X Y} :
+  bimap (id[X]) (id[Y]) ≈ id.
+Proof.
+  destruct F; simpl.
+  apply fmap_id.
+Qed.
+
 Lemma bimap_comp_id_left `{F : C ∏ D ⟶ E} {W}
       `(f : Y ~{D}~> Z) `(g : X ~{D}~> Y) :
   bimap (id[W]) (f ∘ g) ≈ bimap id f ∘ bimap id g.
