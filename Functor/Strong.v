@@ -3,20 +3,16 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
+Require Export Category.Functor.Product.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Monoidal.
-Require Export Category.Instance.Cat.
-Require Export Category.Instance.Cat.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
 Class StrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
-  strength_nat : (* (⨂) ○ second F ⟹ F ○ (⨂) *)
-    (@Compose (C ∏ C) (C ∏ C) C (@tensor C _) (second F))
-      ~{[C ∏ C, C]}~>
-    (@Compose (C ∏ C) C C F (@tensor C _));
+  strength_nat : (⨂) ○ Id ∏⟶ F ~{[C ∏ C, C]}~> F ○ (⨂);
 
   strength {X Y} : X ⨂ F Y ~> F (X ⨂ Y) := transform[strength_nat] (X, Y);
 
@@ -27,31 +23,8 @@ Class StrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
       ≈ fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ strength
 }.
 
-(*
-Section Strong.
-
-Context `{C : Category}.
-Context `{@Monoidal C}.
-Context `{F : C ⟶ C}.
-Context `{@StrongFunctor C _ F}.
-
-Lemma strength_id_left {X} :
-  fmap[F] (to unit_left) ∘ strength ≈ to (@unit_left _ _ (F X)).
-Proof.
-  unfold strength.
-  destruct H0; simpl in *; clear H0 strength0;
-  destruct strength_nat0; simpl in *.
-
-  strength_naturality {X Y Z} :
-    strength ∘ bimap id strength ∘ to (@tensor_assoc _ _ X Y (F Z))
-      ≈ fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ strength
-*)
-
 Class RightStrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
-  rstrength_nat : (* (⨂) ○ first F ⟹ F ○ (⨂) *)
-    (@Compose (C × C) (C × C) C (@tensor C _) (first F))
-      ~{[C × C, C]}~>
-    (@Compose (C × C) C C F (@tensor C _));
+  rstrength_nat : (⨂) ○ F ∏⟶ Id ~{[C ∏ C, C]}~> F ○ (⨂);
 
   rstrength {X Y} : F X ⨂ Y ~> F (X ⨂ Y) := transform[rstrength_nat] (X, Y);
 
@@ -78,10 +51,8 @@ Next Obligation. unfold bimap; cat. Qed.
 
 Local Obligation Tactic := program_simpl.
 
-Global Program Instance Compose_StrongFunctor (F G : C ⟶ C)
-       `{@StrongFunctor C _ F}
-       `{@StrongFunctor C _ G} :
-  `{@StrongFunctor C _ (F ○ G)} := {
+Global Program Instance Compose_StrongFunctor (F G : C ⟶ C) :
+  StrongFunctor F -> StrongFunctor G -> StrongFunctor (F ○ G) := {
   strength_nat := {| transform := fun _ => fmap[F] strength ∘ strength |}
 }.
 Next Obligation.
@@ -136,8 +107,7 @@ Next Obligation.
 Qed.
 
 Theorem ProductFunctor_Strong (G : C ⟶ C) :
-  (@StrongFunctor C _ F * @StrongFunctor C _ G) <-->
-  (@StrongFunctor (C ∏ C) _ (F ∏⟶ G)).
+  StrongFunctor F * StrongFunctor G <--> StrongFunctor (F ∏⟶ G).
 Proof.
   split; intros.
   { unshelve econstructor.

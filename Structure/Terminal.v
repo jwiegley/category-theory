@@ -22,6 +22,8 @@ Class Terminal := {
 
 End Terminal.
 
+Notation "1" := One : object_scope.
+
 (* Coercion terminal_category `{C : Category} `(_ : @Terminal C) := C. *)
 (* Arguments terminal_category {_ } _ /. *)
 

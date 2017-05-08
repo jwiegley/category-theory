@@ -2,8 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Functor.Id.
-Require Export Category.Functor.Compose.
 Require Export Category.Instance.Nat.
 
 Generalizable All Variables.
@@ -11,12 +9,6 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 Set Implicit Arguments.
-
-Ltac constructive :=
-  isomorphism; simpl; intros;
-  [ natural; simpl; intros
-  | natural; simpl; intros
-  | .. ]; simpl; intros.
 
 (* Cat is the category of all small categories:
 

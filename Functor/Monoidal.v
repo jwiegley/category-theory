@@ -5,9 +5,6 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Strong.
 Require Export Category.Functor.Hom.
 Require Export Category.Structure.Monoidal.
-Require Export Category.Construction.Groupoid.
-Require Export Category.Instance.Cat.
-Require Export Category.Instance.Cat.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -29,10 +26,7 @@ Context `{F : C ⟶ D}.
 Class LaxMonoidalFunctor := {
   lax_pure : I ~> F I;
 
-  ap_functor_nat : (* (⨂) ○ split F F ⟹ F ○ (⨂) *)
-    (@Compose (C × C) (D × D) D (@tensor D _) (split F F))
-      ~{[C × C, D]}~>
-    (@Compose (C × C) C D F (@tensor C _));
+  ap_functor_nat : ((⨂) ○ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ○ (⨂));
 
   ap {X Y} : F X ⨂ F Y ~> F (X ⨂ Y) := transform[ap_functor_nat] (X, Y);
 
@@ -48,11 +42,7 @@ Class LaxMonoidalFunctor := {
    below in [StrongMonoidalFunctor]. *)
 
 Program Definition project_monoidal_iso
-        (iso : (@Compose (C × C) (D × D) D
-                              (@tensor D _) (split F F))
-                 ≅[[C × C, D]]
-               (@Compose (C × C) C D F (@tensor C _)))
-      (X Y : C) :
+        (iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) (X Y : C) :
   F X ⨂ F Y ≅[D] F (X ⨂ Y) := {|
   to   := to   iso (X, Y);
   from := from iso (X, Y)
@@ -71,10 +61,7 @@ Qed.
 Class MonoidalFunctor := {
   pure_iso : I ≅ F I;
 
-  ap_functor_iso :
-    (@Compose (C × C) (D × D) D (@tensor D _) (split F F))
-      ≅[[C × C, D]]
-    (@Compose (C × C) C D F (@tensor C _));
+  ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂);
 
   ap_iso {X Y} : F X ⨂ F Y ≅ F (X ⨂ Y) :=
     project_monoidal_iso ap_functor_iso X Y;
@@ -123,7 +110,8 @@ End Pure.
 
 Arguments pure {C _ F _ _ A}.
 
-Notation "pure[ F ]" := (@pure _ _ F _ _ _) (at level 9, format "pure[ F ]").
+Notation "pure[ F ]" := (@pure _ _ F _ _ _)
+  (at level 9, format "pure[ F ]") : morphism_scope.
 
 Section MonoidalFunctors.
 
@@ -153,9 +141,7 @@ Next Obligation.
   exact id.
 Defined.
 Next Obligation. simpl; intros; simplify; cat. Qed.
-Next Obligation. simpl; intros; simplify; cat. Qed.
-Next Obligation. simpl; intros; simplify; cat. Qed.
-Next Obligation. intros; apply tensor_assoc. Qed.
+Next Obligation. apply tensor_assoc. Qed.
 
 (* Any two monoidal functors compose to create a monoidal functor. This is
    composition in the groupoid of categories with monoidal structure. *)

@@ -2,12 +2,10 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Natural.
-Require Import Category.Structure.Closed.
+Require Export Category.Functor.Product.
 Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Nat.
 Require Import Category.Instance.Sets.
-Require Import Category.Instance.Cat.
-Require Import Category.Instance.Cat.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -28,10 +26,10 @@ Unset Transparent Obligations.
   [fmap] and [fmap1]), and the [Natural] instance, can be found in the
   category of functors we're mapping to by applying [P]. *)
 
-Program Definition HomFunctor `(C : Category) : C^op × C ⟶ Sets := {|
+Program Definition HomFunctor `(C : Category) : C^op ∏ C ⟶ Sets := {|
   fobj := fun p => {| carrier   := @hom C (fst p) (snd p)
                     ; is_setoid := @homset (C) (fst p) (snd p) |};
-  fmap := fun X Y (f : X ~{C^op × C}~> Y) =>
+  fmap := fun X Y (f : X ~{C^op ∏ C}~> Y) =>
             {| morphism := fun g => snd f ∘ g ∘ fst f |}
 |}.
 
@@ -57,13 +55,13 @@ Coercion Curried_HomFunctor : Category >-> Functor.
 
 Notation "'Hom' ( A , ─ )" := (@Curried_HomFunctor _ A) : category_scope.
 
-Program Definition CoHomFunctor_Alt `(C : Category) : C × C^op ⟶ Sets :=
-  HomFunctor C ○ @swap Cat _ _ _.
+Program Definition CoHomFunctor_Alt `(C : Category) : C ∏ C^op ⟶ Sets :=
+  HomFunctor C ○ Product_swap.
 
-Program Definition CoHomFunctor `(C : Category) : C × C^op ⟶ Sets := {|
+Program Definition CoHomFunctor `(C : Category) : C ∏ C^op ⟶ Sets := {|
   fobj := fun p => {| carrier   := @hom (C^op) (fst p) (snd p)
                     ; is_setoid := @homset (C^op) (fst p) (snd p) |};
-  fmap := fun X Y (f : X ~{C × C^op}~> Y) =>
+  fmap := fun X Y (f : X ~{C ∏ C^op}~> Y) =>
     {| morphism := fun g => snd f ∘ g ∘ fst f |}
 |}.
 
@@ -88,7 +86,7 @@ Qed.
 (*
 Require Import Category.Instance.Cat.Closed.
 
-Program Instance CoHomFunctor `(C : Category) : C × C^op ⟶ Sets.
+Program Instance CoHomFunctor `(C : Category) : C ∏ C^op ⟶ Sets.
 Next Obligation.
   pose (Curried_CoHomFunctor C).
   pose (@uncurry Cat _ _ C (C^op) Sets).

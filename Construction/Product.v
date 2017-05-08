@@ -28,3 +28,23 @@ Program Definition Product : Category := {|
 End Product.
 
 Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.
+
+Require Import Category.Theory.Functor.
+
+Program Definition Product_fst
+        `{C : Category} `{D : Category} : (C ∏ D) ⟶ C := {|
+  fobj := fst;
+  fmap := fun _ _ f => fst f;
+|}.
+
+Program Definition Product_snd
+        `{C : Category} `{D : Category} : (C ∏ D) ⟶ D := {|
+  fobj := snd;
+  fmap := fun _ _ f => snd f;
+|}.
+
+Program Definition Product_swap
+        `{C : Category} `{D : Category} : (C ∏ D) ⟶ (D ∏ C) := {|
+  fobj := fun x => (snd x, fst x);
+  fmap := fun _ _ f => (snd f, fst f);
+|}.

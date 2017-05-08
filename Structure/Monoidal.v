@@ -5,7 +5,6 @@ Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
 Require Export Category.Construction.Product.
 Require Export Category.Instance.Nat.
-Require Export Category.Instance.Cat.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -38,7 +37,9 @@ Class SymmetricMonoidal `{Monoidal} := {
 
 End Monoidal.
 
-Notation "X ⨂ Y" := (@tensor _ _ (X, Y)) (at level 30, right associativity).
+Notation "(⨂)" := (@tensor _ _) : functor_scope.
+Notation "X ⨂ Y" := (@tensor _ _ (X%object, Y%object))
+  (at level 30, right associativity) : object_scope.
 
 Local Obligation Tactic := program_simpl.
 

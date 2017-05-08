@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
-Require Export Category.Instance.Cat.
+Require Export Category.Instance.Nat.
 
 Generalizable All Variables.
 Set Primitive Projections.

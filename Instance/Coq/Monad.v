@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Monad.
-Require Export Category.Instance.Cat.
 Require Export Category.Instance.Coq.
 
 Generalizable All Variables.

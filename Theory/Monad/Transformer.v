@@ -4,7 +4,6 @@ Require Import Category.Lib.
 Require Export Category.Theory.Monad.
 Require Export Category.Functor.Monoidal.
 Require Export Category.Instance.Nat.
-Require Export Category.Instance.Cat.
 
 Generalizable All Variables.
 Set Primitive Projections.

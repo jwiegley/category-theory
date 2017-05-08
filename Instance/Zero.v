@@ -20,6 +20,8 @@ Program Definition _0 : Category := {|
   homset := fun _ _ => {| equiv := eq |}
 |}.
 
+Notation "0" := _0 : category_scope.
+
 Program Instance From_0 `(C : Category) : _0 ⟶ C.
 Next Obligation. destruct H. Qed.
 Next Obligation. destruct X. Qed.

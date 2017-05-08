@@ -60,6 +60,41 @@ Hint Rewrite @fmap_id : categories.
 
 Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
 
+Section Identity.
+
+Context `{C : Category}.
+Context `{D : Category}.
+
+Global Program Definition Id : C ⟶ C := {|
+  fobj := fun X => X;
+  fmap := fun _ _ f => f
+|}.
+
+End Identity.
+
+Arguments Id {C} /.
+
+Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : category_scope.
+
+Program Definition Compose
+        `{C : Category} `{D : Category} `{E : Category}
+        (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
+  fobj := fun x => fobj (fobj x);
+  fmap := fun _ _ f => fmap (fmap f)
+|}.
+Next Obligation.
+  proper.
+  rewrite X0; reflexivity.
+Qed.
+Next Obligation.
+  intros; rewrite !fmap_comp; reflexivity.
+Qed.
+
+Hint Unfold Compose.
+
+Notation "F ○ G" := (Compose F%functor G%functor)
+  (at level 30, right associativity) : category_scope.
+
 Program Instance fmap_iso `{C : Category} `{D : Category} `(F : C ⟶ D) :
   Proper (Isomorphism ==> Isomorphism) F.
 Next Obligation.

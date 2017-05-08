@@ -43,3 +43,9 @@ Coercion transform : Natural >-> Funclass.
 
 Ltac natural :=
   unshelve (refine {| transform := _ |}; simpl; intros).
+
+Ltac constructive :=
+  isomorphism; simpl; intros;
+  [ natural; simpl; intros
+  | natural; simpl; intros
+  | .. ]; simpl; intros.

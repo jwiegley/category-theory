@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
+Require Export Category.Functor.Bifunctor.
 Require Export Category.Construction.Product.
 
 Generalizable All Variables.
@@ -27,7 +28,7 @@ Qed.
 
 Notation "F ∏⟶ G" := (@ProductFunctor _ _ F _ _ G) (at level 9).
 
-Program Definition ProductFunctor_proj1
+Program Definition ProductFunctor_fst
         `{C : Category} `{D : Category}
         `{J : Category} `{K : Category}
         (F : (C ∏ J) ⟶ (D ∏ K)) {A : J} : C ⟶ D.
@@ -48,7 +49,7 @@ Proof.
     reflexivity.
 Defined.
 
-Program Definition ProductFunctor_proj2
+Program Definition ProductFunctor_snd
         `{C : Category} `{D : Category}
         `{J : Category} `{K : Category}
         (F : (C ∏ J) ⟶ (D ∏ K)) {A : C} : J ⟶ K.
@@ -68,3 +69,32 @@ Proof.
     rewrite id_left.
     reflexivity.
 Defined.
+
+Program Definition ProductFunctor_swap
+        `{C : Category} `{D : Category}
+        `{J : Category} `{K : Category}
+        (F : (C ∏ J) ⟶ (D ∏ K)) : (J ∏ C) ⟶ (K ∏ D) := {|
+  fobj := fun x => Product_swap (F (Product_swap x));
+  fmap := fun _ _ f => _
+|}.
+Next Obligation.
+  simpl in *; split;
+  apply F; split; assumption.
+Defined.
+Next Obligation.
+  proper; simpl; simplify; simpl in *.
+    rewrite !let_snd.
+    rewrite a, b; reflexivity.
+  rewrite !let_fst.
+  rewrite a, b; reflexivity.
+Qed.
+Next Obligation.
+  rewrite !let_fst, !let_snd; cat.
+Qed.
+Next Obligation.
+  simpl in *.
+  rewrite !let_fst, !let_snd; simplify;
+  rewrite bimap_fmap;
+  rewrite bimap_comp;
+  reflexivity.
+Qed.

@@ -264,7 +264,7 @@ Qed.
 Context `{@Terminal C}.
 
 Global Program Instance prod_one_l  {X : C} :
-  One × X ≅ X := {
+  1 × X ≅ X := {
   to   := exr;
   from := one △ id
 }.
@@ -277,7 +277,7 @@ Qed.
 Hint Rewrite @prod_one_l : isos.
 
 Global Program Instance prod_one_r  {X : C} :
-  X × One ≅ X := {
+  X × 1 ≅ X := {
   to   := exl;
   from := id △ one
 }.

@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Import Category.Structure.Terminal.
-Require Export Category.Instance.Cat.
+Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -18,6 +18,8 @@ Program Definition _1 : Category := {|
   id      := fun _ => tt;
   compose := fun _ _ _ _ _ => tt
 |}.
+
+Notation "1" := _1 : category_scope.
 
 Program Instance To_1 `(C : Category) : C ⟶ _1 := {
   fobj := fun _ => tt;

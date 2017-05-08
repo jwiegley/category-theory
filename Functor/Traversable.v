@@ -6,8 +6,6 @@ Require Export Category.Functor.Strong.
 Require Export Category.Functor.Monoidal.
 Require Export Category.Functor.Product.
 Require Export Category.Functor.Product.Internal.
-Require Export Category.Instance.Cat.
-Require Export Category.Instance.Cat.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.

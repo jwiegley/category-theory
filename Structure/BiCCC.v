@@ -178,7 +178,7 @@ Hint Rewrite @exp_coprod : isos.
 Context `{@Initial C}.
 
 Global Program Instance prod_zero_l {X : C} :
-  Zero × X ≅ Zero := {
+  0 × X ≅ 0 := {
   to   := uncurry zero;
   from := zero
 }.
@@ -187,7 +187,7 @@ Next Obligation. apply curry_inj; simpl; cat. Qed.
 Hint Rewrite @prod_zero_l : isos.
 
 Global Program Instance prod_zero_r {X : C} :
-  X × Zero ≅ Zero := {
+  X × 0 ≅ 0 := {
   to   := uncurry zero ∘ swap;
   from := zero
 }.
@@ -198,7 +198,7 @@ Hint Rewrite @prod_zero_r : isos.
 Context `{@Terminal C}.
 
 Global Program Instance exp_zero {X : C} :
-  X^Zero ≅ One := {
+  X^0 ≅ 1 := {
   to   := one;
   from := curry (zero ∘ to prod_zero_r)
 }.

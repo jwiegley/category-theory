@@ -110,3 +110,26 @@ Hint Unfold isomorphism_equiv.
 
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).
+
+Program Instance id_iso `{C : Category} {X : C} : X ≅ X := {
+  to := id;
+  from := id
+}.
+
+Program Definition compose_iso `{C : Category}
+        {X Y Z : C} `(f : Y ≅ Z) `(g : X ≅ Y) : X ≅ Z := {|
+  to := to f ∘ to g;
+  from := from g ∘ from f
+|}.
+Next Obligation.
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc (to g)).
+  rewrite iso_to_from; cat.
+  apply iso_to_from.
+Qed.
+Next Obligation.
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc (from f)).
+  rewrite iso_from_to; cat.
+  apply iso_from_to.
+Qed.

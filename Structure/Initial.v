@@ -16,6 +16,8 @@ Class Initial `(C : Category) := {
   zero_unique {A} {f g : Zero ~> A} : f ≈ g
 }.
 
+Notation "0" := Zero : object_scope.
+
 Hint Resolve @zero_unique : category_laws.
 
 Corollary zero_comp `{@Initial C} {A B : C} {f : A ~> B} :

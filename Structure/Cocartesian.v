@@ -215,7 +215,7 @@ Qed.
 Context `{@Initial C}.
 
 Global Program Instance coprod_zero_l {X : C} :
-  Zero + X ≅ X := {
+  0 + X ≅ X := {
   to   := zero ▽ id;
   from := inr
 }.
@@ -228,7 +228,7 @@ Qed.
 Hint Rewrite @coprod_zero_l : isos.
 
 Global Program Instance coprod_zero_r {X : C} :
-  X + Zero ≅ X := {
+  X + 0 ≅ X := {
   to   := id ▽ zero;
   from := inl
 }.

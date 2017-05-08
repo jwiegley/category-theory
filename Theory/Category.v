@@ -77,7 +77,7 @@ Notation "f ∘[ C ] g" :=
 
 Notation "f ≈ g" :=
   (@equiv _ (@homset _%category _%object _%object) f%morphism g%morphism)
-  (at level 79, only parsing) : category_theory_scope.
+  (at level 79) : category_theory_scope.
 Notation "f ≈[ C ] g" :=
   (@equiv _ (@homset C%category _%object _%object) f%morphism g%morphism)
   (at level 79, only parsing) : category_theory_scope.
