@@ -142,7 +142,8 @@ Context `{F : D ⟶ E}.
 
 Local Obligation Tactic := program_simpl.
 
-Program Instance Id_LaxMonoidalFunctor : @LaxMonoidalFunctor C C _ _ Id[C] := {
+Global Program Instance Id_LaxMonoidalFunctor :
+  @LaxMonoidalFunctor C C _ _ Id[C] := {
   lax_pure := id;
   ap_functor_nat := {| transform := fun _ => _ |}
 }.
