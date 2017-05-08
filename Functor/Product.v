@@ -25,6 +25,8 @@ Next Obligation.
   simplify; simpl in *; apply fmap_comp.
 Qed.
 
+Notation "F ∏⟶ G" := (@ProductFunctor _ _ F _ _ G) (at level 9).
+
 Program Definition ProductFunctor_proj1
         `{C : Category} `{D : Category}
         `{J : Category} `{K : Category}
