@@ -345,4 +345,30 @@ Next Obligation.
   apply ap_assoc.
 Qed.
 
+(*
+Program Instance Product_LaxMonoidal
+        `{C : Category} `{@Cartesian C} `{@Monoidal C} :
+  @LaxMonoidalFunctor (C ∏ C) C _ _ (@ProductFunctor C _) := {
+  lax_pure := fork (@id C I) (@id C I);
+  ap_functor_nat := {| transform := fun _ => _ |}
+}.
+Next Obligation.
+  simpl; intros.
+  unfold pure, bimap; simpl.
+  destruct H, H1, H4; simpl in *.
+  destruct ap_functor_nat, ap_functor_nat0; simpl in *.
+  rewrite !comp_assoc.
+  rewrite <- !fmap_comp.
+  rewrite <- !comp_assoc.
+  rewrite iso_from_to.
+  rewrite id_right.
+  rewrite !comp_assoc.
+  symmetry.
+  rewrite fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite !comp_assoc.
+  apply compose_respects; [|reflexivity].
+*)
+
 End MonoidalFunctors.

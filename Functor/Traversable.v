@@ -19,24 +19,6 @@ Context `{C : Category}.
 Context `{@Monoidal C}.
 Context `{F : C ⟶ C}.
 
-Local Obligation Tactic := idtac.
-
-Program Instance Id_LaxMonoidal : @LaxMonoidalFunctor C C _ _ Id[C] := {
-  lax_pure := id;
-  ap_functor_nat := {| transform := fun _ => _ |}
-}.
-Next Obligation.
-  simpl; intros.
-  destruct H0; simpl.
-  exact id.
-Defined.
-Next Obligation. simpl; intros; simplify; cat. Qed.
-Next Obligation. simpl; intros; simplify; cat. Qed.
-Next Obligation. simpl; intros; simplify; cat. Qed.
-Next Obligation. intros; apply tensor_assoc. Qed.
-
-Local Obligation Tactic := idtac.
-
 Class Traversable := {
   sequence `{G : C ⟶ C}
            `{@StrongFunctor C _ G}
@@ -54,7 +36,7 @@ End Traversable.
 
 Arguments Traversable {_ _} F.
 
-Program Instance Identity_Traversable `{C : Category} `{@Monoidal C} (x : C) :
+Program Instance Id_Traversable `{C : Category} `{@Monoidal C} (x : C) :
   Traversable (@Id C) := {
   sequence := fun _ _ _ => {| transform := fun _ => id |}
 }.
@@ -98,115 +80,6 @@ Next Obligation.
 Qed.
 
 Local Obligation Tactic := idtac; simpl; intros.
-
-(*
-Program Instance Product_LaxMonoidal
-        `{C : Category} `{@Cartesian C} `{@Monoidal C} :
-  @LaxMonoidalFunctor (C ∏ C) C _ _ (@ProductFunctor C _) := {
-  lax_pure := fork (@id C I) (@id C I);
-  ap_functor_nat := {| transform := fun _ => _ |}
-}.
-Next Obligation.
-  simpl; intros.
-  unfold pure, bimap; simpl.
-  destruct H, H1, H4; simpl in *.
-  destruct ap_functor_nat, ap_functor_nat0; simpl in *.
-  rewrite !comp_assoc.
-  rewrite <- !fmap_comp.
-  rewrite <- !comp_assoc.
-  rewrite iso_from_to.
-  rewrite id_right.
-  rewrite !comp_assoc.
-  symmetry.
-  rewrite fmap_comp.
-  rewrite <- !comp_assoc.
-  apply compose_respects; [reflexivity|].
-  rewrite !comp_assoc.
-  apply compose_respects; [|reflexivity].
-*)
-
-(* Definition fst_map : *)
-(*   fst (bimap f g ∘ h) = f ∘ h *)
-
-Notation "F ∏⟶ G" := (@ProductFunctor _ _ F _ _ G) (at level 9).
-
-Corollary let_fst {X Y} (A : X * Y) : (let (x, _) := A in x) = fst A.
-Proof. reflexivity. Qed.
-
-Theorem ProductFunctor_Strong
-        `{C : Category} `{@Monoidal C}
-        (F : C ⟶ C)
-        (G : C ⟶ C) :
-  (@StrongFunctor C _ F * @StrongFunctor C _ G) <-->
-  (@StrongFunctor (C ∏ C) _ (F ∏⟶ G)).
-Abort.
-(*
-Next Obligation.
-  natural; simplify; simpl; intros.
-  - simplify.
-    pose (fst (transform[@strength_nat _ _ _ H0] ((x, I), (y, I))));
-    simpl in h.
-    refine (compose _ h).
-    destruct F; simpl.
-    apply fmap; simpl; split.
-      exact id.
-    apply (to unit_left).
-  - destruct F; simpl.
-    rewrite !let_fst; simpl in *.
-    rewrite comp_assoc.
-    rewrite <- (fst (fmap_comp _ _ _ _ _)); simpl.
-    rewrite id_left.
-    rewrite id_right.
-    destruct H0, strength_nat.
-    simpl in *.
-    unfold bimap in *; simpl in *.
-    clear strength_id_left strength_assoc.
-    rewrite <- comp_assoc.
-    pose proof (fst (natural_transformation (x1, I, (y1, I)) (x0, I, (y0, I))
-                                            ((x, id), (y, id)))).
-    simpl in X; rewrite <- X.
-    rewrite comp_assoc.
-    rewrite <- (fst (fmap_comp _ _ _ _ _)); simpl.
-    rewrite id_left.
-    apply compose_respects; [|reflexivity].
-    apply fmap_respects.
-    split; simpl.
-      reflexivity.
-    cat.
-Defined.
-Next Obligation.
-  destruct F; simpl in *.
-  rewrite !let_fst.
-  rewrite comp_assoc.
-  rewrite <- (fst (fmap_comp _ _ _ _ _)); simpl.
-  rewrite id_left.
-  rewrite id_right.
-  destruct H0; simpl in *.
-  clear strength_assoc.
-  unfold strength in *.
-  pose proof (fst (strength_id_left (X, I))); simpl in *.
-  clear strength_id_left strength.
-  rewrite X0.
-  clear.
-  destruct (fobj (X, I)); reflexivity.
-Qed.
-Next Obligation.
-  destruct F; simpl in *.
-  rewrite !let_fst.
-  rewrite comp_assoc.
-  rewrite <- (fst (fmap_comp _ _ _ _ _)); simpl.
-  rewrite id_left.
-  rewrite id_right.
-  destruct H0; simpl in *.
-  clear strength_id_left.
-  unfold strength in *.
-  (* pose proof (fst (strength_assoc (X, I))); simpl in *. *)
-  (* clear strength_id_left strength. *)
-  (* rewrite X0. *)
-  (* clear. *)
-  (* destruct (fobj (X, I)); reflexivity. *)
-Admitted.
-*)
 
 (*
 Program Instance Product_Traversable
