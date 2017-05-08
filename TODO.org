@@ -1,6 +1,30 @@
 TODO  -*- mode: org; fill-column: 78 -*-
 
 * Inbox
+** TODO A Boolean object is any for which there is a morphism Bool ~> 1 + 1, with a UMP characteristizing the minimal requirements of such an object
+SCHEDULED: <2017-05-07 Sun>
+:PROPERTIES:
+:ID:       D7A5FC41-BD3C-4A86-9D43-B98FD393D014
+:CREATED:  [2017-05-07 Sun 10:03]
+:END:
+** TODO The two strength properties should be provable from the natural transformation
+SCHEDULED: <2017-05-07 Sun>
+:PROPERTIES:
+:ID:       5E51BA5D-2103-4E55-AFF4-BC8A7B830F01
+:CREATED:  [2017-05-07 Sun 10:03]
+:END:
+** TODO Define polynomial functors as any which are composites from identity, constant, product, coproduction and maybe exponentials 
+SCHEDULED: <2017-05-07 Sun>
+:PROPERTIES:
+:ID:       AA523223-71EE-4201-B31C-40F2B712170C
+:CREATED:  [2017-05-07 Sun 10:06]
+:END:
+** TODO Get rid of the isomorphism directory
+SCHEDULED: <2017-05-07 Sun>
+:PROPERTIES:
+:ID:       9E2C0BAF-4B15-42B2-8BBA-A11831BD0D66
+:CREATED:  [2017-05-05 Fri 11:31]
+:END:
 ** TODO Move notations into modules
 ** TODO Have 'make' error if a file is not in _CoqProject
 ** TODO Do not open scopes, but associate them with types and Arguments
