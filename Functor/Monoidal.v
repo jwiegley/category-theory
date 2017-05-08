@@ -262,26 +262,26 @@ Next Obligation.
   transitivity (F (I ⨂ G X)).
     transitivity (F (G X)).
       apply unit_left.
-    apply fobj_respects.
+    apply fmap_iso.
     symmetry.
     apply unit_left.
-  apply fobj_respects.
+  apply fmap_iso.
   apply pure_iso_left.
 Qed.
 Next Obligation.
   transitivity (F (G X ⨂ I)).
     transitivity (F (G X)).
       apply unit_right.
-    apply fobj_respects.
+    apply fmap_iso.
     symmetry.
     apply unit_right.
-  apply fobj_respects.
+  apply fmap_iso.
   apply pure_iso_right.
 Qed.
 Next Obligation.
   transitivity (F (G X ⨂ G Y ⨂ G Z)).
     apply ap_iso_assoc.
-  apply fobj_respects.
+  apply fmap_iso.
   transitivity ((G X ⨂ G Y) ⨂ G Z).
     symmetry.
     apply tensor_assoc.
@@ -320,26 +320,26 @@ Next Obligation.
   transitivity (F (I ⨂ G X)).
     transitivity (F (G X)).
       apply unit_left.
-    apply fobj_respects.
+    apply fmap_iso.
     symmetry.
     apply unit_left.
-  apply fobj_respects.
+  apply fmap_iso.
   apply pure_left.
 Qed.
 Next Obligation.
   transitivity (F (G X ⨂ I)).
     transitivity (F (G X)).
       apply unit_right.
-    apply fobj_respects.
+    apply fmap_iso.
     symmetry.
     apply unit_right.
-  apply fobj_respects.
+  apply fmap_iso.
   apply pure_right.
 Qed.
 Next Obligation.
   transitivity (F (G X ⨂ G Y ⨂ G Z)).
     apply ap_assoc.
-  apply fobj_respects.
+  apply fmap_iso.
   transitivity ((G X ⨂ G Y) ⨂ G Z).
     symmetry.
     apply tensor_assoc.

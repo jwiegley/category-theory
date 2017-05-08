@@ -2,7 +2,8 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Instance.Sets.
+Require Export Category.Functor.Id.
+Require Export Category.Functor.Compose.
 Require Export Category.Instance.Nat.
 
 Generalizable All Variables.
@@ -10,47 +11,6 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 Set Implicit Arguments.
-
-Section FunctorEquiv.
-
-Context `{C : Category}.
-Context `{D : Category}.
-
-Instance fobj_respects `{F : C ⟶ D} :
-  Proper (equiv ==> equiv) (@fobj C D F) := @fmap_iso _ _ _.
-
-(* The identity Functor *)
-
-Global Program Definition Id : C ⟶ C := {|
-  fobj := fun X => X;
-  fmap := fun _ _ f => f
-|}.
-
-End FunctorEquiv.
-
-Arguments Id {C} /.
-
-(* Horizontal composition of functors. *)
-
-Program Definition Compose
-        `{C : Category} `{D : Category} `{E : Category}
-        (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
-  fobj := fun x => fobj (fobj x);
-  fmap := fun _ _ f => fmap (fmap f)
-|}.
-Next Obligation.
-  proper.
-  rewrite X0; reflexivity.
-Qed.
-Next Obligation.
-  intros; rewrite !fmap_comp; reflexivity.
-Qed.
-
-Hint Unfold Compose.
-
-Infix "○" := Compose (at level 30, right associativity) : category_scope.
-
-Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : category_scope.
 
 Ltac constructive :=
   isomorphism; simpl; intros;

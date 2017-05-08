@@ -58,6 +58,8 @@ Instance/AST.v
 Instance/Proset.v
 Instance/Poset.v
 Instance/Cones.v
+Functor/Id.v
+Functor/Compose.v
 Functor/Hom.v
 Functor/Hom/Internal.v
 Functor/Bifunctor.v

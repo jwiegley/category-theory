@@ -60,8 +60,7 @@ Hint Rewrite @fmap_id : categories.
 
 Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
 
-Program Instance fmap_iso `{C : Category} `{D : Category}
-        `(F : C ⟶ D) :
+Program Instance fmap_iso `{C : Category} `{D : Category} `(F : C ⟶ D) :
   Proper (Isomorphism ==> Isomorphism) F.
 Next Obligation.
   proper.
@@ -72,3 +71,6 @@ Next Obligation.
   rewrite <- fmap_comp.
   rewrite iso_from_to; cat.
 Qed.
+
+Instance fobj_respects `{C : Category} `{D : Category} `(F : C ⟶ D) :
+  Proper (equiv ==> equiv) (@fobj C D F) := @fmap_iso _ _ _.
