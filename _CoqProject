@@ -68,7 +68,9 @@ Functor/Coproduct.v
 Functor/Constant.v
 Functor/Representable.v
 Functor/Strong.v
+Functor/Strong/Product.v
 Functor/Monoidal.v
+Functor/Monoidal/Product.v
 Functor/Traversable.v
 Isomorphism/Functor/Hom.v
 Isomorphism/Natural/Comma.v
