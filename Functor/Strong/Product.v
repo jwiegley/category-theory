@@ -120,3 +120,157 @@ Proof.
 Qed.
 
 End ProductStrong.
+
+Theorem ProductFunctor_proj_Strong
+        `{C : Category} `{@Monoidal C}
+        (P : (C ∏ C) ⟶ (C ∏ C)) :
+  { p : (C ⟶ C) * (C ⟶ C)
+  & StrongFunctor P -> StrongFunctor ((fst p) ∏⟶ (snd p)) }.
+Proof.
+  unshelve eexists.
+    split.
+    { refine
+        {| fobj := fun x => fst (P (x, I))
+         ; fmap := fun x y f => fst (@fmap _ _ P (x, I) (y, I) (f, id))
+         ; fmap_respects := fun x y f g eqv =>
+             fst (@fmap_respects _ _ P (x, I) (y, I) (f, id) (g, id)
+                                 (eqv, reflexivity _))
+         ; fmap_id := fun x => fst (@fmap_id _ _ P (x, I))
+         ; fmap_comp := fun x y z f g =>
+             _ (fst (@fmap_comp _ _ P (x, I) (y, I) (z, I) (f, id) (g, id)))
+         |}.
+      intros.
+      rewrite fst_comp.
+      rewrite <- fmap_comp; simpl.
+      rewrite id_left; reflexivity.
+    }
+    { refine
+        {| fobj := fun x => snd (P (I, x))
+         ; fmap := fun x y f => snd (@fmap _ _ P (I, x) (I, y) (id, f))
+         ; fmap_respects := fun x y f g eqv =>
+             snd (@fmap_respects _ _ P (I, x) (I, y) (id, f) (id, g)
+                                 (reflexivity _, eqv))
+         ; fmap_id := fun x => snd (@fmap_id _ _ P (I, x))
+         ; fmap_comp := fun x y z f g =>
+             _ (snd (@fmap_comp _ _ P (I, x) (I, y) (I, z) (id, f) (id, g)))
+         |}.
+      intros.
+      rewrite snd_comp.
+      rewrite <- fmap_comp; simpl.
+      rewrite id_left; reflexivity.
+    }
+  simpl; intros.
+  remember {| fobj := _ |} as F.
+  remember {| fobj := λ x : C, snd (P (I, x)) |} as G.
+  apply (fst (@ProductFunctor_Strong _ _ F G)).
+  rewrite HeqF, HeqG; clear HeqF HeqG.
+  split.
+  { unshelve econstructor; simpl.
+    - natural; simplify; simpl; intros; simplify.
+      + exact (fst (bimap id (to unit_left)
+                      ∘ transform[@strength_nat _ _ _ X] ((x, I), (y, I)))).
+      + simpl in *.
+        pose proof (fst (@natural_transformation
+                           _ _ _ _ (@strength_nat _ _ _ X)
+                           (x1, I, (y1, I)) (x0, I, (y0, I))
+                           ((x, id), (y, id)))) as X0.
+        simpl in X0.
+        rewrite comp_assoc.
+        rewrite !bimap_fmap.
+        rewrite fst_comp.
+        rewrite <- bimap_comp.
+        rewrite id_left, id_right.
+        rewrite <- comp_assoc.
+        rewrite <- X0.
+        rewrite comp_assoc.
+        rewrite fst_comp.
+        rewrite bimap_fmap.
+        rewrite <- bimap_comp.
+        rewrite bimap_id_id.
+        rewrite id_left, id_right.
+        reflexivity.
+    - simpl; intros.
+      pose (fst (@strength_id_left _ _ _ X (X0, I))).
+      rewrite comp_assoc.
+      rewrite fst_comp.
+      rewrite bimap_fmap.
+      rewrite <- bimap_comp.
+      rewrite id_left, id_right.
+      simpl in e.
+      rewrite e; clear e.
+      destruct (P (X0, I)); reflexivity.
+    - simpl; intros.
+      rewrite !bimap_fmap.
+      rewrite comp_assoc.
+      rewrite fst_comp.
+      rewrite <- bimap_comp.
+      rewrite id_left, id_right.
+
+      pose proof (fst (@strength_assoc _ _ _ X (X0, I) (Y, I) (Z, I))) as X2;
+      simpl in X2.
+
+      pose proof (fst (@natural_transformation _ _ _ _
+                         (@strength_nat _ _ _ X)
+                         (X0, I, (Y ⨂ Z, I ⨂ I))
+                         (X0, I, (Y ⨂ Z, I))
+                         ((id[X0], id[I]),
+                          (id[Y ⨂ Z], to unit_left)))) as X3.
+      simpl in X3.
+      rewrite !bimap_fmap in X3.
+      rewrite bimap_id_id in X3.
+      rewrite <- (id_right (id[X0])).
+      rewrite bimap_comp.
+      rewrite !comp_assoc.
+      rewrite <- (comp_assoc (fst _)).
+      rewrite <- (comp_assoc (fst _)).
+      rewrite <- X3; clear X3.
+
+      pose proof (fst (@natural_transformation _ _ _ _
+                         (@strength_nat _ _ _ X)
+                         (X0 ⨂ Y, I ⨂ I, (Z, I))
+                         (X0 ⨂ Y, I, (Z, I))
+                         ((id[X0 ⨂ Y], to unit_left),
+                          (id[Z], id[I])))) as X4.
+      simpl in X4.
+      rewrite !bimap_fmap in X4.
+      rewrite !bimap_id_id in X4.
+      rewrite id_right in X4.
+      rewrite <- X4; clear X4.
+
+      rewrite !comp_assoc.
+      rewrite !fst_comp.
+      rewrite <- !bimap_comp.
+      rewrite !id_left, id_right.
+      revert X2 F G.
+      replace (fst
+                 (let
+                     (x, y) as p
+                     return
+                     (((X0 ⨂ Y) ⨂ fst p ~{ C }~> X0 ⨂ Y ⨂ fst p) *
+                      ((I ⨂ I) ⨂ snd p ~{ C }~> I ⨂ I ⨂ snd p)) := P (Z, I) in
+                   (to tensor_assoc, to tensor_assoc)))
+        with (@to C ((X0 ⨂ Y) ⨂ (fst (P (Z, I))))
+                  (X0 ⨂ Y ⨂ (fst (P (Z, I))))
+                  (@tensor_assoc C H X0 Y (fst (P (Z, I))))).
+        intros.
+        rewrite <- !comp_assoc.
+        rewrite (comp_assoc _ (bimap _ _)).
+        rewrite X2; clear X2.
+        rewrite comp_assoc.
+        rewrite fst_comp.
+        rewrite bimap_fmap.
+        rewrite <- bimap_comp.
+        rewrite id_left.
+        apply compose_respects; [|reflexivity].
+        enough ((to unit_left ∘ bimap (id[I]) (to unit_left) ∘ to tensor_assoc)
+                  ≈ (to unit_left ∘ bimap (to unit_left) (id[I]))).
+          rewrite X1; reflexivity.
+        rewrite <- comp_assoc.
+        apply compose_respects; [reflexivity|].
+        rewrite <- triangle_identity.
+        apply bimap_respects; [|reflexivity].
+        symmetry.
+        apply unit_identity.
+      destruct (P (Z, I)); reflexivity.
+  }
+Abort.
