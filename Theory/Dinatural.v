@@ -30,7 +30,7 @@ Infix "⋆⋆⋆" := prod_split (at level 100) : category_scope.
 Class Dinatural := {
   ditransform {X} : F (X, X) ~> G (X, X);
 
-  dinatural_transformation {X Y} (f : X ~{C}~> Y) :
+  dinaturality {X Y} (f : X ~{C}~> Y) :
     fmap[G] (op f ⋆⋆⋆ id) ∘ ditransform ∘ fmap[F] (id ⋆⋆⋆ f)
         ≈ fmap[G] (id ⋆⋆⋆ f) ∘ ditransform ∘ fmap[F] (op f ⋆⋆⋆ id)
 }.

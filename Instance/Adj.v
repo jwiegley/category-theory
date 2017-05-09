@@ -82,32 +82,32 @@ Next Obligation.
   - exact (fmap (transform[to a] _) ∘ transform[to a0] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
-    rewrite !natural_transformation.
+    rewrite !naturality.
     rewrite <- comp_assoc.
     rewrite <- fmap_comp.
     reflexivity.
   - exact (fmap (transform[from a] _) ∘ transform[from a0] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
-    rewrite !natural_transformation.
+    rewrite !naturality.
     rewrite <- comp_assoc.
     rewrite <- fmap_comp.
     reflexivity.
-  - rewrite natural_transformation.
+  - rewrite naturality.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (to a _))).
+    rewrite (comp_assoc (fmap (transform[to a] _))).
     rewrite <- fmap_comp.
-    rewrite natural_transformation.
+    rewrite naturality.
     rewrite comp_assoc.
     destruct a; simpl in *.
     rewrite iso_to_from; cat.
     destruct a0; simpl in *.
     rewrite iso_to_from0; cat.
-  - rewrite natural_transformation.
+  - rewrite naturality.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (from a _))).
+    rewrite (comp_assoc (fmap (transform[from a] _))).
     rewrite <- fmap_comp.
-    rewrite natural_transformation.
+    rewrite naturality.
     rewrite comp_assoc.
     destruct a; simpl in *.
     rewrite iso_from_to; cat.
@@ -116,32 +116,32 @@ Next Obligation.
   - exact (fmap (transform[to b0] _) ∘ transform[to b] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
-    rewrite !natural_transformation.
+    rewrite !naturality.
     rewrite <- comp_assoc.
     rewrite <- fmap_comp.
     reflexivity.
   - exact (fmap (transform[from b0] _) ∘ transform[from b] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
-    rewrite !natural_transformation.
+    rewrite !naturality.
     rewrite <- comp_assoc.
     rewrite <- fmap_comp.
     reflexivity.
-  - rewrite natural_transformation.
+  - rewrite naturality.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (to b0 _))).
+    rewrite (comp_assoc (fmap (transform[to b0] _))).
     rewrite <- fmap_comp.
-    rewrite natural_transformation.
+    rewrite naturality.
     rewrite comp_assoc.
     destruct b0; simpl in *.
     rewrite iso_to_from; cat.
     destruct b; simpl in *.
     rewrite iso_to_from0; cat.
-  - rewrite natural_transformation.
+  - rewrite naturality.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (from b0 _))).
+    rewrite (comp_assoc (fmap (transform[from b0] _))).
     rewrite <- fmap_comp.
-    rewrite natural_transformation.
+    rewrite naturality.
     rewrite comp_assoc.
     destruct b0; simpl in *.
     rewrite iso_from_to; cat.

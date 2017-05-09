@@ -63,11 +63,11 @@ Next Obligation.
   destruct strength_nat0, strength_nat1; simpl in *.
   rewrite !comp_assoc.
   rewrite <- fmap_comp.
-  rewrite (natural_transformation0 (o1, o2) (o, o0) (h, h0)).
+  rewrite (naturality0 (o1, o2) (o, o0) (h, h0)).
   rewrite fmap_comp.
   rewrite <- !comp_assoc.
   apply compose_respects; [reflexivity|].
-  apply (natural_transformation (o1, G o2) (o, G o0) (h, fmap[G] h0)).
+  apply (naturality (o1, G o2) (o, G o0) (h, fmap[G] h0)).
 Qed.
 Next Obligation.
   destruct H0, H1; simpl in *.
@@ -94,7 +94,7 @@ Next Obligation.
   rewrite <- strength_assoc0.
   apply compose_respects; [reflexivity|].
   rewrite !comp_assoc.
-  rewrite (natural_transformation (X, Y ⨂ G Z) (X, G (Y ⨂ Z))
+  rewrite (naturality (X, Y ⨂ G Z) (X, G (Y ⨂ Z))
                                   (id[X], transform0 (Y, Z))).
   unfold bimap; simpl.
   rewrite <- !comp_assoc.

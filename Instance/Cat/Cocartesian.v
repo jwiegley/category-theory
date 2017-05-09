@@ -67,11 +67,11 @@ Next Obligation.
   - simpl; intros.
     destruct X2, Y0; simpl;
     try contradiction;
-    apply natural_transformation.
+    apply naturality.
   - simpl; intros.
     destruct X2, Y0; simpl;
     try contradiction;
-    apply natural_transformation.
+    apply naturality.
   - destruct A; simpl.
       destruct X0, to, from; simpl in *.
       apply iso_to_from.
@@ -93,10 +93,10 @@ Next Obligation.
       apply (transform (Datatypes.inl X0)).
     + simpl; intros.
       destruct to; simpl in *.
-      apply (natural_transformation (Datatypes.inl X0) (Datatypes.inl Y0)).
+      apply (naturality (Datatypes.inl X0) (Datatypes.inl Y0)).
     + simpl; intros.
       destruct from; simpl in *.
-      apply (natural_transformation (Datatypes.inl X0) (Datatypes.inl Y0)).
+      apply (naturality (Datatypes.inl X0) (Datatypes.inl Y0)).
     + apply (iso_to_from (Datatypes.inl A)).
     + apply (iso_from_to (Datatypes.inl A)).
   - constructive.
@@ -106,10 +106,10 @@ Next Obligation.
       apply (transform (Datatypes.inr X0)).
     + simpl; intros.
       destruct to; simpl in *.
-      apply (natural_transformation (Datatypes.inr X0) (Datatypes.inr Y0)).
+      apply (naturality (Datatypes.inr X0) (Datatypes.inr Y0)).
     + simpl; intros.
       destruct from; simpl in *.
-      apply (natural_transformation (Datatypes.inr X0) (Datatypes.inr Y0)).
+      apply (naturality (Datatypes.inr X0) (Datatypes.inr Y0)).
     + apply (iso_to_from (Datatypes.inr A)).
     + apply (iso_from_to (Datatypes.inr A)).
   - intros; simplify.
@@ -126,14 +126,14 @@ Next Obligation.
       destruct X0, Y0; simpl;
       try contradiction;
       destruct to, to0; simpl in *.
-        apply natural_transformation.
-      apply natural_transformation0.
+        apply naturality.
+      apply naturality0.
     + simpl; intros.
       destruct X0, Y0; simpl;
       try contradiction;
       destruct from, from0; simpl in *.
-        apply natural_transformation.
-      apply natural_transformation0.
+        apply naturality.
+      apply naturality0.
     + destruct A; simpl.
         apply iso_to_from.
       apply iso_to_from0.

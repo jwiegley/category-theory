@@ -27,7 +27,7 @@ Proof.
   - refine {| join := transform[mappend[m]]
             ; ret  := transform[mempty[m]] |}; intros.
     + symmetry.
-      apply (@natural_transformation _ _ _ _ (@mempty _ _ _ m)).
+      apply (@naturality _ _ _ _ (@mempty _ _ _ m)).
     + pose proof (@mappend_assoc _ _ _ m a) as X; simpl in X.
       autorewrite with categories in X.
       symmetry; assumption.
@@ -38,7 +38,7 @@ Proof.
       autorewrite with categories in X.
       assumption.
     + symmetry.
-      apply (@natural_transformation _ _ _ _ (@mappend _ _ _ m)).
+      apply (@naturality _ _ _ _ (@mappend _ _ _ m)).
   - unshelve (refine {| mempty  := _
                       ; mappend := _ |}).
     + natural; intros.

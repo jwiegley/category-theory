@@ -58,16 +58,18 @@ Next Obligation.
   proper.
   constructive; simpl; intros.
   all:swap 2 3.
-  - unshelve (refine {| transform := fun Y0 : B => _ (to X (X0, Y0)) |});
+  - unshelve (refine {| transform := fun Y0 : B =>
+                          _ (transform[to X] (X0, Y0)) |});
     simpl; intros.
       exact x0.
-    apply natural_transformation.
-  - unshelve (refine {| transform := fun Y0 : B => _ (from X (X0, Y0)) |});
+    apply naturality.
+  - unshelve (refine {| transform := fun Y0 : B =>
+                          _ (transform[from X] (X0, Y0)) |});
     simpl; intros.
       exact x0.
-    apply natural_transformation.
-  - simpl; apply natural_transformation.
-  - simpl; apply natural_transformation.
+    apply naturality.
+  - simpl; apply naturality.
+  - simpl; apply naturality.
   - destruct X; simpl in *.
     apply iso_to_from.
   - destruct X; simpl in *.
@@ -93,15 +95,15 @@ Qed.
 Next Obligation.
   simpl in *; cat.
   symmetry.
-  rewrite natural_transformation.
+  rewrite naturality.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc (fmap[F o1] h2)).
   rewrite <- fmap_comp.
-  rewrite natural_transformation.
+  rewrite naturality.
   rewrite comp_assoc.
   destruct F; simpl in *.
   rewrite <- !fmap_comp.
-  rewrite natural_transformation.
+  rewrite naturality.
   reflexivity.
 Qed.
 Next Obligation.
@@ -111,27 +113,25 @@ Next Obligation.
   - apply X.
   - apply X.
   - destruct X0, Y, f; simpl in *.
-    rewrite natural_transformation.
+    rewrite naturality.
     rewrite <- comp_assoc.
-    rewrite (@natural_transformation _ _ _ _ (to X o)).
+    rewrite naturality.
     rewrite comp_assoc.
-    rewrite natural_transformation.
+    rewrite naturality.
     rewrite comp_assoc.
     apply compose_respects; cat.
-    destruct (to X); simpl.
-    specialize (natural_transformation _ _ h); simpl in *.
-    apply natural_transformation.
+    destruct (to X); simpl in *.
+    apply naturality.
   - destruct X0, Y, f; simpl in *.
-    rewrite natural_transformation.
+    rewrite naturality.
     rewrite <- comp_assoc.
-    rewrite (@natural_transformation _ _ _ _ (from X o)).
+    rewrite naturality.
     rewrite comp_assoc.
-    rewrite natural_transformation.
+    rewrite naturality.
     rewrite comp_assoc.
     apply compose_respects; cat.
-    destruct (from X); simpl.
-    specialize (natural_transformation _ _ h); simpl in *.
-    apply natural_transformation.
+    destruct (from X); simpl in *.
+    apply naturality.
   - destruct A0; simpl; cat.
     destruct X; simpl in *.
     apply iso_to_from.

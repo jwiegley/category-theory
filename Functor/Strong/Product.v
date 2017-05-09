@@ -31,9 +31,9 @@ Proof.
       + exact (transform[@strength_nat _ _ _ O] (x1, x0)).
       + exact (transform[@strength_nat _ _ _ P] (y, y0)).
       + destruct O, strength_nat; simpl in *.
-        abstract apply (natural_transformation (x5, x4)).
+        abstract apply (naturality (x5, x4)).
       + destruct P, strength_nat; simpl in *.
-        abstract apply (natural_transformation (y3, y4)).
+        abstract apply (naturality (y3, y4)).
     - intros.
       destruct X, X0; simpl.
       split; abstract apply strength_id_left.
@@ -47,7 +47,7 @@ Proof.
       - natural; simplify; simpl; intros; simplify.
         + exact (fst (transform[strength_nat] ((x, I), (y, I)))).
         + simpl in *.
-          abstract exact (fst (@natural_transformation
+          abstract exact (fst (@naturality
                                  _ _ _ _ strength_nat
                                  (x1, I, (y1, I)) (x0, I, (y0, I))
                                  ((x, id), (y, id)))).
@@ -55,7 +55,7 @@ Proof.
         abstract exact (fst (strength_id_left (X, I))).
       - simpl; intros.
         pose proof (@unit_left C H I) as X0.
-        pose proof (fst (@natural_transformation _ _ _ _ strength_nat
+        pose proof (fst (@naturality _ _ _ _ strength_nat
                            (X, I, (Y ⨂ Z, I))
                            (X, I, (Y ⨂ Z, I ⨂ I))
                            ((id[X], id[I]), (id[Y ⨂ Z], from X0)))) as X1.
@@ -66,7 +66,7 @@ Proof.
         rewrite bimap_id_id in X1.
         rewrite id_right in X1.
         rewrite X1; clear X1.
-        pose proof (fst (@natural_transformation _ _ _ _ strength_nat
+        pose proof (fst (@naturality _ _ _ _ strength_nat
                            (X ⨂ Y, I, (Z, I))
                            (X ⨂ Y, I ⨂ I, (Z, I))
                            ((id[X ⨂ Y], from X0), (id[Z], id[I])))) as X1.
@@ -84,7 +84,7 @@ Proof.
       - natural; simplify; simpl; intros; simplify.
         + exact (snd (transform[strength_nat] ((I, x), (I, y)))).
         + simpl in *.
-          abstract exact (snd (@natural_transformation
+          abstract exact (snd (@naturality
                                  _ _ _ _ strength_nat
                                  (I, x1, (I, y1)) (I, x0, (I, y0))
                                  ((id, x), (id, y)))).
@@ -92,7 +92,7 @@ Proof.
         abstract exact (snd (strength_id_left (I, X))).
       - simpl; intros.
         pose proof (@unit_left C H I) as X0.
-        pose proof (snd (@natural_transformation _ _ _ _ strength_nat
+        pose proof (snd (@naturality _ _ _ _ strength_nat
                            (I, X, (I, Y ⨂ Z))
                            (I, X, (I ⨂ I, Y ⨂ Z))
                            ((id[I], id[X]), (from X0, id[Y ⨂ Z])))) as X1.
@@ -103,7 +103,7 @@ Proof.
         rewrite bimap_id_id in X1.
         rewrite id_right in X1.
         rewrite X1; clear X1.
-        pose proof (snd (@natural_transformation _ _ _ _ strength_nat
+        pose proof (snd (@naturality _ _ _ _ strength_nat
                            (I, X ⨂ Y, (I, Z))
                            (I ⨂ I, X ⨂ Y, (I, Z))
                            ((from X0, id[X ⨂ Y]), (id[I], id[Z])))) as X1.
@@ -171,7 +171,7 @@ Proof.
     + exact (fst (bimap id (to unit_left)
                     ∘ transform[@strength_nat _ _ _ X] ((x, I), (y, I)))).
     + simpl in *.
-      pose proof (fst (@natural_transformation
+      pose proof (fst (@naturality
                          _ _ _ _ (@strength_nat _ _ _ X)
                          (x1, I, (y1, I)) (x0, I, (y0, I))
                          ((x, id), (y, id)))) as X0.
@@ -210,7 +210,7 @@ Proof.
     pose proof (fst (@strength_assoc _ _ _ X (X0, I) (Y, I) (Z, I))) as X2;
     simpl in X2.
 
-    pose proof (fst (@natural_transformation _ _ _ _
+    pose proof (fst (@naturality _ _ _ _
                        (@strength_nat _ _ _ X)
                        (X0, I, (Y ⨂ Z, I ⨂ I))
                        (X0, I, (Y ⨂ Z, I))
@@ -226,7 +226,7 @@ Proof.
     rewrite <- (comp_assoc (fst _)).
     rewrite <- X3; clear X3.
 
-    pose proof (fst (@natural_transformation _ _ _ _
+    pose proof (fst (@naturality _ _ _ _
                        (@strength_nat _ _ _ X)
                        (X0 ⨂ Y, I ⨂ I, (Z, I))
                        (X0 ⨂ Y, I, (Z, I))
@@ -285,7 +285,7 @@ Proof.
     + exact (snd (bimap (to unit_left) id
                     ∘ transform[@strength_nat _ _ _ X] ((I, x), (I, y)))).
     + simpl in *.
-      pose proof (snd (@natural_transformation
+      pose proof (snd (@naturality
                          _ _ _ _ (@strength_nat _ _ _ X)
                          (I, x1, (I, y1)) (I, x0, (I, y0))
                          ((id, x), (id, y)))) as X0.
@@ -324,7 +324,7 @@ Proof.
     pose proof (snd (@strength_assoc _ _ _ X (I, X0) (I, Y) (I, Z))) as X2;
     simpl in X2.
 
-    pose proof (snd (@natural_transformation _ _ _ _
+    pose proof (snd (@naturality _ _ _ _
                        (@strength_nat _ _ _ X)
                        (I, X0, (I ⨂ I, Y ⨂ Z))
                        (I, X0, (I, Y ⨂ Z))
@@ -340,7 +340,7 @@ Proof.
     rewrite <- (comp_assoc (snd _)).
     rewrite <- X3; clear X3.
 
-    pose proof (snd (@natural_transformation _ _ _ _
+    pose proof (snd (@naturality _ _ _ _
                        (@strength_nat _ _ _ X)
                        (I ⨂ I, X0 ⨂ Y, (I, Z))
                        (I, X0 ⨂ Y, (I, Z))

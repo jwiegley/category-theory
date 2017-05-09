@@ -45,9 +45,9 @@ Global Program Definition nat_compose `{F : C ⟶ D} `{G : C ⟶ D} `{K : C ⟶ 
 |}.
 Next Obligation.
   rewrite comp_assoc.
-  rewrite natural_transformation.
+  rewrite naturality.
   rewrite <- comp_assoc.
-  rewrite natural_transformation.
+  rewrite naturality.
   rewrite comp_assoc.
   reflexivity.
 Qed.

@@ -34,19 +34,19 @@ Next Obligation.
   - apply (transform[from X0] (x0 X2) ∘ fmap (transform[from X1] X2)).
   - rewrite <- !comp_assoc.
     rewrite <- fmap_comp.
-    rewrite <- !natural_transformation.
+    rewrite <- !naturality.
     rewrite !fmap_comp.
     rewrite comp_assoc.
     reflexivity.
   - rewrite <- !comp_assoc.
     rewrite <- fmap_comp.
-    rewrite <- !natural_transformation.
+    rewrite <- !naturality.
     rewrite !fmap_comp.
     rewrite comp_assoc.
     reflexivity.
   - destruct X0 as [to0 from0 iso_to_from0 ?];
     destruct X1 as [to1 from1 iso_to_from1 ?]; simpl in *.
-    rewrite <- natural_transformation.
+    rewrite <- naturality.
     rewrite <- !comp_assoc.
     rewrite (comp_assoc (transform[to0] _)).
     rewrite iso_to_from0; cat.
@@ -54,7 +54,7 @@ Next Obligation.
     rewrite iso_to_from1; cat.
   - destruct X0 as [to0 from0 ? iso_from_to0 ?];
     destruct X1 as [to1 from1 ? iso_from_to1 ?]; simpl in *.
-    rewrite <- natural_transformation.
+    rewrite <- naturality.
     rewrite <- !comp_assoc.
     rewrite (comp_assoc (transform[from0] _)).
     rewrite iso_from_to0; cat.

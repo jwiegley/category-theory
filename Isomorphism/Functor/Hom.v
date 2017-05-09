@@ -17,7 +17,7 @@ Definition Copresheaves (C : Category) := [C, Sets].
 
 Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
   [C^op, Sets] Hom(─,A) F ≅ F A := {
-  to   := {| morphism := fun X => X A id |};
+  to   := {| morphism := fun X => transform[X] A id |};
   from := {| morphism := fun Y : F A =>
              {| transform := fun X : C =>
                 {| morphism := fun phi : A ~{ C^op }~> X =>
@@ -53,13 +53,13 @@ Next Obligation.
   autounfold.
   destruct F, x; simpl in *; intros.
   autounfold in *.
-  rewrite natural_transformation.
+  rewrite naturality.
   apply transform; cat.
 Qed.
 
 Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) {A : C} :
   [C, Sets] Hom(A,─) F ≅ F A := {
-  to   := {| morphism := fun X => X A id |};
+  to   := {| morphism := fun X => transform[X] A id |};
   from := {| morphism := fun Y : F A =>
              {| transform := fun X : C =>
                 {| morphism := fun phi : A ~{ C }~> X =>
@@ -95,6 +95,6 @@ Next Obligation.
   autounfold.
   destruct F, x; simpl in *; intros.
   autounfold in *.
-  rewrite natural_transformation.
+  rewrite naturality.
   apply transform; cat.
 Qed.

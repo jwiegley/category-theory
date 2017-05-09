@@ -33,10 +33,10 @@ Next Obligation.
   - apply (transform[to X1]).
   - apply (transform[from X0]).
   - apply (transform[from X1]).
-  - apply natural_transformation.
-  - apply natural_transformation.
-  - apply natural_transformation.
-  - apply natural_transformation.
+  - apply naturality.
+  - apply naturality.
+  - apply naturality.
+  - apply naturality.
   - destruct X0; simpl.
     destruct to, from; simpl in *;
     apply iso_to_from.
@@ -56,23 +56,23 @@ Next Obligation.
     all:swap 2 3.
     + apply to.
     + apply from.
-    + destruct to; apply natural_transformation.
-    + destruct from; apply natural_transformation.
+    + destruct to; apply naturality.
+    + destruct from; apply naturality.
     + apply iso_to_from.
     + apply iso_from_to.
   - constructive; destruct X0; simpl in *.
     all:swap 2 3.
     + apply to.
     + apply from.
-    + destruct to; apply natural_transformation.
-    + destruct from; apply natural_transformation.
+    + destruct to; apply naturality.
+    + destruct from; apply naturality.
     + apply iso_to_from.
     + apply iso_from_to.
   - intros; simplify.
     destruct x, y; simpl in *.
     constructive; simplify; simpl; firstorder.
-    + destruct to; apply natural_transformation.
-    + destruct to0; apply natural_transformation.
-    + destruct from; apply natural_transformation.
-    + destruct from0; apply natural_transformation.
+    + destruct to; apply naturality.
+    + destruct to0; apply naturality.
+    + destruct from; apply naturality.
+    + destruct from0; apply naturality.
 Qed.

@@ -128,15 +128,15 @@ Program Definition Composition_Monoidal `{C : Category} :
 |}.
 Next Obligation.
   simpl in *.
-  rewrite <- natural_transformation.
+  rewrite <- naturality.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-  rewrite <- natural_transformation.
+  rewrite <- naturality.
   rewrite <- !comp_assoc.
-  rewrite <- natural_transformation.
+  rewrite <- naturality.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-  rewrite <- natural_transformation.
+  rewrite <- naturality.
   reflexivity.
 Qed.
 Next Obligation.
@@ -153,7 +153,7 @@ Next Obligation.
   rewrite <- !comp_assoc.
   apply compose_respects.
     reflexivity.
-  rewrite <- !natural_transformation.
+  rewrite <- !naturality.
   rewrite fmap_comp.
   rewrite comp_assoc.
   reflexivity.

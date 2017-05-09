@@ -66,11 +66,11 @@ Next Obligation.
   rewrite comp_assoc.
   unfold bimap; simpl.
   repeat (unfold strength; simpl).
-  pose proof (@natural_transformation _ _ _ _ (@strength_nat C _ G H0)
-                                      (x, I) (x, _) (id[x], lax_pure)).
+  pose proof (@naturality _ _ _ _ (@strength_nat C _ G H0)
+                          (x, I) (x, _) (id[x], lax_pure)).
   simpl in X0.
   rewrite <- !comp_assoc.
-  rewrite (comp_assoc ((@strength_nat C H G H0) (x, H2 (@I C H)))).
+  rewrite (comp_assoc (transform (@strength_nat C H G H0) (x, H2 (@I C H)))).
   rewrite <- X0.
   rewrite !comp_assoc.
   rewrite <- fmap_comp.
