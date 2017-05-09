@@ -48,3 +48,13 @@ Program Definition Product_swap
   fobj := fun x => (snd x, fst x);
   fmap := fun _ _ f => (snd f, fst f);
 |}.
+
+Corollary fst_comp `{C : Category} `{D : Category} X Y Z
+          (f : Y ~{C ∏ D}~> Z) (g : X ~{C ∏ D}~> Y) :
+  fst f ∘ fst g ≈ fst (f ∘ g).
+Proof. reflexivity. Qed.
+
+Corollary snd_comp `{C : Category} `{D : Category} X Y Z
+          (f : Y ~{C ∏ D}~> Z) (g : X ~{C ∏ D}~> Y) :
+  snd f ∘ snd g ≈ snd (f ∘ g).
+Proof. reflexivity. Qed.
