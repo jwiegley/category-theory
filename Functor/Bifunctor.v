@@ -29,7 +29,7 @@ Definition bimap `{F : C ∏ D ⟶ E} {X W : C} {Y Z : D}
 Corollary bimap_fmap `{F : C ∏ D ⟶ E} {X W : C} {Y Z : D}
       (f : X ~{C}~> W) (g : Y ~{D}~> Z) :
   @fmap (C ∏ D) E F (X, Y) (W, Z) (f, g) = bimap f g.
-Proof. reflexivity. Qed.
+Proof. reflexivity. Defined.
 
 Global Program Instance bimap_respects `{F : C ∏ D ⟶ E} {X W : C} {Y Z : D} :
   Proper (equiv ==> equiv ==> equiv) (@bimap F X W Y Z).
