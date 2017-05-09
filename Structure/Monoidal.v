@@ -3,6 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
+Require Export Category.Functor.Bifunctor.
 Require Export Category.Construction.Product.
 Require Export Category.Instance.Nat.
 
@@ -23,16 +24,85 @@ Class Monoidal := {
 
   I : C;
 
-  unit_left  {X} : I ⨂ X ≅ X;
-  unit_right {X} : X ⨂ I ≅ X;
+  tensor_assoc {X Y Z} : (X ⨂ Y) ⨂ Z ≅ X ⨂ (Y ⨂ Z); (* alpha *)
 
-  tensor_assoc {X Y Z} : (X ⨂ Y) ⨂ Z ≅ X ⨂ (Y ⨂ Z)
+  unit_left  {X} : I ⨂ X ≅ X;   (* lambda *)
+  unit_right {X} : X ⨂ I ≅ X;   (* rho *)
+
+  (* jww (2017-05-09): This should be provable *)
+  unit_identity : to (@unit_left I) ≈ to (@unit_right I);
+
+  triangle_identity {X Y} :
+    bimap (to unit_right) id
+      ≈ bimap id (to unit_left) ∘ to (@tensor_assoc X I Y);
+
+  pentagon_identity {X Y Z W} :
+    bimap (id[W]) (to (@tensor_assoc X Y Z))
+      ∘ to (@tensor_assoc W (X ⨂ Y) Z)
+      ∘ bimap (to (@tensor_assoc W X Y)) (id[Z])
+      ≈ to (@tensor_assoc W X (Y ⨂ Z)) ∘ to (@tensor_assoc (W ⨂ X) Y Z)
 }.
 
 Notation "X ⨂ Y" := (tensor (X, Y)) (at level 30, right associativity).
 
+Theorem left_quadrangle_commutes `{Monoidal} {X Y Z} :
+  bimap (to unit_right) id ∘ to (@tensor_assoc _ (X ⨂ I) Y Z)
+    ≈ to (@tensor_assoc _ X Y Z) ∘ bimap (bimap (to unit_right) id) id.
+Proof.
+  pose proof (@pentagon_identity _ I Y Z X).
+Abort.
+
+Theorem right_quadrangle_commutes `{Monoidal} {X Y Z} :
+  bimap id (bimap (to unit_left) id) ∘ to (@tensor_assoc _ X (I ⨂ Y) Z)
+    ≈ to (@tensor_assoc _ X Y Z) ∘ bimap (bimap id (to unit_left)) id.
+Proof.
+Abort.
+
+Theorem triangle_upper `{Monoidal} {X Y Z : C} :
+  @bimap C C C tensor _ _ _ _ (bimap (to unit_right) id) (id[Z])
+    ≈ bimap (bimap id (to unit_left)) (id[Z])
+        ∘ bimap (to (@tensor_assoc _ X I Y)) (id[Z]).
+Proof.
+  rewrite (@triangle_identity _ X Y).
+  rewrite <- bimap_comp.
+  rewrite id_left.
+  reflexivity.
+Qed.
+
+Definition triangle_lower_left `{Monoidal} {X Y Z} :
+  bimap (to unit_right) id
+    ≈ bimap id (to unit_left) ∘ to (@tensor_assoc _ X I (Y ⨂ Z)) :=
+  triangle_identity.
+
+Theorem triangle_lower_right `{Monoidal} {X Y Z} :
+  @bimap C C C tensor _ _ _ _ id (bimap (to unit_left) id)
+    ≈ bimap id (to unit_left) ∘ bimap (id[X]) (to (@tensor_assoc _ I Y Z)).
+Proof.
+  rewrite <- bimap_comp.
+  rewrite id_left.
+  apply bimap_respects; [reflexivity|].
+Abort.
+
+Theorem triangle_right `{Monoidal} {X Y} :
+  to unit_right
+    ≈ bimap id (to unit_right) ∘ to (@tensor_assoc _ X Y I).
+Proof.
+  pose proof (@triangle_identity _).
+Abort.
+
+Theorem triangle_left `{Monoidal} {X Y} :
+  bimap (to unit_left) id
+    ≈ to unit_left ∘ to (@tensor_assoc _ I X Y).
+Proof.
+Abort.
+
 Class SymmetricMonoidal `{Monoidal} := {
-  swap {X Y} : X ⨂ Y ≅ Y ⨂ X
+  sym_swap {X Y} : X ⨂ Y ≅ Y ⨂ X;
+
+  sym_swap_swap_to   {X Y} :
+    to (@sym_swap Y X) ∘ to (@sym_swap X Y) ≈ id;
+  sym_swap_swap_from {X Y} :
+    from (@sym_swap X Y) ∘ from (@sym_swap Y X) ≈ id
 }.
 
 End Monoidal.
@@ -91,6 +161,9 @@ Qed.
 Next Obligation. constructive; cat. Defined.
 Next Obligation. constructive; cat. Defined.
 Next Obligation. constructive; cat. Defined.
+Next Obligation. cat. Defined.
+Next Obligation. cat. Defined.
+Next Obligation. cat. Defined.
 
 (* Every cartesian category with terminal objects gives rise to a monoidal
    category taking the terminal object as unit, and the tensor as product. *)
@@ -105,6 +178,19 @@ Program Definition InternalProduct_Monoidal
   tensor := InternalProductFunctor C;
   I := One
 |}.
+Next Obligation. apply one_unique. Qed.
+Next Obligation.
+  cat.
+  rewrite <- fork_comp; cat.
+  rewrite <- comp_assoc; cat.
+Qed.
+Next Obligation.
+  cat.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+Qed.
 
 Require Import Category.Functor.Bifunctor.
 
@@ -147,6 +233,17 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
+  isomorphism; simpl; simplify; simpl.
+  - apply (to tensor_assoc).
+  - apply (to tensor_assoc).
+  - apply (from tensor_assoc).
+  - apply (from tensor_assoc).
+  - apply iso_to_from.
+  - apply iso_to_from.
+  - apply iso_from_to.
+  - apply iso_from_to.
+Defined.
+Next Obligation.
   isomorphism; simpl; simplify.
   - apply (to unit_left).
   - apply (to unit_left).
@@ -169,13 +266,13 @@ Next Obligation.
   - apply iso_from_to.
 Defined.
 Next Obligation.
-  isomorphism; simpl; simplify; simpl.
-  - apply (to tensor_assoc).
-  - apply (to tensor_assoc).
-  - apply (from tensor_assoc).
-  - apply (from tensor_assoc).
-  - apply iso_to_from.
-  - apply iso_to_from.
-  - apply iso_from_to.
-  - apply iso_from_to.
-Defined.
+  split; apply unit_identity.
+Qed.
+Next Obligation.
+  destruct X, Y; simpl; split;
+  apply triangle_identity.
+Qed.
+Next Obligation.
+  destruct X, Y, Z, W; simpl; split;
+  apply pentagon_identity.
+Qed.
