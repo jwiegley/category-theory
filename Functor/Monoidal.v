@@ -25,8 +25,8 @@ Context `{F : C ⟶ D}.
 Program Definition project_monoidal_iso
         (iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) (X Y : C) :
   F X ⨂ F Y ≅[D] F (X ⨂ Y) := {|
-  to   := to   iso (X, Y);
-  from := from iso (X, Y)
+  to   := transform[to iso] (X, Y);
+  from := transform[from iso] (X, Y)
 |}.
 Next Obligation.
   rewrite (iso_to_from iso (X, Y)); simpl.
@@ -50,7 +50,19 @@ Class MonoidalFunctor := {
   pure_iso_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
   pure_iso_right {X} : F X ⨂ I ≅ F (X ⨂ I);
 
-  ap_iso_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z))
+  ap_iso_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z));
+
+  monoidal_unit_left {X} :
+    to unit_left
+       ≈ fmap[F] (to unit_left) ∘ to ap_iso ∘ bimap (to pure_iso) (id[F X]);
+
+  monoidal_unit_right {X} :
+    to unit_right
+       ≈ fmap[F] (to unit_right) ∘ to ap_iso ∘ bimap (id[F X]) (to pure_iso);
+
+  monoidal_assoc {X Y Z} :
+    fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ to ap_iso ∘ bimap (to ap_iso) id
+      ≈ to ap_iso ∘ bimap id (to ap_iso) ∘ to tensor_assoc
 }.
 
 (* A lax monoidal functor's natural transformation can be projected to a
@@ -68,7 +80,19 @@ Class LaxMonoidalFunctor := {
   pure_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
   pure_right {X} : F X ⨂ I ≅ F (X ⨂ I);
 
-  ap_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z))
+  ap_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z));
+
+  lax_monoidal_unit_left {X} :
+    to unit_left
+       ≈ fmap[F] (to unit_left) ∘ ap ∘ bimap lax_pure (id[F X]);
+
+  lax_monoidal_unit_right {X} :
+    to unit_right
+       ≈ fmap[F] (to unit_right) ∘ ap ∘ bimap (id[F X]) lax_pure;
+
+  lax_monoidal_assoc {X Y Z} :
+    fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ ap ∘ bimap ap id
+      ≈ ap ∘ bimap id ap ∘ to tensor_assoc
 }.
 
 Program Definition MonoidalFunctor_Is_Lax (S : MonoidalFunctor) :
@@ -79,10 +103,21 @@ Program Definition MonoidalFunctor_Is_Lax (S : MonoidalFunctor) :
 Next Obligation. apply pure_iso_left. Qed.
 Next Obligation. apply pure_iso_right. Qed.
 Next Obligation. apply ap_iso_assoc. Qed.
+Next Obligation. apply monoidal_unit_left. Qed.
+Next Obligation. apply monoidal_unit_right. Qed.
+Next Obligation. apply monoidal_assoc. Qed.
 
 End MonoidalFunctor.
 
-Notation "ap[ F ]" := (@ap _ _ _ _ F _ _ _) (at level 9, format "ap[ F ]").
+Notation "ap_iso[ F ]" := (@ap_iso _ _ _ _ F _ _ _)
+  (at level 9, format "ap_iso[ F ]").
+Notation "ap_functor_iso[ F ]" := (@ap_functor_iso _ _ _ _ _ F)
+  (at level 9, format "ap_functor_iso[ F ]") : morphism_scope.
+
+Notation "ap[ F ]" := (@ap _ _ _ _ F _ _ _)
+  (at level 9, format "ap[ F ]").
+Notation "ap_functor_nat[ F ]" := (@ap_functor_nat _ _ _ _ _ F)
+  (at level 9, format "ap_functor_nat[ F ]") : morphism_scope.
 
 Arguments LaxMonoidalFunctor {C D _ _} F.
 Arguments MonoidalFunctor {C D _ _} F.
@@ -103,6 +138,7 @@ Definition pure {A} : A ~> F A :=
 
 Lemma fmap_pure {a b} (f : a ~> b) : pure ∘ f ≈ fmap f ∘ pure.
 Proof.
+  unfold pure.
 Admitted.
 
 End Pure.
@@ -150,6 +186,9 @@ Next Obligation. simpl; intros; simplify; cat. Qed.
 Next Obligation. cat. Qed.
 Next Obligation. cat. Qed.
 Next Obligation. apply tensor_assoc. Qed.
+Next Obligation. rewrite bimap_id_id; cat. Qed.
+Next Obligation. rewrite bimap_id_id; cat. Qed.
+Next Obligation. rewrite !bimap_id_id; cat. Qed.
 
 (* Any two monoidal functors compose to create a monoidal functor. This is
    composition in the groupoid of categories with monoidal structure. *)
@@ -171,13 +210,13 @@ Next Obligation.
   simpl.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-  rewrite (@natural_transformation
+  rewrite (@naturality
              _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ N))
              (o1, o2) (o, o0) (h, h0)).
   simpl.
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
-  pose proof (@natural_transformation
+  pose proof (@naturality
                 _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ M))
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   simpl in X; rewrite <- X.
@@ -186,14 +225,14 @@ Qed.
 Next Obligation.
   simpl.
   rewrite comp_assoc.
-  pose proof (@natural_transformation
+  pose proof (@naturality
                 _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ M))
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   simpl in X; rewrite X.
   simpl.
   rewrite <- !comp_assoc.
   rewrite <- !fmap_comp.
-  rewrite <- (@natural_transformation
+  rewrite <- (@naturality
                 _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ N))
                 (o1, o2) (o, o0) (h, h0)).
   reflexivity.
@@ -202,7 +241,8 @@ Next Obligation.
   simpl.
   rewrite fmap_id.
   rewrite <- !comp_assoc.
-  rewrite (comp_assoc ((@to _ _ _ (@ap_functor_iso _ _ _ _ _ M)) (G o, G o0))).
+  rewrite (comp_assoc (transform[@to _ _ _ (@ap_functor_iso _ _ _ _ _ M)]
+                                (G o, G o0))).
   pose proof (@iso_to_from _ _ _ (@ap_functor_iso _ _ _ _ _ M) (G o, G o0)).
   simpl in X; rewrite X.
   rewrite fmap_id.
@@ -222,7 +262,9 @@ Qed.
 Next Obligation.
   simpl.
   rewrite <- !comp_assoc.
-  rewrite (comp_assoc (fmap ((@from _ _ _ (@ap_functor_iso _ _ _ _ _ N)) (o, o0)))).
+  rewrite (comp_assoc
+             (fmap (transform[@from _ _ _ (@ap_functor_iso _ _ _ _ _ N)]
+                             (o, o0)))).
   rewrite <- fmap_comp.
   rewrite (@iso_from_to _ _ _ (@ap_functor_iso _ _ _ _ _ N) (o, o0)).
   simpl.
@@ -281,6 +323,92 @@ Next Obligation.
     apply tensor_assoc.
   apply ap_iso_assoc.
 Qed.
+Next Obligation.
+  rewrite monoidal_unit_left.
+  rewrite monoidal_unit_left.
+  unfold project_monoidal_iso; simpl.
+  rewrite !comp_assoc.
+  rewrite fmap_comp.
+  symmetry.
+  rewrite <- fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  pose proof (naturality[to ap_functor_iso] (I, G X) (G I, G X)
+                        (to pure_iso, id[G X])).
+  simpl in X0.
+  rewrite !bimap_fmap in X0.
+  rewrite comp_assoc.
+  rewrite X0; clear X0.
+  rewrite <- comp_assoc.
+  rewrite <- bimap_comp.
+  rewrite id_right.
+  unfold fmap_iso; simpl.
+  rewrite fmap_id.
+  reflexivity.
+Qed.
+Next Obligation.
+  rewrite monoidal_unit_right.
+  rewrite monoidal_unit_right.
+  unfold project_monoidal_iso; simpl.
+  rewrite !comp_assoc.
+  rewrite fmap_comp.
+  symmetry.
+  rewrite <- fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  pose proof (naturality[to ap_functor_iso] (G X, I) (G X, G I)
+                        (id[G X], to pure_iso)).
+  simpl in X0.
+  rewrite !bimap_fmap in X0.
+  rewrite comp_assoc.
+  rewrite X0; clear X0.
+  rewrite <- comp_assoc.
+  rewrite <- bimap_comp.
+  rewrite id_right.
+  unfold fmap_iso; simpl.
+  rewrite fmap_id.
+  reflexivity.
+Qed.
+Next Obligation.
+  pose proof (naturality[to (ap_functor_iso[M])]
+                        (G X ⨂ G Y, G Z) (G (X ⨂ Y), G Z)
+                        (transform (to ap_functor_iso) (X, Y), id[G Z])) as XM;
+  simpl in XM.
+  rewrite !bimap_fmap in XM.
+  rewrite fmap_id in XM.
+  rewrite bimap_comp_id_right.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ (bimap _ _)).
+  rewrite <- XM; clear XM.
+
+  rewrite !comp_assoc.
+  rewrite <- !fmap_comp.
+  pose proof (@monoidal_assoc _ _ _ _ G _ X Y Z) as XG; simpl in XG.
+  rewrite XG; clear XG.
+
+  rewrite !fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite !comp_assoc.
+
+  pose proof (@monoidal_assoc _ _ _ _ F _ (G X) (G Y) (G Z)) as XF; simpl in XF.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ _ (bimap _ _)).
+  rewrite XF; clear XF.
+  rewrite bimap_comp_id_left.
+  rewrite !comp_assoc.
+  apply compose_respects; [|reflexivity].
+  apply compose_respects; [|reflexivity].
+
+  pose proof
+       (naturality[to (ap_functor_iso[M])]
+                  (G X, G Y ⨂ G Z) (G X, G (Y ⨂ Z))
+                  (id[G X], transform (to ap_functor_iso[N]) (Y, Z))) as XM;
+  simpl in XM.
+  rewrite !bimap_fmap in XM.
+  rewrite fmap_id in XM.
+  apply XM.
+Qed.
 
 Global Program Instance Id_LaxMonoidalFunctor :
   @LaxMonoidalFunctor C C _ _ Id[C] := {
@@ -294,6 +422,9 @@ Next Obligation.
 Defined.
 Next Obligation. simpl; intros; simplify; cat. Qed.
 Next Obligation. apply tensor_assoc. Qed.
+Next Obligation. rewrite bimap_id_id; cat. Qed.
+Next Obligation. rewrite bimap_id_id; cat. Qed.
+Next Obligation. rewrite !bimap_id_id; cat. Qed.
 
 (* Likewise, any two lax monoidal functors compose to create a lax monoidal
    functor. This is composition in the category of categories with monoidal
@@ -311,13 +442,13 @@ Next Obligation.
   simpl.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-  rewrite (@natural_transformation
+  rewrite (@naturality
              _ _ _ _ (@ap_functor_nat _ _ _ _ _ N)
              (o1, o2) (o, o0) (h, h0)).
   simpl.
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
-  pose proof (@natural_transformation
+  pose proof (@naturality
                 _ _ _ _ (@ap_functor_nat _ _ _ _ _ M)
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   simpl in X; rewrite <- X.
@@ -351,6 +482,91 @@ Next Obligation.
     symmetry.
     apply tensor_assoc.
   apply ap_assoc.
+Qed.
+Next Obligation.
+  rewrite lax_monoidal_unit_left.
+  rewrite lax_monoidal_unit_left.
+  rewrite !comp_assoc.
+  rewrite fmap_comp.
+  symmetry.
+  rewrite <- fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  pose proof (naturality[ap_functor_nat] (I, G X) (G I, G X)
+                        (lax_pure, id[G X])).
+  simpl in X0.
+  rewrite !bimap_fmap in X0.
+  rewrite comp_assoc.
+  rewrite X0; clear X0.
+  rewrite <- comp_assoc.
+  rewrite <- bimap_comp.
+  rewrite id_right.
+  unfold fmap_iso; simpl.
+  rewrite fmap_id.
+  reflexivity.
+Qed.
+Next Obligation.
+  rewrite lax_monoidal_unit_right.
+  rewrite lax_monoidal_unit_right.
+  rewrite !comp_assoc.
+  rewrite fmap_comp.
+  symmetry.
+  rewrite <- fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  pose proof (naturality[ap_functor_nat] (G X, I) (G X, G I)
+                        (id[G X], lax_pure)).
+  simpl in X0.
+  rewrite !bimap_fmap in X0.
+  rewrite comp_assoc.
+  rewrite X0; clear X0.
+  rewrite <- comp_assoc.
+  rewrite <- bimap_comp.
+  rewrite id_right.
+  unfold fmap_iso; simpl.
+  rewrite fmap_id.
+  reflexivity.
+Qed.
+Next Obligation.
+  pose proof (naturality[ap_functor_nat[M]]
+                        (G X ⨂ G Y, G Z) (G (X ⨂ Y), G Z)
+                        (transform[ap_functor_nat] (X, Y), id[G Z])) as XM;
+  simpl in XM.
+  rewrite !bimap_fmap in XM.
+  rewrite fmap_id in XM.
+  rewrite bimap_comp_id_right.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ (bimap _ _)).
+  rewrite <- XM; clear XM.
+
+  rewrite !comp_assoc.
+  rewrite <- !fmap_comp.
+  pose proof (@lax_monoidal_assoc _ _ _ _ G _ X Y Z) as XG; simpl in XG.
+  rewrite XG; clear XG.
+
+  rewrite !fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite !comp_assoc.
+
+  pose proof (@lax_monoidal_assoc _ _ _ _ F _ (G X) (G Y) (G Z)) as XF;
+  simpl in XF.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ _ (bimap _ _)).
+  rewrite XF; clear XF.
+  rewrite bimap_comp_id_left.
+  rewrite !comp_assoc.
+  apply compose_respects; [|reflexivity].
+  apply compose_respects; [|reflexivity].
+
+  pose proof
+       (naturality[ap_functor_nat[M]]
+                  (G X, G Y ⨂ G Z) (G X, G (Y ⨂ Z))
+                  (id[G X], transform[ap_functor_nat[N]] (Y, Z))) as XM;
+  simpl in XM.
+  rewrite !bimap_fmap in XM.
+  rewrite fmap_id in XM.
+  apply XM.
 Qed.
 
 End MonoidalFunctors.

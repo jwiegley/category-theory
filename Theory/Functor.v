@@ -105,7 +105,7 @@ Next Obligation.
     rewrite iso_to_from; cat.
   rewrite <- fmap_comp.
   rewrite iso_from_to; cat.
-Qed.
+Defined.
 
 Instance fobj_respects `{C : Category} `{D : Category} `(F : C ⟶ D) :
   Proper (equiv ==> equiv) (@fobj C D F) := @fmap_iso _ _ _.
