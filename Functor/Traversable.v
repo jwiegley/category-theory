@@ -77,84 +77,56 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Local Obligation Tactic := idtac; simpl; intros.
+Theorem Product_Traversable `{C : Category} `{@Cartesian C} `{@Monoidal C}
+        `{F : C ⟶ C} `{G : C ⟶ C} :
+  Traversable F * Traversable G <--> Traversable (F ∏⟶ G).
+Proof.
+  split.
+    intros [O P].
+    { unshelve econstructor; intros.
+      { unshelve econstructor.
+          intros [x y]; simpl; split.
+          pose proof (@sequence _ _ _ O).
+Abort.
 
 (*
-Program Instance Product_Traversable
-        `{C : Category} `{@Cartesian C} `{@Monoidal C}
-        `{F : C ⟶ C} `{@Traversable _ _ F}
-        `{@StrongFunctor C _ F} `{@LaxMonoidalFunctor C C _ _ F}
-        `{G : C ⟶ C} `{@Traversable _ _ G}
-        `{@StrongFunctor C _ G} `{@LaxMonoidalFunctor C C _ _ G} :
-  Traversable (F ∏⟶ G) := {
-  sequence := fun H _ _ => {| transform := fun X =>
-    (* ((F × G) ○ H) X ~{ C ∏ C }~> (H ○ (F × G)) X *) _ |}
-}.
-Next Obligation.
-  assert (((F ∏⟶ G) ○ H) X ~{ C ∏ C }~> (H ○ (F ∏⟶ G)) X).
-    given (f : ((C ∏ C) ⟶ C ∏ C) -> (C ×[Cat] C ~> C ×[Cat] C)).
-      intros.
-      exact X0.
-    assert (f (F ∏⟶ G) ∘ f H ≈ @split Cat _ _ _ _ _ F G ∘ f H). {
-      constructive; simpl; intros; simplify; intros.
-      - exact id.
-      - exact id.
-      - simpl; cat.
-      - simpl; cat.
-      - exact id.
-      - exact id.
-      - simpl; cat.
-      - simpl; cat.
-      - simpl; cat.
-      - simpl; cat.
-      - simpl; cat.
-      - simpl; cat.
-    }
-    unfold f in X0; clear f.
-  simplify; simpl.
-  destruct H; simpl in *.
-  pose proof (transform[@sequence C _ _ H1 _ _ _] x).
-  pose proof (fst (fmap (F x, y) (F x, G y) (id, pure))); simpl in X0.
-  exact (X0 ∘ X).
-Admitted.
-Next Obligation.
-  simplify; simpl.
-  assert (StrongFunctor (@ProductFunctor_proj2 _ _ _ _ _ H x)) as X1 by admit.
-  assert (LaxMonoidalFunctor (@ProductFunctor_proj2 _ _ _ _ _ H x)) as X2 by admit.
-  pose proof (transform[@sequence C _ _ H4 (ProductFunctor_proj2 H) X1 X2] y).
-  destruct H; simpl in *.
-  pose proof (snd (fmap (x, G y) (F x, G y) (pure, id))); simpl in X0.
-  exact (X0 ∘ X).
-Admitted.
-Next Obligation.
-  (* assert (StrongFunctor (@ProductFunctor_proj2 _ _ _ _ _ H x)) as X4 by admit. *)
-  (* assert (LaxMonoidalFunctor (@ProductFunctor_proj2 _ _ _ _ _ H x)) as X5 by admit. *)
-  (* pose proof (@sequence C _ _ H2 (ProductFunctor_proj2 H) X4 X5). *)
-  (* pose proof (transform[X] y) as X6; simpl in *; clear X. *)
-  simpl; intros.
-  unfold pure; simpl.
-  rewrite !comp_assoc.
-  rewrite <- !fmap_comp.
-  rewrite <- !comp_assoc.
-  rewrite iso_from_to.
-  rewrite id_right.
-  rewrite fmap_comp.
-  rewrite <- comp_assoc.
-  apply compose_respects; [reflexivity|].
-  rewrite !comp_assoc.
-  apply compose_respects; [|reflexivity].
-  rewrite bimap_comp_id_left.
-  rewrite comp_assoc.
-  unfold bimap; simpl.
-  repeat (unfold strength; simpl).
-  pose proof (@natural_transformation _ _ _ _ (@strength_nat C _ G H0)
-                                      (x, I) (x, _) (id[x], lax_pure)).
-  simpl in X0.
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc ((@strength_nat C H G H0) (x, H2 (@I C H)))).
-  rewrite <- X0.
-  rewrite !comp_assoc.
-  rewrite <- fmap_comp.
-  reflexivity.
-Qed.
+Proof.
+  split; intros.
+  { unshelve econstructor; intros; simpl; simplify.
+    - natural; intros; simpl; simplify.
+      + { unshelve (refine (let H :=
+            {| fobj := fun x => fst (G0 (x, snd X))
+             ; fmap := fun x y f =>
+                 fst (@fmap _ _ G0 (x, snd X) (y, snd X) (f, id)) |} in _)).
+          - intros; proper.
+            rewrite X1; abstract reflexivity.
+          - intros.
+            rewrite bimap_fmap.
+            rewrite bimap_id_id.
+            abstract reflexivity.
+          - intros.
+            rewrite fst_comp.
+            rewrite !bimap_fmap.
+            rewrite <- bimap_comp.
+            rewrite id_left.
+            abstract reflexivity.
+          - destruct X; simpl.
+            pose proof (@sequence _ _ _ x).
+            pose proof (fst (@strength _ _ _ H1 (I, I) (F o, G o0))).
+            simpl in X.
+            pose proof (fst (@bimap _ _ _ G0 _ _ _ _ id (to unit_left))
+                            ∘ fst (@strength _ _ _ H1 (o, o0) (F o, G o0))).
+         }
+        simpl in H.
+        given (H3 : StrongFunctor H). {
+          unshelve econstructor; simpl.
+          - natural; simpl; intros; simplify; simpl in *.
+            + exact (fst (@bimap _ _ _ G0 _ _ _ _ id (to unit_left))
+                         ∘ fst (@strength _ _ _ H1 (x0, I) (y0, snd X))).
+            + simpl.
+              pose proof (fst (@strength_id_left _ _ G0 _ X)) as X0;
+              simpl in X0.
+              destruct X; simpl in X0; simpl.
+        }
+        pose proof (transform[@sequence C H0 F x H _ _]).
 *)
