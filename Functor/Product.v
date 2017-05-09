@@ -15,16 +15,16 @@ Program Instance ProductFunctor
         `{J : Category} `{K : Category} `{G : J ⟶ K} :
   (C ∏ J) ⟶ (D ∏ K) := {
   fobj := fun x => (F (fst x), G (snd x));
-  fmap := fun _ _ f => (fmap[F] (fst f), fmap[G] (snd f))
+  fmap := fun _ _ f => (fmap[F] (fst f), fmap[G] (snd f));
+  fmap_respects := fun x y f g eqv =>
+    (fmap_respects (fst x) (fst y) (fst f) (fst g) (fst eqv),
+     fmap_respects (snd x) (snd y) (snd f) (snd g) (snd eqv));
+  fmap_id := fun x =>
+    (@fmap_id C D F (fst x), @fmap_id J K G (snd x));
+  fmap_comp := fun x y z f g =>
+    (@fmap_comp C D F (fst x) (fst y) (fst z) (fst f) (fst g),
+     @fmap_comp J K G (snd x) (snd y) (snd z) (snd f) (snd g))
 }.
-Next Obligation.
-  proper.
-    rewrite a; reflexivity.
-  rewrite b; reflexivity.
-Qed.
-Next Obligation.
-  simplify; simpl in *; apply fmap_comp.
-Qed.
 
 Notation "F ∏⟶ G" := (@ProductFunctor _ _ F _ _ G) (at level 9).
 
@@ -36,8 +36,8 @@ Program Definition ProductFunctor_swap
   fmap := fun _ _ f => _
 |}.
 Next Obligation.
-  simpl in *; split;
-  apply F; split; assumption.
+  simpl in *.
+  split; apply F; split; assumption.
 Defined.
 Next Obligation.
   proper; simpl; simplify; simpl in *.
@@ -52,7 +52,6 @@ Qed.
 Next Obligation.
   simpl in *.
   rewrite !let_fst, !let_snd; simplify;
-  rewrite bimap_fmap;
-  rewrite bimap_comp;
-  reflexivity.
+  rewrite ?fst_comp, ?snd_comp;
+  rewrite <- fmap_comp; reflexivity.
 Qed.
