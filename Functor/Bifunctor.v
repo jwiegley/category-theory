@@ -58,6 +58,8 @@ Proof.
   apply fmap_id.
 Qed.
 
+Hint Rewrite @bimap_id_id : categories.
+
 Lemma bimap_comp_id_left `{F : C ∏ D ⟶ E} {W}
       `(f : Y ~{D}~> Z) `(g : X ~{D}~> Y) :
   bimap (id[W]) (f ∘ g) ≈ bimap id f ∘ bimap id g.
