@@ -81,3 +81,6 @@ Proof.
 Qed.
 
 End Bifunctor.
+
+Notation "bimap[ F ]" := (@bimap _ _ _ F%functor _ _ _ _)
+  (at level 9, format "bimap[ F ]") : morphism_scope.
