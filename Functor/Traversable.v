@@ -64,6 +64,7 @@ Program Instance Id_Traversable `{C : Category} `{@Monoidal C} (x : C) :
   sequence := fun _ _ _ => {| transform := fun _ => id |}
 }.
 
+(*
 Require Import Category.Functor.Constant.
 
 Program Instance Constant_Traversable `{C : Category} `{@Monoidal C} (x : C) :
@@ -101,3 +102,4 @@ Next Obligation.
   rewrite <- fmap_comp.
   reflexivity.
 Qed.
+*)
