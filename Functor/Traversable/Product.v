@@ -78,7 +78,8 @@ Next Obligation.
 Qed.
 Next Obligation.
   repeat (unfold ap; simpl).
-  rewrite (@sequence_Compose _ _ _ O), (@sequence_Compose _ _ _ P).
+  rewrite (@sequence_Compose _ _ _ O G0 H0 H1 H2 H3 H4 X),
+          (@sequence_Compose _ _ _ P G0 H0 H1 H2 H3 H4 X).
   rewrite bimap_comp.
   pose proof (naturality[@ap_functor_nat _ _ _ _ G0 H1]
                         (F (H2 X), G (H2 X))
