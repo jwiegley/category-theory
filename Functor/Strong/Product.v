@@ -16,10 +16,67 @@ Section ProductStrong.
 
 Context `{C : Category}.
 Context `{@Monoidal C}.
+Context `{@SymmetricMonoidal C _}.
+Context `{@CartesianMonoidal C _}.
 Context `{F : C ⟶ C}.
 Context `{G : C ⟶ C}.
 
 Local Obligation Tactic := program_simpl.
+
+Lemma Product_Strong_strength_nat :
+  StrongFunctor F -> StrongFunctor G
+    -> (⨂) ○ (Id[C]) ∏⟶ (F :*: G) ~{ [C ∏ C, C] }~> F :*: G ○ (⨂).
+Proof.
+  simpl; intros O P.
+  natural.
+  - intros [x y]; simpl.
+    enough (x ⨂ F y ⨂ G y ~> (x ⨂ F y) ⨂ (x ⨂ G y)).
+      exact (bimap (transform[@strength_nat _ _ _ O] (x, y))
+                   (transform[@strength_nat _ _ _ P] (x, y)) ∘ X).
+    exact
+      ((from tensor_assoc
+          : x ⨂ (F y ⨂ (x ⨂ G y)) ~> (x ⨂ F y) ⨂ (x ⨂ G y)) ∘
+       (bimap id (to tensor_assoc)
+          : x ⨂ ((F y ⨂ x) ⨂ G y) ~> x ⨂ (F y ⨂ (x ⨂ G y))) ∘
+       (bimap id (bimap (to sym_swap) id)
+          : x ⨂ ((x ⨂ F y) ⨂ G y) ~> x ⨂ ((F y ⨂ x) ⨂ G y)) ∘
+       (bimap (id[x]) (from tensor_assoc)
+          : x ⨂ (x ⨂ (F y ⨂ G y)) ~> x ⨂ ((x ⨂ F y) ⨂ G y)) ∘
+       (to tensor_assoc
+          : (x ⨂ x) ⨂ (F y ⨂ G y) ~> x ⨂ (x ⨂ (F y ⨂ G y))) ∘
+       (bimap diagonal (id[F y ⨂ G y])
+          : x ⨂ (F y ⨂ G y) ~> (x ⨂ x) ⨂ (F y ⨂ G y))).
+  - destruct X, Y, f; simpl in *.
+    rewrite comp_assoc.
+    rewrite <- bimap_comp.
+    rewrite !bimap_fmap.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (bimap _ _)).
+    rewrite (comp_assoc (bimap _ _)).
+    rewrite <- !bimap_comp.
+    rewrite (comp_assoc (bimap _ _)).
+    rewrite <- !bimap_comp.
+    symmetry.
+    rewrite (comp_assoc (bimap _ _)).
+    rewrite (comp_assoc (bimap _ _)).
+    rewrite <- !bimap_comp.
+    rewrite (comp_assoc (bimap _ _)).
+    rewrite <- !bimap_comp.
+    symmetry.
+    rewrite !comp_assoc.
+    rewrite !id_left.
+Admitted.
+
+Program Definition Product_Strong :
+  StrongFunctor F -> StrongFunctor G -> StrongFunctor (F :*: G) := fun O P => {|
+  strength_nat := Product_Strong_strength_nat O P;
+  strength_id_left := _;
+  strength_assoc := _
+|}.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
 
 Lemma ProductFunctor_Strong_strength_nat :
   StrongFunctor F → StrongFunctor G
