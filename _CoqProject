@@ -74,6 +74,7 @@ Functor/Monoidal/Id.v
 Functor/Monoidal/Compose.v
 Functor/Monoidal/Product.v
 Functor/Traversable.v
+Functor/Traversable/Product.v
 Isomorphism/Functor/Hom.v
 Isomorphism/Natural/Comma.v
 Isomorphism/Adjunction/Comma.v
