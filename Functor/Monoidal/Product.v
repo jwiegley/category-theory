@@ -16,17 +16,19 @@ Context `{C : Category}.
 Context `{@Monoidal C}.
 Context `{D : Category}.
 Context `{@Monoidal D}.
-Context `{G : C ⟶ D}.
+Context `{J : Category}.
+Context `{@Monoidal J}.
+Context `{K : Category}.
+Context `{@Monoidal K}.
 
-Context `{E : Category}.
-Context `{@Monoidal E}.
-Context `{F : D ⟶ E}.
+Context `{F : C ⟶ J}.
+Context `{G : D ⟶ K}.
 
 Local Obligation Tactic := program_simpl.
 
 Lemma ProductFunctor_Monoidal_ap_functor_iso :
   MonoidalFunctor F → MonoidalFunctor G
-    → (⨂) ○ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ≅[[(D ∏ C) ∏ (D ∏ C), E ∏ D]] F ∏⟶ G ○ (⨂).
+    → (⨂) ○ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ≅[[(C ∏ D) ∏ (C ∏ D), J ∏ K]] F ∏⟶ G ○ (⨂).
 Proof.
   intros O P.
   isomorphism.
@@ -72,9 +74,9 @@ Proof.
   simpl in X; abstract apply X.
 Time Defined.
 
-Time Program Definition ProductFunctor_Monoidal_prod :
-        MonoidalFunctor F -> MonoidalFunctor G
-          -> MonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
+Time Program Definition ProductFunctor_Monoidal :
+  MonoidalFunctor F -> MonoidalFunctor G
+    -> MonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
   pure_iso := _;
   ap_functor_iso := ProductFunctor_Monoidal_ap_functor_iso _ _;
   pure_iso_left  := _;
@@ -102,7 +104,7 @@ Next Obligation. intros; split; apply monoidal_assoc. Qed.
 
 Lemma ProductFunctor_Monoidal_proj1_ap_functor_iso :
   MonoidalFunctor F ∏⟶ G
-    → (⨂) ○ F ∏⟶ F ≅[[(D ∏ D), E]] F ○ (⨂).
+    → (⨂) ○ F ∏⟶ F ≅[[(C ∏ C), J]] F ○ (⨂).
 Proof.
   intros P.
 
@@ -211,7 +213,7 @@ Qed.
 
 Lemma ProductFunctor_Monoidal_proj2_ap_functor_iso :
   MonoidalFunctor F ∏⟶ G
-    → (⨂) ○ G ∏⟶ G ≅[[(C ∏ C), D]] G ○ (⨂).
+    → (⨂) ○ G ∏⟶ G ≅[[(D ∏ D), K]] G ○ (⨂).
 Proof.
   intros P.
 
@@ -339,9 +341,9 @@ Proof.
   abstract apply (naturality ap_functor_nat (x2, y2)).
 Defined.
 
-Program Definition ProductFunctor_LaxMonoidal_prod :
-        LaxMonoidalFunctor F -> LaxMonoidalFunctor G
-          -> LaxMonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
+Program Definition ProductFunctor_LaxMonoidal :
+  LaxMonoidalFunctor F -> LaxMonoidalFunctor G
+    -> LaxMonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
   lax_pure := _;
   ap_functor_nat := ProductFunctor_LaxMonoidal_ap_functor_nat _ _;
   pure_left  := _;
@@ -542,3 +544,449 @@ Next Obligation.
 Qed.
 
 End ProductMonoidal.
+
+Section ProductMonoidalProj.
+
+Context `{C : Category}.
+Context `{@Monoidal C}.
+Context `{D : Category}.
+Context `{@Monoidal D}.
+Context `{J : Category}.
+Context `{@Monoidal J}.
+Context `{K : Category}.
+Context `{@Monoidal K}.
+
+Variable (P : (C ∏ J) ⟶ D ∏ K).
+
+Lemma ProductFunctor_fst_LaxMonoidal_ap_functor_nat :
+  LaxMonoidalFunctor P
+    → (⨂) ○ (ProductFunctor_fst P) ∏⟶ (ProductFunctor_fst P)
+          ⟹ ProductFunctor_fst P ○ (⨂).
+Proof.
+  intro L.
+  natural; simplify; simpl;
+  intros; simplify; simpl.
+    exact (fst (bimap id (to unit_left) ∘ transform[@ap_functor_nat _ _ _ _ _ L]
+                      ((x, I), (y, I)))).
+  simpl in *.
+  pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                              (x1, I, (y1, I)) (x0, I, (y0, I))
+                              ((x, id), (y, id)))) as X0.
+  simpl in X0.
+  rewrite comp_assoc.
+  rewrite !bimap_fmap.
+  rewrite fst_comp.
+  rewrite <- bimap_comp.
+  rewrite id_left, id_right.
+  rewrite <- comp_assoc.
+  rewrite <- X0.
+  rewrite comp_assoc.
+  rewrite fst_comp.
+  rewrite bimap_fmap.
+  rewrite <- bimap_comp.
+  rewrite bimap_id_id.
+  rewrite id_left, id_right.
+  reflexivity.
+Defined.
+
+Local Obligation Tactic := program_simpl.
+
+Program Definition ProductFunctor_fst_LaxMonoidal :
+  LaxMonoidalFunctor P
+    -> LaxMonoidalFunctor (ProductFunctor_fst P) := fun L => {|
+  lax_pure := _;
+  ap_functor_nat := ProductFunctor_fst_LaxMonoidal_ap_functor_nat L;
+  pure_left  := _;
+  pure_right := _;
+  ap_assoc := _;
+  lax_monoidal_unit_left := _;
+  lax_monoidal_unit_right := _;
+  lax_monoidal_assoc := _
+|}.
+Next Obligation.
+  exact (fst (@lax_pure _ _ _ _ _ L)).
+Defined.
+Next Obligation.
+  destruct (@pure_left _ _ _ _ _ L (X, I));
+  simplify; simpl in *;
+  simplify; simpl in *.
+  transitivity (fst (P (I ⨂ X, I ⨂ I))).
+    isomorphism; auto.
+  isomorphism.
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (to unit_left))).
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (from unit_left))).
+  - rewrite fst_comp.
+    rewrite <- bimap_comp.
+    rewrite iso_to_from.
+    rewrite id_left.
+    rewrite bimap_id_id.
+    reflexivity.
+  - rewrite fst_comp.
+    rewrite <- bimap_comp.
+    rewrite iso_from_to.
+    rewrite id_left.
+    rewrite bimap_id_id.
+    reflexivity.
+Defined.
+Next Obligation.
+  destruct (@pure_right _ _ _ _ _ L (X, I));
+  simplify; simpl in *;
+  simplify; simpl in *.
+  transitivity (fst (P (X ⨂ I, I ⨂ I))).
+    isomorphism; auto.
+  isomorphism.
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (to unit_left))).
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (from unit_left))).
+  - rewrite fst_comp.
+    rewrite <- bimap_comp.
+    rewrite iso_to_from.
+    rewrite id_left.
+    rewrite bimap_id_id.
+    reflexivity.
+  - rewrite fst_comp.
+    rewrite <- bimap_comp.
+    rewrite iso_from_to.
+    rewrite id_left.
+    rewrite bimap_id_id.
+    reflexivity.
+Defined.
+Next Obligation.
+  destruct (@ap_assoc _ _ _ _ _ L (X, I) (Y, I) (Z, I));
+  simplify; simpl in *;
+  simplify; simpl in *.
+  transitivity (fst (P (X ⨂ Y ⨂ Z, I ⨂ I ⨂ I))).
+    isomorphism; auto.
+  isomorphism.
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (to unit_left ∘ to unit_left))).
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (from unit_left ∘ from unit_left))).
+  - rewrite fst_comp.
+    rewrite <- bimap_comp.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (from _)).
+    rewrite iso_to_from.
+    rewrite !id_left.
+    rewrite iso_to_from.
+    rewrite bimap_id_id.
+    reflexivity.
+  - rewrite fst_comp.
+    rewrite <- bimap_comp.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (to _)).
+    rewrite iso_from_to.
+    rewrite !id_left.
+    rewrite iso_from_to.
+    rewrite bimap_id_id.
+    reflexivity.
+Defined.
+Next Obligation.
+  unfold ProductFunctor_fst_LaxMonoidal_obligation_1.
+  rewrite comp_assoc.
+  rewrite fst_comp.
+  rewrite bimap_fmap.
+  rewrite <- bimap_comp.
+  rewrite id_left, id_right.
+  pose proof (fst (@lax_monoidal_unit_left _ _ _ _ _ L (X, I))).
+  simpl in X0.
+  rewrite <- X0; clear X0.
+  destruct (P (X, I)).
+  reflexivity.
+Qed.
+Next Obligation.
+  unfold ProductFunctor_fst_LaxMonoidal_obligation_1.
+  rewrite comp_assoc.
+  rewrite fst_comp.
+  rewrite bimap_fmap.
+  rewrite <- bimap_comp.
+  rewrite id_left, id_right.
+  pose proof (fst (@lax_monoidal_unit_right _ _ _ _ _ L (X, I))).
+  simpl in X0.
+  rewrite unit_identity.
+  rewrite bimap_fmap in X0.
+  rewrite <- X0; clear X0.
+  destruct (P (X, I)).
+  reflexivity.
+Qed.
+Next Obligation.
+  pose proof (fst (@lax_monoidal_assoc _ _ _ _ _ L (X, I) (Y, I) (Z, I)));
+  simpl in X0; revert X0.
+  replace
+    (fst
+       (let (x,  y)  as p return _ := P (Z, I) in
+        let (x0, y0) as p return _ := P (Y, I) in
+        let (x1, y1) as p return _ := P (X, I) in
+        (to tensor_assoc, to tensor_assoc)))
+    with (@to D _ _ (@tensor_assoc
+                       D (Monoidal.Product_Monoidal_obligation_1 D H0 K H2)
+                       (fst (P (X, I))) (fst (P (Y, I))) (fst (P (Z, I))))).
+    intros.
+    pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                                (X, I, (Y ⨂ Z, I ⨂ I))
+                                (X, I, (Y ⨂ Z, I))
+                                ((id, id), (id, to unit_left)))) as X1.
+    simpl in X1.
+    rewrite !bimap_fmap in X1.
+    rewrite !bimap_id_id in X1.
+    assert (id[fst (P (X, I))] ≈ id[fst (P (X, I))] ∘ id[fst (P (X, I))]).
+      rewrite id_left; reflexivity.
+    rewrite X2; clear X2.
+    rewrite bimap_comp.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (bimap _ _)).
+    rewrite <- X1; clear X1.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (bimap _ _)).
+    rewrite <- X0; clear X0.
+    rewrite !comp_assoc.
+    rewrite !fst_comp.
+    assert (id[fst (P (Z, I))] ≈ id[fst (P (Z, I))] ∘ id[fst (P (Z, I))]).
+      rewrite id_left; reflexivity.
+    rewrite X0; clear X0.
+    rewrite bimap_comp.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (bimap _ _)).
+    rewrite !comp_assoc.
+    apply compose_respects.
+      rewrite !bimap_fmap.
+      rewrite <- !bimap_comp.
+      rewrite !id_left, !id_right.
+      rewrite <- !comp_assoc.
+      rewrite <- triangle_identity.
+      pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                                  (X ⨂ Y, I ⨂ I, (Z, I))
+                                  (X ⨂ Y, I, (Z, I))
+                                  ((id, to unit_left), (id, id)))) as X1.
+      simpl in X1.
+      rewrite !bimap_fmap in X1.
+      rewrite !bimap_id_id in X1.
+      rewrite <- X1; clear X1.
+      rewrite comp_assoc.
+      rewrite fst_comp.
+      rewrite <- bimap_comp.
+      rewrite id_right.
+      rewrite unit_identity.
+      reflexivity.
+    rewrite id_left; reflexivity.
+  destruct (P (X, I)), (P (Y, I)), (P (Z, I)).
+  reflexivity.
+Qed.
+
+Lemma ProductFunctor_snd_LaxMonoidal_ap_functor_nat :
+  LaxMonoidalFunctor P
+    → (⨂) ○ (ProductFunctor_snd P) ∏⟶ (ProductFunctor_snd P)
+          ⟹ ProductFunctor_snd P ○ (⨂).
+Proof.
+  intro L.
+  natural; simplify; simpl;
+  intros; simplify; simpl.
+    exact (snd (bimap (to unit_left) id ∘ transform[@ap_functor_nat _ _ _ _ _ L]
+                      ((I, x), (I, y)))).
+  simpl in *.
+  pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                              (I, x1, (I, y1)) (I, x0, (I, y0))
+                              ((id, x), (id, y)))) as X0.
+  simpl in X0.
+  rewrite comp_assoc.
+  rewrite !bimap_fmap.
+  rewrite snd_comp.
+  rewrite <- bimap_comp.
+  rewrite id_left, id_right.
+  rewrite <- comp_assoc.
+  rewrite <- X0.
+  rewrite comp_assoc.
+  rewrite snd_comp.
+  rewrite bimap_fmap.
+  rewrite <- bimap_comp.
+  rewrite bimap_id_id.
+  rewrite id_left, id_right.
+  reflexivity.
+Defined.
+
+Program Definition ProductFunctor_snd_LaxMonoidal :
+  LaxMonoidalFunctor P
+    -> LaxMonoidalFunctor (ProductFunctor_snd P) := fun L => {|
+  lax_pure := _;
+  ap_functor_nat := ProductFunctor_snd_LaxMonoidal_ap_functor_nat L;
+  pure_left  := _;
+  pure_right := _;
+  ap_assoc := _;
+  lax_monoidal_unit_left := _;
+  lax_monoidal_unit_right := _;
+  lax_monoidal_assoc := _
+|}.
+Next Obligation.
+  exact (snd (@lax_pure _ _ _ _ _ L)).
+Defined.
+Next Obligation.
+  destruct (@pure_left _ _ _ _ _ L (I, X));
+  simplify; simpl in *;
+  simplify; simpl in *.
+  transitivity (snd (P (I ⨂ I, I ⨂ X))).
+    isomorphism; auto.
+  isomorphism.
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (to unit_left) id)).
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (from unit_left) id)).
+  - rewrite snd_comp.
+    rewrite <- bimap_comp.
+    rewrite iso_to_from.
+    rewrite id_left.
+    rewrite bimap_id_id.
+    reflexivity.
+  - rewrite snd_comp.
+    rewrite <- bimap_comp.
+    rewrite iso_from_to.
+    rewrite id_left.
+    rewrite bimap_id_id.
+    reflexivity.
+Defined.
+Next Obligation.
+  destruct (@pure_right _ _ _ _ _ L (I, X));
+  simplify; simpl in *;
+  simplify; simpl in *.
+  transitivity (snd (P (I ⨂ I, X ⨂ I))).
+    isomorphism; auto.
+  isomorphism.
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (to unit_left) id)).
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (from unit_left) id)).
+  - rewrite snd_comp.
+    rewrite <- bimap_comp.
+    rewrite iso_to_from.
+    rewrite id_left.
+    rewrite bimap_id_id.
+    reflexivity.
+  - rewrite snd_comp.
+    rewrite <- bimap_comp.
+    rewrite iso_from_to.
+    rewrite id_left.
+    rewrite bimap_id_id.
+    reflexivity.
+Defined.
+Next Obligation.
+  destruct (@ap_assoc _ _ _ _ _ L (I, X) (I, Y) (I, Z));
+  simplify; simpl in *;
+  simplify; simpl in *.
+  transitivity (snd (P (I ⨂ I ⨂ I, X ⨂ Y ⨂ Z))).
+    isomorphism; auto.
+  isomorphism.
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (to unit_left ∘ to unit_left) id)).
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (from unit_left ∘ from unit_left) id)).
+  - rewrite snd_comp.
+    rewrite <- bimap_comp.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (from _)).
+    rewrite iso_to_from.
+    rewrite !id_left.
+    rewrite iso_to_from.
+    rewrite bimap_id_id.
+    reflexivity.
+  - rewrite snd_comp.
+    rewrite <- bimap_comp.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (to _)).
+    rewrite iso_from_to.
+    rewrite !id_left.
+    rewrite iso_from_to.
+    rewrite bimap_id_id.
+    reflexivity.
+Defined.
+Next Obligation.
+  unfold ProductFunctor_snd_LaxMonoidal_obligation_1.
+  rewrite comp_assoc.
+  rewrite snd_comp.
+  rewrite bimap_fmap.
+  rewrite <- bimap_comp.
+  rewrite id_left, id_right.
+  pose proof (snd (@lax_monoidal_unit_left _ _ _ _ _ L (I, X))).
+  simpl in X0.
+  rewrite <- X0; clear X0.
+  destruct (P (I, X)).
+  reflexivity.
+Qed.
+Next Obligation.
+  unfold ProductFunctor_snd_LaxMonoidal_obligation_1.
+  rewrite comp_assoc.
+  rewrite snd_comp.
+  rewrite bimap_fmap.
+  rewrite <- bimap_comp.
+  rewrite id_left, id_right.
+  pose proof (snd (@lax_monoidal_unit_right _ _ _ _ _ L (I, X))).
+  simpl in X0.
+  rewrite unit_identity.
+  rewrite bimap_fmap in X0.
+  rewrite <- X0; clear X0.
+  destruct (P (I, X)).
+  reflexivity.
+Qed.
+Next Obligation.
+  pose proof (snd (@lax_monoidal_assoc _ _ _ _ _ L (I, X) (I, Y) (I, Z)));
+  simpl in X0; revert X0.
+  replace
+    (snd
+       (let (x,  y)  as p return _ := P (I, Z) in
+        let (x0, y0) as p return _ := P (I, Y) in
+        let (x1, y1) as p return _ := P (I, X) in
+        (to tensor_assoc, to tensor_assoc)))
+    with (@to K _ _ (@tensor_assoc
+                       K (Monoidal.Product_Monoidal_obligation_2 D H0 K H2)
+                       (snd (P (I, X))) (snd (P (I, Y))) (snd (P (I, Z))))).
+    intros.
+    pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                                (I, X, (I ⨂ I, Y ⨂ Z))
+                                (I, X, (I, Y ⨂ Z))
+                                ((id, id), (to unit_left, id)))) as X1.
+    simpl in X1.
+    rewrite !bimap_fmap in X1.
+    rewrite !bimap_id_id in X1.
+    assert (id[snd (P (I, X))] ≈ id[snd (P (I, X))] ∘ id[snd (P (I, X))]).
+      rewrite id_left; reflexivity.
+    rewrite X2; clear X2.
+    rewrite bimap_comp.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (bimap _ _)).
+    rewrite <- X1; clear X1.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (bimap _ _)).
+    rewrite <- X0; clear X0.
+    rewrite !comp_assoc.
+    rewrite !snd_comp.
+    assert (id[snd (P (I, Z))] ≈ id[snd (P (I, Z))] ∘ id[snd (P (I, Z))]).
+      rewrite id_left; reflexivity.
+    rewrite X0; clear X0.
+    rewrite bimap_comp.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc _ (bimap _ _)).
+    rewrite !comp_assoc.
+    apply compose_respects.
+      rewrite !bimap_fmap.
+      rewrite <- !bimap_comp.
+      rewrite !id_left, !id_right.
+      rewrite <- !comp_assoc.
+      rewrite <- triangle_identity.
+      pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                                  (I ⨂ I, X ⨂ Y, (I, Z))
+                                  (I, X ⨂ Y, (I, Z))
+                                  ((to unit_left, id), (id, id)))) as X1.
+      simpl in X1.
+      rewrite !bimap_fmap in X1.
+      rewrite !bimap_id_id in X1.
+      rewrite <- X1; clear X1.
+      rewrite comp_assoc.
+      rewrite snd_comp.
+      rewrite <- bimap_comp.
+      rewrite id_right.
+      rewrite unit_identity.
+      reflexivity.
+    rewrite id_left; reflexivity.
+  destruct (P (I, X)), (P (I, Y)), (P (I, Z)).
+  reflexivity.
+Qed.
+
+Corollary ProductFunctor_proj_LaxMonoidal :
+  LaxMonoidalFunctor P
+    -> LaxMonoidalFunctor ((ProductFunctor_fst P) ∏⟶ (ProductFunctor_snd P)).
+Proof.
+  intros L.
+  exact (ProductFunctor_LaxMonoidal (ProductFunctor_fst_LaxMonoidal L)
+                                    (ProductFunctor_snd_LaxMonoidal L)).
+Qed.
+
+End ProductMonoidalProj.
