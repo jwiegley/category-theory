@@ -4,11 +4,43 @@ Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Construction.Product.
+Require Export Category.Structure.Monoidal.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
+
+(* Product is the Haskell notion, from Data.Functor.Product, which is a
+   product of functors over some object. *)
+
+Program Instance Product
+        `{C : Category} `{D : Category} `{@Monoidal D}
+        `{F : C ⟶ D} `{G : C ⟶ D} : C ⟶ D := {
+  fobj := fun x => F x ⨂ G x;
+  fmap := fun _ _ f => bimap (fmap[F] f) (fmap[G] f)
+}.
+Next Obligation.
+  proper.
+  rewrite X0; reflexivity.
+Qed.
+Next Obligation.
+  unfold split.
+  rewrite !fmap_id.
+  rewrite bimap_id_id.
+  reflexivity.
+Qed.
+Next Obligation.
+  unfold split.
+  rewrite <- bimap_comp.
+  rewrite <- !fmap_comp.
+  reflexivity.
+Qed.
+
+Notation "F :*: G" := (@Product _ _ _ F%functor G%functor)
+  (at level 9) : functor_scope.
+
+(* ProductFunctor is a mapping between product categories. *)
 
 Program Instance ProductFunctor
         `{C : Category} `{D : Category} `{F : C ⟶ D}
@@ -56,7 +88,8 @@ Next Obligation.
   rewrite <- fmap_comp; reflexivity.
 Qed.
 
-Require Import Category.Structure.Monoidal.
+(* If we have a monoidal structural for one of the categories, we can project
+   out one or the other side of the [ProductFunctor]. *)
 
 Program Definition ProductFunctor_fst
         `{C : Category} `{D : Category}

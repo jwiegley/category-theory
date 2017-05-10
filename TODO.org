@@ -1,6 +1,10 @@
 TODO  -*- mode: org; fill-column: 78 -*-
 
 * Inbox
+** TODO Break Functors into subdirectories:
+Functor.Construction.Product
+Functor.Structure.Cartesian, etc., to show exactly what they are functors of
+Functor.Product is then just the simple notion
 ** TODO A Boolean object is any for which there is a morphism Bool ~> 1 + 1, with a UMP characteristizing the minimal requirements of such an object
 SCHEDULED: <2017-05-07 Sun>
 :PROPERTIES:

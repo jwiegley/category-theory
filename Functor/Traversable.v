@@ -13,7 +13,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-(* jww (2017-05-09): Preserves all aspects of the strong lax monoidal
+(* jww (2017-05-09): TODO: Preserve all aspects of the strong lax monoidal
    functor. *)
 Class StrongLaxMonoidalTransformation
       `{C : Category} `{@Monoidal C}
@@ -64,7 +64,6 @@ Program Instance Id_Traversable `{C : Category} `{@Monoidal C} (x : C) :
   sequence := fun _ _ _ => {| transform := fun _ => id |}
 }.
 
-(*
 Require Import Category.Functor.Constant.
 
 Program Instance Constant_Traversable `{C : Category} `{@Monoidal C} (x : C) :
@@ -102,4 +101,3 @@ Next Obligation.
   rewrite <- fmap_comp.
   reflexivity.
 Qed.
-*)

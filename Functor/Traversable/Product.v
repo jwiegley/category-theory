@@ -14,29 +14,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Program Instance LimitedProductFunctor
-        `{C : Category} `{D : Category} `{@Monoidal D}
-        `{F : C ⟶ D} `{G : C ⟶ D} : C ⟶ D := {
-  fobj := fun x => F x ⨂ G x;
-  fmap := fun _ _ f => bimap (fmap[F] f) (fmap[G] f)
-}.
-Next Obligation.
-  proper.
-  rewrite X0; reflexivity.
-Qed.
-Next Obligation.
-  unfold split.
-  rewrite !fmap_id.
-  rewrite bimap_id_id.
-  reflexivity.
-Qed.
-Next Obligation.
-  unfold split.
-  rewrite <- bimap_comp.
-  rewrite <- !fmap_comp.
-  reflexivity.
-Qed.
-
 Section ProductTraversable.
 
 Context `{C : Category}.
@@ -44,14 +21,10 @@ Context `{@Monoidal C}.
 Context `{F : C ⟶ C}.
 Context `{G : C ⟶ C}.
 
-Local Obligation Tactic := program_simpl.
-
 Lemma ProductFunctor_Traversable_ap_functor_nat :
   Traversable F → Traversable G
-    → ∀ H : C ⟶ C,
-      StrongFunctor H → LaxMonoidalFunctor H
-        → @LimitedProductFunctor _ _ _ F G ○ H
-            ⟹ H ○ @LimitedProductFunctor _ _ _ F G.
+    → ∀ H : C ⟶ C, StrongFunctor H → LaxMonoidalFunctor H
+    → (F :*: G) ○ H ⟹ H ○ (F :*: G).
 Proof.
   intros O P ???.
 
@@ -77,7 +50,7 @@ Defined.
 
 Program Definition ProductFunctor_Traversable :
   Traversable F -> Traversable G
-    -> Traversable (@LimitedProductFunctor _ _ _ F G) := fun O P => {|
+    -> Traversable (F :*: G) := fun O P => {|
   sequence := ProductFunctor_Traversable_ap_functor_nat _ _;
   sequence_naturality  := _;
   sequence_Id  := _;
