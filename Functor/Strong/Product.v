@@ -17,149 +17,138 @@ Section ProductStrong.
 Context `{C : Category}.
 Context `{@Monoidal C}.
 Context `{F : C ⟶ C}.
+Context `{G : C ⟶ C}.
 
 Local Obligation Tactic := program_simpl.
 
-Theorem ProductFunctor_Strong (G : C ⟶ C) :
-  StrongFunctor F * StrongFunctor G <--> StrongFunctor (F ∏⟶ G).
+Lemma ProductFunctor_Strong_strength_nat :
+  StrongFunctor F → StrongFunctor G
+    → (⨂) ○ (Id[C ∏ C]) ∏⟶ (F ∏⟶ G) ⟹ F ∏⟶ G ○ (⨂).
 Proof.
-  split; intros.
-  { unshelve econstructor.
-    destruct X as [O P].
-    - natural; simplify; intros;
-      simplify; simpl in *; simplify; simpl in *.
-      + exact (transform[@strength_nat _ _ _ O] (x1, x0)).
-      + exact (transform[@strength_nat _ _ _ P] (y, y0)).
-      + destruct O, strength_nat; simpl in *.
-        abstract apply (naturality (x5, x4)).
-      + destruct P, strength_nat; simpl in *.
-        abstract apply (naturality (y3, y4)).
-    - intros.
-      destruct X, X0; simpl.
-      split; abstract apply strength_id_left.
-    - intros.
-      destruct X, X0, Y, Z; simpl.
-      split; abstract apply strength_assoc.
-  }
-  { split.
-    { destruct X.
-      unshelve econstructor.
-      - natural; simplify; simpl; intros; simplify.
-        + exact (fst (transform[strength_nat] ((x, I), (y, I)))).
-        + simpl in *.
-          abstract exact (fst (@naturality
-                                 _ _ _ _ strength_nat
-                                 (x1, I, (y1, I)) (x0, I, (y0, I))
-                                 ((x, id), (y, id)))).
-      - simpl; intros.
-        abstract exact (fst (strength_id_left (X, I))).
-      - simpl; intros.
-        pose proof (@unit_left C H I) as X0.
-        pose proof (fst (@naturality _ _ _ _ strength_nat
-                           (X, I, (Y ⨂ Z, I))
-                           (X, I, (Y ⨂ Z, I ⨂ I))
-                           ((id[X], id[I]), (id[Y ⨂ Z], from X0)))) as X1.
-        simpl in X1.
-        rewrite bimap_id_id in X1.
-        rewrite !fmap_id in X1.
-        rewrite id_left in X1.
-        rewrite bimap_id_id in X1.
-        rewrite id_right in X1.
-        rewrite X1; clear X1.
-        pose proof (fst (@naturality _ _ _ _ strength_nat
-                           (X ⨂ Y, I, (Z, I))
-                           (X ⨂ Y, I ⨂ I, (Z, I))
-                           ((id[X ⨂ Y], from X0), (id[Z], id[I])))) as X1.
-        simpl in X1.
-        rewrite bimap_id_id in X1.
-        rewrite !fmap_id in X1.
-        rewrite id_left in X1.
-        rewrite bimap_id_id in X1.
-        rewrite id_right in X1.
-        rewrite X1; clear X1.
-        abstract exact (fst (strength_assoc (X, I) (Y, I) (Z, I))).
-    }
-    { destruct X.
-      unshelve econstructor.
-      - natural; simplify; simpl; intros; simplify.
-        + exact (snd (transform[strength_nat] ((I, x), (I, y)))).
-        + simpl in *.
-          abstract exact (snd (@naturality
-                                 _ _ _ _ strength_nat
-                                 (I, x1, (I, y1)) (I, x0, (I, y0))
-                                 ((id, x), (id, y)))).
-      - simpl; intros.
-        abstract exact (snd (strength_id_left (I, X))).
-      - simpl; intros.
-        pose proof (@unit_left C H I) as X0.
-        pose proof (snd (@naturality _ _ _ _ strength_nat
-                           (I, X, (I, Y ⨂ Z))
-                           (I, X, (I ⨂ I, Y ⨂ Z))
-                           ((id[I], id[X]), (from X0, id[Y ⨂ Z])))) as X1.
-        simpl in X1.
-        rewrite bimap_id_id in X1.
-        rewrite !fmap_id in X1.
-        rewrite id_left in X1.
-        rewrite bimap_id_id in X1.
-        rewrite id_right in X1.
-        rewrite X1; clear X1.
-        pose proof (snd (@naturality _ _ _ _ strength_nat
-                           (I, X ⨂ Y, (I, Z))
-                           (I ⨂ I, X ⨂ Y, (I, Z))
-                           ((from X0, id[X ⨂ Y]), (id[I], id[Z])))) as X1.
-        simpl in X1.
-        rewrite bimap_id_id in X1.
-        rewrite !fmap_id in X1.
-        rewrite id_left in X1.
-        rewrite bimap_id_id in X1.
-        rewrite id_right in X1.
-        rewrite X1; clear X1.
-        abstract exact (snd (strength_assoc (I, X) (I, Y) (I, Z))).
-    }
-  }
+  intros O P.
+  natural; simplify; intros;
+  simplify; simpl in *; simplify; simpl in *.
+  - exact (transform[@strength_nat _ _ _ O] (x1, x0)).
+  - exact (transform[@strength_nat _ _ _ P] (y, y0)).
+  - destruct O, strength_nat; simpl in *.
+    abstract apply (naturality (x5, x4)).
+  - destruct P, strength_nat; simpl in *.
+    abstract apply (naturality (y3, y4)).
+Defined.
+
+Program Definition ProductFunctor_Strong :
+  StrongFunctor F -> StrongFunctor G
+    -> StrongFunctor (F ∏⟶ G) := fun O P => {|
+  strength_nat := ProductFunctor_Strong_strength_nat O P;
+  strength_id_left := _;
+  strength_assoc := _
+|}.
+Next Obligation. split; apply strength_id_left. Qed.
+Next Obligation. split; apply strength_assoc. Qed.
+
+Lemma ProductFunctor_Strong_proj1_strength_nat :
+  StrongFunctor F ∏⟶ G → (⨂) ○ (Id[C]) ∏⟶ F ⟹ F ○ (⨂).
+Proof.
+  intro P.
+  destruct P.
+  natural.
+    intros [x y].
+    exact (fst (transform[strength_nat] ((x, I), (y, I)))).
+  destruct X as [x y].
+  destruct Y as [z w].
+  destruct f as [f g].
+  exact (fst (naturality strength_nat (x, I, (y, I)) (z, I, (w, I))
+                         ((f, id), (g, id)))).
+Defined.
+
+Program Definition ProductFunctor_Strong_proj1 :
+  StrongFunctor (F ∏⟶ G) -> StrongFunctor F := fun P => {|
+  strength_nat := ProductFunctor_Strong_proj1_strength_nat P;
+  strength_id_left := _;
+  strength_assoc := _
+|}.
+Next Obligation.
+  exact (fst (@strength_id_left _ _ _ P (X, I))).
+Qed.
+Next Obligation.
+  pose proof (@unit_left C H I) as X0.
+  pose proof (fst (naturality (@strength_nat _ _ _ P)
+                     (X, I, (Y ⨂ Z, I))
+                     (X, I, (Y ⨂ Z, I ⨂ I))
+                     ((id[X], id[I]), (id[Y ⨂ Z], from X0)))) as X1.
+  simpl in X1.
+  rewrite bimap_id_id in X1.
+  rewrite !fmap_id in X1.
+  rewrite id_left in X1.
+  rewrite bimap_id_id in X1.
+  rewrite id_right in X1.
+  rewrite X1; clear X1.
+  pose proof (fst (naturality (@strength_nat _ _ _ P)
+                     (X ⨂ Y, I, (Z, I))
+                     (X ⨂ Y, I ⨂ I, (Z, I))
+                     ((id[X ⨂ Y], from X0), (id[Z], id[I])))) as X1.
+  simpl in X1.
+  rewrite bimap_id_id in X1.
+  rewrite !fmap_id in X1.
+  rewrite id_left in X1.
+  rewrite bimap_id_id in X1.
+  rewrite id_right in X1.
+  rewrite X1; clear X1.
+  exact (fst (@strength_assoc _ _ _ P (X, I) (Y, I) (Z, I))).
+Qed.
+
+Lemma ProductFunctor_Strong_proj2_strength_nat :
+  StrongFunctor F ∏⟶ G → (⨂) ○ (Id[C]) ∏⟶ G ⟹ G ○ (⨂).
+Proof.
+  intro P.
+  destruct P.
+  natural.
+    intros [x y].
+    exact (snd (transform[strength_nat] ((I, x), (I, y)))).
+  destruct X as [x y].
+  destruct Y as [z w].
+  destruct f as [f g].
+  exact (snd (naturality strength_nat (I, x, (I, y)) (I, z, (I, w))
+                         ((id, f), (id, g)))).
+Defined.
+
+Program Definition ProductFunctor_Strong_proj2 :
+  StrongFunctor (F ∏⟶ G) -> StrongFunctor G := fun P => {|
+  strength_nat := ProductFunctor_Strong_proj2_strength_nat P;
+  strength_id_left := _;
+  strength_assoc := _
+|}.
+Next Obligation.
+  exact (snd (@strength_id_left _ _ _ P (I, X))).
+Qed.
+Next Obligation.
+  pose proof (@unit_left C H I) as X0.
+  pose proof (snd (naturality (@strength_nat _ _ _ P)
+                     (I, X, (I, Y ⨂ Z))
+                     (I, X, (I ⨂ I, Y ⨂ Z))
+                     ((id[I], id[X]), (from X0, id[Y ⨂ Z])))) as X1.
+  simpl in X1.
+  rewrite bimap_id_id in X1.
+  rewrite !fmap_id in X1.
+  rewrite id_left in X1.
+  rewrite bimap_id_id in X1.
+  rewrite id_right in X1.
+  rewrite X1; clear X1.
+  pose proof (snd (naturality (@strength_nat _ _ _ P)
+                     (I, X ⨂ Y, (I, Z))
+                     (I ⨂ I, X ⨂ Y, (I, Z))
+                     ((from X0, id[X ⨂ Y]), (id[I], id[Z])))) as X1.
+  simpl in X1.
+  rewrite bimap_id_id in X1.
+  rewrite !fmap_id in X1.
+  rewrite id_left in X1.
+  rewrite bimap_id_id in X1.
+  rewrite id_right in X1.
+  rewrite X1; clear X1.
+  exact (snd (@strength_assoc _ _ _ P (I, X) (I, Y) (I, Z))).
 Qed.
 
 End ProductStrong.
-
-Program Definition ProductFunctor_fst
-        `{C : Category} `{D : Category}
-        `{J : Category} `{@Monoidal J} `{K : Category}
-        (F : (C ∏ J) ⟶ (D ∏ K)) : C ⟶ D := {|
-  fobj := fun x => fst (F (x, I));
-  fmap := fun x y f => fst (@fmap _ _ F (x, I) (y, I) (f, id));
-  fmap_respects := fun x y f g eqv =>
-    fst (@fmap_respects _ _ F (x, I) (y, I) (f, id) (g, id)
-                        (eqv, reflexivity _));
-  fmap_id := fun x => fst (@fmap_id _ _ F (x, I));
-  fmap_comp := fun x y z f g =>
-    _ (fst (@fmap_comp _ _ F (x, I) (y, I) (z, I) (f, id) (g, id)))
-|}.
-Next Obligation.
-  intros.
-  rewrite fst_comp.
-  rewrite <- fmap_comp; simpl.
-  rewrite id_left; reflexivity.
-Qed.
-
-Program Definition ProductFunctor_snd
-        `{C : Category} `{@Monoidal C} `{D : Category}
-        `{J : Category} `{K : Category}
-        (F : (C ∏ J) ⟶ (D ∏ K)) : J ⟶ K := {|
-  fobj := fun x => snd (F (I, x));
-  fmap := fun x y f => snd (@fmap _ _ F (I, x) (I, y) (id, f));
-  fmap_respects := fun x y f g eqv =>
-    snd (@fmap_respects _ _ F (I, x) (I, y) (id, f) (id, g)
-                        (reflexivity _, eqv));
-  fmap_id := fun x => snd (@fmap_id _ _ F (I, x));
-  fmap_comp := fun x y z f g =>
-    _ (snd (@fmap_comp _ _ F (I, x) (I, y) (I, z) (id, f) (id, g)))
-|}.
-Next Obligation.
-  intros.
-  rewrite snd_comp.
-  rewrite <- fmap_comp; simpl.
-  rewrite id_left; reflexivity.
-Qed.
 
 Theorem ProductFunctor_fst_Strong
         `{C : Category} `{@Monoidal C}
@@ -171,10 +160,9 @@ Proof.
     + exact (fst (bimap id (to unit_left)
                     ∘ transform[@strength_nat _ _ _ X] ((x, I), (y, I)))).
     + simpl in *.
-      pose proof (fst (@naturality
-                         _ _ _ _ (@strength_nat _ _ _ X)
-                         (x1, I, (y1, I)) (x0, I, (y0, I))
-                         ((x, id), (y, id)))) as X0.
+      pose proof (fst (naturality (@strength_nat _ _ _ X)
+                                  (x1, I, (y1, I)) (x0, I, (y0, I))
+                                  ((x, id), (y, id)))) as X0.
       simpl in X0.
       rewrite comp_assoc.
       rewrite !bimap_fmap.
@@ -210,12 +198,11 @@ Proof.
     pose proof (fst (@strength_assoc _ _ _ X (X0, I) (Y, I) (Z, I))) as X2;
     simpl in X2.
 
-    pose proof (fst (@naturality _ _ _ _
-                       (@strength_nat _ _ _ X)
-                       (X0, I, (Y ⨂ Z, I ⨂ I))
-                       (X0, I, (Y ⨂ Z, I))
-                       ((id[X0], id[I]),
-                        (id[Y ⨂ Z], to unit_left)))) as X3.
+    pose proof (fst (naturality (@strength_nat _ _ _ X)
+                                (X0, I, (Y ⨂ Z, I ⨂ I))
+                                (X0, I, (Y ⨂ Z, I))
+                                ((id[X0], id[I]),
+                                 (id[Y ⨂ Z], to unit_left)))) as X3.
     simpl in X3.
     rewrite !bimap_fmap in X3.
     rewrite bimap_id_id in X3.
@@ -226,12 +213,11 @@ Proof.
     rewrite <- (comp_assoc (fst _)).
     rewrite <- X3; clear X3.
 
-    pose proof (fst (@naturality _ _ _ _
-                       (@strength_nat _ _ _ X)
-                       (X0 ⨂ Y, I ⨂ I, (Z, I))
-                       (X0 ⨂ Y, I, (Z, I))
-                       ((id[X0 ⨂ Y], to unit_left),
-                        (id[Z], id[I])))) as X4.
+    pose proof (fst (naturality (@strength_nat _ _ _ X)
+                                (X0 ⨂ Y, I ⨂ I, (Z, I))
+                                (X0 ⨂ Y, I, (Z, I))
+                                ((id[X0 ⨂ Y], to unit_left),
+                                 (id[Z], id[I])))) as X4.
     simpl in X4.
     rewrite !bimap_fmap in X4.
     rewrite !bimap_id_id in X4.
@@ -285,10 +271,9 @@ Proof.
     + exact (snd (bimap (to unit_left) id
                     ∘ transform[@strength_nat _ _ _ X] ((I, x), (I, y)))).
     + simpl in *.
-      pose proof (snd (@naturality
-                         _ _ _ _ (@strength_nat _ _ _ X)
-                         (I, x1, (I, y1)) (I, x0, (I, y0))
-                         ((id, x), (id, y)))) as X0.
+      pose proof (snd (naturality (@strength_nat _ _ _ X)
+                                  (I, x1, (I, y1)) (I, x0, (I, y0))
+                                  ((id, x), (id, y)))) as X0.
       simpl in X0.
       rewrite comp_assoc.
       rewrite !bimap_fmap.
@@ -324,12 +309,11 @@ Proof.
     pose proof (snd (@strength_assoc _ _ _ X (I, X0) (I, Y) (I, Z))) as X2;
     simpl in X2.
 
-    pose proof (snd (@naturality _ _ _ _
-                       (@strength_nat _ _ _ X)
-                       (I, X0, (I ⨂ I, Y ⨂ Z))
-                       (I, X0, (I, Y ⨂ Z))
-                       ((id[I], id[X0]),
-                        (to unit_left, id[Y ⨂ Z])))) as X3.
+    pose proof (snd (naturality (@strength_nat _ _ _ X)
+                                (I, X0, (I ⨂ I, Y ⨂ Z))
+                                (I, X0, (I, Y ⨂ Z))
+                                ((id[I], id[X0]),
+                                 (to unit_left, id[Y ⨂ Z])))) as X3.
     simpl in X3.
     rewrite !bimap_fmap in X3.
     rewrite bimap_id_id in X3.
@@ -340,12 +324,11 @@ Proof.
     rewrite <- (comp_assoc (snd _)).
     rewrite <- X3; clear X3.
 
-    pose proof (snd (@naturality _ _ _ _
-                       (@strength_nat _ _ _ X)
-                       (I ⨂ I, X0 ⨂ Y, (I, Z))
-                       (I, X0 ⨂ Y, (I, Z))
-                       ((to unit_left, id[X0 ⨂ Y]),
-                        (id[I], id[Z])))) as X4.
+    pose proof (snd (naturality (@strength_nat _ _ _ X)
+                                (I ⨂ I, X0 ⨂ Y, (I, Z))
+                                (I, X0 ⨂ Y, (I, Z))
+                                ((to unit_left, id[X0 ⨂ Y]),
+                                 (id[I], id[Z])))) as X4.
     simpl in X4.
     rewrite !bimap_fmap in X4.
     rewrite !bimap_id_id in X4.
@@ -389,14 +372,12 @@ Proof.
     destruct (P (I, Z)); reflexivity.
 Qed.
 
-Theorem ProductFunctor_proj_Strong
-        `{C : Category} `{@Monoidal C}
-        (P : (C ∏ C) ⟶ (C ∏ C)) :
+Corollary ProductFunctor_proj_Strong `{C : Category} `{@Monoidal C}
+          (P : (C ∏ C) ⟶ (C ∏ C)) :
   StrongFunctor P
     -> StrongFunctor ((ProductFunctor_fst P) ∏⟶ (ProductFunctor_snd P)).
 Proof.
-  simpl; intros.
-  apply (fst (@ProductFunctor_Strong _ _ _ _)); split.
-    apply ProductFunctor_fst_Strong; assumption.
-  apply ProductFunctor_snd_Strong; assumption.
+  intros.
+  exact (ProductFunctor_Strong (ProductFunctor_fst_Strong _ _)
+                               (ProductFunctor_snd_Strong _ _)).
 Qed.

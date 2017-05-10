@@ -55,3 +55,45 @@ Next Obligation.
   rewrite ?fst_comp, ?snd_comp;
   rewrite <- fmap_comp; reflexivity.
 Qed.
+
+Require Import Category.Structure.Monoidal.
+
+Program Definition ProductFunctor_fst
+        `{C : Category} `{D : Category}
+        `{J : Category} `{@Monoidal J} `{K : Category}
+        (F : (C ∏ J) ⟶ (D ∏ K)) : C ⟶ D := {|
+  fobj := fun x => fst (F (x, I));
+  fmap := fun x y f => fst (@fmap _ _ F (x, I) (y, I) (f, id));
+  fmap_respects := fun x y f g eqv =>
+    fst (@fmap_respects _ _ F (x, I) (y, I) (f, id) (g, id)
+                        (eqv, reflexivity _));
+  fmap_id := fun x => fst (@fmap_id _ _ F (x, I));
+  fmap_comp := fun x y z f g =>
+    _ (fst (@fmap_comp _ _ F (x, I) (y, I) (z, I) (f, id) (g, id)))
+|}.
+Next Obligation.
+  intros.
+  rewrite fst_comp.
+  rewrite <- fmap_comp; simpl.
+  rewrite id_left; reflexivity.
+Qed.
+
+Program Definition ProductFunctor_snd
+        `{C : Category} `{@Monoidal C} `{D : Category}
+        `{J : Category} `{K : Category}
+        (F : (C ∏ J) ⟶ (D ∏ K)) : J ⟶ K := {|
+  fobj := fun x => snd (F (I, x));
+  fmap := fun x y f => snd (@fmap _ _ F (I, x) (I, y) (id, f));
+  fmap_respects := fun x y f g eqv =>
+    snd (@fmap_respects _ _ F (I, x) (I, y) (id, f) (id, g)
+                        (reflexivity _, eqv));
+  fmap_id := fun x => snd (@fmap_id _ _ F (I, x));
+  fmap_comp := fun x y z f g =>
+    _ (snd (@fmap_comp _ _ F (I, x) (I, y) (I, z) (id, f) (id, g)))
+|}.
+Next Obligation.
+  intros.
+  rewrite snd_comp.
+  rewrite <- fmap_comp; simpl.
+  rewrite id_left; reflexivity.
+Qed.
