@@ -17,26 +17,26 @@ Context `{@Monoidal C}.
 Context `{@Monoidal D}.
 Context `{F : C ⟶ D}.
 
-(* The strong monoidal functor isomorphism can be projected to an isomorphism
-   between objects in D. This forgets the naturality of the original natural
-   isomorphism, which is why it is only provided as a convenience definition
-   below in [StrongMonoidalFunctor]. *)
-
-Program Definition project_monoidal_iso
-        (iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) (X Y : C) :
-  F X ⨂ F Y ≅[D] F (X ⨂ Y) := {|
-  to   := transform[to iso] (X, Y);
-  from := transform[from iso] (X, Y)
-|}.
-Next Obligation.
-  rewrite (iso_to_from iso (X, Y)); simpl.
-  rewrite fmap_id; cat.
+Lemma ap_iso_to_from
+      (ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) {X Y} :
+  transform (to ap_functor_iso) (X, Y)
+    ∘ transform (from ap_functor_iso) (X, Y) ≈ id[F (X ⨂ Y)].
+Proof.
+  pose proof (iso_to_from ap_functor_iso (X, Y)).
+  simpl in *.
+  rewrite !fmap_id in X0.
+  apply X0.
 Qed.
-Next Obligation.
-  rewrite (iso_from_to iso (X, Y)); simpl.
-  rewrite <- fmap_id.
-  apply fmap_respects.
-  split; simpl; cat.
+
+Lemma ap_iso_from_to
+      (ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) {X Y} :
+  transform (from ap_functor_iso) (X, Y) ∘ transform (to ap_functor_iso) (X, Y)
+    ≈ id[((⨂) ○ F ∏⟶ F) (X, Y)].
+Proof.
+  pose proof (iso_from_to ap_functor_iso (X, Y)).
+  simpl in *.
+  rewrite !fmap_id in X0.
+  apply X0.
 Qed.
 
 Class MonoidalFunctor := {
@@ -44,8 +44,12 @@ Class MonoidalFunctor := {
 
   ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂);
 
-  ap_iso {X Y} : F X ⨂ F Y ≅ F (X ⨂ Y) :=
-    project_monoidal_iso ap_functor_iso X Y;
+  ap_iso {X Y} : F X ⨂ F Y ≅ F (X ⨂ Y) := {|
+    to   := transform[to ap_functor_iso] (X, Y);
+    from := transform[from ap_functor_iso] (X, Y);
+    iso_to_from := @ap_iso_to_from ap_functor_iso X Y;
+    iso_from_to := @ap_iso_from_to ap_functor_iso X Y
+  |};
 
   pure_iso_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
   pure_iso_right {X} : F X ⨂ I ≅ F (X ⨂ I);
@@ -326,7 +330,6 @@ Qed.
 Next Obligation.
   rewrite monoidal_unit_left.
   rewrite monoidal_unit_left.
-  unfold project_monoidal_iso; simpl.
   rewrite !comp_assoc.
   rewrite fmap_comp.
   symmetry.
@@ -349,7 +352,6 @@ Qed.
 Next Obligation.
   rewrite monoidal_unit_right.
   rewrite monoidal_unit_right.
-  unfold project_monoidal_iso; simpl.
   rewrite !comp_assoc.
   rewrite fmap_comp.
   symmetry.
