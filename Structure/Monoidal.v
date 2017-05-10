@@ -84,15 +84,13 @@ Proof.
 Abort.
 
 Theorem triangle_right `{Monoidal} {X Y} :
-  to unit_right
-    ≈ bimap id (to unit_right) ∘ to (@tensor_assoc _ X Y I).
+  to unit_right ≈ bimap id (to unit_right) ∘ to (@tensor_assoc _ X Y I).
 Proof.
   pose proof (@triangle_identity _).
 Abort.
 
 Theorem triangle_left `{Monoidal} {X Y} :
-  bimap (to unit_left) id
-    ≈ to unit_left ∘ to (@tensor_assoc _ I X Y).
+  bimap (to unit_left) id ≈ to unit_left ∘ to (@tensor_assoc _ I X Y).
 Proof.
 Abort.
 

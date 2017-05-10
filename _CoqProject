@@ -70,6 +70,8 @@ Functor/Representable.v
 Functor/Strong.v
 Functor/Strong/Product.v
 Functor/Monoidal.v
+Functor/Monoidal/Id.v
+Functor/Monoidal/Compose.v
 Functor/Monoidal/Product.v
 Functor/Traversable.v
 Isomorphism/Functor/Hom.v
