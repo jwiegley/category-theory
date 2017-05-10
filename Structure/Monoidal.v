@@ -103,11 +103,91 @@ Class SymmetricMonoidal `{Monoidal} := {
     from (@sym_swap X Y) ∘ from (@sym_swap Y X) ≈ id
 }.
 
+Class RelevanceMonoidal `{Monoidal} := {
+  comultiply {X} : X ~> X ⨂ X
+}.
+
+(* Wikipedia: "Cartesian monoidal categories have a number of special and
+   important properties, such as the existence of diagonal maps (Δ) x : x → x
+   ⊗ x and augmentations (e) x : x → I for any object x. In applications to
+   computer science we can think of (Δ) as 'duplicating data' and (e) as
+   'deleting' data. These maps make any object into a comonoid. In fact, any
+   object in a cartesian monoidal category becomes a comonoid in a unique way.
+
+   Moreover, one can show (e.g. Heunen-Vicary 12, p. 84) that any symmetric
+   monoidal category equipped with suitably well-behaved diagonals and
+   augmentations must in fact be cartesian monoidal." *)
+
+(* jww (2017-05-10): Given the statement above about symmetric monoidal,
+   perhaps some of the properties below can be derived. *)
+
+Class CartesianMonoidal `{Monoidal} := {
+  diagonal  {X} : X ~> X ⨂ X;
+  eliminate {X} : X ~> I;
+
+  unit_terminal {X} (f g : X ~> I) : f ≈ g;
+
+  eliminate_left  {X Y} (f : X ~> Y) :
+    to unit_left  ∘ bimap eliminate f ∘ diagonal ≈ f;
+  eliminate_right {X Y} (f : X ~> Y) :
+    to unit_right ∘ bimap f eliminate ∘ diagonal ≈ f;
+
+  eliminate_diagonal {X Y Z W} (f : X ~> Y) (g : Z ~> W) :
+    bimap (to unit_right ∘ bimap f eliminate)
+          (to unit_left  ∘ bimap eliminate g) ∘ diagonal ≈ bimap f g;
+
+  diagonal_natural {X Y} (f : X ~> Y) :
+      bimap f f ∘ diagonal ≈ diagonal ∘ f
+}.
+
+Corollary eliminate_comp `{Monoidal} `{@CartesianMonoidal _} `{f : A ~> B} :
+  eliminate ∘ f ≈ eliminate.
+Proof. intros; apply unit_terminal. Qed.
+
+Global Program Definition SymmetricCartesianMonoidal_Cartesian
+       `{@Monoidal} (* `{@SymmetricMonoidal _} *) `{@CartesianMonoidal _} :
+  @Cartesian C := {|
+  Prod := fun X Y => tensor (X, Y);
+  fork := fun _ _ _ f g => bimap f g ∘ diagonal;
+  exl  := fun _ _ => to unit_right ∘ bimap id eliminate;
+  exr  := fun _ _ => to unit_left  ∘ bimap eliminate id
+|}.
+Next Obligation.
+  proper.
+  rewrite X0, X1.
+  reflexivity.
+Qed.
+Next Obligation.
+  split; intros.
+    split; rewrite X0; clear X0;
+    rewrite <- !comp_assoc;
+    rewrite (comp_assoc (bimap _ _));
+    rewrite <- bimap_comp;
+    rewrite id_left;
+    rewrite eliminate_comp;
+    rewrite comp_assoc.
+      apply eliminate_right.
+    apply eliminate_left.
+  destruct X0.
+  rewrite <- e, <- e0; clear e e0.
+  rewrite bimap_comp.
+  rewrite <- comp_assoc.
+  rewrite diagonal_natural.
+  rewrite comp_assoc.
+  rewrite <- id_left at 1.
+  apply compose_respects; [|reflexivity].
+  symmetry.
+  rewrite eliminate_diagonal.
+  apply bimap_id_id.
+Qed.
+
 End Monoidal.
 
 Notation "(⨂)" := (@tensor _ _) : functor_scope.
 Notation "X ⨂ Y" := (@tensor _ _ (X%object, Y%object))
   (at level 30, right associativity) : object_scope.
+Notation "X ⨂[ M ] Y" := (fobj[@tensor _ M] (X, Y))
+  (at level 9, only parsing) : object_scope.
 
 Local Obligation Tactic := program_simpl.
 
@@ -188,6 +268,40 @@ Next Obligation.
   rewrite <- !comp_assoc; cat.
   rewrite <- !fork_comp; cat.
   rewrite <- !comp_assoc; cat.
+Qed.
+
+Program Definition InternalProduct_SymmetricMonoidal
+        `{C : Category} `{@Cartesian C} `{@Terminal C} :
+  @SymmetricMonoidal C InternalProduct_Monoidal := {|
+  sym_swap  := fun X Y =>
+    {| to   := @swap C _ X Y
+     ; from := @swap C _ Y X
+     ; iso_to_from := swap_invol
+     ; iso_from_to := swap_invol
+    |}
+|}.
+Next Obligation. apply swap_invol. Qed.
+Next Obligation. apply swap_invol. Qed.
+
+Program Definition InternalProduct_CartesianMonoidal
+        `{C : Category} `{@Cartesian C} `{@Terminal C} :
+  @CartesianMonoidal C InternalProduct_Monoidal := {|
+  diagonal  := fun _ => id △ id;
+  eliminate := fun _ => one
+|}.
+Next Obligation. apply one_unique. Qed.
+Next Obligation. cat; rewrite <- comp_assoc; cat. Qed.
+Next Obligation. cat; rewrite <- comp_assoc; cat. Qed.
+Next Obligation.
+  rewrite <- fork_comp; cat.
+  rewrite <- comp_assoc; cat.
+  rewrite <- comp_assoc; cat.
+Qed.
+Next Obligation.
+  rewrite <- fork_comp; cat.
+  rewrite <- comp_assoc; cat.
+  rewrite <- fork_comp; cat.
+  rewrite <- comp_assoc; cat.
 Qed.
 
 Require Import Category.Functor.Bifunctor.
