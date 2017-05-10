@@ -14,6 +14,29 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
+Program Instance LimitedProductFunctor
+        `{C : Category} `{D : Category} `{@Monoidal D}
+        `{F : C ⟶ D} `{G : C ⟶ D} : C ⟶ D := {
+  fobj := fun x => F x ⨂ G x;
+  fmap := fun _ _ f => bimap (fmap[F] f) (fmap[G] f)
+}.
+Next Obligation.
+  proper.
+  rewrite X0; reflexivity.
+Qed.
+Next Obligation.
+  unfold split.
+  rewrite !fmap_id.
+  rewrite bimap_id_id.
+  reflexivity.
+Qed.
+Next Obligation.
+  unfold split.
+  rewrite <- bimap_comp.
+  rewrite <- !fmap_comp.
+  reflexivity.
+Qed.
+
 Section ProductTraversable.
 
 Context `{C : Category}.
@@ -25,127 +48,76 @@ Local Obligation Tactic := program_simpl.
 
 Lemma ProductFunctor_Traversable_ap_functor_nat :
   Traversable F → Traversable G
-    → ∀ H : (C ∏ C) ⟶ C ∏ C,
-      StrongFunctor H → LaxMonoidalFunctor H → F ∏⟶ G ○ H ⟹ H ○ F ∏⟶ G.
+    → ∀ H : C ⟶ C,
+      StrongFunctor H → LaxMonoidalFunctor H
+        → @LimitedProductFunctor _ _ _ F G ○ H
+            ⟹ H ○ @LimitedProductFunctor _ _ _ F G.
 Proof.
   intros O P ???.
 
   natural.
-    intros [x y]; split.
-      pose (transform[@sequence _ _ _ O
-                        (ProductFunctor_fst H0)
-                        (ProductFunctor_fst_Strong H0 X)
-                        (ProductFunctor_fst_LaxMonoidal H0 X0)] x).
-      simpl in *.
-      (* sequence wants [I ~> I], but we need to plumb [y ~> G y] there. *)
-Abort.
-(*
-    exact (transform[ap_functor_nat] (z, w)).
-
-  all:(try destruct X as [[x1 x2] [y1 y2]],
-                    Y as [[z1 z2] [w1 w2]],
-                    f as [[f1a f1b] [f2a f2b]];
-       try destruct A as [[x z] [y w]]; simpl).
-
-  split.
-    abstract apply (naturality ap_functor_nat (x1, y1)).
-  abstract apply (naturality ap_functor_nat (x2, y2)).
+    simpl.
+    intro x.
+      exact (ap[H0] ∘ bimap (transform[@sequence _ _ _ O H0 _ _] x)
+                            (transform[@sequence _ _ _ P H0 _ _] x)).
+  unfold ap.
+  pose proof (naturality[@ap_functor_nat _ _ _ _ H0 _]
+                        (F X1, G X1) (F Y, G Y)
+                        (fmap[F] f, fmap[G] f)) as X2; simpl in *.
+  rewrite comp_assoc.
+  rewrite X2; clear X2.
+  rewrite !bimap_fmap.
+  rewrite <- !comp_assoc.
+  rewrite <- !bimap_comp.
+  pose proof (naturality[@sequence _ _ _ O H0 _ _]) as X3; simpl in *.
+  pose proof (naturality[@sequence _ _ _ P H0 _ _]) as X4; simpl in *.
+  rewrite X3, X4; clear X3 X4.
+  reflexivity.
 Defined.
-*)
 
-(*
 Program Definition ProductFunctor_Traversable :
   Traversable F -> Traversable G
-    -> Traversable (F ∏⟶ G) := fun _ _ => {|
-  sequence := _; (* ProductFunctor_Traversable_ap_functor_nat _ _; *)
-  sequence_id  := _;
-  sequence_comp  := _
+    -> Traversable (@LimitedProductFunctor _ _ _ F G) := fun O P => {|
+  sequence := ProductFunctor_Traversable_ap_functor_nat _ _;
+  sequence_naturality  := _;
+  sequence_Id  := _;
+  sequence_Compose  := _
 |}.
-
-Lemma ProductFunctor_Traversable_proj1_ap_functor_nat :
-  Traversable F ∏⟶ G
-    → (⨂) ○ F ∏⟶ F ⟹ F ○ (⨂).
-
-Program Definition ProductFunctor_Traversable_proj1 :
-  Traversable (F ∏⟶ G) -> Traversable F := fun P => {|
-  lax_pure := _;
-  ap_functor_nat := ProductFunctor_Traversable_proj1_ap_functor_nat P;
-  pure_left  := _;
-  pure_right := _;
-  ap_assoc := _;
-  lax_monoidal_unit_left := _;
-  lax_monoidal_unit_right := _;
-  lax_monoidal_assoc := _
-|}.
-
-Lemma ProductFunctor_Traversable_proj2_ap_functor_nat :
-  Traversable F ∏⟶ G
-    → (⨂) ○ G ∏⟶ G ⟹ G ○ (⨂).
-
-Program Definition ProductFunctor_Traversable_proj2 :
-  Traversable (F ∏⟶ G) -> Traversable G := fun P => {|
-  lax_pure := _;
-  ap_functor_nat := ProductFunctor_Traversable_proj2_ap_functor_nat P;
-  pure_left  := _;
-  pure_right := _;
-  ap_assoc := _;
-  lax_monoidal_unit_left := _;
-  lax_monoidal_unit_right := _;
-  lax_monoidal_assoc := _
-|}.
-*)
+Next Obligation.
+  pose proof (@sequence_naturality _ _ _ O G0 _ _ H2 _ _ f X) as X0.
+  pose proof (@sequence_naturality _ _ _ P G0 _ _ H2 _ _ f X) as X1.
+  repeat (unfold ap; simpl).
+  pose proof (naturality[@slm_transform _ _ _ _ _ _ _ _ f]).
+  rewrite <- comp_assoc.
+  rewrite <- bimap_comp.
+  rewrite <- X0, <- X1.
+  rewrite bimap_comp.
+  rewrite !comp_assoc.
+  apply compose_respects; [|reflexivity].
+  (* This must be proven based on how slm_transform interacts with ap. *)
+Admitted.
+Next Obligation.
+  repeat (unfold ap; simpl).
+  rewrite id_left.
+  rewrite (@sequence_Id _ _ _ O), (@sequence_Id _ _ _ P).
+  rewrite bimap_id_id.
+  reflexivity.
+Qed.
+Next Obligation.
+  repeat (unfold ap; simpl).
+  rewrite (@sequence_Compose _ _ _ O), (@sequence_Compose _ _ _ P).
+  rewrite bimap_comp.
+  pose proof (naturality[@ap_functor_nat _ _ _ _ G0 H1]
+                        (F (H2 X), G (H2 X))
+                        (H2 (F X), H2 (G X))
+                        (transform sequence X, transform sequence X)) as X3;
+  simpl in *.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ (bimap _ _)).
+  rewrite <- X3; clear X3.
+  rewrite !comp_assoc.
+  rewrite <- fmap_comp.
+  reflexivity.
+Qed.
 
 End ProductTraversable.
-
-Section ProductTraversableProj.
-
-Context `{C : Category}.
-Context `{@Monoidal C}.
-Context `{F : C ⟶ C}.
-Context `{G : C ⟶ C}.
-
-(*
-Lemma ProductFunctor_fst_Traversable_ap_functor_nat :
-  Traversable P
-    → (⨂) ○ (ProductFunctor_fst P) ∏⟶ (ProductFunctor_fst P)
-          ⟹ ProductFunctor_fst P ○ (⨂).
-
-Local Obligation Tactic := program_simpl.
-
-Program Definition ProductFunctor_fst_Traversable :
-  Traversable P
-    -> Traversable (ProductFunctor_fst P) := fun L => {|
-  lax_pure := _;
-  ap_functor_nat := ProductFunctor_fst_Traversable_ap_functor_nat L;
-  pure_left  := _;
-  pure_right := _;
-  ap_assoc := _;
-  lax_monoidal_unit_left := _;
-  lax_monoidal_unit_right := _;
-  lax_monoidal_assoc := _
-|}.
-
-Lemma ProductFunctor_snd_Traversable_ap_functor_nat :
-  Traversable P
-    → (⨂) ○ (ProductFunctor_snd P) ∏⟶ (ProductFunctor_snd P)
-          ⟹ ProductFunctor_snd P ○ (⨂).
-
-Program Definition ProductFunctor_snd_Traversable :
-  Traversable P
-    -> Traversable (ProductFunctor_snd P) := fun L => {|
-  lax_pure := _;
-  ap_functor_nat := ProductFunctor_snd_Traversable_ap_functor_nat L;
-  pure_left  := _;
-  pure_right := _;
-  ap_assoc := _;
-  lax_monoidal_unit_left := _;
-  lax_monoidal_unit_right := _;
-  lax_monoidal_assoc := _
-|}.
-
-Corollary ProductFunctor_proj_Traversable :
-  Traversable P
-    -> Traversable ((ProductFunctor_fst P) ∏⟶ (ProductFunctor_snd P)).
-*)
-
-End ProductTraversableProj.

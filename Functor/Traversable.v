@@ -13,6 +13,16 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
+(* jww (2017-05-09): Preserves all aspects of the strong lax monoidal
+   functor. *)
+Class StrongLaxMonoidalTransformation
+      `{C : Category} `{@Monoidal C}
+      (F : C ⟶ C) `{@StrongFunctor _ _ F} `{@LaxMonoidalFunctor _ _ _ _ F}
+      (G : C ⟶ C) `{@StrongFunctor _ _ G} `{@LaxMonoidalFunctor _ _ _ _ G}
+  := {
+  slm_transform : F ⟹ G
+}.
+
 Section Traversable.
 
 Context `{C : Category}.
@@ -24,8 +34,21 @@ Class Traversable := {
            `{@StrongFunctor C _ G}
            `{@LaxMonoidalFunctor C C _ _ G} : F ○ G ⟹ G ○ F;
 
-  sequence_id {X} : transform[@sequence Id _ _] X ≈ id;
-  sequence_comp
+  sequence_naturality
+    `{G : C ⟶ C}
+    `{@StrongFunctor C _ G}
+    `{@LaxMonoidalFunctor C C _ _ G}
+    `{H : C ⟶ C}
+    `{@StrongFunctor C _ H}
+    `{@LaxMonoidalFunctor C C _ _ H}
+    (f : StrongLaxMonoidalTransformation G H) {X} :
+    transform[@slm_transform _ _ _ _ _ _ _ _ f] (F X)
+      ∘ transform[@sequence G _ _] X
+      ≈ transform[@sequence H _ _] X
+          ∘ fmap[F] (transform[@slm_transform _ _ _ _ _ _ _ _ f] X);
+
+  sequence_Id {X} : transform[@sequence Id _ _] X ≈ id;
+  sequence_Compose
     `{G : C ⟶ C} `{@StrongFunctor C _ G} `{@LaxMonoidalFunctor C C _ _ G}
     `{H : C ⟶ C} `{@StrongFunctor C _ H} `{@LaxMonoidalFunctor C C _ _ H} {X} :
     transform[@sequence (Compose G H) _ _] X
@@ -41,6 +64,7 @@ Program Instance Id_Traversable `{C : Category} `{@Monoidal C} (x : C) :
   sequence := fun _ _ _ => {| transform := fun _ => id |}
 }.
 
+(*
 Require Import Category.Functor.Constant.
 
 Program Instance Constant_Traversable `{C : Category} `{@Monoidal C} (x : C) :
@@ -78,3 +102,4 @@ Next Obligation.
   rewrite <- fmap_comp.
   reflexivity.
 Qed.
+*)
