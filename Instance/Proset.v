@@ -11,6 +11,8 @@ Require Export Category.Structure.Initial.
 Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Coq.
 
+Require Import Coq.Logic.ProofIrrelevance.
+
 (* Proof irrelevant equality. *)
 Definition proof_eq {P : Prop} (x y : P) := (x = y)%type.
 
@@ -33,17 +35,22 @@ Set Implicit Arguments.
    sense, categories 'generalize' preorders by allowing more than one relation
    between objects: each morphism is a distinct (named) preorder relation." *)
 
-Program Definition Proset `{C : Category}
-        `{R : relation C} `(P : PreOrder C R) :
+Program Definition Proset `{A : Type}
+        `{R : relation A} `(P : PreOrder A R) :
   Category := {|
-  ob      := C;
+  ob      := A;
   hom     := R;
   homset  := fun A B => {| Setoid.equiv := proof_eq |};
-  id      := fun X => @reflexivity C R (@PreOrder_Reflexive C R P) X;
+  id      := fun X => @reflexivity A R (@PreOrder_Reflexive A R P) X;
   compose := fun X Y Z f g =>
-               @transitivity C R (@PreOrder_Transitive C R P) X Y Z g f
+               @transitivity A R (@PreOrder_Transitive A R P) X Y Z g f
 |}.
 Next Obligation. apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.
 Next Obligation. apply proof_irrelevance. Qed.
+
+(* The typical example found in Category Theory theories and lectures is ≤. *)
+
+Definition LessThanEqualTo_Category : Category :=
+  @Proset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder.
