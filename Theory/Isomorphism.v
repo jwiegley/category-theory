@@ -106,6 +106,10 @@ Arguments from {_%category X%object Y%object} _%morphism.
 Arguments iso_to_from {_ _ _} _.
 Arguments iso_from_to {_ _ _} _.
 
+Coercion to : Isomorphism >-> hom.
+
+Notation "f '⁻¹'" := (from f) (at level 9) : morphism_scope.
+
 Hint Unfold isomorphism_equiv.
 
 Ltac isomorphism :=
