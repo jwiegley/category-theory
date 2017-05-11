@@ -1,4 +1,9 @@
 all: Makefile.coq
+	for i in $$(find . -name '*.v' | sed 's/^\.\///'); do	\
+	    if ! grep -q $$i _CoqProject; then			\
+		echo $$i is not in_CoqProject; exit 1;		\
+	    fi;							\
+	done
 	make -f Makefile.coq
 
 Makefile.coq: _CoqProject
