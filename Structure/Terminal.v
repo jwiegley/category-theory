@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
-Require Export Category.Theory.Functor.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -34,17 +33,3 @@ Corollary one_comp `{@Terminal C} {A B : C} {f : A ~> B} :
 Proof. intros; apply one_unique. Qed.
 
 Hint Rewrite @one_comp : categories.
-
-Section TerminalFunctor.
-
-Context `{F : C ⟶ D}.
-Context `{@Terminal C}.
-Context `{@Terminal D}.
-
-Class TerminalFunctor := {
-  map_one : One ~> F One;
-
-  fmap_one {X : C} : fmap one ≈ map_one ∘ @one _ _ (F X)
-}.
-
-End TerminalFunctor.

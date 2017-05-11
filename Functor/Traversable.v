@@ -3,9 +3,9 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Strong.
-Require Export Category.Functor.Monoidal.
-Require Export Category.Functor.Monoidal.Id.
-Require Export Category.Functor.Monoidal.Compose.
+Require Export Category.Functor.Structure.Monoidal.
+Require Export Category.Functor.Structure.Monoidal.Id.
+Require Export Category.Functor.Structure.Monoidal.Compose.
 Require Export Category.Functor.Product.
 Require Export Category.Functor.Product.Internal.
 

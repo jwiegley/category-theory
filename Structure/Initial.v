@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
-Require Export Category.Theory.Functor.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -25,18 +24,3 @@ Corollary zero_comp `{@Initial C} {A B : C} {f : A ~> B} :
 Proof. intros; apply zero_unique. Qed.
 
 Hint Rewrite @zero_comp : categories.
-
-Section InitialFunctor.
-
-Context `{F : C ⟶ D}.
-Context `{@Initial C}.
-Context `{@Initial D}.
-
-Class InitialFunctor := {
-  map_zero : F Zero ~> Zero;
-
-  fmap_zero {X : C} :
-    fmap[F] zero ≈ @zero _ _ (F X) ∘ map_zero
-}.
-
-End InitialFunctor.

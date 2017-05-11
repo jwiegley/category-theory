@@ -69,11 +69,6 @@ Class MonoidalFunctor := {
       ≈ to ap_iso ∘ bimap id (to ap_iso) ∘ to tensor_assoc
 }.
 
-(* A lax monoidal functor's natural transformation can be projected to a
-   morphism between objects in D. This forgets the naturality of the
-   transformation, which is why it is only provided as a convenience
-   definition below in [LaxMonoidalFunctor]. *)
-
 Class LaxMonoidalFunctor := {
   lax_pure : I ~> F I;
 

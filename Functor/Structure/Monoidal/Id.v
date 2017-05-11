@@ -4,7 +4,7 @@ Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Strong.
 Require Export Category.Structure.Monoidal.
-Require Export Category.Functor.Monoidal.
+Require Export Category.Functor.Structure.Monoidal.
 
 Generalizable All Variables.
 Set Primitive Projections.

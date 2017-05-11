@@ -6,6 +6,7 @@ Require Export Category.Functor.Bifunctor.
 Require Export Category.Functor.Hom.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Construction.Product.
+Require Export Category.Functor.Construction.Product.
 
 Generalizable All Variables.
 Set Primitive Projections.

@@ -1,6 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Export Category.Theory.Functor.
 Require Export Category.Structure.BiCCC.
 
 Generalizable All Variables.
@@ -168,6 +169,12 @@ Program Instance interp_proper {X Y : Obj}
   Proper (@equiv _ (@homset DSL X Y) ==>
                      @equiv _ (@homset C _ _))
          (fun f => @interp X Y f C A _ _ _ _).
+
+Require Export Category.Functor.Structure.Initial.
+Require Export Category.Functor.Structure.Terminal.
+Require Export Category.Functor.Structure.Cartesian.
+Require Export Category.Functor.Structure.Cocartesian.
+Require Export Category.Functor.Structure.Closed.
 
 Section AST.
 

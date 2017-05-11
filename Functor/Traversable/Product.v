@@ -5,9 +5,8 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Product.
 Require Export Category.Functor.Strong.
 Require Export Category.Functor.Strong.Product.
-Require Export Category.Functor.Monoidal.
-Require Export Category.Functor.Monoidal.Product.
 Require Export Category.Structure.Monoidal.
+Require Export Category.Functor.Structure.Monoidal.
 Require Export Category.Functor.Traversable.
 
 Generalizable All Variables.

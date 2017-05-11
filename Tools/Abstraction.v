@@ -1,7 +1,11 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Export Category.Theory.Functor.
 Require Export Category.Structure.BiCCC.
+Require Export Category.Functor.Structure.Cartesian.
+Require Export Category.Functor.Structure.Closed.
+Require Export Category.Functor.Structure.Terminal.
 Require Export Category.Instance.Coq.
 
 Generalizable All Variables.

@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Product.
-Require Export Category.Functor.Monoidal.
+Require Export Category.Functor.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.
 
 Generalizable All Variables.
