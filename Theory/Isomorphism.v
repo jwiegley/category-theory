@@ -106,7 +106,7 @@ Arguments from {_%category X%object Y%object} _%morphism.
 Arguments iso_to_from {_ _ _} _.
 Arguments iso_from_to {_ _ _} _.
 
-Coercion to : Isomorphism >-> hom.
+Coercion iso_to `{C : Category} `(iso : @Isomorphism C X Y) := @hom C X Y.
 
 Notation "f '⁻¹'" := (from f) (at level 9, format "f '⁻¹'") : morphism_scope.
 
