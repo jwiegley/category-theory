@@ -78,7 +78,6 @@ Next Obligation.
   apply proper_morphism, X1.
 Qed.
 
-
 (* An isomorphism between arrows in a category C is an isomorphism of objects
    in the category of set(oid)s, taking [hom] to the be the carrier type, and
    arrow equivalence to be the setoid. By using Sets in this way, we gain the
