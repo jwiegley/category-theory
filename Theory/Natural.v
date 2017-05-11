@@ -44,6 +44,8 @@ Notation "transform[ F ]" := (@transform _ _ _ _ F%natural)
 Notation "naturality[ F ]" := (@naturality _ _ _ _ F%natural)
   (at level 9, only parsing, format "naturality[ F ]") : morphism_scope.
 
+Coercion transform : Natural >-> Funclass.
+
 Ltac natural :=
   unshelve (refine {| transform := _ |}; simpl; intros).
 
