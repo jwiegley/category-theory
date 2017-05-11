@@ -89,3 +89,40 @@ Notation "X ≊ Y" := ({| carrier := X |} ≅[Sets] {| carrier := Y |})
 
 Ltac morphism :=
   unshelve (refine {| morphism := _ |}; simpl; intros).
+
+Require Import Category.Structure.Terminal.
+
+Program Instance Unit_Setoid : Setoid () := {
+  equiv := fun x y => x = y
+}.
+
+Program Instance Sets_Terminal : @Terminal Sets := {
+  One := {| carrier := unit |};
+  one := _
+}.
+Next Obligation.
+  morphism.
+    intros.
+    exact tt.
+  proper.
+Qed.
+Next Obligation.
+  destruct (f x), (g x).
+  reflexivity.
+Qed.
+
+Require Import Category.Structure.Initial.
+
+Program Instance False_Setoid : Setoid False.
+
+Program Instance Sets_Initial : @Initial Sets := {
+  Zero := {| carrier := False |};
+  zero := _
+}.
+Next Obligation.
+  morphism.
+  contradiction.
+Qed.
+Next Obligation.
+  contradiction.
+Qed.
