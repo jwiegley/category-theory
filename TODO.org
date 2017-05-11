@@ -1,6 +1,8 @@
 TODO  -*- mode: org; fill-column: 78 -*-
 
 * Restructuring
+** TODO Distinguish functors that adapt other functors
+Product is a "fundamental" functor, but Strong is an attribute of functors.
 ** TODO Get rid of the isomorphism directory
 SCHEDULED: <2017-05-07 Sun>
 :PROPERTIES:
