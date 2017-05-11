@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Natural.
+Require Export Category.Functor.Hom.
 Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Sets.
 
@@ -12,18 +13,13 @@ Unset Transparent Obligations.
 
 (* jww (2017-04-16): How to represent heteromorphisms? *)
 
-Program Definition Profunctor `(D : Category) `(C : Category) :
-  D^op ⟶ [C, Sets] := {|
-  fobj := fun X => {|
-    fobj := fun Y => {| carrier := @hom C X Y
-                      ; is_setoid := @homset C X Y |};
-    fmap := fun Y Z (f : Y ~{C}~> Z) =>
-              {| morphism := fun (g : X ~{C}~> Y) =>
-                               (f ∘ g) : X ~{C}~> Z |}
-  |};
-  fmap := fun X Y (f : X ~{C^op}~> Y) => {|
-    transform := fun _ => {| morphism := fun g => g ∘ op f |}
-  |}
+(*
+Program Definition Profunctor `(C : Category) `(D : Category) :
+  C^op ∏ D ⟶ Sets := {|
+  fobj := fun p => {| carrier   := @hom D (_ (fst p)) (snd p)
+                    ; is_setoid := @homset D (_ (fst p)) (snd p) |};
+  fmap := fun X Y (f : X ~{C^op ∏ D}~> Y) =>
+            {| morphism := fun g => snd f ∘ g ∘ fmap[_] (fst f) |}
 |}.
 Next Obligation.
   intros ?? HA.
@@ -58,6 +54,17 @@ Next Obligation.
   rewrite comp_assoc; reflexivity.
 Qed.
 
-Coercion HomFunctor : Category >-> Functor.
+Notation "C ⇸ D" := (@Profunctor C D) (at level 9) : functor_type_scope.
+*)
 
-Notation "'Hom' ( A , ─ )" := (@HomFunctor _ A) : category_scope.
+(* Wikipedia: "Lifting functors to profunctors
+
+   "A functor F : C → D can be seen as a profunctor ϕ F : C ↛ D by
+   postcomposing with the Yoneda functor:
+
+       ϕ F = Y D ∘ F
+
+   "It can be shown that such a profunctor ϕF has a right adjoint. Moreover,
+   this is a characterization: a profunctor ϕ : C ↛ D has a right adjoint if
+   and only if ϕ^ : C → D^ factors through the Cauchy completion of D, i.e.
+   there exists a functor F : C → D such that ϕ^ = Y D ∘ F." *)
