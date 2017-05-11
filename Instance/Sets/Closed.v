@@ -15,16 +15,15 @@ Unset Transparent Obligations.
 
 Program Instance Sets_Closed : @Closed Sets _ := {
   Exp := fun X Y =>
-            {| carrier := SetoidMorphism X Y
-             ; is_setoid := @SetoidMorphism_Setoid X Y
-             |};
+    {| carrier := SetoidMorphism X Y
+     ; is_setoid := @SetoidMorphism_Setoid X Y |};
+
   exp_iso := fun _ _ _ =>
     {| to   := {| morphism := fun f =>
                     {| morphism := fun x =>
                          {| morphism := fun y => f (x, y) |} |} |}
      ; from := {| morphism := fun f =>
-                    {| morphism := fun p => f (fst p) (snd p) |} |}
-     |}
+                    {| morphism := fun p => f (fst p) (snd p) |} |} |}
 }.
 Next Obligation.
   proper; destruct f; simpl.
