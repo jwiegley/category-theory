@@ -40,7 +40,7 @@ Ltac simplify :=
      end; intros).
 
 Ltac cat :=
-  try split;
+  simplify;
   autorewrite with categories;
   auto with category_laws;
   try reflexivity.
@@ -87,4 +87,5 @@ Global Obligation Tactic :=
     end;
     program_simpl; autounfold in *;
     simpl in *; intros; simplify;
-    simpl in *; cat].
+    simpl in *; cat];
+  simpl in *.

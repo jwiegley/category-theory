@@ -79,14 +79,14 @@ Program Definition Adjoints : Category := {|
 |}.
 Next Obligation.
   proper; simpl; constructive.
-  - exact (fmap (transform[to a] _) ∘ transform[to a0] _).
+  - exact (fmap (transform[to x2] _) ∘ transform[to x1] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
     rewrite !naturality.
     rewrite <- comp_assoc.
     rewrite <- fmap_comp.
     reflexivity.
-  - exact (fmap (transform[from a] _) ∘ transform[from a0] _).
+  - exact (fmap (transform[from x2] _) ∘ transform[from x1] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
     rewrite !naturality.
@@ -95,32 +95,32 @@ Next Obligation.
     reflexivity.
   - rewrite naturality.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (transform[to a] _))).
+    rewrite (comp_assoc (fmap (transform[to x2] _))).
     rewrite <- fmap_comp.
     rewrite naturality.
     rewrite comp_assoc.
-    destruct a; simpl in *.
+    destruct x2; simpl in *.
     rewrite iso_to_from; cat.
-    destruct a0; simpl in *.
+    destruct x1; simpl in *.
     rewrite iso_to_from0; cat.
   - rewrite naturality.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (transform[from a] _))).
+    rewrite (comp_assoc (fmap (transform[from x2] _))).
     rewrite <- fmap_comp.
     rewrite naturality.
     rewrite comp_assoc.
-    destruct a; simpl in *.
+    destruct x2; simpl in *.
     rewrite iso_from_to; cat.
-    destruct a0; simpl in *.
+    destruct x1; simpl in *.
     rewrite iso_from_to0; cat.
-  - exact (fmap (transform[to b0] _) ∘ transform[to b] _).
+  - exact (fmap (transform[to y1] _) ∘ transform[to y2] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
     rewrite !naturality.
     rewrite <- comp_assoc.
     rewrite <- fmap_comp.
     reflexivity.
-  - exact (fmap (transform[from b0] _) ∘ transform[from b] _).
+  - exact (fmap (transform[from y1] _) ∘ transform[from y2] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
     rewrite !naturality.
@@ -129,23 +129,23 @@ Next Obligation.
     reflexivity.
   - rewrite naturality.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (transform[to b0] _))).
+    rewrite (comp_assoc (fmap (transform[to y1] _))).
     rewrite <- fmap_comp.
     rewrite naturality.
     rewrite comp_assoc.
-    destruct b0; simpl in *.
+    destruct y1; simpl in *.
     rewrite iso_to_from; cat.
-    destruct b; simpl in *.
+    destruct y2; simpl in *.
     rewrite iso_to_from0; cat.
   - rewrite naturality.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (transform[from b0] _))).
+    rewrite (comp_assoc (fmap (transform[from y1] _))).
     rewrite <- fmap_comp.
     rewrite naturality.
     rewrite comp_assoc.
-    destruct b0; simpl in *.
+    destruct y1; simpl in *.
     rewrite iso_from_to; cat.
-    destruct b; simpl in *.
+    destruct y2; simpl in *.
     rewrite iso_from_to0; cat.
 Qed.
 Next Obligation. split; simpl; constructive; cat. Qed.

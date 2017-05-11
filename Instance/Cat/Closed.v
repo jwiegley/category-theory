@@ -48,6 +48,7 @@ Qed.
 Next Obligation.
   proper.
   apply fmap_respects; cat.
+  rewrite X0; reflexivity.
 Qed.
 Next Obligation.
   simpl; intros.
@@ -77,7 +78,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper.
-  rewrite b.
+  rewrite y0.
   apply compose_respects.
     apply fmap_respects.
     reflexivity.

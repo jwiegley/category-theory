@@ -189,7 +189,7 @@ Notation "X ⨂ Y" := (@tensor _ _ (X%object, Y%object))
 Notation "X ⨂[ M ] Y" := (fobj[@tensor _ M] (X, Y))
   (at level 9, only parsing) : object_scope.
 
-Local Obligation Tactic := program_simpl.
+Local Obligation Tactic := program_simpl; simpl in *.
 
 (* This reflects the fact that categories are themselves "monoidoids", or
    monoidal with respect to identity and composition.  *)
@@ -205,7 +205,6 @@ Program Definition Composition_Monoidal `{C : Category} :
   I := Id
 |}.
 Next Obligation.
-  simpl in *.
   rewrite <- naturality.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
@@ -218,16 +217,14 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  proper; simplify; simpl in *.
-  rewrite a, b.
+  proper; simpl in *.
+  rewrite x0, y0.
   reflexivity.
 Qed.
 Next Obligation.
-  simplify; simpl in *.
   rewrite !fmap_id; cat.
 Qed.
 Next Obligation.
-  simplify; simpl in *.
   rewrite <- !comp_assoc.
   apply compose_respects.
     reflexivity.
@@ -258,12 +255,10 @@ Program Definition InternalProduct_Monoidal
 |}.
 Next Obligation. apply one_unique. Qed.
 Next Obligation.
-  cat.
   rewrite <- fork_comp; cat.
   rewrite <- comp_assoc; cat.
 Qed.
 Next Obligation.
-  cat.
   rewrite <- !fork_comp; cat.
   rewrite <- !comp_assoc; cat.
   rewrite <- !fork_comp; cat.
@@ -306,7 +301,7 @@ Qed.
 
 Require Import Category.Functor.Bifunctor.
 
-Local Obligation Tactic := simpl; intros.
+Local Obligation Tactic := intros; simplify; simpl in *.
 
 (* Any product of monoidal categories is monoidal. *)
 
@@ -314,8 +309,8 @@ Program Instance Product_Monoidal
         `{C : Category} `{@Monoidal C} `{D : Category} `{@Monoidal D} :
   @Monoidal (C ∏ D) := {
   tensor :=
-    {| fobj := fun x => (fst (fst x) ⨂ fst (snd x),
-                         snd (fst x) ⨂ snd (snd x))
+    {| fobj := fun p => (fst (fst p) ⨂ fst (snd p),
+                         snd (fst p) ⨂ snd (snd p))
      ; fmap := fun _ _ f => (bimap (fst (fst f)) (fst (snd f)),
                              bimap (snd (fst f)) (snd (snd f))) |};
   I := (@I C _, @I D _)
@@ -327,22 +322,17 @@ Next Obligation.
   exact H0.
 Defined.
 Next Obligation.
-  simplify; simpl in *.
   proper; simplify; simpl in *.
-    rewrite a0, a.
+    rewrite x1, x2.
     reflexivity.
-  rewrite b0, b1.
+  rewrite y0, y1.
   reflexivity.
 Qed.
 Next Obligation.
-  simplify; simpl in *;
-  rewrite <- fmap_id;
-  apply fmap_respects; cat.
+  split; rewrite bimap_id_id; reflexivity.
 Qed.
 Next Obligation.
-  simplify; simpl in *;
-  rewrite bimap_comp;
-  reflexivity.
+  split; rewrite bimap_comp; reflexivity.
 Qed.
 Next Obligation.
   isomorphism; simpl; simplify; simpl.
@@ -356,7 +346,7 @@ Next Obligation.
   - apply iso_from_to.
 Defined.
 Next Obligation.
-  isomorphism; simpl; simplify.
+  isomorphism; simpl; simplify; simpl.
   - apply (to unit_left).
   - apply (to unit_left).
   - apply (from unit_left).

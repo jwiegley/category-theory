@@ -17,12 +17,12 @@ Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} :
 }.
 Next Obligation.
   proper.
-  destruct x, y; simpl in *.
-  rewrite a, b.
+  simpl in *.
+  rewrite x0, y0.
   reflexivity.
 Qed.
 Next Obligation.
-  simpl.
+  simpl in *.
   rewrite <- fork_comp.
   rewrite <- !comp_assoc; cat.
 Qed.

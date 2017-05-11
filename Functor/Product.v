@@ -74,9 +74,9 @@ Defined.
 Next Obligation.
   proper; simpl; simplify; simpl in *.
     rewrite !let_snd.
-    rewrite a, b; reflexivity.
+    rewrite x0, y0; reflexivity.
   rewrite !let_fst.
-  rewrite a, b; reflexivity.
+  rewrite x0, y0; reflexivity.
 Qed.
 Next Obligation.
   rewrite !let_fst, !let_snd; cat.

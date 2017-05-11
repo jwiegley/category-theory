@@ -22,8 +22,7 @@ Defined.
 Next Obligation.
   unfold InternalHomFunctor_obligation_1.
   proper; simpl.
-  destruct x, y; simpl in *.
-  rewrite a, b.
+  rewrite x0, y0.
   reflexivity.
 Qed.
 Next Obligation. unfold second; simpl; cat. Qed.

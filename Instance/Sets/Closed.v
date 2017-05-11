@@ -36,11 +36,10 @@ Next Obligation.
   split; simpl; intuition.
 Qed.
 Next Obligation.
-  proper.
-  destruct x, y; simpl in *.
+  proper; simpl in *.
   destruct f; simpl in *.
   unfold Proper, respectful in proper_morphism.
-  rewrite (proper_morphism _ _ a).
-  destruct (morphism c1).
+  rewrite (proper_morphism _ _ x0).
+  destruct (morphism x1).
   apply proper_morphism0; assumption.
 Qed.
