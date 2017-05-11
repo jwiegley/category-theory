@@ -74,7 +74,7 @@ Proof.
   simpl in X; abstract apply X.
 Time Defined.
 
-Time Program Definition ProductFunctor_Monoidal :
+Program Definition ProductFunctor_Monoidal :
   MonoidalFunctor F -> MonoidalFunctor G
     -> MonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
   pure_iso := _;
