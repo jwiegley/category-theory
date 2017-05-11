@@ -1,49 +1,52 @@
 TODO  -*- mode: org; fill-column: 78 -*-
 
-* Inbox
-** TODO Break Functors into subdirectories:
-Functor.Construction.Product
-Functor.Structure.Cartesian, etc., to show exactly what they are functors of
-Functor.Product is then just the simple notion
-** TODO A Boolean object is any for which there is a morphism Bool ~> 1 + 1, with a UMP characteristizing the minimal requirements of such an object
-SCHEDULED: <2017-05-07 Sun>
-:PROPERTIES:
-:ID:       D7A5FC41-BD3C-4A86-9D43-B98FD393D014
-:CREATED:  [2017-05-07 Sun 10:03]
-:END:
-** TODO The two strength properties should be provable from the natural transformation
-SCHEDULED: <2017-05-07 Sun>
-:PROPERTIES:
-:ID:       5E51BA5D-2103-4E55-AFF4-BC8A7B830F01
-:CREATED:  [2017-05-07 Sun 10:03]
-:END:
-** TODO Define polynomial functors as any which are composites from identity, constant, product, coproduction and maybe exponentials 
-SCHEDULED: <2017-05-07 Sun>
-:PROPERTIES:
-:ID:       AA523223-71EE-4201-B31C-40F2B712170C
-:CREATED:  [2017-05-07 Sun 10:06]
-:END:
+* Restructuring
 ** TODO Get rid of the isomorphism directory
 SCHEDULED: <2017-05-07 Sun>
 :PROPERTIES:
 :ID:       9E2C0BAF-4B15-42B2-8BBA-A11831BD0D66
 :CREATED:  [2017-05-05 Fri 11:31]
 :END:
+** TODO Break Functors into subdirectories
+- Functor.Construction.Product
+- Functor.Structure.Cartesian, etc., to show exactly what they are functors of
+- Functor.Product is then just the simple notion
 ** TODO Move notations into modules
 ** TODO Have 'make' error if a file is not in _CoqProject
-** TODO Do not open scopes, but associate them with types and Arguments
-** TODO Monad Transformers
-** TODO Define equivalence of categories
+* Miscellaneous
+** TODO Boolean object
+Is any for which there is a morphism Bool ~> 1 + 1, and a UMP characterizing
+such an object.
+SCHEDULED: <2017-05-07 Sun>
+:PROPERTIES:
+:ID:       D7A5FC41-BD3C-4A86-9D43-B98FD393D014
+:CREATED:  [2017-05-07 Sun 10:03]
+:END:
+** TODO Are strength properties should be provable from naturality?
+SCHEDULED: <2017-05-07 Sun>
+:PROPERTIES:
+:ID:       5E51BA5D-2103-4E55-AFF4-BC8A7B830F01
+:CREATED:  [2017-05-07 Sun 10:03]
+:END:
+** TODO Define polynomial functors
+SCHEDULED: <2017-05-07 Sun>
+Any which are composites from identity, constant, product, coproduction and
+maybe exponentials .
+:PROPERTIES:
+:ID:       AA523223-71EE-4201-B31C-40F2B712170C
+:CREATED:  [2017-05-07 Sun 10:06]
+:END:
 ** TODO Instead of HomFunctor, use the closed structure of Cat
 And just apply curry to [C^op, C] ⟶ Sets
-** TODO Move all instances not related to isomorphism or equivalence into modules
+** CANCELED Move all instances not related to isomorphism or equivalence into modules
 This will prevent Identity from being used whenever 'fmap' is called and I've
 forgotten to provide the right context.
+** DONE Do not open scopes, but associate them with types and Arguments
 ** DONE Separate adj_from_unit_conuit into its own class AdjunctionFunctional
 ** DONE Discrete has no arrows; rename the current one to Concrete
-** CANCELED Should Cat be moved into Functor.v?
 ** DONE Make Distributive into a structure, which every BiCCC automatically satisfies
 ** DONE Create dom(f) and cod(f) functions
+** CANCELED Should Cat be moved into Functor.v?
 * Coq improvements
 ** TODO Variables argument specifiers, to avoid @foo _ _ _ _ _ _
 #+begin_src coq
@@ -54,7 +57,7 @@ Arguments compose {_} {_ _ _} _ _, _ {_ _ _} _ _, _ _ _ _ _ _.
 Arguments assoc {_ _ _ _ _} _ _ _.
 Arguments assoc_sym {_ _ _ _ _} _ _ _.
 #+end_src coq
-** TODO Separate scopes for objects, categories and morphisms
+** DONE Separate scopes for objects, categories and morphisms
 #+begin_src coq
 Notation "f ∘ g" := (compose g f) : morphism_scope.
 Notation "a –≻ b" := (Hom a b) : morphism_scope.
@@ -73,7 +76,7 @@ Delimit Scope natiso_scope with natiso.
 Delimit Scope isomorphism_scope with isomorphism.
 Delimit Scope preorder_scope with preorder.
 #+end_src coq
-** TODO Use a targeted ltac macro for rewriting identities
+** CANCELED Use a targeted ltac macro for rewriting identities
 #+begin_src coq
 Ltac simpl_ids :=
   let id_detected B :=
@@ -89,16 +92,9 @@ Ltac simpl_ids :=
         | [|- (?B ∘ ?A = ?A)%morphism] => id_detected B
         | [|- (?A = ?B ∘ ?A)%morphism] => id_detected B
       end
-    )
-.
+    ).
 #+end_src coq
-** TODO Use the "progress" tactical
-#+begin_src coq
-Hint Extern 1 => progress simpl_ids.
-
-Hint Extern 3 => progress (dohyps (fun H => simpl_ids in H)).
-#+end_src coq
-** TODO Notation for accessing an isomorphism's inverse
+** DONE Notation for accessing an isomorphism's inverse
 #+begin_src coq
 Notation "f '⁻¹'" := (inverse_morphism f) : morphism_scope.
 #+end_src coq
@@ -112,7 +108,9 @@ Notation "1" := (SingletonCat) : category_scope.
 
 Notation "1" := (terminal term) : object_scope.
 #+end_src coq
-** TODO Polymorphic unit?
+** CANCELED Polymorphic unit?
+- State "CANCELED"   from "TODO"       [2017-05-10 Wed 16:50] \\
+  Not needed, since I use setoids.
 On the other hand, if we show that Set has the type unit as its terminal
 object, we, strangely, get the restriction that the level of the type of
 arrows of Set is universe Set but, expectedly, not for objects. A similar
@@ -141,10 +139,7 @@ Notation "( X , Y )" := (Build_prod X Y).
 Notation "X * Y" := (prod X Y) : type_scope.
 #+end_src coq
 * Theory
-** Colimits
-*** TODO as (left)right local kan extensions along the unique functor to the terminal category
-*** TODO (sum)product-(co)equalizer (co)limits
-*** TODO pointwise (as kan extensions)
+** STARTED Monad Transformers
 ** TODO Pullback
 ** TODO Pushout
 ** TODO Equalizer
@@ -152,6 +147,14 @@ Notation "X * Y" := (prod X Y) : type_scope.
 ** TODO Complete
 ** TODO Cocomplete
 ** TODO Subojects
+** TODO Define equivalence of categories
+** DONE Diagram
+** DONE Cone
+** DONE Limit
+** Colimits
+*** TODO As (left)right local kan extensions along the unique functor to the terminal category
+*** TODO (Sum)product-(co)equalizer (co)limits
+*** TODO Pointwise (as kan extensions)
 ** Kan extensions
 *** TODO Global definition
 *** TODO Local definition with both hom-functor and cones (along a functor)
@@ -165,9 +168,6 @@ Notation "X * Y" := (prod X Y) : type_scope.
 **** TODO Universal morphism adjunction
 *** TODO Duality : F ⊣ G ⇒ G^op ⊣ F^op
 *** TODO Uniqueness up to natural isomorphism
-** DONE Diagram
-** DONE Cone
-** DONE Limit
 * Constructions
 ** TODO Free category
 ** DONE Product (C × D)
@@ -176,7 +176,7 @@ Notation "X * Y" := (prod X Y) : type_scope.
 ** DONE Slice/Coslice (C/c)
 * Structures
 * Instances
-** TODO Ensembles (mathematical sets)
+** DONE Ensembles (mathematical sets)
 ** TODO Finite sets
 ** TODO 3
 ** TODO Mon
