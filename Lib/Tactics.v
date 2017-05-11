@@ -73,6 +73,7 @@ Hint Extern 7 (equiv ?X ?Z) =>
 
 Ltac equivalence := constructor; repeat intro; simpl; try cat; intuition.
 Ltac proper := repeat intro; simpl; try cat; intuition.
+Ltac sapply F := let H := fresh "H" in pose proof F as H; cbn in H; apply H; clear H.
 
 Global Obligation Tactic :=
   program_simpl; autounfold;
