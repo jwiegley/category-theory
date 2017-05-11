@@ -54,6 +54,7 @@ Instance/Sets/Cocartesian.v
 Instance/Sets/Closed.v
 Instance/Props.v
 Instance/Rel.v
+Instance/Ens.v
 Instance/AST.v
 Instance/Proset.v
 Instance/Poset.v
