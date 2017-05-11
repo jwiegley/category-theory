@@ -21,11 +21,11 @@ Context `{@CartesianMonoidal C _}.
 Context `{F : C ⟶ C}.
 Context `{G : C ⟶ C}.
 
-Local Obligation Tactic := program_simpl.
+Local Obligation Tactic := idtac.
 
 Lemma Product_Strong_strength_nat :
   StrongFunctor F -> StrongFunctor G
-    -> (⨂) ○ (Id[C]) ∏⟶ (F :*: G) ~{ [C ∏ C, C] }~> F :*: G ○ (⨂).
+    -> (⨂) ○ (Id[C]) ∏⟶ (F :*: G) ⟹ F :*: G ○ (⨂).
 Proof.
   simpl; intros O P.
   natural.
@@ -65,6 +65,17 @@ Proof.
     symmetry.
     rewrite !comp_assoc.
     rewrite !id_left.
+    pose proof (naturality[@strength_nat _ _ _ O] (o, o0) (o1, o2) (h, h0));
+    simpl in X; rewrite !X; clear X.
+    pose proof (naturality[@strength_nat _ _ _ P] (o, o0) (o1, o2) (h, h0));
+    simpl in X; rewrite !X; clear X.
+    rewrite bimap_comp.
+    rewrite <- !comp_assoc.
+    apply compose_respects; [reflexivity|].
+    rewrite !bimap_fmap.
+    symmetry.
+    rewrite !comp_assoc.
+    pose proof (@pentagon_identity _ _ o o0 o1 o2).
 Admitted.
 
 Program Definition Product_Strong :
