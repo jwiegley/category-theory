@@ -126,6 +126,39 @@ Program Instance hom_preorder `{C : Category} : PreOrder (@hom C) := {
   PreOrder_Transitive := fun _ _ _ f g => g ∘ f
 }.
 
+Ltac reassoc f :=
+  repeat match goal with
+    | [ |- context[(?F ∘ f) ∘ ?G] ] => rewrite <- (comp_assoc F f G)
+    | [ |- context[f ∘ (?G ∘ ?H)] ] => rewrite (comp_assoc f G H)
+    end.
+
+Ltac reassoc_before f g :=
+  repeat match goal with
+    | [ |- context[(?F ∘ f) ∘ g] ] => rewrite <- (comp_assoc F f g)
+    | [ |- context[f ∘ (g ∘ ?H)] ] => rewrite (comp_assoc f g H)
+    end.
+
+Ltac reassoc_after g f :=
+  repeat match goal with
+    | [ |- context[(?F ∘ g) ∘ f] ] => rewrite <- (comp_assoc F g f)
+    | [ |- context[g ∘ (f ∘ ?H)] ] => rewrite (comp_assoc g f H)
+    end.
+
+Ltac equiv :=
+  repeat match goal with
+  | [ H : equiv (?F ∘ ?G) _
+    |- context[(_ ∘ ?F) ∘ (?G ∘ _)] ] => reassoc F; rewrite H
+  | [ H : equiv (?F ∘ ?G) _
+    |- context[?F ∘ (?G ∘ _)] ] => reassoc F; rewrite H
+  | [ H : equiv (?F ∘ ?G) _
+    |- context[(_ ∘ ?F) ∘ ?G] ] => reassoc F; rewrite H
+  | [ H : equiv (?F ∘ ?G) _
+    |- context[?F ∘ ?G] ] => rewrite H
+  | [ |- equiv ?F ?F ] => reflexivity
+  | [ |- context[id ∘ ?F] ] => rewrite (id_left F)
+  | [ |- context[?F ∘ id] ] => rewrite (id_right F)
+  end.
+
 Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.
 Hint Extern 10 (?X ∘ (?Y ∘ ?Z) ≈ ?W) =>
