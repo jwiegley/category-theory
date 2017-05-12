@@ -47,7 +47,6 @@ Context `{F : C ⟶ C}.
 Global Program Instance Id_StrongFunctor : StrongFunctor Id[C] := {
   strength_nat := {| transform := fun p => _ |}
 }.
-Next Obligation. exact id. Defined.
 Next Obligation. unfold bimap; cat. Qed.
 
 Local Obligation Tactic := program_simpl.
