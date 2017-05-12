@@ -85,6 +85,11 @@ Notation "f ≈[ C ] g" :=
   (@equiv _ (@homset C%category _%object _%object) f%morphism g%morphism)
   (at level 79, only parsing) : category_theory_scope.
 
+Notation "f << A ~~> B >> g" :=
+  (@equiv (A%object ~> B%object)%homset _ f%morphism g%morphism)
+  (at level 99, A at next level, B at next level,
+   format "'[v' f '/'   <<  A  ~~>  B  >> '//' g ']'") : category_theory_scope.
+
 Coercion ob : Category >-> Sortclass.
 
 Hint Rewrite @id_left : categories.
