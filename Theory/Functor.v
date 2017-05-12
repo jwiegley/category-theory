@@ -61,17 +61,10 @@ Hint Rewrite @fmap_id : categories.
 
 Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
 
-Section Identity.
-
-Context `{C : Category}.
-Context `{D : Category}.
-
-Global Program Definition Id : C ⟶ C := {|
+Program Definition Id `{C : Category} : C ⟶ C := {|
   fobj := fun X => X;
   fmap := fun _ _ f => f
 |}.
-
-End Identity.
 
 Arguments Id {C} /.
 
