@@ -13,12 +13,12 @@ Unset Transparent Obligations.
 
 (* A product of functors over some object in a monoidal category. *)
 
-Program Definition Product
+Program Instance Product
         `{C : Category} `{D : Category} `{@Monoidal D}
-        `{F : C ⟶ D} `{G : C ⟶ D} : C ⟶ D := {|
+        `{F : C ⟶ D} `{G : C ⟶ D} : C ⟶ D := {
   fobj := fun x => F x ⨂ G x;
   fmap := fun _ _ f => bimap (fmap[F] f) (fmap[G] f)
-|}.
+}.
 Next Obligation.
   proper.
   rewrite X0; reflexivity.
