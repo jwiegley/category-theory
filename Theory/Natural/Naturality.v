@@ -63,10 +63,35 @@ Class CanonicalMap `{C : Category} (F : C -> C) : Type := {
 }.
 
 Program Instance Identity_CanonicalMap `{C : Category} :
-  @CanonicalMap C (fun X => X) := {
+  @CanonicalMap C (fun X => X) | 9 := {
   map := fun _ _ f => f;
   related_functor := Id
 }.
+
+Program Instance Functor_CanonicalMap `{C : Category} `{F : C ⟶ C} :
+  @CanonicalMap C F := {
+  map := fun _ _ f => fmap[F] f;
+  related_functor := F
+}.
+
+Program Instance Functor_Eta_CanonicalMap `{C : Category} `{F : C ⟶ C} :
+  @CanonicalMap C (fun X => F X) := {
+  map := fun _ _ f => fmap[F] f;
+  related_functor := F
+}.
+
+Program Instance Functor_Map_CanonicalMap `{C : Category} `{@CanonicalMap C P}
+        `{F : C ⟶ C} :
+  @CanonicalMap C (fun X => F (P X)) := {
+  map := fun _ _ f => fmap[F] (map f);
+  related_functor := F ○ related_functor
+}.
+Next Obligation.
+  (* jww (2017-05-12): Why does this not work? *)
+  (* rewrite fobj_related. *)
+Admitted.
+Next Obligation.
+Admitted.
 
 (*
 Global Program Instance Skip `{C : Category} : C ⟶ [C, C] := {
@@ -82,7 +107,7 @@ Defined.
 Require Import Category.Functor.Constant.
 
 Program Instance ConstMap `{C : Category} {B : C} :
-  @CanonicalMap C (λ _, B) := {
+  @CanonicalMap C (λ _, B) | 9 := {
   map := fun _ _ _ => id;
   related_functor := Constant _ B
 }.
