@@ -159,6 +159,12 @@ Proof.
   reflexivity.
 Qed.
 
+Theorem first_id {X Y : C} :
+  first (id[X]) ≈ id[X × Y].
+Proof. unfold first; cat. Qed.
+
+Hint Rewrite @first_id : categories.
+
 Theorem first_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
   first (Z:=W) (f ∘ g) ≈ first f ∘ first g.
 Proof.
@@ -174,6 +180,12 @@ Proof.
   rewrite <- fork_comp; cat.
   rewrite <- !comp_assoc; cat.
 Qed.
+
+Theorem second_id {X Y : C} :
+  second (id[Y]) ≈ id[X × Y].
+Proof. unfold second; cat. Qed.
+
+Hint Rewrite @second_id : categories.
 
 Theorem second_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
   second (Z:=W) (f ∘ g) ≈ second f ∘ second g.
@@ -249,6 +261,15 @@ Proof.
   unfold swap.
   rewrite <- fork_comp; cat.
 Qed.
+
+Theorem split_id {X Y : C} :
+  split (id[X]) (id[Y]) ≈ id[X × Y].
+Proof.
+  unfold split.
+  rewrite first_id, second_id; cat.
+Qed.
+
+Hint Rewrite @split_id : categories.
 
 Corollary fork_comp_hetero {X Y Z W : C}
           (f : Y ~> Z) (h : Y ~> W) (g i : X ~> Y) :
