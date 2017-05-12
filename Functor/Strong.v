@@ -18,10 +18,14 @@ Class StrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
   strength {X Y} : X ⨂ F Y ~> F (X ⨂ Y) := transform[strength_nat] (X, Y);
 
   strength_id_left {X} :
-    fmap[F] (to unit_left) ∘ strength ≈ to (@unit_left _ _ (F X));
+    fmap[F] (to unit_left) ∘ strength
+      << I ⨂ F X ~~> F X >>
+    to (@unit_left _ _ (F X));
+
   strength_assoc {X Y Z} :
+    fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ strength
+      << (X ⨂ Y) ⨂ F Z ~~> F (X ⨂ Y ⨂ Z) >>
     strength ∘ bimap id strength ∘ to (@tensor_assoc _ _ X Y (F Z))
-      ≈ fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ strength
 }.
 
 Class RightStrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
@@ -88,10 +92,10 @@ Next Obligation.
   destruct strength_nat0, strength_nat1; simpl in *.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-  rewrite <- strength_assoc1.
+  rewrite strength_assoc1.
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
-  rewrite <- strength_assoc0.
+  rewrite strength_assoc0.
   apply compose_respects; [reflexivity|].
   rewrite !comp_assoc.
   rewrite (naturality (X, Y ⨂ G Z) (X, G (Y ⨂ Z))
