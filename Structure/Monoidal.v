@@ -43,7 +43,49 @@ Class Monoidal := {
       ≈ to (@tensor_assoc W X (Y ⨂ Z)) ∘ to (@tensor_assoc (W ⨂ X) Y Z)
 }.
 
+Notation "(⨂)" := (@tensor _) : functor_scope.
 Notation "X ⨂ Y" := (tensor (X, Y)) (at level 30, right associativity).
+
+Global Program Instance Tensor_LeftMapF `{@Monoidal}
+        `{F : C ⟶ C} {Y : C} : Functor := {
+  fobj := fun X => F X ⨂ Y;
+  fmap := fun _ _ f => bimap (fmap[F] f) id
+}.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+
+Global Program Instance Tensor_LeftMap `{@Monoidal}
+        `{@CanonicalMap C P} {Y : C} :
+  @CanonicalMap C (fun X => P X ⨂ Y) := {
+  map := fun _ _ f => @bimap C C C (⨂) _ _ _ _ (@map _ _ _ _ _ f) (id[Y]);
+  related_functor := @Tensor_LeftMapF _ related_functor _
+}.
+Next Obligation.
+  destruct H0; simpl.
+  transitivity (related_functor A ⨂ Y).
+    clear fmap_related.
+    specialize (fobj_related A).
+    admit.
+Admitted.
+Next Obligation.
+  simpl.
+  pose proof (@fmap_related).
+Admitted.
+
+Global Program Instance Tensor_RightMap `{@Monoidal}
+        `{@CanonicalMap C P} {X : C} :
+  @CanonicalMap C (fun Y => X ⨂ P Y) := {
+  map := fun _ _ f => @bimap C C C (⨂) _ _ _ _ (id[X]) (@map _ _ _ _ _ f);
+  related_functor := Id
+}.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
 
 Theorem left_quadrangle_commutes `{Monoidal} {X Y Z} :
   bimap (to unit_right) id ∘ to (@tensor_assoc _ (X ⨂ I) Y Z)
