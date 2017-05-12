@@ -121,6 +121,11 @@ Arguments id_left {_ _ _} _.
 Arguments id_right {_ _ _} _.
 Arguments comp_assoc {_ _ _ _ _} _ _ _.
 
+Program Instance hom_preorder `{C : Category} : PreOrder (@hom C) := {
+  PreOrder_Reflexive  := fun _ => id;
+  PreOrder_Transitive := fun _ _ _ f g => g ∘ f
+}.
+
 Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.
 Hint Extern 10 (?X ∘ (?Y ∘ ?Z) ≈ ?W) =>
