@@ -28,7 +28,7 @@ Lemma ProductFunctor_Strong_strength_nat :
     → (⨂) ○ (Id[C ∏ C]) ∏⟶ (F ∏⟶ G) ⟹ F ∏⟶ G ○ (⨂).
 Proof.
   intros O P.
-  natural; simplify; intros;
+  transform; simplify; intros;
   simplify; simpl in *; simplify; simpl in *.
   - exact (transform[@strength_nat _ _ _ O] (x1, x0)).
   - exact (transform[@strength_nat _ _ _ P] (y, y0)).
@@ -53,7 +53,7 @@ Lemma ProductFunctor_Strong_proj1_strength_nat :
 Proof.
   intro P.
   destruct P.
-  natural.
+  transform.
     intros [x y].
     exact (fst (transform[strength_nat] ((x, I), (y, I)))).
   destruct X as [x y].
@@ -104,7 +104,7 @@ Lemma ProductFunctor_Strong_proj2_strength_nat :
 Proof.
   intro P.
   destruct P.
-  natural.
+  transform.
     intros [x y].
     exact (snd (transform[strength_nat] ((I, x), (I, y)))).
   destruct X as [x y].

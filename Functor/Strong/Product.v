@@ -25,10 +25,10 @@ Local Obligation Tactic := idtac.
 
 Lemma Product_Strong_strength_nat :
   StrongFunctor F -> StrongFunctor G
-    -> (⨂) ○ (Id[C]) ∏⟶ (F :*: G) ⟹ F :*: G ○ (⨂).
+    -> (⨂) ○ (Id[C]) ∏⟶ (F :*: G) ~{ [C ∏ C, C] }~> F :*: G ○ (⨂).
 Proof.
   simpl; intros O P.
-  natural.
+  transform.
   - intros [x y]; simpl.
     enough (x ⨂ F y ⨂ G y ~> (x ⨂ F y) ⨂ (x ⨂ G y)).
       exact (bimap (transform[@strength_nat _ _ _ O] (x, y))

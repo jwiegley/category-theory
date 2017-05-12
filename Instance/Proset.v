@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
 Require Export Category.Theory.Functor.
-Require Export Category.Theory.Natural.
+Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Cocartesian.
 Require Export Category.Structure.Closed.

@@ -8,7 +8,8 @@ Theory/Category.v
 Theory/Morphisms.v
 Theory/Isomorphism.v
 Theory/Functor.v
-Theory/Natural.v
+Theory/Natural/Naturality.v
+Theory/Natural/Transformation.v
 Theory/Dinatural.v
 Theory/Adjunction.v
 Theory/Monad.v

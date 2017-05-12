@@ -143,12 +143,12 @@ Qed.
 Next Obligation.
   constructive; simpl.
   all:swap 2 3.
-  - natural; simpl; intros.
+  - transform; simpl; intros.
       apply (x X), id.
     simpl; cat.
     destruct x; simpl in *.
     rewrite fmap_id; cat.
-  - natural; simpl; intros.
+  - transform; simpl; intros.
       apply (x X), id.
     simpl; cat.
     destruct x; simpl in *.

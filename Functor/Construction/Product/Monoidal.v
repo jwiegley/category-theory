@@ -33,7 +33,7 @@ Proof.
   intros O P.
   isomorphism.
 
-  natural.
+  transform.
     intros [[x z] [y w]]; split.
       exact (transform[to ap_functor_iso] (x, y)).
     exact (transform[to ap_functor_iso] (z, w)).
@@ -47,7 +47,7 @@ Proof.
     abstract apply (naturality (to ap_functor_iso) (x1, y1)).
   abstract apply (naturality (to ap_functor_iso) (x2, y2)).
 
-  natural.
+  transform.
     intros [[x z] [y w]]; split.
       exact (transform[from ap_functor_iso] (x, y)).
     exact (transform[from ap_functor_iso] (z, w)).
@@ -110,7 +110,7 @@ Proof.
 
   isomorphism.
 
-  natural.
+  transform.
     intros [x y].
     exact (fst (transform[to (ap_functor_iso[P])] ((x, I), (y, I)))).
 
@@ -123,7 +123,7 @@ Proof.
                          (x, I, (y, I)) (z, I, (w, I))
                          ((f, id), (g, id)))).
 
-  natural.
+  transform.
     intros [x y].
     exact (fst (transform[from (ap_functor_iso[P])] ((x, I), (y, I)))).
 
@@ -219,7 +219,7 @@ Proof.
 
   isomorphism.
 
-  natural.
+  transform.
     intros [x y].
     exact (snd (transform[to (ap_functor_iso[P])] ((I, x), (I, y)))).
 
@@ -232,7 +232,7 @@ Proof.
                          (I, x, (I, y)) (I, z, (I, w))
                          ((id, f), (id, g)))).
 
-  natural.
+  transform.
     intros [x y].
     exact (snd (transform[from (ap_functor_iso[P])] ((I, x), (I, y)))).
 
@@ -326,7 +326,7 @@ Lemma ProductFunctor_LaxMonoidal_ap_functor_nat :
 Proof.
   intros O P.
 
-  natural.
+  transform.
     intros [[x z] [y w]]; split.
       exact (transform[ap_functor_nat] (x, y)).
     exact (transform[ap_functor_nat] (z, w)).
@@ -375,7 +375,7 @@ Lemma ProductFunctor_LaxMonoidal_proj1_ap_functor_nat :
 Proof.
   intros P.
 
-  natural.
+  transform.
     intros [x y].
     exact (fst (transform[ap_functor_nat[P]] ((x, I), (y, I)))).
 
@@ -462,7 +462,7 @@ Lemma ProductFunctor_LaxMonoidal_proj2_ap_functor_nat :
 Proof.
   intros P.
 
-  natural.
+  transform.
     intros [x y].
     exact (snd (transform[ap_functor_nat[P]] ((I, x), (I, y)))).
 
@@ -564,7 +564,7 @@ Lemma ProductFunctor_fst_LaxMonoidal_ap_functor_nat :
           ⟹ ProductFunctor_fst P ○ (⨂).
 Proof.
   intro L.
-  natural; simplify; simpl;
+  transform; simplify; simpl;
   intros; simplify; simpl.
     exact (fst (bimap id (to unit_left) ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((x, I), (y, I)))).
@@ -776,7 +776,7 @@ Lemma ProductFunctor_snd_LaxMonoidal_ap_functor_nat :
           ⟹ ProductFunctor_snd P ○ (⨂).
 Proof.
   intro L.
-  natural; simplify; simpl;
+  transform; simplify; simpl;
   intros; simplify; simpl.
     exact (snd (bimap (to unit_left) id ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((I, x), (I, y)))).

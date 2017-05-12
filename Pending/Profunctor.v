@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Natural.
+Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Functor.Hom.
 Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Sets.

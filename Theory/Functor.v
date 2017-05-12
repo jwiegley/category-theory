@@ -40,7 +40,8 @@ Coercion fobj : Functor >-> Funclass.
 Notation "C ⟶ D" := (@Functor C%category D%category)
   (at level 90, right associativity) : functor_type_scope.
 
-Arguments fmap {C%category D%category Functor%functor X%object Y%object} f%morphism.
+Arguments fmap
+  {C%category D%category Functor%functor X%object Y%object} f%morphism.
 
 Infix "<$>" := fmap
   (at level 29, left associativity, only parsing) : morphism_scope.

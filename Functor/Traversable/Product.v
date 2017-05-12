@@ -27,7 +27,7 @@ Lemma ProductFunctor_Traversable_ap_functor_nat :
 Proof.
   intros O P ???.
 
-  natural.
+  transform.
     simpl.
     intro x.
       exact (ap[H0] ∘ bimap (transform[@sequence _ _ _ O H0 _ _] x)

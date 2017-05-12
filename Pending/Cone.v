@@ -27,7 +27,7 @@ Proof.
     crush.
     unfold Const.
     destruct X.
-    natural.
+    transform.
     + (* transport *)
       apply cone_mor0.
     + (* naturality *)

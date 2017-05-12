@@ -135,22 +135,22 @@ Proof.
     unshelve econstructor.
     - isomorphism; auto.
     - isomorphism; simpl.
-      + natural; simpl; intros.
+      + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
         * destruct X0, Y; simpl; cat.
-      + natural; simpl; intros.
+      + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
         * destruct X0, Y; simpl; cat.
       + destruct A; simpl; cat.
       + destruct A; simpl; cat.
     - isomorphism; simpl.
-      + natural; simpl; intros.
+      + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
         * destruct X0, Y; simpl; cat.
-      + natural; simpl; intros.
+      + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
         * destruct X0, Y; simpl; cat.

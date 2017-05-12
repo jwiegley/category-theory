@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Natural.
+Require Export Category.Theory.Natural.Transformation.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -64,7 +64,7 @@ Proof. proper. Qed.
 
 Global Program Definition Nat : Category := {|
   ob      := C ⟶ D;
-  hom     := @Natural C D;
+  hom     := @Transform C D;
   id      := @nat_identity;
   compose := @nat_compose;
 

@@ -41,12 +41,12 @@ Proof.
       apply (@naturality _ _ _ _ (@mappend _ _ _ m)).
   - unshelve (refine {| mempty  := _
                       ; mappend := _ |}).
-    + natural; intros.
+    + transform; intros.
         exact ret.
       simpl.
       symmetry.
       apply fmap_ret.
-    + natural; intros.
+    + transform; intros.
         exact join.
       simpl.
       symmetry.
