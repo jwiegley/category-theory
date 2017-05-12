@@ -66,7 +66,7 @@ Notation "X <~{ C }~ Y" := (@hom C%category Y%object X%object)
   (at level 90, only parsing) : homset_scope.
 
 Notation "id[ X ]" := (@id _%category X%object)
-  (at level 50, format "id[ X ]") : morphism_scope.
+  (at level 50, only parsing, format "id[ X ]") : morphism_scope.
 
 Notation "f ∘ g" :=
   (@compose _%category _%object _%object _%object f%morphism g%morphism)
