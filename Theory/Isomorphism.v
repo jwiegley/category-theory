@@ -30,8 +30,7 @@ Arguments iso_from_to {X Y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
-Global Program Instance isomorphism_equivalence :
-  Equivalence Isomorphism.
+Global Program Instance isomorphism_equivalence : Equivalence Isomorphism.
 Next Obligation.
   intros.
   apply Build_Isomorphism with (to:=id) (from:=id); cat.
@@ -50,29 +49,6 @@ Next Obligation.
   rewrite (@comp_assoc _ _ _ _ _ from1).
   rewrite iso_from_to1; cat.
 Defined.
-
-Global Program Instance arrow_Isomorphism :
-  Proper
-    (respectful Isomorphism
-       (respectful Isomorphism Basics.arrow)) Isomorphism.
-Next Obligation.
-  proper.
-  transitivity x; auto.
-    symmetry; assumption.
-  transitivity x0; auto.
-Qed.
-
-Global Program Instance flip_arrow_Isomorphism :
-  Proper
-    (respectful Isomorphism
-       (respectful Isomorphism
-                              (Basics.flip Basics.arrow))) Isomorphism.
-Next Obligation.
-  proper.
-  transitivity y; auto.
-  transitivity y0; auto.
-  symmetry; assumption.
-Qed.
 
 Definition ob_equiv : crelation C := fun X Y => X ≅ Y.
 
