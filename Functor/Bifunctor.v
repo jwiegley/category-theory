@@ -80,6 +80,26 @@ Proof.
   split; simpl; cat.
 Qed.
 
+Lemma bimap_id_right_left `{F : C ∏ D ⟶ E} {W}
+      `(f : Z ~{C}~> W) `(g : X ~{D}~> Y) :
+  bimap f id ∘ bimap id g ≈ bimap f g.
+Proof.
+  unfold bimap.
+  rewrite <- fmap_comp.
+  apply fmap_respects.
+  split; simpl; cat.
+Qed.
+
+Lemma bimap_id_left_right `{F : C ∏ D ⟶ E} {W}
+      `(f : Z ~{D}~> W) `(g : X ~{C}~> Y) :
+  bimap id f ∘ bimap g id ≈ bimap g f.
+Proof.
+  unfold bimap.
+  rewrite <- fmap_comp.
+  apply fmap_respects.
+  split; simpl; cat.
+Qed.
+
 End Bifunctor.
 
 Notation "bimap[ F ]" := (@bimap _ _ _ F%functor _ _ _ _)
