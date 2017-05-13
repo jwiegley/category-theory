@@ -23,70 +23,65 @@ Context `{G : C ⟶ C}.
 
 Local Obligation Tactic := idtac.
 
-Lemma Product_Strong_strength_nat :
-  StrongFunctor F -> StrongFunctor G
-    -> (⨂) ○ (Id[C]) ∏⟶ (F :*: G) ~{ [C ∏ C, C] }~> F :*: G ○ (⨂).
-Proof.
-  simpl; intros O P.
-  transform.
-  - intros [x y]; simpl.
-    enough (x ⨂ F y ⨂ G y ~> (x ⨂ F y) ⨂ (x ⨂ G y)).
-      exact (bimap (transform[@strength_nat _ _ _ O] (x, y))
-                   (transform[@strength_nat _ _ _ P] (x, y)) ∘ X).
-    exact
-      ((from tensor_assoc
-          : x ⨂ (F y ⨂ (x ⨂ G y)) ~> (x ⨂ F y) ⨂ (x ⨂ G y)) ∘
-       (bimap id (to tensor_assoc)
-          : x ⨂ ((F y ⨂ x) ⨂ G y) ~> x ⨂ (F y ⨂ (x ⨂ G y))) ∘
-       (bimap id (bimap (to sym_swap) id)
-          : x ⨂ ((x ⨂ F y) ⨂ G y) ~> x ⨂ ((F y ⨂ x) ⨂ G y)) ∘
-       (bimap (id[x]) (from tensor_assoc)
-          : x ⨂ (x ⨂ (F y ⨂ G y)) ~> x ⨂ ((x ⨂ F y) ⨂ G y)) ∘
-       (to tensor_assoc
-          : (x ⨂ x) ⨂ (F y ⨂ G y) ~> x ⨂ (x ⨂ (F y ⨂ G y))) ∘
-       (bimap diagonal (id[F y ⨂ G y])
-          : x ⨂ (F y ⨂ G y) ~> (x ⨂ x) ⨂ (F y ⨂ G y))).
-  - destruct X, Y, f; simpl in *.
-    rewrite comp_assoc.
-    rewrite <- bimap_comp.
-    rewrite !bimap_fmap.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc (bimap _ _)).
-    rewrite (comp_assoc (bimap _ _)).
-    rewrite <- !bimap_comp.
-    rewrite (comp_assoc (bimap _ _)).
-    rewrite <- !bimap_comp.
-    symmetry.
-    rewrite (comp_assoc (bimap _ _)).
-    rewrite (comp_assoc (bimap _ _)).
-    rewrite <- !bimap_comp.
-    rewrite (comp_assoc (bimap _ _)).
-    rewrite <- !bimap_comp.
-    symmetry.
-    rewrite !comp_assoc.
-    rewrite !id_left.
-    pose proof (naturality[@strength_nat _ _ _ O] (o, o0) (o1, o2) (h, h0));
-    simpl in X; rewrite !X; clear X.
-    pose proof (naturality[@strength_nat _ _ _ P] (o, o0) (o1, o2) (h, h0));
-    simpl in X; rewrite !X; clear X.
-    rewrite bimap_comp.
-    rewrite <- !comp_assoc.
-    apply compose_respects; [reflexivity|].
-    rewrite !bimap_fmap.
-    symmetry.
-    rewrite !comp_assoc.
-    pose proof (@pentagon_identity _ _ o o0 o1 o2).
-Admitted.
-
+(* jww (2017-05-12): TODO
 Program Definition Product_Strong :
   StrongFunctor F -> StrongFunctor G -> StrongFunctor (F :*: G) := fun O P => {|
-  strength_nat := Product_Strong_strength_nat O P;
+  strength := _;
   strength_id_left := _;
   strength_assoc := _
 |}.
 Next Obligation.
+  simpl; intros O P x y.
+  exact
+    ((bimap strength strength
+        : (x ⨂ F y) ⨂ (x ⨂ G y) ~> F (x ⨂ y) ⨂ G (x ⨂ y)) ∘
+     (tensor_assoc
+        : ((x ⨂ F y) ⨂ x) ⨂ G y ~> _) ∘
+     (bimap sym_swap id
+        : (x ⨂ (x ⨂ F y)) ⨂ G y ~> _) ∘
+     (bimap tensor_assoc id
+        : ((x ⨂ x) ⨂ F y) ⨂ G y ~> _) ∘
+     (tensor_assoc⁻¹
+        : (x ⨂ x) ⨂ (F y ⨂ G y) ~> _) ∘
+     (bimap diagonal id
+        : x ⨂ (F y ⨂ G y) ~> _)).
+Defined.
+Next Obligation.
+  simpl; intros.
+  unfold Product_Strong_obligation_1.
+  rewrite <- bimap_comp.
+  rewrite <- !fmap_comp.
+  rewrite <- bimap_comp.
+  rewrite id_left, id_right.
+  rewrite <- !(comp_assoc _ (bimap _ _) (bimap _ _)).
+  rewrite <- !bimap_comp.
+  rewrite !id_left, !id_right.
+  rewrite !comp_assoc.
+  rewrite <- !bimap_comp.
+  pose proof (@strength_natural _ _ _ O _ _ g _ _ h); simpl in X0.
+  rewrite <- !fmap_comp in X0.
+  rewrite <- bimap_comp in X0.
+  rewrite <- comp_assoc in X0.
+  rewrite <- bimap_comp in X0.
+  rewrite !id_left, !id_right in X0.
+  rewrite X0; clear X0.
+  pose proof (@strength_natural _ _ _ P _ _ g _ _ h); simpl in X0.
+  rewrite <- !fmap_comp in X0.
+  rewrite <- bimap_comp in X0.
+  rewrite <- comp_assoc in X0.
+  rewrite <- bimap_comp in X0.
+  rewrite !id_left, !id_right in X0.
+  rewrite X0; clear X0.
+  rewrite bimap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite !comp_assoc.
+  (* rewrite <- !bimap_comp. *)
+  (* rewrite id_left. *)
+  (* rewrite !comp_assoc. *)
 Admitted.
 Next Obligation.
 Admitted.
+*)
 
 End ProductStrong.

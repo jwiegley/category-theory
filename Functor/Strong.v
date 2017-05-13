@@ -13,9 +13,8 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 
 Class StrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
-  strength_nat : (⨂) ○ Id ∏⟶ F ~{[C ∏ C, C]}~> F ○ (⨂);
-
-  strength {X Y} : X ⨂ F Y ~> F (X ⨂ Y) := transform[strength_nat] (X, Y);
+  strength {X Y} : X ⨂ F Y ~> F (X ⨂ Y);
+  strength_natural : natural (@strength);
 
   strength_id_left {X} :
     fmap[F] (to unit_left) ∘ strength
@@ -49,7 +48,7 @@ Context `{@Monoidal C}.
 Context `{F : C ⟶ C}.
 
 Global Program Instance Id_StrongFunctor : StrongFunctor Id[C] := {
-  strength_nat := {| transform := fun p => _ |}
+  strength := fun _ _ => id
 }.
 Next Obligation. unfold bimap; cat. Qed.
 
@@ -57,28 +56,23 @@ Local Obligation Tactic := program_simpl.
 
 Global Program Instance Compose_StrongFunctor (F G : C ⟶ C) :
   StrongFunctor F -> StrongFunctor G -> StrongFunctor (F ○ G) := {
-  strength_nat := {| transform := fun _ => fmap[F] strength ∘ strength |}
+  strength := fun _ _ => fmap[F] strength ∘ strength
 }.
 Next Obligation.
   destruct H0, H1; simpl in *.
-  unfold strength in *.
-  unfold strength_nat in *.
-  unfold strength0, strength1 in *.
-  destruct strength_nat0, strength_nat1; simpl in *.
   rewrite !comp_assoc.
-  rewrite <- fmap_comp.
-  rewrite (naturality0 (o1, o2) (o, o0) (h, h0)).
-  rewrite fmap_comp.
+  rewrite <- !fmap_comp.
   rewrite <- !comp_assoc.
-  apply compose_respects; [reflexivity|].
-  apply (naturality (o1, G o2) (o, G o0) (h, fmap[G] h0)).
+  rewrite (comp_assoc (strength0 _ _)).
+  rewrite <- strength_natural0; clear strength_natural0.
+  rewrite !comp_assoc.
+  rewrite <- !fmap_comp.
+  rewrite <- strength_natural1; clear strength_natural1.
+  rewrite <- fmap_comp.
+  reflexivity.
 Qed.
 Next Obligation.
   destruct H0, H1; simpl in *.
-  unfold strength in *.
-  unfold strength_nat in *.
-  unfold strength0, strength1 in *.
-  destruct strength_nat0, strength_nat1; simpl in *.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
   rewrite strength_id_left1.
@@ -86,10 +80,6 @@ Next Obligation.
 Qed.
 Next Obligation.
   destruct H0, H1; simpl in *.
-  unfold strength in *.
-  unfold strength_nat in *.
-  unfold strength0, strength1 in *.
-  destruct strength_nat0, strength_nat1; simpl in *.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
   rewrite strength_assoc1.
@@ -98,14 +88,17 @@ Next Obligation.
   rewrite strength_assoc0.
   apply compose_respects; [reflexivity|].
   rewrite !comp_assoc.
-  rewrite (naturality (X, Y ⨂ G Z) (X, G (Y ⨂ Z))
-                                  (id[X], transform0 (Y, Z))).
-  unfold bimap; simpl.
+  specialize (strength_natural0 X X (id[X]) (Y ⨂ G Z) (G (Y ⨂ Z))
+                                (strength1 Y Z)).
+  rewrite !bimap_id_id in strength_natural0.
+  rewrite !fmap_id in strength_natural0.
+  rewrite !id_right in strength_natural0.
+  rewrite strength_natural0.
   rewrite <- !comp_assoc.
   apply compose_respects; [reflexivity|].
   rewrite comp_assoc.
-  rewrite <- fmap_comp; simpl.
   apply compose_respects; [|reflexivity].
+  rewrite <- bimap_comp.
   apply fmap_respects.
   split; simpl; cat.
 Qed.
