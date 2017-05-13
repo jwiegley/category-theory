@@ -137,12 +137,19 @@ Proof.
 Abort.
 
 Class SymmetricMonoidal `{Monoidal} := {
-  sym_swap {X Y} : X ⨂ Y ≅ Y ⨂ X;
+  braid {X Y} : X ⨂ Y ≅ Y ⨂ X;
 
-  sym_swap_swap_to   {X Y} :
-    to (@sym_swap Y X) ∘ to (@sym_swap X Y) ≈ id;
-  sym_swap_swap_from {X Y} :
-    from (@sym_swap X Y) ∘ from (@sym_swap Y X) ≈ id
+  (* jww (2017-05-12): Need a way to express natural isomorphisms *)
+  (* braid_to_natural   : natural (fun X Y => to (@braid X Y)); *)
+  (* braid_from_natural : natural (fun X Y => from (@braid X Y)); *)
+
+  braid_to_invol   {X Y} : braid   ∘ braid   ≈ id[X ⨂ Y];
+  braid_from_invol {X Y} : braid⁻¹ ∘ braid⁻¹ ≈ id[X ⨂ Y];
+
+  hexagon_identity {X Y Z} :
+    tensor_assoc ∘ braid ∘ tensor_assoc
+      << (X ⨂ Y) ⨂ Z ~~> Y ⨂ (Z ⨂ X) >>
+    bimap id braid ∘ tensor_assoc ∘ bimap braid id
 }.
 
 Class RelevanceMonoidal `{Monoidal} := {
@@ -310,7 +317,7 @@ Qed.
 Program Definition InternalProduct_SymmetricMonoidal
         `{C : Category} `{@Cartesian C} `{@Terminal C} :
   @SymmetricMonoidal C InternalProduct_Monoidal := {|
-  sym_swap  := fun X Y =>
+  braid := fun X Y =>
     {| to   := @swap C _ X Y
      ; from := @swap C _ Y X
      ; iso_to_from := swap_invol
@@ -319,6 +326,13 @@ Program Definition InternalProduct_SymmetricMonoidal
 |}.
 Next Obligation. apply swap_invol. Qed.
 Next Obligation. apply swap_invol. Qed.
+Next Obligation.
+  unfold swap.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+Qed.
 
 Program Definition InternalProduct_CartesianMonoidal
         `{C : Category} `{@Cartesian C} `{@Terminal C} :
