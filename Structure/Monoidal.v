@@ -138,13 +138,9 @@ Abort.
 
 Class SymmetricMonoidal `{Monoidal} := {
   braid {X Y} : X ⨂ Y ≅ Y ⨂ X;
+  braid_natural : natural (@braid);
 
-  (* jww (2017-05-12): Need a way to express natural isomorphisms *)
-  (* braid_to_natural   : natural (fun X Y => to (@braid X Y)); *)
-  (* braid_from_natural : natural (fun X Y => from (@braid X Y)); *)
-
-  braid_to_invol   {X Y} : braid   ∘ braid   ≈ id[X ⨂ Y];
-  braid_from_invol {X Y} : braid⁻¹ ∘ braid⁻¹ ≈ id[X ⨂ Y];
+  braid_invol {X Y} : braid ∘ braid ≈ id[X ⨂ Y];
 
   hexagon_identity {X Y Z} :
     tensor_assoc ∘ braid ∘ tensor_assoc
@@ -324,7 +320,15 @@ Program Definition InternalProduct_SymmetricMonoidal
      ; iso_from_to := swap_invol
     |}
 |}.
-Next Obligation. apply swap_invol. Qed.
+Next Obligation.
+  unfold swap; split; intros.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+Qed.
 Next Obligation. apply swap_invol. Qed.
 Next Obligation.
   unfold swap.
