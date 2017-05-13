@@ -62,11 +62,11 @@ Global Program Instance Tensor_LeftMap `{@Monoidal}
         `{@CanonicalMap C P} {Y : C} :
   @CanonicalMap C (fun X => P X ⨂ Y) := {
   map := fun _ _ f => @bimap C C C (⨂) _ _ _ _ (@map _ _ _ _ _ f) (id[Y]);
-  related_functor := @Tensor_LeftMapF _ related_functor _
+  is_functor := @Tensor_LeftMapF _ is_functor _
 }.
 Next Obligation.
   destruct H0; simpl.
-  transitivity (related_functor A ⨂ Y).
+  transitivity (is_functor A ⨂ Y).
     clear fmap_related.
     specialize (fobj_related A).
     admit.
@@ -80,7 +80,7 @@ Global Program Instance Tensor_RightMap `{@Monoidal}
         `{@CanonicalMap C P} {X : C} :
   @CanonicalMap C (fun Y => X ⨂ P Y) := {
   map := fun _ _ f => @bimap C C C (⨂) _ _ _ _ (id[X]) (@map _ _ _ _ _ f);
-  related_functor := Id
+  is_functor := Id
 }.
 Next Obligation.
 Admitted.
@@ -378,10 +378,10 @@ Next Obligation.
 Qed.
 Next Obligation.
   isomorphism; simpl; simplify; simpl.
-  - apply (to tensor_assoc).
-  - apply (to tensor_assoc).
-  - apply (from tensor_assoc).
-  - apply (from tensor_assoc).
+  - apply tensor_assoc.
+  - apply tensor_assoc.
+  - apply (tensor_assoc⁻¹).
+  - apply (tensor_assoc⁻¹).
   - apply iso_to_from.
   - apply iso_to_from.
   - apply iso_from_to.
@@ -389,10 +389,10 @@ Next Obligation.
 Defined.
 Next Obligation.
   isomorphism; simpl; simplify; simpl.
-  - apply (to unit_left).
-  - apply (to unit_left).
-  - apply (from unit_left).
-  - apply (from unit_left).
+  - apply unit_left.
+  - apply unit_left.
+  - apply (unit_left⁻¹).
+  - apply (unit_left⁻¹).
   - apply iso_to_from.
   - apply iso_to_from.
   - apply iso_from_to.
@@ -400,10 +400,10 @@ Next Obligation.
 Defined.
 Next Obligation.
   isomorphism; simpl; simplify; simpl.
-  - apply (to unit_right).
-  - apply (to unit_right).
-  - apply (from unit_right).
-  - apply (from unit_right).
+  - apply unit_right.
+  - apply unit_right.
+  - apply (unit_right⁻¹).
+  - apply (unit_right⁻¹).
   - apply iso_to_from.
   - apply iso_to_from.
   - apply iso_from_to.
