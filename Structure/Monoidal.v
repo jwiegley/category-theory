@@ -25,9 +25,12 @@ Class Monoidal := {
   I : C;
 
   tensor_assoc {X Y Z} : (X ⨂ Y) ⨂ Z ≅ X ⨂ (Y ⨂ Z); (* alpha *)
+  (* tensor_assoc_natural : natural (@tensor_assoc); *)
 
   unit_left  {X} : I ⨂ X ≅ X;   (* lambda *)
+  (* unit_left_natural : natural (@unit_left); *)
   unit_right {X} : X ⨂ I ≅ X;   (* rho *)
+  (* unit_right_natural : natural (@unit_right); *)
 
   (* jww (2017-05-09): This should be provable *)
   unit_identity : to (@unit_left I) ≈ to (@unit_right I);
@@ -85,6 +88,28 @@ Global Program Instance Tensor_RightMap `{@Monoidal}
 Next Obligation.
 Admitted.
 Next Obligation.
+Admitted.
+
+Goal ∀ `{Monoidal}, natural (@tensor_assoc _).
+intros.
+simpl; split; intros.
+rewrite <- !bimap_comp.
+rewrite !id_left, !id_right.
+rewrite <- comp_assoc.
+rewrite <- !bimap_comp.
+rewrite !id_left, !id_right.
+rewrite <- comp_assoc.
+rewrite <- !bimap_comp.
+rewrite !id_left, !id_right.
+admit.
+rewrite <- !bimap_comp.
+rewrite !id_left, !id_right.
+rewrite <- comp_assoc.
+rewrite <- !bimap_comp.
+rewrite !id_left, !id_right.
+rewrite <- comp_assoc.
+rewrite <- !bimap_comp.
+rewrite !id_left, !id_right.
 Admitted.
 
 Theorem left_quadrangle_commutes `{Monoidal} {X Y Z} :
