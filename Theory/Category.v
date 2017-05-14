@@ -87,7 +87,7 @@ Notation "f ≈[ C ] g" :=
 
 Notation "f << A ~~> B >> g" :=
   (@equiv (A%object ~> B%object)%homset _ f%morphism g%morphism)
-  (at level 99, A at next level, B at next level,
+  (at level 99, A at next level, B at next level, only parsing,
    format "'[v' f '/'   <<  A  ~~>  B  >> '//' g ']'") : category_theory_scope.
 
 Coercion ob : Category >-> Sortclass.

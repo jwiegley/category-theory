@@ -26,6 +26,7 @@ Context `{G : D ⟶ K}.
 
 Local Obligation Tactic := program_simpl.
 
+(* jww (2017-05-13): TODO
 Lemma ProductFunctor_Monoidal_ap_functor_iso :
   MonoidalFunctor F → MonoidalFunctor G
     → (⨂) ○ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ≅[[(C ∏ D) ∏ (C ∏ D), J ∏ K]] F ∏⟶ G ○ (⨂).
@@ -988,5 +989,6 @@ Proof.
   exact (ProductFunctor_LaxMonoidal (ProductFunctor_fst_LaxMonoidal L)
                                     (ProductFunctor_snd_LaxMonoidal L)).
 Qed.
+*)
 
 End ProductMonoidalProj.

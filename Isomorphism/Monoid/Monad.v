@@ -20,6 +20,7 @@ Context `{M : C ⟶ C}.
 
 Definition Endofunctors `(C : Category) := ([C, C]).
 
+(* jww (2017-05-13): TODO
 Theorem Monoid_Monad :
   @Monoid (Endofunctors C) Composition_Monoidal M <--> Monad.
 Proof.
@@ -59,5 +60,6 @@ Proof.
       symmetry.
       apply join_fmap_join.
 Defined.
+*)
 
 End MonoidMonad.

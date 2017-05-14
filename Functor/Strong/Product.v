@@ -29,20 +29,7 @@ Definition braid2 {X Y Z W} : (X ⨂ Y) ⨂ (Z ⨂ W) ~{ C }~> (X ⨂ Z) ⨂ (Y 
 Lemma braid2_natural : natural (@braid2).
 Proof.
   simpl; intros.
-  rewrite <- (comp_assoc braid2).
-  rewrite <- !bimap_comp.
-  rewrite !id_left, !id_right.
-  rewrite <- !bimap_comp.
-  rewrite !id_left, !id_right.
-  rewrite <- (comp_assoc braid2).
-  rewrite <- !bimap_comp.
-  rewrite !id_left, !id_right.
-  rewrite <- (comp_assoc braid2).
-  rewrite <- !bimap_comp.
-  rewrite !id_left, !id_right.
-  unfold braid2.
-  pose proof (@pentagon_identity _ _).
-  pose proof (@hexagon_identity).
+  normal.
 Admitted.
 
 Local Obligation Tactic := idtac.
@@ -61,51 +48,20 @@ Defined.
 Next Obligation.
   simpl; intros.
   unfold Product_Strong_obligation_1.
-  rewrite <- bimap_comp.
-  rewrite <- !fmap_comp.
-  rewrite <- bimap_comp.
-  rewrite id_left, id_right.
-  rewrite <- !(comp_assoc _ (bimap _ _) (bimap _ _)).
-  rewrite <- !bimap_comp.
-  rewrite !id_left, !id_right.
-  rewrite !comp_assoc.
-  rewrite <- !bimap_comp.
-  pose proof (@strength_natural _ _ _ O _ _ g _ _ h); simpl in X0.
-  rewrite <- !fmap_comp in X0.
-  rewrite <- bimap_comp in X0.
-  rewrite <- comp_assoc in X0.
-  rewrite <- bimap_comp in X0.
-  rewrite !id_left, !id_right in X0.
+  pose proof (@strength_natural _ _ _ O _ _ g _ _ h) as X0.
+  pose proof (@strength_natural _ _ _ P _ _ g _ _ h) as X1.
+  pose proof (braid2_natural _ _ g _ _ g _ _ (fmap[F] h) _ _ (fmap[G] h)) as X2.
+  simpl in *; normal.
   rewrite X0; clear X0.
-  pose proof (@strength_natural _ _ _ P _ _ g _ _ h); simpl in X0.
-  rewrite <- !fmap_comp in X0.
-  rewrite <- bimap_comp in X0.
-  rewrite <- comp_assoc in X0.
-  rewrite <- bimap_comp in X0.
-  rewrite !id_left, !id_right in X0.
-  rewrite X0; clear X0.
+  rewrite X1; clear X1.
   rewrite bimap_comp.
-  rewrite <- !comp_assoc.
-  apply compose_respects; [reflexivity|].
-  rewrite !comp_assoc.
-  enough (bimap[(⨂)] (bimap[(⨂)] g (fmap[F] h)) (bimap[(⨂)] g (fmap[G] h)) ∘ braid2
-            ≈ braid2 ∘ bimap[(⨂)] (bimap[(⨂)] g g) (bimap[(⨂)] (fmap[F] h) (fmap[G] h))).
-    rewrite X0.
-    rewrite <- !comp_assoc.
-    apply compose_respects; [reflexivity|].
-    rewrite <- !bimap_comp.
-    rewrite !id_left, !id_right.
-    rewrite diagonal_natural.
-    reflexivity.
-  pose proof (braid2_natural
-                _ _ g _ _ g _ _ (fmap[F] h) _ _ (fmap[G] h)); simpl in X0.
-  rewrite <- !bimap_comp in X0.
-  rewrite <- !comp_assoc in X0.
-  rewrite <- !bimap_comp in X0.
-  rewrite !id_left, !id_right in X0.
-  rewrite <- !bimap_comp in X0.
-  rewrite !id_left, !id_right in X0.
-  apply X0.
+  rewrite <- comp_assoc.
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc (bimap (bimap _ _) _)).
+  rewrite X2; clear X2.
+  normal.
+  rewrite diagonal_natural.
+  reflexivity.
 Qed.
 Next Obligation.
 Admitted.

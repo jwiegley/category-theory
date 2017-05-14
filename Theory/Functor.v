@@ -103,3 +103,19 @@ Defined.
 
 Instance fobj_respects `{C : Category} `{D : Category} `(F : C ⟶ D) :
   Proper (equiv ==> equiv) (@fobj C D F) := @fmap_iso _ _ _.
+
+Class Faithful `{C : Category} `{D : Category} `(F : C ⟶ D) := {
+  fmap_inj {X Y} (f g : X ~> Y) : fmap[F] f ≈ fmap[F] g -> f ≈ g
+}.
+
+Class Full `{C : Category} `{D : Category} `(F : C ⟶ D) := {
+  prefmap {X Y} (g : F X ~> F Y) : X ~> Y;
+  fmap_sur {X Y} (g : F X ~> F Y) : fmap[F] (prefmap g) ≈ g
+}.
+
+Require Import Category.Instance.Sets.
+
+Class FullyFaithful `{C : Category} `{D : Category} `(F : C ⟶ D) := {
+  fmap_bij {X Y} : F X ~> F Y ≊ X ~> Y;
+  fobj_inj {X Y} : F X ≅ F Y -> X ≅ Y
+}.

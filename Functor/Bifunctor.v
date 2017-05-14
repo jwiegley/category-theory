@@ -40,9 +40,9 @@ Next Obligation.
   split; assumption.
 Qed.
 
-Lemma bimap_comp `{F : C ∏ D ⟶ E}
-      `(f : Y ~{C}~> Z) `(h : X ~{C}~> Y)
-      `(g : V ~{D}~> W) `(i : U ~{D}~> V) :
+Lemma bimap_comp `{F : C ∏ D ⟶ E} {X Y Z W U V}
+      (f : Y ~{C}~> Z) (h : X ~{C}~> Y)
+      (g : V ~{D}~> W) (i : U ~{D}~> V) :
   bimap (f ∘ h) (g ∘ i) ≈ bimap f g ∘ bimap h i.
 Proof.
   unfold bimap.
@@ -104,3 +104,46 @@ End Bifunctor.
 
 Notation "bimap[ F ]" := (@bimap _ _ _ F%functor _ _ _ _)
   (at level 9, format "bimap[ F ]") : morphism_scope.
+
+Ltac normal :=
+  repeat
+    match goal with
+    | [ |- context [?F ∘ (?G ∘ ?H)] ] =>
+      rewrite (comp_assoc F G H)
+
+    | [ |- context [fmap[?F] ?G ∘ fmap[?F] _] ] =>
+      rewrite <- (@fmap_comp _ _ F _ _ _ G)
+
+    | [ |- context [fmap[?F] id] ] =>
+      rewrite <- (@fmap_id _ _ F)
+
+    | [ |- context [bimap ?F _ ∘ bimap _ _] ] =>
+      rewrite <- (bimap_comp F)
+    | [ |- context [(?F ∘ bimap ?G _) ∘ bimap _ _] ] =>
+      rewrite <- (comp_assoc F (bimap _ _));
+      rewrite <- (bimap_comp G)
+
+    | [ |- context [id ∘ ?F] ] => rewrite (id_left F)
+    | [ |- context [?F ∘ id] ] => rewrite (id_right F)
+
+    | [ |- context [bimap id id] ] =>
+      rewrite bimap_id_id
+    | [ |- context [bimap ?F id ∘ bimap id ?G] ] =>
+      rewrite (bimap_id_right_left F)
+    | [ |- context [bimap id ?F ∘ bimap ?G id] ] =>
+      rewrite (bimap_id_left_right F G)
+
+    | [ H : context [fmap[?F] ?G ∘ fmap[?F] _] |- _ ] =>
+      rewrite <- (@fmap_comp _ _ F _ _ _ G) in H
+    | [ H : context [bimap ?F id ∘ bimap id ?G] |- _ ] =>
+      rewrite (bimap_id_right_left F) in H
+    | [ H : context [bimap id ?F ∘ bimap ?G id] |- _ ] =>
+      rewrite (bimap_id_left_right F G) in H
+    | [ H : context [bimap ?F _ ∘ bimap _ _] |- _ ] =>
+      rewrite <- (bimap_comp F) in H
+    | [ H : context [(?F ∘ bimap ?G _) ∘ bimap _ _] |- _ ] =>
+      rewrite <- (comp_assoc F (bimap _ _)) in H;
+      rewrite <- (bimap_comp G) in H
+    | [ H : context [id ∘ ?F] |- _ ] => rewrite (id_left F) in H
+    | [ H : context [?F ∘ id] |- _ ] => rewrite (id_right F) in H
+    end.
