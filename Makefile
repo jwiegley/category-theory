@@ -1,5 +1,5 @@
 all: Makefile.coq
-	for i in $$(find . -name '*.v' | sed 's/^\.\///'); do	\
+	@for i in $$(find . -name '*.v' | sed 's/^\.\///'); do	\
 	    if ! grep -q $$i _CoqProject; then			\
 		echo $$i is not in_CoqProject; exit 1;		\
 	    fi;							\
@@ -11,7 +11,7 @@ Makefile.coq: _CoqProject
 
 clean: _CoqProject Makefile.coq
 	make -f Makefile.coq clean
-	find . \( -name '*.glob' -o				\
+	@find . \( -name '*.glob' -o				\
 		  -name '*.v.d' -o				\
 		  -name '*.vo' -o				\
 		  -name '*.hi' -o				\
@@ -25,7 +25,7 @@ fullclean: clean
 	rm -f Makefile.coq
 
 todo:
-	find . \( \( -name coq-haskell -o -name fiat \) -prune \)		\
+	@find . \( \( -name coq-haskell -o -name fiat \) -prune \)		\
 	  -o -name '*.v'						|	\
 		xargs egrep -i -Hn '(abort|admit|undefined|jww)'	|	\
 		      egrep -v 'Definition undefined'			|	\
