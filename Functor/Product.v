@@ -16,8 +16,8 @@ Unset Transparent Obligations.
 Program Instance Product
         `{C : Category} `{D : Category} `{@Monoidal D}
         `{F : C ⟶ D} `{G : C ⟶ D} : C ⟶ D := {
-  fobj := fun x => F x ⨂ G x;
-  fmap := fun _ _ f => bimap (fmap[F] f) (fmap[G] f)
+  fobj := fun x => (F x ⨂ G x)%object;
+  fmap := fun _ _ f => fmap[F] f ⨂ fmap[G] f
 }.
 Next Obligation.
   proper.
@@ -25,15 +25,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   unfold split.
-  rewrite !fmap_id.
-  rewrite bimap_id_id.
-  reflexivity.
-Qed.
-Next Obligation.
-  unfold split.
-  rewrite <- bimap_comp.
-  rewrite <- !fmap_comp.
-  reflexivity.
+  normal; reflexivity.
 Qed.
 
 Notation "F :*: G" := (@Product _ _ _ F%functor G%functor)

@@ -26,7 +26,6 @@ Context `{G : D ⟶ K}.
 
 Local Obligation Tactic := program_simpl.
 
-(* jww (2017-05-13): TODO
 Lemma ProductFunctor_Monoidal_ap_functor_iso :
   MonoidalFunctor F → MonoidalFunctor G
     → (⨂) ○ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ≅[[(C ∏ D) ∏ (C ∏ D), J ∏ K]] F ∏⟶ G ○ (⨂).
@@ -188,8 +187,8 @@ Next Obligation.
 Qed.
 Next Obligation.
   pose proof (fst (naturality (to ap_functor_iso[P])
-                              ((X ⨂ Y, I ⨂ I), (Z, I))
-                              ((X ⨂ Y, I), (Z, I))
+                              ((X ⨂ Y, I ⨂ I), (Z, I))%object
+                              ((X ⨂ Y, I), (Z, I))%object
                               ((id[X ⨂ Y], to unit_left),
                                (id[Z], id[I])))); simpl in X0.
   rewrite !fmap_id in X0.
@@ -199,8 +198,8 @@ Next Obligation.
   rewrite <- X0; clear X0.
 
   pose proof (fst (naturality (to ap_functor_iso[P])
-                              ((X, I), (Y ⨂ Z, I ⨂ I))
-                              ((X, I), (Y ⨂ Z, I))
+                              ((X, I), (Y ⨂ Z, I ⨂ I))%object
+                              ((X, I), (Y ⨂ Z, I))%object
                               ((id[X], id[I]),
                                (id[Y ⨂ Z], to unit_left)))); simpl in X0.
   rewrite !fmap_id in X0.
@@ -297,8 +296,8 @@ Next Obligation.
 Qed.
 Next Obligation.
   pose proof (snd (naturality (to ap_functor_iso[P])
-                              ((I ⨂ I, X ⨂ Y), (I, Z))
-                              ((I, X ⨂ Y), (I, Z))
+                              ((I ⨂ I, X ⨂ Y), (I, Z))%object
+                              ((I, X ⨂ Y), (I, Z))%object
                               ((to unit_left, id[X ⨂ Y]),
                                (id[I], id[Z])))); simpl in X0.
   rewrite !fmap_id in X0.
@@ -308,8 +307,8 @@ Next Obligation.
   rewrite <- X0; clear X0.
 
   pose proof (snd (naturality (to ap_functor_iso[P])
-                              ((I, X), (I ⨂ I, Y ⨂ Z))
-                              ((I, X), (I, Y ⨂ Z))
+                              ((I, X), (I ⨂ I, Y ⨂ Z))%object
+                              ((I, X), (I, Y ⨂ Z))%object
                               ((id[I], id[X]),
                                (to unit_left, id[Y ⨂ Z])))); simpl in X0.
   rewrite !fmap_id in X0.
@@ -433,8 +432,8 @@ Next Obligation.
 Qed.
 Next Obligation.
   pose proof (fst (naturality (ap_functor_nat[P])
-                              ((X ⨂ Y, I ⨂ I), (Z, I))
-                              ((X ⨂ Y, I), (Z, I))
+                              ((X ⨂ Y, I ⨂ I), (Z, I))%object
+                              ((X ⨂ Y, I), (Z, I))%object
                               ((id[X ⨂ Y], to unit_left),
                                (id[Z], id[I])))); simpl in X0.
   rewrite !fmap_id in X0.
@@ -444,8 +443,8 @@ Next Obligation.
   rewrite <- X0; clear X0.
 
   pose proof (fst (naturality (ap_functor_nat[P])
-                              ((X, I), (Y ⨂ Z, I ⨂ I))
-                              ((X, I), (Y ⨂ Z, I))
+                              ((X, I), (Y ⨂ Z, I ⨂ I))%object
+                              ((X, I), (Y ⨂ Z, I))%object
                               ((id[X], id[I]),
                                (id[Y ⨂ Z], to unit_left)))); simpl in X0.
   rewrite !fmap_id in X0.
@@ -520,8 +519,8 @@ Next Obligation.
 Qed.
 Next Obligation.
   pose proof (snd (naturality (ap_functor_nat[P])
-                              ((I ⨂ I, X ⨂ Y), (I, Z))
-                              ((I, X ⨂ Y), (I, Z))
+                              ((I ⨂ I, X ⨂ Y), (I, Z))%object
+                              ((I, X ⨂ Y), (I, Z))%object
                               ((to unit_left, id[X ⨂ Y]),
                                (id[I], id[Z])))); simpl in X0.
   rewrite !fmap_id in X0.
@@ -531,8 +530,8 @@ Next Obligation.
   rewrite <- X0; clear X0.
 
   pose proof (snd (naturality (ap_functor_nat[P])
-                              ((I, X), (I ⨂ I, Y ⨂ Z))
-                              ((I, X), (I, Y ⨂ Z))
+                              ((I, X), (I ⨂ I, Y ⨂ Z))%object
+                              ((I, X), (I, Y ⨂ Z))%object
                               ((id[I], id[X]),
                                (to unit_left, id[Y ⨂ Z])))); simpl in X0.
   rewrite !fmap_id in X0.
@@ -611,7 +610,7 @@ Next Obligation.
   destruct (@pure_left _ _ _ _ _ L (X, I));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (fst (P (I ⨂ X, I ⨂ I))).
+  transitivity (fst (P (I ⨂ X, I ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (fst (@bimap _ _ _ P _ _ _ _ id (to unit_left))).
@@ -633,7 +632,7 @@ Next Obligation.
   destruct (@pure_right _ _ _ _ _ L (X, I));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (fst (P (X ⨂ I, I ⨂ I))).
+  transitivity (fst (P (X ⨂ I, I ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (fst (@bimap _ _ _ P _ _ _ _ id (to unit_left))).
@@ -655,7 +654,7 @@ Next Obligation.
   destruct (@ap_assoc _ _ _ _ _ L (X, I) (Y, I) (Z, I));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (fst (P (X ⨂ Y ⨂ Z, I ⨂ I ⨂ I))).
+  transitivity (fst (P (X ⨂ Y ⨂ Z, I ⨂ I ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (fst (@bimap _ _ _ P _ _ _ _ id (to unit_left ∘ to unit_left))).
@@ -721,8 +720,8 @@ Next Obligation.
                        (fst (P (X, I))) (fst (P (Y, I))) (fst (P (Z, I))))).
     intros.
     pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (X, I, (Y ⨂ Z, I ⨂ I))
-                                (X, I, (Y ⨂ Z, I))
+                                (X, I, (Y ⨂ Z, I ⨂ I))%object
+                                (X, I, (Y ⨂ Z, I))%object
                                 ((id, id), (id, to unit_left)))) as X1.
     simpl in X1.
     rewrite !bimap_fmap in X1.
@@ -753,8 +752,8 @@ Next Obligation.
       rewrite <- !comp_assoc.
       rewrite <- triangle_identity.
       pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                  (X ⨂ Y, I ⨂ I, (Z, I))
-                                  (X ⨂ Y, I, (Z, I))
+                                  (X ⨂ Y, I ⨂ I, (Z, I))%object
+                                  (X ⨂ Y, I, (Z, I))%object
                                   ((id, to unit_left), (id, id)))) as X1.
       simpl in X1.
       rewrite !bimap_fmap in X1.
@@ -821,7 +820,7 @@ Next Obligation.
   destruct (@pure_left _ _ _ _ _ L (I, X));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (snd (P (I ⨂ I, I ⨂ X))).
+  transitivity (snd (P (I ⨂ I, I ⨂ X)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (snd (@bimap _ _ _ P _ _ _ _ (to unit_left) id)).
@@ -843,7 +842,7 @@ Next Obligation.
   destruct (@pure_right _ _ _ _ _ L (I, X));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (snd (P (I ⨂ I, X ⨂ I))).
+  transitivity (snd (P (I ⨂ I, X ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (snd (@bimap _ _ _ P _ _ _ _ (to unit_left) id)).
@@ -865,7 +864,7 @@ Next Obligation.
   destruct (@ap_assoc _ _ _ _ _ L (I, X) (I, Y) (I, Z));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (snd (P (I ⨂ I ⨂ I, X ⨂ Y ⨂ Z))).
+  transitivity (snd (P (I ⨂ I ⨂ I, X ⨂ Y ⨂ Z)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (snd (@bimap _ _ _ P _ _ _ _ (to unit_left ∘ to unit_left) id)).
@@ -931,8 +930,8 @@ Next Obligation.
                        (snd (P (I, X))) (snd (P (I, Y))) (snd (P (I, Z))))).
     intros.
     pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (I, X, (I ⨂ I, Y ⨂ Z))
-                                (I, X, (I, Y ⨂ Z))
+                                (I, X, (I ⨂ I, Y ⨂ Z))%object
+                                (I, X, (I, Y ⨂ Z))%object
                                 ((id, id), (to unit_left, id)))) as X1.
     simpl in X1.
     rewrite !bimap_fmap in X1.
@@ -963,8 +962,8 @@ Next Obligation.
       rewrite <- !comp_assoc.
       rewrite <- triangle_identity.
       pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                  (I ⨂ I, X ⨂ Y, (I, Z))
-                                  (I, X ⨂ Y, (I, Z))
+                                  (I ⨂ I, X ⨂ Y, (I, Z))%object
+                                  (I, X ⨂ Y, (I, Z))%object
                                   ((to unit_left, id), (id, id)))) as X1.
       simpl in X1.
       rewrite !bimap_fmap in X1.
@@ -989,6 +988,5 @@ Proof.
   exact (ProductFunctor_LaxMonoidal (ProductFunctor_fst_LaxMonoidal L)
                                     (ProductFunctor_snd_LaxMonoidal L)).
 Qed.
-*)
 
 End ProductMonoidalProj.

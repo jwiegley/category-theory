@@ -129,7 +129,7 @@ Next Obligation.
   apply fmap_id.
 Qed.
 Next Obligation.
-  transitivity (F (I ⨂ G X)).
+  transitivity (F (I ⨂ G X))%object.
     transitivity (F (G X)).
       apply unit_left.
     apply fmap_iso.
@@ -139,8 +139,8 @@ Next Obligation.
   apply pure_iso_left.
 Qed.
 Next Obligation.
-  transitivity (F (G X ⨂ I)).
-    transitivity (F (G X)).
+  transitivity (F (G X ⨂ I))%object.
+    transitivity (F (G X))%object.
       apply unit_right.
     apply fmap_iso.
     symmetry.
@@ -149,10 +149,10 @@ Next Obligation.
   apply pure_iso_right.
 Qed.
 Next Obligation.
-  transitivity (F (G X ⨂ G Y ⨂ G Z)).
+  transitivity (F (G X ⨂ G Y ⨂ G Z))%object.
     apply ap_iso_assoc.
   apply fmap_iso.
-  transitivity ((G X ⨂ G Y) ⨂ G Z).
+  transitivity ((G X ⨂ G Y) ⨂ G Z)%object.
     symmetry.
     apply tensor_assoc.
   apply ap_iso_assoc.
@@ -203,8 +203,9 @@ Next Obligation.
 Qed.
 Next Obligation.
   pose proof (naturality[to (ap_functor_iso[M])]
-                        (G X ⨂ G Y, G Z) (G (X ⨂ Y), G Z)
-                        (transform (to ap_functor_iso) (X, Y), id[G Z])) as XM;
+                        (G X ⨂ G Y, G Z)%object
+                        (G (X ⨂ Y), G Z)%object
+                        (to ap_functor_iso (X, Y), id[G Z])) as XM;
   simpl in XM.
   rewrite !bimap_fmap in XM.
   rewrite fmap_id in XM.
@@ -234,8 +235,9 @@ Next Obligation.
 
   pose proof
        (naturality[to (ap_functor_iso[M])]
-                  (G X, G Y ⨂ G Z) (G X, G (Y ⨂ Z))
-                  (id[G X], transform (to ap_functor_iso[N]) (Y, Z))) as XM;
+                  (G X, G Y ⨂ G Z)%object
+                  (G X, G (Y ⨂ Z))%object
+                  (id[G X], to ap_functor_iso[N] (Y, Z))) as XM;
   simpl in XM.
   rewrite !bimap_fmap in XM.
   rewrite fmap_id in XM.
@@ -271,7 +273,7 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  transitivity (F (I ⨂ G X)).
+  transitivity (F (I ⨂ G X))%object.
     transitivity (F (G X)).
       apply unit_left.
     apply fmap_iso.
@@ -281,7 +283,7 @@ Next Obligation.
   apply pure_left.
 Qed.
 Next Obligation.
-  transitivity (F (G X ⨂ I)).
+  transitivity (F (G X ⨂ I))%object.
     transitivity (F (G X)).
       apply unit_right.
     apply fmap_iso.
@@ -291,10 +293,10 @@ Next Obligation.
   apply pure_right.
 Qed.
 Next Obligation.
-  transitivity (F (G X ⨂ G Y ⨂ G Z)).
+  transitivity (F (G X ⨂ G Y ⨂ G Z))%object.
     apply ap_assoc.
   apply fmap_iso.
-  transitivity ((G X ⨂ G Y) ⨂ G Z).
+  transitivity ((G X ⨂ G Y) ⨂ G Z)%object.
     symmetry.
     apply tensor_assoc.
   apply ap_assoc.
@@ -345,8 +347,9 @@ Next Obligation.
 Qed.
 Next Obligation.
   pose proof (naturality[ap_functor_nat[M]]
-                        (G X ⨂ G Y, G Z) (G (X ⨂ Y), G Z)
-                        (transform[ap_functor_nat] (X, Y), id[G Z])) as XM;
+                        (G X ⨂ G Y, G Z)%object
+                        (G (X ⨂ Y), G Z)%object
+                        (ap_functor_nat (X, Y), id[G Z])) as XM;
   simpl in XM.
   rewrite !bimap_fmap in XM.
   rewrite fmap_id in XM.
@@ -377,8 +380,9 @@ Next Obligation.
 
   pose proof
        (naturality[ap_functor_nat[M]]
-                  (G X, G Y ⨂ G Z) (G X, G (Y ⨂ Z))
-                  (id[G X], transform[ap_functor_nat[N]] (Y, Z))) as XM;
+                  (G X, G Y ⨂ G Z)%object
+                  (G X, G (Y ⨂ Z))%object
+                  (id[G X], ap_functor_nat[N] (Y, Z))) as XM;
   simpl in XM.
   rewrite !bimap_fmap in XM.
   rewrite fmap_id in XM.

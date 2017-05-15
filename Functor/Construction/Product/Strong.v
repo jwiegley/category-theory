@@ -51,7 +51,8 @@ Next Obligation.
   pose proof (@unit_left C H I) as X0.
   pose proof (fst (@strength_natural _ _ _ P
                      (X, I) (X, I) (id[X], id[I])
-                     (Y ⨂ Z, I) (Y ⨂ Z, I ⨂ I) (id[Y ⨂ Z], from X0))) as X1.
+                     (Y ⨂ Z, I)%object (Y ⨂ Z, I ⨂ I)%object
+                     (id[Y ⨂ Z], from X0))) as X1.
   simpl in X1.
   rewrite bimap_id_id in X1.
   rewrite !fmap_id in X1.
@@ -60,7 +61,8 @@ Next Obligation.
   rewrite id_left, !id_right in X1.
   rewrite X1; clear X1.
   pose proof (fst (@strength_natural _ _ _ P
-                     (X ⨂ Y, I) (X ⨂ Y, I ⨂ I) (id[X ⨂ Y], from X0)
+                     (X ⨂ Y, I)%object (X ⨂ Y, I ⨂ I)%object
+                     (id[X ⨂ Y], from X0)
                      (Z, I) (Z, I) (id[Z], id[I]))) as X1.
   simpl in X1.
   rewrite bimap_id_id in X1.
@@ -89,7 +91,8 @@ Next Obligation.
   pose proof (@unit_left C H I) as X0.
   pose proof (snd (@strength_natural _ _ _ P
                      (I, X) (I, X) (id[I], id[X])
-                     (I, Y ⨂ Z) (I ⨂ I, Y ⨂ Z) (from X0, id[Y ⨂ Z]))) as X1.
+                     (I, Y ⨂ Z)%object (I ⨂ I, Y ⨂ Z)%object
+                     (from X0, id[Y ⨂ Z]))) as X1.
   simpl in X1.
   rewrite bimap_id_id in X1.
   rewrite !fmap_id in X1.
@@ -98,7 +101,8 @@ Next Obligation.
   rewrite id_left, !id_right in X1.
   rewrite X1; clear X1.
   pose proof (snd (@strength_natural _ _ _ P
-                     (I, X ⨂ Y) (I ⨂ I, X ⨂ Y) (from X0, id[X ⨂ Y])
+                     (I, X ⨂ Y)%object (I ⨂ I, X ⨂ Y)%object
+                     (from X0, id[X ⨂ Y])
                      (I, Z) (I, Z) (id[I], id[Z]))) as X1.
   simpl in X1.
   rewrite bimap_id_id in X1.

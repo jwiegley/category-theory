@@ -50,7 +50,6 @@ Context `{F : C ⟶ C}.
 Global Program Instance Id_StrongFunctor : StrongFunctor Id[C] := {
   strength := fun _ _ => id
 }.
-Next Obligation. unfold bimap; cat. Qed.
 
 Local Obligation Tactic := program_simpl.
 
@@ -88,8 +87,9 @@ Next Obligation.
   rewrite strength_assoc0.
   apply compose_respects; [reflexivity|].
   rewrite !comp_assoc.
-  specialize (strength_natural0 X X (id[X]) (Y ⨂ G Z) (G (Y ⨂ Z))
-                                (strength1 Y Z)).
+  specialize (strength_natural0
+                X X (id[X]) (Y ⨂ G Z)%object (G (Y ⨂ Z))%object
+                (strength1 Y Z)).
   rewrite !bimap_id_id in strength_natural0.
   rewrite !fmap_id in strength_natural0.
   rewrite !id_right in strength_natural0.

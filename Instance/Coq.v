@@ -82,6 +82,7 @@ Lemma injectivity_is_monic `(f : X ~> Y) :
 Proof.
   split.
   - intros HA.
+    constructor.
     autounfold in *; intros ??? HB.
     simpl in *; intros.
     apply HA, HB.
@@ -90,10 +91,12 @@ Proof.
     simpl in *.
     pose (fun (_ : unit) => x) as const_x.
     pose (fun (_ : unit) => y) as const_y.
-    specialize (HA unit const_x const_y).
-    unfold const_x in HA.
-    unfold const_y in HA.
-    eapply HA; eauto.
+    destruct HA.
+    specialize (monic unit const_x const_y).
+    unfold const_x in monic.
+    unfold const_y in monic.
+    eapply monic; eauto.
+    simpl; intuition.
     exact tt.
 Qed.
 
@@ -102,6 +105,7 @@ Lemma surjectivity_is_epic `(f : X ~> Y) :
 Proof.
   split.
   - intros HA.
+    constructor.
     autounfold in *; intros ??? HB.
     simpl in *; intros.
     specialize (HA x).
@@ -109,12 +113,12 @@ Proof.
     rewrite <- HA.
     apply HB.
   - intros HA ?.
-    unfold Epic in HA.
-    specialize HA with (Z := Prop).
-    specialize HA with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
+    destruct HA.
+    specialize epic with (Z := Prop).
+    specialize epic with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
     simpl in *.
-    specialize HA with (g2 := fun y  => True).
-    erewrite HA.
+    specialize epic with (g2 := fun y  => True).
+    erewrite epic.
       constructor.
     intros.
     Axiom propositional_extensionality : forall P : Prop, P -> P = True.

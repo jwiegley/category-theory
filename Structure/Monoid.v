@@ -49,7 +49,6 @@ Class MonoidAlg (A : Type) `{Setoid A} := {
   mon_assoc (x y z : A) : mon_mult (mon_mult x y) z = mon_mult x (mon_mult y z)
 }.
 
-(* jww (2017-05-13): TODO
 Program Instance Classical_Monoid (A : Type) `{Setoid A} `{MonoidAlg A} :
   @Monoid Sets InternalProduct_Monoidal {| carrier := A |} := {
   mempty  := {| morphism := fun _ => mon_zero |};
@@ -64,4 +63,3 @@ Qed.
 Next Obligation. rewrite mon_zero_left; reflexivity. Qed.
 Next Obligation. rewrite mon_zero_right; reflexivity. Qed.
 Next Obligation. rewrite mon_assoc; reflexivity. Qed.
-*)
