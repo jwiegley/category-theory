@@ -173,7 +173,6 @@ Proof.
                ∘ fmap (fst (transform[to projG_commutes0] ((G a, a); id[G a])))).
 
   - simpl; intros.
-
 Abort.
 
 End AdjunctionComma.
