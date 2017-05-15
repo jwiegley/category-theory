@@ -40,6 +40,13 @@ Next Obligation.
   split; assumption.
 Qed.
 
+Lemma bimap_id_id `{F : C ∏ D ⟶ E} {X Y} :
+  bimap (id[X]) (id[Y]) ≈ id.
+Proof.
+  destruct F; simpl.
+  apply fmap_id.
+Qed.
+
 Lemma bimap_comp `{F : C ∏ D ⟶ E} {X Y Z W U V}
       (f : Y ~{C}~> Z) (h : X ~{C}~> Y)
       (g : V ~{D}~> W) (i : U ~{D}~> V) :
@@ -50,15 +57,6 @@ Proof.
   apply fmap_respects.
   reflexivity.
 Qed.
-
-Lemma bimap_id_id `{F : C ∏ D ⟶ E} {X Y} :
-  bimap (id[X]) (id[Y]) ≈ id.
-Proof.
-  destruct F; simpl.
-  apply fmap_id.
-Qed.
-
-Hint Rewrite @bimap_id_id : categories.
 
 Lemma bimap_comp_id_left `{F : C ∏ D ⟶ E} {W}
       `(f : Y ~{D}~> Z) `(g : X ~{D}~> Y) :
@@ -100,10 +98,31 @@ Proof.
   split; simpl; cat.
 Qed.
 
+Global Program Instance bifunctor_respects {F : C ∏ D ⟶ E} :
+  Proper ((fun p q => Isomorphism (fst p) (fst q) *
+                      Isomorphism (snd p) (snd q))
+            ==> Isomorphism) F.
+Next Obligation.
+  proper; simpl in *.
+  isomorphism.
+  - exact (bimap x0 y0).
+  - exact (bimap (x0⁻¹) (y0⁻¹)).
+  - rewrite <- bimap_comp.
+    rewrite !iso_to_from.
+    rewrite bimap_id_id.
+    reflexivity.
+  - rewrite <- bimap_comp.
+    rewrite !iso_from_to.
+    rewrite bimap_id_id.
+    reflexivity.
+Defined.
+
 End Bifunctor.
 
 Notation "bimap[ F ]" := (@bimap _ _ _ F%functor _ _ _ _)
   (at level 9, format "bimap[ F ]") : morphism_scope.
+
+Hint Rewrite @bimap_id_id : categories.
 
 Ltac normal :=
   repeat
