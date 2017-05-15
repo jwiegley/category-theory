@@ -67,6 +67,13 @@ Class Naturality (A : Type) : Type := {
 
 Arguments natural {A _} _ /.
 
+Ltac prove_naturality H tac :=
+  destruct H; simpl;
+  split; [split|];
+  split; simpl;
+  intros; tac;
+  intuition.
+
 Program Instance Identity_Naturality `{C : Category} :
   Naturality (∀ A, A ~> A) := {
   natural := fun f => ∀ X Y (g : X ~> Y), g ∘ f X ≈ f Y ∘ g
