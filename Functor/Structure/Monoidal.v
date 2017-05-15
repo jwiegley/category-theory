@@ -130,15 +130,34 @@ Context `{@StrongFunctor C _ F}.
 Context `{@LaxMonoidalFunctor C C _ _ F}.
 
 Definition pure {A} : A ~> F A :=
-  fmap[F] (to (@unit_right _ _ A))
-      ∘ strength
-      ∘ bimap id lax_pure
-      ∘ from (@unit_right _ _ A).
+  fmap unit_right ∘ strength ∘ id[A] ⨂ lax_pure ∘ unit_right⁻¹.
+
+Lemma pure_natural : natural (@pure).
+Proof.
+  simpl; intros.
+  unfold pure.
+  normal.
+  rewrite to_unit_right_natural.
+  rewrite fmap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  pose proof (strength_natural _ _ g I I id); simpl in X0.
+  normal.
+  rewrite X0.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite <- from_unit_right_natural.
+  rewrite !comp_assoc.
+  apply compose_respects; [|reflexivity].
+  normal.
+  rewrite fmap_id; cat.
+Qed.
 
 Lemma fmap_pure {a b} (f : a ~> b) : pure ∘ f ≈ fmap f ∘ pure.
 Proof.
-  unfold pure.
-Admitted.
+  symmetry.
+  sapply pure_natural.
+Qed.
 
 End Pure.
 
