@@ -21,17 +21,6 @@ Context `{@CartesianMonoidal C _}.
 Context `{F : C ⟶ C}.
 Context `{G : C ⟶ C}.
 
-Definition braid2 {X Y Z W} : (X ⨂ Y) ⨂ (Z ⨂ W) ~{ C }~> (X ⨂ Z) ⨂ (Y ⨂ W) :=
-  tensor_assoc⁻¹
-    ∘ bimap id (tensor_assoc ∘ bimap braid id ∘ tensor_assoc⁻¹)
-    ∘ tensor_assoc.
-
-Lemma braid2_natural : natural (@braid2).
-Proof.
-  simpl; intros.
-  normal.
-Admitted.
-
 Local Obligation Tactic := idtac.
 
 (*
