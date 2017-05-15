@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
+Require Export Category.Theory.Morphisms.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -112,4 +113,68 @@ Next Obligation.
   rewrite (comp_assoc (from f)).
   rewrite iso_from_to; cat.
   apply iso_from_to.
+Qed.
+
+Program Instance iso_monic `{C : Category} {X Y} (iso : @Isomorphism C X Y) :
+  Monic iso.
+Next Obligation.
+  rewrite <- (id_left g1).
+  rewrite <- (id_left g2).
+  rewrite <- !(iso_from_to iso).
+  rewrite <- !comp_assoc.
+  rewrite X0.
+  reflexivity.
+Qed.
+
+Program Instance iso_epic `{C : Category} {X Y} (iso : @Isomorphism C X Y) :
+  Epic iso.
+Next Obligation.
+  rewrite <- (id_right g1).
+  rewrite <- (id_right g2).
+  rewrite <- !(iso_to_from iso).
+  rewrite !comp_assoc.
+  rewrite X0.
+  reflexivity.
+Qed.
+
+Program Instance Monic_Retraction_Iso
+        `{C : Category} {X Y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) :
+  X ≅ Y := {
+  to := f;
+  from := retract
+}.
+Next Obligation.
+  destruct r; simpl.
+  apply monic.
+  rewrite comp_assoc.
+  rewrite <- retract_comp; cat.
+Qed.
+Next Obligation.
+  destruct r; simpl.
+  apply monic.
+  rewrite comp_assoc.
+  rewrite retract_comp; cat.
+Qed.
+
+Program Instance Epic_Section_Iso
+        `{C : Category} {X Y : C} `(s : @Section _ _ _ f) `(e : @Epic _ _ _ f) :
+  X ≅ Y := {
+  to := f;
+  from := section
+}.
+Next Obligation.
+  destruct s; simpl.
+  specialize (epic Y (f ∘ section) id).
+  intros.
+  apply epic.
+  rewrite <- comp_assoc.
+  rewrite section_comp; cat.
+Qed.
+Next Obligation.
+  destruct s; simpl.
+  specialize (epic Y (f ∘ section) id).
+  intros.
+  apply epic.
+  rewrite <- comp_assoc.
+  rewrite <- section_comp; cat.
 Qed.

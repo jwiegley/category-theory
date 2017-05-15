@@ -14,40 +14,74 @@ Context `{C : Category}.
 
 Open Scope type_scope.
 
-Definition Idempotent `(f : X ~> X) := f ∘ f ≈ f.
-Definition Involutive `(f : X ~> X) := f ∘ f ≈ id.
+Class Idempotent `(f : X ~> X) := {
+  idem : f ∘ f ≈ f
+}.
 
-Definition Section    `(f : X ~> Y) := { g : Y ~> X & g ∘ f ≈ id }.
-Definition Retraction `(f : X ~> Y) := { g : Y ~> X & f ∘ g ≈ id }.
+Class Involutive `(f : X ~> X) := {
+  invol : f ∘ f ≈ id
+}.
+
+Lemma flip_invol {X Y} (f h : X ~> Y) (g : Y ~> Y) `{@Involutive _ g} :
+  f ≈ g ∘ h <--> g ∘ f ≈ h.
+Proof.
+  split; intros.
+  rewrite X0, comp_assoc, invol; cat.
+  rewrite <- X0, comp_assoc, invol; cat.
+Qed.
+
+Class Section `(f : X ~> Y) := {
+  section : Y ~> X;
+  section_comp : section ∘ f ≈ id
+}.
+
+Class Retraction `(f : X ~> Y) := {
+  retract : Y ~> X;
+  retract_comp : f ∘ retract ≈ id
+}.
 
 Class SplitIdempotent {X Y : C} := {
   split_idem_retract := Y;
-  split_idem         : X ~> X;
-  split_idem_r       : X ~> split_idem_retract;
-  split_idem_s       : split_idem_retract ~> X;
-  split_idem_law_1   : split_idem_s ∘ split_idem_r ≈ split_idem;
-  split_idem_law_2   : split_idem_r ∘ split_idem_s ≈ id
+
+  split_idem       : X ~> X;
+  split_idem_r     : X ~> split_idem_retract;
+  split_idem_s     : split_idem_retract ~> X;
+  split_idem_law_1 : split_idem_s ∘ split_idem_r ≈ split_idem;
+  split_idem_law_2 : split_idem_r ∘ split_idem_s ≈ id
 }.
 
-Definition Epic  `(f : X ~> Y) := ∀ Z (g1 g2 : Y ~> Z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2.
-Definition Monic `(f : X ~> Y) := ∀ Z (g1 g2 : Z ~> X), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2.
+Class Epic {X Y} (f : X ~> Y) := {
+  epic : ∀ Z (g1 g2 : Y ~> Z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2
+}.
+
+Class Monic {X Y} (f : X ~> Y) := {
+  monic : ∀ Z (g1 g2 : Z ~> X), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2
+}.
 
 Definition Bimorphic `(f : X ~> Y) := (Epic f * Monic f)%type.
 Definition SplitEpi  `(f : X ~> Y) := Retraction f.
 Definition SplitMono `(f : X ~> Y) := Section f.
 
 Corollary id_idempotent : ∀ X, Idempotent (id (A := X)).
-Proof. intros; unfold Idempotent; cat. Qed.
+Proof. intros; constructor; cat. Qed.
 
 Corollary id_involutive : ∀ X, Involutive (id (A := X)).
-Proof. intros; unfold Involutive; cat. Qed.
+Proof. intros; constructor; cat. Qed.
 
-Hint Unfold Idempotent.
-Hint Unfold Involutive.
-Hint Unfold Section.
-Hint Unfold Retraction.
-Hint Unfold Epic.
-Hint Unfold Monic.
+Corollary id_monic : ∀ X, Monic (id (A := X)).
+Proof.
+  intros; constructor; intros.
+  rewrite !id_left in X0.
+  assumption.
+Qed.
+
+Corollary id_epic : ∀ X, Epic (id (A := X)).
+Proof.
+  intros; constructor; intros.
+  rewrite !id_right in X0.
+  assumption.
+Qed.
+
 Hint Unfold Bimorphic.
 Hint Unfold SplitEpi.
 Hint Unfold SplitMono.
@@ -65,10 +99,11 @@ Proof.
   autounfold.
   intros.
   destruct X0.
+  constructor; intros.
   rewrite <- id_right.
   symmetry.
   rewrite <- id_right.
-  rewrite <- e.
+  rewrite <- retract_comp0.
   reassociate_right.
 Qed.
 
@@ -77,10 +112,11 @@ Proof.
   autounfold.
   intros.
   destruct X0.
+  constructor; intros.
   rewrite <- id_left.
   symmetry.
   rewrite <- id_left.
-  rewrite <- e.
+  rewrite <- section_comp0.
   reassociate_left.
 Qed.
 
@@ -93,7 +129,9 @@ Definition epi_compose {X Y Z : C}
            `(ef : @Epic Y Z f) `(eg : @Epic X Y g) : Epic (f ∘ g).
 Proof.
   autounfold; intros.
-  apply ef, eg.
+  destruct ef, eg.
+  constructor; intros.
+  apply epic0, epic1.
   reassociate_left.
 Qed.
 
@@ -101,54 +139,20 @@ Definition monic_compose {X Y Z : C}
            `(ef : @Monic Y Z f) `(eg : @Monic X Y g) : Monic (f ∘ g).
 Proof.
   autounfold; intros.
-  apply eg, ef.
+  destruct ef, eg.
+  constructor; intros.
+  apply monic1, monic0.
   reassociate_right.
 Qed.
 
 End Morphisms.
 
-Hint Unfold Idempotent.
-Hint Unfold Involutive.
-Hint Unfold Section.
-Hint Unfold Retraction.
-Hint Unfold Epic.
-Hint Unfold Monic.
 Hint Unfold Bimorphic.
 Hint Unfold SplitEpi.
 Hint Unfold SplitMono.
 
-Require Export Category.Theory.Isomorphism.
-
-Program Instance Monic_Retraction_Iso
-        `{C : Category} {X Y : C} `(r : Retraction f) `(m : Monic f) :
-  X ≅ Y := {
-  to := f;
-  from := projT1 r
-}.
-Next Obligation.
-  destruct r; simpl.
-  apply m.
-  rewrite comp_assoc.
-  rewrite e; cat.
-Qed.
-
-Program Instance Epic_Section_Iso
-        `{C : Category} {X Y : C} `(s : Section f) `(e : Epic f) :
-  X ≅ Y := {
-  to := f;
-  from := projT1 s
-}.
-Next Obligation.
-  destruct s; auto.
-  simpl.
-  specialize (e Y (f ∘ x) id).
-  apply e.
-  rewrite <- comp_assoc.
-  rewrite e0; cat.
-Qed.
-
 Definition flip_Section `{C : Category} `(f : X ~> Y)
-           (s : @Section C X Y f) : @Retraction C Y X (projT1 s).
+           (s : @Section C X Y f) : @Retraction C Y X section.
 Proof.
   autounfold.
   destruct s.
@@ -157,7 +161,7 @@ Proof.
 Qed.
 
 Definition flip_Retraction `{C : Category} `(f : X ~> Y)
-           (s : @Retraction C X Y f) : @Section C Y X (projT1 s).
+           (s : @Retraction C X Y f) : @Section C Y X retract.
 Proof.
   autounfold.
   destruct s.
