@@ -340,14 +340,48 @@ Class SymmetricMonoidal `{Monoidal} := {
    is terminal. *)
 
 Class SemiCartesianMonoidal `{Monoidal} := {
-  semi_eliminate {X} : X ~> I;
+  eliminate {X} : X ~> I;
 
-  semi_unit_terminal {X} (f g : X ~> I) : f ≈ g;
+  unit_terminal {X} (f g : X ~> I) : f ≈ g;
+
+  proj_left  {X Y} : X ⨂ Y ~> X := unit_right ∘ id ⨂ eliminate;
+  proj_right {X Y} : X ⨂ Y ~> Y := unit_left  ∘ eliminate ⨂ id;
+
+  proj_left_tensor_id {X Y Z} :
+    proj_left ⨂ id ≈ id[X] ⨂ @proj_right Y Z ∘ tensor_assoc;
+  proj_right_tensor_id {X Y Z} :
+    id ⨂ proj_right ≈ @proj_left X Y ⨂ id[Z] ∘ tensor_assoc⁻¹;
+
+  proj_left_left {X Y Z} :
+    proj_left ∘ proj_left ≈ @proj_left X (Y ⨂ Z) ∘ tensor_assoc;
+  proj_right_right {X Y Z} :
+    proj_right ∘ proj_right ≈ @proj_right (X ⨂ Y) Z ∘ tensor_assoc⁻¹
 }.
 
 Class RelevanceMonoidal `{Monoidal} := {
-  rel_diagonal {X} : X ~> X ⨂ X;
-  rel_diagonal_natural : natural (@rel_diagonal)
+  is_symmetric :> SymmetricMonoidal;
+
+  diagonal {X} : X ~> X ⨂ X;
+  diagonal_natural : natural (@diagonal);
+
+  (* These properties are given by Kosta Došen and Zoran Petrić in their 2007
+     publication, "Relevant Categories and Partial Functions". *)
+
+  diagonal_unit : @diagonal I ≈ unit_left⁻¹;
+
+  diagonal_tensor_assoc {X} :
+   id ⨂ diagonal ∘ diagonal ≈ tensor_assoc ∘ diagonal ⨂ id ∘ @diagonal X;
+
+  twist_diagonal {X} :
+    twist ∘ diagonal ≈ @diagonal X;
+
+  twist2 {X Y Z W} : (X ⨂ Y) ⨂ (Z ⨂ W) ~> (X ⨂ Z) ⨂ (Y ⨂ W) :=
+    tensor_assoc⁻¹
+      ∘ id ⨂ (tensor_assoc ∘ twist ⨂ id ∘ tensor_assoc⁻¹)
+      ∘ tensor_assoc;
+
+  diagonal_twist2 {X Y} :
+    @diagonal (X ⨂ Y) ≈ twist2 ∘ diagonal ⨂ diagonal
 }.
 
 (* Wikipedia: "Cartesian monoidal categories have a number of special and
@@ -362,36 +396,44 @@ Class RelevanceMonoidal `{Monoidal} := {
    augmentations must in fact be cartesian monoidal." *)
 
 Class CartesianMonoidal `{Monoidal} := {
-  eliminate {X} : X ~> I;
-
-  unit_terminal {X} (f g : X ~> I) : f ≈ g;
-
-  proj_left  {X Y} : X ⨂ Y ~> X := unit_right ∘ id ⨂ eliminate;
-  proj_right {X Y} : X ⨂ Y ~> Y := unit_left  ∘ eliminate ⨂ id;
-
-  diagonal {X} : X ~> X ⨂ X;
-  diagonal_natural : natural(@diagonal);
+  is_semicartesian :> @SemiCartesianMonoidal _;
+  is_relevance     :> @RelevanceMonoidal _;
 
   proj_left_diagonal  {X} : proj_left  ∘ diagonal ≈ id[X];
-  proj_right_diagonal {X} : proj_right ∘ diagonal ≈ id[X]
+  proj_right_diagonal {X} : proj_right ∘ diagonal ≈ id[X];
+
+  proj_left_id_diagonal {X Y} :
+    proj_left ⨂ id ∘ @diagonal _ _ (X ⨂ Y) ≈ tensor_assoc ∘ diagonal ⨂ id;
+
+  proj_right_left_diagonal {X Y} :
+    proj_right ⨂ proj_left ∘ @diagonal _ _ (X ⨂ Y) ≈ twist;
 }.
 
-Notation "∆ X" := (@diagonal _ _ X) (at level 9) : morphism_scope.
+Notation "∆ X" := (@diagonal _ _ X) (at level 9, format "∆ X") : morphism_scope.
 
 Corollary eliminate_comp `{Monoidal} `{@CartesianMonoidal _} `{f : A ~> B} :
   eliminate ∘ f ≈ eliminate.
 Proof. intros; apply unit_terminal. Qed.
 
-Corollary unit_right_eliminate `{Monoidal} `{@CartesianMonoidal _}
-          {X Y} (f : X ~> Y) :
-  unit_right ∘ f ⨂ eliminate ∘ ∆X ≈ f.
+Corollary proj_left_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z W}
+          (f : X ~> Y) (g : Z ~> W) :
+  proj_left ∘ f ⨂ g ≈ f ∘ proj_left.
 Proof.
-  symmetry.
-  rewrite <- id_left at 1.
-  rewrite <- proj_left_diagonal.
-  rewrite <- !comp_assoc.
-  pose proof diagonal_natural; simpl in X0.
-  rewrite <- X0; clear X0.
+  unfold proj_left.
+  rewrite comp_assoc.
+  rewrite to_unit_right_natural.
+  normal.
+  rewrite eliminate_comp.
+  reflexivity.
+Qed.
+
+Corollary proj_right_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z W}
+          (f : X ~> Y) (g : Z ~> W) :
+  proj_right ∘ f ⨂ g ≈ g ∘ proj_right.
+Proof.
+  unfold proj_right.
+  rewrite comp_assoc.
+  rewrite to_unit_left_natural.
   normal.
   rewrite eliminate_comp.
   reflexivity.
@@ -404,6 +446,7 @@ Proof.
   symmetry.
   rewrite <- id_left at 1.
   rewrite <- proj_right_diagonal.
+  unfold proj_right.
   rewrite <- !comp_assoc.
   pose proof diagonal_natural; simpl in X0.
   rewrite <- X0; clear X0.
@@ -412,86 +455,24 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary proj_left_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z}
-          (f : X ~> Y) (g : X ~> Z) :
-  proj_left ∘ f ⨂ g ≈ f ∘ proj_left.
+Corollary unit_right_eliminate `{Monoidal} `{@CartesianMonoidal _}
+          {X Y} (f : X ~> Y) :
+  unit_right ∘ f ⨂ eliminate ∘ ∆X ≈ f.
 Proof.
+  symmetry.
+  rewrite <- id_left at 1.
+  rewrite <- proj_left_diagonal.
   unfold proj_left.
-  rewrite comp_assoc.
-  rewrite to_unit_right_natural.
+  rewrite <- !comp_assoc.
+  pose proof diagonal_natural; simpl in X0.
+  rewrite <- X0; clear X0.
   normal.
   rewrite eliminate_comp.
   reflexivity.
 Qed.
-
-Corollary proj_right_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z}
-          (f : X ~> Y) (g : X ~> Z) :
-  proj_right ∘ f ⨂ g ≈ g ∘ proj_right.
-Proof.
-  unfold proj_right.
-  rewrite comp_assoc.
-  rewrite to_unit_left_natural.
-  normal.
-  rewrite eliminate_comp.
-  reflexivity.
-Qed.
-
-Program Instance diagonal_monic `{Monoidal} `{@CartesianMonoidal _} {X} :
-  Monic (∆X).
-Next Obligation.
-  rewrite <- unit_left_eliminate.
-  rewrite <- (unit_left_eliminate g2).
-  rewrite <- (@eliminate_comp _ _ _ _ g1) at 1.
-  rewrite <- (@eliminate_comp _ _ _ _ g2) at 1.
-  rewrite <- (id_left g1) at 2.
-  rewrite <- (id_left g2) at 2.
-  rewrite !bimap_comp.
-  rewrite <- !comp_assoc.
-  srewrite diagonal_natural.
-  rewrite X0.
-  srewrite diagonal_natural.
-  reflexivity.
-Qed.
-
-Corollary twist_diagonal
-          `{Monoidal} `{@SymmetricMonoidal _} `{@CartesianMonoidal _} {X} :
-  twist ∘ ∆X ≈ ∆X.
-Proof.
-Abort.
-
-Corollary proj_left_twist
-          `{Monoidal} `{@SymmetricMonoidal _} `{@CartesianMonoidal _} {X Y} :
-  proj_left ∘ twist ≈ @proj_right _ _ X Y.
-Proof.
-Abort.
-
-Corollary proj_right_twist
-          `{Monoidal} `{@SymmetricMonoidal _} `{@CartesianMonoidal _} {X Y} :
-  proj_right ∘ twist ≈ @proj_left _ _ X Y.
-Proof.
-Abort.
-
-Corollary bimap_twist
-          `{Monoidal} `{@SymmetricMonoidal _} `{@CartesianMonoidal _}
-          {X Y Z} (f : X ~> Z) (g : Y ~> Z) :
-  f ⨂ g ∘ twist ≈ g ⨂ f.
-Proof.
-Abort.
-
-Corollary proj_left_id_diagonal
-          `{Monoidal} `{@SymmetricMonoidal _} `{@CartesianMonoidal _} {X Y} :
-  proj_left ⨂ id ∘ ∆(X ⨂ Y) ≈ tensor_assoc ∘ diagonal ⨂ id.
-Proof.
-  unfold proj_left.
-  rewrite bimap_comp_id_right.
-  rewrite triangle_identity.
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc tensor_assoc).
-  rewrite <- comp_assoc.
-Admitted.
 
 Corollary proj_left_right_diagonal
-          `{Monoidal} `{@SymmetricMonoidal _} `{@CartesianMonoidal _} {X Y} :
+          `{Monoidal} `{@CartesianMonoidal _} {X Y} :
   proj_left ⨂ proj_right ∘ ∆(X ⨂ Y) ≈ id[X ⨂ Y].
 Proof.
   rewrite <- bimap_id_left_right.
@@ -519,10 +500,77 @@ Proof.
   normal; reflexivity.
 Qed.
 
+Local Obligation Tactic := intros; simplify; simpl in *; intros; normal.
+
+Program Instance diagonal_monic `{Monoidal} `{@CartesianMonoidal _} {X} :
+  Monic ∆X.
+Next Obligation.
+  rewrite <- unit_left_eliminate.
+  rewrite <- (unit_left_eliminate g2).
+  rewrite <- (@eliminate_comp _ _ _ _ g1) at 1.
+  rewrite <- (@eliminate_comp _ _ _ _ g2) at 1.
+  rewrite <- (id_left g1) at 2.
+  rewrite <- (id_left g2) at 2.
+  rewrite !bimap_comp.
+  rewrite <- !comp_assoc.
+  srewrite diagonal_natural.
+  rewrite X0.
+  srewrite diagonal_natural.
+  reflexivity.
+Qed.
+
+Corollary proj_left_twist `{Monoidal} `{@CartesianMonoidal _} {X Y} :
+  proj_left ∘ twist ≈ @proj_right _ _ X Y.
+Proof.
+  unfold proj_left, proj_right.
+  rewrite <- proj_right_left_diagonal.
+  normal.
+  rewrite eliminate_comp.
+  rewrite unit_right_eliminate.
+  reflexivity.
+Qed.
+
+Corollary proj_right_twist `{Monoidal} `{@CartesianMonoidal _} {X Y} :
+  proj_right ∘ twist ≈ @proj_left _ _ X Y.
+Proof.
+  unfold proj_left, proj_right.
+  rewrite <- proj_right_left_diagonal.
+  normal.
+  rewrite eliminate_comp.
+  rewrite unit_left_eliminate.
+  reflexivity.
+Qed.
+
+Corollary bimap_twist `{Monoidal} `{@CartesianMonoidal _}
+          {X Y Z W} (f : X ~> Z) (g : Y ~> W) :
+  twist ∘ g ⨂ f ∘ twist ≈ f ⨂ g.
+Proof.
+  rewrite <- !proj_right_left_diagonal.
+  normal.
+  rewrite bimap_comp.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc diagonal).
+  srewrite_r diagonal_natural.
+  normal.
+  rewrite proj_left_natural.
+  rewrite proj_right_natural.
+  rewrite bimap_comp.
+  symmetry.
+  rewrite <- id_right at 1.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  symmetry.
+  normal.
+  rewrite proj_right_left_diagonal.
+  rewrite <- comp_assoc.
+  rewrite proj_right_left_diagonal.
+  apply twist_invol.
+Qed.
+
 Bind Scope object_scope with C.
 
 Global Program Definition SymmetricCartesianMonoidal_Cartesian
-       `{Monoidal} `{@SymmetricMonoidal _} `{@CartesianMonoidal _} :
+       `{Monoidal} `{@CartesianMonoidal _} :
   @Cartesian C := {|
   Prod := fun X Y => (X ⨂ Y)%object;
   fork := fun X _ _ f g => f ⨂ g ∘ ∆X;
@@ -530,30 +578,30 @@ Global Program Definition SymmetricCartesianMonoidal_Cartesian
   exr  := fun _ _ => proj_right
 |}.
 Next Obligation.
+  apply is_relevance.
+Defined.
+Next Obligation.
   proper.
   rewrite X0, X1.
   reflexivity.
 Qed.
 Next Obligation.
-  split; intros.
-    split; rewrite X0; clear X0;
+  - rewrite X0; clear X0;
     rewrite comp_assoc.
-      rewrite proj_left_natural.
-      rewrite <- comp_assoc.
-      unfold proj_left.
-      rewrite proj_left_diagonal; cat.
+    rewrite proj_left_natural.
+    rewrite <- comp_assoc.
+    rewrite proj_left_diagonal; cat.
+  - rewrite X0; clear X0;
+    rewrite comp_assoc.
     rewrite proj_right_natural.
     rewrite <- comp_assoc.
-    unfold proj_right.
     rewrite proj_right_diagonal; cat.
-  destruct X0.
-  rewrite <- e, <- e0; clear e e0.
-  rewrite bimap_comp.
-  rewrite <- !comp_assoc.
-  srewrite diagonal_natural.
-  rewrite comp_assoc.
-  rewrite proj_left_right_diagonal.
-  cat.
+  - rewrite <- x, <- y.
+    rewrite bimap_comp.
+    rewrite <- !comp_assoc.
+    srewrite diagonal_natural.
+    rewrite comp_assoc.
+    rewrite proj_left_right_diagonal; cat.
 Qed.
 
 End Monoidal.
@@ -567,7 +615,8 @@ Notation "f ⨂ g" := (bimap[(⨂)] f g)
   (at level 30, right associativity) : morphism_scope.
 Notation "f ⨂[ M ] g" := (bimap[@tensor _ M] f g)
   (at level 9, only parsing, right associativity) : morphism_scope.
-Notation "∆ X" := (@diagonal _ _ _ X) (at level 9) : morphism_scope.
+Notation "∆ X" := (@diagonal _ _ _ X)
+  (at level 9, format "∆ X") : morphism_scope.
 
 Local Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 
@@ -705,16 +754,71 @@ Qed.
 Program Definition InternalProduct_CartesianMonoidal
         `{C : Category} `{@Cartesian C} `{@Terminal C} :
   @CartesianMonoidal C InternalProduct_Monoidal := {|
-  diagonal  := fun _ => id △ id;
-  eliminate := fun _ => one
+  is_semicartesian := {| eliminate := fun _ => one |};
+  is_relevance := {| diagonal  := fun _ => id △ id |}
 |}.
 Next Obligation. cat. Qed.
 Next Obligation.
   rewrite <- !fork_comp; cat.
   rewrite <- !comp_assoc; cat.
 Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
+Next Obligation.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+Qed.
+Next Obligation.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+Qed.
+Next Obligation.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+Qed.
+Next Obligation.
+  apply InternalProduct_SymmetricMonoidal.
+Defined.
+Next Obligation.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+Qed.
+Next Obligation.
+  apply fork_respects.
+    apply one_unique.
+  reflexivity.
+Qed.
+Next Obligation.
+  rewrite <- !fork_comp; cat.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+Qed.
+Next Obligation.
+  apply swap_fork.
+Qed.
+Next Obligation.
+  unfold swap.
+  repeat (rewrite <- !fork_comp; cat;
+          rewrite <- !comp_assoc; cat).
+Qed.
+Next Obligation.
+  unfold proj_left; simpl.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+Qed.
+Next Obligation.
+  unfold proj_right; simpl.
+  rewrite <- !comp_assoc; cat.
+  rewrite <- !fork_comp; cat.
+Qed.
+Next Obligation.
+  unfold proj_left; simpl.
+  repeat (rewrite <- !fork_comp; cat;
+          rewrite <- !comp_assoc; cat).
+Qed.
+Next Obligation.
+  unfold proj_right, proj_left, swap; simpl.
+  repeat (rewrite <- !fork_comp; cat;
+          rewrite <- !comp_assoc; cat).
+Qed.
 
 Require Import Category.Functor.Bifunctor.
 
