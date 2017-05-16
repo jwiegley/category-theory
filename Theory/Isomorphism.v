@@ -126,12 +126,34 @@ Next Obligation.
   reflexivity.
 Qed.
 
+Program Instance iso_from_monic `{C : Category} {X Y} (iso : @Isomorphism C X Y) :
+  Monic (iso⁻¹).
+Next Obligation.
+  rewrite <- (id_left g1).
+  rewrite <- (id_left g2).
+  rewrite <- !(iso_to_from iso).
+  rewrite <- !comp_assoc.
+  rewrite X0.
+  reflexivity.
+Qed.
+
 Program Instance iso_epic `{C : Category} {X Y} (iso : @Isomorphism C X Y) :
   Epic iso.
 Next Obligation.
   rewrite <- (id_right g1).
   rewrite <- (id_right g2).
   rewrite <- !(iso_to_from iso).
+  rewrite !comp_assoc.
+  rewrite X0.
+  reflexivity.
+Qed.
+
+Program Instance iso_from_epic `{C : Category} {X Y} (iso : @Isomorphism C X Y) :
+  Epic (iso⁻¹).
+Next Obligation.
+  rewrite <- (id_right g1).
+  rewrite <- (id_right g2).
+  rewrite <- !(iso_from_to iso).
   rewrite !comp_assoc.
   rewrite X0.
   reflexivity.
