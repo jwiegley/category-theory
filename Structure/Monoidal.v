@@ -436,6 +436,18 @@ Class SymmetricMonoidal `{Monoidal} := {
     id ⨂ twist ∘ tensor_assoc ∘ twist ⨂ id
 }.
 
+Corollary bimap_twist `{Monoidal} `{@SymmetricMonoidal _}
+          {X Y Z W} (f : X ~> Z) (g : Y ~> W) :
+  twist ∘ g ⨂ f ∘ twist ≈ f ⨂ g.
+Proof.
+  pose proof (fst twist_natural _ _ f _ _ g); simpl in X0.
+  normal.
+  rewrite <- comp_assoc.
+  rewrite X0.
+  rewrite comp_assoc.
+  rewrite twist_invol; cat.
+Qed.
+
 (* A semi-cartesian monoidal category is basically an assertion that the unit
    is terminal. *)
 
@@ -447,6 +459,10 @@ Class SemiCartesianMonoidal `{Monoidal} := {
   proj_left  {X Y} : X ⨂ Y ~> X := unit_right ∘ id ⨂ eliminate;
   proj_right {X Y} : X ⨂ Y ~> Y := unit_left  ∘ eliminate ⨂ id
 }.
+
+Corollary eliminate_comp `{Monoidal} `{@SemiCartesianMonoidal _} `{f : A ~> B} :
+  eliminate ∘ f ≈ eliminate.
+Proof. intros; apply unit_terminal. Qed.
 
 Lemma proj_left_tensor_id `{Monoidal} `{@SemiCartesianMonoidal _} {X Y Z} :
   proj_left ⨂ id ≈ id[X] ⨂ @proj_right _ _ Y Z ∘ tensor_assoc.
@@ -506,6 +522,30 @@ Proof.
   normal.
   apply bimap_respects; [|reflexivity].
   apply unit_terminal.
+Qed.
+
+Corollary proj_left_natural `{Monoidal} `{@SemiCartesianMonoidal _} {X Y Z W}
+          (f : X ~> Y) (g : Z ~> W) :
+  proj_left ∘ f ⨂ g ≈ f ∘ proj_left.
+Proof.
+  unfold proj_left.
+  rewrite comp_assoc.
+  rewrite to_unit_right_natural.
+  normal.
+  rewrite eliminate_comp.
+  reflexivity.
+Qed.
+
+Corollary proj_right_natural `{Monoidal} `{@SemiCartesianMonoidal _} {X Y Z W}
+          (f : X ~> Y) (g : Z ~> W) :
+  proj_right ∘ f ⨂ g ≈ g ∘ proj_right.
+Proof.
+  unfold proj_right.
+  rewrite comp_assoc.
+  rewrite to_unit_left_natural.
+  normal.
+  rewrite eliminate_comp.
+  reflexivity.
 Qed.
 
 Class RelevanceMonoidal `{Monoidal} := {
@@ -583,10 +623,6 @@ Class CartesianMonoidal `{Monoidal} := {
 }.
 
 Notation "∆ X" := (@diagonal _ _ X) (at level 9, format "∆ X") : morphism_scope.
-
-Corollary eliminate_comp `{Monoidal} `{@CartesianMonoidal _} `{f : A ~> B} :
-  eliminate ∘ f ≈ eliminate.
-Proof. intros; apply unit_terminal. Qed.
 
 Corollary unit_left_eliminate `{Monoidal} `{@CartesianMonoidal _}
           {X Y} (f : X ~> Y) :
@@ -752,32 +788,7 @@ Proof.
   normal; reflexivity.
 Qed.
 
-Corollary proj_left_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z W}
-          (f : X ~> Y) (g : Z ~> W) :
-  proj_left ∘ f ⨂ g ≈ f ∘ proj_left.
-Proof.
-  unfold proj_left.
-  rewrite comp_assoc.
-  rewrite to_unit_right_natural.
-  normal.
-  rewrite eliminate_comp.
-  reflexivity.
-Qed.
-
-Corollary proj_right_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z W}
-          (f : X ~> Y) (g : Z ~> W) :
-  proj_right ∘ f ⨂ g ≈ g ∘ proj_right.
-Proof.
-  unfold proj_right.
-  rewrite comp_assoc.
-  rewrite to_unit_left_natural.
-  normal.
-  rewrite eliminate_comp.
-  reflexivity.
-Qed.
-
-Corollary proj_left_right_diagonal
-          `{Monoidal} `{@CartesianMonoidal _} {X Y} :
+Corollary proj_left_right_diagonal `{Monoidal} `{@CartesianMonoidal _} {X Y} :
   proj_left ⨂ proj_right ∘ ∆(X ⨂ Y) ≈ id[X ⨂ Y].
 Proof.
   rewrite <- bimap_id_left_right.
@@ -840,20 +851,6 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary bimap_twist `{Monoidal} `{@CartesianMonoidal _}
-          {X Y Z W} (f : X ~> Z) (g : Y ~> W) :
-  twist ∘ g ⨂ f ∘ twist ≈ f ⨂ g.
-Proof.
-  pose proof (fst twist_natural _ _ f _ _ g); simpl in X0.
-  normal.
-  rewrite <- comp_assoc.
-  rewrite X0.
-  rewrite comp_assoc.
-  rewrite twist_invol; cat.
-Qed.
-
-Bind Scope object_scope with C.
-
 Global Program Definition SymmetricCartesianMonoidal_Cartesian
        `{Monoidal} `{@CartesianMonoidal _} :
   @Cartesian C := {|
@@ -862,9 +859,7 @@ Global Program Definition SymmetricCartesianMonoidal_Cartesian
   exl  := fun _ _ => proj_left;
   exr  := fun _ _ => proj_right
 |}.
-Next Obligation.
-  apply is_relevance.
-Defined.
+Next Obligation. apply is_relevance. Defined.
 Next Obligation.
   proper.
   rewrite X0, X1.
