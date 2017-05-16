@@ -15,11 +15,9 @@ Set Universe Polymorphism.
 
 (* jww (2017-05-09): TODO: Preserve all aspects of the strong lax monoidal
    functor. *)
-Class StrongLaxMonoidalTransformation
-      `{C : Category} `{@Monoidal C}
+Class StrongLaxMonoidalTransformation `{C : Category} `{@Monoidal C}
       (F : C ⟶ C) `{@StrongFunctor _ _ F} `{@LaxMonoidalFunctor _ _ _ _ F}
-      (G : C ⟶ C) `{@StrongFunctor _ _ G} `{@LaxMonoidalFunctor _ _ _ _ G}
-  := {
+      (G : C ⟶ C) `{@StrongFunctor _ _ G} `{@LaxMonoidalFunctor _ _ _ _ G} := {
   slm_transform : F ⟹ G
 }.
 
