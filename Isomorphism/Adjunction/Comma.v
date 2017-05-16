@@ -5,6 +5,7 @@ Require Export Category.Theory.Adjunction.
 Require Export Category.Construction.Comma.
 Require Export Category.Construction.Product.
 Require Export Category.Instance.Cat.
+Require Export Category.Isomorphism.Natural.Comma.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -46,24 +47,26 @@ Context `{F : D ⟶ C}.
 Record fibered_equivalence := {
   fiber_iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G);
 
-  to_fiber_iso_natural {X Y} (f : X ~{D}~> Y) :
-    let X' := ((X, F X); id[F X]) in
-    let Y' := ((Y, F Y); id[F Y]) in
-    let f' := (f, fmap[F] f) : X' ~{ F ↓ Id[C] }~> Y' in
-    fmap[G] (snd (fmap[to fiber_iso] f')) ∘ projT2 (to fiber_iso X')
-      ≈ projT2 (to fiber_iso Y') ∘ fst (fmap[to fiber_iso] f');
-
-  from_fiber_iso_natural {X Y} (f : X ~{C}~> Y) :
-    let X' := ((G X, X); id[G X]) in
-    let Y' := ((G Y, Y); id[G Y]) in
-    let f' := (fmap[G] f, f) : X' ~{ Id[D] ↓ G }~> Y' in
-    snd (fmap[from fiber_iso] f')
-      ∘ projT2 (from fiber_iso X')
-      ≈ projT2 (from fiber_iso Y')
-          ∘ fmap[F] (fst (fmap[from fiber_iso] f'));
-
   projG_commutes : comma_proj ≈[Cat] comma_proj ○ from fiber_iso;
-  projF_commutes : comma_proj ≈[Cat] comma_proj ○ to fiber_iso
+  projF_commutes : comma_proj ≈[Cat] comma_proj ○ to fiber_iso;
+
+  functoriality_of_F {X Y} g :
+    fmap[G] (snd (@fmap _ _ (to fiber_iso)
+                        ((X, F X); id[F X])
+                        ((Y, F Y); id[F Y]) (g, fmap[F] g)))
+        ∘ projT2 (to fiber_iso ((X, F X); id[F X]))
+      ≈ projT2 (to fiber_iso ((Y, F Y); id[F Y]))
+        ∘ fst (fmap[to fiber_iso] (g, fmap[F] g));
+
+  functoriality_of_G {X Y} g :
+    (snd (@fmap _ _ (from fiber_iso)
+                ((G X, X); id[G X])
+                ((G Y, Y); id[G Y]) (fmap[G] g, g)))
+        ∘ projT2 (from fiber_iso ((G X, X); id[G X]))
+      ≈ projT2 (from fiber_iso ((G Y, Y); id[G Y]))
+        ∘ fmap[F] (fst (@fmap _ _ (from fiber_iso)
+                              ((G X, X); id[G X])
+                              ((G Y, Y); id[G Y]) (fmap[G] g, g)))
 }.
 
 Theorem Adjunction_Comma :
@@ -142,36 +145,39 @@ Proof.
 
     unshelve econstructor.
     - isomorphism; auto.
+    - isomorphism; simpl.
+      + transform; simpl; intros.
+        * destruct X0; simpl.
+          exact (id, id).
+        * destruct X0, Y; simpl; cat.
+      + transform; simpl; intros.
+        * destruct X0; simpl.
+          exact (id, id).
+        * destruct X0, Y; simpl; cat.
+      + destruct A; simpl; cat.
+      + destruct A; simpl; cat.
+    - isomorphism; simpl.
+      + transform; simpl; intros.
+        * destruct X0; simpl.
+          exact (id, id).
+        * destruct X0, Y; simpl; cat.
+      + transform; simpl; intros.
+        * destruct X0; simpl.
+          exact (id, id).
+        * destruct X0, Y; simpl; cat.
+      + destruct A; simpl; cat.
+      + destruct A; simpl; cat.
     - simpl in *; intros.
+      clear from_to X to from.
       rewrite <- (@adj_left_nat_r' _ _ F G H).
       rewrite <- (@adj_left_nat_l' _ _ F G H); cat.
     - simpl in *; intros.
       rewrite <- (@adj_right_nat_r' _ _ F G H).
       rewrite <- (@adj_right_nat_l' _ _ F G H); cat.
-    - isomorphism; simpl.
-      + transform; simpl; intros.
-        * destruct X0; simpl.
-          exact (id, id).
-        * destruct X0, Y; simpl; cat.
-      + transform; simpl; intros.
-        * destruct X0; simpl.
-          exact (id, id).
-        * destruct X0, Y; simpl; cat.
-      + destruct A; simpl; cat.
-      + destruct A; simpl; cat.
-    - isomorphism; simpl.
-      + transform; simpl; intros.
-        * destruct X0; simpl.
-          exact (id, id).
-        * destruct X0, Y; simpl; cat.
-      + transform; simpl; intros.
-        * destruct X0; simpl.
-          exact (id, id).
-        * destruct X0, Y; simpl; cat.
-      + destruct A; simpl; cat.
-      + destruct A; simpl; cat.
   }
 
+  pose proof (@functoriality_of_F H) as FF.
+  pose proof (@functoriality_of_G H) as FG.
   destruct H.
   unshelve (eapply adj_from_unit_conuit).
   unshelve econstructor.
@@ -203,8 +209,7 @@ Proof.
     rewrite !comp_assoc.
     apply compose_respects; [|reflexivity].
 
-    (* This looks a lot like a naturality condition. *)
-    apply to_fiber_iso_natural0.
+    apply FF.
 
   - simpl in *; intros.
     rewrite <- !comp_assoc.
@@ -227,11 +232,15 @@ Proof.
     rewrite !comp_assoc.
     apply compose_respects; [|reflexivity].
 
-    (* This looks a lot like a naturality condition. *)
-    apply from_fiber_iso_natural0.
+    apply FG.
+
+  - simpl in *; intros.
+    rewrite <- !comp_assoc.
+    rewrite <- !fmap_comp.
+    rewrite (comp_assoc (fmap[G] _)).
+    admit.
 
   - admit.
-  - admit.
-Admitted.
+Abort.
 
 End AdjunctionComma.
