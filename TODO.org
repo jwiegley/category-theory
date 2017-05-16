@@ -9,12 +9,12 @@ SCHEDULED: <2017-05-07 Sun>
 :ID:       9E2C0BAF-4B15-42B2-8BBA-A11831BD0D66
 :CREATED:  [2017-05-05 Fri 11:31]
 :END:
-** TODO Break Functors into subdirectories
+** DONE Break Functors into subdirectories
 - Functor.Construction.Product
 - Functor.Structure.Cartesian, etc., to show exactly what they are functors of
 - Functor.Product is then just the simple notion
 ** TODO Move notations into modules
-** TODO Have 'make' error if a file is not in _CoqProject
+** DONE Have 'make' error if a file is not in _CoqProject
 * Miscellaneous
 ** TODO Boolean object
 Is any for which there is a morphism Bool ~> 1 + 1, and a UMP characterizing
@@ -38,7 +38,7 @@ maybe exponentials .
 :ID:       AA523223-71EE-4201-B31C-40F2B712170C
 :CREATED:  [2017-05-07 Sun 10:06]
 :END:
-** TODO Instead of HomFunctor, use the closed structure of Cat
+** CANCELED Instead of HomFunctor, use the closed structure of Cat
 And just apply curry to [C^op, C] ⟶ Sets
 ** CANCELED Move all instances not related to isomorphism or equivalence into modules
 This will prevent Identity from being used whenever 'fmap' is called and I've
@@ -100,11 +100,11 @@ Ltac simpl_ids :=
 #+begin_src coq
 Notation "f '⁻¹'" := (inverse_morphism f) : morphism_scope.
 #+end_src coq
-** TODO Make monic, epic, etc., into type classes
+** DONE Make monic, epic, etc., into type classes
 ** TODO Create subcategories
 Where each object/arrow of a category maps to some subobject, such as Obj ->
 Type and Hom -> Prop.
-** TODO Use notations for 1, 0, etc.
+** DONE Use notations for 1, 0, etc.
 #+begin_src coq
 Notation "1" := (SingletonCat) : category_scope.
 
