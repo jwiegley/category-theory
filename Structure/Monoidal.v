@@ -167,6 +167,32 @@ Theorem monoidal_naturality `{M : Monoidal} :
   natural (@tensor_assoc M).
 Proof. prove_naturality M normal. Qed.
 
+Lemma tensor_id_left_inj `{Monoidal} {X Y} (f g : X ~> Y) :
+  id[I] ⨂ f ≈ id[I] ⨂ g -> f ≈ g.
+Proof.
+  intros.
+  rewrite <- id_right; symmetry;
+  rewrite <- id_right; symmetry.
+  rewrite <- (iso_to_from unit_left).
+  rewrite !comp_assoc.
+  rewrite !to_unit_left_natural.
+  rewrite X0.
+  reflexivity.
+Qed.
+
+Lemma tensor_id_right_inj `{Monoidal} {X Y} (f g : X ~> Y) :
+  f ⨂ id[I] ≈ g ⨂ id[I] -> f ≈ g.
+Proof.
+  intros.
+  rewrite <- id_right; symmetry;
+  rewrite <- id_right; symmetry.
+  rewrite <- (iso_to_from unit_right).
+  rewrite !comp_assoc.
+  rewrite !to_unit_right_natural.
+  rewrite X0.
+  reflexivity.
+Qed.
+
 (* The following proofs are from the book "Tensor Categories", by Pavel
    Etingof, Shlomo Gelaki, Dmitri Nikshych, and Victor Ostrik. *)
 
@@ -257,32 +283,6 @@ Proof.
 
   rewrite <- comp_assoc.
   rewrite iso_to_from, id_right.
-  reflexivity.
-Qed.
-
-Lemma tensor_id_left_inj `{Monoidal} {X Y} (f g : X ~> Y) :
-  id[I] ⨂ f ≈ id[I] ⨂ g -> f ≈ g.
-Proof.
-  intros.
-  rewrite <- id_right; symmetry;
-  rewrite <- id_right; symmetry.
-  rewrite <- (iso_to_from unit_left).
-  rewrite !comp_assoc.
-  rewrite !to_unit_left_natural.
-  rewrite X0.
-  reflexivity.
-Qed.
-
-Lemma tensor_id_right_inj `{Monoidal} {X Y} (f g : X ~> Y) :
-  f ⨂ id[I] ≈ g ⨂ id[I] -> f ≈ g.
-Proof.
-  intros.
-  rewrite <- id_right; symmetry;
-  rewrite <- id_right; symmetry.
-  rewrite <- (iso_to_from unit_right).
-  rewrite !comp_assoc.
-  rewrite !to_unit_right_natural.
-  rewrite X0.
   reflexivity.
 Qed.
 
@@ -391,15 +391,25 @@ Proof.
   assumption.
 Qed.
 
-(* "The commutativity of the triangle (2.13) is proved similarly."
+Theorem bimap_triangle_right `{Monoidal} {X Y} :
+  unit_right
+    << (X ⨂ Y) ⨂ I ~~> X ⨂ Y >>
+  bimap id unit_right ∘ to tensor_assoc.
+Proof.
+  rewrite triangle_identity_right.
+  rewrite <- comp_assoc.
+  rewrite iso_from_to; cat.
+Qed.
 
-     Theorem triangle_right `{Monoidal} {X Y} :
-       unit_right
-         << (X ⨂ Y) ⨂ I ~~> X ⨂ Y >>
-       bimap id unit_right ∘ to tensor_assoc.
-
-   This will require repeating most of the above, but for a commuting
-   pentagram ((X ⨂ Y) ⨂ Z) ⨂ I ~~> X ⨂ (Y ⨂ (Z ⨂ I)). *)
+Theorem bimap_triangle_left `{Monoidal} {X Y} :
+  unit_left
+    << I ⨂ (X ⨂ Y) ~~> X ⨂ Y >>
+  bimap unit_left id ∘ tensor_assoc⁻¹.
+Proof.
+  rewrite triangle_identity_left.
+  rewrite <- comp_assoc.
+  rewrite iso_to_from; cat.
+Qed.
 
 Corollary unit_identity `{Monoidal} :
   to (@unit_left _ I) ≈ to (@unit_right _ I).
@@ -435,18 +445,68 @@ Class SemiCartesianMonoidal `{Monoidal} := {
   unit_terminal {X} (f g : X ~> I) : f ≈ g;
 
   proj_left  {X Y} : X ⨂ Y ~> X := unit_right ∘ id ⨂ eliminate;
-  proj_right {X Y} : X ⨂ Y ~> Y := unit_left  ∘ eliminate ⨂ id;
-
-  proj_left_tensor_id {X Y Z} :
-    proj_left ⨂ id ≈ id[X] ⨂ @proj_right Y Z ∘ tensor_assoc;
-  proj_right_tensor_id {X Y Z} :
-    id ⨂ proj_right ≈ @proj_left X Y ⨂ id[Z] ∘ tensor_assoc⁻¹;
-
-  proj_left_left {X Y Z} :
-    proj_left ∘ proj_left ≈ @proj_left X (Y ⨂ Z) ∘ tensor_assoc;
-  proj_right_right {X Y Z} :
-    proj_right ∘ proj_right ≈ @proj_right (X ⨂ Y) Z ∘ tensor_assoc⁻¹
+  proj_right {X Y} : X ⨂ Y ~> Y := unit_left  ∘ eliminate ⨂ id
 }.
+
+Lemma proj_left_tensor_id `{Monoidal} `{@SemiCartesianMonoidal _} {X Y Z} :
+  proj_left ⨂ id ≈ id[X] ⨂ @proj_right _ _ Y Z ∘ tensor_assoc.
+Proof.
+  unfold proj_left, proj_right.
+  rewrite bimap_comp_id_right.
+  rewrite triangle_identity.
+  rewrite <- comp_assoc.
+  rewrite <- to_tensor_assoc_natural.
+  normal; reflexivity.
+Qed.
+
+Lemma proj_right_tensor_id `{Monoidal} `{@SemiCartesianMonoidal _} {X Y Z} :
+  id ⨂ proj_right ≈ @proj_left _ _ X Y ⨂ id[Z] ∘ tensor_assoc⁻¹.
+Proof.
+  unfold proj_left, proj_right.
+  rewrite bimap_comp_id_left.
+  rewrite inverse_triangle_identity.
+  rewrite <- comp_assoc.
+  rewrite <- from_tensor_assoc_natural.
+  normal; reflexivity.
+Qed.
+
+Lemma proj_left_left `{Monoidal} `{@SemiCartesianMonoidal _} {X Y Z} :
+  proj_left ∘ proj_left ≈ @proj_left _ _ X (Y ⨂ Z) ∘ tensor_assoc.
+Proof.
+  unfold proj_left; normal.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ unit_right).
+  rewrite to_unit_right_natural; normal.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite bimap_triangle_right.
+  rewrite <- comp_assoc.
+  rewrite <- to_tensor_assoc_natural.
+  rewrite comp_assoc.
+  apply compose_respects; [|reflexivity].
+  normal.
+  apply bimap_respects; [reflexivity|].
+  apply unit_terminal.
+Qed.
+
+Lemma proj_right_right `{Monoidal} `{@SemiCartesianMonoidal _} {X Y Z} :
+  proj_right ∘ proj_right ≈ @proj_right _ _ (X ⨂ Y) Z ∘ tensor_assoc⁻¹.
+Proof.
+  unfold proj_right; normal.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ unit_left).
+  rewrite to_unit_left_natural; normal.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite bimap_triangle_left.
+  rewrite <- comp_assoc.
+  rewrite <- from_tensor_assoc_natural.
+  rewrite comp_assoc.
+  apply compose_respects; [|reflexivity].
+  normal.
+  apply bimap_respects; [|reflexivity].
+  apply unit_terminal.
+Qed.
 
 Class RelevanceMonoidal `{Monoidal} := {
   is_symmetric :> SymmetricMonoidal;
@@ -984,22 +1044,6 @@ Program Definition InternalProduct_CartesianMonoidal
 |}.
 Next Obligation. cat. Qed.
 Next Obligation.
-  rewrite <- !fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
-Next Obligation.
-  rewrite <- !fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
-Next Obligation.
-  rewrite <- !comp_assoc; cat.
-  rewrite <- !fork_comp; cat.
-Qed.
-Next Obligation.
-  rewrite <- !comp_assoc; cat.
-  rewrite <- !fork_comp; cat.
-Qed.
-Next Obligation.
   apply InternalProduct_SymmetricMonoidal.
 Defined.
 Next Obligation.
@@ -1034,16 +1078,8 @@ Next Obligation.
   rewrite <- !comp_assoc; cat.
   rewrite <- !fork_comp; cat.
 Qed.
-Next Obligation.
-  unfold proj_left; simpl.
-  repeat (rewrite <- !fork_comp; cat;
-          rewrite <- !comp_assoc; cat).
-Qed.
-Next Obligation.
-  unfold proj_right, proj_left, swap; simpl.
-  repeat (rewrite <- !fork_comp; cat;
-          rewrite <- !comp_assoc; cat).
-Qed.
+Next Obligation. unfold swap; cat. Qed.
+Next Obligation. unfold swap; cat. Qed.
 
 Require Import Category.Functor.Bifunctor.
 
