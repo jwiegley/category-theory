@@ -39,7 +39,7 @@ Program Definition Comma : Category := {|
   compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g)
 |}.
 
-Program Instance comma_proj : Comma ⟶ A ∏ B.
+Program Instance comma_proj  : Comma ⟶ A ∏ B.
 Program Instance comma_proj1 : Comma ⟶ A.
 Program Instance comma_proj2 : Comma ⟶ B.
 

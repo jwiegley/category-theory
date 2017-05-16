@@ -47,22 +47,20 @@ Context `{F : D ⟶ C}.
 Record fibered_equivalence := {
   fiber_iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G);
 
-  projG_commutes : comma_proj ≈[Cat] comma_proj ○ from fiber_iso;
-  projF_commutes : comma_proj ≈[Cat] comma_proj ○ to fiber_iso;
+  projG : comma_proj ≈[Cat] comma_proj ○ from fiber_iso;
+  projF : comma_proj ≈[Cat] comma_proj ○ to fiber_iso;
 
   fibered_to {X Y} (f : F X ~> Y) :
     { g : X ~> G Y
-    & fmap (snd (projF_commutes⁻¹ ((X, Y); f)))
+    & fmap (snd (projF⁻¹ ((X, Y); f)))
         ∘ projT2 (to fiber_iso ((X, Y); f))
-        ∘ fst (to projF_commutes ((X, Y); f))
-        ≈ projT2 (existT (fun p => fst p ~> G (snd p)) (X, Y) g) };
+        ∘ fst (to projF ((X, Y); f)) ≈ g };
 
   fibered_from {X Y} (f : X ~> G Y) :
     { g : F X ~> Y
-    & snd (projG_commutes⁻¹ ((X, Y); f))
+    & snd (projG⁻¹ ((X, Y); f))
         ∘ projT2 (from fiber_iso ((X, Y); f))
-        ∘ fmap (fst (to projG_commutes ((X, Y); f)))
-        ≈ projT2 (existT (fun p => F (fst p) ~> snd p) (X, Y) g) }
+        ∘ fmap (fst (to projG ((X, Y); f))) ≈ g }
 }.
 
 Theorem Adjunction_Comma :
@@ -181,15 +179,15 @@ Proof.
 
   given (unit : ∀ a, a ~{ D }~> G (F a)).
     intro a.
-    exact (fmap (snd (projF_commutes0⁻¹ ((a, F a); id[F a])))
+    exact (fmap (snd (projF0⁻¹ ((a, F a); id[F a])))
                 ∘ projT2 (to fiber_iso0 ((a, F a); id[F a]))
-                ∘ fst (to projF_commutes0 ((a, F a); id[F a]))).
+                ∘ fst (to projF0 ((a, F a); id[F a]))).
 
   given (counit : ∀ a, F (G a) ~{ C }~> a).
     intro a.
-    exact (snd (projG_commutes0⁻¹ ((G a, a); id[G a]))
+    exact (snd (projG0⁻¹ ((G a, a); id[G a]))
                ∘ projT2 (fiber_iso0⁻¹ ((G a, a); id[G a]))
-               ∘ fmap (fst (to projG_commutes0 ((G a, a); id[G a])))).
+               ∘ fmap (fst (to projG0 ((G a, a); id[G a])))).
 
   unshelve (eapply adj_from_unit_conuit).
   unshelve econstructor; auto.
