@@ -219,9 +219,7 @@ Proof.
   pose proof (to_tensor_assoc_natural (id[X]) (@unit_left _ Y) (id[Z])) as X0.
   assert (X1 : ∀ X Y Z W (f g : (X ⨂ Y) ⨂ Z ~> W),
              f ≈ g -> f ∘ tensor_assoc⁻¹ ≈ g ∘ tensor_assoc⁻¹).
-    intros.
-    rewrite X2.
-    reflexivity.
+    intros; rewrite X2; reflexivity.
   apply X1 in X0.
   rewrite <- !comp_assoc in X0.
   rewrite iso_to_from, id_right in X0.
@@ -276,7 +274,7 @@ Proof.
 Qed.
 
 Lemma tensor_id_right_inj `{Monoidal} {X Y} (f g : X ~> Y) :
-  f ⨂ id[I] ≈ (g ⨂ id[I]) -> f ≈ g.
+  f ⨂ id[I] ≈ g ⨂ id[I] -> f ≈ g.
 Proof.
   intros.
   rewrite <- id_right; symmetry;
@@ -298,6 +296,98 @@ Proof.
   pose proof (@bimap_id_unit_left _ I X Y).
   normal.
   apply tensor_id_left_inj in X0.
+  assumption.
+Qed.
+
+Theorem inverse_triangle_identity `{Monoidal} {X Y} :
+  id ⨂ unit_left
+    << X ⨂ (I ⨂ Y) ~~> X ⨂ Y >>
+  unit_right ⨂ id ∘ tensor_assoc⁻¹.
+Proof.
+  rewrite triangle_identity.
+  rewrite <- comp_assoc.
+  rewrite iso_to_from; cat.
+Qed.
+
+Theorem inverse_pentagon_identity `{Monoidal} {X Y Z W} :
+  tensor_assoc⁻¹ ⨂ id[W] ∘ tensor_assoc⁻¹ ∘ id[X] ⨂ tensor_assoc⁻¹
+      << X ⨂ (Y ⨂ (Z ⨂ W)) ~~> ((X ⨂ Y) ⨂ Z) ⨂ W >>
+  tensor_assoc⁻¹ ∘ tensor_assoc⁻¹.
+Proof.
+  apply (iso_epic tensor_assoc).
+  rewrite <- !comp_assoc.
+  rewrite iso_from_to, id_right.
+  apply (iso_epic tensor_assoc).
+  rewrite iso_from_to.
+  rewrite <- !comp_assoc.
+  rewrite <- pentagon_identity.
+  normal.
+  rewrite iso_from_to; normal.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (tensor_assoc⁻¹)).
+  rewrite iso_from_to; normal.
+  rewrite iso_from_to; normal.
+  reflexivity.
+Qed.
+
+Lemma bimap_unit_right_id `{Monoidal} {X Y Z} :
+  (id ⨂ unit_right) ⨂ id
+    << (X ⨂ (Y ⨂ I)) ⨂ Z ~~> (X ⨂ Y) ⨂ Z >>
+  unit_right ⨂ id ∘ tensor_assoc⁻¹ ⨂ id.
+Proof.
+  (* "Consequently, the lower right triangle commutes as well." *)
+  pose proof (from_tensor_assoc_natural (id[X]) (@unit_right _ Y) (id[Z])) as X0.
+  assert (X1 : ∀ X Y Z W (f g : X ⨂ (Y ⨂ Z) ~> W),
+             f ≈ g -> f ∘ tensor_assoc ≈ g ∘ tensor_assoc).
+    intros; rewrite X2; reflexivity.
+  apply X1 in X0.
+  rewrite <- !comp_assoc in X0.
+  rewrite iso_from_to, id_right in X0.
+  rewrite X0; clear X0.
+  rewrite comp_assoc; normal.
+
+  pose proof (from_tensor_assoc_natural
+                (id[X]) (id[Y]) (@unit_left _ Z)) as X0.
+  rewrite bimap_id_id in X0.
+  rewrite inverse_triangle_identity in X0.
+  rewrite inverse_triangle_identity in X0.
+  rewrite <- comp_assoc in X0.
+  rewrite <- inverse_pentagon_identity in X0.
+  rewrite !comp_assoc in X0.
+  normal.
+  symmetry in X0.
+  rewrite bimap_comp_id_left in X0.
+  rewrite comp_assoc in X0.
+
+  assert (X2 : ∀ (f g : X ⨂ ((Y ⨂ I) ⨂ Z) ~{ C }~> (X ⨂ Y) ⨂ Z),
+             f ∘ id ⨂ tensor_assoc⁻¹ ≈ g ∘ id ⨂ tensor_assoc⁻¹
+             -> f ≈ g).
+    intros.
+    assert (∀ X Y Z W V (f g : X ⨂ (Y ⨂ (Z ⨂ V)) ~> W),
+               f ≈ g -> f ∘ (id[X] ⨂ tensor_assoc) ≈
+                        g ∘ (id[X] ⨂ tensor_assoc)).
+      intros; rewrite X4; reflexivity.
+    apply X3 in X2.
+    normal.
+    rewrite !iso_from_to in X2.
+    rewrite !bimap_id_id, !id_right in X2.
+    assumption.
+  apply X2 in X0; clear X2.
+  rewrite X0; clear X0.
+
+  rewrite <- comp_assoc.
+  rewrite iso_from_to, id_right.
+  reflexivity.
+Qed.
+
+Theorem triangle_identity_right `{Monoidal} {X Y} :
+  id ⨂ unit_right
+    << X ⨂ (Y ⨂ I) ~~> X ⨂ Y >>
+  unit_right ∘ tensor_assoc⁻¹.
+Proof.
+  pose proof (@bimap_unit_right_id _ X Y I).
+  normal.
+  apply tensor_id_right_inj in X0.
   assumption.
 Qed.
 
@@ -384,6 +474,32 @@ Class RelevanceMonoidal `{Monoidal} := {
     @diagonal (X ⨂ Y) ≈ twist2 ∘ diagonal ⨂ diagonal
 }.
 
+Lemma twist2_natural `{Monoidal} `{@RelevanceMonoidal _} :
+  natural (@twist2 _ _).
+Proof.
+  unfold twist2; simpl; intros; normal.
+  rewrite from_tensor_assoc_natural.
+  rewrite <- !comp_assoc.
+  rewrite <- to_tensor_assoc_natural.
+  normal.
+  apply compose_respects; [|reflexivity].
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  rewrite !comp_assoc.
+  normal.
+  apply bimap_respects; [reflexivity|].
+  rewrite to_tensor_assoc_natural.
+  rewrite <- !comp_assoc.
+  rewrite <- from_tensor_assoc_natural.
+  apply compose_respects; [reflexivity|].
+  rewrite !comp_assoc.
+  apply compose_respects; [|reflexivity].
+  normal.
+  apply bimap_respects; [|reflexivity].
+  pose proof (fst twist_natural _ _ h _ _ i); simpl in X0.
+  normal; assumption.
+Qed.
+
 (* Wikipedia: "Cartesian monoidal categories have a number of special and
    important properties, such as the existence of diagonal maps (Δ) x : x → x
    ⨂ x and augmentations (e) x : x → I for any object x. In applications to
@@ -402,11 +518,8 @@ Class CartesianMonoidal `{Monoidal} := {
   proj_left_diagonal  {X} : proj_left  ∘ diagonal ≈ id[X];
   proj_right_diagonal {X} : proj_right ∘ diagonal ≈ id[X];
 
-  proj_left_id_diagonal {X Y} :
-    proj_left ⨂ id ∘ @diagonal _ _ (X ⨂ Y) ≈ tensor_assoc ∘ diagonal ⨂ id;
-
-  proj_right_left_diagonal {X Y} :
-    proj_right ⨂ proj_left ∘ @diagonal _ _ (X ⨂ Y) ≈ twist;
+  unit_left_twist  {X} : unit_left  ∘ @twist _ _ X I ≈ unit_right;
+  unit_right_twist {X} : unit_right ∘ @twist _ _ I X ≈ unit_left
 }.
 
 Notation "∆ X" := (@diagonal _ _ X) (at level 9, format "∆ X") : morphism_scope.
@@ -414,30 +527,6 @@ Notation "∆ X" := (@diagonal _ _ X) (at level 9, format "∆ X") : morphism_sc
 Corollary eliminate_comp `{Monoidal} `{@CartesianMonoidal _} `{f : A ~> B} :
   eliminate ∘ f ≈ eliminate.
 Proof. intros; apply unit_terminal. Qed.
-
-Corollary proj_left_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z W}
-          (f : X ~> Y) (g : Z ~> W) :
-  proj_left ∘ f ⨂ g ≈ f ∘ proj_left.
-Proof.
-  unfold proj_left.
-  rewrite comp_assoc.
-  rewrite to_unit_right_natural.
-  normal.
-  rewrite eliminate_comp.
-  reflexivity.
-Qed.
-
-Corollary proj_right_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z W}
-          (f : X ~> Y) (g : Z ~> W) :
-  proj_right ∘ f ⨂ g ≈ g ∘ proj_right.
-Proof.
-  unfold proj_right.
-  rewrite comp_assoc.
-  rewrite to_unit_left_natural.
-  normal.
-  rewrite eliminate_comp.
-  reflexivity.
-Qed.
 
 Corollary unit_left_eliminate `{Monoidal} `{@CartesianMonoidal _}
           {X Y} (f : X ~> Y) :
@@ -471,6 +560,162 @@ Proof.
   reflexivity.
 Qed.
 
+Lemma eliminate_right_diagonal `{Monoidal} `{@CartesianMonoidal _} {X} :
+  id[X] ⨂ eliminate ∘ ∆X ≈ unit_right⁻¹.
+Proof.
+  apply (iso_monic unit_right).
+  rewrite comp_assoc.
+  rewrite unit_right_eliminate.
+  rewrite iso_to_from.
+  reflexivity.
+Qed.
+
+Lemma eliminate_left_diagonal `{Monoidal} `{@CartesianMonoidal _} {X} :
+  eliminate ⨂ id[X] ∘ ∆X ≈ unit_left⁻¹.
+Proof.
+  apply (iso_monic unit_left).
+  rewrite comp_assoc.
+  rewrite unit_left_eliminate.
+  rewrite iso_to_from.
+  reflexivity.
+Qed.
+
+Lemma proj_left_id_diagonal `{Monoidal} `{@CartesianMonoidal _} {X Y} :
+  proj_left ⨂ id ∘ @diagonal _ _ (X ⨂ Y) ≈ tensor_assoc ∘ diagonal ⨂ id.
+Proof.
+  rewrite diagonal_twist2.
+  remember (_ ∘ _ ∘ tensor_assoc) as p.
+  pose proof (@twist2_natural _ _ X _ id X _ id Y _ eliminate Y _ id); simpl in X0.
+  rewrite !bimap_id_id in X0.
+  rewrite !id_left, !id_right in X0.
+  unfold proj_left.
+  normal.
+  rewrite bimap_comp_id_right.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc ((_ ⨂ _) ⨂ _)).
+  unfold twist2 in X0.
+  rewrite Heqp; clear Heqp p.
+  rewrite X0; clear X0.
+  normal.
+  rewrite eliminate_left_diagonal.
+  rewrite triangle_identity.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc tensor_assoc).
+  rewrite iso_to_from.
+  normal.
+  rewrite <- triangle_identity_left.
+  normal.
+  rewrite unit_left_twist.
+  rewrite triangle_identity.
+  rewrite <- !comp_assoc.
+  rewrite iso_to_from.
+  normal.
+  rewrite to_tensor_assoc_natural.
+  normal.
+  rewrite iso_to_from.
+  reflexivity.
+Qed.
+
+Lemma proj_right_id_diagonal `{Monoidal} `{@CartesianMonoidal _} {X Y} :
+  proj_right ⨂ id ∘ @diagonal _ _ (X ⨂ Y)
+    ≈ tensor_assoc ∘ twist ⨂ id ∘ tensor_assoc⁻¹ ∘ id ⨂ diagonal.
+Proof.
+  rewrite diagonal_twist2.
+  remember (_ ∘ _ ∘ tensor_assoc) as p.
+  pose proof (@twist2_natural _ _ X _ eliminate X _ id Y _ id Y _ id);
+  simpl in X0.
+  rewrite !bimap_id_id in X0.
+  rewrite !id_right in X0.
+  unfold twist2 in X0.
+  unfold proj_right.
+  normal.
+  rewrite bimap_comp_id_right.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc ((_ ⨂ _) ⨂ _)).
+  rewrite Heqp; clear Heqp p.
+  rewrite X0; clear X0.
+  normal.
+  rewrite eliminate_left_diagonal.
+  rewrite triangle_identity_left.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc tensor_assoc).
+  rewrite iso_to_from.
+  normal.
+  rewrite <- to_unit_left_natural.
+  rewrite <- !comp_assoc.
+  repeat (apply compose_respects; [reflexivity|]).
+  rewrite comp_assoc.
+  rewrite <- triangle_identity_left.
+  normal.
+  rewrite iso_to_from.
+  reflexivity.
+Qed.
+
+Corollary proj_right_left_diagonal `{Monoidal} `{@CartesianMonoidal _} {X Y} :
+  proj_right ⨂ proj_left ∘ ∆(X ⨂ Y) ≈ twist.
+Proof.
+  rewrite <- bimap_id_left_right.
+  rewrite <- comp_assoc.
+  rewrite proj_right_id_diagonal.
+  unfold proj_left, proj_right.
+  normal.
+  rewrite bimap_comp_id_left.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ tensor_assoc).
+  rewrite to_tensor_assoc_natural.
+  normal.
+  rewrite <- comp_assoc.
+  rewrite triangle_identity_right.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (tensor_assoc⁻¹)).
+  rewrite iso_from_to.
+  normal.
+  rewrite <- bimap_id_right_left.
+  rewrite !comp_assoc.
+  rewrite <- to_unit_right_natural.
+  symmetry.
+  rewrite <- id_right at 1.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  symmetry.
+  normal.
+  pose proof (@from_tensor_assoc_natural _ X _ Y _ Y _ id id eliminate).
+  rewrite bimap_id_id in X0.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (bimap _ _)).
+  rewrite X0; clear X0.
+  normal.
+  rewrite eliminate_right_diagonal.
+  rewrite <- triangle_identity_right.
+  normal.
+  rewrite iso_to_from.
+  normal; reflexivity.
+Qed.
+
+Corollary proj_left_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z W}
+          (f : X ~> Y) (g : Z ~> W) :
+  proj_left ∘ f ⨂ g ≈ f ∘ proj_left.
+Proof.
+  unfold proj_left.
+  rewrite comp_assoc.
+  rewrite to_unit_right_natural.
+  normal.
+  rewrite eliminate_comp.
+  reflexivity.
+Qed.
+
+Corollary proj_right_natural `{Monoidal} `{@CartesianMonoidal _} {X Y Z W}
+          (f : X ~> Y) (g : Z ~> W) :
+  proj_right ∘ f ⨂ g ≈ g ∘ proj_right.
+Proof.
+  unfold proj_right.
+  rewrite comp_assoc.
+  rewrite to_unit_left_natural.
+  normal.
+  rewrite eliminate_comp.
+  reflexivity.
+Qed.
+
 Corollary proj_left_right_diagonal
           `{Monoidal} `{@CartesianMonoidal _} {X Y} :
   proj_left ⨂ proj_right ∘ ∆(X ⨂ Y) ≈ id[X ⨂ Y].
@@ -486,13 +731,7 @@ Proof.
   rewrite to_tensor_assoc_natural.
   normal.
   rewrite <- comp_assoc.
-  assert (bimap[(⨂)] (id[X]) eliminate ∘ diagonal ≈ unit_right⁻¹).
-    apply (iso_monic unit_right).
-    rewrite comp_assoc.
-    rewrite unit_right_eliminate.
-    rewrite iso_to_from.
-    reflexivity.
-  rewrite X0.
+  rewrite eliminate_right_diagonal.
   normal.
   rewrite <- triangle_identity.
   normal.
@@ -545,26 +784,12 @@ Corollary bimap_twist `{Monoidal} `{@CartesianMonoidal _}
           {X Y Z W} (f : X ~> Z) (g : Y ~> W) :
   twist ∘ g ⨂ f ∘ twist ≈ f ⨂ g.
 Proof.
-  rewrite <- !proj_right_left_diagonal.
+  pose proof (fst twist_natural _ _ f _ _ g); simpl in X0.
   normal.
-  rewrite bimap_comp.
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc diagonal).
-  srewrite_r diagonal_natural.
-  normal.
-  rewrite proj_left_natural.
-  rewrite proj_right_natural.
-  rewrite bimap_comp.
-  symmetry.
-  rewrite <- id_right at 1.
-  rewrite <- !comp_assoc.
-  apply compose_respects; [reflexivity|].
-  symmetry.
-  normal.
-  rewrite proj_right_left_diagonal.
   rewrite <- comp_assoc.
-  rewrite proj_right_left_diagonal.
-  apply twist_invol.
+  rewrite X0.
+  rewrite comp_assoc.
+  rewrite twist_invol; cat.
 Qed.
 
 Bind Scope object_scope with C.
