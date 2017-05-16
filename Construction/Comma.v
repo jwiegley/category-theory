@@ -40,6 +40,8 @@ Program Definition Comma : Category := {|
 |}.
 
 Program Instance comma_proj : Comma ⟶ A ∏ B.
+Program Instance comma_proj1 : Comma ⟶ A.
+Program Instance comma_proj2 : Comma ⟶ B.
 
 End Comma.
 
