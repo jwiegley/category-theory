@@ -190,6 +190,8 @@ Notation "X * Y" := (prod X Y) : type_scope.
 ** DONE 2
 ** DONE Monoid
 * Functors
+** TODO Applicative functors as symmetric closed monoidal functors
+This avoids needing to use internal products as the monoidal structure.
 ** TODO Comma category functors
 For each comma category there are forgetful functors from it.
 
