@@ -54,19 +54,7 @@ Next Obligation.
 Defined.
 Next Obligation.
   unfold Comma_Transform_obligation_1.
-  pose proof (functoriality F proj1_commutes proj2_commutes X Y f).
-  normal.
+  pose proof (functoriality X Y f).
+  rewrite !comp_assoc.
   apply X0.
-Qed.
-
-Theorem Natural_Comma `{C : Category} `{D : Category}
-        `{S : D ⟶ C} `{T : D ⟶ C} :
-  S ⟹ T  <-->  { F : D ⟶ (S ↓ T)
-                 & comma_proj1 ○ F ≈[Cat] Id[D]
-                 & comma_proj2 ○ F ≈[Cat] Id[D] }.
-Proof.
-  split; intros.
-  - exists (Comma_Functor X); constructive; cat.
-  - destruct X.
-    eapply Comma_Transform; eauto.
 Qed.

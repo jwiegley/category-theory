@@ -50,23 +50,19 @@ Record fibered_equivalence := {
   projG_commutes : comma_proj ≈[Cat] comma_proj ○ from fiber_iso;
   projF_commutes : comma_proj ≈[Cat] comma_proj ○ to fiber_iso;
 
-  functoriality_of_F {X Y} g :
-    fmap[G] (snd (@fmap _ _ (to fiber_iso)
-                        ((X, F X); id[F X])
-                        ((Y, F Y); id[F Y]) (g, fmap[F] g)))
-        ∘ projT2 (to fiber_iso ((X, F X); id[F X]))
-      ≈ projT2 (to fiber_iso ((Y, F Y); id[F Y]))
-        ∘ fst (fmap[to fiber_iso] (g, fmap[F] g));
+  fibered_to {X Y} (f : F X ~> Y) :
+    { g : X ~> G Y
+    & fmap (snd (projF_commutes⁻¹ ((X, Y); f)))
+        ∘ projT2 (to fiber_iso ((X, Y); f))
+        ∘ fst (to projF_commutes ((X, Y); f))
+        ≈ projT2 (existT (fun p => fst p ~> G (snd p)) (X, Y) g) };
 
-  functoriality_of_G {X Y} g :
-    (snd (@fmap _ _ (from fiber_iso)
-                ((G X, X); id[G X])
-                ((G Y, Y); id[G Y]) (fmap[G] g, g)))
-        ∘ projT2 (from fiber_iso ((G X, X); id[G X]))
-      ≈ projT2 (from fiber_iso ((G Y, Y); id[G Y]))
-        ∘ fmap[F] (fst (@fmap _ _ (from fiber_iso)
-                              ((G X, X); id[G X])
-                              ((G Y, Y); id[G Y]) (fmap[G] g, g)))
+  fibered_from {X Y} (f : X ~> G Y) :
+    { g : F X ~> Y
+    & snd (projG_commutes⁻¹ ((X, Y); f))
+        ∘ projT2 (from fiber_iso ((X, Y); f))
+        ∘ fmap (fst (to projG_commutes ((X, Y); f)))
+        ≈ projT2 (existT (fun p => F (fst p) ~> snd p) (X, Y) g) }
 }.
 
 Theorem Adjunction_Comma :
@@ -169,78 +165,74 @@ Proof.
       + destruct A; simpl; cat.
     - simpl in *; intros.
       clear from_to X to from.
+      exists (to adj_iso f).
       rewrite <- (@adj_left_nat_r' _ _ F G H).
       rewrite <- (@adj_left_nat_l' _ _ F G H); cat.
     - simpl in *; intros.
+      clear from_to X to from.
+      exists (from adj_iso f).
       rewrite <- (@adj_right_nat_r' _ _ F G H).
       rewrite <- (@adj_right_nat_l' _ _ F G H); cat.
   }
 
-  pose proof (@functoriality_of_F H) as FF.
-  pose proof (@functoriality_of_G H) as FG.
+  pose proof (@fibered_to H) as FT.
+  pose proof (@fibered_from H) as FF.
   destruct H.
-  unshelve (eapply adj_from_unit_conuit).
-  unshelve econstructor.
 
-  - intro a.
+  given (unit : ∀ a, a ~{ D }~> G (F a)).
+    intro a.
     exact (fmap (snd (projF_commutes0⁻¹ ((a, F a); id[F a])))
                 ∘ projT2 (to fiber_iso0 ((a, F a); id[F a]))
                 ∘ fst (to projF_commutes0 ((a, F a); id[F a]))).
 
-  - intro a.
+  given (counit : ∀ a, F (G a) ~{ C }~> a).
+    intro a.
     exact (snd (projG_commutes0⁻¹ ((G a, a); id[G a]))
                ∘ projT2 (fiber_iso0⁻¹ ((G a, a); id[G a]))
                ∘ fmap (fst (to projG_commutes0 ((G a, a); id[G a])))).
 
-  - simpl in *; intros.
-    rewrite !comp_assoc.
-    rewrite <- fmap_comp.
-    pose proof (snd (naturality[from projF_commutes0]
-                               ((X, F X); id[F X]) ((Y, F Y); id[F Y])
-                               (f, fmap[F] f))); simpl in X0.
-    rewrite X0; clear X0.
-    rewrite fmap_comp.
-    rewrite <- !comp_assoc.
-    apply compose_respects; [reflexivity|].
-    pose proof (fst (naturality[to projF_commutes0]
-                               ((X, F X); id[F X]) ((Y, F Y); id[F Y])
-                               (f, fmap[F] f))); simpl in X0.
-    rewrite <- X0; clear X0.
-    rewrite !comp_assoc.
-    apply compose_respects; [|reflexivity].
-
-    apply FF.
+  unshelve (eapply adj_from_unit_conuit).
+  unshelve econstructor; auto.
 
   - simpl in *; intros.
-    rewrite <- !comp_assoc.
-    rewrite <- fmap_comp.
-    pose proof (snd (naturality[from projG_commutes0]
-                               ((G X, X); id[G X]) ((G Y, Y); id[G Y])
-                               (fmap[G] f, f))); simpl in X0.
-    rewrite !comp_assoc.
-    rewrite X0; clear X0.
-    rewrite fmap_comp.
-    rewrite <- !comp_assoc.
-    apply compose_respects; [reflexivity|].
-    pose proof (fst (naturality[to projG_commutes0]
-                               ((G X, X); id[G X]) ((G Y, Y); id[G Y])
-                               (fmap[G] f, f))); simpl in X0.
-    rewrite <- fmap_comp.
-    rewrite <- X0; clear X0.
-    rewrite !comp_assoc.
-    rewrite fmap_comp.
-    rewrite !comp_assoc.
-    apply compose_respects; [|reflexivity].
-
-    apply FG.
-
-  - simpl in *; intros.
-    rewrite <- !comp_assoc.
-    rewrite <- !fmap_comp.
-    rewrite (comp_assoc (fmap[G] _)).
+    unfold unit.
+    pose (FT X (F X) id).
+    rewrite (projT2 s).
+    pose (FT Y (F Y) id).
+    rewrite (projT2 s0).
+    unfold s, s0; simpl.
+    (* fmap[G] (fmap[F] f) ∘ `` (FT X (F X) id[F X]) ≈ `` (FT Y (F Y) id[F Y]) ∘ f *)
     admit.
 
-  - admit.
+  - simpl in *; intros.
+    unfold counit.
+    pose (FF (G X) X id).
+    rewrite (projT2 s).
+    pose (FF (G Y) Y id).
+    rewrite (projT2 s0).
+    unfold s, s0; simpl.
+    (* f ∘ `` (FF (G X) X id[G X]) ≈ `` (FF (G Y) Y id[G Y]) ∘ fmap[F] (fmap[G] f) *)
+    admit.
+
+  - simpl in *; intros.
+    unfold unit, counit.
+    pose (FF (G (F X)) (F X) id).
+    rewrite (projT2 s).
+    pose (FT X (F X) id).
+    rewrite (projT2 s0).
+    unfold s, s0; simpl.
+    (* `` (FF (G (F X)) (F X) id[G (F X)]) ∘ fmap[F] `` (FT X (F X) id[F X]) ≈ id[F X] *)
+    admit.
+
+  - simpl in *; intros.
+    unfold unit, counit.
+    pose (FT (G X) (F (G X)) id).
+    rewrite (projT2 s).
+    pose (FF (G X) X id).
+    rewrite (projT2 s0).
+    unfold s, s0; simpl.
+    (* fmap[G] `` (FF (G X) X id[G X]) ∘ `` (FT (G X) (F (G X)) id[F (G X)]) ≈ id[G X] *)
+    admit.
 Abort.
 
 End AdjunctionComma.
