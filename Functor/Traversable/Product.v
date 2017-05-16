@@ -30,9 +30,9 @@ Proof.
   transform.
     simpl.
     intro x.
-      exact (ap[H0] ∘ bimap (transform[@sequence _ _ _ O H0 _ _] x)
-                            (transform[@sequence _ _ _ P H0 _ _] x)).
-  unfold ap.
+      exact (lax_ap[H0] ∘ bimap (transform[@sequence _ _ _ O H0 _ _] x)
+                                (transform[@sequence _ _ _ P H0 _ _] x)).
+  unfold lax_ap.
   pose proof (naturality[@ap_functor_nat _ _ _ _ H0 _]
                         (F X1, G X1) (F Y, G Y)
                         (fmap[F] f, fmap[G] f)) as X2; simpl in *.
@@ -76,7 +76,7 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  repeat (unfold ap; simpl).
+  repeat (unfold lax_ap; simpl).
   rewrite (@sequence_Compose _ _ _ O G0 H0 H1 H2 H3 H4 X),
           (@sequence_Compose _ _ _ P G0 H0 H1 H2 H3 H4 X).
   rewrite bimap_comp.
