@@ -254,7 +254,7 @@ Global Program Instance Compose_LaxMonoidalFunctor
   `{@LaxMonoidalFunctor C E _ _ (F ○ G)} := {
   lax_pure := fmap lax_pure ∘ lax_pure;
   ap_functor_nat := {| transform := fun p =>
-    fmap ap ∘ @ap _ _ _ _ F _ (G (fst p)) (G (snd p)) |}
+    fmap lax_ap ∘ @lax_ap _ _ _ _ F _ (G (fst p)) (G (snd p)) |}
 }.
 Next Obligation.
   simpl.

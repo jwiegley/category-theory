@@ -74,7 +74,7 @@ Class LaxMonoidalFunctor := {
 
   ap_functor_nat : ((⨂) ○ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ○ (⨂));
 
-  ap {X Y} : F X ⨂ F Y ~> F (X ⨂ Y) := transform[ap_functor_nat] (X, Y);
+  lax_ap {X Y} : F X ⨂ F Y ~> F (X ⨂ Y) := transform[ap_functor_nat] (X, Y);
 
   pure_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
   pure_right {X} : F X ⨂ I ≅ F (X ⨂ I);
@@ -83,15 +83,15 @@ Class LaxMonoidalFunctor := {
 
   lax_monoidal_unit_left {X} :
     to unit_left
-       ≈ fmap[F] (to unit_left) ∘ ap ∘ bimap lax_pure (id[F X]);
+       ≈ fmap[F] (to unit_left) ∘ lax_ap ∘ bimap lax_pure (id[F X]);
 
   lax_monoidal_unit_right {X} :
     to unit_right
-       ≈ fmap[F] (to unit_right) ∘ ap ∘ bimap (id[F X]) lax_pure;
+       ≈ fmap[F] (to unit_right) ∘ lax_ap ∘ bimap (id[F X]) lax_pure;
 
   lax_monoidal_assoc {X Y Z} :
-    fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ ap ∘ bimap ap id
-      ≈ ap ∘ bimap id ap ∘ to tensor_assoc
+    fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ lax_ap ∘ bimap lax_ap id
+      ≈ lax_ap ∘ bimap id lax_ap ∘ to tensor_assoc
 }.
 
 Program Definition MonoidalFunctor_Is_Lax (S : MonoidalFunctor) :
@@ -113,8 +113,8 @@ Notation "ap_iso[ F ]" := (@ap_iso _ _ _ _ F _ _ _)
 Notation "ap_functor_iso[ F ]" := (@ap_functor_iso _ _ _ _ _ F)
   (at level 9, format "ap_functor_iso[ F ]") : morphism_scope.
 
-Notation "ap[ F ]" := (@ap _ _ _ _ F _ _ _)
-  (at level 9, format "ap[ F ]").
+Notation "lax_ap[ F ]" := (@lax_ap _ _ _ _ F _ _ _)
+  (at level 9, format "lax_ap[ F ]").
 Notation "ap_functor_nat[ F ]" := (@ap_functor_nat _ _ _ _ _ F)
   (at level 9, format "ap_functor_nat[ F ]") : morphism_scope.
 

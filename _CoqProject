@@ -60,6 +60,7 @@ Instance/AST.v
 Instance/Proset.v
 Instance/Poset.v
 Instance/Cones.v
+Functor/Applicative.v
 Functor/Hom.v
 Functor/Hom/Internal.v
 Functor/Bifunctor.v
