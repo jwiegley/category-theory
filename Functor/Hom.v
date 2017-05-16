@@ -56,7 +56,7 @@ Coercion Curried_HomFunctor : Category >-> Functor.
 Notation "'Hom' ( A , ─ )" := (@Curried_HomFunctor _ A) : category_scope.
 
 Program Definition CoHomFunctor_Alt `(C : Category) : C ∏ C^op ⟶ Sets :=
-  HomFunctor C ○ Product_swap.
+  HomFunctor C ○ Swap.
 
 Program Definition CoHomFunctor `(C : Category) : C ∏ C^op ⟶ Sets := {|
   fobj := fun p => {| carrier   := @hom (C^op) (fst p) (snd p)

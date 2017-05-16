@@ -1,6 +1,12 @@
 TODO  -*- mode: org; fill-column: 78 -*-
 
 * Restructuring
+** TODO Breakup Structure/Monoidal.v into the various kinds of structures
+SCHEDULED: <2017-05-16 Tue>
+:PROPERTIES: 
+:ID:       A9ECDDEB-E311-471B-A4B0-006A008F1BC2
+:CREATED:  [2017-05-16 Tue 17:28]
+:END:      
 ** TODO Distinguish functors that adapt other functors
 Product is a "fundamental" functor, but Strong is an attribute of functors.
 ** TODO Get rid of the isomorphism directory
@@ -9,11 +15,11 @@ SCHEDULED: <2017-05-07 Sun>
 :ID:       9E2C0BAF-4B15-42B2-8BBA-A11831BD0D66
 :CREATED:  [2017-05-05 Fri 11:31]
 :END:
+** TODO Move notations into modules
 ** DONE Break Functors into subdirectories
 - Functor.Construction.Product
 - Functor.Structure.Cartesian, etc., to show exactly what they are functors of
 - Functor.Product is then just the simple notion
-** TODO Move notations into modules
 ** DONE Have 'make' error if a file is not in _CoqProject
 * Miscellaneous
 ** TODO Boolean object
@@ -24,7 +30,7 @@ SCHEDULED: <2017-05-07 Sun>
 :ID:       D7A5FC41-BD3C-4A86-9D43-B98FD393D014
 :CREATED:  [2017-05-07 Sun 10:03]
 :END:
-** TODO Are strength properties should be provable from naturality?
+** TODO Should the strength properties be provable from naturality?
 SCHEDULED: <2017-05-07 Sun>
 :PROPERTIES:
 :ID:       5E51BA5D-2103-4E55-AFF4-BC8A7B830F01
@@ -101,9 +107,6 @@ Ltac simpl_ids :=
 Notation "f '⁻¹'" := (inverse_morphism f) : morphism_scope.
 #+end_src coq
 ** DONE Make monic, epic, etc., into type classes
-** TODO Create subcategories
-Where each object/arrow of a category maps to some subobject, such as Obj ->
-Type and Hom -> Prop.
 ** DONE Use notations for 1, 0, etc.
 #+begin_src coq
 Notation "1" := (SingletonCat) : category_scope.
@@ -149,10 +152,10 @@ Notation "X * Y" := (prod X Y) : type_scope.
 ** TODO Complete
 ** TODO Cocomplete
 ** TODO Subojects
-** TODO Define equivalence of categories
-** DONE Diagram
-** DONE Cone
-** DONE Limit
+** TODO Subcategories
+Where each object/arrow of a category maps to some subobject, such as Obj ->
+Type and Hom -> Prop.
+** TODO Equivalence of categories
 ** Colimits
 *** TODO As (left)right local kan extensions along the unique functor to the terminal category
 *** TODO (Sum)product-(co)equalizer (co)limits
@@ -170,6 +173,9 @@ Notation "X * Y" := (prod X Y) : type_scope.
 **** TODO Universal morphism adjunction
 *** TODO Duality : F ⊣ G ⇒ G^op ⊣ F^op
 *** TODO Uniqueness up to natural isomorphism
+** DONE Diagram
+** DONE Cone
+** DONE Limit
 * Constructions
 ** TODO Free category
 ** DONE Product (C × D)
@@ -178,7 +184,6 @@ Notation "X * Y" := (prod X Y) : type_scope.
 ** DONE Slice/Coslice (C/c)
 * Structures
 * Instances
-** DONE Ensembles (mathematical sets)
 ** TODO Finite sets
 ** TODO 3
 ** TODO Mon
@@ -189,6 +194,7 @@ Notation "X * Y" := (prod X Y) : type_scope.
 ** DONE 1
 ** DONE 2
 ** DONE Monoid
+** DONE Ensembles (mathematical sets)
 * Functors
 ** TODO Applicative functors as symmetric closed monoidal functors
 This avoids needing to use internal products as the monoidal structure.

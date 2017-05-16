@@ -35,7 +35,7 @@ Program Definition ProductFunctor_swap
         `{C : Category} `{D : Category}
         `{J : Category} `{K : Category}
         (F : (C ∏ J) ⟶ (D ∏ K)) : (J ∏ C) ⟶ (K ∏ D) := {|
-  fobj := fun x => Product_swap (F (Product_swap x));
+  fobj := fun x => Swap (F (Swap x));
   fmap := fun _ _ f => _
 |}.
 Next Obligation.
