@@ -31,19 +31,17 @@ Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.
 
 Require Import Category.Theory.Functor.
 
-Program Definition Product_fst
-        `{C : Category} `{D : Category} : (C ∏ D) ⟶ C := {|
+Program Instance Fst `{C : Category} `{D : Category} : C ∏ D ⟶ C := {
   fobj := fst;
-  fmap := fun _ _ f => fst f;
-|}.
+  fmap := fun _ _ => fst
+}.
 
-Program Definition Product_snd
-        `{C : Category} `{D : Category} : (C ∏ D) ⟶ D := {|
+Program Instance Snd `{C : Category} `{D : Category} : C ∏ D ⟶ D := {
   fobj := snd;
-  fmap := fun _ _ f => snd f;
-|}.
+  fmap := fun _ _ => snd
+}.
 
-Program Definition Product_swap
+Program Definition Swap
         `{C : Category} `{D : Category} : (C ∏ D) ⟶ (D ∏ C) := {|
   fobj := fun x => (snd x, fst x);
   fmap := fun _ _ f => (snd f, fst f);
