@@ -43,20 +43,28 @@ Context `{D : Category}.
 Context `{G : C ⟶ D}.
 Context `{F : D ⟶ C}.
 
-Definition uniqueT (A : Type) (P : A -> Type) (x : A) :=
-  P x * ∀ x' : A, P x' -> x = x'.
-
 Record fibered_equivalence := {
   fiber_iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G);
+
+  to_fiber_iso_natural {X Y} (f : X ~{D}~> Y) :
+    let X' := ((X, F X); id[F X]) in
+    let Y' := ((Y, F Y); id[F Y]) in
+    let f' := (f, fmap[F] f) : X' ~{ F ↓ Id[C] }~> Y' in
+    fmap[G] (snd (fmap[to fiber_iso] f')) ∘ projT2 (to fiber_iso X')
+      ≈ projT2 (to fiber_iso Y') ∘ fst (fmap[to fiber_iso] f');
+
+  from_fiber_iso_natural {X Y} (f : X ~{C}~> Y) :
+    let X' := ((G X, X); id[G X]) in
+    let Y' := ((G Y, Y); id[G Y]) in
+    let f' := (fmap[G] f, f) : X' ~{ Id[D] ↓ G }~> Y' in
+    snd (fmap[from fiber_iso] f')
+      ∘ projT2 (from fiber_iso X')
+      ≈ projT2 (from fiber_iso Y')
+          ∘ fmap[F] (fst (fmap[from fiber_iso] f'));
 
   projG_commutes : comma_proj ≈[Cat] comma_proj ○ from fiber_iso;
   projF_commutes : comma_proj ≈[Cat] comma_proj ○ to fiber_iso
 }.
-
-Lemma fiber_projT2 (a : D) (b c : C) g (f : G b ~> G c) :
-  f ∘ projT2 (((a, b); g) : (Id[D] ↓ G)) ≈
-    projT2 (((a, c); f ∘ g) : (Id[D] ↓ G)).
-Proof. reflexivity. Qed.
 
 Theorem Adjunction_Comma :
   F ⊣ G  <-->  fibered_equivalence.
@@ -134,6 +142,12 @@ Proof.
 
     unshelve econstructor.
     - isomorphism; auto.
+    - simpl in *; intros.
+      rewrite <- (@adj_left_nat_r' _ _ F G H).
+      rewrite <- (@adj_left_nat_l' _ _ F G H); cat.
+    - simpl in *; intros.
+      rewrite <- (@adj_right_nat_r' _ _ F G H).
+      rewrite <- (@adj_right_nat_l' _ _ F G H); cat.
     - isomorphism; simpl.
       + transform; simpl; intros.
         * destruct X0; simpl.
@@ -163,16 +177,61 @@ Proof.
   unshelve econstructor.
 
   - intro a.
-    exact (fmap (snd (transform[from projF_commutes0] ((a, F a); id[F a])))
+    exact (fmap (snd (projF_commutes0⁻¹ ((a, F a); id[F a])))
                 ∘ projT2 (to fiber_iso0 ((a, F a); id[F a]))
-                ∘ fst (transform[to projF_commutes0] ((a, F a); id[F a]))).
+                ∘ fst (to projF_commutes0 ((a, F a); id[F a]))).
 
   - intro a.
-    exact (snd (transform[from projG_commutes0] ((G a, a); id[G a]))
-               ∘ projT2 (from fiber_iso0 ((G a, a); id[G a]))
-               ∘ fmap (fst (transform[to projG_commutes0] ((G a, a); id[G a])))).
+    exact (snd (projG_commutes0⁻¹ ((G a, a); id[G a]))
+               ∘ projT2 (fiber_iso0⁻¹ ((G a, a); id[G a]))
+               ∘ fmap (fst (to projG_commutes0 ((G a, a); id[G a])))).
 
-  - simpl; intros.
-Abort.
+  - simpl in *; intros.
+    rewrite !comp_assoc.
+    rewrite <- fmap_comp.
+    pose proof (snd (naturality[from projF_commutes0]
+                               ((X, F X); id[F X]) ((Y, F Y); id[F Y])
+                               (f, fmap[F] f))); simpl in X0.
+    rewrite X0; clear X0.
+    rewrite fmap_comp.
+    rewrite <- !comp_assoc.
+    apply compose_respects; [reflexivity|].
+    pose proof (fst (naturality[to projF_commutes0]
+                               ((X, F X); id[F X]) ((Y, F Y); id[F Y])
+                               (f, fmap[F] f))); simpl in X0.
+    rewrite <- X0; clear X0.
+    rewrite !comp_assoc.
+    apply compose_respects; [|reflexivity].
+
+    (* This looks a lot like a naturality condition. *)
+    apply to_fiber_iso_natural0.
+
+  - simpl in *; intros.
+    rewrite <- !comp_assoc.
+    rewrite <- fmap_comp.
+    pose proof (snd (naturality[from projG_commutes0]
+                               ((G X, X); id[G X]) ((G Y, Y); id[G Y])
+                               (fmap[G] f, f))); simpl in X0.
+    rewrite !comp_assoc.
+    rewrite X0; clear X0.
+    rewrite fmap_comp.
+    rewrite <- !comp_assoc.
+    apply compose_respects; [reflexivity|].
+    pose proof (fst (naturality[to projG_commutes0]
+                               ((G X, X); id[G X]) ((G Y, Y); id[G Y])
+                               (fmap[G] f, f))); simpl in X0.
+    rewrite <- fmap_comp.
+    rewrite <- X0; clear X0.
+    rewrite !comp_assoc.
+    rewrite fmap_comp.
+    rewrite !comp_assoc.
+    apply compose_respects; [|reflexivity].
+
+    (* This looks a lot like a naturality condition. *)
+    apply from_fiber_iso_natural0.
+
+  - admit.
+  - admit.
+Admitted.
 
 End AdjunctionComma.
