@@ -5,7 +5,6 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Functor.Product.
 Require Export Category.Functor.Strong.
-Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Monoidal.
 
 Generalizable All Variables.
@@ -16,93 +15,120 @@ Section ProductStrong.
 
 Context `{C : Category}.
 Context `{@Monoidal C}.
-Context `{@SymmetricMonoidal C _}.
 Context `{@CartesianMonoidal C _}.
 Context `{F : C ⟶ C}.
 Context `{G : C ⟶ C}.
 
-Local Obligation Tactic := idtac.
+Local Obligation Tactic := simpl; intros.
 
-(*
 Program Definition Product_Strong :
   StrongFunctor F -> StrongFunctor G -> StrongFunctor (F :*: G) := fun O P => {|
-  strength := _;
+  strength := fun X Y =>
+    (strength ∘ id ⨂ proj_left) ⨂ (strength ∘ id ⨂ proj_right)
+      ∘ ∆(X ⨂ F Y ⨂ G Y);
   strength_id_left := _;
   strength_assoc := _
 |}.
 Next Obligation.
-  simpl; intros.
-  exact (strength ⨂ strength ∘ twist2 ∘ ∆X ⨂ id).
-Defined.
-Next Obligation.
-  simpl; intros.
-  unfold Product_Strong_obligation_1.
   pose proof (@strength_natural _ _ _ O _ _ g _ _ h) as X0.
   pose proof (@strength_natural _ _ _ P _ _ g _ _ h) as X1.
-  pose proof (twist2_natural _ _ g _ _ g _ _ (fmap[F] h) _ _ (fmap[G] h)) as X2.
   simpl in *; normal.
   rewrite X0; clear X0.
   rewrite X1; clear X1.
-  rewrite bimap_comp.
-  rewrite <- comp_assoc.
-  rewrite <- comp_assoc.
-  rewrite (comp_assoc (bimap (bimap _ _) _)).
-  rewrite X2; clear X2.
+
   normal.
-  srewrite diagonal_natural.
+  rewrite !bimap_comp.
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  unfold proj_left, proj_right.
+  normal.
+  rewrite to_unit_left_natural.
+  rewrite to_unit_right_natural.
+  normal.
+  rewrite <- !comp_assoc.
+  srewrite_r diagonal_natural.
+  normal.
+  rewrite !eliminate_comp.
   reflexivity.
 Qed.
 Next Obligation.
-  intros.
-  simpl; intros.
-  unfold Product_Strong_obligation_1.
   pose proof (@strength_id_left _ _ _ O) as X0.
   pose proof (@strength_id_left _ _ _ P) as X1.
   normal.
   rewrite X0, X1; clear X0 X1.
-  unfold twist2.
-  rewrite !comp_assoc.
-  rewrite <- bimap_id_left_right.
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc _ (tensor_assoc⁻¹)).
-  rewrite <- bimap_triangle_left.
-  rewrite (comp_assoc unit_left).
-  rewrite <- to_unit_left_natural.
-  normal.
-  rewrite <- triangle_identity.
-  normal.
-  rewrite unit_right_twist.
-  rewrite <- bimap_triangle_left.
-  rewrite to_unit_left_natural.
-  rewrite inverse_triangle_identity.
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc (tensor_assoc⁻¹)).
-  rewrite iso_from_to; normal.
-  rewrite (@unit_terminal _ _ _ _ _ id); cat.
+
+  rewrite <- !to_unit_left_natural.
+  rewrite bimap_comp.
+  rewrite <- comp_assoc.
+  srewrite diagonal_natural.
+  rewrite comp_assoc.
+  rewrite proj_left_right_diagonal; cat.
 Qed.
 Next Obligation.
-  intros.
-  simpl; intros.
-  unfold Product_Strong_obligation_1.
   pose proof (@strength_assoc _ _ _ O) as X0.
   pose proof (@strength_assoc _ _ _ P) as X1.
   normal.
-  rewrite X0, X1; clear X0 X1.
+  rewrite !X0, !X1; clear X0 X1.
+
+  normal.
   rewrite !bimap_comp.
   rewrite <- !comp_assoc.
   apply compose_respects; [reflexivity|].
+  rewrite !proj_right_tensor_id.
+  unfold proj_left, proj_right.
   normal.
-  unfold twist2.
-  normal.
-  apply (iso_monic tensor_assoc).
+  rewrite <- !comp_assoc.
+  pose proof (@to_tensor_assoc_natural _ _ X _ Y _ (F Z ⨂ G Z) _
+                id id (unit_right ∘ (id[F Z] ⨂ eliminate))).
+  rewrite bimap_id_id in X0.
+  rewrite <- X0.
+  rewrite !bimap_comp.
+  rewrite <- !comp_assoc.
+  srewrite_r diagonal_natural.
   rewrite !comp_assoc.
-  rewrite iso_to_from, id_left.
-  rewrite bimap_comp.
-  rewrite comp_assoc.
-  rewrite <- to_tensor_assoc_natural.
-  rewrite <- bimap_id_left_right.
+  apply compose_respects; [|reflexivity].
   normal.
-Admitted.
-*)
+  apply bimap_respects.
+    apply compose_respects; [|reflexivity].
+    apply bimap_respects; [reflexivity|].
+    rewrite !eliminate_comp.
+    rewrite unit_right_eliminate.
+    reflexivity.
+  rewrite !bimap_comp.
+  rewrite !bimap_comp_id_left.
+  rewrite !bimap_comp_id_right.
+  rewrite !comp_assoc.
+  rewrite !triangle_identity.
+  rewrite <- !comp_assoc.
+  rewrite from_tensor_assoc_natural.
+  rewrite (comp_assoc tensor_assoc (tensor_assoc⁻¹)).
+  rewrite iso_to_from, id_left.
+  rewrite <- bimap_comp, id_left.
+  rewrite <- to_tensor_assoc_natural.
+  pose proof (@to_tensor_assoc_natural _ _ X _ Y _ (F Z ⨂ G Z) _
+                id id (unit_left ∘ eliminate ⨂ id[G Z])).
+  rewrite bimap_id_id in X1.
+  rewrite <- X1; clear X1.
+  rewrite !comp_assoc.
+  apply compose_respects; [|reflexivity].
+  rewrite <- (comp_assoc _ tensor_assoc).
+  rewrite <- to_tensor_assoc_natural.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc tensor_assoc (tensor_assoc⁻¹)).
+  rewrite iso_to_from, id_left.
+  rewrite to_tensor_assoc_natural.
+  rewrite (comp_assoc _ tensor_assoc).
+  rewrite <- triangle_identity.
+  normal.
+  rewrite !eliminate_comp.
+  rewrite unit_left_eliminate.
+  rewrite (bimap_comp_id_right unit_right).
+  rewrite <- !comp_assoc.
+  rewrite from_tensor_assoc_natural.
+  rewrite (comp_assoc _ (tensor_assoc⁻¹)).
+  rewrite <- inverse_triangle_identity.
+  normal.
+  reflexivity.
+Qed.
 
 End ProductStrong.
