@@ -200,7 +200,7 @@ Proof.
     rewrite (projT2 s0).
     unfold s, s0; simpl.
     (* fmap[G] (fmap[F] f) ∘ `` (FT X (F X) id[F X]) ≈ `` (FT Y (F Y) id[F Y]) ∘ f *)
-    admit.
+    admit.                      (* DEFERRED *)
 
   - simpl in *; intros.
     unfold counit.
@@ -210,7 +210,7 @@ Proof.
     rewrite (projT2 s0).
     unfold s, s0; simpl.
     (* f ∘ `` (FF (G X) X id[G X]) ≈ `` (FF (G Y) Y id[G Y]) ∘ fmap[F] (fmap[G] f) *)
-    admit.
+    admit.                      (* DEFERRED *)
 
   - simpl in *; intros.
     unfold unit, counit.
@@ -220,7 +220,7 @@ Proof.
     rewrite (projT2 s0).
     unfold s, s0; simpl.
     (* `` (FF (G (F X)) (F X) id[G (F X)]) ∘ fmap[F] `` (FT X (F X) id[F X]) ≈ id[F X] *)
-    admit.
+    admit.                      (* DEFERRED *)
 
   - simpl in *; intros.
     unfold unit, counit.
@@ -230,7 +230,7 @@ Proof.
     rewrite (projT2 s0).
     unfold s, s0; simpl.
     (* fmap[G] `` (FF (G X) X id[G X]) ∘ `` (FT (G X) (F (G X)) id[F (G X)]) ≈ id[G X] *)
-    admit.
-Abort.
+    admit.                      (* DEFERRED *)
+Abort.                          (* DEFERRED *)
 
 End AdjunctionComma.
