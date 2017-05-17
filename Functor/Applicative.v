@@ -33,15 +33,13 @@ Class Applicative := {
   is_strong :> @StrongFunctor C in_monoidal F;
   is_lax_monoidal :> LaxMonoidalFunctor F;
 
-  pure {X} : X ~> F X := pure;
-
   ap {X Y} : F (X ≈> Y) ⨂ F X ~> F Y :=
     fmap[F] eval ∘ @lax_ap _ _ in_monoidal _ F _ (X ≈> Y) X
 }.
 
 End ApplicativeFunctor.
 
-Arguments pure {C _ _ _ F _ X}.
+Arguments pure {C _ F _ _ A}.
 
-Notation "pure[ F ]" := (@pure _ _ _ _ F _ _)
+Notation "pure[ F ]" := (@pure _ InternalProduct_Monoidal F _ _ _)
   (at level 9, format "pure[ F ]") : morphism_scope.
