@@ -108,14 +108,16 @@ Next Obligation. apply monoidal_assoc. Qed.
 
 End MonoidalFunctor.
 
-Notation "ap_iso[ F ]" := (@ap_iso _ _ _ _ F _ _ _)
+Notation "ap_iso[ F ]" := (@ap_iso _ _ _ _ F%functor _ _ _)
   (at level 9, format "ap_iso[ F ]").
-Notation "ap_functor_iso[ F ]" := (@ap_functor_iso _ _ _ _ _ F)
+Notation "ap_functor_iso[ F ]" := (@ap_functor_iso _ _ _ _ _ F%functor)
   (at level 9, format "ap_functor_iso[ F ]") : morphism_scope.
 
-Notation "lax_ap[ F ]" := (@lax_ap _ _ _ _ F _ _ _)
+Notation "lax_pure[ F ]" := (@lax_pure _ _ _ _ F%functor _)
+  (at level 9, format "lax_pure[ F ]") : morphism_scope.
+Notation "lax_ap[ F ]" := (@lax_ap _ _ _ _ F%functor _ _ _)
   (at level 9, format "lax_ap[ F ]").
-Notation "ap_functor_nat[ F ]" := (@ap_functor_nat _ _ _ _ _ F)
+Notation "ap_functor_nat[ F ]" := (@ap_functor_nat _ _ _ _ _ F%functor)
   (at level 9, format "ap_functor_nat[ F ]") : morphism_scope.
 
 Arguments LaxMonoidalFunctor {C D _ _} F.
