@@ -196,6 +196,8 @@ Type and Hom -> Prop.
 ** DONE Monoid
 ** DONE Ensembles (mathematical sets)
 * Functors
+** TODO Show that a product of traversable functors is traversable
+*** TODO Show that a product of lax monoidal functors is lax monoidal
 ** TODO Applicative functors as symmetric closed monoidal functors
 This avoids needing to use internal products as the monoidal structure.
 ** TODO Comma category functors
