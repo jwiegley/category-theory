@@ -1,21 +1,12 @@
 TODO  -*- mode: org; fill-column: 78 -*-
 
 * Restructuring
-** TODO Breakup Structure/Monoidal.v into the various kinds of structures
-SCHEDULED: <2017-05-16 Tue>
-:PROPERTIES: 
-:ID:       A9ECDDEB-E311-471B-A4B0-006A008F1BC2
-:CREATED:  [2017-05-16 Tue 17:28]
-:END:      
+** TODO Wedges, Limits, Cones, etc., are structures
+** TODO Get rid of the isomorphism directory
 ** TODO Distinguish functors that adapt other functors
 Product is a "fundamental" functor, but Strong is an attribute of functors.
-** TODO Get rid of the isomorphism directory
-SCHEDULED: <2017-05-07 Sun>
-:PROPERTIES:
-:ID:       9E2C0BAF-4B15-42B2-8BBA-A11831BD0D66
-:CREATED:  [2017-05-05 Fri 11:31]
-:END:
 ** TODO Move notations into modules
+** DONE Breakup Structure/Monoidal.v into the various kinds of structures
 ** DONE Break Functors into subdirectories
 - Functor.Construction.Product
 - Functor.Structure.Cartesian, etc., to show exactly what they are functors of
@@ -25,25 +16,10 @@ SCHEDULED: <2017-05-07 Sun>
 ** TODO Boolean object
 Is any for which there is a morphism Bool ~> 1 + 1, and a UMP characterizing
 such an object.
-SCHEDULED: <2017-05-07 Sun>
-:PROPERTIES:
-:ID:       D7A5FC41-BD3C-4A86-9D43-B98FD393D014
-:CREATED:  [2017-05-07 Sun 10:03]
-:END:
 ** TODO Should the strength properties be provable from naturality?
-SCHEDULED: <2017-05-07 Sun>
-:PROPERTIES:
-:ID:       5E51BA5D-2103-4E55-AFF4-BC8A7B830F01
-:CREATED:  [2017-05-07 Sun 10:03]
-:END:
 ** TODO Define polynomial functors
-SCHEDULED: <2017-05-07 Sun>
 Any which are composites from identity, constant, product, coproduction and
 maybe exponentials .
-:PROPERTIES:
-:ID:       AA523223-71EE-4201-B31C-40F2B712170C
-:CREATED:  [2017-05-07 Sun 10:06]
-:END:
 ** CANCELED Instead of HomFunctor, use the closed structure of Cat
 And just apply curry to [C^op, C] ⟶ Sets
 ** CANCELED Move all instances not related to isomorphism or equivalence into modules
@@ -147,6 +123,11 @@ Notation "X * Y" := (prod X Y) : type_scope.
 ** STARTED Monad Transformers
 ** TODO Pullback
 ** TODO Pushout
+** TODO End
+** TODO Coend
+** TODO Cocone
+** TODO Wedge
+** TODO Cowedge
 ** TODO Equalizer
 ** TODO Coequalizer
 ** TODO Complete
@@ -190,6 +171,7 @@ Type and Hom -> Prop.
 ** TODO Graphs
 ** TODO Homogeneous relations in Prop
 ** TODO Constructive homogeneous crelations in Type (possible?)
+** TODO Cones, the category of Cones
 ** DONE 0
 ** DONE 1
 ** DONE 2
