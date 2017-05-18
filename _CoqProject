@@ -16,6 +16,7 @@ Theory/Monad.v
 Theory/Monad/Composition.v
 Theory/Monad/Transformer.v
 Theory/Cone.v
+Theory/Wedge.v
 Theory/Limit.v
 Theory/Equivalence.v
 Construction/Product.v
