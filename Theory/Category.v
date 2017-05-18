@@ -149,6 +149,14 @@ Ltac reassoc_after g f :=
     | [ |- context[g ∘ (f ∘ ?H)] ] => rewrite (comp_assoc g f H)
     end.
 
+Ltac comp_left :=
+  try rewrite <- !comp_assoc;
+  apply compose_respects; [reflexivity|].
+
+Ltac comp_right :=
+  try rewrite !comp_assoc;
+  apply compose_respects; [|reflexivity].
+
 Ltac equiv :=
   repeat match goal with
   | [ H : equiv (?F ∘ ?G) _

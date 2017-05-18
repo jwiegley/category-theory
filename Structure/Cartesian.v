@@ -124,12 +124,16 @@ Proof.
   rewrite !comp_assoc; cat.
 Qed.
 
+Ltac unfork :=
+  unfold swap, split, first, second; simpl;
+  repeat (rewrite <- !fork_comp; cat;
+          rewrite <- !comp_assoc; cat).
+
+Local Obligation Tactic := cat_simpl; unfork.
+
 Definition swap_invol {X Y : C} :
   swap ∘ swap ≈ @id C (X × Y).
-Proof.
-  unfold swap.
-  rewrite <- fork_comp; cat.
-Qed.
+Proof. unfork. Qed.
 
 Hint Rewrite @swap_invol : categories.
 
@@ -167,19 +171,11 @@ Hint Rewrite @first_id : categories.
 
 Theorem first_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
   first (Z:=W) (f ∘ g) ≈ first f ∘ first g.
-Proof.
-  unfold first.
-  rewrite <- fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
+Proof. unfork. Qed.
 
 Theorem first_fork {X Y Z W : C} (f : X ~> Y) (g : X ~> Z) (h : Y ~> W) :
   first h ∘ f △ g ≈ (h ∘ f) △ g.
-Proof.
-  unfold first.
-  rewrite <- fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
+Proof. unfork. Qed.
 
 Theorem second_id {X Y : C} :
   second (id[Y]) ≈ id[X × Y].
@@ -189,19 +185,11 @@ Hint Rewrite @second_id : categories.
 
 Theorem second_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
   second (Z:=W) (f ∘ g) ≈ second f ∘ second g.
-Proof.
-  unfold second.
-  rewrite <- fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
+Proof. unfork. Qed.
 
 Theorem second_fork {X Y Z W : C} (f : X ~> Y) (g : X ~> Z) (h : Z ~> W) :
   second h ∘ f △ g ≈ f △ (h ∘ g).
-Proof.
-  unfold second.
-  rewrite <- fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
+Proof. unfork. Qed.
 
 Corollary exl_first {X Y Z : C} (f : X ~> Y) :
   @exl _ Y Z ∘ first f ≈ f ∘ exl.
@@ -229,38 +217,19 @@ Hint Rewrite @exr_second : categories.
 
 Theorem swap_first {X Y Z : C} (f : X ~> Y) :
   swap ∘ first (Z:=Z) f ≈ second f ∘ swap.
-Proof.
-  unfold first, second, swap.
-  rewrite <- fork_comp; cat.
-  rewrite <- fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
+Proof. unfork. Qed.
 
 Theorem swap_second {X Y Z : C} (f : X ~> Y) :
   swap ∘ second f ≈ first (Z:=Z) f ∘ swap.
-Proof.
-  unfold first, second, swap.
-  rewrite <- fork_comp; cat.
-  rewrite <- fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
+Proof. unfork. Qed.
 
 Theorem first_second {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
   first f ∘ second g ≈ second g ∘ first f.
-Proof.
-  unfold second.
-  rewrite first_fork.
-  unfold first.
-  rewrite <- fork_comp; cat.
-  rewrite <- comp_assoc; cat.
-Qed.
+Proof. unfork. Qed.
 
 Theorem swap_fork {X Y Z : C} (f : X ~> Y) (g : X ~> Z) :
   swap ∘ f △ g ≈ g △ f.
-Proof.
-  unfold swap.
-  rewrite <- fork_comp; cat.
-Qed.
+Proof. unfork. Qed.
 
 Theorem split_id {X Y : C} :
   split (id[X]) (id[Y]) ≈ id[X × Y].
@@ -274,13 +243,7 @@ Hint Rewrite @split_id : categories.
 Corollary fork_comp_hetero {X Y Z W : C}
           (f : Y ~> Z) (h : Y ~> W) (g i : X ~> Y) :
   (f ∘ g) △ (h ∘ i) ≈ split f h ∘ g △ i.
-Proof.
-  unfold split; intros.
-  unfold first, second.
-  rewrite <- !comp_assoc; cat.
-  rewrite <- !fork_comp; cat.
-  rewrite <- !comp_assoc; cat.
-Qed.
+Proof. unfold split; intros; unfork. Qed.
 
 Context `{@Terminal C}.
 
@@ -315,18 +278,8 @@ Global Program Instance prod_assoc  {X Y Z : C} :
   to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr);
   from := (exl △ (exl ∘ exr)) △ (exr ∘ exr)
 }.
-Next Obligation.
-  rewrite <- !fork_comp; cat;
-  rewrite <- comp_assoc; cat;
-  rewrite <- comp_assoc; cat;
-  rewrite fork_comp; cat.
-Qed.
-Next Obligation.
-  rewrite <- !fork_comp; cat;
-  rewrite <- comp_assoc; cat;
-  rewrite <- comp_assoc; cat;
-  rewrite fork_comp; cat.
-Qed.
+Next Obligation. rewrite fork_comp; cat. Qed.
+Next Obligation. rewrite fork_comp; cat. Qed.
 
 End Cartesian.
 
@@ -341,3 +294,8 @@ Hint Rewrite @fork_exl_exr : categories.
 Hint Rewrite @swap_invol : categories.
 Hint Rewrite @prod_one_l : isos.
 Hint Rewrite @prod_one_r : isos.
+
+Ltac unfork :=
+  unfold swap, split, first, second; simpl;
+  repeat (rewrite <- !fork_comp; cat;
+          rewrite <- !comp_assoc; cat).

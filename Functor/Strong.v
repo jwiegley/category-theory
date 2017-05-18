@@ -28,7 +28,7 @@ Class StrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
 }.
 
 Class RightStrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
-  rstrength_nat : (⨂) ○ F ∏⟶ Id ~{[C ∏ C, C]}~> F ○ (⨂);
+  rstrength_nat : (⨂) ○ F ∏⟶ Id ⟹ F ○ (⨂);
 
   rstrength {X Y} : F X ⨂ Y ~> F (X ⨂ Y) := transform[rstrength_nat] (X, Y);
 

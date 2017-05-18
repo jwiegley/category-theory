@@ -8,7 +8,7 @@ Theory/Category.v
 Theory/Morphisms.v
 Theory/Isomorphism.v
 Theory/Functor.v
-Theory/Natural/Naturality.v
+Theory/Naturality.v
 Theory/Natural/Transformation.v
 Theory/Dinatural.v
 Theory/Adjunction.v
@@ -35,7 +35,15 @@ Structure/Closed.v
 Structure/BiCCC.v
 Structure/Constant.v
 Structure/Monoidal.v
+Structure/Monoidal/Cartesian.v
+Structure/Monoidal/Composition.v
+Structure/Monoidal/Internal/Product.v
+Structure/Monoidal/Product.v
+Structure/Monoidal/Relevance.v
+Structure/Monoidal/Semicartesian.v
+Structure/Monoidal/Symmetric.v
 Structure/Monoid.v
+Structure/Monoid/Algebra.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cocartesian.v
@@ -78,6 +86,7 @@ Functor/Strong/Product.v
 Functor/Structure/Monoidal.v
 Functor/Structure/Monoidal/Id.v
 Functor/Structure/Monoidal/Compose.v
+Functor/Structure/Monoidal/Pure.v
 Functor/Traversable.v
 Functor/Traversable/Product.v
 Functor/Structure/Cartesian.v

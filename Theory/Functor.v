@@ -113,9 +113,11 @@ Class Full `{C : Category} `{D : Category} `(F : C ⟶ D) := {
   fmap_sur {X Y} (g : F X ~> F Y) : fmap[F] (prefmap g) ≈ g
 }.
 
+(*
 Require Import Category.Instance.Sets.
 
 Class FullyFaithful `{C : Category} `{D : Category} `(F : C ⟶ D) := {
   fmap_bij {X Y} : F X ~> F Y ≊ X ~> Y;
   fobj_inj {X Y} : F X ≅ F Y -> X ≅ Y
 }.
+*)

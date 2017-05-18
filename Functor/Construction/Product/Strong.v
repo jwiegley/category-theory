@@ -1,12 +1,10 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Functor.Bifunctor.
-Require Export Category.Functor.Product.
+Require Export Category.Functor.Construction.Product.
+Require Export Category.Functor.Construction.Product.Monoidal.
 Require Export Category.Functor.Strong.
-Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Monoidal.
+Require Export Category.Structure.Monoidal.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -16,7 +14,6 @@ Section ProductFunctorStrong.
 
 Context `{C : Category}.
 Context `{@Monoidal C}.
-Context `{@SymmetricMonoidal C _}.
 Context `{@CartesianMonoidal C _}.
 Context `{F : C ⟶ C}.
 Context `{G : C ⟶ C}.

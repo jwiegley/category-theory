@@ -80,7 +80,7 @@ Ltac srewrite F :=
 Ltac srewrite_r F :=
   let H := fresh "H" in pose proof F as H; cbn in H; rewrite <- H; clear H.
 
-Global Obligation Tactic :=
+Ltac cat_simpl :=
   program_simpl; autounfold;
   try solve [
     repeat match goal with
@@ -95,3 +95,5 @@ Global Obligation Tactic :=
     simpl in *; intros; simplify;
     simpl in *; cat];
   simpl in *.
+
+Global Obligation Tactic := cat_simpl.

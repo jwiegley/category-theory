@@ -1,10 +1,10 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
 Require Export Category.Functor.Product.
 Require Export Category.Functor.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.
+Require Export Category.Structure.Monoidal.Product.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -709,64 +709,58 @@ Qed.
 Next Obligation.
   pose proof (fst (@lax_monoidal_assoc _ _ _ _ _ L (X, I) (Y, I) (Z, I)));
   simpl in X0; revert X0.
-  replace
-    (fst
-       (let (x,  y)  as p return _ := P (Z, I) in
-        let (x0, y0) as p return _ := P (Y, I) in
-        let (x1, y1) as p return _ := P (X, I) in
-        (to tensor_assoc, to tensor_assoc)))
-    with (@to D _ _ (@tensor_assoc
-                       D (Monoidal.Product_Monoidal_obligation_1 D H0 K H2)
-                       (fst (P (X, I))) (fst (P (Y, I))) (fst (P (Z, I))))).
-    intros.
-    pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (X, I, (Y ⨂ Z, I ⨂ I))%object
-                                (X, I, (Y ⨂ Z, I))%object
-                                ((id, id), (id, to unit_left)))) as X1.
-    simpl in X1.
-    rewrite !bimap_fmap in X1.
-    rewrite !bimap_id_id in X1.
-    assert (id[fst (P (X, I))] ≈ id[fst (P (X, I))] ∘ id[fst (P (X, I))]).
-      rewrite id_left; reflexivity.
-    rewrite X2; clear X2.
-    rewrite bimap_comp.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (bimap _ _)).
-    rewrite <- X1; clear X1.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (bimap _ _)).
-    rewrite <- X0; clear X0.
-    rewrite !comp_assoc.
-    rewrite !fst_comp.
-    assert (id[fst (P (Z, I))] ≈ id[fst (P (Z, I))] ∘ id[fst (P (Z, I))]).
-      rewrite id_left; reflexivity.
-    rewrite X0; clear X0.
-    rewrite bimap_comp.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (bimap _ _)).
-    rewrite !comp_assoc.
-    apply compose_respects.
-      rewrite !bimap_fmap.
-      rewrite <- !bimap_comp.
-      rewrite !id_left, !id_right.
-      rewrite <- !comp_assoc.
-      rewrite <- triangle_identity.
-      pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                  (X ⨂ Y, I ⨂ I, (Z, I))%object
-                                  (X ⨂ Y, I, (Z, I))%object
-                                  ((id, to unit_left), (id, id)))) as X1.
-      simpl in X1.
-      rewrite !bimap_fmap in X1.
-      rewrite !bimap_id_id in X1.
-      rewrite <- X1; clear X1.
-      rewrite comp_assoc.
-      rewrite fst_comp.
-      rewrite <- bimap_comp.
-      rewrite id_right.
-      rewrite unit_identity.
-      reflexivity.
-    rewrite id_left; reflexivity.
-  destruct (P (X, I)), (P (Y, I)), (P (Z, I)).
+  assert
+    (fst (to (Product.Product_Monoidal_obligation_8
+                D H0 K H2 (P (X, @I J H1)) (P (Y, @I J H1)) (P (Z, @I J H1))))
+       = @to D _ _ (@tensor_assoc D H0 (fst (P (X, @I J H1)))
+                                  (fst (P (Y, @I J H1))) (fst (P (Z, @I J H1))))).
+    destruct (P (X, I)), (P (Y, I)), (P (Z, I)).
+    reflexivity.
+  srewrite H3; clear H3.
+  pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                              (X, I, (Y ⨂ Z, I ⨂ I))%object
+                              (X, I, (Y ⨂ Z, I))%object
+                              ((id, id), (id, to unit_left)))) as X1.
+  simpl in X1.
+  rewrite !bimap_fmap in X1.
+  rewrite !bimap_id_id in X1.
+  assert (id[fst (P (X, I))] ≈ id[fst (P (X, I))] ∘ id[fst (P (X, I))]) by cat.
+  intros.
+  rewrite X0; clear X0.
+  rewrite bimap_comp.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ (bimap _ _)).
+  rewrite <- X1; clear X1.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ (bimap _ _)).
+  rewrite <- X2; clear X2.
+  rewrite !comp_assoc.
+  rewrite !fst_comp.
+  assert (id[fst (P (Z, I))] ≈ id[fst (P (Z, I))] ∘ id[fst (P (Z, I))]) by cat.
+  rewrite X0; clear X0.
+  rewrite bimap_comp.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ (bimap _ _)).
+  rewrite !comp_assoc.
+  apply compose_respects; [|cat].
+  rewrite !bimap_fmap.
+  rewrite <- !bimap_comp.
+  rewrite !id_left, !id_right.
+  rewrite <- !comp_assoc.
+  rewrite <- triangle_identity.
+  pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                              (X ⨂ Y, I ⨂ I, (Z, I))%object
+                              (X ⨂ Y, I, (Z, I))%object
+                              ((id, to unit_left), (id, id)))) as X1.
+  simpl in X1.
+  rewrite !bimap_fmap in X1.
+  rewrite !bimap_id_id in X1.
+  rewrite <- X1; clear X1.
+  rewrite comp_assoc.
+  rewrite fst_comp.
+  rewrite <- bimap_comp.
+  rewrite id_right.
+  rewrite unit_identity.
   reflexivity.
 Qed.
 
@@ -919,64 +913,58 @@ Qed.
 Next Obligation.
   pose proof (snd (@lax_monoidal_assoc _ _ _ _ _ L (I, X) (I, Y) (I, Z)));
   simpl in X0; revert X0.
-  replace
-    (snd
-       (let (x,  y)  as p return _ := P (I, Z) in
-        let (x0, y0) as p return _ := P (I, Y) in
-        let (x1, y1) as p return _ := P (I, X) in
-        (to tensor_assoc, to tensor_assoc)))
-    with (@to K _ _ (@tensor_assoc
-                       K (Monoidal.Product_Monoidal_obligation_2 D H0 K H2)
-                       (snd (P (I, X))) (snd (P (I, Y))) (snd (P (I, Z))))).
-    intros.
-    pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (I, X, (I ⨂ I, Y ⨂ Z))%object
-                                (I, X, (I, Y ⨂ Z))%object
-                                ((id, id), (to unit_left, id)))) as X1.
-    simpl in X1.
-    rewrite !bimap_fmap in X1.
-    rewrite !bimap_id_id in X1.
-    assert (id[snd (P (I, X))] ≈ id[snd (P (I, X))] ∘ id[snd (P (I, X))]).
-      rewrite id_left; reflexivity.
-    rewrite X2; clear X2.
-    rewrite bimap_comp.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (bimap _ _)).
-    rewrite <- X1; clear X1.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (bimap _ _)).
-    rewrite <- X0; clear X0.
-    rewrite !comp_assoc.
-    rewrite !snd_comp.
-    assert (id[snd (P (I, Z))] ≈ id[snd (P (I, Z))] ∘ id[snd (P (I, Z))]).
-      rewrite id_left; reflexivity.
-    rewrite X0; clear X0.
-    rewrite bimap_comp.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (bimap _ _)).
-    rewrite !comp_assoc.
-    apply compose_respects.
-      rewrite !bimap_fmap.
-      rewrite <- !bimap_comp.
-      rewrite !id_left, !id_right.
-      rewrite <- !comp_assoc.
-      rewrite <- triangle_identity.
-      pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                  (I ⨂ I, X ⨂ Y, (I, Z))%object
-                                  (I, X ⨂ Y, (I, Z))%object
-                                  ((to unit_left, id), (id, id)))) as X1.
-      simpl in X1.
-      rewrite !bimap_fmap in X1.
-      rewrite !bimap_id_id in X1.
-      rewrite <- X1; clear X1.
-      rewrite comp_assoc.
-      rewrite snd_comp.
-      rewrite <- bimap_comp.
-      rewrite id_right.
-      rewrite unit_identity.
-      reflexivity.
-    rewrite id_left; reflexivity.
-  destruct (P (I, X)), (P (I, Y)), (P (I, Z)).
+  assert
+    (snd (to (Product.Product_Monoidal_obligation_8
+                D H0 K H2 (P (@I C H, X)) (P (@I C H, Y)) (P (@I C H, Z))))
+       = @to K _ _ (@tensor_assoc K H2 (snd (P (@I C H, X)))
+                                  (snd (P (@I C H, Y))) (snd (P (@I C H, Z))))).
+    destruct (P (I, X)), (P (I, Y)), (P (I, Z)).
+    reflexivity.
+  srewrite H3; clear H3.
+  intros.
+  pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                              (I, X, (I ⨂ I, Y ⨂ Z))%object
+                              (I, X, (I, Y ⨂ Z))%object
+                              ((id, id), (to unit_left, id)))) as X1.
+  simpl in X1.
+  rewrite !bimap_fmap in X1.
+  rewrite !bimap_id_id in X1.
+  assert (id[snd (P (I, X))] ≈ id[snd (P (I, X))] ∘ id[snd (P (I, X))]) by cat.
+  rewrite X2; clear X2.
+  rewrite bimap_comp.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ (bimap _ _)).
+  rewrite <- X1; clear X1.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ (bimap _ _)).
+  rewrite <- X0; clear X0.
+  rewrite !comp_assoc.
+  rewrite !snd_comp.
+  assert (id[snd (P (I, Z))] ≈ id[snd (P (I, Z))] ∘ id[snd (P (I, Z))]) by cat.
+  rewrite X0; clear X0.
+  rewrite bimap_comp.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ (bimap _ _)).
+  rewrite !comp_assoc.
+  apply compose_respects; [|cat].
+  rewrite !bimap_fmap.
+  rewrite <- !bimap_comp.
+  rewrite !id_left, !id_right.
+  rewrite <- !comp_assoc.
+  rewrite <- triangle_identity.
+  pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                              (I ⨂ I, X ⨂ Y, (I, Z))%object
+                              (I, X ⨂ Y, (I, Z))%object
+                              ((to unit_left, id), (id, id)))) as X1.
+  simpl in X1.
+  rewrite !bimap_fmap in X1.
+  rewrite !bimap_id_id in X1.
+  rewrite <- X1; clear X1.
+  rewrite comp_assoc.
+  rewrite snd_comp.
+  rewrite <- bimap_comp.
+  rewrite id_right.
+  rewrite unit_identity.
   reflexivity.
 Qed.
 

@@ -2,8 +2,10 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Functor.Strong.
+Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Monoidal.
+Require Export Category.Functor.Construction.Product.
+Require Export Category.Instance.Nat.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -42,6 +44,7 @@ Qed.
 Class MonoidalFunctor := {
   pure_iso : I ≅ F I;
 
+  (* jww (2017-05-17): Rewrite this using a morphism and natural(). *)
   ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂);
 
   ap_iso {X Y} : F X ⨂ F Y ≅ F (X ⨂ Y) := {|
@@ -122,48 +125,3 @@ Notation "ap_functor_nat[ F ]" := (@ap_functor_nat _ _ _ _ _ F%functor)
 
 Arguments LaxMonoidalFunctor {C D _ _} F.
 Arguments MonoidalFunctor {C D _ _} F.
-
-Section Pure.
-
-Context `{C : Category}.
-Context `{@Monoidal C}.
-Context `{F : C ⟶ C}.
-Context `{@StrongFunctor C _ F}.
-Context `{@LaxMonoidalFunctor C C _ _ F}.
-
-Definition pure {A} : A ~> F A :=
-  fmap unit_right ∘ strength ∘ id[A] ⨂ lax_pure ∘ unit_right⁻¹.
-
-Lemma pure_natural : natural (@pure).
-Proof.
-  simpl; intros.
-  unfold pure.
-  normal.
-  rewrite to_unit_right_natural.
-  rewrite fmap_comp.
-  rewrite <- !comp_assoc.
-  apply compose_respects; [reflexivity|].
-  pose proof (strength_natural _ _ g I I id); simpl in X0.
-  normal.
-  rewrite X0.
-  rewrite <- !comp_assoc.
-  apply compose_respects; [reflexivity|].
-  rewrite <- from_unit_right_natural.
-  rewrite !comp_assoc.
-  apply compose_respects; [|reflexivity].
-  normal.
-  rewrite fmap_id; cat.
-Qed.
-
-Lemma fmap_pure {a b} (f : a ~> b) : pure ∘ f ≈ fmap f ∘ pure.
-Proof.
-  symmetry.
-  sapply pure_natural.
-Qed.
-
-End Pure.
-
-Arguments pure {C _ F _ _ A}.
-
-Notation "pure[ F ]" := (@pure _ _ F _ _ _)
-  (at level 9, format "pure[ F ]") : morphism_scope.

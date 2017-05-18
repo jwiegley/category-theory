@@ -46,9 +46,6 @@ Proof.
   rewrite <- !comp_assoc.
   pose proof (naturality[@sequence _ _ _ _ _ O H2 _]) as X3; simpl in *.
   pose proof (naturality[@sequence _ _ _ _ _ P H2 _]) as X4; simpl in *.
-  Ltac unfork :=
-    repeat (rewrite <- !fork_comp; cat;
-            rewrite <- !comp_assoc; cat).
   unfork.
   rewrite !comp_assoc.
   rewrite X3, X4; clear X3 X4.

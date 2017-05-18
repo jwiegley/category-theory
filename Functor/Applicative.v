@@ -7,7 +7,9 @@ Require Export Category.Functor.Hom.Internal.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Closed.
 Require Export Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Internal.Product.
 Require Import Category.Functor.Structure.Monoidal.
+Require Import Category.Functor.Structure.Monoidal.Pure.
 
 Generalizable All Variables.
 Set Primitive Projections.

@@ -86,6 +86,7 @@ Program Instance Functor_Naturality
     ∀ X Y (g : X ~{C}~> Y), fmap[G] g ∘ f X ≈ f Y ∘ fmap[F] g
 }.
 
+(*
 Require Import Category.Functor.Constant.
 
 Program Instance ConstMap `{C : Category} {B : C} :
@@ -93,6 +94,7 @@ Program Instance ConstMap `{C : Category} {B : C} :
   map := fun _ _ _ => id;
   is_functor := Constant _ B
 }.
+*)
 
 (*
 Program Instance PartialApply_Product_Left `{F : C × C ⟶ C} {X : C} : C ⟶ C := {
