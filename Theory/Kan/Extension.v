@@ -87,6 +87,12 @@ Proof.
     intros.
     rewrite (naturality[adj_from]); simpl; cat.
 
+  given (from_ran : Ran (To_1 J) F ⟹ Unique Lim).
+    transform; simpl; intros.
+      destruct X.
+      apply (@limit J C F H cone).
+    cat.
+
   constructive; simpl.
   - apply adj_to.
   - apply (naturality[adj_to]).
@@ -95,10 +101,37 @@ Proof.
   - destruct X, Y, f; simpl; cat.
     unfold Limit.Limit_obligation_1.
     unfold reflexivity; simpl; cat.
-  - destruct A; simpl; cat.
-    pose proof (@ump_limits J C F H).
+  - destruct A; simpl.
+    pose proof (@ump_limits J C F H cone).
     unfold cone in *; clear cone; simpl in *.
-    admit.
+    pose proof (iso_to_from
+                  (@adj_iso _ _ _ _ (@ran_adjoint _ _ _ _ H0)
+                            (Ran (To_1 J) F) F) nat_identity tt).
+    simpl in X0; rewrite <- X0.
+    simpl.
+    unfold adj_to; simpl.
+    unfold adj_from in X.
+    pose proof (@adj_left_nat_l' _ _ _ _ (@ran_adjoint _ _ _ _ H0)
+                                 (Ran (To_1 J) F) (Unique Lim)
+                                 F nat from_ran tt).
+    simpl in X1; rewrite <- X1; clear X1.
+    unfold nat_compose; simpl.
+    (* jww (2017-05-19): Make this into a lemma called "functional". *)
+    assert (∀ f g, f ≈ g
+              -> to (@adj_iso ([J, C]) ([1, C])
+                              (@Induced J 1 (To_1 J) C)
+                              (@Ran J 1 (To_1 J) C H0)
+                              (@ran_adjoint J 1 (To_1 J) C H0)
+                              ((@Ran J 1 (To_1 J) C H0) F) F) f
+                    ≈ to (@adj_iso ([J, C]) ([1, C])
+                                   (@Induced J 1 (To_1 J) C)
+                                   (@Ran J 1 (To_1 J) C H0)
+                                   (@ran_adjoint J 1 (To_1 J) C H0)
+                                   ((@Ran J 1 (To_1 J) C H0) F) F) g).
+      intros; rewrite X1; reflexivity.
+    simpl in X1; apply X1; clear X1.
+    intros; simpl.
+    apply X.
   - destruct A; simpl; cat.
     apply limit_unique.
-Admitted.
+Qed.
