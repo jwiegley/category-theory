@@ -72,7 +72,7 @@ Notation "f ∘ g" :=
   (@compose _%category _%object _%object _%object f%morphism g%morphism)
   : morphism_scope.
 Notation "f ∘[ C ] g" :=
-  (@compose C%category _%object _%object _%object _%morphism _%morphism)
+  (@compose C%category _%object _%object _%object f%morphism g%morphism)
   (at level 40, only parsing) : morphism_scope.
 
 Notation "f ≈ g" :=

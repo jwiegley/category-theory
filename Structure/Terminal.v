@@ -33,3 +33,6 @@ Corollary one_comp `{@Terminal C} {A B : C} {f : A ~> B} :
 Proof. intros; apply one_unique. Qed.
 
 Hint Rewrite @one_comp : categories.
+
+Notation "one[ C ]" := (@one _ _ C)
+  (at level 9, format "one[ C ]") : morphism_scope.

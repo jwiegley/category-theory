@@ -25,6 +25,8 @@ Class Cone := {
 
 End Cone.
 
+Arguments Cone {_ _} F.
+
 Coercion vertex : Cone >-> ob.
 
 Notation "vertex_map[ C ]" := (@vertex_map _ _ _ C _)

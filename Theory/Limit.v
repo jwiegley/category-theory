@@ -32,16 +32,25 @@ Context `{F : J ⟶ C}.
    In this presentation, L = Lim, u = limit, and N is a universally quantified
    argument of the uniqueness and universal properties. *)
 
-Class Limit := {
-  Lim : Cone;
+Class HasLimit := {
+  Lim : Cone F;
 
   (* This just restates the fact that limits are terminal objects in the
      category of cones to F (which in turn is the comma category (Δ ↓ F)). *)
-  limit {N : Cone} : N ~> Lim;
-  limit_unique {N : Cone} (f g : N ~> Lim) : f ≈ g;
+  limit {N : Cone F} : N ~> Lim;
+  limit_unique {N : Cone F} (f g : N ~> Lim) : f ≈ g;
 
-  ump_limits {N : Cone} {X : J} :
+  ump_limits {N : Cone F} {X : J} :
     vertex_map[Lim] ∘ limit ≈ @vertex_map _ _ _ N X
 }.
 
+Set Transparent Obligations.
+
+Global Program Definition Limit `{HasLimit} `{D : Category} : D ⟶ C := {|
+  fobj := fun _ => @vertex  _ _ _ Lim
+|}.
+
 End Limit.
+
+Arguments Limit {_ _} F {_ _}.
+Arguments HasLimit {_ _} F.

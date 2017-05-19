@@ -19,6 +19,7 @@ Theory/Cone.v
 Theory/Wedge.v
 Theory/Limit.v
 Theory/Equivalence.v
+Theory/Kan/Extension.v
 Construction/Product.v
 Construction/Coproduct.v
 Construction/Comma.v

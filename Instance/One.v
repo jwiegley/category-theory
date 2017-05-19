@@ -41,3 +41,6 @@ Program Instance Select `{C : Category} (c : C) : _1 ⟶ C := {|
   fobj := fun _ => c;
   fmap := fun _ _ _ => id
 |}.
+
+Notation "one[ C ]" := (@one Cat _ C)
+  (at level 9, format "one[ C ]") : object_scope.
