@@ -18,6 +18,7 @@ Theory/Monad/Transformer.v
 Theory/Cone.v
 Theory/Wedge.v
 Theory/Limit.v
+Theory/End.v
 Theory/Equivalence.v
 Theory/Kan/Extension.v
 Construction/Product.v
