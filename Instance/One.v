@@ -21,14 +21,22 @@ Program Definition _1 : Category := {|
 
 Notation "1" := _1 : category_scope.
 
-Program Instance To_1 `(C : Category) : C ⟶ _1 := {
-  fobj := fun _ => tt;
+Notation "one[ C ]" := (@one Cat _ C)
+  (at level 9, format "one[ C ]") : object_scope.
+
+Program Instance Erase `(C : Category) : C ⟶ 1 := {
+  fobj := fun _ => ();
   fmap := fun _ _ _ => id
 }.
 
+Program Instance Select `{C : Category} (c : C) : 1 ⟶ C := {|
+  fobj := fun _ => c;
+  fmap := fun _ _ _ => id
+|}.
+
 Program Instance Cat_Terminal : @Terminal Cat := {
   One := _1;
-  one := To_1
+  one := Erase
 }.
 Next Obligation.
   constructive; simplify; auto;
@@ -36,11 +44,3 @@ Next Obligation.
   rewrite ?fmap_id, ?fmap_id0;
   reflexivity.
 Qed.
-
-Program Instance Select `{C : Category} (c : C) : _1 ⟶ C := {|
-  fobj := fun _ => c;
-  fmap := fun _ _ _ => id
-|}.
-
-Notation "one[ C ]" := (@one Cat _ C)
-  (at level 9, format "one[ C ]") : object_scope.

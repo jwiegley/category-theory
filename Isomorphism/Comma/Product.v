@@ -14,15 +14,56 @@ Set Universe Polymorphism.
 
 Section ProductComma.
 
+Ltac simpl_cat :=
+  repeat (
+    simpl; intros;
+    simplify;
+    simpl; intros;
+    match goal with
+    | [ |- _ ≅ _ ] => unshelve econstructor
+    | [ |- _ ⟹ _ ] => unshelve econstructor
+    | [ |- _ ⟶ _ ] => unshelve econstructor
+    | [ |- @Proper _ _ _ ] => first [ abstract proper | proper ]
+    | [ |- @Equivalence _ _ ] => first [ abstract equivalence | equivalence ]
+    | [ |- _ ≈ _ ] => abstract cat
+    | _ => cat
+    end).
+
+Theorem Comma_Product' `{C : Category} `{D : Category}
+        (F : C ⟶ 1) (G : D ⟶ 1) :
+  (F ↓ G) ≅[Cat] C ∏ D.
+Proof. Time simpl_cat. Time Qed.
+
 Theorem Comma_Product `{C : Category} `{D : Category}
         (F : C ⟶ 1) (G : D ⟶ 1) :
   (F ↓ G) ≅[Cat] C ∏ D.
 Proof.
   isomorphism; simpl.
-  - functor; cat.
-  - functor; simpl; intros; cat; proper.
-  - Time abstract (constructive; simpl; cat; simpl; cat).
-  - Time abstract (constructive; simpl; cat; simpl; cat).
-Qed.
+  - functor; abstract cat.
+  - functor.
+    + simpl; intros; cat.
+    + simpl; intros; cat.
+    + abstract proper.
+    + abstract cat.
+    + abstract cat.
+  - isomorphism.
+    + transform.
+      * simpl; intros; cat.
+      * abstract cat.
+    + transform.
+      * simpl; intros; cat.
+      * abstract cat.
+    + simpl; abstract cat.
+    + simpl; abstract cat.
+  - isomorphism.
+    + transform.
+      * simpl; intros; cat.
+      * abstract cat.
+    + transform.
+      * simpl; intros; cat.
+      * abstract cat.
+    + simpl; abstract cat.
+    + simpl; abstract cat.
+Time Qed.
 
 Time End ProductComma.

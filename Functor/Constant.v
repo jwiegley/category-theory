@@ -14,18 +14,12 @@ Program Definition Constant `(C : Category) `{D : Category} (d : D) :
   fmap := fun _ _ _ => id[d]
 |}.
 
-Require Export Category.Instance.One.
-
-Program Definition Unique `{D : Category} (d : D) : 1 ⟶ D := {|
-  fobj := fun _ => d;
-  fmap := fun _ _ _ => id[d]
-|}.
-
-Require Export Category.Structure.Terminal.
-Require Export Category.Instance.Cat.
+Require Import Category.Structure.Terminal.
+Require Import Category.Instance.Cat.
+Require Import Category.Instance.One.
 
 Lemma Constant_Unique `(C : Category) `{D : Category} (d : D) :
-  Constant C d ≈[Cat] Unique d ∘[Cat] one.
+  Constant C d ≈[Cat] Select d ∘[Cat] one.
 Proof.
   constructive; simpl; intros.
   - exact id.
