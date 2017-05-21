@@ -56,3 +56,24 @@ Ltac constructive :=
   [ transform; simpl; intros
   | transform; simpl; intros
   | .. ]; simpl; intros.
+
+Definition outside `{C : Category} `{D : Category}
+           {F G : C ⟶ D} `(N : F ⟹ G)
+           `{E : Category} (X : E ⟶ C) : F ○ X ⟹ G ○ X.
+Proof.
+  transform; intros; simpl.
+    apply N.
+  abstract apply naturality.
+Defined.
+
+Definition inside `{C : Category} `{D : Category}
+           {F G : C ⟶ D} `(N : F ⟹ G)
+           `{E : Category} (X : D ⟶ E) : X ○ F ⟹ X ○ G.
+Proof.
+  transform; intros; simpl.
+    apply fmap.
+    apply N.
+  abstract (
+    simpl; rewrite <- !fmap_comp;
+    apply fmap_respects, naturality).
+Defined.
