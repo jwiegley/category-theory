@@ -6,7 +6,6 @@ Require Export Category.Structure.Monoidal.
 Require Export Category.Functor.Structure.Monoidal.
 Require Export Category.Functor.Structure.Monoidal.Pure.
 Require Export Category.Functor.Strong.
-Require Export Category.Isomorphism.Monoid.Monad.
 
 Generalizable All Variables.
 Set Primitive Projections.

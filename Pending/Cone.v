@@ -1,12 +1,6 @@
 Set Warnings "-notation-overridden".
 
 (* jww (2017-04-13): TODO
-(* Here F is a diagram of type J in C. *)
-Record Cone `{C : Category} `{J : Category} (n : C) `(F : @Functor J C) := {
-    cone_mor : ∀ j : J, n ~> F j;
-    cone_law : ∀ i j (f : i ~{J}~> j), (@fmap J C F i j f) ∘ cone_mor i = cone_mor j
-}.
-
 Lemma Const_Cone_Iso `(F : @Functor J C)
   : ∀ a, @Isomorphism Sets (Const a ⟾ F) (Cone a F).
 Proof.

@@ -16,7 +16,6 @@ Record Pullback `{Category C} {X Y : C} (Z : C) (f : X ~> Z) (g : Y ~> Z) := {
 Definition Product `{Terminal C} {X Y : C} := @Pullback C _ X Y.
 Arguments Product {C _ X Y _ _ _} /.
 
-(*
 Program Instance Product_Terminal `{Terminal C} {X Y : C} :
   Category (@Product C _ X Y).
 Next Obligation.
@@ -39,7 +38,6 @@ Program Instance Product_Cartesian `{Terminal C} {X Y : C} :
   Cartesian (@Product C _ X Y).
 Obligation 1.
   constructor.
-*)
 
 Lemma uniqueness_of_products `{T : Terminal C} :
   ∀ {X Y} (p q : @Product C T X Y One one one),

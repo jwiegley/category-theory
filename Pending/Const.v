@@ -1,24 +1,6 @@
 Set Warnings "-notation-overridden".
 
 (* jww (2017-04-13): TODO
-(* Inductive Const := Const_ : Type → Const. *)
-
-(* Definition getConst `{C : Category} (c : @Const C) : C := *)
-(*   match c with *)
-(*   | Const_ x => x *)
-(*   end. *)
-
-Program Definition Const `{C : Category} `{J : Category} (x : C) : J ⟶ C := {|
-    fobj := fun _ => x;
-    fmap := fun _ _ _ => id
-|}.
-
-Lemma Const_Iso `{C : Category} : ∀ a b, Const a b ≅ a.
-Proof. intros. crush. Qed.
-
-Definition Sets_getConst `{J : Category} (a : Type) (b : J)
-  (c : @Const Sets J a b) : Type := @fobj J Sets (@Const Sets J a) b.
-
 Program Instance Const_Transport `(C : Category) `(J : Category)
     `(x ~{C}~> y) : @Natural J C (@Const C J x) (@Const C J y).
 Obligation 2.

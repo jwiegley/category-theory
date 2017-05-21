@@ -5,7 +5,6 @@ Require Export Category.Theory.Adjunction.
 Require Export Category.Construction.Comma.
 Require Export Category.Construction.Product.
 Require Export Category.Instance.Cat.
-Require Export Category.Isomorphism.Natural.Comma.
 
 Generalizable All Variables.
 Set Primitive Projections.

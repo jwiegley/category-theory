@@ -39,13 +39,12 @@ This library is broken up into several major areas:
     categories.
 
   - When a concept, such as limits, can be defined using more fundamental
-    terms, that version of limits can be found in a subdirectory of the other
-    concept, for example there is `Category.Theory.Limit` and
-    `Category.Theory.Kan.Extension.Limit`. This is also used simply to
-    demonstrate the relationship of ideas; in that case, the more fundamental
-    idea comes first, and the derived idea is distinguished by its type, for
-    example: `Category.Theory.Natural.Transformation.Structure.Comma`. As a
-    result, files with the same name occur often, with the parent directory
+    terms, that version of limits can be found in a subdirectory of the
+    derived concept, for example there is `Category.Theory.Limit` and
+    `Category.Theory.Limit.Kan.Extension`. This is done to demonstrate the
+    relationship of ideas; for example:
+    `Category.Theory.Structure.Comma.Natural.Transformation`. As a result,
+    files with the same name occur often, with the parent directory
     establishing the intent.
 
 ## Design decisions
