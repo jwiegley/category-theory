@@ -62,16 +62,12 @@ Proof.
   abstract apply (naturality (from ap_functor_iso) (x2, y2) (z2, w2) (f1b, f2b)).
 
   split.
-    pose proof (iso_to_from (ap_functor_iso[O])).
-    simpl in X; abstract apply X.
-  pose proof (iso_to_from (ap_functor_iso[P])).
-  simpl in X; abstract apply X.
+    abstract sapply (iso_to_from (ap_functor_iso[O])).
+  abstract sapply (iso_to_from (ap_functor_iso[P])).
 
   split.
-    pose proof (iso_from_to (ap_functor_iso[O]) (x, y)).
-    simpl in X; abstract apply X.
-  pose proof (iso_from_to (ap_functor_iso[P]) (z, w)).
-  simpl in X; abstract apply X.
+    abstract apply (iso_from_to (ap_functor_iso[O]) (x, y)).
+  abstract apply (iso_from_to (ap_functor_iso[P]) (z, w)).
 Time Defined.
 
 Program Definition ProductFunctor_Monoidal :
