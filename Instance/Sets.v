@@ -86,6 +86,28 @@ Qed.
 Notation "X ≊ Y" := ({| carrier := X |} ≅[Sets] {| carrier := Y |})
   (at level 99) : category_scope.
 
+Program Instance isomorphism_to_sets_respects
+        `{Setoid A} `{Setoid B}
+        (iso : @Isomorphism Sets {| carrier := A |} {| carrier := B |}) :
+  Proper (equiv ==> equiv) (to iso).
+Next Obligation.
+  repeat intro.
+  destruct iso; simpl in *.
+  destruct to; simpl in *.
+  rewrite X; reflexivity.
+Qed.
+
+Program Instance isomorphism_from_sets_respects
+        `{Setoid A} `{Setoid B}
+        (iso : @Isomorphism Sets {| carrier := A |} {| carrier := B |}) :
+  Proper (equiv ==> equiv) (from iso).
+Next Obligation.
+  repeat intro.
+  destruct iso; simpl in *.
+  destruct from; simpl in *.
+  rewrite X; reflexivity.
+Qed.
+
 Ltac morphism :=
   unshelve (refine {| morphism := _ |}; simpl; intros).
 
