@@ -1,6 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Import Category.Theory.Cone.
 Require Import Category.Theory.Limit.
 Require Import Category.Theory.Kan.Extension.
 Require Import Category.Instance.One.
