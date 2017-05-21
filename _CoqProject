@@ -104,6 +104,7 @@ Isomorphism/Adjunction/Comma.v
 Isomorphism/Adjunction/Monad.v
 Isomorphism/Monoid/Monad.v
 Isomorphism/Comma/Product.v
+Isomorphism/Kan/Limit.v
 Tools/Abstraction.v
 Tools/Represented.v
 Theory.v
