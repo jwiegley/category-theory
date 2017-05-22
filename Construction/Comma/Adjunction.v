@@ -43,24 +43,115 @@ Context `{D : Category}.
 Context `{G : C ⟶ D}.
 Context `{F : D ⟶ C}.
 
+Program Definition Left_Functor : D ⟶ (F ↓ Id[C]) := {|
+  fobj := fun X : D => ((X, F X); id[F X]);
+  fmap := fun _ _ f => (f, fmap[F] f)
+|}.
+Next Obligation.
+  proper.
+  rewrite X0; reflexivity.
+Qed.
+Next Obligation.
+  split.
+    reflexivity.
+  apply fmap_comp.
+Qed.
+
+Corollary Left_Functor_proj1 : comma_proj1 ○ Left_Functor ≈[Cat] Id.
+Proof. constructive; simpl; cat. Qed.
+
+Corollary Left_Functor_fobj_natural :
+  ∀ X Y (g : X ~{D}~> Y),
+    fmap g ∘ projT2 (Left_Functor X) ≈ projT2 (Left_Functor Y) ∘ fmap g.
+Proof. simpl; intros; cat. Qed.
+
+Program Definition Right_Functor : C ⟶ (Id[D] ↓ G) := {|
+  fobj := fun X : C => ((G X, X); id[G X]);
+  fmap := fun _ _ f => (fmap[G] f, f)
+|}.
+Next Obligation.
+  proper.
+  rewrite X0; reflexivity.
+Qed.
+Next Obligation.
+  split.
+    apply fmap_comp.
+  reflexivity.
+Qed.
+
+Corollary Right_Functor_proj1 : comma_proj2 ○ Right_Functor ≈[Cat] Id.
+Proof. constructive; simpl; cat. Qed.
+
+Corollary Right_Functor_fobj_natural :
+  ∀ X Y (g : X ~{C}~> Y),
+    fmap g ∘ projT2 (Right_Functor X) ≈ projT2 (Right_Functor Y) ∘ fmap g.
+Proof. simpl; intros; cat. Qed.
+
 Record fibered_equivalence := {
   fiber_iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G);
 
   projG : comma_proj ≈[Cat] comma_proj ○ from fiber_iso;
   projF : comma_proj ≈[Cat] comma_proj ○ to fiber_iso;
 
-  fibered_to {X Y} (f : F X ~> Y) :
-    { g : X ~> G Y
-    & fmap (snd (projF⁻¹ ((X, Y); f)))
-        ∘ projT2 (to fiber_iso ((X, Y); f))
-        ∘ fst (to projF ((X, Y); f)) ≈ g };
-
-  fibered_from {X Y} (f : X ~> G Y) :
-    { g : F X ~> Y
-    & snd (projG⁻¹ ((X, Y); f))
-        ∘ projT2 (from fiber_iso ((X, Y); f))
-        ∘ fmap (fst (to projG ((X, Y); f))) ≈ g }
+  (* This should be a property of the functor [F]. *)
+  comma_functoriality {A B C} (S : A ⟶ C) (T : B ⟶ C)
+    (F : A ∏ B ⟶ (S ↓ T)) X Y (f : ``(F X) ~{A ∏ B}~> ``(F Y)) :
+    fmap[T] (snd f) ∘ projT2 (F X) ≈ projT2 (F Y) ∘ fmap[S] (fst f)
 }.
+
+Lemma Left_Functoriality (eqv : fibered_equivalence) X Y
+      (f : comma_proj (Left_Functor X) ~> comma_proj (Left_Functor Y)) :
+  fmap[G] (snd f)
+    ∘ fmap[G] (snd ((projF eqv)⁻¹ (Left_Functor X)))
+    ∘ projT2 (to (fiber_iso eqv) (Left_Functor X))
+    ∘ fst (to (projF eqv) (Left_Functor X))
+    ≈ fmap[G] (snd ((projF eqv)⁻¹ (Left_Functor Y)))
+        ∘ projT2 (to (fiber_iso eqv) (Left_Functor Y))
+        ∘ fst (to (projF eqv) (Left_Functor Y))
+        ∘ fst f.
+Proof.
+  pose proof (comma_functoriality eqv Id G
+                (to (fiber_iso eqv) ○ Left_Functor ○ Fst) (X, F X) (Y, F Y));
+  simpl in X0.
+  rewrite <- fmap_comp.
+  destruct eqv, fiber_iso0, to, projF0, from0; simpl in *.
+  rewrite (snd (naturality (Left_Functor X) (Left_Functor Y) f)).
+  rewrite Functor.fmap_comp.
+  simpl.
+  comp_left.
+  destruct to; simpl in *.
+  rewrite <- (fst (naturality0 (Left_Functor X) (Left_Functor Y) f)).
+  comp_right.
+  apply X0.
+Qed.
+
+Lemma Right_Functoriality (eqv : fibered_equivalence) X Y
+      (f : comma_proj (Right_Functor X) ~> comma_proj (Right_Functor Y)) :
+  snd f
+    ∘ snd ((projG eqv)⁻¹ (Right_Functor X))
+    ∘ projT2 ((fiber_iso eqv)⁻¹ (Right_Functor X))
+    ∘ fmap[F] (fst (to (projG eqv) (Right_Functor X)))
+    ≈ snd ((projG eqv)⁻¹ (Right_Functor Y))
+        ∘ projT2 ((fiber_iso eqv)⁻¹ (Right_Functor Y))
+        ∘ fmap[F] (fst (to (projG eqv) (Right_Functor Y)))
+        ∘ fmap[F] (fst f).
+Proof.
+  pose proof (comma_functoriality eqv F Id
+                (from (fiber_iso eqv) ○ Right_Functor ○ Snd)
+                (G X, X) (G Y, Y));
+  simpl in X0.
+  rewrite <- !comp_assoc.
+  rewrite <- fmap_comp.
+  destruct eqv, fiber_iso0, from, projG0, to0; simpl in *.
+  rewrite <- (fst (naturality (Right_Functor X) (Right_Functor Y) f)).
+  rewrite Functor.fmap_comp.
+  simpl.
+  comp_right.
+  destruct from; simpl in *.
+  rewrite (snd (naturality0 (Right_Functor X) (Right_Functor Y) f)).
+  comp_left.
+  apply X0.
+Qed.
 
 Theorem Adjunction_Comma :
   F ⊣ G  <-->  fibered_equivalence.
@@ -77,13 +168,13 @@ Proof.
         destruct X, Y; auto.
 
       assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y))
-        by (destruct X, Y; auto).
+        by (abstract (destruct X, Y; auto)).
 
       assert (∀ X, fmap X X (id[X]) ≈ id)
-        by (destruct X0; cat).
+        by (abstract (destruct X0; cat)).
 
       assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g)
-        by (destruct X1, Y, Z; cat).
+        by (abstract (destruct X1, Y, Z; cat)).
 
       econstructor; eauto.
     }
@@ -99,13 +190,13 @@ Proof.
         destruct X, Y; auto.
 
       assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y))
-        by (destruct X, Y; auto).
+        by (abstract (destruct X, Y; auto)).
 
       assert (∀ X, fmap X X (id[X]) ≈ id)
-        by (destruct X0; cat).
+        by (abstract (destruct X0; cat)).
 
       assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g)
-        by (destruct X1, Y, Z; cat).
+        by (abstract (destruct X1, Y, Z; cat)).
 
       econstructor; eauto.
     }
@@ -117,10 +208,10 @@ Proof.
         exact (id, id).
       - destruct X; simpl.
         exact (id, id).
-      - destruct X, Y; simpl; cat.
-      - destruct X, Y; simpl; cat.
-      - destruct A; cat.
-      - destruct A; cat.
+      - abstract (destruct X, Y; simpl; cat).
+      - abstract (destruct X, Y; simpl; cat).
+      - abstract (destruct A; cat).
+      - abstract (destruct A; cat).
     }
 
     assert (to ∘ from ≈ id). {
@@ -130,10 +221,10 @@ Proof.
         exact (id, id).
       - destruct X; simpl.
         exact (id, id).
-      - destruct X, Y; simpl; cat.
-      - destruct X, Y; simpl; cat.
-      - destruct A; cat.
-      - destruct A; cat.
+      - abstract (destruct X, Y; simpl; cat).
+      - abstract (destruct X, Y; simpl; cat).
+      - abstract (destruct A; cat).
+      - abstract (destruct A; cat).
     }
 
     unshelve econstructor.
@@ -142,93 +233,66 @@ Proof.
       + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
-        * destruct X0, Y; simpl; cat.
+        * abstract (destruct X0, Y; simpl; cat).
       + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
-        * destruct X0, Y; simpl; cat.
-      + destruct A; simpl; cat.
-      + destruct A; simpl; cat.
+        * abstract (destruct X0, Y; simpl; cat).
+      + abstract (destruct A; simpl; cat).
+      + abstract (destruct A; simpl; cat).
     - isomorphism; simpl.
       + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
-        * destruct X0, Y; simpl; cat.
+        * abstract (destruct X0, Y; simpl; cat).
       + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
-        * destruct X0, Y; simpl; cat.
-      + destruct A; simpl; cat.
-      + destruct A; simpl; cat.
-    - simpl in *; intros.
-      clear from_to X to from.
-      exists (to adj_iso f).
-      rewrite <- (@adj_left_nat_r' _ _ F G H).
-      rewrite <- (@adj_left_nat_l' _ _ F G H); cat.
-    - simpl in *; intros.
-      clear from_to X to from.
-      exists (from adj_iso f).
-      rewrite <- (@adj_right_nat_r' _ _ F G H).
-      rewrite <- (@adj_right_nat_l' _ _ F G H); cat.
+        * abstract (destruct X0, Y; simpl; cat).
+      + abstract (destruct A; simpl; cat).
+      + abstract (destruct A; simpl; cat).
+    - intros.
+      admit.
   }
 
-  pose proof (@fibered_to H) as FT.
-  pose proof (@fibered_from H) as FF.
-  destruct H.
-
+  Opaque Left_Functor.
   given (unit : ∀ a, a ~{ D }~> G (F a)).
     intro a.
-    exact (fmap (snd (projF0⁻¹ ((a, F a); id[F a])))
-                ∘ projT2 (to fiber_iso0 ((a, F a); id[F a]))
-                ∘ fst (to projF0 ((a, F a); id[F a]))).
+    exact (fmap (snd ((projF H)⁻¹ (Left_Functor a)))
+                ∘ projT2 (to (fiber_iso H) (Left_Functor a))
+                ∘ fst (to (projF H) (Left_Functor a))).
 
+  Opaque Right_Functor.
   given (counit : ∀ a, F (G a) ~{ C }~> a).
     intro a.
-    exact (snd (projG0⁻¹ ((G a, a); id[G a]))
-               ∘ projT2 (fiber_iso0⁻¹ ((G a, a); id[G a]))
-               ∘ fmap (fst (to projG0 ((G a, a); id[G a])))).
+    exact (snd ((projG H)⁻¹ (Right_Functor a))
+               ∘ projT2 ((fiber_iso H)⁻¹ (Right_Functor a))
+               ∘ fmap (fst (to (projG H) (Right_Functor a)))).
 
   unshelve (eapply adj_from_unit_conuit).
   unshelve econstructor; auto.
 
-  - simpl in *; intros.
-    unfold unit.
-    pose (FT X (F X) id).
-    rewrite (projT2 s).
-    pose (FT Y (F Y) id).
-    rewrite (projT2 s0).
-    unfold s, s0; simpl.
-    (* fmap[G] (fmap[F] f) ∘ `` (FT X (F X) id[F X]) ≈ `` (FT Y (F Y) id[F Y]) ∘ f *)
+  - intros.
+    unfold unit; clear unit.
+    rewrite !comp_assoc.
+    exact (Left_Functoriality H X Y (f, fmap[F] f)).
+
+  - intros.
+    unfold counit; clear counit.
+    rewrite !comp_assoc.
+    exact (Right_Functoriality H X Y (fmap[G] f, f)).
+
+  - intros.
+    unfold unit, counit; clear unit counit.
+    pose proof (comma_functoriality H Id G
+                  (to (fiber_iso H) ○ Left_Functor ○ Fst));
+    simpl in X0.
+    rewrite <- !comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite !comp_assoc.
     admit.                      (* DEFERRED *)
 
   - simpl in *; intros.
-    unfold counit.
-    pose (FF (G X) X id).
-    rewrite (projT2 s).
-    pose (FF (G Y) Y id).
-    rewrite (projT2 s0).
-    unfold s, s0; simpl.
-    (* f ∘ `` (FF (G X) X id[G X]) ≈ `` (FF (G Y) Y id[G Y]) ∘ fmap[F] (fmap[G] f) *)
-    admit.                      (* DEFERRED *)
-
-  - simpl in *; intros.
-    unfold unit, counit.
-    pose (FF (G (F X)) (F X) id).
-    rewrite (projT2 s).
-    pose (FT X (F X) id).
-    rewrite (projT2 s0).
-    unfold s, s0; simpl.
-    (* `` (FF (G (F X)) (F X) id[G (F X)]) ∘ fmap[F] `` (FT X (F X) id[F X]) ≈ id[F X] *)
-    admit.                      (* DEFERRED *)
-
-  - simpl in *; intros.
-    unfold unit, counit.
-    pose (FT (G X) (F (G X)) id).
-    rewrite (projT2 s).
-    pose (FF (G X) X id).
-    rewrite (projT2 s0).
-    unfold s, s0; simpl.
-    (* fmap[G] `` (FF (G X) X id[G X]) ∘ `` (FT (G X) (F (G X)) id[F (G X)]) ≈ id[G X] *)
     admit.                      (* DEFERRED *)
 Abort.                          (* DEFERRED *)
 
