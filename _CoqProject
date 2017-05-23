@@ -13,12 +13,15 @@ Theory/Naturality.v
 Theory/Natural/Transformation.v
 Theory/Dinatural.v
 Theory/Adjunction.v
+Theory/Adjunction/Morphisms.v
+Theory/Adjunction/Op.v
 Theory/Monad.v
 Theory/Monad/Composition.v
 Theory/Monad/Transformer.v
 Theory/Monad/Adjunction.v
 Theory/Monad/Monoid.v
 Theory/Cone.v
+Theory/Cone/Natural/Transformation.v
 Theory/Wedge.v
 Theory/Limit.v
 Theory/Limit/Kan/Extension.v
@@ -61,6 +64,7 @@ Instance/Cat/Cocartesian.v
 Instance/Cat/Closed.v
 Instance/Zero.v
 Instance/One.v
+Instance/One/Constant.v
 Instance/Two.v
 Instance/Fun.v
 Instance/Adjoints.v
@@ -80,6 +84,7 @@ Instance/AST.v
 Instance/Proset.v
 Instance/Poset.v
 Instance/Cones.v
+Functor/Op.v
 Functor/Applicative.v
 Functor/Hom.v
 Functor/Hom/Internal.v

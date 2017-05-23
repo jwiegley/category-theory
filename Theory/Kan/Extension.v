@@ -77,6 +77,23 @@ Next Obligation.
   simpl; intros; cat.
 Qed.
 
+Class HasLan := {
+  Lan : ([A, C]) ⟶ ([B, C]);
+
+  lan_adjoint : Lan ⊣ Induced
+}.
+
+Class HasLanL (X : A ⟶ C) := {
+  LanL : B ⟶ C;
+
+  lanl_tlansform : X ⟹ LanL ○ F;
+
+  lanl_delta (M : B ⟶ C) (N : X ⟹ M ○ F) : LanL ⟹ M;
+
+  ump_lanl (M : B ⟶ C) (N : X ⟹ M ○ F) :
+    N ≈[[A, C]] outside (lanl_delta M N) F ⊙ lanl_tlansform
+}.
+
 End KanExtension.
 
 Arguments HasRan {_ _} F {_}.
@@ -84,3 +101,9 @@ Arguments Ran {_ _} F {_ _}.
 
 Arguments HasRanL {_ _} F {_} _.
 Arguments RanL {_ _} F {_} _ {_}.
+
+Arguments HasLan {_ _} F {_}.
+Arguments Lan {_ _} F {_ _}.
+
+Arguments HasLanL {_ _} F {_} _.
+Arguments LanL {_ _} F {_} _ {_}.

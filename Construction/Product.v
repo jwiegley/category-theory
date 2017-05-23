@@ -6,7 +6,6 @@ Require Export Category.Theory.Category.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section Product.
 

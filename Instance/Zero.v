@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Import Category.Structure.Initial.
+Require Export Category.Structure.Initial.
 Require Export Category.Instance.Cat.
 
 Generalizable All Variables.

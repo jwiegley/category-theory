@@ -62,10 +62,10 @@ Definition Bimorphic `(f : X ~> Y) := (Epic f * Monic f)%type.
 Definition SplitEpi  `(f : X ~> Y) := Retraction f.
 Definition SplitMono `(f : X ~> Y) := Section f.
 
-Corollary id_idempotent : ∀ X, Idempotent (id (A := X)).
+Corollary id_idem : ∀ X, Idempotent (id (A := X)).
 Proof. intros; constructor; cat. Qed.
 
-Corollary id_involutive : ∀ X, Involutive (id (A := X)).
+Corollary id_invol : ∀ X, Involutive (id (A := X)).
 Proof. intros; constructor; cat. Qed.
 
 Corollary id_monic : ∀ X, Monic (id (A := X)).

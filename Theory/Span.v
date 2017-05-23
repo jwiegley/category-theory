@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
+Require Export Category.Construction.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -92,3 +93,5 @@ Next Obligation.
   rewrite ?id_left, ?id_right;
   reflexivity.
 Qed.
+
+Definition Cospan {C : Category} := Trinary_Category ⟶ C^op.

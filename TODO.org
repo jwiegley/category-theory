@@ -2,7 +2,7 @@ TODO  -*- mode: org; fill-column: 78 -*-
 
 * Restructuring
 ** TODO Wedges, Limits, Cones, etc., are structures
-** TODO Get rid of the isomorphism directory
+** DONE Get rid of the isomorphism directory
 ** TODO Distinguish functors that adapt other functors
 Product is a "fundamental" functor, but Strong is an attribute of functors.
 ** TODO Move notations into modules
@@ -123,11 +123,6 @@ Notation "X * Y" := (prod X Y) : type_scope.
 ** STARTED Monad Transformers
 ** TODO Pullback
 ** TODO Pushout
-** TODO End
-** TODO Coend
-** TODO Cocone
-** TODO Wedge
-** TODO Cowedge
 ** TODO Equalizer
 ** TODO Coequalizer
 ** TODO Complete
@@ -137,12 +132,17 @@ Notation "X * Y" := (prod X Y) : type_scope.
 Where each object/arrow of a category maps to some subobject, such as Obj ->
 Type and Hom -> Prop.
 ** TODO Equivalence of categories
+** DONE End
+** DONE Coend
+** DONE Cocone
+** DONE Wedge
+** DONE Cowedge
 ** Colimits
-*** TODO As (left)right local kan extensions along the unique functor to the terminal category
+*** DONE As (left)right local kan extensions along the unique functor to the terminal category
 *** TODO (Sum)product-(co)equalizer (co)limits
 *** TODO Pointwise (as kan extensions)
 ** Kan extensions
-*** TODO Global definition
+*** DONE Global definition
 *** TODO Local definition with both hom-functor and cones (along a functor)
 *** TODO Uniqueness
 *** TODO Preservation by adjoint functors
@@ -150,7 +150,7 @@ Type and Hom -> Prop.
 ** Adjunctions
 *** TODO Conversions of the different representations
 **** TODO Hom-functor adjunction
-**** TODO Unit-counit adjunction
+**** DONE Unit-counit adjunction
 **** TODO Universal morphism adjunction
 *** TODO Duality : F ⊣ G ⇒ G^op ⊣ F^op
 *** TODO Uniqueness up to natural isomorphism
@@ -251,9 +251,9 @@ language of the category. The most famous of these are simply typed lambda
 calculus, which is the internal language of Cartesian closed categories, and
 the linear type system, which is the internal language of closed symmetric
 monoidal categories.
-** TODO Faithful (inj)
-** TODO Full (surj)
-** TODO Fully Faithful (bi)
+** DONE Faithful (inj)
+** DONE Full (surj)
+** DONE Fully Faithful (bi)
 ** DONE Diagonal (Δ F)
 * Proofs
 ** TODO Prod ⊣ Diag ⊣ Coprod

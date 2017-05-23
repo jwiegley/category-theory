@@ -8,11 +8,6 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Section Limit.
-
-Context {J : Category}.
-Context {C : Category}.
-
 (* Wikipedia: "Let F : J ⟶ C be a diagram of shape J in a category C. A cone
    to F is an object N of C together with a family ψX : N ⟶ F(X) of morphisms
    indexed by the objects X of J, such that for every morphism f : X ⟶ Y in J,
@@ -29,7 +24,7 @@ Context {C : Category}.
    In this presentation, L = Lim, u = limit, and N is a universally quantified
    argument of the uniqueness and universal properties. *)
 
-Class HasLimit (F : J ⟶ C) := {
+Class HasLimit `(F : J ⟶ C) := {
   Limit : Cone F;
 
   (* This restates the fact that limits are terminal objects in the category
@@ -41,9 +36,10 @@ Class HasLimit (F : J ⟶ C) := {
     vertex_map[Limit] ∘ limit_terminal ≈ @vertex_map _ _ _ N X
 }.
 
-Set Transparent Obligations.
+Arguments Limit {_ _} F%functor {_}.
 
-End Limit.
+Require Import Category.Construction.Opposite.
 
-Arguments HasLimit {_ _} F.
-Arguments Limit {_ _} F {_}.
+Definition HasColimit `(F : J ⟶ C) := HasLimit (F^op).
+
+Definition Colimit `(F : J ⟶ C) `{C : HasColimit F} := @Limit _ _ _ C.

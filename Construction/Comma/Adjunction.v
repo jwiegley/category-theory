@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
+Require Export Category.Theory.Adjunction.Morphisms.
 Require Export Category.Construction.Comma.
 Require Export Category.Construction.Product.
 Require Export Category.Instance.Cat.
