@@ -13,7 +13,7 @@ Set Universe Polymorphism.
 
 Section SymmetricMonoidal.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 Class SymmetricMonoidal `{@Monoidal C} := {
   twist {X Y} : X ⨂ Y ≅ Y ⨂ X;

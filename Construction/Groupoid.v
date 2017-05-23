@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Section Groupoid.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 (* A Groupoid is a category where all morphisms are isomorphisms, and morphism
    equivalence is equivalence of isomorphisms. *)

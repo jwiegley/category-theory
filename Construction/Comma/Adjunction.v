@@ -38,10 +38,10 @@ Section AdjunctionComma.
         ∀ (c′ : C) (psi : d ~{D}~> G c′), ∃! y : c ~{C}~> c′,
           psi ≈ fmap[G] y ∘ phi" *)
 
-Context `{C : Category}.
-Context `{D : Category}.
-Context `{G : C ⟶ D}.
-Context `{F : D ⟶ C}.
+Context {C : Category}.
+Context {D : Category}.
+Context {G : C ⟶ D}.
+Context {F : D ⟶ C}.
 
 Program Definition Left_Functor : D ⟶ (F ↓ Id[C]) := {|
   fobj := fun X : D => ((X, F X); id[F X]);

@@ -31,18 +31,18 @@ Definition Opposite `(C : Category) : Category := {|
 Notation "C ^op" := (@Opposite C)
   (at level 7, format "C ^op") : category_scope.
 
-Theorem op_involutive_iso `{C : Category} : (C^op)^op ≅[Cat] C.
+Theorem op_involutive_iso {C : Category} : (C^op)^op ≅[Cat] C.
 Proof. isomorphism; functor || constructive; cat. Qed.
 
-Lemma op_involutive `{C : Category} : (C^op)^op = C.
+Lemma op_involutive {C : Category} : (C^op)^op = C.
 Proof.
   unfold Opposite; simpl.
   destruct C; simpl.
   f_equal.
 Qed.
 
-Definition op   `{C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
-Definition unop `{C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
+Definition op   {C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
+Definition unop {C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
 
 Program Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op := {|
   fobj := @fobj C D F;

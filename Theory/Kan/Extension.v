@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -11,10 +11,10 @@ Unset Transparent Obligations.
 
 Section KanExtension.
 
-Context `{A : Category}.
-Context `{B : Category}.
-Context `{F : A ⟶ B}.
-Context `{C : Category}.
+Context {A : Category}.
+Context {B : Category}.
+Context {F : A ⟶ B}.
+Context {C : Category}.
 
 Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {|
   fobj := fun G => G ○ F;
@@ -52,7 +52,7 @@ Require Import Category.Instance.Cat.
    extensions fit together to define a functor which is the global Kan
    extension." *)
 
-Global Program Instance HasRan_HasRanL `{R : HasRan} (X : A ⟶ C) :
+Global Program Instance HasRan_HasRanL {R : HasRan} (X : A ⟶ C) :
   HasRanL X := {|
   RanL := Ran X;
   ranl_transform :=

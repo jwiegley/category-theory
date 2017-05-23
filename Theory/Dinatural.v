@@ -5,7 +5,7 @@ Require Export Category.Theory.Functor.
 Require Export Category.Structure.Terminal.
 Require Export Category.Construction.Opposite.
 Require Export Category.Construction.Product.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -14,12 +14,12 @@ Unset Transparent Obligations.
 
 Section Dinatural.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Terminal C}.
 Context `{@Terminal (C^op)}.
-Context `{D : Category}.
-Context `{F : C^op ∏ C ⟶ D}.
-Context `{G : C^op ∏ C ⟶ D}.
+Context {D : Category}.
+Context {F : C^op ∏ C ⟶ D}.
+Context {G : C^op ∏ C ⟶ D}.
 
 Definition prod_split {X Y Z W} (f : X ~{C^op}~> Z) (g : Y ~{C}~> W) :
   (X, Y) ~{ (C ^op) ∏ C }~> (Z, W) := (f, g).

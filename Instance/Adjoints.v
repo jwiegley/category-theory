@@ -2,21 +2,21 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Instance adj_id `{C : Category} : Id ⊣ Id := {
+Program Instance adj_id {C : Category} : Id ⊣ Id := {
   adj_iso := fun _ _ =>
     {| to   := {| morphism := _ |}
      ; from := {| morphism := _ |} |}
 }.
 
 Program Definition adj_comp
-        `{C : Category} `{D : Category} `{E : Category}
+        {C : Category} {D : Category} {E : Category}
         (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E)
         (X : F ⊣ U) (Y : F' ⊣ U') :
   F ○ F' ⊣ U' ○ U := {|
@@ -40,17 +40,17 @@ Next Obligation. rewrite <- !adj_right_nat_r; reflexivity. Qed.
 Notation "F ⊚ G" := (@adj_comp _ _ _ _ _ _ _ F G)
   (at level 30, right associativity) : category_scope.
 
-Record adj_morphism `{C : Category} `{D : Category} := {
+Record adj_morphism {C : Category} {D : Category} := {
   free_functor : D ⟶ C;
   forgetful_functor : C ⟶ D;
   adjunction : free_functor ⊣ forgetful_functor
 }.
 
-Program Instance adj_morphism_setoid `{C : Category} `{D : Category} :
+Program Instance adj_morphism_setoid {C : Category} {D : Category} :
   Setoid (@adj_morphism C D) := {
   equiv := fun f g =>
-              (free_functor f ≅[Nat] free_functor g) *
-              (forgetful_functor f ≅[Nat] forgetful_functor g)
+              (free_functor f ≅[Fun] free_functor g) *
+              (forgetful_functor f ≅[Fun] forgetful_functor g)
 }.
 Next Obligation.
   equivalence.

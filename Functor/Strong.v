@@ -12,7 +12,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Class StrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
+Class StrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
   strength {X Y} : X ⨂ F Y ~> F (X ⨂ Y);
   strength_natural : natural (@strength);
 
@@ -27,7 +27,7 @@ Class StrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
     strength ∘ bimap id strength ∘ to (@tensor_assoc _ _ X Y (F Z))
 }.
 
-Class RightStrongFunctor `{C : Category} `{@Monoidal C} (F : C ⟶ C) := {
+Class RightStrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
   rstrength_nat : (⨂) ○ F ∏⟶ Id ⟹ F ○ (⨂);
 
   rstrength {X Y} : F X ⨂ Y ~> F (X ⨂ Y) := transform[rstrength_nat] (X, Y);
@@ -43,9 +43,8 @@ Require Import Category.Functor.Product.
 
 Section Strong.
 
-Context `{C : Category}.
 Context `{@Monoidal C}.
-Context `{F : C ⟶ C}.
+Context {F : C ⟶ C}.
 
 Global Program Instance Id_StrongFunctor : StrongFunctor Id[C] := {
   strength := fun _ _ => id
@@ -108,7 +107,7 @@ End Strong.
 Notation "strength[ F ]" := (@strength _ _ F%functor _ _ _)
   (at level 9, format "strength[ F ]") : morphism_scope.
 
-Class StrongTransformation `{C : Category} `{@Monoidal C}
+Class StrongTransformation {C : Category} `{@Monoidal C}
       {F : C ⟶ C} `{@StrongFunctor _ _ F}
       {G : C ⟶ C} `{@StrongFunctor _ _ G} (N : F ⟹ G) := {
   strength_transform {X Y} :

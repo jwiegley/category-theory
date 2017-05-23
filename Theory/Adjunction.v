@@ -12,10 +12,10 @@ Unset Transparent Obligations.
 
 Section Adjunction.
 
-Context `{C : Category}.
-Context `{D : Category}.
-Context `{F : D ⟶ C}.
-Context `{U : C ⟶ D}.
+Context {C : Category}.
+Context {D : Category}.
+Context {F : D ⟶ C}.
+Context {U : C ⟶ D}.
 
 Class Adjunction := {
   adj_iso  {a b} : F a ~{C}~> b ≊ a ~{D}~> U b;
@@ -140,10 +140,10 @@ Notation "F ⊣ G" := (@Adjunction _ _ F G) (at level 70) : category_scope.
 
 Section AdjunctionMor.
 
-Context `{C : Category}.
-Context `{D : Category}.
-Context `{F : D ⟶ C}.
-Context `{U : C ⟶ D}.
+Context {C : Category}.
+Context {D : Category}.
+Context {F : D ⟶ C}.
+Context {U : C ⟶ D}.
 
 (* Another way to define an adjunction is by providing the unit and counit
    morphisms. *)
@@ -161,7 +161,7 @@ Class AdjunctionMor := {
   fmap_counit_unit' {X} : fmap[U] counit' ∘ unit' ≈ @id D (U X)
 }.
 
-Program Definition adj_from_unit_conuit `{A : AdjunctionMor} : F ⊣ U := {|
+Program Definition adj_from_unit_conuit {A : AdjunctionMor} : F ⊣ U := {|
   adj_iso := fun a b =>
     {| to   := {| morphism := fun f => fmap f ∘ @unit' A a |}
      ; from := {| morphism := fun f => @counit' A b ∘ fmap f |} |}

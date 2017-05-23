@@ -10,7 +10,7 @@ Unset Transparent Obligations.
 
 Section Terminal.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 Class Terminal := {
   One : ob;
@@ -23,7 +23,7 @@ End Terminal.
 
 Notation "1" := One : object_scope.
 
-(* Coercion terminal_category `{C : Category} `(_ : @Terminal C) := C. *)
+(* Coercion terminal_category {C : Category} `(_ : @Terminal C) := C. *)
 (* Arguments terminal_category {_ } _ /. *)
 
 Hint Resolve @one_unique : category_laws.

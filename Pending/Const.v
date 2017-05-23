@@ -10,7 +10,7 @@ Obligation 2.
   reflexivity.
 Qed.
 
-Program Instance Delta `{C : Category} `{J : Category} : C ⟶ [J, C] := {
+Program Instance Delta {C : Category} {J : Category} : C ⟶ [J, C] := {
     fobj := @Const C J
 }.
 Obligation 1.

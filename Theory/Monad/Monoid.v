@@ -4,7 +4,7 @@ Require Import Category.Lib.
 Require Export Category.Theory.Monad.
 Require Export Category.Structure.Monoid.
 Require Export Category.Structure.Monoidal.Composition.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -13,8 +13,8 @@ Unset Transparent Obligations.
 
 Section MonoidMonad.
 
-Context `{C : Category}.
-Context `{M : C ⟶ C}.
+Context {C : Category}.
+Context {M : C ⟶ C}.
 
 (* Monads are monoid (objects) in the (monoidal) category of endofunctors
    which is monoidal with respect to functor composition. *)

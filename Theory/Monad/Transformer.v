@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Monad.
 Require Export Category.Functor.Structure.Monoidal.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -12,10 +12,10 @@ Unset Transparent Obligations.
 
 Section Transformer.
 
-Context `{C : Category}.
-Context `{M : C ⟶ C}.
+Context {C : Category}.
+Context {M : C ⟶ C}.
 Context `{@Monad C M}.
-Context `{T : (C ⟶ C) -> (C ⟶ C)}.
+Context {T : (C ⟶ C) -> (C ⟶ C)}.
 Context `{@Monad C (T M)}.
 
 Class MonadTransformer := {
@@ -34,13 +34,13 @@ Arguments MonadTransformer {_ _ _} T {_}.
  * Species 1: Identity transformations.
  ******************************************************************************)
 
-Program Definition IdentityT `{C : Category} (M : C ⟶ C) : C ⟶ C := {|
+Program Definition IdentityT {C : Category} (M : C ⟶ C) : C ⟶ C := {|
   fobj := fobj[M];
   fmap := fun _ _ => fmap[M]
 |}.
 Next Obligation. apply fmap_comp. Qed.
 
-Program Definition IdentityT_Monad `{C : Category} (M : C ⟶ C) `{@Monad C M} :
+Program Definition IdentityT_Monad {C : Category} (M : C ⟶ C) `{@Monad C M} :
   @Monad C (@IdentityT C M) := {|
   ret  := fun _ => ret[M];
   join := fun _ => join[M]
@@ -51,7 +51,7 @@ Next Obligation. destruct H; intuition. Qed.
 Next Obligation. destruct H; intuition. Qed.
 Next Obligation. destruct H; intuition. Qed.
 
-Program Instance IdentityT_MonadTransformer `{C : Category} (M : C ⟶ C) `{@Monad C M} :
+Program Instance IdentityT_MonadTransformer {C : Category} (M : C ⟶ C) `{@Monad C M} :
   @MonadTransformer C M _ (@IdentityT C) (IdentityT_Monad M) := {
   lift := fun _ => id
 }.
@@ -148,13 +148,13 @@ Inductive Alg (c f g : Type -> Type) a :=
  * Species 2: Constant mapping transformations.
  ******************************************************************************)
 
-Program Definition ConstT `{C : Category} (K M : C ⟶ C) : C ⟶ C := {|
+Program Definition ConstT {C : Category} (K M : C ⟶ C) : C ⟶ C := {|
   fobj := fobj[K];
   fmap := fun _ _ => fmap[K]
 |}.
 Next Obligation. apply fmap_comp. Qed.
 
-Program Definition ConstT_Monad `{C : Category} (K M : C ⟶ C) `{@Monad C K} :
+Program Definition ConstT_Monad {C : Category} (K M : C ⟶ C) `{@Monad C K} :
   @Monad C (@ConstT C K M) := {|
   ret  := fun _ => ret[K];
   join := fun _ => join[K]
@@ -167,7 +167,7 @@ Next Obligation. apply H. Qed.
 
 (* This is not a valid monad transformer, since there cannot be a morphism
    [M A ~> K A]. *)
-Fail Definition ConstT_MonadTransformer `{C : Category} (K M : C ⟶ C)
+Fail Definition ConstT_MonadTransformer {C : Category} (K M : C ⟶ C)
         `{@Monad C K} `{@Monad C M} :
   @MonadTransformer C M _ (@ConstT C K) (ConstT_Monad K M) := {|
   lift := fun _ => _

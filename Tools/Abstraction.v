@@ -15,7 +15,6 @@ Unset Transparent Obligations.
 
 Section Abstraction.
 
-Context `{C : Category}.
 Context `{F : Coq ⟶ C}.
 Context `{AF : @CartesianFunctor _ _ F _ HA'}.
 Context `{@ClosedFunctor _ _ F _ _ AF _ HC'}.

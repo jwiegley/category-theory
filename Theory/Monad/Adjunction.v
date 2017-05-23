@@ -11,10 +11,10 @@ Unset Transparent Obligations.
 
 Section AdjunctionMonad.
 
-Context `{C : Category}.
-Context `{D : Category}.
-Context `{F : D ⟶ C}.
-Context `{U : C ⟶ D}.
+Context {C : Category}.
+Context {D : Category}.
+Context {F : D ⟶ C}.
+Context {U : C ⟶ D}.
 
 (* Every adjunction gives rise to a monad. However, for the reverse direction,
    just knowing that the monad is formed from the product of two functors is

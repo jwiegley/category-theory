@@ -15,7 +15,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Class LaxMonoidalTransformation `{C : Category} `{@Monoidal C}
+Class LaxMonoidalTransformation {C : Category} `{@Monoidal C}
       {F : C ⟶ C} `{@LaxMonoidalFunctor _ _ _ _ F}
       {G : C ⟶ C} `{@LaxMonoidalFunctor _ _ _ _ G} (N : F ⟹ G) := {
   lax_pure_transform : lax_pure[G] ≈ transform[N] _ ∘ lax_pure[F];
@@ -26,7 +26,7 @@ Class LaxMonoidalTransformation `{C : Category} `{@Monoidal C}
 
 Set Warnings "-non-primitive-record".
 
-Class ApplicativeTransformation `{C : Category}
+Class ApplicativeTransformation {C : Category}
       `{@Cartesian C} `{@Terminal C} `{@Closed C _}
       {F : C ⟶ C} `{@Applicative _ _ _ _ F}
       {G : C ⟶ C} `{@Applicative _ _ _ _ G} (N : F ⟹ G) := {
@@ -38,11 +38,11 @@ Class ApplicativeTransformation `{C : Category}
 
 Section Traversable.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Cartesian C}.
 Context `{@Terminal C}.
 Context `{@Closed C _}.
-Context `{F : C ⟶ C}.
+Context {F : C ⟶ C}.
 
 Local Obligation Tactic := idtac.
 
@@ -53,8 +53,8 @@ Program Instance Id_Applicative : @Applicative C _ _ _ (Id[C]) := {
 }.
 
 Program Instance Compose_Applicative
-        `{G : C ⟶ C} `{@Applicative C _ _ _ G}
-        `{H : C ⟶ C} `{@Applicative C _ _ _ H} :
+        {G : C ⟶ C} `{@Applicative C _ _ _ G}
+        {H : C ⟶ C} `{@Applicative C _ _ _ H} :
   @Applicative C _ _ _ (Compose G H) := {
   is_strong := Compose_StrongFunctor G H _ _;
   is_lax_monoidal :=
@@ -65,17 +65,17 @@ Program Instance Compose_Applicative
 }.
 
 Class Traversable := {
-  sequence `{G : C ⟶ C} `{@Applicative C _ _ _ G} : F ○ G ⟹ G ○ F;
+  sequence {G : C ⟶ C} `{@Applicative C _ _ _ G} : F ○ G ⟹ G ○ F;
 
-  sequence_naturality `{G : C ⟶ C} `{@Applicative C _ _ _ G}
-                      `{H : C ⟶ C} `{@Applicative C _ _ _ H} (N : G ⟹ H)
+  sequence_naturality {G : C ⟶ C} `{@Applicative C _ _ _ G}
+                      {H : C ⟶ C} `{@Applicative C _ _ _ H} (N : G ⟹ H)
                       (f : @ApplicativeTransformation C _ _ _ _ _ _ _ N) {X} :
     transform[N] (F X) ∘ transform[@sequence G _] X
       ≈ transform[@sequence H _] X ∘ fmap[F] (transform[N] _);
 
   sequence_Id {X} : transform[@sequence Id _] X ≈ id;
-  sequence_Compose `{G : C ⟶ C} `{@Applicative C _ _ _ G}
-                   `{H : C ⟶ C} `{@Applicative C _ _ _ H} {X} :
+  sequence_Compose {G : C ⟶ C} `{@Applicative C _ _ _ G}
+                   {H : C ⟶ C} `{@Applicative C _ _ _ H} {X} :
     transform[@sequence (Compose G H) _] X
       ≈ fmap[G] (transform[sequence] X) ∘ transform[sequence] _
 }.
@@ -84,7 +84,7 @@ End Traversable.
 
 Arguments Traversable {_ _ _ _} F.
 
-Program Instance Id_Traversable `{C : Category}
+Program Instance Id_Traversable {C : Category}
         `{@Cartesian C} `{@Terminal C} `{@Closed C _} (x : C) :
   Traversable (@Id C) := {
   sequence := fun _ _ => {| transform := fun _ => id |}
@@ -92,7 +92,7 @@ Program Instance Id_Traversable `{C : Category}
 
 Require Import Category.Functor.Constant.
 
-Program Instance Constant_Traversable `{C : Category}
+Program Instance Constant_Traversable {C : Category}
         `{@Cartesian C} `{@Terminal C} `{@Closed C _} (x : C) :
   Traversable (@Constant C C x) := {
   sequence := fun G _ => {| transform := fun _ => pure[G] |}

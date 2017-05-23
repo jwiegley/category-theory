@@ -10,9 +10,9 @@ Unset Transparent Obligations.
 
 Section End.
 
-Context `{C : Category}.
-Context `{D : Category}.
-Context `{F : C^op ∏ C ⟶ D}.
+Context {C : Category}.
+Context {D : Category}.
+Context {F : C^op ∏ C ⟶ D}.
 
 Class End := {
   Fin : Wedge;

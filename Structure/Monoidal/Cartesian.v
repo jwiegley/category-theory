@@ -15,7 +15,7 @@ Set Universe Polymorphism.
 
 Section CartesianMonoidal.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 (* Wikipedia: "Cartesian monoidal categories have a number of special and
    important properties, such as the existence of diagonal maps (Δ) x : x → x

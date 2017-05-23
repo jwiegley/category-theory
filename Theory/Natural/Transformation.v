@@ -12,10 +12,10 @@ Unset Transparent Obligations.
 
 Section Transform.
 
-Context `{C : Category}.
-Context `{D : Category}.
-Context `{F : C ⟶ D}.
-Context `{G : C ⟶ D}.
+Context {C : Category}.
+Context {D : Category}.
+Context {F : C ⟶ D}.
+Context {G : C ⟶ D}.
 
 Class Transform := {
   transform {X} : F X ~> G X;
@@ -57,18 +57,18 @@ Ltac constructive :=
   | transform; simpl; intros
   | .. ]; simpl; intros.
 
-Definition outside `{C : Category} `{D : Category}
+Definition outside {C : Category} {D : Category}
            {F G : C ⟶ D} `(N : F ⟹ G)
-           `{E : Category} (X : E ⟶ C) : F ○ X ⟹ G ○ X.
+           {E : Category} (X : E ⟶ C) : F ○ X ⟹ G ○ X.
 Proof.
   transform; intros; simpl.
     apply N.
   abstract apply naturality.
 Defined.
 
-Definition inside `{C : Category} `{D : Category}
+Definition inside {C : Category} {D : Category}
            {F G : C ⟶ D} `(N : F ⟹ G)
-           `{E : Category} (X : D ⟶ E) : X ○ F ⟹ X ○ G.
+           {E : Category} (X : D ⟶ E) : X ○ F ⟹ X ○ G.
 Proof.
   transform; intros; simpl.
     apply fmap.

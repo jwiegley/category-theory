@@ -4,7 +4,7 @@ Require Import Category.Lib.
 Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Construction.Comma.
 Require Export Category.Instance.Cat.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -25,16 +25,16 @@ Set Universe Polymorphism.
 
    This is also given in Mac Lane, page 47, exercise 4. *)
 
-Program Definition Comma_Functor `{C : Category} `{D : Category}
-        `{S : D ⟶ C} `{T : D ⟶ C} (F : S ⟹ T) : D ⟶ (S ↓ T) := {|
+Program Definition Comma_Functor {C : Category} {D : Category}
+        {S : D ⟶ C} {T : D ⟶ C} (F : S ⟹ T) : D ⟶ (S ↓ T) := {|
   fobj := fun X : D => ((X, X); F X);
   fmap := fun _ _ f => (f, f)
 |}.
 
 Local Obligation Tactic := simpl; intros.
 
-Program Definition Comma_Transform `{C : Category} `{D : Category}
-        `{S : D ⟶ C} `{T : D ⟶ C} (F : D ⟶ (S ↓ T))
+Program Definition Comma_Transform {C : Category} {D : Category}
+        {S : D ⟶ C} {T : D ⟶ C} (F : D ⟶ (S ↓ T))
         (proj1_commutes : comma_proj1 ○ F ≈[Cat] Id)
         (proj2_commutes : comma_proj2 ○ F ≈[Cat] Id)
         (functoriality : ∀ X Y (g : X ~> Y),

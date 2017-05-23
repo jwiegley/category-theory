@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Section Isomorphism.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 (* Two objects in C are isomorphic, if there is an isomorphism between theme.
    Note that this definition has computational content, so we can make use of
@@ -92,12 +92,12 @@ Hint Unfold isomorphism_equiv.
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).
 
-Program Instance id_iso `{C : Category} {X : C} : X ≅ X := {
+Program Instance id_iso {C : Category} {X : C} : X ≅ X := {
   to := id;
   from := id
 }.
 
-Program Definition compose_iso `{C : Category}
+Program Definition compose_iso {C : Category}
         {X Y Z : C} `(f : Y ≅ Z) `(g : X ≅ Y) : X ≅ Z := {|
   to := to f ∘ to g;
   from := from g ∘ from f
@@ -115,7 +115,7 @@ Next Obligation.
   apply iso_from_to.
 Qed.
 
-Program Instance iso_monic `{C : Category} {X Y} (iso : @Isomorphism C X Y) :
+Program Instance iso_monic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
   Monic iso.
 Next Obligation.
   rewrite <- (id_left g1).
@@ -126,7 +126,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Instance iso_from_monic `{C : Category} {X Y} (iso : @Isomorphism C X Y) :
+Program Instance iso_from_monic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
   Monic (iso⁻¹).
 Next Obligation.
   rewrite <- (id_left g1).
@@ -137,7 +137,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Instance iso_epic `{C : Category} {X Y} (iso : @Isomorphism C X Y) :
+Program Instance iso_epic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
   Epic iso.
 Next Obligation.
   rewrite <- (id_right g1).
@@ -148,7 +148,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Instance iso_from_epic `{C : Category} {X Y} (iso : @Isomorphism C X Y) :
+Program Instance iso_from_epic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
   Epic (iso⁻¹).
 Next Obligation.
   rewrite <- (id_right g1).
@@ -160,7 +160,7 @@ Next Obligation.
 Qed.
 
 Program Instance Monic_Retraction_Iso
-        `{C : Category} {X Y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) :
+        {C : Category} {X Y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) :
   X ≅ Y := {
   to := f;
   from := retract
@@ -179,7 +179,7 @@ Next Obligation.
 Qed.
 
 Program Instance Epic_Section_Iso
-        `{C : Category} {X Y : C} `(s : @Section _ _ _ f) `(e : @Epic _ _ _ f) :
+        {C : Category} {X Y : C} `(s : @Section _ _ _ f) `(e : @Epic _ _ _ f) :
   X ≅ Y := {
   to := f;
   from := section

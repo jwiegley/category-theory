@@ -11,8 +11,8 @@ Unset Transparent Obligations.
 
 Section Functor.
 
-Context `{C : Category}.
-Context `{D : Category}.
+Context {C : Category}.
+Context {D : Category}.
 
 Class Functor := {
   fobj : C -> D;
@@ -61,7 +61,7 @@ Hint Rewrite @fmap_id : categories.
 
 Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
 
-Program Definition Id `{C : Category} : C ⟶ C := {|
+Program Definition Id {C : Category} : C ⟶ C := {|
   fobj := fun X => X;
   fmap := fun _ _ f => f
 |}.
@@ -71,7 +71,7 @@ Arguments Id {C} /.
 Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : category_scope.
 
 Program Definition Compose
-        `{C : Category} `{D : Category} `{E : Category}
+        {C : Category} {D : Category} {E : Category}
         (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
   fobj := fun x => fobj (fobj x);
   fmap := fun _ _ f => fmap (fmap f)
@@ -89,7 +89,7 @@ Hint Unfold Compose.
 Notation "F ○ G" := (Compose F%functor G%functor)
   (at level 30, right associativity) : category_scope.
 
-Program Instance fmap_iso `{C : Category} `{D : Category} `(F : C ⟶ D) :
+Program Instance fmap_iso {C : Category} {D : Category} `(F : C ⟶ D) :
   Proper (Isomorphism ==> Isomorphism) F.
 Next Obligation.
   proper.
@@ -101,14 +101,14 @@ Next Obligation.
   rewrite iso_from_to; cat.
 Defined.
 
-Instance fobj_respects `{C : Category} `{D : Category} `(F : C ⟶ D) :
+Instance fobj_respects {C : Category} {D : Category} `(F : C ⟶ D) :
   Proper (equiv ==> equiv) (@fobj C D F) := @fmap_iso _ _ _.
 
-Class Faithful `{C : Category} `{D : Category} `(F : C ⟶ D) := {
+Class Faithful {C : Category} {D : Category} `(F : C ⟶ D) := {
   fmap_inj {X Y} (f g : X ~> Y) : fmap[F] f ≈ fmap[F] g -> f ≈ g
 }.
 
-Class Full `{C : Category} `{D : Category} `(F : C ⟶ D) := {
+Class Full {C : Category} {D : Category} `(F : C ⟶ D) := {
   prefmap {X Y} (g : F X ~> F Y) : X ~> Y;
   fmap_sur {X Y} (g : F X ~> F Y) : fmap[F] (prefmap g) ≈ g
 }.
@@ -116,7 +116,7 @@ Class Full `{C : Category} `{D : Category} `(F : C ⟶ D) := {
 (*
 Require Import Category.Instance.Sets.
 
-Class FullyFaithful `{C : Category} `{D : Category} `(F : C ⟶ D) := {
+Class FullyFaithful {C : Category} {D : Category} `(F : C ⟶ D) := {
   fmap_bij {X Y} : F X ~> F Y ≊ X ~> Y;
   fobj_inj {X Y} : F X ≅ F Y -> X ≅ Y
 }.

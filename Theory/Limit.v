@@ -10,8 +10,8 @@ Unset Transparent Obligations.
 
 Section Limit.
 
-Context `{J : Category}.
-Context `{C : Category}.
+Context {J : Category}.
+Context {C : Category}.
 
 (* Wikipedia: "Let F : J ⟶ C be a diagram of shape J in a category C. A cone
    to F is an object N of C together with a family ψX : N ⟶ F(X) of morphisms

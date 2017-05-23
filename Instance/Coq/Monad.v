@@ -11,8 +11,8 @@ Unset Transparent Obligations.
 
 Section Monad.
 
-Context `{m : Coq ⟶ Coq}.
-Context `{M : @Monad Coq m}.
+Context {m : Coq ⟶ Coq}.
+Context {M : @Monad Coq m}.
 
 Notation "()" := Datatypes.unit : category_scope.
 
@@ -54,23 +54,23 @@ Definition unless `(b : bool) (x : m ()) : m () :=
   if negb b then x else ret tt.
 
 (*
-Fixpoint mapM `{Applicative m} {A B} (f : A -> m B) (l : list A) :
+Fixpoint mapM {Applicative m} {A B} (f : A -> m B) (l : list A) :
   m (list B) :=
   match l with
   | nil => ret nil
   | cons x xs => liftA2 (@cons _) (f x) (mapM f xs)
   end.
 
-Definition forM `{Applicative m} {A B} (l : list A) (f : A -> m B) :
+Definition forM {Applicative m} {A B} (l : list A) (f : A -> m B) :
   m (list B) := mapM f l.
 
-Fixpoint mapM_ `{Applicative m} {A B} (f : A -> m B) (l : list A) : m () :=
+Fixpoint mapM_ {Applicative m} {A B} (f : A -> m B) (l : list A) : m () :=
   match l with
   | nil => ret tt
   | cons x xs => liftA2 (const id) (f x) (mapM_ f xs)
   end.
 
-Definition forM_ `{Applicative m} {A B} (l : list A) (f : A -> m B) : m () :=
+Definition forM_ {Applicative m} {A B} (l : list A) (f : A -> m B) : m () :=
   mapM_ f l.
 *)
 

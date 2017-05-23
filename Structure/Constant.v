@@ -10,7 +10,7 @@ Unset Transparent Obligations.
 
 Section Constant.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Terminal C}.
 
 Class Constant (A : Type) := {

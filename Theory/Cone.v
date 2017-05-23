@@ -10,9 +10,9 @@ Unset Transparent Obligations.
 
 Section Cone.
 
-Context `{J : Category}.
-Context `{C : Category}.
-Context `{F : J ⟶ C}.
+Context {J : Category}.
+Context {C : Category}.
+Context {F : J ⟶ C}.
 
 Class Cone := {
   vertex : C;
@@ -37,7 +37,7 @@ Require Import Category.Theory.Natural.Transformation.
 (* A natural transformation Δd ⟹ F (where Δd is the Constant functor on d) is
    the same as a cone over F (whose vertex is d). *)
 
-Theorem Cone_Transform `{J : Category} `{C : Category} (F : J ⟶ C) (d : C) :
+Theorem Cone_Transform {J : Category} {C : Category} (F : J ⟶ C) (d : C) :
   Constant J d ⟹ F <--> { c : Cone F | vertex = d }.
 Proof.
   split; intros.

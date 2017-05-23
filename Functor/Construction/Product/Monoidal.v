@@ -12,17 +12,17 @@ Set Universe Polymorphism.
 
 Section ProductMonoidal.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Monoidal C}.
-Context `{D : Category}.
+Context {D : Category}.
 Context `{@Monoidal D}.
-Context `{J : Category}.
+Context {J : Category}.
 Context `{@Monoidal J}.
-Context `{K : Category}.
+Context {K : Category}.
 Context `{@Monoidal K}.
 
-Context `{F : C ⟶ J}.
-Context `{G : D ⟶ K}.
+Context {F : C ⟶ J}.
+Context {G : D ⟶ K}.
 
 Local Obligation Tactic := program_simpl.
 
@@ -543,13 +543,13 @@ End ProductMonoidal.
 
 Section ProductMonoidalProj.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Monoidal C}.
-Context `{D : Category}.
+Context {D : Category}.
 Context `{@Monoidal D}.
-Context `{J : Category}.
+Context {J : Category}.
 Context `{@Monoidal J}.
-Context `{K : Category}.
+Context {K : Category}.
 Context `{@Monoidal K}.
 
 Variable (P : (C ∏ J) ⟶ D ∏ K).

@@ -13,9 +13,9 @@ Set Universe Polymorphism.
 
 Section Pure.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Monoidal C}.
-Context `{F : C ⟶ C}.
+Context {F : C ⟶ C}.
 Context `{@StrongFunctor C _ F}.
 Context `{@LaxMonoidalFunctor C C _ _ F}.
 

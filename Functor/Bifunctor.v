@@ -15,22 +15,22 @@ Unset Transparent Obligations.
 
 Section Bifunctor.
 
-Context `{C : Category}.
-Context `{D : Category}.
-Context `{E : Category}.
+Context {C : Category}.
+Context {D : Category}.
+Context {E : Category}.
 
 (* A bimap takes two arrows in C and D, and lifts them to an arrow in E over
    some bifunctor F : C ∏ D ⟶ E. *)
-Definition bimap `{F : C ∏ D ⟶ E} {X W : C} {Y Z : D}
+Definition bimap {F : C ∏ D ⟶ E} {X W : C} {Y Z : D}
            (f : X ~{C}~> W) (g : Y ~{D}~> Z) :
   F (X, Y) ~{E}~> F (W, Z) := @fmap (C ∏ D) E F (X, Y) (W, Z) (f, g).
 
-Corollary bimap_fmap `{F : C ∏ D ⟶ E} {X W : C} {Y Z : D}
+Corollary bimap_fmap {F : C ∏ D ⟶ E} {X W : C} {Y Z : D}
       (f : X ~{C}~> W) (g : Y ~{D}~> Z) :
   @fmap (C ∏ D) E F (X, Y) (W, Z) (f, g) = bimap f g.
 Proof. reflexivity. Defined.
 
-Global Program Instance bimap_respects `{F : C ∏ D ⟶ E} {X W : C} {Y Z : D} :
+Global Program Instance bimap_respects {F : C ∏ D ⟶ E} {X W : C} {Y Z : D} :
   Proper (equiv ==> equiv ==> equiv) (@bimap F X W Y Z).
 Next Obligation.
   proper.
@@ -39,14 +39,14 @@ Next Obligation.
   split; assumption.
 Qed.
 
-Lemma bimap_id_id `{F : C ∏ D ⟶ E} {X Y} :
+Lemma bimap_id_id {F : C ∏ D ⟶ E} {X Y} :
   bimap (id[X]) (id[Y]) ≈ id.
 Proof.
   destruct F; simpl.
   apply fmap_id.
 Qed.
 
-Lemma bimap_comp `{F : C ∏ D ⟶ E} {X Y Z W U V}
+Lemma bimap_comp {F : C ∏ D ⟶ E} {X Y Z W U V}
       (f : Y ~{C}~> Z) (h : X ~{C}~> Y)
       (g : V ~{D}~> W) (i : U ~{D}~> V) :
   bimap (f ∘ h) (g ∘ i) ≈ bimap f g ∘ bimap h i.
@@ -57,7 +57,7 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma bimap_comp_id_left `{F : C ∏ D ⟶ E} {W}
+Lemma bimap_comp_id_left {F : C ∏ D ⟶ E} {W}
       `(f : Y ~{D}~> Z) `(g : X ~{D}~> Y) :
   bimap (id[W]) (f ∘ g) ≈ bimap id f ∘ bimap id g.
 Proof.
@@ -67,7 +67,7 @@ Proof.
   split; simpl; cat.
 Qed.
 
-Lemma bimap_comp_id_right `{F : C ∏ D ⟶ E} {W}
+Lemma bimap_comp_id_right {F : C ∏ D ⟶ E} {W}
       `(f : Y ~{C}~> Z) `(g : X ~{C}~> Y) :
   bimap (f ∘ g) (id[W]) ≈ bimap f id ∘ bimap g id.
 Proof.
@@ -77,7 +77,7 @@ Proof.
   split; simpl; cat.
 Qed.
 
-Lemma bimap_id_right_left `{F : C ∏ D ⟶ E} {W}
+Lemma bimap_id_right_left {F : C ∏ D ⟶ E} {W}
       `(f : Z ~{C}~> W) `(g : X ~{D}~> Y) :
   bimap f id ∘ bimap id g ≈ bimap f g.
 Proof.
@@ -87,7 +87,7 @@ Proof.
   split; simpl; cat.
 Qed.
 
-Lemma bimap_id_left_right `{F : C ∏ D ⟶ E} {W}
+Lemma bimap_id_left_right {F : C ∏ D ⟶ E} {W}
       `(f : Z ~{D}~> W) `(g : X ~{C}~> Y) :
   bimap id f ∘ bimap g id ≈ bimap g f.
 Proof.

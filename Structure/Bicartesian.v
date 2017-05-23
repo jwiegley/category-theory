@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Section Bicartesian.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Cartesian C}.
 Context `{@Cocartesian C}.
 

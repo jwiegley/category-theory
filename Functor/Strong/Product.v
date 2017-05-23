@@ -12,11 +12,11 @@ Set Universe Polymorphism.
 
 Section ProductStrong.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Monoidal C}.
 Context `{@CartesianMonoidal C _}.
-Context `{F : C ⟶ C}.
-Context `{G : C ⟶ C}.
+Context {F : C ⟶ C}.
+Context {G : C ⟶ C}.
 
 Local Obligation Tactic := simpl; intros.
 

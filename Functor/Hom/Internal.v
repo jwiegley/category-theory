@@ -12,7 +12,7 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Definition InternalHomFunctor `(C : Category)
-        `{E : @Cartesian C} `{O : @Closed C _} : C^op ∏ C ⟶ C := {|
+        {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {|
   fobj := fun p => @Exp C E O (fst p) (snd p);
   fmap := fun X Y f => _
 |}.

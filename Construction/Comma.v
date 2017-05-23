@@ -12,12 +12,12 @@ Unset Transparent Obligations.
 
 Section Comma.
 
-Context `{A : Category}.
-Context `{B : Category}.
-Context `{C : Category}.
+Context {A : Category}.
+Context {B : Category}.
+Context {C : Category}.
 
-Context `{S : A ⟶ C}.
-Context `{T : B ⟶ C}.
+Context {S : A ⟶ C}.
+Context {T : B ⟶ C}.
 
 (* Wikipedia: "... a comma category (a special case being a slice category) is
    a construction in category theory. It provides another way of looking at

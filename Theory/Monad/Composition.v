@@ -14,13 +14,13 @@ Unset Transparent Obligations.
 
 Section MonadComposition.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Monoidal C}.
 
-Context `{M : C ⟶ C}.
-Context `{O : @Monad C M}.
+Context {M : C ⟶ C}.
+Context {O : @Monad C M}.
 
-Context `{N : C ⟶ C}.
+Context {N : C ⟶ C}.
 Context `{@StrongFunctor C _ N}.
 Context `{@LaxMonoidalFunctor C C _ _ N}.
 

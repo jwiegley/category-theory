@@ -24,6 +24,7 @@ Theory/Limit.v
 Theory/Limit/Kan/Extension.v
 Theory/End.v
 Theory/Equivalence.v
+Theory/Span.v
 Theory/Kan/Extension.v
 Construction/Product.v
 Construction/Coproduct.v
@@ -61,9 +62,10 @@ Instance/Cat/Closed.v
 Instance/Zero.v
 Instance/One.v
 Instance/Two.v
-Instance/Nat.v
-Instance/Adj.v
+Instance/Fun.v
+Instance/Adjoints.v
 Instance/Finite.v
+Instance/Finite/Span.v
 Instance/Coq.v
 Instance/Coq/Applicative.v
 Instance/Coq/Monad.v

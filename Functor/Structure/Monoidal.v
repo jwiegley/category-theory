@@ -5,7 +5,7 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Functor.Construction.Product.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -13,11 +13,11 @@ Set Universe Polymorphism.
 
 Section MonoidalFunctor.
 
-Context `{C : Category}.
-Context `{D : Category}.
+Context {C : Category}.
+Context {D : Category}.
 Context `{@Monoidal C}.
 Context `{@Monoidal D}.
-Context `{F : C ⟶ D}.
+Context {F : C ⟶ D}.
 
 Lemma ap_iso_to_from
       (ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) {X Y} :

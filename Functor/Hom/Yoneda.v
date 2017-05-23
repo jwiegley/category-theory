@@ -4,7 +4,7 @@ Require Import Category.Lib.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Hom.
-Require Import Category.Instance.Nat.
+Require Import Category.Instance.Fun.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.

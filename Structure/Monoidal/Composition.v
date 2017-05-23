@@ -7,7 +7,7 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Construction.Product.
 Require Export Category.Structure.Monoidal.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -18,7 +18,7 @@ Local Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 (* This reflects the fact that categories are themselves "monoidoids", or
    monoidal with respect to identity and composition.  *)
 
-Program Definition Composition_Monoidal `{C : Category} :
+Program Definition Composition_Monoidal {C : Category} :
   @Monoidal ([C, C]) := {|
   tensor :=
     {| fobj := fun p => Compose (fst p) (snd p)

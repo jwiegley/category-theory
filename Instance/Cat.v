@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -21,7 +21,7 @@ Set Implicit Arguments.
 Program Instance Cat : Category := {
   ob      := Category;
   hom     := @Functor;
-  homset  := fun _ _ => {| equiv := fun F G => F ≅[Nat] G |};
+  homset  := fun _ _ => {| equiv := fun F G => F ≅[Fun] G |};
   id      := @Id;
   compose := @Compose
 }.

@@ -29,7 +29,7 @@ Ltac simpl_cat :=
     | _ => cat
     end).
 
-Theorem Comma_Product `{C : Category} `{D : Category}
+Theorem Comma_Product {C : Category} {D : Category}
         (F : C ⟶ 1) (G : D ⟶ 1) :
   (F ↓ G) ≅[Cat] C ∏ D.
 Proof. simpl_cat. Qed.

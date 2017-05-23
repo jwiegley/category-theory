@@ -16,8 +16,8 @@ Inductive Obj : Type :=
   | Coprod_ : Obj -> Obj -> Obj.
 
 Fixpoint denote `(o : Obj) :
-  ∀ `{C : Category}
-    `{A : @Cartesian C}
+  ∀ {C : Category}
+    {A : @Cartesian C}
     `{@Closed C A}
     `{@Cocartesian C}
     `{@Terminal C}
@@ -50,8 +50,8 @@ Inductive Hom : Obj -> Obj -> Type :=
   | Merge   : ∀ {a c d}, Hom c a -> Hom d a -> Hom (Coprod_ c d) a.
 
 Program Fixpoint interp `(c : Hom a b) :
-  ∀ `{C : Category}
-    `{A : @Cartesian C}
+  ∀ {C : Category}
+    {A : @Cartesian C}
     `{@Closed C A}
     `{@Cocartesian C}
     `{@Terminal C}
@@ -82,8 +82,8 @@ Program Instance DSL : Category := {
   compose := @Compose;
   homset  := fun _ _ =>
     {| equiv := fun f g =>
-         forall `{C : Category}
-                `{A : @Cartesian C}
+         forall {C : Category}
+                {A : @Cartesian C}
                 `{@Closed C A}
                 `{@Cocartesian C}
                 `{@Terminal C}
@@ -163,7 +163,7 @@ Next Obligation.
 Qed.
 
 Program Instance interp_proper {X Y : Obj}
-        `{C : Category} `{A : @Cartesian C}
+        {C : Category} {A : @Cartesian C}
         `{@Closed C A} `{@Cocartesian C}
         `{@Terminal C} `{@Initial C} :
   Proper (@equiv _ (@homset DSL X Y) ==>
@@ -178,14 +178,14 @@ Require Export Category.Functor.Structure.Closed.
 
 Section AST.
 
-Context `{C : Category}.
-Context `{A : @Cartesian C}.
+Context {C : Category}.
+Context {A : @Cartesian C}.
 Context `{@Closed C A}.
 Context `{@Cocartesian C}.
 Context `{@Terminal C}.
 Context `{@Initial C}.
 
-Global Program Instance Hom_Functor : DSL ⟶ C := {
+Global Program Instance AST_Functor : DSL ⟶ C := {
   fobj := fun x => denote x;
   fmap := fun _ _ f => interp f
 }.

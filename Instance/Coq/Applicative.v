@@ -62,8 +62,8 @@ Infix "<*" := (liftA2 const) (at level 29, left associativity).
 
 Section CoqApplicative.
 
-Context `{F : Coq ⟶ Coq}.
-Context `{J : @Applicative F}.
+Context {F : Coq ⟶ Coq}.
+Context {J : @Applicative F}.
 
 (* Every Applicative endofunctor on Coq is a strong lax monoidal functor. *)
 

@@ -10,7 +10,7 @@ Set Universe Polymorphism.
 (*
 Section CategoryEquivalence.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 (* Two objects in C are isomorphic, if there is an isomorphism between theme.
    Note that this definition has computational content, so we can make use of

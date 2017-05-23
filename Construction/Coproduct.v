@@ -10,8 +10,8 @@ Unset Transparent Obligations.
 
 Section Coproduct.
 
-Context `{C : Category}.
-Context `{D : Category}.
+Context {C : Category}.
+Context {D : Category}.
 
 (* A Groupoid is a category where all morphisms are isomorphisms, and morphism
    equivalence is equivalence of isomorphisms. *)

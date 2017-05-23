@@ -10,7 +10,7 @@ Unset Transparent Obligations.
 
 Section Morphisms.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 Open Scope type_scope.
 
@@ -151,7 +151,7 @@ Hint Unfold Bimorphic.
 Hint Unfold SplitEpi.
 Hint Unfold SplitMono.
 
-Definition flip_Section `{C : Category} `(f : X ~> Y)
+Definition flip_Section {C : Category} `(f : X ~> Y)
            (s : @Section C X Y f) : @Retraction C Y X section.
 Proof.
   autounfold.
@@ -160,7 +160,7 @@ Proof.
   assumption.
 Qed.
 
-Definition flip_Retraction `{C : Category} `(f : X ~> Y)
+Definition flip_Retraction {C : Category} `(f : X ~> Y)
            (s : @Retraction C X Y f) : @Section C Y X retract.
 Proof.
   autounfold.

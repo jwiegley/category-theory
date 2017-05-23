@@ -29,7 +29,7 @@ Program Instance Erase `(C : Category) : C ⟶ 1 := {
   fmap := fun _ _ _ => id
 }.
 
-Program Instance Select `{C : Category} (c : C) : 1 ⟶ C := {|
+Program Instance Const {C : Category} (c : C) : 1 ⟶ C := {|
   fobj := fun _ => c;
   fmap := fun _ _ _ => id
 |}.

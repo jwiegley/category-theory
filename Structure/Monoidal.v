@@ -14,7 +14,7 @@ Set Universe Polymorphism.
 
 Section Monoidal.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 Reserved Infix "⨂" (at level 30, right associativity).
 
@@ -73,7 +73,7 @@ Notation "f ⨂ g" := (bimap[(⨂)] f g)
 (* Define functors over the left and right objects of the tensor. *)
 
 Global Program Definition Tensor_Left `{Monoidal}
-        `{F : C ⟶ C} {Y : C} : C ⟶ C := {|
+        {F : C ⟶ C} {Y : C} : C ⟶ C := {|
   fobj := fun X => (F X ⨂ Y)%object;
   fmap := fun _ _ f => fmap[F] f ⨂ id
 |}.
@@ -105,7 +105,7 @@ Next Obligation.
 Qed.
 
 Global Program Instance Tensor_Right `{Monoidal}
-        `{F : C ⟶ C} {X : C} : Functor := {
+        {F : C ⟶ C} {X : C} : Functor := {
   fobj := fun Y => (X ⨂ F Y)%object;
   fmap := fun _ _ f => id ⨂ fmap[F] f
 }.
@@ -161,7 +161,7 @@ Next Obligation.
   normal; reflexivity.
 Qed.
 
-Theorem monoidal_naturality `{M : Monoidal} :
+Theorem monoidal_naturality {M : Monoidal} :
   natural (@unit_left M) *
   natural (@unit_right M) *
   natural (@tensor_assoc M).

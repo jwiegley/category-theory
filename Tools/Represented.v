@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Section Represented.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Cartesian C}.
 Context `{@Cocartesian C}.
 Context `{@Terminal C}.

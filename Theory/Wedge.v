@@ -13,9 +13,9 @@ Unset Transparent Obligations.
 
 Section Wedge.
 
-Context `{C : Category}.
-Context `{D : Category}.
-Context `{F : C^op ∏ C ⟶ D}.
+Context {C : Category}.
+Context {D : Category}.
+Context {F : C^op ∏ C ⟶ D}.
 
 Class Wedge := {
   wedge : D;

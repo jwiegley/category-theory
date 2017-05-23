@@ -24,11 +24,11 @@ Set Universe Polymorphism.
 
 Section ApplicativeFunctor.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Cartesian C}.
 Context `{@Terminal C}.
 Context `{@Closed C _}.
-Context `{F : C ⟶ C}.
+Context {F : C ⟶ C}.
 
 Class Applicative := {
   in_monoidal := @InternalProduct_Monoidal C _ _;

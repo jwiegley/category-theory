@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Section Monoid.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Monoidal C}.
 
 Class Monoid (mon : C) := {

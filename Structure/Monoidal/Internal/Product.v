@@ -22,13 +22,13 @@ Local Obligation Tactic :=
    category taking the terminal object as unit, and the tensor as product. *)
 
 Program Definition InternalProduct_Monoidal
-        `{C : Category} `{@Cartesian C} `{@Terminal C} : @Monoidal C := {|
+        {C : Category} `{@Cartesian C} `{@Terminal C} : @Monoidal C := {|
   tensor := InternalProductFunctor C;
   I := One
 |}.
 
 Program Definition InternalProduct_SymmetricMonoidal
-        `{C : Category} `{@Cartesian C} `{@Terminal C} :
+        {C : Category} `{@Cartesian C} `{@Terminal C} :
   @SymmetricMonoidal C InternalProduct_Monoidal := {|
   twist := fun X Y =>
     {| to   := @swap C _ X Y
@@ -39,7 +39,7 @@ Program Definition InternalProduct_SymmetricMonoidal
 |}.
 
 Program Definition InternalProduct_CartesianMonoidal
-        `{C : Category} `{@Cartesian C} `{@Terminal C} :
+        {C : Category} `{@Cartesian C} `{@Terminal C} :
   @CartesianMonoidal C InternalProduct_Monoidal := {|
   is_semicartesian := {| eliminate := fun _ => one |};
   is_relevance := {| diagonal  := fun _ => id △ id |}

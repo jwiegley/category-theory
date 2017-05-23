@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Section Closed.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Cartesian C}.
 
 Class Closed := {

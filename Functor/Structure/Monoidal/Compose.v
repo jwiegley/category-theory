@@ -12,15 +12,15 @@ Set Universe Polymorphism.
 
 Section MonoidalFunctors.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Monoidal C}.
-Context `{D : Category}.
+Context {D : Category}.
 Context `{@Monoidal D}.
-Context `{G : C ⟶ D}.
+Context {G : C ⟶ D}.
 
-Context `{E : Category}.
+Context {E : Category}.
 Context `{@Monoidal E}.
-Context `{F : D ⟶ E}.
+Context {F : D ⟶ E}.
 
 Local Obligation Tactic := program_simpl.
 

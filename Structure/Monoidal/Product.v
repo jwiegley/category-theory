@@ -7,7 +7,7 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Construction.Product.
 Require Export Category.Structure.Monoidal.
-Require Export Category.Instance.Nat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -15,8 +15,7 @@ Set Universe Polymorphism.
 
 Local Obligation Tactic := simpl; intros; simplify; simpl in *.
 
-Program Instance Product_Monoidal
-        `{C : Category} `{@Monoidal C} `{D : Category} `{@Monoidal D} :
+Program Instance Product_Monoidal `{@Monoidal C} `{@Monoidal D} :
   @Monoidal (C ∏ D) := {
   tensor :=
     {| fobj := fun p => (fst (fst p) ⨂ fst (snd p),

@@ -16,12 +16,12 @@ Set Universe Polymorphism.
 
 Section ProductTraversable.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Cartesian C}.
 Context `{@Terminal C}.
 Context `{@Closed C _}.
-Context `{F : C ⟶ C}.
-Context `{G : C ⟶ C}.
+Context {F : C ⟶ C}.
+Context {G : C ⟶ C}.
 
 Existing Instance InternalProduct_Monoidal.
 

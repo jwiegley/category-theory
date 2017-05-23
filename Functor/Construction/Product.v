@@ -14,8 +14,8 @@ Unset Transparent Obligations.
 (* ProductFunctor is a mapping between product categories. *)
 
 Program Instance ProductFunctor
-        `{C : Category} `{D : Category} `{F : C ⟶ D}
-        `{J : Category} `{K : Category} `{G : J ⟶ K} :
+        {C : Category} {D : Category} {F : C ⟶ D}
+        {J : Category} {K : Category} {G : J ⟶ K} :
   (C ∏ J) ⟶ (D ∏ K) := {
   fobj := fun x => (F (fst x), G (snd x));
   fmap := fun _ _ f => (fmap[F] (fst f), fmap[G] (snd f));
@@ -32,8 +32,8 @@ Program Instance ProductFunctor
 Notation "F ∏⟶ G" := (@ProductFunctor _ _ F _ _ G) (at level 9).
 
 Program Definition ProductFunctor_swap
-        `{C : Category} `{D : Category}
-        `{J : Category} `{K : Category}
+        {C : Category} {D : Category}
+        {J : Category} {K : Category}
         (F : (C ∏ J) ⟶ (D ∏ K)) : (J ∏ C) ⟶ (K ∏ D) := {|
   fobj := fun x => Swap (F (Swap x));
   fmap := fun _ _ f => _
@@ -63,8 +63,8 @@ Qed.
    out one or the other side of the [ProductFunctor]. *)
 
 Program Definition ProductFunctor_fst
-        `{C : Category} `{D : Category}
-        `{J : Category} `{@Monoidal J} `{K : Category}
+        {C : Category} {D : Category}
+        {J : Category} `{@Monoidal J} `{K : Category}
         (F : (C ∏ J) ⟶ (D ∏ K)) : C ⟶ D := {|
   fobj := fun x => fst (F (x, I));
   fmap := fun x y f => fst (@fmap _ _ F (x, I) (y, I) (f, id));
@@ -83,8 +83,8 @@ Next Obligation.
 Qed.
 
 Program Definition ProductFunctor_snd
-        `{C : Category} `{@Monoidal C} `{D : Category}
-        `{J : Category} `{K : Category}
+        {C : Category} `{@Monoidal C} `{D : Category}
+        {J : Category} {K : Category}
         (F : (C ∏ J) ⟶ (D ∏ K)) : J ⟶ K := {|
   fobj := fun x => snd (F (I, x));
   fmap := fun x y f => snd (@fmap _ _ F (I, x) (I, y) (id, f));

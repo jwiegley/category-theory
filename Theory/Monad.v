@@ -10,8 +10,8 @@ Unset Transparent Obligations.
 
 Section Monad.
 
-Context `{C : Category}.
-Context `{M : C ⟶ C}.
+Context {C : Category}.
+Context {M : C ⟶ C}.
 
 Class Monad := {
   ret {a}  : a ~> M a;          (* Id    ⟹ M *)
@@ -37,8 +37,8 @@ Notation "join[ M ]" := (@join _ M _ _)
 
 Section MonadLib.
 
-Context `{C : Category}.
-Context `{M : C ⟶ C}.
+Context {C : Category}.
+Context {M : C ⟶ C}.
 Context `{@Monad C M}.
 
 Program Definition bind {a b : C} (f : a ~> M b) : M a ~> M b :=

@@ -12,7 +12,7 @@ Unset Transparent Obligations.
 
 Section Distributive.
 
-Context `{C : Category}.
+Context {C : Category}.
 Context `{@Cartesian C}.
 Context `{@Cocartesian C}.
 Context `{@Initial C}.

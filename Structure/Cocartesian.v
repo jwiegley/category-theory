@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Section Cocartesian.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 Class Cocartesian := {
   Coprod : ob -> ob -> ob

@@ -14,7 +14,7 @@ Unset Transparent Obligations.
    However, since only one such functor can match a given pattern, this is why
    it is termed canonical. *)
 
-Class CanonicalMap `{C : Category} (F : C -> C) : Type := {
+Class CanonicalMap {C : Category} (F : C -> C) : Type := {
   map {A B} (f : A ~> B) : F A ~> F B;
 
   is_functor : C ⟶ C;
@@ -25,26 +25,26 @@ Class CanonicalMap `{C : Category} (F : C -> C) : Type := {
 
 Coercion is_functor : CanonicalMap >-> Functor.
 
-Program Instance Identity_CanonicalMap `{C : Category} :
+Program Instance Identity_CanonicalMap {C : Category} :
   CanonicalMap (fun X => X) | 9 := {
   map := fun _ _ f => f;
   is_functor := Id
 }.
 
-Program Instance Functor_CanonicalMap `{C : Category} `{F : C ⟶ C} :
+Program Instance Functor_CanonicalMap {C : Category} {F : C ⟶ C} :
   CanonicalMap F := {
   map := fun _ _ f => fmap[F] f;
   is_functor := F
 }.
 
-Program Instance Functor_Eta_CanonicalMap `{C : Category} `{F : C ⟶ C} :
+Program Instance Functor_Eta_CanonicalMap {C : Category} {F : C ⟶ C} :
   CanonicalMap (fun X => F X) := {
   map := fun _ _ f => fmap[F] f;
   is_functor := F
 }.
 
-Program Instance Functor_Map_CanonicalMap `{C : Category}
-        `{G : @CanonicalMap C P} `{F : C ⟶ C} :
+Program Instance Functor_Map_CanonicalMap {C : Category}
+        `{G : @CanonicalMap C P} {F : C ⟶ C} :
   CanonicalMap (fun X => F (P X)) := {
   map := fun _ _ f => fmap[F] (map f);
   is_functor := F ○ G

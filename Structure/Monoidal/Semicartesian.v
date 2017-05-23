@@ -13,7 +13,7 @@ Set Universe Polymorphism.
 
 Section Monoidal.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 (* A semi-cartesian monoidal category is basically an assertion that the unit
    is terminal. *)

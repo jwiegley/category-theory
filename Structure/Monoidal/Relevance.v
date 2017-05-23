@@ -14,7 +14,7 @@ Set Universe Polymorphism.
 
 Section RelevanceMonoidal.
 
-Context `{C : Category}.
+Context {C : Category}.
 
 Class RelevanceMonoidal `{@Monoidal C} := {
   is_symmetric :> SymmetricMonoidal;
