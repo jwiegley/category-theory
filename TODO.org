@@ -121,10 +121,11 @@ Notation "X * Y" := (prod X Y) : type_scope.
 #+end_src coq
 * Theory
 ** STARTED Monad Transformers
+** TODO If the category C has pullbacks, we can compose spans
 ** TODO Pullback
 ** TODO Pushout
-** TODO Equalizer
-** TODO Coequalizer
+** DONE Equalizer
+** DONE Coequalizer
 ** TODO Complete
 ** TODO Cocomplete
 ** TODO Subojects

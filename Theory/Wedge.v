@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
-Require Export Category.Functor.Op.
+Require Export Category.Functor.Opposite.
 Require Export Category.Construction.Product.
 
 Generalizable All Variables.
@@ -25,6 +25,6 @@ Coercion wedge : Wedge >-> ob.
 Notation "wedge_map[ C ]" := (@wedge_map _ _ _ C _)
   (at level 9, format "wedge_map[ C ]") : category_scope.
 
-(* jww (2017-05-22): TODO
-Definition Cowedge `(F : C^op ∏ C ⟶ D) := Wedge (F^op).
-*)
+Require Export Category.Construction.Product.Opposite.
+
+Definition Cowedge `(F : C^op ∏ C ⟶ D) := @Wedge (C^op) (D^op) (F^op).

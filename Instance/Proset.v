@@ -24,7 +24,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-Set Implicit Arguments.
 
 (* Any pre-ordered set forms a category. See also [Ord], for the category of
    pre-ordered sets (where the sets are the objects, and morphisms are

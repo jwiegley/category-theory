@@ -12,16 +12,56 @@ Section Product.
 Context {C : Category}.
 Context {D : Category}.
 
-(* A Groupoid is a category where all morphisms are isomorphisms, and morphism
-   equivalence is equivalence of isomorphisms. *)
+(* A product of two categories forms a category. All of the methods are
+   spelled out here to ease simplification. *)
 
-Program Definition Product : Category := {|
+Definition Product : Category := {|
   ob      := C * D;
   hom     := fun X Y => (fst X ~> fst Y) * (snd X ~> snd Y);
-  homset  := fun _ _ => {| equiv := fun f g =>
-                             (fst f ≈ fst g) * (snd f ≈ snd g) |} ;
+  homset  := fun x y =>
+    let setoid_C := @homset C (fst x) (fst y) in
+    let setoid_D := @homset D (snd x) (snd y) in
+    {| equiv := fun f g =>
+         (@equiv _ setoid_C (fst f) (fst g) *
+          @equiv _ setoid_D (snd f) (snd g))
+     ; setoid_equiv := _
+         {| Equivalence_Reflexive  := fun x =>
+              (@Equivalence_Reflexive _ _ (@setoid_equiv _ setoid_C) (fst x),
+               @Equivalence_Reflexive _ _ (@setoid_equiv _ setoid_D) (snd x))
+          ; Equivalence_Symmetric  := fun x y f =>
+              (@Equivalence_Symmetric
+                 _ _ (@setoid_equiv _ setoid_C) (fst x) (fst y) (fst f),
+               @Equivalence_Symmetric
+                 _ _ (@setoid_equiv _ setoid_D) (snd x) (snd y) (snd f))
+          ; Equivalence_Transitive := fun x y z f g =>
+              (@Equivalence_Transitive
+                 _ _ (@setoid_equiv _ setoid_C) (fst x) (fst y) (fst z)
+                 (fst f) (fst g),
+               @Equivalence_Transitive
+                 _ _ (@setoid_equiv _ setoid_D) (snd x) (snd y) (snd z)
+                 (snd f) (snd g)) |} |};
   id      := fun _ => (id, id);
-  compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g)
+  compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g);
+
+  compose_respects := fun X Y Z f g fg h i hi =>
+    (compose_respects (fst X) (fst Y) (fst Z)
+                      (fst f) (fst g) (fst fg) (fst h) (fst i) (fst hi),
+     compose_respects (snd X) (snd Y) (snd Z)
+                      (snd f) (snd g) (snd fg) (snd h) (snd i) (snd hi));
+
+  id_left  := fun X Y f =>
+    (@id_left C (fst X) (fst Y) (fst f),
+     @id_left D (snd X) (snd Y) (snd f));
+  id_right := fun X Y f =>
+    (@id_right C (fst X) (fst Y) (fst f),
+     @id_right D (snd X) (snd Y) (snd f));
+
+  comp_assoc := fun X Y Z W f g h =>
+    (@comp_assoc C (fst X) (fst Y) (fst Z) (fst W) (fst f) (fst g) (fst h),
+     @comp_assoc D (snd X) (snd Y) (snd Z) (snd W) (snd f) (snd g) (snd h));
+  comp_assoc_sym := fun X Y Z W f g h =>
+    (@comp_assoc_sym C (fst X) (fst Y) (fst Z) (fst W) (fst f) (fst g) (fst h),
+     @comp_assoc_sym D (snd X) (snd Y) (snd Z) (snd W) (snd f) (snd g) (snd h))
 |}.
 
 End Product.

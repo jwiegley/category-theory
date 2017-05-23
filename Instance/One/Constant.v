@@ -9,7 +9,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-Set Implicit Arguments.
 
 Lemma Constant_Unique `(C : Category) {D : Category} (d : D) :
   Constant C d ≈[Cat] Const d ∘[Cat] one.

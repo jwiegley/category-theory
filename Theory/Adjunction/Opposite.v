@@ -4,14 +4,14 @@ Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Theory.Adjunction.
-Require Import Category.Functor.Op.
+Require Import Category.Functor.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Definition Adjunction_Op `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) :
+Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) :
   U^op ⊣ F^op := {|
   adj_iso := fun X Y =>
     {| to          := from (@adj_iso _ _ _ _ A Y X)

@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Wedge.
-Require Export Category.Functor.Op.
+Require Export Category.Functor.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -21,6 +21,4 @@ Class End `(F : C^op ∏ C ⟶ D) := {
     wedge_map[Fin] ∘ fin ≈ @wedge_map _ _ _ N X
 }.
 
-(* jww (2017-05-22): TODO
-Definition Coend `(F : C^op ∏ C ⟶ D) := End (F^op).
-*)
+Definition Coend `(F : C^op ∏ C ⟶ D) := @End (C^op) (D^op) (F^op).

@@ -18,7 +18,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-Set Implicit Arguments.
 
 (* The category of heterogenous relations on Coq objects. *)
 

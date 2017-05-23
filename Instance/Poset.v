@@ -20,7 +20,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-Set Implicit Arguments.
 
 (* Any partially-ordered set forms a category (directly from its preorder,
    since it simply adds asymmetry). See also [Pos], the category of

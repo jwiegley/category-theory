@@ -8,7 +8,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-Set Implicit Arguments.
 
 (* Cat is the category of all small categories:
 

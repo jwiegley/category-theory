@@ -9,7 +9,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-Set Implicit Arguments.
 
 Local Obligation Tactic :=
   intros; try match goal with [ H : Empty_set |- _ ] => inversion H end.

@@ -19,7 +19,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-Set Implicit Arguments.
 
 (* The category of propositions. Note that since proofs are opaque, we must
    assert proof irrelevance and judge them always equivalent if they have the

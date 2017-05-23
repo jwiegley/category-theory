@@ -9,7 +9,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-Set Implicit Arguments.
 
 Program Definition _1 : Category := {|
   ob      := unit;
