@@ -5,6 +5,7 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Functor.Hom.
 Require Export Category.Structure.Monoidal.
+Require Export Category.Structure.Monoidal.Naturality.
 Require Export Category.Construction.Product.
 Require Export Category.Functor.Construction.Product.
 
