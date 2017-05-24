@@ -17,11 +17,10 @@ Class Naturality (A : Type) : Type := {
 Arguments natural {A _} _ /.
 
 Ltac prove_naturality H tac :=
-  destruct H; simpl;
+  simpl; destruct H; simpl;
   split; [split|];
   split; simpl;
-  intros; tac;
-  intuition.
+  intros; tac; intuition.
 
 Program Instance Identity_Naturality {C : Category} :
   Naturality (∀ A, A ~> A) := {
