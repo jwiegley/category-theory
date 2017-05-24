@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.
+Require Export Category.Theory.Adjunction.Isomorphism.
 Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
@@ -22,21 +22,21 @@ Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {|
 |}.
 Next Obligation. apply naturality. Qed.
 
-Class HasRan := {
+Class RightKan := {
   Ran : ([A, C]) ⟶ ([B, C]);
 
   ran_adjoint : Induced ⊣ Ran
 }.
 
-Class HasRanL (X : A ⟶ C) := {
-  RanL : B ⟶ C;
+Class LocalRightKan (X : A ⟶ C) := {
+  LocalRan : B ⟶ C;
 
-  ranl_transform : RanL ○ F ⟹ X;
+  ran_transform : LocalRan ○ F ⟹ X;
 
-  ranl_delta (M : B ⟶ C) (N : M ○ F ⟹ X) : M ⟹ RanL;
+  ran_delta (M : B ⟶ C) (N : M ○ F ⟹ X) : M ⟹ LocalRan;
 
-  ump_ranl (M : B ⟶ C) (N : M ○ F ⟹ X) :
-    N ≈[[A, C]] ranl_transform ⊙ outside (ranl_delta M N) F
+  ump_ran (M : B ⟶ C) (N : M ○ F ⟹ X) :
+    N ≈[[A, C]] ran_transform ⊙ outside (ran_delta M N) F
 }.
 
 Require Import Category.Instance.Cat.
@@ -52,58 +52,54 @@ Require Import Category.Instance.Cat.
    extensions fit together to define a functor which is the global Kan
    extension." *)
 
-Global Program Instance HasRan_HasRanL {R : HasRan} (X : A ⟶ C) :
-  HasRanL X := {|
-  RanL := Ran X;
-  ranl_transform :=
-    let adj_from := from (@adj_iso _ _ _ _ ran_adjoint (Ran X) X)
+Global Program Instance RightKan_to_LocalRightKan {R : RightKan} (X : A ⟶ C) :
+  LocalRightKan X := {|
+  LocalRan := Ran X;
+  ran_transform :=
+    let adj_from := from (@adj _ _ _ _ ran_adjoint (Ran X) X)
                          nat_identity in
     {| transform  := transform[adj_from]
      ; naturality := naturality[adj_from] |};
-  ranl_delta := fun M N => to (@adj_iso _ _ _ _ ran_adjoint M X) N
+  ran_delta := fun M N => to (@adj _ _ _ _ ran_adjoint M X) N
 |}.
 Next Obligation.
-  pose proof (@adj_right_nat_l' _ _ _ _ ran_adjoint); simpl in X0.
+  pose proof (@from_adj_nat_l _ _ _ _ ran_adjoint); simpl in X0.
   rewrite <- X0; clear X0.
-  pose proof (@adj_right_left _ _ _ _ ran_adjoint).
-  unfold adj_left, adj_right in X0;
-  unfold adj_left', adj_right' in X0.
-  destruct R, ran_adjoint0;
-  specialize (X0 M X N A0).
-  destruct adj_iso, to, from; simpl in *;
+  pose proof (@iso_from_to _ _ _ (@adj _ _ _ _ ran_adjoint M X) N A0).
+  simpl in *.
   unfold nat_compose; simpl in *.
   rewrite <- X0; clear X0.
-  apply proper_morphism0.
+  sapply (proper_morphism (@from _ _ _ (@adj _ _ _ _ ran_adjoint M X))).
   simpl; intros; cat.
 Qed.
 
-Class HasLan := {
+Class LeftKan := {
   Lan : ([A, C]) ⟶ ([B, C]);
 
   lan_adjoint : Lan ⊣ Induced
 }.
 
-Class HasLanL (X : A ⟶ C) := {
-  LanL : B ⟶ C;
+Class LocalLeftKan (X : A ⟶ C) := {
+  LocalLan : B ⟶ C;
 
-  lanl_tlansform : X ⟹ LanL ○ F;
+  lan_transform : X ⟹ LocalLan ○ F;
 
-  lanl_delta (M : B ⟶ C) (N : X ⟹ M ○ F) : LanL ⟹ M;
+  lan_delta (M : B ⟶ C) (N : X ⟹ M ○ F) : LocalLan ⟹ M;
 
-  ump_lanl (M : B ⟶ C) (N : X ⟹ M ○ F) :
-    N ≈[[A, C]] outside (lanl_delta M N) F ⊙ lanl_tlansform
+  ump_lan (M : B ⟶ C) (N : X ⟹ M ○ F) :
+    N ≈[[A, C]] outside (lan_delta M N) F ⊙ lan_transform
 }.
 
 End KanExtension.
 
-Arguments HasRan {_ _} F {_}.
+Arguments RightKan {_ _} F {_}.
 Arguments Ran {_ _} F {_ _}.
 
-Arguments HasRanL {_ _} F {_} _.
-Arguments RanL {_ _} F {_} _ {_}.
+Arguments LocalRightKan {_ _} F {_} _.
+Arguments LocalRan {_ _} F {_} _ {_}.
 
-Arguments HasLan {_ _} F {_}.
+Arguments LeftKan {_ _} F {_}.
 Arguments Lan {_ _} F {_ _}.
 
-Arguments HasLanL {_ _} F {_} _.
-Arguments LanL {_ _} F {_} _ {_}.
+Arguments LocalLeftKan {_ _} F {_} _.
+Arguments LocalLan {_ _} F {_} _ {_}.

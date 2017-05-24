@@ -9,6 +9,7 @@ Require Export Category.Instance.Cat.Cartesian.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Definition pairing {A B : Type} (p : A * B) : p = (fst p, snd p) :=
   match p with (x, y) => eq_refl end.

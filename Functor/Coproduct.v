@@ -8,6 +8,7 @@ Require Export Category.Construction.Coproduct.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Program Instance CoproductFunctor `(C : Category) `{@Cocartesian C} :
   C ∐ C ⟶ C := {

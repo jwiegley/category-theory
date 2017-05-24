@@ -9,6 +9,7 @@ Require Export Category.Structure.Monoidal.Cartesian.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section ProductStrong.
 

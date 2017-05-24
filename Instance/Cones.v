@@ -22,7 +22,7 @@ Unset Transparent Obligations.
 
 Definition Cones `(F : J ⟶ C) (N : C) := (Constant J N ↓ F).
 
-Require Import Category.Theory.Cone.
+Require Import Category.Structure.Cone.
 Require Import Category.Structure.Terminal.
 
 (*

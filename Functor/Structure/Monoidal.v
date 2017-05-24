@@ -10,6 +10,7 @@ Require Export Category.Instance.Fun.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section MonoidalFunctor.
 

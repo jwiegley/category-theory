@@ -68,7 +68,7 @@ Program Definition Id {C : Category} : C ⟶ C := {|
 
 Arguments Id {C} /.
 
-Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : category_scope.
+Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : functor_scope.
 
 Program Definition Compose
         {C : Category} {D : Category} {E : Category}
@@ -87,7 +87,7 @@ Qed.
 Hint Unfold Compose.
 
 Notation "F ○ G" := (Compose F%functor G%functor)
-  (at level 30, right associativity) : category_scope.
+  (at level 40, left associativity) : category_scope.
 
 Program Instance fmap_iso {C : Category} {D : Category} `(F : C ⟶ D) :
   Proper (Isomorphism ==> Isomorphism) F.

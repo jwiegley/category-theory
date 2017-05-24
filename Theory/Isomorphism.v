@@ -13,9 +13,13 @@ Section Isomorphism.
 
 Context {C : Category}.
 
-(* Two objects in C are isomorphic, if there is an isomorphism between theme.
-   Note that this definition has computational content, so we can make use of
-   the morphisms. *)
+(* Two objects in C are isomorphic, if there is an isomorphism between them.
+
+   An isomorphism in Cat is the same as an equivalence of categories. In order
+   to get actual isomorphism between categories, the compositions F ○ G and G
+   ○ F need to be equal, rather than equivalent, to identity. Since this is
+   usually too strong a notion, it does not have its own abstraction here. *)
+
 Class Isomorphism (X Y : C) : Type := {
   to   :> X ~> Y;
   from :  Y ~> X;

@@ -12,6 +12,7 @@ Require Export Category.Structure.Monoidal.Relevance.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section CartesianMonoidal.
 

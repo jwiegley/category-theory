@@ -16,53 +16,9 @@ Require Import Coq.Vectors.Fin.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Import ListNotations.
-
-Inductive set_In {n} (a : Fin.t n * Fin.t n) : list (Fin.t n * Fin.t n) -> Type :=
-  | In_head xs : set_In a (a :: xs)
-  | In_tail x xs :
-      set_In a xs
-        -> (Fin.eqb (fst a) (fst x) && Fin.eqb (snd a) (snd x))%bool = false
-        -> set_In a (x :: xs).
-
-Inductive MethodType {n} : Fin.t n -> Fin.t n -> Type :=
-  Method x y : MethodType x y.
-
-Ltac mini_omega :=
-  match goal with
-  | [ x : Fin.t 0 |- _ ] => refine (case0 (fun x => _) x)
-  | [ |- ?X = ?X ∨ _ ] => left; reflexivity
-  | [ H : (_ < 0)%nat |- _ ] =>
-    pose proof (Nat.nlt_0_r _ H); contradiction
-  | [ H : (S _ <= 0)%nat |- _ ] =>
-    pose proof (Nat.nle_succ_0 _ H); contradiction
-  | [ H : (S _ < 1)%nat |- _ ] =>
-    unfold lt in H;
-    pose proof (le_S_n _ _ H);
-    mini_omega
-  end.
-
-Local Obligation Tactic :=
-  timeout 1 program_simpl;
-  intros; simpl;
-  try solve [ mini_omega
-            | proper
-            | apply proof_irrelevance ].
-
-Definition prod_dec {n} (x y : Fin.t n * Fin.t n) : {x = y} + {x <> y}.
-Proof.
-  destruct x, y.
-  destruct (Fin.eq_dec t t1), (Fin.eq_dec t0 t2).
-  - left; congruence.
-  - right; congruence.
-  - right; congruence.
-  - right; congruence.
-Defined.
-
-Notation "[set ]" := (empty_set _).
-Notation "[set a ; .. ; b ]" :=
-  (set_add prod_dec a%nat .. (set_add prod_dec b%nat [set]) ..).
 
 (* This record establishes the structure of a concrete category's objects and
    arrows, in terms of fixed sets of natural numbers. It's main practical use
@@ -70,55 +26,86 @@ Notation "[set a ; .. ; b ]" :=
 
 Record Concrete_Structure := {
   obs  : nat;
-  arrs : set (Fin.t obs * Fin.t obs);
-
-  identity_property : ∀ x, set_In (x, x) arrs;
-
-  composition_property : ∀ x y z,
-     set_In (y, z) arrs ->
-     set_In (x, y) arrs ->
-     set_In (x, z) arrs
+  arrs : Fin.t obs -> Fin.t obs -> nat
 }.
 
 (* A concrete category has a fixed set of objects (of some decidable type, to
    differentiate them), and a fixed set of arrows between those objects. A
    frequent use of these is as index categories to build diagrams. *)
 
+Import EqNotations.
+
+Inductive Morphism (S : Concrete_Structure) :
+  Fin.t (obs S) -> Fin.t (obs S) -> Type :=
+  | Named x y         : Fin.t (arrs S x y) -> Morphism S x y
+  | Identity x        : Morphism S x x
+  | Composition x y z : Morphism S y z -> Morphism S x y -> Morphism S x z.
+
+Fixpoint denote (S : Concrete_Structure) `(c : Morphism S a b) :
+  ∀ {C : Category}
+    (typ : Fin.t (obs S) -> C)
+    (arr : ∀ x y, Fin.t (arrs S x y) -> typ x ~{C}~> typ y),
+    typ a ~{C}~> typ b := fun _ typ arr =>
+  match c with
+  | Identity _ _            => id
+  | Composition _ _ _ _ f g => denote S f typ arr ∘ denote S g typ arr
+  | Named _ x y f           => arr x y f
+  end.
+
+Corollary denote_comp S typ arr x y z (f : Morphism S y z) (g : Morphism S x y) :
+  denote S f typ arr ∘ denote S g typ arr ≈
+    denote S (Composition S x y z f g) typ arr.
+Proof. reflexivity. Qed.
+
 Program Definition Concrete (S : Concrete_Structure) :
   Category := {|
   ob      := Fin.t (obs S);
-  hom     := fun x y => { m : MethodType x y & set_In (x, y) (arrs S) };
-  homset  := fun x y => {| equiv := fun _ _ => True |};
-  id      := fun x => (Method x x; identity_property S x);
-  compose := fun x y z f g =>
-    (Method x z; composition_property S x y z (projT2 f) (projT2 g))
+  hom     := Morphism S;
+  homset  := fun _ _ => {| equiv := fun f g =>
+    ∀ {C : Category}
+      (typ : Fin.t (obs S) -> C)
+      (arr : ∀ x y, Fin.t (arrs S x y) -> typ x ~{C}~> typ y),
+      denote S f typ arr ≈ denote S g typ arr |};
+  id      := Identity S;
+  compose := Composition S
 |}.
+Next Obligation.
+  equivalence.
+  transitivity (denote S y typ arr); auto.
+Qed.
 
 Module ConcreteInstances.
 
-Local Obligation Tactic := cat_simpl; try mini_omega.
+(* Local Obligation Tactic := cat_simpl; try mini_omega. *)
 
 (* The 0 category has no objects and no morphisms. It is initial in Cat. *)
 
 Program Definition Structure_0 : Concrete_Structure := {|
   obs  := 0;
-  arrs := [set]
+  arrs := fun _ _ => 0%nat
 |}.
 
 Program Definition Concrete_0 := Concrete Structure_0.
 
 Program Instance Map_0 `(C : Category) : Concrete_0 ⟶ C.
+Next Obligation. inversion H. Qed.
+Next Obligation. inversion X. Qed.
+Next Obligation. inversion X. Qed.
+Next Obligation. inversion X. Qed.
+Next Obligation. inversion X. Qed.
 
 Program Instance Initial_0 : @Initial Cat := {
   Zero := Concrete_0;
   zero := Map_0
 }.
 Next Obligation.
-  constructive;
-  try destruct X;
-  try contradiction;
-  try destruct A0;
-  mini_omega.
+  constructive.
+  refine (case0 (fun _ => _) _). exact X.
+  refine (case0 (fun _ => _) _). exact X.
+  refine (case0 (fun _ => _) _). exact X.
+  refine (case0 (fun _ => _) _). exact X.
+  refine (case0 (fun _ => _) _). exact A0.
+  refine (case0 (fun _ => _) _). exact A0.
 Qed.
 
 Program Instance Initial_0_is_0 : @Zero Cat Initial_0 ≅ 0.
@@ -126,17 +113,11 @@ Next Obligation. exact Id. Qed.
 Next Obligation. exact Id. Qed.
 Next Obligation.
   constructive;
-  try destruct X;
-  try contradiction;
-  try destruct A;
-  try mini_omega; auto.
+  refine (case0 (fun _ => _) _); try exact X; try exact A.
 Qed.
 Next Obligation.
   constructive;
-  try destruct X;
-  try contradiction;
-  try destruct A;
-  try mini_omega; auto.
+  refine (case0 (fun _ => _) _); try exact X; try exact A.
 Qed.
 
 (* The 1 category has one object and its identity morphism. It is terminal in
@@ -144,21 +125,8 @@ Qed.
 
 Program Definition Structure_1 : Concrete_Structure := {|
   obs  := 1;
-  arrs := [set (F1, F1)]
+  arrs := fun _ _ => 0%nat
 |}.
-Next Obligation.
-  refine (@caseS' 0 x (fun x => set_In (x, x) [(F1, F1)]) _ _).
-    constructor.
-  intros.
-  mini_omega.
-Defined.
-Next Obligation.
-  refine (@caseS' 0 x (fun x => set_In (x, z) [(F1, F1)]) _ _).
-    refine (@caseS' 0 z (fun z => set_In (F1, z) [(F1, F1)]) _ _).
-      constructor.
-    intros; mini_omega.
-  intros; mini_omega.
-Defined.
 
 Program Definition Concrete_1 := Concrete Structure_1.
 
@@ -167,33 +135,63 @@ Program Instance Map_1 `(C : Category) : C ⟶ Concrete_1 := {
   fmap := fun _ _ _ => id
 }.
 
-(*
 Program Instance Terminal_1 : @Terminal Cat := {
   One := Concrete_1;
   one := Map_1
 }.
 Next Obligation.
-  constructive; auto.
-    refine (@caseS' 0 (f X) (fun x => {_ : MethodType x (g X) & set_In (f X, g X) [(F1, F1)]}) _ _).
-      refine (@caseS' 0 (g X) (fun x => {_ : MethodType F1 x & set_In (f X, g X) [(F1, F1)]}) _ _).
-        exists (Method F1 F1).
-        constructor.
-    assert (f X = F1).
-      clear.
-      destruct f; simpl in *.
+  constructive; auto; simpl.
+  - pattern (f X); apply caseS'.
+      pattern (g X); apply caseS'.
+        apply Identity.
+      apply case0.
+    apply case0.
+  - assert (f X = f Y).
+      pattern (f X); apply caseS'.
+        pattern (f Y); apply caseS'.
+          reflexivity.
+        apply case0.
+      apply case0.
+    pose (fmap[f] f0).
+    rewrite <- H in h.
+    destruct (fmap[g] f0); simpl.
+    unfold Structure_1, denote; simpl.
+  - exact F1.
+  - refine (caseS' (fmap[g] f0) (fun x => F1 = x) (reflexivity _) _).
+    refine (case0 (fun _ => _)).
+  - unfold Structure_1_obligation_1.
+    refine (caseS' (fmap[g] id) (fun x => F1 = x) (reflexivity _) _).
+    refine (case0 (fun _ => _)).
+  - refine (caseS' (fmap[f] id) (fun x => F1 = x) (reflexivity _) _).
+    refine (case0 (fun _ => _)).
 Qed.
 
 Program Instance Terminal_1_is_1 : @One Cat Terminal_1 ≅ _1.
 Next Obligation.
-  constructive; intuition;
-  intuition.
+  functor; simpl; intros; reflexivity.
+Defined.
+Next Obligation.
+  functor; simpl; intros; reflexivity.
+Defined.
+Next Obligation.
+  constructive; intuition.
 Qed.
 Next Obligation.
   constructive; intuition;
-  intuition;
-  try apply proof_irrelevance;
-  destruct X; simpl;
-  destruct x; mini_omega.
+  unfold Structure_1_obligation_1; simpl.
+  - refine (caseS' X (fun x => x = F1) (reflexivity _) _).
+    refine (case0 (fun _ => _)).
+  - refine (caseS' X (fun x => x = f) _ _).
+      refine (caseS' f (fun x => F1 = x) _ _).
+        reflexivity.
+      refine (case0 (fun _ => _)).
+    refine (case0 (fun _ => _)).
+  - refine (caseS' A (fun x => x = F1) _ _).
+      reflexivity.
+    refine (case0 (fun _ => _)).
+  - refine (caseS' A (fun x => x = F1) _ _).
+      reflexivity.
+    refine (case0 (fun _ => _)).
 Qed.
 
 (* The 2 category has two objects, their identity morphisms, and a morphism
@@ -201,9 +199,18 @@ Qed.
 
 Program Definition Structure_2 : Concrete_Structure := {|
   obs  := 2;
-  arrs := [set (0, 0); (1, 1); (0, 1)]
+  card := _
 |}.
 Next Obligation.
+  destruct H.
+    destruct H0.
+      exact 0%nat.
+    exact 1%nat.
+  exact 0%nat.
+Defined.
+Next Obligation.
+  unfold Structure_2_obligation_1 in *; simpl in *.
+  destruct x.
   destruct n; auto.
   destruct n; auto.
   apply le_S_n in H.
@@ -259,6 +266,5 @@ Next Obligation.
 Defined.
 
 Definition Concrete_3 := Concrete Structure_3.
-*)
 
 End ConcreteInstances.

@@ -13,6 +13,7 @@ Require Export Category.Structure.Monoidal.Cartesian.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Local Obligation Tactic :=
   unfold proj_left, proj_right; simpl;

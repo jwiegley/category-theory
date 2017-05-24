@@ -10,9 +10,8 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Instance adj_id {C : Category} : Id ⊣ Id := {
-  adj_iso := fun _ _ =>
-    {| to   := {| morphism := _ |}
-     ; from := {| morphism := _ |} |}
+  unit   := {| transform := _ |};
+  counit := {| transform := _ |}
 }.
 
 Program Definition adj_comp
@@ -20,25 +19,53 @@ Program Definition adj_comp
         (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E)
         (X : F ⊣ U) (Y : F' ⊣ U') :
   F ○ F' ⊣ U' ○ U := {|
-  adj_iso := fun a b =>
-    {| to   := {| morphism := fun (f : F (F' a) ~> b) => adj_left (adj_left f) |}
-     ; from := {| morphism := fun (f : a ~> U' (U b)) => adj_right (adj_right f) |} |}
+  unit   := {| transform := fun a =>
+    fmap[U'] (transform[unit[X]] (F' a)) ∘ transform[unit[Y]] a |};
+  counit := {| transform := fun a =>
+    transform[counit[X]] a ∘ fmap[F] (transform[counit[Y]] (U a)) |};
 |}.
-Next Obligation. proper. rewrite X0; reflexivity. Qed.
-Next Obligation. proper; rewrite X0; reflexivity. Qed.
 Next Obligation.
-  rewrite adj_left_right, adj_left_right; reflexivity.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  srewrite (naturality[unit[X]]).
+  rewrite fmap_comp.
+  rewrite <- comp_assoc.
+  srewrite (naturality[unit[Y]]); cat.
 Qed.
 Next Obligation.
-  rewrite adj_right_left, adj_right_left; reflexivity.
+  symmetry.
+  rewrite <- comp_assoc.
+  rewrite <- fmap_comp.
+  srewrite_r (naturality[counit[Y]]).
+  rewrite fmap_comp.
+  rewrite comp_assoc.
+  srewrite_r (naturality[counit[X]]); cat.
 Qed.
-Next Obligation. rewrite <- !adj_left_nat_l; reflexivity. Qed.
-Next Obligation. rewrite <- !adj_left_nat_r; reflexivity. Qed.
-Next Obligation. rewrite <- !adj_right_nat_l; reflexivity. Qed.
-Next Obligation. rewrite <- !adj_right_nat_r; reflexivity. Qed.
+Next Obligation.
+  rewrite <- comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite (@fmap_comp _ _ F').
+  rewrite comp_assoc.
+  srewrite_r (naturality[counit[Y]]).
+  rewrite !fmap_comp.
+  rewrite !comp_assoc.
+  srewrite (@counit_fmap_unit _ _ _ _ X); cat.
+  rewrite <- fmap_comp.
+  srewrite (@counit_fmap_unit _ _ _ _ Y); cat.
+Qed.
+Next Obligation.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite (@fmap_comp _ _ U).
+  rewrite <- comp_assoc.
+  srewrite (naturality[unit[X]]).
+  rewrite !comp_assoc.
+  srewrite (@fmap_counit_unit _ _ _ _ X); cat.
+  srewrite (@fmap_counit_unit _ _ _ _ Y); cat.
+Qed.
 
 Notation "F ⊚ G" := (@adj_comp _ _ _ _ _ _ _ F G)
-  (at level 30, right associativity) : category_scope.
+  (at level 40, left associativity) : category_scope.
 
 Record adj_morphism {C : Category} {D : Category} := {
   free_functor : D ⟶ C;
@@ -58,12 +85,12 @@ Next Obligation.
   transitivity (forgetful_functor y); assumption.
 Qed.
 
-(* The category of Adjoints:
+(* Category of Adjoints:
 
-    objects                Categories
-    arrows                 Adjunctions between categories
-    identity               Id ⊣ Id
-    composition            F ⊣ G -> G ⊣ H -> F ⊣ H *)
+   objects      Categories
+   arrows       Adjoint functors between categories
+   identity     Id ⊣ Id
+   composition  F ⊣ G -> G ⊣ H -> F ⊣ H *)
 
 Program Definition Adjoints : Category := {|
   ob := Category;

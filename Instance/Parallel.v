@@ -1,9 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Theory.Limit.
-Require Export Category.Functor.Opposite.
+Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -13,18 +11,51 @@ Unset Transparent Obligations.
 (* This is the category with two objects and two parallel arrows between them
    (and two identity morphisms):
 
-       -------- f -------->
-     x                      y
-       -------- g -------->
+       --- f --->
+     x            y
+       --- g --->
 
   This is used to build diagrams that identify equalizers. *)
 
 Inductive ParObj : Type := ParX | ParY.
 
 Inductive ParHom : bool -> ParObj -> ParObj -> Type :=
-  | ParId x : ParHom true x x
-  | ParOne  : ParHom true ParX ParY
-  | ParTwo  : ParHom false ParX ParY.
+  | ParIdX : ParHom true ParX ParX
+  | ParIdY : ParHom true ParY ParY
+  | ParOne : ParHom true ParX ParY
+  | ParTwo : ParHom false ParX ParY.
+
+Definition caseParXX (p : ParHom true ParX ParX) :
+  forall
+    (P : ParHom true ParX ParX -> Type)
+    (PParIdX : P ParIdX), P p :=
+  match p with
+  | ParIdX => fun _ P => P
+  end.
+
+Definition caseParYY (p : ParHom true ParY ParY) :
+  forall
+    (P : ParHom true ParY ParY -> Type)
+    (PParIdY : P ParIdY), P p :=
+  match p with
+  | ParIdY => fun _ P => P
+  end.
+
+Definition caseParOne (p : ParHom true ParX ParY) :
+  forall
+    (P : ParHom true ParX ParY -> Type)
+    (PParOne : P ParOne), P p :=
+  match p with
+  | ParOne => fun _ P => P
+  end.
+
+Definition caseParTwo (p : ParHom false ParX ParY) :
+  forall
+    (P : ParHom false ParX ParY -> Type)
+    (PParTwo : P ParTwo), P p :=
+  match p with
+  | ParTwo => fun _ P => P
+  end.
 
 Lemma ParHom_Id_false_absurd : ∀ x, ParHom false x x -> False.
 Proof. inversion 1. Qed.
@@ -33,7 +64,7 @@ Local Hint Extern 4 =>
   match goal with
     [ H : ParHom false ?X ?X |- _ ] =>
     contradiction (ParHom_Id_false_absurd X H)
-  end.
+  end : parallel_laws.
 
 Lemma ParHom_Y_X_absurd : ∀ b, ParHom b ParY ParX -> False.
 Proof. inversion 1. Qed.
@@ -42,7 +73,7 @@ Local Hint Extern 4 =>
   match goal with
     [ H : ParHom ?B ParY ParX |- _ ] =>
     contradiction (ParHom_Y_X_absurd B H)
-  end.
+  end : parallel_laws.
 
 Local Ltac reduce :=
   repeat match goal with
@@ -58,12 +89,15 @@ Program Definition Parallel : Category := {|
   (* Any hom that typechecks is valid. *)
   homset := fun x y =>
     {| equiv := fun (f g : { b : bool & ParHom b x y }) => ``f = ``g |};
-  id := fun x => (true; ParId x);
+  id := fun x => match x with
+    | ParX => (true; ParIdX)
+    | ParY => (true; ParIdY)
+    end;
   compose := fun x y z (f : { b : bool & ParHom b y z })
                        (g : { b : bool & ParHom b x y }) =>
     match x, y, z with
-    | ParX, ParX, ParX => (true; ParId ParX)
-    | ParY, ParY, ParY => (true; ParId ParY)
+    | ParX, ParX, ParX => (true; ParIdX)
+    | ParY, ParY, ParY => (true; ParIdY)
     | ParX, ParY, ParY => _
     | ParX, ParX, ParY => _
     | _,    _,    _    => _
@@ -96,6 +130,8 @@ Next Obligation.
   destruct f; intuition.
 Qed.
 
+Require Import Category.Theory.Functor.
+
 Program Definition APair {C : Category} {X Y : C} (f g : X ~> Y) :
   Parallel ⟶ C := {|
   fobj := fun x => match x with
@@ -117,4 +153,4 @@ Next Obligation.
   proper; reduce; simpl in *; intuition.
 Qed.
 Next Obligation. destruct X0; simpl; cat. Qed.
-Next Obligation. destruct X0, Y0, Z; simpl; cat. Qed.
+Next Obligation. destruct X0, Y0, Z; simpl; auto with parallel_laws; cat. Qed.

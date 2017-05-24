@@ -6,6 +6,8 @@ Require Export Category.Functor.Structure.Monoidal.
 Require Export Category.Functor.Structure.Monoidal.Id.
 Require Export Category.Functor.Structure.Monoidal.Compose.
 Require Export Category.Functor.Structure.Monoidal.Pure.
+Require Export Category.Natural.Transformation.Monoidal.
+Require Export Category.Natural.Transformation.Applicative.
 Require Export Category.Structure.Monoidal.Internal.Product.
 Require Export Category.Functor.Product.
 Require Export Category.Functor.Product.Internal.
@@ -14,27 +16,7 @@ Require Export Category.Functor.Applicative.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-
-Class LaxMonoidalTransformation {C : Category} `{@Monoidal C}
-      {F : C ⟶ C} `{@LaxMonoidalFunctor _ _ _ _ F}
-      {G : C ⟶ C} `{@LaxMonoidalFunctor _ _ _ _ G} (N : F ⟹ G) := {
-  lax_pure_transform : lax_pure[G] ≈ transform[N] _ ∘ lax_pure[F];
-
-  lax_ap_transform {X Y} :
-    lax_ap[G] ∘ transform[N] X ⨂ transform[N] Y ≈ transform[N] _ ∘ lax_ap[F]
-}.
-
-Set Warnings "-non-primitive-record".
-
-Class ApplicativeTransformation {C : Category}
-      `{@Cartesian C} `{@Terminal C} `{@Closed C _}
-      {F : C ⟶ C} `{@Applicative _ _ _ _ F}
-      {G : C ⟶ C} `{@Applicative _ _ _ _ G} (N : F ⟹ G) := {
-  is_strong_transformation :>
-    @StrongTransformation C InternalProduct_Monoidal _ _ _ _ N;
-  is_lax_monoidal_transformation :>
-    @LaxMonoidalTransformation C InternalProduct_Monoidal _ _ _ _ N
-}.
+Unset Transparent Obligations.
 
 Section Traversable.
 

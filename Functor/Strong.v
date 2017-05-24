@@ -12,6 +12,7 @@ Require Export Category.Functor.Construction.Product.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Class StrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
   strength {X Y} : X ⨂ F Y ~> F (X ⨂ Y);

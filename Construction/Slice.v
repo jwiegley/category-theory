@@ -9,6 +9,7 @@ Require Export Category.Instance.Cat.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Program Definition Slice `(C : Category) `(c : C) : Category := {|
   ob      := { a : C & a ~> c };

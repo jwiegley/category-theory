@@ -11,6 +11,7 @@ Require Export Category.Instance.One.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section ProductComma.
 

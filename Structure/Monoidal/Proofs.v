@@ -11,6 +11,7 @@ Require Export Category.Structure.Monoidal.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section MonoidalProofs.
 

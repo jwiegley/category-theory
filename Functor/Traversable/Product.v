@@ -13,6 +13,7 @@ Require Export Category.Functor.Applicative.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section ProductTraversable.
 

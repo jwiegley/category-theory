@@ -12,6 +12,7 @@ Require Export Category.Instance.Fun.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Local Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 

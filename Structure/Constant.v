@@ -14,8 +14,8 @@ Context {C : Category}.
 Context `{@Terminal C}.
 
 Class Constant (A : Type) := {
-  Const : ob;
-  constant (x : A) : One ~{C}~> Const
+  Const : A -> ob;
+  constant (x : A) : One ~{C}~> Const x
 }.
 
 End Constant.

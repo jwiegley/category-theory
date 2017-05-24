@@ -1,11 +1,11 @@
 TODO  -*- mode: org; fill-column: 78 -*-
 
 * Restructuring
-** TODO Wedges, Limits, Cones, etc., are structures
-** DONE Get rid of the isomorphism directory
 ** TODO Distinguish functors that adapt other functors
 Product is a "fundamental" functor, but Strong is an attribute of functors.
 ** TODO Move notations into modules
+** DONE Wedges, Limits, Cones, etc., are structures
+** DONE Get rid of the isomorphism directory
 ** DONE Breakup Structure/Monoidal.v into the various kinds of structures
 ** DONE Break Functors into subdirectories
 - Functor.Construction.Product
@@ -121,18 +121,18 @@ Notation "X * Y" := (prod X Y) : type_scope.
 #+end_src coq
 * Theory
 ** STARTED Monad Transformers
+** STARTED Pullback
 ** TODO If the category C has pullbacks, we can compose spans
-** TODO Pullback
-** TODO Pushout
-** DONE Equalizer
-** DONE Coequalizer
-** TODO Complete
-** TODO Cocomplete
 ** TODO Subojects
 ** TODO Subcategories
 Where each object/arrow of a category maps to some subobject, such as Obj ->
 Type and Hom -> Prop.
-** TODO Equivalence of categories
+** DONE Pushout
+** DONE Equalizer
+** DONE Coequalizer
+** DONE Complete
+** DONE Cocomplete
+** DONE Equivalence of categories
 ** DONE End
 ** DONE Coend
 ** DONE Cocone
@@ -144,7 +144,8 @@ Type and Hom -> Prop.
 *** TODO Pointwise (as kan extensions)
 ** Kan extensions
 *** DONE Global definition
-*** TODO Local definition with both hom-functor and cones (along a functor)
+*** TODO Local definition with hom-functor along a functor
+*** TODO Local definition with cones along a functor
 *** TODO Uniqueness
 *** TODO Preservation by adjoint functors
 *** TODO Pointwise kan extensions (preserved by representable functors)
@@ -153,8 +154,8 @@ Type and Hom -> Prop.
 **** TODO Hom-functor adjunction
 **** DONE Unit-counit adjunction
 **** TODO Universal morphism adjunction
-*** TODO Duality : F ⊣ G ⇒ G^op ⊣ F^op
 *** TODO Uniqueness up to natural isomorphism
+*** DONE Duality : F ⊣ G ⇒ G^op ⊣ F^op
 ** DONE Diagram
 ** DONE Cone
 ** DONE Limit
@@ -166,13 +167,13 @@ Type and Hom -> Prop.
 ** DONE Slice/Coslice (C/c)
 * Structures
 * Instances
-** TODO Finite sets
+** STARTED Finite sets
 ** TODO 3
 ** TODO Mon
 ** TODO Graphs
 ** TODO Homogeneous relations in Prop
 ** TODO Constructive homogeneous crelations in Type (possible?)
-** TODO Cones, the category of Cones
+** DONE Cones, the category of Cones
 ** DONE 0
 ** DONE 1
 ** DONE 2
@@ -208,7 +209,6 @@ Hom(f, g) : Hom(X2, Y1) → Hom(X1, Y2) is given by φ ↦ g ∘ φ ∘ f.
 many settings is to determine whether a given functor is representable."
 *** TODO Define representable functors using an existential for the representor
 ** TODO F-algebras
-** TODO F-coalgebras
 ** TODO Internal hom
 Some categories may possess a functor that behaves like a Hom functor, but
 takes values in the category C itself, rather than Set. Such a functor is
@@ -276,14 +276,14 @@ defined. Read about this definition in section I.1 of Mac Lane’s Categories
 for the Working Mathematician, and do the exercise mentioned there, showing
 that it is equivalent to the usual definition.
 ** TODO "Coyoneda lemma" states that every presheaf is a colimit of representables
+** TODO Functors produced from a natural isomorphism and its inverse are inverses
 ** TODO Small preorders are complete
 #+begin_src coq
 Theorem Complete_Preorder (C : Category) (CC : Complete C) :
   forall x y: (ObjC), Hom x y’ ≃ (Arrow C → Hom x y)
 #+end_src
-** TODO Opposite of comma category: (F ↓ G) ≅ (G^op ↓ F^op)
-** TODO Whenever F ≅ F' -> (F ↓ G) ≅ (F' ↓ G)
-** TODO Functors produced from a natural isomorphism and its inverse are inverses
+** DONE Whenever F ≅ F' -> (F ↓ G) ≅ (F' ↓ G)
+** DONE Opposite of comma category: (F ↓ G) ≅ (G^op ↓ F^op)
 * TODO Type refinement
 Comments from contextualMatters on /r/haskell:
 

@@ -9,16 +9,15 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-(* This is the category of three objects and two arrows from the first object
-   to the other two (and three identity morphisms):
+(* This is the category of three objects and two arrows, from the first object
+   to the other two (as well as the three identity morphisms):
 
                 x
               /   \
-             /     \
+           f /     \ g
             /       \
-           /         \
-          v           v
-            y       z
+           v         v
+          y           z
 
   This is used to build diagrams that identify spans and pullbacks. *)
 
@@ -31,25 +30,65 @@ Inductive RoofHom : RoofObj -> RoofObj -> Type :=
   | ZeroPos : RoofHom RZero RPos
   | IdPos   : RoofHom RPos  RPos.
 
+Definition caseRoofNegNeg (p : RoofHom RNeg RNeg) :
+  forall
+    (P : RoofHom RNeg RNeg -> Type)
+    (PIdNeg : P IdNeg), P p :=
+  match p with
+  | IdNeg => fun _ P => P
+  end.
+
+Definition caseRoofZeroNeg (p : RoofHom RZero RNeg) :
+  forall
+    (P : RoofHom RZero RNeg -> Type)
+    (PZeroNeg : P ZeroNeg), P p :=
+  match p with
+  | ZeroNeg => fun _ P => P
+  end.
+
+Definition caseRoofZeroZero (p : RoofHom RZero RZero) :
+  forall
+    (P : RoofHom RZero RZero -> Type)
+    (PIdZero : P IdZero), P p :=
+  match p with
+  | IdZero => fun _ P => P
+  end.
+
+Definition caseRoofZeroPos (p : RoofHom RZero RPos) :
+  forall
+    (P : RoofHom RZero RPos -> Type)
+    (PZeroPos : P ZeroPos), P p :=
+  match p with
+  | ZeroPos => fun _ P => P
+  end.
+
+Definition caseRoofPosPos (p : RoofHom RPos RPos) :
+  forall
+    (P : RoofHom RPos RPos -> Type)
+    (PIdPos : P IdPos), P p :=
+  match p with
+  | IdPos => fun _ P => P
+  end.
+
 Lemma RNeg_RZero_absurd : RoofHom RNeg RZero -> False.
 Proof. inversion 1. Qed.
 
-Local Hint Extern 4 => contradiction RNeg_RZero_absurd.
+Hint Extern 4 => contradiction RNeg_RZero_absurd : roof_laws.
 
 Lemma RPos_RZero_absurd : RoofHom RPos RZero -> False.
 Proof. inversion 1. Qed.
 
-Local Hint Extern 4 => contradiction RPos_RZero_absurd.
+Hint Extern 4 => contradiction RPos_RZero_absurd : roof_laws.
 
 Lemma RNeg_RPos_absurd : RoofHom RNeg RPos -> False.
 Proof. inversion 1. Qed.
 
-Local Hint Extern 4 => contradiction RNeg_RPos_absurd.
+Hint Extern 4 => contradiction RNeg_RPos_absurd : roof_laws.
 
 Lemma RPos_RNeg_absurd : RoofHom RPos RNeg -> False.
 Proof. inversion 1. Qed.
 
-Local Hint Extern 4 => contradiction RPos_RNeg_absurd.
+Hint Extern 4 => contradiction RPos_RNeg_absurd : roof_laws.
 
 Program Definition Roof : Category := {|
   ob  := RoofObj;
@@ -68,39 +107,3 @@ Next Obligation.
   try inversion f;
   try inversion g.
 Defined.
-
-Program Definition ASpan {C : Category} {S X Y : C} (f : S ~> X) (g : S ~> Y) :
-  Roof ⟶ C := {|
-  fobj := fun x => match x with
-    | RNeg  => X
-    | RZero => S
-    | RPos  => Y
-    end;
-  fmap := fun x y _ => match x, y with
-    | RNeg,  RNeg  => id[X]
-    | RZero, RNeg  => f
-    | RZero, RZero => id[S]
-    | RZero, RPos  => g
-    | RPos,  RPos  => id[Y]
-    | _,      _      => _
-    end
-|}.
-Next Obligation.
-  destruct x, y; simpl; intuition idtac; auto.
-Defined.
-Next Obligation. intuition idtac; discriminate. Qed.
-Next Obligation. intuition idtac; discriminate. Qed.
-Next Obligation. intuition idtac; discriminate. Qed.
-Next Obligation. intuition idtac; discriminate. Qed.
-Next Obligation.
-  proper.
-  destruct X0, Y0; simpl; auto; reflexivity.
-Qed.
-Next Obligation.
-  destruct X0; reflexivity.
-Qed.
-Next Obligation.
-  destruct X0, Y0, Z; simpl; auto;
-  rewrite ?id_left, ?id_right;
-  reflexivity.
-Qed.
