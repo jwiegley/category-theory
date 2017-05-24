@@ -1,10 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Theory.Cone.
-Require Import Category.Functor.Constant.
 Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Functor.Constant.
+Require Export Category.Structure.Cone.
 
 Generalizable All Variables.
 Set Primitive Projections.

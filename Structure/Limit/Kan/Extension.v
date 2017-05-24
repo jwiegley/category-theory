@@ -1,9 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Import Category.Theory.Cone.
-Require Import Category.Theory.Limit.
 Require Import Category.Theory.Kan.Extension.
+Require Import Category.Structure.Cone.
+Require Import Category.Structure.Limit.
 Require Import Category.Instance.One.
 Require Import Category.Instance.Fun.
 
@@ -13,8 +13,8 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Theorem Kan_Limit {J : Category} {C : Category} (F : J ⟶ C)
-        `{@HasLimit J C F} `{@HasRan J 1%object (Erase J) C} :
-  Limit F ≅ Ran (Erase J) F ().
+        `{@Limit J C F} `{@HasRan J 1%object (Erase J) C} :
+  Lim F ≅ Ran (Erase J) F ().
 Proof.
   given (cone : Cone F).
     pose (from ((@adj_iso _ _ _ _ ran_adjoint
@@ -25,12 +25,12 @@ Proof.
       apply adj_from.
     abstract (intros; rewrite (naturality[adj_from]); simpl; cat).
 
-  given (nat : Const (Limit F) ○ Erase J ⟹ F).
+  given (nat : Const (Lim F) ○ Erase J ⟹ F).
     transform; simpl; intros.
       apply vertex_map.
     abstract (cat; apply ump_cones).
 
-  pose (to (@adj_iso _ _ _ _ ran_adjoint (Const (Limit F)) F) nat)
+  pose (to (@adj_iso _ _ _ _ ran_adjoint (Const (Lim F)) F) nat)
     as adj_to; simpl in adj_to.
 
   isomorphism; simpl.
@@ -46,14 +46,14 @@ Proof.
     rewrite <- X0.
     unfold adj_to; simpl.
 
-    given (from_ran : Ran (Erase J) F ⟹ Const (Limit F)).
+    given (from_ran : Ran (Erase J) F ⟹ Const (Lim F)).
       transform; simpl; intros.
         destruct X1.
         apply (@limit_terminal _ _ _ H cone).
       abstract cat.
 
     pose proof (@adj_left_nat_l' _ _ _ _ ran_adjoint
-                                 (Ran (Erase J) F) (Const (Limit F))
+                                 (Ran (Erase J) F) (Const (Lim F))
                                  F nat from_ran tt).
     simpl in X1; rewrite <- X1; clear X1.
     assert (∀ f g, f ≈ g

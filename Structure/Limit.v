@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Import Category.Theory.Cone.
+Require Export Category.Structure.Cone.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -24,22 +24,23 @@ Unset Transparent Obligations.
    In this presentation, L = Lim, u = limit, and N is a universally quantified
    argument of the uniqueness and universal properties. *)
 
-Class HasLimit `(F : J ⟶ C) := {
-  Limit : Cone F;
+Class Limit `(F : J ⟶ C) := {
+  Lim : Cone F;
 
   (* This restates the fact that limits are terminal objects in the category
      of cones to F (which in turn is the comma category (Δ ↓ F)). *)
-  limit_terminal {N : Cone F} : N ~> Limit;
-  limit_unique {N : Cone F} (f g : N ~> Limit) : f ≈ g;
+  limit_terminal {N : Cone F} : N ~> Lim;
+  limit_unique {N : Cone F} (f g : N ~> Lim) : f ≈ g;
 
   ump_limits {N : Cone F} {X : J} :
-    vertex_map[Limit] ∘ limit_terminal ≈ @vertex_map _ _ _ N X
+    vertex_map[Lim] ∘ limit_terminal ≈ @vertex_map _ _ _ N X
 }.
 
-Arguments Limit {_ _} F%functor {_}.
+Arguments Limit {_ _} F%functor.
+Arguments Lim {_ _} F%functor {_}.
 
 Require Import Category.Construction.Opposite.
 
-Definition HasColimit `(F : J ⟶ C) := HasLimit (F^op).
+Definition Colimit `(F : J ⟶ C) := Limit (F^op).
 
-Definition Colimit `(F : J ⟶ C) `{C : HasColimit F} := @Limit _ _ _ C.
+Definition Colim `(F : J ⟶ C) `{C : Colimit F} := @Lim _ _ _ C.
