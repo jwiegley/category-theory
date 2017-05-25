@@ -37,11 +37,13 @@ Notation "join[ M ]" := (@join _ M _ _)
 
 Section MonadLib.
 
-Context {C : Category}.
-Context {M : C ⟶ C}.
 Context `{@Monad C M}.
 
-Program Definition bind {a b : C} (f : a ~> M b) : M a ~> M b :=
+Definition bind {a b : C} (f : a ~> M b) : M a ~> M b :=
   join ∘ fmap[M] f.
 
 End MonadLib.
+
+Notation "m >>= f" := (bind f m) (at level 42, right associativity) : morphism_scope.
+Notation "f >> g" := (f >>= fun _ => g)%morphism
+  (at level 81, right associativity) : morphism_scope.

@@ -21,6 +21,7 @@ Theory/Monad/Monoid.v
 Theory/Monad/Distributive.v
 Theory/Monad/Composition.v
 Theory/Monad/Transformer.v
+Theory/Monad/Kleisli.v
 Theory/Kan/Extension.v
 Construction/Product.v
 Construction/Product/Opposite.v
