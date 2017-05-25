@@ -89,6 +89,37 @@ Corollary Right_Functor_fobj_natural :
     fmap g ∘ projT2 (Right_Functor X) ≈ projT2 (Right_Functor Y) ∘ fmap g.
 Proof. simpl; intros; cat. Qed.
 
+Corollary Left_Functor_fobj_to_iso_natural
+          (iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G))
+          (projF : comma_proj ≈[Cat] comma_proj ○ to iso) :
+  ∀ X Y (g : X ~{D}~> Y),
+    fmap (fmap g)
+      ∘ fmap[G] (snd (projF⁻¹ (Left_Functor X)))
+      ∘ projT2 (to iso (Left_Functor X))
+      ∘ fst (to projF (Left_Functor X))
+      ≈ fmap[G] (snd (projF⁻¹ (Left_Functor Y)))
+          ∘ projT2 (to iso (Left_Functor Y))
+          ∘ fst (to projF (Left_Functor Y)) ∘ g.
+Proof.
+  simpl; intros.
+  destruct projF; simpl in *.
+  pose proof (naturality[from] ((X, F X); id[F X])
+                        ((Y, F Y); id[F Y]) (g, fmap g)); simpl in X0.
+  destruct X0.
+  rewrite <- fmap_comp.
+  rewrite e0; clear e e0.
+  rewrite fmap_comp.
+  comp_left.
+  pose proof (naturality[to] ((X, F X); id[F X])
+                        ((Y, F Y); id[F Y]) (g, fmap g)); simpl in X0.
+  destruct X0.
+  rewrite <- e; clear e e0.
+  comp_right.
+  clear.
+  destruct iso, to; simpl in *; clear.
+  remember (fmap _ _ _) as f.
+Abort.
+
 Record fibered_equivalence := {
   fiber_iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G);
 
