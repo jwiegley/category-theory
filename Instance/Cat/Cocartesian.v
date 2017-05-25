@@ -55,7 +55,7 @@ Qed.
 Next Obligation.
   proper.
   constructive.
-  all:swap 2 3.
+  all:swap 2 4.
   - simpl; intros.
     destruct X2.
       apply X0.
@@ -67,11 +67,19 @@ Next Obligation.
   - simpl; intros.
     destruct X2, Y0; simpl;
     try contradiction;
+    apply naturality_sym.
+  - simpl; intros.
+    destruct X2, Y0; simpl;
+    try contradiction;
     apply naturality.
   - simpl; intros.
     destruct X2, Y0; simpl;
     try contradiction;
     apply naturality.
+  - simpl; intros.
+    destruct X2, Y0; simpl;
+    try contradiction;
+    apply naturality_sym.
   - destruct A; simpl.
       destruct X0, to, from; simpl in *.
       apply iso_to_from.
@@ -87,41 +95,59 @@ Next Obligation.
   simplify; simpl; intros; simplify;
   try destruct X0; simpl in *.
   - constructive.
-    all:swap 2 3.
+    all:swap 2 4.
     + apply to.
     + destruct from; simpl in *.
       apply (transform (Datatypes.inl X0)).
     + simpl; intros.
       destruct to; simpl in *.
+      apply (naturality_sym (Datatypes.inl X0) (Datatypes.inl Y0)).
+    + simpl; intros.
+      destruct to; simpl in *.
       apply (naturality (Datatypes.inl X0) (Datatypes.inl Y0)).
     + simpl; intros.
       destruct from; simpl in *.
       apply (naturality (Datatypes.inl X0) (Datatypes.inl Y0)).
+    + simpl; intros.
+      destruct from; simpl in *.
+      apply (naturality_sym (Datatypes.inl X0) (Datatypes.inl Y0)).
     + apply (iso_to_from (Datatypes.inl A)).
     + apply (iso_from_to (Datatypes.inl A)).
   - constructive.
-    all:swap 2 3.
+    all:swap 2 4.
     + apply to.
     + destruct from; simpl in *.
       apply (transform (Datatypes.inr X0)).
+    + simpl; intros.
+      destruct to; simpl in *.
+      apply (naturality_sym (Datatypes.inr X0) (Datatypes.inr Y0)).
     + simpl; intros.
       destruct to; simpl in *.
       apply (naturality (Datatypes.inr X0) (Datatypes.inr Y0)).
     + simpl; intros.
       destruct from; simpl in *.
       apply (naturality (Datatypes.inr X0) (Datatypes.inr Y0)).
+    + simpl; intros.
+      destruct from; simpl in *.
+      apply (naturality_sym (Datatypes.inr X0) (Datatypes.inr Y0)).
     + apply (iso_to_from (Datatypes.inr A)).
     + apply (iso_from_to (Datatypes.inr A)).
   - intros; simplify.
     destruct x, y; simpl in *.
     constructive.
-    all:swap 2 3.
+    all:swap 2 4.
     + destruct X0; simpl.
         apply to.
       apply to0.
     + destruct X0; simpl.
         apply from.
       apply from0.
+    + simpl; intros.
+      destruct X0, Y0; simpl;
+      try contradiction;
+      destruct to, to0; simpl in *.
+        apply naturality_sym.
+      apply naturality_sym0.
     + simpl; intros.
       destruct X0, Y0; simpl;
       try contradiction;
@@ -134,6 +160,12 @@ Next Obligation.
       destruct from, from0; simpl in *.
         apply naturality.
       apply naturality0.
+    + simpl; intros.
+      destruct X0, Y0; simpl;
+      try contradiction;
+      destruct from, from0; simpl in *.
+        apply naturality_sym.
+      apply naturality_sym0.
     + destruct A; simpl.
         apply iso_to_from.
       apply iso_to_from0.

@@ -14,10 +14,5 @@ Lemma Constant_Unique `(C : Category) {D : Category} (d : D) :
   Constant C d ≈[Cat] Const d ∘[Cat] one.
 Proof.
   constructive; simpl; intros.
-  - exact id.
-  - cat.
-  - exact id.
-  - cat.
-  - cat.
-  - cat.
+  all:swap 2 4; try exact id; cat.
 Qed.

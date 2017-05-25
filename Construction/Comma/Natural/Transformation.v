@@ -59,3 +59,10 @@ Next Obligation.
   rewrite !comp_assoc.
   apply X0.
 Qed.
+Next Obligation.
+  unfold Comma_Transform_obligation_1.
+  pose proof (functoriality X Y f).
+  rewrite !comp_assoc.
+  symmetry.
+  apply X0.
+Qed.

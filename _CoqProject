@@ -13,8 +13,8 @@ Theory/Naturality.v
 Theory/Natural/Transformation.v
 Theory/Dinatural.v
 Theory/Adjunction.v
-Theory/Adjunction/Isomorphism.v
-Theory/Adjunction/Isomorphism/Natural/Transformation.v
+Theory/Adjunction/Natural/Transformation.v
+Theory/Adjunction/Natural/Transformation/Isomorphism.v
 Theory/Monad.v
 Theory/Monad/Adjunction.v
 Theory/Monad/Monoid.v
@@ -47,12 +47,16 @@ Structure/Monoidal.v
 Structure/Monoidal/Naturality.v
 Structure/Monoidal/Proofs.v
 Structure/Monoidal/Cartesian.v
+Structure/Monoidal/Cartesian/Proofs.v
+Structure/Monoidal/Cartesian/Cartesian.v
 Structure/Monoidal/Composition.v
 Structure/Monoidal/Internal/Product.v
 Structure/Monoidal/Product.v
 Structure/Monoidal/Relevance.v
 Structure/Monoidal/Semicartesian.v
+Structure/Monoidal/Semicartesian/Proofs.v
 Structure/Monoidal/Symmetric.v
+Structure/Monoidal/Braided.v
 Structure/Monoid.v
 Structure/Monoid/Algebra.v
 Structure/Cone.v
@@ -79,8 +83,6 @@ Instance/Parallel.v
 Instance/Roof.v
 Instance/Fun.v
 Instance/Adjoints.v
-Instance/Finite.v
-Instance/Finite/Span.v
 Instance/Coq.v
 Instance/Coq/Applicative.v
 Instance/Coq/Monad.v
@@ -126,6 +128,7 @@ Functor/Structure/Initial.v
 Functor/Structure/Terminal.v
 Natural/Transformation/Opposite.v
 Natural/Transformation/Monoidal.v
+Natural/Transformation/Strong.v
 Natural/Transformation/Applicative.v
 Adjunction/Opposite.v
 Adjunction/Isomorphism/Opposite.v
@@ -135,3 +138,5 @@ Theory.v
 Pending/Cone.v
 Pending/Const.v
 Pending/Limit.v
+Pending/Finite.v
+Pending/Finite/Span.v

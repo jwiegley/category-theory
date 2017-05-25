@@ -27,45 +27,53 @@ Next Obligation. simplify; rewrite !fmap_comp; intuition. Qed.
 Next Obligation.
   proper.
   constructive; simplify; simpl.
-  all:swap 3 5.
-  all:swap 4 6.
+  all:swap 3 7.
+  all:swap 4 8.
   - apply (transform[to X0]).
   - apply (transform[to X1]).
   - apply (transform[from X0]).
   - apply (transform[from X1]).
+  - symmetry; apply naturality.
+  - symmetry; apply naturality.
   - apply naturality.
   - apply naturality.
   - apply naturality.
   - apply naturality.
-  - destruct X0; simpl.
+  - symmetry; apply naturality.
+  - symmetry; apply naturality.
+  - destruct X0; simpl;
     destruct to, from; simpl in *;
     apply iso_to_from.
-  - destruct X1; simpl.
-    destruct to, from; simpl in *.
+  - destruct X1; simpl;
+    destruct to, from; simpl in *;
     apply iso_to_from.
-  - destruct X0; simpl.
-    destruct to, from; simpl in *.
+  - destruct X0; simpl;
+    destruct to, from; simpl in *;
     apply iso_from_to.
-  - destruct X1; simpl.
-    destruct to, from; simpl in *.
+  - destruct X1; simpl;
+    destruct to, from; simpl in *;
     apply iso_from_to.
 Qed.
 Next Obligation.
   intros; simplify.
   - constructive; destruct X0; simpl in *.
-    all:swap 2 3.
+    all:swap 2 4.
     + apply to.
     + apply from.
+    + destruct to; symmetry; apply naturality.
     + destruct to; apply naturality.
     + destruct from; apply naturality.
+    + destruct from; symmetry; apply naturality.
     + apply iso_to_from.
     + apply iso_from_to.
   - constructive; destruct X0; simpl in *.
-    all:swap 2 3.
+    all:swap 2 4.
     + apply to.
     + apply from.
+    + destruct to; symmetry; apply naturality.
     + destruct to; apply naturality.
     + destruct from; apply naturality.
+    + destruct from; symmetry; apply naturality.
     + apply iso_to_from.
     + apply iso_from_to.
   - intros; simplify.
@@ -73,6 +81,10 @@ Next Obligation.
     constructive; simplify; simpl; firstorder.
     + destruct to; apply naturality.
     + destruct to0; apply naturality.
+    + destruct to; symmetry; apply naturality.
+    + destruct to0; symmetry; apply naturality.
     + destruct from; apply naturality.
     + destruct from0; apply naturality.
+    + destruct from; symmetry; apply naturality.
+    + destruct from0; symmetry; apply naturality.
 Qed.

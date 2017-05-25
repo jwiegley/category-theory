@@ -10,8 +10,9 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Instance adj_id {C : Category} : Id ⊣ Id := {
-  unit   := {| transform := _ |};
-  counit := {| transform := _ |}
+  adj := fun _ _ =>
+    {| to   := {| morphism := _ |}
+     ; from := {| morphism := _ |} |}
 }.
 
 Program Definition adj_comp
@@ -19,53 +20,27 @@ Program Definition adj_comp
         (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E)
         (X : F ⊣ U) (Y : F' ⊣ U') :
   F ○ F' ⊣ U' ○ U := {|
-  unit   := {| transform := fun a =>
-    fmap[U'] (transform[unit[X]] (F' a)) ∘ transform[unit[Y]] a |};
-  counit := {| transform := fun a =>
-    transform[counit[X]] a ∘ fmap[F] (transform[counit[Y]] (U a)) |};
+  adj := fun a b =>
+    {| to   := {| morphism := fun (f : F (F' a) ~> b) => to adj (to adj f) |}
+     ; from := {| morphism := fun (f : a ~> U' (U b)) => adj⁻¹ (adj⁻¹ f) |} |}
 |}.
+Next Obligation. proper. rewrite X0; reflexivity. Qed.
+Next Obligation. proper; rewrite X0; reflexivity. Qed.
 Next Obligation.
-  rewrite comp_assoc.
-  rewrite <- fmap_comp.
-  srewrite (naturality[unit[X]]).
-  rewrite fmap_comp.
-  rewrite <- comp_assoc.
-  srewrite (naturality[unit[Y]]); cat.
+  srewrite (@iso_to_from _ _ _ (@adj C D F U X (F' a) b)).
+  sapply (@iso_to_from _ _ _ (@adj D E F' U' Y a (U b))).
 Qed.
 Next Obligation.
-  symmetry.
-  rewrite <- comp_assoc.
-  rewrite <- fmap_comp.
-  srewrite_r (naturality[counit[Y]]).
-  rewrite fmap_comp.
-  rewrite comp_assoc.
-  srewrite_r (naturality[counit[X]]); cat.
+  srewrite (@iso_from_to _ _ _ (@adj D E F' U' Y a (U b))).
+  sapply (@iso_from_to _ _ _ (@adj C D F U X (F' a) b)).
 Qed.
-Next Obligation.
-  rewrite <- comp_assoc.
-  rewrite <- fmap_comp.
-  rewrite (@fmap_comp _ _ F').
-  rewrite comp_assoc.
-  srewrite_r (naturality[counit[Y]]).
-  rewrite !fmap_comp.
-  rewrite !comp_assoc.
-  srewrite (@counit_fmap_unit _ _ _ _ X); cat.
-  rewrite <- fmap_comp.
-  srewrite (@counit_fmap_unit _ _ _ _ Y); cat.
-Qed.
-Next Obligation.
-  rewrite comp_assoc.
-  rewrite <- fmap_comp.
-  rewrite (@fmap_comp _ _ U).
-  rewrite <- comp_assoc.
-  srewrite (naturality[unit[X]]).
-  rewrite !comp_assoc.
-  srewrite (@fmap_counit_unit _ _ _ _ X); cat.
-  srewrite (@fmap_counit_unit _ _ _ _ Y); cat.
-Qed.
+Next Obligation. rewrite <- !to_adj_nat_l; reflexivity. Qed.
+Next Obligation. rewrite <- !to_adj_nat_r; reflexivity. Qed.
+Next Obligation. rewrite <- !from_adj_nat_l; reflexivity. Qed.
+Next Obligation. rewrite <- !from_adj_nat_r; reflexivity. Qed.
 
 Notation "F ⊚ G" := (@adj_comp _ _ _ _ _ _ _ F G)
-  (at level 40, left associativity) : category_scope.
+  (at level 30, right associativity) : category_scope.
 
 Record adj_morphism {C : Category} {D : Category} := {
   free_functor : D ⟶ C;
@@ -85,12 +60,12 @@ Next Obligation.
   transitivity (forgetful_functor y); assumption.
 Qed.
 
-(* Category of Adjoints:
+(* The category of Adjoints:
 
-   objects      Categories
-   arrows       Adjoint functors between categories
-   identity     Id ⊣ Id
-   composition  F ⊣ G -> G ⊣ H -> F ⊣ H *)
+    objects                Categories
+    arrows                 Adjunctions between categories
+    identity               Id ⊣ Id
+    composition            F ⊣ G -> G ⊣ H -> F ⊣ H *)
 
 Program Definition Adjoints : Category := {|
   ob := Category;
@@ -106,14 +81,19 @@ Program Definition Adjoints : Category := {|
 |}.
 Next Obligation.
   proper; simpl; constructive.
+  all:swap 2 4.
+  all:swap 3 9.
+  all:swap 4 12.
   - exact (fmap (transform[to x2] _) ∘ transform[to x1] _).
+  - exact (fmap (transform[from x2] _) ∘ transform[from x1] _).
+  - exact (fmap (transform[to y1] _) ∘ transform[to y2] _).
+  - exact (fmap (transform[from y1] _) ∘ transform[from y2] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
     rewrite !naturality.
     rewrite <- comp_assoc.
     rewrite <- fmap_comp.
     reflexivity.
-  - exact (fmap (transform[from x2] _) ∘ transform[from x1] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
     rewrite !naturality.
@@ -140,14 +120,36 @@ Next Obligation.
     rewrite iso_from_to; cat.
     destruct x1; simpl in *.
     rewrite iso_from_to0; cat.
-  - exact (fmap (transform[to y1] _) ∘ transform[to y2] _).
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
     rewrite !naturality.
     rewrite <- comp_assoc.
     rewrite <- fmap_comp.
     reflexivity.
-  - exact (fmap (transform[from y1] _) ∘ transform[from y2] _).
+  - rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite !naturality.
+    rewrite <- comp_assoc.
+    rewrite <- fmap_comp.
+    reflexivity.
+  - rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite !naturality.
+    rewrite <- comp_assoc.
+    rewrite <- fmap_comp.
+    reflexivity.
+  - rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite !naturality.
+    rewrite <- comp_assoc.
+    rewrite <- fmap_comp.
+    reflexivity.
+  - rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite !naturality.
+    rewrite <- comp_assoc.
+    rewrite <- fmap_comp.
+    reflexivity.
   - rewrite comp_assoc.
     rewrite <- fmap_comp.
     rewrite !naturality.

@@ -28,7 +28,7 @@ Next Obligation. equivalence; transitivity y; auto. Qed.
 Next Obligation.
   proper.
   constructive.
-  all:swap 2 3.
+  all:swap 2 4.
   - apply (transform[to X0] (y0 X2) ∘ fmap (transform[to X1] X2)).
   - apply (transform[from X0] (x0 X2) ∘ fmap (transform[from X1] X2)).
   - rewrite <- !comp_assoc.
@@ -42,6 +42,18 @@ Next Obligation.
     rewrite <- !naturality.
     rewrite !fmap_comp.
     rewrite comp_assoc.
+    reflexivity.
+  - rewrite comp_assoc.
+    rewrite (naturality[X0⁻¹]).
+    rewrite <- !comp_assoc.
+    rewrite <- !fmap_comp.
+    rewrite (naturality[X1⁻¹]).
+    reflexivity.
+  - rewrite comp_assoc.
+    rewrite (naturality[X0⁻¹]).
+    rewrite <- !comp_assoc.
+    rewrite <- !fmap_comp.
+    rewrite (naturality[X1⁻¹]).
     reflexivity.
   - destruct X0 as [to0 from0 iso_to_from0 ?];
     destruct X1 as [to1 from1 iso_to_from1 ?]; simpl in *.

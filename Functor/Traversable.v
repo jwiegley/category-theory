@@ -51,7 +51,7 @@ Class Traversable := {
 
   sequence_naturality {G : C ⟶ C} `{@Applicative C _ _ _ G}
                       {H : C ⟶ C} `{@Applicative C _ _ _ H} (N : G ⟹ H)
-                      (f : @ApplicativeTransformation C _ _ _ _ _ _ _ N) {X} :
+                      (f : @Applicative_Transform C _ _ _ _ _ _ _ N) {X} :
     transform[N] (F X) ∘ transform[@sequence G _] X
       ≈ transform[@sequence H _] X ∘ fmap[F] (transform[N] _);
 

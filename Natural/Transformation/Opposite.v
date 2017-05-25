@@ -10,17 +10,13 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-(* jww (2017-05-24): TODO
 Definition Opposite_Transform `{F : C ⟶ D} {G : C ⟶ D} `(N : F ⟹ G) :
-  F^op ⟹ G^op :=
-  @Build_Transform (C^op) (D^op) (F^op) (G^op) (transform[N])
+  G^op ⟹ F^op :=
+  @Build_Transform (C^op) (D^op) (G^op) (F^op) N
     (λ (X Y : (C ^op)%category) (f : X ~{C^op}~> Y),
-     _).
-Next Obligation.
-  rewrite naturality; reflexivity.
-Defined.
-Next Obligation.
-Admitted.
+      @naturality_sym C D F G N Y X f)
+    (λ (X Y : (C ^op)%category) (f : X ~{C^op}~> Y),
+      @naturality C D F G N Y X f).
 
 Notation "N ^op" := (@Opposite_Transform _ _ _ _ N)
   (at level 7, format "N ^op") : transform_scope.
@@ -28,4 +24,3 @@ Notation "N ^op" := (@Opposite_Transform _ _ _ _ N)
 Corollary Opposite_Transform_invol `{F : C ⟶ D} {G : C ⟶ D} `(N : F ⟹ G) :
   (N^op)^op = N.
 Proof. reflexivity. Qed.
-*)

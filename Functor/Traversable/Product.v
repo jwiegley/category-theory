@@ -34,23 +34,36 @@ Proof.
   intros O P ??.
 
   transform.
-    simpl.
+  - simpl.
     intro x.
       exact (lax_ap[H2] ∘ bimap (transform[@sequence _ _ _ _ _ O H2 _] x)
                                 (transform[@sequence _ _ _ _ _ P H2 _] x)).
-  unfold lax_ap.
-  pose proof (naturality[@ap_functor_nat _ _ _ _ H2 _]
-                        (F X0, G X0) (F Y, G Y)
-                        (fmap[F] f, fmap[G] f)) as X2; simpl in *.
-  rewrite comp_assoc.
-  rewrite X2; clear X2.
-  rewrite <- !comp_assoc.
-  pose proof (naturality[@sequence _ _ _ _ _ O H2 _]) as X3; simpl in *.
-  pose proof (naturality[@sequence _ _ _ _ _ P H2 _]) as X4; simpl in *.
-  unfork.
-  rewrite !comp_assoc.
-  rewrite X3, X4; clear X3 X4.
-  reflexivity.
+  - unfold lax_ap.
+    pose proof (naturality[@ap_functor_nat _ _ _ _ H2 _]
+                          (F X0, G X0) (F Y, G Y)
+                          (fmap[F] f, fmap[G] f)) as X2; simpl in *.
+    rewrite comp_assoc.
+    rewrite X2; clear X2.
+    rewrite <- !comp_assoc.
+    pose proof (naturality[@sequence _ _ _ _ _ O H2 _]) as X3; simpl in *.
+    pose proof (naturality[@sequence _ _ _ _ _ P H2 _]) as X4; simpl in *.
+    unfork.
+    rewrite !comp_assoc.
+    rewrite X3, X4; clear X3 X4.
+    reflexivity.
+  - unfold lax_ap.
+    pose proof (naturality[@ap_functor_nat _ _ _ _ H2 _]
+                          (F X0, G X0) (F Y, G Y)
+                          (fmap[F] f, fmap[G] f)) as X2; simpl in *.
+    rewrite comp_assoc.
+    rewrite X2; clear X2.
+    rewrite <- !comp_assoc.
+    pose proof (naturality[@sequence _ _ _ _ _ O H2 _]) as X3; simpl in *.
+    pose proof (naturality[@sequence _ _ _ _ _ P H2 _]) as X4; simpl in *.
+    unfork.
+    rewrite !comp_assoc.
+    rewrite X3, X4; clear X3 X4.
+    reflexivity.
 Defined.
 
 (*

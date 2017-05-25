@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Structure.Pullback.
+Require Export Category.Structure.Pullback.Universal.
 Require Export Category.Structure.Limit.
 Require Export Category.Structure.Span.
 Require Export Category.Instance.Roof.
@@ -9,13 +10,13 @@ Require Export Category.Instance.Roof.
 Program Definition Pullback_to_Universal {C : Category}
         (F : Cospan C) (P : Pullback F) :
   Pullback_Universal (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {|
-  pullback_obj := @Limit _ _ _ P;
+  pullback_obj := @Lim _ _ _ P;
   pullback_fst := vertex_map;
   pullback_snd := vertex_map
 |}.
 Next Obligation.
   destruct P.
-  pose proof (@ump_cones _ _ _ Limit).
+  pose proof (@ump_cones _ _ _ Lim).
   unfold unop.
   rewrite !X.
   reflexivity.
@@ -42,7 +43,7 @@ Next Obligation.
     + pattern f.
       apply caseRoofPosPos; cat.
   }
-  destruct P, Limit; simpl in *.
+  destruct P, Lim; simpl in *.
   exists (limit_terminal cone).
     split;
     [ pose proof (ump_limits cone RNeg)
@@ -75,7 +76,7 @@ Program Definition Pullback_from_Universal {C : Category}
          | RPos,  RNeg  => False_rect _ (RNeg_RPos_absurd h)
          end
     |} := {|
-  Limit := {| vertex := pullback_obj _ _ P |}
+  Lim := {| vertex := pullback_obj _ _ P |}
 |}.
 Next Obligation.
   proper.
@@ -90,7 +91,7 @@ Qed.
 Next Obligation.
   destruct X0;
   destruct P; simpl in *; auto.
-  exact (f ∘ pullback_fst0).
+  exact (f ∘ pullback_fst).
 Defined.
 Next Obligation.
   destruct X0, Y0;
@@ -102,8 +103,8 @@ Next Obligation.
     rewrite (ump_cones RNeg RZero ZeroNeg).
     rewrite (ump_cones RPos RZero ZeroPos).
     reflexivity.
-  exact (``(sigT_of_sigT2 (pullback_ump0 vertex (vertex_map RNeg)
-                                         (vertex_map RPos) eqv))).
+  exact (``(sigT_of_sigT2 (pullback_ump vertex (vertex_map RNeg)
+                                        (vertex_map RPos) eqv))).
 Defined.
 Next Obligation.
   destruct P, N; simpl in *.
@@ -111,7 +112,7 @@ Next Obligation.
     rewrite (ump_cones RNeg RZero ZeroNeg).
     rewrite (ump_cones RPos RZero ZeroPos).
     reflexivity.
-  destruct (pullback_ump0 vertex (vertex_map RNeg) (vertex_map RPos) X0)
+  destruct (pullback_ump vertex (vertex_map RNeg) (vertex_map RPos) X0)
     as [h [hfst hsnd] unique].
   rewrite (unique f0), (unique g0).
   - reflexivity.

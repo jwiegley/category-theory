@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.
+Require Export Category.Theory.Adjunction.Natural.Transformation.
 Require Export Category.Theory.Monad.
 
 Generalizable All Variables.
@@ -21,26 +21,24 @@ Context {U : C ⟶ D}.
    not enough information, since one could always just compose [Id] to some
    monad [M], and this would not give an adjoint. *)
 
-Theorem Adjunction_Monad : F ⊣ U -> @Monad D (U ○ F).
+Theorem Adjunction_Monad : F ∹ U -> @Monad D (U ○ F).
 Proof.
   intros.
   unshelve econstructor; simpl; intros.
-  - exact unit.
-  - exact (fmap counit).
-  - unfold unit.
-    rewrite <- adj_left_nat_l; cat.
-    rewrite <- adj_left_nat_r; cat.
-  - unfold counit.
-    rewrite <- !fmap_comp.
-    rewrite <- adj_right_nat_l; cat.
-    rewrite <- adj_right_nat_r; cat.
-  - rewrite <- fmap_comp.
-    rewrite counit_fmap_unit; cat.
-  - apply fmap_counit_unit.
+  - exact (transform[unit] _).
+  - exact (fmap (transform[counit] _)).
+  - symmetry.
+    apply (naturality[unit]).
   - rewrite <- !fmap_comp.
-    unfold counit.
-    rewrite <- adj_right_nat_r; cat.
-    rewrite <- adj_right_nat_l; cat.
-Defined.
+    apply fmap_respects.
+    symmetry.
+    apply (naturality[counit]).
+  - rewrite <- !fmap_comp.
+    srewrite (@counit_fmap_unit); cat.
+  - simpl.
+    srewrite (@fmap_counit_unit); cat.
+  - rewrite <- !fmap_comp.
+    srewrite (naturality[counit]); cat.
+Qed.
 
 End AdjunctionMonad.

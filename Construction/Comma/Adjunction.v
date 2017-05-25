@@ -1,8 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.
-Require Export Category.Theory.Adjunction.Morphisms.
+Require Export Category.Theory.Adjunction.Natural.Transformation.
+Require Export Category.Theory.Adjunction.Natural.Transformation.Isomorphism.
 Require Export Category.Construction.Comma.
 Require Export Category.Construction.Product.
 Require Export Category.Instance.Cat.
@@ -205,11 +205,13 @@ Proof.
 
     assert (from ∘ to ≈ id) as from_to. {
       constructive; simpl; intros.
-      all:swap 2 3.
+      all:swap 2 4.
       - destruct X; simpl.
         exact (id, id).
       - destruct X; simpl.
         exact (id, id).
+      - abstract (destruct X, Y; simpl; cat).
+      - abstract (destruct X, Y; simpl; cat).
       - abstract (destruct X, Y; simpl; cat).
       - abstract (destruct X, Y; simpl; cat).
       - abstract (destruct A; cat).
@@ -218,11 +220,13 @@ Proof.
 
     assert (to ∘ from ≈ id). {
       constructive; simpl; intros.
-      all:swap 2 3.
+      all:swap 2 4.
       - destruct X; simpl.
         exact (id, id).
       - destruct X; simpl.
         exact (id, id).
+      - abstract (destruct X, Y; simpl; cat).
+      - abstract (destruct X, Y; simpl; cat).
       - abstract (destruct X, Y; simpl; cat).
       - abstract (destruct X, Y; simpl; cat).
       - abstract (destruct A; cat).
@@ -236,9 +240,11 @@ Proof.
         * destruct X0; simpl.
           exact (id, id).
         * abstract (destruct X0, Y; simpl; cat).
+        * abstract (destruct X0, Y; simpl; cat).
       + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
+        * abstract (destruct X0, Y; simpl; cat).
         * abstract (destruct X0, Y; simpl; cat).
       + abstract (destruct A; simpl; cat).
       + abstract (destruct A; simpl; cat).
@@ -247,9 +253,11 @@ Proof.
         * destruct X0; simpl.
           exact (id, id).
         * abstract (destruct X0, Y; simpl; cat).
+        * abstract (destruct X0, Y; simpl; cat).
       + transform; simpl; intros.
         * destruct X0; simpl.
           exact (id, id).
+        * abstract (destruct X0, Y; simpl; cat).
         * abstract (destruct X0, Y; simpl; cat).
       + abstract (destruct A; simpl; cat).
       + abstract (destruct A; simpl; cat).
@@ -271,20 +279,30 @@ Proof.
                ∘ projT2 ((fiber_iso H)⁻¹ (Right_Functor a))
                ∘ fmap (fst (to (projG H) (Right_Functor a)))).
 
-  unshelve (eapply adj_from_unit_conuit).
+  unshelve (eapply Adjunction_from_Transform).
   unshelve econstructor; auto.
 
-  - intros.
-    unfold unit; clear unit.
-    rewrite !comp_assoc.
-    exact (Left_Functoriality H X Y (f, fmap[F] f)).
+  - transform; simpl; intros.
+    + exact (unit X).
+    + unfold unit; clear unit.
+      rewrite !comp_assoc.
+      exact (Left_Functoriality H X Y (f, fmap[F] f)).
+    + unfold unit; clear unit.
+      rewrite !comp_assoc.
+      symmetry.
+      exact (Left_Functoriality H X Y (f, fmap[F] f)).
 
-  - intros.
-    unfold counit; clear counit.
-    rewrite !comp_assoc.
-    exact (Right_Functoriality H X Y (fmap[G] f, f)).
+  - transform; simpl; intros.
+    + exact (counit X).
+    + unfold counit; clear counit.
+      rewrite !comp_assoc.
+      exact (Right_Functoriality H X Y (fmap[G] f, f)).
+    + unfold counit; clear counit.
+      rewrite !comp_assoc.
+      symmetry.
+      exact (Right_Functoriality H X Y (fmap[G] f, f)).
 
-  - intros.
+  - simpl; intros.
     unfold unit, counit; clear unit counit.
     pose proof (comma_functoriality H Id G
                   (to (fiber_iso H) ○ Left_Functor ○ Fst));

@@ -19,7 +19,7 @@ Context `{@Constant D DT T}.
 Class ConstantFunctor := {
   unmap_one : F One ~{D}~> One;
 
-  map_const {x : T} : Const T ~> F (Const T);
+  map_const {x : T} : Const T x ~> F (Const T x);
 
   fmap_constant (x : T) :
     fmap (constant x) ≈ @map_const x ∘ constant x ∘ unmap_one;

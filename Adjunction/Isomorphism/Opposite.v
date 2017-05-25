@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Natural.Transformation.
-Require Export Category.Theory.Adjunction.Isomorphism.
+Require Export Category.Theory.Adjunction.
 Require Import Category.Functor.Opposite.
 
 Generalizable All Variables.
@@ -12,8 +12,8 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Definition Opposite_Adjunction_Iso `(F : D ⟶ C) `(U : C ⟶ D)
-        (A : Adjunction_Iso F U) :
-  Adjunction_Iso (U^op) (F^op) := {|
+        (A : F ⊣ U) :
+  U^op ⊣ F^op := {|
   adj := fun X Y =>
     {| to          := from (@adj _ _ _ _ A Y X)
      ; from        := to (@adj _ _ _ _ A Y X)
@@ -25,3 +25,10 @@ Program Definition Opposite_Adjunction_Iso `(F : D ⟶ C) `(U : C ⟶ D)
   from_adj_nat_l := fun _ _ _ f g => @to_adj_nat_r  _ _ _ _ A _ _ _ g f;
   from_adj_nat_r := fun _ _ _ f g => @to_adj_nat_l  _ _ _ _ A _ _ _ g f
 |}.
+
+Notation "N ^op" := (@Opposite_Adjunction_Iso _ _ _ _ N)
+  (at level 7, format "N ^op") : adjunction_scope.
+
+Corollary Opposite_Adjunction_Iso_invol `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) :
+  (A^op)^op = A.
+Proof. reflexivity. Qed.

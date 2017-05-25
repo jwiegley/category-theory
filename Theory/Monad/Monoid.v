@@ -43,15 +43,19 @@ Proof.
   - unshelve (refine {| mempty  := _
                       ; mappend := _ |}).
     + transform; intros.
-        exact ret.
-      simpl.
-      symmetry.
-      apply fmap_ret.
+      * exact ret.
+      * simpl.
+        symmetry.
+        apply fmap_ret.
+      * simpl.
+        apply fmap_ret.
     + transform; intros.
-        exact join.
-      simpl.
-      symmetry.
-      apply join_fmap_fmap.
+      * exact join.
+      * simpl.
+        symmetry.
+        apply join_fmap_fmap.
+      * simpl.
+        apply join_fmap_fmap.
     + simpl; intros; cat.
       apply join_ret.
     + simpl; intros; cat.

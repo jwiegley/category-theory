@@ -51,6 +51,10 @@ Next Obligation.
   rewrite comp_assoc.
   reflexivity.
 Qed.
+Next Obligation.
+  symmetry.
+  apply nat_compose_obligation_1.
+Qed.
 
 Hint Unfold nat_compose.
 

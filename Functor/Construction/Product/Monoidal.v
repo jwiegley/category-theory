@@ -5,6 +5,7 @@ Require Export Category.Functor.Product.
 Require Export Category.Functor.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Product.
+Require Export Category.Structure.Monoidal.Proofs.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -34,10 +35,11 @@ Proof.
   intros O P.
   isomorphism.
 
-  transform.
+  transform. {
     intros [[x z] [y w]]; split.
       exact (transform[to ap_functor_iso] (x, y)).
     exact (transform[to ap_functor_iso] (z, w)).
+  }
 
   all:(try destruct X as [[x1 x2] [y1 y2]],
                     Y as [[z1 z2] [w1 w2]],
@@ -48,10 +50,17 @@ Proof.
     abstract apply (naturality (to ap_functor_iso) (x1, y1)).
   abstract apply (naturality (to ap_functor_iso) (x2, y2)).
 
-  transform.
+  split.
+    abstract apply (naturality_sym (to ap_functor_iso)
+                                   (x1, y1) (z1, w1) (f1a, f2a)).
+  abstract apply (naturality_sym (to ap_functor_iso)
+                                 (x2, y2) (z2, w2) (f1b, f2b)).
+
+  transform. {
     intros [[x z] [y w]]; split.
       exact (transform[from ap_functor_iso] (x, y)).
     exact (transform[from ap_functor_iso] (z, w)).
+  }
 
   all:(try destruct X as [[x1 x2] [y1 y2]],
                     Y as [[z1 z2] [w1 w2]],
@@ -59,8 +68,16 @@ Proof.
        try destruct A as [[x z] [y w]]; simpl).
 
   split.
-    abstract apply (naturality (from ap_functor_iso) (x1, y1) (z1, w1) (f1a, f2a)).
-  abstract apply (naturality (from ap_functor_iso) (x2, y2) (z2, w2) (f1b, f2b)).
+    abstract apply (naturality (from ap_functor_iso)
+                               (x1, y1) (z1, w1) (f1a, f2a)).
+  abstract apply (naturality (from ap_functor_iso)
+                             (x2, y2) (z2, w2) (f1b, f2b)).
+
+  split.
+    abstract apply (naturality_sym (from ap_functor_iso)
+                                   (x1, y1) (z1, w1) (f1a, f2a)).
+  abstract apply (naturality_sym (from ap_functor_iso)
+                                 (x2, y2) (z2, w2) (f1b, f2b)).
 
   split.
     abstract sapply (iso_to_from (ap_functor_iso[O])).
@@ -70,6 +87,8 @@ Proof.
     abstract apply (iso_from_to (ap_functor_iso[O]) (x, y)).
   abstract apply (iso_from_to (ap_functor_iso[P]) (z, w)).
 Time Defined.
+
+Set Transparent Obligations.
 
 Program Definition ProductFunctor_Monoidal :
   MonoidalFunctor F -> MonoidalFunctor G
@@ -95,9 +114,24 @@ Qed.
 Next Obligation.
   intros; isomorphism; split; apply ap_iso_assoc.
 Qed.
-Next Obligation. intros; split; apply monoidal_unit_left. Qed.
-Next Obligation. intros; split; apply monoidal_unit_right. Qed.
-Next Obligation. intros; split; apply monoidal_assoc. Qed.
+Next Obligation.
+  simpl.
+  unfold ProductFunctor_Monoidal_obligation_2.
+  unfold ProductFunctor_Monoidal_obligation_3.
+  intros; split; apply monoidal_unit_left.
+Qed.
+Next Obligation.
+  simpl.
+  unfold ProductFunctor_Monoidal_obligation_2.
+  unfold ProductFunctor_Monoidal_obligation_3.
+  intros; split; apply monoidal_unit_right.
+Qed.
+Next Obligation.
+  simpl.
+  unfold ProductFunctor_Monoidal_obligation_2.
+  unfold ProductFunctor_Monoidal_obligation_3.
+  intros; split; apply monoidal_assoc.
+Qed.
 
 Lemma ProductFunctor_Monoidal_proj1_ap_functor_iso :
   MonoidalFunctor F ∏⟶ G
@@ -107,9 +141,10 @@ Proof.
 
   isomorphism.
 
-  transform.
+  transform. {
     intros [x y].
     exact (fst (transform[to (ap_functor_iso[P])] ((x, I), (y, I)))).
+  }
 
   all:(try destruct X as [x y],
                     Y as [z w],
@@ -120,9 +155,14 @@ Proof.
                          (x, I, (y, I)) (z, I, (w, I))
                          ((f, id), (g, id)))).
 
-  transform.
+  exact (fst (naturality_sym (to (ap_functor_iso[P]))
+                             (x, I, (y, I)) (z, I, (w, I))
+                             ((f, id), (g, id)))).
+
+  transform. {
     intros [x y].
     exact (fst (transform[from (ap_functor_iso[P])] ((x, I), (y, I)))).
+  }
 
   all:(try destruct X as [x y],
                     Y as [z w],
@@ -132,6 +172,10 @@ Proof.
   exact (fst (naturality (from (ap_functor_iso[P]))
                          (x, I, (y, I)) (z, I, (w, I))
                          ((f, id), (g, id)))).
+
+  exact (fst (naturality_sym (from (ap_functor_iso[P]))
+                             (x, I, (y, I)) (z, I, (w, I))
+                             ((f, id), (g, id)))).
 
   apply (iso_to_from (ap_functor_iso[P]) (x, I, (y, I))).
   apply (iso_from_to (ap_functor_iso[P]) (x, I, (y, I))).
@@ -216,9 +260,10 @@ Proof.
 
   isomorphism.
 
-  transform.
+  transform. {
     intros [x y].
     exact (snd (transform[to (ap_functor_iso[P])] ((I, x), (I, y)))).
+  }
 
   all:(try destruct X as [x y],
                     Y as [z w],
@@ -229,9 +274,14 @@ Proof.
                          (I, x, (I, y)) (I, z, (I, w))
                          ((id, f), (id, g)))).
 
-  transform.
+  exact (snd (naturality_sym (to (ap_functor_iso[P]))
+                             (I, x, (I, y)) (I, z, (I, w))
+                             ((id, f), (id, g)))).
+
+  transform. {
     intros [x y].
     exact (snd (transform[from (ap_functor_iso[P])] ((I, x), (I, y)))).
+  }
 
   all:(try destruct X as [x y],
                     Y as [z w],
@@ -241,6 +291,10 @@ Proof.
   exact (snd (naturality (from (ap_functor_iso[P]))
                          (I, x, (I, y)) (I, z, (I, w))
                          ((id, f), (id, g)))).
+
+  exact (snd (naturality_sym (from (ap_functor_iso[P]))
+                             (I, x, (I, y)) (I, z, (I, w))
+                             ((id, f), (id, g)))).
 
   apply (iso_to_from (ap_functor_iso[P]) (I, x, (I, y))).
   apply (iso_from_to (ap_functor_iso[P]) (I, x, (I, y))).
@@ -323,10 +377,11 @@ Lemma ProductFunctor_LaxMonoidal_ap_functor_nat :
 Proof.
   intros O P.
 
-  transform.
+  transform. {
     intros [[x z] [y w]]; split.
-      exact (transform[ap_functor_nat] (x, y)).
-    exact (transform[ap_functor_nat] (z, w)).
+    - exact (transform[ap_functor_nat] (x, y)).
+    - exact (transform[ap_functor_nat] (z, w)).
+  }
 
   all:(try destruct X as [[x1 x2] [y1 y2]],
                     Y as [[z1 z2] [w1 w2]],
@@ -336,6 +391,12 @@ Proof.
   split.
     abstract apply (naturality ap_functor_nat (x1, y1)).
   abstract apply (naturality ap_functor_nat (x2, y2)).
+
+  split.
+    abstract apply (naturality_sym ap_functor_nat
+                                   (x1, y1) (z1, w1) (f1a, f2a)).
+  abstract apply (naturality_sym ap_functor_nat
+                                 (x2, y2) (z2, w2) (f1b, f2b)).
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal :
@@ -372,9 +433,10 @@ Lemma ProductFunctor_LaxMonoidal_proj1_ap_functor_nat :
 Proof.
   intros P.
 
-  transform.
+  transform. {
     intros [x y].
     exact (fst (transform[ap_functor_nat[P]] ((x, I), (y, I)))).
+  }
 
   all:(try destruct X as [x y],
                     Y as [z w],
@@ -384,6 +446,10 @@ Proof.
   exact (fst (naturality (ap_functor_nat[P])
                          (x, I, (y, I)) (z, I, (w, I))
                          ((f, id), (g, id)))).
+
+  exact (fst (naturality_sym (ap_functor_nat[P])
+                             (x, I, (y, I)) (z, I, (w, I))
+                             ((f, id), (g, id)))).
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal_proj1 :
@@ -459,9 +525,10 @@ Lemma ProductFunctor_LaxMonoidal_proj2_ap_functor_nat :
 Proof.
   intros P.
 
-  transform.
+  transform. {
     intros [x y].
     exact (snd (transform[ap_functor_nat[P]] ((I, x), (I, y)))).
+  }
 
   all:(try destruct X as [x y],
                     Y as [z w],
@@ -471,6 +538,10 @@ Proof.
   exact (snd (naturality (ap_functor_nat[P])
                          (I, x, (I, y)) (I, z, (I, w))
                          ((id, f), (id, g)))).
+
+  exact (snd (naturality_sym (ap_functor_nat[P])
+                             (I, x, (I, y)) (I, z, (I, w))
+                             ((id, f), (id, g)))).
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal_proj2 :
@@ -563,27 +634,46 @@ Proof.
   intro L.
   transform; simplify; simpl;
   intros; simplify; simpl.
-    exact (fst (bimap id (to unit_left) ∘ transform[@ap_functor_nat _ _ _ _ _ L]
+  - exact (fst (bimap id (to unit_left) ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((x, I), (y, I)))).
-  simpl in *.
-  pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                              (x1, I, (y1, I)) (x0, I, (y0, I))
-                              ((x, id), (y, id)))) as X0.
-  simpl in X0.
-  rewrite comp_assoc.
-  rewrite !bimap_fmap.
-  rewrite fst_comp.
-  rewrite <- bimap_comp.
-  rewrite id_left, id_right.
-  rewrite <- comp_assoc.
-  rewrite <- X0.
-  rewrite comp_assoc.
-  rewrite fst_comp.
-  rewrite bimap_fmap.
-  rewrite <- bimap_comp.
-  rewrite bimap_id_id.
-  rewrite id_left, id_right.
-  reflexivity.
+  - simpl in *.
+    pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                                (x1, I, (y1, I)) (x0, I, (y0, I))
+                                ((x, id), (y, id)))) as X0.
+    simpl in X0.
+    rewrite comp_assoc.
+    rewrite !bimap_fmap.
+    rewrite fst_comp.
+    rewrite <- bimap_comp.
+    rewrite id_left, id_right.
+    rewrite <- comp_assoc.
+    rewrite <- X0.
+    rewrite comp_assoc.
+    rewrite fst_comp.
+    rewrite bimap_fmap.
+    rewrite <- bimap_comp.
+    rewrite bimap_id_id.
+    rewrite id_left, id_right.
+    reflexivity.
+  - simpl in *.
+    pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                                (x1, I, (y1, I)) (x0, I, (y0, I))
+                                ((x, id), (y, id)))) as X0.
+    simpl in X0.
+    rewrite comp_assoc.
+    rewrite !bimap_fmap.
+    rewrite fst_comp.
+    rewrite <- bimap_comp.
+    rewrite id_left, id_right.
+    rewrite <- comp_assoc.
+    rewrite <- X0.
+    rewrite comp_assoc.
+    rewrite fst_comp.
+    rewrite bimap_fmap.
+    rewrite <- bimap_comp.
+    rewrite bimap_id_id.
+    rewrite id_left, id_right.
+    reflexivity.
 Defined.
 
 Local Obligation Tactic := program_simpl.
@@ -769,27 +859,46 @@ Proof.
   intro L.
   transform; simplify; simpl;
   intros; simplify; simpl.
-    exact (snd (bimap (to unit_left) id ∘ transform[@ap_functor_nat _ _ _ _ _ L]
+  - exact (snd (bimap (to unit_left) id ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((I, x), (I, y)))).
-  simpl in *.
-  pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                              (I, x1, (I, y1)) (I, x0, (I, y0))
-                              ((id, x), (id, y)))) as X0.
-  simpl in X0.
-  rewrite comp_assoc.
-  rewrite !bimap_fmap.
-  rewrite snd_comp.
-  rewrite <- bimap_comp.
-  rewrite id_left, id_right.
-  rewrite <- comp_assoc.
-  rewrite <- X0.
-  rewrite comp_assoc.
-  rewrite snd_comp.
-  rewrite bimap_fmap.
-  rewrite <- bimap_comp.
-  rewrite bimap_id_id.
-  rewrite id_left, id_right.
-  reflexivity.
+  - simpl in *.
+    pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                                (I, x1, (I, y1)) (I, x0, (I, y0))
+                                ((id, x), (id, y)))) as X0.
+    simpl in X0.
+    rewrite comp_assoc.
+    rewrite !bimap_fmap.
+    rewrite snd_comp.
+    rewrite <- bimap_comp.
+    rewrite id_left, id_right.
+    rewrite <- comp_assoc.
+    rewrite <- X0.
+    rewrite comp_assoc.
+    rewrite snd_comp.
+    rewrite bimap_fmap.
+    rewrite <- bimap_comp.
+    rewrite bimap_id_id.
+    rewrite id_left, id_right.
+    reflexivity.
+  - simpl in *.
+    pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                                (I, x1, (I, y1)) (I, x0, (I, y0))
+                                ((id, x), (id, y)))) as X0.
+    simpl in X0.
+    rewrite comp_assoc.
+    rewrite !bimap_fmap.
+    rewrite snd_comp.
+    rewrite <- bimap_comp.
+    rewrite id_left, id_right.
+    rewrite <- comp_assoc.
+    rewrite <- X0.
+    rewrite comp_assoc.
+    rewrite snd_comp.
+    rewrite bimap_fmap.
+    rewrite <- bimap_comp.
+    rewrite bimap_id_id.
+    rewrite id_left, id_right.
+    reflexivity.
 Defined.
 
 Program Definition ProductFunctor_snd_LaxMonoidal :

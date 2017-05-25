@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.Isomorphism.
+Require Export Category.Theory.Adjunction.
 Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
@@ -21,6 +21,7 @@ Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {|
   fmap := fun _ _ f => {| transform := fun Z => transform[f] (F Z) |}
 |}.
 Next Obligation. apply naturality. Qed.
+Next Obligation. apply naturality_sym. Qed.
 
 Class RightKan := {
   Ran : ([A, C]) ⟶ ([B, C]);
@@ -62,6 +63,10 @@ Global Program Instance RightKan_to_LocalRightKan {R : RightKan} (X : A ⟶ C) :
      ; naturality := naturality[adj_from] |};
   ran_delta := fun M N => to (@adj _ _ _ _ ran_adjoint M X) N
 |}.
+Next Obligation.
+  srewrite_r (naturality[from (@adj _ _ _ _ ran_adjoint (Ran X) X) nat_identity]).
+  reflexivity.
+Qed.
 Next Obligation.
   pose proof (@from_adj_nat_l _ _ _ _ ran_adjoint); simpl in X0.
   rewrite <- X0; clear X0.

@@ -5,6 +5,7 @@ Require Export Category.Functor.Product.
 Require Export Category.Functor.Strong.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Cartesian.
+Require Export Category.Structure.Monoidal.Cartesian.Proofs.
 
 Generalizable All Variables.
 Set Primitive Projections.

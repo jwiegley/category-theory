@@ -3,9 +3,9 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Morphisms.
 Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Monoidal.
+Require Export Category.Structure.Monoidal.Naturality.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -14,9 +14,9 @@ Unset Transparent Obligations.
 
 Section SymmetricMonoidal.
 
-Context {C : Category}.
+Context `{@Monoidal C}.
 
-Class SymmetricMonoidal `{@Monoidal C} := {
+Class SymmetricMonoidal := {
   twist {X Y} : X ⨂ Y ≅ Y ⨂ X;
   twist_natural : natural (@twist);
 
@@ -28,8 +28,7 @@ Class SymmetricMonoidal `{@Monoidal C} := {
     id ⨂ twist ∘ tensor_assoc ∘ twist ⨂ id
 }.
 
-Corollary bimap_twist `{@Monoidal C} `{@SymmetricMonoidal _}
-          {X Y Z W} (f : X ~> Z) (g : Y ~> W) :
+Corollary bimap_twist `{SymmetricMonoidal} {X Y Z W} (f : X ~> Z) (g : Y ~> W) :
   twist ∘ g ⨂ f ∘ twist ≈ f ⨂ g.
 Proof.
   pose proof (fst twist_natural _ _ f _ _ g); simpl in X0.

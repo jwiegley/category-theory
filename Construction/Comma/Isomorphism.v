@@ -37,18 +37,24 @@ Next Obligation.
       + abstract (destruct X; simpl; cat).
       + abstract (destruct X; simpl; cat).
     - constructive; simpl; intros.
+      all:swap 2 4.
       + destruct X; simpl.
         exact (id, id).
-      + abstract (destruct X, Y; simpl; split; cat).
       + destruct X; simpl; split; cat.
+      + abstract (destruct X, Y; simpl; split; cat).
+      + abstract (destruct X; simpl; split; cat).
+      + abstract (destruct X; simpl; split; cat).
       + abstract (destruct X; simpl; split; cat).
       + abstract (destruct A0; simpl; split; cat).
       + abstract (destruct A0; simpl; split; cat).
     - constructive; simpl; intros.
+      all:swap 2 4.
       + destruct X; simpl.
         exact (id, id).
-      + abstract (destruct X, Y; simpl; split; cat).
       + destruct X; simpl; split; cat.
+      + abstract (destruct X, Y; simpl; split; cat).
+      + abstract (destruct X; simpl; split; cat).
+      + abstract (destruct X; simpl; split; cat).
       + abstract (destruct X; simpl; split; cat).
       + abstract (destruct A0; simpl; split; cat).
       + abstract (destruct A0; simpl; split; cat).
@@ -72,18 +78,24 @@ Next Obligation.
     + abstract (destruct X0; simpl; cat).
     + abstract (destruct X0; simpl; cat).
   - constructive; simpl; intros.
+    all:swap 2 4.
     + destruct X0; simpl.
       exact (id, id).
-    + abstract (destruct X0, Y; simpl; split; cat).
     + destruct X0; simpl; split; cat.
+    + abstract (destruct X0, Y; simpl; split; cat).
+    + abstract (destruct X0; simpl; split; cat).
+    + abstract (destruct X0; simpl; split; cat).
     + abstract (destruct X0; simpl; split; cat).
     + abstract (destruct A0; simpl; split; cat).
     + abstract (destruct A0; simpl; split; cat).
   - constructive; simpl; intros.
+    all:swap 2 4.
     + destruct X0; simpl.
       exact (id, id).
-    + abstract (destruct X0, Y; simpl; split; cat).
     + destruct X0; simpl; split; cat.
+    + abstract (destruct X0, Y; simpl; split; cat).
+    + abstract (destruct X; simpl; split; cat).
+    + abstract (destruct X; simpl; split; cat).
     + abstract (destruct X; simpl; split; cat).
     + abstract (destruct A0; simpl; split; cat).
     + abstract (destruct A0; simpl; split; cat).

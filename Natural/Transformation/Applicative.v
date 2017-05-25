@@ -2,6 +2,9 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Functor.Applicative.
+Require Export Category.Structure.Monoidal.Internal.Product.
+Require Export Category.Natural.Transformation.Strong.
+Require Export Category.Natural.Transformation.Monoidal.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -13,7 +16,7 @@ Class Applicative_Transform {C : Category}
       {F : C ⟶ C} `{@Applicative _ _ _ _ F}
       {G : C ⟶ C} `{@Applicative _ _ _ _ G} (N : F ⟹ G) := {
   is_strong_transformation :>
-    @StrongTransformation C InternalProduct_Monoidal _ _ _ _ N;
+    @Strong_Transform C InternalProduct_Monoidal _ _ _ _ N;
   is_lax_monoidal_transformation :>
-    @LaxMonoidalTransformation C InternalProduct_Monoidal _ _ _ _ N
+    @LaxMonoidal_Transform C InternalProduct_Monoidal _ _ _ _ N
 }.

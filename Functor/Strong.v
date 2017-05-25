@@ -108,10 +108,3 @@ End Strong.
 
 Notation "strength[ F ]" := (@strength _ _ F%functor _ _ _)
   (at level 9, format "strength[ F ]") : morphism_scope.
-
-Class StrongTransformation {C : Category} `{@Monoidal C}
-      {F : C ⟶ C} `{@StrongFunctor _ _ F}
-      {G : C ⟶ C} `{@StrongFunctor _ _ G} (N : F ⟹ G) := {
-  strength_transform {X Y} :
-    strength[G] ∘ id[X] ⨂ transform[N] Y ≈ transform[N] _ ∘ strength[F]
-}.

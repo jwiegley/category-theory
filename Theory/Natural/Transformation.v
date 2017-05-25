@@ -20,7 +20,10 @@ Class Transform := {
   transform {X} : F X ~> G X;
 
   naturality {X Y} (f : X ~> Y) :
-    fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f
+    fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f;
+
+  naturality_sym {X Y} (f : X ~> Y) :
+    transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform
 }.
 
 Global Program Instance Transform_Setoid : Setoid Transform.
@@ -29,6 +32,8 @@ End Transform.
 
 Arguments transform {_ _ _ _} _ _.
 Arguments naturality
+  {_ _ _ _ _ _ _ _}, {_ _ _ _} _ {_ _ _}, {_ _ _ _} _ _ _ _.
+Arguments naturality_sym
   {_ _ _ _ _ _ _ _}, {_ _ _ _} _ {_ _ _}, {_ _ _ _} _ _ _ _.
 
 Bind Scope transform_scope with Transform.
@@ -61,8 +66,9 @@ Definition outside {C : Category} {D : Category}
            {E : Category} (X : E ⟶ C) : F ○ X ⟹ G ○ X.
 Proof.
   transform; intros; simpl.
-    apply N.
-  abstract apply naturality.
+  - apply N.
+  - abstract apply naturality.
+  - abstract apply naturality_sym.
 Defined.
 
 Definition inside {C : Category} {D : Category}
@@ -70,9 +76,11 @@ Definition inside {C : Category} {D : Category}
            {E : Category} (X : D ⟶ E) : X ○ F ⟹ X ○ G.
 Proof.
   transform; intros; simpl.
-    apply fmap.
-    apply N.
-  abstract (
-    simpl; rewrite <- !fmap_comp;
-    apply fmap_respects, naturality).
+  - apply fmap, N.
+  - abstract (
+      simpl; rewrite <- !fmap_comp;
+      apply fmap_respects, naturality).
+  - abstract (
+      simpl; rewrite <- !fmap_comp;
+      apply fmap_respects, naturality_sym).
 Defined.

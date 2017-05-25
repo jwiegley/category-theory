@@ -166,6 +166,9 @@ Type and Hom -> Prop.
 ** DONE Arrow category (C⃗)
 ** DONE Slice/Coslice (C/c)
 * Structures
+** TODO Closed Monoidal
+** TODO Cocartesian Monoidal
+** TODO Braided Monoidal
 * Instances
 ** STARTED Finite sets
 ** TODO 3

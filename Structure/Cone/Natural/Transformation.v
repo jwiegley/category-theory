@@ -28,4 +28,5 @@ Proof.
     destruct X; subst.
     + apply x.
     + cat; apply ump_cones.
+    + cat; symmetry; apply ump_cones.
 Qed.

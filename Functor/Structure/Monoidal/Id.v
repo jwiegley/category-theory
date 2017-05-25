@@ -37,11 +37,13 @@ Next Obligation.
   exact id.
 Defined.
 Next Obligation. simpl; intros; simplify; cat. Qed.
+Next Obligation. simpl; intros; simplify; cat. Qed.
 Next Obligation.
   simpl; intros.
   destruct H1; simpl.
   exact id.
 Defined.
+Next Obligation. simpl; intros; simplify; cat. Qed.
 Next Obligation. simpl; intros; simplify; cat. Qed.
 Next Obligation. cat. Qed.
 Next Obligation. cat. Qed.
@@ -60,6 +62,7 @@ Next Obligation.
   destruct H0; simpl.
   exact id.
 Defined.
+Next Obligation. simpl; intros; simplify; cat. Qed.
 Next Obligation. simpl; intros; simplify; cat. Qed.
 Next Obligation. apply tensor_assoc. Qed.
 Next Obligation. rewrite bimap_id_id; cat. Qed.

@@ -9,7 +9,6 @@ Require Export Category.Functor.Structure.Monoidal.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section MonoidalFunctors.
 
@@ -45,14 +44,12 @@ Next Obligation.
   simpl.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-  rewrite (@naturality
-             _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ N))
+  rewrite (@naturality _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ N))
              (o1, o2) (o, o0) (h, h0)).
   simpl.
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
-  pose proof (@naturality
-                _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ M))
+  pose proof (@naturality _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ M))
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   simpl in X; rewrite <- X.
   reflexivity.
@@ -60,15 +57,40 @@ Qed.
 Next Obligation.
   simpl.
   rewrite comp_assoc.
-  pose proof (@naturality
-                _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ M))
+  rewrite <- fmap_comp.
+  rewrite (@naturality _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ N))
+             (o1, o2) (o, o0) (h, h0)).
+  simpl.
+  rewrite !fmap_comp.
+  rewrite <- !comp_assoc.
+  pose proof (@naturality _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ M))
+                (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
+  simpl in X; rewrite <- X.
+  reflexivity.
+Qed.
+Next Obligation.
+  simpl.
+  rewrite comp_assoc.
+  pose proof (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ M))
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   simpl in X; rewrite X.
   simpl.
   rewrite <- !comp_assoc.
   rewrite <- !fmap_comp.
-  rewrite <- (@naturality
-                _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ N))
+  rewrite <- (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ N))
+                (o1, o2) (o, o0) (h, h0)).
+  reflexivity.
+Qed.
+Next Obligation.
+  simpl.
+  rewrite comp_assoc.
+  pose proof (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ M))
+                (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
+  simpl in X; rewrite X.
+  simpl.
+  rewrite <- !comp_assoc.
+  rewrite <- !fmap_comp.
+  rewrite <- (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ N))
                 (o1, o2) (o, o0) (h, h0)).
   reflexivity.
 Qed.
@@ -257,6 +279,22 @@ Global Program Instance Compose_LaxMonoidalFunctor
   ap_functor_nat := {| transform := fun p =>
     fmap lax_ap ∘ @lax_ap _ _ _ _ F _ (G (fst p)) (G (snd p)) |}
 }.
+Next Obligation.
+  simpl.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite (@naturality
+             _ _ _ _ (@ap_functor_nat _ _ _ _ _ N)
+             (o1, o2) (o, o0) (h, h0)).
+  simpl.
+  rewrite !fmap_comp.
+  rewrite <- !comp_assoc.
+  pose proof (@naturality
+                _ _ _ _ (@ap_functor_nat _ _ _ _ _ M)
+                (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
+  simpl in X; rewrite <- X.
+  reflexivity.
+Qed.
 Next Obligation.
   simpl.
   rewrite comp_assoc.

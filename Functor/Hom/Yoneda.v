@@ -37,6 +37,12 @@ Next Obligation.
   apply fmap_comp.
 Qed.
 Next Obligation.
+  (* The action of [transform] is natural (symmetric). *)
+  autounfold.
+  destruct F; simpl in *.
+  apply fmap_comp.
+Qed.
+Next Obligation.
   (* [from] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
@@ -76,6 +82,12 @@ Next Obligation.
   autounfold.
   destruct F; simpl in *.
   symmetry.
+  apply fmap_comp.
+Qed.
+Next Obligation.
+  (* The action of [transform] is natural (symmetric). *)
+  autounfold.
+  destruct F; simpl in *.
   apply fmap_comp.
 Qed.
 Next Obligation.

@@ -31,15 +31,22 @@ Program Definition Composition_Monoidal {C : Category} :
 |}.
 Next Obligation.
   rewrite <- naturality.
-  rewrite <- !comp_assoc.
+  rewrite <- comp_assoc.
   rewrite <- naturality.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-  rewrite <- naturality.
-  rewrite comp_assoc.
-  normal.
-  rewrite <- naturality.
-  reflexivity.
+  rewrite (naturality[snd N]).
+  rewrite fmap_comp.
+  comp_left.
+  apply naturality.
+Qed.
+Next Obligation.
+  rewrite naturality.
+  rewrite <- !comp_assoc.
+  comp_left.
+  rewrite <- !fmap_comp.
+  apply fmap_respects.
+  apply naturality_sym.
 Qed.
 Next Obligation.
   proper; simpl in *.
