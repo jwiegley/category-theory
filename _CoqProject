@@ -69,8 +69,8 @@ Structure/End.v
 Structure/Equalizer.v
 Structure/Span.v
 Structure/Pullback.v
-Structure/Pullback/Universal.v
-Structure/Pullback/Universal/Cospan.v
+Structure/Pullback/Limit.v
+Structure/Pullback/Limit/Universal.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cocartesian.v

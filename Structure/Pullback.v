@@ -1,53 +1,21 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Limit.
-Require Export Category.Structure.Span.
+Require Export Category.Theory.Category.
 
-(* Given a cospan in C:
+Record Pullback_Universal {C : Category}
+       {X Y Z : C} (f : X ~> Z) (g : Y ~> Z) := {
+  pullback_obj : C;
+  pullback_fst : pullback_obj ~> X;
+  pullback_snd : pullback_obj ~> Y;
 
-           A         B
-            \       /
-           f \     / g
-              \   /
-               v v
-                C
+  pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd;
 
-  This can be thought of, set-theoretically, as the equation:
-
-     ∀ a ∈ A, b ∈ B, f(b) = g(a)
-
-  This is a strong statement, requiring that every element of A agree with
-  an element of B through f and g. A pullback is a subset of the cartesian
-  product of A and B, X ⊆ A × B, such that (a, b) ∈ X, where the following
-  diagram commutes:
-
-                X
-              /   \
-          pA /     \ pB
-            /       \
-           A         B
-            \       /
-           f \     / g
-              \   /
-               v v
-                C
-
-  An example of this is an INNER JOIN of two SQL tables, where f projects a
-  primary key from A, and g a foreign key referencing A, so that X contains
-  exactly those pairs of rows from A and B where id(A) = fkey(B).
-
-  Wikipedia: "In fact, the pullback is the universal solution to finding a
-  commutative square like this. In other words, given any commutative square
-  [replacing in the above X with Y, and pA and pB with qA and qB] there is a
-  unique function h : Y → X such that pA ∘ h ≈ qA and pB ∘ h ≈ qB."
-
-  Pullbacks are defined first in terms of limits of cospans, and then arrow-
-  wise with universal properties, followed by a proof of relation of the two
-  representations. *)
-
-Definition Pullback {C : Category} (F : Cospan C) := Limit F.
-Arguments Pullback {_} F /.
-
-Definition Pushout {C : Category} (F : Span C) := Colimit F.
-Arguments Pushout {_} F /.
+  pullback_ump : ∀ Q (q1 : Q ~> X) (q2 : Q ~> Y),
+    f ∘ q1 ≈ g ∘ q2 ->
+    { h : Q ~> pullback_obj
+    & (pullback_fst ∘ h ≈ q1) * (pullback_snd ∘ h ≈ q2)
+    & ∀ (v : Q ~> pullback_obj),
+        (pullback_fst ∘ v ≈ q1) *
+        (pullback_snd ∘ v ≈ q2) * (v ≈ h) }
+}.

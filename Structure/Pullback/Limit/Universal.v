@@ -1,8 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Export Category.Structure.Pullback.Limit.
 Require Export Category.Structure.Pullback.
-Require Export Category.Structure.Pullback.Universal.
 Require Export Category.Structure.Limit.
 Require Export Category.Structure.Span.
 Require Export Category.Instance.Roof.
@@ -104,7 +104,8 @@ Next Obligation.
   - destruct pullback_ump; intuition.
 Qed.
 
-(*
+(* jww (2017-05-25): TODO
+
 Require Import Category.Structure.Terminal.
 
 Definition Product' {C : Category} `{@Terminal C} {X Y : C} :=
