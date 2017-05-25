@@ -131,7 +131,7 @@ Natural/Transformation/Monoidal.v
 Natural/Transformation/Strong.v
 Natural/Transformation/Applicative.v
 Adjunction/Opposite.v
-Adjunction/Isomorphism/Opposite.v
+Adjunction/Natural/Transformation/Opposite.v
 Tools/Abstraction.v
 Tools/Represented.v
 Theory.v

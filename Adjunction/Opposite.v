@@ -5,23 +5,30 @@ Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Theory.Adjunction.
 Require Import Category.Functor.Opposite.
-Require Import Category.Natural.Transformation.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-(* jww (2017-05-24): TODO
-Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) :
-  U^op ⊣ F^op :=
-  @Build_Adjunction (C^op) (D^op) (F^op) (U^op)
-    {| transform  := counit
-     ; naturality := fun X Y f => @naturality C C _ _ counit Y X f |}
-    {| transform := unit
-     ; naturality := fun X Y f => @naturality D D _ _ unit Y X f |}
-    (* (@counit C D F U A) *)
-    (* ((@unit C D F U A)^op) *)
-    (@fmap_counit_unit C D F U A)
-    (@counit_fmap_unit C D F U A).
-*)
+Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D)
+        (A : F ⊣ U) :
+  U^op ⊣ F^op := {|
+  adj := fun X Y =>
+    {| to          := from (@adj _ _ _ _ A Y X)
+     ; from        := to (@adj _ _ _ _ A Y X)
+     ; iso_to_from := iso_from_to (@adj _ _ _ _ A Y X)
+     ; iso_from_to := iso_to_from (@adj _ _ _ _ A Y X) |};
+
+  to_adj_nat_l   := fun _ _ _ f g => @from_adj_nat_r _ _ _ _ A _ _ _ g f;
+  to_adj_nat_r   := fun _ _ _ f g => @from_adj_nat_l _ _ _ _ A _ _ _ g f;
+  from_adj_nat_l := fun _ _ _ f g => @to_adj_nat_r  _ _ _ _ A _ _ _ g f;
+  from_adj_nat_r := fun _ _ _ f g => @to_adj_nat_l  _ _ _ _ A _ _ _ g f
+|}.
+
+Notation "N ^op" := (@Opposite_Adjunction _ _ _ _ N)
+  (at level 7, format "N ^op") : adjunction_scope.
+
+Corollary Opposite_Adjunction_invol `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) :
+  (A^op)^op = A.
+Proof. reflexivity. Qed.
