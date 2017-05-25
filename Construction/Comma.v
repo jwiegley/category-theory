@@ -59,6 +59,6 @@ Require Import Category.Functor.Opposite.
 
 (* jww (2017-05-24): Is the opposite of comma really cocomma? *)
 Definition Cocomma {A : Category} {B : Category} {C : Category}
-           {S : A ⟶ C} {T : B ⟶ C} := @Comma (A^op) (B^op) (C^op) (S^op) (T^op).
+  {S : A ⟶ C} {T : B ⟶ C} := @Comma (A^op) (B^op) (C^op) (S^op) (T^op).
 
 Notation "S ↑ T" := (@Cocomma _ _ _ S T) (at level 90) : category_scope.
