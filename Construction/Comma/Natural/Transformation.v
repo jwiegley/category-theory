@@ -36,33 +36,25 @@ Local Obligation Tactic := simpl; intros.
 
 Program Definition Comma_Transform {C : Category} {D : Category}
         {S : D ⟶ C} {T : D ⟶ C} (F : D ⟶ (S ↓ T))
-        (proj1_commutes : comma_proj1 ○ F ≈[Cat] Id)
-        (proj2_commutes : comma_proj2 ○ F ≈[Cat] Id)
+        (proj1 : comma_proj1 ○ F ≈[Cat] Id)
+        (proj2 : comma_proj2 ○ F ≈[Cat] Id)
         (functoriality : ∀ X Y (g : X ~> Y),
-           fmap[T] g ∘ fmap (to proj2_commutes X)
+           fmap[T] g ∘ fmap (to proj2 X)
                      ∘ projT2 (F X)
-                     ∘ fmap (from proj1_commutes X)
-             ≈ fmap (to proj2_commutes Y)
+                     ∘ fmap (from proj1 X)
+             ≈ fmap (to proj2 Y)
                      ∘ projT2 (F Y)
-                     ∘ fmap (from proj1_commutes Y)
+                     ∘ fmap (from proj1 Y)
                      ∘ fmap[S] g) :
   S ⟹ T := {|
-  transform := fun X => _
+  transform := fun X => fmap (to proj2 X) ∘ projT2 (F X) ∘ fmap (from proj1 X)
 |}.
 Next Obligation.
-  exact (fmap (to proj2_commutes X)
-           ∘ projT2 (F X) ∘ fmap (from proj1_commutes X)).
-Defined.
-Next Obligation.
-  unfold Comma_Transform_obligation_1.
-  pose proof (functoriality X Y f).
   rewrite !comp_assoc.
-  apply X0.
+  apply functoriality.
 Qed.
 Next Obligation.
-  unfold Comma_Transform_obligation_1.
-  pose proof (functoriality X Y f).
   rewrite !comp_assoc.
   symmetry.
-  apply X0.
+  apply functoriality.
 Qed.
