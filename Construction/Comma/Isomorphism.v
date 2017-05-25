@@ -12,6 +12,15 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+Ltac reduce :=
+  repeat match goal with
+    | [ H : {p : _ & _ } |- _ ] => destruct H
+    end;
+  simpl; auto; try split; cat; simpl; cat.
+
+(* At the moment this proof exhausts Coq's memory, bug #5551 *)
+
+(*
 Program Instance Comma_Iso {A : Category} {B : Category} {C : Category} :
   Proper (@Isomorphism Fun ==> @Isomorphism Fun ==> @Isomorphism Cat)
          (@Comma A B C).
@@ -19,84 +28,29 @@ Next Obligation.
   proper.
   transitivity (y ↓ x0). {
     destruct X; simpl in *.
-    isomorphism; simpl; intros.
+    isomorphism.
     - functor; simpl; intros.
-      + destruct X.
-        exists x1.
+        reduce.
         exact (h ∘ transform[from] _).
-      + destruct X, Y; auto.
-      + abstract (destruct X, Y; auto).
-      + abstract (destruct X; simpl; cat).
-      + abstract (destruct X; simpl; cat).
+      all:reduce.
     - functor; simpl; intros.
-      + destruct X.
-        exists x1.
+        reduce.
         exact (h ∘ transform[to] _).
-      + destruct X, Y; auto.
-      + abstract (destruct X, Y; auto).
-      + abstract (destruct X; simpl; cat).
-      + abstract (destruct X; simpl; cat).
-    - constructive; simpl; intros.
-      all:swap 2 4.
-      + destruct X; simpl.
-        exact (id, id).
-      + destruct X; simpl; split; cat.
-      + abstract (destruct X, Y; simpl; split; cat).
-      + abstract (destruct X; simpl; split; cat).
-      + abstract (destruct X; simpl; split; cat).
-      + abstract (destruct X; simpl; split; cat).
-      + abstract (destruct A0; simpl; split; cat).
-      + abstract (destruct A0; simpl; split; cat).
-    - constructive; simpl; intros.
-      all:swap 2 4.
-      + destruct X; simpl.
-        exact (id, id).
-      + destruct X; simpl; split; cat.
-      + abstract (destruct X, Y; simpl; split; cat).
-      + abstract (destruct X; simpl; split; cat).
-      + abstract (destruct X; simpl; split; cat).
-      + abstract (destruct X; simpl; split; cat).
-      + abstract (destruct A0; simpl; split; cat).
-      + abstract (destruct A0; simpl; split; cat).
+      all:reduce.
+    - constructive; reduce.
+    - constructive; reduce.
   }
   destruct X0; simpl in *.
-  isomorphism; simpl; intros.
+  isomorphism.
   - functor; simpl; intros.
-    + destruct X0.
-      exists x1.
+      reduce.
       exact (transform[to] _ ∘ h).
-    + destruct X0, Y; auto.
-    + abstract (destruct X0, Y; auto).
-    + abstract (destruct X0; simpl; cat).
-    + abstract (destruct X0; simpl; cat).
+    all:reduce.
   - functor; simpl; intros.
-    + destruct X0.
-      exists x1.
+      reduce.
       exact (transform[from] _ ∘ h).
-    + destruct X0, Y; auto.
-    + abstract (destruct X0, Y; auto).
-    + abstract (destruct X0; simpl; cat).
-    + abstract (destruct X0; simpl; cat).
-  - constructive; simpl; intros.
-    all:swap 2 4.
-    + destruct X0; simpl.
-      exact (id, id).
-    + destruct X0; simpl; split; cat.
-    + abstract (destruct X0, Y; simpl; split; cat).
-    + abstract (destruct X0; simpl; split; cat).
-    + abstract (destruct X0; simpl; split; cat).
-    + abstract (destruct X0; simpl; split; cat).
-    + abstract (destruct A0; simpl; split; cat).
-    + abstract (destruct A0; simpl; split; cat).
-  - constructive; simpl; intros.
-    all:swap 2 4.
-    + destruct X0; simpl.
-      exact (id, id).
-    + destruct X0; simpl; split; cat.
-    + abstract (destruct X0, Y; simpl; split; cat).
-    + abstract (destruct X; simpl; split; cat).
-    + abstract (destruct X; simpl; split; cat).
-    + abstract (destruct X; simpl; split; cat).
-    + abstract (destruct A0; simpl; split; cat).
-    + abstract (destruct A0; simpl; split; cat).
-Time Qed.
+    all:reduce.
+  - constructive; reduce.
+  - constructive; reduce.
+Qed.
+*)
