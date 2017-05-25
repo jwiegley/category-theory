@@ -67,5 +67,6 @@ Proof.
     simpl in X1; apply X1; clear X1.
     intros; simpl.
     abstract apply X.
-  - abstract apply limit_unique.
+  - rewrite <- limit_unique.
+    apply limit_unique.
 Qed.

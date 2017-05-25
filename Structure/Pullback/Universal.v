@@ -13,9 +13,9 @@ Record Pullback_Universal {C : Category}
 
   pullback_ump : ∀ Q (q1 : Q ~> X) (q2 : Q ~> Y),
     f ∘ q1 ≈ g ∘ q2 ->
-      { h : Q ~> pullback_obj
-      & (pullback_fst ∘ h ≈ q1) * (pullback_snd ∘ h ≈ q2)
-      & ∀ (v : Q ~> pullback_obj),
-          pullback_fst ∘ v ≈ q1 ->
-          pullback_snd ∘ v ≈ q2 -> v ≈ h }
+    { h : Q ~> pullback_obj
+    & (pullback_fst ∘ h ≈ q1) * (pullback_snd ∘ h ≈ q2)
+    & ∀ (v : Q ~> pullback_obj),
+        (pullback_fst ∘ v ≈ q1) *
+        (pullback_snd ∘ v ≈ q2) * (v ≈ h) }
 }.

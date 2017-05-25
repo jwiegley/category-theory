@@ -26,68 +26,49 @@ Next Obligation.
     unshelve (refine {| vertex := Q |}); intros.
       destruct X0; auto.
       exact (unop (fmap[F] ZeroPos) ∘ q2).
-    simpl.
-    destruct X0, Y; auto with roof_laws; simpl in f.
-    + pattern f.
-      apply caseRoofNegNeg; cat.
-    + unfold unop.
-      pattern f.
-      apply caseRoofZeroNeg; clear f.
-      apply X.
-    + pattern f.
-      apply caseRoofZeroZero; cat.
-    + unfold unop.
-      pattern f.
-      apply caseRoofZeroPos; clear f.
-      reflexivity.
-    + pattern f.
-      apply caseRoofPosPos; cat.
+    abstract (
+      simpl;
+      destruct X0, Y; auto with roof_laws; simpl in f;
+      [ pattern f;
+        apply caseRoofNegNeg; cat
+      | unfold unop;
+        pattern f;
+        apply caseRoofZeroNeg; clear f;
+        apply X
+      | pattern f;
+        apply caseRoofZeroZero; cat
+      | unfold unop;
+        pattern f;
+        apply caseRoofZeroPos; clear f;
+        reflexivity
+      | pattern f;
+        apply caseRoofPosPos; cat ]).
   }
   destruct P, Lim; simpl in *.
-  exists (limit_terminal cone).
+  exists (limit_terminal cone). {
     split;
     [ pose proof (ump_limits cone RNeg)
     | pose proof (ump_limits cone RPos) ];
     unfold cone in *; simpl in *; clear cone;
     rewrite X0; clear X0; reflexivity.
+  }
   intros.
   pose proof (limit_unique cone).
+  pose proof (ump_limits cone).
   unfold cone in *; simpl in *; clear cone.
-  apply X2.
+  split.
+    split;
+    rewrite <- X0;
+    apply X1.
+  symmetry.
+  apply X0.
 Qed.
 
 Program Definition Pullback_from_Universal {C : Category}
         {X Y Z : C} (f : X ~> Z) (g : Y ~> Z) (P : Pullback_Universal f g) :
-  @Limit (Roof^op) C
-    {| fobj := fun x => match x with
-         | RNeg  => X
-         | RZero => Z
-         | RPos  => Y
-         end
-     ; fmap := fun x y h => match x, y with
-         | RNeg,  RNeg  => id
-         | RNeg,  RZero => f
-         | RZero, RZero => id
-         | RPos,  RZero => g
-         | RPos,  RPos  => id
-         | RZero, RNeg  => False_rect _ (RNeg_RZero_absurd h)
-         | RZero, RPos  => False_rect _ (RPos_RZero_absurd h)
-         | RNeg,  RPos  => False_rect _ (RPos_RNeg_absurd h)
-         | RPos,  RNeg  => False_rect _ (RNeg_RPos_absurd h)
-         end
-    |} := {|
+  Limit (@ASpan (C^op) Z X Y f g)^op := {|
   Lim := {| vertex := pullback_obj _ _ P |}
 |}.
-Next Obligation.
-  proper.
-  destruct X0, Y0; auto with roof_laws; cat.
-Qed.
-Next Obligation.
-  destruct X0; auto with roof_laws; cat.
-Qed.
-Next Obligation.
-  destruct X0, Y0, Z0; auto with roof_laws; cat.
-Qed.
 Next Obligation.
   destruct X0;
   destruct P; simpl in *; auto.
@@ -108,23 +89,20 @@ Next Obligation.
 Defined.
 Next Obligation.
   destruct P, N; simpl in *.
-  assert (f ∘ vertex_map RNeg ≈ g ∘ vertex_map RPos).
-    rewrite (ump_cones RNeg RZero ZeroNeg).
-    rewrite (ump_cones RPos RZero ZeroPos).
-    reflexivity.
-  destruct (pullback_ump vertex (vertex_map RNeg) (vertex_map RPos) X0)
-    as [h [hfst hsnd] unique].
-  rewrite (unique f0), (unique g0).
-  - reflexivity.
-  - admit.
-  - admit.
-  - admit.
-  - admit.
-Admitted.
+  destruct pullback_ump.
+  specialize (p0 f0); intuition.
+Qed.
 Next Obligation.
   destruct P, N; simpl in *.
   destruct X0; simpl.
-Admitted.
+  - destruct pullback_ump; intuition.
+  - destruct pullback_ump.
+    destruct p.
+    rewrite <- comp_assoc.
+    rewrite e.
+    apply (ump_cones RNeg RZero ZeroNeg).
+  - destruct pullback_ump; intuition.
+Qed.
 
 (*
 Require Import Category.Structure.Terminal.

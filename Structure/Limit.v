@@ -30,7 +30,7 @@ Class Limit `(F : J ⟶ C) := {
   (* This restates the fact that limits are terminal objects in the category
      of cones to F (which in turn is the comma category (Δ ↓ F)). *)
   limit_terminal {N : Cone F} : N ~> Lim;
-  limit_unique {N : Cone F} (f g : N ~> Lim) : f ≈ g;
+  limit_unique {N : Cone F} (f : N ~> Lim) : limit_terminal ≈ f;
 
   ump_limits {N : Cone F} {X : J} :
     vertex_map[Lim] ∘ limit_terminal ≈ @vertex_map _ _ _ N X
