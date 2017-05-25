@@ -83,6 +83,7 @@ Instance/Two.v
 Instance/Parallel.v
 Instance/Roof.v
 Instance/Fun.v
+Instance/Adj.v
 Instance/Adjoints.v
 Instance/Coq.v
 Instance/Coq/Applicative.v
