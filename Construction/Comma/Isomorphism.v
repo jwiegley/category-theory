@@ -18,7 +18,7 @@ Ltac reduce :=
     end;
   simpl; auto; try split; cat; simpl; cat.
 
-(* At the moment this proof exhausts Coq's memory, bug #5551 *)
+(* jww (2017-05-26): At the moment this proof exhausts Coq's memory, bug #5551 *)
 
 (*
 Program Instance Comma_Iso {A : Category} {B : Category} {C : Category} :
