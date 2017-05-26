@@ -2,25 +2,44 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
+Require Export Category.Structure.Terminal.
+Require Export Category.Construction.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Class Initial `(C : Category) := {
-  Zero : ob;
-  zero {A} : Zero ~> A;
+(* To be initial is just to be terminal in the opposite category; but to avoid
+   confusion, we'd like a set of notations specific to categories with initial
+   objects. *)
 
-  zero_unique {A} {f g : Zero ~> A} : f ≈ g
-}.
+Notation "'Initial' C" := (@Terminal (C^op))
+  (at level 9) : category_theory_scope.
+Notation "@Initial C" := (@Terminal (C^op))
+  (at level 9) : category_theory_scope.
+
+Section Initial_.
+
+Context `{I : @Initial C}.
+
+Definition Zero : C := @One _ I.
+Definition zero {A} : Zero ~{C}~> A := @one _ I _.
+
+Definition zero_unique {A} {f g : Zero ~{C}~> A} : f ≈ g :=
+  @one_unique _ I _ _ _.
+
+End Initial_.
 
 Notation "0" := Zero : object_scope.
 
+Notation "zero[ C ]" := (@zero _ _ C)
+  (at level 9, format "zero[ C ]") : morphism_scope.
+
 Hint Resolve @zero_unique : category_laws.
 
-Corollary zero_comp `{@Initial C} {A B : C} {f : A ~> B} :
+Corollary zero_comp `{T : @Initial C} {A B : C} {f : A ~> B} :
   f ∘ zero ≈ zero.
-Proof. intros; apply zero_unique. Qed.
+Proof. apply (@one_comp _ T). Qed.
 
 Hint Rewrite @zero_comp : categories.

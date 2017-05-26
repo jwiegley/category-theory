@@ -55,20 +55,20 @@ Qed.
 Next Obligation. proper; congruence. Qed.
 
 Program Instance Coq_Initial : Initial Coq := {
-  Zero := False;
-  zero := fun _ _ => False_rect _ _
+  One := False;
+  one := fun _ _ => False_rect _ _
 }.
 Next Obligation. contradiction. Qed.
 
 Program Instance Coq_Cocartesian : @Cocartesian Coq := {
-  Coprod := sum;
-  merge := fun _ _ _ f g x =>
+  Prod := sum;
+  fork := fun _ _ _ f g x =>
             match x with
             | Datatypes.inl v => f v
             | Datatypes.inr v => g v
             end;
-  inl  := fun _ _ p => Datatypes.inl p;
-  inr  := fun _ _ p => Datatypes.inr p
+  exl  := fun _ _ p => Datatypes.inl p;
+  exr  := fun _ _ p => Datatypes.inr p
 }.
 Next Obligation.
   split; intros.

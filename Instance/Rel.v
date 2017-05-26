@@ -60,8 +60,8 @@ Next Obligation. firstorder. Qed.
 Next Obligation. firstorder. Qed.
 
 Program Instance Rel_Initial : @Initial Rel := {
-  Zero := False;
-  zero := fun _ _ => False_rect _ _
+  One := False;
+  one := fun _ _ => False_rect _ _
 }.
 
 (*

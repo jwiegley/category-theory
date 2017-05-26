@@ -39,3 +39,17 @@ Qed.
 
 Definition op   {C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
 Definition unop {C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
+
+(* If two objects are isomorphic in C, then they are also isomorphic in C^op,
+   just the conversion arrows are flipped. *)
+
+Require Export Category.Theory.Isomorphism.
+
+Program Instance Isomorphism_Opposite {C : Category} {X Y : C}
+       (iso : @Isomorphism C X Y) :
+  @Isomorphism (C^op) X Y := {
+  to := from iso;
+  from := to iso;
+  iso_to_from := iso_to_from iso;
+  iso_from_to := iso_from_to iso
+}.

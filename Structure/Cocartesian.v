@@ -1,229 +1,163 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Isomorphism.
+Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Initial.
+Require Export Category.Construction.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Section Cocartesian.
+(* To be cocartesian is just to be cartesian in the opposite category; but to
+   avoid confusion, we'd like a set of notations specific to categories with
+   cocartesian structure. *)
 
-Context {C : Category}.
+Notation "'Cocartesian' C" := (@Cartesian (C^op))
+  (at level 9) : category_theory_scope.
+Notation "@Cocartesian C" := (@Cartesian (C^op))
+  (at level 9) : category_theory_scope.
 
-Class Cocartesian := {
-  Coprod : ob -> ob -> ob
-    where "X + Y" := (Coprod X Y);
+Section Cocartesian_.
 
-  merge {X Y Z} (f : Y ~> X) (g : Z ~> X) : Y + Z ~> X;
-  inl   {X Y} : X ~> X + Y;
-  inr   {X Y} : Y ~> X + Y;
+Context `{O : @Cocartesian C}.
 
-  merge_respects :> ∀ X Y Z,
-    Proper (equiv ==> equiv ==> equiv) (@merge X Y Z);
-
-  ump_coproducts {X Y Z} (f : Y ~> X) (g : Z ~> X) (h : Y + Z ~> X) :
-    h ≈ merge f g <--> (h ∘ inl ≈ f) * (h ∘ inr ≈ g)
-}.
+Definition Coprod : C -> C -> C := @Prod _ O.
 
 Infix "+" := Coprod : category_scope.
+
+Definition merge {X Y Z : C} (f : Y ~> X) (g : Z ~> X) : Y + Z ~{C}~> X :=
+  @fork _ O _ _ _ f g.
+
 Infix "▽" := merge (at level 26) : category_scope.
 
-Context `{@Cocartesian}.
+Global Program Instance merge_respects {X Y Z} :
+  Proper (equiv ==> equiv ==> equiv) (@merge X Y Z).
+Next Obligation. apply (@fork_respects _ O). Qed.
 
-Definition left  {X Y Z : C} (f : X ~> Y) : X + Z ~> Y + Z :=
+Definition inl {X Y : C} : X ~{C}~> X + Y := @exl _ O _ _.
+Definition inr {X Y : C} : Y ~{C}~> X + Y := @exr _ O _ _.
+
+Definition left  {X Y Z : C} (f : X ~> Y) : X + Z ~{C}~> Y + Z :=
   (inl ∘ f) ▽ inr.
 
-Definition right  {X Y Z : C} (f : X ~> Y) : Z + X ~> Z + Y :=
+Definition right  {X Y Z : C} (f : X ~> Y) : Z + X ~{C}~> Z + Y :=
   inl ▽ (inr ∘ f).
 
 Definition cover  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
-  X + Z ~> Y + W :=
+  X + Z ~{C}~> Y + W :=
   (inl ∘ f) ▽ (inr ∘ g).
 
 Global Program Instance parametric_morphism_left {a b c : C} :
   Proper (equiv ==> equiv) (@left a b c).
-Obligation 1.
-  proper.
-  unfold left.
-  rewrite X.
-  reflexivity.
-Qed.
+Next Obligation. apply (@parametric_morphism_first _ O). Qed.
 
 Global Program Instance parametric_morphism_right {a b c : C} :
   Proper (equiv ==> equiv) (@right a b c).
-Obligation 1.
-  proper.
-  unfold right.
-  rewrite X.
-  reflexivity.
-Qed.
+Next Obligation. apply (@parametric_morphism_second _ O). Qed.
 
 Global Program Instance parametric_morphism_cover {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@cover a b c d).
-Obligation 1.
+Next Obligation.
   proper.
   unfold cover.
   rewrite X, X0.
   reflexivity.
 Qed.
 
-Definition twist {X Y : C} : X + Y ~> Y + X := inr ▽ inl.
+Definition paws {X Y : C} : X + Y ~{C}~> Y + X := @swap _ O _ _.
 
-Corollary inl_merge {X Z W : C} (f : Z ~> X) (g : W ~> X) :
+Lemma inl_merge {X Z W : C} (f : Z ~> X) (g : W ~> X) :
   f ▽ g ∘ inl ≈ f.
-Proof.
-  intros.
-  apply (ump_coproducts f g (f ▽ g)).
-  reflexivity.
-Qed.
+Proof. apply (@exl_fork _ O). Qed.
 
 Hint Rewrite @inl_merge : categories.
 
-Corollary inr_merge {X Z W : C} (f : Z ~> X) (g : W ~> X) :
+Lemma inr_merge {X Z W : C} (f : Z ~> X) (g : W ~> X) :
   f ▽ g ∘ inr ≈ g.
-Proof.
-  intros.
-  apply (ump_coproducts f g (f ▽ g)).
-  reflexivity.
-Qed.
+Proof. apply (@exr_fork _ O). Qed.
 
 Hint Rewrite @inr_merge : categories.
 
 Corollary merge_inl_inr {X Y : C} :
   inl ▽ inr ≈ @id C (X + Y).
-Proof.
-  intros.
-  symmetry.
-  apply ump_coproducts; split; cat.
-Qed.
+Proof. apply (@fork_exl_exr _ O). Qed.
 
 Hint Rewrite @merge_inl_inr : categories.
 
 Corollary merge_inv {X Y Z : C} (f h : Y ~> X) (g i : Z ~> X) :
   f ▽ g ≈ h ▽ i <--> (f ≈ h) * (g ≈ i).
-Proof.
-  pose proof (ump_coproducts h i (f ▽ g)) as Huniv;
-  simplify; intuition.
-  - rewrite <- a; cat.
-  - rewrite <- b; cat.
-  - apply X0; cat.
-Qed.
+Proof. apply (@fork_inv _ O). Qed.
 
 Corollary merge_comp {X Y Z W : C} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X) :
   (g ∘ f) ▽ (g ∘ h) ≈ g ∘ f ▽ h.
-Proof.
-  intros.
-  symmetry.
-  apply ump_coproducts; split;
-  rewrite <- !comp_assoc; cat.
-Qed.
+Proof. apply (@fork_comp _ O). Qed.
 
 Theorem left_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
   left (Z:=W) (f ∘ g) ≈ left f ∘ left g.
-Proof.
-  unfold left.
-  rewrite <- merge_comp; cat.
-  rewrite !comp_assoc; cat.
-Qed.
+Proof. apply (@first_comp _ O). Qed.
 
 Theorem left_fork {X Y Z W : C} (f : Y ~> X) (g : Z ~> X) (h : W ~> Y) :
   f ▽ g ∘ left h ≈ (f ∘ h) ▽ g.
-Proof.
-  unfold left.
-  rewrite <- merge_comp; cat.
-  rewrite !comp_assoc; cat.
-Qed.
+Proof. apply (@first_fork _ O). Qed.
 
 Theorem right_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
   right (Z:=W) (f ∘ g) ≈ right f ∘ right g.
-Proof.
-  unfold right.
-  rewrite <- merge_comp; cat.
-  rewrite !comp_assoc; cat.
-Qed.
+Proof. apply (@second_comp _ O). Qed.
 
 Theorem right_fork {X Y Z W : C} (f : Y ~> X) (g : Z ~> X) (h : W ~> Z) :
   f ▽ g ∘ right h ≈ f ▽ (g ∘ h).
-Proof.
-  unfold right.
-  rewrite <- merge_comp; cat.
-  rewrite !comp_assoc; cat.
-Qed.
+Proof. apply (@second_fork _ O). Qed.
 
 Corollary inl_left {X Y Z : C} (f : X ~> Y) :
-  left f ∘ @inl _ X Z ≈ inl ∘ f.
-Proof. unfold left; cat. Qed.
+  left f ∘ @inl X Z ≈ inl ∘ f.
+Proof. apply (@exl_first _ O). Qed.
 
 Hint Rewrite @inl_left : categories.
 
 Corollary inr_left {X Y Z : C} (f : X ~> Y) :
-  left f ∘ @inr _ X Z ≈ inr.
-Proof. unfold left; cat. Qed.
+  left f ∘ @inr X Z ≈ inr.
+Proof. apply (@exr_first _ O). Qed.
 
 Hint Rewrite @inr_left : categories.
 
 Corollary inl_right {X Y Z : C} (f : X ~> Y) :
-  right f ∘ @inl _ Z X ≈ inl.
-Proof. unfold right; cat. Qed.
+  right f ∘ @inl Z X ≈ inl.
+Proof. apply (@exl_second _ O). Qed.
 
 Hint Rewrite @inl_right : categories.
 
 Corollary inr_right {X Y Z : C} (f : X ~> Y) :
-  right f ∘ @inr _ Z X ≈ inr ∘ f.
-Proof. unfold right; cat. Qed.
+  right f ∘ @inr Z X ≈ inr ∘ f.
+Proof. apply (@exr_second _ O). Qed.
 
 Hint Rewrite @inr_right : categories.
 
-Theorem twist_left {X Y Z : C} (f : X ~> Y) :
-  twist ∘ left (Z:=Z) f ≈ right f ∘ twist.
-Proof.
-  unfold left, right, twist.
-  rewrite <- merge_comp; cat.
-  rewrite <- merge_comp; cat.
-  rewrite !comp_assoc; cat.
-Qed.
+Theorem paws_left {X Y Z : C} (f : X ~> Y) :
+  paws ∘ left (Z:=Z) f ≈ right f ∘ paws.
+Proof. symmetry; apply (@swap_second _ O Y X Z f). Qed.
 
-Theorem twist_right {X Y Z : C} (f : X ~> Y) :
-  twist ∘ right f ≈ left (Z:=Z) f ∘ twist.
-Proof.
-  unfold left, right, twist.
-  rewrite <- merge_comp; cat.
-  rewrite <- merge_comp; cat.
-  rewrite !comp_assoc; cat.
-Qed.
+Theorem paws_right {X Y Z : C} (f : X ~> Y) :
+  paws ∘ right f ≈ left (Z:=Z) f ∘ paws.
+Proof. symmetry; apply (@swap_first _ O Y X Z f). Qed.
 
 Theorem left_right {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
   left f ∘ right g ≈ right g ∘ left f.
-Proof.
-  unfold right.
-  rewrite left_fork.
-  unfold left.
-  rewrite <- merge_comp; cat.
-  rewrite comp_assoc; cat.
-Qed.
+Proof. symmetry; apply (@first_second _ O). Qed.
 
-Theorem twist_fork {X Y Z : C} (f : Y ~> X) (g : Z ~> X) :
-  f ▽ g ∘ twist ≈ g ▽ f.
-Proof.
-  unfold twist.
-  rewrite <- merge_comp; cat.
-Qed.
+Theorem paws_fork {X Y Z : C} (f : Y ~> X) (g : Z ~> X) :
+  f ▽ g ∘ paws ≈ g ▽ f.
+Proof. apply (@swap_fork _ O). Qed.
 
-Context `{@Initial C}.
+Context `{I : @Initial C}.
 
 Global Program Instance coprod_zero_l {X : C} :
   0 + X ≅ X := {
   to   := zero ▽ id;
   from := inr
 }.
-Next Obligation.
-  rewrite <- merge_comp; cat.
-  rewrite <- merge_inl_inr.
-  apply merge_respects; cat.
-Qed.
+Next Obligation. apply (@prod_one_l _ _ I). Qed.
 
 Hint Rewrite @coprod_zero_l : isos.
 
@@ -232,11 +166,7 @@ Global Program Instance coprod_zero_r {X : C} :
   to   := id ▽ zero;
   from := inl
 }.
-Next Obligation.
-  rewrite <- merge_comp; cat.
-  rewrite <- merge_inl_inr.
-  apply merge_respects; cat.
-Qed.
+Next Obligation. apply (@prod_one_r _ _ I). Qed.
 
 Hint Rewrite @coprod_zero_r : isos.
 
@@ -245,20 +175,10 @@ Global Program Instance coprod_assoc  {X Y Z : C} :
   to   := (inl ▽ (inr ∘ inl)) ▽ (inr ∘ inr);
   from := (inl ∘ inl) ▽ ((inl ∘ inr) ▽ inr)
 }.
-Next Obligation.
-  rewrite <- !merge_comp; cat;
-  rewrite comp_assoc; cat;
-  rewrite comp_assoc; cat;
-  rewrite merge_comp; cat.
-Qed.
-Next Obligation.
-  rewrite <- !merge_comp; cat;
-  rewrite comp_assoc; cat;
-  rewrite comp_assoc; cat;
-  rewrite merge_comp; cat.
-Qed.
+Next Obligation. apply (@prod_assoc _ O). Qed.
+Next Obligation. apply (@prod_assoc _ O). Qed.
 
-End Cocartesian.
+End Cocartesian_.
 
 Infix "+" := Coprod : category_scope.
 Infix "▽" := merge (at level 26) : category_scope.

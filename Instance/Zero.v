@@ -28,8 +28,8 @@ Next Obligation. destruct X. Qed.
 Next Obligation. destruct X. Qed.
 
 Program Instance Cat_Initial : @Initial Cat := {
-  Zero := _0;
-  zero := From_0
+  One := _0;
+  one := From_0
 }.
 Next Obligation.
   constructive; try contradiction;

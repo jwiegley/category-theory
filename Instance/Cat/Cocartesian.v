@@ -11,8 +11,8 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Instance Cat_Cocartesian : @Cocartesian Cat := {
-  Coprod := @Coproduct;
-  merge := fun _ _ _ F G =>
+  Prod := @Coproduct;
+  fork := fun _ _ _ F G =>
     {| fobj := fun x =>
                  match x with
                  | Datatypes.inl x => F x
@@ -31,10 +31,10 @@ Program Instance Cat_Cocartesian : @Cocartesian Cat := {
                    | Datatypes.inr Y => _
                    end
                  end |};
-  inl := fun _ _ =>
+  exl := fun _ _ =>
             {| fobj := Datatypes.inl
              ; fmap := fun _ _ => _ |};
-  inr := fun _ _ =>
+  exr := fun _ _ =>
             {| fobj := Datatypes.inr
              ; fmap := fun _ _ => _ |};
 }.

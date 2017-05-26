@@ -47,6 +47,34 @@ This library is broken up into several major areas:
     files with the same name occur often, with the parent directory
     establishing the intent.
 
+## Duality
+
+The core theory is defined in such a way that "the opposite of the opposite"
+is evident to Coq by simplification (that is, "C^op^op = C" follows by
+reflexivity for the opposites of the opposites of categories, functors,
+natural transformation, adjunctions, isomorphisms, etc.).
+
+For this to be true, certain artificial constructions are necessary, such as
+repeating the associativity law for categories in symmetric form, and likewise
+the naturality condition of natural transformations. This does repeat proof
+obligations in some cases when constructing these objects, but it pays off in
+the ability to avoid repetition when stating the dual of whole structures.
+
+As a result, the definition of comonads, for example, is reduced to one line:
+
+    Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op).
+    
+Most dual constructions are similarly defined, with the exception of `Initial`
+and `Cocartesian` structures. Although the core classes are indeed defined by
+their dual construction, an alternate surface syntax and set of theorems is
+provided (for example, using `a + b` to indicate coproducts) so that life is a
+little less confusing for the reader. For instance, it follows from duality
+that `0 + X ≅ X` is just `1 × X ≅ X` in the opposite category, but using
+separate notations makes it easier to see that these two isomorphisms in the
+*same* category are not identical. This is especially important because Coq
+hides the implicit parameters that would usually let you know that duality is
+indicated.
+
 ## Design decisions
 
 Some of the features of this library are:
@@ -56,22 +84,22 @@ Some of the features of this library are:
     it is given as a definition that can later be added to instance resolution
     using `Existing Instance`.
 
-  - All definitions are constructive, meaning that `Prop` is not used anywhere
-    except for specific category instances that are defined over `Prop`, such
-    as the category whose arrows are heterogeneous relations.
+  - All definitions are in Type, so that `Prop` is not used anywhere except
+    for specific category instances defined over `Prop`, such as the category
+    with heterogeneous relations as arrows.
 
   - No axioms are used anywhere in the core theory; they only appear at times
     when defining specific category instances, such as the above mentioned
     category of heterogeneous relations, where proof irrelevance is needed to
     show equivalence between morphisms.
 
-  - Homsets are defined as constructive homsetoids, using a variant of the
-    `Setoid` type class defined within this library; likewise, the category of
-    Sets is the category of setoids. This increases the amount of proof work
-    necessary to establish new categories and functors, since preservation of
-    the equivalence relation is required at all levels, but this allows
-    categories to be flexible in what it means for two arrows to be
-    equivalent.
+  - Homsets are defined as computationally relevant homsetoids (that is, using
+    crelations), using a variant of the `Setoid` type class defined within
+    this library; likewise, the category of Sets is the category of setoids.
+    This increases the amount of proof work necessary to establish new
+    categories and functors, since preservation of the equivalence relation is
+    required at all levels, but this allows categories to be flexible in what
+    it means for two arrows to be equivalent.
 
 ## Notations
 
@@ -148,8 +176,8 @@ objects. All of the library has `Universe Polymorphism` enabled, allowing
 categories whose objects are categories, etc.
 
 The morphisms identified by `A ~> B` form a hom-set, except that in this
-library it is a hom-setoid, requiring the meaning of (constructive)
-equivalence between morphisms to be given.
+library it is a hom-setoid, requiring the meaning of (computationally
+relevant) equivalence between morphisms to be given.
    
 Identity, composition, and the related laws.
 
@@ -158,11 +186,11 @@ specific types such as epis, monos, split epis, etc.
 
 #### Isomorphism
 
-Constructively defines what it means for two objects in a category to be
-"isomorphic". This requires both witnesses to the isomoprhism, and proof their
-compositions are equivalent to identity in both directions. Since this is a
-constructive definition, having an isomorphism allows for conversion of
-objects within definitions.
+Defines what it means for two objects in a category to be "isomorphic". This
+requires both witnesses to the isomoprhism, and proof their compositions are
+equivalent to identity in both directions. Since this is a computationally
+relevant definition, having an isomorphism allows for conversion of objects
+within definitions.
 
 #### Functor
 

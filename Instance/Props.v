@@ -43,8 +43,8 @@ Program Instance Props_Terminal : @Terminal Props := {
 }.
 
 Program Instance Props_Initial : @Initial Props := {
-  Zero := False;
-  zero := fun _ _ => False_rect _ _
+  One := False;
+  one := fun _ _ => False_rect _ _
 }.
 
 Program Instance Props_Cartesian : @Cartesian Props := {
@@ -55,14 +55,14 @@ Program Instance Props_Cartesian : @Cartesian Props := {
 }.
 
 Program Instance Props_Cocartesian : @Cocartesian Props := {
-  Coprod := or;
-  merge := fun _ _ _ f g x =>
+  Prod := or;
+  fork := fun _ _ _ f g x =>
             match x with
             | or_introl v => f v
             | or_intror v => g v
             end;
-  inl  := fun _ _ p => or_introl p;
-  inr  := fun _ _ p => or_intror p
+  exl  := fun _ _ p => or_introl p;
+  exr  := fun _ _ p => or_intror p
 }.
 
 Program Instance Props_Closed : @Closed Props _ := {

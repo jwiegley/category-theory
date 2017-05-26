@@ -12,7 +12,7 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Instance Sets_Cocartesian : @Cocartesian Sets := {
-  Coprod := fun X Y =>
+  Prod := fun X Y =>
             {| carrier := (carrier X + carrier Y)%type
              ; is_setoid :=
                  {| equiv := fun x y =>
@@ -31,14 +31,14 @@ Program Instance Sets_Cocartesian : @Cocartesian Sets := {
                   ; setoid_equiv := _
                   |}
              |};
-  merge := fun _ _ _ f g =>
+  fork := fun _ _ _ f g =>
              {| morphism := fun x =>
                   match x with
                   | Datatypes.inl x => f x
                   | Datatypes.inr x => g x
                   end |};
-  inl := fun _ _ => {| morphism := Datatypes.inl |};
-  inr := fun _ _ => {| morphism := Datatypes.inr |}
+  exl := fun _ _ => {| morphism := Datatypes.inl |};
+  exr := fun _ _ => {| morphism := Datatypes.inr |}
 }.
 Next Obligation.
   proper.

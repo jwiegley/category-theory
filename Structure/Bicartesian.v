@@ -23,7 +23,8 @@ Proof.
   rewrite <- fork_exl_exr.
   rewrite <- fork_comp.
   apply fork_respects;
-  rewrite <- merge_comp; cat.
+  rewrite <- merge_comp; cat;
+  apply (@fork_respects (C^op)); cat.
 Qed.
 
 End Bicartesian.

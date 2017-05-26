@@ -88,3 +88,13 @@ Arguments prod_out {_ _ _ _ _ _ _ _} /.
 
 Hint Rewrite @prod_in_out : functors.
 Hint Rewrite @prod_out_in : functors.
+
+Require Import Category.Construction.Opposite.
+Require Import Category.Functor.Opposite.
+Require Import Category.Structure.Cocartesian.
+
+Notation "'CocartesianFunctor' F" := (@CartesianFunctor _ _ (F^op) _ _)
+  (at level 9) : category_theory_scope.
+Notation "@CocartesianFunctor C D F" :=
+  (@CartesianFunctor (C^op) (D^op) (F^op) _ _)
+  (at level 9) : category_theory_scope.

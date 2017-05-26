@@ -23,3 +23,12 @@ Class TerminalFunctor := {
 }.
 
 End TerminalFunctor.
+
+Require Import Category.Construction.Opposite.
+Require Import Category.Functor.Opposite.
+Require Import Category.Structure.Initial.
+
+Notation "'InitialFunctor' F" := (@TerminalFunctor _ _ (F^op) _ _)
+  (at level 9) : category_theory_scope.
+Notation "@InitialFunctor C D F" := (@TerminalFunctor (C^op) (D^op) (F^op) _ _)
+  (at level 9) : category_theory_scope.

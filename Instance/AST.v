@@ -139,15 +139,15 @@ Next Obligation.
 Qed.
 
 Program Instance Hom_Initial : @Initial DSL := {
-  Zero := Zero_;
-  zero := @Zero'
+  One := Zero_;
+  one := @Zero'
 }.
 
 Program Instance Hom_Cocartesian : @Cocartesian DSL := {
-  Coprod := Coprod_;
-  merge  := @Merge;
-  inl    := @Inl;
-  inr    := @Inr
+  Prod := Coprod_;
+  fork := @Merge;
+  exl  := @Inl;
+  exr  := @Inr
 }.
 Next Obligation.
   proper.
@@ -171,10 +171,8 @@ Program Instance interp_proper {X Y : Obj}
                      @equiv _ (@homset C _ _))
          (fun f => @interp X Y f C A _ _ _ _).
 
-Require Export Category.Functor.Structure.Initial.
 Require Export Category.Functor.Structure.Terminal.
 Require Export Category.Functor.Structure.Cartesian.
-Require Export Category.Functor.Structure.Cocartesian.
 Require Export Category.Functor.Structure.Closed.
 
 Section AST.
@@ -203,12 +201,12 @@ Global Program Instance Hom_ClosedFunctor : ClosedFunctor := {
   fobj_exp_iso := _
 }.
 
-Global Program Instance Hom_InitialFunctor : InitialFunctor := {
-  map_zero := id
+Global Program Instance Hom_InitialFunctor : InitialFunctor AST_Functor := {
+  map_one := id
 }.
 
-Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor := {
-  fobj_coprod_iso := _
+Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor AST_Functor := {
+  fobj_prod_iso := _
 }.
 
 End AST.

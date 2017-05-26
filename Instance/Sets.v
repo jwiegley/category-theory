@@ -137,8 +137,8 @@ Require Import Category.Structure.Initial.
 Program Instance False_Setoid : Setoid False.
 
 Program Instance Sets_Initial : @Initial Sets := {
-  Zero := {| carrier := False |};
-  zero := _
+  One := {| carrier := False |};
+  one := _
 }.
 Next Obligation.
   morphism.

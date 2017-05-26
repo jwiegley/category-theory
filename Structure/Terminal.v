@@ -23,9 +23,6 @@ End Terminal.
 
 Notation "1" := One : object_scope.
 
-(* Coercion terminal_category {C : Category} `(_ : @Terminal C) := C. *)
-(* Arguments terminal_category {_ } _ /. *)
-
 Hint Resolve @one_unique : category_laws.
 
 Corollary one_comp `{@Terminal C} {A B : C} {f : A ~> B} :

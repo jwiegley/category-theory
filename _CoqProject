@@ -126,10 +126,8 @@ Functor/Structure/Monoidal/Pure.v
 Functor/Traversable.v
 Functor/Traversable/Product.v
 Functor/Structure/Cartesian.v
-Functor/Structure/Cocartesian.v
 Functor/Structure/Closed.v
 Functor/Structure/Constant.v
-Functor/Structure/Initial.v
 Functor/Structure/Terminal.v
 Natural/Transformation/Opposite.v
 Natural/Transformation/Monoidal.v
@@ -145,3 +143,4 @@ Pending/Const.v
 Pending/Limit.v
 Pending/Finite.v
 Pending/Finite/Span.v
+doc/Example.v
