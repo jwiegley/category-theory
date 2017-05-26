@@ -59,14 +59,6 @@ Next Obligation.
   apply fmap_comp.
 Qed.
 
-Corollary Left_Functor_proj1 : comma_proj1 ○ Left_Functor ≈[Cat] Id.
-Proof. constructive; simpl; cat. Qed.
-
-Corollary Left_Functor_fobj_natural :
-  ∀ X Y (g : X ~{D}~> Y),
-    fmap g ∘ projT2 (Left_Functor X) ≈ projT2 (Left_Functor Y) ∘ fmap g.
-Proof. simpl; intros; cat. Qed.
-
 Program Definition Right_Functor : C ⟶ (Id[D] ↓ G) := {|
   fobj := fun X : C => ((G X, X); id[G X]);
   fmap := fun _ _ f => (fmap[G] f, f)
@@ -80,14 +72,6 @@ Next Obligation.
     apply fmap_comp.
   reflexivity.
 Qed.
-
-Corollary Right_Functor_proj1 : comma_proj2 ○ Right_Functor ≈[Cat] Id.
-Proof. constructive; simpl; cat. Qed.
-
-Corollary Right_Functor_fobj_natural :
-  ∀ X Y (g : X ~{C}~> Y),
-    fmap g ∘ projT2 (Right_Functor X) ≈ projT2 (Right_Functor Y) ∘ fmap g.
-Proof. simpl; intros; cat. Qed.
 
 Corollary Left_Functor_fobj_to_iso_natural
           (iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G))
