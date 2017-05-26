@@ -25,6 +25,7 @@ Theory/Monad/Kleisli.v
 Theory/Monad/Algebra.v
 Theory/Monad/Eilenberg/Moore.v
 Theory/Kan/Extension.v
+Theory/Universal/Arrow.v
 Construction/Product.v
 Construction/Product/Opposite.v
 Construction/Coproduct.v

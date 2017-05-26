@@ -13,6 +13,7 @@ Product is a "fundamental" functor, but Strong is an attribute of functors.
 - Functor.Product is then just the simple notion
 ** DONE Have 'make' error if a file is not in _CoqProject
 * Miscellaneous
+** TODO Defines limits of F as universal arrows Δ ⟶ F
 ** TODO Boolean object
 Is any for which there is a morphism Bool ~> 1 + 1, and a UMP characterizing
 such an object.
