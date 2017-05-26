@@ -81,8 +81,9 @@ Instance/Cat/Cocartesian.v
 Instance/Cat/Closed.v
 Instance/Zero.v
 Instance/One.v
-Instance/One/Constant.v
+Instance/One/Diagonal.v
 Instance/Two.v
+Instance/Two/Discrete.v
 Instance/Parallel.v
 Instance/Roof.v
 Instance/Fun.v
@@ -112,7 +113,6 @@ Functor/Diagonal.v
 Functor/Product.v
 Functor/Product/Internal.v
 Functor/Coproduct.v
-Functor/Constant.v
 Functor/Construction/Product.v
 Functor/Construction/Product/Monoidal.v
 Functor/Construction/Product/Strong.v

@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Functor.Constant.
+Require Export Category.Functor.Diagonal.
 Require Export Category.Construction.Comma.
 
 Generalizable All Variables.
@@ -20,16 +20,16 @@ Unset Transparent Obligations.
   a cone (N, ψ) to a cone (L, φ) is just a morphism N → L such that all the
   "obvious" diagrams commute (see the first diagram in the next section)." *)
 
-Definition Cones `(F : J ⟶ C) (N : C) := (Constant J N ↓ F).
+Definition Cones `(F : J ⟶ C) (N : C) := (Diagonal J N ↓ F).
 
 Require Import Category.Structure.Cone.
 Require Import Category.Structure.Terminal.
 
-(*
+(* jww (2017-05-26): TODO
 Program Instance Cones_Terminal `(F : J ⟶ C) (N : C) :
   @Terminal (Cones F N) := {
   One := ((_, _); _)
 }.
 *)
 
-Definition Cocones `{F : J ⟶ C} (N : C) := (F ↓ Constant J N).
+Definition Cocones `{F : J ⟶ C} (N : C) := (F ↓ Diagonal J N).

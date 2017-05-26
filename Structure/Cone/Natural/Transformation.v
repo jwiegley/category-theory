@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Natural.Transformation.
-Require Import Category.Functor.Constant.
+Require Import Category.Functor.Diagonal.
 Require Export Category.Structure.Cone.
 
 Generalizable All Variables.
@@ -14,7 +14,7 @@ Unset Transparent Obligations.
    the same as a cone over F (whose vertex is d). *)
 
 Theorem Cone_Transform {J : Category} {C : Category} (F : J ⟶ C) (d : C) :
-  Constant J d ⟹ F <--> { c : Cone F | vertex = d }.
+  Diagonal J d ⟹ F <--> { c : Cone F | vertex = d }.
 Proof.
   split; intros.
   - unshelve eexists.

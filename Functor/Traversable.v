@@ -72,11 +72,11 @@ Program Instance Id_Traversable {C : Category}
   sequence := fun _ _ => {| transform := fun _ => id |}
 }.
 
-Require Import Category.Functor.Constant.
+Require Import Category.Functor.Diagonal.
 
-Program Instance Constant_Traversable {C : Category}
+Program Instance Diagonal_Traversable {C J : Category}
         `{@Cartesian C} `{@Terminal C} `{@Closed C _} (x : C) :
-  Traversable (@Constant C C x) := {
+  Traversable (Diagonal C x) := {
   sequence := fun G _ => {| transform := fun _ => pure[G] |}
 }.
 Next Obligation.

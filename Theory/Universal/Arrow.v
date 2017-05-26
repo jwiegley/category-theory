@@ -17,8 +17,7 @@ Context `{D : Category}.
 
 Require Import Category.Structure.Initial.
 Require Import Category.Construction.Comma.
-Require Import Category.Functor.Constant.
-Require Export Category.Instance.One.
+Require Import Category.Functor.Diagonal.
 
 Class Arrow (a : C) (U : D ⟶ C) := {
   arr_initial : @Initial (Const a ↓ U);

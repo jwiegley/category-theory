@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Construction.Comma.
-Require Export Category.Instance.One.
+Require Export Category.Functor.Diagonal.
 Require Export Category.Instance.Cat.
 
 Generalizable All Variables.
@@ -39,10 +39,10 @@ Program Definition Coslice `(C : Category) `(c : C) : Category := {|
   compose := fun _ _ _ f g => f ∘ g
 |}.
 
-Notation "C ̸co c" := (@Coslice C c) (at level 90) : category_scope.
+Notation "c ̸co C" := (@Coslice C c) (at level 90) : category_scope.
 
 Program Instance Comma_Coslice `(C : Category) `(c : C) :
-  C ̸co c ≅[Cat] (Const c ↓ Id) := {
+  c ̸co C ≅[Cat] (Const c ↓ Id) := {
   to   := {| fobj := _; fmap := _ |};
   from := {| fobj := _; fmap := _ |}
 }.

@@ -28,11 +28,6 @@ Program Instance Erase `(C : Category) : C ⟶ 1 := {
   fmap := fun _ _ _ => id
 }.
 
-Program Instance Const {C : Category} (c : C) : 1 ⟶ C := {|
-  fobj := fun _ => c;
-  fmap := fun _ _ _ => id
-|}.
-
 Program Instance Cat_Terminal : @Terminal Cat := {
   One := _1;
   one := Erase
