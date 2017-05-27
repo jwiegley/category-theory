@@ -3,58 +3,41 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Structure.BiCCC.
 Require Export Category.Instance.Coq.
+Require Export Category.Instance.AST.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
-
-Section Represented.
-
-Context {C : Category}.
-Context `{@Cartesian C}.
-Context `{@Cocartesian C}.
-Context `{@Terminal C}.
-Context `{@Initial C}.
 
 (* Coq abstract data types are represented in CCC by identifying their
    equivalent construction. *)
-Class Represented (A : Type) `(Repr : C) := {
-  repr : A -> One ~> Repr;
-  abst : One ~> Repr -> A;
-
-  repr_abst : ∀ x, repr (abst x) ≈ x
+Class Repr (A : Type) := {
+  repr : Obj;
+  convert : A -> (1 ~> repr)
 }.
 
-Program Instance prod_Represented
-        `{HA : @Represented A X}
-        `{HB : @Represented B Y} :
-  Represented (@Datatypes.prod A B) (Prod X Y) := {
-  repr := fun p => repr (fst p) △ repr (snd p);
-  abst := fun h => (abst (Represented:=HA) (exl ∘ h), abst (exr ∘ h))
-}.
-Obligation 1.
-  destruct HA, HB; simpl in *.
-  rewrite repr_abst0, repr_abst1.
-  simpl.
-  rewrite fork_comp; cat.
-Qed.
+Arguments Repr A : clear implicits.
+Arguments repr A {_}.
 
-Program Instance unit_Represented : Represented (unit : Type) One := {
-  repr := fun _ : unit => one;
-  abst := fun _ : _ => tt
+Program Instance prod_Repr
+        `{HA : @Repr A}
+        `{HB : @Repr B} :
+  Repr (@Datatypes.prod A B) := {
+  repr := Prod_ (@repr A HA) (@repr B HB);
+  convert := fun p => convert (fst p) △ convert (snd p)
 }.
 
-(*
-Program Instance false_Represented : Represented False Zero := {
-  repr := fun _ : False => False_rect _ _;
-  abst := fun h => _
+Program Instance unit_Repr : Repr (unit : Type) := {
+  repr := One_;
+  convert := fun _ => one
 }.
 
-Program Instance bool_Represented : Represented bool (One + (One × One)) := {
-  repr := fun b => if b then inr ∘ one △ one else inl;
-  abst := fun h => interp (C:=Coq) h
+Program Instance false_Repr : Repr False := {
+  repr := Zero_;
+  convert := fun _ => False_rect _ _
 }.
-*)
 
-End Represented.
+Program Instance bool_Repr : Repr bool := {
+  repr := Coprod_ One_ One_;
+  convert := fun b => if b then inl else inr
+}.

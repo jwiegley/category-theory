@@ -77,7 +77,8 @@ Program Fixpoint interp `(c : Hom a b) :
   | Merge f g   => merge (interp f) (interp g)
   end.
 
-Program Instance DSL : Category := {
+Program Instance AST : Category := {
+  ob      := Obj;
   hom     := Hom;
   id      := @Id;
   compose := @Compose;
@@ -96,12 +97,12 @@ Next Obligation.
   transitivity (interp y); auto.
 Qed.
 
-Program Instance Hom_Terminal : @Terminal DSL := {
+Program Instance Hom_Terminal : @Terminal AST := {
   One := One_;
   one := @One'
 }.
 
-Program Instance Hom_Cartesian : @Cartesian DSL := {
+Program Instance Hom_Cartesian : @Cartesian AST := {
   Prod := Prod_;
   fork := @Fork;
   exl  := @Exl;
@@ -121,7 +122,7 @@ Next Obligation.
   rewrite fork_comp; cat.
 Qed.
 
-Program Instance Hom_Closed : @Closed DSL _ := {
+Program Instance Hom_Closed : @Closed AST _ := {
   Exp := Exp_;
   exp_iso := fun X Y Z =>
     {| to   := {| morphism := @Curry X Y Z |}
@@ -138,12 +139,12 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Instance Hom_Initial : @Initial DSL := {
+Program Instance Hom_Initial : @Initial AST := {
   One := Zero_;
   one := @Zero'
 }.
 
-Program Instance Hom_Cocartesian : @Cocartesian DSL := {
+Program Instance Hom_Cocartesian : @Cocartesian AST := {
   Prod := Coprod_;
   fork := @Merge;
   exl  := @Inl;
@@ -167,7 +168,7 @@ Program Instance interp_proper {X Y : Obj}
         {C : Category} {A : @Cartesian C}
         `{@Closed C A} `{@Cocartesian C}
         `{@Terminal C} `{@Initial C} :
-  Proper (@equiv _ (@homset DSL X Y) ==>
+  Proper (@equiv _ (@homset AST X Y) ==>
                      @equiv _ (@homset C _ _))
          (fun f => @interp X Y f C A _ _ _ _).
 
@@ -184,7 +185,7 @@ Context `{@Cocartesian C}.
 Context `{@Terminal C}.
 Context `{@Initial C}.
 
-Global Program Instance AST_Functor : DSL ⟶ C := {
+Global Program Instance AST_Functor : AST ⟶ C := {
   fobj := fun x => denote x;
   fmap := fun _ _ f => interp f
 }.

@@ -7,6 +7,8 @@ Require Export Category.Functor.Structure.Cartesian.
 Require Export Category.Functor.Structure.Closed.
 Require Export Category.Functor.Structure.Terminal.
 Require Export Category.Instance.Coq.
+Require Export Category.Instance.AST.
+Require Export Category.Tools.Represented.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -15,88 +17,80 @@ Unset Transparent Obligations.
 
 Section Abstraction.
 
-Context `{F : Coq ⟶ C}.
-Context `{AF : @CartesianFunctor _ _ F _ HA'}.
-Context `{@ClosedFunctor _ _ F _ _ AF _ HC'}.
-Context `{TF : @TerminalFunctor _ _ F _ HT'}.
+Definition rel `{Repr a} `{Repr b}
+           (lam : a -> b) (ccc : repr a ~{AST}~> repr b) : Type :=
+  ∀ x : a, convert (lam x) ≈ ccc ∘ convert x.
 
-Definition rel `(lam : a -> b) (ccc : F a ~> F b) : Type :=
-  fmap[F] lam ≈ ccc.
+Definition rel2 `{Repr a} `{Repr b} `{Repr c}
+           (lam : a -> b -> c) (ccc : repr a ~{AST}~> repr c ^ repr b) : Type :=
+  ∀ (x : a) (y : b), convert (lam x y) ≈ uncurry ccc ∘ convert (x, y).
 
 Infix ">==>" := rel (at level 99) : category_scope.
+Infix ">===>" := rel2 (at level 99) : category_scope.
 
-Theorem ccc_id : ∀ (a : Type), (λ x : a, x) >==> id.
-Proof.
-  unfold rel; intros.
-  rewrite <- fmap_id.
-  reflexivity.
-Qed.
+Corollary ccc_id : ∀ `{Repr a}, (λ x : a, x) >==> id.
+Proof. unfold rel; intros; cat. Qed.
 
 Tactic Notation "step" constr(x) "=>" constr(y) :=
   replace x with y by auto.
 
+Corollary convert_fork `{Repr a} `{Repr b} (x : a) (y : b) :
+  convert x △ convert y ≈ convert (x, y).
+Proof. reflexivity. Qed.
+
 Theorem ccc_apply :
-  ∀ (a b c : Type)
-    (U : a -> b -> c) (U' : F a ~> F c ^ F b)
-    (V : a -> b) (V' : F a ~> F b),
-  U >==> exp_in ∘ U' ->
+  ∀ `{Repr a} `{Repr b} `{Repr c}
+    (U : a -> b -> c) (U' : repr a ~{AST}~> repr c ^ repr b)
+    (V : a -> b) (V' : repr a ~{AST}~> repr b),
+  U >===> U' ->
   V >==> V' ->
-    (λ x, U x (V x)) >==> eval ∘ (U' △ V').
+    (λ x, U x (V x)) >==> eval ∘ U' △ V'.
 Proof.
-  unfold rel; intros ??????? HA HB; subst.
-  step (λ x, U x (V x)) => (λ x, @eval Coq _ _ b c (U x, V x)).
-  step (λ x, @eval Coq _ _ b c (U x, V x))
-    => (λ x, @eval Coq _ _ b c ((@fork Coq _ _ _ _ U V) x)).
-  step (λ x, @eval Coq _ _ b c ((@fork Coq _ _ _ _ U V) x))
-    => (@eval Coq _ _ b c ∘ (@fork Coq _ _ _ _ U V)).
-  rewrite fmap_comp.
-  rewrite fmap_eval.
-  rewrite fmap_fork.
-  rewrite comp_assoc.
-  rewrite <- (comp_assoc _ prod_out).
-  rewrite prod_out_in.
-  rewrite id_right.
-  pose proof (exp_out_inj (fmap[F] U) (exp_in ∘ U')) as X.
-  rewrite comp_assoc in X.
-  rewrite exp_out_in in X.
-  rewrite id_left in X.
-  rewrite <- eval_curry.
-  rewrite curry_uncurry.
-  rewrite curry_eval.
+  unfold rel, rel2; repeat intros.
+  rewrite <- comp_assoc.
+  rewrite <- fork_comp.
+  rewrite <- X0; clear X0.
+  rewrite X; clear X.
+  rewrite <- eval_first.
+  comp_left.
+  unfold first.
+  rewrite <- fork_comp.
+  rewrite <- comp_assoc.
+  rewrite <- convert_fork; cat.
+Qed.
+
+Theorem ccc_apply_pair :
+  ∀ `{Repr a} `{Repr b} `{Repr c}
+    (U : a * b -> c) (U' : repr a × repr b ~{AST}~> repr c)
+    (V : a -> b) (V' : repr a ~{AST}~> repr b),
+  U >==> U' ->
+  V >==> V' ->
+    (λ x, U (x, V x)) >==> U' ∘ id △ V'.
+Proof.
+  unfold rel; intros ??????? U' V; subst; intros.
+  rewrite <- comp_assoc.
+  rewrite <- fork_comp.
   rewrite id_left.
-  destruct X as [X0 X1].
-  rewrite HB, X1; auto.
-  reflexivity.
+  rewrite <- X0; clear X0.
+  rewrite convert_fork.
+  apply X.
 Qed.
 
 Theorem ccc_curry :
-  ∀ (a b c : Type)
-    (U : a * b -> c) (U' : F a × F b ~> F c),
-    U >==> U' ∘ prod_out ->
-      (λ x, λ y, U (x, y)) >==> exp_in ∘ curry U'.
+  ∀ `{Repr a} `{Repr b} `{Repr c}
+    (U : a * b -> c) (U' : repr a × repr b ~> repr c),
+    U >==> U' ->
+      (λ x, λ y, U (x, y)) >===> curry U'.
 Proof.
-  unfold rel; intros ????? X; subst.
-  pose proof (@fmap_curry Coq _ _ _ _ _ _ _ _ a b c U) as HA.
-  simpl in HA.
-  etransitivity.
-  apply HA.
-  pose proof (@exp_in_inj Coq _ _ _ _ _ _ _ _ a b c) as HB.
-  apply HB; clear HB.
-  simpl in X; rewrite X; clear X.
-  rewrite <- comp_assoc.
-  pose proof (@prod_out_in Coq _ _ _ _ _ a b) as HC.
-  simpl in HC; rewrite HC; clear HC.
-  rewrite id_right.
-  reflexivity.
+  unfold rel, rel2; repeat intros.
+  rewrite uncurry_curry.
+  apply X.
 Qed.
 
-Theorem ccc_terminal : ∀ (a : Type),
-  (λ _ : a, tt) >==> map_one ∘ @one _ _ (F a).
+Theorem ccc_terminal : ∀ `{Repr a},
+  (λ _ : a, tt) >==> map_one ∘ @one _ _ (repr a).
 Proof.
-  unfold rel; intros.
-  step (λ _ : a, tt) => (@one Coq _ a).
-  pose proof (@fmap_one _ _ _ _ _ _) as HA.
-  apply HA.
+  unfold rel; simpl; intros; cat.
 Qed.
 
 End Abstraction.
