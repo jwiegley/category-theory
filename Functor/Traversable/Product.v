@@ -66,7 +66,7 @@ Proof.
     reflexivity.
 Defined.
 
-(*
+(* jww (2017-05-26): TODO
 Program Definition ProductFunctor_Traversable :
   Traversable F -> Traversable G
     -> Traversable (F :*: G) := fun O P => {|
@@ -89,7 +89,6 @@ Next Obligation.
   apply compose_respects; [|reflexivity].
   (* This must be proven based on how slm_transform interacts with ap. *)
 *)
-Admitted.
 Next Obligation.
   repeat (unfold ap; simpl).
   rewrite id_left.
@@ -116,7 +115,6 @@ Next Obligation.
 Qed.
 *)
 Next Obligation.
-Admitted.
 *)
 
 End ProductTraversable.

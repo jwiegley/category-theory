@@ -22,14 +22,4 @@ Unset Transparent Obligations.
 
 Definition Cones `(F : J ⟶ C) (N : C) := (Diagonal J N ↓ F).
 
-Require Import Category.Structure.Cone.
-Require Import Category.Structure.Terminal.
-
-(* jww (2017-05-26): TODO
-Program Instance Cones_Terminal `(F : J ⟶ C) (N : C) :
-  @Terminal (Cones F N) := {
-  One := ((_, _); _)
-}.
-*)
-
 Definition Cocones `{F : J ⟶ C} (N : C) := (F ↓ Diagonal J N).

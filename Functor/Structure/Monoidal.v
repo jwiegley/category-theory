@@ -45,7 +45,6 @@ Qed.
 Class MonoidalFunctor := {
   pure_iso : I ≅ F I;
 
-  (* jww (2017-05-17): Rewrite this using a morphism and natural(). *)
   ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂);
 
   ap_iso {X Y} : F X ⨂ F Y ≅ F (X ⨂ Y) := {|
