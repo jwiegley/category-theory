@@ -1,146 +1,146 @@
-Lib/Foundation.v,0:0
-Lib/Setoid.v,0:0
-Lib/Tactics.v,0:0
-Lib/Datatypes.v,0:0
-Lib.v,0:0
-Theory/Category.v,0:0
-Theory/Morphisms.v,0:0
-Theory/Isomorphism.v,0:1
-Theory/Functor.v,0:0
-Theory/Canonical.v,0:0
-Theory/Naturality.v,0:1
-Theory/Natural/Transformation.v,0:0
-Structure/Terminal.v,0:0
-Construction/Opposite.v,0:0
-Construction/Product.v,0:0
-Instance/Fun.v,0:1
-Theory/Dinatural.v,0:0
-Structure/Initial.v,0:0
-Instance/Sets.v,0:0
-Theory/Adjunction.v,0:0
-Theory/Adjunction/Natural/Transformation.v,0:0
-Theory/Adjunction/Natural/Transformation/Isomorphism.v,0:2
-Functor/Opposite.v,0:0
-Theory/Monad.v,0:0
-Theory/Monad/Adjunction.v,0:0
-Functor/Bifunctor.v,0:1
-Structure/Monoidal.v,0:0
-Structure/Monoid.v,0:0
-Structure/Monoidal/Composition.v,0:11
-Theory/Monad/Monoid.v,0:2
-Functor/Construction/Product.v,0:5
-Functor/Structure/Monoidal.v,0:1
-Functor/Product.v,0:1
-Functor/Hom.v,0:2
-Structure/Monoidal/Naturality.v,0:13
-Functor/Strong.v,0:9
-Functor/Structure/Monoidal/Pure.v,0:4
-Theory/Monad/Distributive.v,0:0
-Theory/Monad/Composition.v,0:2
-Theory/Monad/Transformer.v,0:0
-Theory/Monad/Kleisli.v,0:1
-Theory/Monad/Algebra.v,0:0
-Theory/Monad/Eilenberg/Moore.v,0:0
-Instance/Cat.v,0:3
-Theory/Kan/Extension.v,0:1
-Construction/Comma.v,0:4
-Functor/Constant.v,0:0
-Instance/One.v,0:0
-Theory/Universal/Arrow.v,0:0
-Construction/Product/Opposite.v,0:0
-Construction/Coproduct.v,0:1
-Construction/Slice.v,0:19
-Construction/Arrow.v,0:0
-Construction/Groupoid.v,0:0
-Construction/Comma/Adjunction.v,0:48
-Construction/Comma/Natural/Transformation.v,0:1
-Construction/Comma/Isomorphism.v,0:0
-Construction/Product/Comma.v,2:0
-Structure/Cartesian.v,0:6
-Structure/Cocartesian.v,0:3
-Structure/Bicartesian.v,0:0
-Structure/Distributive.v,0:0
-Structure/Closed.v,0:20
-Structure/BiCCC.v,0:37
-Structure/Constant.v,0:0
-Structure/Monoidal/Proofs.v,0:28
-Structure/Monoidal/Semicartesian.v,0:0
-Structure/Monoidal/Symmetric.v,0:1
-Structure/Monoidal/Relevance.v,0:42
-Structure/Monoidal/Cartesian.v,0:0
-Structure/Monoidal/Semicartesian/Proofs.v,0:8
-Structure/Monoidal/Cartesian/Proofs.v,1:5
-Structure/Monoidal/Cartesian/Cartesian.v,0:2
-Functor/Product/Internal.v,0:1
-Structure/Monoidal/Internal/Product.v,2:9
-Structure/Monoidal/Product.v,0:11
-Structure/Monoidal/Braided.v,0:0
-Instance/Sets/Cartesian.v,0:0
-Structure/Monoid/Algebra.v,0:1
-Structure/Cone.v,0:0
-Structure/Cone/Natural/Transformation.v,0:0
-Structure/Limit.v,0:0
-Structure/Limit/Kan/Extension.v,0:1
-Structure/Complete.v,0:0
-Structure/Wedge.v,0:0
-Structure/End.v,0:0
-Instance/Parallel.v,0:4
-Structure/Equalizer.v,0:0
-Instance/Roof.v,0:0
-Structure/Span.v,0:4
-Structure/Pullback.v,0:0
-Structure/Pullback/Limit.v,0:0
-Structure/Pullback/Limit/Universal.v,0:2
-Instance/Cat/Cartesian.v,0:11
-Instance/Cat/Cocartesian.v,0:13
-Instance/Cat/Closed.v,2:12
-Instance/Zero.v,0:0
-Instance/One/Constant.v,0:0
-Instance/Two.v,0:3
-Instance/Adj.v,0:20
-Instance/Adjoints.v,0:10
-Instance/Coq.v,0:1
-Instance/Coq/Applicative.v,0:0
-Instance/Coq/Monad.v,0:0
-Instance/Sets/Cocartesian.v,0:0
-Instance/Sets/Closed.v,0:0
-Instance/Props.v,0:1
-Instance/Rel.v,0:1
-Instance/Ens.v,0:2
-Functor/Structure/Initial.v,0:0
-Functor/Structure/Terminal.v,0:0
-Functor/Structure/Cartesian.v,0:0
-Functor/Structure/Cocartesian.v,0:0
-Functor/Structure/Closed.v,0:1
-Instance/AST.v,0:12
-Instance/Proset.v,0:0
-Instance/Poset.v,0:0
-Instance/Cones.v,0:0
-Functor/Hom/Internal.v,0:2
-Functor/Applicative.v,0:0
-Functor/Hom/Yoneda.v,0:1
-Functor/Diagonal.v,0:0
-Functor/Coproduct.v,0:1
-Functor/Construction/Product/Monoidal.v,9:7
-Functor/Construction/Product/Strong.v,0:15
-Functor/Representable.v,0:0
-Functor/Strong/Product.v,4:4
-Functor/Structure/Monoidal/Id.v,0:3
-Functor/Structure/Monoidal/Compose.v,0:42
-Natural/Transformation/Monoidal.v,0:0
-Natural/Transformation/Strong.v,0:0
-Natural/Transformation/Applicative.v,0:1
-Functor/Traversable.v,0:44
-Functor/Traversable/Product.v,0:23
-Functor/Structure/Constant.v,0:0
-Natural/Transformation/Opposite.v,0:0
-Adjunction/Opposite.v,0:0
-Adjunction/Natural/Transformation/Opposite.v,0:0
-Tools/Abstraction.v,0:2
-Tools/Represented.v,0:0
-Theory.v,0:0
-Pending/Cone.v,0:0
-Pending/Const.v,0:0
-Pending/Limit.v,0:0
-Pending/Finite.v,0:0
-Pending/Finite/Span.v,0:0
+Lib/Foundation.v 0:0
+Lib/Setoid.v 0:0
+Lib/Tactics.v 0:0
+Lib/Datatypes.v 0:0
+Lib.v 0:0
+Theory/Category.v 0:0
+Theory/Morphisms.v 0:0
+Theory/Isomorphism.v 0:1
+Theory/Functor.v 0:0
+Theory/Canonical.v 0:0
+Theory/Naturality.v 0:1
+Theory/Natural/Transformation.v 0:0
+Structure/Terminal.v 0:0
+Construction/Opposite.v 0:0
+Construction/Product.v 0:0
+Instance/Fun.v 0:1
+Theory/Dinatural.v 0:0
+Structure/Initial.v 0:0
+Instance/Sets.v 0:0
+Theory/Adjunction.v 0:0
+Theory/Adjunction/Natural/Transformation.v 0:0
+Theory/Adjunction/Natural/Transformation/Isomorphism.v 0:2
+Functor/Opposite.v 0:0
+Theory/Monad.v 0:0
+Theory/Monad/Adjunction.v 0:0
+Functor/Bifunctor.v 0:1
+Structure/Monoidal.v 0:0
+Structure/Monoid.v 0:0
+Structure/Monoidal/Composition.v 0:11
+Theory/Monad/Monoid.v 0:2
+Functor/Construction/Product.v 0:5
+Functor/Structure/Monoidal.v 0:1
+Functor/Product.v 0:1
+Functor/Hom.v 0:2
+Structure/Monoidal/Naturality.v 0:13
+Functor/Strong.v 0:9
+Functor/Structure/Monoidal/Pure.v 0:4
+Theory/Monad/Distributive.v 0:0
+Theory/Monad/Composition.v 0:2
+Theory/Monad/Transformer.v 0:0
+Theory/Monad/Kleisli.v 0:1
+Theory/Monad/Algebra.v 0:0
+Theory/Monad/Eilenberg/Moore.v 0:0
+Instance/Cat.v 0:3
+Theory/Kan/Extension.v 0:1
+Construction/Comma.v 0:4
+Functor/Constant.v 0:0
+Instance/One.v 0:0
+Theory/Universal/Arrow.v 0:0
+Construction/Product/Opposite.v 0:0
+Construction/Coproduct.v 0:1
+Construction/Slice.v 0:19
+Construction/Arrow.v 0:0
+Construction/Groupoid.v 0:0
+Construction/Comma/Adjunction.v 0:48
+Construction/Comma/Natural/Transformation.v 0:1
+Construction/Comma/Isomorphism.v 0:0
+Construction/Product/Comma.v 2:0
+Structure/Cartesian.v 0:6
+Structure/Cocartesian.v 0:3
+Structure/Bicartesian.v 0:0
+Structure/Distributive.v 0:0
+Structure/Closed.v 0:20
+Structure/BiCCC.v 0:37
+Structure/Constant.v 0:0
+Structure/Monoidal/Proofs.v 0:28
+Structure/Monoidal/Semicartesian.v 0:0
+Structure/Monoidal/Symmetric.v 0:1
+Structure/Monoidal/Relevance.v 0:42
+Structure/Monoidal/Cartesian.v 0:0
+Structure/Monoidal/Semicartesian/Proofs.v 0:8
+Structure/Monoidal/Cartesian/Proofs.v 1:5
+Structure/Monoidal/Cartesian/Cartesian.v 0:2
+Functor/Product/Internal.v 0:1
+Structure/Monoidal/Internal/Product.v 2:9
+Structure/Monoidal/Product.v 0:11
+Structure/Monoidal/Braided.v 0:0
+Instance/Sets/Cartesian.v 0:0
+Structure/Monoid/Algebra.v 0:1
+Structure/Cone.v 0:0
+Structure/Cone/Natural/Transformation.v 0:0
+Structure/Limit.v 0:0
+Structure/Limit/Kan/Extension.v 0:1
+Structure/Complete.v 0:0
+Structure/Wedge.v 0:0
+Structure/End.v 0:0
+Instance/Parallel.v 0:4
+Structure/Equalizer.v 0:0
+Instance/Roof.v 0:0
+Structure/Span.v 0:4
+Structure/Pullback.v 0:0
+Structure/Pullback/Limit.v 0:0
+Structure/Pullback/Limit/Universal.v 0:2
+Instance/Cat/Cartesian.v 0:11
+Instance/Cat/Cocartesian.v 0:13
+Instance/Cat/Closed.v 2:12
+Instance/Zero.v 0:0
+Instance/One/Constant.v 0:0
+Instance/Two.v 0:3
+Instance/Adj.v 0:20
+Instance/Adjoints.v 0:10
+Instance/Coq.v 0:1
+Instance/Coq/Applicative.v 0:0
+Instance/Coq/Monad.v 0:0
+Instance/Sets/Cocartesian.v 0:0
+Instance/Sets/Closed.v 0:0
+Instance/Props.v 0:1
+Instance/Rel.v 0:1
+Instance/Ens.v 0:2
+Functor/Structure/Initial.v 0:0
+Functor/Structure/Terminal.v 0:0
+Functor/Structure/Cartesian.v 0:0
+Functor/Structure/Cocartesian.v 0:0
+Functor/Structure/Closed.v 0:1
+Instance/AST.v 0:12
+Instance/Proset.v 0:0
+Instance/Poset.v 0:0
+Instance/Cones.v 0:0
+Functor/Hom/Internal.v 0:2
+Functor/Applicative.v 0:0
+Functor/Hom/Yoneda.v 0:1
+Functor/Diagonal.v 0:0
+Functor/Coproduct.v 0:1
+Functor/Construction/Product/Monoidal.v 9:7
+Functor/Construction/Product/Strong.v 0:15
+Functor/Representable.v 0:0
+Functor/Strong/Product.v 4:4
+Functor/Structure/Monoidal/Id.v 0:3
+Functor/Structure/Monoidal/Compose.v 0:42
+Natural/Transformation/Monoidal.v 0:0
+Natural/Transformation/Strong.v 0:0
+Natural/Transformation/Applicative.v 0:1
+Functor/Traversable.v 0:44
+Functor/Traversable/Product.v 0:23
+Functor/Structure/Constant.v 0:0
+Natural/Transformation/Opposite.v 0:0
+Adjunction/Opposite.v 0:0
+Adjunction/Natural/Transformation/Opposite.v 0:0
+Tools/Abstraction.v 0:2
+Tools/Represented.v 0:0
+Theory.v 0:0
+Pending/Cone.v 0:0
+Pending/Const.v 0:0
+Pending/Limit.v 0:0
+Pending/Finite.v 0:0
+Pending/Finite/Span.v 0:0
