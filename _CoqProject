@@ -144,4 +144,5 @@ Pending/Limit.v
 Pending/Finite.v
 Pending/Finite/Span.v
 Pending/Metacategory.v
+Pending/Sherman.v
 doc/Example.v
