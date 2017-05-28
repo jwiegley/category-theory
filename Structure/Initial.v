@@ -26,7 +26,7 @@ Context `{I : @Initial C}.
 Definition Zero : C := @One _ I.
 Definition zero {A} : Zero ~{C}~> A := @one _ I _.
 
-Definition zero_unique {A} {f g : Zero ~{C}~> A} : f ≈ g :=
+Definition zero_unique {A} (f g : Zero ~{C}~> A) : f ≈ g :=
   @one_unique _ I _ _ _.
 
 End Initial_.
