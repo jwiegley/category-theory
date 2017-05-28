@@ -96,3 +96,8 @@ Corollary snd_comp {C : Category} {D : Category} X Y Z
           (f : Y ~{C ∏ D}~> Z) (g : X ~{C ∏ D}~> Y) :
   snd f ∘ snd g ≈ snd (f ∘ g).
 Proof. reflexivity. Qed.
+
+Require Import Category.Construction.Opposite.
+
+Corollary Product_Opposite {C D : Category} : (C ∏ D) ^op = (C^op ∏ D^op).
+Proof. reflexivity. Qed.

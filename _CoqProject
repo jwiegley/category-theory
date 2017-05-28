@@ -27,7 +27,7 @@ Theory/Monad/Eilenberg/Moore.v
 Theory/Kan/Extension.v
 Theory/Universal/Arrow.v
 Construction/Product.v
-Construction/Product/Opposite.v
+Construction/Product/Comma.v
 Construction/Coproduct.v
 Construction/Comma.v
 Construction/Slice.v
@@ -37,7 +37,6 @@ Construction/Groupoid.v
 Construction/Comma/Adjunction.v
 Construction/Comma/Natural/Transformation.v
 Construction/Comma/Isomorphism.v
-Construction/Product/Comma.v
 Structure/Discrete.v
 Structure/Terminal.v
 Structure/Cartesian.v
