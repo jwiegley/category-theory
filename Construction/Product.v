@@ -8,15 +8,10 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Section Product.
-
-Context {C : Category}.
-Context {D : Category}.
-
 (* A product of two categories forms a category. All of the methods are
    spelled out here to ease simplification. *)
 
-Definition Product : Category := {|
+Definition Product (C D : Category) : Category := {|
   ob      := C * D;
   hom     := fun X Y => (fst X ~> fst Y) * (snd X ~> snd Y);
   homset  := fun x y =>
@@ -64,8 +59,6 @@ Definition Product : Category := {|
     (@comp_assoc_sym C (fst X) (fst Y) (fst Z) (fst W) (fst f) (fst g) (fst h),
      @comp_assoc_sym D (snd X) (snd Y) (snd Z) (snd W) (snd f) (snd g) (snd h))
 |}.
-
-End Product.
 
 Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.
 
