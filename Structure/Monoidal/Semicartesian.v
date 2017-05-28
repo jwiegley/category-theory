@@ -33,3 +33,15 @@ Corollary eliminate_comp `{@Monoidal C} `{@SemicartesianMonoidal _} `{f : A ~> B
 Proof. intros; apply unit_terminal. Qed.
 
 End Monoidal.
+
+Require Import Category.Structure.Terminal.
+
+(* Wikipedia: "In any cartesian monoidal category, the terminal object is the
+   tensor unit." *)
+
+Program Definition SemicartesianMonoidal_Terminal `{@Monoidal C}
+        `{@SemicartesianMonoidal C _} : @Terminal C := {|
+  One := I;
+  one := @eliminate _ _ _;
+  one_unique := @unit_terminal _ _ _
+|}.
