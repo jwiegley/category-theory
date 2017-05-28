@@ -25,6 +25,4 @@ Coercion wedge : Wedge >-> ob.
 Notation "wedge_map[ C ]" := (@wedge_map _ _ _ C _)
   (at level 9, format "wedge_map[ C ]") : category_scope.
 
-Require Export Category.Construction.Product.Opposite.
-
 Definition Cowedge `(F : C^op ∏ C ⟶ D) := @Wedge (C^op) (D^op) (F^op).
