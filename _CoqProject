@@ -59,6 +59,7 @@ Structure/Monoidal/Product.v
 Structure/Monoidal/Relevance.v
 Structure/Monoidal/Semicartesian.v
 Structure/Monoidal/Semicartesian/Proofs.v
+Structure/Monoidal/Semicocartesian.v
 Structure/Monoidal/Symmetric.v
 Structure/Monoidal/Braided.v
 Structure/Monoid.v
