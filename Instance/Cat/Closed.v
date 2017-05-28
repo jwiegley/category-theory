@@ -24,14 +24,12 @@ Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := {
                   fmap[F] (@id A X, f) |}
            ; fmap := fun J K (f : J ~{A}~> K) =>
              {| transform := fun L : B =>
-                  fmap[F] (f, @id B L)
-                    : F (J, L) ~{C}~> F (K, L) |} |} |}
+                  fmap[F] (f, @id B L) |} |} |}
      ; from :=
        {| morphism := fun F : A ⟶ [B, C] =>
           {| fobj := fun X : A × B => F (fst X) (snd X)
            ; fmap := fun J K (f : J ~{A × B}~> K) =>
-               fmap[F (fst K)] (snd f) ∘ transform[fmap[F] (fst f)] _
-                 : F (fst J) (snd J) ~{C}~> F (fst K) (snd K) |} |} |}
+               fmap (snd f) ∘ transform[fmap[F] (fst f)] _ |} |} |}
 }.
 Next Obligation.
   proper; apply fmap_respects.
@@ -63,18 +61,14 @@ Next Obligation.
   proper.
   constructive; simpl; intros.
   all:swap 2 4.
-  - unshelve (refine {| transform := fun Y0 : B =>
-                          _ (transform[to X] (X0, Y0)) |});
-    simpl; intros.
-    + exact x0.
-    + apply naturality.
-    + symmetry; apply naturality.
-  - unshelve (refine {| transform := fun Y0 : B =>
-                          _ (transform[from X] (X0, Y0)) |});
-    simpl; intros.
-    + exact x0.
-    + apply naturality.
-    + symmetry; apply naturality.
+  - transform; simpl; intros.
+    + exact (transform[to X] (X0, X1)).
+    + simpl; apply naturality.
+    + simpl; symmetry; apply naturality.
+  - transform; simpl; intros.
+    + exact (transform[from X] (X0, X1)).
+    + simpl; apply naturality.
+    + simpl; symmetry; apply naturality.
   - simpl; symmetry; apply naturality.
   - simpl; apply naturality.
   - simpl; apply naturality.
@@ -86,10 +80,8 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper.
-  rewrite y0.
-  apply compose_respects.
-    apply fmap_respects.
-    reflexivity.
+  rewrite y0. simpl.
+  comp_left.
   destruct F; simpl in *.
   apply fmap_respects.
   assumption.
@@ -97,12 +89,9 @@ Qed.
 Next Obligation.
   simpl; cat.
   destruct F; simpl in *.
-  rewrite fmap_id.
-  destruct (fobj o); simpl in *.
-  apply fmap_id0.
+  rewrite fmap_id; cat.
 Qed.
 Next Obligation.
-  simpl in *; cat.
   symmetry.
   rewrite naturality.
   rewrite <- !comp_assoc.
@@ -121,7 +110,7 @@ Next Obligation.
   all:swap 2 4.
   - apply X.
   - apply X.
-  - destruct X0, Y, f; simpl in *.
+  - simpl.
     rewrite naturality.
     rewrite <- comp_assoc.
     rewrite <- naturality.
@@ -131,7 +120,7 @@ Next Obligation.
     comp_left.
     destruct (to X); simpl in *.
     apply naturality_sym.
-  - destruct X0, Y, f; simpl in *.
+  - simpl.
     rewrite naturality.
     rewrite <- comp_assoc.
     rewrite naturality.
@@ -141,7 +130,8 @@ Next Obligation.
     apply compose_respects; cat.
     destruct (to X); simpl in *.
     apply naturality.
-  - destruct X0, Y, f; simpl in *.
+  - simpl.
+    destruct X0, Y, f; simpl in *.
     rewrite naturality.
     rewrite <- comp_assoc.
     rewrite naturality.
@@ -151,7 +141,7 @@ Next Obligation.
     apply compose_respects; cat.
     destruct (from X); simpl in *.
     apply naturality.
-  - destruct X0, Y, f; simpl in *.
+  - simpl.
     rewrite naturality.
     rewrite <- comp_assoc.
     rewrite <- naturality.
@@ -161,41 +151,31 @@ Next Obligation.
     comp_left.
     destruct (from X); simpl in *.
     apply naturality_sym.
-  - destruct A0; simpl; cat.
-    destruct X; simpl in *.
-    apply iso_to_from.
-  - destruct A0; simpl; cat.
-    destruct X; simpl in *.
-    apply iso_from_to.
+  - destruct X; simpl in *; cat.
+  - destruct X; simpl in *; cat.
 Qed.
 Next Obligation.
   constructive; simpl.
   all:swap 2 4.
   - transform; simpl; intros.
     + apply (x X), id.
-    + simpl; cat.
-      destruct x; simpl in *.
+    + destruct x; simpl in *.
       rewrite fmap_id; cat.
-    + simpl; cat.
-      destruct x; simpl in *.
+    + destruct x; simpl in *.
       rewrite fmap_id; cat.
   - transform; simpl; intros.
     + apply (x X), id.
-    + simpl; cat.
-      destruct x; simpl in *.
+    + destruct x; simpl in *.
       rewrite fmap_id; cat.
-    + simpl; cat.
-      destruct x; simpl in *.
+    + destruct x; simpl in *.
       rewrite fmap_id; cat.
   - simpl; cat.
   - simpl; cat.
   - simpl; cat.
   - simpl; cat.
-  - simpl; cat.
-    destruct x; simpl in *.
+  - destruct x; simpl in *.
     rewrite fmap_id; cat.
-  - simpl; cat.
-    destruct x; simpl in *.
+  - destruct x; simpl in *.
     rewrite fmap_id; cat.
 Qed.
 Next Obligation.
@@ -205,20 +185,20 @@ Next Obligation.
     exact id.
   - rewrite <- pairing.
     exact id.
-  - destruct X, Y, f; simpl; cat.
+  - destruct f; simpl; cat.
     rewrite <- fmap_comp.
-    apply fmap_respects; cat; simpl; cat.
-  - destruct X, Y, f; simpl; cat.
+    apply fmap_respects; simpl; cat.
+  - destruct f; simpl; cat.
     rewrite <- fmap_comp.
-    apply fmap_respects; cat; simpl; cat.
-  - destruct X, Y, f; simpl; cat.
+    apply fmap_respects; simpl; cat.
+  - destruct f; simpl; cat.
     rewrite <- fmap_comp.
-    apply fmap_respects; cat; simpl; cat.
-  - destruct X, Y, f; simpl; cat.
+    apply fmap_respects; simpl; cat.
+  - destruct f; simpl; cat.
     rewrite <- fmap_comp.
-    apply fmap_respects; cat; simpl; cat.
-  - destruct A0; simpl; cat.
-  - destruct A0; simpl; cat.
+    apply fmap_respects; simpl; cat.
+  - simpl; cat.
+  - simpl; cat.
 Qed.
 Next Obligation.
   constructive; simpl.
@@ -227,18 +207,18 @@ Next Obligation.
     exact id.
   - rewrite <- pairing.
     exact id.
-  - destruct X0, Y0, f0; simpl; cat.
+  - destruct f0; simpl; cat.
     rewrite <- fmap_comp.
-    apply fmap_respects; cat; simpl; cat.
-  - destruct X0, Y0, f0; simpl; cat.
+    apply fmap_respects; simpl; cat.
+  - destruct f0; simpl; cat.
     rewrite <- fmap_comp.
-    apply fmap_respects; cat; simpl; cat.
-  - destruct X0, Y0, f0; simpl; cat.
+    apply fmap_respects; simpl; cat.
+  - destruct f0; simpl; cat.
     rewrite <- fmap_comp.
-    apply fmap_respects; cat; simpl; cat.
-  - destruct X0, Y0, f0; simpl; cat.
+    apply fmap_respects; simpl; cat.
+  - destruct f0; simpl; cat.
     rewrite <- fmap_comp.
-    apply fmap_respects; cat; simpl; cat.
-  - destruct A; simpl; cat.
-  - destruct A; simpl; cat.
+    apply fmap_respects; simpl; cat.
+  - simpl; cat.
+  - simpl; cat.
 Qed.
