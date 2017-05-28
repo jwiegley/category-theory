@@ -66,22 +66,12 @@ Next Obligation.
   intuition; discriminate.
 Qed.
 Next Obligation.
-  destruct X, Y; auto with two_laws; intuition.
-  - pattern f.
-    apply caseTwoXX; reflexivity.
-  - pattern f.
-    apply caseTwoXY; reflexivity.
-  - pattern f.
-    apply caseTwoYY; reflexivity.
+  destruct X, Y; auto with two_laws; intuition;
+  symmetry; exact (TwoHom_inv _ _ f).
 Qed.
 Next Obligation.
-  destruct X, Y; auto with two_laws; intuition.
-  - pattern f.
-    apply caseTwoXX; reflexivity.
-  - pattern f.
-    apply caseTwoXY; reflexivity.
-  - pattern f.
-    apply caseTwoYY; reflexivity.
+  destruct X, Y; auto with two_laws; intuition;
+  symmetry; exact (TwoHom_inv _ _ f).
 Qed.
 Next Obligation.
   destruct X, Y, Z, W; auto with two_laws; intuition.

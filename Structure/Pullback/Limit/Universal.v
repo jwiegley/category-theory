@@ -29,20 +29,7 @@ Next Obligation.
     abstract (
       simpl;
       destruct X0, Y; auto with roof_laws; simpl in f;
-      [ pattern f;
-        apply caseRoofNegNeg; cat
-      | unfold unop;
-        pattern f;
-        apply caseRoofZeroNeg; clear f;
-        apply X
-      | pattern f;
-        apply caseRoofZeroZero; cat
-      | unfold unop;
-        pattern f;
-        apply caseRoofZeroPos; clear f;
-        reflexivity
-      | pattern f;
-        apply caseRoofPosPos; cat ]).
+      rewrite (RoofHom_inv _ _ f); cat).
   }
   destruct P, Lim; simpl in *.
   exists (limit_terminal cone). {
