@@ -58,6 +58,6 @@ Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Opposite.
 
 Definition Cocomma {A : Category} {B : Category} {C : Category}
-  {S : A ⟶ C} {T : B ⟶ C} := @Comma (A^op) (B^op) (C^op) (S^op) (T^op).
+  {S : A ⟶ C} {T : B ⟶ C} := @Comma (B^op) (A^op) (C^op) (T^op) (S^op).
 
 Notation "S ↑ T" := (@Cocomma _ _ _ S T) (at level 90) : category_scope.
