@@ -13,9 +13,6 @@ Section Coproduct.
 Context {C : Category}.
 Context {D : Category}.
 
-(* A Groupoid is a category where all morphisms are isomorphisms, and morphism
-   equivalence is equivalence of isomorphisms. *)
-
 Program Definition Coproduct : Category := {|
   ob      := C + D;
   hom     := fun X Y =>
