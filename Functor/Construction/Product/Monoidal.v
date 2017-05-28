@@ -35,20 +35,24 @@ Proof.
   intros O P.
   isomorphism.
 
-  transform. {
+  transform. all:simpl. {
     intros [[x z] [y w]]; split.
       exact (transform[to ap_functor_iso] (x, y)).
     exact (transform[to ap_functor_iso] (z, w)).
   }
 
+  all:simpl.
   all:(try destruct X as [[x1 x2] [y1 y2]],
-                    Y as [[z1 z2] [w1 w2]],
-                    f as [[f1a f1b] [f2a f2b]];
-       try destruct A as [[x z] [y w]]; simpl).
+                    Y as [[z1 z2] [w1 w2]]; simpl).
 
   split.
     abstract apply (naturality (to ap_functor_iso) (x1, y1)).
   abstract apply (naturality (to ap_functor_iso) (x2, y2)).
+
+  all:simpl.
+  all:(try destruct X as [[x1 x2] [y1 y2]],
+                    Y as [[z1 z2] [w1 w2]];
+       try destruct f as [[f1a f1b] [f2a f2b]]; simpl).
 
   split.
     abstract apply (naturality_sym (to ap_functor_iso)
@@ -56,16 +60,17 @@ Proof.
   abstract apply (naturality_sym (to ap_functor_iso)
                                  (x2, y2) (z2, w2) (f1b, f2b)).
 
-  transform. {
+  all:simpl.
+  transform. all:simpl. {
     intros [[x z] [y w]]; split.
       exact (transform[from ap_functor_iso] (x, y)).
     exact (transform[from ap_functor_iso] (z, w)).
   }
 
+  all:simpl.
   all:(try destruct X as [[x1 x2] [y1 y2]],
                     Y as [[z1 z2] [w1 w2]],
-                    f as [[f1a f1b] [f2a f2b]];
-       try destruct A as [[x z] [y w]]; simpl).
+                    f as [[f1a f1b] [f2a f2b]]; simpl).
 
   split.
     abstract apply (naturality (from ap_functor_iso)
@@ -79,13 +84,13 @@ Proof.
   abstract apply (naturality_sym (from ap_functor_iso)
                                  (x2, y2) (z2, w2) (f1b, f2b)).
 
-  split.
+  split; simplify.
     abstract sapply (iso_to_from (ap_functor_iso[O])).
   abstract sapply (iso_to_from (ap_functor_iso[P])).
 
-  split.
-    abstract apply (iso_from_to (ap_functor_iso[O]) (x, y)).
-  abstract apply (iso_from_to (ap_functor_iso[P]) (z, w)).
+  split; simplify.
+    abstract apply (iso_from_to (ap_functor_iso[O]) (x1, x0)).
+  abstract apply (iso_from_to (ap_functor_iso[P]) (y, y0)).
 Time Defined.
 
 Set Transparent Obligations.
