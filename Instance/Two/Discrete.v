@@ -14,39 +14,27 @@ Inductive TwoDHom : TwoDObj -> TwoDObj -> Type :=
   | TwoDIdX : TwoDHom TwoDX TwoDX
   | TwoDIdY : TwoDHom TwoDY TwoDY.
 
-Definition caseTwoDXX (p : TwoDHom TwoDX TwoDX) :
-  forall
-    (P : TwoDHom TwoDX TwoDX -> Type)
-    (PTwoDIdX : P TwoDIdX), P p :=
-  match p with
-  | TwoDIdX => fun _ P => P
-  end.
+Definition TwoDHom_inv_t : forall x y, TwoDHom x y -> Prop.
+Proof.
+  intros [] [] f.
+  exact (f = TwoDIdX).
+  exact False.          (* Unused, any Prop is ok here *)
+  exact False.          (* Unused, any Prop is ok here *)
+  exact (f = TwoDIdY).
+Defined.
 
-Definition caseTwoDYY (p : TwoDHom TwoDY TwoDY) :
-  forall
-    (P : TwoDHom TwoDY TwoDY -> Type)
-    (PTwoDIdY : P TwoDIdY), P p :=
-  match p with
-  | TwoDIdY => fun _ P => P
-  end.
+Corollary TwoDHom_inv x y f : TwoDHom_inv_t x y f.
+Proof. destruct f; reflexivity. Qed.
 
 Lemma TwoDHom_X_Y_absurd : TwoDHom TwoDX TwoDY -> False.
 Proof. inversion 1. Qed.
 
-Local Hint Extern 4 =>
-  match goal with
-    [ H : TwoDHom TwoDX TwoDY |- _ ] =>
-    contradiction (TwoDHom_X_Y_absurd H)
-  end : two_laws.
+Hint Extern 4 => contradiction TwoDHom_X_Y_absurd : two_laws.
 
 Lemma TwoDHom_Y_X_absurd : TwoDHom TwoDY TwoDX -> False.
 Proof. inversion 1. Qed.
 
-Local Hint Extern 4 =>
-  match goal with
-    [ H : TwoDHom TwoDY TwoDX |- _ ] =>
-    contradiction (TwoDHom_Y_X_absurd H)
-  end : two_laws.
+Hint Extern 4 => contradiction TwoDHom_Y_X_absurd : two_laws.
 
 (* The discrete category 2 has two objects and their identity morphisms. *)
 
@@ -83,18 +71,12 @@ Next Obligation.
   intuition; discriminate.
 Qed.
 Next Obligation.
-  destruct X, Y; auto with two_laws; intuition.
-    pattern f.
-    apply caseTwoDXX; reflexivity.
-  pattern f.
-  apply caseTwoDYY; reflexivity.
+  destruct X, Y; auto with two_laws;
+  symmetry; exact (TwoDHom_inv _ _ f).
 Qed.
 Next Obligation.
-  destruct X, Y; auto with two_laws; intuition.
-    pattern f.
-    apply caseTwoDXX; reflexivity.
-  pattern f.
-  apply caseTwoDYY; reflexivity.
+  destruct X, Y; auto with two_laws;
+  symmetry; exact (TwoDHom_inv _ _ f).
 Qed.
 Next Obligation.
   destruct X, Y, Z, W; auto with two_laws; intuition.

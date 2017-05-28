@@ -30,45 +30,28 @@ Inductive RoofHom : RoofObj -> RoofObj -> Type :=
   | ZeroPos : RoofHom RZero RPos
   | IdPos   : RoofHom RPos  RPos.
 
-Definition caseRoofNegNeg (p : RoofHom RNeg RNeg) :
-  forall
-    (P : RoofHom RNeg RNeg -> Type)
-    (PIdNeg : P IdNeg), P p :=
-  match p with
-  | IdNeg => fun _ P => P
-  end.
+Definition RoofHom_inv_t : forall x y, RoofHom x y -> Prop.
+Proof.
+  intros [] [] f.
+  exact (f = IdNeg).
+  exact False.          (* Unused, any Prop is ok here *)
+  exact False.          (* Unused, any Prop is ok here *)
+  exact (f = ZeroNeg).
+  exact (f = IdZero).
+  exact (f = ZeroPos).
+  exact False.          (* Unused, any Prop is ok here *)
+  exact False.          (* Unused, any Prop is ok here *)
+  exact (f = IdPos).
+Defined.
 
-Definition caseRoofZeroNeg (p : RoofHom RZero RNeg) :
-  forall
-    (P : RoofHom RZero RNeg -> Type)
-    (PZeroNeg : P ZeroNeg), P p :=
-  match p with
-  | ZeroNeg => fun _ P => P
-  end.
+Corollary RoofHom_inv x y f : RoofHom_inv_t x y f.
+Proof. destruct f; reflexivity. Qed.
 
-Definition caseRoofZeroZero (p : RoofHom RZero RZero) :
-  forall
-    (P : RoofHom RZero RZero -> Type)
-    (PIdZero : P IdZero), P p :=
-  match p with
-  | IdZero => fun _ P => P
-  end.
+Lemma RNeg_RNeg_id (f : RoofHom RNeg RNeg) : f = IdNeg.
+Proof. exact (RoofHom_inv _ _ f). Qed.
 
-Definition caseRoofZeroPos (p : RoofHom RZero RPos) :
-  forall
-    (P : RoofHom RZero RPos -> Type)
-    (PZeroPos : P ZeroPos), P p :=
-  match p with
-  | ZeroPos => fun _ P => P
-  end.
-
-Definition caseRoofPosPos (p : RoofHom RPos RPos) :
-  forall
-    (P : RoofHom RPos RPos -> Type)
-    (PIdPos : P IdPos), P p :=
-  match p with
-  | IdPos => fun _ P => P
-  end.
+Lemma RZero_RPos_id (f : RoofHom RZero RPos) : f = ZeroPos.
+Proof. exact (RoofHom_inv _ _ f). Qed.
 
 Lemma RNeg_RZero_absurd : RoofHom RNeg RZero -> False.
 Proof. inversion 1. Qed.

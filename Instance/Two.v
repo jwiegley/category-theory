@@ -15,38 +15,22 @@ Inductive TwoHom : TwoObj -> TwoObj -> Type :=
   | TwoIdY : TwoHom TwoY TwoY
   | TwoXY  : TwoHom TwoX TwoY.
 
-Definition caseTwoXX (p : TwoHom TwoX TwoX) :
-  forall
-    (P : TwoHom TwoX TwoX -> Type)
-    (PTwoIdX : P TwoIdX), P p :=
-  match p with
-  | TwoIdX => fun _ P => P
-  end.
+Definition TwoHom_inv_t : forall x y, TwoHom x y -> Prop.
+Proof.
+  intros [] [] f.
+  exact (f = TwoIdX).
+  exact (f = TwoXY).
+  exact False.          (* Unused, any Prop is ok here *)
+  exact (f = TwoIdY).
+Defined.
 
-Definition caseTwoYY (p : TwoHom TwoY TwoY) :
-  forall
-    (P : TwoHom TwoY TwoY -> Type)
-    (PTwoIdY : P TwoIdY), P p :=
-  match p with
-  | TwoIdY => fun _ P => P
-  end.
-
-Definition caseTwoXY (p : TwoHom TwoX TwoY) :
-  forall
-    (P : TwoHom TwoX TwoY -> Type)
-    (PTwoIdY : P TwoXY), P p :=
-  match p with
-  | TwoXY => fun _ P => P
-  end.
+Corollary TwoHom_inv x y f : TwoHom_inv_t x y f.
+Proof. destruct f; reflexivity. Qed.
 
 Lemma TwoHom_Y_X_absurd : TwoHom TwoY TwoX -> False.
 Proof. inversion 1. Qed.
 
-Local Hint Extern 4 =>
-  match goal with
-    [ H : TwoHom TwoY TwoX |- _ ] =>
-    contradiction (TwoHom_Y_X_absurd H)
-  end : two_laws.
+Hint Extern 4 => contradiction TwoHom_Y_X_absurd : two_laws.
 
 (* The category 2 has two objects, their identity morphisms, and one morphism
    from the first object to the second (here denoted false and true). *)

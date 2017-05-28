@@ -25,37 +25,21 @@ Inductive ParHom : bool -> ParObj -> ParObj -> Type :=
   | ParOne : ParHom true ParX ParY
   | ParTwo : ParHom false ParX ParY.
 
-Definition caseParXX (p : ParHom true ParX ParX) :
-  forall
-    (P : ParHom true ParX ParX -> Type)
-    (PParIdX : P ParIdX), P p :=
-  match p with
-  | ParIdX => fun _ P => P
-  end.
+Definition ParHom_inv_t : forall b x y, ParHom b x y -> Prop.
+Proof.
+  intros [] [] [] f.
+  exact (f = ParIdX).
+  exact (f = ParOne).
+  exact False.          (* Unused, any Prop is ok here *)
+  exact (f = ParIdY).
+  exact False.          (* Unused, any Prop is ok here *)
+  exact (f = ParTwo).
+  exact False.          (* Unused, any Prop is ok here *)
+  exact False.          (* Unused, any Prop is ok here *)
+Defined.
 
-Definition caseParYY (p : ParHom true ParY ParY) :
-  forall
-    (P : ParHom true ParY ParY -> Type)
-    (PParIdY : P ParIdY), P p :=
-  match p with
-  | ParIdY => fun _ P => P
-  end.
-
-Definition caseParOne (p : ParHom true ParX ParY) :
-  forall
-    (P : ParHom true ParX ParY -> Type)
-    (PParOne : P ParOne), P p :=
-  match p with
-  | ParOne => fun _ P => P
-  end.
-
-Definition caseParTwo (p : ParHom false ParX ParY) :
-  forall
-    (P : ParHom false ParX ParY -> Type)
-    (PParTwo : P ParTwo), P p :=
-  match p with
-  | ParTwo => fun _ P => P
-  end.
+Corollary ParHom_inv b x y f : ParHom_inv_t b x y f.
+Proof. destruct f; reflexivity. Qed.
 
 Lemma ParHom_Id_false_absurd : ∀ x, ParHom false x x -> False.
 Proof. inversion 1. Qed.
@@ -153,4 +137,6 @@ Next Obligation.
   proper; reduce; simpl in *; intuition.
 Qed.
 Next Obligation. destruct X0; simpl; cat. Qed.
-Next Obligation. destruct X0, Y0, Z; simpl; auto with parallel_laws; cat. Qed.
+Next Obligation.
+  destruct X0, Y0, Z; simpl; auto with parallel_laws; cat.
+Qed.
