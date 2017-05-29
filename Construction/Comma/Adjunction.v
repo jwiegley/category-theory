@@ -12,6 +12,16 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+(*
+Lemma comma_functoriality' {A B C} (S : A ⟶ C) (T : B ⟶ C)
+      (F : A ∏ B ⟶ (S ↓ T)) X Y (f : X ~{A ∏ B}~> Y) :
+  fmap[T] (snd f) ∘ projT2 (F X) ≈ projT2 (F Y) ∘ fmap[S] (fst f).
+Proof.
+  destruct F; simpl in *.
+  destruct (fmap X Y f).
+  simpl in X0.
+*)
+
 Section AdjunctionComma.
 
 (* Wikipedia: "Lawvere showed that the functors F : C → D and G : D → C are
@@ -187,123 +197,67 @@ Admitted.
 Qed.
 *)
 
+Program Definition Comma_Functor_F_Id_Id_G (H : F ⊣ G) :
+  (F ↓ Id[C]) ⟶ (Id[D] ↓ G) := {|
+  fobj := fun x => (``x; to adj (`2 x));
+  fmap := fun _ _ f => (``f; _)
+|}.
+Next Obligation.
+  rewrite <- to_adj_nat_r;
+  rewrite <- X;
+  rewrite <- to_adj_nat_l;
+  reflexivity.
+Qed.
+
+Program Definition Comma_Functor_Id_G_F_Id (H : F ⊣ G) :
+  (Id[D] ↓ G) ⟶ (F ↓ Id[C]) := {|
+  fobj := fun x => (``x; from adj (`2 x));
+  fmap := fun _ _ f => (``f; _)
+|}.
+Next Obligation.
+  rewrite <- from_adj_nat_r;
+  rewrite <- X;
+  rewrite <- from_adj_nat_l;
+  reflexivity.
+Qed.
+
+Program Instance Comma_F_Id_Id_G_Iso (H : F ⊣ G) :
+  (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G) := {
+  to   := Comma_Functor_F_Id_Id_G H;
+  from := Comma_Functor_Id_G_F_Id H
+}.
+Next Obligation.
+  constructive; simpl.
+  - exists (id, id); cat.
+    srewrite (iso_to_from (@adj _ _ _ _ H x y)); reflexivity.
+  - exists (id, id); cat.
+    srewrite (iso_to_from (@adj _ _ _ _ H x y)); reflexivity.
+  - clear; simpl; split; cat.
+  - clear; simpl; split; cat.
+  - clear; simpl; split; cat.
+Qed.
+Next Obligation.
+  constructive; simpl.
+  - exists (id, id); cat.
+    srewrite (iso_from_to (@adj _ _ _ _ H x y)); reflexivity.
+  - exists (id, id); cat.
+    srewrite (iso_from_to (@adj _ _ _ _ H x y)); reflexivity.
+  - clear; simpl; split; cat.
+  - clear; simpl; split; cat.
+  - clear; simpl; split; cat.
+Qed.
+
 Theorem Adjunction_Comma :
   F ⊣ G  <-->  fibered_equivalence.
 Proof.
   split; intros H. {
-    given (to : (F ↓ Id[C]) ~{Cat}~> (Id[D] ↓ G)). {
-
-      given (fobj : F ↓ Id[C] -> Id[D] ↓ G). {
-        destruct 1 as [x ?]; exists x.
-        apply H; assumption.
-      }
-
-      given (fmap : ∀ X Y, X ~> Y -> fobj X ~> fobj Y).
-        destruct X, Y; auto.
-
-      (* assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y)) *)
-      (*   by (abstract (destruct X, Y; auto)). *)
-
-      (* assert (∀ X, fmap X X (id[X]) ≈ id) *)
-      (*   by (abstract (destruct X0; cat)). *)
-
-      (* assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g) *)
-      (*   by (abstract (destruct X1, Y, Z; cat)). *)
-
-      econstructor; eauto.
-      admit.
-      admit.
-    }
-
-    given (from : (Id[D] ↓ G) ~{Cat}~> (F ↓ Id[C])). {
-
-      given (fobj : Id[D] ↓ G -> F ↓ Id[C]). {
-        destruct 1 as [x ?]; exists x.
-        apply H; assumption.
-      }
-
-      given (fmap : ∀ X Y, X ~> Y -> fobj X ~> fobj Y).
-        destruct X, Y; auto.
-
-      (* assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y)) *)
-      (*   by (abstract (destruct X, Y; auto)). *)
-
-      (* assert (∀ X, fmap X X (id[X]) ≈ id) *)
-      (*   by (abstract (destruct X0; cat)). *)
-
-      (* assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g) *)
-      (*   by (abstract (destruct X1, Y, Z; cat)). *)
-
-      econstructor; eauto.
-      admit.
-      admit.
-    }
-
-(*
-    assert (from ∘ to ≈ id) as from_to. {
-      constructive; simpl; intros.
-      all:swap 2 4.
-      - destruct X; simpl.
-        exact (id, id).
-      - destruct X; simpl.
-        exact (id, id).
-      - abstract (destruct X, Y; simpl; cat).
-      - abstract (destruct X, Y; simpl; cat).
-      - abstract (destruct X, Y; simpl; cat).
-      - abstract (destruct X, Y; simpl; cat).
-      - abstract (destruct A; cat).
-      - abstract (destruct A; cat).
-    }
-
-    assert (to ∘ from ≈ id). {
-      constructive; simpl; intros.
-      all:swap 2 4.
-      - destruct X; simpl.
-        exact (id, id).
-      - destruct X; simpl.
-        exact (id, id).
-      - abstract (destruct X, Y; simpl; cat).
-      - abstract (destruct X, Y; simpl; cat).
-      - abstract (destruct X, Y; simpl; cat).
-      - abstract (destruct X, Y; simpl; cat).
-      - abstract (destruct A; cat).
-      - abstract (destruct A; cat).
-    }
-*)
-
-(*
-    unshelve econstructor.
-    - isomorphism; auto.
-    - isomorphism; simpl.
-      + transform; simpl; intros.
-        * destruct X0; simpl.
-          exact (id, id).
-        * abstract (destruct X0, Y; simpl; cat).
-        * abstract (destruct X0, Y; simpl; cat).
-      + transform; simpl; intros.
-        * destruct X0; simpl.
-          exact (id, id).
-        * abstract (destruct X0, Y; simpl; cat).
-        * abstract (destruct X0, Y; simpl; cat).
-      + abstract (destruct A; simpl; cat).
-      + abstract (destruct A; simpl; cat).
-    - isomorphism; simpl.
-      + transform; simpl; intros.
-        * destruct X0; simpl.
-          exact (id, id).
-        * abstract (destruct X0, Y; simpl; cat).
-        * abstract (destruct X0, Y; simpl; cat).
-      + transform; simpl; intros.
-        * destruct X0; simpl.
-          exact (id, id).
-        * abstract (destruct X0, Y; simpl; cat).
-        * abstract (destruct X0, Y; simpl; cat).
-      + abstract (destruct A; simpl; cat).
-      + abstract (destruct A; simpl; cat).
+    refine {| fiber_iso := Comma_F_Id_Id_G_Iso H |}.
+    - simpl; unshelve eexists; intros; split;
+      destruct f; simpl; cat.
+    - simpl; unshelve eexists; intros; split;
+      destruct f; simpl; cat.
     - intros.
       admit.
-*)
-    admit.
   }
 
   Opaque Left_Functor.
