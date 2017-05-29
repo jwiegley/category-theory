@@ -1,0 +1,15 @@
+Set Warnings "-notation-overridden".
+
+Require Import Category.Lib.
+Require Export Category.Theory.Universal.Arrow.
+Require Export Category.Structure.Cone.
+Require Export Category.Structure.Limit.
+Require Export Category.Functor.Diagonal.
+
+Generalizable All Variables.
+Set Primitive Projections.
+Set Universe Polymorphism.
+Unset Transparent Obligations.
+
+(* jww (2017-05-29): TODO *)
+(* Program Definition Limit_Universal (C : Category) (c : C) (A : Arrow c : Limit F *)
