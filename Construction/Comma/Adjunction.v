@@ -47,7 +47,7 @@ Context {F : D ⟶ C}.
 
 Program Definition Left_Functor : D ⟶ (F ↓ Id[C]) := {|
   fobj := fun X : D => ((X, F X); id[F X]);
-  fmap := fun _ _ f => (f, fmap[F] f)
+  fmap := fun _ _ f => ((f, fmap[F] f); _)
 |}.
 Next Obligation.
   proper.
@@ -61,7 +61,7 @@ Qed.
 
 Program Definition Right_Functor : C ⟶ (Id[D] ↓ G) := {|
   fobj := fun X : C => ((G X, X); id[G X]);
-  fmap := fun _ _ f => (fmap[G] f, f)
+  fmap := fun _ _ f => ((fmap[G] f, f); _)
 |}.
 Next Obligation.
   proper.
@@ -87,21 +87,30 @@ Corollary Left_Functor_fobj_to_iso_natural
 Proof.
   simpl; intros.
   destruct projF; simpl in *.
+  given (g_morph : {f : (X ~{ D }~> Y) * (F X ~{ C }~> F Y)
+                   & id[F Y] ∘ fmap[F] (fst f) ≈ snd f ∘ id[F X]}).
+    exists (g, fmap g).
+    abstract cat.
   pose proof (naturality[from] ((X, F X); id[F X])
-                        ((Y, F Y); id[F Y]) (g, fmap g)); simpl in X0.
+                        ((Y, F Y); id[F Y]) g_morph); simpl in X0.
   destruct X0.
   rewrite <- fmap_comp.
   rewrite e0; clear e e0.
   rewrite fmap_comp.
   comp_left.
   pose proof (naturality[to] ((X, F X); id[F X])
-                        ((Y, F Y); id[F Y]) (g, fmap g)); simpl in X0.
+                        ((Y, F Y); id[F Y]) g_morph); simpl in X0.
   destruct X0.
   rewrite <- e; clear e e0.
   comp_right.
-  clear.
-  destruct iso, to; simpl in *; clear.
-  remember (fmap _ _ _) as f.
+  destruct iso, to; simpl in *.
+  destruct to0; simpl in *.
+  pose proof fmap as F0.
+  specialize (F0 ((X, F X); id[F X]) ((Y, F Y); id[F Y])
+                 g_morph).
+  destruct F0.
+  destruct x; simpl in *.
+  remember (snd `1 (fmap ((X, F X); id[F X]) ((Y, F Y); id[F Y]) g_morph)) as f.
 Abort.
 
 Record fibered_equivalence := {
@@ -132,6 +141,8 @@ Proof.
   simpl in X0.
   rewrite <- fmap_comp.
   destruct eqv, fiber_iso0, to, projF0, from0; simpl in *.
+Admitted.
+(*
   rewrite (snd (naturality (Left_Functor X) (Left_Functor Y) f)).
   rewrite Functor.fmap_comp.
   simpl.
@@ -141,6 +152,7 @@ Proof.
   comp_right.
   apply X0.
 Qed.
+*)
 
 Lemma Right_Functoriality (eqv : fibered_equivalence) X Y
       (f : comma_proj (Right_Functor X) ~> comma_proj (Right_Functor Y)) :
@@ -160,6 +172,8 @@ Proof.
   rewrite <- !comp_assoc.
   rewrite <- fmap_comp.
   destruct eqv, fiber_iso0, from, projG0, to0; simpl in *.
+Admitted.
+(*
   rewrite <- (fst (naturality (Right_Functor X) (Right_Functor Y) f)).
   rewrite Functor.fmap_comp.
   simpl.
@@ -169,6 +183,7 @@ Proof.
   comp_left.
   apply X0.
 Qed.
+*)
 
 Theorem Adjunction_Comma :
   F ⊣ G  <-->  fibered_equivalence.
@@ -184,16 +199,18 @@ Proof.
       given (fmap : ∀ X Y, X ~> Y -> fobj X ~> fobj Y).
         destruct X, Y; auto.
 
-      assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y))
-        by (abstract (destruct X, Y; auto)).
+      (* assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y)) *)
+      (*   by (abstract (destruct X, Y; auto)). *)
 
-      assert (∀ X, fmap X X (id[X]) ≈ id)
-        by (abstract (destruct X0; cat)).
+      (* assert (∀ X, fmap X X (id[X]) ≈ id) *)
+      (*   by (abstract (destruct X0; cat)). *)
 
-      assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g)
-        by (abstract (destruct X1, Y, Z; cat)).
+      (* assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g) *)
+      (*   by (abstract (destruct X1, Y, Z; cat)). *)
 
       econstructor; eauto.
+      admit.
+      admit.
     }
 
     given (from : (Id[D] ↓ G) ~{Cat}~> (F ↓ Id[C])). {
@@ -206,18 +223,21 @@ Proof.
       given (fmap : ∀ X Y, X ~> Y -> fobj X ~> fobj Y).
         destruct X, Y; auto.
 
-      assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y))
-        by (abstract (destruct X, Y; auto)).
+      (* assert (∀ X Y, Proper (equiv ==> equiv) (fmap X Y)) *)
+      (*   by (abstract (destruct X, Y; auto)). *)
 
-      assert (∀ X, fmap X X (id[X]) ≈ id)
-        by (abstract (destruct X0; cat)).
+      (* assert (∀ X, fmap X X (id[X]) ≈ id) *)
+      (*   by (abstract (destruct X0; cat)). *)
 
-      assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g)
-        by (abstract (destruct X1, Y, Z; cat)).
+      (* assert (∀ X Y Z f g, fmap X Z (f ∘ g) ≈ fmap Y Z f ∘ fmap X Y g) *)
+      (*   by (abstract (destruct X1, Y, Z; cat)). *)
 
       econstructor; eauto.
+      admit.
+      admit.
     }
 
+(*
     assert (from ∘ to ≈ id) as from_to. {
       constructive; simpl; intros.
       all:swap 2 4.
@@ -247,7 +267,9 @@ Proof.
       - abstract (destruct A; cat).
       - abstract (destruct A; cat).
     }
+*)
 
+(*
     unshelve econstructor.
     - isomorphism; auto.
     - isomorphism; simpl.
@@ -278,6 +300,8 @@ Proof.
       + abstract (destruct A; simpl; cat).
     - intros.
       admit.
+*)
+    admit.
   }
 
   Opaque Left_Functor.

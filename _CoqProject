@@ -105,6 +105,8 @@ Instance/AST.v
 Instance/Proset.v
 Instance/Poset.v
 Instance/Cones.v
+Instance/Cones/Limit.v
+Instance/Cones/Comma.v
 Functor/Opposite.v
 Functor/Applicative.v
 Functor/Hom.v

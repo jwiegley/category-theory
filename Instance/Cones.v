@@ -3,23 +3,25 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Diagonal.
+Require Export Category.Structure.Cone.
 Require Export Category.Construction.Comma.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
 
-(* Wikipedia: "We can define the category of cones to F as the comma category
-  (Δ ↓ F). Morphisms of cones are then just morphisms in this category. This
-  equivalence is rooted in the observation that a natural map between constant
-  functors Δ(N), Δ(M) corresponds to a morphism between N and M. In this
-  sense, the diagonal functor acts trivially on arrows. In similar vein,
-  writing down the definition of a natural map from a constant functor Δ(N) to
-  F yields the same diagram as the above. As one might expect, a morphism from
-  a cone (N, ψ) to a cone (L, φ) is just a morphism N → L such that all the
-  "obvious" diagrams commute (see the first diagram in the next section)." *)
+Program Definition Cones `(F : J ⟶ C) : Category := {|
+  ob  := Cone F;
+  hom := fun N L => { u : vertex[N] ~> vertex[L]
+                    & ∀ j, vertex_map[L] ∘ u ≈ @vertex_map _ _ F N j };
+  homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |};
+  id := fun x => (id; _);
+  compose := fun _ _ _ f g => (`1 f ∘ `1 g; _);
+|}.
+Next Obligation.
+  rewrite comp_assoc.
+  rewrite X0.
+  apply X.
+Qed.
 
-Definition Cones `(F : J ⟶ C) (N : C) := (Diagonal J N ↓ F).
-
-Definition Cocones `{F : J ⟶ C} (N : C) := (F ↓ Diagonal J N).
+Definition Cocones `{F : J ⟶ C} := @Cones (J^op) (C^op) (F^op).

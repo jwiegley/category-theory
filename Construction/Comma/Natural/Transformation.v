@@ -29,8 +29,9 @@ Unset Transparent Obligations.
 Program Definition Comma_Functor {C : Category} {D : Category}
         {S : D ⟶ C} {T : D ⟶ C} (F : S ⟹ T) : D ⟶ (S ↓ T) := {|
   fobj := fun X : D => ((X, X); F X);
-  fmap := fun _ _ f => (f, f)
+  fmap := fun _ _ f => ((f, f); _)
 |}.
+Next Obligation. apply naturality_sym. Qed.
 
 Local Obligation Tactic := simpl; intros.
 
