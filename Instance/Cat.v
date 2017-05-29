@@ -20,7 +20,7 @@ Unset Transparent Obligations.
 Program Instance Cat : Category := {
   ob      := Category;
   hom     := @Functor;
-  homset  := fun _ _ => {| equiv := fun F G => F ≅[Fun] G |};
+  homset  := fun C D => {| equiv := fun F G => F ≅[[C, D]] G |};
   id      := @Id;
   compose := @Compose
 }.
