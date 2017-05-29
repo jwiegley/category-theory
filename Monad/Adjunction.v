@@ -1,8 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.Natural.Transformation.
 Require Export Category.Theory.Monad.
+Require Export Category.Adjunction.Natural.Transformation.
 
 Generalizable All Variables.
 Set Primitive Projections.

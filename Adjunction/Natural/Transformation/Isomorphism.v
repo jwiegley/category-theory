@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.Natural.Transformation.
+Require Export Category.Adjunction.Natural.Transformation.
 Require Export Category.Theory.Adjunction.
 
 Generalizable All Variables.
@@ -16,8 +16,7 @@ Context {D : Category}.
 Context {F : D ⟶ C}.
 Context {U : C ⟶ D}.
 
-Program Definition Adjunction_from_Transform (A : Adjunction_Transform F U) :
-  Adjunction F U := {|
+Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := {|
   adj := fun a b =>
     {| to   := {| morphism := fun f =>
          fmap f ∘ @Transformation.unit _ _ _ _ A a |}
@@ -65,8 +64,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Definition Adjunction_to_Transform {A : Adjunction F U} :
-  Adjunction_Transform F U := {|
+Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U := {|
   Transformation.unit   := {| transform := fun a => @unit _ _ _ _ A a |};
   Transformation.counit := {| transform := fun b => @counit _ _ _ _ A b |}
 |}.

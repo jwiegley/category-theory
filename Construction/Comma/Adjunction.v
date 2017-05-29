@@ -1,8 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.Natural.Transformation.
-Require Export Category.Theory.Adjunction.Natural.Transformation.Isomorphism.
+Require Export Category.Adjunction.Natural.Transformation.
+Require Export Category.Adjunction.Natural.Transformation.Isomorphism.
 Require Export Category.Construction.Comma.
 Require Export Category.Construction.Product.
 Require Export Category.Instance.Cat.

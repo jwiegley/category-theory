@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Monad.Algebra.
+Require Export Category.Monad.Algebra.
 
 Generalizable All Variables.
 Set Primitive Projections.
