@@ -19,6 +19,8 @@ Class Cone `(F : J ⟶ C) := {
 
 Coercion vertex : Cone >-> ob.
 
+Notation "vertex[ C ]" := (@vertex _ _ _ C)
+  (at level 9, format "vertex[ C ]") : category_scope.
 Notation "vertex_map[ C ]" := (@vertex_map _ _ _ C _)
   (at level 9, format "vertex_map[ C ]") : category_scope.
 
