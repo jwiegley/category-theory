@@ -12,8 +12,6 @@ Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Coq.
 Require Export Coq.Sets.Ensembles.
 
-Require Import Coq.Logic.ProofIrrelevance.
-
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.

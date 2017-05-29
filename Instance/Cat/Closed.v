@@ -59,24 +59,30 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper.
-  constructive; simpl; intros.
-  all:swap 2 4.
-  - transform; simpl; intros.
-    + exact (transform[to X] (X0, X1)).
-    + simpl; apply naturality.
-    + simpl; symmetry; apply naturality.
-  - transform; simpl; intros.
-    + exact (transform[from X] (X0, X1)).
-    + simpl; apply naturality.
-    + simpl; symmetry; apply naturality.
-  - simpl; symmetry; apply naturality.
-  - simpl; apply naturality.
-  - simpl; apply naturality.
-  - simpl; symmetry; apply naturality.
-  - destruct X; simpl in *.
-    apply iso_to_from.
-  - destruct X; simpl in *.
-    apply iso_from_to.
+  - isomorphism; simpl.
+    + transform; simpl; intros.
+      * apply x0.
+      * simpl.
+        rewrite e.
+        rewrite !comp_assoc.
+        rewrite iso_to_from; cat.
+      * simpl.
+        rewrite e.
+        rewrite !comp_assoc.
+        rewrite iso_to_from; cat.
+    + transform; simpl; intros.
+      * apply x0.
+      * simpl.
+        rewrite e.
+        rewrite <- !comp_assoc.
+        rewrite iso_to_from; cat.
+      * simpl.
+        rewrite e.
+        rewrite <- !comp_assoc.
+        rewrite iso_to_from; cat.
+    + simpl; cat; apply iso_to_from.
+    + simpl; cat; apply iso_from_to.
+  - apply e.
 Qed.
 Next Obligation.
   proper.
@@ -105,120 +111,56 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  proper.
-  constructive; simpl.
-  all:swap 2 4.
-  - apply X.
-  - apply X.
-  - simpl.
-    rewrite naturality.
-    rewrite <- comp_assoc.
-    rewrite <- naturality.
-    rewrite comp_assoc.
-    rewrite <- naturality.
-    rewrite comp_assoc.
-    comp_left.
-    destruct (to X); simpl in *.
-    apply naturality_sym.
-  - simpl.
-    rewrite naturality.
-    rewrite <- comp_assoc.
-    rewrite naturality.
-    rewrite comp_assoc.
-    rewrite naturality.
-    rewrite comp_assoc.
-    apply compose_respects; cat.
-    destruct (to X); simpl in *.
+  proper; simpl.
+  - isomorphism.
+    + apply x0.
+    + apply (from (x0 _)).
+    + srewrite (iso_to_from (x0 x2)); cat.
+    + srewrite (iso_from_to (x0 x2)); cat.
+  - simpl; rewrite e.
+    do 2 comp_right.
     apply naturality.
-  - simpl.
-    destruct X0, Y, f; simpl in *.
-    rewrite naturality.
-    rewrite <- comp_assoc.
-    rewrite naturality.
-    rewrite comp_assoc.
-    rewrite naturality.
-    rewrite comp_assoc.
-    apply compose_respects; cat.
-    destruct (from X); simpl in *.
-    apply naturality.
-  - simpl.
-    rewrite naturality.
-    rewrite <- comp_assoc.
-    rewrite <- naturality.
-    rewrite comp_assoc.
-    rewrite <- naturality.
-    rewrite comp_assoc.
-    comp_left.
-    destruct (from X); simpl in *.
-    apply naturality_sym.
-  - destruct X; simpl in *; cat.
-  - destruct X; simpl in *; cat.
 Qed.
 Next Obligation.
   constructive; simpl.
-  all:swap 2 4.
   - transform; simpl; intros.
-    + apply (x X), id.
+    + exact id.
     + destruct x; simpl in *.
       rewrite fmap_id; cat.
     + destruct x; simpl in *.
       rewrite fmap_id; cat.
   - transform; simpl; intros.
-    + apply (x X), id.
+    + exact id.
     + destruct x; simpl in *.
       rewrite fmap_id; cat.
     + destruct x; simpl in *.
       rewrite fmap_id; cat.
   - simpl; cat.
-  - simpl; cat.
-  - simpl; cat.
-  - simpl; cat.
   - destruct x; simpl in *.
     rewrite fmap_id; cat.
-  - destruct x; simpl in *.
-    rewrite fmap_id; cat.
+  - destruct x; simpl in *; cat.
 Qed.
 Next Obligation.
   constructive; simpl.
-  all:swap 2 4.
   - rewrite <- pairing.
     exact id.
   - rewrite <- pairing.
     exact id.
+  - destruct x0; simpl; cat.
+  - destruct x0; simpl; cat.
   - destruct f; simpl; cat.
     rewrite <- fmap_comp.
     apply fmap_respects; simpl; cat.
-  - destruct f; simpl; cat.
-    rewrite <- fmap_comp.
-    apply fmap_respects; simpl; cat.
-  - destruct f; simpl; cat.
-    rewrite <- fmap_comp.
-    apply fmap_respects; simpl; cat.
-  - destruct f; simpl; cat.
-    rewrite <- fmap_comp.
-    apply fmap_respects; simpl; cat.
-  - simpl; cat.
-  - simpl; cat.
 Qed.
 Next Obligation.
   constructive; simpl.
-  all:swap 2 4.
   - rewrite <- pairing.
     exact id.
   - rewrite <- pairing.
     exact id.
-  - destruct f0; simpl; cat.
+  - destruct x; simpl; cat.
+  - destruct x; simpl; cat.
+  - destruct f; simpl; cat.
     rewrite <- fmap_comp.
     apply fmap_respects; simpl; cat.
-  - destruct f0; simpl; cat.
-    rewrite <- fmap_comp.
-    apply fmap_respects; simpl; cat.
-  - destruct f0; simpl; cat.
-    rewrite <- fmap_comp.
-    apply fmap_respects; simpl; cat.
-  - destruct f0; simpl; cat.
-    rewrite <- fmap_comp.
-    apply fmap_respects; simpl; cat.
-  - simpl; cat.
-  - simpl; cat.
 Qed.

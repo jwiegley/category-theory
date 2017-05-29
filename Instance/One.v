@@ -33,8 +33,6 @@ Program Instance Cat_Terminal : @Terminal Cat := {
   one := Erase
 }.
 Next Obligation.
-  constructive; simplify; auto;
-  destruct f, g; simpl;
-  rewrite ?fmap_id, ?fmap_id0;
-  reflexivity.
+  constructive; auto; try exact tt.
+  destruct (fmap[f] f0); auto.
 Qed.

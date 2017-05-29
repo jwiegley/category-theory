@@ -55,12 +55,6 @@ Coercion transform : Transform >-> Funclass.
 Ltac transform :=
   unshelve (refine {| transform := _ |}; simpl; intros).
 
-Ltac constructive :=
-  isomorphism; simpl; intros;
-  [ transform; simpl; intros
-  | transform; simpl; intros
-  | .. ]; simpl; intros.
-
 Definition outside {C : Category} {D : Category}
            {F G : C ⟶ D} `(N : F ⟹ G)
            {E : Category} (X : E ⟶ C) : F ○ X ⟹ G ○ X.

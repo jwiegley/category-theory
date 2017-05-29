@@ -87,3 +87,43 @@ Hint Unfold nat_identity.
 Hint Unfold nat_equiv.
 
 Arguments nat_equiv {_ _ _ _} _ _ /.
+
+Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :
+  F ≅[Fun] G <--> @equiv _ Functor_Setoid F G.
+Proof.
+  split; intros; simpl.
+    given (iso : ∀ x : C, F x ≅ G x). {
+      intros; isomorphism; simpl; intros.
+      - apply X.
+      - apply (X⁻¹).
+      - srewrite (iso_to_from X); cat.
+      - srewrite (iso_from_to X); cat.
+    }
+    exists iso; simpl in *; intros.
+    rewrite <- comp_assoc.
+    rewrite (naturality[to X]).
+    rewrite comp_assoc.
+    srewrite (iso_from_to X); cat.
+  destruct X.
+  isomorphism; simpl; intros.
+  - transform; simpl; intros.
+    + apply x.
+    + rewrite e; simpl.
+      rewrite !comp_assoc.
+      rewrite iso_to_from; cat.
+    + rewrite e; simpl.
+      rewrite !comp_assoc.
+      rewrite iso_to_from; cat.
+  - transform; simpl; intros.
+    + apply x.
+    + rewrite e; simpl.
+      rewrite <- !comp_assoc.
+      rewrite iso_to_from; cat.
+    + rewrite e; simpl.
+      rewrite <- !comp_assoc.
+      rewrite iso_to_from; cat.
+  - rewrite fmap_id.
+    apply iso_to_from.
+  - rewrite fmap_id.
+    apply iso_from_to.
+Qed.

@@ -65,20 +65,40 @@ Next Obligation.
   rewrite comp_assoc.
   reflexivity.
 Qed.
-Next Obligation. constructive; cat. Defined.
-Next Obligation. constructive; cat. Defined.
-Next Obligation. constructive; cat. Defined.
+Next Obligation.
+  isomorphism; simpl.
+  - transform; simpl; cat.
+  - transform; simpl; cat.
+  - simpl; cat.
+  - simpl; cat.
+Defined.
+Next Obligation.
+  isomorphism; simpl.
+  - transform; simpl; cat.
+  - transform; simpl; cat.
+  - simpl; cat.
+  - simpl; cat.
+Defined.
+Next Obligation.
+  isomorphism; simpl.
+  - transform; simpl; cat.
+  - transform; simpl; cat.
+  - simpl; cat.
+  - simpl; cat.
+Defined.
 Next Obligation. cat. Defined.
 Next Obligation. cat. Defined.
 Next Obligation. cat. Defined.
 Next Obligation. cat. Defined.
 Next Obligation.
+  rewrite !fmap_id.
   normal.
   rewrite <- !comp_assoc.
   rewrite fmap_comp.
   reflexivity.
 Qed.
 Next Obligation.
+  rewrite !fmap_id.
   normal.
   rewrite <- !comp_assoc.
   rewrite fmap_comp.

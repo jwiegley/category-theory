@@ -78,12 +78,12 @@ Corollary Left_Functor_fobj_to_iso_natural
           (projF : comma_proj ≈[Cat] comma_proj ○ to iso) :
   ∀ X Y (g : X ~{D}~> Y),
     fmap (fmap g)
-      ∘ fmap[G] (snd (projF⁻¹ (Left_Functor X)))
+      ∘ fmap[G] (snd (``projF (Left_Functor X))⁻¹)
       ∘ projT2 (to iso (Left_Functor X))
-      ∘ fst (to projF (Left_Functor X))
-      ≈ fmap[G] (snd (projF⁻¹ (Left_Functor Y)))
+      ∘ fst (to (``projF (Left_Functor X)))
+      ≈ fmap[G] (snd (``projF (Left_Functor Y))⁻¹)
           ∘ projT2 (to iso (Left_Functor Y))
-          ∘ fst (to projF (Left_Functor Y)) ∘ g.
+          ∘ fst (to (``projF (Left_Functor Y))) ∘ g.
 Proof.
   simpl; intros.
   destruct projF; simpl in *.
@@ -91,6 +91,7 @@ Proof.
                    & id[F Y] ∘ fmap[F] (fst f) ≈ snd f ∘ id[F X]}).
     exists (g, fmap g).
     abstract cat.
+(*
   pose proof (naturality[from] ((X, F X); id[F X])
                         ((Y, F Y); id[F Y]) g_morph); simpl in X0.
   destruct X0.
@@ -111,6 +112,7 @@ Proof.
   destruct F0.
   destruct x; simpl in *.
   remember (snd `1 (fmap ((X, F X); id[F X]) ((Y, F Y); id[F Y]) g_morph)) as f.
+*)
 Abort.
 
 Record fibered_equivalence := {
@@ -128,19 +130,19 @@ Record fibered_equivalence := {
 Lemma Left_Functoriality (eqv : fibered_equivalence) X Y
       (f : comma_proj (Left_Functor X) ~> comma_proj (Left_Functor Y)) :
   fmap[G] (snd f)
-    ∘ fmap[G] (snd ((projF eqv)⁻¹ (Left_Functor X)))
+    ∘ fmap[G] (snd (``(projF eqv) (Left_Functor X))⁻¹)
     ∘ projT2 (to (fiber_iso eqv) (Left_Functor X))
-    ∘ fst (to (projF eqv) (Left_Functor X))
-    ≈ fmap[G] (snd ((projF eqv)⁻¹ (Left_Functor Y)))
+    ∘ fst (to (``(projF eqv) (Left_Functor X)))
+    ≈ fmap[G] (snd (``(projF eqv) (Left_Functor Y))⁻¹)
         ∘ projT2 (to (fiber_iso eqv) (Left_Functor Y))
-        ∘ fst (to (projF eqv) (Left_Functor Y))
+        ∘ fst (to (``(projF eqv) (Left_Functor Y)))
         ∘ fst f.
 Proof.
   pose proof (comma_functoriality eqv Id G
                 (to (fiber_iso eqv) ○ Left_Functor ○ Fst) (X, F X) (Y, F Y));
   simpl in X0.
   rewrite <- fmap_comp.
-  destruct eqv, fiber_iso0, to, projF0, from0; simpl in *.
+  (* destruct eqv, fiber_iso0, to, projF0, from0; simpl in *. *)
 Admitted.
 (*
   rewrite (snd (naturality (Left_Functor X) (Left_Functor Y) f)).
@@ -157,12 +159,12 @@ Qed.
 Lemma Right_Functoriality (eqv : fibered_equivalence) X Y
       (f : comma_proj (Right_Functor X) ~> comma_proj (Right_Functor Y)) :
   snd f
-    ∘ snd ((projG eqv)⁻¹ (Right_Functor X))
+    ∘ snd (``(projG eqv) (Right_Functor X))⁻¹
     ∘ projT2 ((fiber_iso eqv)⁻¹ (Right_Functor X))
-    ∘ fmap[F] (fst (to (projG eqv) (Right_Functor X)))
-    ≈ snd ((projG eqv)⁻¹ (Right_Functor Y))
+    ∘ fmap[F] (fst (to (``(projG eqv) (Right_Functor X))))
+    ≈ snd (``(projG eqv) (Right_Functor Y))⁻¹
         ∘ projT2 ((fiber_iso eqv)⁻¹ (Right_Functor Y))
-        ∘ fmap[F] (fst (to (projG eqv) (Right_Functor Y)))
+        ∘ fmap[F] (fst (to (``(projG eqv) (Right_Functor Y))))
         ∘ fmap[F] (fst f).
 Proof.
   pose proof (comma_functoriality eqv F Id
@@ -171,7 +173,7 @@ Proof.
   simpl in X0.
   rewrite <- !comp_assoc.
   rewrite <- fmap_comp.
-  destruct eqv, fiber_iso0, from, projG0, to0; simpl in *.
+  (* destruct eqv, fiber_iso0, from, projG0, to0; simpl in *. *)
 Admitted.
 (*
   rewrite <- (fst (naturality (Right_Functor X) (Right_Functor Y) f)).
@@ -307,16 +309,16 @@ Proof.
   Opaque Left_Functor.
   given (unit : ∀ a, a ~{ D }~> G (F a)).
     intro a.
-    exact (fmap (snd ((projF H)⁻¹ (Left_Functor a)))
+    exact (fmap (snd (``(projF H) (Left_Functor a))⁻¹)
                 ∘ projT2 (to (fiber_iso H) (Left_Functor a))
-                ∘ fst (to (projF H) (Left_Functor a))).
+                ∘ fst (to (``(projF H) (Left_Functor a)))).
 
   Opaque Right_Functor.
   given (counit : ∀ a, F (G a) ~{ C }~> a).
     intro a.
-    exact (snd ((projG H)⁻¹ (Right_Functor a))
+    exact (snd (``(projG H) (Right_Functor a))⁻¹
                ∘ projT2 ((fiber_iso H)⁻¹ (Right_Functor a))
-               ∘ fmap (fst (to (projG H) (Right_Functor a)))).
+               ∘ fmap (fst (to (``(projG H) (Right_Functor a))))).
 
   unshelve (eapply Adjunction_from_Transform).
   unshelve econstructor; auto.
@@ -324,20 +326,20 @@ Proof.
   - transform; simpl; intros.
     + exact (unit X).
     + unfold unit; clear unit.
-      rewrite !comp_assoc.
+      do 2 rewrite comp_assoc.
       exact (Left_Functoriality H X Y (f, fmap[F] f)).
     + unfold unit; clear unit.
-      rewrite !comp_assoc.
+      do 2 rewrite comp_assoc.
       symmetry.
       exact (Left_Functoriality H X Y (f, fmap[F] f)).
 
   - transform; simpl; intros.
     + exact (counit X).
     + unfold counit; clear counit.
-      rewrite !comp_assoc.
+      do 2 rewrite comp_assoc.
       exact (Right_Functoriality H X Y (fmap[G] f, f)).
     + unfold counit; clear counit.
-      rewrite !comp_assoc.
+      do 2 rewrite comp_assoc.
       symmetry.
       exact (Right_Functoriality H X Y (fmap[G] f, f)).
 

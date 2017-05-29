@@ -26,65 +26,37 @@ Next Obligation. proper; apply fmap_respects; auto. Qed.
 Next Obligation. simplify; rewrite !fmap_comp; intuition. Qed.
 Next Obligation.
   proper.
-  constructive; simplify; simpl.
-  all:swap 3 7.
-  all:swap 4 8.
-  - apply (transform[to X0]).
-  - apply (transform[to X1]).
-  - apply (transform[from X0]).
-  - apply (transform[from X1]).
-  - symmetry; apply naturality.
-  - symmetry; apply naturality.
-  - apply naturality.
-  - apply naturality.
-  - apply naturality.
-  - apply naturality.
-  - symmetry; apply naturality.
-  - symmetry; apply naturality.
-  - destruct X0; simpl;
-    destruct to, from; simpl in *;
-    apply iso_to_from.
-  - destruct X1; simpl;
-    destruct to, from; simpl in *;
-    apply iso_to_from.
-  - destruct X0; simpl;
-    destruct to, from; simpl in *;
-    apply iso_from_to.
-  - destruct X1; simpl;
-    destruct to, from; simpl in *;
-    apply iso_from_to.
+  isomorphism; simpl; intros; split.
+  - apply x2.
+  - apply x1.
+  - apply (from (x2 _)).
+  - apply (from (x1 _)).
+  - apply iso_to_from.
+  - apply iso_to_from.
+  - apply iso_from_to.
+  - apply iso_from_to.
+  - apply e0.
+  - apply e.
 Qed.
 Next Obligation.
-  intros; simplify.
-  - constructive; destruct X0; simpl in *.
-    all:swap 2 4.
-    + apply to.
-    + apply from.
-    + destruct to; symmetry; apply naturality.
-    + destruct to; apply naturality.
-    + destruct from; apply naturality.
-    + destruct from; symmetry; apply naturality.
-    + apply iso_to_from.
-    + apply iso_from_to.
-  - constructive; destruct X0; simpl in *.
-    all:swap 2 4.
-    + apply to.
-    + apply from.
-    + destruct to; symmetry; apply naturality.
-    + destruct to; apply naturality.
-    + destruct from; apply naturality.
-    + destruct from; symmetry; apply naturality.
-    + apply iso_to_from.
-    + apply iso_from_to.
-  - intros; simplify.
-    destruct x, y; simpl in *.
-    constructive; simplify; simpl; firstorder.
-    + destruct to; apply naturality.
-    + destruct to0; apply naturality.
-    + destruct to; symmetry; apply naturality.
-    + destruct to0; symmetry; apply naturality.
-    + destruct from; apply naturality.
-    + destruct from0; apply naturality.
-    + destruct from; symmetry; apply naturality.
-    + destruct from0; symmetry; apply naturality.
+  split; intros; simplify.
+  - isomorphism.
+    + exact (fst (to (x x0))).
+    + exact (fst (from (x x0))).
+    + exact (fst (iso_to_from (x x0))).
+    + exact (fst (iso_from_to (x x0))).
+  - apply (fst (e _ _ _)).
+  - isomorphism.
+    + exact (snd (to (x x0))).
+    + exact (snd (from (x x0))).
+    + exact (snd (iso_to_from (x x0))).
+    + exact (snd (iso_from_to (x x0))).
+  - apply (snd (e _ _ _)).
+  - isomorphism.
+    + exact(to (x1 x), to (x0 x)).
+    + exact(from (x1 x), from (x0 x)).
+    + exact(iso_to_from (x1 x), iso_to_from (x0 x)).
+    + exact(iso_from_to (x1 x), iso_from_to (x0 x)).
+  - apply e0.
+  - apply e.
 Qed.

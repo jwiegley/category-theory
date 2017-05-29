@@ -18,39 +18,139 @@ Ltac reduce :=
     end;
   simpl; auto; try split; cat; simpl; cat.
 
-(* jww (2017-05-26): At the moment this proof exhausts Coq's memory, bug #5551 *)
+Local Obligation Tactic := simpl; intros.
 
-(*
+Program Instance Comma_Iso_to_Left {A : Category} {B : Category} {C : Category}
+        (x y : A ⟶ C) (iso : x ≅[Fun] y) (z : B ⟶ C) :
+  (x ↓ z) ⟶ (y ↓ z).
+Next Obligation.
+  exists ``X; simpl.
+  exact (`2 X ∘ transform[from iso] _).
+Defined.
+Next Obligation.
+  exists ``f; simpl.
+  rewrite comp_assoc.
+  rewrite <- (`2 f).
+  rewrite <- comp_assoc.
+  rewrite <- naturality.
+  rewrite comp_assoc.
+  reflexivity.
+Defined.
+Next Obligation. proper. Qed.
+Next Obligation. cat. Qed.
+Next Obligation. cat. Qed.
+
+Program Instance Comma_Iso_from_Left {A : Category} {B : Category} {C : Category}
+        (x y : A ⟶ C) (iso : x ≅[Fun] y) (z : B ⟶ C) :
+  (y ↓ z) ⟶ (x ↓ z).
+Next Obligation.
+  exists ``X; simpl.
+  exact (`2 X ∘ transform[to iso] _).
+Defined.
+Next Obligation.
+  exists ``f; simpl.
+  rewrite comp_assoc.
+  rewrite <- (`2 f).
+  rewrite <- comp_assoc.
+  rewrite <- naturality.
+  rewrite comp_assoc.
+  reflexivity.
+Defined.
+Next Obligation. proper. Qed.
+Next Obligation. cat. Qed.
+Next Obligation. cat. Qed.
+
+Program Instance Comma_Iso_to_Right {A : Category} {B : Category} {C : Category}
+        (x y : B ⟶ C) (iso : x ≅[Fun] y) (z : A ⟶ C) :
+  (z ↓ x) ⟶ (z ↓ y).
+Next Obligation.
+  exists ``X; simpl.
+  exact (transform[to iso] _ ∘ `2 X).
+Defined.
+Next Obligation.
+  exists ``f; simpl.
+  rewrite <- comp_assoc.
+  rewrite (`2 f).
+  rewrite comp_assoc.
+  rewrite <- naturality.
+  rewrite comp_assoc.
+  reflexivity.
+Defined.
+Next Obligation. proper. Qed.
+Next Obligation. cat. Qed.
+Next Obligation. cat. Qed.
+
+Program Instance Comma_Iso_from_Right {A : Category} {B : Category} {C : Category}
+        (x y : B ⟶ C) (iso : x ≅[Fun] y) (z : A ⟶ C) :
+  (z ↓ y) ⟶ (z ↓ x).
+Next Obligation.
+  exists ``X; simpl.
+  exact (transform[from iso] _ ∘ `2 X).
+Defined.
+Next Obligation.
+  exists ``f; simpl.
+  rewrite <- comp_assoc.
+  rewrite (`2 f).
+  rewrite comp_assoc.
+  rewrite <- naturality.
+  rewrite comp_assoc.
+  reflexivity.
+Defined.
+Next Obligation. proper. Qed.
+Next Obligation. cat. Qed.
+Next Obligation. cat. Qed.
+
 Program Instance Comma_Iso {A : Category} {B : Category} {C : Category} :
   Proper (@Isomorphism Fun ==> @Isomorphism Fun ==> @Isomorphism Cat)
          (@Comma A B C).
 Next Obligation.
   proper.
   transitivity (y ↓ x0). {
-    destruct X; simpl in *.
-    isomorphism.
-    - functor; simpl; intros.
-        reduce.
-        exact (h ∘ transform[from] _).
-      all:reduce.
-    - functor; simpl; intros.
-        reduce.
-        exact (h ∘ transform[to] _).
-      all:reduce.
-    - constructive; reduce.
-    - constructive; reduce.
+    isomorphism; simpl.
+    - apply Comma_Iso_to_Left; assumption.
+    - apply Comma_Iso_from_Left; assumption.
+    - constructive; simpl.
+      + exists (id, id); cat.
+        rewrite <- comp_assoc; simpl;
+        srewrite (iso_to_from X); cat.
+      + exists (id, id); cat.
+        rewrite <- comp_assoc; simpl;
+        srewrite (iso_to_from X); cat.
+      + clear; simpl; cat.
+      + clear; simpl; cat.
+      + clear; simpl; split; cat.
+    - constructive; simpl.
+      + exists (id, id); cat.
+        rewrite <- comp_assoc; simpl;
+        srewrite (iso_from_to X); cat.
+      + exists (id, id); cat.
+        rewrite <- comp_assoc; simpl;
+        srewrite (iso_from_to X); cat.
+      + clear; simpl; cat.
+      + clear; simpl; cat.
+      + clear; simpl; split; cat.
   }
-  destruct X0; simpl in *.
-  isomorphism.
-  - functor; simpl; intros.
-      reduce.
-      exact (transform[to] _ ∘ h).
-    all:reduce.
-  - functor; simpl; intros.
-      reduce.
-      exact (transform[from] _ ∘ h).
-    all:reduce.
-  - constructive; reduce.
-  - constructive; reduce.
+  isomorphism; simpl.
+  - apply Comma_Iso_to_Right; assumption.
+  - apply Comma_Iso_from_Right; assumption.
+  - constructive; simpl.
+    + exists (id, id); cat.
+      rewrite comp_assoc; simpl;
+      srewrite (iso_to_from X0); cat.
+    + exists (id, id); cat.
+      rewrite comp_assoc; simpl;
+      srewrite (iso_to_from X0); cat.
+    + clear; simpl; cat.
+    + clear; simpl; cat.
+    + clear; simpl; split; cat.
+  - constructive; simpl.
+    + exists (id, id); cat.
+      rewrite comp_assoc; simpl;
+      srewrite (iso_from_to X0); cat.
+    + exists (id, id); cat.
+      rewrite comp_assoc; simpl;
+      srewrite (iso_from_to X0); cat.
+    + clear; simpl; cat.
+    + clear; simpl; cat.
+    + clear; simpl; split; cat.
 Qed.
-*)

@@ -40,15 +40,15 @@ Program Definition Comma_Transform {C : Category} {D : Category}
         (proj1 : comma_proj1 ○ F ≈[Cat] Id)
         (proj2 : comma_proj2 ○ F ≈[Cat] Id)
         (functoriality : ∀ X Y (g : X ~> Y),
-           fmap[T] g ∘ fmap (to proj2 X)
+           fmap[T] g ∘ fmap (to (``proj2 X))
                      ∘ projT2 (F X)
-                     ∘ fmap (from proj1 X)
-             ≈ fmap (to proj2 Y)
+                     ∘ fmap (from (``proj1 X))
+             ≈ fmap (to (``proj2 Y))
                      ∘ projT2 (F Y)
-                     ∘ fmap (from proj1 Y)
+                     ∘ fmap (from (``proj1 Y))
                      ∘ fmap[S] g) :
   S ⟹ T := {|
-  transform := fun X => fmap (to proj2 X) ∘ projT2 (F X) ∘ fmap (from proj1 X)
+  transform := fun X => fmap (to (``proj2 X)) ∘ projT2 (F X) ∘ fmap (from (``proj1 X))
 |}.
 Next Obligation.
   rewrite !comp_assoc.

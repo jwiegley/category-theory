@@ -27,8 +27,8 @@ Class Category := {
   compose_respects (X Y Z : ob) :>
     Proper (equiv ==> equiv ==> equiv) (@compose X Y Z);
 
-  dom {A B} (f: A ~> B) := A;
-  cod {A B} (f: A ~> B) := B;
+  dom {X Y} (f: X ~> Y) := X;
+  cod {X Y} (f: X ~> Y) := Y;
 
   id_left  {X Y} (f : X ~> Y) : id ∘ f ≈ f;
   id_right {X Y} (f : X ~> Y) : f ∘ id ≈ f;

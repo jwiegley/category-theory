@@ -32,6 +32,5 @@ Program Instance Cat_Initial : @Initial Cat := {
   one := From_0
 }.
 Next Obligation.
-  constructive; try contradiction;
-  intros; contradiction.
+  constructive; try contradiction.
 Qed.

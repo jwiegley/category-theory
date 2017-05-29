@@ -10,32 +10,22 @@ Require Export Category.Structure.Closed.
 Require Export Category.Structure.Initial.
 Require Export Category.Structure.Terminal.
 
-Require Import Coq.Logic.ProofIrrelevance.
-
-(* Proof irrelevant equality. *)
-Definition proof_eq {P : Prop} (x y : P) := (x = y)%type.
-
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-(* The category of propositions. Note that since proofs are opaque, we must
-   assert proof irrelevance and judge them always equivalent if they have the
-   same type. *)
-
-Local Obligation Tactic :=
-  first [ proper; apply proof_irrelevance | program_simpl ].
+(* The category of propositions. *)
 
 Program Definition Props : Category := {|
   ob      := Prop;
   hom     := Basics.impl;
-  homset  := fun P Q =>
-               {| equiv := fun f g => forall x, proof_eq (f x) (g x) |};
+  (* By proof irrelevance, two statement P -> Q of the same type are taken to
+     always be the same implication. *)
+  homset  := fun P Q => {| equiv := fun f g => True |};
   id      := fun _ x => x;
   compose := fun _ _ _ g f x => g (f x)
 |}.
-Next Obligation. equivalence; autounfold in *; congruence. Qed.
 
 Program Instance Props_Terminal : @Terminal Props := {
   One := True;

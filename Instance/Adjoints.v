@@ -75,112 +75,131 @@ Program Definition Adjoints : Category := {|
                   ; forgetful_functor := Id[X] |};
   compose := fun A B C f g =>
     {| adjunction :=
-             @adj_comp A B C (free_functor g) (forgetful_functor g)
-                       (free_functor f) (forgetful_functor f)
-                       (adjunction g) (adjunction f) |}
+         @adj_comp A B C (free_functor g) (forgetful_functor g)
+                   (free_functor f) (forgetful_functor f)
+                   (adjunction g) (adjunction f) |}
 |}.
 Next Obligation.
-  proper; simpl; constructive.
-  all:swap 2 4.
-  all:swap 3 9.
-  all:swap 4 12.
-  - exact (fmap (transform[to x2] _) ∘ transform[to x1] _).
-  - exact (fmap (transform[from x2] _) ∘ transform[from x1] _).
-  - exact (fmap (transform[to y1] _) ∘ transform[to y2] _).
-  - exact (fmap (transform[from y1] _) ∘ transform[from y2] _).
-  - rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite !naturality.
-    rewrite <- comp_assoc.
-    rewrite <- fmap_comp.
-    reflexivity.
-  - rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite !naturality.
-    rewrite <- comp_assoc.
-    rewrite <- fmap_comp.
-    reflexivity.
-  - rewrite naturality.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (transform[to x2] _))).
-    rewrite <- fmap_comp.
-    rewrite naturality.
-    rewrite comp_assoc.
-    destruct x2; simpl in *.
-    rewrite iso_to_from; cat.
-    destruct x1; simpl in *.
-    rewrite iso_to_from0; cat.
-  - rewrite naturality.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (transform[from x2] _))).
-    rewrite <- fmap_comp.
-    rewrite naturality.
-    rewrite comp_assoc.
-    destruct x2; simpl in *.
-    rewrite iso_from_to; cat.
-    destruct x1; simpl in *.
-    rewrite iso_from_to0; cat.
-  - rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite !naturality.
-    rewrite <- comp_assoc.
-    rewrite <- fmap_comp.
-    reflexivity.
-  - rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite !naturality.
-    rewrite <- comp_assoc.
-    rewrite <- fmap_comp.
-    reflexivity.
-  - rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite !naturality.
-    rewrite <- comp_assoc.
-    rewrite <- fmap_comp.
-    reflexivity.
-  - rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite !naturality.
-    rewrite <- comp_assoc.
-    rewrite <- fmap_comp.
-    reflexivity.
-  - rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite !naturality.
-    rewrite <- comp_assoc.
-    rewrite <- fmap_comp.
-    reflexivity.
-  - rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite !naturality.
-    rewrite <- comp_assoc.
-    rewrite <- fmap_comp.
-    reflexivity.
-  - rewrite naturality.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (transform[to y1] _))).
-    rewrite <- fmap_comp.
-    rewrite naturality.
-    rewrite comp_assoc.
-    destruct y1; simpl in *.
-    rewrite iso_to_from; cat.
-    destruct y2; simpl in *.
-    rewrite iso_to_from0; cat.
-  - rewrite naturality.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc (fmap (transform[from y1] _))).
-    rewrite <- fmap_comp.
-    rewrite naturality.
-    rewrite comp_assoc.
-    destruct y1; simpl in *.
-    rewrite iso_from_to; cat.
-    destruct y2; simpl in *.
-    rewrite iso_from_to0; cat.
+  proper; simpl.
+  - isomorphism; simpl.
+    + transform; simpl; intros.
+      * exact (fmap (transform[to x2] _) ∘ transform[to x1] _).
+      * rewrite comp_assoc.
+        rewrite <- fmap_comp.
+        rewrite !naturality.
+        rewrite <- comp_assoc.
+        rewrite <- fmap_comp.
+        reflexivity.
+      * rewrite comp_assoc.
+        rewrite <- fmap_comp.
+        rewrite !naturality.
+        rewrite <- comp_assoc.
+        rewrite <- fmap_comp.
+        reflexivity.
+    + transform; simpl; intros.
+      * exact (fmap (transform[from x2] _) ∘ transform[from x1] _).
+      * rewrite comp_assoc.
+        rewrite <- fmap_comp.
+        rewrite !naturality.
+        rewrite <- comp_assoc.
+        rewrite <- fmap_comp.
+        reflexivity.
+      * rewrite comp_assoc.
+        rewrite <- fmap_comp.
+        rewrite !naturality.
+        rewrite <- comp_assoc.
+        rewrite <- fmap_comp.
+        reflexivity.
+    + simpl.
+      rewrite naturality.
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (fmap (transform[to x2] _))).
+      rewrite <- fmap_comp.
+      rewrite naturality.
+      rewrite comp_assoc.
+      destruct x2; simpl in *.
+      rewrite iso_to_from; cat.
+      destruct x1; simpl in *.
+      rewrite iso_to_from0; cat.
+    + simpl.
+      rewrite naturality.
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (fmap (transform[from x2] _))).
+      rewrite <- fmap_comp.
+      rewrite naturality.
+      rewrite comp_assoc.
+      destruct x2; simpl in *.
+      rewrite iso_from_to; cat.
+      destruct x1; simpl in *.
+      rewrite iso_from_to0; cat.
+  - isomorphism; simpl.
+    + transform; simpl; intros.
+      * exact (fmap (transform[to y1] _) ∘ transform[to y2] _).
+      * rewrite comp_assoc.
+        rewrite <- fmap_comp.
+        rewrite !naturality.
+        rewrite <- comp_assoc.
+        rewrite <- fmap_comp.
+        reflexivity.
+      * rewrite comp_assoc.
+        rewrite <- fmap_comp.
+        rewrite !naturality.
+        rewrite <- comp_assoc.
+        rewrite <- fmap_comp.
+        reflexivity.
+    + transform; simpl; intros.
+      * exact (fmap (transform[from y1] _) ∘ transform[from y2] _).
+      * rewrite comp_assoc.
+        rewrite <- fmap_comp.
+        rewrite !naturality.
+        rewrite <- comp_assoc.
+        rewrite <- fmap_comp.
+        reflexivity.
+      * rewrite comp_assoc.
+        rewrite <- fmap_comp.
+        rewrite !naturality.
+        rewrite <- comp_assoc.
+        rewrite <- fmap_comp.
+        reflexivity.
+    + simpl.
+      rewrite naturality.
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (fmap (transform[to y1] _))).
+      rewrite <- fmap_comp.
+      rewrite naturality.
+      rewrite comp_assoc.
+      destruct y1; simpl in *.
+      rewrite iso_to_from; cat.
+      destruct y2; simpl in *.
+      rewrite iso_to_from0; cat.
+    + simpl.
+      rewrite naturality.
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (fmap (transform[from y1] _))).
+      rewrite <- fmap_comp.
+      rewrite naturality.
+      rewrite comp_assoc.
+      destruct y1; simpl in *.
+      rewrite iso_from_to; cat.
+      destruct y2; simpl in *.
+      rewrite iso_from_to0; cat.
 Qed.
-Next Obligation. split; simpl; constructive; cat. Qed.
-Next Obligation. split; simpl; constructive; cat. Qed.
-Next Obligation. split; simpl; constructive; cat. Qed.
-Next Obligation. split; simpl; constructive; cat. Qed.
+Next Obligation.
+  split; isomorphism;
+  try (transform; simpl; intros; try exact id; cat); cat.
+Qed.
+Next Obligation.
+  split; isomorphism;
+  try (transform; simpl; intros; try exact id; cat); cat.
+Qed.
+Next Obligation.
+  split; isomorphism;
+  try (transform; simpl; intros; try exact id; cat); cat.
+Qed.
+Next Obligation.
+  split; isomorphism;
+  try (transform; simpl; intros; try exact id; cat); cat.
+Qed.
 
 (* From mathoverflow:
 

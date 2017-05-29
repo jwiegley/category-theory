@@ -12,6 +12,5 @@ Unset Transparent Obligations.
 Lemma Diagonal_Unique `(C : Category) {D : Category} (d : D) :
   Diagonal C d ≈[Cat] Const d ∘[Cat] one.
 Proof.
-  constructive; simpl; intros.
-  all:swap 2 4; try exact id; cat.
+  exists (fun _ => id_iso); simpl; intros; cat.
 Qed.

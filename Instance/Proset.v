@@ -11,11 +11,6 @@ Require Export Category.Structure.Initial.
 Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Coq.
 
-Require Import Coq.Logic.ProofIrrelevance.
-
-(* Proof irrelevant equality. *)
-Definition proof_eq {P : Prop} (x y : P) := (x = y)%type.
-
 Require Import Coq.Classes.Equivalence.
 Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Relations.Relation_Definitions.
@@ -38,15 +33,13 @@ Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) :
   Category := {|
   ob      := A;
   hom     := R;
-  homset  := fun A B => {| Setoid.equiv := proof_eq |};
+  (* Since there can be at most one arrow between any two objects, multiple
+     arrows of the same type are equal. *)
+  homset  := fun A B => {| Setoid.equiv := fun _ _ => True |};
   id      := fun X => @reflexivity A R (@PreOrder_Reflexive A R P) X;
   compose := fun X Y Z f g =>
     @transitivity A R (@PreOrder_Transitive A R P) X Y Z g f
 |}.
-Next Obligation. apply proof_irrelevance. Qed.
-Next Obligation. apply proof_irrelevance. Qed.
-Next Obligation. apply proof_irrelevance. Qed.
-Next Obligation. apply proof_irrelevance. Qed.
 
 (* The typical example found in Category Theory theories and lectures is ≤. *)
 
