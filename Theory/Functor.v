@@ -174,20 +174,16 @@ Next Obligation.
     reflexivity.
 Qed.
 
-Class Faithful {C : Category} {D : Category} `(F : C ⟶ D) := {
+Class Faithful `(F : C ⟶ D) := {
   fmap_inj {X Y} (f g : X ~> Y) : fmap[F] f ≈ fmap[F] g -> f ≈ g
 }.
 
-Class Full {C : Category} {D : Category} `(F : C ⟶ D) := {
+Class Full `(F : C ⟶ D) := {
   prefmap {X Y} (g : F X ~> F Y) : X ~> Y;
   fmap_sur {X Y} (g : F X ~> F Y) : fmap[F] (prefmap g) ≈ g
 }.
 
-(* jww (2017-05-29): TODO
-Require Import Category.Instance.Sets.
-
-Class FullyFaithful {C : Category} {D : Category} `(F : C ⟶ D) := {
-  fmap_bij {X Y} : F X ~> F Y ≊ X ~> Y;
+Class FullyFaithful `(F : C ⟶ D) := {
+  fmap_bij {X Y} : F X ~> F Y <--> X ~> Y;
   fobj_inj {X Y} : F X ≅ F Y -> X ≅ Y
 }.
-*)
