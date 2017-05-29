@@ -20,6 +20,7 @@ Unset Transparent Obligations.
 
 (* jww (2017-05-26): At the moment this proof exhausts Coq's memory, bug #5551 *)
 
+(*
 Theorem Cones_Comma `(F : J ⟶ C) :
   Cones F ≅[Cat] (Diagonal J ↓ @Const Fun F).
 Proof.
@@ -48,3 +49,4 @@ Proof.
   - constructive; try exists (id, ()); abstract cat.
   - constructive; try exists id; intros; abstract cat.
 Qed.
+*)
