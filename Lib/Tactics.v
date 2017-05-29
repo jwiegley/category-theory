@@ -97,3 +97,5 @@ Ltac cat_simpl :=
   simpl in *.
 
 Global Obligation Tactic := cat_simpl.
+
+Ltac construct := unshelve econstructor; simpl; intros.
