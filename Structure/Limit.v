@@ -19,10 +19,7 @@ Unset Transparent Obligations.
 
    "One says that the cone (N, ψ) factors through the cone (L, φ) with the
    unique factorization u. The morphism u is sometimes called the mediating
-   morphism."
-
-   In this presentation, L = Lim, u = limit, and N is a universally quantified
-   argument of the uniqueness and universal properties. *)
+   morphism." *)
 
 Class Limit `(F : J ⟶ C) := {
   Lim : Cone F;
