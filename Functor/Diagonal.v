@@ -55,16 +55,3 @@ Proof.
     isomorphism; simpl; intros; try exact (id, id); cat.
   reflexivity.
 Qed.
-
-(* jww (2017-05-26): TODO
-
-   Wikipedia: "Diagonal functors provide a way to define limits and colimits
-   of functors. The limit of any functor F : J → C is a universal arrow Δ → F
-   and a colimit is a universal arrow F → Δ. If every functor from J to C has
-   a limit (which will be the case if C is complete), then the operation of
-   taking limits is itself a functor from Cᴶ to C. The limit functor is the
-   right-adjoint of the diagonal functor. Similarly, the colimit functor
-   (which exists if the category is cocomplete) is the left-adjoint of the
-   diagonal functor. For example, the diagonal functor C → C × C described
-   above is the left-adjoint of the binary product functor and the
-   right-adjoint of the binary coproduct functor." *)
