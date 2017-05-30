@@ -17,5 +17,4 @@ Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} :
 |}.
 Next Obligation.
   refine (@one_unique _ T N (@one _ T N) (f; _)); intros.
-  (* jww (2017-05-29): Need to prove: vertex_map[1] ∘ f ≈ vertex_map[N] *)
 Admitted.
