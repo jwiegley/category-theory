@@ -265,24 +265,33 @@ Proof.
   rewrite id_left, id_right.
   rewrite <- comp_assoc.
   rewrite <- fmap_comp.
-  destruct eqv.
-  destruct fiber_iso0.
-  destruct to.
-  simpl in *.
-  pose proof (to (`1 (projF0) (Left_Functor a))) as f.
-  simpl in f.
-  Transparent Left_Functor.
-  unfold Left_Functor in f.
-  simpl in f.
-  (* f : (a ~{ D }~> fst `1 (fobj ((a, F a); id[F a]))) *
-         (F a ~{ C }~> snd `1 (fobj ((a, F a); id[F a]))) *)
-  pose proof (fmap ((a, F a); id[F a]));
-  simpl in X0.
 Admitted.
 
 Lemma fiber_eqv_fmap_counit_unit (eqv : fibered_equivalence) {a} :
   fmap[G] (fiber_eqv_counit eqv) ∘ fiber_eqv_unit eqv ≈ id[G a].
 Proof.
+  simpl; intros.
+  pose proof (naturality[fiber_eqv_unit_transform eqv]); simpl in X.
+  unfold fiber_eqv_unit_transform_obligation_1 in X.
+  unfold fiber_eqv_counit.
+  do 2 rewrite fmap_comp.
+  do 2 rewrite <- comp_assoc.
+  rewrite X.
+  rewrite !comp_assoc.
+  remember ((_ ∘ fiber_eqv_unit eqv) ∘ _) as p.
+  pose proof (@epic _ _ _ _ (iso_from_epic (`1 (projG eqv) (Right_Functor a)))
+                     (G a, a) (p, id) (id, id)).
+  simpl in X0.
+  refine (fst (X0 _)).
+  split; [|reflexivity].
+  clear X0.
+  rewrite Heqp; clear Heqp p.
+  rewrite <- !comp_assoc.
+  rewrite fst_comp.
+  rewrite (fst (iso_to_from (`1 (projG eqv) (Right_Functor a)))).
+  rewrite id_left, id_right.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
 Admitted.
 
 Theorem Adjunction_Comma : F ⊣ G  <-->  fibered_equivalence.
