@@ -13,7 +13,7 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Theorem Kan_Limit {J : Category} {C : Category} (F : J ⟶ C)
-        `{@Limit J C F} `{@RightKan J 1%object (Erase J) C} :
+        `{@Limit J C F} `{@RightKan _ _ (Erase J) C} :
   Lim F ≅ Ran (Erase J) F ().
 Proof.
   given (cone : Cone F).

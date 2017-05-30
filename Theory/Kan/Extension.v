@@ -97,13 +97,13 @@ Class LocalLeftKan (X : A ⟶ C) := {
 
 End KanExtension.
 
-Arguments RightKan {_ _} F {_}.
+Arguments RightKan {_ _} F _.
 Arguments Ran {_ _} F {_ _}.
 
 Arguments LocalRightKan {_ _} F {_} _.
 Arguments LocalRan {_ _} F {_} _ {_}.
 
-Arguments LeftKan {_ _} F {_}.
+Arguments LeftKan {_ _} F _.
 Arguments Lan {_ _} F {_ _}.
 
 Arguments LocalLeftKan {_ _} F {_} _.
