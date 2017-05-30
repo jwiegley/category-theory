@@ -32,23 +32,22 @@ Next Obligation.
       rewrite (RoofHom_inv _ _ f); cat).
   }
   destruct P, Lim; simpl in *.
-  exists (limit_terminal cone). {
+  exists (unique_morphism (ump_limits cone)). {
     split;
-    [ pose proof (ump_limits cone RNeg)
-    | pose proof (ump_limits cone RPos) ];
+    [ pose proof (unique_property (ump_limits cone) RNeg)
+    | pose proof (unique_property (ump_limits cone) RPos) ];
     unfold cone in *; simpl in *; clear cone;
     rewrite X0; clear X0; reflexivity.
   }
   intros.
-  pose proof (limit_unique cone).
-  pose proof (ump_limits cone).
-  unfold cone in *; simpl in *; clear cone.
-  split.
-    split;
-    rewrite <- X0;
-    apply X1.
-  symmetry.
-  apply X0.
+  apply (uniqueness (ump_limits cone)); intros.
+  simpl in *.
+  destruct X0, X1; simpl; auto.
+  rewrite <- e0.
+  rewrite comp_assoc.
+  unfold unop.
+  rewrite ump_cones.
+  reflexivity.
 Qed.
 
 Program Definition Pullback_from_Universal {C : Category}
@@ -67,26 +66,19 @@ Next Obligation.
 Qed.
 Next Obligation.
   destruct P, N; simpl in *.
-  given (eqv : f ∘ vertex_map RNeg ≈ g ∘ vertex_map RPos).
+  assert (eqv : f ∘ vertex_map RNeg ≈ g ∘ vertex_map RPos).
     rewrite (ump_cones RNeg RZero ZeroNeg).
     rewrite (ump_cones RPos RZero ZeroPos).
     reflexivity.
-  exact (``(sigT_of_sigT2 (pullback_ump vertex (vertex_map RNeg)
-                                        (vertex_map RPos) eqv))).
-Defined.
-Next Obligation.
-  destruct P, N; simpl in *.
-  destruct pullback_ump.
-  specialize (p0 f0); intuition.
-Qed.
-Next Obligation.
-  destruct P, N; simpl in *.
-  destruct X0; simpl.
-  - destruct pullback_ump; intuition.
-  - destruct pullback_ump.
-    destruct p.
+  unfold Pullback_from_Universal_obligation_1; simpl.
+  destruct (ump_pullbacks vertex (vertex_map RNeg) (vertex_map RPos) eqv).
+  construct; simplify; auto.
+    destruct X0; auto.
     rewrite <- comp_assoc.
-    rewrite e.
+    rewrite x.
     apply (ump_cones RNeg RZero ZeroNeg).
-  - destruct pullback_ump; intuition.
-Qed.
+  apply uniqueness.
+  split.
+    apply (X0 RNeg).
+  apply (X0 RPos).
+Defined.

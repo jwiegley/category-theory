@@ -25,7 +25,7 @@ Class Arrow (a : C) (U : D ⟶ C) := {
 
   arr : a ~> U arr_obj;
 
-  arr_ump {y : D} (h : a ~> U y) :
+  ump_arrows {y : D} (h : a ~> U y) :
     { g : arr_obj ~> y & fmap[U] g ∘ arr ≈ h }
 }.
 

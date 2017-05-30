@@ -1,6 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Export Category.Theory.Unique.
 Require Export Category.Structure.Cone.
 
 Generalizable All Variables.
@@ -24,13 +25,15 @@ Unset Transparent Obligations.
 Class Limit `(F : J ⟶ C) := {
   Lim : Cone F;
 
-  (* This restates the fact that limits are terminal objects in the category
-     of cones to F (which in turn is the comma category (Δ ↓ F)). *)
-  limit_terminal {N : Cone F} : N ~> Lim;
-  limit_unique {N : Cone F} (f : N ~> Lim) : limit_terminal ≈ f;
+  ump_limits (N : Cone F) :
+    Unique (fun u : N ~> Lim =>
+              ∀ X, vertex_map[Lim] ∘ u ≈ @vertex_map _ _ _ N X)
 
-  ump_limits {N : Cone F} {X : J} :
-    vertex_map[Lim] ∘ limit_terminal ≈ @vertex_map _ _ _ N X
+  (* ump_limits' : ∀ (N : Cone F), *)
+  (*   { u : N ~> Lim *)
+  (*   & ∀ X, vertex_map[Lim] ∘ u ≈ @vertex_map _ _ _ N X *)
+  (*   & ∀ (v : N ~> Lim), *)
+  (*       ∀ X, vertex_map[Lim] ∘ v ≈ @vertex_map _ _ _ N X -> v ≈ u } *)
 }.
 
 Arguments Limit {_ _} F%functor.
