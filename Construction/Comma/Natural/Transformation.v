@@ -39,6 +39,7 @@ Program Definition Comma_Transform {C : Category} {D : Category}
         {S : D ⟶ C} {T : D ⟶ C} (F : D ⟶ (S ↓ T))
         (proj1 : comma_proj1 ○ F ≈[Cat] Id)
         (proj2 : comma_proj2 ○ F ≈[Cat] Id)
+        (* jww (2017-05-31): I don't need functoriality here *)
         (functoriality : ∀ X Y (g : X ~> Y),
            fmap[T] g ∘ fmap (to (``proj2 X))
                      ∘ projT2 (F X)
