@@ -73,6 +73,34 @@ Proof.
   sapply (@iso_to_from Sets _ _ (@adj _ (U a) a)).
 Qed.
 
+(* If F is a faithful functor, and f is monic, then adj f is monic. *)
+Theorem adj_monic  {a b} (f : F a ~> b) c (g h : c ~> a) :
+  Faithful F -> Monic f
+    -> to adj f ∘ g ≈ to adj f ∘ h -> g ≈ h.
+Proof.
+  intros.
+  rewrite <- !to_adj_nat_l in X1.
+  pose proof (monic (Monic:=@iso_monic Sets _ _ (@adj H c b))
+                    {| carrier   := Datatypes.unit
+                     ; is_setoid := {| equiv := eq |} |}
+                    {| morphism  := fun _ => f ∘ fmap[F] g |}
+                    {| morphism  := fun _ => f ∘ fmap[F] h |}) as X2;
+  simpl in X2.
+  apply X.
+  apply X0.
+  apply X2; intros.
+  exact X1.
+  exact tt.
+Qed.
+
+Corollary from_adj_respects {a b} (f g : a ~{D}~> U b) :
+  f ≈ g -> adj⁻¹ f ≈ adj⁻¹ g.
+Proof. intro X; rewrite X; reflexivity. Qed.
+
+Corollary adj_respects {a b} (f g : F a ~{C}~> b) :
+  f ≈ g -> to adj f ≈ to adj g.
+Proof. intro X; rewrite X; reflexivity. Qed.
+
 End Adjunction.
 
 Arguments Adjunction {C D} F%functor U%functor.
