@@ -27,7 +27,7 @@ Local Obligation Tactic := program_simpl.
 
 Global Program Instance Id_MonoidalFunctor :
   @MonoidalFunctor C C _ _ Id[C] := {
-  pure_iso := id_iso;
+  pure_iso := iso_id;
   ap_functor_iso := {| to   := {| transform := fun _ => _ |}
                      ; from := {| transform := fun _ => _ |} |}
 }.

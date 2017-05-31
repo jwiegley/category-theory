@@ -31,7 +31,7 @@ Global Program Instance Compose_MonoidalFunctor
        `(M : @MonoidalFunctor D E _ _ F)
        `(N : @MonoidalFunctor C D _ _ G) :
   `{@MonoidalFunctor C E _ _ (F ○ G)} := {
-  pure_iso := compose_iso (fmap_iso F _ _ (@pure_iso _ _ _ _ G _))
+  pure_iso := iso_compose (fmap_iso F _ _ (@pure_iso _ _ _ _ G _))
                           (@pure_iso _ _ _ _ F _);
   ap_functor_iso :=
     {| to   := {| transform := fun p =>

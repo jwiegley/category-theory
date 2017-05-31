@@ -55,23 +55,23 @@ Coercion transform : Transform >-> Funclass.
 Ltac transform :=
   unshelve (refine {| transform := _ |}; simpl; intros).
 
-Corollary nat_id_left {C D : Category} {F : C ⟶ D} : Id ○ F ⟹ F.
+Corollary fun_id_left {C D : Category} {F : C ⟶ D} : Id ○ F ⟹ F.
 Proof. transform; simpl; intros; cat. Qed.
 
-Corollary nat_id_left_sym {C D : Category} {F : C ⟶ D} : F ⟹ Id ○ F.
+Corollary fun_id_left_sym {C D : Category} {F : C ⟶ D} : F ⟹ Id ○ F.
 Proof. transform; simpl; intros; cat. Qed.
 
-Corollary nat_id_right {C D : Category} {F : C ⟶ D} : F ○ Id ⟹ F.
+Corollary fun_id_right {C D : Category} {F : C ⟶ D} : F ○ Id ⟹ F.
 Proof. transform; simpl; intros; cat. Qed.
 
-Corollary nat_id_right_sym {C D : Category} {F : C ⟶ D} : F ⟹ F ○ Id.
+Corollary fun_id_right_sym {C D : Category} {F : C ⟶ D} : F ⟹ F ○ Id.
 Proof. transform; simpl; intros; cat. Qed.
 
-Corollary nat_comp_assoc {C D E B : Category}
+Corollary fun_comp_assoc {C D E B : Category}
       {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : F ○ (G ○ H) ⟹ (F ○ G) ○ H.
 Proof. transform; simpl; intros; cat. Qed.
 
-Corollary nat_comp_assoc_sym {C D E B : Category}
+Corollary fun_comp_assoc_sym {C D E B : Category}
       {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : (F ○ G) ○ H ⟹ F ○ (G ○ H).
 Proof. transform; simpl; intros; cat. Qed.
 

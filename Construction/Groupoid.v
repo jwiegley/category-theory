@@ -16,6 +16,6 @@ Program Definition Groupoid (C : Category) : Category := {|
   ob      := @ob C;
   hom     := @Isomorphism C;
   homset  := @isomorphism_setoid C;
-  id      := @id_iso C;
-  compose := @compose_iso C
+  id      := @iso_id C;
+  compose := @iso_compose C
 |}.

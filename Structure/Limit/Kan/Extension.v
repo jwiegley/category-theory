@@ -17,7 +17,7 @@ Theorem Kan_Limit `(F : J ⟶ C) `{@Limit _ _ F} `{@RightKan _ _ (Erase J) C} :
 Proof.
   given (cone : Cone F).
     pose (from ((@adj _ _ _ _ ran_adjoint
-                      (Ran (Erase J) F) F)) nat_identity) as adj_from;
+                      (Ran (Erase J) F) F)) nat_id) as adj_from;
     simpl in adj_from.
 
     unshelve (refine {| vertex := Ran (Erase J) F tt |}).
@@ -38,7 +38,7 @@ Proof.
     simpl.
     pose proof (iso_to_from
                   ((@adj _ _ _ _ ran_adjoint
-                         (Ran (Erase J) F) F)) nat_identity tt) as X;
+                         (Ran (Erase J) F) F)) nat_id tt) as X;
     simpl in X.
     rewrite fmap_id in X.
     rewrite <- X.
@@ -104,7 +104,7 @@ Proof.
                   ((@adj _ _ _ _ ran_adjoint (Const (Lim F)) F)) nat X).
     unfold adj_to.
     srewrite_r (@from_adj_nat_l _ _ _ _ ran_adjoint
-                  (Const (Lim F)) (Ran (Erase J) F) F nat_identity
+                  (Const (Lim F)) (Ran (Erase J) F) F nat_id
                   (to (@adj _ _ _ _ ran_adjoint (Const (Lim F)) F) nat) X).
     sapply (@from_adj_respects
               _ _ _ _ (@ran_adjoint _ _ _ _ H0) (Const (Lim F)) F).

@@ -33,11 +33,11 @@ Global Program Instance nat_Setoid {F : C ⟶ D} {G : C ⟶ D} :
   setoid_equiv := nat_equiv_equivalence
 }.
 
-Global Program Definition nat_identity {F : C ⟶ D} : F ⟹ F := {|
+Global Program Definition nat_id {F : C ⟶ D} : F ⟹ F := {|
   transform := fun X => fmap (@id C X)
 |}.
 
-Hint Unfold nat_identity.
+Hint Unfold nat_id.
 
 Global Program Definition nat_compose {F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
   (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
@@ -69,7 +69,7 @@ Proof. proper. Qed.
 Global Program Definition Fun : Category := {|
   ob      := C ⟶ D;
   hom     := @Transform C D;
-  id      := @nat_identity;
+  id      := @nat_id;
   compose := @nat_compose;
 
   compose_respects := @nat_compose_respects
@@ -83,18 +83,18 @@ Notation "[ C , D ]" := (@Fun C D)
 Notation "F ⊙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
 
 Hint Unfold nat_compose.
-Hint Unfold nat_identity.
+Hint Unfold nat_id.
 Hint Unfold nat_equiv.
 
 Arguments nat_equiv {_ _ _ _} _ _ /.
 
 Corollary nat_id_left C D (F G : C ⟶ D) (N : F ⟹ G) :
-  nat_identity ⊙ N ≈[Fun] N.
-Proof. unfold nat_identity, nat_compose; simpl; intros; cat. Qed.
+  nat_id ⊙ N ≈[Fun] N.
+Proof. unfold nat_id, nat_compose; simpl; intros; cat. Qed.
 
 Corollary nat_id_right C D (F G : C ⟶ D) (N : F ⟹ G) :
-  N ⊙ nat_identity ≈[Fun] N.
-Proof. unfold nat_identity, nat_compose; simpl; intros; cat. Qed.
+  N ⊙ nat_id ≈[Fun] N.
+Proof. unfold nat_id, nat_compose; simpl; intros; cat. Qed.
 
 Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :
   F ≅[Fun] G <--> @equiv _ Functor_Setoid F G.
