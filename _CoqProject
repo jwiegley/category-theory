@@ -128,10 +128,11 @@ Natural/Transformation/Opposite.v
 Natural/Transformation/Monoidal.v
 Natural/Transformation/Strong.v
 Natural/Transformation/Applicative.v
-Adjunction/Opposite.v
+Adjunction/Hom.v
 Adjunction/Natural/Transformation.v
-Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Isomorphism.v
+Adjunction/Natural/Transformation/Opposite.v
+Adjunction/Opposite.v
 Monad/Adjunction.v
 Monad/Monoid.v
 Monad/Distributive.v
