@@ -26,8 +26,8 @@ Unset Transparent Obligations.
 
    This is also given in Mac Lane, page 47, exercise 4. *)
 
-Program Definition Comma_Functor {C : Category} {D : Category}
-        {S : D ⟶ C} {T : D ⟶ C} (F : S ⟹ T) : D ⟶ (S ↓ T) := {|
+Program Definition Comma_Functor {C D : Category} {S T : D ⟶ C}
+        (F : S ⟹ T) : D ⟶ (S ↓ T) := {|
   fobj := fun X : D => ((X, X); F X);
   fmap := fun _ _ f => ((f, f); _)
 |}.
@@ -35,28 +35,41 @@ Next Obligation. apply naturality_sym. Qed.
 
 Local Obligation Tactic := simpl; intros.
 
-Program Definition Comma_Transform {C : Category} {D : Category}
-        {S : D ⟶ C} {T : D ⟶ C} (F : D ⟶ (S ↓ T))
+Program Definition Comma_Transform {C D : Category} {S T : D ⟶ C}
+        (F : D ⟶ (S ↓ T))
         (proj1 : comma_proj1 ○ F ≈[Cat] Id)
-        (proj2 : comma_proj2 ○ F ≈[Cat] Id)
-        (* jww (2017-05-31): I don't need functoriality here *)
-        (functoriality : ∀ X Y (g : X ~> Y),
-           fmap[T] g ∘ fmap (to (``proj2 X))
-                     ∘ projT2 (F X)
-                     ∘ fmap (from (``proj1 X))
-             ≈ fmap (to (``proj2 Y))
-                     ∘ projT2 (F Y)
-                     ∘ fmap (from (``proj1 Y))
-                     ∘ fmap[S] g) :
-  S ⟹ T := {|
-  transform := fun X => fmap (to (``proj2 X)) ∘ projT2 (F X) ∘ fmap (from (``proj1 X))
+        (proj2 : comma_proj2 ○ F ≈[Cat] Id) : S ⟹ T := {|
+  transform := fun X =>
+    fmap (to (`1 proj2 X)) ∘ `2 (F X) ∘ fmap (from (`1 proj1 X))
 |}.
 Next Obligation.
   rewrite !comp_assoc.
-  apply functoriality.
+  rewrite <- fmap_comp.
+  rewrite <- !comp_assoc.
+  rewrite <- fmap_comp.
+
+  pose proof (`2 proj1 _ _ f); simpl in X0.
+  pose proof (`2 proj2 _ _ f); simpl in X1.
+
+  rewrite <- (id_left f) at 1.
+  rewrite <- (iso_to_from (`1 proj2 Y)).
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ f).
+  rewrite <- X1; clear X1.
+  rewrite fmap_comp.
+  comp_left.
+
+  symmetry.
+  rewrite <- (id_right f) at 1.
+  rewrite <- (iso_to_from (`1 proj1 X)).
+  rewrite !comp_assoc.
+  rewrite <- X0; clear X0.
+  rewrite fmap_comp.
+  comp_right.
+
+  exact (`2 (fmap[F] f)).
 Qed.
 Next Obligation.
-  rewrite !comp_assoc.
   symmetry.
-  apply functoriality.
+  apply Comma_Transform_obligation_1.
 Qed.
