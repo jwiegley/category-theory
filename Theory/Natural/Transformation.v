@@ -55,26 +55,43 @@ Coercion transform : Transform >-> Funclass.
 Ltac transform :=
   unshelve (refine {| transform := _ |}; simpl; intros).
 
-Definition outside {C : Category} {D : Category}
-           {F G : C ⟶ D} `(N : F ⟹ G)
-           {E : Category} (X : E ⟶ C) : F ○ X ⟹ G ○ X.
-Proof.
-  transform; intros; simpl.
-  - apply N.
-  - abstract apply naturality.
-  - abstract apply naturality_sym.
-Defined.
+Corollary nat_id_left {C D : Category} {F : C ⟶ D} : Id ○ F ⟹ F.
+Proof. transform; simpl; intros; cat. Qed.
 
-Definition inside {C : Category} {D : Category}
-           {F G : C ⟶ D} `(N : F ⟹ G)
-           {E : Category} (X : D ⟶ E) : X ○ F ⟹ X ○ G.
-Proof.
-  transform; intros; simpl.
-  - apply fmap, N.
-  - abstract (
-      simpl; rewrite <- !fmap_comp;
-      apply fmap_respects, naturality).
-  - abstract (
-      simpl; rewrite <- !fmap_comp;
-      apply fmap_respects, naturality_sym).
-Defined.
+Corollary nat_id_left_sym {C D : Category} {F : C ⟶ D} : F ⟹ Id ○ F.
+Proof. transform; simpl; intros; cat. Qed.
+
+Corollary nat_id_right {C D : Category} {F : C ⟶ D} : F ○ Id ⟹ F.
+Proof. transform; simpl; intros; cat. Qed.
+
+Corollary nat_id_right_sym {C D : Category} {F : C ⟶ D} : F ⟹ F ○ Id.
+Proof. transform; simpl; intros; cat. Qed.
+
+Corollary nat_comp_assoc {C D E B : Category}
+      {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : F ○ (G ○ H) ⟹ (F ○ G) ○ H.
+Proof. transform; simpl; intros; cat. Qed.
+
+Corollary nat_comp_assoc_sym {C D E B : Category}
+      {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : (F ○ G) ○ H ⟹ F ○ (G ○ H).
+Proof. transform; simpl; intros; cat. Qed.
+
+Program Definition outside {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
+        {E : Category} (X : E ⟶ C) : F ○ X ⟹ G ○ X := {|
+  transform := fun x => N (X x);
+
+  naturality     := fun _ _ _ => naturality;
+  naturality_sym := fun _ _ _ => naturality_sym
+|}.
+
+Program Definition inside {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
+           {E : Category} (X : D ⟶ E) : X ○ F ⟹ X ○ G := {|
+  transform := fun x => fmap[X] (N x)
+|}.
+Next Obligation.
+  simpl; rewrite <- !fmap_comp;
+  apply fmap_respects, naturality.
+Qed.
+Next Obligation.
+  simpl; rewrite <- !fmap_comp;
+  apply fmap_respects, naturality_sym.
+Qed.
