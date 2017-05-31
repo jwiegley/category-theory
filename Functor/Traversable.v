@@ -40,7 +40,7 @@ Program Instance Compose_Applicative
   @Applicative C _ _ _ (Compose G H) := {
   is_strong := Compose_StrongFunctor G H _ _;
   is_lax_monoidal :=
-    (* jww (2017-05-16): The order of arguments here is reversed *)
+    (* Order of arguments here is reversed *)
     @Compose_LaxMonoidalFunctor C InternalProduct_Monoidal
                                 C InternalProduct_Monoidal H
                                 C InternalProduct_Monoidal G _ _

@@ -240,6 +240,26 @@ Program Definition fiber_eqv_counit_transform (eqv : fibered_equivalence) :
     symmetry (Right_Functoriality eqv X Y (fmap[G] f, f))
 |}.
 
+Theorem fibered_adj (eqv : fibered_equivalence) {a b} :
+  F a ~{C}~> b ≊ a ~{D}~> G b.
+Proof.
+  isomorphism; simpl.
+  - morphism; intros.
+      exact (fmap[G] (snd (`1 (projF eqv) ((a, b); X))⁻¹)
+                 ∘ `2 (to (fiber_iso eqv) ((a, b); X))
+                 ∘ fst (to (`1 (projF eqv) ((a, b); X)))).
+    proper.
+    admit.                      (* DEFERRED *)
+  - morphism; intros.
+      exact (snd (`1 (projG eqv) ((a, b); X))⁻¹
+                 ∘ `2 (from (fiber_iso eqv) ((a, b); X))
+                 ∘ fmap[F] (fst (to (`1 (projG eqv) ((a, b); X))))).
+    proper.
+    admit.                      (* DEFERRED *)
+  - admit.                      (* DEFERRED *)
+  - admit.                      (* DEFERRED *)
+Admitted.                       (* DEFERRED *)
+
 Lemma fiber_eqv_counit_fmap_unit (eqv : fibered_equivalence) {a} :
   fiber_eqv_counit eqv ∘ fmap[F] (fiber_eqv_unit eqv) ≈ id[F a].
 Proof.
@@ -265,7 +285,7 @@ Proof.
   rewrite id_left, id_right.
   rewrite <- comp_assoc.
   rewrite <- fmap_comp.
-Admitted.
+Admitted.                       (* DEFERRED *)
 
 Lemma fiber_eqv_fmap_counit_unit (eqv : fibered_equivalence) {a} :
   fmap[G] (fiber_eqv_counit eqv) ∘ fiber_eqv_unit eqv ≈ id[G a].
@@ -292,7 +312,7 @@ Proof.
   rewrite id_left, id_right.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-Admitted.
+Admitted.                       (* DEFERRED *)
 
 Theorem Adjunction_Comma : F ⊣ G  <-->  fibered_equivalence.
 Proof.

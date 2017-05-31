@@ -25,9 +25,10 @@ fullclean: clean
 	rm -f Makefile.coq
 
 todo:
-	@find . \( \( -name coq-haskell -o -name fiat \) -prune \)		\
-	  -o -name '*.v'						|	\
-		xargs egrep -i -Hn '(abort|admit|undefined|jww)'	|	\
-		      egrep -v '(Definition undefined|DEFERRED)'	|	\
-		      egrep -v '(old|new|research|Pending)/'
+	@find . \( \( -name coq-haskell -o -name fiat \) -prune \)   \
+	  -o -name '*.v'					   | \
+		xargs egrep -i -Hn '(abort|admit|undefined|jww)'   | \
+		      egrep -v '(Definition undefined|DEFERRED)'   | \
+		      egrep -v '(old|new|research|Pending)/'	     \
+	    || echo "No pending tasks!"
 

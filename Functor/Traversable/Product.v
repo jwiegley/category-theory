@@ -66,7 +66,7 @@ Proof.
     reflexivity.
 Defined.
 
-(* jww (2017-05-26): TODO
+(*
 Program Definition ProductFunctor_Traversable :
   Traversable F -> Traversable G
     -> Traversable (F :*: G) := fun O P => {|
