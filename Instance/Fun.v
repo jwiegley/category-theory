@@ -88,6 +88,14 @@ Hint Unfold nat_equiv.
 
 Arguments nat_equiv {_ _ _ _} _ _ /.
 
+Corollary nat_id_left C D (F G : C ⟶ D) (N : F ⟹ G) :
+  nat_identity ⊙ N ≈[Fun] N.
+Proof. unfold nat_identity, nat_compose; simpl; intros; cat. Qed.
+
+Corollary nat_id_right C D (F G : C ⟶ D) (N : F ⟹ G) :
+  N ⊙ nat_identity ≈[Fun] N.
+Proof. unfold nat_identity, nat_compose; simpl; intros; cat. Qed.
+
 Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :
   F ≅[Fun] G <--> @equiv _ Functor_Setoid F G.
 Proof.
