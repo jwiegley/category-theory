@@ -34,10 +34,8 @@ Proof.
   pose (to (@adj _ _ _ _ ran_adjoint (Const (Lim F)) F) nat)
     as adj_to; simpl in adj_to.
 
-  isomorphism; simpl.
-  - apply adj_to.
-  - apply (unique_morphism (ump_limits cone)).
-  - simpl.
+  assert (to_from : adj_to () ∘ unique_morphism (ump_limits cone) ≈ id). {
+    simpl.
     pose proof (iso_to_from
                   ((@adj _ _ _ _ ran_adjoint
                          (Ran (Erase J) F) F)) nat_identity tt) as X;
@@ -67,27 +65,48 @@ Proof.
 
     intros; simpl.
     apply (unique_property (ump_limits cone)).
+  }
 
-  - unfold adj_to; simpl in *; clear adj_to.
-    evar (j : @ob J).
-    pose proof (unique_property (ump_limits cone) j) as X; simpl in X.
-    rewrite (@adj_unit _ _ _ _ ran_adjoint _ _ nat tt).
-    pose proof (@counit_fmap_unit _ _ Induced (Ran (Erase J))
-                                  ran_adjoint (Const (Lim F))) as X0;
-    simpl in X0; simpl.
+  isomorphism; simpl.
+  - apply adj_to.
+  - apply (unique_morphism (ump_limits cone)).
+  - apply to_from.
+  - simpl in *.
+    (* Since half of the isomorphism has already been proven in [to_from], it
+       is sufficient to show that either [(adj nat) ()] is monic, or
+       [unique_morphism (ump_limits cone)] is epic. I've chosen the latter due
+       to Emily Riehl's statement in "Category Theory in Context" (p. 76):
+       "... Proposition 3.1.7 implies that the only automorphism of [a limit
+       object] l that commutes with the specified limit cone λ is the
+       identity." *)
+    assert (∀ (f g : Lim F ~{ C }~> Lim F),
+              (∀ X, vertex_map[Lim F] ∘ f ≈ @vertex_map _ _ _ (Lim F) X) ->
+              (∀ X, vertex_map[Lim F] ∘ g ≈ @vertex_map _ _ _ (Lim F) X) ->
+              f ∘ unique_morphism (ump_limits cone) ≈
+              g ∘ unique_morphism (ump_limits cone) -> f ≈ g) as HA.
+      intros; clear adj_to to_from nat.
+      rewrite <- (uniqueness (ump_limits (Lim F)) _ X).
+      rewrite <- (uniqueness (ump_limits (Lim F)) _ X0).
+      reflexivity.
+
+    (* Apply the consequence that [unique_morphism (ump_limits cone)] is epic
+      on morphisms commuting with the limit cone, leaving us with the burden
+      of showing that the two sides of our equivalence do in fact commute for
+      [Lim F]. The right side is trivial (id), while the left side relies on
+      the naturality of the Kan adjunction. *)
+    apply HA; simpl; intros; cat; swap 1 2.
+      rewrite <- comp_assoc.
+      rewrite to_from; cat.
+
     rewrite comp_assoc.
-    rewrite <- (X0 j); clear X0.
-    comp_right.
-    unfold counit; simpl.
-    pose proof (@ump_cones _ _ _ cone); simpl in X0.
-    pose proof nat as X1.
-    pose proof (naturality[nat]) as X2.
-    pose proof (transform[nat]) as X3.
-    pose proof (uniqueness (ump_limits cone)) as X4.
-    pose proof (iso_from_to ((@adj _ _ _ _ ran_adjoint
-                                   (Const (Lim F)) F)) nat) as X5.
-    simpl in *.
-    destruct H0.
-    destruct ran_adjoint.
-    simpl in *.
-Admitted.
+    srewrite (unique_property (ump_limits cone)).
+    srewrite_r (iso_from_to
+                  ((@adj _ _ _ _ ran_adjoint (Const (Lim F)) F)) nat X).
+    unfold adj_to.
+    srewrite_r (@from_adj_nat_l _ _ _ _ ran_adjoint
+                  (Const (Lim F)) (Ran (Erase J) F) F nat_identity
+                  (to (@adj _ _ _ _ ran_adjoint (Const (Lim F)) F) nat) X).
+    sapply (@from_adj_respects
+              _ _ _ _ (@ran_adjoint _ _ _ _ H0) (Const (Lim F)) F).
+    simpl; intros; cat.
+Qed.
