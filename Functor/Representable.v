@@ -27,6 +27,7 @@ Unset Transparent Obligations.
    when it is naturally isomorphic to the contravariant hom-functor Hom(–,A)
    for some object A of C." *)
 
-Class Representable {C : Category} (F : C ⟶ Sets) := {
-  represents {A : C} : Hom(A,─) ≅ F
+Class Representable `(F : C ⟶ Sets) := {
+  Rep : C;
+  represents : [Hom Rep,─] ≅ F
 }.
