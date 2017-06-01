@@ -130,7 +130,7 @@ Natural/Transformation/Strong.v
 Natural/Transformation/Applicative.v
 Adjunction/Hom.v
 Adjunction/Natural/Transformation.v
-Adjunction/Natural/Transformation/Isomorphism.v
+Adjunction/Natural/Transformation/Universal.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Opposite.v
 Monad/Adjunction.v
