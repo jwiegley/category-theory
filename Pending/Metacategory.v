@@ -159,7 +159,8 @@ Program Definition Metacategory_Category (M : Metacategory) : Category := {|
   (* The morphisms of the category from id[x] to id[y] are given by those
      arrows whose domain composes with id[x], and whose codomain composes with
      id[y]. *)
-  hom := fun x y => { f : arr M & dom M f = ``x & cod M f = ``y };
+  hom := fun x y => { f : arr M & defined f ``x (pairs M)
+                                & defined ``y f (pairs M) };
 
   homset := fun _ _ => {| equiv :=
     fun f g => `1 (sigT_of_sigT2 f) = `1 (sigT_of_sigT2 g) |}
@@ -172,9 +173,7 @@ Next Obligation.                (* id *)
   destruct A; simpl.
   pose (`1 (identity_morphism M x i)).
   destruct i.
-  exists x.
-    apply dom_law; intuition.
-  apply cod_law; intuition.
+  exists x; apply d.
 Defined.
 Next Obligation.                (* compose *)
   destruct A as [x x_id];
@@ -182,17 +181,30 @@ Next Obligation.                (* compose *)
   destruct C as [z z_id];
   destruct f as [f fl fr];
   destruct g as [g gl gr]; simpl in *.
-  exists (composite M f g (snd (dom_cod M f g) (existT2 _ _ y fl gr))).
-    apply dom_composite; assumption.
-  apply cod_composite; assumption.
+  unshelve eexists (composite M f g _).
+  - pose proof (triple_composition M f y g fl gr).
+    rewrite (fst y_id) in H.
+    assumption.
+  - apply identity_composition_right; assumption.
+  - apply identity_composition_left; assumption.
 Defined.
 Next Obligation.
-  unfold Metacategory_Category_obligation_3; simpl.
   proper.
+  unfold Metacategory_Category_obligation_3; simpl.
   destruct x, y, x0, y0; simpl in *; subst.
   refine (f_equal _ _).
-  refine (f_equal _ _).
-  refine (f_equal2 _ _ _);
-  apply (Eqdep_dec.UIP_dec PeanoNat.Nat.eq_dec).
+  assert (d = d1) by apply (Eqdep_dec.UIP_dec Bool.bool_dec).
+  subst.
+  unfold eq_ind, eq_rect; simpl.
+  destruct (fst e0 x4 d1).
+  assert (d4 = d6) by apply (Eqdep_dec.UIP_dec Bool.bool_dec).
+  subst; reflexivity.
 Qed.
+Next Obligation.
+  unfold Metacategory_Category_obligation_3; simpl.
+  destruct X, Y, f, i, i0; simpl in *; subst.
+  destruct (identity_law M x0), s, s0, p, p0; simpl.
+  unfold eq_ind, eq_ind_r, eq_rect, eq_sym.
+  unfold eq_ind, eq_ind_r, eq_rect, eq_sym; simpl.
+Admitted.
 *)
