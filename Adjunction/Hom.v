@@ -97,7 +97,7 @@ Next Obligation.
 Qed.
 
 Theorem hom_unit_naturality_consequence {X Y} (f : F X ~> Y) :
-  to hom_adj (X, Y) f ≈ fmap[U] f ∘ transform[hom_unit] _.
+  to hom_adj (X, Y) f ≈ fmap[U] f ∘ hom_unit _.
 Proof.
   unfold hom_unit; simpl.
   pose proof (naturality[to hom_adj] (X, F X) (X, Y) (id, f) id); simpl in X0.
@@ -107,7 +107,7 @@ Proof.
 Qed.
 
 Theorem hom_counit_naturality_consequence {X Y} (f : X ~> U Y) :
-  from hom_adj (X, Y) f ≈ transform[hom_counit] _ ∘ fmap[F] f.
+  from hom_adj (X, Y) f ≈ hom_counit _ ∘ fmap[F] f.
 Proof.
   unfold hom_counit; simpl.
   pose proof (naturality[from hom_adj] (U Y, Y) (X, Y) (f, id) id); simpl in X0.
@@ -117,7 +117,7 @@ Proof.
 Qed.
 
 Theorem hom_counit_fmap_unit {X} :
-  transform[hom_counit] (F X) ∘ fmap[F] (transform[hom_unit] X) ≈ id.
+  hom_counit (F X) ∘ fmap[F] (hom_unit X) ≈ id.
 Proof.
   pose proof (@hom_counit_naturality_consequence X (F X) (hom_unit X)).
   rewrite <- X0; clear X0.
@@ -126,7 +126,7 @@ Proof.
 Qed.
 
 Theorem hom_fmap_counit_unit {X} :
-  fmap[U] (transform[hom_counit] X) ∘ transform[hom_unit] (U X) ≈ id.
+  fmap[U] (hom_counit X) ∘ hom_unit (U X) ≈ id.
 Proof.
   pose proof (@hom_unit_naturality_consequence (U X) X (hom_counit X)).
   rewrite <- X0; clear X0.
@@ -144,9 +144,9 @@ Program Definition Adjunction_Hom_to_Transform : F ∹ U := {|
 Program Definition Adjunction_Transform_to_Hom (A : F ∹ U) : Adjunction_Hom := {|
   hom_adj :=
     {| to   := {| transform := fun _ =>
-        {| morphism := fun f => fmap[U] f ∘ transform[unit] _ |} |}
+        {| morphism := fun f => fmap[U] f ∘ unit _ |} |}
      ; from := {| transform := fun _ =>
-        {| morphism := fun f => transform[counit] _ ∘ fmap[F] f |} |} |}
+        {| morphism := fun f => counit _ ∘ fmap[F] f |} |} |}
 |}.
 Next Obligation.
   proper; rewrite X; reflexivity.
