@@ -26,14 +26,14 @@ Unset Transparent Obligations.
   [fmap] and [fmap1]), and the [Natural] instance, can be found in the
   category of functors we're mapping to by applying [P]. *)
 
-Program Definition HomFunctor `(C : Category) : C^op ∏ C ⟶ Sets := {|
+Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {|
   fobj := fun p => {| carrier   := @hom C (fst p) (snd p)
                     ; is_setoid := @homset (C) (fst p) (snd p) |};
   fmap := fun X Y (f : X ~{C^op ∏ C}~> Y) =>
             {| morphism := fun g => snd f ∘ g ∘ fst f |}
 |}.
 
-Program Definition Curried_HomFunctor `(C : Category) : C^op ⟶ [C, Sets] := {|
+Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {|
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom C X Y
                       ; is_setoid := @homset C X Y |};
@@ -51,21 +51,21 @@ Next Obligation.
   apply comp_assoc.
 Qed.
 
-Coercion Curried_HomFunctor : Category >-> Functor.
+Coercion Curried_Hom : Category >-> Functor.
 
-Notation "'Hom' ( A , ─ )" := (@Curried_HomFunctor _ A) : category_scope.
+Notation "[Hom A , ─]" := (@Curried_Hom _ A) : functor_scope.
 
-Program Definition CoHomFunctor_Alt `(C : Category) : C ∏ C^op ⟶ Sets :=
-  HomFunctor C ○ Swap.
+Program Definition CoHom_Alt `(C : Category) : C ∏ C^op ⟶ Sets :=
+  Hom C ○ Swap.
 
-Program Definition CoHomFunctor `(C : Category) : C ∏ C^op ⟶ Sets := {|
+Program Definition CoHom `(C : Category) : C ∏ C^op ⟶ Sets := {|
   fobj := fun p => {| carrier   := @hom (C^op) (fst p) (snd p)
                     ; is_setoid := @homset (C^op) (fst p) (snd p) |};
   fmap := fun X Y (f : X ~{C ∏ C^op}~> Y) =>
     {| morphism := fun g => snd f ∘ g ∘ fst f |}
 |}.
 
-Program Definition Curried_CoHomFunctor `(C : Category) : C ⟶ [C^op, Sets] := {|
+Program Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := {|
   fobj := fun X => {|
     fobj := fun Y => {| carrier := @hom (C^op) X Y
                       ; is_setoid := @homset (C^op) X Y |};
@@ -86,15 +86,15 @@ Qed.
 (*
 Require Import Category.Instance.Cat.Closed.
 
-Program Instance CoHomFunctor `(C : Category) : C ∏ C^op ⟶ Sets.
+Program Instance CoHom `(C : Category) : C ∏ C^op ⟶ Sets.
 Next Obligation.
-  pose (Curried_CoHomFunctor C).
+  pose (Curried_CoHom C).
   pose (@uncurry Cat _ _ C (C^op) Sets).
   destruct h; simpl in morphism.
   (* This does not work due to universe problems. *)
   apply (morphism f).
 *)
 
-(* Coercion Curried_CoHomFunctor : Category >-> Functor. *)
+(* Coercion Curried_CoHom : Category >-> Functor. *)
 
-Notation "'Hom' ( ─ , A )" := (@Curried_CoHomFunctor _ A) : category_scope.
+Notation "[Hom ─ , A ]" := (@Curried_CoHom _ A) : functor_scope.

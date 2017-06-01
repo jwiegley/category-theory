@@ -16,7 +16,7 @@ Definition Presheaves   (C : Category) := [C^op, Sets].
 Definition Copresheaves (C : Category) := [C, Sets].
 
 Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
-  [C^op, Sets] Hom(─,A) F ≅ F A := {
+  [C^op, Sets] [Hom ─,A] F ≅ F A := {
   to   := {| morphism := fun X => transform[X] A id |};
   from := {| morphism := fun Y : F A =>
              {| transform := fun X : C =>
@@ -64,7 +64,7 @@ Next Obligation.
 Qed.
 
 Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) {A : C} :
-  [C, Sets] Hom(A,─) F ≅ F A := {
+  [C, Sets] [Hom A,─] F ≅ F A := {
   to   := {| morphism := fun X => transform[X] A id |};
   from := {| morphism := fun Y : F A =>
              {| transform := fun X : C =>
