@@ -4,7 +4,9 @@ Lib/Foundation.v
 Lib/Setoid.v
 Lib/Tactics.v
 Lib/Datatypes.v
+Lib/FMapExt.v
 Theory/Category.v
+Theory/Metacategory.v
 Theory/Morphisms.v
 Theory/Isomorphism.v
 Theory/Unique.v
@@ -149,5 +151,4 @@ Pending/Const.v
 Pending/Limit.v
 Pending/Finite.v
 Pending/Finite/Span.v
-Pending/Metacategory.v
 Pending/Sherman.v

@@ -57,3 +57,23 @@ Program Instance inl_respects {A B} `{Setoid A} `{Setoid B} :
 
 Program Instance inr_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@inr A B).
+
+(* Products can be compared for boolean equality if their members can be. *)
+Definition prod_eqb {A B} (A_eqb : A -> A -> bool) (B_eqb : B -> B -> bool)
+           (x y : A * B) : bool :=
+  A_eqb (fst x) (fst y) && B_eqb (snd x) (snd y).
+
+(* Products can be compared for decidable equality if their members can be. *)
+Program Definition prod_eq_dec {A B}
+        (A_eq_dec : forall x y : A, {x = y} + {x ≠ y})
+        (B_eq_dec : forall x y : B, {x = y} + {x ≠ y})
+        (x y : A * B) : {x = y} + {x ≠ y} :=
+  match A_eq_dec (fst x) (fst y) with
+  | in_left =>
+    match B_eq_dec (snd x) (snd y) with
+    | in_left  => in_left
+    | in_right => in_right
+    end
+  | in_right => in_right
+  end.
+Next Obligation. congruence. Qed.
