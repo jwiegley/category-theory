@@ -4,7 +4,7 @@ all: Makefile.coq
 		echo $$i is not in_CoqProject; exit 1;		\
 	    fi;							\
 	done
-	make -k -f Makefile.coq TIMECMD=time # -j4
+	make -j4 -k -f Makefile.coq # TIMECMD=time
 
 Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
@@ -31,4 +31,3 @@ todo:
 		      egrep -v '(Definition undefined|DEFERRED)'   | \
 		      egrep -v '(old|new|research|Pending)/'	     \
 	    || echo "No pending tasks!"
-
