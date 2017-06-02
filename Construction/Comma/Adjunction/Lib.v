@@ -27,7 +27,7 @@ Record fibered_equivalence := {
 }.
 
 Program Definition Left_Functor : D ⟶ (F ↓ Id[C]) := {|
-  fobj := fun X : D => ((X, F X); id[F X]);
+  fobj := fun x : D => ((x, F x); id[F x]);
   fmap := fun _ _ f => ((f, fmap[F] f); _)
 |}.
 Next Obligation. proper; rewrites; reflexivity. Qed.
@@ -38,7 +38,7 @@ Next Obligation.
 Qed.
 
 Program Definition Right_Functor : C ⟶ (Id[D] ↓ G) := {|
-  fobj := fun X : C => ((G X, X); id[G X]);
+  fobj := fun x : C => ((G x, x); id[G x]);
   fmap := fun _ _ f => ((fmap[G] f, f); _)
 |}.
 Next Obligation. proper; rewrites; reflexivity. Qed.
@@ -48,79 +48,78 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Lemma Left_Functoriality (eqv : fibered_equivalence) X Y
-      (f : comma_proj (Left_Functor X) ~> comma_proj (Left_Functor Y)) :
+Lemma Left_Functoriality (eqv : fibered_equivalence) x y
+      (f : comma_proj (Left_Functor x) ~> comma_proj (Left_Functor y)) :
   fmap[G] (fmap[F] (fst f))
-    ∘ (fmap[G] (snd (`1 (projF eqv) (Left_Functor X))⁻¹)
-         ∘ `2 (to (fiber_iso eqv) (Left_Functor X))
-         ∘ fst (to (`1 (projF eqv) (Left_Functor X))))
-    ≈ fmap[G] (snd (`1 (projF eqv) (Left_Functor Y))⁻¹)
-        ∘ `2 (to (fiber_iso eqv) (Left_Functor Y))
-        ∘ fst (to (`1 (projF eqv) (Left_Functor Y)))
+    ∘ (fmap[G] (snd (`1 (projF eqv) (Left_Functor x))⁻¹)
+         ∘ `2 (to (fiber_iso eqv) (Left_Functor x))
+         ∘ fst (to (`1 (projF eqv) (Left_Functor x))))
+    ≈ fmap[G] (snd (`1 (projF eqv) (Left_Functor y))⁻¹)
+        ∘ `2 (to (fiber_iso eqv) (Left_Functor y))
+        ∘ fst (to (`1 (projF eqv) (Left_Functor y)))
         ∘ fst f.
 Proof.
   Opaque Left_Functor.
   given (ff :
-    { f : (fst `1 (Left_Functor X) ~{ D }~> fst `1 (Left_Functor Y)) *
-          (snd `1 (Left_Functor X) ~{ C }~> snd `1 (Left_Functor Y))
-    & `2 (Left_Functor Y) ∘ fmap[F] (fst f) ≈ snd f ∘ `2 (Left_Functor X) }).
+    { f : (fst `1 (Left_Functor x) ~{ D }~> fst `1 (Left_Functor y)) *
+          (snd `1 (Left_Functor x) ~{ C }~> snd `1 (Left_Functor y))
+    & `2 (Left_Functor y) ∘ fmap[F] (fst f) ≈ snd f ∘ `2 (Left_Functor x) }).
     exists (fst f, fmap[F] (fst f)).
     abstract (simpl; rewrite id_left, id_right; reflexivity).
-  destruct (`2 (projF eqv) (Left_Functor X) (Left_Functor Y) ff).
+  destruct (`2 (projF eqv) (Left_Functor x) (Left_Functor y) ff).
   simpl in *.
   rewrite e0.
   do 2 rewrite fmap_comp.
   comp_left.
-  rewrite (comp_assoc (fmap[G] (snd (to (`1 (projF eqv) (Left_Functor X)))))).
+  rewrite (comp_assoc (fmap[G] (snd (to (`1 (projF eqv) (Left_Functor x)))))).
   rewrite <- fmap_comp.
-  rewrite (snd (iso_to_from (`1 (projF eqv) (Left_Functor X)))).
+  rewrite (snd (iso_to_from (`1 (projF eqv) (Left_Functor x)))).
   simpl snd.
   rewrite fmap_id.
   rewrite id_left.
   symmetry.
-  pose proof (`2 (fmap[to (fiber_iso eqv)] ff)).
-  simpl in X0.
+  spose (`2 (fmap[to (fiber_iso eqv)] ff)) as X.
   rewrite !comp_assoc.
-  rewrite <- X0.
+  rewrite <- X.
   comp_left.
   rewrite e at 1.
   comp_right.
-  rewrite (fst (iso_to_from (`1 (projF eqv) (Left_Functor Y)))).
+  rewrite (fst (iso_to_from (`1 (projF eqv) (Left_Functor y)))).
   rewrite id_left.
   reflexivity.
 Qed.
 
-Lemma Right_Functoriality (eqv : fibered_equivalence) X Y
-      (f : comma_proj (Right_Functor X) ~> comma_proj (Right_Functor Y)) :
-  snd f ∘ (snd (`1 (projG eqv) (Right_Functor X))⁻¹
-        ∘ `2 ((fiber_iso eqv)⁻¹ (Right_Functor X))
-        ∘ fmap[F] (fst (to (`1 (projG eqv) (Right_Functor X)))))
-  ≈ snd (`1 (projG eqv) (Right_Functor Y))⁻¹
-      ∘ `2 ((fiber_iso eqv)⁻¹ (Right_Functor Y))
-      ∘ fmap[F] (fst (to (`1 (projG eqv) (Right_Functor Y))))
+Lemma Right_Functoriality (eqv : fibered_equivalence) x y
+      (f : comma_proj (Right_Functor x) ~> comma_proj (Right_Functor y)) :
+  snd f ∘ (snd (`1 (projG eqv) (Right_Functor x))⁻¹
+        ∘ `2 ((fiber_iso eqv)⁻¹ (Right_Functor x))
+        ∘ fmap[F] (fst (to (`1 (projG eqv) (Right_Functor x)))))
+  ≈ snd (`1 (projG eqv) (Right_Functor y))⁻¹
+      ∘ `2 ((fiber_iso eqv)⁻¹ (Right_Functor y))
+      ∘ fmap[F] (fst (to (`1 (projG eqv) (Right_Functor y))))
       ∘ fmap[F] (fmap[G] (snd f)).
 Proof.
   Opaque Right_Functor.
   given (ff :
-    { f : (fst `1 (Right_Functor X) ~{ D }~> fst `1 (Right_Functor Y)) *
-          (snd `1 (Right_Functor X) ~{ C }~> snd `1 (Right_Functor Y))
-    & `2 (Right_Functor Y) ∘ fst f ≈ fmap[G] (snd f) ∘ `2 (Right_Functor X) }).
+    { f : (fst `1 (Right_Functor x) ~{ D }~> fst `1 (Right_Functor y)) *
+          (snd `1 (Right_Functor x) ~{ C }~> snd `1 (Right_Functor y))
+    & `2 (Right_Functor y) ∘ fst f ≈ fmap[G] (snd f) ∘ `2 (Right_Functor x) }).
     exists (fmap[G] (snd f), snd f).
     abstract (simpl; rewrite id_left, id_right; reflexivity).
-  destruct (`2 (projG eqv) (Right_Functor X) (Right_Functor Y) ff).
+  destruct (`2 (projG eqv) (Right_Functor x) (Right_Functor y) ff).
   simpl in *.
   symmetry.
   rewrite e.
   rewrite <- comp_assoc.
   rewrite <- fmap_comp.
   rewrite !comp_assoc.
-  rewrite (fst (iso_to_from (`1 (projG eqv) (Right_Functor Y)))).
+  rewrite (fst (iso_to_from (`1 (projG eqv) (Right_Functor y)))).
   rewrite id_left.
   symmetry.
   rewrite e0 at 1.
   comp_left.
-  rewrite (comp_assoc (snd (to (`1 (projG eqv) (Right_Functor X))))).
-  rewrite (snd (iso_to_from (`1 (projG eqv) (Right_Functor X)))).
+  rewrite (comp_assoc (snd (to (`1 (projG eqv) (Right_Functor x))))).
+  rewrite (snd (iso_to_from (`1 (projG eqv) (Right_Functor x)))).
   rewrite id_left.
   rewrite fmap_comp.
   comp_right.

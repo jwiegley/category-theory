@@ -33,11 +33,11 @@ Class CartesianMonoidal `{@Monoidal C} := {
   is_semicartesian :> @SemicartesianMonoidal C _;
   is_relevance     :> @RelevanceMonoidal C _;
 
-  proj_left_diagonal  {X} : proj_left  ∘ diagonal ≈ id[X];
-  proj_right_diagonal {X} : proj_right ∘ diagonal ≈ id[X];
+  proj_left_diagonal  {x} : proj_left  ∘ diagonal ≈ id[x];
+  proj_right_diagonal {x} : proj_right ∘ diagonal ≈ id[x];
 
-  unit_left_twist  {X} : unit_left  ∘ @twist _ _ _ X I ≈ unit_right;
-  unit_right_twist {X} : unit_right ∘ @twist _ _ _ I X ≈ unit_left
+  unit_left_twist  {x} : unit_left  ∘ @twist _ _ _ x I ≈ unit_right;
+  unit_right_twist {x} : unit_right ∘ @twist _ _ _ I x ≈ unit_left
 }.
 
 End CartesianMonoidal.

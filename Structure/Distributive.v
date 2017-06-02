@@ -18,8 +18,8 @@ Context `{@Cocartesian C}.
 Context `{@Initial C}.
 
 Class Distributive := {
-  distr_prod_coprod {X Y Z} : @Isomorphism C (X × (Y + Z)) (X × Y + X × Z);
-  distr_zero {X} : X × Zero ≅ Zero
+  distr_prod_coprod {x y z} : @Isomorphism C (x × (y + z)) (x × y + x × z);
+  distr_zero {x} : x × 0 ≅ 0
 }.
 
 End Distributive.

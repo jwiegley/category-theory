@@ -13,7 +13,7 @@ Unset Transparent Obligations.
 
 Definition Product (C D : Category) : Category := {|
   ob      := C * D;
-  hom     := fun X Y => (fst X ~> fst Y) * (snd X ~> snd Y);
+  hom     := fun x y => (fst x ~> fst y) * (snd x ~> snd y);
   homset  := fun x y =>
     let setoid_C := @homset C (fst x) (fst y) in
     let setoid_D := @homset D (snd x) (snd y) in
@@ -39,25 +39,25 @@ Definition Product (C D : Category) : Category := {|
   id      := fun _ => (id, id);
   compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g);
 
-  compose_respects := fun X Y Z f g fg h i hi =>
-    (compose_respects (fst X) (fst Y) (fst Z)
+  compose_respects := fun x y z f g fg h i hi =>
+    (compose_respects (fst x) (fst y) (fst z)
                       (fst f) (fst g) (fst fg) (fst h) (fst i) (fst hi),
-     compose_respects (snd X) (snd Y) (snd Z)
+     compose_respects (snd x) (snd y) (snd z)
                       (snd f) (snd g) (snd fg) (snd h) (snd i) (snd hi));
 
-  id_left  := fun X Y f =>
-    (@id_left C (fst X) (fst Y) (fst f),
-     @id_left D (snd X) (snd Y) (snd f));
-  id_right := fun X Y f =>
-    (@id_right C (fst X) (fst Y) (fst f),
-     @id_right D (snd X) (snd Y) (snd f));
+  id_left  := fun x y f =>
+    (@id_left C (fst x) (fst y) (fst f),
+     @id_left D (snd x) (snd y) (snd f));
+  id_right := fun x y f =>
+    (@id_right C (fst x) (fst y) (fst f),
+     @id_right D (snd x) (snd y) (snd f));
 
-  comp_assoc := fun X Y Z W f g h =>
-    (@comp_assoc C (fst X) (fst Y) (fst Z) (fst W) (fst f) (fst g) (fst h),
-     @comp_assoc D (snd X) (snd Y) (snd Z) (snd W) (snd f) (snd g) (snd h));
-  comp_assoc_sym := fun X Y Z W f g h =>
-    (@comp_assoc_sym C (fst X) (fst Y) (fst Z) (fst W) (fst f) (fst g) (fst h),
-     @comp_assoc_sym D (snd X) (snd Y) (snd Z) (snd W) (snd f) (snd g) (snd h))
+  comp_assoc := fun x y z w f g h =>
+    (@comp_assoc C (fst x) (fst y) (fst z) (fst w) (fst f) (fst g) (fst h),
+     @comp_assoc D (snd x) (snd y) (snd z) (snd w) (snd f) (snd g) (snd h));
+  comp_assoc_sym := fun x y z w f g h =>
+    (@comp_assoc_sym C (fst x) (fst y) (fst z) (fst w) (fst f) (fst g) (fst h),
+     @comp_assoc_sym D (snd x) (snd y) (snd z) (snd w) (snd f) (snd g) (snd h))
 |}.
 
 Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.
@@ -80,13 +80,13 @@ Program Definition Swap
   fmap := fun _ _ f => (snd f, fst f);
 |}.
 
-Corollary fst_comp {C : Category} {D : Category} X Y Z
-          (f : Y ~{C ∏ D}~> Z) (g : X ~{C ∏ D}~> Y) :
+Corollary fst_comp {C : Category} {D : Category} x y z
+          (f : y ~{C ∏ D}~> z) (g : x ~{C ∏ D}~> y) :
   fst f ∘ fst g ≈ fst (f ∘ g).
 Proof. reflexivity. Qed.
 
-Corollary snd_comp {C : Category} {D : Category} X Y Z
-          (f : Y ~{C ∏ D}~> Z) (g : X ~{C ∏ D}~> Y) :
+Corollary snd_comp {C : Category} {D : Category} x y z
+          (f : y ~{C ∏ D}~> z) (g : x ~{C ∏ D}~> y) :
   snd f ∘ snd g ≈ snd (f ∘ g).
 Proof. reflexivity. Qed.
 

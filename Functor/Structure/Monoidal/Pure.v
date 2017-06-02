@@ -32,7 +32,7 @@ Proof.
   rewrite fmap_comp.
   rewrite <- !comp_assoc.
   apply compose_respects; [reflexivity|].
-  pose proof (strength_natural _ _ g I I id); simpl in X0.
+  spose (strength_natural _ _ g I I id) as X.
   normal.
   rewrites.
   rewrite <- !comp_assoc.

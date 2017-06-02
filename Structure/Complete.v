@@ -8,8 +8,6 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Definition Complete {C : Category} :=
-  ∀ (D : Category) (F : D ⟶ C), Limit F.
+Definition Complete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Limit F.
 
-Definition Cocomplete {C : Category} :=
-  ∀ (D : Category) (F : D ⟶ C), Colimit F.
+Definition Cocomplete {C : Category} := ∀ (D : Category) (F : D ⟶ C), Colimit F.

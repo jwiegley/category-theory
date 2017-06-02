@@ -36,25 +36,24 @@ Proof.
 
   assert (to_from : adj_to () ∘ unique_morphism (ump_limits cone) ≈ id). {
     simpl.
-    pose proof (iso_to_from
-                  ((@adj _ _ _ _ ran_adjoint
-                         (Ran (Erase J) F) F)) nat_id tt) as X;
-    simpl in X.
+    spose (iso_to_from
+             ((@adj _ _ _ _ ran_adjoint
+                    (Ran (Erase J) F) F)) nat_id tt) as X.
     rewrite fmap_id in X.
     rewrites.
     unfold adj_to; simpl.
 
     given (from_ran : Ran (Erase J) F ⟹ Const (Lim F)). {
       transform; simpl; intros.
-      + destruct X.
+      + destruct x.
         apply (unique_morphism (ump_limits cone)).
       + abstract cat.
       + abstract cat.
     }
 
-    pose proof (@to_adj_nat_l _ _ _ _ ran_adjoint
-                              (Ran (Erase J) F) (Const (Lim F))
-                              F nat from_ran tt) as X0;
+    spose (@to_adj_nat_l _ _ _ _ ran_adjoint
+                         (Ran (Erase J) F) (Const (Lim F))
+                         F nat from_ran tt) as X0.
     rewrites.
 
     assert (∀ f g, f ≈ g
@@ -80,8 +79,8 @@ Proof.
        object] l that commutes with the specified limit cone λ is the
        identity." *)
     assert (∀ (f g : Lim F ~{ C }~> Lim F),
-              (∀ X, vertex_map[Lim F] ∘ f ≈ @vertex_map _ _ _ (Lim F) X) ->
-              (∀ X, vertex_map[Lim F] ∘ g ≈ @vertex_map _ _ _ (Lim F) X) ->
+              (∀ x, vertex_map[Lim F] ∘ f ≈ @vertex_map _ _ _ (Lim F) x) ->
+              (∀ x, vertex_map[Lim F] ∘ g ≈ @vertex_map _ _ _ (Lim F) x) ->
               f ∘ unique_morphism (ump_limits cone) ≈
               g ∘ unique_morphism (ump_limits cone) -> f ≈ g) as HA.
       intros; clear adj_to to_from nat.
@@ -101,11 +100,11 @@ Proof.
     rewrite comp_assoc.
     srewrite (unique_property (ump_limits cone)).
     srewrite_r (iso_from_to
-                  ((@adj _ _ _ _ ran_adjoint (Const (Lim F)) F)) nat X).
+                  ((@adj _ _ _ _ ran_adjoint (Const (Lim F)) F)) nat x).
     unfold adj_to.
     srewrite_r (@from_adj_nat_l _ _ _ _ ran_adjoint
                   (Const (Lim F)) (Ran (Erase J) F) F nat_id
-                  (to (@adj _ _ _ _ ran_adjoint (Const (Lim F)) F) nat) X).
+                  (to (@adj _ _ _ _ ran_adjoint (Const (Lim F)) F) nat) x).
     sapply (@from_adj_respects
               _ _ _ _ (@ran_adjoint _ _ _ _ H0) (Const (Lim F)) F).
     simpl; intros; cat.

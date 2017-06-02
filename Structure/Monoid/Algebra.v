@@ -16,6 +16,8 @@ Unset Transparent Obligations.
 (* ncatlab: "Classical monoids are of course just monoids in Set with the
    cartesian product." *)
 
+(* jww (2017-06-02): Move this into an Algebra directory *)
+
 Class MonoidAlg (A : Type) `{Setoid A} := {
   mon_zero : A;
   mon_mult : A -> A -> A;

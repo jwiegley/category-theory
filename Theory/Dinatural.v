@@ -21,16 +21,16 @@ Context {D : Category}.
 Context {F : C^op ∏ C ⟶ D}.
 Context {G : C^op ∏ C ⟶ D}.
 
-Definition prod_split {X Y Z W} (f : X ~{C^op}~> Z) (g : Y ~{C}~> W) :
-  (X, Y) ~{ (C ^op) ∏ C }~> (Z, W) := (f, g).
+Definition prod_split {x y z w} (f : x ~{C^op}~> z) (g : y ~{C}~> w) :
+  (x, y) ~{ (C ^op) ∏ C }~> (z, w) := (f, g).
 Arguments prod_split {_ _ _ _} _ _ /.
 
 Infix "⋆⋆⋆" := prod_split (at level 100) : category_scope.
 
 Class Dinatural := {
-  ditransform {X} : F (X, X) ~> G (X, X);
+  ditransform {x} : F (x, x) ~> G (x, x);
 
-  dinaturality {X Y} (f : X ~{C}~> Y) :
+  dinaturality {x y} (f : x ~{C}~> y) :
     fmap[G] (op f ⋆⋆⋆ id) ∘ ditransform ∘ fmap[F] (id ⋆⋆⋆ f)
         ≈ fmap[G] (id ⋆⋆⋆ f) ∘ ditransform ∘ fmap[F] (op f ⋆⋆⋆ id)
 }.

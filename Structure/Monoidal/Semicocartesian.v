@@ -19,13 +19,15 @@ Context {C : Category}.
 (* A semi-cartesian monoidal category is basically an assertion that the unit
    is terminal. *)
 
+(* jww (2017-06-02): Define this using the dual construction. *)
+
 Class SemicocartesianMonoidal `{@Monoidal C} := {
-  generate {X} : I ~> X;
+  generate {x} : I ~> x;
 
-  unit_initial {X} (f g : I ~> X) : f ≈ g;
+  unit_initial {x} (f g : I ~> x) : f ≈ g;
 
-  embed_left  {X Y} : X ~> X ⨂ Y := id ⨂ generate ∘ unit_right⁻¹;
-  embed_right {X Y} : Y ~> X ⨂ Y := generate ⨂ id ∘ unit_left⁻¹
+  embed_left  {x y} : x ~> x ⨂ y := id ⨂ generate ∘ unit_right⁻¹;
+  embed_right {x y} : y ~> x ⨂ y := generate ⨂ id ∘ unit_left⁻¹
 }.
 
 Corollary generate_comp `{@Monoidal C} `{@SemicocartesianMonoidal _} `{f : A ~> B} :
@@ -54,7 +56,7 @@ Import EqNotations.
 Program Definition Initial_SemicocartesianMonoidal `{M : @Monoidal C}
         `{T : @Initial C} (Heq : @Zero C T = @I C M) :
   @SemicocartesianMonoidal C _ := {|
-  generate := fun X => _ (@zero C T X);
-  unit_initial := fun X f g => _ (@zero_unique C T X) f g
+  generate := fun x => _ (@zero C T x);
+  unit_initial := fun x f g => _ (@zero_unique C T x) f g
 |}.
-Next Obligation. rewrite Heq in x; apply x. Defined.
+Next Obligation. rewrite Heq in x0; apply x0. Defined.

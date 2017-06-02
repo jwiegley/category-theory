@@ -20,17 +20,17 @@ Program Instance Cat_Cocartesian : @Cocartesian Cat := {
                  | Datatypes.inl x => F x
                  | Datatypes.inr x => G x
                  end
-     ; fmap := fun X Y f =>
-                 match X with
-                 | Datatypes.inl X =>
-                   match Y with
-                   | Datatypes.inl Y => _
-                   | Datatypes.inr Y => False_rect _ _
+     ; fmap := fun x y f =>
+                 match x with
+                 | Datatypes.inl x =>
+                   match y with
+                   | Datatypes.inl y => _
+                   | Datatypes.inr y => False_rect _ _
                    end
-                 | Datatypes.inr X =>
-                   match Y with
-                   | Datatypes.inl Y => False_rect _ _
-                   | Datatypes.inr Y => _
+                 | Datatypes.inr x =>
+                   match y with
+                   | Datatypes.inl y => False_rect _ _
+                   | Datatypes.inr y => _
                    end
                  end |};
   exl := fun _ _ =>
@@ -44,21 +44,27 @@ Next Obligation. exact (fmap f). Defined.
 Next Obligation. exact (fmap f). Defined.
 Next Obligation.
   proper.
-  destruct X, Y; simpl in *;
+  destruct x, y; simpl in *;
   solve [ apply fmap_respects; auto | contradiction ].
 Qed.
 Next Obligation.
-  destruct X; simpl in *; cat.
+  destruct x; simpl in *; cat.
 Qed.
 Next Obligation.
-  destruct X, Y, Z; simpl in *; try tauto;
+  destruct x, y, z; simpl in *; try tauto;
   apply fmap_comp.
 Qed.
 Next Obligation.
+  rename x into A.
+  rename y into B.
+  rename z into C.
   proper.
   destruct x3, y1; simpl; auto; tauto.
 Qed.
 Next Obligation.
+  rename x into A.
+  rename y into B.
+  rename z into C.
   split; intros; simplify.
   - apply (e (Datatypes.inl x0) (Datatypes.inl y)).
   - apply (e (Datatypes.inr x0) (Datatypes.inr y)).

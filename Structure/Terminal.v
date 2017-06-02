@@ -14,9 +14,9 @@ Context {C : Category}.
 
 Class Terminal := {
   One : ob;
-  one {A} : A ~> One;
+  one {x} : x ~> One;
 
-  one_unique {A} (f g : A ~> One) : f ≈ g
+  one_unique {x} (f g : x ~> One) : f ≈ g
 }.
 
 End Terminal.
@@ -25,7 +25,7 @@ Notation "1" := One : object_scope.
 
 Hint Resolve @one_unique : category_laws.
 
-Corollary one_comp `{@Terminal C} {A B : C} {f : A ~> B} :
+Corollary one_comp `{@Terminal C} {x y : C} {f : x ~> y} :
   one ∘ f ≈ one.
 Proof. intros; apply one_unique. Qed.
 

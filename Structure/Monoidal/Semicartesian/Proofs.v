@@ -19,8 +19,8 @@ Section SemicartesianProofs.
 Context `{@Monoidal C}.
 Context `{@SemicartesianMonoidal C _}.
 
-Lemma proj_left_tensor_id {X Y Z} :
-  proj_left ⨂ id ≈ id[X] ⨂ @proj_right _ _ _ Y Z ∘ tensor_assoc.
+Lemma proj_left_tensor_id {x y z} :
+  proj_left ⨂ id ≈ id[x] ⨂ @proj_right _ _ _ y z ∘ tensor_assoc.
 Proof.
   unfold proj_left, proj_right.
   rewrite bimap_comp_id_right.
@@ -30,8 +30,8 @@ Proof.
   normal; reflexivity.
 Qed.
 
-Lemma proj_right_tensor_id {X Y Z} :
-  id ⨂ proj_right ≈ @proj_left _ _ _ X Y ⨂ id[Z] ∘ tensor_assoc⁻¹.
+Lemma proj_right_tensor_id {x y z} :
+  id ⨂ proj_right ≈ @proj_left _ _ _ x y ⨂ id[z] ∘ tensor_assoc⁻¹.
 Proof.
   unfold proj_left, proj_right.
   rewrite bimap_comp_id_left.
@@ -41,8 +41,8 @@ Proof.
   normal; reflexivity.
 Qed.
 
-Lemma proj_left_left {X Y Z} :
-  proj_left ∘ proj_left ≈ @proj_left _ _ _ X (Y ⨂ Z) ∘ tensor_assoc.
+Lemma proj_left_left {x y z} :
+  proj_left ∘ proj_left ≈ @proj_left _ _ _ x (y ⨂ z) ∘ tensor_assoc.
 Proof.
   unfold proj_left; normal.
   rewrite <- !comp_assoc.
@@ -60,8 +60,8 @@ Proof.
   apply unit_terminal.
 Qed.
 
-Lemma proj_right_right {X Y Z} :
-  proj_right ∘ proj_right ≈ @proj_right _ _ _ (X ⨂ Y) Z ∘ tensor_assoc⁻¹.
+Lemma proj_right_right {x y z} :
+  proj_right ∘ proj_right ≈ @proj_right _ _ _ (x ⨂ y) z ∘ tensor_assoc⁻¹.
 Proof.
   unfold proj_right; normal.
   rewrite <- !comp_assoc.
@@ -79,7 +79,7 @@ Proof.
   apply unit_terminal.
 Qed.
 
-Corollary proj_left_natural {X Y Z W} (f : X ~> Y) (g : Z ~> W) :
+Corollary proj_left_natural {x y z w} (f : x ~> y) (g : z ~> w) :
   proj_left ∘ f ⨂ g ≈ f ∘ proj_left.
 Proof.
   unfold proj_left.
@@ -90,7 +90,7 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary proj_right_natural {X Y Z W} (f : X ~> Y) (g : Z ~> W) :
+Corollary proj_right_natural {x y z w} (f : x ~> y) (g : z ~> w) :
   proj_right ∘ f ⨂ g ≈ g ∘ proj_right.
 Proof.
   unfold proj_right.

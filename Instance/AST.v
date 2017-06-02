@@ -108,7 +108,7 @@ Program Instance Hom_Cartesian : @Cartesian AST := {
   exl  := @Exl;
   exr  := @Exr
 }.
-Next Obligation. proper; rewrite X0, X1; reflexivity. Qed.
+Next Obligation. proper; rewrite X, X0; reflexivity. Qed.
 Next Obligation.
   split; intros HA.
     split; intros; rewrite HA; cat.
@@ -120,12 +120,12 @@ Qed.
 
 Program Instance Hom_Closed : @Closed AST _ := {
   Exp := Exp_;
-  exp_iso := fun X Y Z =>
-    {| to   := {| morphism := @Curry X Y Z |}
-     ; from := {| morphism := @Uncurry X Y Z |} |}
+  exp_iso := fun x y z =>
+    {| to   := {| morphism := @Curry x y z |}
+     ; from := {| morphism := @Uncurry x y z |} |}
 }.
-Next Obligation. proper; rewrite X0; reflexivity. Qed.
-Next Obligation. proper; rewrite X0; reflexivity. Qed.
+Next Obligation. proper; rewrite X; reflexivity. Qed.
+Next Obligation. proper; rewrite X; reflexivity. Qed.
 
 Program Instance Hom_Initial : @Initial AST := {
   One := Zero_;
@@ -138,7 +138,7 @@ Program Instance Hom_Cocartesian : @Cocartesian AST := {
   exl  := @Inl;
   exr  := @Inr
 }.
-Next Obligation. proper; rewrite X0, X1; reflexivity. Qed.
+Next Obligation. proper; rewrite X, X0; reflexivity. Qed.
 Next Obligation.
   split; intros HA.
     split; intros; rewrite HA; cat.
@@ -148,13 +148,13 @@ Next Obligation.
   rewrite merge_comp; cat.
 Qed.
 
-Program Instance interp_proper {X Y : Obj}
+Program Instance interp_proper {x y : Obj}
         {C : Category} {A : @Cartesian C}
         `{@Closed C A} `{@Cocartesian C}
         `{@Terminal C} `{@Initial C} :
-  Proper (@equiv _ (@homset AST X Y) ==>
+  Proper (@equiv _ (@homset AST x y) ==>
                      @equiv _ (@homset C _ _))
-         (fun f => @interp X Y f C A _ _ _ _).
+         (fun f => @interp x y f C A _ _ _ _).
 
 Require Export Category.Functor.Structure.Terminal.
 Require Export Category.Functor.Structure.Cartesian.

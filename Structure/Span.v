@@ -14,24 +14,24 @@ Definition Span (C : Category) := Roof ⟶ C.
 
 Definition Cospan (C : Category) := Roof^op ⟶ C.
 
-Program Definition ASpan {C : Category} {S X Y : C} (f : S ~> X) (g : S ~> Y) :
+Program Definition ASpan {C : Category} {S x y : C} (f : S ~> x) (g : S ~> y) :
   Roof ⟶ C := {|
-  fobj := fun x => match x with
-    | RNeg  => X
+  fobj := fun z => match z with
+    | RNeg  => x
     | RZero => S
-    | RPos  => Y
+    | RPos  => y
     end;
-  fmap := fun x y _ => match x, y with
-    | RNeg,  RNeg  => id[X]
+  fmap := fun z w _ => match z, w with
+    | RNeg,  RNeg  => id[x]
     | RZero, RNeg  => f
     | RZero, RZero => id[S]
     | RZero, RPos  => g
-    | RPos,  RPos  => id[Y]
+    | RPos,  RPos  => id[y]
     | _,      _      => _
     end
 |}.
 Next Obligation.
-  destruct x, y; simpl; intuition idtac; auto with roof_laws.
+  destruct z, w; simpl; intuition idtac; auto with roof_laws.
 Defined.
 Next Obligation. intuition idtac; discriminate. Qed.
 Next Obligation. intuition idtac; discriminate. Qed.
@@ -39,13 +39,13 @@ Next Obligation. intuition idtac; discriminate. Qed.
 Next Obligation. intuition idtac; discriminate. Qed.
 Next Obligation.
   proper.
-  destruct X0, Y0; simpl; auto with roof_laws; reflexivity.
+  destruct x0, y0; simpl; auto with roof_laws; reflexivity.
 Qed.
 Next Obligation.
-  destruct X0; reflexivity.
+  destruct x0; reflexivity.
 Qed.
 Next Obligation.
-  destruct X0, Y0, Z; simpl; auto with roof_laws;
+  destruct x0, y0, z; simpl; auto with roof_laws;
   rewrite ?id_left, ?id_right;
   reflexivity.
 Qed.

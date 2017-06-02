@@ -24,18 +24,18 @@ Context {C : Category}.
    ○ F need to be equal, rather than equivalent, to identity. Since this is
    usually too strong a notion, it does not have its own abstraction here. *)
 
-Class Isomorphism (X Y : C) : Type := {
-  to   :> X ~> Y;
-  from :  Y ~> X;
+Class Isomorphism (x y : C) : Type := {
+  to   :> x ~> y;
+  from :  y ~> x;
 
   iso_to_from : to ∘ from ≈ id;
   iso_from_to : from ∘ to ≈ id
 }.
 
-Arguments to {X Y} _.
-Arguments from {X Y} _.
-Arguments iso_to_from {X Y} _.
-Arguments iso_from_to {X Y} _.
+Arguments to {x y} _.
+Arguments from {x y} _.
+Arguments iso_to_from {x y} _.
+Arguments iso_from_to {x y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
@@ -59,19 +59,19 @@ Next Obligation.
   rewrite iso_from_to1; cat.
 Defined.
 
-Definition ob_equiv : crelation C := fun X Y => X ≅ Y.
+Definition ob_equiv : crelation C := fun x y => x ≅ y.
 
 Global Program Instance ob_setoid : Setoid C.
 
-Definition isomorphism_equiv {X Y : C} : crelation (X ≅ Y) :=
+Definition isomorphism_equiv {x y : C} : crelation (x ≅ y) :=
   fun f g => (to f ≈ to g) * (from f ≈ from g).
 
 Local Obligation Tactic := firstorder.
 
-Global Program Instance isomorphism_equiv_equivalence {X Y : C} :
-  Equivalence (@isomorphism_equiv X Y).
+Global Program Instance isomorphism_equiv_equivalence {x y : C} :
+  Equivalence (@isomorphism_equiv x y).
 
-Global Program Instance isomorphism_setoid {X Y : C} : Setoid (X ≅ Y) := {
+Global Program Instance isomorphism_setoid {x y : C} : Setoid (x ≅ y) := {
   equiv := isomorphism_equiv;
   setoid_equiv := isomorphism_equiv_equivalence
 }.
@@ -81,13 +81,13 @@ End Isomorphism.
 Delimit Scope isomorphism_scope with isomorphism.
 Open Scope isomorphism_scope.
 
-Notation "X ≅ Y" := (@Isomorphism _%category X%object Y%object)
+Notation "x ≅ y" := (@Isomorphism _%category x%object y%object)
   (at level 91) : isomorphism_scope.
-Notation "X ≅[ C ] Y" := (@Isomorphism C%category X%object Y%object)
+Notation "x ≅[ C ] y" := (@Isomorphism C%category x%object y%object)
   (at level 91, only parsing) : isomorphism_scope.
 
-Arguments to {_%category X%object Y%object} _%morphism.
-Arguments from {_%category X%object Y%object} _%morphism.
+Arguments to {_%category x%object y%object} _%morphism.
+Arguments from {_%category x%object y%object} _%morphism.
 Arguments iso_to_from {_ _ _} _.
 Arguments iso_from_to {_ _ _} _.
 
@@ -100,13 +100,13 @@ Hint Unfold isomorphism_equiv.
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).
 
-Program Instance iso_id {C : Category} {X : C} : X ≅ X := {
+Program Instance iso_id {C : Category} {x : C} : x ≅ x := {
   to := id;
   from := id
 }.
 
 Program Definition iso_compose {C : Category}
-        {X Y Z : C} `(f : Y ≅ Z) `(g : X ≅ Y) : X ≅ Z := {|
+        {x y z : C} `(f : y ≅ z) `(g : x ≅ y) : x ≅ z := {|
   to := to f ∘ to g;
   from := from g ∘ from f
 |}.
@@ -123,7 +123,7 @@ Next Obligation.
   apply iso_from_to.
 Qed.
 
-Program Instance iso_monic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
+Program Instance iso_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Monic iso.
 Next Obligation.
   rewrite <- (id_left g1).
@@ -133,7 +133,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-Program Instance iso_from_monic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
+Program Instance iso_from_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Monic (iso⁻¹).
 Next Obligation.
   rewrite <- (id_left g1).
@@ -143,7 +143,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-Program Instance iso_epic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
+Program Instance iso_epic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Epic iso.
 Next Obligation.
   rewrite <- (id_right g1).
@@ -153,7 +153,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-Program Instance iso_from_epic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
+Program Instance iso_from_epic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Epic (iso⁻¹).
 Next Obligation.
   rewrite <- (id_right g1).
@@ -164,8 +164,8 @@ Next Obligation.
 Qed.
 
 Program Instance Monic_Retraction_Iso
-        {C : Category} {X Y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) :
-  X ≅ Y := {
+        {C : Category} {x y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) :
+  x ≅ y := {
   to := f;
   from := retract
 }.
@@ -183,14 +183,14 @@ Next Obligation.
 Qed.
 
 Program Instance Epic_Section_Iso
-        {C : Category} {X Y : C} `(s : @Section _ _ _ f) `(e : @Epic _ _ _ f) :
-  X ≅ Y := {
+        {C : Category} {x y : C} `(s : @Section _ _ _ f) `(e : @Epic _ _ _ f) :
+  x ≅ y := {
   to := f;
   from := section
 }.
 Next Obligation.
   destruct s; simpl.
-  specialize (epic Y (f ∘ section) id).
+  specialize (epic y (f ∘ section) id).
   intros.
   apply epic.
   rewrite <- comp_assoc.
@@ -198,7 +198,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   destruct s; simpl.
-  specialize (epic Y (f ∘ section) id).
+  specialize (epic y (f ∘ section) id).
   intros.
   apply epic.
   rewrite <- comp_assoc.

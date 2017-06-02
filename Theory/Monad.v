@@ -13,17 +13,18 @@ Section Monad.
 Context `{M : C ⟶ C}.
 
 Class Monad := {
-  ret {a}  : a ~> M a;          (* Id    ⟹ M *)
-  join {a} : M (M a) ~> M a;    (* M ○ M ⟹ M *)
+  ret {x}  : x ~> M x;          (* Id    ⟹ M *)
+  join {x} : M (M x) ~> M x;    (* M ○ M ⟹ M *)
 
-  fmap_ret {a b} (f : a ~> b) : ret ∘ f ≈ fmap f ∘ ret;
-  join_fmap_join {a} : join ∘ fmap (@join a) ≈ join ∘ join;
-  join_fmap_ret  {a} : join ∘ fmap (@ret a) ≈ id;
-  join_ret       {a} : join ∘ @ret (M a) ≈ id;
+  fmap_ret {x y} (f : x ~> y) : ret ∘ f ≈ fmap f ∘ ret;
+
+  join_fmap_join {x} : join ∘ fmap (@join x) ≈ join ∘ join;
+  join_fmap_ret  {x} : join ∘ fmap (@ret x) ≈ id;
+  join_ret       {x} : join ∘ @ret (M x) ≈ id;
 
   (* This law states that join is a natural transformation from [fmap . fmap]
      to [fmap]. *)
-  join_fmap_fmap {a b} (f : a ~> b) :
+  join_fmap_fmap {x y} (f : x ~> y) :
     join ∘ fmap (fmap f) ≈ fmap f ∘ join
 }.
 
@@ -38,7 +39,7 @@ Section MonadLib.
 
 Context `{@Monad C M}.
 
-Definition bind {a b : C} (f : a ~> M b) : M a ~> M b :=
+Definition bind {x y : C} (f : x ~> M y) : M x ~> M y :=
   join ∘ fmap[M] f.
 
 End MonadLib.

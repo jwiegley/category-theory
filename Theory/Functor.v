@@ -18,12 +18,12 @@ Unset Transparent Obligations.
 
 Class Functor {C D : Category} := {
   fobj : C -> D;
-  fmap {X Y : C} (f : X ~> Y) : fobj X ~> fobj Y;
+  fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y;
 
-  fmap_respects :> ∀ X Y, Proper (equiv ==> equiv) (@fmap X Y);
+  fmap_respects :> ∀ x y, Proper (equiv ==> equiv) (@fmap x y);
 
-  fmap_id {X : C} : fmap (@id C X) ≈ id;
-  fmap_comp {X Y Z : C} (f : Y ~> Z) (g : X ~> Y) :
+  fmap_id {x : C} : fmap (@id C x) ≈ id;
+  fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :
     fmap (f ∘ g) ≈ fmap f ∘ fmap g
 }.
 
@@ -43,7 +43,7 @@ Notation "C ⟶ D" := (@Functor C%category D%category)
   (at level 90, right associativity) : functor_type_scope.
 
 Arguments fmap
-  {C%category D%category Functor%functor X%object Y%object} f%morphism.
+  {C%category D%category Functor%functor x%object y%object} f%morphism.
 
 Infix "<$>" := fmap
   (at level 29, left associativity, only parsing) : morphism_scope.
@@ -127,7 +127,7 @@ Instance fobj_respects `(F : C ⟶ D) :
 Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
 
 Program Definition Id {C : Category} : C ⟶ C := {|
-  fobj := fun X => X;
+  fobj := fun x => x;
   fmap := fun _ _ f => f
 |}.
 
@@ -178,15 +178,15 @@ Next Obligation.
 Qed.
 
 Class Faithful `(F : C ⟶ D) := {
-  fmap_inj {X Y} (f g : X ~> Y) : fmap[F] f ≈ fmap[F] g -> f ≈ g
+  fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g -> f ≈ g
 }.
 
 Class Full `(F : C ⟶ D) := {
-  prefmap {X Y} (g : F X ~> F Y) : X ~> Y;
-  fmap_sur {X Y} (g : F X ~> F Y) : fmap[F] (prefmap g) ≈ g
+  prefmap {x y} (g : F x ~> F y) : x ~> y;
+  fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g
 }.
 
 Class FullyFaithful `(F : C ⟶ D) := {
-  fmap_bij {X Y} : F X ~> F Y ↔ X ~> Y;
-  fobj_inj {X Y} : F X ≅ F Y -> X ≅ Y
+  fmap_bij {x y} : F x ~> F y ↔ x ~> y;
+  fobj_inj {x y} : F x ≅ F y -> x ≅ y
 }.

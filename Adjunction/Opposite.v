@@ -14,11 +14,11 @@ Unset Transparent Obligations.
 Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D)
         (A : F ⊣ U) :
   U^op ⊣ F^op := {|
-  adj := fun X Y =>
-    {| to          := from (@adj _ _ _ _ A Y X)
-     ; from        := to (@adj _ _ _ _ A Y X)
-     ; iso_to_from := iso_from_to (@adj _ _ _ _ A Y X)
-     ; iso_from_to := iso_to_from (@adj _ _ _ _ A Y X) |};
+  adj := fun x y =>
+    {| to          := from (@adj _ _ _ _ A y x)
+     ; from        := to (@adj _ _ _ _ A y x)
+     ; iso_to_from := iso_from_to (@adj _ _ _ _ A y x)
+     ; iso_from_to := iso_to_from (@adj _ _ _ _ A y x) |};
 
   to_adj_nat_l   := fun _ _ _ f g => @from_adj_nat_r _ _ _ _ A _ _ _ g f;
   to_adj_nat_r   := fun _ _ _ f g => @from_adj_nat_l _ _ _ _ A _ _ _ g f;

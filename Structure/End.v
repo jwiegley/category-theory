@@ -14,11 +14,11 @@ Class End `(F : C^op ∏ C ⟶ D) := {
 
   (* This just restates the fact that limits are terminal objects in the
      category of cones to F (which in turn is the comma category (Δ ↓ F)). *)
-  fin {N : Wedge F} : N ~> Fin;
-  fin_unique {N : Wedge F} (f g : N ~> Fin) : f ≈ g;
+  fin {W : Wedge F} : W ~> Fin;
+  fin_unique {W : Wedge F} (f g : W ~> Fin) : f ≈ g;
 
-  ump_ends {N : Wedge F} {X : C} :
-    wedge_map[Fin] ∘ fin ≈ @wedge_map _ _ _ N X
+  ump_ends {W : Wedge F} {x : C} :
+    wedge_map[Fin] ∘ fin ≈ @wedge_map _ _ _ W x
 }.
 
 Definition Coend `(F : C^op ∏ C ⟶ D) := @End (C^op) (D^op) (F^op).

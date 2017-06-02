@@ -24,14 +24,14 @@ Ltac prove_naturality H tac :=
 
 Program Instance Identity_Naturality {C : Category} :
   Naturality (∀ A, A ~> A) := {
-  natural := fun f => ∀ X Y (g : X ~> Y), g ∘ f X ≈ f Y ∘ g
+  natural := fun f => ∀ x y (g : x ~> y), g ∘ f x ≈ f y ∘ g
 }.
 
 Program Instance Functor_Naturality
         {C : Category} {D : Category} (F G : C ⟶ D) :
   Naturality (∀ A, F A ~> G A) := {
   natural := fun f =>
-    ∀ X Y (g : X ~{C}~> Y), fmap[G] g ∘ f X ≈ f Y ∘ fmap[F] g
+    ∀ x y (g : x ~{C}~> y), fmap[G] g ∘ f x ≈ f y ∘ fmap[F] g
 }.
 
 (*
@@ -45,9 +45,9 @@ Program Instance ConstMap {C : Category} {B : C} :
 *)
 
 (*
-Program Instance PartialApply_Product_Left {F : C × C ⟶ C} {X : C} : C ⟶ C := {
-  fobj := fun Y => F (X, Y);
-  fmap := fun _ _ f => fmap[F] (id[X], f)
+Program Instance PartialApply_Product_Left {F : C × C ⟶ C} {x : C} : C ⟶ C := {
+  fobj := fun y => F (x, y);
+  fmap := fun _ _ f => fmap[F] (id[x], f)
 }.
 Next Obligation.
   proper; rewrites; reflexivity.
@@ -59,15 +59,15 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Instance PartialApply_Curried_Left {F : C ⟶ [C, C]} {X : C} : C ⟶ C := {
-  fobj := fun Y => F X Y;
-  fmap := fun _ _ f => fmap[F X] f
+Program Instance PartialApply_Curried_Left {F : C ⟶ [C, C]} {x : C} : C ⟶ C := {
+  fobj := fun y => F x y;
+  fmap := fun _ _ f => fmap[F x] f
 }.
 Next Obligation. apply fmap_comp. Qed.
 
-Program Instance PartialApply_Product_Right {F : C × C ⟶ C} {Y : C} : C ⟶ C := {
-  fobj := fun X => F (X, Y);
-  fmap := fun _ _ f => fmap[F] (f, id[Y])
+Program Instance PartialApply_Product_Right {F : C × C ⟶ C} {y : C} : C ⟶ C := {
+  fobj := fun x => F (x, y);
+  fmap := fun _ _ f => fmap[F] (f, id[y])
 }.
 Next Obligation.
   proper; rewrites; reflexivity.
@@ -79,22 +79,22 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Instance PartialApply_Curried_Right {F : C ⟶ [C, C]} {Y : C} : C ⟶ C := {
-  fobj := fun X => F X Y;
-  fmap := fun _ _ f => fmap[F] f Y
+Program Instance PartialApply_Curried_Right {F : C ⟶ [C, C]} {y : C} : C ⟶ C := {
+  fobj := fun x => F x y;
+  fmap := fun _ _ f => fmap[F] f y
 }.
 Next Obligation.
   proper.
-  sapply (@fmap_respects _ _ F X Y0 x y X0).
+  sapply (@fmap_respects _ _ F x Y0 x y X0).
 Qed.
 Next Obligation.
-  pose proof (@fmap_id _ _ F X Y).
+  pose proof (@fmap_id _ _ F x y).
   simpl in X0.
   rewrite X0.
   apply fmap_id.
 Qed.
 Next Obligation.
-  sapply (@fmap_comp _ _ F X Y0 Z f g Y).
+  sapply (@fmap_comp _ _ F x Y0 z f g y).
 Qed.
 *)
 
@@ -102,7 +102,7 @@ Program Instance ArityOne {C : Category}
         (P : C -> C) {F : @CanonicalMap C P}
         (Q : C -> C) {G : @CanonicalMap C Q} :
   @Naturality (∀ A, P A ~> Q A) := {
-  natural := fun f => ∀ X Y (g : X ~> Y), @map _ _ G _ _ g ∘ f X ≈ f Y ∘ @map _ _ F _ _ g
+  natural := fun f => ∀ x y (g : x ~> y), @map _ _ G _ _ g ∘ f x ≈ f y ∘ @map _ _ F _ _ g
 }.
 
 Program Instance ArityTwo {C : Category}
@@ -113,9 +113,9 @@ Program Instance ArityTwo {C : Category}
             {GA : ∀ B, @CanonicalMap C (fun A => Q A B)}
             {GB : ∀ A, @CanonicalMap C (fun B => Q A B)} :
   @Naturality (∀ A B, P A B ~> Q A B) := {
-  natural := fun f => ∀ X Y (g : X ~> Y) Z W (h : Z ~> W),
-    @map _ _ (GB _) _ _ h ∘ @map _ _ (GA _) _ _ g ∘ f X Z
-      ≈ f Y W ∘ @map _ _ (FB _) _ _ h ∘ @map _ _ (FA _) _ _ g
+  natural := fun f => ∀ x y (g : x ~> y) z w (h : z ~> w),
+    @map _ _ (GB _) _ _ h ∘ @map _ _ (GA _) _ _ g ∘ f x z
+      ≈ f y w ∘ @map _ _ (FB _) _ _ h ∘ @map _ _ (FA _) _ _ g
 }.
 
 Program Instance ArityThree {C : Category}
@@ -128,14 +128,14 @@ Program Instance ArityThree {C : Category}
             {GB : ∀ A D : C, @CanonicalMap C (fun B => Q A B D)}
             {GC : ∀ A B : C, @CanonicalMap C (fun D => Q A B D)} :
   @Naturality (∀ A B D, P A B D ~> Q A B D) := {
-  natural := fun f => ∀ X Y (g : X ~> Y)
-                        Z W (h : Z ~> W)
-                        V U (i : V ~> U),
+  natural := fun f => ∀ x y (g : x ~> y)
+                        z w (h : z ~> w)
+                        v u (i : v ~> u),
     @map _ _ (GC _ _) _ _ i ∘
     @map _ _ (GB _ _) _ _ h ∘
     @map _ _ (GA _ _) _ _ g
-      ∘ f X Z V
-      ≈ f Y W U
+      ∘ f x z v
+      ≈ f y w u
       ∘ @map _ _ (FC _ _) _ _ i
       ∘ @map _ _ (FB _ _) _ _ h
       ∘ @map _ _ (FA _ _) _ _ g
@@ -153,16 +153,16 @@ Program Instance ArityFour {C : Category}
             {GC : ∀ A B E : C, @CanonicalMap C (fun D => Q A B D E)}
             {GD : ∀ A B D : C, @CanonicalMap C (fun E => Q A B D E)} :
   @Naturality (∀ A B D E, P A B D E ~> Q A B D E) := {
-  natural := fun f => ∀ X Y (g : X ~> Y)
-                        Z W (h : Z ~> W)
-                        V U (i : V ~> U)
-                        T S (j : T ~> S),
+  natural := fun f => ∀ x y (g : x ~> y)
+                        z w (h : z ~> w)
+                        v u (i : v ~> u)
+                        t s (j : t ~> s),
     @map _ _ (GD _ _ _) _ _ j ∘
     @map _ _ (GC _ _ _) _ _ i ∘
     @map _ _ (GB _ _ _) _ _ h ∘
     @map _ _ (GA _ _ _) _ _ g
-      ∘ f X Z V T
-      ≈ f Y W U S
+      ∘ f x z v t
+      ≈ f y w u s
       ∘ @map _ _ (FD _ _ _) _ _ j
       ∘ @map _ _ (FC _ _ _) _ _ i
       ∘ @map _ _ (FB _ _ _) _ _ h
@@ -184,18 +184,18 @@ Program Instance ArityFive {C : Category}
             {GD : ∀ A B D F : C, @CanonicalMap C (fun E => Q A B D E F)}
             {GE : ∀ A B D E : C, @CanonicalMap C (fun F => Q A B D E F)} :
   @Naturality (∀ A B D E F, P A B D E F ~> Q A B D E F) := {
-  natural := fun f => ∀ X Y (g : X ~> Y)
-                        Z W (h : Z ~> W)
-                        V U (i : V ~> U)
-                        T S (j : T ~> S)
-                        Q R (k : Q ~> R),
+  natural := fun f => ∀ x y (g : x ~> y)
+                        z w (h : z ~> w)
+                        v u (i : v ~> u)
+                        t s (j : t ~> s)
+                        q r (k : q ~> r),
     @map _ _ (GE _ _ _ _) _ _ k ∘
     @map _ _ (GD _ _ _ _) _ _ j ∘
     @map _ _ (GC _ _ _ _) _ _ i ∘
     @map _ _ (GB _ _ _ _) _ _ h ∘
     @map _ _ (GA _ _ _ _) _ _ g
-      ∘ f X Z V T Q
-      ≈ f Y W U S R
+      ∘ f x z v t q
+      ≈ f y w u s r
       ∘ @map _ _ (FE _ _ _ _) _ _ k
       ∘ @map _ _ (FD _ _ _ _) _ _ j
       ∘ @map _ _ (FC _ _ _ _) _ _ i

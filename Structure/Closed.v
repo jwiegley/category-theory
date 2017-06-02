@@ -16,33 +16,33 @@ Context `{@Cartesian C}.
 
 Class Closed := {
   Exp : ob -> ob -> ob    (* internal homs *)
-    where "Y ^ X" := (Exp X Y);
+    where "y ^ x" := (Exp x y);
 
-  exp_iso {X Y Z} : X × Y ~{C}~> Z ≊ X ~> Z^Y;
+  exp_iso {x y z} : x × y ~{C}~> z ≊ x ~> z^y;
 
-  curry'   {X Y Z} := to (@exp_iso X Y Z);
-  uncurry' {X Y Z} := from (@exp_iso X Y Z);
+  curry'   {x y z} := to (@exp_iso x y z);
+  uncurry' {x y z} := from (@exp_iso x y z);
 
-  eval' {X Y} : Y^X × X ~> Y := uncurry' _ _ _ id;
+  eval' {x y} : y^x × x ~> y := uncurry' _ _ _ id;
 
-  ump_exponents' {X Y Z} (f : X × Y ~> Z) :
+  ump_exponents' {x y z} (f : x × y ~> z) :
     eval' ∘ first (curry' _ _ _ f) ≈ f
 }.
 
-Notation "Y ^ X" := (Exp X Y) : category_scope.
+Notation "y ^ x" := (Exp x y) : category_scope.
 
 Context `{@Closed}.
 
-Definition curry   {X Y Z} := @curry' _ X Y Z.
-Definition uncurry {X Y Z} := @uncurry' _ X Y Z.
+Definition curry   {x y z} := @curry' _ x y z.
+Definition uncurry {x y z} := @uncurry' _ x y z.
 Arguments curry' {_ _ _ _} /.
 Arguments uncurry' {_ _ _ _} /.
 
-Definition eval {X Y} : Y^X × X ~> Y := uncurry id.
+Definition eval {x y} : y^x × x ~> y := uncurry id.
 Arguments eval' {_ _ _} /.
 
-Definition ump_exponents {X Y Z} (f : X × Y ~> Z) :
-  eval ∘ first (curry f) ≈ f := @ump_exponents' _ X Y Z f.
+Definition ump_exponents {x y z} (f : x × y ~> z) :
+  eval ∘ first (curry f) ≈ f := @ump_exponents' _ x y z f.
 
 Global Program Instance parametric_morphism_curry (a b c : C) :
   Proper (equiv ==> equiv) (@curry a b c).
@@ -64,24 +64,24 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-Corollary curry_uncurry {X Y Z} (f : X ~> Z^Y) :
+Corollary curry_uncurry {x y z} (f : x ~> z^y) :
   curry (uncurry f) ≈ f.
 Proof.
   replace (curry (uncurry f)) with ((curry ∘ uncurry) f) by auto.
   unfold curry, uncurry; simpl.
-  pose proof (iso_to_from (@exp_iso _ X Y Z)) as HA.
+  pose proof (iso_to_from (@exp_iso _ x y z)) as HA.
   unfold equiv in HA; simpl in HA.
   autounfold in HA.
   unfold equiv in HA; simpl in HA.
   apply HA.
 Qed.
 
-Corollary uncurry_curry {X Y Z} (f : X × Y ~> Z) :
+Corollary uncurry_curry {x y z} (f : x × y ~> z) :
   uncurry (curry f) ≈ f.
 Proof.
   replace (uncurry (curry f)) with ((uncurry ∘ curry) f) by auto.
   unfold curry, uncurry; simpl.
-  pose proof (iso_from_to (@exp_iso _ X Y Z)) as HA.
+  pose proof (iso_from_to (@exp_iso _ x y z)) as HA.
   simpl in HA.
   unfold equiv in HA; simpl in HA.
   autounfold in HA.
@@ -93,10 +93,10 @@ Hint Rewrite @curry_uncurry : categories.
 Hint Rewrite @uncurry_curry : categories.
 Hint Rewrite @ump_exponents : categories.
 
-Definition flip {X Y Z : C} `(f : X ~> Z ^ Y) : Y ~> Z ^ X :=
+Definition flip {x y z : C} `(f : x ~> z ^ y) : y ~> z ^ x :=
   curry (uncurry f ∘ swap).
 
-Corollary eval_curry {X Y Z W : C} (f : Y × Z ~> W) (g : X ~> Y) (h : X ~> Z) :
+Corollary eval_curry {x y z w : C} (f : y × z ~> w) (g : x ~> y) (h : x ~> z) :
   eval ∘ ((curry f ∘ g) △ h) ≈ f ∘ g △ h.
 Proof.
   intros.
@@ -109,21 +109,21 @@ Qed.
 
 Hint Rewrite @eval_curry : categories.
 
-Corollary curry_eval {X Y : C} :
-  curry eval ≈ @id _ (Y^X).
+Corollary curry_eval {x y : C} :
+  curry eval ≈ @id _ (y^x).
 Proof.
   intros; unfold eval; simpl; cat.
 Qed.
 
 Hint Rewrite @curry_eval : categories.
 
-Corollary eval_first {X Y Z : C} (f : X ~> Z^Y) :
+Corollary eval_first {x y z : C} (f : x ~> z^y) :
   eval ∘ first f ≈ uncurry f.
 Proof.
   rewrite <- (curry_uncurry f); cat.
 Qed.
 
-Corollary curry_inj {X Y Z : C} (f g : X × Y ~> Z) :
+Corollary curry_inj {x y z : C} (f g : x × y ~> z) :
   curry f ≈ curry g -> f ≈ g.
 Proof.
   intros.
@@ -132,7 +132,7 @@ Proof.
   rewrites; reflexivity.
 Qed.
 
-Corollary uncurry_inj {X Y Z : C} (f g : X ~> Z^Y) :
+Corollary uncurry_inj {x y z : C} (f g : x ~> z^y) :
   uncurry f ≈ uncurry g -> f ≈ g.
 Proof.
   intros.
@@ -141,7 +141,7 @@ Proof.
   rewrites; reflexivity.
 Qed.
 
-Corollary curry_comp_l {X Y Z W : C} (f : Y × Z ~> W) (g : X ~> Y) :
+Corollary curry_comp_l {x y z w : C} (f : y × z ~> w) (g : x ~> y) :
   curry f ∘ g ≈ curry (f ∘ first g).
 Proof.
   apply uncurry_inj; cat.
@@ -153,7 +153,7 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary curry_comp {X Y Z W : C} (f : Z ~> W) (g : X × Y ~> Z) :
+Corollary curry_comp {x y z w : C} (f : z ~> w) (g : x × y ~> z) :
   curry (f ∘ g) ≈ curry (f ∘ eval) ∘ curry g.
 Proof.
   rewrite curry_comp_l.
@@ -161,7 +161,7 @@ Proof.
   rewrite eval_first; cat.
 Qed.
 
-Corollary uncurry_comp_r {X Y Z W : C} (f : Z ~> W) (g : X ~> Z^Y) :
+Corollary uncurry_comp_r {x y z w : C} (f : z ~> w) (g : x ~> z^y) :
   f ∘ uncurry g ≈ uncurry (curry (f ∘ eval) ∘ g).
 Proof.
   rewrite curry_comp_l; cat.
@@ -169,7 +169,7 @@ Proof.
   rewrite eval_first; reflexivity.
 Qed.
 
-Corollary uncurry_comp {X Y Z W : C} (f : Y ~> W^Z) (g : X ~> Y) :
+Corollary uncurry_comp {x y z w : C} (f : y ~> w^z) (g : x ~> y) :
   uncurry (f ∘ g) ≈ uncurry f ∘ first g.
 Proof.
   intros.
@@ -177,16 +177,16 @@ Proof.
   rewrite <- curry_comp_l; cat.
 Qed.
 
-Theorem curry_id {X Y Z : C} (f : X ~> Y) :
-  curry (@id _ (Y × Z)) ∘ f ≈ curry (first f).
+Theorem curry_id {x y z : C} (f : x ~> y) :
+  curry (@id _ (y × z)) ∘ f ≈ curry (first f).
 Proof.
   intros.
   rewrite curry_comp_l.
   apply uncurry_inj; cat.
 Qed.
 
-Global Program Instance exp_prod_l {X Y Z : C} :
-  Z^(X × Y) ≅ (Z^Y)^X := {
+Global Program Instance exp_prod_l {x y z : C} :
+  z^(x × y) ≅ (z^y)^x := {
   to   := curry (curry (eval ∘ to prod_assoc));
   from := curry (uncurry eval ∘ from prod_assoc)
 }.
@@ -238,8 +238,8 @@ Qed.
 
 Hint Rewrite @exp_prod_l : isos.
 
-Global Program Instance exp_prod_r {X Y Z : C} :
-  (Y × Z)^X ≅ Y^X × Z^X := {
+Global Program Instance exp_prod_r {x y z : C} :
+  (y × z)^x ≅ y^x × z^x := {
   to   := curry (exl ∘ eval) △ curry (exr ∘ eval);
   from := curry (uncurry exl △ uncurry exr)
 }.
@@ -265,7 +265,7 @@ Qed.
 
 Hint Rewrite @exp_prod_r : isos.
 
-Lemma curry_fork {X Y Z W : C} (f : X × Y ~> Z) (g : X × Y ~> W) :
+Lemma curry_fork {x y z w : C} (f : x × y ~> z) (g : x × y ~> w) :
   curry (f △ g) ≈ from exp_prod_r ∘ curry f △ curry g.
 Proof.
   simpl.
@@ -279,7 +279,7 @@ Proof.
   rewrite comp_assoc; cat.
 Qed.
 
-Corollary curry_unfork {X Y Z W : C} (f : X × Y ~> Z) (g : X × Y ~> W) :
+Corollary curry_unfork {x y z w : C} (f : x × y ~> z) (g : x × y ~> w) :
   curry f △ curry g ≈ to exp_prod_r ∘ curry (f △ g).
 Proof.
   rewrite curry_fork.
@@ -289,8 +289,8 @@ Qed.
 
 Context `{@Terminal C}.
 
-Global Program Instance exp_one {X : C} :
-  X^One ≅ X := {
+Global Program Instance exp_one {x : C} :
+  x^One ≅ x := {
   to   := eval ∘ id △ one;
   from := curry exl
 }.
@@ -307,7 +307,7 @@ Next Obligation.
   rewrite <- comp_assoc; cat.
   rewrite <- fork_comp.
   rewrite id_left.
-  cut (@one _ _ (X^One) ∘ exl ≈ exr).
+  cut (@one _ _ (x^One) ∘ exl ≈ exr).
     intros; rewrites; cat.
   cat.
 Qed.
@@ -316,7 +316,7 @@ Hint Rewrite @exp_one : isos.
 
 End Closed.
 
-Notation "Y ^ X" := (Exp X Y) : category_scope.
+Notation "y ^ x" := (Exp x y) : category_scope.
 
 Hint Rewrite @curry_uncurry : categories.
 Hint Rewrite @uncurry_curry : categories.

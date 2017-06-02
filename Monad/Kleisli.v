@@ -57,8 +57,6 @@ Notation "f >=> g" :=
 (* We can now re-express the monad laws in terms of this category, making the
    monoid relationship clearer. *)
 
-(* Coercion runKleisli `(f : x ~{Kleisli}~> y) : x ~{C}~> M y := f. *)
-
 Corollary monad_id_left `(f : x ~{C}~> M y) : ret <=< f ≈ f.
 Proof. unfold kleisli_compose; cat. Qed.
 

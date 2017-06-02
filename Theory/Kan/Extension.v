@@ -18,7 +18,7 @@ Context {C : Category}.
 
 Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {|
   fobj := fun G => G ○ F;
-  fmap := fun _ _ f => {| transform := fun Z => transform[f] (F Z) |}
+  fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |}
 |}.
 Next Obligation. apply naturality. Qed.
 Next Obligation. apply naturality_sym. Qed.

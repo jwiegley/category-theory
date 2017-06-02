@@ -17,14 +17,14 @@ Definition Opposite `(C : Category) : Category := {|
   id      := @id C;
   compose := fun _ _ _ f g => g ∘ f;
 
-  compose_respects := fun X Y Z f g fg h i hi =>
-    @compose_respects C Z Y X h i hi f g fg;
+  compose_respects := fun x y z f g fg h i hi =>
+    @compose_respects C z y x h i hi f g fg;
 
-  id_left  := fun X Y f => @id_right C Y X f;
-  id_right := fun X Y f => @id_left C Y X f;
+  id_left  := fun x y f => @id_right C y x f;
+  id_right := fun x y f => @id_left C y x f;
 
-  comp_assoc := fun X Y Z W f g h => @comp_assoc_sym C W Z Y X h g f;
-  comp_assoc_sym := fun X Y Z W f g h => @comp_assoc C W Z Y X h g f
+  comp_assoc := fun x y z w f g h => @comp_assoc_sym C w z y x h g f;
+  comp_assoc_sym := fun x y z w f g h => @comp_assoc C w z y x h g f
 |}.
 
 Notation "C ^op" := (@Opposite C)
@@ -37,17 +37,17 @@ Proof.
   f_equal.
 Qed.
 
-Definition op   {C : Category} {X Y} (f : Y ~{C}~> X) : X ~{C^op}~> Y := f.
-Definition unop {C : Category} {X Y} (f : X ~{C^op}~> Y) : Y ~{C}~> X := f.
+Definition op   {C : Category} {x y} (f : y ~{C}~> x) : x ~{C^op}~> y := f.
+Definition unop {C : Category} {x y} (f : x ~{C^op}~> y) : y ~{C}~> x := f.
 
 (* If two objects are isomorphic in C, then they are also isomorphic in C^op,
    just the conversion arrows are flipped. *)
 
 Require Export Category.Theory.Isomorphism.
 
-Program Instance Isomorphism_Opposite {C : Category} {X Y : C}
-       (iso : @Isomorphism C X Y) :
-  @Isomorphism (C^op) X Y := {
+Program Instance Isomorphism_Opposite {C : Category} {x y : C}
+       (iso : @Isomorphism C x y) :
+  @Isomorphism (C^op) x y := {
   to := from iso;
   from := to iso;
   iso_to_from := iso_to_from iso;

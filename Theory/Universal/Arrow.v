@@ -19,13 +19,13 @@ Require Import Category.Structure.Initial.
 Require Import Category.Construction.Comma.
 Require Import Category.Functor.Diagonal.
 
-Class Arrow (a : C) (U : D ⟶ C) := {
-  arr_initial : @Initial (Const a ↓ U);
+Class Arrow (x : C) (U : D ⟶ C) := {
+  arr_initial : @Initial (Const x ↓ U);
   arr_obj := snd (`1 (@Zero _ arr_initial));
 
-  arr : a ~> U arr_obj;
+  arr : x ~> U arr_obj;
 
-  ump_arrows {y : D} (h : a ~> U y) :
+  ump_arrows {y : D} (h : x ~> U y) :
     ∃ g : arr_obj ~> y, fmap[U] g ∘ arr ≈ h
 }.
 

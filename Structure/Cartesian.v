@@ -17,16 +17,16 @@ Context `{C : Category}.
 
 Class Cartesian:= {
   Prod : ob -> ob -> ob
-    where "X × Y" := (Prod X Y);
+    where "x × y" := (Prod x y);
 
-  fork {X Y Z} (f : X ~> Y) (g : X ~> Z) : X ~> Y × Z;
-  exl  {X Y} : X × Y ~> X;
-  exr  {X Y} : X × Y ~> Y;
+  fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z;
+  exl  {x y} : x × y ~> x;
+  exr  {x y} : x × y ~> y;
 
-  fork_respects :> ∀ X Y Z,
-    Proper (equiv ==> equiv ==> equiv) (@fork X Y Z);
+  fork_respects :> ∀ x y z,
+    Proper (equiv ==> equiv ==> equiv) (@fork x y z);
 
-  ump_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
+  ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) :
     h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
 }.
 
@@ -35,14 +35,14 @@ Infix "△" := fork (at level 28) : category_scope.
 
 Context `{@Cartesian}.
 
-Definition first  {X Y Z : C} (f : X ~> Y) : X × Z ~> Y × Z :=
+Definition first  {x y z : C} (f : x ~> y) : x × z ~> y × z :=
   (f ∘ exl) △ exr.
 
-Definition second  {X Y Z : C} (f : X ~> Y) : Z × X ~> Z × Y :=
+Definition second  {x y z : C} (f : x ~> y) : z × x ~> z × y :=
   exl △ (f ∘ exr).
 
-Definition split  {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
-  X × Z ~> Y × W :=
+Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
+  x × z ~> y × w :=
   first f ∘ second g.
 
 Global Program Instance parametric_morphism_first {a b c : C} :
@@ -72,9 +72,9 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Definition swap {X Y : C} : X × Y ~> Y × X := exr △ exl.
+Definition swap {x y : C} : x × y ~> y × x := exr △ exl.
 
-Corollary exl_fork {X Z W : C} (f : X ~> Z) (g : X ~> W) :
+Corollary exl_fork {x z w : C} (f : x ~> z) (g : x ~> w) :
   exl ∘ f △ g ≈ f.
 Proof.
   intros.
@@ -84,7 +84,7 @@ Qed.
 
 Hint Rewrite @exl_fork : categories.
 
-Corollary exr_fork {X Z W : C} (f : X ~> Z) (g : X ~> W) :
+Corollary exr_fork {x z w : C} (f : x ~> z) (g : x ~> w) :
   exr ∘ f △ g ≈ g.
 Proof.
   intros.
@@ -94,8 +94,8 @@ Qed.
 
 Hint Rewrite @exr_fork : categories.
 
-Corollary fork_exl_exr {X Y : C} :
-  exl △ exr ≈ @id C (X × Y).
+Corollary fork_exl_exr {x y : C} :
+  exl △ exr ≈ @id C (x × y).
 Proof.
   intros.
   symmetry.
@@ -104,18 +104,18 @@ Qed.
 
 Hint Rewrite @fork_exl_exr : categories.
 
-Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
+Corollary fork_inv {x y z : C} (f h : x ~> y) (g i : x ~> z) :
   f △ g ≈ h △ i ↔ f ≈ h ∧ g ≈ i.
 Proof.
   pose proof (ump_products h i (f △ g)) as HA;
   simplify; intuition.
   - rewrites; cat.
   - rewrites; cat.
-  - apply X1; cat.
+  - apply X0; cat.
 Qed.
 
-Corollary fork_comp {X Y Z W : C}
-          (f : Y ~> Z) (h : Y ~> W) (g : X ~> Y) :
+Corollary fork_comp {x y z w : C}
+          (f : y ~> z) (h : y ~> w) (g : x ~> y) :
   (f ∘ g) △ (h ∘ g) ≈ f △ h ∘ g.
 Proof.
   intros.
@@ -131,13 +131,13 @@ Ltac unfork :=
 
 Local Obligation Tactic := cat_simpl; unfork.
 
-Definition swap_invol {X Y : C} :
-  swap ∘ swap ≈ @id C (X × Y).
+Definition swap_invol {x y : C} :
+  swap ∘ swap ≈ @id C (x × y).
 Proof. unfork. Qed.
 
 Hint Rewrite @swap_invol : categories.
 
-Definition swap_inj_l {X Y Z : C} (f g : X ~> Y × Z) :
+Definition swap_inj_l {x y z : C} (f g : x ~> y × z) :
   swap ∘ f ≈ swap ∘ g -> f ≈ g.
 Proof.
   intro HA.
@@ -150,7 +150,7 @@ Proof.
   reflexivity.
 Qed.
 
-Definition swap_inj_r {X Y Z : C} (f g : X × Y ~> Z) :
+Definition swap_inj_r {x y z : C} (f g : x × y ~> z) :
   f ∘ swap ≈ g ∘ swap -> f ≈ g.
 Proof.
   intro HA.
@@ -163,76 +163,76 @@ Proof.
   reflexivity.
 Qed.
 
-Theorem first_id {X Y : C} :
-  first (id[X]) ≈ id[X × Y].
+Theorem first_id {x y : C} :
+  first (id[x]) ≈ id[x × y].
 Proof. unfold first; cat. Qed.
 
 Hint Rewrite @first_id : categories.
 
-Theorem first_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
-  first (Z:=W) (f ∘ g) ≈ first f ∘ first g.
+Theorem first_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
+  first (z:=w) (f ∘ g) ≈ first f ∘ first g.
 Proof. unfork. Qed.
 
-Theorem first_fork {X Y Z W : C} (f : X ~> Y) (g : X ~> Z) (h : Y ~> W) :
+Theorem first_fork {x y z w : C} (f : x ~> y) (g : x ~> z) (h : y ~> w) :
   first h ∘ f △ g ≈ (h ∘ f) △ g.
 Proof. unfork. Qed.
 
-Theorem second_id {X Y : C} :
-  second (id[Y]) ≈ id[X × Y].
+Theorem second_id {x y : C} :
+  second (id[y]) ≈ id[x × y].
 Proof. unfold second; cat. Qed.
 
 Hint Rewrite @second_id : categories.
 
-Theorem second_comp {X Y Z W : C} (f : Y ~> Z) (g : X ~> Y) :
-  second (Z:=W) (f ∘ g) ≈ second f ∘ second g.
+Theorem second_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
+  second (z:=w) (f ∘ g) ≈ second f ∘ second g.
 Proof. unfork. Qed.
 
-Theorem second_fork {X Y Z W : C} (f : X ~> Y) (g : X ~> Z) (h : Z ~> W) :
+Theorem second_fork {x y z w : C} (f : x ~> y) (g : x ~> z) (h : z ~> w) :
   second h ∘ f △ g ≈ f △ (h ∘ g).
 Proof. unfork. Qed.
 
-Corollary exl_first {X Y Z : C} (f : X ~> Y) :
-  @exl _ Y Z ∘ first f ≈ f ∘ exl.
+Corollary exl_first {x y z : C} (f : x ~> y) :
+  @exl _ y z ∘ first f ≈ f ∘ exl.
 Proof. unfold first; cat. Qed.
 
 Hint Rewrite @exl_first : categories.
 
-Corollary exr_first {X Y Z : C} (f : X ~> Y) :
-  @exr _ Y Z ∘ first f ≈ exr.
+Corollary exr_first {x y z : C} (f : x ~> y) :
+  @exr _ y z ∘ first f ≈ exr.
 Proof. unfold first; cat. Qed.
 
 Hint Rewrite @exr_first : categories.
 
-Corollary exl_second {X Y Z : C} (f : X ~> Y) :
-  @exl _ Z Y ∘ second f ≈ exl.
+Corollary exl_second {x y z : C} (f : x ~> y) :
+  @exl _ z y ∘ second f ≈ exl.
 Proof. unfold second; cat. Qed.
 
 Hint Rewrite @exl_second : categories.
 
-Corollary exr_second {X Y Z : C} (f : X ~> Y) :
-  @exr _ Z Y ∘ second f ≈ f ∘ exr.
+Corollary exr_second {x y z : C} (f : x ~> y) :
+  @exr _ z y ∘ second f ≈ f ∘ exr.
 Proof. unfold second; cat. Qed.
 
 Hint Rewrite @exr_second : categories.
 
-Theorem swap_first {X Y Z : C} (f : X ~> Y) :
-  swap ∘ first (Z:=Z) f ≈ second f ∘ swap.
+Theorem swap_first {x y z : C} (f : x ~> y) :
+  swap ∘ first (z:=z) f ≈ second f ∘ swap.
 Proof. unfork. Qed.
 
-Theorem swap_second {X Y Z : C} (f : X ~> Y) :
-  swap ∘ second f ≈ first (Z:=Z) f ∘ swap.
+Theorem swap_second {x y z : C} (f : x ~> y) :
+  swap ∘ second f ≈ first (z:=z) f ∘ swap.
 Proof. unfork. Qed.
 
-Theorem first_second {X Y Z W : C} (f : X ~> Y) (g : Z ~> W) :
+Theorem first_second {x y z w : C} (f : x ~> y) (g : z ~> w) :
   first f ∘ second g ≈ second g ∘ first f.
 Proof. unfork. Qed.
 
-Theorem swap_fork {X Y Z : C} (f : X ~> Y) (g : X ~> Z) :
+Theorem swap_fork {x y z : C} (f : x ~> y) (g : x ~> z) :
   swap ∘ f △ g ≈ g △ f.
 Proof. unfork. Qed.
 
-Theorem split_id {X Y : C} :
-  split (id[X]) (id[Y]) ≈ id[X × Y].
+Theorem split_id {x y : C} :
+  split (id[x]) (id[y]) ≈ id[x × y].
 Proof.
   unfold split.
   rewrite first_id, second_id; cat.
@@ -240,15 +240,15 @@ Qed.
 
 Hint Rewrite @split_id : categories.
 
-Corollary fork_comp_hetero {X Y Z W : C}
-          (f : Y ~> Z) (h : Y ~> W) (g i : X ~> Y) :
+Corollary fork_comp_hetero {x y z w : C}
+          (f : y ~> z) (h : y ~> w) (g i : x ~> y) :
   (f ∘ g) △ (h ∘ i) ≈ split f h ∘ g △ i.
 Proof. unfold split; intros; unfork. Qed.
 
 Context `{@Terminal C}.
 
-Global Program Instance prod_one_l  {X : C} :
-  1 × X ≅ X := {
+Global Program Instance prod_one_l  {x : C} :
+  1 × x ≅ x := {
   to   := exr;
   from := one △ id
 }.
@@ -260,8 +260,8 @@ Qed.
 
 Hint Rewrite @prod_one_l : isos.
 
-Global Program Instance prod_one_r  {X : C} :
-  X × 1 ≅ X := {
+Global Program Instance prod_one_r  {x : C} :
+  x × 1 ≅ x := {
   to   := exl;
   from := id △ one
 }.
@@ -273,8 +273,8 @@ Qed.
 
 Hint Rewrite @prod_one_r : isos.
 
-Global Program Instance prod_assoc  {X Y Z : C} :
-  (X × Y) × Z ≅ X × (Y × Z) := {
+Global Program Instance prod_assoc  {x y z : C} :
+  (x × y) × z ≅ x × (y × z) := {
   to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr);
   from := (exl △ (exl ∘ exr)) △ (exr ∘ exr)
 }.
@@ -284,7 +284,7 @@ Next Obligation. rewrite fork_comp; cat. Qed.
 End Cartesian.
 
 Infix "×" := (@Prod _ _) : category_scope.
-Notation "X ×[ C ] Y" := (@Prod C _ X Y)
+Notation "x ×[ C ] y" := (@Prod C _ x y)
   (at level 40, only parsing) : category_scope.
 Infix "△" := (@fork _ _ _ _ _) (at level 28) : category_scope.
 

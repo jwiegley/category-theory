@@ -8,10 +8,10 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Class Unique {C : Category} {X Y : C} (P : (X ~> Y) -> Type) := {
-  unique_morphism : X ~> Y;
+Class Unique {C : Category} {x y : C} (P : (x ~> y) -> Type) := {
+  unique_morphism : x ~> y;
   unique_property : P unique_morphism;
-  uniqueness      : ∀ v : X ~> Y, P v -> unique_morphism ≈ v
+  uniqueness      : ∀ v : x ~> y, P v -> unique_morphism ≈ v
 }.
 
 Arguments unique_morphism {_ _ _ _} _.

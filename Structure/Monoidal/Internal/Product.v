@@ -31,9 +31,9 @@ Program Definition InternalProduct_Monoidal
 Program Definition InternalProduct_SymmetricMonoidal
         {C : Category} `{@Cartesian C} `{@Terminal C} :
   @SymmetricMonoidal C InternalProduct_Monoidal := {|
-  twist := fun X Y =>
-    {| to   := @swap C _ X Y
-     ; from := @swap C _ Y X
+  twist := fun x y =>
+    {| to   := @swap C _ x y
+     ; from := @swap C _ y x
      ; iso_to_from := swap_invol
      ; iso_from_to := swap_invol
     |}

@@ -34,23 +34,23 @@ Next Obligation. split; apply strength_assoc. Qed.
 
 Program Definition ProductFunctor_Strong_proj1 :
   StrongFunctor (F ∏⟶ G) -> StrongFunctor F := fun P => {|
-  strength := fun X Y => fst (@strength _ _ _ P (X, I) (Y, I));
+  strength := fun x y => fst (@strength _ _ _ P (x, I) (y, I));
   strength_id_left := _;
   strength_assoc := _
 |}.
 Next Obligation.
-  exact (fst (@strength_natural _ _ _ P (X, I) (Y, I) (g, id)
-                                (Z, I) (W, I) (h, id))).
+  exact (fst (@strength_natural _ _ _ P (x, I) (y, I) (g, id)
+                                (z, I) (w, I) (h, id))).
 Defined.
 Next Obligation.
-  exact (fst (@strength_id_left _ _ _ P (X, I))).
+  exact (fst (@strength_id_left _ _ _ P (x, I))).
 Qed.
 Next Obligation.
   pose proof (@unit_left C H I) as X0.
   pose proof (fst (@strength_natural _ _ _ P
-                     (X, I) (X, I) (id[X], id[I])
-                     (Y ⨂ Z, I)%object (Y ⨂ Z, I ⨂ I)%object
-                     (id[Y ⨂ Z], from X0))) as X1.
+                     (x, I) (x, I) (id[x], id[I])
+                     (y ⨂ z, I)%object (y ⨂ z, I ⨂ I)%object
+                     (id[y ⨂ z], from X0))) as X1.
   simpl in X1.
   rewrite bimap_id_id in X1.
   rewrite !fmap_id in X1.
@@ -59,9 +59,9 @@ Next Obligation.
   rewrite id_left, !id_right in X1.
   rewrites.
   pose proof (fst (@strength_natural _ _ _ P
-                     (X ⨂ Y, I)%object (X ⨂ Y, I ⨂ I)%object
-                     (id[X ⨂ Y], from X0)
-                     (Z, I) (Z, I) (id[Z], id[I]))) as X1.
+                     (x ⨂ y, I)%object (x ⨂ y, I ⨂ I)%object
+                     (id[x ⨂ y], from X0)
+                     (z, I) (z, I) (id[z], id[I]))) as X1.
   simpl in X1.
   rewrite bimap_id_id in X1.
   rewrite !fmap_id in X1.
@@ -69,28 +69,28 @@ Next Obligation.
   rewrite bimap_id_id in X1.
   rewrite id_left, !id_right in X1.
   rewrites.
-  exact (fst (@strength_assoc _ _ _ P (X, I) (Y, I) (Z, I))).
+  exact (fst (@strength_assoc _ _ _ P (x, I) (y, I) (z, I))).
 Qed.
 
 Program Definition ProductFunctor_Strong_proj2 :
   StrongFunctor (F ∏⟶ G) -> StrongFunctor G := fun P => {|
-  strength := fun X Y => snd (@strength _ _ _ P (I, X) (I, Y));
+  strength := fun x y => snd (@strength _ _ _ P (I, x) (I, y));
   strength_id_left := _;
   strength_assoc := _
 |}.
 Next Obligation.
-  exact (snd (@strength_natural _ _ _ P (I, X) (I, Y) (id, g)
-                                (I, Z) (I, W) (id, h))).
+  exact (snd (@strength_natural _ _ _ P (I, x) (I, y) (id, g)
+                                (I, z) (I, w) (id, h))).
 Defined.
 Next Obligation.
-  exact (snd (@strength_id_left _ _ _ P (I, X))).
+  exact (snd (@strength_id_left _ _ _ P (I, x))).
 Qed.
 Next Obligation.
   pose proof (@unit_left C H I) as X0.
   pose proof (snd (@strength_natural _ _ _ P
-                     (I, X) (I, X) (id[I], id[X])
-                     (I, Y ⨂ Z)%object (I ⨂ I, Y ⨂ Z)%object
-                     (from X0, id[Y ⨂ Z]))) as X1.
+                     (I, x) (I, x) (id[I], id[x])
+                     (I, y ⨂ z)%object (I ⨂ I, y ⨂ z)%object
+                     (from X0, id[y ⨂ z]))) as X1.
   simpl in X1.
   rewrite bimap_id_id in X1.
   rewrite !fmap_id in X1.
@@ -99,9 +99,9 @@ Next Obligation.
   rewrite id_left, !id_right in X1.
   rewrites.
   pose proof (snd (@strength_natural _ _ _ P
-                     (I, X ⨂ Y)%object (I ⨂ I, X ⨂ Y)%object
-                     (from X0, id[X ⨂ Y])
-                     (I, Z) (I, Z) (id[I], id[Z]))) as X1.
+                     (I, x ⨂ y)%object (I ⨂ I, x ⨂ y)%object
+                     (from X0, id[x ⨂ y])
+                     (I, z) (I, z) (id[I], id[z]))) as X1.
   simpl in X1.
   rewrite bimap_id_id in X1.
   rewrite !fmap_id in X1.
@@ -109,7 +109,7 @@ Next Obligation.
   rewrite bimap_id_id in X1.
   rewrite id_left, !id_right in X1.
   rewrites.
-  exact (snd (@strength_assoc _ _ _ P (I, X) (I, Y) (I, Z))).
+  exact (snd (@strength_assoc _ _ _ P (I, x) (I, y) (I, z))).
 Qed.
 
 End ProductFunctorStrong.

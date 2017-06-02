@@ -15,39 +15,39 @@ Context {D : Category}.
 
 Program Definition Coproduct : Category := {|
   ob      := C + D;
-  hom     := fun X Y =>
-               match X return Type with
-               | Datatypes.inl X =>
-                 match Y with
-                 | Datatypes.inl Y => X ~> Y
+  hom     := fun x y =>
+               match x return Type with
+               | Datatypes.inl x =>
+                 match y with
+                 | Datatypes.inl y => x ~> y
                  | Datatypes.inr _ => False
                  end
-               | Datatypes.inr X =>
-                 match Y with
+               | Datatypes.inr x =>
+                 match y with
                  | Datatypes.inl _ => False
-                 | Datatypes.inr Y => X ~> Y
+                 | Datatypes.inr y => x ~> y
                  end
                end;
-  homset  := fun X Y => {| equiv := fun f g => _ |};
-  id      := fun X =>
-               match X with
-               | Datatypes.inl X => id
-               | Datatypes.inr X => id
+  homset  := fun x y => {| equiv := fun f g => _ |};
+  id      := fun x =>
+               match x with
+               | Datatypes.inl x => id
+               | Datatypes.inr x => id
                end;
   compose := fun _ _ _ f g => _
 |}.
 Next Obligation.
-  destruct X.
-    destruct Y.
+  destruct x.
+    destruct y.
       exact (f ≈ g).
     contradiction.
-  destruct Y.
+  destruct y.
     contradiction.
   exact (f ≈ g).
 Defined.
 Next Obligation.
   equivalence;
-  destruct X, Y; simpl; intuition;
+  destruct x, y; simpl; intuition;
   unfold Coproduct_obligation_1 in *;
   intuition.
 Qed.
@@ -56,31 +56,31 @@ Next Obligation.
 Defined.
 Next Obligation.
   proper.
-  destruct X, Y, Z;
+  destruct x, y, z;
   unfold Coproduct_obligation_1 in *;
   unfold Coproduct_obligation_3 in *;
   intuition.
 Qed.
 Next Obligation.
-  destruct X, Y;
+  destruct x, y;
   unfold Coproduct_obligation_1 in *;
   unfold Coproduct_obligation_3 in *;
   intuition; cat.
 Qed.
 Next Obligation.
-  destruct X, Y;
+  destruct x, y;
   unfold Coproduct_obligation_1 in *;
   unfold Coproduct_obligation_3 in *;
   intuition; cat.
 Qed.
 Next Obligation.
-  destruct X, Y, Z, W;
+  destruct x, y, z, w;
   unfold Coproduct_obligation_1 in *;
   unfold Coproduct_obligation_3 in *;
   intuition; cat.
 Qed.
 Next Obligation.
-  destruct X, Y, Z, W;
+  destruct x, y, z, w;
   unfold Coproduct_obligation_1 in *;
   unfold Coproduct_obligation_3 in *;
   intuition; cat.

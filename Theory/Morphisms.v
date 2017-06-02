@@ -14,71 +14,71 @@ Context {C : Category}.
 
 Open Scope type_scope.
 
-Class Idempotent `(f : X ~> X) := {
+Class Idempotent `(f : x ~> x) := {
   idem : f ∘ f ≈ f
 }.
 
-Class Involutive `(f : X ~> X) := {
+Class Involutive `(f : x ~> x) := {
   invol : f ∘ f ≈ id
 }.
 
-Lemma flip_invol {X Y} (f h : X ~> Y) (g : Y ~> Y) `{@Involutive _ g} :
+Lemma flip_invol {x y} (f h : x ~> y) (g : y ~> y) `{@Involutive _ g} :
   f ≈ g ∘ h ↔ g ∘ f ≈ h.
 Proof.
   split; intros.
-  rewrite X0, comp_assoc, invol; cat.
-  rewrite <- X0, comp_assoc, invol; cat.
+  rewrite X, comp_assoc, invol; cat.
+  rewrite <- X, comp_assoc, invol; cat.
 Qed.
 
-Class Section `(f : X ~> Y) := {
-  section : Y ~> X;
+Class Section `(f : x ~> y) := {
+  section : y ~> x;
   section_comp : section ∘ f ≈ id
 }.
 
-Class Retraction `(f : X ~> Y) := {
-  retract : Y ~> X;
+Class Retraction `(f : x ~> y) := {
+  retract : y ~> x;
   retract_comp : f ∘ retract ≈ id
 }.
 
-Class SplitIdempotent {X Y : C} := {
-  split_idem_retract := Y;
+Class SplitIdempotent {x y : C} := {
+  split_idem_retract := y;
 
-  split_idem       : X ~> X;
-  split_idem_r     : X ~> split_idem_retract;
-  split_idem_s     : split_idem_retract ~> X;
+  split_idem       : x ~> x;
+  split_idem_r     : x ~> split_idem_retract;
+  split_idem_s     : split_idem_retract ~> x;
   split_idem_law_1 : split_idem_s ∘ split_idem_r ≈ split_idem;
   split_idem_law_2 : split_idem_r ∘ split_idem_s ≈ id
 }.
 
-Class Epic {X Y} (f : X ~> Y) := {
-  epic : ∀ Z (g1 g2 : Y ~> Z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2
+Class Epic {x y} (f : x ~> y) := {
+  epic : ∀ z (g1 g2 : y ~> z), g1 ∘ f ≈ g2 ∘ f → g1 ≈ g2
 }.
 
-Class Monic {X Y} (f : X ~> Y) := {
-  monic : ∀ Z (g1 g2 : Z ~> X), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2
+Class Monic {x y} (f : x ~> y) := {
+  monic : ∀ z (g1 g2 : z ~> x), f ∘ g1 ≈ f ∘ g2 → g1 ≈ g2
 }.
 
-Definition Bimorphic `(f : X ~> Y) := (Epic f * Monic f)%type.
-Definition SplitEpi  `(f : X ~> Y) := Retraction f.
-Definition SplitMono `(f : X ~> Y) := Section f.
+Definition Bimorphic `(f : x ~> y) := (Epic f * Monic f)%type.
+Definition SplitEpi  `(f : x ~> y) := Retraction f.
+Definition SplitMono `(f : x ~> y) := Section f.
 
-Corollary id_idem : ∀ X, Idempotent (id (A := X)).
+Corollary id_idem : ∀ x, Idempotent (id (x:=x)).
 Proof. intros; constructor; cat. Qed.
 
-Corollary id_invol : ∀ X, Involutive (id (A := X)).
+Corollary id_invol : ∀ x, Involutive (id (x:=x)).
 Proof. intros; constructor; cat. Qed.
 
-Corollary id_monic : ∀ X, Monic (id (A := X)).
+Corollary id_monic : ∀ x, Monic (id (x:=x)).
 Proof.
   intros; constructor; intros.
-  rewrite !id_left in X0.
+  rewrite !id_left in X.
   assumption.
 Qed.
 
-Corollary id_epic : ∀ X, Epic (id (A := X)).
+Corollary id_epic : ∀ x, Epic (id (x:=x)).
 Proof.
   intros; constructor; intros.
-  rewrite !id_right in X0.
+  rewrite !id_right in X.
   assumption.
 Qed.
 
@@ -88,8 +88,8 @@ Hint Unfold SplitMono.
 
 Section Lemmas.
 
-Variables X Y : C.
-Variable f : X ~> Y.
+Variables x y : C.
+Variable f : x ~> y.
 
 Ltac reassociate_left  := repeat (rewrite <- comp_assoc); try f_equiv; cat.
 Ltac reassociate_right := repeat (rewrite comp_assoc); try f_equiv; cat.
@@ -98,7 +98,7 @@ Lemma retractions_are_epic : Retraction f → Epic f.
 Proof.
   autounfold.
   intros.
-  destruct X0.
+  destruct X.
   constructor; intros.
   rewrite <- id_right.
   symmetry.
@@ -111,7 +111,7 @@ Lemma sections_are_monic : Section f → Monic f.
 Proof.
   autounfold.
   intros.
-  destruct X0.
+  destruct X.
   constructor; intros.
   rewrite <- id_left.
   symmetry.
@@ -125,8 +125,8 @@ End Lemmas.
 Ltac reassociate_left  := repeat (rewrite <- comp_assoc); cat.
 Ltac reassociate_right := repeat (rewrite comp_assoc); cat.
 
-Definition epi_compose {X Y Z : C}
-           `(ef : @Epic Y Z f) `(eg : @Epic X Y g) : Epic (f ∘ g).
+Definition epi_compose {x y z : C}
+           `(ef : @Epic y z f) `(eg : @Epic x y g) : Epic (f ∘ g).
 Proof.
   autounfold; intros.
   destruct ef, eg.
@@ -135,8 +135,8 @@ Proof.
   reassociate_left.
 Qed.
 
-Definition monic_compose {X Y Z : C}
-           `(ef : @Monic Y Z f) `(eg : @Monic X Y g) : Monic (f ∘ g).
+Definition monic_compose {x y z : C}
+           `(ef : @Monic y z f) `(eg : @Monic x y g) : Monic (f ∘ g).
 Proof.
   autounfold; intros.
   destruct ef, eg.
@@ -151,8 +151,8 @@ Hint Unfold Bimorphic.
 Hint Unfold SplitEpi.
 Hint Unfold SplitMono.
 
-Definition flip_Section {C : Category} `(f : X ~> Y)
-           (s : @Section C X Y f) : @Retraction C Y X section.
+Definition flip_Section {C : Category} `(f : x ~> y)
+           (s : @Section C x y f) : @Retraction C y x section.
 Proof.
   autounfold.
   destruct s.
@@ -160,8 +160,8 @@ Proof.
   assumption.
 Qed.
 
-Definition flip_Retraction {C : Category} `(f : X ~> Y)
-           (s : @Retraction C X Y f) : @Section C Y X retract.
+Definition flip_Retraction {C : Category} `(f : x ~> y)
+           (s : @Retraction C x y f) : @Section C y x retract.
 Proof.
   autounfold.
   destruct s.

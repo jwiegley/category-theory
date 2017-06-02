@@ -26,7 +26,7 @@ Proof.
     + reflexivity.
   - transform; simpl; intros;
     destruct X; subst.
-    + apply x.
+    + apply x0.
     + cat; apply ump_cones.
     + cat; symmetry; apply ump_cones.
 Qed.

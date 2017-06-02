@@ -159,14 +159,14 @@ Next Obligation.
   equivalence; simpl in *; subst.
 Qed.
 Next Obligation.                (* id *)
-  destruct A as [i [Hil Hir]].
+  destruct x as [i [Hil Hir]].
   exists i.
   split; apply composite_defined with (h:=i); auto.
 Defined.
 Next Obligation.                (* compose *)
-  destruct A as [x x_id];
-  destruct B as [y y_id];
-  destruct C as [z z_id];
+  destruct x as [x x_id];
+  destruct y as [y y_id];
+  destruct z as [z z_id];
   destruct f as [f [fl fr]];
   destruct g as [g [gl gr]]; simpl in *.
   pose proof (identity_composition_between M f g y y_id fl gr).
@@ -178,12 +178,12 @@ Defined.
 Next Obligation.
   proper.
   unfold FromArrows_obligation_3; simpl.
-  destruct x, x0; simpl in *; subst;
+  destruct e3, e4, e5; simpl in *; subst;
   destruct (defined_composite _ _ _); reflexivity.
 Qed.
 Next Obligation.
   unfold FromArrows_obligation_3; simpl.
-  destruct X, Y, f, i, i0, p; simpl in *; subst.
+  destruct x, y, f, i, i0, p; simpl in *; subst.
   destruct (defined_composite _ _ _).
   pose proof (c2 x1).
   unfold composite in c3, H.
@@ -191,7 +191,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   unfold FromArrows_obligation_3; simpl.
-  destruct X, Y, f, i, i0, p; simpl in *; subst.
+  destruct x, y, f, i, i0, p; simpl in *; subst.
   destruct (defined_composite _ _ _).
   pose proof (c x1).
   unfold composite in c3, H.
@@ -199,10 +199,10 @@ Next Obligation.
 Qed.
 Next Obligation.
   unfold FromArrows_obligation_3; simpl.
-  destruct X as [x [xl_id xr_id]];
-  destruct Y as [y [yl_id yr_id]];
-  destruct Z as [z [zl_id zr_id]];
-  destruct W as [w [wl_id wr_id]];
+  destruct x as [x [xl_id xr_id]];
+  destruct y as [y [yl_id yr_id]];
+  destruct z as [z [zl_id zr_id]];
+  destruct w as [w [wl_id wr_id]];
   destruct f as [f [fl fr]];
   destruct g as [g [gl gr]];
   destruct h as [h [hl hr]];

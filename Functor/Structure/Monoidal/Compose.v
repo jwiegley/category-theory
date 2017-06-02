@@ -143,8 +143,8 @@ Next Obligation.
   apply fmap_id.
 Qed.
 Next Obligation.
-  transitivity (F (I ⨂ G X))%object.
-    transitivity (F (G X)).
+  transitivity (F (I ⨂ G x))%object.
+    transitivity (F (G x)).
       apply unit_left.
     apply fmap_iso.
     symmetry.
@@ -153,8 +153,8 @@ Next Obligation.
   apply pure_iso_left.
 Qed.
 Next Obligation.
-  transitivity (F (G X ⨂ I))%object.
-    transitivity (F (G X))%object.
+  transitivity (F (G x ⨂ I))%object.
+    transitivity (F (G x))%object.
       apply unit_right.
     apply fmap_iso.
     symmetry.
@@ -163,10 +163,10 @@ Next Obligation.
   apply pure_iso_right.
 Qed.
 Next Obligation.
-  transitivity (F (G X ⨂ G Y ⨂ G Z))%object.
+  transitivity (F (G x ⨂ G y ⨂ G z))%object.
     apply ap_iso_assoc.
   apply fmap_iso.
-  transitivity ((G X ⨂ G Y) ⨂ G Z)%object.
+  transitivity ((G x ⨂ G y) ⨂ G z)%object.
     symmetry.
     apply tensor_assoc.
   apply ap_iso_assoc.
@@ -180,10 +180,9 @@ Next Obligation.
   rewrite <- fmap_comp.
   rewrite <- !comp_assoc.
   apply compose_respects; [reflexivity|].
-  pose proof (naturality[to ap_functor_iso] (I, G X) (G I, G X)
-                        (to pure_iso, id[G X])).
-  simpl in X0.
-  rewrite !bimap_fmap in X0.
+  spose (naturality[to ap_functor_iso] (I, G x) (G I, G x)
+                   (to pure_iso, id[G x])) as X.
+  rewrite !bimap_fmap in X.
   rewrite comp_assoc.
   rewrites.
   rewrite <- comp_assoc.
@@ -202,10 +201,9 @@ Next Obligation.
   rewrite <- fmap_comp.
   rewrite <- !comp_assoc.
   apply compose_respects; [reflexivity|].
-  pose proof (naturality[to ap_functor_iso] (G X, I) (G X, G I)
-                        (id[G X], to pure_iso)).
-  simpl in X0.
-  rewrite !bimap_fmap in X0.
+  spose (naturality[to ap_functor_iso] (G x, I) (G x, G I)
+                   (id[G x], to pure_iso)) as X.
+  rewrite !bimap_fmap in X.
   rewrite comp_assoc.
   rewrites.
   rewrite <- comp_assoc.
@@ -216,11 +214,10 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  pose proof (naturality[to (ap_functor_iso[M])]
-                        (G X ⨂ G Y, G Z)%object
-                        (G (X ⨂ Y), G Z)%object
-                        (to ap_functor_iso (X, Y), id[G Z])) as XM;
-  simpl in XM.
+  spose (naturality[to (ap_functor_iso[M])]
+                   (G x ⨂ G y, G z)%object
+                   (G (x ⨂ y), G z)%object
+                   (to ap_functor_iso (x, y), id[G z])) as XM.
   rewrite !bimap_fmap in XM.
   rewrite fmap_id in XM.
   rewrite bimap_comp_id_right.
@@ -230,7 +227,7 @@ Next Obligation.
 
   rewrite !comp_assoc.
   rewrite <- !fmap_comp.
-  pose proof (@monoidal_assoc _ _ _ _ G _ X Y Z) as XG; simpl in XG.
+  spose (@monoidal_assoc _ _ _ _ G _ x y z) as XG.
   rewrites.
 
   rewrite !fmap_comp.
@@ -238,7 +235,7 @@ Next Obligation.
   apply compose_respects; [reflexivity|].
   rewrite !comp_assoc.
 
-  pose proof (@monoidal_assoc _ _ _ _ F _ (G X) (G Y) (G Z)) as XF; simpl in XF.
+  spose (@monoidal_assoc _ _ _ _ F _ (G x) (G y) (G z)) as XF.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ _ (bimap _ _)).
   rewrites.
@@ -247,12 +244,10 @@ Next Obligation.
   apply compose_respects; [|reflexivity].
   apply compose_respects; [|reflexivity].
 
-  pose proof
-       (naturality[to (ap_functor_iso[M])]
-                  (G X, G Y ⨂ G Z)%object
-                  (G X, G (Y ⨂ Z))%object
-                  (id[G X], to ap_functor_iso[N] (Y, Z))) as XM;
-  simpl in XM.
+  spose (naturality[to (ap_functor_iso[M])]
+                   (G x, G y ⨂ G z)%object
+                   (G x, G (y ⨂ z))%object
+                   (id[G x], to ap_functor_iso[N] (y, z))) as XM.
   rewrite !bimap_fmap in XM.
   rewrite fmap_id in XM.
   apply XM.
@@ -274,35 +269,31 @@ Next Obligation.
   simpl.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-  rewrite (@naturality
-             _ _ _ _ (@ap_functor_nat _ _ _ _ _ N)
-             (o1, o2) (o, o0) (h, h0)).
+  rewrite (@naturality _ _ _ _ (@ap_functor_nat _ _ _ _ _ N)
+                       (o1, o2) (o, o0) (h, h0)).
   simpl.
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
-  pose proof (@naturality
-                _ _ _ _ (@ap_functor_nat _ _ _ _ _ M)
-                (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
+  spose (@naturality _ _ _ _ (@ap_functor_nat _ _ _ _ _ M)
+                     (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   rewrites; reflexivity.
 Qed.
 Next Obligation.
   simpl.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
-  rewrite (@naturality
-             _ _ _ _ (@ap_functor_nat _ _ _ _ _ N)
-             (o1, o2) (o, o0) (h, h0)).
+  rewrite (@naturality _ _ _ _ (@ap_functor_nat _ _ _ _ _ N)
+                       (o1, o2) (o, o0) (h, h0)).
   simpl.
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
-  pose proof (@naturality
-                _ _ _ _ (@ap_functor_nat _ _ _ _ _ M)
-                (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
+  spose (@naturality _ _ _ _ (@ap_functor_nat _ _ _ _ _ M)
+                     (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
   rewrites; reflexivity.
 Qed.
 Next Obligation.
-  transitivity (F (I ⨂ G X))%object.
-    transitivity (F (G X)).
+  transitivity (F (I ⨂ G x))%object.
+    transitivity (F (G x)).
       apply unit_left.
     apply fmap_iso.
     symmetry.
@@ -311,8 +302,8 @@ Next Obligation.
   apply pure_left.
 Qed.
 Next Obligation.
-  transitivity (F (G X ⨂ I))%object.
-    transitivity (F (G X)).
+  transitivity (F (G x ⨂ I))%object.
+    transitivity (F (G x)).
       apply unit_right.
     apply fmap_iso.
     symmetry.
@@ -321,10 +312,10 @@ Next Obligation.
   apply pure_right.
 Qed.
 Next Obligation.
-  transitivity (F (G X ⨂ G Y ⨂ G Z))%object.
+  transitivity (F (G x ⨂ G y ⨂ G z))%object.
     apply ap_assoc.
   apply fmap_iso.
-  transitivity ((G X ⨂ G Y) ⨂ G Z)%object.
+  transitivity ((G x ⨂ G y) ⨂ G z)%object.
     symmetry.
     apply tensor_assoc.
   apply ap_assoc.
@@ -338,10 +329,9 @@ Next Obligation.
   rewrite <- fmap_comp.
   rewrite <- !comp_assoc.
   apply compose_respects; [reflexivity|].
-  pose proof (naturality[ap_functor_nat] (I, G X) (G I, G X)
-                        (lax_pure, id[G X])).
-  simpl in X0.
-  rewrite !bimap_fmap in X0.
+  spose (naturality[ap_functor_nat] (I, G x) (G I, G x)
+                   (lax_pure, id[G x])) as X.
+  rewrite !bimap_fmap in X.
   rewrite comp_assoc.
   rewrites.
   rewrite <- comp_assoc.
@@ -360,10 +350,9 @@ Next Obligation.
   rewrite <- fmap_comp.
   rewrite <- !comp_assoc.
   apply compose_respects; [reflexivity|].
-  pose proof (naturality[ap_functor_nat] (G X, I) (G X, G I)
-                        (id[G X], lax_pure)).
-  simpl in X0.
-  rewrite !bimap_fmap in X0.
+  spose (naturality[ap_functor_nat] (G x, I) (G x, G I)
+                   (id[G x], lax_pure)) as X.
+  rewrite !bimap_fmap in X.
   rewrite comp_assoc.
   rewrites.
   rewrite <- comp_assoc.
@@ -374,11 +363,10 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  pose proof (naturality[ap_functor_nat[M]]
-                        (G X ⨂ G Y, G Z)%object
-                        (G (X ⨂ Y), G Z)%object
-                        (ap_functor_nat (X, Y), id[G Z])) as XM;
-  simpl in XM.
+  spose (naturality[ap_functor_nat[M]]
+                   (G x ⨂ G y, G z)%object
+                   (G (x ⨂ y), G z)%object
+                   (ap_functor_nat (x, y), id[G z])) as XM.
   rewrite !bimap_fmap in XM.
   rewrite fmap_id in XM.
   rewrite bimap_comp_id_right.
@@ -388,7 +376,7 @@ Next Obligation.
 
   rewrite !comp_assoc.
   rewrite <- !fmap_comp.
-  pose proof (@lax_monoidal_assoc _ _ _ _ G _ X Y Z) as XG; simpl in XG.
+  spose (@lax_monoidal_assoc _ _ _ _ G _ x y z) as XG.
   rewrites.
 
   rewrite !fmap_comp.
@@ -396,8 +384,7 @@ Next Obligation.
   apply compose_respects; [reflexivity|].
   rewrite !comp_assoc.
 
-  pose proof (@lax_monoidal_assoc _ _ _ _ F _ (G X) (G Y) (G Z)) as XF;
-  simpl in XF.
+  spose (@lax_monoidal_assoc _ _ _ _ F _ (G x) (G y) (G z)) as XF.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ _ (bimap _ _)).
   rewrites.
@@ -406,12 +393,10 @@ Next Obligation.
   apply compose_respects; [|reflexivity].
   apply compose_respects; [|reflexivity].
 
-  pose proof
-       (naturality[ap_functor_nat[M]]
-                  (G X, G Y ⨂ G Z)%object
-                  (G X, G (Y ⨂ Z))%object
-                  (id[G X], ap_functor_nat[N] (Y, Z))) as XM;
-  simpl in XM.
+  spose (naturality[ap_functor_nat[M]]
+                   (G x, G y ⨂ G z)%object
+                   (G x, G (y ⨂ z))%object
+                   (id[G x], ap_functor_nat[N] (y, z))) as XM.
   rewrite !bimap_fmap in XM.
   rewrite fmap_id in XM.
   apply XM.

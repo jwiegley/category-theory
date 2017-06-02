@@ -40,10 +40,10 @@ Arguments ap   {F _ _ _} _ x.
 Coercion Applicative_Functor `{@Applicative F} : Coq ⟶ Coq := F.
 
 Notation "pure[ F ]" := (@pure F _ _) (at level 19, F at next level).
-Notation "pure[ F G ]" := (@pure (fun X => F (G X)) _ _) (at level 9).
+Notation "pure[ F G ]" := (@pure (fun x => F (G x)) _ _) (at level 9).
 
 Notation "ap[ F ]" := (@ap F _ _ _) (at level 9).
-Notation "ap[ F G ]" := (@ap (fun X => F (G X)) _ _ _) (at level 9).
+Notation "ap[ F G ]" := (@ap (fun x => F (G x)) _ _ _) (at level 9).
 
 Infix "<*>" := ap (at level 29, left associativity).
 Notation "x <**> F" := (ap F x) (at level 29, left associativity).
@@ -75,8 +75,8 @@ Context {J : @Applicative F}.
 (*
 Program Definition Coq_Product_Monoidal : @Monoidal Coq := {|
   tensor :=
-    {| fobj := fun X : Type =>
-         {| fobj := fun Y : Type => X * Y
+    {| fobj := fun x : Type =>
+         {| fobj := fun y : Type => x * y
           ; fmap := fun _ _ f x => (fst x, f (snd x)) |}
      ; fmap := fun _ _ f =>
                  {| transform := _ |} |};
@@ -114,8 +114,8 @@ Program Definition applicative_is_strong :
 (*
 Program Definition Coq_Product_Monoidal_F : @Monoidal Coq := {|
   tensor :=
-    {| fobj := fun X : Type =>
-         {| fobj := fun Y : Type => F X * F Y
+    {| fobj := fun x : Type =>
+         {| fobj := fun y : Type => F x * F y
           ; fmap := fun _ _ f x => (fst x, fmap[F] f (snd x)) |}
      ; fmap := fun _ _ f =>
                  {| transform := _ |} |};
@@ -124,7 +124,7 @@ Program Definition Coq_Product_Monoidal_F : @Monoidal Coq := {|
 Next Obligation.
   proper; simpl.
   f_equiv.
-  pose proof (@fmap_respects _ _ F X0 Y x y); simpl in X1.
+  pose proof (@fmap_respects _ _ F X0 y x y); simpl in X1.
   apply X1, H.
 Qed.
 Next Obligation.
@@ -136,7 +136,7 @@ Qed.
 Next Obligation.
   proper; simpl.
   f_equiv.
-  pose proof (@fmap_comp _ _ F X0 Y Z); simpl in X1.
+  pose proof (@fmap_comp _ _ F x0 y z); simpl in X1.
   apply X1.
 Qed.
 Next Obligation.

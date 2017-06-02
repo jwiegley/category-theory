@@ -30,23 +30,23 @@ Class Category := {
   hom : ob -> ob -> uhom where "a ~> b" := (hom a b);
   homset :> ∀ X Y, Setoid (X ~> Y);
 
-  id {A} : A ~> A;
-  compose {A B C} (f: B ~> C) (g : A ~> B) : A ~> C
+  id {x} : x ~> x;
+  compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z
     where "f ∘ g" := (compose f g);
 
-  compose_respects (X Y Z : ob) :>
-    Proper (equiv ==> equiv ==> equiv) (@compose X Y Z);
+  compose_respects (x y z : ob) :>
+    Proper (equiv ==> equiv ==> equiv) (@compose x y z);
 
-  dom {X Y} (f: X ~> Y) := X;
-  cod {X Y} (f: X ~> Y) := Y;
+  dom {x y} (f: x ~> y) := x;
+  cod {x y} (f: x ~> y) := y;
 
-  id_left  {X Y} (f : X ~> Y) : id ∘ f ≈ f;
-  id_right {X Y} (f : X ~> Y) : f ∘ id ≈ f;
+  id_left  {x y} (f : x ~> y) : id ∘ f ≈ f;
+  id_right {x y} (f : x ~> y) : f ∘ id ≈ f;
 
-  comp_assoc {X Y Z W} (f : Z ~> W) (g : Y ~> Z) (h : X ~> Y) :
+  comp_assoc {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) :
     f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h;
 
-  comp_assoc_sym {X Y Z W} (f : Z ~> W) (g : Y ~> Z) (h : X ~> Y) :
+  comp_assoc_sym {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) :
     (f ∘ g) ∘ h ≈ f ∘ (g ∘ h)
 }.
 
@@ -65,18 +65,18 @@ Arguments cod {_%category _%object _%object} _%morphism.
 Notation "ob[ C ]" := (@ob C%category)
   (at level 0, format "ob[ C ]") : object_scope.
 
-Notation "X ~> Y" := (@hom _%category X%object Y%object)
+Notation "x ~> y" := (@hom _%category x%object y%object)
   (at level 90, right associativity) : homset_scope.
-Notation "X ~{ C }~> Y" := (@hom C%category X%object Y%object)
+Notation "x ~{ C }~> y" := (@hom C%category x%object y%object)
   (at level 90) : homset_scope.
 
-Notation "X <~ Y" := (@hom _%category Y%object X%object)
+Notation "x <~ y" := (@hom _%category y%object x%object)
   (at level 90, right associativity, only parsing) : homset_scope.
-Notation "X <~{ C }~ Y" := (@hom C%category Y%object X%object)
+Notation "x <~{ C }~ y" := (@hom C%category y%object x%object)
   (at level 90, only parsing) : homset_scope.
 
-Notation "id[ X ]" := (@id _%category X%object)
-  (at level 9, format "id[ X ]") : morphism_scope.
+Notation "id[ x ]" := (@id _%category x%object)
+  (at level 9, format "id[ x ]") : morphism_scope.
 
 Notation "f ∘ g" :=
   (@compose _%category _%object _%object _%object f%morphism g%morphism)
@@ -114,17 +114,17 @@ Section Category.
 
 Context {C : Category}.
 
-Corollary dom_id {X : C} : dom (@id C X) = X.
+Corollary dom_id {x : C} : dom (@id C x) = x.
 Proof. auto. Qed.
 
-Corollary cod_id {X : C} : dom (@id C X) = X.
+Corollary cod_id {x : C} : dom (@id C x) = x.
 Proof. auto. Qed.
 
-Corollary dom_comp {X Y Z : C} (g : Y ~> Z) (f : X ~> Y) :
+Corollary dom_comp {x y z : C} (g : y ~> z) (f : x ~> y) :
   dom g = cod f ↔ dom (g ∘ f) = dom f.
 Proof. split; auto. Qed.
 
-Corollary cod_comp {X Y Z : C} (g : Y ~> Z) (f : X ~> Y) :
+Corollary cod_comp {x y z : C} (g : y ~> z) (f : x ~> y) :
   dom g = cod f ↔ cod (g ∘ f) = cod g.
 Proof. split; auto. Qed.
 
@@ -140,6 +140,8 @@ Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := {
   PreOrder_Reflexive  := fun _ => id;
   PreOrder_Transitive := fun _ _ _ f g => g ∘ f
 }.
+
+(* These are tactics that rely on the categorical structure. *)
 
 Ltac reassoc f :=
   repeat match goal with

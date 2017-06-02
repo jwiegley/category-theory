@@ -14,9 +14,9 @@ Unset Transparent Obligations.
 Class Wedge `(F : C^op ∏ C ⟶ D) := {
   wedge : D;
 
-  wedge_map {X : C} : wedge ~{D}~> F (X, X);
+  wedge_map {x : C} : wedge ~{D}~> F (x, x);
 
-  ump_wedges {X Y : C} (f : X ~{C}~> Y) :
+  ump_wedges {x y : C} (f : x ~{C}~> y) :
     bimap[F] id f ∘ wedge_map ≈ bimap[F] (op f) id ∘ wedge_map
 }.
 

@@ -72,21 +72,21 @@ Unset Transparent Obligations.
    the same cospan X → Z ← Y, there is a unique isomorphism between A and B
    respecting the pullback structure." *)
 
-Record Pullback {C : Category} {X Y Z : C} (f : X ~> Z) (g : Y ~> Z) := {
+Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := {
   pullback_obj : C;
-  pullback_fst : pullback_obj ~> X;
-  pullback_snd : pullback_obj ~> Y;
+  pullback_fst : pullback_obj ~> x;
+  pullback_snd : pullback_obj ~> y;
 
   pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd;
 
-  ump_pullbacks : ∀ Q (q1 : Q ~> X) (q2 : Q ~> Y), f ∘ q1 ≈ g ∘ q2
+  ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2
     -> ∃! u : Q ~> pullback_obj,
          (pullback_fst ∘ u ≈ q1) * (pullback_snd ∘ u ≈ q2)
 }.
 
 Require Import Category.Construction.Opposite.
 
-Definition Pushout {C : Category} {X Y Z : C^op} (f : X ~> Z) (g : Y ~> Z) :=
+Definition Pushout {C : Category} {x y z : C^op} (f : x ~> z) (g : y ~> z) :=
   Pullback f g.
 
 (* jww (2017-06-01): TODO *)

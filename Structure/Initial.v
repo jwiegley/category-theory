@@ -24,9 +24,9 @@ Section Initial_.
 Context `{I : @Initial C}.
 
 Definition Zero : C := @One _ I.
-Definition zero {A} : Zero ~{C}~> A := @one _ I _.
+Definition zero {x} : Zero ~{C}~> x := @one _ I _.
 
-Definition zero_unique {A} (f g : Zero ~{C}~> A) : f ≈ g :=
+Definition zero_unique {x} (f g : Zero ~{C}~> x) : f ≈ g :=
   @one_unique _ I _ _ _.
 
 End Initial_.
@@ -38,7 +38,7 @@ Notation "zero[ C ]" := (@zero _ _ C)
 
 Hint Resolve @zero_unique : category_laws.
 
-Corollary zero_comp `{T : @Initial C} {A B : C} {f : A ~> B} :
+Corollary zero_comp `{T : @Initial C} {x y : C} {f : x ~> y} :
   f ∘ zero ≈ zero.
 Proof. apply (@one_comp _ T). Qed.
 

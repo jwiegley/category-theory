@@ -20,12 +20,12 @@ Context {C : Category}.
    is terminal. *)
 
 Class SemicartesianMonoidal `{@Monoidal C} := {
-  eliminate {X} : X ~> I;
+  eliminate {x} : x ~> I;
 
-  unit_terminal {X} (f g : X ~> I) : f ≈ g;
+  unit_terminal {x} (f g : x ~> I) : f ≈ g;
 
-  proj_left  {X Y} : X ⨂ Y ~> X := unit_right ∘ id ⨂ eliminate;
-  proj_right {X Y} : X ⨂ Y ~> Y := unit_left  ∘ eliminate ⨂ id
+  proj_left  {x y} : x ⨂ y ~> x := unit_right ∘ id ⨂ eliminate;
+  proj_right {x y} : x ⨂ y ~> y := unit_left  ∘ eliminate ⨂ id
 }.
 
 Corollary eliminate_comp `{@Monoidal C} `{@SemicartesianMonoidal _} `{f : A ~> B} :
@@ -54,8 +54,8 @@ Import EqNotations.
 Program Definition Terminal_SemicartesianMonoidal `{M : @Monoidal C}
         `{T : @Terminal C} (Heq : One = @I C M) :
   @SemicartesianMonoidal C _ := {|
-  eliminate := fun X => rew Heq in one;
-  unit_terminal := fun X f g =>
+  eliminate := fun x => rew Heq in one;
+  unit_terminal := fun x f g =>
     _ (one_unique (rew <- Heq in f) (rew <- Heq in g))
 |}.
 Next Obligation.

@@ -26,10 +26,10 @@ Program Instance fst_respects {A B} `{Setoid A} `{Setoid B} :
 Program Instance snd_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@snd A B).
 
-Corollary let_fst {X Y} (A : X * Y) : (let (x, _) := A in x) = fst A.
+Corollary let_fst {x y} (A : x * y) : (let (x, _) := A in x) = fst A.
 Proof. reflexivity. Qed.
 
-Corollary let_snd {X Y} (A : X * Y) : (let (_, y) := A in y) = snd A.
+Corollary let_snd {x y} (A : x * y) : (let (_, y) := A in y) = snd A.
 Proof. reflexivity. Qed.
 
 Program Instance sum_setoid {A B} `{Setoid A} `{Setoid B} :

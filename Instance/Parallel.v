@@ -69,7 +69,7 @@ Set Transparent Obligations.
 
 Program Definition Parallel : Category := {|
   ob  := ParObj;
-  hom := fun X Y => ∃ b : bool, ParHom b X Y;
+  hom := fun x y => ∃ b : bool, ParHom b x y;
   (* Any hom that typechecks is valid. *)
   homset := fun x y =>
     {| equiv := fun (f g : ∃ b : bool, ParHom b x y) => ``f = ``g |};
@@ -95,36 +95,36 @@ Next Obligation. intuition; discriminate. Qed.
 Next Obligation. intuition; discriminate. Qed.
 Next Obligation.
   proper.
-  destruct X, Y, Z; simpl in *; intuition.
+  destruct x, y, z; simpl in *; intuition.
 Defined.
 Next Obligation.
-  destruct X, Y; simpl in *;
+  destruct x, y; simpl in *;
   destruct f; intuition.
 Qed.
 Next Obligation.
-  destruct X, Y; simpl in *;
+  destruct x, y; simpl in *;
   destruct f; intuition.
 Qed.
 Next Obligation.
-  destruct X, Y, Z, W; simpl in *;
+  destruct x, y, z, w; simpl in *;
   destruct f; intuition.
 Qed.
 Next Obligation.
-  destruct X, Y, Z, W; simpl in *;
+  destruct x, y, z, w; simpl in *;
   destruct f; intuition.
 Qed.
 
 Require Import Category.Theory.Functor.
 
-Program Definition APair {C : Category} {X Y : C} (f g : X ~> Y) :
+Program Definition APair {C : Category} {x y : C} (f g : x ~> y) :
   Parallel ⟶ C := {|
-  fobj := fun x => match x with
-    | ParX => X
-    | ParY => Y
+  fobj := fun z => match z with
+    | ParX => x
+    | ParY => y
     end;
-  fmap := fun x y h => match x, y with
-    | ParX, ParX => id[X]
-    | ParY, ParY => id[Y]
+  fmap := fun z w h => match z, w with
+    | ParX, ParX => id[x]
+    | ParY, ParY => id[y]
     | ParX, ParY =>
       match ``h with
       | true  => f
@@ -133,10 +133,8 @@ Program Definition APair {C : Category} {X Y : C} (f g : X ~> Y) :
     | ParY, ParX => False_rect _ (ParHom_Y_X_absurd _ (projT2 h))
     end
 |}.
+Next Obligation. proper; reduce; simpl; intuition. Qed.
+Next Obligation. destruct x0; simpl; cat. Qed.
 Next Obligation.
-  proper; reduce; simpl in *; intuition.
-Qed.
-Next Obligation. destruct X0; simpl; cat. Qed.
-Next Obligation.
-  destruct X0, Y0, Z; simpl; auto with parallel_laws; cat.
+  destruct x0, y0, z; simpl; auto with parallel_laws; cat.
 Qed.

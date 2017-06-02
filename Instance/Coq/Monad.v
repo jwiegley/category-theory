@@ -136,7 +136,7 @@ Proof.
 Qed.
 
 Corollary join_fmap_ret_x : forall a x,
-  join (fmap (ret (a:=a)) x) = x.
+  join (fmap (ret (x:=a)) x) = x.
 Proof.
   intros.
   replace x with (id x) at 2; auto.

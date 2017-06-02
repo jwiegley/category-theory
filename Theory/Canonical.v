@@ -15,18 +15,18 @@ Unset Transparent Obligations.
    it is termed canonical. *)
 
 Class CanonicalMap {C : Category} (F : C -> C) : Type := {
-  map {A B} (f : A ~> B) : F A ~> F B;
+  map {x y} (f : x ~> y) : F x ~> F y;
 
   is_functor : C ⟶ C;
-  fobj_related {A} : F A ≅ is_functor A;
-  fmap_related {A B} (f : A ~> B) :
+  fobj_related {x} : F x ≅ is_functor x;
+  fmap_related {x y} (f : x ~> y) :
     map f ≈ from fobj_related ∘ fmap[is_functor] f ∘ to fobj_related
 }.
 
 Coercion is_functor : CanonicalMap >-> Functor.
 
 Program Instance Identity_CanonicalMap {C : Category} :
-  CanonicalMap (fun X => X) | 9 := {
+  CanonicalMap (fun x => x) | 9 := {
   map := fun _ _ f => f;
   is_functor := Id
 }.
@@ -38,14 +38,14 @@ Program Instance Functor_CanonicalMap {C : Category} {F : C ⟶ C} :
 }.
 
 Program Instance Functor_Eta_CanonicalMap {C : Category} {F : C ⟶ C} :
-  CanonicalMap (fun X => F X) := {
+  CanonicalMap (fun x => F x) := {
   map := fun _ _ f => fmap[F] f;
   is_functor := F
 }.
 
 Program Instance Functor_Map_CanonicalMap {C : Category}
         `{G : @CanonicalMap C P} {F : C ⟶ C} :
-  CanonicalMap (fun X => F (P X)) := {
+  CanonicalMap (fun x => F (P x)) := {
   map := fun _ _ f => fmap[F] (map f);
   is_functor := F ○ G
 }.

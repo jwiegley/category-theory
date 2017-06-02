@@ -36,9 +36,9 @@ Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) :
   (* Since there can be at most one arrow between any two objects, multiple
      arrows of the same type are equal. *)
   homset  := fun A B => {| Setoid.equiv := fun _ _ => True |};
-  id      := fun X => @reflexivity A R (@PreOrder_Reflexive A R P) X;
-  compose := fun X Y Z f g =>
-    @transitivity A R (@PreOrder_Transitive A R P) X Y Z g f
+  id      := fun x => @reflexivity A R (@PreOrder_Reflexive A R P) x;
+  compose := fun x y z f g =>
+    @transitivity A R (@PreOrder_Transitive A R P) x y z g f
 |}.
 
 (* The typical example found in Category Theory theories and lectures is ≤. *)

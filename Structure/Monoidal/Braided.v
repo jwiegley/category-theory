@@ -17,12 +17,12 @@ Section BraidedMonoidal.
 Context `{@Monoidal C}.
 
 Class BraidedMonoidal := {
-  braid {X Y} : X ⨂ Y ≅ Y ⨂ X;
+  braid {x y} : x ⨂ y ≅ y ⨂ x;
   braid_natural : natural (@braid);
 
-  hexagon_identity {X Y Z} :
+  hexagon_identity {x y z} :
     tensor_assoc ∘ braid ∘ tensor_assoc
-      << (X ⨂ Y) ⨂ Z ~~> Y ⨂ (Z ⨂ X) >>
+      << (x ⨂ y) ⨂ z ~~> y ⨂ (z ⨂ x) >>
     id ⨂ braid ∘ tensor_assoc ∘ braid ⨂ id
 }.
 

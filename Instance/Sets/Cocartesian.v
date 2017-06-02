@@ -12,20 +12,20 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Instance Sets_Cocartesian : @Cocartesian Sets := {
-  Prod := fun X Y =>
-            {| carrier := (carrier X + carrier Y)%type
+  Prod := fun x y =>
+            {| carrier := (carrier x + carrier y)%type
              ; is_setoid :=
-                 {| equiv := fun x y =>
-                      match x with
-                      | Datatypes.inl x =>
-                        match y with
-                        | Datatypes.inl y => @equiv _ X x y
+                 {| equiv := fun z w =>
+                      match z with
+                      | Datatypes.inl z =>
+                        match w with
+                        | Datatypes.inl w => @equiv _ x z w
                         | Datatypes.inr _ => False
                         end
-                      | Datatypes.inr x =>
-                        match y with
+                      | Datatypes.inr z =>
+                        match w with
                         | Datatypes.inl _ => False
-                        | Datatypes.inr y => @equiv _ Y x y
+                        | Datatypes.inr w => @equiv _ y z w
                         end
                       end
                   ; setoid_equiv := _
@@ -48,7 +48,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   simplify.
-  - specialize (X0 (Datatypes.inl x)); auto.
-  - specialize (X0 (Datatypes.inr x)); auto.
-  - destruct x; auto.
+  - specialize (X (Datatypes.inl x0)); auto.
+  - specialize (X (Datatypes.inr x0)); auto.
+  - destruct x0; auto.
 Qed.

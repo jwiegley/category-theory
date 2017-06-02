@@ -14,37 +14,37 @@ Record SetoidObject := {
   is_setoid :> Setoid carrier
 }.
 
-Record SetoidMorphism `{Setoid A} `{Setoid B} := {
-  morphism :> A -> B;
+Record SetoidMorphism `{Setoid x} `{Setoid y} := {
+  morphism :> x -> y;
   proper_morphism :> Proper (equiv ==> equiv) morphism
 }.
 
 Arguments SetoidMorphism {_} _ {_} _.
 Arguments morphism {_ _ _ _ _} _.
 
-Program Instance SetoidMorphism_Setoid {A B : SetoidObject} :
-  Setoid (SetoidMorphism A B) := {|
-  equiv := fun f g => forall x, @equiv _ B (f x) (g x)
+Program Instance SetoidMorphism_Setoid {x y : SetoidObject} :
+  Setoid (SetoidMorphism x y) := {|
+  equiv := fun f g => forall x, @equiv _ y (f x) (g x)
 |}.
 Next Obligation.
   constructor; repeat intro.
   - reflexivity.
   - symmetry.
     apply X.
-  - transitivity (y x0).
+  - transitivity (y0 x1).
       apply X.
     apply X0.
 Qed.
 
-Definition setoid_morphism_id {A : SetoidObject} : SetoidMorphism A A := {|
+Definition setoid_morphism_id {x : SetoidObject} : SetoidMorphism x x := {|
   morphism := Datatypes.id
 |}.
 
 Hint Unfold setoid_morphism_id.
 
-Program Definition setoid_morphism_compose {A B C : SetoidObject}
-        (g : SetoidMorphism B C)
-        (f : SetoidMorphism A B) : SetoidMorphism A C := {|
+Program Definition setoid_morphism_compose {x y C : SetoidObject}
+        (g : SetoidMorphism y C)
+        (f : SetoidMorphism x y) : SetoidMorphism x C := {|
   morphism := Basics.compose g f
 |}.
 Next Obligation.
@@ -66,7 +66,7 @@ Hint Unfold setoid_morphism_compose.
  *)
 Program Definition Sets : Category := {|
   ob      := SetoidObject;
-  hom     := fun A B => SetoidMorphism A B;
+  hom     := fun x y => SetoidMorphism x y;
   homset  := @SetoidMorphism_Setoid;
   id      := @setoid_morphism_id;
   compose := @setoid_morphism_compose
@@ -74,8 +74,8 @@ Program Definition Sets : Category := {|
 Next Obligation.
   proper.
   unfold equiv in *; simpl in *; intros.
-  rewrite X0.
-  apply proper_morphism, X1.
+  rewrite X.
+  apply proper_morphism, X0.
 Qed.
 
 (* An isomorphism between arrows in a category C is an isomorphism of objects
@@ -83,12 +83,12 @@ Qed.
    arrow equivalence to be the setoid. By using Sets in this way, we gain the
    fact that the arrows on both sides are respectful of C's notion of arrow
    equivalence. *)
-Notation "X ≊ Y" := ({| carrier := X |} ≅[Sets] {| carrier := Y |})
+Notation "x ≊ y" := ({| carrier := x |} ≅[Sets] {| carrier := y |})
   (at level 99) : category_scope.
 
 Program Instance isomorphism_to_sets_respects
-        `{Setoid A} `{Setoid B}
-        (iso : @Isomorphism Sets {| carrier := A |} {| carrier := B |}) :
+        `{Setoid x} `{Setoid y}
+        (iso : @Isomorphism Sets {| carrier := x |} {| carrier := y |}) :
   Proper (equiv ==> equiv) (to iso).
 Next Obligation.
   repeat intro.
@@ -98,8 +98,8 @@ Next Obligation.
 Qed.
 
 Program Instance isomorphism_from_sets_respects
-        `{Setoid A} `{Setoid B}
-        (iso : @Isomorphism Sets {| carrier := A |} {| carrier := B |}) :
+        `{Setoid x} `{Setoid y}
+        (iso : @Isomorphism Sets {| carrier := x |} {| carrier := y |}) :
   Proper (equiv ==> equiv) (from iso).
 Next Obligation.
   repeat intro.
@@ -122,7 +122,7 @@ Program Instance Sets_Terminal : @Terminal Sets := {
   one := _
 }.
 Next Obligation. morphism; [ intros; exact tt | proper ]. Qed.
-Next Obligation. destruct (f x), (g x); reflexivity. Qed.
+Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
 
 Require Import Category.Structure.Initial.
 

@@ -10,12 +10,12 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Instance Sets_Cartesian : @Cartesian Sets := {
-  Prod := fun X Y =>
-            {| carrier := (carrier X * carrier Y)%type
+  Prod := fun x y =>
+            {| carrier := (carrier x * carrier y)%type
              ; is_setoid :=
-                 {| equiv := fun x y =>
-                               @equiv _ X (fst x) (fst y) *
-                               @equiv _ Y (snd x) (snd y)
+                 {| equiv := fun z w =>
+                               @equiv _ x (fst z) (fst w) *
+                               @equiv _ y (snd z) (snd w)
                   ; setoid_equiv := _
                   |}
              |};

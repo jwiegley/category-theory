@@ -17,10 +17,10 @@ Context `{@Cartesian C}.
 Context `{@Cocartesian C}.
 Context `{@Closed C _}.
 
-Global Program Instance prod_coprod_l {X Y Z : C} :
+Global Program Instance prod_coprod_l {x y z : C} :
   (* Products distribute over coproducts in every bicartesian closed
      category. *)
-  (Y + Z) × X ≅ Y × X + Z × X := {
+  (y + z) × x ≅ y × x + z × x := {
   to   := uncurry (curry inl ▽ curry inr);
   from := first inl ▽ first inr
 }.
@@ -42,7 +42,7 @@ Qed.
 
 Hint Rewrite @prod_coprod_l : isos.
 
-Lemma uncurry_merge {X Y Z W : C} (f : X ~> Y^Z) (g : W ~> Y^Z) :
+Lemma uncurry_merge {x y z w : C} (f : x ~> y^z) (g : w ~> y^z) :
   uncurry (f ▽ g) ≈ uncurry f ▽ uncurry g ∘ to prod_coprod_l.
 Proof.
   simpl.
@@ -53,7 +53,7 @@ Proof.
   rewrite <- curry_comp; cat.
 Qed.
 
-Corollary unmerge_uncurry {X Y Z W : C} (f : X ~> Y^Z) (g : W ~> Y^Z) :
+Corollary unmerge_uncurry {x y z w : C} (f : x ~> y^z) (g : w ~> y^z) :
   uncurry f ▽ uncurry g ≈ uncurry (f ▽ g) ∘ from prod_coprod_l.
 Proof.
   rewrite uncurry_merge.
@@ -61,10 +61,10 @@ Proof.
   rewrite iso_to_from; cat.
 Qed.
 
-Global Program Instance prod_coprod_r {X Y Z : C} :
+Global Program Instance prod_coprod_r {x y z : C} :
   (* Products distribute over coproducts in every bicartesian closed
      category. *)
-  X × (Y + Z) ≅ X × Y + X × Z := {
+  x × (y + z) ≅ x × y + x × z := {
   to   := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap;
   from := second inl ▽ second inr
 }.
@@ -104,8 +104,8 @@ Qed.
 
 Hint Rewrite @prod_coprod_r : isos.
 
-Global Program Instance exp_coprod {X Y Z : C} :
-  X^(Y + Z) ≅ X^Y × X^Z := {
+Global Program Instance exp_coprod {x y z : C} :
+  x^(y + z) ≅ x^y × x^z := {
   to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
   from := curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r)
 }.
@@ -134,7 +134,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   remember (_ △ _) as p.
-  enough (∀ {W : C} (f g : W ~> X^(Y + Z)), p ∘ f ≈ p ∘ g -> f ≈ g) as HA.
+  enough (∀ {w : C} (f g : w ~> x^(y + z)), p ∘ f ≈ p ∘ g -> f ≈ g) as HA.
     apply HA.
     rewrite comp_assoc.
     rewrite Heqp.
@@ -156,7 +156,7 @@ Next Obligation.
   rewrite !comp_assoc in HB.
   apply uncurry_inj.
   rewrite <- !eval_first.
-  enough (∀ {W : C} (f g : W × (Y + Z) ~> X),
+  enough (∀ {w : C} (f g : w × (y + z) ~> x),
              f ∘ second inl ≈ g ∘ second inl ->
              f ∘ second inr ≈ g ∘ second inr -> f ≈ g) as HC.
     exact (HC _ _ _ HA HB).
@@ -176,8 +176,8 @@ Hint Rewrite @exp_coprod : isos.
 
 Context `{@Initial C}.
 
-Global Program Instance prod_zero_l {X : C} :
-  0 × X ≅ 0 := {
+Global Program Instance prod_zero_l {x : C} :
+  0 × x ≅ 0 := {
   to   := uncurry zero;
   from := zero
 }.
@@ -185,8 +185,8 @@ Next Obligation. apply curry_inj; simpl; cat. Qed.
 
 Hint Rewrite @prod_zero_l : isos.
 
-Global Program Instance prod_zero_r {X : C} :
-  X × 0 ≅ 0 := {
+Global Program Instance prod_zero_r {x : C} :
+  x × 0 ≅ 0 := {
   to   := uncurry zero ∘ swap;
   from := zero
 }.
@@ -196,8 +196,8 @@ Hint Rewrite @prod_zero_r : isos.
 
 Context `{@Terminal C}.
 
-Global Program Instance exp_zero {X : C} :
-  X^0 ≅ 1 := {
+Global Program Instance exp_zero {x : C} :
+  x^0 ≅ 1 := {
   to   := one;
   from := curry (zero ∘ to prod_zero_r)
 }.

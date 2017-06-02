@@ -11,11 +11,11 @@ Unset Transparent Obligations.
 
 Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op :=
   @Build_Functor (C^op) (D^op) F
-    (λ (X Y : C ^op) (f : X ~{ C ^op }~> Y), @fmap C D F Y X f)
-    (λ (X Y : C ^op) (f g : X ~{ C ^op }~> Y), @fmap_respects _ _ F Y X f g)
-    (λ X : C ^op, fmap_id)
-    (λ (X Y Z : C ^op) (f : Y ~{ C ^op }~> Z)
-      (g : X ~{ C ^op }~> Y), @fmap_comp _ _ F _ _ _ g f).
+    (λ (x y : C ^op) (f : x ~{ C ^op }~> y), @fmap C D F y x f)
+    (λ (x y : C ^op) (f g : x ~{ C ^op }~> y), @fmap_respects _ _ F y x f g)
+    (λ x : C ^op, fmap_id)
+    (λ (x y z : C ^op) (f : y ~{ C ^op }~> z)
+      (g : x ~{ C ^op }~> y), @fmap_comp _ _ F _ _ _ g f).
 
 Notation "F ^op" := (@Opposite_Functor _ _ F)
   (at level 7, format "F ^op") : functor_scope.
@@ -23,5 +23,5 @@ Notation "F ^op" := (@Opposite_Functor _ _ F)
 Corollary Opposite_Functor_invol `{F : C ⟶ D} : (F^op)^op = F.
 Proof. reflexivity. Qed.
 
-Definition contramap `{F : C^op ⟶ D} `(f : X ~{C}~> Y) :
-  F Y ~{D}~> F X := fmap (op f).
+Definition contramap `{F : C^op ⟶ D} `(f : x ~{C}~> y) :
+  F y ~{D}~> F x := fmap (op f).

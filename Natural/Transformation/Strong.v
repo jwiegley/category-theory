@@ -12,6 +12,6 @@ Unset Transparent Obligations.
 Class Strong_Transform {C : Category} `{@Monoidal C}
       {F : C ⟶ C} `{@StrongFunctor _ _ F}
       {G : C ⟶ C} `{@StrongFunctor _ _ G} (N : F ⟹ G) := {
-  strength_transform {X Y} :
-    strength[G] ∘ id[X] ⨂ transform[N] Y ≈ transform[N] _ ∘ strength[F]
+  strength_transform {x y} :
+    strength[G] ∘ id[x] ⨂ transform[N] y ≈ transform[N] _ ∘ strength[F]
 }.

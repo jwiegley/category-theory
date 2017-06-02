@@ -25,8 +25,11 @@ Program Instance Cat_Cartesian : @Cartesian Cat := {
 Next Obligation. proper; apply fmap_respects; auto. Qed.
 Next Obligation. simplify; rewrite !fmap_comp; intuition. Qed.
 Next Obligation.
+  rename x into A.
+  rename y into B.
+  rename z into C.
   proper.
-  isomorphism; simpl; intros; split.
+  isomorphism; simpl; split.
   - apply x2.
   - apply x1.
   - apply (from (x2 _)).
@@ -39,6 +42,9 @@ Next Obligation.
   - apply e.
 Qed.
 Next Obligation.
+  rename x into A.
+  rename y into B.
+  rename z into C.
   split; intros; simplify.
   - isomorphism.
     + exact (fst (to (x x0))).

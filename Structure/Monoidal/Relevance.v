@@ -20,7 +20,7 @@ Context {C : Category}.
 Class RelevanceMonoidal `{@Monoidal C} := {
   is_symmetric :> SymmetricMonoidal;
 
-  diagonal {X} : X ~> X ⨂ X;
+  diagonal {x} : x ~> x ⨂ x;
   diagonal_natural : natural (@diagonal);
 
   (* These properties are given by Kosta Došen and Zoran Petrić in their 2007
@@ -28,19 +28,19 @@ Class RelevanceMonoidal `{@Monoidal C} := {
 
   diagonal_unit : @diagonal I ≈ unit_left⁻¹;
 
-  diagonal_tensor_assoc {X} :
-   id ⨂ diagonal ∘ diagonal ≈ tensor_assoc ∘ diagonal ⨂ id ∘ @diagonal X;
+  diagonal_tensor_assoc {x} :
+   id ⨂ diagonal ∘ diagonal ≈ tensor_assoc ∘ diagonal ⨂ id ∘ @diagonal x;
 
-  twist_diagonal {X} :
-    twist ∘ diagonal ≈ @diagonal X;
+  twist_diagonal {x} :
+    twist ∘ diagonal ≈ @diagonal x;
 
-  twist2 {X Y Z W} : (X ⨂ Y) ⨂ (Z ⨂ W) ~> (X ⨂ Z) ⨂ (Y ⨂ W) :=
+  twist2 {x y z w} : (x ⨂ y) ⨂ (z ⨂ w) ~> (x ⨂ z) ⨂ (y ⨂ w) :=
     tensor_assoc⁻¹
       ∘ id ⨂ (tensor_assoc ∘ twist ⨂ id ∘ tensor_assoc⁻¹)
       ∘ tensor_assoc;
 
-  diagonal_twist2 {X Y} :
-    @diagonal (X ⨂ Y) ≈ twist2 ∘ diagonal ⨂ diagonal
+  diagonal_twist2 {x y} :
+    @diagonal (x ⨂ y) ≈ twist2 ∘ diagonal ⨂ diagonal
 }.
 
 Lemma twist2_natural `{@Monoidal C} `{@RelevanceMonoidal _} :
@@ -62,11 +62,11 @@ Proof.
   comp_right.
   normal.
   bimap_right.
-  pose proof (fst twist_natural _ _ h _ _ i); simpl in X0.
+  spose (fst twist_natural _ _ h _ _ i) as X.
   normal; assumption.
 Qed.
 
 End RelevanceMonoidal.
 
-Notation "∆ X" := (@diagonal _ _ _ X)
-  (at level 9, format "∆ X") : morphism_scope.
+Notation "∆ x" := (@diagonal _ _ _ x)
+  (at level 9, format "∆ x") : morphism_scope.

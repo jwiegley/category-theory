@@ -32,7 +32,7 @@ Proof.
     + exact (transform[`2 X] _).
     + abstract (rewrite (naturality[`2 X]); cat).
   - destruct f; simpl in *.
-    exists (fst x); abstract (intros; rewrite e; cat).
+    exists (fst x0); abstract (intros; rewrite e; cat).
   - abstract proper.
   - abstract cat.
   - abstract cat.

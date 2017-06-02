@@ -18,16 +18,16 @@ Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := {
   exp_iso := fun A B C =>
     {| to :=
        {| morphism := fun F : A × B ⟶ C =>
-          {| fobj := fun X : A =>
-             {| fobj := fun Y : B => F (X, Y)
+          {| fobj := fun x : A =>
+             {| fobj := fun y : B => F (x, y)
               ; fmap := fun J K (f : J ~{B}~> K) =>
-                  fmap[F] (@id A X, f) |}
+                  fmap[F] (@id A x, f) |}
            ; fmap := fun J K (f : J ~{A}~> K) =>
              {| transform := fun L : B =>
                   fmap[F] (f, @id B L) |} |} |}
      ; from :=
        {| morphism := fun F : A ⟶ [B, C] =>
-          {| fobj := fun X : A × B => F (fst X) (snd X)
+          {| fobj := fun x : A × B => F (fst x) (snd x)
            ; fmap := fun J K (f : J ~{A × B}~> K) =>
                fmap (snd f) ∘ transform[fmap[F] (fst f)] _ |} |} |}
 }.

@@ -15,8 +15,8 @@ Context {C : Category}.
 Context `{@Cartesian C}.
 Context `{@Cocartesian C}.
 
-Corollary fork_merge {X Y Z W : C}
-          (f : X ~> Y) (g : X ~> Z) (h : W ~> Y) (i : W ~> Z) :
+Corollary fork_merge {x y z w : C}
+          (f : x ~> y) (g : x ~> z) (h : w ~> y) (i : w ~> z) :
   (f △ g) ▽ (h △ i) ≈ (f ▽ h) △ (g ▽ i).
 Proof.
   rewrite <- id_left.

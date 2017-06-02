@@ -26,8 +26,8 @@ Unset Transparent Obligations.
   rise to the following isomorphism (in the category of Sets, whose objects
   may be hom-sets):
 
-      AST a ~{category of syntax or ASTs}~> b
-        ≅ a ~{category of semantics or denotations}~> Denote b *)
+      AST x ~{category of syntax or ASTs}~> y
+        ≅ x ~{category of semantics or denotations}~> Denote y *)
 
 Section Adjunction.
 
@@ -37,25 +37,25 @@ Context {F : D ⟶ C}.
 Context {U : C ⟶ D}.
 
 Class Adjunction := {
-  adj {a b} : F a ~{C}~> b ≊ a ~{D}~> U b;
+  adj {x y} : F x ~{C}~> y ≊ x ~{D}~> U y;
 
-  to_adj_nat_l {a b c} (f : F b ~> c) (g : a ~> b) :
+  to_adj_nat_l {x y c} (f : F y ~> c) (g : x ~> y) :
     to adj (f ∘ fmap[F] g) ≈ to adj f ∘ g;
-  to_adj_nat_r {a} {b} {c : C} (f : b ~> c) (g : F a ~> b) :
+  to_adj_nat_r {x} {y} {c : C} (f : y ~> c) (g : F x ~> y) :
     to adj (f ∘ g) ≈ fmap[U] f ∘ to adj g;
 
-  from_adj_nat_l {a b c} (f : b ~> U c) (g : a ~> b) :
+  from_adj_nat_l {x y c} (f : y ~> U c) (g : x ~> y) :
     adj⁻¹ (f ∘ g) ≈ adj⁻¹ f ∘ fmap[F] g;
-  from_adj_nat_r {a} {b} {c : C} (f : b ~> c) (g : a ~> U b) :
+  from_adj_nat_r {x} {y} {c : C} (f : y ~> c) (g : x ~> U y) :
     adj⁻¹ (fmap[U] f ∘ g) ≈ f ∘ adj⁻¹ g
 }.
 
 Context `{@Adjunction}.
 
-Definition unit   {a : D} : a ~> U (F a) := to adj id.
-Definition counit {a : C} : F (U a) ~> a := adj⁻¹ id.
+Definition unit   {x : D} : x ~> U (F x) := to adj id.
+Definition counit {x : C} : F (U x) ~> x := adj⁻¹ id.
 
-Corollary adj_unit  {a b} (f : F a ~> b) :
+Corollary adj_unit  {x y} (f : F x ~> y) :
   to adj f ≈ fmap f ∘ unit.
 Proof.
   rewrite <- (id_right f).
@@ -63,7 +63,7 @@ Proof.
   rewrite fmap_comp; cat.
 Qed.
 
-Corollary from_adj_counit {a b} (f : a ~> U b) :
+Corollary from_adj_counit {x y} (f : x ~> U y) :
   adj⁻¹ f ≈ counit ∘ fmap f.
 Proof.
   rewrite <- (id_left f).
@@ -71,34 +71,34 @@ Proof.
   rewrite fmap_comp; cat.
 Qed.
 
-Corollary adj_counit {a} : to adj counit ≈ @id D (U a).
-Proof. sapply (@iso_to_from Sets _ _ (@adj _ (U a) a)). Qed.
+Corollary adj_counit {x} : to adj counit ≈ @id D (U x).
+Proof. sapply (@iso_to_from Sets _ _ (@adj _ (U x) x)). Qed.
 
-Corollary from_adj_unit {a} : adj⁻¹ unit ≈ @id C (F a).
-Proof. sapply (@iso_from_to Sets _ _ (@adj _ a (F a))). Qed.
+Corollary from_adj_unit {x} : adj⁻¹ unit ≈ @id C (F x).
+Proof. sapply (@iso_from_to Sets _ _ (@adj _ x (F x))). Qed.
 
-Corollary counit_fmap_unit  {a} : counit ∘ fmap[F] unit ≈ @id C (F a).
+Corollary counit_fmap_unit  {x} : counit ∘ fmap[F] unit ≈ @id C (F x).
 Proof.
   unfold unit, counit.
   rewrite <- from_adj_nat_l; cat.
-  sapply (@iso_from_to Sets _ _ (@adj _ a (F a))).
+  sapply (@iso_from_to Sets _ _ (@adj _ x (F x))).
 Qed.
 
-Corollary fmap_counit_unit  {a} : fmap[U] counit ∘ unit ≈ @id D (U a).
+Corollary fmap_counit_unit  {x} : fmap[U] counit ∘ unit ≈ @id D (U x).
 Proof.
   unfold unit, counit.
   rewrite <- to_adj_nat_r; cat.
-  sapply (@iso_to_from Sets _ _ (@adj _ (U a) a)).
+  sapply (@iso_to_from Sets _ _ (@adj _ (U x) x)).
 Qed.
 
 (* If F is a faithful functor, and f is monic, then adj f is monic. *)
-Theorem adj_monic  {a b} (f : F a ~> b) c (g h : c ~> a) :
+Theorem adj_monic  {x y} (f : F x ~> y) c (g h : c ~> x) :
   Faithful F -> Monic f
     -> to adj f ∘ g ≈ to adj f ∘ h -> g ≈ h.
 Proof.
   intros.
   rewrite <- !to_adj_nat_l in X1.
-  pose proof (monic (Monic:=@iso_monic Sets _ _ (@adj H c b))
+  pose proof (monic (Monic:=@iso_monic Sets _ _ (@adj H c y))
                     {| carrier   := Datatypes.unit
                      ; is_setoid := {| equiv := eq |} |}
                     {| morphism  := fun _ => f ∘ fmap[F] g |}
@@ -111,11 +111,11 @@ Proof.
   exact tt.
 Qed.
 
-Corollary from_adj_respects {a b} (f g : a ~{D}~> U b) :
+Corollary from_adj_respects {x y} (f g : x ~{D}~> U y) :
   f ≈ g -> adj⁻¹ f ≈ adj⁻¹ g.
 Proof. intros; rewrites; reflexivity. Qed.
 
-Corollary adj_respects {a b} (f g : F a ~{C}~> b) :
+Corollary adj_respects {x y} (f g : F x ~{C}~> y) :
   f ≈ g -> to adj f ≈ to adj g.
 Proof. intros; rewrites; reflexivity. Qed.
 

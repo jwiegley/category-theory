@@ -36,8 +36,8 @@ Class Applicative := {
   is_strong :> @StrongFunctor C in_monoidal F;
   is_lax_monoidal :> LaxMonoidalFunctor F;
 
-  ap {X Y} : F (X ≈> Y) ⨂ F X ~> F Y :=
-    fmap[F] eval ∘ @lax_ap _ _ in_monoidal _ F _ (X ≈> Y) X
+  ap {x y} : F (x ≈> y) ⨂ F x ~> F y :=
+    fmap[F] eval ∘ @lax_ap _ _ in_monoidal _ F _ (x ≈> y) x
 }.
 
 End ApplicativeFunctor.

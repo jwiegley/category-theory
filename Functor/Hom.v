@@ -29,19 +29,19 @@ Unset Transparent Obligations.
 Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {|
   fobj := fun p => {| carrier   := @hom C (fst p) (snd p)
                     ; is_setoid := @homset (C) (fst p) (snd p) |};
-  fmap := fun X Y (f : X ~{C^op ∏ C}~> Y) =>
+  fmap := fun x y (f : x ~{C^op ∏ C}~> y) =>
             {| morphism := fun g => snd f ∘ g ∘ fst f |}
 |}.
 
 Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {|
-  fobj := fun X => {|
-    fobj := fun Y => {| carrier := @hom C X Y
-                      ; is_setoid := @homset C X Y |};
-    fmap := fun Y Z (f : Y ~{C}~> Z) =>
-              {| morphism := fun (g : X ~{C}~> Y) =>
-                               (f ∘ g) : X ~{C}~> Z |}
+  fobj := fun x => {|
+    fobj := fun y => {| carrier := @hom C x y
+                      ; is_setoid := @homset C x y |};
+    fmap := fun y z (f : y ~{C}~> z) =>
+              {| morphism := fun (g : x ~{C}~> y) =>
+                               (f ∘ g) : x ~{C}~> z |}
   |};
-  fmap := fun X Y (f : X ~{C^op}~> Y) => {|
+  fmap := fun x y (f : x ~{C^op}~> y) => {|
     transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
 |}.
@@ -61,19 +61,19 @@ Program Definition CoHom_Alt `(C : Category) : C ∏ C^op ⟶ Sets :=
 Program Definition CoHom `(C : Category) : C ∏ C^op ⟶ Sets := {|
   fobj := fun p => {| carrier   := @hom (C^op) (fst p) (snd p)
                     ; is_setoid := @homset (C^op) (fst p) (snd p) |};
-  fmap := fun X Y (f : X ~{C ∏ C^op}~> Y) =>
+  fmap := fun x y (f : x ~{C ∏ C^op}~> y) =>
     {| morphism := fun g => snd f ∘ g ∘ fst f |}
 |}.
 
 Program Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := {|
-  fobj := fun X => {|
-    fobj := fun Y => {| carrier := @hom (C^op) X Y
-                      ; is_setoid := @homset (C^op) X Y |};
-    fmap := fun Y Z (f : Y ~{C^op}~> Z) =>
-              {| morphism := fun (g : X ~{C^op}~> Y) =>
-                               (f ∘ g) : X ~{C^op}~> Z |}
+  fobj := fun x => {|
+    fobj := fun y => {| carrier := @hom (C^op) x y
+                      ; is_setoid := @homset (C^op) x y |};
+    fmap := fun y z (f : y ~{C^op}~> z) =>
+              {| morphism := fun (g : x ~{C^op}~> y) =>
+                               (f ∘ g) : x ~{C^op}~> z |}
   |};
-  fmap := fun X Y (f : X ~{C}~> Y) => {|
+  fmap := fun x y (f : x ~{C}~> y) => {|
     transform := fun _ => {| morphism := fun g => g ∘ op f |}
   |}
 |}.

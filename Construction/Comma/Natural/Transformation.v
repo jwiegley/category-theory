@@ -48,11 +48,11 @@ Next Obligation.
   rewrite <- !comp_assoc.
   rewrite <- fmap_comp.
 
-  pose proof (`2 proj1 _ _ f); simpl in X0.
-  pose proof (`2 proj2 _ _ f); simpl in X1.
+  spose (`2 proj1 _ _ f) as X0.
+  spose (`2 proj2 _ _ f) as X1.
 
   rewrite <- (id_left f) at 1.
-  rewrite <- (iso_to_from (`1 proj2 Y)).
+  rewrite <- (iso_to_from (`1 proj2 y)).
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ f).
   rewrites.
@@ -61,7 +61,7 @@ Next Obligation.
 
   symmetry.
   rewrite <- (id_right f) at 1.
-  rewrite <- (iso_to_from (`1 proj1 X)).
+  rewrite <- (iso_to_from (`1 proj1 x)).
   rewrite !comp_assoc.
   rewrites.
   rewrite fmap_comp.

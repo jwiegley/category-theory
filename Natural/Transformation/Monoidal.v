@@ -14,6 +14,6 @@ Class LaxMonoidal_Transform {C : Category} `{@Monoidal C}
       {G : C ⟶ C} `{@LaxMonoidalFunctor _ _ _ _ G} (N : F ⟹ G) := {
   lax_pure_transform : lax_pure[G] ≈ transform[N] _ ∘ lax_pure[F];
 
-  lax_ap_transform {X Y} :
-    lax_ap[G] ∘ transform[N] X ⨂ transform[N] Y ≈ transform[N] _ ∘ lax_ap[F]
+  lax_ap_transform {x y} :
+    lax_ap[G] ∘ transform[N] x ⨂ transform[N] y ≈ transform[N] _ ∘ lax_ap[F]
 }.

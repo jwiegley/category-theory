@@ -11,10 +11,10 @@ Unset Transparent Obligations.
 
 Class Cone `(F : J ⟶ C) := {
   vertex : C;
-  vertex_map {X : J} : vertex ~{C}~> F X;
+  vertex_map {x : J} : vertex ~{C}~> F x;
 
-  ump_cones {X Y : J} (f : X ~{J}~> Y) :
-    fmap[F] f ∘ @vertex_map X ≈ @vertex_map Y
+  ump_cones {x y : J} (f : x ~{J}~> y) :
+    fmap[F] f ∘ @vertex_map x ≈ @vertex_map y
 }.
 
 Coercion vertex : Cone >-> ob.

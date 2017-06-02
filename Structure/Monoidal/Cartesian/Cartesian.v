@@ -22,8 +22,8 @@ Context `{@Monoidal C}.
 Context `{@CartesianMonoidal C _}.
 
 Global Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
-  Prod := fun X Y => (X ⨂ Y)%object;
-  fork := fun X _ _ f g => f ⨂ g ∘ ∆X;
+  Prod := fun x y => (x ⨂ y)%object;
+  fork := fun x _ _ f g => f ⨂ g ∘ ∆x;
   exl  := fun _ _ => proj_left;
   exr  := fun _ _ => proj_right
 |}.
@@ -42,7 +42,7 @@ Next Obligation.
     rewrite proj_right_natural.
     rewrite <- comp_assoc.
     rewrite proj_right_diagonal; cat.
-  rewrite <- (fst X0), <- (snd X0).
+  rewrite <- (fst X), <- (snd X).
   rewrite bimap_comp.
   rewrite <- !comp_assoc.
   srewrite diagonal_natural.

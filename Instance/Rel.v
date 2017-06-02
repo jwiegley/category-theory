@@ -25,8 +25,8 @@ Program Definition Rel : Category := {|
   homset  := fun P Q =>
                {| equiv := fun f g => forall x y, f x y ↔ g x y |};
   id      := Singleton;
-  compose := fun X Y Z f g x z =>
-               (exists y : Y, In Y (g x) y ∧ In Z (f y) z)%type
+  compose := fun x y z f g a b =>
+               (exists e : y, In y (g a) e ∧ In z (f e) b)%type
 |}.
 Next Obligation.
   equivalence.
@@ -37,21 +37,21 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper;
-  destruct H as [z [H1 H2]];
-  exists z; firstorder.
+  destruct H as [w [H1 H2]];
+  exists w; firstorder.
 Qed.
 Next Obligation.
   split; intros.
-    destruct H as [z [H1 H2]].
+    destruct H as [? [? H2]].
     destruct H2; assumption.
-  exists y.
+  exists y0.
   intuition.
 Qed.
 Next Obligation.
   split; intros.
-    destruct H as [z [H1 H2]].
+    destruct H as [? [H1 ?]].
     destruct H1; assumption.
-  exists x.
+  exists x0.
   intuition.
 Qed.
 Next Obligation. firstorder. Qed.
@@ -128,8 +128,8 @@ Next Obligation. autounfold in *; apply proof_irrelevance. Qed.
 Definition some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat.
 
 Program Instance Relation_Functor : Coq ⟶ Rel := {
-  fobj := fun X => X;
-  fmap := fun X Y (f : X ~{Coq}~> Y) x y => In _ (Singleton _ (f x)) y
+  fobj := fun x => x;
+  fmap := fun x y (f : x ~{Coq}~> y) x y => In _ (Singleton _ (f x)) y
 }.
 Next Obligation. proper; congruence. Qed.
 Next Obligation. proper; congruence. Qed.

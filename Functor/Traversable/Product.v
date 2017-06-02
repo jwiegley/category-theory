@@ -39,9 +39,9 @@ Proof.
       exact (lax_ap[H2] ∘ bimap (transform[@sequence _ _ _ _ _ O H2 _] x)
                                 (transform[@sequence _ _ _ _ _ P H2 _] x)).
   - unfold lax_ap.
-    pose proof (naturality[@ap_functor_nat _ _ _ _ H2 _]
-                          (F X0, G X0) (F Y, G Y)
-                          (fmap[F] f, fmap[G] f)) as X2; simpl in *.
+    spose (naturality[@ap_functor_nat _ _ _ _ H2 _]
+                     (F x, G x) (F y, G y)
+                     (fmap[F] f, fmap[G] f)) as X2.
     rewrite comp_assoc.
     rewrites.
     rewrite <- !comp_assoc.
@@ -52,9 +52,9 @@ Proof.
     rewrite X3, X4.
     reflexivity.
   - unfold lax_ap.
-    pose proof (naturality[@ap_functor_nat _ _ _ _ H2 _]
-                          (F X0, G X0) (F Y, G Y)
-                          (fmap[F] f, fmap[G] f)) as X2; simpl in *.
+    spose (naturality[@ap_functor_nat _ _ _ _ H2 _]
+                     (F x, G x) (F y, G y)
+                     (fmap[F] f, fmap[G] f)) as X2.
     rewrite comp_assoc.
     rewrites.
     rewrite <- !comp_assoc.

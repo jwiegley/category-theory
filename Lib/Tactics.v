@@ -95,3 +95,6 @@ Ltac cat_simpl :=
 Global Obligation Tactic := cat_simpl.
 
 Ltac construct := unshelve econstructor; simpl; intros.
+
+Tactic Notation "spose" uconstr(H) "as" ident(X) :=
+  pose proof H as X; simpl in X.

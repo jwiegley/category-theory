@@ -13,10 +13,10 @@ Unset Transparent Obligations.
 Definition Opposite_Transform `{F : C ⟶ D} {G : C ⟶ D} `(N : F ⟹ G) :
   G^op ⟹ F^op :=
   @Build_Transform (C^op) (D^op) (G^op) (F^op) N
-    (λ (X Y : (C ^op)%category) (f : X ~{C^op}~> Y),
-      @naturality_sym C D F G N Y X f)
-    (λ (X Y : (C ^op)%category) (f : X ~{C^op}~> Y),
-      @naturality C D F G N Y X f).
+    (λ (x y : (C ^op)%category) (f : x ~{C^op}~> y),
+      @naturality_sym C D F G N y x f)
+    (λ (x y : (C ^op)%category) (f : x ~{C^op}~> y),
+      @naturality C D F G N y x f).
 
 Notation "N ^op" := (@Opposite_Transform _ _ _ _ N)
   (at level 7, format "N ^op") : transform_scope.

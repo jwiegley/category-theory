@@ -63,19 +63,19 @@ Set Transparent Obligations.
 Program Definition fiber_eqv_unit_transform (E : @fibered_equivalence _ _ F G) :
   Id ⟹ G ○ F := {|
   transform := _ fiber_eqv_unit;
-  naturality := fun X Y f =>
-    Left_Functoriality E X Y (f, fmap[F] f);
-  naturality_sym := fun X Y f =>
-    symmetry (Left_Functoriality E X Y (f, fmap[F] f))
+  naturality := fun x y f =>
+    Left_Functoriality E x y (f, fmap[F] f);
+  naturality_sym := fun x y f =>
+    symmetry (Left_Functoriality E x y (f, fmap[F] f))
 |}.
 
 Program Definition fiber_eqv_counit_transform (E : @fibered_equivalence _ _ F G) :
   F ○ G ⟹ Id := {|
   transform := _ fiber_eqv_counit;
-  naturality := fun X Y f =>
-    Right_Functoriality E X Y (fmap[G] f, f);
-  naturality_sym := fun X Y f =>
-    symmetry (Right_Functoriality E X Y (fmap[G] f, f))
+  naturality := fun x y f =>
+    Right_Functoriality E x y (fmap[G] f, f);
+  naturality_sym := fun x y f =>
+    symmetry (Right_Functoriality E x y (fmap[G] f, f))
 |}.
 
 Program Instance comma_projG_iso (E : @fibered_equivalence _ _ F G) f :

@@ -21,12 +21,12 @@ Context {G : C ⟶ D}.
    before or after introduces no change in the effect of such mappings). *)
 
 Class Transform := {
-  transform {X} : F X ~> G X;
+  transform {x} : F x ~> G x;
 
-  naturality {X Y} (f : X ~> Y) :
+  naturality {x y} (f : x ~> y) :
     fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f;
 
-  naturality_sym {X Y} (f : X ~> Y) :
+  naturality_sym {x y} (f : x ~> y) :
     transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform
 }.
 

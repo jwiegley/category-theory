@@ -16,4 +16,4 @@ Import EqNotations.
 
 Definition Discrete (C : Category) :=
   (* jww (2017-06-02): Equality is too much here. *)
-  ∀ X Y (f : X ~> Y), ∃ H : X = Y, f ≈ rew H in id.
+  ∀ x y (f : x ~> y), ∃ H : x = y, f ≈ rew H in id.

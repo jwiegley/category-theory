@@ -21,25 +21,23 @@ Context `{@Monoidal D}.
 Context {F : C ⟶ D}.
 
 Lemma ap_iso_to_from
-      (ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) {X Y} :
-  transform (to ap_functor_iso) (X, Y)
-    ∘ transform (from ap_functor_iso) (X, Y) ≈ id[F (X ⨂ Y)].
+      (ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) {x y} :
+  transform (to ap_functor_iso) (x, y)
+    ∘ transform (from ap_functor_iso) (x, y) ≈ id[F (x ⨂ y)].
 Proof.
-  pose proof (iso_to_from ap_functor_iso (X, Y)).
-  simpl in *.
-  rewrite !fmap_id in X0.
-  apply X0.
+  spose (iso_to_from ap_functor_iso (x, y)) as X.
+  rewrite !fmap_id in X.
+  apply X.
 Qed.
 
 Lemma ap_iso_from_to
-      (ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) {X Y} :
-  transform (from ap_functor_iso) (X, Y) ∘ transform (to ap_functor_iso) (X, Y)
-    ≈ id[((⨂) ○ F ∏⟶ F) (X, Y)].
+      (ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) {x y} :
+  transform (from ap_functor_iso) (x, y) ∘ transform (to ap_functor_iso) (x, y)
+    ≈ id[((⨂) ○ F ∏⟶ F) (x, y)].
 Proof.
-  pose proof (iso_from_to ap_functor_iso (X, Y)).
-  simpl in *.
-  rewrite !fmap_id in X0.
-  apply X0.
+  spose (iso_from_to ap_functor_iso (x, y)) as X.
+  rewrite !fmap_id in X.
+  apply X.
 Qed.
 
 Class MonoidalFunctor := {
@@ -47,28 +45,28 @@ Class MonoidalFunctor := {
 
   ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂);
 
-  ap_iso {X Y} : F X ⨂ F Y ≅ F (X ⨂ Y) := {|
-    to   := transform[to ap_functor_iso] (X, Y);
-    from := transform[from ap_functor_iso] (X, Y);
-    iso_to_from := @ap_iso_to_from ap_functor_iso X Y;
-    iso_from_to := @ap_iso_from_to ap_functor_iso X Y
+  ap_iso {x y} : F x ⨂ F y ≅ F (x ⨂ y) := {|
+    to   := transform[to ap_functor_iso] (x, y);
+    from := transform[from ap_functor_iso] (x, y);
+    iso_to_from := @ap_iso_to_from ap_functor_iso x y;
+    iso_from_to := @ap_iso_from_to ap_functor_iso x y
   |};
 
-  pure_iso_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
-  pure_iso_right {X} : F X ⨂ I ≅ F (X ⨂ I);
+  pure_iso_left {x}  : I ⨂ F x ≅ F (I ⨂ x);
+  pure_iso_right {x} : F x ⨂ I ≅ F (x ⨂ I);
 
-  ap_iso_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z));
+  ap_iso_assoc {x y z} : (F x ⨂ F y) ⨂ F z ≅ F (x ⨂ (y ⨂ z));
 
-  monoidal_unit_left {X} :
+  monoidal_unit_left {x} :
     to unit_left
-       ≈ fmap[F] (to unit_left) ∘ to ap_iso ∘ bimap (to pure_iso) (id[F X]);
+       ≈ fmap[F] (to unit_left) ∘ to ap_iso ∘ bimap (to pure_iso) (id[F x]);
 
-  monoidal_unit_right {X} :
+  monoidal_unit_right {x} :
     to unit_right
-       ≈ fmap[F] (to unit_right) ∘ to ap_iso ∘ bimap (id[F X]) (to pure_iso);
+       ≈ fmap[F] (to unit_right) ∘ to ap_iso ∘ bimap (id[F x]) (to pure_iso);
 
-  monoidal_assoc {X Y Z} :
-    fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ to ap_iso ∘ bimap (to ap_iso) id
+  monoidal_assoc {x y z} :
+    fmap[F] (to (@tensor_assoc _ _ x y z)) ∘ to ap_iso ∘ bimap (to ap_iso) id
       ≈ to ap_iso ∘ bimap id (to ap_iso) ∘ to tensor_assoc
 }.
 
@@ -77,23 +75,23 @@ Class LaxMonoidalFunctor := {
 
   ap_functor_nat : ((⨂) ○ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ○ (⨂));
 
-  lax_ap {X Y} : F X ⨂ F Y ~> F (X ⨂ Y) := transform[ap_functor_nat] (X, Y);
+  lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y) := transform[ap_functor_nat] (x, y);
 
-  pure_left {X}  : I ⨂ F X ≅ F (I ⨂ X);
-  pure_right {X} : F X ⨂ I ≅ F (X ⨂ I);
+  pure_left {x}  : I ⨂ F x ≅ F (I ⨂ x);
+  pure_right {x} : F x ⨂ I ≅ F (x ⨂ I);
 
-  ap_assoc {X Y Z} : (F X ⨂ F Y) ⨂ F Z ≅ F (X ⨂ (Y ⨂ Z));
+  ap_assoc {x y z} : (F x ⨂ F y) ⨂ F z ≅ F (x ⨂ (y ⨂ z));
 
-  lax_monoidal_unit_left {X} :
+  lax_monoidal_unit_left {x} :
     to unit_left
-       ≈ fmap[F] (to unit_left) ∘ lax_ap ∘ bimap lax_pure (id[F X]);
+       ≈ fmap[F] (to unit_left) ∘ lax_ap ∘ bimap lax_pure (id[F x]);
 
-  lax_monoidal_unit_right {X} :
+  lax_monoidal_unit_right {x} :
     to unit_right
-       ≈ fmap[F] (to unit_right) ∘ lax_ap ∘ bimap (id[F X]) lax_pure;
+       ≈ fmap[F] (to unit_right) ∘ lax_ap ∘ bimap (id[F x]) lax_pure;
 
-  lax_monoidal_assoc {X Y Z} :
-    fmap[F] (to (@tensor_assoc _ _ X Y Z)) ∘ lax_ap ∘ bimap lax_ap id
+  lax_monoidal_assoc {x y z} :
+    fmap[F] (to (@tensor_assoc _ _ x y z)) ∘ lax_ap ∘ bimap lax_ap id
       ≈ lax_ap ∘ bimap id lax_ap ∘ to tensor_assoc
 }.
 

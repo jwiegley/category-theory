@@ -38,15 +38,15 @@ Qed.
 
 Definition Span_Category := Concrete Span_Structure.
 
-Program Definition Span {C : Category} {S X Y : C} (f : S ~> X) (g : S ~> Y) :
+Program Definition Span {C : Category} {S x y : C} (f : S ~> x) (g : S ~> y) :
   Span_Category ⟶ C := {|
-  fobj := fun x =>
-    match proj1_sig x with
-    | 0%nat => X
+  fobj := fun z =>
+    match proj1_sig z with
+    | 0%nat => x
     | 1%nat => S
-    | 2%nat => Y
+    | 2%nat => y
     | _ => _
     end;
-  fmap := fun x y f => _
+  fmap := fun z w h => _
 |}.
 *)

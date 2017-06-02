@@ -42,17 +42,17 @@ Definition Copresheaves (C : Category) := [C, Sets].
 
 Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
   [C^op, Sets] [Hom ─,A] F ≅ F A := {
-  to   := {| morphism := fun X => transform[X] A id |};
-  from := {| morphism := fun Y : F A =>
-             {| transform := fun X : C =>
-                {| morphism := fun phi : A ~{ C^op }~> X =>
-                     @fmap (C^op) Sets F A X phi Y |} |} |}
+  to   := {| morphism := fun x => transform[x] A id |};
+  from := {| morphism := fun y : F A =>
+             {| transform := fun x : C =>
+                {| morphism := fun phi : A ~{ C^op }~> x =>
+                     @fmap (C^op) Sets F A x phi y |} |} |}
 }.
 Next Obligation.
   (* [transform] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
-  apply fmap_respects, X0.
+  apply fmap_respects, X.
 Qed.
 Next Obligation.
   (* The action of [transform] is natural. *)
@@ -90,17 +90,17 @@ Qed.
 
 Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) {A : C} :
   [C, Sets] [Hom A,─] F ≅ F A := {
-  to   := {| morphism := fun X => transform[X] A id |};
-  from := {| morphism := fun Y : F A =>
-             {| transform := fun X : C =>
-                {| morphism := fun phi : A ~{ C }~> X =>
-                     @fmap C Sets F A X phi Y |} |} |}
+  to   := {| morphism := fun x => transform[x] A id |};
+  from := {| morphism := fun y : F A =>
+             {| transform := fun x : C =>
+                {| morphism := fun phi : A ~{ C }~> x =>
+                     @fmap C Sets F A x phi y |} |} |}
 }.
 Next Obligation.
   (* [transform] preserves morphism equivalences. *)
   proper.
   destruct F; simpl in *.
-  apply fmap_respects, X0.
+  apply fmap_respects, X.
 Qed.
 Next Obligation.
   (* The action of [transform] is natural. *)

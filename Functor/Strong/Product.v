@@ -24,9 +24,9 @@ Local Obligation Tactic := simpl; intros.
 
 Program Definition Product_Strong :
   StrongFunctor F -> StrongFunctor G -> StrongFunctor (F :*: G) := fun O P => {|
-  strength := fun X Y =>
+  strength := fun x y =>
     (strength ∘ id ⨂ proj_left) ⨂ (strength ∘ id ⨂ proj_right)
-      ∘ ∆(X ⨂ F Y ⨂ G Y);
+      ∘ ∆(x ⨂ F y ⨂ G y);
   strength_id_left := _;
   strength_assoc := _
 |}.
@@ -78,8 +78,8 @@ Next Obligation.
   unfold proj_left, proj_right.
   normal.
   rewrite <- !comp_assoc.
-  pose proof (@to_tensor_assoc_natural _ _ X _ Y _ (F Z ⨂ G Z) _
-                id id (unit_right ∘ (id[F Z] ⨂ eliminate))) as X0.
+  pose proof (@to_tensor_assoc_natural _ _ x _ y _ (F z ⨂ G z) _
+                id id (unit_right ∘ (id[F z] ⨂ eliminate))) as X0.
   rewrite bimap_id_id in X0.
   rewrites.
   rewrite !bimap_comp.
@@ -105,8 +105,8 @@ Next Obligation.
   rewrite iso_to_from, id_left.
   rewrite <- bimap_comp, id_left.
   rewrite <- to_tensor_assoc_natural.
-  pose proof (@to_tensor_assoc_natural _ _ X _ Y _ (F Z ⨂ G Z) _
-                id id (unit_left ∘ eliminate ⨂ id[G Z])) as X0.
+  pose proof (@to_tensor_assoc_natural _ _ x _ y _ (F z ⨂ G z) _
+                id id (unit_left ∘ eliminate ⨂ id[G z])) as X0.
   rewrite bimap_id_id in X0.
   rewrites.
   rewrite !comp_assoc.

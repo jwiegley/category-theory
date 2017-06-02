@@ -17,14 +17,14 @@ Context `{@Cartesian C}.
 Context `{@Cartesian D}.
 
 Class CartesianFunctor := {
-  fobj_prod_iso {X Y : C} : F (X × Y) ≅ F X × F Y;
+  fobj_prod_iso {x y : C} : F (x × y) ≅ F x × F y;
 
-  prod_in  := fun X Y => from (@fobj_prod_iso X Y);
-  prod_out := fun X Y => to   (@fobj_prod_iso X Y);
+  prod_in  := fun x y => from (@fobj_prod_iso x y);
+  prod_out := fun x y => to   (@fobj_prod_iso x y);
 
-  fmap_exl {X Y : C} : fmap (@exl C _ X Y) ≈ exl ∘ prod_out _ _;
-  fmap_exr {X Y : C} : fmap (@exr C _ X Y) ≈ exr ∘ prod_out _ _;
-  fmap_fork {X Y Z : C} (f : X ~> Y) (g : X ~> Z) :
+  fmap_exl {x y : C} : fmap (@exl C _ x y) ≈ exl ∘ prod_out _ _;
+  fmap_exr {x y : C} : fmap (@exr C _ x y) ≈ exr ∘ prod_out _ _;
+  fmap_fork {x y z : C} (f : x ~> y) (g : x ~> z) :
     fmap (f △ g) ≈ prod_in _ _ ∘ fmap f △ fmap g
 }.
 
@@ -33,8 +33,8 @@ Arguments prod_out {_ _ _} /.
 
 Context `{@CartesianFunctor}.
 
-Corollary prod_in_out (X Y : C) :
-  prod_in ∘ prod_out ≈ @id _ (F (X × Y)).
+Corollary prod_in_out (x y : C) :
+  prod_in ∘ prod_out ≈ @id _ (F (x × y)).
 Proof.
   intros.
   exact (iso_from_to fobj_prod_iso).
@@ -42,8 +42,8 @@ Qed.
 
 Hint Rewrite @prod_in_out : functors.
 
-Corollary prod_out_in (X Y : C) :
-  prod_out ∘ prod_in ≈ @id _ (F X × F Y).
+Corollary prod_out_in (x y : C) :
+  prod_out ∘ prod_in ≈ @id _ (F x × F y).
 Proof.
   intros.
   exact (iso_to_from fobj_prod_iso).
@@ -51,7 +51,7 @@ Qed.
 
 Hint Rewrite @prod_out_in : functors.
 
-Corollary prod_in_inj {X Y Z : C} (f g : F X ~> F X × F Y) :
+Corollary prod_in_inj {x y z : C} (f g : F x ~> F x × F y) :
   prod_in ∘ f ≈ prod_in ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hprod.
@@ -66,7 +66,7 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary prod_out_inj {X Y Z : C} (f g : F X ~> F (Y × Z)) :
+Corollary prod_out_inj {x y z : C} (f g : F x ~> F (y × z)) :
   prod_out ∘ f ≈ prod_out ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hprod.

@@ -85,7 +85,7 @@ Program Definition Roof : Category := {|
     end
 |}.
 Next Obligation.
-  destruct A, B, C;
+  destruct x, y, z;
   try constructor;
   try inversion f;
   try inversion g.

@@ -17,21 +17,21 @@ Section SymmetricMonoidal.
 Context `{@Monoidal C}.
 
 Class SymmetricMonoidal := {
-  twist {X Y} : X ⨂ Y ≅ Y ⨂ X;
+  twist {x y} : x ⨂ y ≅ y ⨂ x;
   twist_natural : natural (@twist);
 
-  twist_invol {X Y} : twist ∘ twist ≈ id[X ⨂ Y];
+  twist_invol {x y} : twist ∘ twist ≈ id[x ⨂ y];
 
-  hexagon_identity {X Y Z} :
+  hexagon_identity {x y z} :
     tensor_assoc ∘ twist ∘ tensor_assoc
-      << (X ⨂ Y) ⨂ Z ~~> Y ⨂ (Z ⨂ X) >>
+      << (x ⨂ y) ⨂ z ~~> y ⨂ (z ⨂ x) >>
     id ⨂ twist ∘ tensor_assoc ∘ twist ⨂ id
 }.
 
-Corollary bimap_twist `{SymmetricMonoidal} {X Y Z W} (f : X ~> Z) (g : Y ~> W) :
+Corollary bimap_twist `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
   twist ∘ g ⨂ f ∘ twist ≈ f ⨂ g.
 Proof.
-  pose proof (fst twist_natural _ _ f _ _ g); simpl in X0.
+  spose (fst twist_natural _ _ f _ _ g) as X.
   normal.
   rewrite <- comp_assoc.
   rewrites.

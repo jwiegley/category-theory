@@ -42,16 +42,16 @@ Proof.
   }
 
   all:simpl.
-  all:(try destruct X as [[x1 x2] [y1 y2]],
-                    Y as [[z1 z2] [w1 w2]]; simpl).
+  all:(try destruct x as [[x1 x2] [y1 y2]],
+                    y as [[z1 z2] [w1 w2]]; simpl).
 
   split.
     abstract apply (naturality (to ap_functor_iso) (x1, y1)).
   abstract apply (naturality (to ap_functor_iso) (x2, y2)).
 
   all:simpl.
-  all:(try destruct X as [[x1 x2] [y1 y2]],
-                    Y as [[z1 z2] [w1 w2]];
+  all:(try destruct x as [[x1 x2] [y1 y2]],
+                    y as [[z1 z2] [w1 w2]];
        try destruct f as [[f1a f1b] [f2a f2b]]; simpl).
 
   split.
@@ -68,8 +68,8 @@ Proof.
   }
 
   all:simpl.
-  all:(try destruct X as [[x1 x2] [y1 y2]],
-                    Y as [[z1 z2] [w1 w2]],
+  all:(try destruct x as [[x1 x2] [y1 y2]],
+                    y as [[z1 z2] [w1 w2]],
                     f as [[f1a f1b] [f2a f2b]]; simpl).
 
   split.
@@ -151,8 +151,10 @@ Proof.
     exact (fst (transform[to (ap_functor_iso[P])] ((x, I), (y, I)))).
   }
 
-  all:(try destruct X as [x y],
-                    Y as [z w],
+  all:(try rename x into x0;
+       try rename y into y0;
+       try destruct x0 as [x y],
+                    y0 as [z w],
                     f as [f g];
        try destruct A as [x y]; simpl).
 
@@ -169,8 +171,10 @@ Proof.
     exact (fst (transform[from (ap_functor_iso[P])] ((x, I), (y, I)))).
   }
 
-  all:(try destruct X as [x y],
-                    Y as [z w],
+  all:(try rename x into x0;
+       try rename y into y0;
+       try destruct x0 as [x y],
+                    y0 as [z w],
                     f as [f g];
        try destruct A as [x y]; simpl).
 
@@ -182,8 +186,8 @@ Proof.
                              (x, I, (y, I)) (z, I, (w, I))
                              ((f, id), (g, id)))).
 
-  apply (iso_to_from (ap_functor_iso[P]) (x, I, (y, I))).
-  apply (iso_from_to (ap_functor_iso[P]) (x, I, (y, I))).
+  apply (iso_to_from (ap_functor_iso[P]) (x0, I, (y0, I))).
+  apply (iso_from_to (ap_functor_iso[P]) (x0, I, (y0, I))).
 Defined.
 
 Program Definition ProductFunctor_Monoidal_proj1 :
@@ -206,55 +210,55 @@ Next Obligation.
 Defined.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@pure_iso_left _ _ _ _ _ P (X, I)))).
-  apply (fst (from (@pure_iso_left _ _ _ _ _ P (X, I)))).
-  apply (fst (iso_to_from (@pure_iso_left _ _ _ _ _ P (X, I)))).
-  apply (fst (iso_from_to (@pure_iso_left _ _ _ _ _ P (X, I)))).
+  apply (fst (to (@pure_iso_left _ _ _ _ _ P (x, I)))).
+  apply (fst (from (@pure_iso_left _ _ _ _ _ P (x, I)))).
+  apply (fst (iso_to_from (@pure_iso_left _ _ _ _ _ P (x, I)))).
+  apply (fst (iso_from_to (@pure_iso_left _ _ _ _ _ P (x, I)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@pure_iso_right _ _ _ _ _ P (X, I)))).
-  apply (fst (from (@pure_iso_right _ _ _ _ _ P (X, I)))).
-  apply (fst (iso_to_from (@pure_iso_right _ _ _ _ _ P (X, I)))).
-  apply (fst (iso_from_to (@pure_iso_right _ _ _ _ _ P (X, I)))).
+  apply (fst (to (@pure_iso_right _ _ _ _ _ P (x, I)))).
+  apply (fst (from (@pure_iso_right _ _ _ _ _ P (x, I)))).
+  apply (fst (iso_to_from (@pure_iso_right _ _ _ _ _ P (x, I)))).
+  apply (fst (iso_from_to (@pure_iso_right _ _ _ _ _ P (x, I)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@ap_iso_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I)))).
-  apply (fst (from (@ap_iso_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I)))).
-  apply (fst (iso_to_from (@ap_iso_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I)))).
-  apply (fst (iso_from_to (@ap_iso_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I)))).
+  apply (fst (to (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  apply (fst (from (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  apply (fst (iso_to_from (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  apply (fst (iso_from_to (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
 Qed.
 Next Obligation.
-  apply (fst (@monoidal_unit_left _ _ _ _ _ P (X, I))).
+  apply (fst (@monoidal_unit_left _ _ _ _ _ P (x, I))).
 Qed.
 Next Obligation.
-  apply (fst (@monoidal_unit_right _ _ _ _ _ P (X, I))).
+  apply (fst (@monoidal_unit_right _ _ _ _ _ P (x, I))).
 Qed.
 Next Obligation.
-  pose proof (fst (naturality (to ap_functor_iso[P])
-                              ((X ⨂ Y, I ⨂ I), (Z, I))%object
-                              ((X ⨂ Y, I), (Z, I))%object
-                              ((id[X ⨂ Y], to unit_left),
-                               (id[Z], id[I])))); simpl in X0.
-  rewrite !fmap_id in X0.
-  rewrite !bimap_id_id in X0.
-  rewrite !fmap_id in X0.
-  rewrite id_left, id_right in X0.
+  spose (fst (naturality (to ap_functor_iso[P])
+                         ((x ⨂ y, I ⨂ I), (z, I))%object
+                         ((x ⨂ y, I), (z, I))%object
+                         ((id[x ⨂ y], to unit_left),
+                          (id[z], id[I])))) as X.
+  rewrite !fmap_id in X.
+  rewrite !bimap_id_id in X.
+  rewrite !fmap_id in X.
+  rewrite id_left, id_right in X.
   rewrites.
 
-  pose proof (fst (naturality (to ap_functor_iso[P])
-                              ((X, I), (Y ⨂ Z, I ⨂ I))%object
-                              ((X, I), (Y ⨂ Z, I))%object
-                              ((id[X], id[I]),
-                               (id[Y ⨂ Z], to unit_left)))); simpl in X0.
-  rewrite !fmap_id in X0.
-  rewrite !bimap_id_id in X0.
-  rewrite !fmap_id in X0.
-  rewrite id_left, id_right in X0.
+  spose (fst (naturality (to ap_functor_iso[P])
+                         ((x, I), (y ⨂ z, I ⨂ I))%object
+                         ((x, I), (y ⨂ z, I))%object
+                         ((id[x], id[I]),
+                          (id[y ⨂ z], to unit_left)))) as X.
+  rewrite !fmap_id in X.
+  rewrite !bimap_id_id in X.
+  rewrite !fmap_id in X.
+  rewrite id_left, id_right in X.
   rewrites.
 
-  apply (fst (@monoidal_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I))).
+  apply (fst (@monoidal_assoc _ _ _ _ _ P (x, I) (y, I) (z, I))).
 Qed.
 
 Lemma ProductFunctor_Monoidal_proj2_ap_functor_iso :
@@ -270,8 +274,10 @@ Proof.
     exact (snd (transform[to (ap_functor_iso[P])] ((I, x), (I, y)))).
   }
 
-  all:(try destruct X as [x y],
-                    Y as [z w],
+  all:(try rename x into x0;
+       try rename y into y0;
+       try destruct x0 as [x y],
+                    y0 as [z w],
                     f as [f g];
        try destruct A as [x y]; simpl).
 
@@ -288,8 +294,10 @@ Proof.
     exact (snd (transform[from (ap_functor_iso[P])] ((I, x), (I, y)))).
   }
 
-  all:(try destruct X as [x y],
-                    Y as [z w],
+  all:(try rename x into x0;
+       try rename y into y0;
+       try destruct x0 as [x y],
+                    y0 as [z w],
                     f as [f g];
        try destruct A as [x y]; simpl).
 
@@ -301,8 +309,8 @@ Proof.
                              (I, x, (I, y)) (I, z, (I, w))
                              ((id, f), (id, g)))).
 
-  apply (iso_to_from (ap_functor_iso[P]) (I, x, (I, y))).
-  apply (iso_from_to (ap_functor_iso[P]) (I, x, (I, y))).
+  apply (iso_to_from (ap_functor_iso[P]) (I, x0, (I, y0))).
+  apply (iso_from_to (ap_functor_iso[P]) (I, x0, (I, y0))).
 Defined.
 
 Program Definition ProductFunctor_Monoidal_proj2 :
@@ -325,55 +333,55 @@ Next Obligation.
 Defined.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@pure_iso_left _ _ _ _ _ P (I, X)))).
-  apply (snd (from (@pure_iso_left _ _ _ _ _ P (I, X)))).
-  apply (snd (iso_to_from (@pure_iso_left _ _ _ _ _ P (I, X)))).
-  apply (snd (iso_from_to (@pure_iso_left _ _ _ _ _ P (I, X)))).
+  apply (snd (to (@pure_iso_left _ _ _ _ _ P (I, x)))).
+  apply (snd (from (@pure_iso_left _ _ _ _ _ P (I, x)))).
+  apply (snd (iso_to_from (@pure_iso_left _ _ _ _ _ P (I, x)))).
+  apply (snd (iso_from_to (@pure_iso_left _ _ _ _ _ P (I, x)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@pure_iso_right _ _ _ _ _ P (I, X)))).
-  apply (snd (from (@pure_iso_right _ _ _ _ _ P (I, X)))).
-  apply (snd (iso_to_from (@pure_iso_right _ _ _ _ _ P (I, X)))).
-  apply (snd (iso_from_to (@pure_iso_right _ _ _ _ _ P (I, X)))).
+  apply (snd (to (@pure_iso_right _ _ _ _ _ P (I, x)))).
+  apply (snd (from (@pure_iso_right _ _ _ _ _ P (I, x)))).
+  apply (snd (iso_to_from (@pure_iso_right _ _ _ _ _ P (I, x)))).
+  apply (snd (iso_from_to (@pure_iso_right _ _ _ _ _ P (I, x)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@ap_iso_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z)))).
-  apply (snd (from (@ap_iso_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z)))).
-  apply (snd (iso_to_from (@ap_iso_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z)))).
-  apply (snd (iso_from_to (@ap_iso_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z)))).
+  apply (snd (to (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  apply (snd (from (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  apply (snd (iso_to_from (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  apply (snd (iso_from_to (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
 Qed.
 Next Obligation.
-  apply (snd (@monoidal_unit_left _ _ _ _ _ P (I, X))).
+  apply (snd (@monoidal_unit_left _ _ _ _ _ P (I, x))).
 Qed.
 Next Obligation.
-  apply (snd (@monoidal_unit_right _ _ _ _ _ P (I, X))).
+  apply (snd (@monoidal_unit_right _ _ _ _ _ P (I, x))).
 Qed.
 Next Obligation.
-  pose proof (snd (naturality (to ap_functor_iso[P])
-                              ((I ⨂ I, X ⨂ Y), (I, Z))%object
-                              ((I, X ⨂ Y), (I, Z))%object
-                              ((to unit_left, id[X ⨂ Y]),
-                               (id[I], id[Z])))); simpl in X0.
-  rewrite !fmap_id in X0.
-  rewrite !bimap_id_id in X0.
-  rewrite !fmap_id in X0.
-  rewrite id_left, id_right in X0.
+  spose (snd (naturality (to ap_functor_iso[P])
+                         ((I ⨂ I, x ⨂ y), (I, z))%object
+                         ((I, x ⨂ y), (I, z))%object
+                         ((to unit_left, id[x ⨂ y]),
+                          (id[I], id[z])))) as X.
+  rewrite !fmap_id in X.
+  rewrite !bimap_id_id in X.
+  rewrite !fmap_id in X.
+  rewrite id_left, id_right in X.
   rewrites.
 
-  pose proof (snd (naturality (to ap_functor_iso[P])
-                              ((I, X), (I ⨂ I, Y ⨂ Z))%object
-                              ((I, X), (I, Y ⨂ Z))%object
-                              ((id[I], id[X]),
-                               (to unit_left, id[Y ⨂ Z])))); simpl in X0.
-  rewrite !fmap_id in X0.
-  rewrite !bimap_id_id in X0.
-  rewrite !fmap_id in X0.
-  rewrite id_left, id_right in X0.
+  spose (snd (naturality (to ap_functor_iso[P])
+                         ((I, x), (I ⨂ I, y ⨂ z))%object
+                         ((I, x), (I, y ⨂ z))%object
+                         ((id[I], id[x]),
+                          (to unit_left, id[y ⨂ z])))) as X.
+  rewrite !fmap_id in X.
+  rewrite !bimap_id_id in X.
+  rewrite !fmap_id in X.
+  rewrite id_left, id_right in X.
   rewrites.
 
-  apply (snd (@monoidal_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z))).
+  apply (snd (@monoidal_assoc _ _ _ _ _ P (I, x) (I, y) (I, z))).
 Qed.
 
 Lemma ProductFunctor_LaxMonoidal_ap_functor_nat :
@@ -388,8 +396,8 @@ Proof.
     - exact (transform[ap_functor_nat] (z, w)).
   }
 
-  all:(try destruct X as [[x1 x2] [y1 y2]],
-                    Y as [[z1 z2] [w1 w2]],
+  all:(try destruct x as [[x1 x2] [y1 y2]],
+                    y as [[z1 z2] [w1 w2]],
                     f as [[f1a f1b] [f2a f2b]];
        try destruct A as [[x z] [y w]]; simpl).
 
@@ -443,8 +451,10 @@ Proof.
     exact (fst (transform[ap_functor_nat[P]] ((x, I), (y, I)))).
   }
 
-  all:(try destruct X as [x y],
-                    Y as [z w],
+  all:(try rename x into x0;
+       try rename y into y0;
+       try destruct x0 as [x y],
+                    y0 as [z w],
                     f as [f g];
        try destruct A as [x y]; simpl).
 
@@ -473,55 +483,55 @@ Next Obligation.
 Defined.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@pure_left _ _ _ _ _ P (X, I)))).
-  apply (fst (from (@pure_left _ _ _ _ _ P (X, I)))).
-  apply (fst (iso_to_from (@pure_left _ _ _ _ _ P (X, I)))).
-  apply (fst (iso_from_to (@pure_left _ _ _ _ _ P (X, I)))).
+  apply (fst (to (@pure_left _ _ _ _ _ P (x, I)))).
+  apply (fst (from (@pure_left _ _ _ _ _ P (x, I)))).
+  apply (fst (iso_to_from (@pure_left _ _ _ _ _ P (x, I)))).
+  apply (fst (iso_from_to (@pure_left _ _ _ _ _ P (x, I)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@pure_right _ _ _ _ _ P (X, I)))).
-  apply (fst (from (@pure_right _ _ _ _ _ P (X, I)))).
-  apply (fst (iso_to_from (@pure_right _ _ _ _ _ P (X, I)))).
-  apply (fst (iso_from_to (@pure_right _ _ _ _ _ P (X, I)))).
+  apply (fst (to (@pure_right _ _ _ _ _ P (x, I)))).
+  apply (fst (from (@pure_right _ _ _ _ _ P (x, I)))).
+  apply (fst (iso_to_from (@pure_right _ _ _ _ _ P (x, I)))).
+  apply (fst (iso_from_to (@pure_right _ _ _ _ _ P (x, I)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@ap_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I)))).
-  apply (fst (from (@ap_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I)))).
-  apply (fst (iso_to_from (@ap_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I)))).
-  apply (fst (iso_from_to (@ap_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I)))).
+  apply (fst (to (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  apply (fst (from (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  apply (fst (iso_to_from (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  apply (fst (iso_from_to (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
 Qed.
 Next Obligation.
-  apply (fst (@lax_monoidal_unit_left _ _ _ _ _ P (X, I))).
+  apply (fst (@lax_monoidal_unit_left _ _ _ _ _ P (x, I))).
 Qed.
 Next Obligation.
-  apply (fst (@lax_monoidal_unit_right _ _ _ _ _ P (X, I))).
+  apply (fst (@lax_monoidal_unit_right _ _ _ _ _ P (x, I))).
 Qed.
 Next Obligation.
-  pose proof (fst (naturality (ap_functor_nat[P])
-                              ((X ⨂ Y, I ⨂ I), (Z, I))%object
-                              ((X ⨂ Y, I), (Z, I))%object
-                              ((id[X ⨂ Y], to unit_left),
-                               (id[Z], id[I])))); simpl in X0.
-  rewrite !fmap_id in X0.
-  rewrite !bimap_id_id in X0.
-  rewrite !fmap_id in X0.
-  rewrite id_left, id_right in X0.
+  spose (fst (naturality (ap_functor_nat[P])
+                         ((x ⨂ y, I ⨂ I), (z, I))%object
+                         ((x ⨂ y, I), (z, I))%object
+                         ((id[x ⨂ y], to unit_left),
+                          (id[z], id[I])))) as X.
+  rewrite !fmap_id in X.
+  rewrite !bimap_id_id in X.
+  rewrite !fmap_id in X.
+  rewrite id_left, id_right in X.
   rewrites.
 
-  pose proof (fst (naturality (ap_functor_nat[P])
-                              ((X, I), (Y ⨂ Z, I ⨂ I))%object
-                              ((X, I), (Y ⨂ Z, I))%object
-                              ((id[X], id[I]),
-                               (id[Y ⨂ Z], to unit_left)))); simpl in X0.
-  rewrite !fmap_id in X0.
-  rewrite !bimap_id_id in X0.
-  rewrite !fmap_id in X0.
-  rewrite id_left, id_right in X0.
+  spose (fst (naturality (ap_functor_nat[P])
+                         ((x, I), (y ⨂ z, I ⨂ I))%object
+                         ((x, I), (y ⨂ z, I))%object
+                         ((id[x], id[I]),
+                          (id[y ⨂ z], to unit_left)))) as X.
+  rewrite !fmap_id in X.
+  rewrite !bimap_id_id in X.
+  rewrite !fmap_id in X.
+  rewrite id_left, id_right in X.
   rewrites.
 
-  apply (fst (@lax_monoidal_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I))).
+  apply (fst (@lax_monoidal_assoc _ _ _ _ _ P (x, I) (y, I) (z, I))).
 Qed.
 
 Lemma ProductFunctor_LaxMonoidal_proj2_ap_functor_nat :
@@ -535,8 +545,10 @@ Proof.
     exact (snd (transform[ap_functor_nat[P]] ((I, x), (I, y)))).
   }
 
-  all:(try destruct X as [x y],
-                    Y as [z w],
+  all:(try rename x into x0;
+       try rename y into y0;
+       try destruct x0 as [x y],
+                    y0 as [z w],
                     f as [f g];
        try destruct A as [x y]; simpl).
 
@@ -565,55 +577,55 @@ Next Obligation.
 Defined.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@pure_left _ _ _ _ _ P (I, X)))).
-  apply (snd (from (@pure_left _ _ _ _ _ P (I, X)))).
-  apply (snd (iso_to_from (@pure_left _ _ _ _ _ P (I, X)))).
-  apply (snd (iso_from_to (@pure_left _ _ _ _ _ P (I, X)))).
+  apply (snd (to (@pure_left _ _ _ _ _ P (I, x)))).
+  apply (snd (from (@pure_left _ _ _ _ _ P (I, x)))).
+  apply (snd (iso_to_from (@pure_left _ _ _ _ _ P (I, x)))).
+  apply (snd (iso_from_to (@pure_left _ _ _ _ _ P (I, x)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@pure_right _ _ _ _ _ P (I, X)))).
-  apply (snd (from (@pure_right _ _ _ _ _ P (I, X)))).
-  apply (snd (iso_to_from (@pure_right _ _ _ _ _ P (I, X)))).
-  apply (snd (iso_from_to (@pure_right _ _ _ _ _ P (I, X)))).
+  apply (snd (to (@pure_right _ _ _ _ _ P (I, x)))).
+  apply (snd (from (@pure_right _ _ _ _ _ P (I, x)))).
+  apply (snd (iso_to_from (@pure_right _ _ _ _ _ P (I, x)))).
+  apply (snd (iso_from_to (@pure_right _ _ _ _ _ P (I, x)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@ap_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z)))).
-  apply (snd (from (@ap_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z)))).
-  apply (snd (iso_to_from (@ap_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z)))).
-  apply (snd (iso_from_to (@ap_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z)))).
+  apply (snd (to (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  apply (snd (from (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  apply (snd (iso_to_from (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  apply (snd (iso_from_to (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
 Qed.
 Next Obligation.
-  apply (snd (@lax_monoidal_unit_left _ _ _ _ _ P (I, X))).
+  apply (snd (@lax_monoidal_unit_left _ _ _ _ _ P (I, x))).
 Qed.
 Next Obligation.
-  apply (snd (@lax_monoidal_unit_right _ _ _ _ _ P (I, X))).
+  apply (snd (@lax_monoidal_unit_right _ _ _ _ _ P (I, x))).
 Qed.
 Next Obligation.
-  pose proof (snd (naturality (ap_functor_nat[P])
-                              ((I ⨂ I, X ⨂ Y), (I, Z))%object
-                              ((I, X ⨂ Y), (I, Z))%object
-                              ((to unit_left, id[X ⨂ Y]),
-                               (id[I], id[Z])))); simpl in X0.
-  rewrite !fmap_id in X0.
-  rewrite !bimap_id_id in X0.
-  rewrite !fmap_id in X0.
-  rewrite id_left, id_right in X0.
+  spose (snd (naturality (ap_functor_nat[P])
+                         ((I ⨂ I, x ⨂ y), (I, z))%object
+                         ((I, x ⨂ y), (I, z))%object
+                         ((to unit_left, id[x ⨂ y]),
+                          (id[I], id[z])))) as X.
+  rewrite !fmap_id in X.
+  rewrite !bimap_id_id in X.
+  rewrite !fmap_id in X.
+  rewrite id_left, id_right in X.
   rewrites.
 
-  pose proof (snd (naturality (ap_functor_nat[P])
-                              ((I, X), (I ⨂ I, Y ⨂ Z))%object
-                              ((I, X), (I, Y ⨂ Z))%object
-                              ((id[I], id[X]),
-                               (to unit_left, id[Y ⨂ Z])))); simpl in X0.
-  rewrite !fmap_id in X0.
-  rewrite !bimap_id_id in X0.
-  rewrite !fmap_id in X0.
-  rewrite id_left, id_right in X0.
+  spose (snd (naturality (ap_functor_nat[P])
+                         ((I, x), (I ⨂ I, y ⨂ z))%object
+                         ((I, x), (I, y ⨂ z))%object
+                         ((id[I], id[x]),
+                          (to unit_left, id[y ⨂ z])))) as X.
+  rewrite !fmap_id in X.
+  rewrite !bimap_id_id in X.
+  rewrite !fmap_id in X.
+  rewrite id_left, id_right in X.
   rewrites.
 
-  apply (snd (@lax_monoidal_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z))).
+  apply (snd (@lax_monoidal_assoc _ _ _ _ _ P (I, x) (I, y) (I, z))).
 Qed.
 
 End ProductMonoidal.
@@ -642,13 +654,12 @@ Proof.
   - exact (fst (bimap id (to unit_left) ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((x, I), (y, I)))).
   - simpl in *.
-    destruct X as [x1 x2];
-    destruct Y as [y1 y2];
+    destruct x as [x1 x2];
+    destruct y as [y1 y2];
     destruct f as [f1 f2]; simpl in *.
-    pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (x1, I, (x2, I)) (y1, I, (y2, I))
-                                ((f1, id), (f2, id)))) as X0.
-    simpl in X0.
+    spose (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                           (x1, I, (x2, I)) (y1, I, (y2, I))
+                           ((f1, id), (f2, id)))) as X.
     rewrite comp_assoc.
     rewrite !bimap_fmap.
     rewrite fst_comp.
@@ -664,13 +675,12 @@ Proof.
     rewrite id_left, id_right.
     reflexivity.
   - simpl in *.
-    destruct X as [x1 x2];
-    destruct Y as [y1 y2];
+    destruct x as [x1 x2];
+    destruct y as [y1 y2];
     destruct f as [f1 f2]; simpl in *.
-    pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (x1, I, (x2, I)) (y1, I, (y2, I))
-                                ((f1, id), (f2, id)))) as X0.
-    simpl in X0.
+    spose (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                           (x1, I, (x2, I)) (y1, I, (y2, I))
+                           ((f1, id), (f2, id)))) as X.
     rewrite comp_assoc.
     rewrite !bimap_fmap.
     rewrite fst_comp.
@@ -705,10 +715,10 @@ Next Obligation.
   exact (fst (@lax_pure _ _ _ _ _ L)).
 Defined.
 Next Obligation.
-  destruct (@pure_left _ _ _ _ _ L (X, I));
+  destruct (@pure_left _ _ _ _ _ L (x, I));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (fst (P (I ⨂ X, I ⨂ I)%object)).
+  transitivity (fst (P (I ⨂ x, I ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.to unit_left))).
@@ -727,10 +737,10 @@ Next Obligation.
     reflexivity.
 Defined.
 Next Obligation.
-  destruct (@pure_right _ _ _ _ _ L (X, I));
+  destruct (@pure_right _ _ _ _ _ L (x, I));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (fst (P (X ⨂ I, I ⨂ I)%object)).
+  transitivity (fst (P (x ⨂ I, I ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.to unit_left))).
@@ -749,10 +759,10 @@ Next Obligation.
     reflexivity.
 Defined.
 Next Obligation.
-  destruct (@ap_assoc _ _ _ _ _ L (X, I) (Y, I) (Z, I));
+  destruct (@ap_assoc _ _ _ _ _ L (x, I) (y, I) (z, I));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (fst (P (X ⨂ Y ⨂ Z, I ⨂ I ⨂ I)%object)).
+  transitivity (fst (P (x ⨂ y ⨂ z, I ⨂ I ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (fst (@bimap _ _ _ P _ _ _ _ id
@@ -787,10 +797,9 @@ Next Obligation.
   rewrite bimap_fmap.
   rewrite <- bimap_comp.
   rewrite id_left, id_right.
-  pose proof (fst (@lax_monoidal_unit_left _ _ _ _ _ L (X, I))).
-  simpl in X0.
-  rewrite <- X0; clear X0.
-  destruct (P (X, I)).
+  spose (fst (@lax_monoidal_unit_left _ _ _ _ _ L (x, I))) as X.
+  rewrite <- X; clear X.
+  destruct (P (x, I)).
   reflexivity.
 Qed.
 Next Obligation.
@@ -800,46 +809,45 @@ Next Obligation.
   rewrite bimap_fmap.
   rewrite <- bimap_comp.
   rewrite id_left, id_right.
-  pose proof (fst (@lax_monoidal_unit_right _ _ _ _ _ L (X, I))).
-  simpl in X0.
+  spose (fst (@lax_monoidal_unit_right _ _ _ _ _ L (x, I))) as X.
   rewrite unit_identity.
-  rewrite bimap_fmap in X0.
-  rewrite <- X0; clear X0.
-  destruct (P (X, I)).
+  rewrite bimap_fmap in X.
+  rewrite <- X; clear X.
+  destruct (P (x, I)).
   reflexivity.
 Qed.
 Next Obligation.
-  pose proof (fst (@lax_monoidal_assoc _ _ _ _ _ L (X, I) (Y, I) (Z, I)));
-  simpl in X0; revert X0.
+  spose (fst (@lax_monoidal_assoc _ _ _ _ _ L (x, I) (y, I) (z, I))) as X.
+  revert X.
   assert
     (fst (to (Product.Product_Monoidal_obligation_8
-                D H0 K H2 (P (X, @I J H1)) (P (Y, @I J H1)) (P (Z, @I J H1))))
-       = @to D _ _ (@tensor_assoc D H0 (fst (P (X, @I J H1)))
-                                  (fst (P (Y, @I J H1))) (fst (P (Z, @I J H1))))).
-    destruct (P (X, I)), (P (Y, I)), (P (Z, I)).
+                D H0 K H2 (P (x, @I J H1)) (P (y, @I J H1)) (P (z, @I J H1))))
+       = @to D _ _ (@tensor_assoc D H0 (fst (P (x, @I J H1)))
+                                  (fst (P (y, @I J H1))) (fst (P (z, @I J H1))))).
+    destruct (P (x, I)), (P (y, I)), (P (z, I)).
     reflexivity.
   srewrite H3; clear H3.
-  pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                              (X, I, (Y ⨂ Z, I ⨂ I))%object
-                              (X, I, (Y ⨂ Z, I))%object
-                              ((id, id), (id, to unit_left)))) as X1.
+  spose (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                         (x, I, (y ⨂ z, I ⨂ I))%object
+                         (x, I, (y ⨂ z, I))%object
+                         ((id, id), (id, to unit_left)))) as X1.
   simpl in X1.
   rewrite !bimap_fmap in X1.
   rewrite !bimap_id_id in X1.
-  assert (id[fst (P (X, I))] ≈ id[fst (P (X, I))] ∘ id[fst (P (X, I))]) by cat.
+  assert (id[fst (P (x, I))] ≈ id[fst (P (x, I))] ∘ id[fst (P (x, I))]) by cat.
   intros.
-  rewrite X0; clear X0.
+  rewrite X; clear X.
   rewrite bimap_comp.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (bimap _ _)).
   rewrite <- X1; clear X1.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (bimap _ _)).
-  rewrite <- X2; clear X2.
+  rewrite <- X0; clear X0.
   rewrite !comp_assoc.
   rewrite !fst_comp.
-  assert (id[fst (P (Z, I))] ≈ id[fst (P (Z, I))] ∘ id[fst (P (Z, I))]) by cat.
-  rewrite X0; clear X0.
+  assert (id[fst (P (z, I))] ≈ id[fst (P (z, I))] ∘ id[fst (P (z, I))]) by cat.
+  rewrite X; clear X.
   rewrite bimap_comp.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (bimap _ _)).
@@ -850,11 +858,10 @@ Next Obligation.
   rewrite !id_left, !id_right.
   rewrite <- !comp_assoc.
   rewrite <- triangle_identity.
-  pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                              (X ⨂ Y, I ⨂ I, (Z, I))%object
-                              (X ⨂ Y, I, (Z, I))%object
-                              ((id, to unit_left), (id, id)))) as X1.
-  simpl in X1.
+  spose (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
+                         (x ⨂ y, I ⨂ I, (z, I))%object
+                         (x ⨂ y, I, (z, I))%object
+                         ((id, to unit_left), (id, id)))) as X1.
   rewrite !bimap_fmap in X1.
   rewrite !bimap_id_id in X1.
   rewrite <- X1; clear X1.
@@ -877,13 +884,12 @@ Proof.
   - exact (snd (bimap (to unit_left) id ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((I, x), (I, y)))).
   - simpl in *.
-    destruct X as [x1 x2];
-    destruct Y as [y1 y2];
+    destruct x as [x1 x2];
+    destruct y as [y1 y2];
     destruct f as [f1 f2]; simpl in *.
-    pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (I, x1, (I, x2)) (I, y1, (I, y2))
-                                ((id, f1), (id, f2)))) as X0.
-    simpl in X0.
+    spose (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                           (I, x1, (I, x2)) (I, y1, (I, y2))
+                           ((id, f1), (id, f2)))) as X.
     rewrite comp_assoc.
     rewrite !bimap_fmap.
     rewrite snd_comp.
@@ -899,13 +905,12 @@ Proof.
     rewrite id_left, id_right.
     reflexivity.
   - simpl in *.
-    destruct X as [x1 x2];
-    destruct Y as [y1 y2];
+    destruct x as [x1 x2];
+    destruct y as [y1 y2];
     destruct f as [f1 f2]; simpl in *.
-    pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (I, x1, (I, x2)) (I, y1, (I, y2))
-                                ((id, f1), (id, f2)))) as X0.
-    simpl in X0.
+    spose (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                           (I, x1, (I, x2)) (I, y1, (I, y2))
+                           ((id, f1), (id, f2)))) as X.
     rewrite comp_assoc.
     rewrite !bimap_fmap.
     rewrite snd_comp.
@@ -938,10 +943,10 @@ Next Obligation.
   exact (snd (@lax_pure _ _ _ _ _ L)).
 Defined.
 Next Obligation.
-  destruct (@pure_left _ _ _ _ _ L (I, X));
+  destruct (@pure_left _ _ _ _ _ L (I, x));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (snd (P (I ⨂ I, I ⨂ X)%object)).
+  transitivity (snd (P (I ⨂ I, I ⨂ x)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.to unit_left) id)).
@@ -960,10 +965,10 @@ Next Obligation.
     reflexivity.
 Defined.
 Next Obligation.
-  destruct (@pure_right _ _ _ _ _ L (I, X));
+  destruct (@pure_right _ _ _ _ _ L (I, x));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (snd (P (I ⨂ I, X ⨂ I)%object)).
+  transitivity (snd (P (I ⨂ I, x ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.to unit_left) id)).
@@ -982,10 +987,10 @@ Next Obligation.
     reflexivity.
 Defined.
 Next Obligation.
-  destruct (@ap_assoc _ _ _ _ _ L (I, X) (I, Y) (I, Z));
+  destruct (@ap_assoc _ _ _ _ _ L (I, x) (I, y) (I, z));
   simplify; simpl in *;
   simplify; simpl in *.
-  transitivity (snd (P (I ⨂ I ⨂ I, X ⨂ Y ⨂ Z)%object)).
+  transitivity (snd (P (I ⨂ I ⨂ I, x ⨂ y ⨂ z)%object)).
     isomorphism; auto.
   isomorphism.
   - exact (snd (@bimap _ _ _ P _ _ _ _
@@ -1020,10 +1025,9 @@ Next Obligation.
   rewrite bimap_fmap.
   rewrite <- bimap_comp.
   rewrite id_left, id_right.
-  pose proof (snd (@lax_monoidal_unit_left _ _ _ _ _ L (I, X))).
-  simpl in X0.
-  rewrite <- X0; clear X0.
-  destruct (P (I, X)).
+  spose (snd (@lax_monoidal_unit_left _ _ _ _ _ L (I, x))) as X.
+  rewrite <- X; clear X.
+  destruct (P (I, x)).
   reflexivity.
 Qed.
 Next Obligation.
@@ -1033,46 +1037,44 @@ Next Obligation.
   rewrite bimap_fmap.
   rewrite <- bimap_comp.
   rewrite id_left, id_right.
-  pose proof (snd (@lax_monoidal_unit_right _ _ _ _ _ L (I, X))).
-  simpl in X0.
+  spose (snd (@lax_monoidal_unit_right _ _ _ _ _ L (I, x))) as X.
   rewrite unit_identity.
-  rewrite bimap_fmap in X0.
-  rewrite <- X0; clear X0.
-  destruct (P (I, X)).
+  rewrite bimap_fmap in X.
+  rewrite <- X; clear X.
+  destruct (P (I, x)).
   reflexivity.
 Qed.
 Next Obligation.
-  pose proof (snd (@lax_monoidal_assoc _ _ _ _ _ L (I, X) (I, Y) (I, Z)));
-  simpl in X0; revert X0.
+  spose (snd (@lax_monoidal_assoc _ _ _ _ _ L (I, x) (I, y) (I, z))) as X.
+  revert X.
   assert
     (snd (to (Product.Product_Monoidal_obligation_8
-                D H0 K H2 (P (@I C H, X)) (P (@I C H, Y)) (P (@I C H, Z))))
-       = @to K _ _ (@tensor_assoc K H2 (snd (P (@I C H, X)))
-                                  (snd (P (@I C H, Y))) (snd (P (@I C H, Z))))).
-    destruct (P (I, X)), (P (I, Y)), (P (I, Z)).
+                D H0 K H2 (P (@I C H, x)) (P (@I C H, y)) (P (@I C H, z))))
+       = @to K _ _ (@tensor_assoc K H2 (snd (P (@I C H, x)))
+                                  (snd (P (@I C H, y))) (snd (P (@I C H, z))))).
+    destruct (P (I, x)), (P (I, y)), (P (I, z)).
     reflexivity.
   srewrite H3; clear H3.
   intros.
-  pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                              (I, X, (I ⨂ I, Y ⨂ Z))%object
-                              (I, X, (I, Y ⨂ Z))%object
-                              ((id, id), (to unit_left, id)))) as X1.
-  simpl in X1.
+  spose (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                         (I, x, (I ⨂ I, y ⨂ z))%object
+                         (I, x, (I, y ⨂ z))%object
+                         ((id, id), (to unit_left, id)))) as X1.
   rewrite !bimap_fmap in X1.
   rewrite !bimap_id_id in X1.
-  assert (id[snd (P (I, X))] ≈ id[snd (P (I, X))] ∘ id[snd (P (I, X))]) by cat.
-  rewrite X2; clear X2.
+  assert (id[snd (P (I, x))] ≈ id[snd (P (I, x))] ∘ id[snd (P (I, x))]) by cat.
+  rewrite X0; clear X0.
   rewrite bimap_comp.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (bimap _ _)).
   rewrite <- X1; clear X1.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (bimap _ _)).
-  rewrite <- X0; clear X0.
+  rewrite <- X; clear X.
   rewrite !comp_assoc.
   rewrite !snd_comp.
-  assert (id[snd (P (I, Z))] ≈ id[snd (P (I, Z))] ∘ id[snd (P (I, Z))]) by cat.
-  rewrite X0; clear X0.
+  assert (id[snd (P (I, z))] ≈ id[snd (P (I, z))] ∘ id[snd (P (I, z))]) by cat.
+  rewrite X; clear X.
   rewrite bimap_comp.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (bimap _ _)).
@@ -1083,11 +1085,10 @@ Next Obligation.
   rewrite !id_left, !id_right.
   rewrite <- !comp_assoc.
   rewrite <- triangle_identity.
-  pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                              (I ⨂ I, X ⨂ Y, (I, Z))%object
-                              (I, X ⨂ Y, (I, Z))%object
-                              ((to unit_left, id), (id, id)))) as X1.
-  simpl in X1.
+  spose (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
+                         (I ⨂ I, x ⨂ y, (I, z))%object
+                         (I, x ⨂ y, (I, z))%object
+                         ((to unit_left, id), (id, id)))) as X1.
   rewrite !bimap_fmap in X1.
   rewrite !bimap_id_id in X1.
   rewrite <- X1; clear X1.

@@ -29,9 +29,9 @@ Context {U : C ⟶ D}.
 
    "This specifies a family of bijections
 
-     ΦY,X : homC(F Y, X) → homD(Y, G X)
+     Φy,x : homC(F y, x) → homD(y, G x)
 
-   for all objects X in C and Y in D.
+   for all objects x in C and y in D.
 
    "In this situation we say that F is left adjoint to G and G is right
    adjoint to F, and may indicate this relationship by writing Φ : F ⊣ G, or
@@ -55,17 +55,15 @@ Class Adjunction_Hom := {
 Context `{Adjunction_Hom}.
 
 Program Definition hom_unit : Id ⟹ U ○ F := {|
-  transform := fun X => @morphism _ _ _ _ (to hom_adj (X, F X)) id
+  transform := fun x => @morphism _ _ _ _ (to hom_adj (x, F x)) id
 |}.
 Next Obligation.
-  pose proof (naturality[to hom_adj] (X, F X) (X, F Y) (id, fmap[F] f) id).
-  simpl in X0.
-  rewrite id_right in X0.
+  spose (naturality[to hom_adj] (x, F x) (x, F y) (id, fmap[F] f) id) as X.
+  rewrite id_right in X.
   rewrites.
 
-  pose proof (naturality[to hom_adj] (Y, F Y) (X, F Y) (f, id) id).
-  simpl in X0.
-  rewrite fmap_id, id_left in X0.
+  spose (naturality[to hom_adj] (y, F y) (x, F y) (f, id) id) as X.
+  rewrite fmap_id, id_left in X.
   rewrites.
 
   apply proper_morphism; cat.
@@ -76,17 +74,15 @@ Next Obligation.
 Qed.
 
 Program Definition hom_counit : F ○ U ⟹ Id := {|
-  transform := fun X => @morphism _ _ _ _ (from hom_adj (U X, X)) id
+  transform := fun x => @morphism _ _ _ _ (from hom_adj (U x, x)) id
 |}.
 Next Obligation.
-  pose proof (naturality[from hom_adj] (U X, X) (U X, Y) (id, f) id).
-  simpl in X0.
-  rewrite fmap_id, id_right in X0.
+  spose (naturality[from hom_adj] (U x, x) (U x, y) (id, f) id) as X.
+  rewrite fmap_id, id_right in X.
   rewrites.
 
-  pose proof (naturality[from hom_adj] (U Y, Y) (U X, Y) (fmap[U] f, id) id).
-  simpl in X0.
-  rewrite id_left in X0.
+  spose (naturality[from hom_adj] (U y, y) (U x, y) (fmap[U] f, id) id) as X.
+  rewrite id_left in X.
   rewrites.
 
   apply proper_morphism; cat.
@@ -96,42 +92,42 @@ Next Obligation.
   apply hom_counit_obligation_1.
 Qed.
 
-Theorem hom_unit_naturality_consequence {X Y} (f : F X ~> Y) :
-  to hom_adj (X, Y) f ≈ fmap[U] f ∘ hom_unit _.
+Theorem hom_unit_naturality_consequence {x y} (f : F x ~> y) :
+  to hom_adj (x, y) f ≈ fmap[U] f ∘ hom_unit _.
 Proof.
   unfold hom_unit; simpl.
-  pose proof (naturality[to hom_adj] (X, F X) (X, Y) (id, f) id); simpl in X0.
-  rewrite id_right in X0.
+  spose (naturality[to hom_adj] (x, F x) (x, y) (id, f) id) as X.
+  rewrite id_right in X.
   rewrites.
   apply proper_morphism; cat.
 Qed.
 
-Theorem hom_counit_naturality_consequence {X Y} (f : X ~> U Y) :
-  from hom_adj (X, Y) f ≈ hom_counit _ ∘ fmap[F] f.
+Theorem hom_counit_naturality_consequence {x y} (f : x ~> U y) :
+  from hom_adj (x, y) f ≈ hom_counit _ ∘ fmap[F] f.
 Proof.
   unfold hom_counit; simpl.
-  pose proof (naturality[from hom_adj] (U Y, Y) (X, Y) (f, id) id); simpl in X0.
-  rewrite id_left in X0.
+  spose (naturality[from hom_adj] (U y, y) (x, y) (f, id) id) as X.
+  rewrite id_left in X.
   rewrites.
   apply proper_morphism; cat.
 Qed.
 
-Theorem hom_counit_fmap_unit {X} :
-  hom_counit (F X) ∘ fmap[F] (hom_unit X) ≈ id.
+Theorem hom_counit_fmap_unit {x} :
+  hom_counit (F x) ∘ fmap[F] (hom_unit x) ≈ id.
 Proof.
-  pose proof (@hom_counit_naturality_consequence X (F X) (hom_unit X)).
+  spose (@hom_counit_naturality_consequence x (F x) (hom_unit x)) as X.
   rewrites.
   unfold hom_unit; simpl.
-  srewrite (iso_from_to hom_adj (X, F X) id); cat.
+  srewrite (iso_from_to hom_adj (x, F x) id); cat.
 Qed.
 
-Theorem hom_fmap_counit_unit {X} :
-  fmap[U] (hom_counit X) ∘ hom_unit (U X) ≈ id.
+Theorem hom_fmap_counit_unit {x} :
+  fmap[U] (hom_counit x) ∘ hom_unit (U x) ≈ id.
 Proof.
-  pose proof (@hom_unit_naturality_consequence (U X) X (hom_counit X)).
+  spose (@hom_unit_naturality_consequence (U x) x (hom_counit x)) as X.
   rewrites.
   unfold hom_unit; simpl.
-  srewrite (iso_to_from hom_adj (U X, X) id); cat.
+  srewrite (iso_to_from hom_adj (U x, x) id); cat.
 Qed.
 
 Program Definition Adjunction_Hom_to_Transform : F ∹ U := {|
@@ -215,29 +211,25 @@ Next Obligation.
   simpl; srewrite (iso_from_to hom_adj (a, b) x); cat.
 Defined.
 Next Obligation.
-  pose proof (naturality (to hom_adj) (b, c) (a, c) (g, id) f);
-  simpl in X.
+  spose (naturality (to hom_adj) (y, c) (x, c) (g, id) f) as X.
   rewrite fmap_id, id_left in X.
   rewrites.
   apply proper_morphism; cat.
 Qed.
 Next Obligation.
-  pose proof (naturality (to hom_adj) (a, b) (a, c) (id, f) g);
-  simpl in X.
+  spose (naturality (to hom_adj) (x, y) (x, c) (id, f) g) as X.
   rewrite id_right in X.
   rewrites.
   apply proper_morphism; cat.
 Qed.
 Next Obligation.
-  pose proof (naturality (from hom_adj) (b, c) (a, c) (g, id) f);
-  simpl in X.
+  spose (naturality (from hom_adj) (y, c) (x, c) (g, id) f) as X.
   rewrite id_left in X.
   rewrites.
   apply proper_morphism; cat.
 Qed.
 Next Obligation.
-  pose proof (naturality (from hom_adj) (a, b) (a, c) (id, f) g);
-  simpl in X.
+  spose (naturality (from hom_adj) (x, y) (x, c) (id, f) g) as X.
   rewrite fmap_id, id_right in X.
   rewrites.
   apply proper_morphism; cat.

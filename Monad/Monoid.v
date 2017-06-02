@@ -29,13 +29,13 @@ Proof.
             ; ret  := transform[mempty[m]] |}; intros.
     + symmetry.
       apply (@naturality _ _ _ _ (@mempty _ _ _ m)).
-    + pose proof (@mappend_assoc _ _ _ m a) as X; simpl in X.
+    + pose proof (@mappend_assoc _ _ _ m x) as X; simpl in X.
       autorewrite with categories in X.
       symmetry; assumption.
-    + pose proof (@mempty_right _ _ _ m a) as X; simpl in X.
+    + pose proof (@mempty_right _ _ _ m x) as X; simpl in X.
       autorewrite with categories in X.
       assumption.
-    + pose proof (@mempty_left _ _ _ m a) as X; simpl in X.
+    + pose proof (@mempty_left _ _ _ m x) as X; simpl in X.
       autorewrite with categories in X.
       assumption.
     + symmetry.

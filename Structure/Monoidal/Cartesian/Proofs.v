@@ -22,8 +22,8 @@ Section CartesianMonoidal.
 Context `{@Monoidal C}.
 Context `{@CartesianMonoidal C _}.
 
-Corollary unit_left_eliminate {X Y} (f : X ~> Y) :
-  unit_left ∘ eliminate ⨂ f ∘ ∆X ≈ f.
+Corollary unit_left_eliminate {x y} (f : x ~> y) :
+  unit_left ∘ eliminate ⨂ f ∘ ∆x ≈ f.
 Proof.
   symmetry.
   rewrite <- id_left at 1.
@@ -37,23 +37,23 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary unit_right_eliminate {X Y} (f : X ~> Y) :
-  unit_right ∘ f ⨂ eliminate ∘ ∆X ≈ f.
+Corollary unit_right_eliminate {x y} (f : x ~> y) :
+  unit_right ∘ f ⨂ eliminate ∘ ∆x ≈ f.
 Proof.
   symmetry.
   rewrite <- id_left at 1.
   rewrite <- proj_left_diagonal.
   unfold proj_left.
   rewrite <- !comp_assoc.
-  pose proof diagonal_natural; simpl in X0.
-  rewrite <- X0; clear X0.
+  pose proof diagonal_natural; simpl in X.
+  rewrite <- X; clear X.
   normal.
   rewrite eliminate_comp.
   reflexivity.
 Qed.
 
-Lemma eliminate_right_diagonal {X} :
-  id[X] ⨂ eliminate ∘ ∆X ≈ unit_right⁻¹.
+Lemma eliminate_right_diagonal {x} :
+  id[x] ⨂ eliminate ∘ ∆x ≈ unit_right⁻¹.
 Proof.
   apply (iso_monic unit_right).
   rewrite comp_assoc.
@@ -62,8 +62,8 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma eliminate_left_diagonal {X} :
-  eliminate ⨂ id[X] ∘ ∆X ≈ unit_left⁻¹.
+Lemma eliminate_left_diagonal {x} :
+  eliminate ⨂ id[x] ∘ ∆x ≈ unit_left⁻¹.
 Proof.
   apply (iso_monic unit_left).
   rewrite comp_assoc.
@@ -72,12 +72,12 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma proj_left_id_diagonal {X Y} :
-  proj_left ⨂ id ∘ ∆(X ⨂ Y) ≈ tensor_assoc ∘ ∆X ⨂ id.
+Lemma proj_left_id_diagonal {x y} :
+  proj_left ⨂ id ∘ ∆(x ⨂ y) ≈ tensor_assoc ∘ ∆x ⨂ id.
 Proof.
   rewrite diagonal_twist2.
   remember (_ ∘ _ ∘ tensor_assoc) as p.
-  pose proof (@twist2_natural _ _ _ X _ id X _ id Y _ eliminate Y _ id); simpl in X0.
+  spose (@twist2_natural _ _ _ x _ id x _ id y _ eliminate y _ id) as X0.
   rewrite !bimap_id_id in X0.
   rewrite !id_left, !id_right in X0.
   unfold proj_left.
@@ -108,14 +108,13 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma proj_right_id_diagonal {X Y} :
-  proj_right ⨂ id ∘ ∆(X ⨂ Y)
-    ≈ tensor_assoc ∘ twist ⨂ id ∘ tensor_assoc⁻¹ ∘ id[X] ⨂ ∆Y.
+Lemma proj_right_id_diagonal {x y} :
+  proj_right ⨂ id ∘ ∆(x ⨂ y)
+    ≈ tensor_assoc ∘ twist ⨂ id ∘ tensor_assoc⁻¹ ∘ id[x] ⨂ ∆y.
 Proof.
   rewrite diagonal_twist2.
   remember (_ ∘ _ ∘ tensor_assoc) as p.
-  pose proof (@twist2_natural _ _ _ X _ eliminate X _ id Y _ id Y _ id);
-  simpl in X0.
+  spose (@twist2_natural _ _ _ x _ eliminate x _ id y _ id y _ id) as X0.
   rewrite !bimap_id_id in X0.
   rewrite !id_right in X0.
   unfold twist2 in X0.
@@ -143,8 +142,8 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary proj_right_left_diagonal {X Y} :
-  proj_right ⨂ proj_left ∘ ∆(X ⨂ Y) ≈ twist.
+Corollary proj_right_left_diagonal {x y} :
+  proj_right ⨂ proj_left ∘ ∆(x ⨂ y) ≈ twist.
 Proof.
   rewrite <- bimap_id_left_right.
   rewrite <- comp_assoc.
@@ -171,7 +170,7 @@ Proof.
   comp_left.
   symmetry.
   normal.
-  pose proof (@from_tensor_assoc_natural _ _ X _ Y _ Y _ id id eliminate).
+  spose (@from_tensor_assoc_natural _ _ x _ y _ y _ id id eliminate) as X0.
   rewrite bimap_id_id in X0.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc (bimap _ _)).
@@ -184,8 +183,8 @@ Proof.
   normal; reflexivity.
 Qed.
 
-Corollary proj_left_right_diagonal {X Y} :
-  proj_left ⨂ proj_right ∘ ∆(X ⨂ Y) ≈ id[X ⨂ Y].
+Corollary proj_left_right_diagonal {x y} :
+  proj_left ⨂ proj_right ∘ ∆(x ⨂ y) ≈ id[x ⨂ y].
 Proof.
   rewrite <- bimap_id_left_right.
   rewrite <- comp_assoc.
@@ -208,8 +207,8 @@ Qed.
 
 Local Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 
-Program Instance diagonal_monic {X} :
-  Monic ∆X.
+Program Instance diagonal_monic {x} :
+  Monic ∆x.
 Next Obligation.
   rewrite <- unit_left_eliminate.
   rewrite <- (unit_left_eliminate g2).
@@ -225,8 +224,8 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Corollary proj_left_twist {X Y} :
-  proj_left ∘ twist ≈ @proj_right _ _ _ X Y.
+Corollary proj_left_twist {x y} :
+  proj_left ∘ twist ≈ @proj_right _ _ _ x y.
 Proof.
   unfold proj_left, proj_right.
   rewrite <- proj_right_left_diagonal.
@@ -236,8 +235,8 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary proj_right_twist {X Y} :
-  proj_right ∘ twist ≈ @proj_left _ _ _ X Y.
+Corollary proj_right_twist {x y} :
+  proj_right ∘ twist ≈ @proj_left _ _ _ x y.
 Proof.
   unfold proj_left, proj_right.
   rewrite <- proj_right_left_diagonal.
@@ -248,8 +247,8 @@ Proof.
 Qed.
 
 Global Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
-  Prod := fun X Y => (X ⨂ Y)%object;
-  fork := fun X _ _ f g => f ⨂ g ∘ ∆X;
+  Prod := fun x y => (x ⨂ y)%object;
+  fork := fun x _ _ f g => f ⨂ g ∘ ∆x;
   exl  := fun _ _ => proj_left;
   exr  := fun _ _ => proj_right
 |}.
