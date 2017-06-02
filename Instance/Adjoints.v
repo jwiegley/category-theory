@@ -24,8 +24,8 @@ Program Definition adj_comp
     {| to   := {| morphism := fun (f : F (F' a) ~> b) => to adj (to adj f) |}
      ; from := {| morphism := fun (f : a ~> U' (U b)) => adj⁻¹ (adj⁻¹ f) |} |}
 |}.
-Next Obligation. proper. rewrite X0; reflexivity. Qed.
-Next Obligation. proper; rewrite X0; reflexivity. Qed.
+Next Obligation. proper. rewrites; reflexivity. Qed.
+Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation.
   srewrite (@iso_to_from _ _ _ (@adj C D F U X (F' a) b)).
   sapply (@iso_to_from _ _ _ (@adj D E F' U' Y a (U b))).
@@ -83,7 +83,7 @@ Next Obligation.
   proper; simpl.
   - isomorphism; simpl.
     + transform; simpl; intros.
-      * exact (fmap (transform[to x2] _) ∘ transform[to x1] _).
+      * exact (fmap (transform[to X0] _) ∘ transform[to X1] _).
       * rewrite comp_assoc.
         rewrite <- fmap_comp.
         rewrite !naturality.
@@ -97,7 +97,7 @@ Next Obligation.
         rewrite <- fmap_comp.
         reflexivity.
     + transform; simpl; intros.
-      * exact (fmap (transform[from x2] _) ∘ transform[from x1] _).
+      * exact (fmap (transform[from X0] _) ∘ transform[from X1] _).
       * rewrite comp_assoc.
         rewrite <- fmap_comp.
         rewrite !naturality.
@@ -113,28 +113,28 @@ Next Obligation.
     + simpl.
       rewrite naturality.
       rewrite <- !comp_assoc.
-      rewrite (comp_assoc (fmap (transform[to x2] _))).
+      rewrite (comp_assoc (fmap (transform[to X0] _))).
       rewrite <- fmap_comp.
       rewrite naturality.
       rewrite comp_assoc.
-      destruct x2; simpl in *.
+      destruct X0; simpl in *.
       rewrite iso_to_from; cat.
-      destruct x1; simpl in *.
+      destruct X1; simpl in *.
       rewrite iso_to_from0; cat.
     + simpl.
       rewrite naturality.
       rewrite <- !comp_assoc.
-      rewrite (comp_assoc (fmap (transform[from x2] _))).
+      rewrite (comp_assoc (fmap (transform[from X0] _))).
       rewrite <- fmap_comp.
       rewrite naturality.
       rewrite comp_assoc.
-      destruct x2; simpl in *.
+      destruct X0; simpl in *.
       rewrite iso_from_to; cat.
-      destruct x1; simpl in *.
+      destruct X1; simpl in *.
       rewrite iso_from_to0; cat.
   - isomorphism; simpl.
     + transform; simpl; intros.
-      * exact (fmap (transform[to y1] _) ∘ transform[to y2] _).
+      * exact (fmap (transform[to H] _) ∘ transform[to H0] _).
       * rewrite comp_assoc.
         rewrite <- fmap_comp.
         rewrite !naturality.
@@ -148,7 +148,7 @@ Next Obligation.
         rewrite <- fmap_comp.
         reflexivity.
     + transform; simpl; intros.
-      * exact (fmap (transform[from y1] _) ∘ transform[from y2] _).
+      * exact (fmap (transform[from H] _) ∘ transform[from H0] _).
       * rewrite comp_assoc.
         rewrite <- fmap_comp.
         rewrite !naturality.
@@ -164,24 +164,24 @@ Next Obligation.
     + simpl.
       rewrite naturality.
       rewrite <- !comp_assoc.
-      rewrite (comp_assoc (fmap (transform[to y1] _))).
+      rewrite (comp_assoc (fmap (transform[to H] _))).
       rewrite <- fmap_comp.
       rewrite naturality.
       rewrite comp_assoc.
-      destruct y1; simpl in *.
+      destruct H; simpl in *.
       rewrite iso_to_from; cat.
-      destruct y2; simpl in *.
+      destruct H0; simpl in *.
       rewrite iso_to_from0; cat.
     + simpl.
       rewrite naturality.
       rewrite <- !comp_assoc.
-      rewrite (comp_assoc (fmap (transform[from y1] _))).
+      rewrite (comp_assoc (fmap (transform[from H] _))).
       rewrite <- fmap_comp.
       rewrite naturality.
       rewrite comp_assoc.
-      destruct y1; simpl in *.
+      destruct H; simpl in *.
       rewrite iso_from_to; cat.
-      destruct y2; simpl in *.
+      destruct H0; simpl in *.
       rewrite iso_from_to0; cat.
 Qed.
 Next Obligation.

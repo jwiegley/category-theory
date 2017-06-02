@@ -51,8 +51,7 @@ Next Obligation.
   rewrite <- !comp_assoc.
   pose proof (@naturality _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ M))
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
-  simpl in X; rewrite <- X.
-  reflexivity.
+  rewrites; reflexivity.
 Qed.
 Next Obligation.
   simpl.
@@ -65,7 +64,19 @@ Next Obligation.
   rewrite <- !comp_assoc.
   pose proof (@naturality _ _ _ _ (to (@ap_functor_iso _ _ _ _ _ M))
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
-  simpl in X; rewrite <- X.
+  rewrites; reflexivity.
+Qed.
+Next Obligation.
+  simpl.
+  rewrite comp_assoc.
+  pose proof (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ M))
+                (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
+  rewrites.
+  rewrite <- !comp_assoc.
+  rewrite <- !fmap_comp.
+  rewrite <- (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ N))
+                (o1, o2) (o, o0) (h, h0)).
+  rewrite fmap_comp.
   reflexivity.
 Qed.
 Next Obligation.
@@ -73,25 +84,12 @@ Next Obligation.
   rewrite comp_assoc.
   pose proof (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ M))
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
-  simpl in X; rewrite X.
-  simpl.
+  rewrites.
   rewrite <- !comp_assoc.
   rewrite <- !fmap_comp.
   rewrite <- (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ N))
                 (o1, o2) (o, o0) (h, h0)).
-  reflexivity.
-Qed.
-Next Obligation.
-  simpl.
-  rewrite comp_assoc.
-  pose proof (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ M))
-                (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
-  simpl in X; rewrite X.
-  simpl.
-  rewrite <- !comp_assoc.
-  rewrite <- !fmap_comp.
-  rewrite <- (@naturality _ _ _ _ (from (@ap_functor_iso _ _ _ _ _ N))
-                (o1, o2) (o, o0) (h, h0)).
+  rewrite fmap_comp.
   reflexivity.
 Qed.
 Next Obligation.
@@ -101,20 +99,13 @@ Next Obligation.
   rewrite (comp_assoc (transform[@to _ _ _ (@ap_functor_iso _ _ _ _ _ M)]
                                 (G o, G o0))).
   pose proof (@iso_to_from _ _ _ (@ap_functor_iso _ _ _ _ _ M) (G o, G o0)).
-  simpl in X; rewrite X.
-  rewrite fmap_id.
-  rewrite comp_assoc.
+  rewrites; simpl.
+  rewrite !fmap_id, id_left.
   rewrite <- !fmap_comp.
-  apply fmap_respects.
-  rewrite <- comp_assoc.
-  pose proof (@fmap_id _ _ (@tensor D H0)).
-  simpl in X0; rewrite X0.
-  rewrite id_left.
-  pose proof (@fmap_id _ _ (@tensor C H)).
   rewrite (@iso_to_from _ _ _ (@ap_functor_iso _ _ _ _ _ N) (o, o0)).
   simpl.
-  rewrite fmap_id.
-  apply fmap_id.
+  rewrite !fmap_id.
+  reflexivity.
 Qed.
 Next Obligation.
   simpl.
@@ -194,7 +185,7 @@ Next Obligation.
   simpl in X0.
   rewrite !bimap_fmap in X0.
   rewrite comp_assoc.
-  rewrite X0; clear X0.
+  rewrites.
   rewrite <- comp_assoc.
   rewrite <- bimap_comp.
   rewrite id_right.
@@ -216,7 +207,7 @@ Next Obligation.
   simpl in X0.
   rewrite !bimap_fmap in X0.
   rewrite comp_assoc.
-  rewrite X0; clear X0.
+  rewrites.
   rewrite <- comp_assoc.
   rewrite <- bimap_comp.
   rewrite id_right.
@@ -235,12 +226,12 @@ Next Obligation.
   rewrite bimap_comp_id_right.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (bimap _ _)).
-  rewrite <- XM; clear XM.
+  rewrites.
 
   rewrite !comp_assoc.
   rewrite <- !fmap_comp.
   pose proof (@monoidal_assoc _ _ _ _ G _ X Y Z) as XG; simpl in XG.
-  rewrite XG; clear XG.
+  rewrites.
 
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
@@ -250,7 +241,7 @@ Next Obligation.
   pose proof (@monoidal_assoc _ _ _ _ F _ (G X) (G Y) (G Z)) as XF; simpl in XF.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ _ (bimap _ _)).
-  rewrite XF; clear XF.
+  rewrites.
   rewrite bimap_comp_id_left.
   rewrite !comp_assoc.
   apply compose_respects; [|reflexivity].
@@ -292,8 +283,7 @@ Next Obligation.
   pose proof (@naturality
                 _ _ _ _ (@ap_functor_nat _ _ _ _ _ M)
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
-  simpl in X; rewrite <- X.
-  reflexivity.
+  rewrites; reflexivity.
 Qed.
 Next Obligation.
   simpl.
@@ -308,8 +298,7 @@ Next Obligation.
   pose proof (@naturality
                 _ _ _ _ (@ap_functor_nat _ _ _ _ _ M)
                 (G o1, G o2) (G o, G o0) (fmap h, fmap h0)) as X.
-  simpl in X; rewrite <- X.
-  reflexivity.
+  rewrites; reflexivity.
 Qed.
 Next Obligation.
   transitivity (F (I ⨂ G X))%object.
@@ -354,7 +343,7 @@ Next Obligation.
   simpl in X0.
   rewrite !bimap_fmap in X0.
   rewrite comp_assoc.
-  rewrite X0; clear X0.
+  rewrites.
   rewrite <- comp_assoc.
   rewrite <- bimap_comp.
   rewrite id_right.
@@ -376,7 +365,7 @@ Next Obligation.
   simpl in X0.
   rewrite !bimap_fmap in X0.
   rewrite comp_assoc.
-  rewrite X0; clear X0.
+  rewrites.
   rewrite <- comp_assoc.
   rewrite <- bimap_comp.
   rewrite id_right.
@@ -395,12 +384,12 @@ Next Obligation.
   rewrite bimap_comp_id_right.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (bimap _ _)).
-  rewrite <- XM; clear XM.
+  rewrites.
 
   rewrite !comp_assoc.
   rewrite <- !fmap_comp.
   pose proof (@lax_monoidal_assoc _ _ _ _ G _ X Y Z) as XG; simpl in XG.
-  rewrite XG; clear XG.
+  rewrites.
 
   rewrite !fmap_comp.
   rewrite <- !comp_assoc.
@@ -411,7 +400,7 @@ Next Obligation.
   simpl in XF.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ _ (bimap _ _)).
-  rewrite XF; clear XF.
+  rewrites.
   rewrite bimap_comp_id_left.
   rewrite !comp_assoc.
   apply compose_respects; [|reflexivity].

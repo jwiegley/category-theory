@@ -131,7 +131,7 @@ Next Obligation.
   normal.
   rewrite <- (@one_comp _ _ _ _ exr).
   normal.
-  rewrite X0; clear X0.
+  rewrites.
   rewrite <- !comp_assoc.
   simpl.
   rewrite (@one_unique _ _ _ _ id).

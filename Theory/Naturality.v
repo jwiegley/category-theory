@@ -50,8 +50,7 @@ Program Instance PartialApply_Product_Left {F : C × C ⟶ C} {X : C} : C ⟶ C 
   fmap := fun _ _ f => fmap[F] (id[X], f)
 }.
 Next Obligation.
-  proper.
-  rewrite X1; reflexivity.
+  proper; rewrites; reflexivity.
 Qed.
 Next Obligation.
   rewrite <- fmap_comp.
@@ -71,8 +70,7 @@ Program Instance PartialApply_Product_Right {F : C × C ⟶ C} {Y : C} : C ⟶ C
   fmap := fun _ _ f => fmap[F] (f, id[Y])
 }.
 Next Obligation.
-  proper.
-  rewrite X0; reflexivity.
+  proper; rewrites; reflexivity.
 Qed.
 Next Obligation.
   rewrite <- fmap_comp.

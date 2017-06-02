@@ -48,8 +48,8 @@ Record Metacategory := {
   (* "With these data one defines an identity of C to be an arrow u such that
      f∙u = f whenever the composite f∙u is defined and u∙g = g whenever u∙g is
      defined." *)
-  identity (u : arr) := (∀ (f : arr), composite f u f) *
-                        (∀ (g : arr), composite u g g);
+  identity (u : arr) :=
+    (∀ (f : arr), composite f u f) ∧ (∀ (g : arr), composite u g g);
 
   (* "The data are then required to satisfy the following three axioms:" *)
 
@@ -61,7 +61,7 @@ Record Metacategory := {
   composition_law (k g f kg gf : arr) :
     composite k g kg ->
     composite g f gf ->
-    ∀ kgf, composite kg f kgf <--> composite k gf kgf;
+    ∀ kgf, composite kg f kgf ↔ composite k gf kgf;
 
   (* Second axiom: *)
 
@@ -69,15 +69,16 @@ Record Metacategory := {
      g∙f are defined." *)
   triple_composition (k g f kg gf : arr) :
     composite k g kg ->
-    composite g f gf -> { kgf : arr & composite kg f kgf };
+    composite g f gf -> ∃ kgf : arr, composite kg f kgf;
 
   (* Third axiom: *)
 
   (* "For each arrow g of C there exist identity arrows u and u' of C such
      that u'∙g and g∙u are defined." *)
   identity_law (g : arr) :
-    { u  : arr & identity u  & defined g  u pairs } *
-    { u' : arr & identity u' & defined u' g pairs };
+    ∃ u u' : arr,
+      identity u ∧ identity u' ∧
+      defined g  u pairs ∧ defined u' g pairs;
 }.
 
 Definition composite_defined (M : Metacategory) (f g h : arr M) :
@@ -85,7 +86,7 @@ Definition composite_defined (M : Metacategory) (f g h : arr M) :
   proj2 (@in_mapsto_iff _ _ _) (ex_intro _ h H).
 
 Program Definition defined_composite (M : Metacategory) (f g : arr M) :
-  defined f g (pairs M) -> { h : arr M & composite M f g h }.
+  defined f g (pairs M) -> ∃ h : arr M, composite M f g h.
 Proof.
   intro H.
   unfold defined in H.

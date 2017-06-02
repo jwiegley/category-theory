@@ -57,7 +57,7 @@ Next Obligation.
   rewrite id_left in X1.
   rewrite bimap_id_id in X1.
   rewrite id_left, !id_right in X1.
-  rewrite X1; clear X1.
+  rewrites.
   pose proof (fst (@strength_natural _ _ _ P
                      (X ⨂ Y, I)%object (X ⨂ Y, I ⨂ I)%object
                      (id[X ⨂ Y], from X0)
@@ -68,7 +68,7 @@ Next Obligation.
   rewrite id_left in X1.
   rewrite bimap_id_id in X1.
   rewrite id_left, !id_right in X1.
-  rewrite X1; clear X1.
+  rewrites.
   exact (fst (@strength_assoc _ _ _ P (X, I) (Y, I) (Z, I))).
 Qed.
 
@@ -97,7 +97,7 @@ Next Obligation.
   rewrite id_left in X1.
   rewrite bimap_id_id in X1.
   rewrite id_left, !id_right in X1.
-  rewrite X1; clear X1.
+  rewrites.
   pose proof (snd (@strength_natural _ _ _ P
                      (I, X ⨂ Y)%object (I ⨂ I, X ⨂ Y)%object
                      (from X0, id[X ⨂ Y])
@@ -108,7 +108,7 @@ Next Obligation.
   rewrite id_left in X1.
   rewrite bimap_id_id in X1.
   rewrite id_left, !id_right in X1.
-  rewrite X1; clear X1.
+  rewrites.
   exact (snd (@strength_assoc _ _ _ P (I, X) (I, Y) (I, Z))).
 Qed.
 

@@ -23,7 +23,7 @@ Class Involutive `(f : X ~> X) := {
 }.
 
 Lemma flip_invol {X Y} (f h : X ~> Y) (g : Y ~> Y) `{@Involutive _ g} :
-  f ≈ g ∘ h <--> g ∘ f ≈ h.
+  f ≈ g ∘ h ↔ g ∘ f ≈ h.
 Proof.
   split; intros.
   rewrite X0, comp_assoc, invol; cat.

@@ -34,8 +34,7 @@ Next Obligation.
   pose proof (@strength_natural _ _ _ O _ _ g _ _ h) as X0.
   pose proof (@strength_natural _ _ _ P _ _ g _ _ h) as X1.
   simpl in *; normal.
-  rewrite X0; clear X0.
-  rewrite X1; clear X1.
+  rewrites.
 
   normal.
   rewrite !bimap_comp.
@@ -69,7 +68,7 @@ Next Obligation.
   pose proof (@strength_assoc _ _ _ O) as X0.
   pose proof (@strength_assoc _ _ _ P) as X1.
   normal.
-  rewrite !X0, !X1; clear X0 X1.
+  rewrite X0, X1; clear X0 X1.
 
   normal.
   rewrite !bimap_comp.
@@ -80,9 +79,9 @@ Next Obligation.
   normal.
   rewrite <- !comp_assoc.
   pose proof (@to_tensor_assoc_natural _ _ X _ Y _ (F Z ⨂ G Z) _
-                id id (unit_right ∘ (id[F Z] ⨂ eliminate))).
+                id id (unit_right ∘ (id[F Z] ⨂ eliminate))) as X0.
   rewrite bimap_id_id in X0.
-  rewrite <- X0.
+  rewrites.
   rewrite !bimap_comp.
   rewrite <- !comp_assoc.
   srewrite_r diagonal_natural.
@@ -107,9 +106,9 @@ Next Obligation.
   rewrite <- bimap_comp, id_left.
   rewrite <- to_tensor_assoc_natural.
   pose proof (@to_tensor_assoc_natural _ _ X _ Y _ (F Z ⨂ G Z) _
-                id id (unit_left ∘ eliminate ⨂ id[G Z])).
-  rewrite bimap_id_id in X1.
-  rewrite <- X1; clear X1.
+                id id (unit_left ∘ eliminate ⨂ id[G Z])) as X0.
+  rewrite bimap_id_id in X0.
+  rewrites.
   rewrite !comp_assoc.
   apply compose_respects; [|reflexivity].
   rewrite <- (comp_assoc _ tensor_assoc).

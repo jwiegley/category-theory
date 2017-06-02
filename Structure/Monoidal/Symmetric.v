@@ -34,7 +34,7 @@ Proof.
   pose proof (fst twist_natural _ _ f _ _ g); simpl in X0.
   normal.
   rewrite <- comp_assoc.
-  rewrite X0.
+  rewrites.
   rewrite comp_assoc.
   rewrite twist_invol; cat.
 Qed.

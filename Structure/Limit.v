@@ -25,15 +25,8 @@ Unset Transparent Obligations.
 Class Limit `(F : J ⟶ C) := {
   Lim : Cone F;
 
-  ump_limits (N : Cone F) :
-    Unique (fun u : N ~> Lim =>
-              ∀ X, vertex_map[Lim] ∘ u ≈ @vertex_map _ _ _ N X)
-
-  (* ump_limits' : ∀ (N : Cone F), *)
-  (*   { u : N ~> Lim *)
-  (*   & ∀ X, vertex_map[Lim] ∘ u ≈ @vertex_map _ _ _ N X *)
-  (*   & ∀ (v : N ~> Lim), *)
-  (*       ∀ X, vertex_map[Lim] ∘ v ≈ @vertex_map _ _ _ N X -> v ≈ u } *)
+  ump_limits : ∀ N : Cone F, ∃! u : N ~> Lim, ∀ X : J,
+    vertex_map[Lim] ∘ u ≈ @vertex_map _ _ _ N X
 }.
 
 Arguments Limit {_ _} F%functor.

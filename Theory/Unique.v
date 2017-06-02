@@ -17,3 +17,6 @@ Class Unique {C : Category} {X Y : C} (P : (X ~> Y) -> Type) := {
 Arguments unique_morphism {_ _ _ _} _.
 Arguments unique_property {_ _ _ _} _.
 Arguments uniqueness {_ _ _ _} _.
+
+Notation "∃! f : A , P" := (Unique (fun f : A => P))
+  (at level 9, f ident, A at level 200, P at level 200) : category_theory_scope.

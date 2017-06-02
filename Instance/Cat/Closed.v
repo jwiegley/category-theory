@@ -48,9 +48,8 @@ Next Obligation.
   apply fmap_respects; simpl; cat.
 Qed.
 Next Obligation.
-  proper.
-  simpl; cat.
-  rewrite X0; reflexivity.
+  proper; simpl; cat;
+  rewrites; reflexivity.
 Qed.
 Next Obligation.
   simpl; intros.
@@ -86,7 +85,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper.
-  rewrite y0. simpl.
+  rewrite H.
   comp_left.
   destruct F; simpl in *.
   apply fmap_respects.
@@ -115,9 +114,10 @@ Next Obligation.
   - isomorphism.
     + apply x0.
     + apply (from (x0 _)).
-    + srewrite (iso_to_from (x0 x2)); cat.
-    + srewrite (iso_from_to (x0 x2)); cat.
-  - simpl; rewrite e.
+    + srewrite (iso_to_from (x0 x1)); cat.
+    + srewrite (iso_from_to (x0 x1)); cat.
+  - simpl.
+    rewrite e.
     do 2 comp_right.
     apply naturality.
 Qed.

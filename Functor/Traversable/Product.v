@@ -43,26 +43,26 @@ Proof.
                           (F X0, G X0) (F Y, G Y)
                           (fmap[F] f, fmap[G] f)) as X2; simpl in *.
     rewrite comp_assoc.
-    rewrite X2; clear X2.
+    rewrites.
     rewrite <- !comp_assoc.
     pose proof (naturality[@sequence _ _ _ _ _ O H2 _]) as X3; simpl in *.
     pose proof (naturality[@sequence _ _ _ _ _ P H2 _]) as X4; simpl in *.
     unfork.
     rewrite !comp_assoc.
-    rewrite X3, X4; clear X3 X4.
+    rewrite X3, X4.
     reflexivity.
   - unfold lax_ap.
     pose proof (naturality[@ap_functor_nat _ _ _ _ H2 _]
                           (F X0, G X0) (F Y, G Y)
                           (fmap[F] f, fmap[G] f)) as X2; simpl in *.
     rewrite comp_assoc.
-    rewrite X2; clear X2.
+    rewrites.
     rewrite <- !comp_assoc.
     pose proof (naturality[@sequence _ _ _ _ _ O H2 _]) as X3; simpl in *.
     pose proof (naturality[@sequence _ _ _ _ _ P H2 _]) as X4; simpl in *.
     unfork.
     rewrite !comp_assoc.
-    rewrite X3, X4; clear X3 X4.
+    rewrite X3, X4.
     reflexivity.
 Defined.
 
@@ -83,7 +83,7 @@ Next Obligation.
   pose proof (naturality[@slm_transform _ _ _ _ _ _ _ _ f]).
   rewrite <- comp_assoc.
   rewrite <- bimap_comp.
-  rewrite <- X0, <- X1.
+  rewrites.
   rewrite bimap_comp.
   rewrite !comp_assoc.
   apply compose_respects; [|reflexivity].
@@ -108,7 +108,7 @@ Next Obligation.
   simpl in *.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (bimap _ _)).
-  rewrite <- X3; clear X3.
+  rewrites.
   rewrite !comp_assoc.
   rewrite <- fmap_comp.
   reflexivity.

@@ -23,8 +23,8 @@ Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := {|
      ; from := {| morphism := fun f =>
          @Transformation.counit _ _ _ _ A b ∘ fmap f |} |}
 |}.
-Next Obligation. proper; rewrite X; reflexivity. Qed.
-Next Obligation. proper; rewrite X; reflexivity. Qed.
+Next Obligation. proper; rewrites; reflexivity. Qed.
+Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite <- comp_assoc.

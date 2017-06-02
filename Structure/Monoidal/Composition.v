@@ -48,14 +48,8 @@ Next Obligation.
   apply fmap_respects.
   apply naturality_sym.
 Qed.
-Next Obligation.
-  proper; simpl in *.
-  rewrite x0, y0.
-  reflexivity.
-Qed.
-Next Obligation.
-  rewrite !fmap_id; cat.
-Qed.
+Next Obligation. proper; rewrites; reflexivity. Qed.
+Next Obligation. rewrite !fmap_id; cat. Qed.
 Next Obligation.
   rewrite <- !comp_assoc.
   apply compose_respects.

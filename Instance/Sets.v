@@ -121,16 +121,8 @@ Program Instance Sets_Terminal : @Terminal Sets := {
   One := {| carrier := unit |};
   one := _
 }.
-Next Obligation.
-  morphism.
-    intros.
-    exact tt.
-  proper.
-Qed.
-Next Obligation.
-  destruct (f x), (g x).
-  reflexivity.
-Qed.
+Next Obligation. morphism; [ intros; exact tt | proper ]. Qed.
+Next Obligation. destruct (f x), (g x); reflexivity. Qed.
 
 Require Import Category.Structure.Initial.
 
@@ -140,10 +132,5 @@ Program Instance Sets_Initial : @Initial Sets := {
   One := {| carrier := False |};
   one := _
 }.
-Next Obligation.
-  morphism.
-  contradiction.
-Qed.
-Next Obligation.
-  contradiction.
-Qed.
+Next Obligation. morphism; contradiction. Qed.
+Next Obligation. contradiction. Qed.

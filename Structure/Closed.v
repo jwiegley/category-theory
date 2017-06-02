@@ -51,7 +51,7 @@ Next Obligation.
   unfold curry; simpl in *.
   destruct exp_iso; simpl in *.
   destruct to; simpl in *.
-  rewrite X; reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Global Program Instance parametric_morphism_uncurry (a b c : C) :
@@ -61,7 +61,7 @@ Next Obligation.
   unfold uncurry; simpl in *.
   destruct exp_iso; simpl in *.
   destruct from; simpl in *.
-  rewrite X; reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Corollary curry_uncurry {X Y Z} (f : X ~> Z^Y) :
@@ -126,19 +126,19 @@ Qed.
 Corollary curry_inj {X Y Z : C} (f g : X × Y ~> Z) :
   curry f ≈ curry g -> f ≈ g.
 Proof.
-  intros Hcurry.
+  intros.
   rewrite <- (uncurry_curry f).
   rewrite <- (uncurry_curry g).
-  rewrite Hcurry; reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Corollary uncurry_inj {X Y Z : C} (f g : X ~> Z^Y) :
   uncurry f ≈ uncurry g -> f ≈ g.
 Proof.
-  intros Hcurry.
+  intros.
   rewrite <- (curry_uncurry f).
   rewrite <- (curry_uncurry g).
-  rewrite Hcurry; reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Corollary curry_comp_l {X Y Z W : C} (f : Y × Z ~> W) (g : X ~> Y) :
@@ -250,7 +250,7 @@ Next Obligation.
   rewrite <- curry_comp; cat;
   pose proof (@eval_first) as HA;
   unfold first in HA;
-  rewrite HA; cat.
+  rewrites; cat.
 Qed.
 Next Obligation.
   apply uncurry_inj.
@@ -308,8 +308,7 @@ Next Obligation.
   rewrite <- fork_comp.
   rewrite id_left.
   cut (@one _ _ (X^One) ∘ exl ≈ exr).
-    intro Hone.
-    rewrite Hone; cat.
+    intros; rewrites; cat.
   cat.
 Qed.
 

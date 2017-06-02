@@ -28,9 +28,8 @@ Program Instance Product_Monoidal `{@Monoidal C} `{@Monoidal D} :
 Next Obligation. exact H. Defined.
 Next Obligation. exact H0. Defined.
 Next Obligation.
-  proper; simplify; simpl in *.
-    rewrite x6, x5; reflexivity.
-  rewrite y4, y5; reflexivity.
+  proper; simplify; simpl in *;
+  rewrites; reflexivity.
 Qed.
 Next Obligation. all:normal; reflexivity. Qed.
 Next Obligation. all:apply bimap_comp. Qed.

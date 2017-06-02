@@ -62,7 +62,7 @@ Global Program Instance parametric_morphism_cover {a b c d : C} :
 Next Obligation.
   proper.
   unfold cover.
-  rewrite X, X0.
+  rewrites.
   reflexivity.
 Qed.
 
@@ -87,7 +87,7 @@ Proof. apply (@fork_exl_exr _ O). Qed.
 Hint Rewrite @merge_inl_inr : categories.
 
 Corollary merge_inv {X Y Z : C} (f h : Y ~> X) (g i : Z ~> X) :
-  f ▽ g ≈ h ▽ i <--> (f ≈ h) * (g ≈ i).
+  f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i).
 Proof. apply (@fork_inv _ O). Qed.
 
 Corollary merge_comp {X Y Z W : C} (f : Y ~> Z) (h : W ~> Z) (g : Z ~> X) :

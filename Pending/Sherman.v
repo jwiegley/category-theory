@@ -75,11 +75,11 @@ Proof.
   simpl in X1.
   unfold rel in *; repeat intros.
   rewrite uncurry_curry in X1.
-  rewrite <- X1; [reflexivity|]; clear X1.
+  rewrites; [reflexivity|]; clear X1.
   pose proof (@fmap_add Coq _ _ _ _ _ _ _ _) as HA.
   simpl in HA.
   assert (Nat.add = prod_uncurry (λ p : nat * nat, (fst p + snd p)%nat)) by auto.
-  rewrite H2; clear H2.
+  rewrites.
 Admitted.
 *)
 

@@ -22,7 +22,7 @@ Defined.
 Next Obligation.
   unfold InternalHomFunctor_obligation_1.
   proper; simpl.
-  rewrite x0, y0.
+  rewrites.
   reflexivity.
 Qed.
 Next Obligation. unfold second; simpl; cat. Qed.

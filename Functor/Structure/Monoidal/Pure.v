@@ -34,7 +34,7 @@ Proof.
   apply compose_respects; [reflexivity|].
   pose proof (strength_natural _ _ g I I id); simpl in X0.
   normal.
-  rewrite X0.
+  rewrites.
   rewrite <- !comp_assoc.
   apply compose_respects; [reflexivity|].
   rewrite <- from_unit_right_natural.

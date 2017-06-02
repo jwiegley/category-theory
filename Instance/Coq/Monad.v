@@ -141,7 +141,7 @@ Proof.
   intros.
   replace x with (id x) at 2; auto.
   pose proof (@join_fmap_ret Coq m M a) as HA.
-  rewrite <- HA; reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Corollary join_ret_x : forall a x,
@@ -149,7 +149,7 @@ Corollary join_ret_x : forall a x,
 Proof.
   intros.
   pose proof (@join_ret Coq m M a) as HA.
-  rewrite <- HA; reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Corollary join_fmap_fmap_x : forall (a b : Type) (f : a -> b) x,

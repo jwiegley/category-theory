@@ -27,7 +27,7 @@ Class Cartesian:= {
     Proper (equiv ==> equiv ==> equiv) (@fork X Y Z);
 
   ump_products {X Y Z} (f : X ~> Y) (g : X ~> Z) (h : X ~> Y × Z) :
-    h ≈ fork f g <--> (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
+    h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
 }.
 
 Infix "×" := Prod : category_scope.
@@ -50,7 +50,7 @@ Global Program Instance parametric_morphism_first {a b c : C} :
 Next Obligation.
   proper.
   unfold first.
-  rewrite X.
+  rewrites.
   reflexivity.
 Qed.
 
@@ -59,7 +59,7 @@ Global Program Instance parametric_morphism_second {a b c : C} :
 Next Obligation.
   proper.
   unfold second.
-  rewrite X.
+  rewrites.
   reflexivity.
 Qed.
 
@@ -68,7 +68,7 @@ Global Program Instance parametric_morphism_split {a b c d : C} :
 Next Obligation.
   proper.
   unfold split.
-  rewrite X, X0.
+  rewrites.
   reflexivity.
 Qed.
 
@@ -105,13 +105,13 @@ Qed.
 Hint Rewrite @fork_exl_exr : categories.
 
 Corollary fork_inv {X Y Z : C} (f h : X ~> Y) (g i : X ~> Z) :
-  f △ g ≈ h △ i <--> (f ≈ h) * (g ≈ i).
+  f △ g ≈ h △ i ↔ f ≈ h ∧ g ≈ i.
 Proof.
   pose proof (ump_products h i (f △ g)) as HA;
   simplify; intuition.
-  - rewrite <- a; cat.
-  - rewrite <- b; cat.
-  - apply X0; cat.
+  - rewrites; cat.
+  - rewrites; cat.
+  - apply X1; cat.
 Qed.
 
 Corollary fork_comp {X Y Z W : C}
@@ -145,7 +145,7 @@ Proof.
   rewrite <- (id_left g).
   rewrite <- swap_invol.
   rewrite <- comp_assoc.
-  rewrite HA.
+  rewrites.
   rewrite comp_assoc.
   reflexivity.
 Qed.
@@ -158,7 +158,7 @@ Proof.
   rewrite <- (id_right g).
   rewrite <- swap_invol.
   rewrite comp_assoc.
-  rewrite HA.
+  rewrites.
   rewrite <- comp_assoc.
   reflexivity.
 Qed.

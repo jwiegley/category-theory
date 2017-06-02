@@ -53,10 +53,10 @@ Next Obligation.
     + exact (snd (iso_from_to (x x0))).
   - apply (snd (e _ _ _)).
   - isomorphism.
-    + exact(to (x1 x), to (x0 x)).
-    + exact(from (x1 x), from (x0 x)).
-    + exact(iso_to_from (x1 x), iso_to_from (x0 x)).
-    + exact(iso_from_to (x1 x), iso_from_to (x0 x)).
+    + exact(to (x0 x1), to (x x1)).
+    + exact(from (x0 x1), from (x x1)).
+    + exact(iso_to_from (x0 x1), iso_to_from (x x1)).
+    + exact(iso_from_to (x0 x1), iso_from_to (x x1)).
   - apply e0.
   - apply e.
 Qed.

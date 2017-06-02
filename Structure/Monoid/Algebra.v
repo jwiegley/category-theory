@@ -33,7 +33,7 @@ Program Instance Classical_Monoid (A : Type) `{Setoid A} `{MonoidAlg A} :
 Next Obligation.
   proper; simpl in *.
   destruct H1.
-  rewrite x0, y0.
+  rewrite X, H2.
   reflexivity.
 Qed.
 Next Obligation. rewrite mon_zero_left; reflexivity. Qed.

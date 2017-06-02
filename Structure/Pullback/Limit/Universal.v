@@ -8,8 +8,8 @@ Require Export Category.Structure.Span.
 Require Export Category.Instance.Roof.
 
 Program Definition Pullback_to_Universal {C : Category}
-        (F : Cospan C) (P : Pullback F) :
-  Pullback_Universal (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {|
+        (F : Cospan C) (P : Pullback_Limit F) :
+  Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {|
   pullback_obj := @Lim _ _ _ P;
   pullback_fst := vertex_map;
   pullback_snd := vertex_map
@@ -37,13 +37,13 @@ Next Obligation.
     [ pose proof (unique_property (ump_limits cone) RNeg)
     | pose proof (unique_property (ump_limits cone) RPos) ];
     unfold cone in *; simpl in *; clear cone;
-    rewrite X0; clear X0; reflexivity.
+    rewrites; reflexivity.
   }
   intros.
   apply (uniqueness (ump_limits cone)); intros.
   simpl in *.
   destruct X0, X1; simpl; auto.
-  rewrite <- e0.
+  rewrites.
   rewrite comp_assoc.
   unfold unop.
   rewrite ump_cones.
@@ -51,8 +51,8 @@ Next Obligation.
 Qed.
 
 Program Definition Pullback_from_Universal {C : Category}
-        {X Y Z : C} (f : X ~> Z) (g : Y ~> Z) (P : Pullback_Universal f g) :
-  Limit (@ASpan (C^op) Z X Y f g)^op := {|
+        {X Y Z : C} (f : X ~> Z) (g : Y ~> Z) (P : Pullback f g) :
+  @Pullback_Limit _ (@ASpan (C^op) Z X Y f g)^op := {|
   Lim := {| vertex := pullback_obj _ _ P |}
 |}.
 Next Obligation.
@@ -75,7 +75,7 @@ Next Obligation.
   construct; simplify; auto.
     destruct X0; auto.
     rewrite <- comp_assoc.
-    rewrite x.
+    rewrite unique_property.
     apply (ump_cones RNeg RZero ZeroNeg).
   apply uniqueness.
   split.

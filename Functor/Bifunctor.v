@@ -98,14 +98,14 @@ Proof.
 Qed.
 
 Global Program Instance bifunctor_respects {F : C ∏ D ⟶ E} :
-  Proper ((fun p q => Isomorphism (fst p) (fst q) *
+  Proper ((fun p q => Isomorphism (fst p) (fst q) ∧
                       Isomorphism (snd p) (snd q))
             ==> Isomorphism) F.
 Next Obligation.
   proper; simpl in *.
   isomorphism.
-  - exact (bimap x0 y0).
-  - exact (bimap (x0⁻¹) (y0⁻¹)).
+  - exact (bimap X H).
+  - exact (bimap (X⁻¹) (H⁻¹)).
   - rewrite <- bimap_comp.
     rewrite !iso_to_from.
     rewrite bimap_id_id.

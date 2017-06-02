@@ -126,8 +126,7 @@ Next Obligation.
   rewrite <- (id_left g2).
   rewrite <- !(iso_from_to iso).
   rewrite <- !comp_assoc.
-  rewrite X0.
-  reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Program Instance iso_from_monic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
@@ -137,8 +136,7 @@ Next Obligation.
   rewrite <- (id_left g2).
   rewrite <- !(iso_to_from iso).
   rewrite <- !comp_assoc.
-  rewrite X0.
-  reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Program Instance iso_epic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
@@ -148,8 +146,7 @@ Next Obligation.
   rewrite <- (id_right g2).
   rewrite <- !(iso_to_from iso).
   rewrite !comp_assoc.
-  rewrite X0.
-  reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Program Instance iso_from_epic {C : Category} {X Y} (iso : @Isomorphism C X Y) :
@@ -159,8 +156,7 @@ Next Obligation.
   rewrite <- (id_right g2).
   rewrite <- !(iso_from_to iso).
   rewrite !comp_assoc.
-  rewrite X0.
-  reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Program Instance Monic_Retraction_Iso

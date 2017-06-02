@@ -39,7 +39,7 @@ Next Obligation.
   proper; simpl in *.
   destruct f; simpl in *.
   unfold Proper, respectful in proper_morphism.
-  rewrite (proper_morphism _ _ x0).
-  destruct (morphism x1).
+  rewrite (proper_morphism _ _ X).
+  destruct (morphism y).
   apply proper_morphism0; assumption.
 Qed.

@@ -38,7 +38,8 @@ Next Obligation.
   - rewrite H; reflexivity.
   - rewrite H; reflexivity.
   - intros; simplify.
-    rewrite <- x0, <- y, <- surjective_pairing; reflexivity.
+    rewrite <- H, <- H0.
+    rewrite <- surjective_pairing; reflexivity.
 Qed.
 
 Program Instance Coq_Closed : @Closed Coq _ := {
@@ -47,11 +48,7 @@ Program Instance Coq_Closed : @Closed Coq _ := {
     {| to   := {| morphism := fun f a b => f (a, b) |}
      ; from := {| morphism := fun f p => f (fst p) (snd p) |} |}
 }.
-Next Obligation.
-  proper.
-  extensionality X0.
-  congruence.
-Qed.
+Next Obligation. proper; extensionality X0; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
 
 Program Instance Coq_Initial : Initial Coq := {
@@ -78,7 +75,7 @@ Next Obligation.
 Qed.
 
 Lemma injectivity_is_monic `(f : X ~> Y) :
-  (∀ x y, f x = f y → x = y) <--> Monic f.
+  (∀ x y, f x = f y → x = y) ↔ Monic f.
 Proof.
   split.
   - intros HA.
@@ -101,7 +98,7 @@ Proof.
 Qed.
 
 Lemma surjectivity_is_epic `(f : X ~> Y) :
-  (∀ y, ∃ x, f x = y)%type <--> Epic f.
+  (∀ y, exists x, f x = y)%type ↔ Epic f.
 Proof.
   split.
   - intros HA.
@@ -115,9 +112,9 @@ Proof.
   - intros HA ?.
     destruct HA.
     specialize epic with (Z := Prop).
-    specialize epic with (g1 := fun y0 => (∃ x0, f x0 = y0)%type).
+    specialize epic with (g1 := fun y0 => (exists x0, f x0 = y0)%type).
     simpl in *.
-    specialize epic with (g2 := fun y  => True).
+    specialize epic with (g2 := fun y => True).
     erewrite epic.
       constructor.
     intros.

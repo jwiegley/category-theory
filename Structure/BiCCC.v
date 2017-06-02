@@ -168,7 +168,7 @@ Next Obligation.
   simpl.
   rewrite !comp_assoc.
   rewrite <- !merge_comp.
-  rewrite HD, HE.
+  rewrites.
   reflexivity.
 Qed.
 

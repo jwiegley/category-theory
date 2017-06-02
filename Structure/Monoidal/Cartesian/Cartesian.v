@@ -28,20 +28,16 @@ Global Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
   exr  := fun _ _ => proj_right
 |}.
 Next Obligation. apply is_relevance. Defined.
-Next Obligation.
-  proper.
-  rewrite X0, X1.
-  reflexivity.
-Qed.
+Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation.
   split; intros.
     split.
-      rewrite X0; clear X0.
+      rewrites.
       rewrite comp_assoc.
       rewrite proj_left_natural.
       rewrite <- comp_assoc.
       rewrite proj_left_diagonal; cat.
-    rewrite X0; clear X0;
+    rewrites.
     rewrite comp_assoc.
     rewrite proj_right_natural.
     rewrite <- comp_assoc.

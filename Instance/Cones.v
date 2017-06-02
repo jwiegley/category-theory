@@ -20,8 +20,7 @@ Program Definition Cones `(F : J ⟶ C) : Category := {|
 |}.
 Next Obligation.
   rewrite comp_assoc.
-  rewrite X0.
-  apply X.
+  rewrite X0; auto.
 Qed.
 
 Definition Cocones `{F : J ⟶ C} := @Cones (J^op) (C^op) (F^op).

@@ -75,7 +75,8 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite <- fmap_comp.
   pose proof (@prod_fmap_fmap _ _ _ _ _ _ _ _ a).
-  simpl in X; rewrite X.
+  simpl in X.
+  rewrite X.
   rewrite fmap_comp.
   rewrite comp_assoc.
   reflexivity.

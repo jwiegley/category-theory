@@ -49,8 +49,7 @@ Proof.
   unfold rel, rel2; repeat intros.
   rewrite <- comp_assoc.
   rewrite <- fork_comp.
-  rewrite <- X0; clear X0.
-  rewrite X; clear X.
+  rewrites.
   rewrite <- eval_first.
   comp_left.
   unfold first.
@@ -71,9 +70,9 @@ Proof.
   rewrite <- comp_assoc.
   rewrite <- fork_comp.
   rewrite id_left.
-  rewrite <- X0; clear X0.
+  rewrites.
   rewrite convert_fork.
-  apply X.
+  reflexivity.
 Qed.
 
 Theorem ccc_curry :

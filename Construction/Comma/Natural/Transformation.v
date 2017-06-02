@@ -55,7 +55,7 @@ Next Obligation.
   rewrite <- (iso_to_from (`1 proj2 Y)).
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ f).
-  rewrite <- X1; clear X1.
+  rewrites.
   rewrite fmap_comp.
   comp_left.
 
@@ -63,7 +63,7 @@ Next Obligation.
   rewrite <- (id_right f) at 1.
   rewrite <- (iso_to_from (`1 proj1 X)).
   rewrite !comp_assoc.
-  rewrite <- X0; clear X0.
+  rewrites.
   rewrite fmap_comp.
   comp_right.
 

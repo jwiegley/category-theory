@@ -73,7 +73,7 @@ Next Obligation.
   pose proof (@iso_from_to _ _ _ (@adj _ _ _ _ ran_adjoint M X) N A0).
   simpl in *.
   unfold nat_compose; simpl in *.
-  rewrite <- X0; clear X0.
+  rewrites.
   sapply (proper_morphism (@from _ _ _ (@adj _ _ _ _ ran_adjoint M X))).
   simpl; intros; cat.
 Qed.

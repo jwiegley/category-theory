@@ -52,7 +52,7 @@ Qed.
 Hint Rewrite @prod_out_in : functors.
 
 Corollary prod_in_inj {X Y Z : C} (f g : F X ~> F X × F Y) :
-  prod_in ∘ f ≈ prod_in ∘ g <--> f ≈ g.
+  prod_in ∘ f ≈ prod_in ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hprod.
     rewrite <- id_left.
@@ -67,7 +67,7 @@ Proof.
 Qed.
 
 Corollary prod_out_inj {X Y Z : C} (f g : F X ~> F (Y × Z)) :
-  prod_out ∘ f ≈ prod_out ∘ g <--> f ≈ g.
+  prod_out ∘ f ≈ prod_out ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hprod.
     rewrite <- id_left.

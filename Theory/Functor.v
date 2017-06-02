@@ -68,7 +68,8 @@ Next Obligation.
     + exact (to (x0 x1)).
     + apply iso_from_to.
     + apply iso_to_from.
-  - simpl; rewrite e.
+  - simpl.
+    rewrite e.
     rewrite !comp_assoc.
     rewrite iso_to_from, id_left.
     rewrite <- comp_assoc.
@@ -133,13 +134,8 @@ Program Definition Compose
   fobj := fun x => fobj (fobj x);
   fmap := fun _ _ f => fmap (fmap f)
 |}.
-Next Obligation.
-  proper.
-  rewrite X0; reflexivity.
-Qed.
-Next Obligation.
-  intros; rewrite !fmap_comp; reflexivity.
-Qed.
+Next Obligation. proper; rewrites; reflexivity. Qed.
+Next Obligation. intros; rewrite !fmap_comp; reflexivity. Qed.
 
 Hint Unfold Compose.
 
@@ -164,7 +160,7 @@ Next Obligation.
       rewrite iso_from_to, fmap_id, id_left.
       rewrite iso_from_to; cat.
   - simpl.
-    rewrite e, e0; clear e e0.
+    rewrite e0, e.
     rewrite <- !comp_assoc.
     rewrite (comp_assoc (fmap _)).
     rewrite <- fmap_comp.
@@ -184,6 +180,6 @@ Class Full `(F : C ⟶ D) := {
 }.
 
 Class FullyFaithful `(F : C ⟶ D) := {
-  fmap_bij {X Y} : F X ~> F Y <--> X ~> Y;
+  fmap_bij {X Y} : F X ~> F Y ↔ X ~> Y;
   fobj_inj {X Y} : F X ≅ F Y -> X ≅ Y
 }.

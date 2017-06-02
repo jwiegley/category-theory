@@ -21,10 +21,7 @@ Global Program Definition Tensor_Left {F : C ⟶ C} {Y : C} : C ⟶ C := {|
   fmap := fun _ _ f => fmap[F] f ⨂[M] id
 |}.
 Next Obligation.
-  proper.
-  apply bimap_respects.
-    rewrite X0; reflexivity.
-  reflexivity.
+  proper; apply bimap_respects; rewrites; reflexivity.
 Defined.
 Next Obligation. normal; reflexivity. Qed.
 
@@ -51,10 +48,8 @@ Global Program Instance Tensor_Right {F : C ⟶ C} {X : C} : C ⟶ C := {
   fmap := fun _ _ f => id ⨂[M] fmap[F] f
 }.
 Next Obligation.
-  proper.
-  apply bimap_respects.
-    reflexivity.
-  rewrite X1; reflexivity.
+  proper; apply bimap_respects;
+  rewrites; reflexivity.
 Qed.
 Next Obligation. normal; reflexivity. Qed.
 
@@ -81,9 +76,8 @@ Global Program Definition Tensor_Both `{F : C ⟶ C} : C ⟶ C := {|
   fmap := fun _ _ f => fmap[F] f ⨂[M] fmap[F] f
 |}.
 Next Obligation.
-  proper.
-  apply bimap_respects;
-  rewrite X0; reflexivity.
+  proper; apply bimap_respects;
+  rewrites; reflexivity.
 Qed.
 Next Obligation. normal; reflexivity. Qed.
 

@@ -95,11 +95,11 @@ Qed.
 
 Corollary from_adj_respects {a b} (f g : a ~{D}~> U b) :
   f ≈ g -> adj⁻¹ f ≈ adj⁻¹ g.
-Proof. intro X; rewrite X; reflexivity. Qed.
+Proof. intros; rewrites; reflexivity. Qed.
 
 Corollary adj_respects {a b} (f g : F a ~{C}~> b) :
   f ≈ g -> to adj f ≈ to adj g.
-Proof. intro X; rewrite X; reflexivity. Qed.
+Proof. intros; rewrites; reflexivity. Qed.
 
 End Adjunction.
 

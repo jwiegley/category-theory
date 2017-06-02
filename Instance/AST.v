@@ -108,17 +108,13 @@ Program Instance Hom_Cartesian : @Cartesian AST := {
   exl  := @Exl;
   exr  := @Exr
 }.
-Next Obligation.
-  proper.
-  rewrite X0, X1.
-  reflexivity.
-Qed.
+Next Obligation. proper; rewrite X0, X1; reflexivity. Qed.
 Next Obligation.
   split; intros HA.
     split; intros; rewrite HA; cat.
   intros.
-  destruct HA as [HA HB].
-  rewrite <- HA, <- HB.
+  destruct HA as [? ?].
+  rewrite <- e, <- e0.
   rewrite fork_comp; cat.
 Qed.
 
@@ -128,16 +124,8 @@ Program Instance Hom_Closed : @Closed AST _ := {
     {| to   := {| morphism := @Curry X Y Z |}
      ; from := {| morphism := @Uncurry X Y Z |} |}
 }.
-Next Obligation.
-  proper.
-  rewrite X0.
-  reflexivity.
-Qed.
-Next Obligation.
-  proper.
-  rewrite X0.
-  reflexivity.
-Qed.
+Next Obligation. proper; rewrite X0; reflexivity. Qed.
+Next Obligation. proper; rewrite X0; reflexivity. Qed.
 
 Program Instance Hom_Initial : @Initial AST := {
   One := Zero_;
@@ -150,17 +138,13 @@ Program Instance Hom_Cocartesian : @Cocartesian AST := {
   exl  := @Inl;
   exr  := @Inr
 }.
-Next Obligation.
-  proper.
-  rewrite X0, X1.
-  reflexivity.
-Qed.
+Next Obligation. proper; rewrite X0, X1; reflexivity. Qed.
 Next Obligation.
   split; intros HA.
     split; intros; rewrite HA; cat.
   intros.
-  destruct HA as [HA HB].
-  rewrite <- HA, <- HB.
+  destruct HA as [? ?].
+  rewrite <- e, <- e0.
   rewrite merge_comp; cat.
 Qed.
 

@@ -89,8 +89,8 @@ Proof.
   abstract sapply (iso_to_from (ap_functor_iso[P])).
 
   split; simplify.
-    abstract apply (iso_from_to (ap_functor_iso[O]) (x1, x0)).
-  abstract apply (iso_from_to (ap_functor_iso[P]) (y, y0)).
+    abstract apply (iso_from_to (ap_functor_iso[O]) (A, H3)).
+  abstract apply (iso_from_to (ap_functor_iso[P]) (H5, H4)).
 Time Defined.
 
 Set Transparent Obligations.
@@ -241,7 +241,7 @@ Next Obligation.
   rewrite !bimap_id_id in X0.
   rewrite !fmap_id in X0.
   rewrite id_left, id_right in X0.
-  rewrite <- X0; clear X0.
+  rewrites.
 
   pose proof (fst (naturality (to ap_functor_iso[P])
                               ((X, I), (Y ⨂ Z, I ⨂ I))%object
@@ -252,7 +252,7 @@ Next Obligation.
   rewrite !bimap_id_id in X0.
   rewrite !fmap_id in X0.
   rewrite id_left, id_right in X0.
-  rewrite <- X0; clear X0.
+  rewrites.
 
   apply (fst (@monoidal_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I))).
 Qed.
@@ -360,7 +360,7 @@ Next Obligation.
   rewrite !bimap_id_id in X0.
   rewrite !fmap_id in X0.
   rewrite id_left, id_right in X0.
-  rewrite <- X0; clear X0.
+  rewrites.
 
   pose proof (snd (naturality (to ap_functor_iso[P])
                               ((I, X), (I ⨂ I, Y ⨂ Z))%object
@@ -371,7 +371,7 @@ Next Obligation.
   rewrite !bimap_id_id in X0.
   rewrite !fmap_id in X0.
   rewrite id_left, id_right in X0.
-  rewrite <- X0; clear X0.
+  rewrites.
 
   apply (snd (@monoidal_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z))).
 Qed.
@@ -508,7 +508,7 @@ Next Obligation.
   rewrite !bimap_id_id in X0.
   rewrite !fmap_id in X0.
   rewrite id_left, id_right in X0.
-  rewrite <- X0; clear X0.
+  rewrites.
 
   pose proof (fst (naturality (ap_functor_nat[P])
                               ((X, I), (Y ⨂ Z, I ⨂ I))%object
@@ -519,7 +519,7 @@ Next Obligation.
   rewrite !bimap_id_id in X0.
   rewrite !fmap_id in X0.
   rewrite id_left, id_right in X0.
-  rewrite <- X0; clear X0.
+  rewrites.
 
   apply (fst (@lax_monoidal_assoc _ _ _ _ _ P (X, I) (Y, I) (Z, I))).
 Qed.
@@ -600,7 +600,7 @@ Next Obligation.
   rewrite !bimap_id_id in X0.
   rewrite !fmap_id in X0.
   rewrite id_left, id_right in X0.
-  rewrite <- X0; clear X0.
+  rewrites.
 
   pose proof (snd (naturality (ap_functor_nat[P])
                               ((I, X), (I ⨂ I, Y ⨂ Z))%object
@@ -611,7 +611,7 @@ Next Obligation.
   rewrite !bimap_id_id in X0.
   rewrite !fmap_id in X0.
   rewrite id_left, id_right in X0.
-  rewrite <- X0; clear X0.
+  rewrites.
 
   apply (snd (@lax_monoidal_assoc _ _ _ _ _ P (I, X) (I, Y) (I, Z))).
 Qed.
@@ -637,14 +637,17 @@ Lemma ProductFunctor_fst_LaxMonoidal_ap_functor_nat :
           ⟹ ProductFunctor_fst P ○ (⨂).
 Proof.
   intro L.
-  transform; simplify; simpl;
-  intros; simplify; simpl.
+  transform; simpl.
+  intros [x y]; simpl.
   - exact (fst (bimap id (to unit_left) ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((x, I), (y, I)))).
   - simpl in *.
+    destruct X as [x1 x2];
+    destruct Y as [y1 y2];
+    destruct f as [f1 f2]; simpl in *.
     pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (x1, I, (y1, I)) (x0, I, (y0, I))
-                                ((x, id), (y, id)))) as X0.
+                                (x1, I, (x2, I)) (y1, I, (y2, I))
+                                ((f1, id), (f2, id)))) as X0.
     simpl in X0.
     rewrite comp_assoc.
     rewrite !bimap_fmap.
@@ -652,7 +655,7 @@ Proof.
     rewrite <- bimap_comp.
     rewrite id_left, id_right.
     rewrite <- comp_assoc.
-    rewrite <- X0.
+    rewrites.
     rewrite comp_assoc.
     rewrite fst_comp.
     rewrite bimap_fmap.
@@ -661,9 +664,12 @@ Proof.
     rewrite id_left, id_right.
     reflexivity.
   - simpl in *.
+    destruct X as [x1 x2];
+    destruct Y as [y1 y2];
+    destruct f as [f1 f2]; simpl in *.
     pose proof (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (x1, I, (y1, I)) (x0, I, (y0, I))
-                                ((x, id), (y, id)))) as X0.
+                                (x1, I, (x2, I)) (y1, I, (y2, I))
+                                ((f1, id), (f2, id)))) as X0.
     simpl in X0.
     rewrite comp_assoc.
     rewrite !bimap_fmap.
@@ -671,7 +677,7 @@ Proof.
     rewrite <- bimap_comp.
     rewrite id_left, id_right.
     rewrite <- comp_assoc.
-    rewrite <- X0.
+    rewrites.
     rewrite comp_assoc.
     rewrite fst_comp.
     rewrite bimap_fmap.
@@ -705,17 +711,17 @@ Next Obligation.
   transitivity (fst (P (I ⨂ X, I ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (to unit_left))).
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (from unit_left))).
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.to unit_left))).
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.from unit_left))).
   - rewrite fst_comp.
     rewrite <- bimap_comp.
-    rewrite iso_to_from.
+    rewrite Isomorphism.iso_to_from.
     rewrite id_left.
     rewrite bimap_id_id.
     reflexivity.
   - rewrite fst_comp.
     rewrite <- bimap_comp.
-    rewrite iso_from_to.
+    rewrite Isomorphism.iso_from_to.
     rewrite id_left.
     rewrite bimap_id_id.
     reflexivity.
@@ -727,17 +733,17 @@ Next Obligation.
   transitivity (fst (P (X ⨂ I, I ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (to unit_left))).
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (from unit_left))).
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.to unit_left))).
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.from unit_left))).
   - rewrite fst_comp.
     rewrite <- bimap_comp.
-    rewrite iso_to_from.
+    rewrite Isomorphism.iso_to_from.
     rewrite id_left.
     rewrite bimap_id_id.
     reflexivity.
   - rewrite fst_comp.
     rewrite <- bimap_comp.
-    rewrite iso_from_to.
+    rewrite Isomorphism.iso_from_to.
     rewrite id_left.
     rewrite bimap_id_id.
     reflexivity.
@@ -749,24 +755,28 @@ Next Obligation.
   transitivity (fst (P (X ⨂ Y ⨂ Z, I ⨂ I ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (to unit_left ∘ to unit_left))).
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (from unit_left ∘ from unit_left))).
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id
+                       (Isomorphism.to unit_left ∘
+                        Isomorphism.to unit_left))).
+  - exact (fst (@bimap _ _ _ P _ _ _ _ id
+                       (Isomorphism.from unit_left ∘
+                        Isomorphism.from unit_left))).
   - rewrite fst_comp.
     rewrite <- bimap_comp.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (from _)).
-    rewrite iso_to_from.
+    rewrite (comp_assoc _ (Isomorphism.from _)).
+    rewrite Isomorphism.iso_to_from.
     rewrite !id_left.
-    rewrite iso_to_from.
+    rewrite Isomorphism.iso_to_from.
     rewrite bimap_id_id.
     reflexivity.
   - rewrite fst_comp.
     rewrite <- bimap_comp.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (to _)).
-    rewrite iso_from_to.
+    rewrite (comp_assoc _ (Isomorphism.to _)).
+    rewrite Isomorphism.iso_from_to.
     rewrite !id_left.
-    rewrite iso_from_to.
+    rewrite Isomorphism.iso_from_to.
     rewrite bimap_id_id.
     reflexivity.
 Defined.
@@ -862,14 +872,17 @@ Lemma ProductFunctor_snd_LaxMonoidal_ap_functor_nat :
           ⟹ ProductFunctor_snd P ○ (⨂).
 Proof.
   intro L.
-  transform; simplify; simpl;
-  intros; simplify; simpl.
+  transform; simpl.
+  intros [x y]; simpl.
   - exact (snd (bimap (to unit_left) id ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((I, x), (I, y)))).
   - simpl in *.
+    destruct X as [x1 x2];
+    destruct Y as [y1 y2];
+    destruct f as [f1 f2]; simpl in *.
     pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (I, x1, (I, y1)) (I, x0, (I, y0))
-                                ((id, x), (id, y)))) as X0.
+                                (I, x1, (I, x2)) (I, y1, (I, y2))
+                                ((id, f1), (id, f2)))) as X0.
     simpl in X0.
     rewrite comp_assoc.
     rewrite !bimap_fmap.
@@ -877,7 +890,7 @@ Proof.
     rewrite <- bimap_comp.
     rewrite id_left, id_right.
     rewrite <- comp_assoc.
-    rewrite <- X0.
+    rewrites.
     rewrite comp_assoc.
     rewrite snd_comp.
     rewrite bimap_fmap.
@@ -886,9 +899,12 @@ Proof.
     rewrite id_left, id_right.
     reflexivity.
   - simpl in *.
+    destruct X as [x1 x2];
+    destruct Y as [y1 y2];
+    destruct f as [f1 f2]; simpl in *.
     pose proof (snd (naturality (@ap_functor_nat _ _ _ _ _ L)
-                                (I, x1, (I, y1)) (I, x0, (I, y0))
-                                ((id, x), (id, y)))) as X0.
+                                (I, x1, (I, x2)) (I, y1, (I, y2))
+                                ((id, f1), (id, f2)))) as X0.
     simpl in X0.
     rewrite comp_assoc.
     rewrite !bimap_fmap.
@@ -896,7 +912,7 @@ Proof.
     rewrite <- bimap_comp.
     rewrite id_left, id_right.
     rewrite <- comp_assoc.
-    rewrite <- X0.
+    rewrites.
     rewrite comp_assoc.
     rewrite snd_comp.
     rewrite bimap_fmap.
@@ -928,17 +944,17 @@ Next Obligation.
   transitivity (snd (P (I ⨂ I, I ⨂ X)%object)).
     isomorphism; auto.
   isomorphism.
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (to unit_left) id)).
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (from unit_left) id)).
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.to unit_left) id)).
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.from unit_left) id)).
   - rewrite snd_comp.
     rewrite <- bimap_comp.
-    rewrite iso_to_from.
+    rewrite Isomorphism.iso_to_from.
     rewrite id_left.
     rewrite bimap_id_id.
     reflexivity.
   - rewrite snd_comp.
     rewrite <- bimap_comp.
-    rewrite iso_from_to.
+    rewrite Isomorphism.iso_from_to.
     rewrite id_left.
     rewrite bimap_id_id.
     reflexivity.
@@ -950,17 +966,17 @@ Next Obligation.
   transitivity (snd (P (I ⨂ I, X ⨂ I)%object)).
     isomorphism; auto.
   isomorphism.
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (to unit_left) id)).
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (from unit_left) id)).
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.to unit_left) id)).
+  - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.from unit_left) id)).
   - rewrite snd_comp.
     rewrite <- bimap_comp.
-    rewrite iso_to_from.
+    rewrite Isomorphism.iso_to_from.
     rewrite id_left.
     rewrite bimap_id_id.
     reflexivity.
   - rewrite snd_comp.
     rewrite <- bimap_comp.
-    rewrite iso_from_to.
+    rewrite Isomorphism.iso_from_to.
     rewrite id_left.
     rewrite bimap_id_id.
     reflexivity.
@@ -972,24 +988,28 @@ Next Obligation.
   transitivity (snd (P (I ⨂ I ⨂ I, X ⨂ Y ⨂ Z)%object)).
     isomorphism; auto.
   isomorphism.
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (to unit_left ∘ to unit_left) id)).
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (from unit_left ∘ from unit_left) id)).
+  - exact (snd (@bimap _ _ _ P _ _ _ _
+                       (Isomorphism.to unit_left ∘
+                        Isomorphism.to unit_left) id)).
+  - exact (snd (@bimap _ _ _ P _ _ _ _
+                       (Isomorphism.from unit_left ∘
+                        Isomorphism.from unit_left) id)).
   - rewrite snd_comp.
     rewrite <- bimap_comp.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (from _)).
-    rewrite iso_to_from.
+    rewrite (comp_assoc _ (Isomorphism.from _)).
+    rewrite Isomorphism.iso_to_from.
     rewrite !id_left.
-    rewrite iso_to_from.
+    rewrite Isomorphism.iso_to_from.
     rewrite bimap_id_id.
     reflexivity.
   - rewrite snd_comp.
     rewrite <- bimap_comp.
     rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (to _)).
-    rewrite iso_from_to.
+    rewrite (comp_assoc _ (Isomorphism.to _)).
+    rewrite Isomorphism.iso_from_to.
     rewrite !id_left.
-    rewrite iso_from_to.
+    rewrite Isomorphism.iso_from_to.
     rewrite bimap_id_id.
     reflexivity.
 Defined.

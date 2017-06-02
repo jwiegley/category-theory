@@ -55,7 +55,7 @@ Proof. apply iso_to_from. Qed.
 Hint Rewrite @exp_out_in : functors.
 
 Corollary exp_in_inj {X Y Z : C} (f g : F X ~> F Z ^ F Y) :
-  exp_in ∘ f ≈ exp_in ∘ g <--> f ≈ g.
+  exp_in ∘ f ≈ exp_in ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hexp.
     rewrite <- id_left.
@@ -70,7 +70,7 @@ Proof.
 Qed.
 
 Corollary exp_out_inj {X Y Z : C} (f g : F X ~> F (Z^Y)) :
-  exp_out ∘ f ≈ exp_out ∘ g <--> f ≈ g.
+  exp_out ∘ f ≈ exp_out ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hexp.
     rewrite <- id_left.

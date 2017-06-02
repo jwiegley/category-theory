@@ -18,7 +18,7 @@ Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} :
 Next Obligation.
   proper.
   simpl in *.
-  rewrite x0, y0.
+  rewrites.
   reflexivity.
 Qed.
 Next Obligation.

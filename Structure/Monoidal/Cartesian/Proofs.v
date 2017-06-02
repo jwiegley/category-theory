@@ -30,7 +30,7 @@ Proof.
   rewrite <- proj_right_diagonal.
   unfold proj_right.
   rewrite <- !comp_assoc.
-  pose proof diagonal_natural; simpl in X0.
+  pose proof diagonal_natural as X0; simpl in X0.
   rewrite <- X0; clear X0.
   normal.
   rewrite eliminate_comp.
@@ -175,7 +175,7 @@ Proof.
   rewrite bimap_id_id in X0.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc (bimap _ _)).
-  rewrite X0; clear X0.
+  rewrites.
   normal.
   rewrite eliminate_right_diagonal.
   rewrite <- triangle_identity_right.
@@ -220,7 +220,7 @@ Next Obligation.
   rewrite !bimap_comp.
   rewrite <- !comp_assoc.
   srewrite diagonal_natural.
-  rewrite X0.
+  rewrites.
   srewrite diagonal_natural.
   reflexivity.
 Qed.
@@ -254,23 +254,19 @@ Global Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
   exr  := fun _ _ => proj_right
 |}.
 Next Obligation. apply is_relevance. Defined.
+Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation.
-  proper.
-  rewrite X0, X1.
-  reflexivity.
-Qed.
-Next Obligation.
-  - rewrite X0; clear X0.
+  - rewrites.
     rewrite comp_assoc.
     rewrite proj_left_natural.
     rewrite <- comp_assoc.
     rewrite proj_left_diagonal; cat.
-  - rewrite X0; clear X0;
+  - rewrites.
     rewrite comp_assoc.
     rewrite proj_right_natural.
     rewrite <- comp_assoc.
     rewrite proj_right_diagonal; cat.
-  - rewrite <- x, <- y.
+  - rewrites.
     rewrite bimap_comp.
     rewrite <- !comp_assoc.
     srewrite diagonal_natural.

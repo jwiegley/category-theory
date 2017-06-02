@@ -9,8 +9,6 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Lemma Diagonal_Unique `(C : Category) {D : Category} (d : D) :
+Corollary Diagonal_Unique `(C : Category) {D : Category} (d : D) :
   Diagonal C d ≈[Cat] Const d ∘[Cat] one.
-Proof.
-  exists (fun _ => iso_id); simpl; intros; cat.
-Qed.
+Proof. exists (fun _ => iso_id); simpl; intros; cat. Qed.

@@ -26,8 +26,7 @@ Proof.
   rewrite <- (iso_to_from unit_left).
   rewrite !comp_assoc.
   rewrite !to_unit_left_natural.
-  rewrite X0.
-  reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Lemma tensor_id_right_inj {X Y} (f g : X ~> Y) :
@@ -39,8 +38,7 @@ Proof.
   rewrite <- (iso_to_from unit_right).
   rewrite !comp_assoc.
   rewrite !to_unit_right_natural.
-  rewrite X0.
-  reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 (* The following proofs are from the book "Tensor Categories", by Pavel
@@ -63,7 +61,7 @@ Proof.
   do 2 (rewrite <- id_left; symmetry).
   rewrite <- (iso_from_to unit_left).
   rewrite <- !comp_assoc.
-  rewrite X0; reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 Proposition id_unit_right {X} :
@@ -81,7 +79,7 @@ Proof.
   do 2 (rewrite <- id_left; symmetry).
   rewrite <- (iso_from_to unit_right).
   rewrite <- !comp_assoc.
-  rewrite X0; reflexivity.
+  rewrites; reflexivity.
 Qed.
 
 (* Proposition 2.2.4 *)
@@ -95,11 +93,11 @@ Proof.
   pose proof (to_tensor_assoc_natural (id[X]) (@unit_left _ _ Y) (id[Z])) as X0.
   assert (X1 : ∀ X Y Z W (f g : (X ⨂ Y) ⨂ Z ~> W),
              f ≈ g -> f ∘ tensor_assoc⁻¹ ≈ g ∘ tensor_assoc⁻¹).
-    intros; rewrite X2; reflexivity.
+    intros; rewrites; reflexivity.
   apply X1 in X0.
   rewrite <- !comp_assoc in X0.
   rewrite iso_to_from, id_right in X0.
-  rewrite X0; clear X0.
+  rewrites.
   rewrite comp_assoc; normal.
 
   pose proof (to_tensor_assoc_natural
@@ -122,14 +120,14 @@ Proof.
     assert (∀ X Y Z W V (f g : ((X ⨂ Y) ⨂ Z) ⨂ V ~> W),
                f ≈ g -> f ∘ (tensor_assoc⁻¹ ⨂ id[V]) ≈
                         g ∘ (tensor_assoc⁻¹ ⨂ id[V])).
-      intros; rewrite X4; reflexivity.
+      intros; rewrites; reflexivity.
     apply X3 in X2.
     normal.
     rewrite !iso_to_from in X2.
     rewrite !bimap_id_id, !id_right in X2.
     assumption.
   apply X2 in X0; clear X2.
-  rewrite X0; clear X0.
+  rewrites.
 
   rewrite <- comp_assoc.
   rewrite iso_to_from, id_right.
@@ -190,11 +188,11 @@ Proof.
                 (id[X]) (@unit_right _ _ Y) (id[Z])) as X0.
   assert (X1 : ∀ X Y Z W (f g : X ⨂ (Y ⨂ Z) ~> W),
              f ≈ g -> f ∘ tensor_assoc ≈ g ∘ tensor_assoc).
-    intros; rewrite X2; reflexivity.
+    intros; rewrites; reflexivity.
   apply X1 in X0.
   rewrite <- !comp_assoc in X0.
   rewrite iso_from_to, id_right in X0.
-  rewrite X0; clear X0.
+  rewrites.
   rewrite comp_assoc; normal.
 
   pose proof (from_tensor_assoc_natural
@@ -217,14 +215,14 @@ Proof.
     assert (∀ X Y Z W V (f g : X ⨂ (Y ⨂ (Z ⨂ V)) ~> W),
                f ≈ g -> f ∘ (id[X] ⨂ tensor_assoc) ≈
                         g ∘ (id[X] ⨂ tensor_assoc)).
-      intros; rewrite X4; reflexivity.
+      intros; rewrites; reflexivity.
     apply X3 in X2.
     normal.
     rewrite !iso_from_to in X2.
     rewrite !bimap_id_id, !id_right in X2.
     assumption.
   apply X2 in X0; clear X2.
-  rewrite X0; clear X0.
+  rewrites.
 
   rewrite <- comp_assoc.
   rewrite iso_from_to, id_right.

@@ -61,12 +61,12 @@ Next Obligation.
   pose proof (naturality[to hom_adj] (X, F X) (X, F Y) (id, fmap[F] f) id).
   simpl in X0.
   rewrite id_right in X0.
-  rewrite X0; clear X0.
+  rewrites.
 
   pose proof (naturality[to hom_adj] (Y, F Y) (X, F Y) (f, id) id).
   simpl in X0.
   rewrite fmap_id, id_left in X0.
-  rewrite X0; clear X0.
+  rewrites.
 
   apply proper_morphism; cat.
 Qed.
@@ -82,12 +82,12 @@ Next Obligation.
   pose proof (naturality[from hom_adj] (U X, X) (U X, Y) (id, f) id).
   simpl in X0.
   rewrite fmap_id, id_right in X0.
-  rewrite X0; clear X0.
+  rewrites.
 
   pose proof (naturality[from hom_adj] (U Y, Y) (U X, Y) (fmap[U] f, id) id).
   simpl in X0.
   rewrite id_left in X0.
-  rewrite X0; clear X0.
+  rewrites.
 
   apply proper_morphism; cat.
 Qed.
@@ -102,7 +102,7 @@ Proof.
   unfold hom_unit; simpl.
   pose proof (naturality[to hom_adj] (X, F X) (X, Y) (id, f) id); simpl in X0.
   rewrite id_right in X0.
-  rewrite X0; clear X0.
+  rewrites.
   apply proper_morphism; cat.
 Qed.
 
@@ -112,7 +112,7 @@ Proof.
   unfold hom_counit; simpl.
   pose proof (naturality[from hom_adj] (U Y, Y) (X, Y) (f, id) id); simpl in X0.
   rewrite id_left in X0.
-  rewrite X0; clear X0.
+  rewrites.
   apply proper_morphism; cat.
 Qed.
 
@@ -120,7 +120,7 @@ Theorem hom_counit_fmap_unit {X} :
   hom_counit (F X) ∘ fmap[F] (hom_unit X) ≈ id.
 Proof.
   pose proof (@hom_counit_naturality_consequence X (F X) (hom_unit X)).
-  rewrite <- X0; clear X0.
+  rewrites.
   unfold hom_unit; simpl.
   srewrite (iso_from_to hom_adj (X, F X) id); cat.
 Qed.
@@ -129,7 +129,7 @@ Theorem hom_fmap_counit_unit {X} :
   fmap[U] (hom_counit X) ∘ hom_unit (U X) ≈ id.
 Proof.
   pose proof (@hom_unit_naturality_consequence (U X) X (hom_counit X)).
-  rewrite <- X0; clear X0.
+  rewrites.
   unfold hom_unit; simpl.
   srewrite (iso_to_from hom_adj (U X, X) id); cat.
 Qed.
@@ -149,7 +149,7 @@ Program Definition Adjunction_Transform_to_Hom (A : F ∹ U) : Adjunction_Hom :=
         {| morphism := fun f => counit _ ∘ fmap[F] f |} |} |}
 |}.
 Next Obligation.
-  proper; rewrite X; reflexivity.
+  proper; rewrites; reflexivity.
 Qed.
 Next Obligation.
   simpl.
@@ -168,7 +168,7 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  proper; rewrite X; reflexivity.
+  proper; rewrites; reflexivity.
 Qed.
 Next Obligation.
   simpl.
@@ -218,28 +218,28 @@ Next Obligation.
   pose proof (naturality (to hom_adj) (b, c) (a, c) (g, id) f);
   simpl in X.
   rewrite fmap_id, id_left in X.
-  rewrite X; clear X.
+  rewrites.
   apply proper_morphism; cat.
 Qed.
 Next Obligation.
   pose proof (naturality (to hom_adj) (a, b) (a, c) (id, f) g);
   simpl in X.
   rewrite id_right in X.
-  rewrite X; clear X.
+  rewrites.
   apply proper_morphism; cat.
 Qed.
 Next Obligation.
   pose proof (naturality (from hom_adj) (b, c) (a, c) (g, id) f);
   simpl in X.
   rewrite id_left in X.
-  rewrite X; clear X.
+  rewrites.
   apply proper_morphism; cat.
 Qed.
 Next Obligation.
   pose proof (naturality (from hom_adj) (a, b) (a, c) (id, f) g);
   simpl in X.
   rewrite fmap_id, id_right in X.
-  rewrite X; clear X.
+  rewrites.
   apply proper_morphism; cat.
 Qed.
 
@@ -251,7 +251,7 @@ Program Definition Adjunction_Universal_to_Hom (A : F ⊣ U) : Adjunction_Hom :=
         {| morphism := fun f => from adj f |} |} |}
 |}.
 Next Obligation.
-  proper; rewrite X; reflexivity.
+  proper; rewrites; reflexivity.
 Qed.
 Next Obligation.
   rewrite <- comp_assoc.
@@ -268,7 +268,7 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  proper; rewrite X; reflexivity.
+  proper; rewrites; reflexivity.
 Qed.
 Next Obligation.
   rewrite <- comp_assoc.

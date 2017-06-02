@@ -39,10 +39,11 @@ Context {F : D ⟶ C}.
 
    Repeating this using the names and syntax of this module:
 
-   "∀ (G : C ⟶ D) (F : D ⟶ C), F ⊣ G <-->
-      ∀ d : D, ∃ (c : C) (phi : d ~{D}~> G c),
-        ∀ (c′ : C) (psi : d ~{D}~> G c′), ∃! y : c ~{C}~> c′,
-          psi ≈ fmap[G] y ∘ phi" *)
+   "∀ (G : C ⟶ D) (F : D ⟶ C), F ⊣ G ↔
+      ∀ a : D, ∃ (b : C) (phi : a ~{D}~> G b),
+        ∀ (b' : C) (psi : a ~{D}~> G b'),
+          ∃! y : b ~{C}~> b',
+            psi ≈ fmap[G] y ∘ phi" *)
 
 Program Definition Adjunction_to_Comma (A : F ⊣ G) :
   @fibered_equivalence _ _ F G := {|
@@ -134,14 +135,14 @@ Next Obligation.
       rewrite !comp_assoc;
       srewrite (snd (iso_from_to (comma_projF_iso ((a, b); y))));
       rewrite id_left;
-      rewrite X;
+      rewrites.
       reflexivity).
   destruct (`2 (projF E) ((fst `1 (to (fiber_iso E) ((a, b); y)),
                            snd `1 (to (fiber_iso E) ((a, b); y))); h)
              ((a, b); x) ii).
   simpl in e, e1.
   unfold comma_projF_iso in *.
-  rewrite e1.
+  rewrites.
   rewrite !fmap_comp.
   comp_left.
 
@@ -165,20 +166,20 @@ Next Obligation.
   remember (fmap[G] (snd _ ∘ snd _)) as H.
   enough (H ≈ fmap[G] (snd `1 (@fmap _ _ (to (fiber_iso E))
                                      ((a, b); y) ((a, b); x) jj))).
-    rewrite X1.
-    rewrite <- X0; clear X0.
+    rewrites.
+    rewrites.
     rewrite <- (id_right (`2 (to (fiber_iso E) ((a, b); x)))).
     comp_left.
 
-  rewrite HeqH; clear HeqH.
+  rewrites.
   apply fmap_respects.
   rewrite <- (id_left (snd _)).
   pose proof (snd (iso_to_from (comma_projF_iso ((a, b); x)))).
   unfold comma_projF_iso in X1; simpl in X1.
-  rewrite <- X1.
+  rewrites.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc (snd _) (snd _) (snd _)).
-  rewrite <- e1.
+  rewrites.
   unfold jj.
 *)
 Admitted.
@@ -221,13 +222,13 @@ Proof.
                         ((c, b); f ∘ fmap[F] g) ((a, b); f) hh)).
   simpl in X.
   rewrite <- comp_assoc.
-  rewrite X; clear X.
+  rewrites.
   comp_right.
   rewrite <- fmap_comp.
   apply fmap_respects.
   symmetry.
   rewrite <- (id_left (snd _)).
-  rewrite e0; clear e0.
+  rewrites.
   comp_left.
   rewrite <- (id_right (snd _)) at 2.
   comp_left.
@@ -255,11 +256,11 @@ Proof.
                         ((a, b); f) ((a, c); h ∘ f) hh)).
   simpl in X.
   rewrite comp_assoc.
-  rewrite <- X; clear X.
+  rewrites.
   comp_left.
   symmetry.
   rewrite <- (id_right (fst _)).
-  rewrite e; clear e.
+  rewrites.
   comp_right.
   rewrite <- (id_left (fst `1 _)) at 2.
   comp_right.

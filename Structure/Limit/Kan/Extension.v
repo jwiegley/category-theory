@@ -41,12 +41,12 @@ Proof.
                          (Ran (Erase J) F) F)) nat_id tt) as X;
     simpl in X.
     rewrite fmap_id in X.
-    rewrite <- X.
+    rewrites.
     unfold adj_to; simpl.
 
     given (from_ran : Ran (Erase J) F ⟹ Const (Lim F)). {
       transform; simpl; intros.
-      + destruct X0.
+      + destruct X.
         apply (unique_morphism (ump_limits cone)).
       + abstract cat.
       + abstract cat.
@@ -55,13 +55,13 @@ Proof.
     pose proof (@to_adj_nat_l _ _ _ _ ran_adjoint
                               (Ran (Erase J) F) (Const (Lim F))
                               F nat from_ran tt) as X0;
-    simpl in X0; rewrite <- X0; clear X0.
+    rewrites.
 
     assert (∀ f g, f ≈ g
               -> to (@adj _ _ _ _ ran_adjoint (Ran (Erase J) F) F) f
                ≈ to (@adj _ _ _ _ ran_adjoint (Ran (Erase J) F) F) g).
-      intros; rewrite X0; reflexivity.
-    simpl in X0; apply X0; clear X0.
+      intros; rewrites; reflexivity.
+    simpl in X; apply X; clear X.
 
     intros; simpl.
     apply (unique_property (ump_limits cone)).

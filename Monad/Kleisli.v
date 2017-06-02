@@ -21,13 +21,8 @@ Program Definition Kleisli : Category := {|
   id  := @ret C M _;
   compose := fun x y z f g => join ∘ fmap[M] f ∘ g
 |}.
-Next Obligation.
-  proper.
-  rewrite X0, X1; reflexivity.
-Qed.
-Next Obligation.
-  rewrite join_fmap_ret; cat.
-Qed.
+Next Obligation. proper; rewrites; reflexivity. Qed.
+Next Obligation. rewrite join_fmap_ret; cat. Qed.
 Next Obligation.
   rewrite <- comp_assoc.
   rewrite <- fmap_ret; cat.

@@ -43,9 +43,9 @@ Next Obligation.
   simpl in *.
   rewrite !fmap_comp.
   rewrite comp_assoc.
-  rewrite X0.
+  rewrites.
   rewrite <- !comp_assoc.
-  rewrite X.
+  rewrites.
   reflexivity.
 Qed.
 

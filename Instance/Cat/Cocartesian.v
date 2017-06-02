@@ -62,8 +62,8 @@ Next Obligation.
   split; intros; simplify.
   - apply (e (Datatypes.inl x0) (Datatypes.inl y)).
   - apply (e (Datatypes.inr x0) (Datatypes.inr y)).
-  - destruct x; auto.
-  - destruct x, y.
+  - destruct x1; auto.
+  - destruct x1, y.
     + apply e0; tauto.
     + tauto.
     + tauto.

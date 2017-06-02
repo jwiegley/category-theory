@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Export
-  Coq.Unicode.Utf8
   Coq.Init.Datatypes
   Coq.Program.Program.
 

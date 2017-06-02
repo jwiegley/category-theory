@@ -30,10 +30,7 @@ Program Definition Left_Functor : D ⟶ (F ↓ Id[C]) := {|
   fobj := fun X : D => ((X, F X); id[F X]);
   fmap := fun _ _ f => ((f, fmap[F] f); _)
 |}.
-Next Obligation.
-  proper.
-  rewrite X0; reflexivity.
-Qed.
+Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation.
   split.
     reflexivity.
@@ -44,10 +41,7 @@ Program Definition Right_Functor : C ⟶ (Id[D] ↓ G) := {|
   fobj := fun X : C => ((G X, X); id[G X]);
   fmap := fun _ _ f => ((fmap[G] f, f); _)
 |}.
-Next Obligation.
-  proper.
-  rewrite X0; reflexivity.
-Qed.
+Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation.
   split.
     apply fmap_comp.
@@ -165,9 +159,11 @@ Program Instance Comma_F_Id_Id_G_Iso (H : F ⊣ G) :
 }.
 Next Obligation.
   constructive; simpl.
-  - exists (id, id); cat.
+  - exists (id, id).
+    destruct x as [[x y] f]; cat.
     srewrite (iso_to_from (@adj _ _ _ _ H x y)); reflexivity.
-  - exists (id, id); cat.
+  - exists (id, id).
+    destruct x as [[x y] f]; cat.
     srewrite (iso_to_from (@adj _ _ _ _ H x y)); reflexivity.
   - clear; simpl; split; cat.
   - clear; simpl; split; cat.
@@ -175,9 +171,11 @@ Next Obligation.
 Qed.
 Next Obligation.
   constructive; simpl.
-  - exists (id, id); cat.
+  - exists (id, id).
+    destruct x as [[x y] f]; cat.
     srewrite (iso_from_to (@adj _ _ _ _ H x y)); reflexivity.
-  - exists (id, id); cat.
+  - exists (id, id).
+    destruct x as [[x y] f]; cat.
     srewrite (iso_from_to (@adj _ _ _ _ H x y)); reflexivity.
   - clear; simpl; split; cat.
   - clear; simpl; split; cat.

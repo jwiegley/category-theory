@@ -23,21 +23,21 @@ Program Definition Rel : Category := {|
   ob      := @ob Coq;
   hom     := fun A B => A ~> Ensemble B;
   homset  := fun P Q =>
-               {| equiv := fun f g => forall x y, f x y <-> g x y |};
+               {| equiv := fun f g => forall x y, f x y ↔ g x y |};
   id      := Singleton;
   compose := fun X Y Z f g x z =>
                (exists y : Y, In Y (g x) y ∧ In Z (f y) z)%type
 |}.
 Next Obligation.
   equivalence.
-  - apply H; assumption.
-  - apply H; assumption.
-  - apply H0, H; assumption.
-  - apply H, H0; assumption.
+  - apply X; assumption.
+  - apply X; assumption.
+  - apply X0, X; assumption.
+  - apply X, X0; assumption.
 Qed.
 Next Obligation.
   proper;
-  destruct H1 as [z [H1 H2]];
+  destruct H as [z [H1 H2]];
   exists z; firstorder.
 Qed.
 Next Obligation.
@@ -135,5 +135,5 @@ Next Obligation. proper; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
 Next Obligation.
   simplify; firstorder.
-  destruct H, H0; constructor.
+  destruct a, b; constructor.
 Qed.
