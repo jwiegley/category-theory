@@ -49,44 +49,62 @@ Program Definition Adjunction_to_Comma (A : F ⊣ G) :
   fiber_iso := Comma_F_Id_Id_G_Iso A
 |}.
 
+Context (E : @fibered_equivalence _ _ F G).
+
 Local Obligation Tactic := simpl; intros.
 
-Program Instance comma_projF_iso (E : @fibered_equivalence _ _ F G) f :
-  `1 f ≅ `1 (to (fiber_iso E) f) := (`1 (projF E) f).
+Program Instance comma_projF_iso (f : (F ↓ Id)) :
+  `1 f ≅ `1 (to (fiber_iso E) f) := `1 (projF E) f.
 
-Program Instance comma_projG_iso (E : @fibered_equivalence _ _ F G) f :
-  `1 f ≅ `1 (from (fiber_iso E) f) := (`1 (projG E) f).
+(*
+Program Instance comma_projF_iso_respects a b (f g : F a ~> b) :
+  f ≈ g ->
+  (a, b) ≅[D ∏ C] `1 (to (fiber_iso E) ((a, b); f)) ->
+  (a, b) ≅[D ∏ C] `1 (to (fiber_iso E) ((a, b); g)).
+Next Obligation.
+  destruct H0; simpl in *.
+  exact (fst (to H0), snd (to H0)).
+Qed.
+*)
 
-Definition comma_to (E : @fibered_equivalence _ _ F G)
-           a b (f : F a ~> b) : a ~> G b :=
-  fmap[G] (snd (comma_projF_iso E ((a, b); f))⁻¹)
-                ∘ `2 (to (fiber_iso E) ((a, b); f))
-                ∘ fst (to (comma_projF_iso E ((a, b); f))).
+Program Instance comma_projG_iso (f : (Id ↓ G)) :
+  `1 f ≅ `1 (from (fiber_iso E) f) := `1 (projG E) f.
 
-Program Instance comma_to_respects (E : @fibered_equivalence _ _ F G) a b :
-  Proper (equiv ==> equiv) (comma_to E a b).
+Definition comma_to a b (f : F a ~> b) : a ~> G b :=
+  let g := ((a, b); f) in
+  fmap[G] (snd (comma_projF_iso g)⁻¹)
+    ∘ `2 (to (fiber_iso E) g)
+    ∘ fst (to (comma_projF_iso g)).
+
+Definition comma_from a b (f : a ~> G b) : F a ~> b :=
+  let g := ((a, b); f) in
+  snd (comma_projG_iso g)⁻¹
+    ∘ `2 (from (fiber_iso E) g)
+    ∘ fmap[F] (fst (to (comma_projG_iso g))).
+
+Program Instance comma_to_respects a b :
+  Proper (equiv ==> equiv) (comma_to a b).
 Next Obligation.
   proper.
+(*
   unfold comma_to.
   Notation "f ∘[ X ] g" :=
     (@compose _%category _%object X%object _%object f%morphism g%morphism)
     (at level 40, format "'[v' f '/'   ∘[  X  ] '//' g ']'") : morphism_scope.
   simpl.
-  pose proof (to (comma_projF_iso E ((a, b); x))).
-  simpl in X0.
 
-  pose (snd (to (comma_projF_iso E ((a, b); y)))
-            ∘ y ∘ fmap[F] (fst (from (comma_projF_iso E ((a, b); y))))) as g.
+  pose (snd (to (comma_projF_iso ((a, b); y)))
+            ∘ y ∘ fmap[F] (fst (from (comma_projF_iso ((a, b); y))))) as g.
   given (hh : { f : (a ~{ D }~> fst `1 (to (fiber_iso E) ((a, b); y))) *
                     (b ~{ C }~> snd `1 (to (fiber_iso E) ((a, b); y)))
               & g ∘ fmap[F] (fst f) ≈ snd f ∘ x }).
-    exists (fst (to (comma_projF_iso E ((a, b); y))),
-            snd (to (comma_projF_iso E ((a, b); y)))).
+    exists (fst (to (comma_projF_iso ((a, b); y))),
+            snd (to (comma_projF_iso ((a, b); y)))).
     abstract (
       unfold g; simpl;
       rewrite <- !comp_assoc;
       rewrite <- !fmap_comp;
-      srewrite (fst (iso_from_to (comma_projF_iso E ((a, b); y))));
+      srewrite (fst (iso_from_to (comma_projF_iso ((a, b); y))));
       rewrite fmap_id, id_right;
       rewrite X;
       reflexivity).
@@ -98,23 +116,23 @@ Next Obligation.
   rewrite e; clear e.
   comp_right.
 
-  pose proof (`2 (@fmap _ _ (to (fiber_iso E))
-                        ((a, b); x)
-                        ((fst `1 (to (fiber_iso E) ((a, b); y)),
-                          snd `1 (to (fiber_iso E) ((a, b); y))); g) hh)).
-  simpl in X0.
+  (* pose proof (`2 (@fmap _ _ (to (fiber_iso E)) *)
+  (*                       ((a, b); x) *)
+  (*                       ((fst `1 (to (fiber_iso E) ((a, b); y)), *)
+  (*                         snd `1 (to (fiber_iso E) ((a, b); y))); g) hh)). *)
+  (* simpl in X0. *)
 
-  pose (snd (to (comma_projF_iso E ((a, b); y)))
-            ∘ y ∘ fmap[F] (fst (from (comma_projF_iso E ((a, b); y))))) as h.
+  pose (snd (to (comma_projF_iso ((a, b); y)))
+            ∘ y ∘ fmap[F] (fst (from (comma_projF_iso ((a, b); y))))) as h.
   given (ii : { f : (fst `1 (to (fiber_iso E) ((a, b); y)) ~{ D }~> a) *
                     (snd `1 (to (fiber_iso E) ((a, b); y)) ~{ C }~> b)
               & x ∘ fmap[F] (fst f) ≈ snd f ∘ h }).
-    exists (fst (from (comma_projF_iso E ((a, b); y))),
-            snd (from (comma_projF_iso E ((a, b); y)))).
+    exists (fst (from (comma_projF_iso ((a, b); y))),
+            snd (from (comma_projF_iso ((a, b); y)))).
     abstract (
       unfold h; simpl;
       rewrite !comp_assoc;
-      srewrite (snd (iso_from_to (comma_projF_iso E ((a, b); y))));
+      srewrite (snd (iso_from_to (comma_projF_iso ((a, b); y))));
       rewrite id_left;
       rewrite X;
       reflexivity).
@@ -131,16 +149,17 @@ Next Obligation.
                         ((fst `1 (to (fiber_iso E) ((a, b); y)),
                           snd `1 (to (fiber_iso E) ((a, b); y))); h)
                         ((a, b); x) ii)).
-  simpl in X1.
+  simpl in X.
 
 
   given (jj : { f : (a ~{ D }~> a) * (b ~{ C }~> b)
               & x ∘ fmap[F] (fst f) ≈ snd f ∘ y }).
     exists (id, id); abstract cat.
   pose proof (`2 (@fmap _ _ (to (fiber_iso E)) ((a, b); y) ((a, b); x) jj)).
-  simpl in X2.
+  simpl in X1.
   rewrite !comp_assoc.
   rewrite <- fmap_comp.
+*)
 
 (*
   remember (fmap[G] (snd _ ∘ snd _)) as H.
@@ -150,11 +169,11 @@ Next Obligation.
     rewrite <- X0; clear X0.
     rewrite <- (id_right (`2 (to (fiber_iso E) ((a, b); x)))).
     comp_left.
-    admit.
+
   rewrite HeqH; clear HeqH.
   apply fmap_respects.
   rewrite <- (id_left (snd _)).
-  pose proof (snd (iso_to_from (comma_projF_iso E ((a, b); x)))).
+  pose proof (snd (iso_to_from (comma_projF_iso ((a, b); x)))).
   unfold comma_projF_iso in X1; simpl in X1.
   rewrite <- X1.
   rewrite <- !comp_assoc.
@@ -164,9 +183,28 @@ Next Obligation.
 *)
 Admitted.
 
-Theorem comma_to_natural_dom (E : @fibered_equivalence _ _ F G) a b c
-        (f : F a ~> b) (g : c ~> a) :
-  comma_to E _ _ f ∘ g ≈ comma_to E _ _ (f ∘ fmap[F] g).
+Program Instance comma_from_respects a b :
+  Proper (equiv ==> equiv) (comma_from a b).
+Next Obligation.
+Admitted.
+
+Theorem comma_to_from a b f : comma_to a b (comma_from a b f) ≈ f.
+Proof.
+Admitted.
+
+Theorem comma_from_to a b f : comma_from a b (comma_to a b f) ≈ f.
+Proof.
+Admitted.
+
+Program Definition comma_iso a b : F a ~> b ≊ a ~> G b := {|
+  to   := {| morphism := comma_to   a b |};
+  from := {| morphism := comma_from a b |}
+|}.
+Next Obligation. apply comma_to_from. Qed.
+Next Obligation. apply comma_from_to. Qed.
+
+Theorem comma_to_natural_dom a b c (f : F a ~> b) (g : c ~> a) :
+  comma_to _ _ f ∘ g ≈ comma_to _ _ (f ∘ fmap[F] g).
 Proof.
   unfold comma_to, comma_projF_iso.
   given (hh : { f0 : (c ~{ D }~> a) * (b ~{ C }~> b)
@@ -176,7 +214,7 @@ Proof.
   simpl in e, e0; rewrite e at 1; clear e.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (fst _)).
-  srewrite (fst (iso_to_from (comma_projF_iso E ((a, b); f)))).
+  srewrite (fst (iso_to_from (comma_projF_iso ((a, b); f)))).
   rewrite id_left.
   comp_right.
   pose proof (`2 (@fmap _ _ (to (fiber_iso E))
@@ -193,12 +231,11 @@ Proof.
   comp_left.
   rewrite <- (id_right (snd _)) at 2.
   comp_left.
-  sapply (snd (iso_to_from (comma_projF_iso E ((c, b); f ∘ fmap[F] g)))).
+  sapply (snd (iso_to_from (comma_projF_iso ((c, b); f ∘ fmap[F] g)))).
 Qed.
 
-Theorem comma_to_natural_cod (E : @fibered_equivalence _ _ F G) a b c
-        (h : b ~{C}~> c) (f : F a ~> b) :
-  fmap[G] h ∘ comma_to E _ _ f ≈ comma_to E _ _ (h ∘ f).
+Theorem comma_to_natural_cod a b c (h : b ~{C}~> c) (f : F a ~> b) :
+  fmap[G] h ∘ comma_to _ _ f ≈ comma_to _ _ (h ∘ f).
 Proof.
   unfold comma_to, comma_projF_iso.
   given (hh : { f0 : (a ~{ D }~> a) * (b ~{ C }~> c)
@@ -210,7 +247,7 @@ Proof.
   rewrite <- fmap_comp.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc _ (snd _)).
-  srewrite (snd (iso_to_from (comma_projF_iso E ((a, b); f)))).
+  srewrite (snd (iso_to_from (comma_projF_iso ((a, b); f)))).
   rewrite id_right.
   rewrite fmap_comp.
   comp_left.
@@ -226,12 +263,11 @@ Proof.
   comp_right.
   rewrite <- (id_left (fst `1 _)) at 2.
   comp_right.
-  sapply (fst (iso_to_from (comma_projF_iso E ((a, c); h ∘ f)))).
+  sapply (fst (iso_to_from (comma_projF_iso ((a, c); h ∘ f)))).
 Qed.
 
-Theorem comma_to_natural (E : @fibered_equivalence _ _ F G) a b c d
-        (h : b ~{C}~> c) (f : F a ~> b) (g : d ~> a) :
-  fmap[G] h ∘ comma_to E _ _ f ∘ g ≈ comma_to E _ _ (h ∘ f ∘ fmap[F] g).
+Theorem comma_to_natural a b c d (h : b ~{C}~> c) (f : F a ~> b) (g : d ~> a) :
+  fmap[G] h ∘ comma_to _ _ f ∘ g ≈ comma_to _ _ (h ∘ f ∘ fmap[F] g).
 Proof.
   rewrite <- comp_assoc.
   rewrite comma_to_natural_dom.
@@ -240,33 +276,18 @@ Proof.
   reflexivity.
 Qed.
 
-Definition comma_from (E : @fibered_equivalence _ _ F G)
-           a b (f : a ~> G b) : F a ~> b :=
-  snd (comma_projG_iso E ((a, b); f))⁻¹
-    ∘ `2 (from (fiber_iso E) ((a, b); f))
-    ∘ fmap[F] (fst (to (comma_projG_iso E ((a, b); f)))).
-
-Program Instance comma_from_respects (E : @fibered_equivalence _ _ F G) a b :
-  Proper (equiv ==> equiv) (comma_from E a b).
-Next Obligation.
-  proper.
-Admitted.
-
-Theorem comma_from_natural_dom (E : @fibered_equivalence _ _ F G) a b c
-        (f : a ~> G b) (g : c ~> a) :
-  comma_from E _ _ f ∘ fmap[F] g ≈ comma_from E _ _ (f ∘ g).
+Theorem comma_from_natural_dom a b c (f : a ~> G b) (g : c ~> a) :
+  comma_from _ _ f ∘ fmap[F] g ≈ comma_from _ _ (f ∘ g).
 Proof.
 Admitted.
 
-Theorem comma_from_natural_cod (E : @fibered_equivalence _ _ F G) a b c
-        (h : b ~{C}~> c) (f : a ~> G b) :
-  h ∘ comma_from E _ _ f ≈ comma_from E _ _ (fmap[G] h ∘ f).
+Theorem comma_from_natural_cod a b c (h : b ~{C}~> c) (f : a ~> G b) :
+  h ∘ comma_from _ _ f ≈ comma_from _ _ (fmap[G] h ∘ f).
 Proof.
 Admitted.
 
-Theorem comma_from_natural (E : @fibered_equivalence _ _ F G) a b c d
-        (h : b ~{C}~> c) (f : a ~> G b) (g : d ~> a) :
-  h ∘ comma_from E _ _ f ∘ fmap[F] g ≈ comma_from E _ _ (fmap[G] h ∘ f ∘ g).
+Theorem comma_from_natural a b c d (h : b ~{C}~> c) (f : a ~> G b) (g : d ~> a) :
+  h ∘ comma_from _ _ f ∘ fmap[F] g ≈ comma_from _ _ (fmap[G] h ∘ f ∘ g).
 Proof.
   rewrite <- comp_assoc.
   rewrite comma_from_natural_dom.
@@ -275,29 +296,18 @@ Proof.
   reflexivity.
 Qed.
 
-Theorem comma_to_from (E : @fibered_equivalence _ _ F G) a b f :
-  comma_to E a b (comma_from E a b f) ≈ f.
-Proof.
-Admitted.
-
-Theorem comma_from_to (E : @fibered_equivalence _ _ F G) a b f :
-  comma_from E a b (comma_to E a b f) ≈ f.
-Proof.
-Admitted.
-
-Program Definition Adjunction_from_Comma (E : @fibered_equivalence _ _ F G) :
-  Adjunction_Hom F G := {|
+Program Definition Adjunction_from_Comma : Adjunction_Hom F G := {|
   hom_adj :=
     {| to   := {| transform := fun X =>
-         {| morphism := @comma_to E _ _ |} |}
+         {| morphism := @comma_to _ _ |} |}
      ; from := {| transform := fun X =>
-         {| morphism := @comma_from E _ _ |} |} |}
+         {| morphism := @comma_from _ _ |} |} |}
 |}.
 Next Obligation. apply comma_to_natural. Qed.
 Next Obligation. symmetry; apply comma_to_natural. Qed.
 Next Obligation. apply comma_from_natural. Qed.
 Next Obligation. symmetry; apply comma_from_natural. Qed.
-Next Obligation. cat; apply comma_to_from. Qed.
-Next Obligation. cat; apply comma_from_to. Qed.
+Next Obligation. cat; apply (iso_to_from (comma_iso _ _) _). Qed.
+Next Obligation. cat; apply (iso_from_to (comma_iso _ _) _). Qed.
 
 End AdjunctionComma.
