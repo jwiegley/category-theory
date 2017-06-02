@@ -13,6 +13,16 @@ Reserved Infix "∘" (at level 40, left associativity).
 Notation "f ≈ g" := (equiv f g)
   (at level 79, only parsing) : category_theory_scope.
 
+(* The objects of a category are all of some `Type`.
+
+  Morphisms, or arrows, are also of type `Type`, but always in a universe
+  above objects. All of the library has `Universe Polymorphism` enabled,
+  allowing categories whose objects are categories, etc.
+
+  The morphisms identified by `A ~> B` form a hom-set, except that in this
+  library it is a hom-setoid, requiring the meaning of (computationally
+  relevant) equivalence between morphisms to be given. *)
+
 Class Category := {
   ob : Type;
 

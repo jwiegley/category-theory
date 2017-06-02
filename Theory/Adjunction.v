@@ -11,6 +11,24 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+(* Adjunctions relate two functors that map between the same two categories
+  (though in opposite directions), in a manner that is weaker than isomorphism
+  or equivalence, but still quite informative. In general, one functor is
+  forgetful, and maps constructions from a more expressive domain into one
+  that captures only the essence of that structure; while the other is free,
+  and maps essential constructions into the fuller setting.
+
+  As an example: the category of ASTs may be mapped forgetfully to the
+  category of interpretated objects, which themselves map freely to some
+  "canonical" representation of each such object. So, "3", "1 + 2", and "2 +
+  1" all mean 3, while 3 is canonically represented by the constant "3". The
+  forgetful functor is the evaluator, and the free functor a parser, giving
+  rise to the following isomorphism (in the category of Sets, whose objects
+  may be hom-sets):
+
+      AST a ~{category of syntax or ASTs}~> b
+        ≅ a ~{category of semantics or denotations}~> Denote b *)
+
 Section Adjunction.
 
 Context {C : Category}.

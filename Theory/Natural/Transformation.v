@@ -16,6 +16,10 @@ Context {D : Category}.
 Context {F : C ⟶ D}.
 Context {G : C ⟶ D}.
 
+(* If a functor may be transformed, one must show how to transform mapped
+   objects and that the mapping of morphisms is natural (i.e., transforming
+   before or after introduces no change in the effect of such mappings). *)
+
 Class Transform := {
   transform {X} : F X ~> G X;
 

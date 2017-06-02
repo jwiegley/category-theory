@@ -15,6 +15,31 @@ Unset Transparent Obligations.
 Definition Presheaves   (C : Category) := [C^op, Sets].
 Definition Copresheaves (C : Category) := [C, Sets].
 
+(* The Yoneda lemma tells us that a natural transformation, from the covariant
+   or contravariant hom-functor on some object in C, to some other functor
+   from C to Sets, is isomorphic to mapping the object by that functor
+   directly from C to Sets.
+
+   Writing this statement in code, it becomes a bit clearer what it's telling
+   us: If the contravariant functor on `A` turns any `X` into the arrow `A ~>
+   X`, and if natural transformation is given by `∀ x, f x ~> g x` (assuming
+   naturality), the statement of the Yoneda lemma is:
+
+       ∀ f x a, Functor f => (x ~{Sets}~> a) ~{Sets}~> f x ≅ f a
+
+   The Lemma states: Since the only thing knowable about a functor is its
+   ability to map objects and morphisms, any object `f x` through which we map
+   a morphism `x ~> a` to obtain an object `f a`, *must* be identical to `f a`
+   obtained directly, since the functor has no way of introducing additional
+   meaning.
+
+   A benefit of the lemma is that we can displace any source object `a` (from
+   an arbitrary category `C`) into an object in the category of Sets -- i.e.,
+   the hom-set whose domain or codomain is `a` -- allowing us to handle it
+   using the structure of sets. This has the benefit of making many proofs
+   easier, which become more difficult when restricted to the fully abstract
+   nature of `C`. *)
+
 Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
   [C^op, Sets] [Hom ─,A] F ≅ F A := {
   to   := {| morphism := fun X => transform[X] A id |};

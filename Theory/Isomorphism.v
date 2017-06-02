@@ -13,7 +13,11 @@ Section Isomorphism.
 
 Context {C : Category}.
 
-(* Two objects in C are isomorphic, if there is an isomorphism between them.
+(* This defines what it means for two objects in a category to be
+   "isomorphic". This requires both witnesses to the isomoprhism, and proof
+   their compositions are equivalent to identity in both directions. Since
+   this is a computationally relevant definition, having an isomorphism allows
+   for conversion of objects within definitions.
 
    An isomorphism in Cat is the same as an equivalence of categories. In order
    to get actual isomorphism between categories, the compositions F ○ G and G

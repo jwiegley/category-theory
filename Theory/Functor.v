@@ -9,6 +9,13 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+(* Functors map objects and morphisms between categories, where such mappings
+   preserve equivalences and basic categorical structure (identity and
+   composition). Note that there are many species of functor, one each for the
+   various categorical structures (included below), for example, the
+   `CartesianFunctor` that maps products to products and preserves all its
+   structural properties and laws. *)
+
 Class Functor {C D : Category} := {
   fobj : C -> D;
   fmap {X Y : C} (f : X ~> Y) : fobj X ~> fobj Y;
