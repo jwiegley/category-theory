@@ -96,7 +96,7 @@ Proof.
   unfold fiber_eqv_unit.
   do 2 rewrite fmap_comp.
   do 2 rewrite comp_assoc.
-  rewrites.
+  rewrite <- X.
   rewrite <- !comp_assoc.
   remember (_ ∘ (fiber_eqv_counit E ∘ _)) as p.
   pose proof (@monic _ _ _ _ (iso_monic (`1 (projF E) (Left_Functor a)))
@@ -106,7 +106,7 @@ Proof.
   split.
     reflexivity.
   clear X0.
-  rewrites.
+  rewrite Heqp.
   rewrite !comp_assoc.
   rewrite (snd (iso_to_from (`1 (projF E) (Left_Functor a)))).
   rewrite id_left, id_right.
@@ -123,7 +123,7 @@ Proof.
   unfold fiber_eqv_counit.
   do 2 rewrite fmap_comp.
   do 2 rewrite <- comp_assoc.
-  rewrites.
+  rewrite X.
   rewrite !comp_assoc.
   remember ((_ ∘ fiber_eqv_unit E) ∘ _) as p.
   pose proof (@epic _ _ _ _ (iso_from_epic (`1 (projG E) (Right_Functor a)))
@@ -132,7 +132,7 @@ Proof.
   refine (fst (X0 _)).
   split; [|reflexivity].
   clear X0.
-  rewrites.
+  rewrite Heqp.
   rewrite <- !comp_assoc.
 Admitted.                       (* DEFERRED *)
 
