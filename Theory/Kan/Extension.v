@@ -108,3 +108,10 @@ Arguments Lan {_ _} F {_ _}.
 
 Arguments LocalLeftKan {_ _} F {_} _.
 Arguments LocalLan {_ _} F {_} _ {_}.
+
+(* jww (2017-06-02): TODO *)
+(* A functor F : C → D possesses a left adjoint if and only if the right Kan
+   extension of I d : C → C along F exists and is preserved by F. In this
+   case, a left adjoint is given by Ran F Id and this Kan extension is even
+   preserved by any functor C → E whatsoever, i.e. is an absolute Kan
+   extension. *)

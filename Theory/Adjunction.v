@@ -130,3 +130,22 @@ Open Scope adjunction_type_scope.
 Open Scope adjunction_scope.
 
 Notation "F ⊣ G" := (@Adjunction _ _ F G) (at level 59) : category_scope.
+
+(* jww (2017-06-02): TODO *)
+(* Wikipedia: "If the functor F : C ← D has two right adjoints G and G', then
+   G and G' are naturally isomorphic. The same is true for left adjoints." *)
+
+(* jww (2017-06-02): TODO *)
+(* Wikipedia: "The most important property of adjoints is their continuity:
+   every functor that has a left adjoint (and therefore is a right adjoint) is
+   continuous (i.e. commutes with limits in the category theoretical sense);
+   every functor that has a right adjoint (and therefore is a left adjoint) is
+   cocontinuous (i.e. commutes with colimits).
+
+   Since many common constructions in mathematics are limits or colimits, this
+   provides a wealth of information. For example:
+
+   - applying a right adjoint functor to a product of objects yields the
+   - product of the images; applying a left adjoint functor to a coproduct of
+   - objects yields the coproduct of the images; every right adjoint functor
+   - is left exact; every left adjoint functor is right exact." *)

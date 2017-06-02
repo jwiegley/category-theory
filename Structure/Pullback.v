@@ -106,3 +106,12 @@ Definition Pushout {C : Category} {X Y Z : C^op} (f : X ~> Z) (g : Y ~> Z) :=
    to be the terminal object (assuming it exists). f and g are then uniquely
    determined and thus carry no information, and the pullback of this cospan
    can be seen to be the product of X and Y." *)
+
+(* jww (2017-06-02): *)
+(* Wikipedia: "... another way of characterizing the pullback: as the
+   equalizer of the morphisms f ∘ p1, g ∘ p2 : X × Y → Z where X × Y is the
+   binary product of X and Y and p1 and p2 are the natural projections. This
+   shows that pullbacks exist in any category with binary products and
+   equalizers. In fact, by the existence theorem for limits, all finite limits
+   exist in a category with a terminal object, binary products and
+   equalizers." *)
