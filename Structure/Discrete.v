@@ -15,4 +15,5 @@ Import EqNotations.
 (* A discrete category has no arrows except for identity morphisms. *)
 
 Definition Discrete (C : Category) :=
-  ∀ X Y (f : X ~> Y), { H : X = Y & f ≈ rew H in id }.
+  (* jww (2017-06-02): Equality is too much here. *)
+  ∀ X Y (f : X ~> Y), ∃ H : X = Y, f ≈ rew H in id.

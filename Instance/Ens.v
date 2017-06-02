@@ -14,9 +14,9 @@ Unset Transparent Obligations.
    are injective mappings. *)
 
 Program Definition Ens : Category := {|
-  ob      := { T : Type & Ensemble T };
+  ob      := ∃ T : Type, Ensemble T;
   hom     := fun A B =>
-    { f : ``A -> ``B & ∀ x : ``A, In _ (projT2 A) x ↔ In _ (projT2 B) (f x) };
+    ∃ f : ``A -> ``B, ∀ x : ``A, In _ (projT2 A) x ↔ In _ (projT2 B) (f x);
   homset  := fun P Q => {| equiv := fun f g => forall x, ``f x = ``g x |};
   id      := fun _ => (id; _);
   compose := fun _ _ _ f g =>  (``f \o ``g; _)
@@ -31,7 +31,7 @@ Next Obligation. proper; rewrite H, H0; reflexivity. Qed.
 Program Definition EnsT (T : Type) : Category := {|
   ob      := Ensemble T;
   hom     := fun A B =>
-    { f : T -> T & ∀ x : T, In _ A x ↔ In _ B (f x) };
+    ∃ f : T -> T, ∀ x : T, In _ A x ↔ In _ B (f x);
   homset  := fun P Q => {| equiv := fun f g => forall x, ``f x = ``g x |};
   id      := fun _ => (id; _);
   compose := fun _ _ _ f g =>  (``f \o ``g; _)

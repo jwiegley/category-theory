@@ -69,16 +69,16 @@ Set Transparent Obligations.
 
 Program Definition Parallel : Category := {|
   ob  := ParObj;
-  hom := fun X Y => { b : bool & ParHom b X Y };
+  hom := fun X Y => ∃ b : bool, ParHom b X Y;
   (* Any hom that typechecks is valid. *)
   homset := fun x y =>
-    {| equiv := fun (f g : { b : bool & ParHom b x y }) => ``f = ``g |};
+    {| equiv := fun (f g : ∃ b : bool, ParHom b x y) => ``f = ``g |};
   id := fun x => match x with
     | ParX => (true; ParIdX)
     | ParY => (true; ParIdY)
     end;
-  compose := fun x y z (f : { b : bool & ParHom b y z })
-                       (g : { b : bool & ParHom b x y }) =>
+  compose := fun x y z (f : ∃ b : bool, ParHom b y z)
+                       (g : ∃ b : bool, ParHom b x y) =>
     match x, y, z with
     | ParX, ParX, ParX => (true; ParIdX)
     | ParY, ParY, ParY => (true; ParIdY)

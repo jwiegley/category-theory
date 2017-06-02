@@ -37,6 +37,6 @@ Obligation 3.
 Qed.
 
 Class Complete `(C : Category) := {
-    complete : ∀ (J : Category), { Lim : [J, C] ⟶ C & @Delta C J ⊣ Lim }
+    complete : ∀ (J : Category), ∃ Lim : [J, C] ⟶ C, @Delta C J ⊣ Lim
 }.
 *)

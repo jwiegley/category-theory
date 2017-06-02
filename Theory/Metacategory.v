@@ -145,46 +145,45 @@ Local Obligation Tactic := intros.
 Global Program Definition FromArrows (M : Metacategory) := {|
   (* The objects of the category are given by all the identity arrows of the
      arrows-only metacategory. *)
-  ob  := { i : arr M & identity M i };
+  ob  := ∃ i : arr M, identity M i;
 
   (* The morphisms of the category from id[x] to id[y] are given by those
      arrows whose domain composes with id[x], and whose codomain composes with
      id[y]. *)
   hom := fun x y =>
-    { f : arr M & defined f ``x (pairs M) & defined ``y f (pairs M) };
+    ∃ f : arr M, defined f ``x (pairs M) ∧ defined ``y f (pairs M);
 
-  homset := fun _ _ => {| Setoid.equiv :=
-    fun f g => `1 (sigT_of_sigT2 f) = `1 (sigT_of_sigT2 g) |}
+  homset := fun _ _ => {| Setoid.equiv := fun f g => `1 f = `1 g |}
 |}.
 Next Obligation.
   equivalence; simpl in *; subst.
-  destruct x, y, z; subst; reflexivity.
 Qed.
 Next Obligation.                (* id *)
   destruct A as [i [Hil Hir]].
-  exists i; apply composite_defined with (h:=i); auto.
+  exists i.
+  split; apply composite_defined with (h:=i); auto.
 Defined.
 Next Obligation.                (* compose *)
   destruct A as [x x_id];
   destruct B as [y y_id];
   destruct C as [z z_id];
-  destruct f as [f fl fr];
-  destruct g as [g gl gr]; simpl in *.
+  destruct f as [f [fl fr]];
+  destruct g as [g [gl gr]]; simpl in *.
   pose proof (identity_composition_between M f g y y_id fl gr).
   destruct (defined_composite _ _ _ H) as [fg Hfg].
-  exists fg.
+  exists fg; split.
     eapply identity_composition_right; eauto.
   eapply identity_composition_left; eauto.
 Defined.
 Next Obligation.
   proper.
   unfold FromArrows_obligation_3; simpl.
-  destruct x, y, x0, y0; simpl in *; subst.
+  destruct x, x0; simpl in *; subst;
   destruct (defined_composite _ _ _); reflexivity.
 Qed.
 Next Obligation.
   unfold FromArrows_obligation_3; simpl.
-  destruct X, Y, f, i, i0; simpl in *; subst.
+  destruct X, Y, f, i, i0, p; simpl in *; subst.
   destruct (defined_composite _ _ _).
   pose proof (c2 x1).
   unfold composite in c3, H.
@@ -192,7 +191,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   unfold FromArrows_obligation_3; simpl.
-  destruct X, Y, f, i, i0; simpl in *; subst.
+  destruct X, Y, f, i, i0, p; simpl in *; subst.
   destruct (defined_composite _ _ _).
   pose proof (c x1).
   unfold composite in c3, H.
@@ -204,9 +203,9 @@ Next Obligation.
   destruct Y as [y [yl_id yr_id]];
   destruct Z as [z [zl_id zr_id]];
   destruct W as [w [wl_id wr_id]];
-  destruct f as [f fl fr];
-  destruct g as [g gl gr];
-  destruct h as [h hl hr];
+  destruct f as [f [fl fr]];
+  destruct g as [g [gl gr]];
+  destruct h as [h [hl hr]];
   simpl in *.
   repeat destruct (defined_composite _ _ _).
   unfold composite in *.

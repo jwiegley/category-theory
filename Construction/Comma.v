@@ -30,10 +30,10 @@ Context {T : B ⟶ C}.
    punctuation mark." *)
 
 Program Definition Comma : Category := {|
-  ob      := { p : A ∏ B & S (fst p) ~> T (snd p) };
+  ob      := ∃ p : A ∏ B, S (fst p) ~> T (snd p);
   hom     := fun x y =>
-    { f : (fst (`` x) ~> fst (`` y)) * (snd (`` x) ~> snd (`` y))
-    & projT2 y ∘ fmap (fst f) ≈ fmap (snd f) ∘ projT2 x };
+    ∃ f : (fst (`` x) ~> fst (`` y)) * (snd (`` x) ~> snd (`` y)),
+      projT2 y ∘ fmap (fst f) ≈ fmap (snd f) ∘ projT2 x;
   homset  := fun _ _ =>
     {| equiv := fun f g => (fst ``f ≈ fst ``g) * (snd ``f ≈ snd ``g) |};
   id      := fun _ => ((id, id); _);
