@@ -18,7 +18,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-(*
+(* jww (2017-06-02): TODO
 Import ListNotations.
 
 (* This record establishes the structure of a concrete category's objects and
@@ -236,7 +236,7 @@ Program Definition Structure_3 : Concrete_Structure := {|
   obs  := 3;
   arrs := 3;
   composition := fun f g =>
-                   
+
 |}.
 
 Definition Concrete_3 := Concrete Structure_3.

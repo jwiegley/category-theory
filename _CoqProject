@@ -61,6 +61,7 @@ Structure/Monoid.v
 Structure/Monoid/Algebra.v
 Structure/Cone.v
 Structure/Cone/Natural/Transformation.v
+Structure/Cone/Const.v
 Structure/Limit.v
 Structure/Limit/Kan/Extension.v
 Structure/Limit/Universal/Arrow.v
@@ -101,6 +102,8 @@ Instance/Poset.v
 Instance/Cones.v
 Instance/Cones/Limit.v
 Instance/Cones/Comma.v
+Instance/Finite.v
+Instance/Finite/Span.v
 Functor/Opposite.v
 Functor/Applicative.v
 Functor/Hom.v
@@ -147,9 +150,3 @@ Monad/Eilenberg/Moore.v
 Tools/Abstraction.v
 Tools/Represented.v
 Theory.v
-Pending/Cone.v
-Pending/Const.v
-Pending/Limit.v
-Pending/Finite.v
-Pending/Finite/Span.v
-Pending/Sherman.v

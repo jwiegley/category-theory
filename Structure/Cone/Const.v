@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 (* jww (2017-04-13): TODO
 Lemma Const_Cone_Iso `(F : @Functor J C)
   : ∀ a, @Isomorphism Sets (Const a ⟾ F) (Cone a F).
