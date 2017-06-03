@@ -98,3 +98,11 @@ Next Obligation.
 (* Coercion Curried_CoHom : Category >-> Functor. *)
 
 Notation "[Hom ─ , A ]" := (@Curried_CoHom _ A) : functor_scope.
+
+(* jww (2017-06-02): TODO *)
+(* Wikipedia: "This is formally the tensor-hom adjunction, and is an
+   archetypal example of a pair of adjoint functors. Natural transformations
+   arise frequently in conjunction with adjoint functors, and indeed, adjoint
+   functors are defined by a certain natural isomorphism. Additionally, every
+   pair of adjoint functors comes equipped with two natural transformations
+   (generally not isomorphisms) called the unit and counit." *)
