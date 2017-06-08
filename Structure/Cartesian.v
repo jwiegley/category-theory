@@ -245,6 +245,36 @@ Corollary fork_comp_hetero {x y z w : C}
   (f ∘ g) △ (h ∘ i) ≈ split f h ∘ g △ i.
 Proof. unfold split; intros; unfork. Qed.
 
+Global Program Instance prod_respects_iso {x y z : C} :
+  Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Prod.
+Next Obligation.
+  proper.
+  transitivity (x0 × y1). {
+    isomorphism.
+    - exact (second (to X0)).
+    - exact (second (from X0)).
+    - rewrite <- second_comp.
+      rewrite iso_to_from.
+      rewrite second_id.
+      reflexivity.
+    - rewrite <- second_comp.
+      rewrite iso_from_to.
+      rewrite second_id.
+      reflexivity.
+  }
+  isomorphism.
+  - exact (first (to X)).
+  - exact (first (from X)).
+  - rewrite <- first_comp.
+    rewrite iso_to_from.
+    rewrite first_id.
+    reflexivity.
+  - rewrite <- first_comp.
+    rewrite iso_from_to.
+    rewrite first_id.
+    reflexivity.
+Qed.
+
 Context `{@Terminal C}.
 
 Global Program Instance prod_one_l  {x : C} :
@@ -272,6 +302,12 @@ Next Obligation.
 Qed.
 
 Hint Rewrite @prod_one_r : isos.
+
+Global Program Instance prod_comm  {x y : C} :
+  x × y ≅ y × x := {
+  to   := swap;
+  from := swap
+}.
 
 Global Program Instance prod_assoc  {x y z : C} :
   (x × y) × z ≅ x × (y × z) := {

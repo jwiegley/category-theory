@@ -186,6 +186,54 @@ Proof.
   apply uncurry_inj; cat.
 Qed.
 
+Global Program Instance exp_respects_iso {x y z : C} :
+  Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Exp.
+Next Obligation.
+  proper.
+  transitivity (y1 ^ x0). {
+    isomorphism.
+    - apply (curry (to X0 ∘ eval)).
+    - apply (curry (from X0 ∘ eval)).
+    - rewrite <- curry_comp.
+      rewrite comp_assoc.
+      rewrite iso_to_from, id_left.
+      rewrite curry_eval.
+      reflexivity.
+    - rewrite <- curry_comp.
+      rewrite comp_assoc.
+      rewrite iso_from_to, id_left.
+      rewrite curry_eval.
+      reflexivity.
+  }
+  isomorphism.
+  - apply (curry (eval ∘ second (from X))).
+  - apply (curry (eval ∘ second (to X))).
+  - rewrite curry_comp_l.
+    rewrite <- comp_assoc.
+    rewrite <- first_second.
+    rewrite comp_assoc.
+    rewrite eval_first.
+    rewrite uncurry_curry.
+    rewrite <- comp_assoc.
+    rewrite <- second_comp.
+    rewrite iso_to_from.
+    rewrite second_id, id_right.
+    rewrite curry_eval.
+    reflexivity.
+  - rewrite curry_comp_l.
+    rewrite <- comp_assoc.
+    rewrite <- first_second.
+    rewrite comp_assoc.
+    rewrite eval_first.
+    rewrite uncurry_curry.
+    rewrite <- comp_assoc.
+    rewrite <- second_comp.
+    rewrite iso_from_to.
+    rewrite second_id, id_right.
+    rewrite curry_eval.
+    reflexivity.
+Qed.
+
 Global Program Instance exp_prod_l {x y z : C} :
   z^(x × y) ≅ (z^y)^x := {
   to   := curry (curry (eval ∘ to prod_assoc));
@@ -266,6 +314,34 @@ Qed.
 
 Hint Rewrite @exp_prod_r : isos.
 
+Local Obligation Tactic := program_simpl.
+
+Global Program Instance exp_swap {x y z : C} :
+  (z^y)^x ≅ (z^x)^y := {
+  to   := to exp_prod_l
+        ∘ to (@exp_respects_iso x y z _ _ (@prod_comm _ _ x y) z z iso_id)
+        ∘ from exp_prod_l;
+  from := to exp_prod_l
+        ∘ from (@exp_respects_iso x y z _ _ (@prod_comm _ _ x y) z z iso_id)
+        ∘ from exp_prod_l
+}.
+Next Obligation.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (curry _) (curry _)).
+  rewrite (iso_from_to exp_prod_l), id_left.
+  rewrite (comp_assoc (exp_respects_iso _ _ _ _ _ _)).
+  rewrite iso_to_from, id_left.
+  apply (iso_to_from exp_prod_l).
+Defined.
+Next Obligation.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (curry _) (curry _)).
+  rewrite (iso_from_to exp_prod_l), id_left.
+  rewrite (comp_assoc _ (exp_respects_iso _ _ _ _ _ _)).
+  rewrite iso_from_to, id_left.
+  apply (iso_to_from exp_prod_l).
+Defined.
+
 Lemma curry_fork {x y z w : C} (f : x × y ~> z) (g : x × y ~> w) :
   curry (f △ g) ≈ from exp_prod_r ∘ curry f △ curry g.
 Proof.
@@ -291,7 +367,7 @@ Qed.
 Context `{@Terminal C}.
 
 Global Program Instance exp_one {x : C} :
-  x^One ≅ x := {
+  x^1 ≅ x := {
   to   := eval ∘ id △ one;
   from := curry exl
 }.
@@ -314,6 +390,22 @@ Next Obligation.
 Qed.
 
 Hint Rewrite @exp_one : isos.
+
+Global Program Instance one_exp {x : C} :
+  1^x ≅ 1 := {
+  to   := one;
+  from := curry one
+}.
+Next Obligation. apply one_unique. Qed.
+Next Obligation.
+  rewrite curry_comp_l.
+  rewrite one_comp.
+  apply uncurry_inj.
+  rewrite uncurry_curry.
+  apply one_unique.
+Qed.
+
+Hint Rewrite @one_exp : isos.
 
 End Closed.
 

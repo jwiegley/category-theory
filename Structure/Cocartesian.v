@@ -27,6 +27,18 @@ Definition Coprod : C -> C -> C := @Prod _ O.
 
 Infix "+" := Coprod (at level 50, left associativity) : object_scope.
 
+Global Program Instance coprod_respects_iso {x y z : C} :
+  Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Coprod.
+Next Obligation.
+  proper.
+  pose proof (@isomorphism_equivalence (C^op)).
+  spose (@prod_respects_iso _ O x y z
+           y0 x0 (symmetry (Isomorphism_Opposite X))
+           y1 x1 (symmetry (Isomorphism_Opposite X0))) as X2.
+  pose proof (@isomorphism_equivalence C).
+  apply (symmetry (Isomorphism_Opposite X2)).
+Qed.
+
 Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x :=
   @fork _ O _ _ _ f g.
 
@@ -150,6 +162,12 @@ Theorem paws_fork {x y z : C} (f : y ~> x) (g : z ~> x) :
   f ▽ g ∘ paws ≈ g ▽ f.
 Proof. apply (@swap_fork _ O). Qed.
 
+Definition paws_invol {x y : C} :
+  paws ∘ paws ≈ @id C (x + y).
+Proof. unfold paws; apply (@swap_invol _ O). Qed.
+
+Hint Rewrite @paws_invol : categories.
+
 Context `{I : @Initial C}.
 
 Global Program Instance coprod_zero_l {x : C} :
@@ -169,6 +187,12 @@ Global Program Instance coprod_zero_r {x : C} :
 Next Obligation. apply (@prod_one_r _ _ I). Qed.
 
 Hint Rewrite @coprod_zero_r : isos.
+
+Global Program Instance coprod_comm  {x y : C} :
+  x + y ≅ y + x := {
+  to   := paws;
+  from := paws
+}.
 
 Global Program Instance coprod_assoc  {x y z : C} :
   (x + y) + z ≅ x + (y + z) := {
