@@ -25,12 +25,12 @@ Context `{O : @Cocartesian C}.
 
 Definition Coprod : C -> C -> C := @Prod _ O.
 
-Infix "+" := Coprod : category_scope.
+Infix "+" := Coprod (at level 50, left associativity) : object_scope.
 
 Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x :=
   @fork _ O _ _ _ f g.
 
-Infix "▽" := merge (at level 26) : category_scope.
+Infix "▽" := merge (at level 26) : morphism_scope.
 
 Global Program Instance merge_respects {x y z} :
   Proper (equiv ==> equiv ==> equiv) (@merge x y z).
@@ -180,8 +180,8 @@ Next Obligation. apply (@prod_assoc _ O). Qed.
 
 End Cocartesian_.
 
-Infix "+" := Coprod : category_scope.
-Infix "▽" := merge (at level 26) : category_scope.
+Infix "+" := Coprod (at level 50, left associativity) : object_scope.
+Infix "▽" := merge (at level 26) : morphism_scope.
 
 Hint Rewrite @inl_merge : categories.
 Hint Rewrite @inr_merge : categories.

@@ -18,7 +18,7 @@ Class Closed := {
   Exp : ob -> ob -> ob    (* internal homs *)
     where "y ^ x" := (Exp x y);
 
-  exp_iso {x y z} : x × y ~{C}~> z ≊ x ~> z^y;
+  exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;
 
   curry'   {x y z} := to (@exp_iso x y z);
   uncurry' {x y z} := from (@exp_iso x y z);
@@ -29,7 +29,8 @@ Class Closed := {
     eval' ∘ first (curry' _ _ _ f) ≈ f
 }.
 
-Notation "y ^ x" := (Exp x y) : category_scope.
+Notation "y ^ x" := (Exp x y)
+  (at level 30, right associativity) : object_scope.
 
 Context `{@Closed}.
 

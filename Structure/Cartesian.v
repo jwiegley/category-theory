@@ -30,8 +30,8 @@ Class Cartesian:= {
     h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
 }.
 
-Infix "×" := Prod : category_scope.
-Infix "△" := fork (at level 28) : category_scope.
+Infix "×" := Prod (at level 40, left associativity) : object_scope.
+Infix "△" := fork (at level 28) : morphism_scope.
 
 Context `{@Cartesian}.
 
@@ -283,10 +283,10 @@ Next Obligation. rewrite fork_comp; cat. Qed.
 
 End Cartesian.
 
-Infix "×" := (@Prod _ _) : category_scope.
+Infix "×" := (@Prod _ _) (at level 40, left associativity) : object_scope.
 Notation "x ×[ C ] y" := (@Prod C _ x y)
-  (at level 40, only parsing) : category_scope.
-Infix "△" := (@fork _ _ _ _ _) (at level 28) : category_scope.
+  (at level 40, left associativity, only parsing) : object_scope.
+Infix "△" := (@fork _ _ _ _ _) (at level 28) : morphism_scope.
 
 Hint Rewrite @exl_fork : categories.
 Hint Rewrite @exr_fork : categories.
