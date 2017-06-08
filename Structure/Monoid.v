@@ -9,12 +9,12 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Section Monoid.
+Section MonoidObject.
 
 Context {C : Category}.
 Context `{@Monoidal C}.
 
-Class Monoid (mon : C) := {
+Class MonoidObject (mon : C) := {
   mempty : I ~> mon;
   mappend : mon ⨂ mon ~> mon;
 
@@ -27,7 +27,7 @@ Class Monoid (mon : C) := {
     mappend ∘ bimap mappend id ≈ mappend ∘ bimap id mappend ∘ to tensor_assoc
 }.
 
-End Monoid.
+End MonoidObject.
 
 Notation "mempty[ M ]" := (@mempty _ _ _ M)
   (at level 9, format "mempty[ M ]") : category_scope.

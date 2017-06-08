@@ -22,7 +22,7 @@ Context {M : C ⟶ C}.
 Definition Endofunctors `(C : Category) := ([C, C]).
 
 Theorem Monoid_Monad :
-  @Monoid (Endofunctors C) Composition_Monoidal M ↔ Monad.
+  @MonoidObject (Endofunctors C) Composition_Monoidal M ↔ Monad.
 Proof.
   split; intros m.
   - refine {| join := transform[mappend[m]]

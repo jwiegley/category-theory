@@ -58,7 +58,6 @@ Structure/Monoidal/Semicocartesian.v
 Structure/Monoidal/Symmetric.v
 Structure/Monoidal/Braided.v
 Structure/Monoid.v
-Structure/Monoid/Algebra.v
 Structure/Cone.v
 Structure/Cone/Natural/Transformation.v
 Structure/Cone/Const.v
@@ -147,6 +146,8 @@ Monad/Transformer.v
 Monad/Kleisli.v
 Monad/Algebra.v
 Monad/Eilenberg/Moore.v
+Algebra/Basic.v
+Algebra/Monoid.v
 Tools/Abstraction.v
 Tools/Represented.v
 Theory.v
