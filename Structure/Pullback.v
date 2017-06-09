@@ -50,7 +50,7 @@ Unset Transparent Obligations.
 (* Definition, in terms of morphisms and universal properties:
 
    Wikipedia: "A pullback of the morphisms f and g consists of an object P
-   [pullback_obj] and two morphisms p1 : P → X [pullback_fst] and p2 : P → Y
+   [Pull] and two morphisms p1 : P → X [pullback_fst] and p2 : P → Y
    [pullback_snd] for which the diagram
 
        P ---p2---> Y
@@ -73,16 +73,18 @@ Unset Transparent Obligations.
    respecting the pullback structure." *)
 
 Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := {
-  pullback_obj : C;
-  pullback_fst : pullback_obj ~> x;
-  pullback_snd : pullback_obj ~> y;
+  Pull : C;
+  pullback_fst : Pull ~> x;
+  pullback_snd : Pull ~> y;
 
   pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd;
 
   ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2
-    -> ∃! u : Q ~> pullback_obj,
-         (pullback_fst ∘ u ≈ q1) * (pullback_snd ∘ u ≈ q2)
+    -> ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2
 }.
+
+Coercion pullback_ob {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z)
+         (L : Pullback f g) := @Pull _ _ _ _ _ _ L.
 
 Require Import Category.Construction.Opposite.
 

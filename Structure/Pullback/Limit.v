@@ -5,6 +5,11 @@ Require Export Category.Structure.Limit.
 Require Export Category.Structure.Span.
 Require Export Category.Structure.Pullback.
 
+Generalizable All Variables.
+Set Primitive Projections.
+Set Universe Polymorphism.
+Unset Transparent Obligations.
+
 Definition Pullback_Limit {C : Category} (F : Cospan C) := Limit F.
 Arguments Pullback_Limit {_%category} F%functor /.
 
@@ -14,13 +19,12 @@ Arguments Pushout_Limit {_%category} F%functor /.
 Program Definition Pullback_to_Universal {C : Category}
         (F : Cospan C) (P : Pullback_Limit F) :
   Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {|
-  pullback_obj := @Lim _ _ _ P;
+  Pull := P;
   pullback_fst := vertex_map;
   pullback_snd := vertex_map
 |}.
 Next Obligation.
-  destruct P.
-  pose proof (@ump_cones _ _ _ Lim).
+  pose proof (@ump_cones _ _ _ P).
   unfold unop.
   rewrite !X.
   reflexivity.
@@ -30,10 +34,9 @@ Next Obligation.
     unshelve (refine {| vertex := Q |}); intros.
       destruct x; auto.
       exact (unop (fmap[F] ZeroPos) ∘ q2).
-    abstract (
-      simpl;
-      destruct x, y; auto with roof_laws; simpl in f;
-      rewrite (RoofHom_inv _ _ f); cat).
+    simpl;
+    destruct x, y; auto with roof_laws; simpl in f;
+    rewrite (RoofHom_inv _ _ f); cat.
   }
   destruct P, Lim; simpl in *.
   exists (unique_morphism (ump_limits cone)). {
@@ -56,8 +59,8 @@ Qed.
 
 Program Definition Pullback_from_Universal {C : Category}
         {x y z : C} (f : x ~> z) (g : y ~> z) (P : Pullback f g) :
-  @Pullback_Limit _ (@ASpan (C^op) z x y f g)^op := {|
-  Lim := {| vertex := pullback_obj _ _ P |}
+  Pullback_Limit (@ASpan (C^op) _ _ _ f g)^op := {|
+  Lim := {| vertex := P |}
 |}.
 Next Obligation.
   destruct x0;
