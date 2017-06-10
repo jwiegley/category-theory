@@ -24,10 +24,10 @@ Fixpoint denote `(o : Obj) :
     `{@Terminal C}
     `{@Initial C}, C := fun _ _ _ _ _ _ =>
   match o with
-  | One_        => One
+  | One_        => 1
   | Prod_ x y   => denote x × denote y
   | Exp_ x y    => denote y ^ denote x
-  | Zero_       => Zero
+  | Zero_       => 0
   | Coprod_ x y => denote x + denote y
   end.
 
@@ -98,12 +98,12 @@ Next Obligation.
 Qed.
 
 Program Instance Hom_Terminal : @Terminal AST := {
-  One := One_;
+  terminal_obj := One_;
   one := @One'
 }.
 
 Program Instance Hom_Cartesian : @Cartesian AST := {
-  Prod := Prod_;
+  product_obj := Prod_;
   fork := @Fork;
   exl  := @Exl;
   exr  := @Exr
@@ -119,7 +119,7 @@ Next Obligation.
 Qed.
 
 Program Instance Hom_Closed : @Closed AST _ := {
-  Exp := Exp_;
+  exponent_obj := Exp_;
   exp_iso := fun x y z =>
     {| to   := {| morphism := @Curry x y z |}
      ; from := {| morphism := @Uncurry x y z |} |}
@@ -128,12 +128,12 @@ Next Obligation. proper; rewrite X; reflexivity. Qed.
 Next Obligation. proper; rewrite X; reflexivity. Qed.
 
 Program Instance Hom_Initial : @Initial AST := {
-  One := Zero_;
+  terminal_obj := Zero_;
   one := @Zero'
 }.
 
 Program Instance Hom_Cocartesian : @Cocartesian AST := {
-  Prod := Coprod_;
+  product_obj := Coprod_;
   fork := @Merge;
   exl  := @Inl;
   exr  := @Inr

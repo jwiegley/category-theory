@@ -58,13 +58,13 @@ Next Obligation. firstorder. Qed.
 Next Obligation. firstorder. Qed.
 
 Program Instance Rel_Initial : @Initial Rel := {
-  One := False;
+  terminal_obj := False;
   one := fun _ _ => False_rect _ _
 }.
 
 (*
 Program Instance Rel_Cartesian : @Cartesian Rel := {
-  Prod := @Prod Coq _;
+  product_obj := @Prod Coq _;
   fork := fun _ _ _ f g x y => f x (fst y) ∧ g x (snd y);
   exl  := fun _ _ p x => In _ (Singleton _ (fst p)) x;
   exr  := fun _ _ p x => In _ (Singleton _ (snd p)) x
@@ -94,14 +94,14 @@ Next Obligation.
 Qed.
 
 Program Instance Rel_Cocartesian : @Cocartesian Rel := {
-  Coprod := or;
-  merge := fun _ _ _ f g x =>
+  product_obj := or;
+  fork := fun _ _ _ f g x =>
             match x with
             | or_introl v => f v
             | or_intror v => g v
             end;
-  inl  := fun _ _ p => or_introl p;
-  inr  := fun _ _ p => or_intror p
+  exl  := fun _ _ p => or_introl p;
+  exr  := fun _ _ p => or_intror p
 }.
 Obligation 1. proper; autounfold in *; apply proof_irrelevance. Qed.
 Obligation 2.
@@ -113,7 +113,7 @@ Obligation 2.
 Qed.
 
 Program Instance Rel_Closed : @Closed Rel _ := {
-  Exp := Basics.impl;
+  exponent_obj := Basics.impl;
   exp_iso := fun _ _ _ =>
     {| to   := {| morphism := fun f a b => f (conj a b) |}
      ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |}

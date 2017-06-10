@@ -12,26 +12,26 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Theorem Kan_Limit `(F : J ⟶ C) `{@Limit _ _ F} `{@RightKan _ _ (Erase J) C} :
-  Lim F ≅ Ran (Erase J) F ().
+Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} :
+  Lim ≅ Ran (Erase J) F ().
 Proof.
   given (cone : Cone F).
     pose (from ((@adj _ _ _ _ ran_adjoint
                       (Ran (Erase J) F) F)) nat_id) as adj_from;
     simpl in adj_from.
 
-    unshelve (refine {| vertex := Ran (Erase J) F tt |}).
+    unshelve (refine {| vertex_obj := Ran (Erase J) F tt |}).
       apply adj_from.
     abstract (intros; rewrite (naturality[adj_from]); simpl; cat).
 
-  given (nat : Const (Lim F) ○ Erase J ⟹ F). {
+  given (nat : Const Lim ○ Erase J ⟹ F). {
     transform; simpl; intros.
     + apply vertex_map.
     + abstract (cat; apply ump_cones).
     + abstract (cat; symmetry; apply ump_cones).
   }
 
-  pose (to (@adj _ _ _ _ ran_adjoint (Const (Lim F)) F) nat)
+  pose (to (@adj _ _ _ _ ran_adjoint (Const Lim) F) nat)
     as adj_to; simpl in adj_to.
 
   assert (to_from : adj_to () ∘ unique_morphism (ump_limits cone) ≈ id). {
@@ -43,7 +43,7 @@ Proof.
     rewrites.
     unfold adj_to; simpl.
 
-    given (from_ran : Ran (Erase J) F ⟹ Const (Lim F)). {
+    given (from_ran : Ran (Erase J) F ⟹ Const Lim). {
       transform; simpl; intros.
       + destruct x.
         apply (unique_morphism (ump_limits cone)).
@@ -52,7 +52,7 @@ Proof.
     }
 
     spose (@to_adj_nat_l _ _ _ _ ran_adjoint
-                         (Ran (Erase J) F) (Const (Lim F))
+                         (Ran (Erase J) F) (Const Lim)
                          F nat from_ran tt) as X0.
     rewrites.
 
@@ -78,14 +78,14 @@ Proof.
        "... Proposition 3.1.7 implies that the only automorphism of [a limit
        object] l that commutes with the specified limit cone λ is the
        identity." *)
-    assert (∀ (f g : Lim F ~{ C }~> Lim F),
-              (∀ x, vertex_map[Lim F] ∘ f ≈ @vertex_map _ _ _ (Lim F) x) ->
-              (∀ x, vertex_map[Lim F] ∘ g ≈ @vertex_map _ _ _ (Lim F) x) ->
+    assert (∀ (f g : Lim ~{ C }~> Lim),
+              (∀ x, vertex_map[Lim] ∘ f ≈ @vertex_map _ _ _ Lim x) ->
+              (∀ x, vertex_map[Lim] ∘ g ≈ @vertex_map _ _ _ Lim x) ->
               f ∘ unique_morphism (ump_limits cone) ≈
               g ∘ unique_morphism (ump_limits cone) -> f ≈ g) as HA.
       intros; clear adj_to to_from nat.
-      rewrite <- (uniqueness (ump_limits (Lim F)) _ X).
-      rewrite <- (uniqueness (ump_limits (Lim F)) _ X0).
+      rewrite <- (uniqueness (ump_limits Lim) _ X).
+      rewrite <- (uniqueness (ump_limits Lim) _ X0).
       reflexivity.
 
     (* Apply the consequence that [unique_morphism (ump_limits cone)] is epic
@@ -100,12 +100,12 @@ Proof.
     rewrite comp_assoc.
     srewrite (unique_property (ump_limits cone)).
     srewrite_r (iso_from_to
-                  ((@adj _ _ _ _ ran_adjoint (Const (Lim F)) F)) nat x).
+                  ((@adj _ _ _ _ ran_adjoint (Const Lim) F)) nat x).
     unfold adj_to.
     srewrite_r (@from_adj_nat_l _ _ _ _ ran_adjoint
-                  (Const (Lim F)) (Ran (Erase J) F) F nat_id
-                  (to (@adj _ _ _ _ ran_adjoint (Const (Lim F)) F) nat) x).
+                  (Const Lim) (Ran (Erase J) F) F nat_id
+                  (to (@adj _ _ _ _ ran_adjoint (Const Lim) F) nat) x).
     sapply (@from_adj_respects
-              _ _ _ _ (@ran_adjoint _ _ _ _ H0) (Const (Lim F)) F).
+              _ _ _ _ (@ran_adjoint _ _ _ _ H) (Const Lim) F).
     simpl; intros; cat.
 Qed.

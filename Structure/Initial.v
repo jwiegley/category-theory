@@ -23,15 +23,15 @@ Section Initial_.
 
 Context `{I : @Initial C}.
 
-Definition Zero : C := @One _ I.
-Definition zero {x} : Zero ~{C}~> x := @one _ I _.
+Definition initial_obj : C := @terminal_obj _ I.
+Definition zero {x} : initial_obj ~{C}~> x := @one _ I _.
 
-Definition zero_unique {x} (f g : Zero ~{C}~> x) : f ≈ g :=
+Definition zero_unique {x} (f g : initial_obj ~{C}~> x) : f ≈ g :=
   @one_unique _ I _ _ _.
 
 End Initial_.
 
-Notation "0" := Zero : object_scope.
+Notation "0" := initial_obj : object_scope.
 
 Notation "zero[ C ]" := (@zero _ _ C)
   (at level 9, format "zero[ C ]") : morphism_scope.

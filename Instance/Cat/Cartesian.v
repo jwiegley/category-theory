@@ -11,7 +11,7 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Instance Cat_Cartesian : @Cartesian Cat := {
-  Prod := @Product;
+  product_obj := @Product;
   fork := fun _ _ _ F G =>
             {| fobj := fun x => (F x, G x)
              ; fmap := fun _ _ f => (fmap[F] f, fmap[G] f) |};

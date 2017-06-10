@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 
 Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} :
   Limit F := {|
-  Lim := @One _ T;
+  limit_cone := @terminal_obj _ T;
   ump_limits := fun N =>
     {| unique_morphism := `1 @one _ T N
      ; unique_property := `2 @one _ T N

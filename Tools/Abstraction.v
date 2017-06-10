@@ -109,8 +109,8 @@ Qed.
 End Abstraction.
 
 Class Numerical (C : Category) `{@Cartesian C} := {
-  Num : obj;
-  add : Num × Num ~> Num
+  numerical_obj : obj;
+  add : numerical_obj × numerical_obj ~> numerical_obj
 }.
 
 Section NumericalFunctor.
@@ -123,16 +123,17 @@ Context `{@Numerical D _}.
 Context `{@CartesianFunctor _ _ F _ _}.
 
 Class NumericalFunctor := {
-  map_num : Num ≅ F Num;
+  map_num : numerical_obj ≅ F numerical_obj;
 
-  fmap_add : fmap add ≈ map_num ∘ @add D _ _ ∘ split (map_num⁻¹) (map_num⁻¹)
-                                ∘ @prod_out _ _ F _ _ _ Num Num
+  fmap_add :
+    fmap add ≈ map_num ∘ @add D _ _ ∘ split (map_num⁻¹) (map_num⁻¹)
+                       ∘ @prod_out _ _ F _ _ _ numerical_obj numerical_obj
 }.
 
 End NumericalFunctor.
 
 Instance Coq_Numerical : @Numerical Coq Coq_Cartesian := {
-  Num := nat;
+  numerical_obj := nat;
   add := prod_curry Nat.add
 }.
 

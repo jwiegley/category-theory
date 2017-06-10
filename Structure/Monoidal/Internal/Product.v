@@ -25,7 +25,7 @@ Local Obligation Tactic :=
 Program Definition InternalProduct_Monoidal
         {C : Category} `{@Cartesian C} `{@Terminal C} : @Monoidal C := {|
   tensor := InternalProductFunctor C;
-  I := One
+  I := 1
 |}.
 
 Program Definition InternalProduct_SymmetricMonoidal

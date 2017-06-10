@@ -19,7 +19,7 @@ Context {C : Category}.
 Reserved Infix "⨂" (at level 30, right associativity).
 
 Class Monoidal := {
-  I : C;
+  I : C;                        (* unit_obj *)
   tensor : C ∏ C ⟶ C where "x ⨂ y" := (tensor (x, y));
 
   unit_left  {x} : I ⨂ x ≅ x;  (* lambda *)

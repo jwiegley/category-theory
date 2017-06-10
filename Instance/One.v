@@ -29,7 +29,7 @@ Program Instance Erase `(C : Category) : C ⟶ 1 := {
 }.
 
 Program Instance Cat_Terminal : @Terminal Cat := {
-  One := _1;
+  terminal_obj := _1;
   one := Erase
 }.
 Next Obligation.

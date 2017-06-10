@@ -118,7 +118,7 @@ Program Instance Unit_Setoid : Setoid () := {
 }.
 
 Program Instance Sets_Terminal : @Terminal Sets := {
-  One := {| carrier := unit |};
+  terminal_obj := {| carrier := unit |};
   one := _
 }.
 Next Obligation. morphism; [ intros; exact tt | proper ]. Qed.
@@ -129,7 +129,7 @@ Require Import Category.Structure.Initial.
 Program Instance False_Setoid : Setoid False.
 
 Program Instance Sets_Initial : @Initial Sets := {
-  One := {| carrier := False |};
+  terminal_obj := {| carrier := False |};
   one := _
 }.
 Next Obligation. morphism; contradiction. Qed.

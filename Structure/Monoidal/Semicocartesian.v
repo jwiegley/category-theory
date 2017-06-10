@@ -43,7 +43,7 @@ Require Import Category.Structure.Initial.
 
 Program Definition SemicocartesianMonoidal_Initial `{@Monoidal C}
         `{@SemicocartesianMonoidal C _} : @Initial C := {|
-  One := @I C _;
+  terminal_obj := @I C _;
   one := @generate _ _ _;
   one_unique := @unit_initial _ _ _
 |}.
@@ -54,7 +54,7 @@ Import EqNotations.
    semicocartesian monoidal. *)
 
 Program Definition Initial_SemicocartesianMonoidal `{M : @Monoidal C}
-        `{T : @Initial C} (Heq : @Zero C T = @I C M) :
+        `{T : @Initial C} (Heq : @initial_obj C T = @I C M) :
   @SemicocartesianMonoidal C _ := {|
   generate := fun x => _ (@zero C T x);
   unit_initial := fun x f g => _ (@zero_unique C T x) f g

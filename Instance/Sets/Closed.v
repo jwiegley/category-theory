@@ -14,7 +14,7 @@ Unset Transparent Obligations.
    makes use of isomorphisms in [Sets]. *)
 
 Program Instance Sets_Closed : @Closed Sets _ := {
-  Exp := fun x y =>
+  exponent_obj := fun x y =>
     {| carrier := SetoidMorphism x y
      ; is_setoid := @SetoidMorphism_Setoid x y |};
 

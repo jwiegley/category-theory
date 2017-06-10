@@ -8,19 +8,12 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Section Constant.
-
-Context {C : Category}.
-Context `{@Terminal C}.
-
 (* This structure represents "embedded constants", by way of an object that is
    able to host foreign values of a given Coq type. *)
 
-Class Constant (A : Type) := {
-  Const : A -> obj;
-  constant (x : A) : One ~{C}~> Const x
+Class Constant `{@Terminal C} (A : Type) := {
+  constant_obj : A -> C;
+  constant (x : A) : 1 ~> constant_obj x
 }.
 
-End Constant.
-
-Arguments Const {_ _} A {_}.
+Arguments constant_obj {_ _} A {_}.

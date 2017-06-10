@@ -24,6 +24,8 @@ Next Obligation. apply naturality. Qed.
 Next Obligation. apply naturality_sym. Qed.
 
 Class RightKan := {
+  (* jww (2017-06-09): Rename this to ran_functor, RightKan to Ran, and then a
+     coercion from Ran to functor? *)
   Ran : ([A, C]) ⟶ ([B, C]);
 
   ran_adjoint : Induced ⊣ Ran

@@ -15,8 +15,8 @@ Context {C : Category}.
 Context `{@Cartesian C}.
 
 Class Closed := {
-  Exp : obj -> obj -> obj    (* internal homs *)
-    where "y ^ x" := (Exp x y);
+  exponent_obj : obj -> obj -> obj    (* internal homs *)
+    where "y ^ x" := (exponent_obj x y);
 
   exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;
 
@@ -29,7 +29,7 @@ Class Closed := {
     eval' ∘ first (curry' _ _ _ f) ≈ f
 }.
 
-Notation "y ^ x" := (Exp x y)
+Notation "y ^ x" := (exponent_obj x y)
   (at level 30, right associativity) : object_scope.
 
 Context `{@Closed}.
@@ -187,7 +187,7 @@ Proof.
 Qed.
 
 Global Program Instance exp_respects_iso {x y z : C} :
-  Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Exp.
+  Proper (Isomorphism ==> Isomorphism ==> Isomorphism) exponent_obj.
 Next Obligation.
   proper.
   transitivity (y1 ^ x0). {
@@ -384,7 +384,7 @@ Next Obligation.
   rewrite <- comp_assoc; cat.
   rewrite <- fork_comp.
   rewrite id_left.
-  cut (@one _ _ (x^One) ∘ exl ≈ exr).
+  cut (@one _ _ (x^1) ∘ exl ≈ exr).
     intros; rewrites; cat.
   cat.
 Qed.
@@ -409,7 +409,7 @@ Hint Rewrite @one_exp : isos.
 
 End Closed.
 
-Notation "y ^ x" := (Exp x y) : category_scope.
+Notation "y ^ x" := (exponent_obj x y) : category_scope.
 
 Hint Rewrite @curry_uncurry : categories.
 Hint Rewrite @uncurry_curry : categories.

@@ -15,7 +15,7 @@ Context {C : Category}.
 Context `{@Monoidal C}.
 
 Class MonoidObject (mon : C) := {
-  mempty : I ~> mon;
+  mempty  : I ~> mon;
   mappend : mon ⨂ mon ~> mon;
 
   (* I ⨂ mon ≈ mon, mon ⨂ I ≈ mon *)

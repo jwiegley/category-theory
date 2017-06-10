@@ -17,9 +17,9 @@ Context `{@Constant C CT T}.
 Context `{@Constant D DT T}.
 
 Class ConstantFunctor := {
-  unmap_one : F One ~{D}~> One;
+  unmap_one : F 1 ~{D}~> 1;
 
-  map_const {x : T} : Const T x ~> F (Const T x);
+  map_const {x : T} : constant_obj T x ~> F (constant_obj T x);
 
   fmap_constant (x : T) :
     fmap (constant x) ≈ @map_const x ∘ constant x ∘ unmap_one;

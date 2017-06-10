@@ -28,7 +28,7 @@ Next Obligation. destruct x. Qed.
 Next Obligation. destruct x. Qed.
 
 Program Instance Cat_Initial : @Initial Cat := {
-  One := _0;
+  terminal_obj := _0;
   one := From_0
 }.
 Next Obligation.

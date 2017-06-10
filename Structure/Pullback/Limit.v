@@ -31,14 +31,14 @@ Next Obligation.
 Qed.
 Next Obligation.
   given (cone : Cone F). {
-    unshelve (refine {| vertex := Q |}); intros.
+    unshelve (refine {| vertex_obj := Q |}); intros.
       destruct x; auto.
       exact (unop (fmap[F] ZeroPos) ∘ q2).
     simpl;
     destruct x, y; auto with roof_laws; simpl in f;
     rewrite (RoofHom_inv _ _ f); cat.
   }
-  destruct P, Lim; simpl in *.
+  destruct P, limit_cone; simpl in *.
   exists (unique_morphism (ump_limits cone)). {
     split;
     [ pose proof (unique_property (ump_limits cone) RNeg)
@@ -49,7 +49,7 @@ Next Obligation.
   intros.
   apply (uniqueness (ump_limits cone)); intros.
   simpl in *.
-  destruct X0, X1; simpl; auto.
+  destruct x, X0; simpl; auto.
   rewrites.
   rewrite comp_assoc.
   unfold unop.
@@ -60,7 +60,7 @@ Qed.
 Program Definition Pullback_from_Universal {C : Category}
         {x y z : C} (f : x ~> z) (g : y ~> z) (P : Pullback f g) :
   Pullback_Limit (@ASpan (C^op) _ _ _ f g)^op := {|
-  Lim := {| vertex := P |}
+  limit_cone := {| vertex_obj := P |}
 |}.
 Next Obligation.
   destruct x0;
@@ -78,9 +78,9 @@ Next Obligation.
     rewrite (ump_cones RPos RZero ZeroPos).
     reflexivity.
   unfold Pullback_from_Universal_obligation_1; simpl.
-  destruct (ump_pullbacks vertex (vertex_map RNeg) (vertex_map RPos) eqv).
+  destruct (ump_pullbacks vertex_obj (vertex_map RNeg) (vertex_map RPos) eqv).
   construct; simplify; auto.
-    destruct X; auto.
+    destruct x0; auto.
     rewrite <- comp_assoc.
     rewrite unique_property.
     apply (ump_cones RNeg RZero ZeroNeg).

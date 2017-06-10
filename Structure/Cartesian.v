@@ -16,8 +16,8 @@ Section Cartesian.
 Context `{C : Category}.
 
 Class Cartesian:= {
-  Prod : obj -> obj -> obj
-    where "x × y" := (Prod x y);
+  product_obj : obj -> obj -> obj
+    where "x × y" := (product_obj x y);
 
   fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z;
   exl  {x y} : x × y ~> x;
@@ -30,7 +30,7 @@ Class Cartesian:= {
     h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
 }.
 
-Infix "×" := Prod (at level 40, left associativity) : object_scope.
+Infix "×" := product_obj (at level 40, left associativity) : object_scope.
 Infix "△" := fork (at level 28) : morphism_scope.
 
 Context `{@Cartesian}.
@@ -246,7 +246,7 @@ Corollary fork_comp_hetero {x y z w : C}
 Proof. unfold split; intros; unfork. Qed.
 
 Global Program Instance prod_respects_iso {x y z : C} :
-  Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Prod.
+  Proper (Isomorphism ==> Isomorphism ==> Isomorphism) product_obj.
 Next Obligation.
   proper.
   transitivity (x0 × y1). {
@@ -319,8 +319,8 @@ Next Obligation. rewrite fork_comp; cat. Qed.
 
 End Cartesian.
 
-Infix "×" := (@Prod _ _) (at level 40, left associativity) : object_scope.
-Notation "x ×[ C ] y" := (@Prod C _ x y)
+Infix "×" := (@product_obj _ _) (at level 40, left associativity) : object_scope.
+Notation "x ×[ C ] y" := (@product_obj C _ x y)
   (at level 40, left associativity, only parsing) : object_scope.
 Infix "△" := (@fork _ _ _ _ _) (at level 28) : morphism_scope.
 

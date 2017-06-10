@@ -41,7 +41,7 @@ Require Import Category.Structure.Terminal.
 
 Program Definition SemicartesianMonoidal_Terminal `{@Monoidal C}
         `{@SemicartesianMonoidal C _} : @Terminal C := {|
-  One := I;
+  terminal_obj := I;
   one := @eliminate _ _ _;
   one_unique := @unit_terminal _ _ _
 |}.
@@ -52,7 +52,7 @@ Import EqNotations.
    is semicartesian monoidal. *)
 
 Program Definition Terminal_SemicartesianMonoidal `{M : @Monoidal C}
-        `{T : @Terminal C} (Heq : One = @I C M) :
+        `{T : @Terminal C} (Heq : 1 = @I C M) :
   @SemicartesianMonoidal C _ := {|
   eliminate := fun x => rew Heq in one;
   unit_terminal := fun x f g =>

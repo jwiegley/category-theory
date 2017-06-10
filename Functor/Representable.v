@@ -28,6 +28,9 @@ Unset Transparent Obligations.
    for some object A of C." *)
 
 Class Representable `(F : C ⟶ Sets) := {
-  Rep : C;
-  represents : [Hom Rep,─] ≅ F
+  representable_obj : C;
+  represents : [Hom representable_obj,─] ≅ F
 }.
+
+Coercion Representable_to_obj `(F : C ⟶ Sets) (R : Representable F) : C :=
+  @representable_obj _ _ R.

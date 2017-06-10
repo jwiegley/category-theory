@@ -14,7 +14,7 @@ Definition pairing {A B : Type} (p : A * B) : p = (fst p, snd p) :=
   match p with (x, y) => eq_refl end.
 
 Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := {
-  Exp := @Fun;                  (* the internal hom is a functor category *)
+  exponent_obj := @Fun;         (* the internal hom is a functor category *)
   exp_iso := fun A B C =>
     {| to :=
        {| morphism := fun F : A × B ⟶ C =>

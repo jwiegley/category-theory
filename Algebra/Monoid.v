@@ -19,18 +19,21 @@ Unset Transparent Obligations.
 (* jww (2017-06-02): Move this into an Algebra directory *)
 
 Class Monoid (A : Type) `{Setoid A} := {
-  mon_zero : A;
-  mon_mult : A -> A -> A;
-  mon_mult_respects : Proper (equiv ==> equiv ==> equiv) mon_mult;
-  mon_zero_left  (x : A) : mon_mult mon_zero x === x;
-  mon_zero_right (x : A) : mon_mult x mon_zero === x;
-  mon_assoc (x y z : A) : mon_mult (mon_mult x y) z === mon_mult x (mon_mult y z)
+  mempty : A;
+  mappend : A -> A -> A;
+
+  mappend_respects : Proper (equiv ==> equiv ==> equiv) mappend;
+
+  mempty_left  (x : A) : mappend mempty x === x;
+  mempty_right (x : A) : mappend x mempty === x;
+
+  mon_assoc (x y z : A) : mappend (mappend x y) z === mappend x (mappend y z)
 }.
 
 Program Instance Classical_Monoid (A : Type) `{Setoid A} `{Monoid A} :
   @MonoidObject Sets InternalProduct_Monoidal {| carrier := A |} := {
-  mempty  := {| morphism := fun _ => mon_zero |};
-  mappend := {| morphism := fun p => mon_mult (fst p) (snd p) |}
+  mempty  := {| morphism := fun _ => mempty |};
+  mappend := {| morphism := fun p => mappend (fst p) (snd p) |}
 }.
 Next Obligation.
   proper; simpl in *.
@@ -38,6 +41,6 @@ Next Obligation.
   rewrite X, H2.
   reflexivity.
 Qed.
-Next Obligation. rewrite mon_zero_left; reflexivity. Qed.
-Next Obligation. rewrite mon_zero_right; reflexivity. Qed.
+Next Obligation. rewrite mempty_left; reflexivity. Qed.
+Next Obligation. rewrite mempty_right; reflexivity. Qed.
 Next Obligation. rewrite mon_assoc; reflexivity. Qed.

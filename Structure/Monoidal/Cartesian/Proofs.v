@@ -247,7 +247,7 @@ Proof.
 Qed.
 
 Global Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
-  Prod := fun x y => (x ⨂ y)%object;
+  product_obj := fun x y => (x ⨂ y)%object;
   fork := fun x _ _ f g => f ⨂ g ∘ ∆x;
   exl  := fun _ _ => proj_left;
   exr  := fun _ _ => proj_right

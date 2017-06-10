@@ -28,24 +28,24 @@ Program Definition Props : Category := {|
 |}.
 
 Program Instance Props_Terminal : @Terminal Props := {
-  One := True;
+  terminal_obj := True;
   one := fun _ _ => I
 }.
 
 Program Instance Props_Initial : @Initial Props := {
-  One := False;
+  terminal_obj := False;
   one := fun _ _ => False_rect _ _
 }.
 
 Program Instance Props_Cartesian : @Cartesian Props := {
-  Prod := and;
+  product_obj := and;
   fork := fun _ _ _ f g x => conj (f x) (g x);
   exl  := fun _ _ p => proj1 p;
   exr  := fun _ _ p => proj2 p
 }.
 
 Program Instance Props_Cocartesian : @Cocartesian Props := {
-  Prod := or;
+  product_obj := or;
   fork := fun _ _ _ f g x =>
             match x with
             | or_introl v => f v
@@ -56,7 +56,7 @@ Program Instance Props_Cocartesian : @Cocartesian Props := {
 }.
 
 Program Instance Props_Closed : @Closed Props _ := {
-  Exp := Basics.impl;
+  exponent_obj := Basics.impl;
   exp_iso := fun _ _ _ =>
     {| to   := {| morphism := fun f a b => f (conj a b) |}
      ; from := {| morphism := fun f p => f (proj1 p) (proj2 p) |} |}

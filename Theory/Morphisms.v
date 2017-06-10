@@ -43,11 +43,11 @@ Class Retraction `(f : x ~> y) := {
 Class SplitIdempotent {x y : C} := {
   split_idem_retract := y;
 
-  split_idem       : x ~> x;
-  split_idem_r     : x ~> split_idem_retract;
-  split_idem_s     : split_idem_retract ~> x;
-  split_idem_law_1 : split_idem_s ∘ split_idem_r ≈ split_idem;
-  split_idem_law_2 : split_idem_r ∘ split_idem_s ≈ id
+  split_idem    : x ~> x;
+  split_idem_r  : x ~> split_idem_retract;
+  split_idem_s  : split_idem_retract ~> x;
+  split_idem_sr : split_idem_s ∘ split_idem_r ≈ split_idem;
+  split_idem_rs : split_idem_r ∘ split_idem_s ≈ id
 }.
 
 Class Epic {x y} (f : x ~> y) := {

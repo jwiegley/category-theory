@@ -13,15 +13,15 @@ Section Terminal.
 Context {C : Category}.
 
 Class Terminal := {
-  One : obj;
-  one {x} : x ~> One;
+  terminal_obj : obj;
+  one {x} : x ~> terminal_obj;
 
-  one_unique {x} (f g : x ~> One) : f ≈ g
+  one_unique {x} (f g : x ~> terminal_obj) : f ≈ g
 }.
 
 End Terminal.
 
-Notation "1" := One : object_scope.
+Notation "1" := terminal_obj : object_scope.
 
 Hint Resolve @one_unique : category_laws.
 

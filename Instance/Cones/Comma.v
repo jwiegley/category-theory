@@ -12,7 +12,7 @@ Theorem Cones_to_Comma `(F : J ⟶ C) :
   Cones F ⟶ (Diagonal J ↓ @Const Fun F).
 Proof.
   functor; simpl; intros.
-  - exists (vertex, ()).
+  - exists (vertex_obj, ()).
     transform; simpl; intros.
     + apply vertex_map.
     + abstract (rewrite id_right; apply ump_cones).
