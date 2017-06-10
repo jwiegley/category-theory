@@ -23,16 +23,13 @@ Unset Transparent Obligations.
    morphism." *)
 
 Class Limit `(F : J ⟶ C) := {
-  limit_cone :> Cone F;
+  limit_cone : Cone F;
 
   ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J,
     vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ N x
 }.
 
-Arguments Limit {_%category _%category} F%functor.
-Arguments limit_cone {_%category _%category} F%functor {_}.
-
-Coercion limit_obj `(F : J ⟶ C) (L : Limit F) := @limit_cone _ _ _ L.
+Coercion limit_cone : Limit >-> Cone.
 
 Require Import Category.Functor.Opposite.
 
