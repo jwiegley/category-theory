@@ -24,10 +24,10 @@ Class Monoid (A : Type) `{Setoid A} := {
 
   mappend_respects : Proper (equiv ==> equiv ==> equiv) mappend;
 
-  mempty_left  (x : A) : mappend mempty x === x;
-  mempty_right (x : A) : mappend x mempty === x;
+  mempty_left  (x : A) : mappend mempty x ≈ x;
+  mempty_right (x : A) : mappend x mempty ≈ x;
 
-  mon_assoc (x y z : A) : mappend (mappend x y) z === mappend x (mappend y z)
+  mon_assoc (x y z : A) : mappend (mappend x y) z ≈ mappend x (mappend y z)
 }.
 
 Program Instance Classical_Monoid (A : Type) `{Setoid A} `{Monoid A} :
