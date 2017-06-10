@@ -17,7 +17,7 @@ Class Cone `(F : J ⟶ C) := {
     fmap[F] f ∘ @vertex_map x ≈ @vertex_map y
 }.
 
-Coercion vertex : Cone >-> ob.
+Coercion vertex : Cone >-> obj.
 
 Notation "vertex[ C ]" := (@vertex _ _ _ C)
   (at level 9, format "vertex[ C ]") : category_scope.

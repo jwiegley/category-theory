@@ -14,8 +14,8 @@ Local Obligation Tactic :=
   intros; try match goal with [ H : Empty_set |- _ ] => inversion H end.
 
 Program Definition _0 : Category := {|
-  ob  := Empty_set;
-  hom := fun _ _ => Empty_set;
+  obj    := Empty_set;
+  hom    := fun _ _ => Empty_set;
   homset := fun _ _ => {| equiv := eq |}
 |}.
 

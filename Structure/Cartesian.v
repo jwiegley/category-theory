@@ -16,7 +16,7 @@ Section Cartesian.
 Context `{C : Category}.
 
 Class Cartesian:= {
-  Prod : ob -> ob -> ob
+  Prod : obj -> obj -> obj
     where "x × y" := (Prod x y);
 
   fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z;

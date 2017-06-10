@@ -18,7 +18,7 @@ Unset Transparent Obligations.
 (* The category of propositions. *)
 
 Program Definition Props : Category := {|
-  ob      := Prop;
+  obj     := Prop;
   hom     := Basics.impl;
   (* By proof irrelevance, two statement P -> Q of the same type are taken to
      always be the same implication. *)

@@ -20,7 +20,7 @@ Unset Transparent Obligations.
 (* The category of heterogenous relations on Coq objects. *)
 
 Program Definition Rel : Category := {|
-  ob      := @ob Coq;
+  obj     := @obj Coq;
   hom     := fun A B => A ~> Ensemble B;
   homset  := fun P Q =>
                {| equiv := fun f g => forall x y, f x y ↔ g x y |};

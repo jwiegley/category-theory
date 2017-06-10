@@ -11,7 +11,7 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Definition _1 : Category := {|
-  ob      := unit;
+  obj     := unit;
   hom     := fun _ _ => unit;
   homset  := fun _ _ => {| equiv := eq |};
   id      := fun _ => tt;

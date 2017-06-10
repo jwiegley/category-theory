@@ -15,10 +15,10 @@ Context `{@Monad C M}.
 Local Obligation Tactic := program_simpl.
 
 Program Definition Kleisli : Category := {|
-  ob  := C;
-  hom := fun x y => x ~> M y;
-  homset := fun x y => @homset C x (M y);
-  id  := @ret C M _;
+  obj     := C;
+  hom     := fun x y => x ~> M y;
+  homset  := fun x y => @homset C x (M y);
+  id      := @ret C M _;
   compose := fun x y z f g => join ∘ fmap[M] f ∘ g
 |}.
 Next Obligation. proper; rewrites; reflexivity. Qed.

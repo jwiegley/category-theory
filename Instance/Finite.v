@@ -40,7 +40,7 @@ Record Concrete_Structure := {
 
 Program Definition Concrete (C : Concrete_Structure) :
   Category := {|
-  ob      := Fin.t (obs C);
+  obj     := Fin.t (obs C);
   hom     := fun _ _ => Fin.t (S (arrs C));
   homset  := fun _ _ => {| equiv := eq |};
   id      := fun _ => F1;

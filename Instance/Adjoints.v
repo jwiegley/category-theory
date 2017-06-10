@@ -68,10 +68,10 @@ Qed.
     composition            F ⊣ G -> G ⊣ H -> F ⊣ H *)
 
 Program Definition Adjoints : Category := {|
-  ob := Category;
-  hom := @adj_morphism;
-  homset := @adj_morphism_setoid;
-  id := fun X => {| free_functor      := Id[X]
+  obj     := Category;
+  hom     := @adj_morphism;
+  homset  := @adj_morphism_setoid;
+  id      := fun X => {| free_functor      := Id[X]
                   ; forgetful_functor := Id[X] |};
   compose := fun A B C f g =>
     {| adjunction :=

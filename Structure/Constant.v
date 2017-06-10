@@ -17,7 +17,7 @@ Context `{@Terminal C}.
    able to host foreign values of a given Coq type. *)
 
 Class Constant (A : Type) := {
-  Const : A -> ob;
+  Const : A -> obj;
   constant (x : A) : One ~{C}~> Const x
 }.
 

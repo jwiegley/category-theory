@@ -24,17 +24,17 @@ Notation "f ≈ g" := (equiv f g)
   relevant) equivalence between morphisms to be given. *)
 
 Class Category := {
-  ob : Type;
+  obj : Type;
 
   uhom := Type : Type;
-  hom : ob -> ob -> uhom where "a ~> b" := (hom a b);
+  hom : obj -> obj -> uhom where "a ~> b" := (hom a b);
   homset :> ∀ X Y, Setoid (X ~> Y);
 
   id {x} : x ~> x;
   compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z
     where "f ∘ g" := (compose f g);
 
-  compose_respects (x y z : ob) :>
+  compose_respects (x y z : obj) :>
     Proper (equiv ==> equiv ==> equiv) (@compose x y z);
 
   dom {x y} (f: x ~> y) := x;
@@ -52,7 +52,7 @@ Class Category := {
 
 Bind Scope category_scope with Category.
 Bind Scope homset_scope with hom.
-Bind Scope object_scope with ob.
+Bind Scope object_scope with obj.
 
 Delimit Scope category_scope with category.
 Delimit Scope object_scope with object.
@@ -62,8 +62,8 @@ Delimit Scope morphism_scope with morphism.
 Arguments dom {_%category _%object _%object} _%morphism.
 Arguments cod {_%category _%object _%object} _%morphism.
 
-Notation "ob[ C ]" := (@ob C%category)
-  (at level 0, format "ob[ C ]") : object_scope.
+Notation "obj[ C ]" := (@obj C%category)
+  (at level 0, format "obj[ C ]") : object_scope.
 
 Notation "x ~> y" := (@hom _%category x%object y%object)
   (at level 90, right associativity) : homset_scope.
@@ -100,7 +100,7 @@ Notation "f << A ~~> B >> g" :=
   (at level 99, A at next level, B at next level, only parsing,
    format "'[v' f '/'   <<  A  ~~>  B  >> '//' g ']'") : category_theory_scope.
 
-Coercion ob : Category >-> Sortclass.
+Coercion obj : Category >-> Sortclass.
 
 Hint Rewrite @id_left : categories.
 Hint Rewrite @id_right : categories.

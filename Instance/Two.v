@@ -36,7 +36,7 @@ Hint Extern 4 => contradiction TwoHom_Y_X_absurd : two_laws.
    from the first object to the second (here denoted false and true). *)
 
 Program Definition _2 : Category := {|
-  ob      := TwoObj;
+  obj     := TwoObj;
   hom     := TwoHom;
   homset  := fun x y => {| equiv := eq |};
   id      := fun x => match x with

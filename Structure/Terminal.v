@@ -13,7 +13,7 @@ Section Terminal.
 Context {C : Category}.
 
 Class Terminal := {
-  One : ob;
+  One : obj;
   one {x} : x ~> One;
 
   one_unique {x} (f g : x ~> One) : f ≈ g

@@ -68,12 +68,12 @@ Local Ltac reduce :=
 Set Transparent Obligations.
 
 Program Definition Parallel : Category := {|
-  ob  := ParObj;
-  hom := fun x y => ∃ b : bool, ParHom b x y;
+  obj     := ParObj;
+  hom     := fun x y => ∃ b : bool, ParHom b x y;
   (* Any hom that typechecks is valid. *)
-  homset := fun x y =>
+  homset  := fun x y =>
     {| equiv := fun (f g : ∃ b : bool, ParHom b x y) => ``f = ``g |};
-  id := fun x => match x with
+  id      := fun x => match x with
     | ParX => (true; ParIdX)
     | ParY => (true; ParIdY)
     end;

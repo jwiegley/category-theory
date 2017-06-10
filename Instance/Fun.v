@@ -67,7 +67,7 @@ Proof. proper. Qed.
    Functors from C ⟶ D. *)
 
 Global Program Definition Fun : Category := {|
-  ob      := C ⟶ D;
+  obj     := C ⟶ D;
   hom     := @Transform C D;
   id      := @nat_id;
   compose := @nat_compose;

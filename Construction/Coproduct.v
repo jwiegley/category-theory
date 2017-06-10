@@ -14,7 +14,7 @@ Context {C : Category}.
 Context {D : Category}.
 
 Program Definition Coproduct : Category := {|
-  ob      := C + D;
+  obj     := C + D;
   hom     := fun x y =>
                match x return Type with
                | Datatypes.inl x =>

@@ -11,11 +11,11 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 
 Program Definition Cones `(F : J ⟶ C) : Category := {|
-  ob  := Cone F;
-  hom := fun N L => { u : vertex[N] ~> vertex[L]
-                    & ∀ j, vertex_map[L] ∘ u ≈ @vertex_map _ _ F N j };
-  homset := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |};
-  id := fun x => (id; _);
+  obj     := Cone F;
+  hom     := fun N L => { u : vertex[N] ~> vertex[L]
+                        & ∀ j, vertex_map[L] ∘ u ≈ @vertex_map _ _ F N j };
+  homset  := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |};
+  id      := fun x => (id; _);
   compose := fun _ _ _ f g => (`1 f ∘ `1 g; _);
 |}.
 Next Obligation.

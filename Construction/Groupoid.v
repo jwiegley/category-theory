@@ -13,7 +13,7 @@ Unset Transparent Obligations.
    equivalence is equivalence of isomorphisms. *)
 
 Program Definition Groupoid (C : Category) : Category := {|
-  ob      := @ob C;
+  obj     := @obj C;
   hom     := @Isomorphism C;
   homset  := @isomorphism_setoid C;
   id      := @iso_id C;

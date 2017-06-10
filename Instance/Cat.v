@@ -17,7 +17,7 @@ Unset Transparent Obligations.
     composition           Horizontal composition of Functors *)
 
 Program Instance Cat : Category := {
-  ob      := Category;
+  obj     := Category;
   hom     := @Functor;
   homset  := @Functor_Setoid;
   id      := @Id;

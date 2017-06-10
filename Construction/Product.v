@@ -12,7 +12,7 @@ Unset Transparent Obligations.
    spelled out here to ease simplification. *)
 
 Definition Product (C D : Category) : Category := {|
-  ob      := C * D;
+  obj     := C * D;
   hom     := fun x y => (fst x ~> fst y) * (snd x ~> snd y);
   homset  := fun x y =>
     let setoid_C := @homset C (fst x) (fst y) in

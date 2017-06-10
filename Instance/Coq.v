@@ -11,7 +11,7 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Program Instance Coq : Category := {
-  ob      := Type;
+  obj     := Type;
   hom     := fun A B : Type => A -> B;
   homset  := fun _ _ => {| equiv := fun f g => forall x, f x = g x |};
   id      := fun _ x => x;

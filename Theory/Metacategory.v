@@ -145,7 +145,7 @@ Local Obligation Tactic := intros.
 Global Program Definition FromArrows (M : Metacategory) := {|
   (* The objects of the category are given by all the identity arrows of the
      arrows-only metacategory. *)
-  ob  := ∃ i : arr M, identity M i;
+  obj := ∃ i : arr M, identity M i;
 
   (* The morphisms of the category from id[x] to id[y] are given by those
      arrows whose domain composes with id[x], and whose codomain composes with

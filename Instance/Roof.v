@@ -74,11 +74,11 @@ Proof. inversion 1. Qed.
 Hint Extern 4 => contradiction RPos_RNeg_absurd : roof_laws.
 
 Program Definition Roof : Category := {|
-  ob  := RoofObj;
-  hom := RoofHom;
+  obj    := RoofObj;
+  hom    := RoofHom;
   (* Any hom that typechecks is valid. *)
   homset := fun x y => {| equiv := fun (f g : RoofHom x y) => True |};
-  id := fun x => match x return RoofHom x x with
+  id     := fun x => match x return RoofHom x x with
     | RNeg  => IdNeg
     | RZero => IdZero
     | RPos  => IdPos

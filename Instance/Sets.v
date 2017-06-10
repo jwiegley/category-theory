@@ -65,7 +65,7 @@ Hint Unfold setoid_morphism_compose.
    composition: composition of set maps, preserving equivalence
  *)
 Program Definition Sets : Category := {|
-  ob      := SetoidObject;
+  obj     := SetoidObject;
   hom     := fun x y => SetoidMorphism x y;
   homset  := @SetoidMorphism_Setoid;
   id      := @setoid_morphism_id;

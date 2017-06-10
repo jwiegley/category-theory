@@ -78,7 +78,7 @@ Program Fixpoint interp `(c : Hom a b) :
   end.
 
 Program Instance AST : Category := {
-  ob      := Obj;
+  obj     := Obj;
   hom     := Hom;
   id      := @Id;
   compose := @Compose;

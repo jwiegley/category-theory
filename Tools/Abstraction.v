@@ -109,8 +109,7 @@ Qed.
 End Abstraction.
 
 Class Numerical (C : Category) `{@Cartesian C} := {
-  Num : ob;
-
+  Num : obj;
   add : Num × Num ~> Num
 }.
 

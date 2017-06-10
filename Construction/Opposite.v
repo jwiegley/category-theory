@@ -11,7 +11,7 @@ Unset Transparent Obligations.
 Reserved Notation "C ^op" (at level 7).
 
 Definition Opposite `(C : Category) : Category := {|
-  ob      := @ob C;
+  obj     := @obj C;
   hom     := fun x y => @hom C y x;
   homset  := fun x y => @homset C y x;
   id      := @id C;

@@ -11,7 +11,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 
 Program Definition Slice `(C : Category) `(c : C) : Category := {|
-  ob      := ∃ a : C, a ~> c;
+  obj     := ∃ a : C, a ~> c;
   hom     := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ∘ f ≈ `2 x;
   homset  := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |} ;
   id      := fun _ => (id; _);
@@ -38,7 +38,7 @@ Next Obligation. constructive; simplify; simpl in *; cat. Qed.
 Next Obligation. constructive; simplify; simpl in *; cat. Qed.
 
 Program Definition Coslice `(C : Category) `(c : C) : Category := {|
-  ob      := ∃ a : C, c ~> a;
+  obj     := ∃ a : C, c ~> a;
   hom     := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ≈ f ∘ `2 x;
   homset  := fun _ _ => {| equiv := fun f g => `1 f ≈ `1 g |} ;
   id      := fun _ => (id; _);

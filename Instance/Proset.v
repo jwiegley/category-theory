@@ -31,7 +31,7 @@ Unset Transparent Obligations.
 
 Program Definition Proset {A : Type} {R : relation A} (P : PreOrder R) :
   Category := {|
-  ob      := A;
+  obj     := A;
   hom     := R;
   (* Since there can be at most one arrow between any two objects, multiple
      arrows of the same type are equal. *)

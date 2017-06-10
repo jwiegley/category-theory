@@ -20,7 +20,7 @@ Class Wedge `(F : C^op ∏ C ⟶ D) := {
     bimap[F] id f ∘ wedge_map ≈ bimap[F] (op f) id ∘ wedge_map
 }.
 
-Coercion wedge : Wedge >-> ob.
+Coercion wedge : Wedge >-> obj.
 
 Notation "wedge_map[ C ]" := (@wedge_map _ _ _ C _)
   (at level 9, format "wedge_map[ C ]") : category_scope.

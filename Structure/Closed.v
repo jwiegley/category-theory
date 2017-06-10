@@ -15,7 +15,7 @@ Context {C : Category}.
 Context `{@Cartesian C}.
 
 Class Closed := {
-  Exp : ob -> ob -> ob    (* internal homs *)
+  Exp : obj -> obj -> obj    (* internal homs *)
     where "y ^ x" := (Exp x y);
 
   exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;

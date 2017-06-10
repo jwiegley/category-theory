@@ -39,7 +39,7 @@ Hint Extern 4 => contradiction TwoDHom_Y_X_absurd : two_laws.
 (* The discrete category 2 has two objects and their identity morphisms. *)
 
 Program Definition Two_Discrete : Category := {|
-  ob      := TwoDObj;
+  obj     := TwoDObj;
   hom     := TwoDHom;
   homset  := fun x y => {| equiv := eq |};
   id      := fun x => match x with
