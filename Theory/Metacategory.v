@@ -2,10 +2,9 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Coq.Lists.List.
-Require Import Coq.Lists.ListSet.
-Require Import Coq.FSets.FMapFacts.
+
 Require Import Coq.Structures.DecidableTypeEx.
+Require Import Coq.FSets.FMapFacts.
 Require Import Category.Lib.FMapExt.
 
 Generalizable All Variables.
@@ -69,16 +68,16 @@ Record Metacategory := {
      g∙f are defined." *)
   triple_composition (k g f kg gf : arr) :
     composite k g kg ->
-    composite g f gf -> ∃ kgf : arr, composite kg f kgf;
+    composite g f gf -> (exists kgf : arr, composite kg f kgf)%type;
 
   (* Third axiom: *)
 
   (* "For each arrow g of C there exist identity arrows u and u' of C such
      that u'∙g and g∙u are defined." *)
   identity_law (g : arr) :
-    ∃ u u' : arr,
-      identity u ∧ identity u' ∧
-      defined g  u pairs ∧ defined u' g pairs;
+    ∃ u,  identity u  ->
+    ∃ u', identity u' ->
+      defined g u pairs ∧ defined u' g pairs;
 }.
 
 Definition composite_defined (M : Metacategory) (f g h : arr M) :
@@ -112,8 +111,9 @@ Proof.
   destruct H.
   pose proof (@triple_composition M f u g f g (c f) (c0 g)) as H3;
   simpl in H3.
-  apply composite_defined with (h:=``H3).
-  exact `2 H3.
+  destruct H3.
+  apply composite_defined with (h:=x).
+  exact H.
 Defined.
 
 Lemma identity_composition_left (M : Metacategory) :
@@ -142,7 +142,7 @@ Qed.
 
 Local Obligation Tactic := intros.
 
-Global Program Definition FromArrows (M : Metacategory) := {|
+Global Program Definition FromArrows (M : Metacategory) : Category := {|
   (* The objects of the category are given by all the identity arrows of the
      arrows-only metacategory. *)
   obj := ∃ i : arr M, identity M i;
@@ -216,5 +216,197 @@ Qed.
 Next Obligation.
   symmetry; apply FromArrows_obligation_7.
 Qed.
+
+Notation "[map ]" := (M.empty _) (at level 9).
+Notation "x +=> y" := (M.add x y) (at level 9).
+Notation "[map a ; .. ; b ]" := (a .. (b [map]) ..).
+
+Ltac structure :=
+  simpl in *;
+  repeat (
+    match goal with
+    | [ H : (_, _) = (_, _) |- _ ] => inversion H; clear H; subst
+    | [ |- ?X = ?Y → False ] =>
+      let H := fresh "H" in
+      intro H; inversion H; tauto
+    | [ H : M.MapsTo _ _ _ |- _ ] => simplify_maps
+    | [ |- M.MapsTo _ _ _ ] => simplify_maps
+    | [ |- _ ↔ _ ] => split; intros
+    | [ |- _ /\ _ ] => split
+    | [ |- _ \/ _ ] => solve [ left; structure | right; structure ]
+    end; intuition idtac; try congruence).
+
+Ltac check_structure :=
+  first [ unfold defined;
+          repeat (unshelve eexists; try assumption; intros []);
+          split; apply in_mapsto_iff;
+          eexists; intuition
+        | unshelve (structure; eexists; structure); exact 0%nat
+        | structure ].
+
+Local Obligation Tactic := program_simpl; check_structure.
+
+Program Definition ZeroArrows : Metacategory := {|
+  pairs := [map]
+|}.
+
+Program Definition OneArrow : Metacategory := {|
+  pairs := [map (0, 0) +=> 0 ]%nat
+|}.
+
+Program Definition TwoArrows : Metacategory := {|
+  pairs := [map (0, 0) +=> 0
+           ;    (1, 1) +=> 1
+
+           ;    (0, 2) +=> 2
+           ;    (2, 1) +=> 2 ]%nat
+|}.
+
+Program Definition ThreeArrows : Metacategory := {|
+  pairs := [map (0, 0) +=> 0
+           ;    (1, 1) +=> 1
+           ;    (2, 2) +=> 2
+
+           ;    (0, 3) +=> 3
+           ;    (3, 1) +=> 3
+
+           ;    (1, 4) +=> 4
+           ;    (4, 2) +=> 4
+
+           ;    (3, 4) +=> 5
+
+           ;    (0, 5) +=> 5
+           ;    (5, 2) +=> 5 ]%nat
+|}.
+
+Definition Three : Category := FromArrows ThreeArrows.
+
+Require Import Coq.Arith.PeanoNat.
+
+Definition cardinality (M : Metacategory) : nat :=
+  M.cardinal (P.filter (fun '(dom, cod) v =>
+                          ((dom =? v)%nat && (cod =? v)%nat)%bool)
+                       (pairs M)).
+
+(* jww (2017-06-10): This needs automation. A computational tactic that
+   reflects on map structures would be valuable here, since we are computing
+   on known results. *)
+Lemma ThreeArrows_card_3 : cardinality ThreeArrows = 3%nat.
+Proof.
+  assert (P.transpose_neqkey
+            M.Equal
+            (λ (k : M.key) (e : nat) (m : M.t nat),
+             if (let '(dom, cod) := k in
+                 λ v : nat, (dom =? v)%nat && (cod =? v)%nat) e
+             then k +=> e m
+             else m)).
+    intros ??????.
+    destruct k, k'.
+    assert (n ≠ n1 \/ n0 ≠ n2).
+      destruct (Nat.eq_dec n n1); subst.
+        right; congruence.
+      left; assumption.
+    destruct ((n =? e)%nat && (n0 =? e)%nat) eqn:Heqe.
+      apply andb_true_iff in Heqe.
+      destruct Heqe.
+      apply Nat.eqb_eq in H1.
+      apply Nat.eqb_eq in H2.
+      subst.
+      destruct ((n1 =? e')%nat && (n2 =? e')%nat) eqn:Heqe2.
+        apply andb_true_iff in Heqe2.
+        destruct Heqe2.
+        apply Nat.eqb_eq in H1.
+        apply Nat.eqb_eq in H2.
+        subst.
+        apply add_associative.
+        intros; congruence.
+      reflexivity.
+    destruct ((n1 =? e')%nat && (n2 =? e')%nat) eqn:Heqe2.
+      apply andb_true_iff in Heqe2.
+      destruct Heqe2.
+      apply Nat.eqb_eq in H1.
+      apply Nat.eqb_eq in H2.
+      subst.
+      reflexivity.
+    reflexivity.
+
+  assert (Proper (eq ==> eq ==> M.Equal ==> M.Equal)
+                 (λ (k : M.key) (e : nat) (m : M.t nat),
+                  if (let '(dom, cod) := k in
+                      λ v : nat, (dom =? v)%nat && (cod =? v)%nat) e
+                  then k +=> e m
+                  else m)).
+    intros ?????????.
+    destruct x, y; subst.
+    inversion H0; clear H0; subst.
+    destruct ((n1 =? y0)%nat && (n2 =? y0)%nat) eqn:Heqe.
+      apply andb_true_iff in Heqe.
+      destruct Heqe.
+      apply Nat.eqb_eq in H0.
+      apply Nat.eqb_eq in H1.
+      subst.
+      rewrite H2; reflexivity.
+    assumption.
+
+  unfold cardinality; simpl.
+  unfold P.filter; simpl.
+  repeat (rewrite P.fold_add; eauto; relational; simpl);
+  try (apply not_in_mapsto_iff; intros;
+       repeat (unfold not; intros; simplify_maps; try congruence)).
+  rewrite P.fold_Empty; auto; [| apply M.empty_1 ].
+
+  assert (P.transpose_neqkey eq (λ (_ : M.key) (_ : nat), S)) by proper.
+
+  rewrite P.cardinal_fold.
+  repeat (rewrite P.fold_add; eauto; relational; simpl);
+  try (apply not_in_mapsto_iff; intros;
+       repeat (unfold not; intros; simplify_maps; try congruence)).
+  rewrite P.fold_Empty; auto; apply M.empty_1.
+Qed.
+
+(* Definition objects_of (M : Metacategory) : *)
+(*   ∀ P : nat → Type, P 0%nat → (∀ n : nat, P n → P (S n)) → ∀ n : nat, P n *)
+
+Require Import Category.Theory.Functor.
+
+Local Obligation Tactic := program_simpl.
+
+Program Definition FromThree {C : Category} (c : C) : Three ⟶ C := {|
+  fobj := fun x =>
+   match x with
+   | existT _ 0%nat _ => c
+   | existT _ 1%nat _ => c
+   | existT _ 2%nat _ => c
+   | _ => False_rect _ _
+   end
+|}.
+Next Obligation.
+  destruct x. specialize (H1 X); contradiction.
+  destruct x. specialize (H X); contradiction.
+  destruct x. specialize (H0 X); contradiction.
+  destruct X.
+  pose proof (c0 0%nat).
+  unfold composite in H2; simpl in H2.
+  simplify_maps. structure.
+  simplify_maps. structure.
+  simplify_maps. structure.
+  simplify_maps. discriminate.
+  simplify_maps. structure.
+  simplify_maps. structure.
+  simplify_maps. structure.
+  simplify_maps. structure.
+  simplify_maps. discriminate.
+  simplify_maps. structure.
+Qed.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
 
 End Metacategory.
