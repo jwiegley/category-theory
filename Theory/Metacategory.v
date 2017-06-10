@@ -217,9 +217,9 @@ Next Obligation.
   symmetry; apply FromArrows_obligation_7.
 Qed.
 
-Notation "[map ]" := (M.empty _) (at level 9).
-Notation "x +=> y" := (M.add x y) (at level 9).
-Notation "[map a ; .. ; b ]" := (a .. (b [map]) ..).
+Notation "[map ]" := (M.empty _) (at level 9, only parsing).
+Notation "x +=> y" := (M.add x y) (at level 9, only parsing).
+Notation "[map  a ; .. ; b ]" := (a .. (b [map]) ..) (only parsing).
 
 Ltac structure :=
   simpl in *;
@@ -288,11 +288,39 @@ Definition cardinality (M : Metacategory) : nat :=
                           ((dom =? v)%nat && (cod =? v)%nat)%bool)
                        (pairs M)).
 
+Lemma elements_filter {elt} (m : M.t elt) (P : M.key → elt → bool) :
+  M.elements (P.filter P m)
+    = filter (fun p => P (fst p) (snd p)) (M.elements m).
+Proof.
+  unfold P.filter.
+  apply P.fold_rec; intros.
+    rewrite (proj1 (P.elements_Empty m0) H); simpl.
+    apply P.elements_empty.
+  destruct (P k e) eqn:Heqe.
+  apply add_equal_iff in H1.
+Abort.
+
+Lemma length_elements_filter {elt} (m : M.t elt) k v (P : M.key * elt → bool) :
+  length (filter P (M.elements (M.add k v m)))
+    = length (filter P ((k, v) :: M.elements m)).
+Proof.
+Abort.
+
+Theorem elements_rect {elt} (P : list (M.key * elt) -> Type) :
+  (∀ m1 m2, M.Equal m1 m2 -> P (M.elements m1) -> P (M.elements m2))
+  -> ∀ m k v, P ((k, v) :: M.elements m) -> P (M.elements (M.add k v m)).
+Proof.
+Abort.
+
 (* jww (2017-06-10): This needs automation. A computational tactic that
    reflects on map structures would be valuable here, since we are computing
    on known results. *)
 Lemma ThreeArrows_card_3 : cardinality ThreeArrows = 3%nat.
 Proof.
+  (* unfold cardinality; simpl. *)
+  (* rewrite M.cardinal_1. *)
+  (* rewrite elements_filter. *)
+  (* apply elements_rect; simpl; intros. *)
   assert (P.transpose_neqkey
             M.Equal
             (λ (k : M.key) (e : nat) (m : M.t nat),
