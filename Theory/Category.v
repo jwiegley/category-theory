@@ -10,9 +10,6 @@ Unset Transparent Obligations.
 Reserved Infix "~>" (at level 90, right associativity).
 Reserved Infix "∘" (at level 40, left associativity).
 
-Notation "f ≈ g" := (equiv f g)
-  (at level 79, only parsing) : category_theory_scope.
-
 (* The objects of a category are all of some `Type`.
 
   Morphisms, or arrows, are also of type `Type`, but always in a universe
@@ -34,7 +31,7 @@ Class Category := {
   compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z
     where "f ∘ g" := (compose f g);
 
-  compose_respects (x y z : obj) :>
+  compose_respects x y z :>
     Proper (equiv ==> equiv ==> equiv) (@compose x y z);
 
   dom {x y} (f: x ~> y) := x;
@@ -51,8 +48,8 @@ Class Category := {
 }.
 
 Bind Scope category_scope with Category.
-Bind Scope homset_scope with hom.
 Bind Scope object_scope with obj.
+Bind Scope homset_scope with hom.
 
 Delimit Scope category_scope with category.
 Delimit Scope object_scope with object.
@@ -130,36 +127,17 @@ Proof. split; auto. Qed.
 
 End Category.
 
-Arguments dom {_ _ _} _.
-Arguments cod {_ _ _} _.
-Arguments id_left {_ _ _} _.
-Arguments id_right {_ _ _} _.
-Arguments comp_assoc {_ _ _ _ _} _ _ _.
+Arguments dom {_%category _%object _%object} _%morphism.
+Arguments cod {_%category _%object _%object} _%morphism.
+Arguments id_left {_%category _%object _%object} _%morphism.
+Arguments id_right {_%category _%object _%object} _%morphism.
+Arguments comp_assoc {_%category _%object _%object _%object _%object}
+  _%morphism _%morphism _%morphism.
 
 Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := {
   PreOrder_Reflexive  := fun _ => id;
   PreOrder_Transitive := fun _ _ _ f g => g ∘ f
 }.
-
-(* These are tactics that rely on the categorical structure. *)
-
-Ltac reassoc f :=
-  repeat match goal with
-    | [ |- context[(?F ∘ f) ∘ ?G] ] => rewrite <- (comp_assoc F f G)
-    | [ |- context[f ∘ (?G ∘ ?H)] ] => rewrite (comp_assoc f G H)
-    end.
-
-Ltac reassoc_before f g :=
-  repeat match goal with
-    | [ |- context[(?F ∘ f) ∘ g] ] => rewrite <- (comp_assoc F f g)
-    | [ |- context[f ∘ (g ∘ ?H)] ] => rewrite (comp_assoc f g H)
-    end.
-
-Ltac reassoc_after g f :=
-  repeat match goal with
-    | [ |- context[(?F ∘ g) ∘ f] ] => rewrite <- (comp_assoc F g f)
-    | [ |- context[g ∘ (f ∘ ?H)] ] => rewrite (comp_assoc g f H)
-    end.
 
 Ltac comp_left :=
   try rewrite <- !comp_assoc;
@@ -168,21 +146,6 @@ Ltac comp_left :=
 Ltac comp_right :=
   try rewrite !comp_assoc;
   apply compose_respects; [|reflexivity].
-
-Ltac equiv :=
-  repeat match goal with
-  | [ H : equiv (?F ∘ ?G) _
-    |- context[(_ ∘ ?F) ∘ (?G ∘ _)] ] => reassoc F; rewrite H
-  | [ H : equiv (?F ∘ ?G) _
-    |- context[?F ∘ (?G ∘ _)] ] => reassoc F; rewrite H
-  | [ H : equiv (?F ∘ ?G) _
-    |- context[(_ ∘ ?F) ∘ ?G] ] => reassoc F; rewrite H
-  | [ H : equiv (?F ∘ ?G) _
-    |- context[?F ∘ ?G] ] => rewrite H
-  | [ |- equiv ?F ?F ] => reflexivity
-  | [ |- context[id ∘ ?F] ] => rewrite (id_left F)
-  | [ |- context[?F ∘ id] ] => rewrite (id_right F)
-  end.
 
 Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.

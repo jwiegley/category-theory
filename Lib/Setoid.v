@@ -45,6 +45,9 @@ Class Setoid A := {
   setoid_equiv :> Equivalence equiv
 }.
 
+Notation "f ≈ g" := (equiv f g)
+  (at level 79, only parsing) : category_theory_scope.
+
 Program Instance setoid_refl `(sa : Setoid A) :
   Reflexive equiv.
 Obligation 1. apply setoid_equiv. Qed.
@@ -73,8 +76,3 @@ Notation "f --> g" := (respectful (Basics.flip f) g)%signature
 
 Arguments Proper {A}%type R%signature m.
 Arguments respectful {A B}%type (R R')%signature _ _.
-
-Notation "x === y" := (equiv x y)
-  (at level 70, no associativity) : category_theory_scope.
-Notation "x =/= y" := (~ equiv x y)
-  (at level 70, no associativity) : category_theory_scope.
