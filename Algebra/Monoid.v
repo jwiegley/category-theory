@@ -16,8 +16,6 @@ Unset Transparent Obligations.
 (* ncatlab: "Classical monoids are of course just monoids in Set with the
    cartesian product." *)
 
-(* jww (2017-06-02): Move this into an Algebra directory *)
-
 Class Monoid (A : Type) `{Setoid A} := {
   mempty : A;
   mappend : A -> A -> A;
