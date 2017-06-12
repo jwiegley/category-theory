@@ -3,71 +3,22 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
-Require Import Solver.ilist.
-
 Require Import Coq.Program.Program.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Arith.Bool_nat.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Lists.List.
-Require Import Coq.Relations.Relations.
-Require Import Coq.Classes.RelationClasses.
-Require Import Coq.quote.Quote.
+(* Require Import Coq.Relations.Relations. *)
+(* Require Import Coq.Classes.RelationClasses. *)
+(* Require Import Coq.quote.Quote. *)
 Require Import Coq.Wellfounded.Lexicographic_Product.
-Require Import Coq.Vectors.Vector.
+(* Require Import Coq.Vectors.Vector. *)
 Require Import Coq.NArith.NArith.
 
 Generalizable All Variables.
-Set Primitive Projections.
+
+(*
 Set Universe Polymorphism.
-Unset Transparent Obligations.
-
-Section Solver.
-
-Context {C : Category}.
-
-Set Decidable Equality Schemes.
-
-Open Scope N_scope.
-
-Definition obj_idx := N.
-Definition arr_idx := N.
-
-Inductive Term : obj_idx -> obj_idx -> Type :=
-  | Identity : ∀ x, Term x x
-  | Morph    : ∀ x y, arr_idx -> Term x y
-  | Compose  : ∀ x y z, Term y z -> Term x y -> Term x z.
-
-Inductive Subterm x y : Term x y -> Term x y -> Prop :=.
-
-Lemma Subterm_wf x y : well_founded (Subterm x y).
-Proof.
-  constructor; intros.
-  inversion H; subst; simpl in *;
-  induction y;
-  induction t1 || induction t2;
-  simpl in *;
-  constructor; intros;
-  inversion H0; subst; clear H0;
-  try (apply IHy1; constructor);
-  try (apply IHy2; constructor).
-Defined.
-
-Fixpoint eval `(e : Term x y)
-         (objs : obj_idx -> C)
-         (arrs : arr_idx -> ∀ a b : obj_idx, option (objs a ~> objs b)) :
-  option (objs x ~> objs y) :=
-  match e with
-  | Morph x y n       => arrs n x y
-  | Identity x        => Some (@id C (objs x))
-  | Compose x y z f g =>
-    let f' := eval f objs arrs in
-    let g' := eval g objs arrs in
-    match f', g' with
-    | Some f', Some g' => Some (f' ∘ g')
-    | _, _ => None
-    end
-  end.
 
 Program Instance option_Setoid `{Setoid A} : Setoid (option A) := {
   equiv := fun x y => match x, y with
@@ -88,125 +39,503 @@ Next Obligation.
     contradiction.
 Qed.
 
-Definition Equiv {x y} (f g : Term x y) : Type :=
-  ∀ objs arrs, eval f objs arrs ≈ eval g objs arrs.
-Arguments Equiv {_ _} _ _ /.
+Unset Universe Polymorphism.
+*)
 
-Inductive symprod_dep2 (A B : obj_idx -> obj_idx -> Type)
-          (leA : ∀ x y, A x y → A x y → Prop)
-          (leB : ∀ x y, B x y → B x y → Prop) {x y} :
-  A x y ∧ B x y → A x y ∧ B x y → Prop :=.
-  (*   left_sym_dep2 : ∀ x x' : A, leA x x' → ∀ y : B, symprod A B leA leB (x, y) (x', y) *)
-  (* | right_sym_dep2 : ∀ y y' : B, leB y y' → ∀ x : A, symprod A B leA leB (x, y) (x, y'). *)
+Open Scope N_scope.
 
-Definition R {x y} := @symprod_dep2 Term Term Subterm Subterm x y.
+Definition obj_idx := N.
+Definition arr_idx := N.
+
+Set Decidable Equality Schemes.
+
+Inductive Term : Type :=
+  | Identity : ∀ x : obj_idx, Term
+  | Morph    : ∀ x y : obj_idx, arr_idx -> Term
+  | Compose  : Term -> Term -> Term.
+
+Fixpoint Term_eq_dec (x y : Term) : {x = y} + {x ≠ y}.
+Proof.
+  destruct x, y; try (right; unfold not; intros; discriminate).
+  - destruct (N.eq_dec x x0); subst;
+    solve [ left; reflexivity | right; congruence ].
+  - destruct (N.eq_dec x x0); subst;
+    destruct (N.eq_dec y y0); subst;
+    destruct (N.eq_dec a a0); subst;
+    solve [ left; reflexivity | right; congruence ].
+  - destruct (Term_eq_dec x1 y1); subst;
+    destruct (Term_eq_dec x2 y2); subst;
+    solve [ left; reflexivity | right; congruence ].
+Defined.
+
+Fixpoint TermDom (e : Term) : obj_idx :=
+  match e with
+  | Identity x  => x
+  | Morph x _ _ => x
+  | Compose _ g => TermDom g
+  end.
+
+Fixpoint TermCod (e : Term) : obj_idx :=
+  match e with
+  | Identity x  => x
+  | Morph _ x _ => x
+  | Compose f _ => TermCod f
+  end.
+
+Inductive Subterm : Term -> Term -> Prop :=
+  | Compose1 : forall t1 t2, Subterm t1 (Compose t1 t2)
+  | Compose2 : forall t1 t2, Subterm t2 (Compose t1 t2).
+
+Definition Subterm_inv_t : forall x y, Subterm x y -> Prop.
+Proof.
+  intros [] [] f;
+  match goal with
+  | [ H : Subterm ?X (Compose ?Y ?Z) |- Prop ] =>
+    destruct (Term_eq_dec X Y); subst;
+    [ destruct (Term_eq_dec X Z); subst;
+      [ exact (f = Compose1 _ _ \/ f = Compose2 _ _)
+      | exact (f = Compose1 _ _) ]
+    | destruct (Term_eq_dec X Z); subst;
+      [ exact (f = Compose2 _ _)
+      | exact False ] ]
+  | [ H : Subterm ?X (Compose ?Y ?Z) |- Prop ] =>
+    destruct (Term_eq_dec X Y); subst;
+    [ destruct (Term_eq_dec X Z); subst;
+      [ exact (f = Compose1 _ _ \/ f = Compose2 _ _)
+      | exact (f = Compose1 _ _) ]
+    | destruct (Term_eq_dec X Z); subst;
+      [ exact (f = Compose2 _ _)
+      | exact False ] ]
+  | _ => exact False
+  end.
+Defined.
+
+Lemma K_dec_on_type A (x : A) (eq_dec : ∀ y : A, x = y \/ x ≠ y)
+      (P : x = x -> Type) :
+  P (eq_refl x) -> forall p:x = x, P p.
+Proof.
+  intros.
+  elim (@Eqdep_dec.eq_proofs_unicity_on A _) with x (eq_refl x) p.
+    trivial.
+  exact eq_dec.
+Defined.
+
+Lemma Term_eq_dec' : ∀ x y : Term, x = y \/ x ≠ y.
+Proof.
+  intros.
+  destruct (Term_eq_dec x y); auto.
+Defined.
+
+Lemma Neq_dec' : ∀ x y : N, x = y \/ x ≠ y.
+Proof.
+  intros.
+  destruct (N.eq_dec x y); auto.
+Defined.
+
+Lemma Neq_dec_refl n : N.eq_dec n n = left (@eq_refl N n).
+Proof.
+  destruct (N.eq_dec n n).
+    refine (K_dec_on_type N n (Neq_dec' n)
+              (fun x => @left _ _ x = @left _ _ (@eq_refl N n)) _ _).
+    reflexivity.
+  contradiction.
+Qed.
+
+Corollary Subterm_inv x y f : Subterm_inv_t x y f.
+Proof.
+  pose proof Term_eq_dec.
+  destruct f, t1, t2; simpl;
+  repeat destruct (Term_eq_dec _ _); subst;
+  unfold eq_rec_r, eq_rec, eq_rect, eq_sym;
+  repeat rewrite Neq_dec_refl; simpl;
+  try (rewrite e || rewrite <- e);
+  try (rewrite e0 || rewrite <- e0);
+  try congruence;
+  try rewrite <- Eqdep_dec.eq_rect_eq_dec; eauto; simpl; intuition;
+  try rewrite <- Eqdep_dec.eq_rect_eq_dec; eauto; simpl; intuition; simpl;
+  repeat destruct (N.eq_dec _ _); subst; simpl; intuition;
+  try dependent destruction e;
+  try dependent destruction e0;
+  try dependent destruction e1;
+  try dependent destruction e2;
+  intuition.
+Abort.                          (* nasty axiomses; we hates them forever! *)
+
+Lemma Subterm_wf : well_founded Subterm.
+Proof.
+  constructor; intros.
+  inversion H; subst; simpl in *;
+  induction y;
+  induction t1 || induction t2;
+  simpl in *;
+  constructor; intros;
+  inversion H0; subst; clear H0;
+  try (apply IHy1; constructor);
+  try (apply IHy2; constructor).
+Defined.
+
+Section Symmetric_Product2.
+
+  Variable A : Type.
+  Variable leA : A -> A -> Prop.
+
+  Inductive symprod2 : A * A -> A * A -> Prop :=
+    | left_sym2 :
+      forall x x':A, leA x x' -> forall y:A, symprod2 (x, y) (x', y)
+    | right_sym2 :
+      forall y y':A, leA y y' -> forall x:A, symprod2 (x, y) (x, y')
+    | both_sym2 :
+      forall (x x':A) (y y':A),
+        leA x x' ->
+        leA y y' ->
+        symprod2 (x, y) (x', y').
+
+  Lemma Acc_symprod2 :
+    forall x:A, Acc leA x -> forall y:A, Acc leA y -> Acc symprod2 (x, y).
+  Proof.
+    induction 1 as [x _ IHAcc]; intros y H2.
+    induction H2 as [x1 H3 IHAcc1].
+    apply Acc_intro; intros y H5.
+    inversion_clear H5; auto with sets.
+    apply IHAcc; auto.
+    apply Acc_intro; trivial.
+  Defined.
+
+  Lemma wf_symprod2 :
+    well_founded leA -> well_founded symprod2.
+  Proof.
+    red.
+    destruct a.
+    apply Acc_symprod2; auto with sets.
+  Defined.
+
+End Symmetric_Product2.
+
+Program Fixpoint eval (C : Category) (e : Term)
+         (objs : obj_idx -> C)
+         (arrs : arr_idx -> ∀ a b : obj_idx, option (objs a ~> objs b)) :
+  option (objs (TermDom e) ~> objs (TermCod e)) :=
+  match e with
+  | Morph x y n => arrs n x y
+  | Identity x  => Some (@id C (objs x))
+  | Compose f g =>
+    match N.eq_dec (TermCod g) (TermDom f) with
+    | left Heq =>
+      let f' := eval C f objs arrs in
+      let g' := eval C g objs arrs in
+      match f', g' with
+      | Some f', Some g' => Some (f' ∘ g')
+      | _, _ => None
+      end
+    | right _ => None
+    end
+  end.
+Next Obligation.
+  rewrite Heq; reflexivity.
+Defined.
+
+Definition Equiv (C : Category) (p : Term * Term) : Type.
+Proof.
+  refine (∀ objs arrs, _).
+  destruct (N.eq_dec (TermDom (snd p)) (TermDom (fst p))).
+    destruct (N.eq_dec (TermCod (snd p)) (TermCod (fst p))).
+      destruct (eval C (fst p) objs arrs).
+        destruct (eval C (snd p) objs arrs).
+          rewrite e, e0 in h0.
+          exact (h ≈ h0).
+        exact False.
+      exact True.
+    exact False.
+  exact False.
+Defined.
+
+Arguments Equiv _ _ /.
+
+Definition R := symprod2 Term Subterm.
 Arguments R /.
 
 Open Scope lazy_bool_scope.
 
 Set Transparent Obligations.
 
-Local Obligation Tactic := intros.
+Local Obligation Tactic := intros; try discriminate.
 
-(*
-Definition decision {x y} (p : Term x y ∧ Term x y) :
-  { b : bool & b = true -> Equiv (fst p) (snd p) }.
-Proof.
-  pose (wf_symprod _ _ _ _ (Subterm_wf x y) (Subterm_wf x y)) as wf.
-  refine (Fix wf (fun (p : ∃ x y, Term x y ∧ Term x y) =>
-                    { b : bool & b = true -> Equiv (fst p) (snd p) })
-              (fun p rec => _) p).
-  destruct p as [s t].
-  destruct s as [x1|x1 y1 n1|x1 y1 z1 f1 g1].
-  - exists false.
-    intros; discriminate.
-  - destruct t as [x2|x2 y2 n2|x2 y2 z2 f2 g2].
-    + exists false.
-      intros; discriminate.
-    + exists (N.eqb n1 n2); simpl; intros.
-      apply N.eqb_eq in H; subst.
-      destruct (arrs n2 x2 y2); reflexivity.
-    + exists false.
-      intros; discriminate.
-  - destruct t as [x2|x2 y2 n2|x2 y2 z2 f2 g2].
-    + exists false.
-      intros; discriminate.
-    + exists false.
-      intros; discriminate.
-    + destruct (N.eq_dec y1 y2); subst.
-        destruct (rec (f1, f2)).
-        destruct (decision _ _ (g1, g2)).
-        exists (x0 &&& x1); simpl; intros.
-        destruct x0, x1; try discriminate.
-        simpl in e, e0.
-        specialize (e eq_refl objs arrs).
-        specialize (e0 eq_refl objs arrs).
-        destruct (eval s1 objs arrs), (eval s2 objs arrs),
-                 (eval t1 objs arrs), (eval t2 objs arrs); auto.
-        apply compose_respects; auto.
-      exists false.
-      intros; discriminate.
-Qed.
-*)
+Program Fixpoint normalize (p : Term) {wf (Subterm) p} :
+  { t : Term & ∀ C, Equiv C (p, t) } :=
+  match p with
+  | Identity x  => existT _ p _
+  | Morph x y f => existT _ p _
 
-Program Fixpoint decision {x y} (p : Term x y ∧ Term x y) {wf (R) p} :
-  { b : bool & b = true -> Equiv (fst p) (snd p) } :=
+  | Compose f (Identity x)  =>
+    match N.eq_dec (TermDom f) x with
+    | left _  => existT _ f _
+    | right _ => existT _ p _
+    end
+  | Compose (Identity x) g  =>
+    match N.eq_dec x (TermCod g) with
+    | left _  => existT _ g _
+    | right _ => existT _ p _
+    end
+  | Compose f (Compose g h) =>
+    match N.eq_dec (TermDom f) (TermCod g) with
+    | left _  => existT _ (Compose (Compose f g) h) _
+    | right _ => existT _ p _
+    end
+
+  | Compose f g => existT _ p _
+  end.
+Next Obligation.
+  simpl; intros; subst; simpl.
+  destruct (N.eq_dec x x); auto.
+  unfold eq_rect.
+  destruct e.
+  reflexivity.
+Defined.
+Next Obligation.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  destruct (arrs f x y).
+  unfold eq_rect.
+    reflexivity.
+  constructor.
+Defined.
+Next Obligation.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  unfold eval_obligation_1; simpl.
+  destruct (eval C f objs arrs).
+  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
+    rewrite id_right; reflexivity.
+  constructor.
+Admitted.
+Next Obligation.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  unfold eval_obligation_1; simpl.
+  destruct (N.eq_dec x (TermDom f)); auto.
+  destruct (eval C f objs arrs).
+  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
+    destruct e.
+    rewrite id_right; reflexivity.
+  constructor.
+Defined.
+Next Obligation.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  unfold eval_obligation_1; simpl.
+  destruct (eval C g objs arrs).
+  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
+    rewrite id_left; reflexivity.
+  constructor.
+Defined.
+Next Obligation.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  unfold eval_obligation_1; simpl.
+  destruct (N.eq_dec (TermCod g) x); auto.
+  destruct (eval C g objs arrs).
+  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
+    destruct e.
+    rewrite id_left; reflexivity.
+  constructor.
+Defined.
+Next Obligation.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  unfold eval_obligation_1; simpl.
+  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
+  unfold eval_obligation_1; simpl.
+  destruct (eval C f objs arrs); auto.
+  destruct (N.eq_dec (TermCod h) (TermDom g)); auto.
+  destruct (eval C g objs arrs); auto.
+  destruct (eval C h objs arrs); auto.
+  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
+  destruct e, e0.
+  rewrite comp_assoc; reflexivity.
+Defined.
+Next Obligation.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  unfold eval_obligation_1; simpl.
+  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
+  unfold eval_obligation_1; simpl.
+  destruct (eval C f objs arrs); auto.
+  destruct (N.eq_dec (TermCod h) (TermDom g)); auto.
+  destruct (eval C g objs arrs); auto.
+  destruct (eval C h objs arrs); auto.
+  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
+  destruct e, e0.
+  reflexivity.
+Defined.
+Next Obligation.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  unfold eval_obligation_1; simpl.
+  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
+  unfold eval_obligation_1; simpl.
+  destruct (eval C f objs arrs); auto.
+  destruct (eval C g objs arrs); auto.
+  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
+  destruct e.
+  reflexivity.
+Defined.
+Next Obligation.
+  split; intros.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  unfold eval_obligation_1; simpl.
+  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
+  unfold eval_obligation_1; simpl.
+  - unfold not; intros.
+    inversion H5.
+  - unfold not; intros.
+    inversion H5.
+  - split; intros.
+    + unfold not; intros.
+      inversion H5.
+    + unfold not; intros.
+      inversion H5.
+Defined.
+Next Obligation.
+  split; intros.
+  simpl; intros; subst; simpl.
+  repeat rewrite Neq_dec_refl.
+  unfold eval_obligation_1; simpl.
+  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
+  unfold eval_obligation_1; simpl.
+  - unfold not; intros.
+    inversion H4.
+  - unfold not; intros.
+    inversion H4.
+  - split; intros.
+    + unfold not; intros.
+      inversion H4.
+    + unfold not; intros.
+      inversion H4.
+Defined.
+Next Obligation.
+  apply measure_wf.
+  apply Subterm_wf.
+Defined.
+
+Eval vm_compute in `1 (normalize (Compose (Morph 0 0 0) (Identity 0))).
+
+Program Fixpoint decision (p : Term * Term) {wf (R) p} :
+  { b : bool & b = true -> ∀ C, Equiv C p } :=
   match p with
   | (s, t) =>
-    match s with
-    | Identity _ => existT _ false _
-    | Morph _ _ f =>
-      match t with
-      | Identity _  => existT _ false _
-      | Morph _ _ g   => existT _ (N.eqb f g) _
-      | Compose _ _ _ h k => existT _ false _
-      end
-    | Compose _ _ _ f g =>
-      match t with
-      | Identity _  => existT _ false _
-      | Morph _ _ g   => existT _ false _
-      | Compose _ _ _ h k => existT _ (`1 (decision (f, h)) &&&
-                                       `1 (decision (g, k))) _
+    match N.eq_dec (TermDom t) (TermDom s) with
+    | right _ => existT _ false _
+    | left Heq_dom_s =>
+      match N.eq_dec (TermCod t) (TermCod s) with
+      | right _ => existT _ false _
+      | left Heq_dom_t =>
+
+        match s with
+        | Identity _ =>
+          match t with
+          | Identity _  => existT _ true _
+          | Morph _ _ g => existT _ false _
+          | Compose h k => existT _ false _
+          end
+        | Morph _ _ f =>
+          match t with
+          | Identity _  => existT _ false _
+          | Morph _ _ g => existT _ (N.eqb f g) _
+          | Compose h k => existT _ false _
+          end
+        | Compose f g =>
+          match t with
+          | Identity _  => existT _ false _
+          | Morph _ _ g => existT _ false _
+          | Compose h k => existT _ (`1 (decision (f, h)) &&&
+                                     `1 (decision (g, k))) _
+          end
+        end
+
       end
     end
   end.
-Next Obligation. simpl; intros; discriminate. Defined.
-Next Obligation. simpl; intros; discriminate. Defined.
-Next Obligation. simpl; intros; discriminate. Defined.
-Next Obligation. simpl; intros; discriminate. Qed.
-Next Obligation. simpl; intros; discriminate. Qed.
 Next Obligation.
-  simpl; intros; discriminate.
-Next Obligation. intros; discriminate. Qed.
+  simpl; intros; subst.
+  repeat destruct (N.eq_dec _ _); simpl; auto.
+  unfold eq_rect; simpl.
+  destruct e.
+  reflexivity.
+Defined.
 Next Obligation.
-  intros; discriminate.
-Qed.
+  simpl; intros; subst.
+  apply N.eqb_eq in H; subst.
+  repeat destruct (N.eq_dec _ _); simpl; auto.
+  unfold eq_rect; simpl; subst.
+  destruct (arrs g _ _); reflexivity.
+Defined.
 Next Obligation.
+  subst; simpl in *; clear.
+  constructor; constructor.
+Defined.
+Next Obligation.
+  subst; simpl in *; clear.
+  constructor; constructor.
+Defined.
+Next Obligation.
+  simpl; intros; subst.
+  repeat destruct (decision _ _); simpl in *;
+  destruct x, x0; try discriminate;
+  specialize (e eq_refl C objs arrs);
+  specialize (e0 eq_refl C objs arrs);
+  repeat destruct (N.eq_dec _ _); simpl; auto;
+  unfold eval_obligation_1 in *; simpl in *;
+  clear decision;
+  destruct (eval C f objs arrs),
+           (eval C g objs arrs),
+           (eval C k objs arrs),
+           (eval C h objs arrs);
+  unfold eq_ind_r, eq_ind, eq_sym, eq_rect in *; simpl in *;
+  auto; try tauto.
+    destruct e5, e2, e1, e6, e3.
+    rewrite e.
+    apply compose_respects.
+      reflexivity.
+    rewrite e0; clear.
+    (* Avoid the use of JMeq_eq, since otherwise [dependent destruction e4]
+       would solve this goal. *)
+    assert (K_dec_on_type :
+              forall (x:N) (P:x = x -> Type),
+                P (eq_refl x) -> forall p:x = x, P p).
+      intros.
+      elim (@Eqdep_dec.eq_proofs_unicity_on N _) with x (eq_refl x) p.
+        trivial.
+      intros.
+      destruct (N.eq_dec x y); auto.
+    exact (
+      K_dec_on_type
+        (TermCod k)
+        (fun x =>
+           Setoid.equiv
+             match x in (_ = y) return (objs (TermDom k) ~{ C }~> objs y)
+             with eq_refl => h2
+             end h2)
+        (Setoid.setoid_refl _ _) e4).
+  clear -e3 e4 e5 n.
+  congruence.
 Admitted.
 Next Obligation.
-Admitted.
-Next Obligation.
-  destruct x; simpl in *.
-  unfold eq_rect in *; simpl in *.
-Admitted.
-(* Next Obligation. *)
-(*   apply wf_symprod; *)
-(*   apply Subterm_wf. *)
-(* Defined. *)
+  apply measure_wf.
+  apply wf_symprod2.
+  apply Subterm_wf.
+Defined.
 
-Example speed_test :
-  ` (leq (Meet (Var 0) (Var 1), Join (Var 0) (Var 1))) = true.
+Example speed_test (C : Category) :
+  `1 (decision
+      (`1 (normalize (Compose (Morph 2 3 0) (Compose (Morph 1 2 1) (Morph 0 1 2)))),
+       `1 (normalize (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))))) = true.
 Proof. reflexivity. Qed.
 
-Notation "s ≲ t" := (leq (s, t)) (at level 30).
-
-Definition leq_correct {t u : Term} (Heq : ` (t ≲ u) = true) :
-  forall env, 〚t〛env ≤ 〚u〛env := proj2_sig (leq (t, u)) Heq.
-
-End Lattice.
-
-Notation "〚 t 〛 env" := (@eval _ _ t env) (at level 9).
-Notation "s ≲ t" := (@leq _ _ _ _ (s, t)) (at level 30).
+Definition decision_correct {t u : Term}
+        (Heq : `1 (decision (`1 (normalize t), `1 (normalize u))) = true) :
+  ∀ C, Equiv C (`1 (normalize t), `1 (normalize u)) :=
+  `2 (decision (`1 (normalize t), `1 (normalize u))) Heq.
 
 Import ListNotations.
 
@@ -226,10 +555,8 @@ Ltac addToList x xs :=
 
 Ltac allVars xs e :=
   match e with
-  | ?e1 ⊓ ?e2 =>
-    let xs := allVars xs e1 in
-    allVars xs e2
-  | ?e1 ⊔ ?e2 =>
+  (* jww (2017-06-12): TODO *)
+  | ?e1 ∘ ?e2 =>
     let xs := allVars xs e1 in
     allVars xs e2
   | _ => addToList e xs
@@ -245,17 +572,14 @@ Ltac lookup x xs :=
 
 Ltac reifyTerm env t :=
   match t with
-  | ?X1 ⊓ ?X2 =>
+  (* jww (2017-06-12): TODO *)
+  | ?X1 ∘ ?X2 =>
     let r1 := reifyTerm env X1 in
     let r2 := reifyTerm env X2 in
-    constr:(Meet r1 r2)
-  | ?X1 ⊔ ?X2 =>
-    let r1 := reifyTerm env X1 in
-    let r2 := reifyTerm env X2 in
-    constr:(Join r1 r2)
+    constr:(Compose r1 r2)
   | ?X =>
     let n := lookup X env in
-    constr:(Var n)
+    constr:(Morph n)
   end.
 
 Ltac functionalize xs :=
@@ -270,42 +594,24 @@ Ltac functionalize xs :=
 
 Ltac reify :=
   match goal with
-  | [ |- ?S ≤ ?T ] =>
+  | [ |- ?S ≈ ?T ] =>
     let xs  := allVars tt S in
     let xs' := allVars xs T in
     let r1  := reifyTerm xs' S in
     let r2  := reifyTerm xs' T in
-    let env := functionalize xs' in
+    let objs := functionalize xs' in
+    let arrs := functionalize xs' in
     (* pose xs'; *)
     (* pose env; *)
     (* pose r1; *)
     (* pose r2; *)
-    change (〚r1〛env ≤ 〚r2〛env)
+    (* jww (2017-06-12): TODO *)
+    change (eval r1 objs arrs ≈ eval r2 objs arrs)
   end.
 
-Ltac lattice := reify; apply leq_correct; vm_compute; auto.
+Ltac categorical := reify; apply decision_correct; vm_compute; auto.
 
-Example sample_1 `{LOSet A} : forall a b : A,
-  a ≤ a ⊔ b.
-Proof. intros; lattice. Qed.
-
-Lemma running_example `{LOSet A} : forall a b : A,
-  a ⊓ b ≤ a ⊔ b.
-Proof.
-  intros a b.
-  rewrite meet_consistent.
-  rewrite meet_associative.
-  rewrite join_commutative.
-  rewrite meet_absorptive.
-  reflexivity.
-Qed.
-
-Lemma running_example' `{LOSet A} : forall a b : A,
-  a ⊓ b ≤ a ⊔ b.
-Proof. intros; lattice. Qed.
-
-Lemma median_inequality `{LOSet A} : forall x y z : A,
-  (x ⊓ y) ⊔ (y ⊓ z) ⊔ (z ⊓ x) ≤ (x ⊔ y) ⊓ (y ⊔ z) ⊓ (z ⊔ x).
-Proof. intros; lattice. Qed.
-
-End Solver.
+Example sample_1 {C : Category} :
+  ∀ (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y),
+    f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h.
+Proof. Fail intros; categorical. Abort.
