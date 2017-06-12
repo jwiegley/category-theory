@@ -30,17 +30,17 @@ Set Decidable Equality Schemes.
 
 Open Scope N_scope.
 
-Inductive Term : N -> N -> Type :=
+Definition obj_idx := N.
+Definition arr_idx := N.
+
+Inductive Term : obj_idx -> obj_idx -> Type :=
   | Identity : ∀ x, Term x x
-  | Morph    : ∀ x y, N -> Term x y
+  | Morph    : ∀ x y, arr_idx -> Term x y
   | Compose  : ∀ x y z, Term y z -> Term x y -> Term x z.
 
-(*
-Inductive Subterm : Term -> Term -> Prop :=.
-  (* | Compose1 : forall x y z t1 t2, Subterm _ t1 (Compose x y z t1 t2) *)
-  (* | Compose2 : forall x y z t1 t2, Subterm _ t2 (Compose x y z t1 t2). *)
+Inductive Subterm x y : Term x y -> Term x y -> Prop :=.
 
-Lemma Subterm_wf : well_founded Subterm.
+Lemma Subterm_wf x y : well_founded (Subterm x y).
 Proof.
   constructor; intros.
   inversion H; subst; simpl in *;
@@ -52,74 +52,123 @@ Proof.
   try (apply IHy1; constructor);
   try (apply IHy2; constructor).
 Defined.
-*)
-
-(*
-Program Fixpoint typeDenote (e : Term x y) (tenv : nat -> C * C) : ∃ x y : C, Type :=
-  match e with
-  | Morph n => let '(d, c) := tenv n in (d; (c; @hom C d c))
-  | Identity => _
-  | Compose f g =>
-    let '(x; (y; g')) := typeDenote g tenv in
-    let '(y; (z; f')) := typeDenote f tenv in
-    (x; (z; g' ∘ f'))
-  end.
-*)
 
 Fixpoint eval `(e : Term x y)
-         (objs : N -> C) (arrs : N -> ∀ a b : N, objs a ~> objs b) :
-  objs x ~> objs y :=
+         (objs : obj_idx -> C)
+         (arrs : arr_idx -> ∀ a b : obj_idx, option (objs a ~> objs b)) :
+  option (objs x ~> objs y) :=
   match e with
   | Morph x y n       => arrs n x y
-  | Identity x        => @id C (objs x)
-  | Compose x y z f g => eval f objs arrs ∘ eval g objs arrs
+  | Identity x        => Some (@id C (objs x))
+  | Compose x y z f g =>
+    let f' := eval f objs arrs in
+    let g' := eval g objs arrs in
+    match f', g' with
+    | Some f', Some g' => Some (f' ∘ g')
+    | _, _ => None
+    end
   end.
 
-(*
-Program Instance typeDenote_setoid (t : type) : Setoid (typeDenote t) :=
-  match t with
-  | ArrT x y => @homset C x y
-  end.
-*)
+Program Instance option_Setoid `{Setoid A} : Setoid (option A) := {
+  equiv := fun x y => match x, y with
+    | Some x, Some y => x ≈ y
+    | None, None => True
+    | _, _ => False
+    end
+}.
+Next Obligation. intuition; discriminate. Qed.
+Next Obligation. intuition; discriminate. Qed.
+Next Obligation.
+  equivalence.
+  - destruct x; reflexivity.
+  - destruct x, y; auto.
+    symmetry; auto.
+  - destruct x, y, z; auto.
+      transitivity a0; auto.
+    contradiction.
+Qed.
 
 Definition Equiv {x y} (f g : Term x y) : Type :=
   ∀ objs arrs, eval f objs arrs ≈ eval g objs arrs.
-Arguments Equiv {_} _ _ /.
+Arguments Equiv {_ _} _ _ /.
 
-(*
-Definition R {t} := symprod (Term t) (Term t) Subterm Subterm.
+Inductive symprod_dep2 (A B : obj_idx -> obj_idx -> Type)
+          (leA : ∀ x y, A x y → A x y → Prop)
+          (leB : ∀ x y, B x y → B x y → Prop) {x y} :
+  A x y ∧ B x y → A x y ∧ B x y → Prop :=.
+  (*   left_sym_dep2 : ∀ x x' : A, leA x x' → ∀ y : B, symprod A B leA leB (x, y) (x', y) *)
+  (* | right_sym_dep2 : ∀ y y' : B, leB y y' → ∀ x : A, symprod A B leA leB (x, y) (x, y'). *)
+
+Definition R {x y} := @symprod_dep2 Term Term Subterm Subterm x y.
 Arguments R /.
 
 Open Scope lazy_bool_scope.
 
 Set Transparent Obligations.
 
-(* Program Fixpoint decision {v} (p : Term v * Term v) {wf (R (t:=_)) p} : *)
-(*   { b : bool & b = true -> Equiv (fst p) (snd p) } := *)
-
 Local Obligation Tactic := intros.
 
-Program Fixpoint decision (n : nat) {v} (p : Term v * Term v) {struct n} :
+(*
+Definition decision {x y} (p : Term x y ∧ Term x y) :
+  { b : bool & b = true -> Equiv (fst p) (snd p) }.
+Proof.
+  pose (wf_symprod _ _ _ _ (Subterm_wf x y) (Subterm_wf x y)) as wf.
+  refine (Fix wf (fun (p : ∃ x y, Term x y ∧ Term x y) =>
+                    { b : bool & b = true -> Equiv (fst p) (snd p) })
+              (fun p rec => _) p).
+  destruct p as [s t].
+  destruct s as [x1|x1 y1 n1|x1 y1 z1 f1 g1].
+  - exists false.
+    intros; discriminate.
+  - destruct t as [x2|x2 y2 n2|x2 y2 z2 f2 g2].
+    + exists false.
+      intros; discriminate.
+    + exists (N.eqb n1 n2); simpl; intros.
+      apply N.eqb_eq in H; subst.
+      destruct (arrs n2 x2 y2); reflexivity.
+    + exists false.
+      intros; discriminate.
+  - destruct t as [x2|x2 y2 n2|x2 y2 z2 f2 g2].
+    + exists false.
+      intros; discriminate.
+    + exists false.
+      intros; discriminate.
+    + destruct (N.eq_dec y1 y2); subst.
+        destruct (rec (f1, f2)).
+        destruct (decision _ _ (g1, g2)).
+        exists (x0 &&& x1); simpl; intros.
+        destruct x0, x1; try discriminate.
+        simpl in e, e0.
+        specialize (e eq_refl objs arrs).
+        specialize (e0 eq_refl objs arrs).
+        destruct (eval s1 objs arrs), (eval s2 objs arrs),
+                 (eval t1 objs arrs), (eval t2 objs arrs); auto.
+        apply compose_respects; auto.
+      exists false.
+      intros; discriminate.
+Qed.
+*)
+
+Program Fixpoint decision {x y} (p : Term x y ∧ Term x y) {wf (R) p} :
   { b : bool & b = true -> Equiv (fst p) (snd p) } :=
-  match p, n with
-  | (s, t), 0%nat => existT _ false _
-  | (s, t), S n =>
-    match s in Term v' return v = v' -> _ with
-    | Identity _ => fun _ => existT _ false _
-    | Morph i f => fun _ =>
+  match p with
+  | (s, t) =>
+    match s with
+    | Identity _ => existT _ false _
+    | Morph _ _ f =>
       match t with
       | Identity _  => existT _ false _
-      | Morph j g   => existT _ (Nat.eqb i j) _
-      | Compose h k => existT _ false _
+      | Morph _ _ g   => existT _ (N.eqb f g) _
+      | Compose _ _ _ h k => existT _ false _
       end
-    | Compose f g => fun _ =>
+    | Compose _ _ _ f g =>
       match t with
       | Identity _  => existT _ false _
-      | Morph j g   => existT _ false _
-      | Compose h k => existT _ (`1 (decision n (f, h)) &&&
-                                 `1 (decision n (g, k))) _
+      | Morph _ _ g   => existT _ false _
+      | Compose _ _ _ h k => existT _ (`1 (decision (f, h)) &&&
+                                       `1 (decision (g, k))) _
       end
-    end eq_refl
+    end
   end.
 Next Obligation. simpl; intros; discriminate. Defined.
 Next Obligation. simpl; intros; discriminate. Defined.
@@ -258,6 +307,5 @@ Proof. intros; lattice. Qed.
 Lemma median_inequality `{LOSet A} : forall x y z : A,
   (x ⊓ y) ⊔ (y ⊓ z) ⊔ (z ⊓ x) ≤ (x ⊔ y) ⊓ (y ⊔ z) ⊓ (z ⊔ x).
 Proof. intros; lattice. Qed.
-*)
 
 End Solver.

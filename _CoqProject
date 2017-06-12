@@ -1,5 +1,6 @@
 -R category-theory Category
 -R src Solver
 src/Solver.v
+src/Solver2.v
 src/ilist.v
 src/VectorFacts.v
