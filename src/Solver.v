@@ -98,8 +98,22 @@ Set Decidable Equality Schemes.
 
 Inductive Term : Type :=
   | Identity : N -> Term
-  | Morph    : N -> Term
+  | Morph    : N -> N -> N -> Term
   | Compose  : Term -> Term -> Term.
+
+Fixpoint TermDom (e : Term) : obj_idx :=
+  match e with
+  | Identity x  => x
+  | Morph x _ _ => x
+  | Compose _ g => TermDom g
+  end.
+
+Fixpoint TermCod (e : Term) : obj_idx :=
+  match e with
+  | Identity x  => x
+  | Morph _ x _ => x
+  | Compose f _ => TermCod f
+  end.
 
 Lemma Term_eq_dec' : ∀ x y : Term, x = y \/ x ≠ y.
 Proof.
@@ -208,39 +222,32 @@ End Symmetric_Product2.
 
 Program Fixpoint eval (C : Category) (e : Term)
         (objs : obj_idx -> C)
-        (arrs : arr_idx -> ∃ a b : obj_idx, option (objs a ~> objs b)) :
-  ∃ a b : obj_idx, option (objs a ~> objs b) :=
+        (arrs : arr_idx -> ∀ x y : obj_idx, option (objs x ~> objs y)) :
+  option (objs (TermDom e) ~> objs (TermCod e)) :=
   match e with
-  | Morph n => arrs n
-  | Identity x => (x; (x; Some (@id C (objs x))))
+  | Identity x => Some (@id C (objs x))
+  | Morph x y n => arrs n x y
   | Compose f g =>
-    let f' := eval C f objs arrs in
-    let g' := eval C g objs arrs in
-    match f', g' with
-    | (yf; (z; Some f')), (x; (yg; Some g')) =>
-      match N.eq_dec yf yg with
-      | left _  => (x; (z; Some (f' ∘ g')))
-      | right _ => (0; (0; None))
+    match N.eq_dec (TermDom f) (TermCod g) with
+    | left _  =>
+      match eval C f objs arrs, eval C g objs arrs with
+      | Some f', Some g' => Some (f' ∘ g')
+      | _, _ => None
       end
-    | _, _ => (0; (0; None))
+    | right _ => None
     end
   end.
+Next Obligation. congruence. Defined.
 
 Program Definition Equiv (p : Term * Term) : Type.
 Proof.
   refine (∀ (C : Category) objs arrs, _).
   refine (
     match eval C (fst p) objs arrs, eval C (snd p) objs arrs with
-    | (fx; (fy; Some f)), (gx; (gy; Some g)) =>
-      match N.eq_dec fx gx, N.eq_dec fy gy with
-      | left _, left _ => f ≈ _ g
-      | _, _ => False
-      end
-    | (_; (_; None)), (_; (_; None)) => True
+    | Some f, Some g => f ≈ _ g
+    | None, None => True
     | _, _ => False
-    end).
-  subst.
-  auto.
+    end); subst; auto.
 Defined.
 Arguments Equiv _ /.
 
@@ -254,25 +261,37 @@ Set Transparent Obligations.
 Local Obligation Tactic := intros; try discriminate.
 
 Definition Compose' (a b : Term) : Term :=
-  match a, b with
-  | Identity _, g => g
-  | f, Identity _ => f
-  | Compose f g, Compose h k => Compose (Compose (Compose f g) h) k
-  | _, _ => Compose a b
+  match a, b, N.eq_dec (TermDom a) (TermCod b) with
+  | Identity x, g, left _ => g
+  | f, Identity _, left _ => f
+  | Compose f g, Compose h k, left _ => Compose (Compose (Compose f g) h) k
+  | _, _, _ => Compose a b
   end.
 
 Theorem Compose'_ok : ∀ a b, Equiv (Compose' a b, Compose a b).
 Proof.
-  simpl; intros.
-  destruct a.
-  - destruct b; simpl.
-    unfold eval_obligation_1; simpl.
-    unfold eq_rec_r, eq_rec, eq_rect, eq_sym; simpl.
-    unfold EqdepFacts.internal_eq_rew_r_dep,
-           EqdepFacts.internal_eq_sym_involutive,
-           EqdepFacts.internal_eq_sym_internal.
-    (* jww (2017-06-12): We get stuck here. *)
-    destruct (N.eq_dec n n0).
+  intros.
+  destruct a eqn:Heqe.
+  - destruct b eqn:Heqe2; simpl; intros.
+    + destruct (N.eq_dec n n0) eqn:Heqe3; simpl.
+        reflexivity.
+      rewrite Heqe3.
+      constructor.
+    + destruct (N.eq_dec n n1) eqn:Heqe3; simpl; subst.
+        (* jww (2017-06-12): How to make progress here? *)
+        admit.
+      rewrite Heqe3.
+      constructor.
+    + destruct (N.eq_dec _ _) eqn:Heqe3; simpl; subst.
+        admit.
+      rewrite Heqe3.
+      constructor.
+  - destruct b eqn:Heqe2; simpl; intros.
+    + destruct (N.eq_dec n n2) eqn:Heqe3; simpl; subst.
+        admit.
+      rewrite Heqe3.
+      constructor.
+Admitted.
 
 (*
 Program Fixpoint normalize (p : Term) {wf (Subterm) p} :
