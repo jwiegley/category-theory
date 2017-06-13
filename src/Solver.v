@@ -30,8 +30,8 @@ Program Instance option_setoid `{Setoid A} : Setoid (option A) := {
     | _, _ => False
     end
 }.
-Next Obligation. intuition; discriminate. Qed.
-Next Obligation. intuition; discriminate. Qed.
+Next Obligation. intuition; discriminate. Defined.
+Next Obligation. intuition; discriminate. Defined.
 Next Obligation.
   equivalence.
   - destruct x; reflexivity.
@@ -40,7 +40,7 @@ Next Obligation.
   - destruct x, y, z; auto.
       transitivity a0; auto.
     contradiction.
-Qed.
+Defined.
 
 Program Definition index_eq_dec (n m : index) : {n = m} + {n ≠ m} :=
   match index_eq n m with
@@ -51,7 +51,7 @@ Next Obligation.
   intro; subst.
   induction m; simpl in Heq_anonymous; auto.
   discriminate.
-Qed.
+Defined.
 
 Lemma K_dec_on_type A (x : A) (eq_dec : ∀ y : A, x = y \/ x ≠ y)
       (P : x = x -> Type) :
@@ -76,7 +76,7 @@ Proof.
               (fun x => @left _ _ x = @left _ _ (@eq_refl N n)) _ _).
     reflexivity.
   contradiction.
-Qed.
+Defined.
 
 Corollary index_eq_dec' : ∀ x y : index, x = y \/ x ≠ y.
 Proof. intros; destruct (index_eq_dec x y); auto. Defined.
@@ -128,7 +128,7 @@ Proof.
               (fun x => @left _ _ x = @left _ _ (@eq_refl _ n)) _ _).
     reflexivity.
   contradiction.
-Qed.
+Defined.
 
 Inductive Subterm : Term -> Term -> Prop :=
   | Compose1 : ∀ t1 t2, Subterm t1 (Compose t1 t2)
@@ -168,7 +168,7 @@ Proof.
   try (rewrite e || rewrite <- e);
   try (rewrite e0 || rewrite <- e0);
   try congruence; intuition.
-Qed.
+Defined.
 
 Lemma Subterm_wf : well_founded Subterm.
 Proof.
@@ -208,7 +208,7 @@ Section Symmetric_Product2.
     inversion_clear H5; auto with sets.
     apply IHAcc; auto.
     apply Acc_intro; trivial.
-  Defined.
+  Qed.
 
   Lemma wf_symprod2 :
     well_founded leA -> well_founded symprod2.
@@ -222,33 +222,40 @@ End Symmetric_Product2.
 
 Program Fixpoint eval (C : Category) (e : Term)
         (objs : obj_idx -> C)
-        (arrs : arr_idx -> ∀ x y : obj_idx, option (objs x ~> objs y)) :
+        (arrs : arr_idx -> ∀ x y : obj_idx, option (objs x ~> objs y))
+        {struct e} :
   option (objs (TermDom e) ~> objs (TermCod e)) :=
   match e with
   | Identity x => Some (@id C (objs x))
   | Morph x y n => arrs n x y
   | Compose f g =>
-    match N.eq_dec (TermDom f) (TermCod g) with
-    | left _  =>
-      match eval C f objs arrs, eval C g objs arrs with
-      | Some f', Some g' => Some (f' ∘ g')
-      | _, _ => None
+    match eval C f objs arrs, eval C g objs arrs with
+    | Some f', Some g' =>
+      match N.eq_dec (TermDom f) (TermCod g) with
+      | left _  => Some (f' ∘ g')
+      | right _ => None
       end
-    | right _ => None
+    | _, _ => None
     end
   end.
 Next Obligation. congruence. Defined.
 
-Program Definition Equiv (p : Term * Term) : Type.
-Proof.
-  refine (∀ (C : Category) objs arrs, _).
-  refine (
-    match eval C (fst p) objs arrs, eval C (snd p) objs arrs with
-    | Some f, Some g => f ≈ _ g
-    | None, None => True
+Program Definition Equiv (p : Term * Term) : Type :=
+  ∀ (C : Category) objs arrs,
+    match N.eq_dec (TermDom (snd p)) (TermDom (fst p)),
+          N.eq_dec (TermCod (snd p)) (TermCod (fst p)) with
+    | left Hdom, left Hcod =>
+      match eval C (fst p) objs arrs, eval C (snd p) objs arrs with
+      | Some f, Some g => f ≈ g
+      | None, None => True
+      | _, _ => False
+      end
     | _, _ => False
-    end); subst; auto.
-Defined.
+    end.
+Next Obligation. rewrite Hdom; reflexivity. Defined.
+Next Obligation. rewrite Hcod; reflexivity. Defined.
+Next Obligation. intuition; discriminate. Defined.
+Next Obligation. intuition; discriminate. Defined.
 Arguments Equiv _ /.
 
 Definition R := symprod2 Term Subterm.
@@ -272,18 +279,36 @@ Theorem Compose'_ok : ∀ a b, Equiv (Compose' a b, Compose a b).
 Proof.
   intros.
   destruct a eqn:Heqe.
-  - destruct b eqn:Heqe2; simpl; intros.
-    + destruct (N.eq_dec n n0) eqn:Heqe3; simpl.
+  - destruct b eqn:Heqe2; simpl; intros;
+    unfold eval_obligation_1, eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
+    + destruct (N.eq_dec n n0) eqn:Heqe3; simpl;
+      rewrite !Neq_dec_refl, Heqe3.
+        destruct e; simpl.
+        rewrite id_left.
         reflexivity.
+      constructor.
+    + destruct (N.eq_dec n n1) eqn:Heqe3; simpl;
+      rewrite !Neq_dec_refl, Heqe3;
+      destruct (arrs _ _ _); auto.
+      destruct e; simpl.
+      rewrite id_left.
+      reflexivity.
+    + destruct (N.eq_dec n (TermCod t1)) eqn:Heqe3; simpl; subst.
+        rewrite !Neq_dec_refl. simpl.
       rewrite Heqe3.
       constructor.
-    + destruct (N.eq_dec n n1) eqn:Heqe3; simpl; subst.
-        (* jww (2017-06-12): How to make progress here? *)
-        admit.
-      rewrite Heqe3.
-      constructor.
-    + destruct (N.eq_dec _ _) eqn:Heqe3; simpl; subst.
-        admit.
+    + destruct (N.eq_dec _ _) eqn:Heqe3; simpl; subst;
+      unfold eval_obligation_1, eq_rec_r, eq_rec, eq_rect, eq_sym; simpl.
+      { destruct t1, t2;
+        unfold eval_obligation_1, eq_rec_r, eq_rec, eq_rect, eq_sym;
+        simpl; auto.
+        - destruct (N.eq_dec n n0); auto;
+          reflexivity.
+        - destruct (arrs _ _ _); auto.
+          destruct (N.eq_dec n n1); auto.
+          reflexivity.
+        - destruct t2_1, t2_2; simpl.
+        reflexivity.
       rewrite Heqe3.
       constructor.
   - destruct b eqn:Heqe2; simpl; intros.
@@ -579,7 +604,7 @@ Example speed_test (C : Category) :
   `1 (check_equiv
       (`1 (simplify (Compose (Morph 2 3 0) (Compose (Morph 1 2 1) (Morph 0 1 2)))),
        `1 (simplify (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))))) = true.
-Proof. reflexivity. Qed.
+Proof. reflexivity. Defined.
 
 Definition decision_correct {t u : Term}
         (Heq : `1 (decision (`1 (normalize t), `1 (normalize u))) = true) :
