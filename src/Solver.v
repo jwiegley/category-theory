@@ -226,33 +226,29 @@ Program Fixpoint eval (C : Category) (dom cod : obj_idx) (e : Term)
         (objs : obj_idx -> C)
         (arrs : arr_idx -> ∀ x y : obj_idx, option (objs x ~> objs y))
         {struct e} :
-  option (objs dom ~> objs cod) :=
-  match N.eq_dec (TermDom e) dom,
-        N.eq_dec (TermCod e) cod with
-  | left _, left _ =>
+  TermDom e = dom ->
+  TermCod e = cod ->
+  option (objs dom ~> objs cod) := fun Hdom Hcod =>
     match e with
-    | Identity x    => Some (@id C (objs x))
-    | Morph x y n   => _ (arrs n x y)
+    | Identity x  => Some (@id C (objs x))
+    | Morph x y n => _ (arrs n x y)
     | Compose f g =>
-      match eval C (TermCod g) cod f objs arrs,
-            eval C dom (TermCod g) g objs arrs with
-      | Some f', Some g' => Some (f' ∘ g')
-      | _, _ => None
+      match N.eq_dec (TermDom f) (TermCod g) with
+      | left _ =>
+        match eval C (TermCod g) cod f objs arrs _ Hcod,
+              eval C dom (TermCod g) g objs arrs Hdom _ with
+        | Some f', Some g' => Some (f' ∘ g')
+        | _, _ => None
+        end
+      | right _ => None
       end
-    end
-  | _, _ => None
-  end.
-
-Program Definition Equiv (p : Term * Term) (dom cod : obj_idx) : Type :=
-  ∀ (C : Category) objs arrs,
-    match eval C dom cod (fst p) objs arrs,
-          eval C dom cod (snd p) objs arrs with
-    | Some f, Some g => f ≈ g
-    | None, None => True
-    | _, _ => False
     end.
-Next Obligation. intuition; discriminate. Defined.
-Next Obligation. intuition; discriminate. Defined.
+
+Program Definition Equiv (p : Term * Term) : Type :=
+  ∀ (C : Category) objs arrs dom cod f Hdom Hcod,
+    eval C dom cod (fst p) objs arrs Hdom Hcod = Some f
+      -> ∃ g Hdom' Hcod', eval C dom cod (snd p) objs arrs Hdom' Hcod' = Some g
+           ∧ f ≈ g.
 Arguments Equiv _ /.
 
 Definition R := symprod2 Term Subterm.
@@ -264,229 +260,161 @@ Set Transparent Obligations.
 
 Local Obligation Tactic := intros; try discriminate.
 
+Section Reduction.
+
+Context {C : Category}.
+
+Variable (objs : obj_idx -> C).
+Variable (arrs : arr_idx -> ∀ x y : obj_idx, option (objs x ~> objs y)).
+
 Definition Compose' (a b : Term) : Term :=
   match a, b with
-  | Identity x, g => g
+  | Identity _, g => g
   | f, Identity _ => f
   | Compose f g, Compose h k => Compose (Compose (Compose f g) h) k
   | _, _ => Compose a b
   end.
 
-Theorem Compose'_ok :
-  ∀ C objs arrs dom cod a b (val : objs dom ~{ C }~> objs cod),
-    eval C dom cod (Compose' a b) objs arrs = Some val ->
-    ∃ val', eval C dom cod (Compose a b) objs arrs = Some val' ∧  val ≈ val'.
-Proof.
-  simpl; intros.
-  exists val.
-  destruct (N.eq_dec (TermDom b) dom);
-  destruct (N.eq_dec (TermCod a) cod).
-  - destruct a, b; simpl.
-
-  Equiv (Compose' a b, Compose a b) dom cod.
+Lemma Identity_dom_cod dom cod x f Hdom Hcod :
+  eval C dom cod (Identity x) objs arrs Hdom Hcod = Some f
+    -> dom = cod ∧ dom = x.
 Proof.
   intros.
-  destruct a eqn:Heqe.
-  - destruct b eqn:Heqe2; intros.
-    + simpl.
-      destruct (N.eq_dec n0 dom) eqn:Heqe3; simpl;
-      rewrite !Neq_dec_refl, Heqe3.
-        destruct e; simpl.
-        rewrite id_left.
-        reflexivity.
-      constructor.
-    + destruct (N.eq_dec n n1) eqn:Heqe3; simpl;
-      rewrite !Neq_dec_refl, Heqe3;
-      destruct (arrs _ _ _); auto.
-      destruct e; simpl.
-      rewrite id_left.
-      reflexivity.
-    + destruct (N.eq_dec n (TermCod t1)) eqn:Heqe3; simpl; subst.
-        rewrite !Neq_dec_refl. simpl.
-      rewrite Heqe3.
-      constructor.
-    + destruct (N.eq_dec _ _) eqn:Heqe3; simpl; subst;
-      unfold eval_obligation_1, eq_rec_r, eq_rec, eq_rect, eq_sym; simpl.
-      { destruct t1, t2;
-        unfold eval_obligation_1, eq_rec_r, eq_rec, eq_rect, eq_sym;
-        simpl; auto.
-        - destruct (N.eq_dec n n0); auto;
-          reflexivity.
-        - destruct (arrs _ _ _); auto.
-          destruct (N.eq_dec n n1); auto.
-          reflexivity.
-        - destruct t2_1, t2_2; simpl.
-        reflexivity.
-      rewrite Heqe3.
-      constructor.
-  - destruct b eqn:Heqe2; simpl; intros.
-    + destruct (N.eq_dec n n2) eqn:Heqe3; simpl; subst.
-        admit.
-      rewrite Heqe3.
-      constructor.
-Admitted.
+  inversion Hdom.
+  inversion Hcod.
+  subst; intuition.
+Qed.
 
-(*
-Program Fixpoint normalize (p : Term) {wf (Subterm) p} :
-  { t : Term & ∀ C, Equiv C (p, t) } :=
-  match p with
-  | Identity x  => existT _ p _
-  | Morph x y f => existT _ p _
-
-  | Compose f (Identity x)  =>
-    match N.eq_dec (TermDom f) x with
-    | left _  => existT _ f _
-    | right _ => existT _ p _
-    end
-  | Compose (Identity x) g  =>
-    match N.eq_dec x (TermCod g) with
-    | left _  => existT _ g _
-    | right _ => existT _ p _
-    end
-  | Compose f (Compose g h) =>
-    match N.eq_dec (TermDom f) (TermCod g) with
-    | left _  => existT _ (Compose (Compose f g) h) _
-    | right _ => existT _ p _
-    end
-
-  | Compose f g => existT _ p _
-  end.
-Next Obligation.
-  simpl; intros; subst; simpl.
-  destruct (N.eq_dec x x); auto.
-  unfold eq_rect.
-  destruct e.
-  reflexivity.
-Defined.
-Next Obligation.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  destruct (arrs f x y).
-  unfold eq_rect.
+Theorem eval_dom cod f (Hdom : TermDom f = TermDom f) Hcod :
+  eval C (TermDom f) cod f objs arrs Hdom Hcod =
+  eval C (TermDom f) cod f objs arrs eq_refl Hcod.
+Proof.
+  replace Hdom with (@eq_refl _ (TermDom f)).
     reflexivity.
-  constructor.
-Defined.
-Next Obligation.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  unfold eval_obligation_1; simpl.
-  destruct (eval C f objs arrs).
-  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
-    rewrite id_right; reflexivity.
-  constructor.
-Admitted.
-Next Obligation.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  unfold eval_obligation_1; simpl.
-  destruct (N.eq_dec x (TermDom f)); auto.
-  destruct (eval C f objs arrs).
-  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
-    destruct e.
-    rewrite id_right; reflexivity.
-  constructor.
-Defined.
-Next Obligation.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  unfold eval_obligation_1; simpl.
-  destruct (eval C g objs arrs).
-  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
-    rewrite id_left; reflexivity.
-  constructor.
-Defined.
-Next Obligation.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  unfold eval_obligation_1; simpl.
-  destruct (N.eq_dec (TermCod g) x); auto.
-  destruct (eval C g objs arrs).
-  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
-    destruct e.
-    rewrite id_left; reflexivity.
-  constructor.
-Defined.
-Next Obligation.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  unfold eval_obligation_1; simpl.
-  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
-  unfold eval_obligation_1; simpl.
-  destruct (eval C f objs arrs); auto.
-  destruct (N.eq_dec (TermCod h) (TermDom g)); auto.
-  destruct (eval C g objs arrs); auto.
-  destruct (eval C h objs arrs); auto.
-  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
-  destruct e, e0.
-  rewrite comp_assoc; reflexivity.
-Defined.
-Next Obligation.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  unfold eval_obligation_1; simpl.
-  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
-  unfold eval_obligation_1; simpl.
-  destruct (eval C f objs arrs); auto.
-  destruct (N.eq_dec (TermCod h) (TermDom g)); auto.
-  destruct (eval C g objs arrs); auto.
-  destruct (eval C h objs arrs); auto.
-  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
-  destruct e, e0.
-  reflexivity.
-Defined.
-Next Obligation.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  unfold eval_obligation_1; simpl.
-  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
-  unfold eval_obligation_1; simpl.
-  destruct (eval C f objs arrs); auto.
-  destruct (eval C g objs arrs); auto.
-  unfold eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
-  destruct e.
-  reflexivity.
-Defined.
-Next Obligation.
-  split; intros.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  unfold eval_obligation_1; simpl.
-  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
-  unfold eval_obligation_1; simpl.
-  - unfold not; intros.
-    inversion H5.
-  - unfold not; intros.
-    inversion H5.
-  - split; intros.
-    + unfold not; intros.
-      inversion H5.
-    + unfold not; intros.
-      inversion H5.
-Defined.
-Next Obligation.
-  split; intros.
-  simpl; intros; subst; simpl.
-  repeat rewrite Neq_dec_refl.
-  unfold eval_obligation_1; simpl.
-  destruct (N.eq_dec (TermCod g) (TermDom f)); auto.
-  unfold eval_obligation_1; simpl.
-  - unfold not; intros.
-    inversion H4.
-  - unfold not; intros.
-    inversion H4.
-  - split; intros.
-    + unfold not; intros.
-      inversion H4.
-    + unfold not; intros.
-      inversion H4.
-Defined.
-Next Obligation.
-  apply measure_wf.
-  apply Subterm_wf.
-Defined.
+  apply (Eqdep_dec.UIP_dec N.eq_dec).
+Qed.
 
-Eval vm_compute in `1 (normalize (Compose (Morph 0 0 0) (Identity 0))).
-*)
+Theorem eval_cod dom f Hdom (Hcod : TermCod f = TermCod f) :
+  eval C dom (TermCod f) f objs arrs Hdom Hcod =
+  eval C dom (TermCod f) f objs arrs Hdom eq_refl.
+Proof.
+  replace Hcod with (@eq_refl _ (TermCod f)).
+    reflexivity.
+  apply (Eqdep_dec.UIP_dec N.eq_dec).
+Qed.
+
+Corollary eval_dom_cod
+        f (Hdom : TermDom f = TermDom f) (Hcod : TermCod f = TermCod f) :
+  eval C (TermDom f) (TermCod f) f objs arrs Hdom Hcod =
+  eval C (TermDom f) (TermCod f) f objs arrs eq_refl eq_refl.
+Proof. rewrite eval_dom, eval_cod; reflexivity. Qed.
+
+Lemma Identity_eval x f Hdom Hcod :
+  eval C x x (Identity x) objs arrs Hdom Hcod = Some f ->
+  f ≈ @id C (objs x).
+Proof.
+  pose proof (eval_dom_cod (Identity x) Hdom Hcod).
+  simpl TermDom in H; simpl TermCod in H; rewrite H; clear H.
+  simpl; inversion_clear 1; reflexivity.
+Qed.
+
+Corollary Compose'_Identity_Left x g : Compose' (Identity x) g = g.
+Proof. reflexivity. Qed.
+
+Lemma Compose'_Identity_Right f x :
+  TermDom f = x -> Compose' f (Identity x) = f.
+Proof. destruct f; simpl; intros; subst; auto. Qed.
+
+Theorem Compose_eval dom mid cod a b :
+  ∀ f Hmid_f Hcod_f, eval C mid cod a objs arrs Hmid_f Hcod_f = Some f ->
+  ∀ g Hdom_g Hmid_g, eval C dom mid b objs arrs Hdom_g Hmid_g = Some g ->
+  ∀ fg Hdom_fg Hcod_fg,
+    eval C dom cod (Compose a b) objs arrs Hdom_fg Hcod_fg = Some fg ->
+  fg ≈ f ∘ g.
+Proof.
+  intros; subst;
+  destruct a, b;
+  simpl TermDom in *;
+  simpl TermCod in *; subst;
+  match goal with
+    [ H : eval _ ?N ?M (Compose ?F ?G) _ _ ?HD ?HC = Some ?FG |- _ ] =>
+    let Hdc := fresh "Hdc" in
+    pose proof (eval_dom_cod (Compose F G) HD HC) as Hdc;
+    simpl TermDom in Hdc; simpl TermCod in Hdc;
+    rewrite Hdc in H; clear Hdc
+  end.
+  - inversion_clear H.
+    inversion_clear H0.
+    simpl in H1.
+    rewrite Neq_dec_refl in H1.
+    inversion_clear H1.
+    cat.
+Admitted.
+
+Theorem Compose'_ok dom cod a b (val : objs dom ~{ C }~> objs cod) Hdom Hcod :
+  eval C dom cod (Compose a b) objs arrs Hdom Hcod = Some val
+    -> ∃ val' Hdom' Hcod',
+         eval C dom cod (Compose' a b) objs arrs Hdom' Hcod' = Some val'
+           ∧ val ≈ val'.
+Proof.
+  intros.
+  destruct a, b;
+  simpl TermDom in *;
+  simpl TermCod in *;
+  simpl Compose' in *; subst.
+  - simpl in H.
+    destruct (N.eq_dec cod dom); simpl in H.
+      destruct e; simpl in H.
+      exists id.
+      exists eq_refl.
+      exists eq_refl.
+      inversion_clear H.
+      simpl.
+      cat.
+    discriminate.
+  - admit.
+Admitted.
+
+Theorem Compose'_eval dom mid cod a b :
+  ∀ f Hmid_f Hcod_f, eval C mid cod a objs arrs Hmid_f Hcod_f = Some f ->
+  ∀ g Hdom_g Hmid_g, eval C dom mid b objs arrs Hdom_g Hmid_g = Some g ->
+  ∀ fg Hdom_fg Hcod_fg,
+    eval C dom cod (Compose' a b) objs arrs Hdom_fg Hcod_fg = Some fg ->
+  fg ≈ f ∘ g.
+Proof.
+  intros; subst;
+  destruct a, b;
+  simpl TermDom in *;
+  simpl TermCod in *; subst;
+  match goal with
+    [ H : eval _ ?N ?M (Compose' ?F ?G) _ _ ?HD ?HC = Some ?FG |- _ ] =>
+    let Hdc := fresh "Hdc" in
+    pose proof (eval_dom_cod (Compose' F G) HD HC) as Hdc;
+    simpl TermDom in Hdc; simpl TermCod in Hdc;
+    rewrite Hdc in H; clear Hdc
+  end;
+  simpl Compose' in *.
+  - inversion_clear H.
+    inversion_clear H0.
+    inversion_clear H1.
+    cat.
+  - inversion_clear H.
+    rewrite H0 in H1; inversion_clear H1.
+    cat.
+  - inversion_clear H.
+    rewrite H0 in H1; inversion_clear H1.
+    cat.
+  - inversion_clear H0.
+    rewrite H in H1; inversion_clear H1.
+    cat.
+  - eapply Compose_eval; eauto.
+  - eapply Compose_eval; eauto.
+  - inversion_clear H0.
+    rewrite H in H1; inversion_clear H1.
+    cat.
+  - eapply Compose_eval; eauto.
+  - admit.
+Admitted.
 
 Program Fixpoint check_equiv (p : Term * Term) {wf (R) p} : bool :=
   match p with (s, t) =>
@@ -494,19 +422,19 @@ Program Fixpoint check_equiv (p : Term * Term) {wf (R) p} : bool :=
     | Identity x =>
       match t with
       | Identity y  => N.eqb x y
-      | Morph g     => false
+      | Morph _ _ g => false
       | Compose h k => false
       end
-    | Morph f =>
+    | Morph _ _ f =>
       match t with
       | Identity _  => false
-      | Morph g     => N.eqb f g
+      | Morph _ _ g => N.eqb f g
       | Compose h k => false
       end
     | Compose f g =>
       match t with
       | Identity _  => false
-      | Morph g     => false
+      | Morph _ _ g => false
       | Compose h k => check_equiv (f, h) &&& check_equiv (g, k)
       end
     end
@@ -525,106 +453,37 @@ Next Obligation.
   apply Subterm_wf.
 Defined.
 
-(*
- ** forall dom codom val,
- **   eval' dom codom p = Some val ->
- **   exists val', eval' dom codom t = Some val'
- **           /\  val ≈ val'
- *)
-
 Theorem check_equiv_sound : ∀ p : Term * Term,
-  check_equiv p = true -> ∀ C, Equiv C p.
+  check_equiv p = true -> Equiv p.
 Proof.
-  intros [] H C objs arrs; simpl in *.
-  induction t; simpl in *.
-  - destruct t0; simpl in *; try discriminate.
-    destruct (N.eq_dec n n0); subst.
-      unfold eq_rect_r, eq_rect, eq_sym; simpl.
-      reflexivity.
-    apply N.eqb_eq in H; subst.
-    contradiction.
-  - destruct t0; simpl in *; try discriminate.
-    apply N.eqb_eq in H; subst.
-    destruct (arrs n0) as [x [y [f|]]].
-      rewrite !Neq_dec_refl.
-      unfold eq_rect_r, eq_rect, eq_sym; simpl.
-      reflexivity.
-    constructor.
-  - destruct t0; simpl in *; try discriminate.
-    destruct t1; simpl in *; try discriminate.
-    + destruct t2; simpl in *; try discriminate.
+  unfold check_equiv, Equiv; intros; subst.
+  destruct p as [s t]; simpl in *.
+  induction s; simpl in *.
+  - destruct t; simpl in *.
+    + inversion_clear H0.
+      exists id.
+      simpl in H.
+      (* jww (2017-06-13): check_equiv is not reducing yet *)
+      compute in H.
+      destruct (N.eq_dec n0 n); subst.
+        exists eq_refl.
+        exists eq_refl.
+        simpl; cat.
+      (* jww (2017-06-13): H should prove this branch for us. *)
+      admit.
 Admitted.
 
 (*
-Next Obligation.
-  subst.
-  simpl; intros; subst.
-  repeat destruct (N.eq_dec _ _); simpl; auto.
-  unfold eq_rect; simpl.
-  destruct e.
-  reflexivity.
-Defined.
-Next Obligation.
-  simpl; intros; subst.
-  apply N.eqb_eq in H; subst.
-  repeat destruct (N.eq_dec _ _); simpl; auto.
-  unfold eq_rect; simpl; subst.
-  destruct (arrs g _ _); reflexivity.
-Defined.
-Next Obligation.
-  simpl; intros; subst.
-  repeat destruct (decision _ _); simpl in *;
-  destruct x, x0; try discriminate;
-  specialize (e eq_refl C objs arrs);
-  specialize (e0 eq_refl C objs arrs);
-  repeat destruct (N.eq_dec _ _); simpl; auto;
-  unfold eval_obligation_1 in *; simpl in *;
-  clear decision;
-  destruct (eval C f objs arrs),
-           (eval C g objs arrs),
-           (eval C k objs arrs),
-           (eval C h objs arrs);
-  unfold eq_ind_r, eq_ind, eq_sym, eq_rect in *; simpl in *;
-  auto; try tauto.
-    destruct e5, e2, e1, e6, e3.
-    rewrite e.
-    apply compose_respects.
-      reflexivity.
-    rewrite e0; clear.
-    (* Avoid the use of JMeq_eq, since otherwise [dependent destruction e4]
-       would solve this goal. *)
-    assert (K_dec_on_type :
-              ∀ (x:N) (P:x = x -> Type),
-                P (eq_refl x) -> ∀ p:x = x, P p).
-      intros.
-      elim (@Eqdep_dec.eq_proofs_unicity_on N _) with x (eq_refl x) p.
-        trivial.
-      intros.
-      destruct (N.eq_dec x y); auto.
-    exact (
-      K_dec_on_type
-        (TermCod k)
-        (fun x =>
-           Setoid.equiv
-             match x in (_ = y) return (objs (TermDom k) ~{ C }~> objs y)
-             with eq_refl => h2
-             end h2)
-        (Setoid.setoid_refl _ _) e4).
-  clear -e3 e4 e5 n.
-  congruence.
-Admitted.
-*)
-
 Example speed_test (C : Category) :
   `1 (check_equiv
       (`1 (simplify (Compose (Morph 2 3 0) (Compose (Morph 1 2 1) (Morph 0 1 2)))),
        `1 (simplify (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))))) = true.
 Proof. reflexivity. Defined.
+*)
 
 Definition decision_correct {t u : Term}
-        (Heq : `1 (decision (`1 (normalize t), `1 (normalize u))) = true) :
-  ∀ C, Equiv C (`1 (normalize t), `1 (normalize u)) :=
-  `2 (decision (`1 (normalize t), `1 (normalize u))) Heq.
+        (Heq : check_equiv (t, u) = true) : Equiv (t, u) :=
+  check_equiv_sound (t, u) Heq.
 
 Import ListNotations.
 
@@ -700,7 +559,9 @@ Ltac reify :=
 
 Ltac categorical := reify; apply decision_correct; vm_compute; auto.
 
-Example sample_1 {C : Category} :
+Example sample_1 :
   ∀ (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y),
     f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof. Fail intros; categorical. Abort.
+
+End Reduction.
