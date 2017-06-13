@@ -8,19 +8,22 @@ Require Import Coq.Bool.Bool.
 Require Import Coq.Arith.Bool_nat.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.Lists.List.
+Require Import Coq.Classes.Morphisms.
 (* Require Import Coq.Relations.Relations. *)
 (* Require Import Coq.Classes.RelationClasses. *)
-(* Require Import Coq.quote.Quote. *)
+Require Import Coq.quote.Quote.
 Require Import Coq.Wellfounded.Lexicographic_Product.
 (* Require Import Coq.Vectors.Vector. *)
 Require Import Coq.NArith.NArith.
 
 Generalizable All Variables.
 
-(*
+Definition obj_idx := N.
+Definition arr_idx := N.
+
 Set Universe Polymorphism.
 
-Program Instance option_Setoid `{Setoid A} : Setoid (option A) := {
+Program Instance option_setoid `{Setoid A} : Setoid (option A) := {
   equiv := fun x y => match x, y with
     | Some x, Some y => x ≈ y
     | None, None => True
@@ -39,54 +42,85 @@ Next Obligation.
     contradiction.
 Qed.
 
+Program Definition index_eq_dec (n m : index) : {n = m} + {n ≠ m} :=
+  match index_eq n m with
+  | true  => left (index_eq_prop n m _)
+  | false => right _
+  end.
+Next Obligation.
+  intro; subst.
+  induction m; simpl in Heq_anonymous; auto.
+  discriminate.
+Qed.
+
+Lemma K_dec_on_type A (x : A) (eq_dec : ∀ y : A, x = y \/ x ≠ y)
+      (P : x = x -> Type) :
+  P (eq_refl x) -> ∀ p:x = x, P p.
+Proof.
+  intros.
+  elim (@Eqdep_dec.eq_proofs_unicity_on A _) with x (eq_refl x) p.
+    trivial.
+  exact eq_dec.
+Defined.
+
+Lemma Neq_dec' : ∀ x y : N, x = y \/ x ≠ y.
+Proof.
+  intros.
+  destruct (N.eq_dec x y); auto.
+Defined.
+
+Lemma Neq_dec_refl n : N.eq_dec n n = left (@eq_refl N n).
+Proof.
+  destruct (N.eq_dec n n).
+    refine (K_dec_on_type N n (Neq_dec' n)
+              (fun x => @left _ _ x = @left _ _ (@eq_refl N n)) _ _).
+    reflexivity.
+  contradiction.
+Qed.
+
+Corollary index_eq_dec' : ∀ x y : index, x = y \/ x ≠ y.
+Proof. intros; destruct (index_eq_dec x y); auto. Defined.
+
+Lemma index_eq_dec_refl n : index_eq_dec n n = left (@eq_refl _ n).
+Proof.
+  destruct (index_eq_dec n n).
+    refine (K_dec_on_type index n (index_eq_dec' n)
+              (fun x => @left _ _ x = @left _ _ (@eq_refl index n)) _ _).
+    reflexivity.
+  contradiction.
+Defined.
+
 Unset Universe Polymorphism.
-*)
 
 Open Scope N_scope.
-
-Definition obj_idx := N.
-Definition arr_idx := N.
 
 Set Decidable Equality Schemes.
 
 Inductive Term : Type :=
-  | Identity : ∀ x : obj_idx, Term
-  | Morph    : ∀ x y : obj_idx, arr_idx -> Term
+  | Identity : N -> Term
+  | Morph    : N -> Term
   | Compose  : Term -> Term -> Term.
 
-Fixpoint Term_eq_dec (x y : Term) : {x = y} + {x ≠ y}.
+Lemma Term_eq_dec' : ∀ x y : Term, x = y \/ x ≠ y.
 Proof.
-  destruct x, y; try (right; unfold not; intros; discriminate).
-  - destruct (N.eq_dec x x0); subst;
-    solve [ left; reflexivity | right; congruence ].
-  - destruct (N.eq_dec x x0); subst;
-    destruct (N.eq_dec y y0); subst;
-    destruct (N.eq_dec a a0); subst;
-    solve [ left; reflexivity | right; congruence ].
-  - destruct (Term_eq_dec x1 y1); subst;
-    destruct (Term_eq_dec x2 y2); subst;
-    solve [ left; reflexivity | right; congruence ].
+  intros.
+  destruct (Term_eq_dec x y); auto.
 Defined.
 
-Fixpoint TermDom (e : Term) : obj_idx :=
-  match e with
-  | Identity x  => x
-  | Morph x _ _ => x
-  | Compose _ g => TermDom g
-  end.
-
-Fixpoint TermCod (e : Term) : obj_idx :=
-  match e with
-  | Identity x  => x
-  | Morph _ x _ => x
-  | Compose f _ => TermCod f
-  end.
+Lemma Term_eq_dec_refl n : Term_eq_dec n n = left (@eq_refl _ n).
+Proof.
+  destruct (Term_eq_dec n n).
+    refine (K_dec_on_type Term n (Term_eq_dec' n)
+              (fun x => @left _ _ x = @left _ _ (@eq_refl _ n)) _ _).
+    reflexivity.
+  contradiction.
+Qed.
 
 Inductive Subterm : Term -> Term -> Prop :=
-  | Compose1 : forall t1 t2, Subterm t1 (Compose t1 t2)
-  | Compose2 : forall t1 t2, Subterm t2 (Compose t1 t2).
+  | Compose1 : ∀ t1 t2, Subterm t1 (Compose t1 t2)
+  | Compose2 : ∀ t1 t2, Subterm t2 (Compose t1 t2).
 
-Definition Subterm_inv_t : forall x y, Subterm x y -> Prop.
+Definition Subterm_inv_t : ∀ x y, Subterm x y -> Prop.
 Proof.
   intros [] [] f;
   match goal with
@@ -110,56 +144,17 @@ Proof.
   end.
 Defined.
 
-Lemma K_dec_on_type A (x : A) (eq_dec : ∀ y : A, x = y \/ x ≠ y)
-      (P : x = x -> Type) :
-  P (eq_refl x) -> forall p:x = x, P p.
-Proof.
-  intros.
-  elim (@Eqdep_dec.eq_proofs_unicity_on A _) with x (eq_refl x) p.
-    trivial.
-  exact eq_dec.
-Defined.
-
-Lemma Term_eq_dec' : ∀ x y : Term, x = y \/ x ≠ y.
-Proof.
-  intros.
-  destruct (Term_eq_dec x y); auto.
-Defined.
-
-Lemma Neq_dec' : ∀ x y : N, x = y \/ x ≠ y.
-Proof.
-  intros.
-  destruct (N.eq_dec x y); auto.
-Defined.
-
-Lemma Neq_dec_refl n : N.eq_dec n n = left (@eq_refl N n).
-Proof.
-  destruct (N.eq_dec n n).
-    refine (K_dec_on_type N n (Neq_dec' n)
-              (fun x => @left _ _ x = @left _ _ (@eq_refl N n)) _ _).
-    reflexivity.
-  contradiction.
-Qed.
-
 Corollary Subterm_inv x y f : Subterm_inv_t x y f.
 Proof.
   pose proof Term_eq_dec.
-  destruct f, t1, t2; simpl;
-  repeat destruct (Term_eq_dec _ _); subst;
-  unfold eq_rec_r, eq_rec, eq_rect, eq_sym;
-  repeat rewrite Neq_dec_refl; simpl;
+  destruct f, t1, t2; simpl; intuition;
+  rewrite Term_eq_dec_refl;
+  unfold eq_rec_r, eq_rec, eq_rect, eq_sym; intuition;
+  destruct (Term_eq_dec _ _);
   try (rewrite e || rewrite <- e);
   try (rewrite e0 || rewrite <- e0);
-  try congruence;
-  try rewrite <- Eqdep_dec.eq_rect_eq_dec; eauto; simpl; intuition;
-  try rewrite <- Eqdep_dec.eq_rect_eq_dec; eauto; simpl; intuition; simpl;
-  repeat destruct (N.eq_dec _ _); subst; simpl; intuition;
-  try dependent destruction e;
-  try dependent destruction e0;
-  try dependent destruction e1;
-  try dependent destruction e2;
-  intuition.
-Abort.                          (* nasty axiomses; we hates them forever! *)
+  try congruence; intuition.
+Qed.
 
 Lemma Subterm_wf : well_founded Subterm.
 Proof.
@@ -181,17 +176,17 @@ Section Symmetric_Product2.
 
   Inductive symprod2 : A * A -> A * A -> Prop :=
     | left_sym2 :
-      forall x x':A, leA x x' -> forall y:A, symprod2 (x, y) (x', y)
+      ∀ x x':A, leA x x' -> ∀ y:A, symprod2 (x, y) (x', y)
     | right_sym2 :
-      forall y y':A, leA y y' -> forall x:A, symprod2 (x, y) (x, y')
+      ∀ y y':A, leA y y' -> ∀ x:A, symprod2 (x, y) (x, y')
     | both_sym2 :
-      forall (x x':A) (y y':A),
+      ∀ (x x':A) (y y':A),
         leA x x' ->
         leA y y' ->
         symprod2 (x, y) (x', y').
 
   Lemma Acc_symprod2 :
-    forall x:A, Acc leA x -> forall y:A, Acc leA y -> Acc symprod2 (x, y).
+    ∀ x:A, Acc leA x -> ∀ y:A, Acc leA y -> Acc symprod2 (x, y).
   Proof.
     induction 1 as [x _ IHAcc]; intros y H2.
     induction H2 as [x1 H3 IHAcc1].
@@ -212,44 +207,42 @@ Section Symmetric_Product2.
 End Symmetric_Product2.
 
 Program Fixpoint eval (C : Category) (e : Term)
-         (objs : obj_idx -> C)
-         (arrs : arr_idx -> ∀ a b : obj_idx, option (objs a ~> objs b)) :
-  option (objs (TermDom e) ~> objs (TermCod e)) :=
+        (objs : obj_idx -> C)
+        (arrs : arr_idx -> ∃ a b : obj_idx, option (objs a ~> objs b)) :
+  ∃ a b : obj_idx, option (objs a ~> objs b) :=
   match e with
-  | Morph x y n => arrs n x y
-  | Identity x  => Some (@id C (objs x))
+  | Morph n => arrs n
+  | Identity x => (x; (x; Some (@id C (objs x))))
   | Compose f g =>
-    match N.eq_dec (TermCod g) (TermDom f) with
-    | left Heq =>
-      let f' := eval C f objs arrs in
-      let g' := eval C g objs arrs in
-      match f', g' with
-      | Some f', Some g' => Some (f' ∘ g')
-      | _, _ => None
+    let f' := eval C f objs arrs in
+    let g' := eval C g objs arrs in
+    match f', g' with
+    | (yf; (z; Some f')), (x; (yg; Some g')) =>
+      match N.eq_dec yf yg with
+      | left _  => (x; (z; Some (f' ∘ g')))
+      | right _ => (0; (0; None))
       end
-    | right _ => None
+    | _, _ => (0; (0; None))
     end
   end.
-Next Obligation.
-  rewrite Heq; reflexivity.
-Defined.
 
-Definition Equiv (C : Category) (p : Term * Term) : Type.
+Program Definition Equiv (p : Term * Term) : Type.
 Proof.
-  refine (∀ objs arrs, _).
-  destruct (N.eq_dec (TermDom (snd p)) (TermDom (fst p))).
-    destruct (N.eq_dec (TermCod (snd p)) (TermCod (fst p))).
-      destruct (eval C (fst p) objs arrs).
-        destruct (eval C (snd p) objs arrs).
-          rewrite e, e0 in h0.
-          exact (h ≈ h0).
-        exact False.
-      exact True.
-    exact False.
-  exact False.
+  refine (∀ (C : Category) objs arrs, _).
+  refine (
+    match eval C (fst p) objs arrs, eval C (snd p) objs arrs with
+    | (fx; (fy; Some f)), (gx; (gy; Some g)) =>
+      match N.eq_dec fx gx, N.eq_dec fy gy with
+      | left _, left _ => f ≈ _ g
+      | _, _ => False
+      end
+    | (_; (_; None)), (_; (_; None)) => True
+    | _, _ => False
+    end).
+  subst.
+  auto.
 Defined.
-
-Arguments Equiv _ _ /.
+Arguments Equiv _ /.
 
 Definition R := symprod2 Term Subterm.
 Arguments R /.
@@ -260,6 +253,28 @@ Set Transparent Obligations.
 
 Local Obligation Tactic := intros; try discriminate.
 
+Definition Compose' (a b : Term) : Term :=
+  match a, b with
+  | Identity _, g => g
+  | f, Identity _ => f
+  | Compose f g, Compose h k => Compose (Compose (Compose f g) h) k
+  | _, _ => Compose a b
+  end.
+
+Theorem Compose'_ok : ∀ a b, Equiv (Compose' a b, Compose a b).
+Proof.
+  simpl; intros.
+  destruct a.
+  - destruct b; simpl.
+    unfold eval_obligation_1; simpl.
+    unfold eq_rec_r, eq_rec, eq_rect, eq_sym; simpl.
+    unfold EqdepFacts.internal_eq_rew_r_dep,
+           EqdepFacts.internal_eq_sym_involutive,
+           EqdepFacts.internal_eq_sym_internal.
+    (* jww (2017-06-12): We get stuck here. *)
+    destruct (N.eq_dec n n0).
+
+(*
 Program Fixpoint normalize (p : Term) {wf (Subterm) p} :
   { t : Term & ∀ C, Equiv C (p, t) } :=
   match p with
@@ -419,44 +434,71 @@ Next Obligation.
 Defined.
 
 Eval vm_compute in `1 (normalize (Compose (Morph 0 0 0) (Identity 0))).
+*)
 
-Program Fixpoint decision (p : Term * Term) {wf (R) p} :
-  { b : bool & b = true -> ∀ C, Equiv C p } :=
-  match p with
-  | (s, t) =>
-    match N.eq_dec (TermDom t) (TermDom s) with
-    | right _ => existT _ false _
-    | left Heq_dom_s =>
-      match N.eq_dec (TermCod t) (TermCod s) with
-      | right _ => existT _ false _
-      | left Heq_dom_t =>
-
-        match s with
-        | Identity _ =>
-          match t with
-          | Identity _  => existT _ true _
-          | Morph _ _ g => existT _ false _
-          | Compose h k => existT _ false _
-          end
-        | Morph _ _ f =>
-          match t with
-          | Identity _  => existT _ false _
-          | Morph _ _ g => existT _ (N.eqb f g) _
-          | Compose h k => existT _ false _
-          end
-        | Compose f g =>
-          match t with
-          | Identity _  => existT _ false _
-          | Morph _ _ g => existT _ false _
-          | Compose h k => existT _ (`1 (decision (f, h)) &&&
-                                     `1 (decision (g, k))) _
-          end
-        end
-
+Program Fixpoint check_equiv (p : Term * Term) {wf (R) p} : bool :=
+  match p with (s, t) =>
+    match s with
+    | Identity x =>
+      match t with
+      | Identity y  => N.eqb x y
+      | Morph g     => false
+      | Compose h k => false
+      end
+    | Morph f =>
+      match t with
+      | Identity _  => false
+      | Morph g     => N.eqb f g
+      | Compose h k => false
+      end
+    | Compose f g =>
+      match t with
+      | Identity _  => false
+      | Morph g     => false
+      | Compose h k => check_equiv (f, h) &&& check_equiv (g, k)
       end
     end
   end.
 Next Obligation.
+  subst; simpl in *; clear.
+  constructor; constructor.
+Defined.
+Next Obligation.
+  subst; simpl in *; clear.
+  constructor; constructor.
+Defined.
+Next Obligation.
+  apply measure_wf.
+  apply wf_symprod2.
+  apply Subterm_wf.
+Defined.
+
+Theorem check_equiv_sound : ∀ p : Term * Term,
+  check_equiv p = true -> ∀ C, Equiv C p.
+Proof.
+  intros [] H C objs arrs; simpl in *.
+  induction t; simpl in *.
+  - destruct t0; simpl in *; try discriminate.
+    destruct (N.eq_dec n n0); subst.
+      unfold eq_rect_r, eq_rect, eq_sym; simpl.
+      reflexivity.
+    apply N.eqb_eq in H; subst.
+    contradiction.
+  - destruct t0; simpl in *; try discriminate.
+    apply N.eqb_eq in H; subst.
+    destruct (arrs n0) as [x [y [f|]]].
+      rewrite !Neq_dec_refl.
+      unfold eq_rect_r, eq_rect, eq_sym; simpl.
+      reflexivity.
+    constructor.
+  - destruct t0; simpl in *; try discriminate.
+    destruct t1; simpl in *; try discriminate.
+    + destruct t2; simpl in *; try discriminate.
+Admitted.
+
+(*
+Next Obligation.
+  subst.
   simpl; intros; subst.
   repeat destruct (N.eq_dec _ _); simpl; auto.
   unfold eq_rect; simpl.
@@ -469,14 +511,6 @@ Next Obligation.
   repeat destruct (N.eq_dec _ _); simpl; auto.
   unfold eq_rect; simpl; subst.
   destruct (arrs g _ _); reflexivity.
-Defined.
-Next Obligation.
-  subst; simpl in *; clear.
-  constructor; constructor.
-Defined.
-Next Obligation.
-  subst; simpl in *; clear.
-  constructor; constructor.
 Defined.
 Next Obligation.
   simpl; intros; subst.
@@ -501,8 +535,8 @@ Next Obligation.
     (* Avoid the use of JMeq_eq, since otherwise [dependent destruction e4]
        would solve this goal. *)
     assert (K_dec_on_type :
-              forall (x:N) (P:x = x -> Type),
-                P (eq_refl x) -> forall p:x = x, P p).
+              ∀ (x:N) (P:x = x -> Type),
+                P (eq_refl x) -> ∀ p:x = x, P p).
       intros.
       elim (@Eqdep_dec.eq_proofs_unicity_on N _) with x (eq_refl x) p.
         trivial.
@@ -520,16 +554,12 @@ Next Obligation.
   clear -e3 e4 e5 n.
   congruence.
 Admitted.
-Next Obligation.
-  apply measure_wf.
-  apply wf_symprod2.
-  apply Subterm_wf.
-Defined.
+*)
 
 Example speed_test (C : Category) :
-  `1 (decision
-      (`1 (normalize (Compose (Morph 2 3 0) (Compose (Morph 1 2 1) (Morph 0 1 2)))),
-       `1 (normalize (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))))) = true.
+  `1 (check_equiv
+      (`1 (simplify (Compose (Morph 2 3 0) (Compose (Morph 1 2 1) (Morph 0 1 2)))),
+       `1 (simplify (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))))) = true.
 Proof. reflexivity. Qed.
 
 Definition decision_correct {t u : Term}
