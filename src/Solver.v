@@ -138,7 +138,7 @@ Definition Subterm_inv_t : ∀ x y, Subterm x y -> Prop.
 Proof.
   intros [] [] f;
   match goal with
-  | [ H : Subterm ?X (Compose ?Y ?Z) |- Prop ] =>
+  | [ H : Subterm ?X (Compose ?Y _ ?Z) |- Prop ] =>
     destruct (Term_eq_dec X Y); subst;
     [ destruct (Term_eq_dec X Z); subst;
       [ exact (f = Compose1 _ _ \/ f = Compose2 _ _)
@@ -146,7 +146,7 @@ Proof.
     | destruct (Term_eq_dec X Z); subst;
       [ exact (f = Compose2 _ _)
       | exact False ] ]
-  | [ H : Subterm ?X (Compose ?Y ?Z) |- Prop ] =>
+  | [ H : Subterm ?X (Compose ?Y _ ?Z) |- Prop ] =>
     destruct (Term_eq_dec X Y); subst;
     [ destruct (Term_eq_dec X Z); subst;
       [ exact (f = Compose1 _ _ \/ f = Compose2 _ _)
@@ -158,6 +158,7 @@ Proof.
   end.
 Defined.
 
+(*
 Corollary Subterm_inv x y f : Subterm_inv_t x y f.
 Proof.
   pose proof Term_eq_dec.
@@ -169,6 +170,7 @@ Proof.
   try (rewrite e0 || rewrite <- e0);
   try congruence; intuition.
 Defined.
+*)
 
 Lemma Subterm_wf : well_founded Subterm.
 Proof.
@@ -220,40 +222,35 @@ Section Symmetric_Product2.
 
 End Symmetric_Product2.
 
-Program Fixpoint eval (C : Category) (e : Term)
+Program Fixpoint eval (C : Category) (dom cod : obj_idx) (e : Term)
         (objs : obj_idx -> C)
         (arrs : arr_idx -> ∀ x y : obj_idx, option (objs x ~> objs y))
         {struct e} :
-  option (objs (TermDom e) ~> objs (TermCod e)) :=
-  match e with
-  | Identity x => Some (@id C (objs x))
-  | Morph x y n => arrs n x y
-  | Compose f g =>
-    match eval C f objs arrs, eval C g objs arrs with
-    | Some f', Some g' =>
-      match N.eq_dec (TermDom f) (TermCod g) with
-      | left _  => Some (f' ∘ g')
-      | right _ => None
+  option (objs dom ~> objs cod) :=
+  match N.eq_dec (TermDom e) dom,
+        N.eq_dec (TermCod e) cod with
+  | left _, left _ =>
+    match e with
+    | Identity x    => Some (@id C (objs x))
+    | Morph x y n   => _ (arrs n x y)
+    | Compose f g =>
+      match eval C (TermCod g) cod f objs arrs,
+            eval C dom (TermCod g) g objs arrs with
+      | Some f', Some g' => Some (f' ∘ g')
+      | _, _ => None
       end
-    | _, _ => None
     end
+  | _, _ => None
   end.
-Next Obligation. congruence. Defined.
 
-Program Definition Equiv (p : Term * Term) : Type :=
+Program Definition Equiv (p : Term * Term) (dom cod : obj_idx) : Type :=
   ∀ (C : Category) objs arrs,
-    match N.eq_dec (TermDom (snd p)) (TermDom (fst p)),
-          N.eq_dec (TermCod (snd p)) (TermCod (fst p)) with
-    | left Hdom, left Hcod =>
-      match eval C (fst p) objs arrs, eval C (snd p) objs arrs with
-      | Some f, Some g => f ≈ g
-      | None, None => True
-      | _, _ => False
-      end
+    match eval C dom cod (fst p) objs arrs,
+          eval C dom cod (snd p) objs arrs with
+    | Some f, Some g => f ≈ g
+    | None, None => True
     | _, _ => False
     end.
-Next Obligation. rewrite Hdom; reflexivity. Defined.
-Next Obligation. rewrite Hcod; reflexivity. Defined.
 Next Obligation. intuition; discriminate. Defined.
 Next Obligation. intuition; discriminate. Defined.
 Arguments Equiv _ /.
@@ -268,20 +265,31 @@ Set Transparent Obligations.
 Local Obligation Tactic := intros; try discriminate.
 
 Definition Compose' (a b : Term) : Term :=
-  match a, b, N.eq_dec (TermDom a) (TermCod b) with
-  | Identity x, g, left _ => g
-  | f, Identity _, left _ => f
-  | Compose f g, Compose h k, left _ => Compose (Compose (Compose f g) h) k
-  | _, _, _ => Compose a b
+  match a, b with
+  | Identity x, g => g
+  | f, Identity _ => f
+  | Compose f g, Compose h k => Compose (Compose (Compose f g) h) k
+  | _, _ => Compose a b
   end.
 
-Theorem Compose'_ok : ∀ a b, Equiv (Compose' a b, Compose a b).
+Theorem Compose'_ok :
+  ∀ C objs arrs dom cod a b (val : objs dom ~{ C }~> objs cod),
+    eval C dom cod (Compose' a b) objs arrs = Some val ->
+    ∃ val', eval C dom cod (Compose a b) objs arrs = Some val' ∧  val ≈ val'.
+Proof.
+  simpl; intros.
+  exists val.
+  destruct (N.eq_dec (TermDom b) dom);
+  destruct (N.eq_dec (TermCod a) cod).
+  - destruct a, b; simpl.
+
+  Equiv (Compose' a b, Compose a b) dom cod.
 Proof.
   intros.
   destruct a eqn:Heqe.
-  - destruct b eqn:Heqe2; simpl; intros;
-    unfold eval_obligation_1, eq_ind_r, eq_ind, eq_rect, eq_sym; simpl.
-    + destruct (N.eq_dec n n0) eqn:Heqe3; simpl;
+  - destruct b eqn:Heqe2; intros.
+    + simpl.
+      destruct (N.eq_dec n0 dom) eqn:Heqe3; simpl;
       rewrite !Neq_dec_refl, Heqe3.
         destruct e; simpl.
         rewrite id_left.
@@ -516,6 +524,13 @@ Next Obligation.
   apply wf_symprod2.
   apply Subterm_wf.
 Defined.
+
+(*
+ ** forall dom codom val,
+ **   eval' dom codom p = Some val ->
+ **   exists val', eval' dom codom t = Some val'
+ **           /\  val ≈ val'
+ *)
 
 Theorem check_equiv_sound : ∀ p : Term * Term,
   check_equiv p = true -> ∀ C, Equiv C p.
