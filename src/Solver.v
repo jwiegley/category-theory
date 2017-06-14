@@ -318,15 +318,6 @@ Fixpoint denote dom cod (e : Term) :
 
 End denote.
 
-Definition Equiv (a b : Term) : Type :=
-  ∀ C objs arrs dom cod,
-    match @denote C objs arrs dom cod a,
-          @denote C objs arrs dom cod b with
-    | Some aV, Some bV => aV ≈ bV
-    | _ , _ => False
-    end.
-Arguments Equiv _ /.
-
 Section Reduction.
 
 Context {C : Category}.
@@ -558,24 +549,32 @@ Fixpoint normalize (p : Term) : Term :=
   | Compose g f => mkCompose (normalize g) (normalize f)
   | _ => p
   end.
+Arguments normalize _ /.
 
 Theorem normalize_sound : ∀ f dom cod f',
-  denote C objs arrs dom cod f = Some f' ->
+  denote C objs arrs dom cod f ≈ Some f' ->
   ∃ g', f' ≈ g' ∧ denote C objs arrs dom cod (normalize f) ≈ Some g'.
 Proof.
-  induction f; simpl; intros.
+  induction f; intros.
   - eexists; eexists.
       reflexivity.
-    rewrite H.
-    reflexivity.
+    simpl normalize; subst.
+    assumption.
   - eexists; eexists.
       reflexivity.
-    rewrite H.
-    reflexivity.
+    simpl normalize; subst.
+    assumption.
   - specialize (IHf1 (TermCod f2) cod).
     specialize (IHf2 dom (TermCod f2)).
-    revert H.
-    forward_reason.
+    revert X.
+    subst.
+Admitted.
+(*
+    simpl.
+    destruct (denote C objs arrs dom (TermCod f2) f2).
+    destruct (IHf2 h); [reflexivity|]; subst.
+    destruct (denote C objs arrs (TermCod f2) cod f1); [|tauto].
+    destruct (IHf1 h0); [reflexivity|]; subst.
     destruct (IHf1 _ eq_refl) as [ ? [ ? ? ] ]; clear IHf1.
     specialize (IHf2 _ eq_refl) as [ ? [ ? ? ] ].
     destruct (mkCompose_sound _ _ _ _ _ _ _ e0 e2) as [ ? [ ? ? ] ].
@@ -587,10 +586,42 @@ Proof.
       reflexivity.
     assumption.
 Defined.
+*)
 
 Eval vm_compute in normalize (Compose (Morph 0 0 0) (Identity 0)).
 Eval vm_compute in normalize (Compose (Morph 0 0 0) (Compose (Morph 0 0 0) (Identity 0))).
 Eval vm_compute in normalize (Compose (Morph 0 0 0) (Compose (Morph 0 0 0) (Morph 0 0 0))).
+
+End Reduction.
+
+Theorem normalize_apply C objs arrs dom cod : ∀ f f' g g',
+  normalize f = f' ->
+  normalize g = g' ->
+  denote C objs arrs dom cod f' ≈ denote C objs arrs dom cod g' ->
+  denote C objs arrs dom cod f  ≈ denote C objs arrs dom cod g.
+Proof.
+  intros.
+  subst.
+  destruct f, g; try solve [simpl normalize in X; auto].
+  - simpl normalize at 1 in X.
+    rewrite X; clear X.
+    pose proof (normalize_sound objs arrs (Compose g1 g2) dom cod).
+    destruct (denote C objs arrs dom cod (Compose g1 g2)) eqn:Heqe.
+      destruct (X h).
+        reflexivity.
+      destruct p.
+      rewrite e0.
+      red.
+      symmetry.
+      assumption.
+    rewrite <- Heqe.
+    clear.
+    induction (Compose g1 g2); try reflexivity.
+Admitted.
+
+Definition Equiv C objs arrs dom cod (a b : Term) : Type :=
+  denote C objs arrs dom cod a ≈ denote C objs arrs dom cod b.
+Arguments Equiv _ _ _ _ _ _ _ /.
 
 Corollary Compose'_Identity_Left x g : mkCompose (Identity x) g = g.
 Proof. reflexivity. Qed.
@@ -637,8 +668,9 @@ Next Obligation.
   apply Subterm_wf.
 Defined.
 
-Theorem check_equiv_sound : ∀ s t : Term,
-  check_equiv (s, t) = true -> Equiv s t.
+Theorem check_equiv_sound : ∀ (s t : Term) C objs arrs dom cod,
+  check_equiv (s, t) = true
+    -> Equiv C objs arrs dom cod s t.
 Proof.
   unfold check_equiv, Equiv;
   intros; subst; simpl in *.
@@ -657,9 +689,10 @@ Example speed_test :
      normalize (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))) = true.
 Proof. reflexivity. Qed.
 
-Definition decision_correct {t u : Term}
-        (Heq : check_equiv (t, u) = true) : Equiv t u :=
-  check_equiv_sound t u Heq.
+Definition decision_correct C objs arrs dom cod {t u : Term}
+           (Heq : check_equiv (t, u) = true) :
+  Equiv C objs arrs dom cod t u :=
+  check_equiv_sound t u C objs arrs dom cod Heq.
 
 Import ListNotations.
 
@@ -677,13 +710,24 @@ Ltac addToList x xs :=
   | false => constr:((x, xs))
   end.
 
-Ltac allVars xs e :=
+Ltac allVars fs xs e :=
   match e with
-  | id => xs
+  | @id _ ?x =>
+    let xs := addToList x xs in
+    constr:((fs, xs))
   | ?e1 ∘ ?e2 =>
-    let xs := allVars xs e1 in
-    allVars xs e2
-  | _ => addToList e xs
+    let res := allVars fs xs e1 in
+    match res with
+      (?fs, ?xs) => allVars fs xs e2
+    end
+  | ?f =>
+    match type of f with
+    | ?x ~> ?y =>
+      let xs := addToList x xs in
+      let xs := addToList y xs in
+      let fs := addToList f fs in
+      constr:((fs, xs))
+    end
   end.
 
 Ltac lookup x xs :=
@@ -694,70 +738,102 @@ Ltac lookup x xs :=
     constr:(N.succ n)
   end.
 
-Ltac reifyTerm env t :=
+Ltac reifyTerm fs xs t :=
   match t with
-  | id =>
-    constr:(Identity _)
+  | @id _ ?X =>
+    let x := lookup X xs in
+    constr:(Identity x)
   | ?X1 ∘ ?X2 =>
-    let r1 := reifyTerm env X1 in
-    let r2 := reifyTerm env X2 in
+    let r1 := reifyTerm fs xs X1 in
+    let r2 := reifyTerm fs xs X2 in
     constr:(Compose r1 r2)
-  | ?X =>
-    let n := lookup X env in
-    constr:(Morph _ _ n)
+  | ?F =>
+    let n := lookup F fs in
+    match type of F with
+    | ?X ~> ?Y =>
+      let x := lookup X xs in
+      let y := lookup Y xs in
+      constr:(Morph x y n)
+    end
   end.
 
-Ltac observe n f xs k1 k2 :=
+Ltac objects_function xs :=
+  let rec loop n xs' :=
+    match xs' with
+    | (?x, tt) => constr:(fun _ : N => x)
+    | (?x, ?xs'') =>
+      let f := loop (N.succ n) xs'' in
+      constr:(fun m : N => if m =? n then x else f m)
+    end in
+  loop 0 xs.
+
+Ltac observe n f xs objs k :=
   match type of f with
   | ?X ~> ?Y =>
-    let xs'  := addToList X xs in
-    let xs'' := addToList Y xs' in
-    let xn   := lookup X xs'' in
-    let yn   := lookup Y xs'' in
-    constr:(
-      (fun x : N =>
-         if x =? xn then X else if x =? yn then Y else k1 x,
-       fun i x y : N =>
-         if i =? n
-         then (if x =? xn && y =? yn then Some f else None)
-         else k2 i x y))
+    let xn := lookup X xs in
+    let yn := lookup Y xs in
+    constr:(fun i x y : N =>
+      if i =? n
+      then (match N.eq_dec xn x, N.eq_dec yn y with
+            | left Hx, left Hy =>
+              @Some (objs x ~> objs y)
+                    (eq_rect yn (fun y => objs x ~> objs y)
+                       (eq_rect xn (fun x => objs x ~> objs yn) f x Hx) y Hy)
+            | _, _ => @None (objs x ~> objs y)
+            end)
+      else k i x y)
   end.
 
-Ltac functionalize fs xs :=
+Ltac arrows_function fs xs objs :=
   let rec loop n fs' :=
     match fs' with
-    | (?x, tt) => observe n x xs (fun x : N => x) (fun _ _ _ : N => @None _)
-    | (?x, ?fs'') =>
-      let f := loop (N.succ n) fs'' in
-      match f with (?f1, ?f2) => observe n x xs f1 f2 end
+    | (?f, tt) =>
+      observe n f xs objs (fun _ x y : N => @None (objs x ~> objs y))
+    | (?f, ?fs'') =>
+      let k := loop (N.succ n) fs'' in
+      observe n f xs objs k
     end in
   loop 0 fs.
 
-Ltac reify :=
+Ltac categorical :=
   match goal with
   | [ |- ?S ≈ ?T ] =>
-    let fs  := allVars tt S in
-    let fs' := allVars fs T in
-    (* let r1  := reifyTerm xs' S in *)
-    (* let r2  := reifyTerm xs' T in *)
-    let arrs := functionalize fs' in
-    pose arrs
-    (* pose r1; *)
-    (* pose r2; *)
-    (* pose objs; *)
-    (* pose arrs(* ; *) *)
-    (* change (eval r1 objs arrs ≈ eval r2 objs arrs) *)
+    let env := allVars tt tt S in
+    match env with
+      (?fs, ?xs) =>
+      let env := allVars fs xs T in
+      match env with
+        (?fs, ?xs) =>
+        pose xs;
+        pose fs;
+        let r1  := reifyTerm fs xs S in
+        let r2  := reifyTerm fs xs T in
+        pose r1;
+        pose r2;
+        let objs := objects_function xs in
+        let arrs := arrows_function fs xs objs in
+        pose objs;
+        pose arrs;
+        change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈
+                denote _ objs arrs (TermDom r2) (TermCod r2) r2);
+        apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1)
+                               r1 (normalize r1) r2 (normalize r2)
+                               eq_refl eq_refl);
+        simpl N.succ;
+        simpl normalize;
+        apply (@decision_correct _ objs arrs);
+        vm_compute;
+        auto
+      end
+    end
   end.
 
-Ltac categorical := reify; apply decision_correct; vm_compute; auto.
-
 Example sample_1 :
-  ∀ (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y),
-    f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h.
+  ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y),
+    f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  Fail reify.
-  Fail intros; categorical.
-Abort.
+  categorical.
+Qed.
 
-End Reduction.
+Print Assumptions sample_1.
