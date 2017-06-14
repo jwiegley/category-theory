@@ -686,6 +686,7 @@ Program Fixpoint check_equiv (p : Term * Term) dom cod {wf (R) p} : bool :=
       | Identity _  => false
       | Morph _ _ g => false
       | Compose h k =>
+        N.eqb (TermDom f) (TermCod g) &&&
         N.eqb (TermDom f) (TermDom h) &&&
         N.eqb (TermCod g) (TermCod k) &&&
         check_equiv (f, h) (TermDom f) (TermCod f) &&&
@@ -716,9 +717,14 @@ Ltac equalities :=
       destruct H
     | [ H : _ /\ _ |- _ ] =>
       destruct H
+    | [ H : _ ∧ _ |- _ ] =>
+      destruct H
     | [ H : (_ =? _) = true |- _ ] =>
       apply N.eqb_eq in H
-    end; subst.
+    end;
+  simpl TermDom in *;
+  simpl TermCod in *;
+  subst.
 
 Lemma check_equiv_dom_cod dom cod s t :
   check_equiv (s, t) dom cod = true ->
@@ -735,13 +741,22 @@ Qed.
 
 Lemma check_equiv_compose dom cod s1 s2 t1 t2 :
   check_equiv (Compose s1 s2, Compose t1 t2) dom cod = true ->
-  TermDom s1 = TermDom t1 ∧
-  TermCod s2 = TermCod t2 ∧
+  TermDom s1 = TermCod s2 ∧
+  TermDom t1 = TermCod t2 ∧
   check_equiv (s1, t1) (TermDom s1) cod = true ∧
-  check_equiv (s2, t2) dom (TermDom s2) = true.
+  check_equiv (s2, t2) dom (TermCod s2) = true.
 Proof.
   intros.
-Abort.
+  pose proof (check_equiv_dom_cod _ _ _ _ H).
+  Local Opaque TermDom.
+  Local Opaque TermCod.
+  compute in H.
+  Local Transparent TermDom.
+  Local Transparent TermCod.
+  equalities.
+  intuition idtac.
+  - congruence.
+Admitted.
 
 Local Opaque N.eqb.
 
@@ -754,6 +769,8 @@ Proof.
   Local Opaque TermDom.
   Local Opaque TermCod.
   generalize dependent t.
+  generalize dependent dom.
+  generalize dependent cod.
   induction s; intros.
   - destruct t; compute in H;
     equalities; try discriminate.
@@ -768,8 +785,46 @@ Proof.
   - destruct t.
     + compute in H; equalities; discriminate.
     + compute in H; equalities; discriminate.
-    + admit.
-Admitted.
+    + assert (∀ mid,
+              TermDom s1 = mid ->
+              TermDom t1 = mid ->
+              TermCod s2 = mid ->
+              TermCod t2 = mid ->
+              equiv (denote C objs arrs mid cod s1)
+                    (denote C objs arrs mid cod t1) ->
+              equiv (denote C objs arrs dom mid s2)
+                    (denote C objs arrs dom mid t2) ->
+              equiv (denote C objs arrs dom cod (Compose s1 s2))
+                    (denote C objs arrs dom cod (Compose t1 t2))).
+        clear; intros.
+        subst.
+        simpl in *.
+        rewrite !H2, !H1.
+        destruct (denote C objs arrs dom (TermDom s1) s2);
+        destruct (denote C objs arrs (TermDom s1) cod s1);
+        destruct (denote C objs arrs dom (TermDom s1) t2);
+        destruct (denote C objs arrs (TermDom s1) cod t1); auto.
+        rewrite X, X0; reflexivity.
+      pose proof (check_equiv_dom_cod _ _ _ _ H).
+      pose proof (check_equiv_compose _ _ _ _ _ _ H).
+      Local Opaque TermDom.
+      Local Opaque TermCod.
+      compute in H.
+      Local Transparent TermDom.
+      Local Transparent TermCod.
+      equalities.
+      eapply X.
+        apply e.
+        congruence.
+        congruence.
+        congruence.
+        apply IHs1.
+        rewrite <- e.
+        assumption.
+      apply IHs2; assumption.
+Qed.
+
+Print Assumptions check_equiv_sound.
 
 Example speed_test :
   check_equiv
