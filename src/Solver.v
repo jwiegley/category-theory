@@ -318,11 +318,31 @@ Fixpoint denote dom cod (e : Term) :
 
 (* Define what it means for a Term to be valid within a given context. *)
 Fixpoint Valid dom cod (e : Term) : Type :=
+  TermDom e = dom ∧
+  TermCod e = cod ∧
   match e with
   | Identity x  => dom = cod ∧ dom = x
   | Morph x y f => dom = x ∧ cod = y ∧ ∃ f', arrs f x y = Some f'
   | Compose f g => Valid (TermCod g) cod f ∧ Valid dom (TermCod g) g
   end.
+
+Ltac equalities :=
+  repeat match goal with
+    | [ H : (_ &&& _) = true |- _ ] =>
+      rewrite <- andb_lazy_alt in H
+    | [ H : (_ && _) = true |- _ ] =>
+      apply andb_true_iff in H;
+      destruct H
+    | [ H : _ /\ _ |- _ ] =>
+      destruct H
+    | [ H : _ ∧ _ |- _ ] =>
+      destruct H
+    | [ H : (_ =? _) = true |- _ ] =>
+      apply N.eqb_eq in H
+    end;
+  simpl TermDom in *;
+  simpl TermCod in *;
+  subst.
 
 (* Valid terms are easily denoted. *)
 Definition denote_valid dom cod :
@@ -334,12 +354,113 @@ Proof.
   generalize dependent cod.
   induction x; simpl; intros.
   - destruct v; subst.
+    equalities.
     exact id.
-  - destruct v, p, s; subst.
+  - equalities.
+    destruct s.
     exact x.
-  - destruct v.
+  - equalities.
     exact (IHx1 _ _ v ∘ IHx2 _ _ v0).
 Defined.
+
+Program Fixpoint mkComposeValid x y z (a b : Term) :
+  Valid y z a -> Valid x y b -> ∃ t : Term, Valid x z t := fun Ha Hb =>
+  match a with
+  | Identity _ => (b; Hb)
+  | _ => match b with
+        | Identity _  => (a; Ha)
+        | Compose g h => (Compose (Compose a g) h; _)
+        | _ => (Compose a b; (_, (_, (Ha, Hb))))
+        end
+  end.
+Next Obligation.
+  subst; simpl in *.
+  now equalities.
+Defined.
+Next Obligation.
+  subst; simpl in *.
+  now equalities.
+Defined.
+Next Obligation.
+  subst; simpl in *.
+  equalities; intuition.
+  - destruct a; simpl in *; now equalities.
+  - destruct g; simpl in *; now equalities.
+  - destruct a; simpl in *; now equalities.
+Defined.
+Next Obligation.
+  subst; simpl in *.
+  destruct b; simpl in *; now equalities.
+Defined.
+Next Obligation.
+  subst; simpl in *.
+  destruct a; simpl in *; now equalities.
+Defined.
+Next Obligation.
+  subst; simpl in *.
+  destruct b; simpl in *; now equalities.
+Defined.
+Next Obligation.
+  subst; simpl in *.
+  destruct b; simpl in *; now equalities.
+Defined.
+Next Obligation.
+  subst; simpl in *.
+  destruct b; simpl in *; now equalities.
+Defined.
+
+Definition normalizeValid dom cod (p : Term) :
+  Valid dom cod p -> ∃ t : Term, Valid dom cod t.
+Proof.
+  intros.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction p; intros; simpl in X.
+  - exact (Identity n; X).
+  - exact (Morph n n0 n1; X).
+  - equalities.
+    destruct (IHp1 _ _ v)  as [f Hf].
+    destruct (IHp2 _ _ v0) as [g Hg].
+    exact (mkComposeValid _ (TermCod p2) _ f g Hf Hg).
+Defined.
+
+Theorem normalizeValid_sound_eq
+: ∀ p dom cod (H : Valid dom cod p) pV,
+    denote_valid dom cod (p; H) = pV ->
+    ∃ pV', pV ≈ pV' ∧ denote_valid dom cod (normalizeValid dom cod p H) = pV'.
+Proof.
+  induction p; intros.
+  - exists pV.
+    split; [reflexivity|].
+    simpl normalizeValid.
+    assumption.
+  - exists pV.
+    split; [reflexivity|].
+    simpl normalizeValid.
+    assumption.
+  - simpl in H.
+    equalities.
+    specialize (IHp1 (TermCod p2) _ v).
+    specialize (IHp2 _ (TermCod p2) v0).
+    destruct (IHp1 _ eq_refl).
+    destruct (IHp2 _ eq_refl).
+    equalities.
+Admitted.
+
+Theorem normalizeValid_apply dom cod : ∀ f g,
+  `1 (normalizeValid dom cod (`1 f) (`2 f)) =
+  `1 (normalizeValid dom cod (`1 g) (`2 g)) ->
+  denote_valid dom cod f ≈ denote_valid dom cod g.
+Proof.
+  generalize dependent dom.
+  generalize dependent cod.
+  intros.
+  destruct f, g; simpl in H.
+  generalize dependent dom.
+  generalize dependent cod.
+  generalize dependent x0.
+  induction x; intros.
+Admitted.
 
 End denote.
 
@@ -1152,6 +1273,35 @@ Ltac reifyTerm fs xs t :=
     end
   end.
 
+Ltac reifyValidTerm fs xs t objs arrs :=
+  match t with
+  | @id _ ?X =>
+    let x := lookup X xs in
+    constr:(existT (Valid _ objs arrs x x)
+                   (Identity x) (eq_refl, (eq_refl, (eq_refl, eq_refl))))
+  | ?X1 ∘ ?X2 =>
+    let r1 := reifyValidTerm fs xs X1 objs arrs in
+    match r1 with
+      (?r1_1; ?r1_2) =>
+      let r2 := reifyValidTerm fs xs X2 objs arrs in
+      match r2 with
+        (?r2_1; ?r2_2) =>
+        constr:(existT (Valid _ objs arrs (TermDom r2_1) (TermCod r1_1))
+                       (Compose r1_1 r2_1)
+                       (eq_refl, (eq_refl, (r1_2, r2_2))))
+      end
+    end
+  | ?F =>
+    let n := lookup F fs in
+    match type of F with
+    | ?X ~> ?Y =>
+      let x := lookup X xs in
+      let y := lookup Y xs in
+      constr:(existT (Valid _ objs arrs x y) (Morph x y n)
+                     (eq_refl, (eq_refl, (eq_refl, (eq_refl, (F; eq_refl))))))
+    end
+  end.
+
 Ltac objects_function xs :=
   let rec loop n xs' :=
     match xs' with
@@ -1182,6 +1332,8 @@ Ltac observe n f xs objs k :=
 Ltac arrows_function fs xs objs :=
   let rec loop n fs' :=
     match fs' with
+    | tt =>
+      constr:(fun _ x y : N => @None (objs x ~> objs y))
     | (?f, tt) =>
       observe n f xs objs (fun _ x y : N => @None (objs x ~> objs y))
     | (?f, ?fs'') =>
@@ -1201,27 +1353,36 @@ Ltac categorical :=
         (?fs, ?xs) =>
         pose xs;
         pose fs;
-        let r1  := reifyTerm fs xs S in
-        let r2  := reifyTerm fs xs T in
-        pose r1;
-        pose r2;
         let objs := objects_function xs in
         let arrs := arrows_function fs xs objs in
         pose objs;
         pose arrs;
-        change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈
-                denote _ objs arrs (TermDom r2) (TermCod r2) r2);
-        (* apply (normalize_apply_eq _ objs arrs (TermDom r1) (TermCod r1) *)
+        let r1  := reifyTerm fs xs S in
+        let r2  := reifyTerm fs xs T in
+        pose r1;
+        pose r2;
+        let r1'  := reifyValidTerm fs xs S objs arrs in
+        let r2'  := reifyValidTerm fs xs T objs arrs in
+        pose r1';
+        pose r2';
+        change (denote_valid _ objs arrs (TermDom (`1 r1')) (TermCod (`1 r1')) r1' ≈
+                denote_valid _ objs arrs (TermDom (`1 r2')) (TermCod (`1 r2')) r2');
+        apply (normalizeValid_apply
+                 _ objs arrs (TermDom (`1 r1')) (TermCod (`1 r1'))
+                 r1' r2')(* ; *)
+        (* change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈ *)
+        (*         denote _ objs arrs (TermDom r2) (TermCod r2) r2); *)
+        (* (* apply (normalize_apply_eq _ objs arrs (TermDom r1) (TermCod r1) *) *)
+        (* (*                        r1 (normalize r1) r2 (normalize r2) *) *)
+        (* (*                        eq_refl eq_refl); *) *)
+        (* apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1) *)
         (*                        r1 (normalize r1) r2 (normalize r2) *)
         (*                        eq_refl eq_refl); *)
-        apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1)
-                               r1 (normalize r1) r2 (normalize r2)
-                               eq_refl eq_refl);
-        simpl N.succ;
-        simpl normalize;
-        apply (@decision_correct _ objs arrs);
-        vm_compute;
-        auto
+        (* simpl N.succ; *)
+        (* simpl normalize; *)
+        (* apply (@decision_correct _ objs arrs); *)
+        (* vm_compute; *)
+        (* auto *)
       end
     end
   end.
@@ -1231,7 +1392,9 @@ Example sample_1 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  categorical.
+  Time categorical.
+  vm_compute.
+  reflexivity.
 Qed.
 
 Print Assumptions sample_1.
