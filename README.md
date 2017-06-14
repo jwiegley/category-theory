@@ -19,7 +19,15 @@ experience.
 
 The goal of this solver is to reify the above equivalence in terms of its
 fundamental operations, and then, using what we know about the laws of
-category theory, to simply compute the equivalence down to an equation on
-indices between two reduced terms. This is called computational reflections,
-and encode the fact that all we're really trying to establish is that each
-side of the equivalence ultimately refers to the same morphism.
+category theory, to compute the equivalence down to an equation on indices
+between the reduced terms. This is called *computational reflection*, and
+encodes the fact that our solution only depends on the categorical structure
+of the terms, and not their type.
+
+That is, an incorrectly-built structure will simply fail to solve; but since
+we're reflecting over well-typed expressions to build the structure we pass to
+the solver, combined with a proof of soundness for that solver, we can know
+that solvable, well-typed, terms always give correct solutions. In this way,
+we transfer the problem to a domain without types, only indices, solve the
+structural problem there, and then bring the solution back to the domain of
+full types by way of the soundness proof.
