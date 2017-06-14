@@ -389,7 +389,7 @@ Proof.
     simpl in X1.
     destruct (N.eq_dec n (TermCod g)); subst.
       destruct (denote C objs arrs x (TermCod g) g).
-Admitted.
+Abort.
 
 Definition mkCompose (a b : Term) : Term :=
   match a with
@@ -420,7 +420,7 @@ Proof.
   intros.
   destruct f.
   - destruct (Identity_dom_cod X); subst; clear X.
-Admitted.
+Abort.
 
 Lemma denote_Dom_Cod_eq : ∀ f dom cod f',
   denote C objs arrs dom cod f = Some f' ->
@@ -741,75 +741,35 @@ Lemma check_equiv_compose dom cod s1 s2 t1 t2 :
   check_equiv (s2, t2) dom (TermDom s2) = true.
 Proof.
   intros.
-Admitted.
+Abort.
 
 Local Opaque N.eqb.
 
-Program Fixpoint check_equiv_sound_fix C objs arrs dom cod
-        (p : Term ∧ Term) {wf (R) p} :
-  check_equiv p dom cod = true
-    -> Equiv C objs arrs dom cod (fst p) (snd p) := fun H =>
-  match p with
-    (s, t) =>
-    match s, t with
-    | Identity x,  Identity y  => _
-    | Morph x y f, Morph z w g => _
-    | Compose f g, Compose h k => _
-    | _, _ => False_rect _ _
-    end
-  end.
-Next Obligation.
-  unfold Equiv; subst.
-  simpl fst; simpl snd.
-  compute in H.
-  equalities.
-  reflexivity.
-Qed.
-Next Obligation.
-  unfold Equiv; subst.
-  simpl fst; simpl snd.
-  compute in H.
-  equalities.
-  reflexivity.
-Qed.
-Next Obligation.
-  unfold Equiv; subst.
-  simpl fst; simpl snd.
-  apply check_equiv_compose in H.
-  intuition.
-  pose proof (check_equiv_dom_cod _ _ _ _ a1).
-  pose proof (check_equiv_dom_cod _ _ _ _ b).
-  destruct H, p, p.
-  destruct H0, p, p.
-  assert (R (f, h) (Compose f g, Compose h k)).
-    constructor; constructor.
-  assert (R (g, k) (Compose f g, Compose h k)).
-    constructor; constructor.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-  apply measure_wf.
-  apply wf_symprod2.
-  apply Subterm_wf.
-Defined.
-
-Corollary check_equiv_sound C objs arrs dom cod (s t : Term) :
+Theorem check_equiv_sound C objs arrs dom cod (s t : Term) :
   check_equiv (s, t) dom cod = true
     -> Equiv C objs arrs dom cod s t.
-Proof. apply check_equiv_sound_fix. Defined.
+Proof.
+  unfold Equiv.
+  Local Opaque N.eqb.
+  Local Opaque TermDom.
+  Local Opaque TermCod.
+  generalize dependent t.
+  induction s; intros.
+  - destruct t; compute in H;
+    equalities; try discriminate.
+    Local Transparent TermDom.
+    Local Transparent TermCod.
+    reflexivity.
+  - destruct t; compute in H;
+    equalities; try discriminate.
+    Local Transparent TermDom.
+    Local Transparent TermCod.
+    reflexivity.
+  - destruct t.
+    + compute in H; equalities; discriminate.
+    + compute in H; equalities; discriminate.
+    + admit.
+Admitted.
 
 Example speed_test :
   check_equiv
