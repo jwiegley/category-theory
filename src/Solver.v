@@ -210,7 +210,7 @@ Section Symmetric_Product2.
     inversion_clear H5; auto with sets.
     apply IHAcc; auto.
     apply Acc_intro; trivial.
-  Qed.
+  Defined.
 
   Lemma wf_symprod2 :
     well_founded leA -> well_founded symprod2.
@@ -244,13 +244,6 @@ Program Fixpoint eval (C : Category) (dom cod : obj_idx) (e : Term)
       end
     end.
 
-Program Definition Equiv (p : Term * Term) : Type :=
-  ∀ (C : Category) objs arrs dom cod f Hdom Hcod,
-    eval C dom cod (fst p) objs arrs Hdom Hcod = Some f
-      -> ∃ g Hdom' Hcod', eval C dom cod (snd p) objs arrs Hdom' Hcod' = Some g
-           ∧ f ≈ g.
-Arguments Equiv _ /.
-
 Definition R := symprod2 Term Subterm.
 Arguments R /.
 
@@ -260,6 +253,80 @@ Set Transparent Obligations.
 
 Local Obligation Tactic := intros; try discriminate.
 
+Section denote.
+
+Variable (C : Category).
+Variable (objs : obj_idx -> C).
+Variable (arrs : arr_idx -> ∀ a b : obj_idx, option (objs a ~> objs b)).
+
+Fixpoint denote_infer dom (e : Term) :
+  option { cod : _ & objs dom ~> objs cod } :=
+  match e with
+  | Identity t =>
+    match N.eq_dec t dom with
+    | left pf_dom =>
+      Some (t; match pf_dom with
+               | eq_refl => @id C (objs t)
+               end)
+    | _ => None
+    end
+  | Morph dom' cod' n =>
+    match N.eq_dec dom' dom, arrs n dom' cod' with
+    | left pf_dom, Some arr =>
+      Some (cod'; match pf_dom with
+                  | eq_refl => arr
+                  end)
+    | _ , _ => None
+    end
+  | Compose g f =>
+    match denote_infer dom f with
+    | Some (t'; farr) =>
+      match denote_infer t' g with
+      | Some (t''; garr) =>
+        Some (t''; (garr ∘ farr))
+      | _ => None
+      end
+    | _ => None
+    end
+  end.
+
+Fixpoint denote dom cod (e : Term) :
+  option (objs dom ~> objs cod) :=
+  match e with
+  | Identity t =>
+    match N.eq_dec t dom, N.eq_dec t cod with
+    | left pf_dom, left pf_cod =>
+      Some (match pf_dom, pf_cod with
+            | eq_refl, eq_refl => @id C (objs t)
+            end)
+    | _ , _ => None
+    end
+  | Morph dom' cod' n =>
+    match N.eq_dec dom' dom, N.eq_dec cod' cod, arrs n dom' cod' with
+    | left pf_dom, left pf_cod, Some arr =>
+      Some (match pf_dom, pf_cod with
+            | eq_refl, eq_refl => arr
+            end)
+    | _, _, _ => None
+    end
+  | Compose g f =>
+    match denote dom (TermCod f) f, denote _ cod g with
+    | Some farr, Some garr => Some (garr ∘ farr)
+    | _ , _ => None
+    end
+  end.
+
+End denote.
+
+Definition Equiv (a b : Term) : Type :=
+  ∀ C objs arrs dom cod,
+    match @denote C objs arrs dom cod a,
+          @denote C objs arrs dom cod b with
+    | Some aV, Some bV => aV ≈ bV
+    | _ , _ => False
+    end.
+Arguments Equiv _ /.
+
 Section Reduction.
 
 Context {C : Category}.
@@ -267,154 +334,270 @@ Context {C : Category}.
 Variable (objs : obj_idx -> C).
 Variable (arrs : arr_idx -> ∀ x y : obj_idx, option (objs x ~> objs y)).
 
-Definition Compose' (a b : Term) : Term :=
-  match a, b with
-  | Identity _, g => g
-  | f, Identity _ => f
-  | Compose f g, Compose h k => Compose (Compose (Compose f g) h) k
-  | _, _ => Compose a b
-  end.
-
-Lemma Identity_dom_cod dom cod x f Hdom Hcod :
-  eval C dom cod (Identity x) objs arrs Hdom Hcod = Some f
+Lemma Identity_dom_cod {dom cod x f'} :
+  denote C objs arrs dom cod (Identity x) ≈ Some f'
     -> dom = cod ∧ dom = x.
 Proof.
   intros.
-  inversion Hdom.
-  inversion Hcod.
-  subst; intuition.
-Qed.
+  simpl in X.
+  destruct (N.eq_dec x dom);
+  destruct (N.eq_dec x cod); subst; tauto.
+Defined.
 
-Theorem eval_dom cod f (Hdom : TermDom f = TermDom f) Hcod :
-  eval C (TermDom f) cod f objs arrs Hdom Hcod =
-  eval C (TermDom f) cod f objs arrs eq_refl Hcod.
+Lemma Identity_denote x f' :
+  denote C objs arrs x x (Identity x) ≈ Some f' ->
+  f' ≈ @id C (objs x).
 Proof.
-  replace Hdom with (@eq_refl _ (TermDom f)).
+  simpl.
+  rewrite Neq_dec_refl.
+  intros.
+  rewrite <- X.
+  reflexivity.
+Defined.
+
+Lemma Morph_dom_cod {dom cod x y f f'} :
+  denote C objs arrs dom cod (Morph x y f) ≈ Some f'
+    -> dom = x ∧ cod = y.
+Proof.
+  intros.
+  simpl in X.
+  destruct (N.eq_dec x dom);
+  destruct (N.eq_dec y cod); subst; tauto.
+Defined.
+
+Lemma Compose_denote x y z f g f' g' fg' :
+  denote C objs arrs y z f ≈ Some f' ->
+  denote C objs arrs x y g ≈ Some g' ->
+  denote C objs arrs x z (Compose f g) ≈ Some fg' ->
+  fg' ≈ f' ∘ g'.
+Proof.
+  intros.
+  destruct f.
+  - destruct (Identity_dom_cod X); subst.
+    apply Identity_denote in X.
+    simpl in X1.
+    destruct (N.eq_dec n (TermCod g)); subst.
+      destruct (denote C objs arrs x (TermCod g) g).
+Admitted.
+
+Definition mkCompose (a b : Term) : Term :=
+  match a with
+  | Identity _ => b
+  | _ => match b with
+        | Identity _ => a
+        | Compose g h => Compose (Compose a g) h
+        | _ => Compose a b
+        end
+  end.
+
+Ltac forward_reason :=
+  repeat match goal with
+  | |- context[match ?X with left _ => _ | right _ => None end = Some _] =>
+    destruct X; [| solve [ inversion 1 | inversion 2 ] ]
+  | |- context[match ?X with Some _ => _ | None => None end = Some _] =>
+    destruct X; [| solve [ inversion 1 | inversion 2 ] ]
+  | |- context[match ?X with left _ => _ | right _ => None end = Some _] =>
+    destruct X; [| solve [ inversion 1 | inversion 2 ] ]
+  end.
+
+Lemma Compose_dom_cod {dom mid cod f g f' g' fg'} :
+  denote C objs arrs mid cod f ≈ Some f' ->
+  denote C objs arrs dom mid g ≈ Some g' ->
+  denote C objs arrs dom cod (Compose f g) ≈ Some fg'
+    -> dom = TermDom g ∧ cod = TermCod f.
+Proof.
+  intros.
+  destruct f.
+  - destruct (Identity_dom_cod X); subst; clear X.
+Admitted.
+
+Lemma denote_Dom_Cod : ∀ f dom cod f',
+  denote C objs arrs dom cod f ≈ Some f' ->
+  TermDom f = dom /\ TermCod f = cod.
+Proof.
+  induction f; intros dom cod; simpl.
+  - destruct (N.eq_dec n dom);
+    destruct (N.eq_dec n cod);
+    subst; intuition.
+  - destruct (N.eq_dec n dom);
+    destruct (N.eq_dec n0 cod);
+    subst; intuition.
+  - specialize (IHf2 dom (TermCod f2)).
+    specialize (IHf1 (TermCod f2) cod).
+    destruct (denote C objs arrs dom (TermCod f2) f2); [|tauto].
+    destruct (IHf2 h); [reflexivity|]; subst.
+    destruct (denote C objs arrs (TermCod f2) cod f1); [|tauto].
+    destruct (IHf1 h0); [reflexivity|]; subst.
+    intros; intuition.
+Defined.
+
+Lemma mkCompose_sound_lem :
+  ∀ (x y z : obj_idx)
+    (f : Term) (f' : objs y ~> objs z)
+    (g : Term) (g' : objs x ~> objs y),
+    denote C objs arrs y z f ≈ Some f' ->
+    denote C objs arrs x y g ≈ Some g' ->
+    ∃ fg' : objs x ~{ C }~> objs z,
+      equiv (f' ∘ g') fg' ∧
+      denote C objs arrs x z (match g with
+                              | Identity _ => f
+                              | Morph _ _ _ => Compose f g
+                              | Compose _ _ => Compose f g
+                              end) ≈ Some fg'.
+Proof.
+  intros ?????.
+  destruct g.
+  - destruct (denote _ _ _ _ _ _) eqn:Heqe; [|inversion 1].
+    eexists.
+    destruct (Identity_dom_cod X0); subst.
+    rewrite Heqe.
+    esplit.
+      reflexivity.
+    rewrite X.
+    unfold equiv; simpl.
+    apply Identity_denote in X0.
+    rewrite X0.
+    rewrite id_right.
     reflexivity.
-  apply (Eqdep_dec.UIP_dec N.eq_dec).
-Qed.
+  - generalize dependent (Morph n n0 n1).
+    simpl; intros.
+    subst.
+    eexists; eexists.
+      reflexivity.
+    destruct (denote_Dom_Cod _ _ _ _ X).
+    destruct (denote_Dom_Cod _ _ _ _ X0).
+    subst.
+    rewrite H2; clear H2.
+    destruct (denote C objs arrs (TermDom t) (TermDom f) t); [|tauto].
+    destruct (denote C objs arrs (TermDom f) (TermCod f) f); [|tauto].
+    rewrite X, X0; reflexivity.
+  - generalize dependent (Compose g1 g2).
+    simpl; intros.
+    subst.
+    eexists; eexists.
+      reflexivity.
+    destruct (denote_Dom_Cod _ _ _ _ X).
+    destruct (denote_Dom_Cod _ _ _ _ X0).
+    subst.
+    rewrite H2; clear H2.
+    destruct (denote C objs arrs (TermDom t) (TermDom f) t); [|tauto].
+    destruct (denote C objs arrs (TermDom f) (TermCod f) f); [|tauto].
+    rewrite X, X0; reflexivity.
+Defined.
 
-Theorem eval_cod dom f Hdom (Hcod : TermCod f = TermCod f) :
-  eval C dom (TermCod f) f objs arrs Hdom Hcod =
-  eval C dom (TermCod f) f objs arrs Hdom eq_refl.
+Theorem denote_comp_assoc x y z w f g h
+        (f' : objs z ~> objs w)
+        (g' : objs y ~> objs z)
+        (h' : objs x ~> objs y)
+        (fg : objs x ~> objs z) :
+  denote C objs arrs x w (Compose f (Compose g h)) ≈
+  denote C objs arrs x w (Compose (Compose f g) h).
 Proof.
-  replace Hcod with (@eq_refl _ (TermCod f)).
+  simpl.
+  destruct (denote C objs arrs x (TermCod h) h);
+  destruct (denote C objs arrs (TermCod h) (TermCod g) g);
+  destruct (denote C objs arrs (TermCod g) w f); auto.
+  apply comp_assoc.
+Defined.
+
+Theorem mkCompose_sound : ∀ x y z f f' g g',
+  @denote C objs arrs y z f ≈ Some f' ->
+  @denote C objs arrs x y g ≈ Some g' ->
+  ∃ fg', f' ∘ g' ≈ fg' ∧ denote C objs arrs x z (mkCompose f g) ≈ Some fg'.
+Proof.
+  destruct f.
+  - intros.
+    pose proof (mkCompose_sound_lem x y z (Identity n) f' g g' X X0).
+    destruct X1 as [fg' [Heqv X1]].
+    eexists fg'.
+    eexists; eauto.
+    simpl mkCompose.
+    destruct (Identity_dom_cod X); subst.
+    apply Identity_denote in X.
+    rewrite X, id_left in Heqv.
+    rewrite X0.
+    unfold equiv; simpl.
+    assumption.
+  - intros.
+    pose proof (mkCompose_sound_lem x y z (Morph n n0 n1) f' g g' X X0).
+    destruct X1 as [fg' [Heqv X1]].
+    eexists fg'.
+    eexists; eauto.
+    destruct g; try eassumption.
+    rewrite <- (denote_comp_assoc x _ _ z (Morph n n0 n1) g1 g2 f' g' id g').
+    assumption.
+  - intros.
+    pose proof (mkCompose_sound_lem x y z (Compose f1 f2) f' g g' X X0).
+    destruct X1 as [fg' [Heqv X1]].
+    eexists fg'.
+    eexists; eauto.
+    destruct g; try eassumption.
+    simpl mkCompose.
+    rewrite <- (denote_comp_assoc x _ _ z _ g1 g2 f' g' id g').
+    assumption.
+Defined.
+
+(** I don't think this type is really what you want. The soundness of this
+ ** gallina program should be something like:
+ **
+ ** ∀ dom cod val,
+ **   eval' dom cod p = Some val ->
+ **   exists val', eval' dom cod t = Some val'
+ **           /\  val ≈ val'
+ **
+ ** This phrasing captures the fact that the function can assume the
+ ** input `Term` is well-typed, and must ensure that the output `Term`
+ ** is also well-typed. Without this, you end up needing to do a lot of
+ ** type-checking within your automation which is slow and gets in the
+ ** way. This is also the reason why you want to specify the denotation
+ ** function by passing in `dom` and `cod` rather than computing them.
+ **)
+
+Fixpoint normalize (p : Term) : Term :=
+  match p with
+  | Compose g f => mkCompose (normalize g) (normalize f)
+  | _ => p
+  end.
+
+Theorem normalize_sound : ∀ f dom cod f',
+  denote C objs arrs dom cod f = Some f' ->
+  ∃ g', f' ≈ g' ∧ denote C objs arrs dom cod (normalize f) ≈ Some g'.
+Proof.
+  induction f; simpl; intros.
+  - eexists; eexists.
+      reflexivity.
+    rewrite H.
     reflexivity.
-  apply (Eqdep_dec.UIP_dec N.eq_dec).
-Qed.
+  - eexists; eexists.
+      reflexivity.
+    rewrite H.
+    reflexivity.
+  - specialize (IHf1 (TermCod f2) cod).
+    specialize (IHf2 dom (TermCod f2)).
+    revert H.
+    forward_reason.
+    destruct (IHf1 _ eq_refl) as [ ? [ ? ? ] ]; clear IHf1.
+    specialize (IHf2 _ eq_refl) as [ ? [ ? ? ] ].
+    destruct (mkCompose_sound _ _ _ _ _ _ _ e0 e2) as [ ? [ ? ? ] ].
+    intros.
+    eexists.
+    inversion_clear H.
+    split.
+      rewrite e, e1, e3.
+      reflexivity.
+    assumption.
+Defined.
 
-Corollary eval_dom_cod
-        f (Hdom : TermDom f = TermDom f) (Hcod : TermCod f = TermCod f) :
-  eval C (TermDom f) (TermCod f) f objs arrs Hdom Hcod =
-  eval C (TermDom f) (TermCod f) f objs arrs eq_refl eq_refl.
-Proof. rewrite eval_dom, eval_cod; reflexivity. Qed.
+Eval vm_compute in normalize (Compose (Morph 0 0 0) (Identity 0)).
+Eval vm_compute in normalize (Compose (Morph 0 0 0) (Compose (Morph 0 0 0) (Identity 0))).
+Eval vm_compute in normalize (Compose (Morph 0 0 0) (Compose (Morph 0 0 0) (Morph 0 0 0))).
 
-Lemma Identity_eval x f Hdom Hcod :
-  eval C x x (Identity x) objs arrs Hdom Hcod = Some f ->
-  f ≈ @id C (objs x).
-Proof.
-  pose proof (eval_dom_cod (Identity x) Hdom Hcod).
-  simpl TermDom in H; simpl TermCod in H; rewrite H; clear H.
-  simpl; inversion_clear 1; reflexivity.
-Qed.
-
-Corollary Compose'_Identity_Left x g : Compose' (Identity x) g = g.
+Corollary Compose'_Identity_Left x g : mkCompose (Identity x) g = g.
 Proof. reflexivity. Qed.
 
 Lemma Compose'_Identity_Right f x :
-  TermDom f = x -> Compose' f (Identity x) = f.
+  TermDom f = x -> mkCompose f (Identity x) = f.
 Proof. destruct f; simpl; intros; subst; auto. Qed.
-
-Theorem Compose_eval dom mid cod a b :
-  ∀ f Hmid_f Hcod_f, eval C mid cod a objs arrs Hmid_f Hcod_f = Some f ->
-  ∀ g Hdom_g Hmid_g, eval C dom mid b objs arrs Hdom_g Hmid_g = Some g ->
-  ∀ fg Hdom_fg Hcod_fg,
-    eval C dom cod (Compose a b) objs arrs Hdom_fg Hcod_fg = Some fg ->
-  fg ≈ f ∘ g.
-Proof.
-  intros; subst;
-  destruct a, b;
-  simpl TermDom in *;
-  simpl TermCod in *; subst;
-  match goal with
-    [ H : eval _ ?N ?M (Compose ?F ?G) _ _ ?HD ?HC = Some ?FG |- _ ] =>
-    let Hdc := fresh "Hdc" in
-    pose proof (eval_dom_cod (Compose F G) HD HC) as Hdc;
-    simpl TermDom in Hdc; simpl TermCod in Hdc;
-    rewrite Hdc in H; clear Hdc
-  end.
-  - inversion_clear H.
-    inversion_clear H0.
-    simpl in H1.
-    rewrite Neq_dec_refl in H1.
-    inversion_clear H1.
-    cat.
-Admitted.
-
-Theorem Compose'_ok dom cod a b (val : objs dom ~{ C }~> objs cod) Hdom Hcod :
-  eval C dom cod (Compose a b) objs arrs Hdom Hcod = Some val
-    -> ∃ val' Hdom' Hcod',
-         eval C dom cod (Compose' a b) objs arrs Hdom' Hcod' = Some val'
-           ∧ val ≈ val'.
-Proof.
-  intros.
-  destruct a, b;
-  simpl TermDom in *;
-  simpl TermCod in *;
-  simpl Compose' in *; subst.
-  - simpl in H.
-    destruct (N.eq_dec cod dom); simpl in H.
-      destruct e; simpl in H.
-      exists id.
-      exists eq_refl.
-      exists eq_refl.
-      inversion_clear H.
-      simpl.
-      cat.
-    discriminate.
-  - admit.
-Admitted.
-
-Theorem Compose'_eval dom mid cod a b :
-  ∀ f Hmid_f Hcod_f, eval C mid cod a objs arrs Hmid_f Hcod_f = Some f ->
-  ∀ g Hdom_g Hmid_g, eval C dom mid b objs arrs Hdom_g Hmid_g = Some g ->
-  ∀ fg Hdom_fg Hcod_fg,
-    eval C dom cod (Compose' a b) objs arrs Hdom_fg Hcod_fg = Some fg ->
-  fg ≈ f ∘ g.
-Proof.
-  intros; subst;
-  destruct a, b;
-  simpl TermDom in *;
-  simpl TermCod in *; subst;
-  match goal with
-    [ H : eval _ ?N ?M (Compose' ?F ?G) _ _ ?HD ?HC = Some ?FG |- _ ] =>
-    let Hdc := fresh "Hdc" in
-    pose proof (eval_dom_cod (Compose' F G) HD HC) as Hdc;
-    simpl TermDom in Hdc; simpl TermCod in Hdc;
-    rewrite Hdc in H; clear Hdc
-  end;
-  simpl Compose' in *.
-  - inversion_clear H.
-    inversion_clear H0.
-    inversion_clear H1.
-    cat.
-  - inversion_clear H.
-    rewrite H0 in H1; inversion_clear H1.
-    cat.
-  - inversion_clear H.
-    rewrite H0 in H1; inversion_clear H1.
-    cat.
-  - inversion_clear H0.
-    rewrite H in H1; inversion_clear H1.
-    cat.
-  - eapply Compose_eval; eauto.
-  - eapply Compose_eval; eauto.
-  - inversion_clear H0.
-    rewrite H in H1; inversion_clear H1.
-    cat.
-  - eapply Compose_eval; eauto.
-  - admit.
-Admitted.
 
 Program Fixpoint check_equiv (p : Term * Term) {wf (R) p} : bool :=
   match p with (s, t) =>
@@ -448,42 +631,35 @@ Next Obligation.
   constructor; constructor.
 Defined.
 Next Obligation.
+  Transparent measure_wf.
   apply measure_wf.
   apply wf_symprod2.
   apply Subterm_wf.
 Defined.
 
-Theorem check_equiv_sound : ∀ p : Term * Term,
-  check_equiv p = true -> Equiv p.
+Theorem check_equiv_sound : ∀ s t : Term,
+  check_equiv (s, t) = true -> Equiv s t.
 Proof.
-  unfold check_equiv, Equiv; intros; subst.
-  destruct p as [s t]; simpl in *.
+  unfold check_equiv, Equiv;
+  intros; subst; simpl in *.
   induction s; simpl in *.
   - destruct t; simpl in *.
-    + inversion_clear H0.
-      exists id.
-      simpl in H.
-      (* jww (2017-06-13): check_equiv is not reducing yet *)
-      compute in H.
-      destruct (N.eq_dec n0 n); subst.
-        exists eq_refl.
-        exists eq_refl.
-        simpl; cat.
-      (* jww (2017-06-13): H should prove this branch for us. *)
-      admit.
+    + (* jww (2017-06-13): check_equiv is not reducing yet *)
+      destruct (N.eq_dec n dom); subst.
+      destruct (N.eq_dec dom cod); subst.
+      destruct (N.eq_dec n0 cod); subst.
+        reflexivity.
 Admitted.
 
-(*
-Example speed_test (C : Category) :
-  `1 (check_equiv
-      (`1 (simplify (Compose (Morph 2 3 0) (Compose (Morph 1 2 1) (Morph 0 1 2)))),
-       `1 (simplify (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))))) = true.
-Proof. reflexivity. Defined.
-*)
+Example speed_test :
+  check_equiv
+    (normalize (Compose (Morph 2 3 0) (Compose (Morph 1 2 1) (Morph 0 1 2))),
+     normalize (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))) = true.
+Proof. reflexivity. Qed.
 
 Definition decision_correct {t u : Term}
-        (Heq : check_equiv (t, u) = true) : Equiv (t, u) :=
-  check_equiv_sound (t, u) Heq.
+        (Heq : check_equiv (t, u) = true) : Equiv t u :=
+  check_equiv_sound t u Heq.
 
 Import ListNotations.
 
@@ -503,7 +679,7 @@ Ltac addToList x xs :=
 
 Ltac allVars xs e :=
   match e with
-  (* jww (2017-06-12): TODO *)
+  | id => xs
   | ?e1 ∘ ?e2 =>
     let xs := allVars xs e1 in
     allVars xs e2
@@ -512,49 +688,65 @@ Ltac allVars xs e :=
 
 Ltac lookup x xs :=
   match xs with
-  | (x, _) => O
+  | (x, _) => constr:(0)
   | (_, ?xs') =>
     let n := lookup x xs' in
-    constr:(S n)
+    constr:(N.succ n)
   end.
 
 Ltac reifyTerm env t :=
   match t with
-  (* jww (2017-06-12): TODO *)
+  | id =>
+    constr:(Identity _)
   | ?X1 ∘ ?X2 =>
     let r1 := reifyTerm env X1 in
     let r2 := reifyTerm env X2 in
     constr:(Compose r1 r2)
   | ?X =>
     let n := lookup X env in
-    constr:(Morph n)
+    constr:(Morph _ _ n)
   end.
 
-Ltac functionalize xs :=
-  let rec loop n xs' :=
-    match xs' with
-    | (?x, tt) => constr:(fun _ : nat => x)
-    | (?x, ?xs'') =>
-      let f := loop (S n) xs'' in
-      constr:(fun m : nat => if m =? n then x else f m)
+Ltac observe n f xs k1 k2 :=
+  match type of f with
+  | ?X ~> ?Y =>
+    let xs'  := addToList X xs in
+    let xs'' := addToList Y xs' in
+    let xn   := lookup X xs'' in
+    let yn   := lookup Y xs'' in
+    constr:(
+      (fun x : N =>
+         if x =? xn then X else if x =? yn then Y else k1 x,
+       fun i x y : N =>
+         if i =? n
+         then (if x =? xn && y =? yn then Some f else None)
+         else k2 i x y))
+  end.
+
+Ltac functionalize fs xs :=
+  let rec loop n fs' :=
+    match fs' with
+    | (?x, tt) => observe n x xs (fun x : N => x) (fun _ _ _ : N => @None _)
+    | (?x, ?fs'') =>
+      let f := loop (N.succ n) fs'' in
+      match f with (?f1, ?f2) => observe n x xs f1 f2 end
     end in
-  loop 0 xs.
+  loop 0 fs.
 
 Ltac reify :=
   match goal with
   | [ |- ?S ≈ ?T ] =>
-    let xs  := allVars tt S in
-    let xs' := allVars xs T in
-    let r1  := reifyTerm xs' S in
-    let r2  := reifyTerm xs' T in
-    let objs := functionalize xs' in
-    let arrs := functionalize xs' in
-    (* pose xs'; *)
-    (* pose env; *)
+    let fs  := allVars tt S in
+    let fs' := allVars fs T in
+    (* let r1  := reifyTerm xs' S in *)
+    (* let r2  := reifyTerm xs' T in *)
+    let arrs := functionalize fs' in
+    pose arrs
     (* pose r1; *)
     (* pose r2; *)
-    (* jww (2017-06-12): TODO *)
-    change (eval r1 objs arrs ≈ eval r2 objs arrs)
+    (* pose objs; *)
+    (* pose arrs(* ; *) *)
+    (* change (eval r1 objs arrs ≈ eval r2 objs arrs) *)
   end.
 
 Ltac categorical := reify; apply decision_correct; vm_compute; auto.
@@ -562,6 +754,10 @@ Ltac categorical := reify; apply decision_correct; vm_compute; auto.
 Example sample_1 :
   ∀ (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y),
     f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h.
-Proof. Fail intros; categorical. Abort.
+Proof.
+  intros.
+  Fail reify.
+  Fail intros; categorical.
+Abort.
 
 End Reduction.
