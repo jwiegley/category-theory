@@ -335,6 +335,16 @@ Proof.
   destruct (N.eq_dec x cod); subst; tauto.
 Defined.
 
+Lemma Identity_dom_cod_eq {dom cod x f'} :
+  denote C objs arrs dom cod (Identity x) = Some f'
+    -> dom = cod ∧ dom = x.
+Proof.
+  intros.
+  simpl in H.
+  destruct (N.eq_dec x dom);
+  destruct (N.eq_dec x cod); subst; intuition; discriminate.
+Defined.
+
 Lemma Identity_denote x f' :
   denote C objs arrs x x (Identity x) ≈ Some f' ->
   f' ≈ @id C (objs x).
@@ -354,6 +364,16 @@ Proof.
   simpl in X.
   destruct (N.eq_dec x dom);
   destruct (N.eq_dec y cod); subst; tauto.
+Defined.
+
+Lemma Morph_dom_cod_eq {dom cod x y f f'} :
+  denote C objs arrs dom cod (Morph x y f) = Some f'
+    -> dom = x ∧ cod = y.
+Proof.
+  intros.
+  simpl in H.
+  destruct (N.eq_dec x dom);
+  destruct (N.eq_dec y cod); subst; intuition; discriminate.
 Defined.
 
 Lemma Compose_denote x y z f g f' g' fg' :
@@ -401,6 +421,20 @@ Proof.
   destruct f.
   - destruct (Identity_dom_cod X); subst; clear X.
 Admitted.
+
+Lemma denote_Dom_Cod_eq : ∀ f dom cod f',
+  denote C objs arrs dom cod f = Some f' ->
+  TermDom f = dom /\ TermCod f = cod.
+Proof.
+  induction f; intros dom codom; simpl;
+  try solve [ forward_reason; auto ].
+  specialize (IHf2 dom (TermCod f2)).
+  specialize (IHf1 (TermCod f2) codom).
+  forward_reason.
+  destruct (IHf1 _ eq_refl).
+  destruct (IHf2 _ eq_refl).
+  tauto.
+Qed.
 
 Lemma denote_Dom_Cod : ∀ f dom cod f',
   denote C objs arrs dom cod f ≈ Some f' ->
@@ -630,26 +664,32 @@ Lemma Compose'_Identity_Right f x :
   TermDom f = x -> mkCompose f (Identity x) = f.
 Proof. destruct f; simpl; intros; subst; auto. Qed.
 
-Program Fixpoint check_equiv (p : Term * Term) {wf (R) p} : bool :=
+Program Fixpoint check_equiv (p : Term * Term) dom cod {wf (R) p} : bool :=
   match p with (s, t) =>
+    N.eqb (TermDom s) dom &&& N.eqb (TermDom t) dom &&&
+    N.eqb (TermCod s) cod &&& N.eqb (TermCod t) cod &&&
     match s with
     | Identity x =>
       match t with
       | Identity y  => N.eqb x y
-      | Morph _ _ g => false
+      | Morph x y g => false
       | Compose h k => false
       end
-    | Morph _ _ f =>
+    | Morph x y f =>
       match t with
       | Identity _  => false
-      | Morph _ _ g => N.eqb f g
+      | Morph z w g => N.eqb f g
       | Compose h k => false
       end
     | Compose f g =>
       match t with
       | Identity _  => false
       | Morph _ _ g => false
-      | Compose h k => check_equiv (f, h) &&& check_equiv (g, k)
+      | Compose h k =>
+        N.eqb (TermDom f) (TermDom h) &&&
+        N.eqb (TermCod g) (TermCod k) &&&
+        check_equiv (f, h) (TermDom f) (TermCod f) &&&
+        check_equiv (g, k) (TermDom g) (TermCod g)
       end
     end
   end.
@@ -662,37 +702,125 @@ Next Obligation.
   constructor; constructor.
 Defined.
 Next Obligation.
-  Transparent measure_wf.
   apply measure_wf.
   apply wf_symprod2.
   apply Subterm_wf.
 Defined.
 
-Theorem check_equiv_sound : ∀ (s t : Term) C objs arrs dom cod,
-  check_equiv (s, t) = true
-    -> Equiv C objs arrs dom cod s t.
+Ltac equalities :=
+  repeat match goal with
+    | [ H : (_ &&& _) = true |- _ ] =>
+      rewrite <- andb_lazy_alt in H
+    | [ H : (_ && _) = true |- _ ] =>
+      apply andb_true_iff in H;
+      destruct H
+    | [ H : _ /\ _ |- _ ] =>
+      destruct H
+    | [ H : (_ =? _) = true |- _ ] =>
+      apply N.eqb_eq in H
+    end; subst.
+
+Lemma check_equiv_dom_cod dom cod s t :
+  check_equiv (s, t) dom cod = true ->
+  TermDom s = dom ∧ TermDom t = dom ∧
+  TermCod s = cod ∧ TermCod t = cod.
 Proof.
-  unfold check_equiv, Equiv;
-  intros; subst; simpl in *.
-  induction s; simpl in *.
-  - destruct t; simpl in *.
-    + (* jww (2017-06-13): check_equiv is not reducing yet *)
-      destruct (N.eq_dec n dom); subst.
-      destruct (N.eq_dec dom cod); subst.
-      destruct (N.eq_dec n0 cod); subst.
-        reflexivity.
+  Local Opaque N.eqb.
+  intros.
+  destruct s, t; simpl in *;
+  compute in H;
+  equalities;
+  intuition.
+Qed.
+
+Lemma check_equiv_compose dom cod s1 s2 t1 t2 :
+  check_equiv (Compose s1 s2, Compose t1 t2) dom cod = true ->
+  TermDom s1 = TermDom t1 ∧
+  TermCod s2 = TermCod t2 ∧
+  check_equiv (s1, t1) (TermDom s1) cod = true ∧
+  check_equiv (s2, t2) dom (TermDom s2) = true.
+Proof.
+  intros.
 Admitted.
+
+Local Opaque N.eqb.
+
+Program Fixpoint check_equiv_sound_fix C objs arrs dom cod
+        (p : Term ∧ Term) {wf (R) p} :
+  check_equiv p dom cod = true
+    -> Equiv C objs arrs dom cod (fst p) (snd p) := fun H =>
+  match p with
+    (s, t) =>
+    match s, t with
+    | Identity x,  Identity y  => _
+    | Morph x y f, Morph z w g => _
+    | Compose f g, Compose h k => _
+    | _, _ => False_rect _ _
+    end
+  end.
+Next Obligation.
+  unfold Equiv; subst.
+  simpl fst; simpl snd.
+  compute in H.
+  equalities.
+  reflexivity.
+Qed.
+Next Obligation.
+  unfold Equiv; subst.
+  simpl fst; simpl snd.
+  compute in H.
+  equalities.
+  reflexivity.
+Qed.
+Next Obligation.
+  unfold Equiv; subst.
+  simpl fst; simpl snd.
+  apply check_equiv_compose in H.
+  intuition.
+  pose proof (check_equiv_dom_cod _ _ _ _ a1).
+  pose proof (check_equiv_dom_cod _ _ _ _ b).
+  destruct H, p, p.
+  destruct H0, p, p.
+  assert (R (f, h) (Compose f g, Compose h k)).
+    constructor; constructor.
+  assert (R (g, k) (Compose f g, Compose h k)).
+    constructor; constructor.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+  apply measure_wf.
+  apply wf_symprod2.
+  apply Subterm_wf.
+Defined.
+
+Corollary check_equiv_sound C objs arrs dom cod (s t : Term) :
+  check_equiv (s, t) dom cod = true
+    -> Equiv C objs arrs dom cod s t.
+Proof. apply check_equiv_sound_fix. Defined.
 
 Example speed_test :
   check_equiv
     (normalize (Compose (Morph 2 3 0) (Compose (Morph 1 2 1) (Morph 0 1 2))),
-     normalize (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))) = true.
+     normalize (Compose (Compose (Morph 2 3 0) (Morph 1 2 1)) (Morph 0 1 2))) 0 3 = true.
 Proof. reflexivity. Qed.
 
 Definition decision_correct C objs arrs dom cod {t u : Term}
-           (Heq : check_equiv (t, u) = true) :
+           (Heq : check_equiv (t, u) dom cod = true) :
   Equiv C objs arrs dom cod t u :=
-  check_equiv_sound t u C objs arrs dom cod Heq.
+  check_equiv_sound C objs arrs dom cod t u Heq.
 
 Import ListNotations.
 
