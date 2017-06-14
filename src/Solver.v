@@ -426,10 +426,10 @@ Lemma denote_Dom_Cod_eq : ∀ f dom cod f',
   denote C objs arrs dom cod f = Some f' ->
   TermDom f = dom /\ TermCod f = cod.
 Proof.
-  induction f; intros dom codom; simpl;
+  induction f; intros dom cod; simpl;
   try solve [ forward_reason; auto ].
   specialize (IHf2 dom (TermCod f2)).
-  specialize (IHf1 (TermCod f2) codom).
+  specialize (IHf1 (TermCod f2) cod).
   forward_reason.
   destruct (IHf1 _ eq_refl).
   destruct (IHf2 _ eq_refl).
@@ -454,6 +454,43 @@ Proof.
     destruct (denote C objs arrs (TermCod f2) cod f1); [|tauto].
     destruct (IHf1 h0); [reflexivity|]; subst.
     intros; intuition.
+Defined.
+
+Lemma mkCompose_sound_lem_eq :
+  ∀ (τ τ' τ'' : obj_idx) (f : Term) (fV : objs τ ~{ C }~> objs τ') (t : Term)
+    (gV : objs τ' ~{ C }~> objs τ''),
+    denote C objs arrs τ τ' f = Some fV
+    → denote C objs arrs τ' τ'' t = Some gV
+    → ∃ fgV : objs τ ~{ C }~> objs τ'',
+        {_ : equiv (gV ∘ fV) fgV |
+         denote C objs arrs τ τ''
+                match f with
+                | Identity _ => t
+                | Morph _ _ _ => Compose t f
+                | Compose _ _ => Compose t f
+                end = Some fgV}.
+Proof.
+  intros τ τ' τ'' f fV.
+  destruct f.
+  { simpl.
+    forward_reason.
+    inversion 1; subst.
+    intros.
+    eexists.
+    esplit; [ | eassumption ].
+    apply id_right. }
+  { generalize dependent (Morph n n0 n1).
+    simpl. intros.
+    destruct (denote_Dom_Cod_eq _ _ _ _ H).
+    destruct (denote_Dom_Cod_eq _ _ _ _ H0).
+    subst. rewrite H0. rewrite H.
+    eexists; eexists; auto. reflexivity. }
+  { generalize dependent (Compose f1 f2).
+    simpl. intros.
+    destruct (denote_Dom_Cod_eq _ _ _ _ H).
+    destruct (denote_Dom_Cod_eq _ _ _ _ H0).
+    subst. rewrite H0. rewrite H.
+    eexists; eexists; auto. reflexivity. }
 Defined.
 
 Lemma mkCompose_sound_lem :
@@ -510,20 +547,54 @@ Proof.
     rewrite X, X0; reflexivity.
 Defined.
 
-Theorem denote_comp_assoc x y z w f g h
-        (f' : objs z ~> objs w)
-        (g' : objs y ~> objs z)
-        (h' : objs x ~> objs y)
-        (fg : objs x ~> objs z) :
-  denote C objs arrs x w (Compose f (Compose g h)) ≈
-  denote C objs arrs x w (Compose (Compose f g) h).
+Theorem denote_comp_assoc x y f g h :
+  denote C objs arrs x y (Compose f (Compose g h)) ≈
+  denote C objs arrs x y (Compose (Compose f g) h).
 Proof.
   simpl.
   destruct (denote C objs arrs x (TermCod h) h);
   destruct (denote C objs arrs (TermCod h) (TermCod g) g);
-  destruct (denote C objs arrs (TermCod g) w f); auto.
+  destruct (denote C objs arrs (TermCod g) y f); auto.
   apply comp_assoc.
 Defined.
+
+Theorem mkCompose_sound_eq
+: forall τ τ' τ'' f fV g gV,
+    @denote C objs arrs τ τ' f = Some fV ->
+    @denote C objs arrs τ' τ'' g = Some gV ->
+    { fgV : _ & { pf : gV ∘ fV ≈ fgV | @denote C objs arrs τ τ'' (mkCompose g f) = Some fgV } }.
+Proof.
+  destruct g.
+  - simpl.
+    forward_reason.
+    inversion 2; subst. exists fV.
+    exists (@id_left _ _ _ _). assumption.
+  - intros.
+    pose proof (mkCompose_sound_lem_eq τ τ' τ'' f fV (Morph n n0 n1) gV H H0).
+    destruct X as [fg' [Heqv X]].
+    eexists fg'.
+    eexists; eauto.
+    destruct f; try eassumption.
+    simpl.
+    destruct (Morph_dom_cod_eq H0); subst.
+    simpl in *.
+    destruct (denote C objs arrs τ (TermCod f2) f2); auto.
+    destruct (denote C objs arrs (TermCod f2) (TermCod f1) f1); auto.
+    destruct (N.eq_dec n (TermCod f1)); auto.
+    rewrite Neq_dec_refl in *.
+    subst.
+    destruct (arrs n1 (TermCod f1) n0); auto.
+    rewrite Neq_dec_refl in *.
+Admitted.
+
+Theorem mkCompose_no_exists_sound_eq : ∀ x y z f g,
+  denote C objs arrs y z f = None ->
+  denote C objs arrs x y g = None ->
+  denote C objs arrs x z (mkCompose f g) = None.
+Proof.
+  intros.
+  destruct f, g; simpl mkCompose.
+Abort.
 
 Theorem mkCompose_sound : ∀ x y z f f' g g',
   @denote C objs arrs y z f ≈ Some f' ->
@@ -549,7 +620,7 @@ Proof.
     eexists fg'.
     eexists; eauto.
     destruct g; try eassumption.
-    rewrite <- (denote_comp_assoc x _ _ z (Morph n n0 n1) g1 g2 f' g' id g').
+    rewrite <- (denote_comp_assoc x z (Morph n n0 n1) g1 g2).
     assumption.
   - intros.
     pose proof (mkCompose_sound_lem x y z (Compose f1 f2) f' g g' X X0).
@@ -558,7 +629,7 @@ Proof.
     eexists; eauto.
     destruct g; try eassumption.
     simpl mkCompose.
-    rewrite <- (denote_comp_assoc x _ _ z _ g1 g2 f' g' id g').
+    rewrite <- (denote_comp_assoc x z _ g1 g2).
     assumption.
 Defined.
 
@@ -583,7 +654,43 @@ Fixpoint normalize (p : Term) : Term :=
   | Compose g f => mkCompose (normalize g) (normalize f)
   | _ => p
   end.
-Arguments normalize _ /.
+
+Theorem normalize_sound_eq
+: forall p dom cod pV,
+    @denote C objs arrs dom cod p = Some pV ->
+    { pV' : _ & { pf : pV ≈ pV' | @denote C objs arrs dom cod (normalize p) = Some pV' } }.
+Proof.
+  induction p; simpl; intros.
+  { eexists; eexists; auto. reflexivity. assumption. }
+  { eexists; eexists; auto. reflexivity. assumption. }
+  { specialize (IHp1 (TermCod p2) cod).
+    specialize (IHp2 dom (TermCod p2)).
+    revert H. forward_reason.
+    destruct (IHp1 _ eq_refl) as [ ? [ ? ? ] ]; clear IHp1.
+    specialize (IHp2 _ eq_refl) as [ ? [ ? ? ] ].
+    destruct (mkCompose_sound_eq _ _ _ _ _ _ _ e0 e) as [ ? [ ? ? ] ].
+    intros.
+    eexists.
+    split; [ | eassumption ].
+    inversion H. subst.
+    clear - x4 x2 x0.
+    etransitivity; [ | eassumption ].
+    eapply compose_respects; assumption. }
+Defined.
+
+Theorem normalize_sound_no_exist_eq
+: forall p dom cod,
+    @denote C objs arrs dom cod p = None ->
+    @denote C objs arrs dom cod (normalize p) = None.
+Proof.
+  induction p; intros; auto.
+  specialize (IHp1 (TermCod p2) cod).
+  specialize (IHp2 dom (TermCod p2)).
+  simpl in H.
+  destruct (denote C objs arrs dom (TermCod p2) p2);
+  destruct (denote C objs arrs (TermCod p2) cod p1);
+  try discriminate; intuition idtac.
+Abort.
 
 Theorem normalize_sound : ∀ f dom cod f',
   denote C objs arrs dom cod f ≈ Some f' ->
@@ -627,6 +734,19 @@ Eval vm_compute in normalize (Compose (Morph 0 0 0) (Compose (Morph 0 0 0) (Iden
 Eval vm_compute in normalize (Compose (Morph 0 0 0) (Compose (Morph 0 0 0) (Morph 0 0 0))).
 
 End Reduction.
+
+Theorem normalize_apply_eq C objs arrs dom cod : ∀ f f' g g',
+  normalize f = f' ->
+  normalize g = g' ->
+  denote C objs arrs dom cod f' = denote C objs arrs dom cod g' ->
+  denote C objs arrs dom cod f  ≈ denote C objs arrs dom cod g.
+Proof.
+  intros; subst.
+  induction f.
+  - simpl normalize in H1.
+    rewrite H1; clear H1.
+    destruct g; simpl normalize; try reflexivity.
+Abort.
 
 Theorem normalize_apply C objs arrs dom cod : ∀ f f' g g',
   normalize f = f' ->
@@ -959,6 +1079,9 @@ Ltac categorical :=
         pose arrs;
         change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈
                 denote _ objs arrs (TermDom r2) (TermCod r2) r2);
+        (* apply (normalize_apply_eq _ objs arrs (TermDom r1) (TermCod r1) *)
+        (*                        r1 (normalize r1) r2 (normalize r2) *)
+        (*                        eq_refl eq_refl); *)
         apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1)
                                r1 (normalize r1) r2 (normalize r2)
                                eq_refl eq_refl);
