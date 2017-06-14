@@ -1,11 +1,12 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
 
 Require Import Coq.Structures.DecidableTypeEx.
 Require Import Coq.FSets.FMapFacts.
 Require Import Category.Lib.FMapExt.
+Require Import Coq.Arith.PeanoNat.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -281,8 +282,6 @@ Program Definition ThreeArrows : Metacategory := {|
 
 Definition Three : Category := FromArrows ThreeArrows.
 
-Require Import Coq.Arith.PeanoNat.
-
 Definition cardinality (M : Metacategory) : nat :=
   M.cardinal (P.filter (fun '(dom, cod) v =>
                           ((dom =? v)%nat && (cod =? v)%nat)%bool)
@@ -394,8 +393,6 @@ Qed.
 
 (* Definition objects_of (M : Metacategory) : *)
 (*   ∀ P : nat → Type, P 0%nat → (∀ n : nat, P n → P (S n)) → ∀ n : nat, P n *)
-
-Require Import Category.Theory.Functor.
 
 Local Obligation Tactic := program_simpl.
 
