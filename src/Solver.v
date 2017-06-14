@@ -96,7 +96,7 @@ Open Scope N_scope.
 
 Set Decidable Equality Schemes.
 
-Inductive Term : Type :=
+Inductive Term : Set :=
   | Identity : N -> Term
   | Morph    : N -> N -> N -> Term
   | Compose  : Term -> Term -> Term.
@@ -316,6 +316,31 @@ Fixpoint denote dom cod (e : Term) :
     end
   end.
 
+(* Define what it means for a Term to be valid within a given context. *)
+Fixpoint Valid dom cod (e : Term) : Type :=
+  match e with
+  | Identity x  => dom = cod ∧ dom = x
+  | Morph x y f => dom = x ∧ cod = y ∧ ∃ f', arrs f x y = Some f'
+  | Compose f g => Valid (TermCod g) cod f ∧ Valid dom (TermCod g) g
+  end.
+
+(* Valid terms are easily denoted. *)
+Definition denote_valid dom cod :
+  (∃ e : Term, Valid dom cod e) -> objs dom ~> objs cod.
+Proof.
+  intros.
+  destruct X.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction x; simpl; intros.
+  - destruct v; subst.
+    exact id.
+  - destruct v, p, s; subst.
+    exact x.
+  - destruct v.
+    exact (IHx1 _ _ v ∘ IHx2 _ _ v0).
+Defined.
+
 End denote.
 
 Section Reduction.
@@ -376,20 +401,39 @@ Proof.
   destruct (N.eq_dec y cod); subst; intuition; discriminate.
 Defined.
 
-Lemma Compose_denote x y z f g f' g' fg' :
-  denote C objs arrs y z f ≈ Some f' ->
-  denote C objs arrs x y g ≈ Some g' ->
-  denote C objs arrs x z (Compose f g) ≈ Some fg' ->
-  fg' ≈ f' ∘ g'.
+Lemma Compose_denote_eq x y z f g f' g' :
+  y = TermCod g ->
+  denote C objs arrs y z f = Some f' ->
+  denote C objs arrs x y g = Some g' ->
+  denote C objs arrs x z (Compose f g) = Some (f' ∘ g').
 Proof.
   intros.
-  destruct f.
-  - destruct (Identity_dom_cod X); subst.
-    apply Identity_denote in X.
-    simpl in X1.
-    destruct (N.eq_dec n (TermCod g)); subst.
-      destruct (denote C objs arrs x (TermCod g) g).
-Abort.
+  induction f.
+  - destruct (Identity_dom_cod_eq H0); subst.
+    simpl in H0.
+    rewrite Neq_dec_refl in H0.
+    inversion_clear H0.
+    simpl.
+    rewrite H1.
+    rewrite Neq_dec_refl.
+    reflexivity.
+  - destruct (Morph_dom_cod_eq H0); subst.
+    simpl in H0.
+    rewrite !Neq_dec_refl in H0.
+    simpl.
+    rewrite H1.
+    rewrite !Neq_dec_refl.
+    destruct (arrs n1 (TermCod g) n0); try discriminate.
+    inversion_clear H0.
+    reflexivity.
+  - subst.
+    simpl in *.
+    rewrite H1.
+    destruct (denote C objs arrs (TermCod g) (TermCod f2) f2);
+    destruct (denote C objs arrs (TermCod f2) z f1); try discriminate.
+    inversion_clear H0.
+    reflexivity.
+Qed.
 
 Definition mkCompose (a b : Term) : Term :=
   match a with
@@ -559,7 +603,7 @@ Proof.
 Defined.
 
 Theorem mkCompose_sound_eq
-: forall τ τ' τ'' f fV g gV,
+: ∀ τ τ' τ'' f fV g gV,
     @denote C objs arrs τ τ' f = Some fV ->
     @denote C objs arrs τ' τ'' g = Some gV ->
     { fgV : _ & { pf : gV ∘ fV ≈ fgV | @denote C objs arrs τ τ'' (mkCompose g f) = Some fgV } }.
@@ -649,6 +693,86 @@ Defined.
  ** function by passing in `dom` and `cod` rather than computing them.
  **)
 
+Inductive Arrow : Set :=
+  | Arr : N -> N -> N -> Arrow.
+
+Record ArrowList (dom cod : obj_idx) := {
+  arrows : list Arrow;
+  dom_cod :
+    match arrows with
+    | nil => dom = cod
+    | cons (Arr x y f) xs =>
+      cod = y /\ dom = match last xs (Arr x y f) with
+                       | Arr x y f => x
+                       end
+    end
+}.
+
+Arguments arrows {_ _} _.
+Arguments dom_cod {_ _} _.
+
+Program Definition ArrowListAppend `(xs : ArrowList y z) `(ys : ArrowList x y) :
+  ArrowList x z := {| arrows := arrows xs ++ arrows ys |}.
+Next Obligation.
+Admitted.
+
+Program Fixpoint normalize_arrows (p : Term) : option (ArrowList (TermDom p) (TermCod p)) :=
+  match p with
+  | Identity x  => Some {| arrows := [] |}
+  | Morph x y f => Some {| arrows := [Arr x y f] |}
+  | Compose f g =>
+    match N.eq_dec (TermCod g) (TermDom f) with
+    | left _  =>
+      match normalize_arrows f, normalize_arrows g with
+      | Some f, Some g => Some (ArrowListAppend f g)
+      | _, _ => None
+      end
+    | right _ => None
+    end
+  end.
+Next Obligation. reflexivity. Defined.
+Next Obligation. split; reflexivity. Defined.
+Next Obligation. assumption. Defined.
+Next Obligation.
+  unfold wildcard'0; intuition.
+  discriminate.
+Defined.
+Next Obligation.
+  unfold wildcard'0; intuition.
+  discriminate.
+Defined.
+
+(* The list [f; g; h] maps to [f ∘ g ∘ h]. *)
+(*
+Program Fixpoint normalize_denote `(xs : ArrowList x y) :
+  option (objs x ~> objs y) :=
+  match xs with
+    {| arrows := xs; dom_cod := H |} =>
+    match xs with
+    | nil => Some (@id C (objs x))
+    | cons (Arr x y f) nil => _ (arrs f x y)
+    | cons (Arr x y f) xs =>
+      match _ (arrs f x y) with
+      | Some f =>
+        match normalize_denote {| arrows := xs |} with
+        | Some g => Some (f ∘ g)
+        | _ => None
+        end
+      | None => None
+      end
+    end
+  end.
+Next Obligation. subst; subst; reflexivity. Defined.
+Next Obligation. subst; destruct H; subst; simpl; assumption. Defined.
+Next Obligation. subst; destruct H; subst. exact x. Defined.
+Next Obligation.
+  unfold normalize_denote_obligation_3; simpl.
+  unfold eq_rec, eq_rect; simpl.
+  destruct Heq_xs, H; subst.
+  assumption.
+Defined.
+*)
+
 Fixpoint normalize (p : Term) : Term :=
   match p with
   | Compose g f => mkCompose (normalize g) (normalize f)
@@ -656,7 +780,7 @@ Fixpoint normalize (p : Term) : Term :=
   end.
 
 Theorem normalize_sound_eq
-: forall p dom cod pV,
+: ∀ p dom cod pV,
     @denote C objs arrs dom cod p = Some pV ->
     { pV' : _ & { pf : pV ≈ pV' | @denote C objs arrs dom cod (normalize p) = Some pV' } }.
 Proof.
@@ -679,7 +803,7 @@ Proof.
 Defined.
 
 Theorem normalize_sound_no_exist_eq
-: forall p dom cod,
+: ∀ p dom cod,
     @denote C objs arrs dom cod p = None ->
     @denote C objs arrs dom cod (normalize p) = None.
 Proof.
@@ -735,17 +859,25 @@ Eval vm_compute in normalize (Compose (Morph 0 0 0) (Compose (Morph 0 0 0) (Morp
 
 End Reduction.
 
+Theorem normalize_apply_identity_eq C objs arrs : ∀ f x,
+  normalize f = Identity x ->
+  denote C objs arrs x x f ≈ Some (@id C (objs x)).
+Proof.
+  intros.
+  induction f; simpl normalize in H; try discriminate.
+  - rewrite H; simpl.
+    rewrite Neq_dec_refl.
+    reflexivity.
+Admitted.
+
 Theorem normalize_apply_eq C objs arrs dom cod : ∀ f f' g g',
   normalize f = f' ->
   normalize g = g' ->
-  denote C objs arrs dom cod f' = denote C objs arrs dom cod g' ->
-  denote C objs arrs dom cod f  ≈ denote C objs arrs dom cod g.
+  f' = g' ->
+  denote C objs arrs dom cod f ≈ denote C objs arrs dom cod g.
 Proof.
   intros; subst.
-  induction f.
-  - simpl normalize in H1.
-    rewrite H1; clear H1.
-    destruct g; simpl normalize; try reflexivity.
+  induction f; simpl normalize in H1.
 Abort.
 
 Theorem normalize_apply C objs arrs dom cod : ∀ f f' g g',
