@@ -135,6 +135,19 @@ Inductive ArrowList : Set :=
   | IdentityOnly : N -> ArrowList
   | ArrowChain   : Arrow -> list Arrow -> ArrowList.
 
+Lemma ArrowList_list_rect : ∀ (P : ArrowList → Type),
+  P Invalid →
+  (∀ (x : N), P (IdentityOnly x)) →
+  (∀ (a : Arrow), P (ArrowChain a [])) →
+  (∀ (a1 a2 : Arrow) (l : list Arrow), P (ArrowChain a2 l) → P (ArrowChain a1 (a2 :: l))) →
+  ∀ l : ArrowList, P l.
+Proof.
+  intros.
+  destruct l; auto.
+  generalize dependent a.
+  induction l; auto.
+Qed.
+
 Definition ArrowList_cod (xs : ArrowList) : option obj_idx :=
   match xs with
   | Invalid => None
@@ -462,8 +475,39 @@ Fixpoint normalize (p : Term) : ArrowList :=
   | Compose f g => ArrowList_append (normalize f) (normalize g)
   end.
 
+Fixpoint normalize_denote_chain dom cod (g : Arrow) (gs : list Arrow) {struct gs} :=
+  match g, gs with
+  | Arr x y h, nil =>
+    match arrs h x y with
+    | Some p =>
+      match N.eq_dec x dom, N.eq_dec y cod with
+      | left Hdom, left Hcod =>
+        Some (eq_rect y (fun z => objs dom ~> objs z)
+                      (eq_rect x (fun z => objs z ~> objs y)
+                               p dom Hdom) cod Hcod)
+      | _, _ => None
+      end
+    | _ => None
+    end
+  | Arr x y h, Arr z w j :: js =>
+    match arrs h x y with
+    | Some p =>
+      match N.eq_dec y cod with
+      | left Hcod =>
+        match normalize_denote_chain dom x (Arr z w j) js with
+        | Some q =>
+          Some (eq_rect y (fun y => objs dom ~> objs y)
+                        (p ∘ q) cod Hcod)
+        | _ => None
+        end
+      | _ => None
+      end
+    | _ => None
+    end
+  end.
+
 (* The list [f; g; h] maps to [f ∘ g ∘ h]. *)
-Fixpoint normalize_denote dom cod (xs : ArrowList) {struct xs} :
+Definition normalize_denote dom cod (xs : ArrowList) :
   option (objs dom ~> objs cod) :=
   match xs with
   | Invalid => None
@@ -475,38 +519,7 @@ Fixpoint normalize_denote dom cod (xs : ArrowList) {struct xs} :
                              (@id C (objs x)) dom Hdom) cod Hcod)
     | _, _ => None
     end
-  | ArrowChain f fs =>
-    let fix go cod' g gs :=
-        match g, gs with
-        | Arr x y h, nil =>
-          match arrs h x y with
-          | Some p =>
-            match N.eq_dec x dom, N.eq_dec y cod' with
-            | left Hdom, left Hcod =>
-              Some (eq_rect y (fun z => objs dom ~> objs z)
-                            (eq_rect x (fun z => objs z ~> objs y)
-                                     p dom Hdom) cod' Hcod)
-            | _, _ => None
-            end
-          | _ => None
-          end
-        | Arr x y h, Arr z w j :: js =>
-          match arrs h x y with
-          | Some p =>
-            match N.eq_dec y cod' with
-            | left Hcod =>
-              match go x (Arr z w j) js with
-              | Some q =>
-                Some (eq_rect y (fun y => objs dom ~> objs y)
-                              (p ∘ q) cod' Hcod)
-              | _ => None
-              end
-            | _ => None
-            end
-          | _ => None
-          end
-        end
-    in go cod f fs
+  | ArrowChain f fs => normalize_denote_chain dom cod f fs
   end.
 
 Lemma ArrowList_dom_sound dom p :
@@ -531,13 +544,11 @@ Proof.
     apply (ArrowList_append_cod_inv _ _ _ H).
 Qed.
 
-Theorem normalize_cod : ∀ p dom cod f,
-  normalize_denote dom cod (normalize p) = Some f -> TermCod p = cod.
+Theorem normalize_list_cod : ∀ p dom cod f,
+  normalize_denote dom cod p = Some f -> ArrowList_cod p = Some cod.
 Proof.
   intros.
-  enough (ArrowList_cod (normalize p) = Some cod).
-    now apply ArrowList_cod_sound.
-  destruct (normalize p).
+  destruct p.
   - discriminate.
   - simpl in H; equalities.
   - destruct l; intros.
@@ -552,34 +563,125 @@ Proof.
     destruct (arrs n1 n n0); discriminate.
 Qed.
 
+Theorem normalize_cod : ∀ p dom cod f,
+  normalize_denote dom cod (normalize p) = Some f -> TermCod p = cod.
+Proof.
+  intros.
+  apply normalize_list_cod in H.
+  now apply ArrowList_cod_sound.
+Qed.
+
 Local Obligation Tactic := intros; try solve [program_simpl | equalities].
+
+Theorem normalize_list_dom : ∀ p dom cod f,
+  normalize_denote dom cod p = Some f -> ArrowList_dom p = Some dom.
+Proof.
+  induction p using ArrowList_list_rect; intros.
+  - discriminate.
+  - simpl in H; equalities.
+  - simpl in *.
+    destruct a.
+    destruct (arrs n1 n n0); equalities.
+    discriminate.
+  - simpl in *.
+    destruct a1, a2.
+    destruct (arrs _ _ _); try discriminate.
+    revert H; equalities.
+    destruct (normalize_denote_chain dom n (Arr n2 n3 n4) l) eqn:Heqe; try discriminate.
+    rewrite <- (IHp _ _ _ Heqe); clear IHp.
+    induction l using rev_ind.
+      simpl in *.
+      destruct (arrs _ _ _); try discriminate.
+      revert H; equalities.
+    rewrite !last_rcons.
+    destruct l; auto.
+Qed.
 
 Theorem normalize_dom : ∀ p dom cod f,
   normalize_denote dom cod (normalize p) = Some f -> TermDom p = dom.
 Proof.
   intros.
-  enough (ArrowList_dom (normalize p) = Some dom).
-    now apply ArrowList_dom_sound.
-  destruct (normalize p).
-  - discriminate.
-  - simpl in H; equalities.
-  - destruct l using rev_ind; intros.
-      simpl in *.
-      destruct a.
-      destruct (arrs n1 n n0); equalities.
-      discriminate.
-    clear IHl.
-    destruct a, x.
-    simpl.
-    rewrite last_rcons.
-Admitted.
+  apply normalize_list_dom in H.
+  now apply ArrowList_dom_sound.
+Qed.
 
-Theorem normalize_compose : ∀ p2 p1 dom cod f,
-  normalize_denote dom cod (normalize (Compose p1 p2)) = Some f ->
-  ∃ g h, f ≈ g ∘ h ∧
-    normalize_denote (TermCod p2) cod (normalize p1) = Some g ∧
-    normalize_denote dom (TermCod p2) (normalize p2) = Some h.
+Theorem normalize_compose : ∀ x y dom cod f,
+  normalize_denote dom cod (ArrowList_append x y) = Some f ->
+  ∃ mid g h, f ≈ g ∘ h ∧
+    ArrowList_dom x = Some mid ∧
+    ArrowList_cod y = Some mid ∧
+    normalize_denote mid cod x = Some g ∧
+    normalize_denote dom mid y = Some h.
 Proof.
+  induction x using ArrowList_list_rect; intros.
+  - discriminate.
+  - destruct y; simpl in H.
+    + discriminate.
+    + revert H; equalities.
+      exists cod, id, id.
+      inversion_clear H.
+      split.
+        cat.
+      intuition;
+      rewrite Neq_dec_refl;
+      reflexivity.
+    + destruct a.
+      revert H; equalities.
+        exists n0, (@id C (objs n0)), f.
+        split.
+          cat.
+        intuition.
+        equalities.
+      admit.
+  - destruct y; simpl in H.
+    + discriminate.
+    + destruct a.
+      destruct (N.eq_dec n n0); subst.
+        rewrite N.eqb_refl in H.
+        simpl in H.
+        destruct (arrs _ _ _) eqn:Heqe.
+          revert H; equalities.
+          exists dom, f, (@id C (objs dom)).
+          split.
+            cat.
+          simpl in H.
+          rewrite Heqe.
+          intuition.
+            rewrite Neq_dec_refl.
+            assumption.
+          equalities.
+        discriminate.
+      revert H; equalities.
+    + destruct a0, a.
+      revert H; equalities.
+        destruct (arrs _ _ _); simpl in H.
+          destruct (normalize_denote_chain dom n2 (Arr n n2 n1) l) eqn:Heqe;
+          try discriminate.
+          exists n2, h, h0.
+          inversion_clear H.
+          split.
+            cat.
+          intuition.
+          equalities.
+        discriminate.
+      destruct (arrs _ _ _); discriminate.
+  - destruct y.
+    + discriminate.
+    + admit.
+    + destruct a.
+      revert H.
+      replace (ArrowList_append (ArrowChain a1 (a2 :: l)) (ArrowChain (Arr n n0 n1) l0))
+         with (ArrowList_append (ArrowList_append (ArrowChain a1 []) (ArrowChain a2 l)) (ArrowChain (Arr n n0 n1) l0)).
+        rewrite ArrowList_append_assoc.
+            rewrite ArrowList_append_chains.
+              rewrite ArrowList_append_chains.
+                admit.
+              admit.
+            admit.
+          admit.
+        admit.
+      rewrite ArrowList_append_chains; auto.
+      admit.
 Admitted.
 
 Theorem normalize_sound : ∀ p dom cod f,
@@ -597,15 +699,19 @@ Proof.
   - specialize (IHp1 (TermCod p2) cod).
     specialize (IHp2 dom (TermCod p2)).
     apply normalize_compose in H.
-    destruct H, s, p, p.
-    destruct (IHp1 _ e0), (IHp2 _ e1); clear IHp1 IHp2.
-    exists (x1 ∘ x2).
-    intuition.
-    simpl.
-      rewrite a, a0 in e.
-      apply e.
-    simpl.
-    rewrite b0, b.
+    fold @normalize in *.
+    destruct H, s, s.
+    equalities.
+    apply ArrowList_dom_sound in a.
+    apply ArrowList_cod_sound in a0.
+    subst.
+    rewrite a0 in *.
+    destruct (IHp1 x0), (IHp2 x1); clear IHp1 IHp2; intuition.
+    exists (x ∘ x2).
+    split.
+      rewrite e, a, a2.
+      reflexivity.
+    rewrite b1, b0.
     reflexivity.
 Qed.
 
