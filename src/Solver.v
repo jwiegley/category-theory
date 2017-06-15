@@ -817,111 +817,147 @@ Defined.
 Inductive Arrow : Set :=
   | Arr : N -> N -> N -> Arrow.
 
-Record ArrowList (dom cod : obj_idx) := {
-  arrows : list Arrow;
-  dom_cod :
-    match arrows with
-    | nil => dom = cod
-    | cons (Arr x y f) xs =>
-      cod = y /\ dom = match last xs (Arr x y f) with
-                       | Arr x y f => x
-                       end
-    end
-}.
-
-Arguments arrows {_ _} _.
-Arguments dom_cod {_ _} _.
-
-Program Definition ArrowListAppend `(xs : ArrowList y z) `(ys : ArrowList x y) :
-  ArrowList x z := {| arrows := arrows xs ++ arrows ys |}.
-Next Obligation.
-Admitted.
-
-Program Fixpoint normalize_arrows (p : Term) : option (ArrowList (TermDom p) (TermCod p)) :=
+Program Fixpoint normalize_arrows (p : Term) : list Arrow :=
   match p with
-  | Identity x  => Some {| arrows := [] |}
-  | Morph x y f => Some {| arrows := [Arr x y f] |}
-  | Compose f g =>
-    match N.eq_dec (TermCod g) (TermDom f) with
-    | left _  =>
-      match normalize_arrows f, normalize_arrows g with
-      | Some f, Some g => Some (ArrowListAppend f g)
-      | _, _ => None
-      end
-    | right _ => None
-    end
+  | Identity x  => []
+  | Morph x y f => [Arr x y f]
+  | Compose f g => normalize_arrows f ++ normalize_arrows g
   end.
-Next Obligation. reflexivity. Defined.
-Next Obligation. split; reflexivity. Defined.
-Next Obligation. assumption. Defined.
-Next Obligation.
-  unfold wildcard'0; intuition.
-  discriminate.
-Defined.
-Next Obligation.
-  unfold wildcard'0; intuition.
-  discriminate.
-Defined.
 
 (* The list [f; g; h] maps to [f ∘ g ∘ h]. *)
-(*
-Program Fixpoint normalize_denote `(xs : ArrowList x y) :
-  option (objs x ~> objs y) :=
+Fixpoint normalize_denote dom cod (xs : list Arrow) {struct xs} :
+  option (objs dom ~> objs cod) :=
   match xs with
-    {| arrows := xs; dom_cod := H |} =>
-    match xs with
-    | nil => Some (@id C (objs x))
-    | cons (Arr x y f) nil => _ (arrs f x y)
-    | cons (Arr x y f) xs =>
-      match _ (arrs f x y) with
+  | nil =>
+    match N.eq_dec dom cod with
+    | left H  => Some (eq_rect dom (fun x => objs dom ~> objs x)
+                               (@id C (objs dom)) cod H)
+    | right _ => None
+    end
+  | cons (Arr x y f) nil =>
+    match N.eq_dec x dom, N.eq_dec y cod with
+    | left Hx, left Hy =>
+      eq_rect y (fun y => option (objs dom ~> objs y))
+              (eq_rect x (fun x => option (objs x ~> objs y))
+                       (arrs f x y) dom Hx) cod Hy
+    | _, _ => None
+    end
+  | cons (Arr x y f) gs =>
+    match N.eq_dec y cod with
+    | left H =>
+      match arrs f x y with
       | Some f =>
-        match normalize_denote {| arrows := xs |} with
-        | Some g => Some (f ∘ g)
+        match normalize_denote dom x gs with
+        | Some g => Some (eq_rect y (fun y => objs dom ~> objs y)
+                                  (f ∘ g) cod H)
         | _ => None
         end
       | None => None
       end
+    | right _ => None
     end
   end.
-Next Obligation. subst; subst; reflexivity. Defined.
-Next Obligation. subst; destruct H; subst; simpl; assumption. Defined.
-Next Obligation. subst; destruct H; subst. exact x. Defined.
-Next Obligation.
-  unfold normalize_denote_obligation_3; simpl.
-  unfold eq_rec, eq_rect; simpl.
-  destruct Heq_xs, H; subst.
-  assumption.
-Defined.
-*)
+
+Goal ∀ x, normalize_denote x x [] = Some id.
+  intros; simpl.
+  rewrite Neq_dec_refl.
+  reflexivity.
+Qed.
+
+Goal ∀ x y f, normalize_denote x y [Arr x y f] = arrs f x y.
+  intros; simpl.
+  rewrite !Neq_dec_refl.
+  reflexivity.
+Qed.
+
+Goal ∀ x y z f g, normalize_denote x z [Arr y z f; Arr x y g] =
+                  match arrs f y z, arrs g x y with
+                  | Some f, Some g => Some (f ∘ g)
+                  | _, _ => None
+                  end.
+  intros; simpl.
+  rewrite !Neq_dec_refl.
+  destruct (arrs f y z); reflexivity.
+Qed.
+
+Theorem normalize_arrows_sound_eq
+: ∀ p dom cod pV,
+    denote C objs arrs dom cod p = Some pV ->
+    ∃ pV', pV ≈ pV' ∧ normalize_denote dom cod (normalize_arrows p) = Some pV'.
+Proof.
+  induction p; simpl; intros.
+  - exists pV.
+    split; [reflexivity|].
+    destruct (N.eq_dec _ _); subst;
+    destruct (N.eq_dec _ _); subst; auto.
+    discriminate.
+  - exists pV.
+    split; [reflexivity|].
+    repeat destruct (N.eq_dec _ _); subst; auto.
+    destruct (arrs n1 dom cod); auto.
+  - specialize (IHp1 (TermCod p2) cod).
+    specialize (IHp2 dom (TermCod p2)).
+    destruct (denote C objs arrs dom (TermCod p2) p2) eqn:Heqe1;
+    destruct (denote C objs arrs (TermCod p2) cod p1) eqn:Heqe2;
+    try discriminate.
+    destruct (IHp1 _ eq_refl); clear IHp1.
+    destruct (IHp2 _ eq_refl); clear IHp2.
+    destruct p, p0.
+    inversion_clear H.
+    exists (x ∘ x0); eexists; auto.
+      rewrite e, e1; reflexivity.
+    clear e e1.
+    simpl.
+Admitted.
+
+Theorem no_normalize dom cod : ∀ f,
+  denote C objs arrs dom cod f = None ->
+  normalize_denote dom cod (normalize_arrows f) = None.
+Proof.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction f; intros; subst;
+  simpl normalize_arrows;
+  simpl normalize_denote;
+  simpl in H.
+Admitted.
+
+Theorem normalize_arrows_apply dom cod : ∀ f g,
+  TermDom f = TermDom g ->
+  TermCod f = TermCod g ->
+  normalize_arrows f = normalize_arrows g ->
+  denote C objs arrs dom cod f ≈ denote C objs arrs dom cod g.
+Proof.
+  intros.
+  destruct (denote C objs arrs dom cod f) eqn:Heqe.
+    destruct (normalize_arrows_sound_eq _ _ _ _ Heqe), p.
+    destruct (denote C objs arrs dom cod g) eqn:Heqe2.
+      destruct (normalize_arrows_sound_eq _ _ _ _ Heqe2), p.
+      rewrite H1 in e0.
+      rewrite e0 in e2.
+      inversion e2.
+      subst.
+      red.
+      rewrite e, e1.
+      reflexivity.
+    rewrite H1 in e0; clear H1 Heqe e.
+    apply no_normalize in Heqe2.
+    rewrite e0 in Heqe2.
+    discriminate.
+  destruct (denote C objs arrs dom cod g) eqn:Heqe2.
+    destruct (normalize_arrows_sound_eq _ _ _ _ Heqe2), p.
+    rewrite <- H1 in e0; clear H1 Heqe2 e.
+    apply no_normalize in Heqe.
+    rewrite e0 in Heqe.
+    discriminate.
+  reflexivity.
+Qed.
 
 Fixpoint normalize (p : Term) : Term :=
   match p with
   | Compose g f => mkCompose (normalize g) (normalize f)
   | _ => p
   end.
-
-Theorem normalize_sound_eq
-: ∀ p dom cod pV,
-    @denote C objs arrs dom cod p = Some pV ->
-    { pV' : _ & { pf : pV ≈ pV' | @denote C objs arrs dom cod (normalize p) = Some pV' } }.
-Proof.
-  induction p; simpl; intros.
-  { eexists; eexists; auto. reflexivity. assumption. }
-  { eexists; eexists; auto. reflexivity. assumption. }
-  { specialize (IHp1 (TermCod p2) cod).
-    specialize (IHp2 dom (TermCod p2)).
-    revert H. forward_reason.
-    destruct (IHp1 _ eq_refl) as [ ? [ ? ? ] ]; clear IHp1.
-    specialize (IHp2 _ eq_refl) as [ ? [ ? ? ] ].
-    destruct (mkCompose_sound_eq _ _ _ _ _ _ _ e0 e) as [ ? [ ? ? ] ].
-    intros.
-    eexists.
-    split; [ | eassumption ].
-    inversion H. subst.
-    clear - x4 x2 x0.
-    etransitivity; [ | eassumption ].
-    eapply compose_respects; assumption. }
-Defined.
 
 Theorem normalize_sound_no_exist_eq
 : ∀ p dom cod,
@@ -955,6 +991,7 @@ Proof.
     revert X.
     subst.
 Admitted.
+
 (*
     simpl.
     destruct (denote C objs arrs dom (TermCod f2) f2).
@@ -1361,15 +1398,18 @@ Ltac categorical :=
         let r2  := reifyTerm fs xs T in
         pose r1;
         pose r2;
-        let r1'  := reifyValidTerm fs xs S objs arrs in
-        let r2'  := reifyValidTerm fs xs T objs arrs in
-        pose r1';
-        pose r2';
-        change (denote_valid _ objs arrs (TermDom (`1 r1')) (TermCod (`1 r1')) r1' ≈
-                denote_valid _ objs arrs (TermDom (`1 r2')) (TermCod (`1 r2')) r2');
-        apply (normalizeValid_apply
-                 _ objs arrs (TermDom (`1 r1')) (TermCod (`1 r1'))
-                 r1' r2')(* ; *)
+        (* let r1'  := reifyValidTerm fs xs S objs arrs in *)
+        (* let r2'  := reifyValidTerm fs xs T objs arrs in *)
+        (* pose r1'; *)
+        (* pose r2'; *)
+        change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈
+                denote _ objs arrs (TermDom r2) (TermCod r2) r2);
+        apply (normalize_arrows_apply
+                 objs arrs (TermDom r1) (TermCod r1)
+                 r1 r2 eq_refl eq_refl eq_refl)
+        (* apply (normalizeValid_apply *)
+        (*          _ objs arrs (TermDom (`1 r1')) (TermCod (`1 r1')) *)
+        (*          r1' r2')(* ; *) *)
         (* change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈ *)
         (*         denote _ objs arrs (TermDom r2) (TermCod r2) r2); *)
         (* (* apply (normalize_apply_eq _ objs arrs (TermDom r1) (TermCod r1) *) *)
@@ -1393,8 +1433,6 @@ Example sample_1 :
 Proof.
   intros.
   Time categorical.
-  vm_compute.
-  reflexivity.
 Qed.
 
 Print Assumptions sample_1.
