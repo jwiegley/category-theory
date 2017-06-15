@@ -38,7 +38,7 @@ Proof.
   destruct ys; auto.
 Qed.
 
-Lemma last_app_cons_impl A (x : A) y ys :
+Lemma last_cons A (x : A) y ys :
   last (y :: ys) x = last ys y.
 Proof.
   generalize dependent x.
@@ -283,7 +283,7 @@ Proof.
     destruct a.
     equalities.
     rewrite last_app_cons.
-    rewrite last_app_cons_impl.
+    rewrite last_cons.
     reflexivity.
 Qed.
 
@@ -416,13 +416,13 @@ Proof.
   - rewrite H, H0.
     equalities.
     rewrite last_app_cons.
-    rewrite last_app_cons_impl.
+    rewrite last_cons.
     rewrite H; equalities.
   - destruct a1.
     rewrite H; equalities.
     rewrite H0; equalities.
     rewrite last_app_cons.
-    rewrite last_app_cons_impl.
+    rewrite last_cons.
     rewrite H; equalities.
     rewrite <- app_assoc.
     rewrite app_comm_cons.
