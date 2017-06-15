@@ -294,6 +294,27 @@ Definition ArrowList_append (xs ys : ArrowList) : ArrowList :=
     end
   end.
 
+Lemma ArrowList_append_chains a a0 l l0 :
+  match last l a, a0 with
+  | Arr x y f, Arr z w g => w = x
+  end ->
+  ArrowList_append (ArrowChain a l) (ArrowChain a0 l0) =
+  ArrowChain a (l ++ a0 :: l0).
+Proof.
+  generalize dependent a0.
+  generalize dependent l0.
+  induction l using rev_ind; simpl; intros.
+    destruct a0, a.
+    subst.
+    rewrite N.eqb_refl.
+    reflexivity.
+  simpl in H.
+  destruct a0, a.
+  destruct (last (l ++ [x]) (Arr n2 n3 n4)); subst.
+  rewrite N.eqb_refl.
+  reflexivity.
+Qed.
+
 Fixpoint normalize (p : Term) : ArrowList :=
   match p with
   | Identity x  => IdentityOnly x
@@ -371,33 +392,44 @@ Goal ∀ x y z f g, normalize_denote x z (ArrowChain (Arr y z f) [Arr x y g]) =
   destruct (arrs g x y); auto.
 Qed.
 
+Theorem normalize_chain_rule a xs dom cod :
+  normalize_denote dom cod (ArrowChain a xs) = None ->
+  match a with Arr x y f => y ≠ cod end \/
+  let fix go h ys :=
+      match h with
+      | Arr x y f =>
+        arrs f x y = None \/
+        match ys with
+        | nil => x ≠ dom
+        | cons (Arr z w g) xs => w ≠ x \/ go (Arr z w g) xs
+        end
+      end in
+  go a xs.
+Proof.
+  generalize dependent dom.
+  generalize dependent cod.
+  generalize dependent a.
+  induction xs; intros.
+    destruct a; simpl in *.
+    destruct (arrs n1 n n0).
+      destruct (N.eq_dec n dom);
+      destruct (N.eq_dec n0 cod);
+      subst; intuition.
+    intuition.
+  simpl.
+  destruct a, a0.
+  destruct (arrs n4 n2 n3).
+    destruct (N.eq_dec n3 cod); subst.
+    simpl in H.
+    simpl in IHxs.
+Admitted.
+
 Theorem normalize_compose : ∀ p1 p2 dom cod f,
   normalize_denote dom cod (normalize (Compose p1 p2)) = Some f ->
   ∃ g h, f ≈ g ∘ h ∧
          normalize_denote (TermCod p2) cod (normalize p1) = Some g ∧
          normalize_denote dom (TermCod p2) (normalize p2) = Some h.
 Proof.
-  simpl.
-  induction p1; simpl; intros.
-  - destruct p2; simpl in *.
-    + destruct (N.eq_dec n n0); subst.
-        rewrite N.eqb_refl in H; simpl in H.
-        rewrite Neq_dec_refl in *; simpl in *.
-        destruct (N.eq_dec n0 dom); subst.
-        destruct (N.eq_dec dom cod); subst;
-        try discriminate.
-          exists id.
-          exists id.
-          inversion H; subst.
-          split; cat.
-        discriminate.
-      apply N.eqb_neq in n1.
-      rewrite n1 in H.
-      discriminate.
-    + admit.
-    + admit.
-  - admit.
-  - 
 Admitted.
 
 Lemma normalize_dom_cod : ∀ p dom cod f,
@@ -418,7 +450,6 @@ Proof.
     intuition; discriminate.
   - specialize (IHp1 (TermCod p2) cod).
     specialize (IHp2 dom (TermCod p2)).
-    simpl.
     apply normalize_compose in H.
     destruct H, s, p, p.
     destruct (IHp1 _ e0), (IHp2 _ e1);
@@ -442,6 +473,7 @@ Proof.
   - destruct (arrs n1 n n0);
     destruct (N.eq_dec n dom);
     destruct (N.eq_dec n0 cod); subst; auto.
+  - admit.
 Admitted.
 
 Theorem normalize_sound : ∀ p dom cod f,
