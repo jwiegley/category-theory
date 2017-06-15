@@ -66,6 +66,7 @@ Unset Universe Polymorphism.
 Open Scope N_scope.
 
 Set Decidable Equality Schemes.
+Set Boolean Equality Schemes.
 
 Inductive Term : Set :=
   | Identity : N -> Term
@@ -257,274 +258,276 @@ Qed.
 Inductive Arrow : Set :=
   | Arr : N -> N -> N -> Arrow.
 
-Program Fixpoint normalize (p : Term) : list Arrow :=
+Inductive ArrowList : Set :=
+  | Invalid
+  | IdentityOnly : N -> ArrowList
+  | ArrowChain   : Arrow -> list Arrow -> ArrowList.
+
+Fixpoint ArrowList_length (xs : ArrowList) : nat :=
+  match xs with
+  | Invalid => 0
+  | IdentityOnly _ => 1
+  | ArrowChain _ xs => 1 + length xs
+  end.
+
+Definition ArrowList_append (xs ys : ArrowList) : ArrowList :=
+  match xs, ys with
+  | Invalid, _ => Invalid
+  | _, Invalid => Invalid
+  | IdentityOnly f, IdentityOnly r =>
+    if f =? r then IdentityOnly f else Invalid
+  | IdentityOnly f, ArrowChain (Arr x y g) xs =>
+    if f =? y then ArrowChain (Arr x y g) xs else Invalid
+  | ArrowChain f xs, IdentityOnly g =>
+    match last xs f with
+    | Arr x y m =>
+      if g =? x
+      then ArrowChain f xs
+      else Invalid
+    end
+  | ArrowChain f xs, ArrowChain (Arr z w g) ys =>
+    match last xs f with
+    | Arr x y m =>
+      if w =? x
+      then ArrowChain f (xs ++ Arr z w g :: ys)
+      else Invalid
+    end
+  end.
+
+Fixpoint normalize (p : Term) : ArrowList :=
   match p with
-  | Identity x  => []
-  | Morph x y f => [Arr x y f]
-  | Compose f g => normalize f ++ normalize g
+  | Identity x  => IdentityOnly x
+  | Morph x y f => ArrowChain (Arr x y f) []
+  | Compose f g => ArrowList_append (normalize f) (normalize g)
   end.
 
 (* The list [f; g; h] maps to [f ∘ g ∘ h]. *)
-Fixpoint normalize_denote dom cod (xs : list Arrow) {struct xs} :
+Fixpoint normalize_denote dom cod (xs : ArrowList) {struct xs} :
   option (objs dom ~> objs cod) :=
   match xs with
-  | nil =>
-    match N.eq_dec dom cod with
-    | left H  => Some (eq_rect dom (fun x => objs dom ~> objs x)
-                               (@id C (objs dom)) cod H)
-    | right _ => None
-    end
-  | cons (Arr x y f) nil =>
-    match N.eq_dec x dom, N.eq_dec y cod with
-    | left Hx, left Hy =>
-      eq_rect y (fun y => option (objs dom ~> objs y))
-              (eq_rect x (fun x => option (objs x ~> objs y))
-                       (arrs f x y) dom Hx) cod Hy
+  | Invalid => None
+  | IdentityOnly x =>
+    match N.eq_dec x dom, N.eq_dec x cod with
+    | left Hdom, left Hcod =>
+      Some (eq_rect x (fun z => objs dom ~> objs z)
+                    (eq_rect x (fun z => objs z ~> objs x)
+                             (@id C (objs x)) dom Hdom) cod Hcod)
     | _, _ => None
     end
-  | cons (Arr x y f) gs =>
-    match N.eq_dec y cod with
-    | left H =>
-      match arrs f x y with
-      | Some f =>
-        match normalize_denote dom x gs with
-        | Some g => Some (eq_rect y (fun y => objs dom ~> objs y)
-                                  (f ∘ g) cod H)
-        | _ => None
+  | ArrowChain f fs =>
+    let fix go cod' g gs :=
+        match g, gs with
+        | Arr x y h, nil =>
+          match arrs h x y with
+          | Some p =>
+            match N.eq_dec x dom, N.eq_dec y cod' with
+            | left Hdom, left Hcod =>
+              Some (eq_rect y (fun z => objs dom ~> objs z)
+                            (eq_rect x (fun z => objs z ~> objs y)
+                                     p dom Hdom) cod' Hcod)
+            | _, _ => None
+            end
+          | _ => None
+          end
+        | Arr x y h, Arr z w j :: js =>
+          match arrs h x y with
+          | Some p =>
+            match N.eq_dec y cod' with
+            | left Hcod =>
+              match go x (Arr z w j) js with
+              | Some q =>
+                Some (eq_rect y (fun y => objs dom ~> objs y)
+                              (p ∘ q) cod' Hcod)
+              | _ => None
+              end
+            | _ => None
+            end
+          | _ => None
+          end
         end
-      | None => None
-      end
-    | right _ => None
-    end
+    in go cod f fs
   end.
 
-Goal ∀ x, normalize_denote x x [] = Some id.
+Goal ∀ x, normalize_denote x x (IdentityOnly x) = Some id.
   intros; simpl.
   rewrite Neq_dec_refl.
   reflexivity.
 Qed.
 
-Goal ∀ x y f, normalize_denote x y [Arr x y f] = arrs f x y.
+Goal ∀ x y f, normalize_denote x y (ArrowChain (Arr x y f) nil) = arrs f x y.
   intros; simpl.
   rewrite !Neq_dec_refl.
-  reflexivity.
+  destruct (arrs f x y); auto.
 Qed.
 
-Goal ∀ x y z f g, normalize_denote x z [Arr y z f; Arr x y g] =
+Goal ∀ x y z f g, normalize_denote x z (ArrowChain (Arr y z f) [Arr x y g]) =
                   match arrs f y z, arrs g x y with
                   | Some f, Some g => Some (f ∘ g)
                   | _, _ => None
                   end.
   intros; simpl.
   rewrite !Neq_dec_refl.
-  destruct (arrs f y z); reflexivity.
+  destruct (arrs f y z); auto.
+  destruct (arrs g x y); auto.
 Qed.
 
-Theorem normalize_sound : ∀ p dom cod pV,
-  denote dom cod p = Some pV ->
-  ∃ pV', pV ≈ pV' ∧ normalize_denote dom cod (normalize p) = Some pV'.
+Theorem normalize_compose : ∀ p1 p2 dom cod f,
+  normalize_denote dom cod (normalize (Compose p1 p2)) = Some f ->
+  ∃ g h, f ≈ g ∘ h ∧
+         normalize_denote (TermCod p2) cod (normalize p1) = Some g ∧
+         normalize_denote dom (TermCod p2) (normalize p2) = Some h.
 Proof.
-  induction p; simpl; intros.
-  - exists pV.
-    split; [reflexivity|].
-    destruct (N.eq_dec _ _); subst;
-    destruct (N.eq_dec _ _); subst; auto.
-    discriminate.
-  - exists pV.
-    split; [reflexivity|].
-    repeat destruct (N.eq_dec _ _); subst; auto.
-    destruct (arrs n1 dom cod); auto.
-  - specialize (IHp1 (TermCod p2) cod).
-    specialize (IHp2 dom (TermCod p2)).
-    destruct (denote dom (TermCod p2) p2) eqn:Heqe1;
-    destruct (denote (TermCod p2) cod p1) eqn:Heqe2;
-    try discriminate.
-    destruct (IHp1 _ eq_refl); clear IHp1.
-    destruct (IHp2 _ eq_refl); clear IHp2.
-    destruct p, p0.
-    inversion_clear H.
-    exists (x ∘ x0); eexists; auto.
-      rewrite e, e1; reflexivity.
-    clear e e1.
-    simpl.
+  simpl.
+  induction p1; simpl; intros.
+  - destruct p2; simpl in *.
+    + destruct (N.eq_dec n n0); subst.
+        rewrite N.eqb_refl in H; simpl in H.
+        rewrite Neq_dec_refl in *; simpl in *.
+        destruct (N.eq_dec n0 dom); subst.
+        destruct (N.eq_dec dom cod); subst;
+        try discriminate.
+          exists id.
+          exists id.
+          inversion H; subst.
+          split; cat.
+        discriminate.
+      apply N.eqb_neq in n1.
+      rewrite n1 in H.
+      discriminate.
+    + admit.
+    + admit.
+  - admit.
+  - 
 Admitted.
 
+Lemma normalize_dom_cod : ∀ p dom cod f,
+  normalize_denote dom cod (normalize p) = Some f ->
+  TermDom p = dom /\ TermCod p = cod.
+Proof.
+  induction p; intros.
+  - simpl in *.
+    destruct (N.eq_dec n cod); subst;
+    destruct (N.eq_dec cod dom); subst;
+    intuition; try discriminate;
+    destruct (N.eq_dec n dom); subst;
+    discriminate.
+  - simpl in *.
+    destruct (arrs n1 n n0); [|discriminate].
+    destruct (N.eq_dec n dom); subst;
+    destruct (N.eq_dec n0 cod); subst;
+    intuition; discriminate.
+  - specialize (IHp1 (TermCod p2) cod).
+    specialize (IHp2 dom (TermCod p2)).
+    simpl.
+    apply normalize_compose in H.
+    destruct H, s, p, p.
+    destruct (IHp1 _ e0), (IHp2 _ e1);
+    clear IHp1 IHp2; subst.
+    intuition.
+Qed.
+
+Theorem normalize_denote_none_inv : ∀ p dom cod,
+  normalize_denote dom cod (normalize p) = None ->
+  match p with
+  | Identity x  => dom ≠ cod \/ x ≠ dom
+  | Morph x y f => dom ≠ x \/ cod ≠ y \/ arrs f x y = None
+  | Compose f g =>
+    normalize_denote (TermCod g) cod (normalize f) = None \/
+    normalize_denote dom (TermCod g) (normalize g) = None
+  end.
+Proof.
+  induction p; simpl; intros.
+  - destruct (N.eq_dec n dom);
+    destruct (N.eq_dec n cod); subst; auto; discriminate.
+  - destruct (arrs n1 n n0);
+    destruct (N.eq_dec n dom);
+    destruct (N.eq_dec n0 cod); subst; auto.
+Admitted.
+
+Theorem normalize_sound : ∀ p dom cod f,
+  normalize_denote dom cod (normalize p) = Some f ->
+  ∃ f', f ≈ f' ∧ denote dom cod p = Some f'.
+Proof.
+  induction p; intros.
+  - simpl in *; exists f; subst.
+    split; [reflexivity|].
+    destruct (N.eq_dec n dom); subst;
+    destruct (N.eq_dec dom cod); subst; auto.
+  - simpl in *; exists f; subst.
+    split; [reflexivity|].
+    destruct (N.eq_dec n dom); subst;
+    destruct (N.eq_dec n0 cod); subst; auto.
+    + destruct (arrs n1 dom n0); auto.
+    + destruct (arrs n1 n cod); auto.
+    + destruct (arrs n1 n n0); auto.
+  - specialize (IHp1 (TermCod p2) cod).
+    specialize (IHp2 dom (TermCod p2)).
+    apply normalize_compose in H.
+    destruct H, s, p, p.
+    destruct (IHp1 _ e0), (IHp2 _ e1); clear IHp1 IHp2.
+    exists (x1 ∘ x2).
+    intuition.
+    simpl.
+      rewrite a, a0 in e.
+      apply e.
+    simpl.
+    rewrite b0, b.
+    reflexivity.
+Qed.
+
+Lemma normalize_complete : ∀ f dom cod,
+  normalize_denote dom cod (normalize f) = None ->
+  denote dom cod f = None.
+Proof.
+  induction f; intros.
+  - simpl in *.
+    destruct (N.eq_dec n dom); subst;
+    destruct (N.eq_dec dom cod); subst; auto.
+  - simpl in *.
+    destruct (N.eq_dec n dom); subst;
+    destruct (N.eq_dec n0 cod); subst; auto.
+  - specialize (IHf1 (TermCod f2) cod).
+    specialize (IHf2 dom (TermCod f2)).
+    simpl.
+    apply normalize_denote_none_inv in H.
+    destruct H.
+      rewrite (IHf1 H).
+      destruct (denote dom (TermCod f2) f2); reflexivity.
+    rewrite (IHf2 H).
+    destruct (denote dom (TermCod f2) f2); reflexivity.
+Qed.
+
+Corollary normalize_to_denote : ∀ dom cod f g,
+  normalize f = normalize g ->
+    normalize_denote dom cod (normalize f) =
+    normalize_denote dom cod (normalize g).
+Proof. intros; rewrite H; reflexivity. Qed.
+
 Theorem normalize_apply dom cod : ∀ f g,
-  TermDom f = TermDom g ->
+  TermDom f = dom ->
+  TermCod f = cod ->
+  TermDom g = dom ->
+  TermCod g = cod ->
   normalize f = normalize g ->
   denote dom cod f ≈ denote dom cod g.
 Proof.
   intros.
-  destruct (denote dom cod f) eqn:Heqe.
-    destruct (normalize_sound _ _ _ _ Heqe), p.
-    destruct (denote dom cod g) eqn:Heqe2.
-      destruct (normalize_sound _ _ _ _ Heqe2), p.
-      rewrite H0 in e0.
-      rewrite e0 in e2.
-      inversion e2.
-      subst.
+  apply (normalize_to_denote dom cod) in H3.
+  destruct (normalize_denote dom cod (normalize f)) eqn:Heqe.
+    destruct (normalize_sound _ dom cod _ Heqe), p.
+    destruct (normalize_denote dom cod (normalize g)) eqn:Heqe2.
+      destruct (normalize_sound _ dom cod _ Heqe2), p.
+      inversion H3; subst; clear H3.
+      rewrite e0, e2.
       red.
-      rewrite e, e1.
+      rewrite <- e, <- e1.
       reflexivity.
-    rewrite H0 in e0.
-    admit.
-  destruct (denote dom cod g) eqn:Heqe2.
-    destruct (normalize_sound _ _ _ _ Heqe2), p.
-    rewrite <- H0 in e0.
-    admit.
+    discriminate.
+  symmetry in H3.
+  rewrite (normalize_complete _ _ _ Heqe).
+  rewrite (normalize_complete _ _ _ H3).
   reflexivity.
-Admitted.
-
-Definition Equiv dom cod (a b : Term) : Type :=
-  denote dom cod a ≈ denote dom cod b.
-Arguments Equiv _ _ _ _ /.
-
-Program Fixpoint check_equiv (p : Term * Term) dom cod {wf (R) p} : bool :=
-  match p with (s, t) =>
-    N.eqb (TermDom s) dom &&& N.eqb (TermDom t) dom &&&
-    N.eqb (TermCod s) cod &&& N.eqb (TermCod t) cod &&&
-    match s with
-    | Identity x =>
-      match t with
-      | Identity y  => N.eqb x y
-      | Morph x y g => false
-      | Compose h k => false
-      end
-    | Morph x y f =>
-      match t with
-      | Identity _  => false
-      | Morph z w g => N.eqb f g
-      | Compose h k => false
-      end
-    | Compose f g =>
-      match t with
-      | Identity _  => false
-      | Morph _ _ g => false
-      | Compose h k =>
-        N.eqb (TermDom f) (TermCod g) &&&
-        N.eqb (TermDom f) (TermDom h) &&&
-        N.eqb (TermCod g) (TermCod k) &&&
-        check_equiv (f, h) (TermDom f) (TermCod f) &&&
-        check_equiv (g, k) (TermDom g) (TermCod g)
-      end
-    end
-  end.
-Next Obligation.
-  subst; simpl in *; clear.
-  constructor; constructor.
-Defined.
-Next Obligation.
-  subst; simpl in *; clear.
-  constructor; constructor.
-Defined.
-Next Obligation.
-  apply measure_wf.
-  apply wf_symprod2.
-  apply Subterm_wf.
-Defined.
-
-Lemma check_equiv_dom_cod dom cod s t :
-  check_equiv (s, t) dom cod = true ->
-  TermDom s = dom ∧ TermDom t = dom ∧
-  TermCod s = cod ∧ TermCod t = cod.
-Proof.
-  Local Opaque N.eqb.
-  intros.
-  destruct s, t; simpl in *;
-  compute in H;
-  equalities;
-  intuition.
 Qed.
-
-Lemma check_equiv_compose dom cod s1 s2 t1 t2 :
-  check_equiv (Compose s1 s2, Compose t1 t2) dom cod = true ->
-  TermDom s1 = TermCod s2 ∧
-  TermDom t1 = TermCod t2 ∧
-  check_equiv (s1, t1) (TermDom s1) cod = true ∧
-  check_equiv (s2, t2) dom (TermCod s2) = true.
-Proof.
-  intros.
-  pose proof (check_equiv_dom_cod _ _ _ _ H).
-  Local Opaque TermDom.
-  Local Opaque TermCod.
-  compute in H.
-  Local Transparent TermDom.
-  Local Transparent TermCod.
-  equalities.
-  intuition idtac.
-  - congruence.
-Admitted.
-
-Local Opaque N.eqb.
-
-Theorem check_equiv_sound dom cod (s t : Term) :
-  check_equiv (s, t) dom cod = true
-    -> Equiv dom cod s t.
-Proof.
-  unfold Equiv.
-  Local Opaque N.eqb.
-  Local Opaque TermDom.
-  Local Opaque TermCod.
-  generalize dependent t.
-  generalize dependent dom.
-  generalize dependent cod.
-  induction s; intros.
-  - destruct t; compute in H;
-    equalities; try discriminate.
-    Local Transparent TermDom.
-    Local Transparent TermCod.
-    reflexivity.
-  - destruct t; compute in H;
-    equalities; try discriminate.
-    Local Transparent TermDom.
-    Local Transparent TermCod.
-    reflexivity.
-  - destruct t.
-    + compute in H; equalities; discriminate.
-    + compute in H; equalities; discriminate.
-    + assert (∀ mid,
-              TermDom s1 = mid ->
-              TermDom t1 = mid ->
-              TermCod s2 = mid ->
-              TermCod t2 = mid ->
-              equiv (denote mid cod s1)
-                    (denote mid cod t1) ->
-              equiv (denote dom mid s2)
-                    (denote dom mid t2) ->
-              equiv (denote dom cod (Compose s1 s2))
-                    (denote dom cod (Compose t1 t2))).
-        clear; intros.
-        subst.
-        simpl in *.
-        rewrite !H2, !H1.
-        destruct (denote dom (TermDom s1) s2);
-        destruct (denote (TermDom s1) cod s1);
-        destruct (denote dom (TermDom s1) t2);
-        destruct (denote (TermDom s1) cod t1); auto.
-        rewrite X, X0; reflexivity.
-      pose proof (check_equiv_dom_cod _ _ _ _ H).
-      pose proof (check_equiv_compose _ _ _ _ _ _ H).
-      Local Opaque TermDom.
-      Local Opaque TermCod.
-      compute in H.
-      Local Transparent TermDom.
-      Local Transparent TermCod.
-      equalities.
-      eapply X.
-        apply e.
-        congruence.
-        congruence.
-        congruence.
-        apply IHs1.
-        rewrite <- e.
-        assumption.
-      apply IHs2; assumption.
-Qed.
-
-Definition decision_correct dom cod {t u : Term}
-           (Heq : check_equiv (t, u) dom cod = true) :
-  Equiv dom cod t u :=
-  check_equiv_sound dom cod t u Heq.
 
 End denote.
 
