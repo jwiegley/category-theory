@@ -613,6 +613,57 @@ Proof.
              end) with (Arr n n0 n1) by (destruct l; auto).
     auto.
 Defined.
+
+Lemma normalize_denormalize f x H :
+  normalize (denormalize f x H) = f.
+Proof.
+  generalize dependent x.
+  induction f using ArrowList_list_rect; intros.
+  - discriminate.
+  - auto.
+  - destruct a; auto.
+  - simpl in H.
+Admitted.
+
+Program Instance ArrowList_to_Term : ArrowList_Category ⟶ Term_Category := {
+  fobj := fun x => x;
+  fmap := fun x y f => (_; _)
+}.
+Next Obligation. exact (denormalize f x e). Defined.
+Next Obligation.
+  generalize dependent x.
+  generalize dependent y.
+  induction f using ArrowList_list_rect; intros.
+  - discriminate.
+  - inversion e.
+    inversion e0.
+    subst.
+    unfold Term_valid; simpl.
+    intuition.
+  - destruct a.
+    simpl in e.
+    inversion e.
+    inversion e0.
+    subst.
+    unfold Term_valid; simpl.
+    intuition.
+  - simpl in e, e0.
+    destruct a1, a2.
+    inversion e0.
+    subst.
+Admitted.
+Next Obligation.
+  proper.
+  simpl in H; subst.
+  do 4 f_equal.
+    apply Eqdep_dec.UIP_dec.
+Admitted.
+Next Obligation.
+  destruct (ArrowList_Category_obligation_3 _ _ _ _ _); simpl in *.
+  rewrite !normalize_denormalize.
+  reflexivity.
+Qed.
+
 Fixpoint normalize_denote_chain dom cod
          (g : Arrow) (gs : list Arrow) {struct gs} :
   option (objs dom ~{ C }~> objs cod) :=
