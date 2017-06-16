@@ -60,8 +60,8 @@ Program Instance option_setoid `{Setoid A} : Setoid (option A) := {
     | _, _ => False
     end
 }.
-Next Obligation. intuition; discriminate. Defined.
-Next Obligation. intuition; discriminate. Defined.
+Next Obligation. intuition; discriminate. Qed.
+Next Obligation. intuition; discriminate. Qed.
 Next Obligation.
   equivalence.
   - destruct x; reflexivity.
@@ -70,7 +70,7 @@ Next Obligation.
   - destruct x, y, z; auto.
       transitivity a0; auto.
     contradiction.
-Defined.
+Qed.
 
 Unset Universe Polymorphism.
 
@@ -110,7 +110,7 @@ Inductive ArrowList : Set :=
   | IdentityOnly : positive -> ArrowList
   | ArrowChain   : Arrow -> list Arrow -> ArrowList.
 
-Lemma ArrowList_list_rect : ∀ (P : ArrowList → Type),
+Definition ArrowList_list_rect : ∀ (P : ArrowList → Type),
   (∀ (x : positive), P (IdentityOnly x)) →
   (∀ (a : Arrow), P (ArrowChain a [])) →
   (∀ (a1 a2 : Arrow) (l : list Arrow), P (ArrowChain a2 l) → P (ArrowChain a1 (a2 :: l))) →
@@ -122,7 +122,7 @@ Proof.
   induction l; auto.
 Defined.
 
-Lemma ListOfArrows_rect : ∀ (P : Arrow -> list Arrow → Type),
+Definition ListOfArrows_rect : ∀ (P : Arrow -> list Arrow → Type),
   (∀ (x : Arrow), P x []) →
   (∀ (x y : Arrow) (l : list Arrow), P y l → P x (y :: l)) →
   ∀ (x : Arrow) (l : list Arrow), P x l.
@@ -169,13 +169,13 @@ Proof.
   elim (@Eqdep_dec.eq_proofs_unicity_on A _) with x (eq_refl x) p.
     trivial.
   exact eq_dec.
-Defined.
+Qed.
 
 Lemma Neq_dec' : ∀ x y : positive, x = y \/ x ≠ y.
 Proof.
   intros.
   destruct (Pos.eq_dec x y); auto.
-Defined.
+Qed.
 
 Lemma Neq_dec_refl n : Pos.eq_dec n n = left (@eq_refl positive n).
 Proof.
@@ -456,7 +456,7 @@ Program Instance Term_to_ArrowList : Term_Category ⟶ ArrowList_Category := {
 }.
 Next Obligation.
   pose proof (ArrowList_normalize_dom_cod_sound X); intuition.
-Defined.
+Qed.
 
 Definition denormalize (f : ArrowList) : ∀ x,
   ArrowList_dom f = x -> Term.
