@@ -106,9 +106,6 @@ Definition Arrow_dom (f : Arrow) : obj_idx :=
 Definition Arrow_cod (f : Arrow) : obj_idx :=
   match f with Arr _ y _ => y end.
 
-Definition Arrow_morph (f : Arrow) : arr_idx :=
-  match f with Arr _ _ f => f end.
-
 Inductive ArrowList : Set :=
   | IdentityOnly : positive -> ArrowList
   | ArrowChain   : Arrow -> list Arrow -> ArrowList.
@@ -148,20 +145,6 @@ Definition ArrowList_dom (xs : ArrowList) : obj_idx :=
     match last xs f with
     | Arr x y m => x
     end
-  end.
-
-Definition ArrowList_length (xs : ArrowList) : nat :=
-  match xs with
-  | IdentityOnly _ => 1
-  | ArrowChain _ xs => 1 + length xs
-  end.
-
-(* Convert a valid arrow list to a mere list of arrows, stripping out object
-   indices. *)
-Definition ArrowList_toList (xs : ArrowList) : list positive :=
-  match xs with
-  | IdentityOnly _ => nil
-  | ArrowChain (Arr _ _ f) xs => f :: map Arrow_morph xs
   end.
 
 Definition ArrowList_append (xs ys : ArrowList) : ArrowList :=
@@ -563,24 +546,6 @@ Fixpoint denote dom cod (e : Term) :
     end
   end.
 
-Lemma denote_dom_cod {f dom cod f'} :
-  denote dom cod f = Some f' ->
-  TermDom f = dom /\ TermCod f = cod.
-Proof.
-  generalize dependent cod.
-  generalize dependent dom.
-  induction f; intros dom cod; simpl; intros; equalities.
-  specialize (IHf2 dom (TermCod f2)).
-  specialize (IHf1 (TermCod f2) cod).
-  equalities.
-  intros.
-  destruct (denote dom (TermCod f2) f2) eqn:?; try discriminate.
-  destruct (denote (TermCod f2) cod f1) eqn:?; try discriminate.
-  destruct (IHf1 _ eq_refl).
-  destruct (IHf2 _ eq_refl).
-  tauto.
-Qed.
-
 Fixpoint normalize_denote_chain dom cod
          (g : Arrow) (gs : list Arrow) {struct gs} :
   option (objs dom ~{ C }~> objs cod) :=
@@ -678,29 +643,6 @@ Proof.
     induction l; auto.
     rewrite !last_cons.
     reflexivity.
-Qed.
-
-Lemma normalize_denote_chain_dom_cod :
-  ∀ (gs : list Arrow) x y f dom cod f',
-    normalize_denote_chain dom cod (Arr x y f) gs = Some f' ->
-    cod = y /\ dom = match last gs (Arr x y f) with
-                       Arr z _ _ => z
-                     end.
-Proof.
-  induction gs using rev_ind; intros.
-    simpl in H.
-    destruct (arrs _ _ _).
-      revert H; equalities.
-    discriminate.
-  rewrite last_rcons.
-  destruct x.
-  apply normalize_denote_chain_compose in H.
-  destruct H, s, s.
-  equalities; simpl in *;
-  destruct (arrs _ _ _); try discriminate;
-  revert b; equalities.
-  specialize (IHgs _ _ _ _ _ _ a1).
-  intuition.
 Qed.
 
 Theorem normalize_denote_chain_append_dom_cod : ∀ x xs y ys dom cod f,
