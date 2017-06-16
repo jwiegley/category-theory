@@ -458,41 +458,28 @@ Next Obligation.
   pose proof (ArrowList_normalize_dom_cod_sound X); intuition.
 Qed.
 
-Definition denormalize (f : ArrowList) : ∀ x,
-  ArrowList_dom f = x -> Term.
-Proof.
-  intros.
-  induction f using ArrowList_list_rect; intros.
-  - exact (Identity x0).
-  - destruct a.
-    exact (Morph p p0 p1).
-  - apply IHf; clear IHf.
-    destruct l using rev_rect; simpl in *.
-      destruct a2; auto.
-    clear IHl.
-    rewrite last_app_cons in *; simpl in *.
-    destruct x0; simpl in *.
-    revert H.
-    replace (match l ++ [Arr p p0 p1] with
-             | [] => a2
-             | _ :: _ => Arr p p0 p1
-             end) with (Arr p p0 p1) by (destruct l; auto).
-    auto.
-Defined.
+Fixpoint denormalize (f : ArrowList) : Term :=
+  match f with
+  | IdentityOnly x  => Identity x
+  | ArrowChain (Arr x y f) xs =>
+    (fold_right (fun x rest => rest \o (fun y => Compose y x))
+                Datatypes.id
+                (map (fun x => match x with
+                                 Arr x y f => Morph x y f
+                               end) xs)) (Morph x y f)
+  end.
 
-Lemma normalize_denormalize f x H :
-  normalize (denormalize f x H) = f.
+Lemma normalize_denormalize f :
+  normalize (denormalize f) = f.
 Proof.
-  generalize dependent x.
-  induction f using ArrowList_list_rect; intros.
-  - auto.
-  - destruct a; auto.
-  - destruct a1, a2.
+  destruct f; intros; auto.
+  induction l using rev_ind.
+    destruct a; auto.
 Admitted.
 
 Program Instance ArrowList_to_Term : ArrowList_Category ⟶ Term_Category := {
   fobj := fun x => x;
-  fmap := fun x y f => (denormalize (`1 f) x _; _)
+  fmap := fun x y f => (denormalize (`1 f); _)
 }.
 Next Obligation.
   induction f using ArrowList_list_rect; intros.
@@ -511,7 +498,6 @@ Next Obligation.
   apply Pos.eq_dec.
 Qed.
 Next Obligation.
-  destruct (ArrowList_Category_obligation_3 _ _ _ _ _); simpl in *.
   rewrite !normalize_denormalize.
   reflexivity.
 Qed.
