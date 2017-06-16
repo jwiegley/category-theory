@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
 
 Require Import Coq.Program.Program.
 Require Import Coq.Bool.Bool.
@@ -507,6 +507,112 @@ Fixpoint normalize (p : Term) : ArrowList :=
   | Compose f g => ArrowList_append (normalize f) (normalize g)
   end.
 
+Definition Term_valid (e : Term) : Prop :=
+  ArrowList_dom (normalize e) = Some (TermDom e) /\
+  ArrowList_cod (normalize e) = Some (TermCod e).
+
+(* In the category whose morphisms are Terms, homset equivalence is up to
+   normalized terms. *)
+Program Definition Term_Category : Category := {|
+  obj := obj_idx;
+  hom := fun x y => ∃ l : Term,
+    (* We only allow proper terms in this category *)
+    TermDom l = x ∧ TermCod l = y ∧ Term_valid l;
+  homset := fun x y => {| equiv := fun f g =>
+    normalize (`1 f) = normalize (`1 g) |};
+  id := fun x => (Identity x; _);
+  compose := fun _ _ _ f g => (Compose (`1 f) (`1 g); _);
+  id_left := fun _ y f => ArrowList_id_left y (normalize (`1 f)) _;
+  id_right := fun x _ f => ArrowList_id_right (normalize (`1 f)) x _;
+  comp_assoc := fun x y z w f g h =>
+    ArrowList_append_assoc
+      (normalize (`1 f)) (normalize (`1 g)) (normalize (`1 h)) _ _
+|}.
+Next Obligation.
+  intuition; constructor; auto.
+Qed.
+Next Obligation.
+  intuition; constructor; auto. simpl.
+  rewrite ArrowList_append_dom.
+  - apply t.
+  - unfold Term_valid in *.
+    equalities; congruence.
+  - simpl.
+    rewrite ArrowList_append_cod.
+      apply t0.
+    unfold Term_valid in *.
+    equalities; congruence.
+Qed.
+Next Obligation.
+  apply t.
+Qed.
+Next Obligation.
+  apply t.
+Qed.
+Next Obligation.
+  unfold Term_valid in *.
+  equalities; congruence.
+Qed.
+Next Obligation.
+  unfold Term_valid in *.
+  equalities; congruence.
+Qed.
+Next Obligation.
+  rewrite ArrowList_append_assoc; auto;
+  unfold Term_valid in *;
+  equalities; congruence.
+Qed.
+Next Obligation.
+  rewrite ArrowList_append_assoc; auto;
+  unfold Term_valid in *;
+  equalities; congruence.
+Qed.
+Next Obligation.
+  rewrite ArrowList_append_assoc; auto;
+  unfold Term_valid in *;
+  equalities; congruence.
+Qed.
+
+Set Transparent Obligations.
+
+Program Instance Term_to_ArrowList : Term_Category ⟶ ArrowList_Category := {
+  fobj := fun x => x;
+  fmap := fun x y f => (normalize _; _)
+}.
+Next Obligation.
+  destruct t.
+  induction f; simpl; auto;
+  rewrite ArrowList_append_dom, ArrowList_append_cod; intuition.
+Defined.
+Next Obligation.
+  destruct (Term_Category_obligation_2 x); intuition.
+Qed.
+Next Obligation.
+  destruct (Term_Category_obligation_3  _ _ _ _ _); intuition.
+Qed.
+
+Definition denormalize (f : ArrowList) : ∀ x,
+  ArrowList_dom f = Some x -> Term.
+Proof.
+  intros.
+  induction f using ArrowList_list_rect; intros.
+  - simpl in x; discriminate.
+  - exact (Identity x0).
+  - destruct a.
+    exact (Morph n n0 n1).
+  - apply IHf; clear IHf.
+    destruct l using rev_rect; simpl in *.
+      destruct a2; auto.
+    clear IHl.
+    rewrite last_app_cons in *; simpl in *.
+    destruct x0; simpl in *.
+    revert H.
+    replace (match l ++ [Arr n n0 n1] with
+             | [] => a2
+             | _ :: _ => Arr n n0 n1
+             end) with (Arr n n0 n1) by (destruct l; auto).
+    auto.
+Defined.
 Fixpoint normalize_denote_chain dom cod
          (g : Arrow) (gs : list Arrow) {struct gs} :
   option (objs dom ~{ C }~> objs cod) :=
