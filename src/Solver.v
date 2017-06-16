@@ -97,36 +97,6 @@ Fixpoint TermCod (e : Term) : obj_idx :=
 
 Section Denotation.
 
-Variable C : Category.
-Variable objs : obj_idx -> C.
-Variable arrs : arr_idx -> ∀ a b : obj_idx, option (objs a ~> objs b).
-
-Fixpoint denote dom cod (e : Term) :
-  option (objs dom ~> objs cod) :=
-  match e with
-  | Identity t =>
-    match N.eq_dec t dom, N.eq_dec t cod with
-    | left pf_dom, left pf_cod =>
-      Some (match pf_dom, pf_cod with
-            | eq_refl, eq_refl => @id C (objs t)
-            end)
-    | _ , _ => None
-    end
-  | Morph dom' cod' n =>
-    match N.eq_dec dom' dom, N.eq_dec cod' cod, arrs n dom' cod' with
-    | left pf_dom, left pf_cod, Some arr =>
-      Some (match pf_dom, pf_cod with
-            | eq_refl, eq_refl => arr
-            end)
-    | _, _, _ => None
-    end
-  | Compose g f =>
-    match denote dom (TermCod f) f, denote _ cod g with
-    | Some farr, Some garr => Some (garr ∘ farr)
-    | _ , _ => None
-    end
-  end.
-
 Inductive Arrow : Set :=
   | Arr : N -> N -> N -> Arrow.
 
@@ -140,12 +110,10 @@ Definition Arrow_morph (f : Arrow) : arr_idx :=
   match f with Arr _ _ f => f end.
 
 Inductive ArrowList : Set :=
-  | Invalid
   | IdentityOnly : N -> ArrowList
   | ArrowChain   : Arrow -> list Arrow -> ArrowList.
 
 Lemma ArrowList_list_rect : ∀ (P : ArrowList → Type),
-  P Invalid →
   (∀ (x : N), P (IdentityOnly x)) →
   (∀ (a : Arrow), P (ArrowChain a [])) →
   (∀ (a1 a2 : Arrow) (l : list Arrow), P (ArrowChain a2 l) → P (ArrowChain a1 (a2 :: l))) →
@@ -167,26 +135,23 @@ Proof.
   induction l; auto.
 Defined.
 
-Definition ArrowList_cod (xs : ArrowList) : option obj_idx :=
+Definition ArrowList_cod (xs : ArrowList) : obj_idx :=
   match xs with
-  | Invalid => None
-  | IdentityOnly x => Some x
-  | ArrowChain (Arr x y f) _ => Some y
+  | IdentityOnly x => x
+  | ArrowChain (Arr x y f) _ => y
   end.
 
-Definition ArrowList_dom (xs : ArrowList) : option obj_idx :=
+Definition ArrowList_dom (xs : ArrowList) : obj_idx :=
   match xs with
-  | Invalid => None
-  | IdentityOnly x => Some x
+  | IdentityOnly x => x
   | ArrowChain f xs =>
     match last xs f with
-    | Arr x y m => Some x
+    | Arr x y m => x
     end
   end.
 
 Definition ArrowList_length (xs : ArrowList) : nat :=
   match xs with
-  | Invalid => 0
   | IdentityOnly _ => 1
   | ArrowChain _ xs => 1 + length xs
   end.
@@ -195,39 +160,20 @@ Definition ArrowList_length (xs : ArrowList) : nat :=
    indices. *)
 Definition ArrowList_toList (xs : ArrowList) : list N :=
   match xs with
-  | Invalid => nil
   | IdentityOnly _ => nil
   | ArrowChain (Arr _ _ f) xs => f :: map Arrow_morph xs
   end.
 
 Definition ArrowList_append (xs ys : ArrowList) : ArrowList :=
   match xs, ys with
-  | Invalid, _ => Invalid
-  | _, Invalid => Invalid
   | IdentityOnly f, IdentityOnly r =>
-    if f =? r
-    then IdentityOnly f
-    else Invalid
+    IdentityOnly r
   | IdentityOnly f, ArrowChain (Arr x y g) xs =>
-    if f =? y
-    then ArrowChain (Arr x y g) xs
-    else Invalid
+    ArrowChain (Arr x y g) xs
   | ArrowChain f xs, IdentityOnly g =>
-    match ArrowList_dom (ArrowChain f xs) with
-    | Some dom =>
-      if g =? dom
-      then ArrowChain f xs
-      else Invalid
-    | None => Invalid
-    end
+    ArrowChain f xs
   | ArrowChain f xs, ArrowChain (Arr z w g) ys =>
-    match ArrowList_dom (ArrowChain f xs) with
-    | Some dom =>
-      if w =? dom
-      then ArrowChain f (xs ++ Arr z w g :: ys)
-      else Invalid
-    | None => Invalid
-    end
+    ArrowChain f (xs ++ Arr z w g :: ys)
   end.
 
 Open Scope lazy_bool_scope.
@@ -309,38 +255,64 @@ Ltac equalities :=
     try tauto;
     try intuition idtac).
 
+(* A term is valid constructed if composition composes compatible types. *)
+Fixpoint Term_well_typed dom cod (e : Term) : Prop :=
+  match e with
+  | Identity x  => x = dom /\ x = cod
+  | Morph x y f => x = dom /\ y = cod
+  | Compose f g =>
+    TermDom g = dom /\
+    TermCod f = cod /\
+    TermCod g = TermDom f /\
+    Term_well_typed (TermCod g) cod f /\
+    Term_well_typed dom (TermCod g) g
+  end.
+
+Fixpoint Term_well_typed_bool dom cod (e : Term) : bool :=
+  match e with
+  | Identity x  => (x =? dom) &&& (x =? cod)
+  | Morph x y f => (x =? dom) &&& (y =? cod)
+  | Compose f g =>
+    (TermDom g =? dom) &&&
+    (TermCod f =? cod) &&&
+    (TermCod g =? TermDom f) &&&
+    Term_well_typed_bool (TermCod g) cod f &&&
+    Term_well_typed_bool dom (TermCod g) g
+  end.
+
+Lemma Term_well_typed_bool_sound dom cod e :
+  Term_well_typed_bool dom cod e = true -> Term_well_typed dom cod e.
+Proof.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction e; simpl; intuition; equalities.
+Qed.
+
+Corollary Term_well_typed_dom {f dom cod } :
+  Term_well_typed dom cod f -> TermDom f = dom.
+Proof. induction f; simpl; intros; intuition. Qed.
+
+Corollary Term_well_typed_cod {f dom cod} :
+  Term_well_typed dom cod f -> TermCod f = cod.
+Proof. induction f; simpl; intros; intuition. Qed.
+
+Fixpoint normalize (p : Term) : ArrowList :=
+  match p with
+  | Identity x  => IdentityOnly x
+  | Morph x y f => ArrowChain (Arr x y f) []
+  | Compose f g => ArrowList_append (normalize f) (normalize g)
+  end.
+
 Lemma ArrowList_append_dom f g :
   ArrowList_dom f = ArrowList_cod g ->
   ArrowList_dom (ArrowList_append f g) = ArrowList_dom g.
 Proof.
   destruct g, f; simpl; intros; auto.
-  - inversion_clear H; equalities.
-  - rewrite H; equalities.
-  - destruct a; discriminate.
-  - destruct a; equalities.
-    inversion H; subst.
-    contradiction.
-  - rewrite H.
-    destruct a.
-    equalities.
+  - destruct a; subst; reflexivity.
+  - destruct a; simpl.
     rewrite last_app_cons.
     rewrite last_cons.
     reflexivity.
-Qed.
-
-Lemma ArrowList_append_dom_inv f g x :
-  ArrowList_dom (ArrowList_append f g) = Some x ->
-  ArrowList_dom f = ArrowList_cod g.
-Proof.
-  destruct g, f; simpl; intros; auto; try discriminate.
-  - revert H; equalities.
-  - destruct (last _ _).
-    revert H; equalities.
-  - destruct a.
-    revert H; equalities.
-  - destruct a.
-    destruct (last l0 a0).
-    revert H; equalities.
 Qed.
 
 Lemma ArrowList_append_cod f g :
@@ -348,30 +320,40 @@ Lemma ArrowList_append_cod f g :
   ArrowList_cod (ArrowList_append f g) = ArrowList_cod f.
 Proof.
   destruct f, g; simpl; intros; auto.
-  - inversion_clear H; equalities.
-  - destruct a; equalities.
-    inversion H; subst.
-    contradiction.
-  - destruct (last _ _); discriminate.
-  - rewrite H; equalities.
-  - destruct a0.
-    rewrite H.
-    equalities.
+  - destruct a; subst; reflexivity.
+  - destruct a0; reflexivity.
 Qed.
 
-Lemma ArrowList_append_cod_inv f g x :
-  ArrowList_cod (ArrowList_append f g) = Some x ->
-  ArrowList_dom f = ArrowList_cod g.
+Lemma ArrowList_specific_sound p :
+  Term_well_typed (TermDom p) (TermCod p) p ->
+  ArrowList_dom (normalize p) = TermDom p /\
+  ArrowList_cod (normalize p) = TermCod p.
 Proof.
-  destruct g, f; simpl; intros; auto; try discriminate.
-  - revert H; equalities.
-  - destruct (last _ _).
-    revert H; equalities.
-  - destruct a.
-    revert H; equalities.
-  - destruct a.
-    destruct (last l0 a0).
-    revert H; equalities.
+  induction p; simpl; intros; intuition; subst;
+  rewrite H1 in H2;
+  specialize (IHp1 H2).
+    rewrite ArrowList_append_dom; auto; intuition.
+    congruence.
+  rewrite ArrowList_append_cod; auto; intuition.
+  congruence.
+Qed.
+
+Lemma ArrowList_normalize_dom_cod_sound {p dom cod} :
+  Term_well_typed dom cod p ->
+  ArrowList_dom (normalize p) = dom /\
+  ArrowList_cod (normalize p) = cod.
+Proof.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction p; simpl; intros; intuition; subst;
+  rewrite H1 in H2;
+  rewrite ArrowList_append_dom ||
+  rewrite ArrowList_append_cod; auto;
+  try apply ArrowList_specific_sound; auto;
+  rewrite (proj1 (IHp1 _ _ H2));
+  rewrite <- H1;
+  symmetry;
+  apply ArrowList_specific_sound; auto.
 Qed.
 
 Lemma ArrowList_append_chains a a0 l l0 :
@@ -383,91 +365,38 @@ Proof.
   generalize dependent l0.
   simpl.
   induction l using rev_ind; simpl; intros.
-    destruct a0, a.
-    inversion_clear H.
-    rewrite N.eqb_refl.
+    destruct a0, a; subst.
     reflexivity.
-  simpl in H.
-  destruct a0, a.
-  destruct (last (l ++ [x]) (Arr n2 n3 n4)); subst.
-  inversion_clear H.
-  rewrite N.eqb_refl.
+  rewrite last_app_cons in H; simpl in H.
+  destruct x, a0, a.
   reflexivity.
 Qed.
 
 Lemma ArrowList_id_left x y :
-  ArrowList_cod y = Some x ->
   ArrowList_append (IdentityOnly x) y = y.
 Proof.
   simpl.
-  destruct y.
-  - auto.
-  - intros.
-    inversion_clear H.
-    equalities.
-  - destruct a.
-    simpl; intros.
-    inversion_clear H.
-    equalities.
+  destruct y; simpl; intros; subst; auto.
+  destruct a; reflexivity.
 Qed.
 
 Lemma ArrowList_id_right x y :
-  ArrowList_dom x = Some y ->
+  ArrowList_dom x = y ->
   ArrowList_append x (IdentityOnly y) = x.
 Proof.
-  simpl.
-  destruct x.
-  - auto.
-  - intros.
-    inversion_clear H.
-    simpl.
-    equalities.
-  - destruct a.
-    simpl; intros.
-    destruct (last _ _).
-    inversion_clear H.
-    equalities.
+  destruct x; simpl; intros; subst; auto.
 Qed.
 
 Lemma ArrowList_append_assoc x y z :
-  ArrowList_dom y = ArrowList_cod z ->
-  ArrowList_dom x = ArrowList_cod y ->
   ArrowList_append (ArrowList_append x y) z =
   ArrowList_append x (ArrowList_append y z).
 Proof.
   destruct x, y, z; simpl; auto; intros;
   try destruct a;
-  try destruct a0;
-  inversion H; subst;
-  inversion H0; subst.
-  - equalities.
-  - equalities.
-  - equalities.
-  - equalities.
-    destruct (last _ _); equalities.
-  - equalities.
-    destruct (last _ _); equalities.
-  - equalities.
-    rewrite H0; equalities.
-    rewrite H0; equalities.
-  - equalities.
-    rewrite H0; equalities.
-    rewrite H0; equalities.
-  - rewrite H0; equalities.
-  - rewrite H, H0.
-    equalities.
-    rewrite last_app_cons.
-    rewrite last_cons.
-    rewrite H; equalities.
-  - destruct a1.
-    rewrite H; equalities.
-    rewrite H0; equalities.
-    rewrite last_app_cons.
-    rewrite last_cons.
-    rewrite H; equalities.
-    rewrite <- app_assoc.
-    rewrite app_comm_cons.
-    reflexivity.
+  try destruct a0; subst; auto.
+  destruct a1; simpl in *.
+  rewrite <- app_assoc.
+  reflexivity.
 Qed.
 
 (* We show here that ArrowList morphisms are just one way of representing a
@@ -479,14 +408,14 @@ Qed.
 Program Definition ArrowList_Category : Category := {|
   obj := obj_idx;
   hom := fun x y =>
-    ∃ l : ArrowList, ArrowList_dom l = Some x ∧ ArrowList_cod l = Some y;
+    ∃ l : ArrowList, ArrowList_dom l = x ∧ ArrowList_cod l = y;
   homset := fun x y => {| equiv := fun f g => `1 f = `1 g |};
   id := fun x => (IdentityOnly x; _);
   compose := fun _ _ _ f g => (ArrowList_append (`1 f) (`1 g); _);
-  id_left := fun _ y f => ArrowList_id_left y (`1 f) _;
-  id_right := fun x _ f => ArrowList_id_right (`1 f) x _;
+  id_left := fun _ y f => ArrowList_id_left y (`1 f);
+  id_right := fun x _ f => ArrowList_id_right (`1 f) _ _;
   comp_assoc := fun x y z w f g h =>
-    ArrowList_append_assoc (`1 f) (`1 g) (`1 h) _ _
+    ArrowList_append_assoc (`1 f) (`1 g) (`1 h)
 |}.
 Next Obligation. equivalence; simpl in *; congruence. Qed.
 Next Obligation.
@@ -494,68 +423,31 @@ Next Obligation.
   intuition; congruence.
 Qed.
 Next Obligation. proper; simpl in *; subst; reflexivity. Qed.
-Next Obligation. congruence. Qed.
-Next Obligation. congruence. Qed.
 Next Obligation. apply ArrowList_append_assoc; congruence. Qed.
 Next Obligation. rewrite ArrowList_append_assoc; auto; congruence. Qed.
 Next Obligation. rewrite ArrowList_append_assoc; auto; congruence. Qed.
-
-Fixpoint normalize (p : Term) : ArrowList :=
-  match p with
-  | Identity x  => IdentityOnly x
-  | Morph x y f => ArrowChain (Arr x y f) []
-  | Compose f g => ArrowList_append (normalize f) (normalize g)
-  end.
-
-Definition Term_valid (e : Term) : Prop :=
-  ArrowList_dom (normalize e) = Some (TermDom e) /\
-  ArrowList_cod (normalize e) = Some (TermCod e).
 
 (* In the category whose morphisms are Terms, homset equivalence is up to
    normalized terms. *)
 Program Definition Term_Category : Category := {|
   obj := obj_idx;
-  hom := fun x y => ∃ l : Term,
-    (* We only allow proper terms in this category *)
-    TermDom l = x ∧ TermCod l = y ∧ Term_valid l;
+  hom := fun x y => ∃ l : Term, Term_well_typed x y l;
   homset := fun x y => {| equiv := fun f g =>
     normalize (`1 f) = normalize (`1 g) |};
   id := fun x => (Identity x; _);
   compose := fun _ _ _ f g => (Compose (`1 f) (`1 g); _);
-  id_left := fun _ y f => ArrowList_id_left y (normalize (`1 f)) _;
-  id_right := fun x _ f => ArrowList_id_right (normalize (`1 f)) x _;
+  id_left := fun _ y f => ArrowList_id_left y (normalize (`1 f));
+  id_right := fun x _ f => ArrowList_id_right (normalize (`1 f)) _ _;
   comp_assoc := fun x y z w f g h =>
     ArrowList_append_assoc
-      (normalize (`1 f)) (normalize (`1 g)) (normalize (`1 h)) _ _
+      (normalize (`1 f)) (normalize (`1 g)) (normalize (`1 h))
 |}.
 Next Obligation.
-  intuition; constructor; auto.
+  destruct f, g; simpl in *; intuition idtac; subst; auto;
+  rewrite H3; assumption.
 Qed.
 Next Obligation.
-  intuition; constructor; auto. simpl.
-  rewrite ArrowList_append_dom.
-  - apply t.
-  - unfold Term_valid in *.
-    equalities; congruence.
-  - simpl.
-    rewrite ArrowList_append_cod.
-      apply t0.
-    unfold Term_valid in *.
-    equalities; congruence.
-Qed.
-Next Obligation.
-  apply t.
-Qed.
-Next Obligation.
-  apply t.
-Qed.
-Next Obligation.
-  unfold Term_valid in *.
-  equalities; congruence.
-Qed.
-Next Obligation.
-  unfold Term_valid in *.
-  equalities; congruence.
+  eapply ArrowList_normalize_dom_cod_sound; eauto.
 Qed.
 Next Obligation.
   rewrite ArrowList_append_assoc; auto;
@@ -580,23 +472,14 @@ Program Instance Term_to_ArrowList : Term_Category ⟶ ArrowList_Category := {
   fmap := fun x y f => (normalize _; _)
 }.
 Next Obligation.
-  destruct t.
-  induction f; simpl; auto;
-  rewrite ArrowList_append_dom, ArrowList_append_cod; intuition.
+  pose proof (ArrowList_normalize_dom_cod_sound X); intuition.
 Defined.
-Next Obligation.
-  destruct (Term_Category_obligation_2 x); intuition.
-Qed.
-Next Obligation.
-  destruct (Term_Category_obligation_3  _ _ _ _ _); intuition.
-Qed.
 
 Definition denormalize (f : ArrowList) : ∀ x,
-  ArrowList_dom f = Some x -> Term.
+  ArrowList_dom f = x -> Term.
 Proof.
   intros.
   induction f using ArrowList_list_rect; intros.
-  - simpl in x; discriminate.
   - exact (Identity x0).
   - destruct a.
     exact (Morph n n0 n1).
@@ -619,49 +502,83 @@ Lemma normalize_denormalize f x H :
 Proof.
   generalize dependent x.
   induction f using ArrowList_list_rect; intros.
-  - discriminate.
   - auto.
   - destruct a; auto.
-  - simpl in H.
+  - destruct a1, a2.
 Admitted.
 
 Program Instance ArrowList_to_Term : ArrowList_Category ⟶ Term_Category := {
   fobj := fun x => x;
-  fmap := fun x y f => (_; _)
+  fmap := fun x y f => (denormalize (`1 f) x _; _)
 }.
-Next Obligation. exact (denormalize f x e). Defined.
 Next Obligation.
-  generalize dependent x.
-  generalize dependent y.
   induction f using ArrowList_list_rect; intros.
-  - discriminate.
-  - inversion e.
-    inversion e0.
-    subst.
-    unfold Term_valid; simpl.
+  - unfold Term_well_typed; simpl.
     intuition.
   - destruct a.
-    simpl in e.
-    inversion e.
-    inversion e0.
-    subst.
-    unfold Term_valid; simpl.
+    unfold Term_well_typed; simpl.
     intuition.
-  - simpl in e, e0.
-    destruct a1, a2.
-    inversion e0.
-    subst.
+  - destruct a1, a2.
 Admitted.
 Next Obligation.
   proper.
-  simpl in H; subst.
-  do 4 f_equal.
-    apply Eqdep_dec.UIP_dec.
-Admitted.
+  simpl in *; subst.
+  do 4 f_equal;
+  apply Eqdep_dec.UIP_dec;
+  apply N.eq_dec.
+Qed.
 Next Obligation.
   destruct (ArrowList_Category_obligation_3 _ _ _ _ _); simpl in *.
   rewrite !normalize_denormalize.
   reflexivity.
+Qed.
+
+Variable C : Category.
+Variable objs : obj_idx -> C.
+Variable arrs : arr_idx -> ∀ a b : obj_idx, option (objs a ~> objs b).
+
+Fixpoint denote dom cod (e : Term) :
+  option (objs dom ~> objs cod) :=
+  match e with
+  | Identity t =>
+    match N.eq_dec t dom, N.eq_dec t cod with
+    | left pf_dom, left pf_cod =>
+      Some (match pf_dom, pf_cod with
+            | eq_refl, eq_refl => @id C (objs t)
+            end)
+    | _ , _ => None
+    end
+  | Morph dom' cod' n =>
+    match N.eq_dec dom' dom, N.eq_dec cod' cod, arrs n dom' cod' with
+    | left pf_dom, left pf_cod, Some arr =>
+      Some (match pf_dom, pf_cod with
+            | eq_refl, eq_refl => arr
+            end)
+    | _, _, _ => None
+    end
+  | Compose g f =>
+    match denote dom (TermCod f) f, denote _ cod g with
+    | Some farr, Some garr => Some (garr ∘ farr)
+    | _ , _ => None
+    end
+  end.
+
+Lemma denote_dom_cod {f dom cod f'} :
+  denote dom cod f = Some f' ->
+  TermDom f = dom /\ TermCod f = cod.
+Proof.
+  generalize dependent cod.
+  generalize dependent dom.
+  induction f; intros dom cod; simpl; intros; equalities.
+  specialize (IHf2 dom (TermCod f2)).
+  specialize (IHf1 (TermCod f2) cod).
+  equalities.
+  intros.
+  destruct (denote dom (TermCod f2) f2) eqn:?; try discriminate.
+  destruct (denote (TermCod f2) cod f1) eqn:?; try discriminate.
+  destruct (IHf1 _ eq_refl).
+  destruct (IHf2 _ eq_refl).
+  tauto.
 Qed.
 
 Fixpoint normalize_denote_chain dom cod
@@ -711,7 +628,7 @@ Proof.
   revert H; equalities.
 Qed.
 
-Theorem normalize_denote_chain_compose : ∀ x xs y ys dom cod f,
+Theorem normalize_denote_chain_compose {x xs y ys dom cod f} :
   normalize_denote_chain dom cod x (xs ++ y :: ys) = Some f ->
   ∃ mid g h, f ≈ g ∘ h ∧
     Arrow_dom (last xs x) = mid ∧
@@ -719,7 +636,9 @@ Theorem normalize_denote_chain_compose : ∀ x xs y ys dom cod f,
     normalize_denote_chain mid cod x xs = Some g ∧
     normalize_denote_chain dom mid y ys = Some h.
 Proof.
-  intros ??.
+  generalize dependent f.
+  generalize dependent cod.
+  generalize dependent y.
   apply ListOfArrows_rect with (x:=x) (l:=xs); simpl; intros;
   destruct x, x0, y; simpl.
   - destruct (arrs _ _ _); try discriminate.
@@ -738,7 +657,7 @@ Proof.
     destruct (normalize_denote_chain dom n2 (Arr n5 n6 n7)
                                      (l ++ y0 :: ys)) eqn:?;
     try discriminate.
-    destruct (X _ _ _ _ _ Heqo0), s, s.
+    destruct (X _ _ _ Heqo0), s, s.
     equalities.
     subst.
     inversion_clear H.
@@ -789,7 +708,7 @@ Theorem normalize_denote_chain_append_dom_cod : ∀ x xs y ys dom cod f,
   Arrow_dom (last xs x) = Arrow_cod y.
 Proof.
   intros.
-  destruct (normalize_denote_chain_compose _ _ _ _ _ _ _ H).
+  destruct (normalize_denote_chain_compose H).
   firstorder.
   rewrite a0, a1.
   reflexivity.
@@ -799,7 +718,6 @@ Qed.
 Definition normalize_denote dom cod (xs : ArrowList) :
   option (objs dom ~> objs cod) :=
   match xs with
-  | Invalid => None
   | IdentityOnly x =>
     match N.eq_dec x dom, N.eq_dec x cod with
     | left Hdom, left Hcod =>
@@ -811,34 +729,11 @@ Definition normalize_denote dom cod (xs : ArrowList) :
   | ArrowChain f fs => normalize_denote_chain dom cod f fs
   end.
 
-Lemma ArrowList_dom_sound dom p :
-  ArrowList_dom (normalize p) = Some dom -> TermDom p = dom.
-Proof.
-  induction p; simpl; intros.
-  - inversion_clear H; auto.
-  - inversion_clear H; auto.
-  - rewrite ArrowList_append_dom in H.
-      intuition.
-    apply (ArrowList_append_dom_inv _ _ _ H).
-Qed.
-
-Lemma ArrowList_cod_sound cod p :
-  ArrowList_cod (normalize p) = Some cod -> TermCod p = cod.
-Proof.
-  induction p; simpl; intros.
-  - inversion_clear H; auto.
-  - inversion_clear H; auto.
-  - rewrite ArrowList_append_cod in H.
-      intuition.
-    apply (ArrowList_append_cod_inv _ _ _ H).
-Qed.
-
-Theorem normalize_list_cod : ∀ p dom cod f,
-  normalize_denote dom cod p = Some f -> ArrowList_cod p = Some cod.
+Theorem normalize_list_cod {p dom cod f} :
+  normalize_denote dom cod p = Some f -> ArrowList_cod p = cod.
 Proof.
   intros.
   destruct p.
-  - discriminate.
   - simpl in H; equalities.
   - destruct l; intros.
       simpl in *.
@@ -852,21 +747,12 @@ Proof.
     destruct (arrs n1 n n0); discriminate.
 Qed.
 
-Theorem normalize_cod : ∀ p dom cod f,
-  normalize_denote dom cod (normalize p) = Some f -> TermCod p = cod.
+Theorem normalize_list_dom {p dom cod f} :
+  normalize_denote dom cod p = Some f -> ArrowList_dom p = dom.
 Proof.
-  intros.
-  apply normalize_list_cod in H.
-  now apply ArrowList_cod_sound.
-Qed.
-
-Local Obligation Tactic := intros; try solve [program_simpl | equalities].
-
-Theorem normalize_list_dom : ∀ p dom cod f,
-  normalize_denote dom cod p = Some f -> ArrowList_dom p = Some dom.
-Proof.
+  generalize dependent f.
+  generalize dependent cod.
   induction p using ArrowList_list_rect; intros.
-  - discriminate.
   - simpl in H; equalities.
   - simpl in *.
     destruct a.
@@ -878,7 +764,7 @@ Proof.
     revert H; equalities.
     destruct (normalize_denote_chain dom n (Arr n2 n3 n4) l) eqn:Heqe;
     try discriminate.
-    rewrite <- (IHp _ _ _ Heqe); clear IHp.
+    rewrite <- (IHp _ _ Heqe); clear IHp.
     induction l using rev_ind.
       simpl in *.
       destruct (arrs _ _ _); try discriminate.
@@ -887,214 +773,96 @@ Proof.
     destruct l; auto.
 Qed.
 
-Theorem normalize_dom : ∀ p dom cod f,
-  normalize_denote dom cod (normalize p) = Some f -> TermDom p = dom.
+Theorem normalize_well_typed {p dom cod f} :
+  normalize_denote dom cod p = Some f
+    -> ∃ p', p = normalize p' ∧ Term_well_typed dom cod p'.
 Proof.
-  intros.
-  apply normalize_list_dom in H.
-  now apply ArrowList_dom_sound.
+  generalize dependent f.
+  generalize dependent cod.
+  induction p using ArrowList_list_rect; simpl; intros.
+  - revert H; equalities.
+    exists (Identity cod).
+    simpl; intuition.
+  - destruct a.
+    destruct (arrs _ _ _); try discriminate.
+    revert H; equalities.
+    exists (Morph dom cod n1).
+    simpl; intuition.
+  - destruct a1, a2.
+    destruct (arrs _ _ _); try discriminate.
+    revert H; equalities.
+    destruct (normalize_denote_chain dom n (Arr n2 n3 n4) l) eqn:?;
+    try discriminate.
+    destruct (IHp _ _ Heqo), p.
+    exists (Compose (Morph n cod n1) x).
+    simpl.
+    inversion_clear H.
+    intuition.
+    + rewrite <- e.
+      reflexivity.
+    + eapply Term_well_typed_dom; eauto.
+    + eapply Term_well_typed_cod; eauto.
+    + symmetry.
+      eapply Term_well_typed_cod; eauto.
+    + erewrite Term_well_typed_cod; eauto.
 Qed.
 
-Theorem normalize_append_dom_cod : ∀ dom cod x y f,
-  normalize_denote dom cod (ArrowList_append x y) = Some f ->
-  ∃ m, ArrowList_cod y = Some m /\ ArrowList_dom x = Some m.
-Proof.
-  induction x using ArrowList_list_rect; intros.
-  - discriminate.
-  - destruct y; simpl in H.
-    + discriminate.
-    + revert H; equalities.
-      exists n; auto.
-    + destruct a.
-      revert H; equalities.
-      exists n0; auto.
-  - simpl in H.
-    destruct y.
-    + discriminate.
-    + destruct a.
-      revert H; equalities.
-      * exists dom; auto.
-      * exists dom; auto.
-      * exists n0; auto.
-    + destruct a0, a.
-      revert H; equalities;
-      destruct (arrs _ _ _); try discriminate.
-      exists n2; auto.
-  - destruct y.
-    + discriminate.
-    + simpl in H.
-      exists n.
-      simpl; intuition.
-      destruct l.
-        destruct a2.
-        revert H; equalities.
-      rewrite last_cons in *.
-      destruct (last l a).
-      revert H; equalities.
-    + simpl in H.
-      destruct a.
-      simpl.
-      exists n0; intuition.
-      destruct l.
-        destruct a2.
-        revert H; equalities.
-      rewrite last_cons in *.
-      destruct (last l a).
-      revert H; equalities.
-Qed.
-
-(* Theorem normalize_denote_cons : ∀ a l dom cod f, *)
-(*   normalize_denote dom cod (ArrowChain a l) = Some f -> *)
-(*   ∃ mid f', normalize_denote dom cod (ArrowChain a l) = Some f' -> *)
-
-Theorem normalize_compose : ∀ x y dom cod f,
+Theorem normalize_compose {x y dom cod f} :
+  ArrowList_cod y = ArrowList_dom x ->
   normalize_denote dom cod (ArrowList_append x y) = Some f ->
   ∃ mid g h, f ≈ g ∘ h ∧
-    ArrowList_dom x = Some mid ∧
-    ArrowList_cod y = Some mid ∧
+    ArrowList_dom x = mid ∧
+    ArrowList_cod y = mid ∧
     normalize_denote mid cod x = Some g ∧
     normalize_denote dom mid y = Some h.
 Proof.
+  generalize dependent f.
+  generalize dependent cod.
   induction x using ArrowList_list_rect; intros.
-  - discriminate.
-  - destruct y; simpl in H.
-    + discriminate.
-    + revert H; equalities.
-      exists cod, id, id.
-      inversion_clear H.
-      split.
-        cat.
-      intuition;
-      rewrite Neq_dec_refl;
-      reflexivity.
+  - rewrite <- H.
+    exists cod, id, f.
+    rewrite ArrowList_id_left in H0.
+    simpl in H.
+    rewrite (normalize_list_cod H0) in *; subst.
+    split; cat.
+    simpl; equalities.
+  - destruct y using ArrowList_list_rect; simpl in H.
     + destruct a.
-      revert H; equalities.
-        exists n0, (@id C (objs n0)), f.
-        split.
-          cat.
-        intuition.
-        equalities.
-      destruct (normalize_denote_chain_dom_cod _ _ _ _ _ _ _ H); subst.
-      contradiction.
-  - destruct y; simpl in H.
-    + discriminate.
-    + destruct a.
-      destruct (N.eq_dec n n0); subst.
-        rewrite N.eqb_refl in H.
-        simpl in H.
-        destruct (arrs _ _ _) eqn:Heqe.
-          revert H; equalities.
-          exists dom, f, (@id C (objs dom)).
-          split.
-            cat.
-          simpl in H.
-          rewrite Heqe.
-          intuition.
-            rewrite Neq_dec_refl.
-            assumption.
-          equalities.
-        discriminate.
-      revert H; equalities.
-    + destruct a0, a.
-      revert H; equalities.
-        destruct (arrs _ _ _); simpl in H.
-          destruct (normalize_denote_chain dom n2 (Arr n n2 n1) l) eqn:Heqe;
-          try discriminate.
-          exists n2, h, h0.
-          inversion_clear H.
-          split.
-            cat.
-          intuition.
-          equalities.
-        discriminate.
-      destruct (arrs _ _ _); discriminate.
-  - destruct y.
-    + discriminate.
-    + pose proof (normalize_list_dom _ _ _ _ H).
-      pose proof (normalize_list_cod _ _ _ _ H).
-      destruct (normalize_append_dom_cod _ _ _ _ _ H), a.
-      simpl in H0, H1, H2, H3.
-      inversion H2; subst.
-      exists dom, f, (@id C (objs dom)).
-      split.
-        cat.
-      destruct l.
-        simpl in *.
-        destruct a2.
-        inversion H3; subst.
-        rewrite N.eqb_refl in *.
-        simpl in H0, H1.
-        inversion H0; subst.
-        intuition.
-        equalities.
-      rewrite last_cons in *.
-      destruct (last l a).
-      inversion H3; subst.
-      rewrite N.eqb_refl in *.
-      simpl in *.
-      rewrite !H0 in *; clear H0.
-      destruct (N.eq_dec x dom); subst.
-        rewrite N.eqb_refl in *.
-        intuition.
-      revert H; equalities.
-    + specialize (IHx (ArrowChain a l0)).
-      pose proof (normalize_list_dom _ _ _ _ H).
-      pose proof (normalize_list_cod _ _ _ _ H).
-      destruct (normalize_append_dom_cod _ _ _ _ _ H), a0.
-      simpl in H0, H1, H2, H3.
-      inversion H2; subst.
-      rewrite H3 in *.
-      destruct a, a1, a2.
-      inversion H5; subst; clear H2 H5.
-      rewrite N.eqb_refl in *.
-      simpl in H0, H1.
-      revert H0.
-      rewrite last_app_cons.
-      rewrite last_cons.
-      replace (match l ++ Arr n x n1 :: l0 with
-               | [] => Arr n5 n6 n7
-               | _ :: _ => last l0 (Arr n x n1)
-               end) with (last l0 (Arr n x n1)) by (destruct l; auto).
-      destruct (last l0 (Arr n x n1)); intros.
-      inversion H0; subst; clear H0.
-      inversion H1; subst; clear H1 n8 n9.
-
-      simpl in H.
-      rewrite H3 in H.
-      rewrite N.eqb_refl in H.
-      simpl in H.
-      rewrite Neq_dec_refl in H.
-      destruct (arrs _ _ _) eqn:?; try discriminate.
-      destruct (normalize_denote_chain dom n2 (Arr n5 n6 n7)
-                                       (l ++ Arr n x n1 :: l0)) eqn:?;
-      try discriminate.
-      rewrite ArrowList_append_chains in IHx.
-        simpl in IHx.
-        destruct (IHx _ _ _ Heqo0), s, s.
-        equalities.
-        rewrite H3.
-        inversion a0; subst.
-        exists x0.
-        rewrite a1, b, Heqo.
-        exists (h ∘ x1), x2.
-        split.
-          rewrite <- comp_assoc.
-          rewrite <- e.
-          simpl in H.
-          inversion_clear H.
-          reflexivity.
-        intuition.
-      pose proof (normalize_denote_chain_append_dom_cod _ _ _ _ _ _ _ Heqo0).
-      simpl in *.
-      unfold Arrow_dom in H0.
-      destruct (last l (Arr n5 n6 n7)); subst.
-      reflexivity.
+      exists dom, f, id.
+      rewrite ArrowList_id_right in H0 by auto.
+      rewrite (normalize_list_dom H0); subst.
+      rewrite H0.
+      pose proof (normalize_list_dom H0).
+      simpl in H; subst.
+      split; cat.
+      simpl; equalities.
+    + rewrite ArrowList_append_chains in H0 by auto.
+      apply (normalize_denote_chain_compose H0).
+    + rewrite ArrowList_append_chains in H0 by auto.
+      apply (normalize_denote_chain_compose H0).
+  - destruct y using ArrowList_list_rect; simpl in H.
+    + destruct a1, a2.
+      exists dom, f, id.
+      rewrite ArrowList_id_right in H0 by auto.
+      rewrite (normalize_list_dom H0); subst.
+      rewrite H0.
+      pose proof (normalize_list_dom H0).
+      simpl in H; subst.
+      split; cat.
+      simpl; equalities.
+    + rewrite ArrowList_append_chains in H0 by auto.
+      apply (normalize_denote_chain_compose H0).
+    + rewrite ArrowList_append_chains in H0 by auto.
+      apply (normalize_denote_chain_compose H0).
 Qed.
 
-Theorem normalize_sound : ∀ p dom cod f,
+Theorem normalize_sound {p dom cod f} :
+  Term_well_typed dom cod p ->
   normalize_denote dom cod (normalize p) = Some f ->
   ∃ f', f ≈ f' ∧ denote dom cod p = Some f'.
 Proof.
+  generalize dependent dom.
+  generalize dependent cod.
   induction p; intros.
   - simpl in *; exists f; subst.
     split; [reflexivity|].
@@ -1103,26 +871,38 @@ Proof.
     split; [reflexivity|].
     equalities;
     destruct (arrs _ _ _); discriminate.
-  - specialize (IHp1 (TermCod p2) cod).
-    specialize (IHp2 dom (TermCod p2)).
-    apply normalize_compose in H.
+  - simpl in H.
+    apply normalize_compose in H0.
+      fold @normalize in *.
+      destruct H0, s, s.
+      equalities.
+      destruct (N.eq_dec x (TermCod p2)).
+        rewrite <- e in *.
+        destruct (IHp1 _ _ _ H1 a2), (IHp2 _ _ _ H3 b0), p, p0.
+        rewrite e3.
+        rewrite e1.
+        exists (x2 ∘ x3).
+        split.
+          rewrite <- e0, <- e2.
+          assumption.
+        reflexivity.
+      pose proof (ArrowList_specific_sound _ H3).
+      equalities.
+      rewrite a1 in H4.
+      contradiction.
     fold @normalize in *.
-    destruct H, s, s.
     equalities.
-    apply ArrowList_dom_sound in a.
-    apply ArrowList_cod_sound in a0.
-    subst.
-    rewrite a0 in *.
-    destruct (IHp1 x0), (IHp2 x1); clear IHp1 IHp2; intuition.
-    exists (x ∘ x2).
-    split.
-      rewrite e, a, a2.
-      reflexivity.
-    rewrite b1, b0.
+    clear IHp1 IHp2.
+    pose proof (ArrowList_normalize_dom_cod_sound H2).
+    pose proof (ArrowList_normalize_dom_cod_sound H4).
+    equalities.
+    rewrite H6, H.
     reflexivity.
 Qed.
 
 Theorem normalize_apply dom cod : ∀ f g,
+  Term_well_typed_bool dom cod f = true ->
+  Term_well_typed_bool dom cod g = true ->
   (∃ f', normalize_denote dom cod (normalize f) = Some f') ->
   (∃ g', normalize_denote dom cod (normalize g) = Some g') ->
   normalize f = normalize g ->
@@ -1130,10 +910,9 @@ Theorem normalize_apply dom cod : ∀ f g,
 Proof.
   intros.
   destruct X.
-  destruct (normalize_sound _ dom cod _ e), p.
+  destruct (normalize_sound (Term_well_typed_bool_sound _ _ _ H) e), p.
   destruct X0.
-  destruct (normalize_sound _ dom cod _ e2), p.
-  inversion H; subst; clear H.
+  destruct (normalize_sound (Term_well_typed_bool_sound _ _ _ H0) e2), p.
   rewrite e1, e4.
   red.
   rewrite <- e0, <- e3.
@@ -1280,7 +1059,8 @@ Ltac categorical :=
           pose r2';
           match r2' with
           | Some ?r2'' =>
-            apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1) r1 r2);
+            apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1)
+                                   r1 r2 eq_refl eq_refl);
             vm_compute; auto;
             eexists; reflexivity
           | None => idtac
