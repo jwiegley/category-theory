@@ -11,7 +11,7 @@ Require Import Coq.Lists.List.
 Require Import Coq.Classes.Morphisms.
 Require Import Coq.quote.Quote.
 Require Import Coq.Wellfounded.Lexicographic_Product.
-Require Import Coq.NArith.NArith.
+Require Import Coq.PArith.PArith.
 
 Generalizable All Variables.
 
@@ -48,8 +48,8 @@ Proof.
   destruct ys; auto.
 Qed.
 
-Definition obj_idx := N.
-Definition arr_idx := N.
+Definition obj_idx := positive.
+Definition arr_idx := positive.
 
 Set Universe Polymorphism.
 
@@ -74,11 +74,11 @@ Defined.
 
 Unset Universe Polymorphism.
 
-Open Scope N_scope.
+Open Scope positive_scope.
 
 Inductive Term : Set :=
-  | Identity : N -> Term
-  | Morph    : N -> N -> N -> Term
+  | Identity : positive -> Term
+  | Morph    : positive -> positive -> positive -> Term
   | Compose  : Term -> Term -> Term.
 
 Fixpoint TermDom (e : Term) : obj_idx :=
@@ -98,7 +98,7 @@ Fixpoint TermCod (e : Term) : obj_idx :=
 Section Denotation.
 
 Inductive Arrow : Set :=
-  | Arr : N -> N -> N -> Arrow.
+  | Arr : positive -> positive -> positive -> Arrow.
 
 Definition Arrow_dom (f : Arrow) : obj_idx :=
   match f with Arr x _ _ => x end.
@@ -110,11 +110,11 @@ Definition Arrow_morph (f : Arrow) : arr_idx :=
   match f with Arr _ _ f => f end.
 
 Inductive ArrowList : Set :=
-  | IdentityOnly : N -> ArrowList
+  | IdentityOnly : positive -> ArrowList
   | ArrowChain   : Arrow -> list Arrow -> ArrowList.
 
 Lemma ArrowList_list_rect : ∀ (P : ArrowList → Type),
-  (∀ (x : N), P (IdentityOnly x)) →
+  (∀ (x : positive), P (IdentityOnly x)) →
   (∀ (a : Arrow), P (ArrowChain a [])) →
   (∀ (a1 a2 : Arrow) (l : list Arrow), P (ArrowChain a2 l) → P (ArrowChain a1 (a2 :: l))) →
   ∀ l : ArrowList, P l.
@@ -158,7 +158,7 @@ Definition ArrowList_length (xs : ArrowList) : nat :=
 
 (* Convert a valid arrow list to a mere list of arrows, stripping out object
    indices. *)
-Definition ArrowList_toList (xs : ArrowList) : list N :=
+Definition ArrowList_toList (xs : ArrowList) : list positive :=
   match xs with
   | IdentityOnly _ => nil
   | ArrowChain (Arr _ _ f) xs => f :: map Arrow_morph xs
@@ -188,17 +188,17 @@ Proof.
   exact eq_dec.
 Defined.
 
-Lemma Neq_dec' : ∀ x y : N, x = y \/ x ≠ y.
+Lemma Neq_dec' : ∀ x y : positive, x = y \/ x ≠ y.
 Proof.
   intros.
-  destruct (N.eq_dec x y); auto.
+  destruct (Pos.eq_dec x y); auto.
 Defined.
 
-Lemma Neq_dec_refl n : N.eq_dec n n = left (@eq_refl N n).
+Lemma Neq_dec_refl n : Pos.eq_dec n n = left (@eq_refl positive n).
 Proof.
-  destruct (N.eq_dec n n).
-    refine (K_dec_on_type N n (Neq_dec' n)
-              (fun x => @left _ _ x = @left _ _ (@eq_refl N n)) _ _).
+  destruct (Pos.eq_dec n n).
+    refine (K_dec_on_type positive n (Neq_dec' n)
+              (fun x => @left _ _ x = @left _ _ (@eq_refl positive n)) _ _).
     reflexivity.
   contradiction.
 Qed.
@@ -221,16 +221,16 @@ Definition rev_rect (A : Type) (P : list A → Type)
 Ltac equalities :=
   repeat (
     match goal with
-    | [ H : context[match N.eq_dec ?N ?N with _ => _ end] |- _ ] =>
+    | [ H : context[match Pos.eq_dec ?N ?N with _ => _ end] |- _ ] =>
       rewrite Neq_dec_refl in H
-    | [ |- context[match N.eq_dec ?N ?N with _ => _ end] ] =>
+    | [ |- context[match Pos.eq_dec ?N ?N with _ => _ end] ] =>
       rewrite Neq_dec_refl
-    | [ H : context[match N.eq_dec ?N ?M with _ => _ end] |- _ ] =>
-      destruct (N.eq_dec N M); subst
-    | [ |- context[match N.eq_dec ?N ?M with _ => _ end] ] =>
-      destruct (N.eq_dec N M); subst
+    | [ H : context[match Pos.eq_dec ?N ?M with _ => _ end] |- _ ] =>
+      destruct (Pos.eq_dec N M); subst
+    | [ |- context[match Pos.eq_dec ?N ?M with _ => _ end] ] =>
+      destruct (Pos.eq_dec N M); subst
     | [ |- context[if ?N =? ?N then _ else _] ] =>
-      rewrite N.eqb_refl
+      rewrite Pos.eqb_refl
     | [ |- context[if ?N =? ?M then _ else _] ] =>
       let Heqe := fresh "Heqe" in
       destruct (N =? M) eqn:Heqe
@@ -244,9 +244,9 @@ Ltac equalities :=
     | [ H : _ ∧ _ |- _ ] =>
       destruct H
     | [ H : (_ =? _) = true |- _ ] =>
-      apply N.eqb_eq in H; subst
+      apply Pos.eqb_eq in H; subst
     | [ H : (_ =? _) = false |- _ ] =>
-      apply N.eqb_neq in H
+      apply Pos.eqb_neq in H
     end;
     subst; simpl; auto;
     simpl TermDom in *;
@@ -482,7 +482,7 @@ Proof.
   induction f using ArrowList_list_rect; intros.
   - exact (Identity x0).
   - destruct a.
-    exact (Morph n n0 n1).
+    exact (Morph p p0 p1).
   - apply IHf; clear IHf.
     destruct l using rev_rect; simpl in *.
       destruct a2; auto.
@@ -490,10 +490,10 @@ Proof.
     rewrite last_app_cons in *; simpl in *.
     destruct x0; simpl in *.
     revert H.
-    replace (match l ++ [Arr n n0 n1] with
+    replace (match l ++ [Arr p p0 p1] with
              | [] => a2
-             | _ :: _ => Arr n n0 n1
-             end) with (Arr n n0 n1) by (destruct l; auto).
+             | _ :: _ => Arr p p0 p1
+             end) with (Arr p p0 p1) by (destruct l; auto).
     auto.
 Defined.
 
@@ -525,7 +525,7 @@ Next Obligation.
   simpl in *; subst.
   do 4 f_equal;
   apply Eqdep_dec.UIP_dec;
-  apply N.eq_dec.
+  apply Pos.eq_dec.
 Qed.
 Next Obligation.
   destruct (ArrowList_Category_obligation_3 _ _ _ _ _); simpl in *.
@@ -541,7 +541,7 @@ Fixpoint denote dom cod (e : Term) :
   option (objs dom ~> objs cod) :=
   match e with
   | Identity t =>
-    match N.eq_dec t dom, N.eq_dec t cod with
+    match Pos.eq_dec t dom, Pos.eq_dec t cod with
     | left pf_dom, left pf_cod =>
       Some (match pf_dom, pf_cod with
             | eq_refl, eq_refl => @id C (objs t)
@@ -549,7 +549,7 @@ Fixpoint denote dom cod (e : Term) :
     | _ , _ => None
     end
   | Morph dom' cod' n =>
-    match N.eq_dec dom' dom, N.eq_dec cod' cod, arrs n dom' cod' with
+    match Pos.eq_dec dom' dom, Pos.eq_dec cod' cod, arrs n dom' cod' with
     | left pf_dom, left pf_cod, Some arr =>
       Some (match pf_dom, pf_cod with
             | eq_refl, eq_refl => arr
@@ -588,7 +588,7 @@ Fixpoint normalize_denote_chain dom cod
   | Arr x y h, nil =>
     match arrs h x y with
     | Some p =>
-      match N.eq_dec x dom, N.eq_dec y cod with
+      match Pos.eq_dec x dom, Pos.eq_dec y cod with
       | left Hdom, left Hcod =>
         Some (eq_rect y (fun z => objs dom ~> objs z)
                       (eq_rect x (fun z => objs z ~> objs y)
@@ -600,7 +600,7 @@ Fixpoint normalize_denote_chain dom cod
   | Arr x y h, Arr z w j :: js =>
     match arrs h x y with
     | Some p =>
-      match N.eq_dec y cod with
+      match Pos.eq_dec y cod with
       | left Hcod =>
         match normalize_denote_chain dom x (Arr z w j) js with
         | Some q =>
@@ -643,7 +643,7 @@ Proof.
   destruct x, x0, y; simpl.
   - destruct (arrs _ _ _); try discriminate.
     revert H; equalities.
-    destruct (normalize_denote_chain dom n2 (Arr n5 n6 n7) ys) eqn:?;
+    destruct (normalize_denote_chain dom p2 (Arr p5 p6 p7) ys) eqn:?;
     try discriminate.
     exists _, h, h0.
     inversion_clear H.
@@ -654,7 +654,7 @@ Proof.
     assumption.
   - destruct (arrs _ _ _) eqn:?; try discriminate.
     revert H; equalities.
-    destruct (normalize_denote_chain dom n2 (Arr n5 n6 n7)
+    destruct (normalize_denote_chain dom p2 (Arr p5 p6 p7)
                                      (l ++ y0 :: ys)) eqn:?;
     try discriminate.
     destruct (X _ _ _ Heqo0), s, s.
@@ -670,9 +670,9 @@ Proof.
     intuition.
     clear X.
     replace (match l with
-             | [] => Arr n5 n6 n7
-             | _ :: _ => last l (Arr n2 cod n4)
-             end) with (last l (Arr n5 n6 n7)).
+             | [] => Arr p5 p6 p7
+             | _ :: _ => last l (Arr p2 cod p4)
+             end) with (last l (Arr p5 p6 p7)).
       reflexivity.
     clear.
     induction l; auto.
@@ -719,7 +719,7 @@ Definition normalize_denote dom cod (xs : ArrowList) :
   option (objs dom ~> objs cod) :=
   match xs with
   | IdentityOnly x =>
-    match N.eq_dec x dom, N.eq_dec x cod with
+    match Pos.eq_dec x dom, Pos.eq_dec x cod with
     | left Hdom, left Hcod =>
       Some (eq_rect x (fun z => objs dom ~> objs z)
                     (eq_rect x (fun z => objs z ~> objs x)
@@ -738,13 +738,13 @@ Proof.
   - destruct l; intros.
       simpl in *.
       destruct a.
-      destruct (arrs n1 n n0); equalities.
+      destruct (arrs p1 p p0); equalities.
       discriminate.
     simpl in *.
     destruct a.
     equalities.
     destruct a0.
-    destruct (arrs n1 n n0); discriminate.
+    destruct (arrs p1 p p0); discriminate.
 Qed.
 
 Theorem normalize_list_dom {p dom cod f} :
@@ -756,13 +756,13 @@ Proof.
   - simpl in H; equalities.
   - simpl in *.
     destruct a.
-    destruct (arrs n1 n n0); equalities.
+    destruct (arrs p1 p p0); equalities.
     discriminate.
   - simpl in *.
     destruct a1, a2.
     destruct (arrs _ _ _); try discriminate.
     revert H; equalities.
-    destruct (normalize_denote_chain dom n (Arr n2 n3 n4) l) eqn:Heqe;
+    destruct (normalize_denote_chain dom p (Arr p2 p3 p4) l) eqn:Heqe;
     try discriminate.
     rewrite <- (IHp _ _ Heqe); clear IHp.
     induction l using rev_ind.
@@ -786,15 +786,15 @@ Proof.
   - destruct a.
     destruct (arrs _ _ _); try discriminate.
     revert H; equalities.
-    exists (Morph dom cod n1).
+    exists (Morph dom cod p1).
     simpl; intuition.
   - destruct a1, a2.
     destruct (arrs _ _ _); try discriminate.
     revert H; equalities.
-    destruct (normalize_denote_chain dom n (Arr n2 n3 n4) l) eqn:?;
+    destruct (normalize_denote_chain dom p (Arr p2 p3 p4) l) eqn:?;
     try discriminate.
-    destruct (IHp _ _ Heqo), p.
-    exists (Compose (Morph n cod n1) x).
+    destruct (IHp _ _ Heqo), p0.
+    exists (Compose (Morph p cod p1) x).
     simpl.
     inversion_clear H.
     intuition.
@@ -876,7 +876,7 @@ Proof.
       fold @normalize in *.
       destruct H0, s, s.
       equalities.
-      destruct (N.eq_dec x (TermCod p2)).
+      destruct (Pos.eq_dec x (TermCod p2)).
         rewrite <- e in *.
         destruct (IHp1 _ _ _ H1 a2), (IHp2 _ _ _ H3 b0), p, p0.
         rewrite e3.
@@ -962,10 +962,10 @@ Ltac allVars fs xs e :=
 
 Ltac lookup x xs :=
   match xs with
-  | (x, _) => constr:(0)
+  | (x, _) => constr:(1)
   | (_, ?xs') =>
     let n := lookup x xs' in
-    constr:(N.succ n)
+    constr:(Pos.succ n)
   end.
 
 Ltac reifyTerm fs xs t :=
@@ -990,21 +990,24 @@ Ltac reifyTerm fs xs t :=
 Ltac objects_function xs :=
   let rec loop n xs' :=
     match xs' with
-    | (?x, tt) => constr:(fun _ : N => x)
+    | (?x, tt) => constr:(fun _ : positive => x)
     | (?x, ?xs'') =>
-      let f := loop (N.succ n) xs'' in
-      constr:(fun m : N => if m =? n then x else f m)
+      let f := loop (Pos.succ n) xs'' in
+      constr:(fun m : positive => if m =? n then x else f m)
     end in
-  loop 0 xs.
+  loop 1 xs.
 
 Ltac observe n f xs objs k :=
   match type of f with
   | ?X ~> ?Y =>
     let xn := lookup X xs in
     let yn := lookup Y xs in
-    constr:(fun i x y : N =>
+    constr:(fun i x y : positive =>
+      (* It's unfortunate that we have to carry this structure in the type; if
+         we moved to a typed representation of arrows (where they return
+         appropriate object types), we won't need to do this here. *)
       if i =? n
-      then (match N.eq_dec xn x, N.eq_dec yn y with
+      then (match Pos.eq_dec xn x, Pos.eq_dec yn y with
             | left Hx, left Hy =>
               @Some (objs x ~> objs y)
                     (eq_rect yn (fun y => objs x ~> objs y)
@@ -1018,14 +1021,14 @@ Ltac arrows_function fs xs objs :=
   let rec loop n fs' :=
     match fs' with
     | tt =>
-      constr:(fun _ x y : N => @None (objs x ~> objs y))
+      constr:(fun _ x y : positive => @None (objs x ~> objs y))
     | (?f, tt) =>
-      observe n f xs objs (fun _ x y : N => @None (objs x ~> objs y))
+      observe n f xs objs (fun _ x y : positive => @None (objs x ~> objs y))
     | (?f, ?fs'') =>
-      let k := loop (N.succ n) fs'' in
+      let k := loop (Pos.succ n) fs'' in
       observe n f xs objs k
     end in
-  loop 0 fs.
+  loop 1 fs.
 
 Ltac categorical :=
   match goal with
@@ -1036,37 +1039,22 @@ Ltac categorical :=
       let env := allVars fs xs T in
       match env with
         (?fs, ?xs) =>
-        pose xs;
-        pose fs;
+        (* pose xs; *)
+        (* pose fs; *)
         let objs := objects_function xs in
         let arrs := arrows_function fs xs objs in
-        pose objs;
-        pose arrs;
+        (* pose objs; *)
+        (* pose arrs; *)
         let r1  := reifyTerm fs xs S in
         let r2  := reifyTerm fs xs T in
-        pose r1;
-        pose r2;
+        (* pose r1; *)
+        (* pose r2; *)
         change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈
                 denote _ objs arrs (TermDom r2) (TermCod r2) r2);
-
-        let r1' := eval simpl in (denote _ objs arrs (TermDom r1)
-                                         (TermCod r1) r1) in
-        pose r1';
-        match r1' with
-        | Some ?r1'' =>
-          let r2' := eval simpl in (denote _ objs arrs (TermDom r2)
-                                           (TermCod r2) r2) in
-          pose r2';
-          match r2' with
-          | Some ?r2'' =>
-            apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1)
-                                   r1 r2 eq_refl eq_refl);
-            vm_compute; auto;
-            eexists; reflexivity
-          | None => idtac
-          end
-        | None => idtac
-        end
+        apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1)
+                               r1 r2 eq_refl eq_refl);
+        vm_compute; auto;
+        eexists; reflexivity
       end
     end
   end.
@@ -1078,3 +1066,5 @@ Proof.
   intros.
   Time categorical.
 Qed.
+
+Print Assumptions sample_1.
