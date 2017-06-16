@@ -130,6 +130,12 @@ Fixpoint denote dom cod (e : Term) :
 Inductive Arrow : Set :=
   | Arr : N -> N -> N -> Arrow.
 
+Definition Arrow_dom (f : Arrow) : obj_idx :=
+  match f with Arr x _ _ => x end.
+
+Definition Arrow_cod (f : Arrow) : obj_idx :=
+  match f with Arr _ y _ => y end.
+
 Inductive ArrowList : Set :=
   | Invalid
   | IdentityOnly : N -> ArrowList
@@ -145,6 +151,16 @@ Proof.
   intros.
   destruct l; auto.
   generalize dependent a.
+  induction l; auto.
+Qed.
+
+Lemma ListOfArrows_rect : ∀ (P : Arrow -> list Arrow → Type),
+  (∀ (x : Arrow), P x []) →
+  (∀ (x y : Arrow) (l : list Arrow), P y l → P x (y :: l)) →
+  ∀ (x : Arrow) (l : list Arrow), P x l.
+Proof.
+  intros.
+  generalize dependent x.
   induction l; auto.
 Qed.
 
@@ -475,7 +491,9 @@ Fixpoint normalize (p : Term) : ArrowList :=
   | Compose f g => ArrowList_append (normalize f) (normalize g)
   end.
 
-Fixpoint normalize_denote_chain dom cod (g : Arrow) (gs : list Arrow) {struct gs} :=
+Fixpoint normalize_denote_chain dom cod
+         (g : Arrow) (gs : list Arrow) {struct gs} :
+  option (objs dom ~{ C }~> objs cod) :=
   match g, gs with
   | Arr x y h, nil =>
     match arrs h x y with
@@ -505,6 +523,104 @@ Fixpoint normalize_denote_chain dom cod (g : Arrow) (gs : list Arrow) {struct gs
     | _ => None
     end
   end.
+
+Lemma normalize_denote_chain_cod :
+  ∀ (gs : list Arrow) x y f dom cod f',
+    normalize_denote_chain dom cod (Arr x y f) gs = Some f' ->
+    cod = y.
+Proof.
+  destruct gs; simpl; intros.
+    destruct (arrs _ _ _).
+      revert H; equalities.
+    discriminate.
+  destruct a.
+  destruct (arrs _ _ _); try discriminate;
+  revert H; equalities.
+Qed.
+
+Theorem normalize_denote_chain_compose : ∀ x xs y ys dom cod f,
+  normalize_denote_chain dom cod x (xs ++ y :: ys) = Some f ->
+  ∃ mid g h, f ≈ g ∘ h ∧
+    Arrow_dom (last xs x) = mid ∧
+    Arrow_cod y = mid ∧
+    normalize_denote_chain mid cod x xs = Some g ∧
+    normalize_denote_chain dom mid y ys = Some h.
+Proof.
+  intros ??.
+  apply ListOfArrows_rect with (x:=x) (l:=xs); simpl; intros;
+  destruct x, x0, y; simpl.
+  - destruct (arrs _ _ _); try discriminate.
+    revert H; equalities.
+    destruct (normalize_denote_chain dom n2 (Arr n5 n6 n7) ys) eqn:?;
+    try discriminate.
+    exists _, h, h0.
+    inversion_clear H.
+    rewrite Neq_dec_refl; simpl.
+    intuition.
+    pose proof (normalize_denote_chain_cod _ _ _ _ _ _ _ Heqo).
+    symmetry.
+    assumption.
+  - destruct (arrs _ _ _) eqn:?; try discriminate.
+    revert H; equalities.
+    destruct (normalize_denote_chain dom n2 (Arr n5 n6 n7)
+                                     (l ++ y0 :: ys)) eqn:?;
+    try discriminate.
+    destruct (X _ _ _ _ _ Heqo0), s, s.
+    equalities.
+    subst.
+    inversion_clear H.
+    exists _, (h ∘ x0), x1.
+    split.
+      rewrite e.
+      rewrite comp_assoc.
+      reflexivity.
+    rewrite a1, b.
+    intuition.
+    clear X.
+    replace (match l with
+             | [] => Arr n5 n6 n7
+             | _ :: _ => last l (Arr n2 cod n4)
+             end) with (last l (Arr n5 n6 n7)).
+      reflexivity.
+    clear.
+    induction l; auto.
+    rewrite !last_cons.
+    reflexivity.
+Qed.
+
+Lemma normalize_denote_chain_dom_cod :
+  ∀ (gs : list Arrow) x y f dom cod f',
+    normalize_denote_chain dom cod (Arr x y f) gs = Some f' ->
+    cod = y /\ dom = match last gs (Arr x y f) with
+                       Arr z _ _ => z
+                     end.
+Proof.
+  induction gs using rev_ind; intros.
+    simpl in H.
+    destruct (arrs _ _ _).
+      revert H; equalities.
+    discriminate.
+  rewrite last_rcons.
+  destruct x.
+  apply normalize_denote_chain_compose in H.
+  destruct H, s, s.
+  equalities; simpl in *;
+  destruct (arrs _ _ _); try discriminate;
+  revert b; equalities.
+  specialize (IHgs _ _ _ _ _ _ a1).
+  intuition.
+Qed.
+
+Theorem normalize_denote_chain_append_dom_cod : ∀ x xs y ys dom cod f,
+  normalize_denote_chain dom cod x (xs ++ y :: ys) = Some f ->
+  Arrow_dom (last xs x) = Arrow_cod y.
+Proof.
+  intros.
+  destruct (normalize_denote_chain_compose _ _ _ _ _ _ _ H).
+  firstorder.
+  rewrite a0, a1.
+  reflexivity.
+Qed.
 
 (* The list [f; g; h] maps to [f ∘ g ∘ h]. *)
 Definition normalize_denote dom cod (xs : ArrowList) :
@@ -685,7 +801,8 @@ Proof.
           cat.
         intuition.
         equalities.
-      admit.
+      destruct (normalize_denote_chain_dom_cod _ _ _ _ _ _ _ H); subst.
+      contradiction.
   - destruct y; simpl in H.
     + discriminate.
     + destruct a.
@@ -747,45 +864,59 @@ Proof.
         rewrite N.eqb_refl in *.
         intuition.
       revert H; equalities.
-    + pose proof (normalize_list_dom _ _ _ _ H).
+    + specialize (IHx (ArrowChain a l0)).
+      pose proof (normalize_list_dom _ _ _ _ H).
       pose proof (normalize_list_cod _ _ _ _ H).
       destruct (normalize_append_dom_cod _ _ _ _ _ H), a0.
       simpl in H0, H1, H2, H3.
       inversion H2; subst.
       rewrite H3 in *.
       destruct a, a1, a2.
-      inversion H5; subst; clear H5.
+      inversion H5; subst; clear H2 H5.
       rewrite N.eqb_refl in *.
-      rewrite ArrowList_append_chains in H.
-        simpl in H.
-        destruct (arrs _ _ _) eqn:?; try discriminate.
-        revert H; equalities.
-        rewrite Heqo in *.
-        simpl in H0, H1.
+      simpl in H0, H1.
+      revert H0.
+      rewrite last_app_cons.
+      rewrite last_cons.
+      replace (match l ++ Arr n x n1 :: l0 with
+               | [] => Arr n5 n6 n7
+               | _ :: _ => last l0 (Arr n x n1)
+               end) with (last l0 (Arr n x n1)) by (destruct l; auto).
+      destruct (last l0 (Arr n x n1)); intros.
+      inversion H0; subst; clear H0.
+      inversion H1; subst; clear H1 n8 n9.
+
+      simpl in H.
+      rewrite H3 in H.
+      rewrite N.eqb_refl in H.
+      simpl in H.
+      rewrite Neq_dec_refl in H.
+      destruct (arrs _ _ _) eqn:?; try discriminate.
+      destruct (normalize_denote_chain dom n2 (Arr n5 n6 n7)
+                                       (l ++ Arr n x n1 :: l0)) eqn:?;
+      try discriminate.
+      rewrite ArrowList_append_chains in IHx.
+        simpl in IHx.
+        destruct (IHx _ _ _ Heqo0), s, s.
+        equalities.
         rewrite H3.
-        destruct (normalize_denote_chain dom n2 (Arr n5 n6 n7) (l ++ Arr n x n1 :: l0)).
+        inversion a0; subst.
+        exists x0.
+        rewrite a1, b, Heqo.
+        exists (h ∘ x1), x2.
+        split.
+          rewrite <- comp_assoc.
+          rewrite <- e.
+          simpl in H.
           inversion_clear H.
-          revert H0.
-          rewrite last_app_cons.
-          rewrite last_cons.
-          replace (match l ++ Arr n x n1 :: l0 with
-                   | [] => Arr n5 n6 n7
-                   | _ :: _ => last l0 (Arr n x n1)
-                   end) with (last l0 (Arr n x n1)) by (destruct l; auto).
-          destruct (last l0 (Arr n x n1)); intros.
-          inversion H0; subst; clear H0.
-          exists n2, h, h0.
-          split.
-            cat.
-          replace x with n2.
-            intuition.
-            admit.
-          admit.
-          admit.
-        discriminate.
-      simpl.
-      assumption.
-Admitted.
+          reflexivity.
+        intuition.
+      pose proof (normalize_denote_chain_append_dom_cod _ _ _ _ _ _ _ Heqo0).
+      simpl in *.
+      unfold Arrow_dom in H0.
+      destruct (last l (Arr n5 n6 n7)); subst.
+      reflexivity.
+Qed.
 
 Theorem normalize_sound : ∀ p dom cod f,
   normalize_denote dom cod (normalize p) = Some f ->
@@ -994,5 +1125,3 @@ Proof.
   intros.
   Time categorical.
 Qed.
-
-Print Assumptions sample_1.
