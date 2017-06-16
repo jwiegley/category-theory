@@ -472,35 +472,40 @@ Fixpoint denormalize (f : ArrowList) : Term :=
 Lemma normalize_denormalize f :
   normalize (denormalize f) = f.
 Proof.
-  destruct f; intros; auto.
-  induction l using rev_ind.
+  destruct f; auto.
+  generalize dependent a.
+  induction l using rev_ind; intros.
     destruct a; auto.
+  rewrite <- ArrowList_append_chains at 2.
+    rewrite <- IHl.
+    destruct a; simpl.
+    rewrite map_app.
+    rewrite fold_right_app.
+Admitted.
+
+Theorem denormalize_well_typed f :
+  Term_well_typed (ArrowList_dom f) (ArrowList_cod f) (denormalize f).
+Proof.
+  induction f using ArrowList_list_rect.
+  - simpl; intuition.
+  - destruct a; simpl; intuition.
+  - destruct a1, a2.
 Admitted.
 
 Program Instance ArrowList_to_Term : ArrowList_Category ⟶ Term_Category := {
   fobj := fun x => x;
   fmap := fun x y f => (denormalize (`1 f); _)
 }.
-Next Obligation.
-  induction f using ArrowList_list_rect; intros.
-  - unfold Term_well_typed; simpl.
-    intuition.
-  - destruct a.
-    unfold Term_well_typed; simpl.
-    intuition.
-  - destruct a1, a2.
-Admitted.
+Next Obligation. exact (denormalize_well_typed _). Qed.
 Next Obligation.
   proper.
-  simpl in *; subst.
-  do 4 f_equal;
+  repeat f_equal.
+  simpl in H; subst.
+  repeat f_equal;
   apply Eqdep_dec.UIP_dec;
   apply Pos.eq_dec.
 Qed.
-Next Obligation.
-  rewrite !normalize_denormalize.
-  reflexivity.
-Qed.
+Next Obligation. now rewrite !normalize_denormalize. Qed.
 
 Variable C : Category.
 Variable objs : obj_idx -> C.
