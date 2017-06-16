@@ -751,55 +751,40 @@ Proof.
       pose proof (normalize_list_cod _ _ _ _ H).
       destruct (normalize_append_dom_cod _ _ _ _ _ H), a0.
       simpl in H0, H1, H2, H3.
-      inversion H2; subst; clear H2.
-      rewrite H3 in *; clear H3.
+      inversion H2; subst.
+      rewrite H3 in *.
       destruct a, a1, a2.
       inversion H5; subst; clear H5.
       rewrite N.eqb_refl in *.
-      induction l using rev_rect.
-        simpl in H, H0, H1.
-        destruct (N.eq_dec x n5); subst.
-          rewrite N.eqb_refl in H.
-          simpl in H.
-          destruct (arrs _ _ _) eqn:?; try discriminate.
-          inversion H1; subst; clear H1.
-          rewrite Neq_dec_refl in *.
-          destruct (arrs _ _ _) eqn:?; try discriminate.
-          revert H; equalities.
-          destruct (normalize_denote_chain dom n5 (Arr n n5 n1) l0);
-          try discriminate.
-          inversion H; subst; clear H.
-          exists dom, (h ∘ h0 ∘ h1), (@id C (objs dom)).
+      rewrite ArrowList_append_chains in H.
+        simpl in H.
+        destruct (arrs _ _ _) eqn:?; try discriminate.
+        revert H; equalities.
+        rewrite Heqo in *.
+        simpl in H0, H1.
+        rewrite H3.
+        destruct (normalize_denote_chain dom n2 (Arr n5 n6 n7) (l ++ Arr n x n1 :: l0)).
+          inversion_clear H.
+          revert H0.
+          rewrite last_app_cons.
+          rewrite last_cons.
+          replace (match l ++ Arr n x n1 :: l0 with
+                   | [] => Arr n5 n6 n7
+                   | _ :: _ => last l0 (Arr n x n1)
+                   end) with (last l0 (Arr n x n1)) by (destruct l; auto).
+          destruct (last l0 (Arr n x n1)); intros.
+          inversion H0; subst; clear H0.
+          exists n2, h, h0.
           split.
             cat.
+          replace x with n2.
+            intuition.
+            admit.
           admit.
-        revert H; equalities.
-      clear IHl.
-      simpl in H, H0, H1.
-      rewrite last_app_cons in *.
-      rewrite last_cons in *.
-      simpl in *.
-      destruct (arrs _ _ _) eqn:?; try discriminate.
-        admit.
-      destruct l; simpl in *.
-        destruct x0.
-        destruct (N.eq_dec x n0); subst.
-          rewrite N.eqb_refl in H.
-          simpl in H.
-          rewrite Heqo in *.
-          discriminate.
-        apply N.eqb_neq in n10.
-        rewrite n10 in H.
+          admit.
         discriminate.
-      destruct x0.
-      destruct (N.eq_dec x n0); subst.
-        rewrite N.eqb_refl in H.
-        simpl in H.
-        rewrite Heqo in *.
-        discriminate.
-      apply N.eqb_neq in n10.
-      rewrite n10 in H.
-      discriminate.
+      simpl.
+      assumption.
 Admitted.
 
 Theorem normalize_sound : ∀ p dom cod f,
