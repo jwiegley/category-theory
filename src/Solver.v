@@ -155,7 +155,7 @@ Proof.
   destruct l; auto.
   generalize dependent a.
   induction l; auto.
-Qed.
+Defined.
 
 Lemma ListOfArrows_rect : ∀ (P : Arrow -> list Arrow → Type),
   (∀ (x : Arrow), P x []) →
@@ -165,7 +165,7 @@ Proof.
   intros.
   generalize dependent x.
   induction l; auto.
-Qed.
+Defined.
 
 Definition ArrowList_cod (xs : ArrowList) : option obj_idx :=
   match xs with
