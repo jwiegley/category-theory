@@ -471,7 +471,11 @@ Proof.
 Qed.
 
 (* We show here that ArrowList morphisms are just one way of representing a
-   free category. *)
+   free category. However, we still forget identities and which way
+   composition was associated, so really it's a normalized free category.
+
+   jww (2017-06-16): Show that Term ⊣ ArrowList (meaning, the functors that
+   map between them). *)
 Program Definition ArrowList_Category : Category := {|
   obj := obj_idx;
   hom := fun x y =>
