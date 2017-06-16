@@ -136,6 +136,9 @@ Definition Arrow_dom (f : Arrow) : obj_idx :=
 Definition Arrow_cod (f : Arrow) : obj_idx :=
   match f with Arr _ y _ => y end.
 
+Definition Arrow_morph (f : Arrow) : arr_idx :=
+  match f with Arr _ _ f => f end.
+
 Inductive ArrowList : Set :=
   | Invalid
   | IdentityOnly : N -> ArrowList
@@ -181,11 +184,20 @@ Definition ArrowList_dom (xs : ArrowList) : option obj_idx :=
     end
   end.
 
-Fixpoint ArrowList_length (xs : ArrowList) : nat :=
+Definition ArrowList_length (xs : ArrowList) : nat :=
   match xs with
   | Invalid => 0
   | IdentityOnly _ => 1
   | ArrowChain _ xs => 1 + length xs
+  end.
+
+(* Convert a valid arrow list to a mere list of arrows, stripping out object
+   indices. *)
+Definition ArrowList_toList (xs : ArrowList) : list N :=
+  match xs with
+  | Invalid => nil
+  | IdentityOnly _ => nil
+  | ArrowChain (Arr _ _ f) xs => f :: map Arrow_morph xs
   end.
 
 Definition ArrowList_append (xs ys : ArrowList) : ArrowList :=
@@ -460,7 +472,7 @@ Qed.
 
 (* We show here that ArrowList morphisms are just one way of representing a
    free category. *)
-Program Instance ArrowList_Category : Category := {
+Program Definition ArrowList_Category : Category := {|
   obj := obj_idx;
   hom := fun x y =>
     ∃ l : ArrowList, ArrowList_dom l = Some x ∧ ArrowList_cod l = Some y;
@@ -471,7 +483,7 @@ Program Instance ArrowList_Category : Category := {
   id_right := fun x _ f => ArrowList_id_right (`1 f) x _;
   comp_assoc := fun x y z w f g h =>
     ArrowList_append_assoc (`1 f) (`1 g) (`1 h) _ _
-}.
+|}.
 Next Obligation. equivalence; simpl in *; congruence. Qed.
 Next Obligation.
   rewrite ArrowList_append_dom, ArrowList_append_cod;
