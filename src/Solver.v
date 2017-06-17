@@ -833,20 +833,50 @@ Proof.
     reflexivity.
 Qed.
 
+Lemma normalize_well_typed_impl f g dom cod :
+  Term_well_typed dom cod f
+    -> normalize f = normalize g
+    -> Term_well_typed dom cod g.
+Proof.
+  intros.
+  apply ArrowList_normalize_dom_cod_sound in H.
+  rewrite H0 in H; clear H0 f.
+  destruct H.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction g; intros; simpl in H; subst.
+  - simpl; intuition.
+  - simpl; intuition.
+  - specialize (IHg1 _ eq_refl _ eq_refl).
+    specialize (IHg2 _ eq_refl _ eq_refl).
+    simpl; intuition.
+    + rewrite (Term_well_typed_dom IHg2).
+      admit.
+    + rewrite (Term_well_typed_cod IHg1).
+      admit.
+    + rewrite (Term_well_typed_cod IHg2).
+      rewrite (Term_well_typed_dom IHg1).
+      admit.
+    + admit.
+    + admit.
+Admitted.
+
 Theorem normalize_apply dom cod : ∀ f g,
   Term_well_typed_bool dom cod f = true ->
   (* jww (2017-06-16): This second well_typed witness should be implied *)
-  Term_well_typed_bool dom cod g = true ->
+  (* Term_well_typed_bool dom cod g = true -> *)
   normalize f = normalize g ->
   normalize_denote dom cod (normalize f) ||| false = true ->
   denote dom cod f ≈ denote dom cod g.
 Proof.
   intros.
+  apply Term_well_typed_bool_sound in H.
+  pose proof (normalize_well_typed_impl _ _ _ _ H H0).
   destruct (normalize_denote dom cod (normalize f)) eqn:?;
   try discriminate.
-  destruct (normalize_sound (Term_well_typed_bool_sound _ _ _ H) Heqo), p.
-  rewrite H1 in Heqo.
-  destruct (normalize_sound (Term_well_typed_bool_sound _ _ _ H0) Heqo), p.
+  destruct (normalize_sound H Heqo), p.
+  rewrite H0 in Heqo.
+  destruct (normalize_sound H2 Heqo), p.
   rewrite e0, e2.
   red.
   rewrite <- e, <- e1.
