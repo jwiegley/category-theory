@@ -303,6 +303,86 @@ Definition ArrowList_append (xs ys : ArrowList) : ArrowList :=
     ArrowChain f (xs ++ Arr z w g :: ys)
   end.
 
+Lemma ArrowList_append_chains a a0 l l0 :
+  ArrowList_dom (ArrowChain a l) = ArrowList_cod (ArrowChain a0 l0) ->
+  ArrowList_append (ArrowChain a l) (ArrowChain a0 l0) =
+  ArrowChain a (l ++ a0 :: l0).
+Proof.
+  generalize dependent a0.
+  generalize dependent l0.
+  simpl.
+  induction l using rev_ind; simpl; intros.
+    destruct a0, a; subst.
+    reflexivity.
+  rewrite last_app_cons in H; simpl in H.
+  destruct x, a0, a.
+  reflexivity.
+Qed.
+
+Lemma ArrowList_append_well_typed {dom mid cod f1 f2} :
+  ArrowList_dom f1 = mid ->
+  ArrowList_cod f2 = mid ->
+  ArrowList_well_typed mid cod f1 ->
+  ArrowList_well_typed dom mid f2 ->
+    ArrowList_well_typed dom cod (ArrowList_append f1 f2).
+Proof.
+  generalize dependent mid.
+  generalize dependent f2.
+  induction f1 using ArrowList_list_rect; intros.
+  - simpl in *.
+    equalities; subst.
+    destruct f2 using ArrowList_list_rect; simpl in *; auto.
+      destruct a; auto.
+    destruct a1, a2; auto.
+  - destruct a.
+    simpl in *.
+    equalities; subst.
+    destruct f2.
+      simpl in *; subst; intuition.
+    destruct a.
+    induction l using rev_ind.
+      simpl in *; equalities.
+      repeat (constructor; auto).
+    destruct x.
+    simpl in *.
+    rewrite !last_app_cons in *; simpl in *.
+    intuition.
+      replace (match l ++ [Arr p3 p4 p5] with
+               | [] => Arr p p0 p2
+               | _ :: _ => Arr p3 p4 p5
+               end) with (Arr p3 p4 p5) by (destruct l; auto).
+      assumption.
+    constructor; auto.
+  - destruct a1, a2.
+    equalities; subst.
+    destruct f2.
+      constructor; simpl in H1; intuition.
+      simpl in *; subst.
+      intuition.
+      rewrite <- H.
+      destruct l; auto.
+    rewrite ArrowList_append_chains by congruence.
+    simpl.
+    constructor.
+      simpl in H1; intuition.
+    rewrite last_app_cons, last_cons.
+    replace (match l ++ a :: l0 with
+             | [] => Arr p2 p3 p4
+             | _ :: _ => last l0 a
+             end) with (last l0 a) by (destruct l; auto).
+    pose proof (ArrowList_well_typed_dom H2).
+    split.
+      simpl in H.
+      destruct (last l0 a); auto.
+    clear -H1 H2.
+    inversion H1.
+    simpl in H2.
+    rewrite app_comm_cons.
+    rewrite app_comm_cons.
+    apply ForallAligned_app.
+    destruct a; intuition; subst.
+Qed.
+
 Definition rev_list_rect (A : Type) (P : list A → Type) (H : P [])
            (H0 : ∀ (a : A) (l : list A), P (rev l) → P (rev (a :: l)))
            (l : list A) : P (rev l) :=
@@ -419,22 +499,6 @@ Proof.
   apply ArrowList_specific_sound; auto.
 Qed.
 
-Lemma ArrowList_append_chains a a0 l l0 :
-  ArrowList_dom (ArrowChain a l) = ArrowList_cod (ArrowChain a0 l0) ->
-  ArrowList_append (ArrowChain a l) (ArrowChain a0 l0) =
-  ArrowChain a (l ++ a0 :: l0).
-Proof.
-  generalize dependent a0.
-  generalize dependent l0.
-  simpl.
-  induction l using rev_ind; simpl; intros.
-    destruct a0, a; subst.
-    reflexivity.
-  rewrite last_app_cons in H; simpl in H.
-  destruct x, a0, a.
-  reflexivity.
-Qed.
-
 Lemma ArrowList_id_left x y :
   ArrowList_append (IdentityOnly x) y = y.
 Proof.
@@ -471,7 +535,7 @@ Qed.
 Program Definition ArrowList_Category : Category := {|
   obj := obj_idx;
   hom := fun x y =>
-    ∃ l : ArrowList, ArrowList_dom l = x ∧ ArrowList_cod l = y;
+    ∃ l : ArrowList, ArrowList_well_typed x y l;
   homset := fun x y => {| equiv := fun f g => `1 f = `1 g |};
   id := fun x => (IdentityOnly x; _);
   compose := fun _ _ _ f g => (ArrowList_append (`1 f) (`1 g); _);
@@ -482,10 +546,12 @@ Program Definition ArrowList_Category : Category := {|
 |}.
 Next Obligation. equivalence; simpl in *; congruence. Qed.
 Next Obligation.
-  rewrite ArrowList_append_dom, ArrowList_append_cod;
-  intuition; congruence.
+  pose proof (ArrowList_well_typed_dom X0).
+  pose proof (ArrowList_well_typed_cod X).
+  eapply ArrowList_append_well_typed; eauto.
 Qed.
 Next Obligation. proper; simpl in *; subst; reflexivity. Qed.
+Next Obligation. apply ArrowList_well_typed_dom in X; auto. Qed.
 Next Obligation. apply ArrowList_append_assoc; congruence. Qed.
 Next Obligation. rewrite ArrowList_append_assoc; auto; congruence. Qed.
 Next Obligation. rewrite ArrowList_append_assoc; auto; congruence. Qed.
@@ -528,127 +594,147 @@ Next Obligation.
   equalities; congruence.
 Qed.
 
+Lemma ArrowList_well_typed_sound {f dom cod} :
+  Term_well_typed dom cod f -> ArrowList_well_typed dom cod (normalize f).
+Proof.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction f; simpl; intros.
+  - intuition.
+  - intuition.
+    constructor; constructor.
+  - equalities.
+    specialize (IHf1 _ _ H1).
+    specialize (IHf2 _ _ H3).
+    intros.
+    pose proof (ArrowList_well_typed_dom IHf1).
+    pose proof (ArrowList_well_typed_cod IHf2).
+    apply (ArrowList_append_well_typed H2 H4 IHf1 IHf2).
+Qed.
+
 Set Transparent Obligations.
 
 Program Instance Term_to_ArrowList : Term_Category ⟶ ArrowList_Category := {
   fobj := fun x => x;
   fmap := fun x y f => (normalize _; _)
 }.
-Next Obligation.
-  pose proof (ArrowList_normalize_dom_cod_sound X); intuition.
-Qed.
+Next Obligation. apply ArrowList_well_typed_sound; auto. Qed.
 
 Fixpoint denormalize (f : ArrowList) : Term :=
   match f with
   | IdentityOnly x  => Identity x
   | ArrowChain (Arr x y f) xs =>
-    (fold_right (fun x rest => rest \o (fun y => Compose y x))
-                Datatypes.id
-                (map (fun x => match x with
-                                 Arr x y f => Morph x y f
-                               end) xs)) (Morph x y f)
+    (fold_left (fun acc x => (fun y => Compose y x) \o acc)
+               (map (fun x => match x with
+                                Arr x y f => Morph x y f
+                              end) xs)
+               Datatypes.id) (Morph x y f)
   end.
 
-Lemma normalize_denormalize f :
-  normalize (denormalize f) = f.
+Lemma normalize_denormalize dom cod f :
+  ArrowList_well_typed dom cod f
+    -> normalize (denormalize f) = f.
 Proof.
   destruct f; auto.
   generalize dependent a.
+  generalize dependent dom.
   induction l using rev_ind; intros.
     destruct a; auto.
   rewrite <- ArrowList_append_chains at 2.
-    rewrite <- IHl.
-    destruct a; simpl.
-    rewrite map_app.
-    rewrite fold_right_app.
-Admitted.
+    rewrite <- (IHl (Arrow_cod x)); clear IHl.
+      destruct a; simpl.
+      rewrite map_app.
+      rewrite fold_left_app.
+      simpl.
+      f_equal.
+      destruct x; reflexivity.
+    destruct a; simpl in *.
+    destruct H, H0.
+    apply ForallAligned_app in H1.
+    destruct H1, H2.
+    intuition.
+    destruct (last l (Arr p p0 p1)).
+    simpl in H3.
+    congruence.
+  destruct a; simpl in *.
+  destruct H, H0.
+  apply ForallAligned_app in H1.
+  destruct H1, H2.
+  intuition.
+Qed.
 
-Theorem denormalize_well_typed f :
-  Term_well_typed (ArrowList_dom f) (ArrowList_cod f) (denormalize f).
+Theorem denormalize_well_typed dom cod f :
+  ArrowList_well_typed dom cod f
+    -> Term_well_typed dom cod (denormalize f).
 Proof.
-  induction f using ArrowList_list_rect.
-  - simpl; intuition.
-  - destruct a; simpl; intuition.
-  - destruct a1, a2.
-Admitted.
+  destruct f; auto.
+  generalize dependent a.
+  generalize dependent dom.
+  induction l using rev_ind; intros.
+    destruct a; simpl in *; intuition.
+  rewrite <- ArrowList_append_chains.
+    assert (ArrowList_well_typed (Arrow_cod x) cod (ArrowChain a l)).
+      clear IHl.
+      destruct a; simpl in *.
+      destruct H, H0.
+      apply ForallAligned_app in H1.
+      destruct H1, H2.
+      subst.
+      rewrite last_app_cons in H0; simpl in H0.
+      destruct x; subst.
+      intuition.
+      simpl in *.
+      destruct (last l (Arr p cod p1)); auto.
+    specialize (IHl (Arrow_cod x) a H0).
+    simpl in H, H0.
+    destruct x, a; simpl.
+    rewrite last_app_cons in H; simpl in H.
+    destruct H, H1.
+    destruct H0, H3.
+    subst.
+    apply ForallAligned_app in H2.
+    destruct H2, H1.
+    clear H0.
+    rewrite map_app.
+    rewrite fold_left_app.
+    simpl.
+    intuition.
+      clear.
+      induction l using rev_ind; simpl; auto.
+      rewrite map_app.
+      rewrite fold_left_app.
+      simpl; assumption.
+    clear -H2.
+    induction l using rev_ind; simpl; auto.
+    destruct x.
+    rewrite map_app.
+    rewrite fold_left_app.
+    simpl in *.
+    rewrite last_app_cons in H2; simpl in H2.
+    assumption.
+  destruct a; simpl in *.
+  destruct H, H0.
+  apply ForallAligned_app in H1.
+  destruct H1, H2.
+  intuition.
+Qed.
 
 Program Instance ArrowList_to_Term : ArrowList_Category ⟶ Term_Category := {
   fobj := fun x => x;
   fmap := fun x y f => (denormalize (`1 f); _)
 }.
-Next Obligation. exact (denormalize_well_typed _). Qed.
+Next Obligation. apply denormalize_well_typed; auto. Qed.
 Next Obligation.
   proper.
   repeat f_equal.
-  simpl in H; subst.
-  repeat f_equal;
-  apply Eqdep_dec.UIP_dec;
-  apply Pos.eq_dec.
-Qed.
-Next Obligation. now rewrite !normalize_denormalize. Qed.
-
-Lemma ArrowList_append_well_typed {dom mid cod f1 f2} :
-  ArrowList_dom f1 = mid ->
-  ArrowList_cod f2 = mid ->
-  ArrowList_well_typed mid cod f1 ->
-  ArrowList_well_typed dom mid f2 ->
-    ArrowList_well_typed dom cod (ArrowList_append f1 f2).
-Proof.
-  generalize dependent mid.
-  generalize dependent f2.
-  induction f1 using ArrowList_list_rect; intros.
-  - simpl in *.
-    equalities; subst.
-    destruct f2 using ArrowList_list_rect; simpl in *; auto.
-      destruct a; auto.
-    destruct a1, a2; auto.
-  - destruct a.
-    simpl in *.
-    equalities; subst.
-    destruct f2.
-      simpl in *; subst; intuition.
-    destruct a.
-    induction l using rev_ind.
-      simpl in *; equalities.
-      repeat (constructor; auto).
-    destruct x.
-    simpl in *.
-    rewrite !last_app_cons in *; simpl in *.
-    intuition.
-      replace (match l ++ [Arr p3 p4 p5] with
-               | [] => Arr p p0 p2
-               | _ :: _ => Arr p3 p4 p5
-               end) with (Arr p3 p4 p5) by (destruct l; auto).
-      assumption.
-    constructor; auto.
-  - destruct a1, a2.
-    equalities; subst.
-    destruct f2.
-      constructor; simpl in H1; intuition.
-      simpl in *; subst.
-      intuition.
-      rewrite <- H.
-      destruct l; auto.
-    rewrite ArrowList_append_chains by congruence.
-    simpl.
-    constructor.
-      simpl in H1; intuition.
-    rewrite last_app_cons, last_cons.
-    replace (match l ++ a :: l0 with
-             | [] => Arr p2 p3 p4
-             | _ :: _ => last l0 a
-             end) with (last l0 a) by (destruct l; auto).
-    pose proof (ArrowList_well_typed_dom H2).
-    split.
-      simpl in H.
-      destruct (last l0 a); auto.
-    clear -H1 H2.
-    inversion H1.
-    simpl in H2.
-    rewrite app_comm_cons.
-    rewrite app_comm_cons.
-    apply ForallAligned_app.
-    destruct a; intuition; subst.
+  simpl in *; subst.
+  repeat f_equal.
+Admitted.
+Next Obligation.
+  erewrite !normalize_denormalize; eauto.
+  pose proof (ArrowList_well_typed_dom X0).
+  pose proof (ArrowList_well_typed_cod X).
+  eapply ArrowList_append_well_typed; eauto.
 Qed.
 
 Variable C : Category.
@@ -975,24 +1061,6 @@ Proof.
     equalities.
     rewrite H6, H.
     reflexivity.
-Qed.
-
-Lemma ArrowList_well_typed_sound {f dom cod} :
-  Term_well_typed dom cod f -> ArrowList_well_typed dom cod (normalize f).
-Proof.
-  generalize dependent dom.
-  generalize dependent cod.
-  induction f; simpl; intros.
-  - intuition.
-  - intuition.
-    constructor; constructor.
-  - equalities.
-    specialize (IHf1 _ _ H1).
-    specialize (IHf2 _ _ H3).
-    intros.
-    pose proof (ArrowList_well_typed_dom IHf1).
-    pose proof (ArrowList_well_typed_cod IHf2).
-    apply (ArrowList_append_well_typed H2 H4 IHf1 IHf2).
 Qed.
 
 Theorem normalize_apply dom cod : ∀ f g,
