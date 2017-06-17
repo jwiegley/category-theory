@@ -110,6 +110,20 @@ Inductive ArrowList : Set :=
   | IdentityOnly : positive -> ArrowList
   | ArrowChain   : Arrow -> list Arrow -> ArrowList.
 
+Definition ArrowList_well_typed dom cod (xs : ArrowList) : Prop :=
+  match xs with
+  | IdentityOnly x => x = dom /\ x = cod
+  | ArrowChain (Arr x y f) xs =>
+    y = cod /\
+    ForallOrdPairs (fun x y =>
+                      match x, y with
+                        Arr a b g, Arr c d h => a = d
+                      end) (Arr x y f :: xs) /\
+    match last xs (Arr x y f) with
+      Arr a b g => a = dom
+    end
+  end.
+
 Definition ArrowList_list_rect : ∀ (P : ArrowList → Type),
   (∀ (x : positive), P (IdentityOnly x)) →
   (∀ (a : Arrow), P (ArrowChain a [])) →
@@ -507,6 +521,66 @@ Next Obligation.
 Qed.
 Next Obligation. now rewrite !normalize_denormalize. Qed.
 
+Lemma ArrowList_append_well_typed {dom cod f1 f2} :
+  ArrowList_well_typed
+    dom cod (ArrowList_append f1 f2) ->
+  exists mid, ArrowList_well_typed mid cod f1 ∧
+              ArrowList_well_typed dom mid f2.
+Proof.
+  intros.
+  exists (ArrowList_cod f2).
+  generalize dependent cod.
+  generalize dependent f2.
+  induction f1 using ArrowList_list_rect; simpl; intros.
+  - destruct f2 using ArrowList_list_rect; simpl in *; auto.
+    + admit.
+    + admit.
+    + admit.
+  - destruct f2 using ArrowList_list_rect; simpl in *; auto.
+    + admit.
+    + admit.
+    + admit.
+  - destruct f2 using ArrowList_list_rect; simpl in *; auto.
+    + admit.
+    + admit.
+    + admit.
+Admitted.
+
+Lemma ArrowList_append_well_typed_impl {dom mid cod f1 f2} :
+  ArrowList_well_typed mid cod f1 ∧
+  ArrowList_well_typed dom mid f2 ->
+    ArrowList_well_typed dom cod (ArrowList_append f1 f2).
+Proof.
+  generalize dependent cod.
+  generalize dependent mid.
+  generalize dependent f2.
+  induction f1 using ArrowList_list_rect; simpl; intros.
+  - equalities; subst.
+    destruct f2 using ArrowList_list_rect; simpl in *; auto.
+      destruct a; auto.
+    destruct a1, a2; auto.
+  - equalities; subst.
+    destruct a.
+    destruct f2 using ArrowList_list_rect; simpl in *.
+    + intuition; subst; auto.
+    + destruct a; simpl.
+      intuition; subst; auto.
+      constructor; auto.
+    + destruct a1, a2; simpl.
+      intuition; subst; auto.
+        admit.
+      admit.
+  - destruct a1, a2.
+    equalities; subst.
+    destruct f2 using ArrowList_list_rect; simpl in *.
+    + intuition; subst; auto.
+    + destruct a; simpl.
+      intuition; subst; auto.
+        admit.
+      admit.
+    + admit.
+Admitted.
+
 Variable C : Category.
 Variable objs : obj_idx -> C.
 Variable arrs : arr_idx -> ∀ a b : obj_idx, option (objs a ~> objs b).
@@ -833,50 +907,49 @@ Proof.
     reflexivity.
 Qed.
 
-Lemma normalize_well_typed_impl f g dom cod :
-  Term_well_typed dom cod f
-    -> normalize f = normalize g
-    -> Term_well_typed dom cod g.
+Lemma normalize_well_typed_impl {f dom cod} :
+  Term_well_typed dom cod f <-> ArrowList_well_typed dom cod (normalize f).
 Proof.
-  intros.
-  apply ArrowList_normalize_dom_cod_sound in H.
-  rewrite H0 in H; clear H0 f.
-  destruct H.
   generalize dependent dom.
   generalize dependent cod.
-  induction g; intros; simpl in H; subst.
-  - simpl; intuition.
-  - simpl; intuition.
-  - specialize (IHg1 _ eq_refl _ eq_refl).
-    specialize (IHg2 _ eq_refl _ eq_refl).
-    simpl; intuition.
-    + rewrite (Term_well_typed_dom IHg2).
-      admit.
-    + rewrite (Term_well_typed_cod IHg1).
-      admit.
-    + rewrite (Term_well_typed_cod IHg2).
-      rewrite (Term_well_typed_dom IHg1).
-      admit.
-    + admit.
-    + admit.
-Admitted.
+  induction f; simpl; intros.
+  - intuition.
+  - intuition.
+    constructor; constructor.
+  - split; intros.
+    + equalities.
+      specialize (proj1 (IHf1 _ _) H1).
+      specialize (proj1 (IHf2 _ _) H3).
+      intros.
+      apply (ArrowList_append_well_typed_impl (H4, H2)).
+    + destruct (ArrowList_append_well_typed H), H0.
+      specialize (proj2 (IHf1 _ _) a).
+      specialize (proj2 (IHf2 _ _) a0).
+      intros.
+      pose proof (Term_well_typed_dom H0).
+      pose proof (Term_well_typed_cod H0).
+      pose proof (Term_well_typed_dom H1).
+      pose proof (Term_well_typed_cod H1).
+      subst.
+      intuition.
+Qed.
 
 Theorem normalize_apply dom cod : ∀ f g,
   Term_well_typed_bool dom cod f = true ->
-  (* jww (2017-06-16): This second well_typed witness should be implied *)
-  (* Term_well_typed_bool dom cod g = true -> *)
   normalize f = normalize g ->
   normalize_denote dom cod (normalize f) ||| false = true ->
   denote dom cod f ≈ denote dom cod g.
 Proof.
   intros.
   apply Term_well_typed_bool_sound in H.
-  pose proof (normalize_well_typed_impl _ _ _ _ H H0).
+  pose proof (proj1 normalize_well_typed_impl H).
+  rewrite H0 in H2.
+  pose proof (proj2 normalize_well_typed_impl H2).
   destruct (normalize_denote dom cod (normalize f)) eqn:?;
   try discriminate.
   destruct (normalize_sound H Heqo), p.
   rewrite H0 in Heqo.
-  destruct (normalize_sound H2 Heqo), p.
+  destruct (normalize_sound H3 Heqo), p.
   rewrite e0, e2.
   red.
   rewrite <- e, <- e1.
