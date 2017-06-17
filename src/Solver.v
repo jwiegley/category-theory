@@ -726,10 +726,9 @@ Program Instance ArrowList_to_Term : ArrowList_Category ⟶ Term_Category := {
 Next Obligation. apply denormalize_well_typed; auto. Qed.
 Next Obligation.
   proper.
-  repeat f_equal.
   simpl in *; subst.
-  repeat f_equal.
-Admitted.
+  reflexivity.
+Qed.
 Next Obligation.
   erewrite !normalize_denormalize; eauto.
   pose proof (ArrowList_well_typed_dom X0).
