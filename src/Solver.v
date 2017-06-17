@@ -835,19 +835,21 @@ Qed.
 
 Theorem normalize_apply dom cod : ∀ f g,
   Term_well_typed_bool dom cod f = true ->
+  (* jww (2017-06-16): This second well_typed witness should be implied *)
   Term_well_typed_bool dom cod g = true ->
   normalize f = normalize g ->
-  (∃ f', normalize_denote dom cod (normalize f) = Some f') ->
+  normalize_denote dom cod (normalize f) ||| false = true ->
   denote dom cod f ≈ denote dom cod g.
 Proof.
   intros.
-  destruct X.
-  destruct (normalize_sound (Term_well_typed_bool_sound _ _ _ H) e), p.
-  rewrite H1 in e.
-  destruct (normalize_sound (Term_well_typed_bool_sound _ _ _ H0) e), p.
-  rewrite e1, e3.
+  destruct (normalize_denote dom cod (normalize f)) eqn:?;
+  try discriminate.
+  destruct (normalize_sound (Term_well_typed_bool_sound _ _ _ H) Heqo), p.
+  rewrite H1 in Heqo.
+  destruct (normalize_sound (Term_well_typed_bool_sound _ _ _ H0) Heqo), p.
+  rewrite e0, e2.
   red.
-  rewrite <- e0, <- e2.
+  rewrite <- e, <- e1.
   reflexivity.
 Qed.
 
