@@ -100,6 +100,30 @@ Section Denotation.
 Inductive Arrow : Set :=
   | Arr : positive -> positive -> positive -> Arrow.
 
+Open Scope lazy_bool_scope.
+
+Fixpoint Arrow_beq (x y : Arrow) {struct x} : bool :=
+  match x with
+  | Arr x x0 x1 =>
+      match y with
+      | Arr x2 x3 x4 => (x =? x2) &&& (x0 =? x3) &&& (x1 =? x4)
+      end
+  end.
+
+Lemma Arrow_beq_eq x y :
+  Arrow_beq x y = true -> x = y.
+Proof.
+  destruct x, y; simpl.
+  intros.
+  destruct (p =? p2) eqn:?; [|discriminate].
+  destruct (p0 =? p3) eqn:?; [|discriminate].
+  destruct (p1 =? p4) eqn:?; [|discriminate].
+  apply Peqb_true_eq in Heqb.
+  apply Peqb_true_eq in Heqb0.
+  apply Peqb_true_eq in Heqb1.
+  subst; reflexivity.
+Qed.
+
 Definition Arrow_dom (f : Arrow) : obj_idx :=
   match f with Arr x _ _ => x end.
 
@@ -109,6 +133,49 @@ Definition Arrow_cod (f : Arrow) : obj_idx :=
 Inductive ArrowList : Set :=
   | IdentityOnly : positive -> ArrowList
   | ArrowChain   : Arrow -> list Arrow -> ArrowList.
+
+Fixpoint list_beq {A : Type} (eq_A : A → A → bool) (X Y : list A)
+         {struct X} : bool :=
+  match X with
+  | [] => match Y with
+          | [] => true
+          | _ :: _ => false
+          end
+  | x :: x0 =>
+      match Y with
+      | [] => false
+      | x1 :: x2 => eq_A x x1 &&& list_beq eq_A x0 x2
+      end
+  end.
+
+Lemma list_beq_eq {A} (R : A -> A -> bool) xs ys :
+  (∀ x y, R x y = true -> x = y) ->
+  list_beq R xs ys = true -> xs = ys.
+Proof.
+  generalize dependent ys.
+  induction xs; simpl; intros.
+    destruct ys; congruence.
+  destruct ys.
+    discriminate.
+  destruct (R a a0) eqn:Heqe.
+    apply H in Heqe; subst.
+    erewrite IHxs; eauto.
+  discriminate.
+Qed.
+
+Fixpoint ArrowList_beq  (x y : ArrowList) {struct x} : bool :=
+  match x with
+  | IdentityOnly x =>
+      match y with
+      | IdentityOnly x0 => x =? x0
+      | ArrowChain _ _ => false
+      end
+  | ArrowChain x x0 =>
+      match y with
+      | IdentityOnly _ => false
+      | ArrowChain x1 x2 => Arrow_beq x x1 &&& list_beq Arrow_beq x0 x2
+      end
+  end.
 
 Definition ArrowList_cod (xs : ArrowList) : obj_idx :=
   match xs with
@@ -189,8 +256,6 @@ Definition ArrowList_well_typed dom cod (xs : ArrowList) : Prop :=
     (* Ensure that it is a correctly type-aligned list *)
     ForallAligned (Arr x y f :: xs)
   end.
-
-Open Scope lazy_bool_scope.
 
 Lemma K_dec_on_type A (x : A) (eq_dec : ∀ y : A, x = y \/ x ≠ y)
       (P : x = x -> Type) :
@@ -280,6 +345,25 @@ Proof.
   generalize dependent a.
   induction l; auto.
 Defined.
+
+Lemma ArrowList_beq_eq x y :
+  ArrowList_beq x y = true -> x = y.
+Proof.
+  generalize dependent y.
+  induction x using ArrowList_list_rect;
+  destruct y; simpl; intros; try discriminate.
+  - apply Peqb_true_eq in H; subst; reflexivity.
+  - destruct (Arrow_beq a a0) eqn:?; [|discriminate].
+    apply Arrow_beq_eq in Heqb; subst.
+    destruct l; auto; discriminate.
+  - destruct (Arrow_beq a1 a) eqn:?; [|discriminate].
+    apply Arrow_beq_eq in Heqb; subst.
+    destruct l0; [discriminate|].
+    destruct (Arrow_beq a2 a0) eqn:?; [|discriminate].
+    apply Arrow_beq_eq in Heqb; subst.
+    apply list_beq_eq in H; subst; auto.
+    apply Arrow_beq_eq.
+Qed.
 
 Definition ListOfArrows_rect : ∀ (P : Arrow -> list Arrow → Type),
   (∀ (x : Arrow), P x []) →
@@ -631,7 +715,7 @@ Fixpoint denormalize (f : ArrowList) : Term :=
                Datatypes.id) (Morph x y f)
   end.
 
-Lemma normalize_denormalize dom cod f :
+Lemma normalize_denormalize {dom cod f} :
   ArrowList_well_typed dom cod f
     -> normalize (denormalize f) = f.
 Proof.
@@ -1065,7 +1149,7 @@ Qed.
 Theorem normalize_apply dom cod : ∀ f g,
   Term_well_typed_bool dom cod f = true ->
   Term_well_typed_bool dom cod g = true ->
-  normalize f = normalize g ->
+  ArrowList_beq (normalize f) (normalize g) = true ->
   normalize_denote dom cod (normalize f) ||| false = true ->
   denote dom cod f ≈ denote dom cod g.
 Proof.
@@ -1073,6 +1157,7 @@ Proof.
   apply Term_well_typed_bool_sound in H.
   apply Term_well_typed_bool_sound in H0.
   pose proof (ArrowList_well_typed_sound H).
+  apply ArrowList_beq_eq in H1.
   destruct (normalize_denote dom cod (normalize f)) eqn:?;
   try discriminate.
   destruct (normalize_sound H Heqo), p.
@@ -1083,6 +1168,32 @@ Proof.
   red.
   rewrite <- e, <- e0.
   reflexivity.
+Qed.
+
+Corollary normalize_denote_terms dom cod : ∀ f g,
+  Term_well_typed_bool dom cod f = true ->
+  Term_well_typed_bool dom cod g = true ->
+  ArrowList_beq (normalize f) (normalize g) = true ->
+  normalize_denote dom cod (normalize f) ||| false = true ->
+  normalize_denote dom cod (normalize f) ≈ normalize_denote dom cod (normalize g) ->
+  denote dom cod f ≈ denote dom cod g.
+Proof. intros; apply normalize_apply; auto. Qed.
+
+Corollary normalize_denote_terms_impl dom cod : ∀ f g,
+  denote dom cod f ≈ denote dom cod g ->
+  Term_well_typed_bool dom cod f = true ->
+  Term_well_typed_bool dom cod g = true ->
+  ArrowList_beq (normalize f) (normalize g) = true ->
+  normalize_denote dom cod (normalize f) ≈ normalize_denote dom cod (normalize g).
+Proof.
+  intros.
+  apply Term_well_typed_bool_sound in H.
+  apply Term_well_typed_bool_sound in H0.
+  pose proof (ArrowList_well_typed_sound H).
+  apply ArrowList_beq_eq in H1.
+  rewrite H1 in *; clear H1.
+  destruct (normalize_denote dom cod (normalize g)) eqn:?;
+  try discriminate; reflexivity.
 Qed.
 
 End Denotation.
@@ -1193,8 +1304,35 @@ Ltac arrows_function fs xs objs :=
     end in
   loop 1 fs.
 
-Ltac categorical :=
-  match goal with
+Definition term_wrapper {A : Type} (x : A) : A := x.
+
+Ltac reify_terms_and_then tacHyp tacGoal :=
+  repeat match goal with
+  | [ H : ?S ≈ ?T |- _ ] =>
+    let env := allVars tt tt S in
+    match env with
+      (?fs, ?xs) =>
+      let env := allVars fs xs T in
+      match env with
+        (?fs, ?xs) =>
+        (* pose xs; *)
+        (* pose fs; *)
+        let objs := objects_function xs in
+        let arrs := arrows_function fs xs objs in
+        (* pose objs; *)
+        (* pose arrs; *)
+        let r1  := reifyTerm fs xs S in
+        let r2  := reifyTerm fs xs T in
+        (* pose r1; *)
+        (* pose r2; *)
+        change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈
+                denote _ objs arrs (TermDom r2) (TermCod r2) r2) in H;
+        tacHyp objs arrs r1 r2 H;
+        match type of H with
+        | ?U ≈ ?V => change (term_wrapper (U ≈ V)) in H
+        end
+      end
+    end
   | [ |- ?S ≈ ?T ] =>
     let env := allVars tt tt S in
     match env with
@@ -1214,19 +1352,50 @@ Ltac categorical :=
         (* pose r2; *)
         change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈
                 denote _ objs arrs (TermDom r2) (TermCod r2) r2);
-        apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1)
-                               r1 r2 eq_refl eq_refl);
-        vm_compute; auto;
-        eexists; reflexivity
+        tacGoal objs arrs r1 r2
       end
     end
   end.
 
+Ltac reify_terms :=
+  reify_terms_and_then
+    ltac:(fun _ _ _ _ _ => idtac)
+    ltac:(fun _ _ _ _ => idtac).
+
+Ltac categorical :=
+  reify_terms_and_then
+    ltac:(fun objs arrs r1 H => idtac)
+    ltac:(fun objs arrs r1 r2 =>
+      apply (normalize_apply _ objs arrs (TermDom r1) (TermCod r1) r1 r2);
+      vm_compute; reflexivity).
+
+Ltac normalize :=
+  reify_terms_and_then
+    ltac:(fun objs arrs r1 r2 H =>
+      (* jww (2017-06-18): Can we use vm_compute on just the arguments? *)
+      let N := fresh "N" in
+      pose proof (normalize_denote_terms_impl
+                    _ objs arrs (TermDom r1) (TermCod r1) r1 r2 H
+                    eq_refl eq_refl eq_refl) as N;
+      clear H;
+      cbn in N;
+      rename N into H)
+    ltac:(fun objs arrs r1 r2 =>
+      apply (normalize_denote_terms _ objs arrs (TermDom r1) (TermCod r1) r1 r2);
+      [ vm_compute; reflexivity
+      | vm_compute; reflexivity
+      | vm_compute; reflexivity
+      | vm_compute; reflexivity
+      | cbn ]);
+  unfold term_wrapper in *.
+
 Example sample_1 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y),
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
+  Time normalize.
   Time categorical.
 Qed.
 
