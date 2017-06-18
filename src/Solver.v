@@ -1372,15 +1372,22 @@ Ltac categorical :=
 Ltac normalize :=
   reify_terms_and_then
     ltac:(fun objs arrs r1 r2 H =>
-      (* jww (2017-06-18): Can we use vm_compute on just the arguments? *)
+      let H1 := fresh "H" in
+      assert (H1 : Term_well_typed_bool (TermDom r1) (TermCod r1) r1 = true)
+        by (vm_compute; reflexivity);
+      let H2 := fresh "H" in
+      assert (H2 : Term_well_typed_bool (TermDom r2) (TermCod r2) r2 = true)
+        by (vm_compute; reflexivity);
+      let H3 := fresh "H" in
+      assert (H3 : ArrowList_beq (normalize r1) (normalize r2) = true)
+        by (vm_compute; reflexivity);
       let N := fresh "N" in
       pose proof (normalize_denote_terms_impl
-                    _ objs arrs (TermDom r1) (TermCod r1) r1 r2 H
-                    eq_refl eq_refl eq_refl) as N;
-      clear H;
-      (* simpl in N; *)
+                    _ objs arrs (TermDom r1) (TermCod r1)
+                    r1 r2 H H1 H2 H3) as N;
+      clear H H1 H2 H3;
       cbv beta iota zeta delta
-        [ normalize_denote normalize normalize_denote_chain
+        [ normalize normalize_denote normalize_denote_chain
           ArrowList_append
           TermDom TermCod
           Pos.succ app Pos.eqb Pos.eq_dec positive_rec positive_rect
