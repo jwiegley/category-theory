@@ -1378,7 +1378,15 @@ Ltac normalize :=
                     _ objs arrs (TermDom r1) (TermCod r1) r1 r2 H
                     eq_refl eq_refl eq_refl) as N;
       clear H;
-      cbn in N;
+      (* simpl in N; *)
+      cbv beta iota zeta delta
+        [ normalize_denote normalize normalize_denote_chain
+          ArrowList_append
+          TermDom TermCod
+          Pos.succ app Pos.eqb Pos.eq_dec positive_rec positive_rect
+          sumbool_rec sumbool_rect
+          eq_rect eq_ind_r eq_ind eq_sym ] in N;
+      red in N;
       rename N into H)
     ltac:(fun objs arrs r1 r2 =>
       apply (normalize_denote_terms _ objs arrs (TermDom r1) (TermCod r1) r1 r2);
@@ -1391,6 +1399,13 @@ Ltac normalize :=
 
 Example sample_1 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y),
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
     g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
