@@ -1381,6 +1381,8 @@ Ltac normalize :=
       let H3 := fresh "H" in
       assert (H3 : ArrowList_beq (normalize r1) (normalize r2) = true)
         by (vm_compute; reflexivity);
+      (* If we reorganize the arguments and "apply .. in H", this operation is
+         about 8% slower than if we pose it in the context and clear H. *)
       let N := fresh "N" in
       pose proof (normalize_denote_terms_impl
                     _ objs arrs (TermDom r1) (TermCod r1)
