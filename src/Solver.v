@@ -1231,3 +1231,32 @@ Proof.
 Qed.
 
 Print Assumptions sample_1.
+
+Require Import Category.Theory.Adjunction.
+
+Local Obligation Tactic :=
+  cat_simpl; proper; simpl in *;
+  try erewrite !normalize_denormalize; eauto;
+  try (eapply ArrowList_append_well_typed;
+       [ eapply ArrowList_well_typed_dom; eauto
+       | eapply ArrowList_well_typed_cod; eauto
+       | eauto
+       | eauto ]).
+
+Hint Resolve ArrowList_well_typed_sound.
+Hint Resolve denormalize_well_typed.
+
+(* This adjunction establishes that Term is our free category, with ArrowList
+   equivalent up to normalization of terms with a canonical mapping back into
+   Term by "denormalization".
+
+   Since the objects of both categories are the same, the monad this gives
+   rise to is uninteresting. *)
+Program Instance Term_ArrowList_Adjunction :
+  ArrowList_to_Term ⊣ Term_to_ArrowList := {
+  adj := fun x y =>
+    {| to   := {| morphism := fun f => (normalize (_ f); _) |}
+     ; from := {| morphism := _ |} |}
+}.
+
+Print Assumptions Term_ArrowList_Adjunction.
