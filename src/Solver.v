@@ -508,11 +508,17 @@ Fixpoint Term_well_typed_bool dom cod (e : Term) : bool :=
   end.
 
 Lemma Term_well_typed_bool_sound dom cod e :
-  Term_well_typed_bool dom cod e = true -> Term_well_typed dom cod e.
+  Term_well_typed_bool dom cod e = true <-> Term_well_typed dom cod e.
 Proof.
   generalize dependent dom.
   generalize dependent cod.
   induction e; simpl; intuition; equalities.
+  - apply Pos.eqb_refl.
+  - apply IHe1; auto.
+  - apply IHe2; auto.
+  - apply IHe1 in H2.
+    apply IHe2 in H4.
+    rewrite H2, H4; reflexivity.
 Qed.
 
 Corollary Term_well_typed_dom {f dom cod } :
@@ -850,6 +856,95 @@ Fixpoint denote dom cod (e : Term) :
     end
   end.
 
+Lemma denote_dom_cod {f dom cod f'} :
+  denote dom cod f = Some f' ->
+  TermDom f = dom /\ TermCod f = cod.
+Proof.
+  generalize dependent cod.
+  generalize dependent dom.
+  induction f; intros dom cod; simpl; intros; equalities.
+  specialize (IHf2 dom (TermCod f2)).
+  specialize (IHf1 (TermCod f2) cod).
+  equalities.
+  intros.
+  destruct (denote dom (TermCod f2) f2) eqn:?; try discriminate.
+  destruct (denote (TermCod f2) cod f1) eqn:?; try discriminate.
+  destruct (IHf1 _ eq_refl).
+  destruct (IHf2 _ eq_refl).
+  tauto.
+Qed.
+
+Definition Term_well_defined dom cod (e : Term) : Type :=
+  ∃ f, denote dom cod e = Some f.
+
+Theorem Term_well_defined_is_well_typed {e dom cod} :
+  Term_well_defined dom cod e ->
+  Term_well_typed dom cod e.
+Proof.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction e; simpl in *;
+  intros dom cod [f H]; simpl in H.
+  - revert H; equalities.
+  - revert H; equalities.
+  - destruct (denote _ _ e2) eqn:?; try discriminate.
+    destruct (denote _ _ e1) eqn:?; try discriminate.
+    specialize (IHe1 dom (TermCod e2) (h0; Heqo0)).
+    specialize (IHe2 (TermCod e2) cod (h; Heqo)).
+    intuition.
+    + eapply Term_well_typed_dom; eauto.
+    + eapply Term_well_typed_cod; eauto.
+    + symmetry.
+      eapply Term_well_typed_dom; eauto.
+Qed.
+
+Program Definition TermDef_Category : Category := {|
+  obj := obj_idx;
+  hom := fun x y => ∃ l : Term, Term_well_defined x y l;
+  homset := fun x y => {| equiv := fun f g =>
+    normalize (`1 f) = normalize (`1 g) |};
+  id := fun x => (Identity x; _);
+  compose := fun _ _ _ f g => (Compose (`1 f) (`1 g); _);
+  id_left := fun _ y f => ArrowList_id_left y (normalize (`1 f));
+  id_right := fun x _ f => ArrowList_id_right (normalize (`1 f)) _ _;
+  comp_assoc := fun x y z w f g h =>
+    ArrowList_append_assoc
+      (normalize (`1 f)) (normalize (`1 g)) (normalize (`1 h))
+|}.
+Next Obligation.
+  eexists; simpl; equalities.
+Qed.
+Next Obligation.
+  destruct X, X0.
+  unshelve eexists; eauto.
+    exact (x0 ∘ x).
+  simpl.
+  destruct (denote_dom_cod e).
+  destruct (denote_dom_cod e0).
+  subst.
+  rewrite e, e0.
+  reflexivity.
+Qed.
+Next Obligation.
+  eapply ArrowList_normalize_dom_cod_sound; eauto.
+  eapply Term_well_defined_is_well_typed; eauto.
+Qed.
+Next Obligation.
+  rewrite ArrowList_append_assoc; auto;
+  unfold Term_valid in *;
+  equalities; congruence.
+Qed.
+Next Obligation.
+  rewrite ArrowList_append_assoc; auto;
+  unfold Term_valid in *;
+  equalities; congruence.
+Qed.
+Next Obligation.
+  rewrite ArrowList_append_assoc; auto;
+  unfold Term_valid in *;
+  equalities; congruence.
+Qed.
+
 Fixpoint normalize_denote_chain dom cod
          (g : Arrow) (gs : list Arrow) {struct gs} :
   option (objs dom ~{ C }~> objs cod) :=
@@ -947,6 +1042,29 @@ Proof.
     induction l; auto.
     rewrite !last_cons.
     reflexivity.
+Qed.
+
+Lemma normalize_denote_chain_dom_cod :
+  ∀ (gs : list Arrow) x y f dom cod f',
+    normalize_denote_chain dom cod (Arr x y f) gs = Some f' ->
+    cod = y /\ dom = match last gs (Arr x y f) with
+                       Arr z _ _ => z
+                     end.
+Proof.
+  induction gs using rev_ind; intros.
+    simpl in H.
+    destruct (arrs _ _ _).
+      revert H; equalities.
+    discriminate.
+  rewrite last_rcons.
+  destruct x.
+  apply normalize_denote_chain_compose in H.
+  destruct H, s, s.
+  equalities; simpl in *;
+  destruct (arrs _ _ _); try discriminate;
+  revert b; equalities.
+  specialize (IHgs _ _ _ _ _ _ a1).
+  intuition.
 Qed.
 
 Theorem normalize_denote_chain_append_dom_cod : ∀ x xs y ys dom cod f,
@@ -1146,6 +1264,29 @@ Proof.
     reflexivity.
 Qed.
 
+Theorem denote_implies_normalize_denote {p dom cod f} :
+  denote dom cod p = Some f ->
+    ∃ f', f ≈ f' ∧ normalize_denote dom cod (normalize p) = Some f'.
+Proof.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction p; intros.
+  - simpl in *; exists f; subst;
+    equalities; reflexivity.
+  - simpl in *; exists f; subst;
+    revert H.
+    destruct (arrs _ _ _);
+    equalities; reflexivity.
+  - simpl in H.
+    destruct (denote _ _ p2) eqn:?; [|discriminate].
+    destruct (denote _ _ p1) eqn:?; [|discriminate].
+    destruct (IHp1 _ _ _ Heqo0), p; clear IHp1.
+    destruct (IHp2 _ _ _ Heqo), p; clear IHp2.
+    exists (x ∘ x0).
+    inversion_clear H; subst.
+    split; cat.
+Abort.
+
 Theorem normalize_apply dom cod : ∀ f g,
   Term_well_typed_bool dom cod f = true ->
   Term_well_typed_bool dom cod g = true ->
@@ -1195,6 +1336,49 @@ Proof.
   destruct (normalize_denote dom cod (normalize g)) eqn:?;
   try discriminate; reflexivity.
 Qed.
+
+Program Instance TermDef_to_C : TermDef_Category ⟶ C := {
+  fobj := fun x => objs x;
+  fmap := fun x y f => `1 (`2 f)
+}.
+Next Obligation.
+  proper; simpl in *.
+  pose proof (Term_well_defined_is_well_typed e).
+  pose proof (Term_well_defined_is_well_typed e0).
+  destruct e, e0.
+  apply Term_well_typed_bool_sound in H0.
+  apply Term_well_typed_bool_sound in H1.
+  assert (H2 : ArrowList_beq (normalize x1) (normalize x2) = true).
+    rewrite H.
+    admit.
+  enough (normalize_denote x y (normalize x1) ||| false = true).
+    enough (equiv (normalize_denote x y (normalize x1))
+                  (normalize_denote x y (normalize x2))).
+      pose proof (normalize_denote_terms _ _ _ _ H0 H1 H2 H3 X).
+      rewrite e, e0 in X0.
+      red in X0.
+      symmetry.
+      assumption.
+    rewrite H; reflexivity.
+  destruct (normalize_denote x y (normalize x1)) eqn:?; auto.
+  clear -e Heqo.
+  elimtype False.
+  generalize dependent x.
+  generalize dependent y.
+  induction x1; simpl; intros x y f.
+  - equalities.
+  - equalities.
+    destruct (arrs _ _ _); discriminate.
+  - destruct (denote _ _ x1_2) eqn:?; [|discriminate].
+    destruct (denote _ _ x1_1) eqn:?; [|discriminate].
+    specialize (IHx1_1 _ _ _ Heqo0).
+    specialize (IHx1_2 _ _ _ Heqo).
+    intros.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
 
 End Denotation.
 
@@ -1372,9 +1556,6 @@ Ltac categorical :=
 Ltac normalize :=
   reify_terms_and_then
     ltac:(fun objs arrs r1 r2 H =>
-      let H1 := fresh "H" in
-      assert (H1 : Term_well_typed_bool (TermDom r1) (TermCod r1) r1 = true)
-        by (vm_compute; reflexivity);
       let H2 := fresh "H" in
       assert (H2 : Term_well_typed_bool (TermDom r2) (TermCod r2) r2 = true)
         by (vm_compute; reflexivity);
@@ -1386,8 +1567,8 @@ Ltac normalize :=
       let N := fresh "N" in
       pose proof (normalize_denote_terms_impl
                     _ objs arrs (TermDom r1) (TermCod r1)
-                    r1 r2 H H1 H2 H3) as N;
-      clear H H1 H2 H3;
+                    r1 r2 H (eq_refl <: Term_well_typed_bool (TermDom r1) (TermCod r1) r1 = true) H2 H3) as N;
+      clear H H2 H3;
       cbv beta iota zeta delta
         [ normalize normalize_denote normalize_denote_chain
           ArrowList_append
