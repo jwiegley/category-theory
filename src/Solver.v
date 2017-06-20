@@ -1295,29 +1295,6 @@ Proof.
     reflexivity.
 Qed.
 
-Theorem denote_implies_normalize_denote {p dom cod f} :
-  denote dom cod p = Some f ->
-    ∃ f', f ≈ f' ∧ normalize_denote dom cod (normalize p) = Some f'.
-Proof.
-  generalize dependent dom.
-  generalize dependent cod.
-  induction p; intros.
-  - simpl in *; exists f; subst;
-    equalities; reflexivity.
-  - simpl in *; exists f; subst;
-    revert H.
-    destruct (arrs _ _ _);
-    equalities; reflexivity.
-  - simpl in H.
-    destruct (denote _ _ p2) eqn:?; [|discriminate].
-    destruct (denote _ _ p1) eqn:?; [|discriminate].
-    destruct (IHp1 _ _ _ Heqo0), p; clear IHp1.
-    destruct (IHp2 _ _ _ Heqo), p; clear IHp2.
-    exists (x ∘ x0).
-    inversion_clear H; subst.
-    split; cat.
-Abort.
-
 Theorem normalize_apply dom cod : ∀ f g,
   Term_well_typed_bool dom cod f = true ->
   Term_well_typed_bool dom cod g = true ->
@@ -1359,49 +1336,6 @@ Proof.
   apply ArrowList_beq_eq in H.
   now rewrite H.
 Qed.
-
-Program Instance TermDef_to_C : TermDef_Category ⟶ C := {
-  fobj := fun x => objs x;
-  fmap := fun x y f => `1 (`2 f)
-}.
-Next Obligation.
-  proper; simpl in *.
-  pose proof (Term_well_defined_is_well_typed e).
-  pose proof (Term_well_defined_is_well_typed e0).
-  destruct e, e0.
-  apply Term_well_typed_bool_sound in H0.
-  apply Term_well_typed_bool_sound in H1.
-  assert (H2 : ArrowList_beq (normalize x1) (normalize x2) = true).
-    rewrite H.
-    admit.
-  enough (normalize_denote x y (normalize x1) ||| false = true).
-    enough (equiv (normalize_denote x y (normalize x1))
-                  (normalize_denote x y (normalize x2))).
-      pose proof (normalize_denote_terms _ _ _ _ H0 H1 H2 H3 X).
-      rewrite e, e0 in X0.
-      red in X0.
-      symmetry.
-      assumption.
-    rewrite H; reflexivity.
-  destruct (normalize_denote x y (normalize x1)) eqn:?; auto.
-  clear -e Heqo.
-  elimtype False.
-  generalize dependent x.
-  generalize dependent y.
-  induction x1; simpl; intros x y f.
-  - equalities.
-  - equalities.
-    destruct (arrs _ _ _); discriminate.
-  - destruct (denote _ _ x1_2) eqn:?; [|discriminate].
-    destruct (denote _ _ x1_1) eqn:?; [|discriminate].
-    specialize (IHx1_1 _ _ _ Heqo0).
-    specialize (IHx1_2 _ _ _ Heqo).
-    intros.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
 
 End Denotation.
 
