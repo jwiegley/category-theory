@@ -944,7 +944,7 @@ Program Definition TermDef_Category : Category := {|
 |}.
 Next Obligation.
   eexists; simpl; equalities.
-Qed.
+Defined.
 Next Obligation.
   destruct X, X0.
   unshelve eexists; eauto.
@@ -955,7 +955,7 @@ Next Obligation.
   subst.
   rewrite e, e0.
   reflexivity.
-Qed.
+Defined.
 Next Obligation.
   eapply ArrowList_normalize_dom_cod_sound; eauto.
   eapply Term_well_defined_is_well_typed; eauto.
