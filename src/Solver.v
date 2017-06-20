@@ -347,15 +347,22 @@ Proof.
 Defined.
 
 Lemma ArrowList_beq_eq x y :
-  ArrowList_beq x y = true -> x = y.
+  ArrowList_beq x y = true <-> x = y.
 Proof.
   generalize dependent y.
   induction x using ArrowList_list_rect;
-  destruct y; simpl; intros; try discriminate.
-  - apply Peqb_true_eq in H; subst; reflexivity.
+  destruct y; simpl; split; intros; try discriminate.
+  - apply Peqb_true_eq in H; now subst.
+  - inversion_clear H.
+    now apply Pos.eqb_eq.
   - destruct (Arrow_beq a a0) eqn:?; [|discriminate].
     apply Arrow_beq_eq in Heqb; subst.
-    destruct l; auto; discriminate.
+    destruct l; now auto.
+  - inversion_clear H.
+    assert (∀ x, Arrow_beq x x = true).
+      destruct x; simpl.
+      now rewrite !Pos.eqb_refl.
+    now rewrite H.
   - destruct (Arrow_beq a1 a) eqn:?; [|discriminate].
     apply Arrow_beq_eq in Heqb; subst.
     destruct l0; [discriminate|].
@@ -363,6 +370,14 @@ Proof.
     apply Arrow_beq_eq in Heqb; subst.
     apply list_beq_eq in H; subst; auto.
     apply Arrow_beq_eq.
+  - inversion_clear H.
+    assert (∀ x, Arrow_beq x x = true).
+      destruct x; simpl.
+      now rewrite !Pos.eqb_refl.
+    rewrite !H.
+    clear -H.
+    induction l; simpl; auto.
+    now rewrite H.
 Qed.
 
 Definition ListOfArrows_rect : ∀ (P : Arrow -> list Arrow → Type),
