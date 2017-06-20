@@ -913,6 +913,22 @@ Proof.
       eapply Term_well_typed_dom; eauto.
 Qed.
 
+Lemma denote_well_typed {p dom cod f} :
+  denote dom cod p = Some f -> Term_well_typed dom cod p.
+Proof.
+  generalize dependent f.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction p; simpl; intros ???; equalities.
+  destruct (denote _ _ p2) eqn:?.
+    destruct (denote _ _ p1) eqn:?.
+      pose proof (denote_dom_cod Heqo).
+      pose proof (denote_dom_cod Heqo0).
+      firstorder auto.
+    intros; discriminate.
+  intros; discriminate.
+Qed.
+
 Program Definition TermDef_Category : Category := {|
   obj := obj_idx;
   hom := fun x y => ∃ l : Term, Term_well_defined x y l;
