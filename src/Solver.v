@@ -1352,20 +1352,12 @@ Corollary normalize_denote_terms dom cod : ∀ f g,
 Proof. intros; apply normalize_apply; auto. Qed.
 
 Corollary normalize_denote_terms_impl dom cod : ∀ f g,
-  denote dom cod f ≈ denote dom cod g ->
-  Term_well_typed_bool dom cod f = true ->
-  Term_well_typed_bool dom cod g = true ->
   ArrowList_beq (normalize f) (normalize g) = true ->
   normalize_denote dom cod (normalize f) ≈ normalize_denote dom cod (normalize g).
 Proof.
   intros.
-  apply Term_well_typed_bool_sound in H.
-  apply Term_well_typed_bool_sound in H0.
-  pose proof (ArrowList_well_typed_sound H).
-  apply ArrowList_beq_eq in H1.
-  rewrite H1 in *; clear H1.
-  destruct (normalize_denote dom cod (normalize g)) eqn:?;
-  try discriminate; reflexivity.
+  apply ArrowList_beq_eq in H.
+  now rewrite H.
 Qed.
 
 Program Instance TermDef_to_C : TermDef_Category ⟶ C := {
@@ -1587,19 +1579,15 @@ Ltac categorical :=
 Ltac normalize :=
   reify_terms_and_then
     ltac:(fun objs arrs r1 r2 H =>
-      let H2 := fresh "H" in
-      assert (H2 : Term_well_typed_bool (TermDom r2) (TermCod r2) r2 = true)
-        by (vm_compute; reflexivity);
-      let H3 := fresh "H" in
-      assert (H3 : ArrowList_beq (normalize r1) (normalize r2) = true)
+      let H1 := fresh "H" in
+      assert (H1 : ArrowList_beq (normalize r1) (normalize r2) = true)
         by (vm_compute; reflexivity);
       (* If we reorganize the arguments and "apply .. in H", this operation is
          about 8% slower than if we pose it in the context and clear H. *)
       let N := fresh "N" in
       pose proof (normalize_denote_terms_impl
-                    _ objs arrs (TermDom r1) (TermCod r1)
-                    r1 r2 H (eq_refl <: Term_well_typed_bool (TermDom r1) (TermCod r1) r1 = true) H2 H3) as N;
-      clear H H2 H3;
+                    _ objs arrs (TermDom r1) (TermCod r1) r1 r2 H1) as N;
+      clear H H1;
       cbv beta iota zeta delta
         [ normalize normalize_denote normalize_denote_chain
           ArrowList_append
