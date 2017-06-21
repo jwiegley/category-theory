@@ -13,7 +13,7 @@ Unset Transparent Obligations.
 Program Definition _1 : Category := {|
   obj     := unit;
   hom     := fun _ _ => unit;
-  homset  := fun _ _ => {| equiv := eq |};
+  homset  := Morphism_equality;
   id      := fun _ => tt;
   compose := fun _ _ _ _ _ => tt
 |}.

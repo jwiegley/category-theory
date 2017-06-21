@@ -16,7 +16,7 @@ Local Obligation Tactic :=
 Program Definition _0 : Category := {|
   obj    := Empty_set;
   hom    := fun _ _ => Empty_set;
-  homset := fun _ _ => {| equiv := eq |}
+  homset := Morphism_equality
 |}.
 
 Notation "0" := _0 : category_scope.

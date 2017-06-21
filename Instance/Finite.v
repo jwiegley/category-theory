@@ -42,7 +42,7 @@ Program Definition Concrete (C : Concrete_Structure) :
   Category := {|
   obj     := Fin.t (obs C);
   hom     := fun _ _ => Fin.t (S (arrs C));
-  homset  := fun _ _ => {| equiv := eq |};
+  homset  := Morphism_equality
   id      := fun _ => F1;
   compose := fun x y z f g => match f, g with
     | f,  F1 => f

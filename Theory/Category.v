@@ -29,7 +29,10 @@ Reserved Infix "∘" (at level 40, left associativity).
   and then define a subclass QuotientCategory from it, is that Coq's type
   theory does not allow us to define the underlying category of certain
   quotient categories (for example, that of propositional relations) without
-  invoking the axioms of extensionality and/or proof irrelevance. *)
+  invoking the axioms of extensionality and/or proof irrelevance.
+
+  Categories (as distinct from Category/~) are identified by [homset :=
+  Morphism_equality]. *)
 
 Class Category := {
   obj : Type;
@@ -114,6 +117,12 @@ Open Scope category_scope.
 Open Scope object_scope.
 Open Scope homset_scope.
 Open Scope morphism_scope.
+
+Program Definition Morphism_equality {ob : Type} {hom : ob -> ob -> Type}
+        (x y : ob) : Setoid (hom x y) := {|
+  equiv := eq
+|}.
+Arguments Morphism_equality {_ _} _ _ /.
 
 Section Category.
 

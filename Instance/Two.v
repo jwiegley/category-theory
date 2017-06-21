@@ -38,7 +38,7 @@ Hint Extern 4 => contradiction TwoHom_Y_X_absurd : two_laws.
 Program Definition _2 : Category := {|
   obj     := TwoObj;
   hom     := TwoHom;
-  homset  := fun x y => {| equiv := eq |};
+  homset  := Morphism_equality;
   id      := fun x => match x with
     | TwoX => TwoIdX
     | TwoY => TwoIdY
