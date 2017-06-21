@@ -18,7 +18,12 @@ Reserved Infix "∘" (at level 40, left associativity).
 
   The morphisms identified by `A ~> B` form a hom-set, except that in this
   library it is a hom-setoid, requiring the meaning of (computationally
-  relevant) equivalence between morphisms to be given. *)
+  relevant) equivalence between morphisms to be given. This makes it a
+  quotient category C/R over the equivalence relation R, but since this is
+  almost always needed (since equality is very restrictive in Coq's type
+  theory), we call it a [Category] here, and assume the existence of some
+  other category using only equality, with a functor from that category to
+  this. *)
 
 Class Category := {
   obj : Type;
