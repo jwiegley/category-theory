@@ -23,7 +23,13 @@ Reserved Infix "∘" (at level 40, left associativity).
   almost always needed (since equality is very restrictive in Coq's type
   theory), we call it a [Category] here, and assume the existence of some
   other category using only equality, with a functor from that category to
-  this. *)
+  this.
+
+  Note that the reason we do not split this into a more fundamental Category,
+  and then define a subclass QuotientCategory from it, is that Coq's type
+  theory does not allow us to define the underlying category of certain
+  quotient categories (for example, that of propositional relations) without
+  invoking the axioms of extensionality and/or proof irrelevance. *)
 
 Class Category := {
   obj : Type;

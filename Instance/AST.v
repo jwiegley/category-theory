@@ -31,6 +31,7 @@ Fixpoint denote `(o : Obj) :
   | Coprod_ x y => denote x + denote y
   end.
 
+(* jww (2017-06-21): This describes the morphisms of a magmoid. *)
 Inductive Hom : Obj -> Obj -> Type :=
   | Id      : ∀ {a}, Hom a a
   | Compose : ∀ {a b c}, Hom b c -> Hom a b -> Hom a c
