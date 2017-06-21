@@ -284,7 +284,7 @@ Qed.
 
 Ltac equalities :=
   repeat (
-    match goal with
+    lazymatch goal with
     | [ H : context[match Pos.eq_dec ?N ?N with _ => _ end] |- _ ] =>
       rewrite Neq_dec_refl in H
     | [ |- context[match Pos.eq_dec ?N ?N with _ => _ end] ] =>
@@ -1342,7 +1342,7 @@ End Denotation.
 Import ListNotations.
 
 Ltac inList x xs :=
-  match xs with
+  lazymatch xs with
   | tt => false
   | (x, _) => true
   | (_, ?xs') => inList x xs'
@@ -1350,23 +1350,23 @@ Ltac inList x xs :=
 
 Ltac addToList x xs :=
   let b := inList x xs in
-  match b with
+  lazymatch b with
   | true => xs
   | false => constr:((x, xs))
   end.
 
 Ltac allVars fs xs e :=
-  match e with
+  lazymatch e with
   | @id _ ?x =>
     let xs := addToList x xs in
     constr:((fs, xs))
   | ?e1 ∘ ?e2 =>
     let res := allVars fs xs e1 in
-    match res with
+    lazymatch res with
       (?fs, ?xs) => allVars fs xs e2
     end
   | ?f =>
-    match type of f with
+    lazymatch type of f with
     | ?x ~> ?y =>
       let xs := addToList x xs in
       let xs := addToList y xs in
@@ -1376,7 +1376,7 @@ Ltac allVars fs xs e :=
   end.
 
 Ltac lookup x xs :=
-  match xs with
+  lazymatch xs with
   | (x, _) => constr:(1)
   | (_, ?xs') =>
     let n := lookup x xs' in
@@ -1384,7 +1384,7 @@ Ltac lookup x xs :=
   end.
 
 Ltac reifyTerm fs xs t :=
-  match t with
+  lazymatch t with
   | @id _ ?X =>
     let x := lookup X xs in
     constr:(Identity x)
@@ -1394,7 +1394,7 @@ Ltac reifyTerm fs xs t :=
     constr:(Compose r1 r2)
   | ?F =>
     let n := lookup F fs in
-    match type of F with
+    lazymatch type of F with
     | ?X ~> ?Y =>
       let x := lookup X xs in
       let y := lookup Y xs in
@@ -1404,7 +1404,7 @@ Ltac reifyTerm fs xs t :=
 
 Ltac objects_function xs :=
   let rec loop n xs' :=
-    match xs' with
+    lazymatch xs' with
     | (?x, tt) => constr:(fun _ : positive => x)
     | (?x, ?xs'') =>
       let f := loop (Pos.succ n) xs'' in
@@ -1413,7 +1413,7 @@ Ltac objects_function xs :=
   loop 1 xs.
 
 Ltac observe n f xs objs k :=
-  match type of f with
+  lazymatch type of f with
   | ?X ~> ?Y =>
     let xn := lookup X xs in
     let yn := lookup Y xs in
@@ -1434,7 +1434,7 @@ Ltac observe n f xs objs k :=
 
 Ltac arrows_function fs xs objs :=
   let rec loop n fs' :=
-    match fs' with
+    lazymatch fs' with
     | tt =>
       constr:(fun _ x y : positive => @None (objs x ~> objs y))
     | (?f, tt) =>
@@ -1451,10 +1451,10 @@ Ltac reify_terms_and_then tacHyp tacGoal :=
   repeat match goal with
   | [ H : ?S ≈ ?T |- _ ] =>
     let env := allVars tt tt S in
-    match env with
+    lazymatch env with
       (?fs, ?xs) =>
       let env := allVars fs xs T in
-      match env with
+      lazymatch env with
         (?fs, ?xs) =>
         (* pose xs; *)
         (* pose fs; *)
@@ -1469,17 +1469,17 @@ Ltac reify_terms_and_then tacHyp tacGoal :=
         change (denote _ objs arrs (TermDom r1) (TermCod r1) r1 ≈
                 denote _ objs arrs (TermDom r2) (TermCod r2) r2) in H;
         tacHyp objs arrs r1 r2 H;
-        match type of H with
+        lazymatch type of H with
         | ?U ≈ ?V => change (term_wrapper (U ≈ V)) in H
         end
       end
     end
   | [ |- ?S ≈ ?T ] =>
     let env := allVars tt tt S in
-    match env with
+    lazymatch env with
       (?fs, ?xs) =>
       let env := allVars fs xs T in
-      match env with
+      lazymatch env with
         (?fs, ?xs) =>
         (* pose xs; *)
         (* pose fs; *)
