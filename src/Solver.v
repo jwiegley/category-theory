@@ -76,6 +76,8 @@ Unset Universe Polymorphism.
 
 Open Scope positive_scope.
 
+(* This describes the morphisms of a magmoid, which forms a quotient category
+   under denotation. *)
 Inductive Term : Set :=
   | Identity : positive -> Term
   | Morph    : positive -> positive -> positive -> Term
@@ -130,6 +132,12 @@ Definition Arrow_dom (f : Arrow) : obj_idx :=
 Definition Arrow_cod (f : Arrow) : obj_idx :=
   match f with Arr _ y _ => y end.
 
+(* This describes the morphisms of a path, or free, category over a quiver of
+   Arrows, while our environment describes a quiver (where vertices are all
+   object indices, and edges are all arrow indices associated pairs of object
+   indices). The denotation of an ArrowList to some category C is a forgetful
+   functor from the path category over this quiver to C. Note that this
+   functor is only total if the denotation of the quiver itself is total. *)
 Inductive ArrowList : Set :=
   | IdentityOnly : positive -> ArrowList
   | ArrowChain   : Arrow -> list Arrow -> ArrowList.
@@ -633,10 +641,7 @@ Qed.
 
 (* We show here that ArrowList morphisms are just one way of representing a
    free category. However, we still forget identities and which way
-   composition was associated, so really it's a normalized free category.
-
-   jww (2017-06-16): Show that Term ⊣ ArrowList (meaning, the functors that
-   map between them). *)
+   composition was associated, so really it's a normalized free category. *)
 Program Definition ArrowList_Category : Category := {|
   obj := obj_idx;
   hom := fun x y =>
