@@ -20,7 +20,7 @@ Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
 Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.
 
 Notation "Δ( C )" := (@Diagonal_Product C)
-  (at level 90, format "Δ( C )") : category_scope.
+  (at level 90, format "Δ( C )") : functor_scope.
 
 Require Export Category.Instance.One.
 
