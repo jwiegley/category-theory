@@ -138,6 +138,7 @@ Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Universal.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Opposite.v
+Adjunction/Diagonal/Product.v
 Monad/Adjunction.v
 Monad/Monoid.v
 Monad/Distributive.v
