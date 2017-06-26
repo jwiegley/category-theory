@@ -45,8 +45,7 @@ Class Setoid A := {
   setoid_equiv :> Equivalence equiv
 }.
 
-Notation "f ≈ g" := (equiv f g)
-  (at level 79, only parsing) : category_theory_scope.
+Notation "f ≈ g" := (equiv f g) (at level 79) : category_theory_scope.
 
 Program Instance setoid_refl `(sa : Setoid A) :
   Reflexive equiv.
