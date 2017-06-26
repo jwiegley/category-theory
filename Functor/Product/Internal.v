@@ -26,3 +26,6 @@ Next Obligation.
   rewrite <- fork_comp.
   rewrite <- !comp_assoc; cat.
 Qed.
+
+Notation "×( C )" := (@InternalProductFunctor C _)
+  (at level 90, format "×( C )") : functor_scope.
