@@ -396,6 +396,7 @@ Qed.
 
 Local Obligation Tactic := program_simpl.
 
+(*
 Program Definition FromThree {C : Category} (c : C) : Three ⟶ C := {|
   fobj := fun x =>
    match x with
@@ -423,15 +424,6 @@ Next Obligation.
   simplify_maps. discriminate.
   simplify_maps. structure.
 Qed.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
-Next Obligation.
-Admitted.
+*)
 
 End Metacategory.

@@ -295,6 +295,58 @@ Proof.
   reflexivity.
 Qed.
 
+Lemma in_mapsto_iffT : forall elt k (m : M.t elt),
+  CRelationClasses.iffT (M.In (elt:=elt) k m)
+                        { e : elt & M.MapsTo (elt:=elt) k e m }.
+Proof.
+  split; intros.
+    apply F.mem_in_iff in H.
+    rewrite F.mem_find_b in H.
+    destruct (M.find (elt:=elt) k m) eqn:Heqe.
+      exists e.
+      apply F.find_mapsto_iff.
+      assumption.
+    discriminate.
+  apply F.mem_in_iff.
+  rewrite F.mem_find_b.
+  destruct X.
+  apply F.find_mapsto_iff in m0.
+  rewrite m0.
+  reflexivity.
+Defined.
+
+Lemma add_mapsto_iffT : forall elt m x y (e e' : elt),
+  CRelationClasses.iffT
+    (M.MapsTo y e' (M.add x e m))
+    ((E.eq x y * (e=e'))%type + ((~E.eq x y) * M.MapsTo y e' m)).
+Proof.
+  split; intros.
+    apply F.find_mapsto_iff in H.
+    rewrite F.add_o in H.
+    destruct (F.eq_dec x y).
+      inversion_clear H.
+      left; auto.
+    right.
+    split; auto.
+    apply F.find_mapsto_iff; assumption.
+  apply F.find_mapsto_iff.
+  rewrite F.add_o.
+  destruct H.
+    destruct p.
+    destruct (F.eq_dec x y).
+      rewrite e1; reflexivity.
+    rewrite e0 in n.
+    contradiction n.
+    reflexivity.
+  destruct p.
+  destruct (F.eq_dec x y).
+    rewrite e0 in n.
+    contradiction n.
+    reflexivity.
+  apply F.find_mapsto_iff.
+  assumption.
+Qed.
+
 Lemma not_in_mapsto_iff : forall elt k (m : M.t elt),
   ~ M.In (elt:=elt) k m <-> forall e, ~ M.MapsTo (elt:=elt) k e m.
 Proof.

@@ -26,11 +26,21 @@ Program Instance fst_respects {A B} `{Setoid A} `{Setoid B} :
 Program Instance snd_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@snd A B).
 
-Corollary let_fst {x y} (A : x * y) : (let (x, _) := A in x) = fst A.
-Proof. reflexivity. Qed.
+Corollary let_fst {x y} (A : x * y) `(f : x -> z) :
+  (let (x, _) := A in f x) = f (fst A).
+Proof. destruct A; auto. Qed.
 
-Corollary let_snd {x y} (A : x * y) : (let (_, y) := A in y) = snd A.
-Proof. reflexivity. Qed.
+Corollary let_snd {x y} (A : x * y) `(f : y -> z) :
+  (let (_, y) := A in f y) = f (snd A).
+Proof. destruct A; auto. Qed.
+
+Corollary let_projT1 {A P} (S : @sigT A P) `(f : A -> z) :
+  (let (x, _) := S in f x) = f (projT1 S).
+Proof. destruct S; auto. Qed.
+
+Corollary let_projT2 {A P} (S : @sigT A P) `(f : forall x, P x -> z) :
+  (let (x, y) := S in f x y) = f (projT1 S) (projT2 S).
+Proof. destruct S; auto. Qed.
 
 Program Instance sum_setoid {A B} `{Setoid A} `{Setoid B} :
   Setoid (A + B) := {
