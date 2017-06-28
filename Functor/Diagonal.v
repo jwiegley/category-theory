@@ -26,6 +26,8 @@ Require Export Category.Instance.One.
 
 Program Instance Const {C : Category} (c : C) : 1 ⟶ C := Diagonal 1 c.
 
+Notation "=( c )" := (Const c) (at level 90, format "=( c )") : functor_scope.
+
 (* Wikipedia: "In category theory, a branch of mathematics, the diagonal
    functor C → C × C is given by Δ(a) = ⟨a, a⟩, which maps objects as well as
    morphisms. This functor can be employed to give a succinct alternate
@@ -57,7 +59,7 @@ Proof.
 Qed.
 
 Program Instance Transform_Const {C J : Category} `(x ~{C}~> y) :
-  Const x ⟹ Const y.
+  =(x) ⟹ =(y).
 
 (* jww (2017-04-13): TODO
 Class Complete `(C : Category) := {
