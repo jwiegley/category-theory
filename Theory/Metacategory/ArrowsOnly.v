@@ -1,5 +1,6 @@
 Set Warnings "-notation-overridden".
 
+Require Import Coq.Vectors.Fin.
 Require Import Coq.FSets.FMaps.
 Require Import Coq.omega.Omega.
 
@@ -21,53 +22,138 @@ Module FMapExt := FMapExt PO M.
 
 Record Metacategory := {
   num_arrows : nat;
-  arrow := nat;
+  arrow := Fin.t num_arrows;
 
   pairs : M.t arrow;
-  pairs_correct : ∀ f g h, M.MapsTo (f, g) h pairs ->
-    (f < num_arrows /\ g < num_arrows /\ h < num_arrows)%nat;
 
-  composite (f g h : arrow) := M.MapsTo (f, g) h pairs;
+  composite (f g h : arrow) := M.MapsTo (` (to_nat f), ` (to_nat g)) h pairs;
+  defined (f g : arrow) := ∃ h, composite f g h;
 
-  (* ∀ edges (X, Y) and (Y, Z), ∃ an edge (X, Z) which is equal to the
+  composite_defined {f g h : arrow} (H : composite f g h) :
+    defined f g := (h; H);
+
+  (*a ∀ edges (X, Y) and (Y, Z), ∃ an edge (X, Z) which is equal to the
      composition of those edges. *)
-  composite_correct (k g f kg gf : arrow) :
+  composite_correct {k g f kg gf : arrow} :
     composite k g kg ->
     composite g f gf -> ∃ kgf, composite kg f kgf;
 
-  composition_law (k g f kg gf : arrow) :
+  composition_law {k g f kg gf : arrow} :
     composite k g kg ->
     composite g f gf ->
     ∀ kgf, composite kg f kgf ↔ composite k gf kgf;
 
-  identity (u : arrow) := (∀ f, composite f u f) ∧ (∀ g, composite u g g)
+  is_identity (u : arrow) :=
+    (∀ f, defined f u -> composite f u f) ∧
+    (∀ g, defined u g -> composite u g g);
+
+  identity_law (g : arrow) :
+    ∃ u u', is_identity u -> is_identity u' ->
+      composite g u g ∧ composite u' g g
 }.
+
+Corollary identity_law' (M : Metacategory) (g : arrow M) :
+  ∃ u u', is_identity M u -> is_identity M u' ->
+    composite M g u g ∧ composite M u' g g.
+Proof. intros; apply identity_law. Defined.
+
+Lemma MapsTo_dec (M : Metacategory) : ∀ elt k e (m : M.t elt),
+  (∀ x y : elt, {x = y} + {x ≠ y}) ->
+  { M.MapsTo k e m } + { ~ M.MapsTo k e m }.
+Proof.
+  intros.
+  destruct (M.find k m) eqn:?.
+    apply FMapExt.F.find_mapsto_iff in Heqo.
+    destruct (X e e0); subst.
+      left; assumption.
+    right; unfold not; intros.
+    pose proof (FMapExt.F.MapsTo_fun H Heqo).
+    contradiction.
+  apply FMapExt.F.not_find_in_iff in Heqo.
+  right.
+  apply FMapExt.not_in_mapsto_iff.
+  assumption.
+Qed.
+
+Lemma identity_dec (M : Metacategory) : ∀ u,
+  { identity M u } + { ~ identity M u }.
+Proof.
+Abort.
+
+(* Lemma arrows_ind (M : Metacategory) : *)
+(*   ∀ (P : arrow M → Prop), *)
+(*   (∀ (i : arrow M) (H : identity M i), P i) → *)
+(*   (∀ (i : arrow M) (H : ~ identity M i), P i) → *)
+(*   ∀ n : arrow M, P n. *)
+(* Proof. *)
+(* Abort. *)
 
 (* Every meta-category, defined wholly in terms of the axioms of category
    theory, gives rise to a category interpreted in the context of set
    theory. *)
 
+Local Obligation Tactic := intros.
+
+Lemma identity (M : Metacategory) :
+  ∀ i : arrow M, defined M i i ∧ is_identity M i -> composite M i i i.
+Proof.
+  intros.
+  apply H.
+  intuition.
+Defined.
+
+Lemma identity_composition_left (M : Metacategory) : ∀ f g fg u,
+  is_identity M u ->
+  composite M f g fg ->
+  defined M u f ->
+  defined M u fg.
+Proof.
+  intros.
+  destruct H.
+  specialize (c0 _ H1); clear H1.
+  destruct (composite_correct M c0 H0).
+  spose (fst (composition_law M c0 H0 _) m) as X.
+  eapply composite_defined.
+  apply X.
+Qed.
+
+Lemma identity_composition_right (M : Metacategory) : ∀ f g fg u,
+  is_identity M u ->
+  composite M f g fg ->
+  defined M g u ->
+  defined M fg u.
+Proof.
+  intros.
+  destruct H.
+  specialize (c _ H1); clear H1.
+  destruct (composite_correct M H0 c).
+  eapply composite_defined.
+  apply m.
+Qed.
+
 Program Definition Category_from_Metacategory (M : Metacategory) :
   Category := {|
-  obj     := ∃ i : arrow M, identity M i;
+  obj     := ∃ i : arrow M, defined M i i ∧ is_identity M i;
   hom     := fun x y =>
-    ∃ f : arrow M, composite M f (`1 x) f ∧ composite M (`1 y) f f;
+    ∃ f : arrow M, defined M f (`1 x) ∧ defined M (`1 y) f;
   homset  := fun _ _ => {| Setoid.equiv := fun f g => `1 f = `1 g |};
 
-  id      := fun x =>
-    let f := `1 x in (f; (fst (`2 x) f, snd (`2 x) f));
+  id      := fun x => (`1 x; (fst (`2 x), fst (`2 x)));
 
   compose := fun x y z f g =>
-    let fg := `1 (composite_correct
-                    M (`1 f) (`1 y) (`1 g) (`1 f) (`1 g)
-                    (fst (`2 y) (`1 f)) (snd (`2 y) (`1 g))) in
-    (fg; (fst (`2 x) fg, snd (`2 z) fg))
+    let fg := composite_correct
+                M (fst (snd (`2 y)) (`1 f) (fst (`2 f)))
+                  (snd (snd (`2 y)) (`1 g) (snd (`2 g))) in
+    (`1 fg;
+       (identity_composition_right M _ _ _ _ (snd (`2 x)) (`2 fg) (fst (`2 g)),
+        identity_composition_left  M _ _ _ _ (snd (`2 z)) (`2 fg) (snd (`2 f))))
 |}.
 Next Obligation. equivalence; simpl in *; congruence. Qed.
-Next Obligation. proper; simpl in *; subst; auto. Qed.
+Next Obligation. proper; simpl in *; subst; auto. Admitted.
 Next Obligation.
-  destruct X; simpl in *.
-  destruct (composite_correct M _ _ _ _ _ _ _); simpl.
+  simpl in *.
+  destruct f; simpl in *.
+  destruct (composite_correct M _ _); simpl.
   eapply FMapExt.F.MapsTo_fun; eauto.
 Qed.
 Next Obligation.
