@@ -3,9 +3,8 @@ Set Warnings "-notation-overridden".
 Require Import Coq.NArith.NArith.
 Require Import Coq.FSets.FMaps.
 
-(* Require Export FMapDec.fmap_decide. *)
-
 Require Import Category.Lib.
+Require Import Category.Lib.Nomega.
 Require Import Category.Lib.FMapExt.
 Require Import Category.Theory.Functor.
 
@@ -15,7 +14,6 @@ Set Universe Polymorphism.
 
 Module PO := PairOrderedType N_as_OT N_as_OT.
 Module M  := FMapList.Make(PO).
-
 Module Import FMapExt := FMapExt PO M.
 
 (* An arrows-only meta-category defines identity arrows as those which, when
@@ -51,12 +49,6 @@ Record Metacategory := {
     ∃ u u', is_identity u -> is_identity u' ->
       composite f u f ∧ composite u' f f
 }.
-
-(* Every meta-category, defined wholly in terms of the axioms of category
-   theory, gives rise to a category interpreted in the context of set
-   theory. *)
-
-Local Obligation Tactic := intros.
 
 Section Category.
 
@@ -129,7 +121,18 @@ Global Program Instance morphism_setoid (x y : object) :
   Setoid (morphism x y) := {
   equiv := fun f g => mor_arr f = mor_arr g
 }.
-Next Obligation. equivalence; congruence. Qed.
+
+Lemma composition_respects {x y z : object} :
+  Proper (equiv ==> equiv ==> equiv) (@composition x y z).
+Proof.
+  proper.
+  destruct x0, y0, x1, y1; simpl in *; subst.
+  repeat destruct (composite_correct _ _ _); simpl in *.
+  unfold composite, arrow in *.
+  rewrite e in e0.
+  inversion_clear e0.
+  reflexivity.
+Qed.
 
 Lemma composition_identity_left {x y : object} (f : morphism x y) :
   composition (identity y) f ≈ f.
@@ -166,17 +169,9 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma composition_respects {x y z : object} :
-  Proper (equiv ==> equiv ==> equiv) (@composition x y z).
-Proof.
-  proper.
-  destruct x0, y0, x1, y1; simpl in *; subst.
-  repeat destruct (composite_correct _ _ _); simpl in *.
-  unfold composite, arrow in *.
-  rewrite e in e0.
-  inversion_clear e0.
-  reflexivity.
-Qed.
+(* Every meta-category, defined wholly in terms of the axioms of category
+   theory, gives rise to a category interpreted in the context of set
+   theory. *)
 
 Program Definition Category_from_Metacategory : Category := {|
   obj     := object;
@@ -247,7 +242,7 @@ Lemma find_mapsto_iff_ex {elt k m} :
 Proof.
   apply sigT_proper.
   intros ??.
-  apply FMapExt.F.find_mapsto_iff.
+  apply F.find_mapsto_iff.
   assumption.
 Defined.
 
@@ -289,24 +284,6 @@ Ltac destruct_maps :=
     simplify_maps; right; split; [idtac|]
   end;
   try congruence.
-
-(*
-Require Export FMapDec.fmap_decide.
-
-Module Import O <: OptionalDecidableType.
-  Monomorphic Definition X := nat.
-  Monomorphic Definition o_eq_dec : option (forall (x y: X), {x = y} + {x <> y}).
-  Proof. apply Some, Nat.eq_dec. Defined.
-End O.
-
-Module Import M := Metacategory Nat_as_OT.
-
-Module PO := PairOrderedType Nat_as_OT Nat_as_OT.
-
-Module Export FMapDecide := FMapDecide PO M O.
-*)
-
-Require Import Lib.Nomega.
 
 Local Obligation Tactic := simpl; intros.
 
@@ -352,6 +329,12 @@ Proof.
     exact TwoY.
   elimobj obj_def0.
 Defined.
+
+(* jww (2017-06-30): At the moment, this function is constructed by iterating
+   through all the possible domain and codomain pairs. It would be nicer to
+   infer what these pairs could possibly be by reflecting over the definition
+   of [pairs] for the [Two] Metacategory, and then to generalize this to an
+   "arrow induction principle" for any meta-category. *)
 
 Program Definition Two_2_morphism (x y : object Two) (f : morphism Two x y) :
   TwoHom (Two_2_object x) (Two_2_object y).
@@ -400,6 +383,7 @@ Next Obligation.
 Defined.
 Next Obligation.
   simpl.
+  (* jww (2017-06-30): Automation is sorely needed here. *)
   destruct x, y, z, f, g.
   destruct obj_arr0 using peano_rect'.
     destruct obj_arr1 using peano_rect'.
