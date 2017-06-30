@@ -447,7 +447,7 @@ Next Obligation. inversion f. Defined.
 
 Local Obligation Tactic := program_simpl.
 
-Program Definition Two_from_Two :  _2 ⟶ Category_from_Metacategory Two := {|
+Program Definition Two_from_Two : _2 ⟶ Category_from_Metacategory Two := {|
   fobj := _2_Two_object;
   fmap := _2_Two_morphism
 |}.
@@ -458,3 +458,36 @@ Next Obligation.
   spose (TwoHom_inv _ _ g) as H; subst;
   contradiction || reflexivity.
 Defined.
+
+Require Import Category.Instance.Cat.
+
+Program Instance Two_iso_2 : Category_from_Metacategory Two ≅ _2 := {
+  to   := Two_to_Two;
+  from := Two_from_Two
+}.
+Next Obligation.
+  unshelve eexists; intros.
+    induction x; reflexivity.
+  induction f; reflexivity.
+Qed.
+Next Obligation.
+  unshelve eexists; intros.
+    induction x using object_Two_rect;
+    destruct x; simpl in H; subst.
+    { isomorphism; simpl.
+      - construct; [exact 0%N|..]; auto.
+      - construct; [exact 0%N|..]; auto.
+      - reflexivity.
+      - reflexivity.
+    }
+    { isomorphism; simpl.
+      - construct; [exact 1%N|..]; auto.
+      - construct; [exact 1%N|..]; auto.
+      - reflexivity.
+      - reflexivity.
+    }
+  induction f using morphism_Two_rect;
+  destruct x, y, f;
+  simpl in H, H0, H1; subst;
+  vm_compute; reflexivity.
+Qed.
