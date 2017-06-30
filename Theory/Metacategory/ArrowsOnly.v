@@ -13,8 +13,8 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 
 Module PO := PairOrderedType Nat_as_OT Nat_as_OT.
-Module M := FMapList.Make(PO).
-Module FMapExt := FMapExt PO M.
+Module Import M := FMapList.Make(PO).
+Module Import FMapExt := FMapExt PO M.
 
 (* An arrows-only meta-category defines identity arrows as those which, when
    composed to the left or right of another arrow, result in that same arrow.
@@ -58,15 +58,15 @@ Lemma MapsTo_dec (M : Metacategory) : ∀ elt k e (m : M.t elt),
 Proof.
   intros.
   destruct (M.find k m) eqn:?.
-    apply FMapExt.F.find_mapsto_iff in Heqo.
+    apply F.find_mapsto_iff in Heqo.
     destruct (X e e0); subst.
       left; assumption.
     right; unfold not; intros.
-    pose proof (FMapExt.F.MapsTo_fun H Heqo).
+    pose proof (F.MapsTo_fun H Heqo).
     contradiction.
-  apply FMapExt.F.not_find_in_iff in Heqo.
+  apply F.not_find_in_iff in Heqo.
   right.
-  apply FMapExt.not_in_mapsto_iff.
+  apply not_in_mapsto_iff.
   assumption.
 Qed.
 
@@ -112,7 +112,7 @@ Proof.
   specialize (c0 _ (composite_defined M H0)); clear H0.
   destruct (composite_correct M c0 H).
   spose (fst (composition_law M c0 H _) m) as X.
-  pose proof (FMapExt.F.MapsTo_fun H m); subst.
+  pose proof (F.MapsTo_fun H m); subst.
   apply X.
 Qed.
 
@@ -127,7 +127,7 @@ Proof.
   specialize (c _ (composite_defined M H0)); clear H0.
   destruct (composite_correct M H c).
   spose (fst (composition_law M H c _) m) as X.
-  pose proof (FMapExt.F.MapsTo_fun H X); subst.
+  pose proof (F.MapsTo_fun H X); subst.
   apply m.
 Qed.
 
@@ -154,7 +154,7 @@ Lemma composition_identity_left {x y : object} (f : morphism x y) :
 Proof.
   destruct f; simpl.
   destruct (composite_correct _ _ _); simpl in *.
-  eapply FMapExt.F.MapsTo_fun; eauto.
+  eapply F.MapsTo_fun; eauto.
 Qed.
 
 Lemma composition_identity_right {x y : object} (f : morphism x y) :
@@ -162,7 +162,7 @@ Lemma composition_identity_right {x y : object} (f : morphism x y) :
 Proof.
   destruct f; simpl.
   destruct (composite_correct _ _ _); simpl in *.
-  eapply FMapExt.F.MapsTo_fun; eauto.
+  eapply F.MapsTo_fun; eauto.
 Qed.
 
 Lemma composition_associative {x y z w : object}
@@ -172,7 +172,7 @@ Proof.
   destruct f, g, h; simpl.
   repeat destruct (composite_correct _ _ _); simpl in *.
   spose (fst (composition_law M m1 m x3) m2) as X1.
-  eapply FMapExt.F.MapsTo_fun; eauto.
+  eapply F.MapsTo_fun; eauto.
 Qed.
 
 Lemma composition_respects {x y z : object} :
@@ -181,7 +181,7 @@ Proof.
   proper.
   destruct x0, y0, x1, y1; simpl in *; subst.
   repeat destruct (composite_correct _ _ _); simpl in *.
-  eapply FMapExt.F.MapsTo_fun; eauto.
+  eapply F.MapsTo_fun; eauto.
 Qed.
 
 Program Definition Category_from_Metacategory : Category := {|
@@ -212,8 +212,8 @@ Notation "x +=> y" := (M.add x (@of_nat_lt y _ _))
 Notation "[map  a ; .. ; b ]" := (a .. (b [map]) ..) (only parsing).
 
 Ltac cleanup :=
-  try FMapExt.simplify_maps;
-  repeat (right; intuition; try discriminate; FMapExt.simplify_maps).
+  try simplify_maps;
+  repeat (right; intuition; try discriminate; simplify_maps).
 
 Local Obligation Tactic := program_simpl; try abstract omega.
 
@@ -226,7 +226,7 @@ Admitted.
 Ltac destruct_maps :=
   repeat lazymatch goal with
   | [ H : M.MapsTo _ _ (M.empty _) |- _ ] =>
-    contradiction (proj1 (FMapExt.F.empty_mapsto_iff _ _) H)
+    contradiction (proj1 (F.empty_mapsto_iff _ _) H)
 
   | [ H : M.MapsTo (?X, ?Y) ?F (M.add _ _ _) |- _ ] =>
     apply mapsto_inv in H; destruct H as [[? [? ?]]|]
@@ -248,11 +248,23 @@ Ltac destruct_maps :=
       exists F
     end
   | [ |- M.MapsTo (?X, ?Y) ?F (M.add (?X, ?Y) ?F _) ] =>
-    FMapExt.simplify_maps
+    simplify_maps
   | [ |- M.MapsTo _ _ (M.add _ _ _) ] =>
-    FMapExt.simplify_maps; right; split; [omega|]
+    simplify_maps; right; split; [omega|]
   end;
   try congruence.
+
+(*
+Require Export FMapDec.fmap_decide.
+
+Module Import O <: OptionalDecidableType.
+  Monomorphic Definition X := Fin.t 3.
+  Monomorphic Definition o_eq_dec : option (forall (x y: X), {x = y} + {x <> y}).
+  Proof. apply Some, Fin.eq_dec. Defined.
+End O.
+
+Module Export FMapDecide := FMapDecide PO M O.
+*)
 
 Program Definition Two : Metacategory := {|
   num_arrows := 3;
