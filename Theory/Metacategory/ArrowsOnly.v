@@ -2,7 +2,8 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.Vectors.Fin.
 Require Import Coq.FSets.FMaps.
-Require Import Coq.omega.Omega.
+
+(* Require Export FMapDec.fmap_decide. *)
 
 Require Import Category.Lib.
 Require Import Category.Lib.FMapExt.
@@ -12,8 +13,11 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Module PO := PairOrderedType Nat_as_OT Nat_as_OT.
-Module Import M := FMapList.Make(PO).
+Module Metacategory (E : OrderedType).
+
+Module PO := PairOrderedType E E.
+Module M  := FMapList.Make(PO).
+
 Module Import FMapExt := FMapExt PO M.
 
 (* An arrows-only meta-category defines identity arrows as those which, when
@@ -21,12 +25,10 @@ Module Import FMapExt := FMapExt PO M.
    This definition requires that all such composition be present. *)
 
 Record Metacategory := {
-  num_arrows : nat;
-  arrow := Fin.t num_arrows;
-
+  arrow := E.t;
   pairs : M.t arrow;
 
-  composite (f g h : arrow) := M.MapsTo (` (to_nat f), ` (to_nat g)) h pairs;
+  composite (f g h : arrow) := M.MapsTo (f, g) h pairs;
   defined (f g : arrow) := ∃ h, composite f g h;
 
   composite_defined {f g h : arrow} (H : composite f g h) :
@@ -47,28 +49,10 @@ Record Metacategory := {
     (∀ f, defined f u -> composite f u f) ∧
     (∀ g, defined u g -> composite u g g);
 
-  identity_law (f : arrow) :
+  identity_law (x y f : arrow) : composite x y f ->
     ∃ u u', is_identity u -> is_identity u' ->
       composite f u f ∧ composite u' f f
 }.
-
-Lemma MapsTo_dec (M : Metacategory) : ∀ elt k e (m : M.t elt),
-  (∀ x y : elt, {x = y} + {x ≠ y}) ->
-  { M.MapsTo k e m } + { ~ M.MapsTo k e m }.
-Proof.
-  intros.
-  destruct (M.find k m) eqn:?.
-    apply F.find_mapsto_iff in Heqo.
-    destruct (X e e0); subst.
-      left; assumption.
-    right; unfold not; intros.
-    pose proof (F.MapsTo_fun H Heqo).
-    contradiction.
-  apply F.not_find_in_iff in Heqo.
-  right.
-  apply not_in_mapsto_iff.
-  assumption.
-Qed.
 
 (* Every meta-category, defined wholly in terms of the axioms of category
    theory, gives rise to a category interpreted in the context of set
@@ -76,7 +60,7 @@ Qed.
 
 Local Obligation Tactic := intros.
 
-Section Metacategory.
+Section Category.
 
 Context (M : Metacategory).
 
@@ -200,28 +184,24 @@ Program Definition Category_from_Metacategory : Category := {|
     symmetry (@composition_associative x y z w f g h);
 |}.
 
-End Metacategory.
+End Category.
 
 Arguments mor_arr _ {_ _} _.
 Arguments mor_dom _ {_ _} _.
 Arguments mor_cod _ {_ _} _.
 
 Notation "[map ]" := (M.empty _) (at level 9, only parsing).
-Notation "x +=> y" := (M.add x (@of_nat_lt y _ _))
-  (at level 9, y at level 100, only parsing).
+Notation "x +=> y" := (M.add x y) (at level 9, y at level 100, only parsing).
 Notation "[map  a ; .. ; b ]" := (a .. (b [map]) ..) (only parsing).
 
-Ltac cleanup :=
-  try simplify_maps;
-  repeat (right; intuition; try discriminate; simplify_maps).
-
-Local Obligation Tactic := program_simpl; try abstract omega.
-
-Lemma mapsto_inv : ∀ n f g (fg : Fin.t n) x y z m,
+Lemma mapsto_inv : ∀ elt f g (fg : elt) x y z m,
   M.MapsTo (f, g) fg (M.add (x, y) z m) ->
-    (f = x ∧ g = y ∧ fg = z) ∨ M.MapsTo (f, g) fg m.
+    (E.eq x f ∧ E.eq y g ∧ z = fg) ∨ M.MapsTo (f, g) fg m.
 Proof.
-Admitted.
+  intros.
+  apply add_mapsto_iffT in H.
+  destruct H; simpl in *; intuition.
+Defined.
 
 Ltac destruct_maps :=
   repeat lazymatch goal with
@@ -231,16 +211,12 @@ Ltac destruct_maps :=
   | [ H : M.MapsTo (?X, ?Y) ?F (M.add _ _ _) |- _ ] =>
     apply mapsto_inv in H; destruct H as [[? [? ?]]|]
 
-  | [ H : ?X = ?Y |- context[M.MapsTo (` (to_nat ?X), _)] ] =>
-    rewrite H; cbn
-  | [ H : ?X = ?Y |- context[M.MapsTo (_, ` (to_nat ?X))] ] =>
-    rewrite H; cbn
-  | [ H : ?X = ?Y |- context[M.MapsTo (?X, _)] ] =>
-    rewrite H; cbn
-  | [ H : ?X = ?Y |- context[M.MapsTo (_, ?X)] ] =>
-    rewrite H; cbn
-  | [ H : ?X = ?Y |- context[M.MapsTo _ ?X] ] =>
-    rewrite H; cbn
+  | [ H : ?X = ?Y |- context[M.MapsTo (?Y, _)] ] =>
+    rewrite <- H; cbn
+  | [ H : ?X = ?Y |- context[M.MapsTo (_, ?Y)] ] =>
+    rewrite <- H; cbn
+  | [ H : ?X = ?Y |- context[M.MapsTo _ ?Y] ] =>
+    rewrite <- H; cbn
 
   | [ |- ∃ _, M.MapsTo (?X, ?Y) _ _ ] =>
     match goal with
@@ -250,53 +226,71 @@ Ltac destruct_maps :=
   | [ |- M.MapsTo (?X, ?Y) ?F (M.add (?X, ?Y) ?F _) ] =>
     simplify_maps
   | [ |- M.MapsTo _ _ (M.add _ _ _) ] =>
-    simplify_maps; right; split; [omega|]
+    simplify_maps; right; split; [idtac|]
   end;
   try congruence.
+
+End Metacategory.
 
 (*
 Require Export FMapDec.fmap_decide.
 
 Module Import O <: OptionalDecidableType.
-  Monomorphic Definition X := Fin.t 3.
+  Monomorphic Definition X := nat.
   Monomorphic Definition o_eq_dec : option (forall (x y: X), {x = y} + {x <> y}).
-  Proof. apply Some, Fin.eq_dec. Defined.
+  Proof. apply Some, Nat.eq_dec. Defined.
 End O.
+
+Module Import M := Metacategory Nat_as_OT.
+
+Module PO := PairOrderedType Nat_as_OT Nat_as_OT.
 
 Module Export FMapDecide := FMapDecide PO M O.
 *)
 
+Module Import MC := Metacategory N_as_OT.
+
+Require Import Lib.Nomega.
+
 Program Definition Two : Metacategory := {|
-  num_arrows := 3;
   pairs := [map (0, 0) +=> 0
            ;    (1, 1) +=> 1
            ;    (1, 2) +=> 2
-           ;    (2, 0) +=> 2 ]%nat
+           ;    (2, 0) +=> 2 ]%N
 |}.
-Next Obligation. destruct_maps. Qed.
+Next Obligation. destruct_maps; nomega. Defined.
+Next Obligation. split; intros; destruct_maps; subst; nomega. Qed.
 Next Obligation.
-  split; intros;
-  destruct_maps;
-  subst; discriminate.
-Qed.
-Next Obligation.
-  destruct f using caseS'.
-    eexists; eexists; intros.
-    simplify; simpl in *.
-    instantiate (1:=F1); simpl; destruct_maps.
-    instantiate (1:=F1); simpl; destruct_maps.
-  destruct f using caseS'.
-    eexists; eexists; intros.
-    simplify; simpl in *.
-    instantiate (1:=FS F1); simpl; destruct_maps.
-    instantiate (1:=FS F1); simpl; destruct_maps.
-  destruct f using caseS'.
-    eexists; eexists; intros.
-    simplify; simpl in *.
-    instantiate (1:=F1); simpl; destruct_maps.
-    instantiate (1:=FS F1); simpl; destruct_maps.
-  inversion f.
-Qed.
+  destruct_maps; subst.
+  - eexists; eexists; intros.
+    split.
+    instantiate (1:=0%N); simpl; destruct_maps.
+    instantiate (1:=0%N); simpl; destruct_maps.
+  - eexists; eexists; intros.
+    split.
+    instantiate (1:=1%N); simpl; destruct_maps.
+      unfold not; destruct 1; discriminate.
+    instantiate (1:=1%N); simpl; destruct_maps.
+      unfold not; destruct 1; discriminate.
+  - eexists; eexists; intros.
+    split.
+    instantiate (1:=0%N); simpl; destruct_maps.
+      unfold not; destruct 1; discriminate.
+      unfold not; destruct 1; discriminate.
+      unfold not; destruct 1; discriminate.
+    instantiate (1:=1%N); simpl; destruct_maps.
+      unfold not; destruct 1; discriminate.
+      unfold not; destruct 1; discriminate.
+  - eexists; eexists; intros.
+    split.
+    instantiate (1:=0%N); simpl; destruct_maps.
+      unfold not; destruct 1; discriminate.
+      unfold not; destruct 1; discriminate.
+      unfold not; destruct 1; discriminate.
+    instantiate (1:=1%N); simpl; destruct_maps.
+      unfold not; destruct 1; discriminate.
+      unfold not; destruct 1; discriminate.
+Defined.
 
 Require Import Category.Instance.Two.
 
@@ -305,29 +299,94 @@ Local Obligation Tactic := program_simpl; simpl in *.
 Program Definition Two_2_object (x : object Two) : TwoObj.
 Proof.
   destruct x.
-  destruct obj_arr0 using caseS'.
+  destruct obj_arr0 using N.peano_rect.
     exact TwoX.
-  destruct p using caseS'.
+  clear IHobj_arr0.
+  destruct obj_arr0 using N.peano_rect.
     exact TwoY.
-  destruct p using caseS'.
+  clear IHobj_arr0.
+  destruct obj_arr0 using N.peano_rect.
     unfold composite in obj_def0.
     cbn in obj_def0.
-    apply mapsto_inv in obj_def0; destruct obj_def0 as [[? [? ?]]|].
-      discriminate.
-    apply mapsto_inv in m; destruct m as [[? [? ?]]|].
-      discriminate.
-    apply mapsto_inv in m; destruct m as [[? [? ?]]|].
-      discriminate.
-    apply mapsto_inv in m; destruct m as [[? [? ?]]|].
-      discriminate.
     destruct_maps.
-  inversion p.
+  clear IHobj_arr0.
+  unfold composite in obj_def0.
+  cbn in obj_def0.
+  destruct_maps; nomega.
 Defined.
 
 Program Definition Two_2_morphism (x y : object Two) (f : morphism Two x y) :
   TwoHom (Two_2_object x) (Two_2_object y).
 Proof.
-Admitted.
+  destruct x, y, f.
+  destruct mor_arr0 using N.peano_rect.
+    destruct obj_arr0 using N.peano_rect.
+      destruct obj_arr1 using N.peano_rect.
+        exact TwoIdX.
+      clear IHobj_arr1.
+      unfold composite in mor_cod0.
+      simpl in mor_cod0.
+      clear -mor_cod0.
+      destruct_maps; nomega.
+    clear IHobj_arr0.
+    unfold composite in mor_dom0.
+    simpl in mor_dom0.
+    clear -mor_dom0.
+    destruct_maps; nomega.
+  clear IHmor_arr0.
+  destruct mor_arr0 using N.peano_rect.
+    destruct obj_arr0 using N.peano_rect.
+      unfold composite in mor_dom0.
+      simpl in mor_dom0.
+      clear -mor_dom0.
+      destruct_maps; nomega.
+    destruct obj_arr1 using N.peano_rect.
+      unfold composite in mor_cod0.
+      simpl in mor_cod0.
+      clear -mor_cod0.
+      destruct_maps; nomega.
+    destruct obj_arr0 using N.peano_rect.
+      destruct obj_arr1 using N.peano_rect.
+        exact TwoIdY.
+      clear IHobj_arr1.
+      unfold composite in mor_cod0.
+      simpl in mor_cod0.
+      clear -mor_cod0.
+      destruct_maps; nomega.
+    clear IHobj_arr0.
+    unfold composite in mor_dom0.
+    simpl in mor_dom0.
+    clear -mor_dom0.
+    destruct_maps; nomega.
+  clear IHmor_arr0.
+  destruct mor_arr0 using N.peano_rect.
+    destruct obj_arr0 using N.peano_rect.
+      destruct obj_arr1 using N.peano_rect.
+        unfold composite in mor_cod0.
+        simpl in mor_cod0.
+        clear -mor_cod0.
+        destruct_maps; nomega.
+      destruct obj_arr1 using N.peano_rect.
+        exact TwoXY.
+      clear IHobj_arr1.
+      unfold composite in mor_cod0.
+      simpl in mor_cod0.
+      clear -mor_cod0.
+      destruct_maps; nomega.
+    clear IHobj_arr0.
+    unfold composite in mor_dom0.
+    simpl in mor_dom0.
+    clear -mor_dom0.
+    destruct_maps; nomega.
+  clear IHmor_arr0.
+  unfold composite in mor_dom0.
+  simpl in mor_dom0.
+  clear -mor_dom0.
+  destruct_maps; nomega.
+Defined.
+
+(*
+Local Obligation Tactic := intros.
 
 Program Definition Two_to_Two : Category_from_Metacategory Two ⟶ _2 := {|
   fobj := Two_2_object;
@@ -335,9 +394,38 @@ Program Definition Two_to_Two : Category_from_Metacategory Two ⟶ _2 := {|
 |}.
 Next Obligation.
   proper.
-  destruct x0, y0; simpl in *; subst.
+  destruct x0, y0.
+  simpl in X; subst.
+  f_equal.
+  f_equal.
 Admitted.
 Next Obligation.
-Admitted.
+  destruct x.
+  destruct obj_arr0 using N.peano_rect.
+    reflexivity.
+  clear IHobj_arr0.
+  destruct obj_arr0 using N.peano_rect.
+    reflexivity.
+  clear IHobj_arr0.
+  unfold composite in obj_def0.
+  simpl in obj_def0.
+  elimtype False.
+  clear -obj_def0.
+  destruct_maps; nomega'.
+Defined.
 Next Obligation.
+  destruct f, g.
+  destruct mor_arr0 using N.peano_rect.
+    destruct mor_arr1 using N.peano_rect.
+      destruct x, y, z.
+      destruct obj_arr0 using N.peano_rect.
+        destruct obj_arr1 using N.peano_rect.
+          destruct obj_arr2 using N.peano_rect.
+            simpl.
+            unfold Two_obligation_1.
+            simpl.
+            unfold mapsto_inv.
+            simpl.
+            unfold FMapExt.add_mapsto_iffT.
 Admitted.
+*)

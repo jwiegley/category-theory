@@ -5,6 +5,7 @@ Lib/Setoid.v
 Lib/Tactics.v
 Lib/Datatypes.v
 Lib/FMapExt.v
+Lib/Nomega.v
 Theory/Category.v
 Theory/Metacategory.v
 Theory/Metacategory/Graph.v

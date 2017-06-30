@@ -345,7 +345,7 @@ Proof.
     reflexivity.
   apply F.find_mapsto_iff.
   assumption.
-Qed.
+Defined.
 
 Lemma not_in_mapsto_iff : forall elt k (m : M.t elt),
   ~ M.In (elt:=elt) k m <-> forall e, ~ M.MapsTo (elt:=elt) k e m.
@@ -357,6 +357,24 @@ Proof.
   apply (proj1 (in_mapsto_iff _ _ _)) in H0.
   destruct H0.
   apply (H x); assumption.
+Qed.
+
+Lemma mapsto_dec : forall elt k e (m : M.t elt),
+  (forall x y : elt, {x = y} + {x <> y}) ->
+  { M.MapsTo k e m } + { ~ M.MapsTo k e m }.
+Proof.
+  intros.
+  destruct (M.find k m) eqn:?.
+    apply F.find_mapsto_iff in Heqo.
+    destruct (X e e0); subst.
+      left; assumption.
+    right; unfold not; intros.
+    pose proof (F.MapsTo_fun H Heqo).
+    contradiction.
+  apply F.not_find_in_iff in Heqo.
+  right.
+  apply not_in_mapsto_iff.
+  assumption.
 Qed.
 
 Lemma filter_add_false : forall elt k (e : elt) m m' P,
