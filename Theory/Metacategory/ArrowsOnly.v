@@ -293,6 +293,14 @@ Ltac elimobj X :=
   clear -X;
   destruct_maps; nomega.
 
+Lemma peano_rect' : ∀ P : N → Type, P 0%N → (∀ n : N, P (N.succ n)) → ∀ n : N, P n.
+Proof.
+  intros.
+  induction n using N.peano_rect.
+    apply X.
+  apply X0.
+Defined.
+
 Program Definition Two : Metacategory := {|
   pairs := [map (0, 0) +=> 0
            ;    (1, 1) +=> 1
@@ -308,53 +316,61 @@ Next Obligation.
         | instantiate (1 := 1%N); vm_compute; reflexivity ].
 Defined.
 
+Ltac reflect_on_pairs X Y F D C :=
+  repeat (
+    destruct X using peano_rect';
+    first
+      [ elimobj D | elimobj C
+      | repeat (
+          destruct Y using peano_rect';
+          first
+            [ elimobj D | elimobj C
+            | repeat (
+                destruct F using peano_rect';
+                first
+                  [ elimobj D | elimobj C
+                  | intuition idtac
+                  | reflect_on_pairs ]) ]) ]);
+  intuition.
+
 Require Import Category.Instance.Two.
 
-Local Obligation Tactic := program_simpl; simpl in *.
-
-Lemma peano_rect' : ∀ P : N → Type, P 0%N → (∀ n : N, P (N.succ n)) → ∀ n : N, P n.
+Monomorphic Lemma object_Two_rect :
+  ∀ (P : object Two -> Type),
+  (∀ x, obj_arr Two x = 0%N -> P x) ->
+  (∀ x, obj_arr Two x = 1%N -> P x) ->
+  ∀ (x : object Two), P x.
 Proof.
-  intros.
-  induction n using N.peano_rect.
-    apply X.
-  apply X0.
+  intros; destruct x.
+  repeat (destruct obj_arr0 using peano_rect'; elimobj obj_def0 || auto).
 Defined.
 
 Program Definition Two_2_object (x : object Two) : TwoObj.
 Proof.
-  destruct x.
-  destruct obj_arr0 using peano_rect'.
-    exact TwoX.
-  destruct obj_arr0 using peano_rect'.
-    exact TwoY.
-  elimobj obj_def0.
+  induction x using object_Two_rect.
+  - exact TwoX.
+  - exact TwoY.
 Defined.
 
-(* jww (2017-06-30): At the moment, this function is constructed by iterating
-   through all the possible domain and codomain pairs. It would be nicer to
-   infer what these pairs could possibly be by reflecting over the definition
-   of [pairs] for the [Two] Metacategory, and then to generalize this to an
-   "arrow induction principle" for any meta-category. *)
+Monomorphic Lemma morphism_Two_rect :
+  ∀ {x y : object Two} (P : morphism Two x y -> Type),
+  (∀ f, obj_arr Two x = 0%N -> obj_arr Two y = 0%N -> mor_arr Two f = 0%N -> P f) ->
+  (∀ f, obj_arr Two x = 1%N -> obj_arr Two y = 1%N -> mor_arr Two f = 1%N -> P f) ->
+  (∀ f, obj_arr Two x = 0%N -> obj_arr Two y = 1%N -> mor_arr Two f = 2%N -> P f) ->
+  ∀ (f : morphism Two x y), P f.
+Proof.
+  intros; destruct x, y, f.
+  reflect_on_pairs obj_arr0 obj_arr1 mor_arr0 mor_dom0 mor_cod0.
+Defined.
 
 Program Definition Two_2_morphism (x y : object Two) (f : morphism Two x y) :
   TwoHom (Two_2_object x) (Two_2_object y).
 Proof.
-  destruct x, y, f.
-  destruct obj_arr0 using peano_rect'.
-    destruct obj_arr1 using peano_rect'; simpl.
-      exact TwoIdX.
-    destruct obj_arr1 using peano_rect'; simpl.
-      exact TwoXY.
-    elimobj mor_cod0.
-  destruct obj_arr0 using peano_rect'; simpl.
-    destruct obj_arr1 using peano_rect'; simpl.
-      destruct mor_arr0 using peano_rect'.
-        elimobj mor_dom0.
-      elimobj mor_cod0.
-    destruct obj_arr1 using peano_rect'; simpl.
-      exact TwoIdY.
-    elimobj mor_cod0.
-  elimobj mor_dom0.
+  induction f using morphism_Two_rect;
+  destruct x, y, f; simpl in *; subst; simpl.
+  - exact TwoIdX.
+  - exact TwoIdY.
+  - exact TwoXY.
 Defined.
 
 Local Obligation Tactic := intros.
@@ -374,55 +390,20 @@ Next Obligation.
 Qed.
 Next Obligation.
   simpl.
-  destruct x.
-  destruct obj_arr0 using peano_rect'.
-    reflexivity.
-  destruct obj_arr0 using peano_rect'.
-    reflexivity.
-  elimobj obj_def0.
-Defined.
+  induction x using object_Two_rect;
+  destruct x;
+  simpl in H; subst;
+  vm_compute; reflexivity.
+Qed.
 Next Obligation.
-  simpl.
-  (* jww (2017-06-30): Automation is sorely needed here. *)
-  destruct x, y, z, f, g.
-  destruct obj_arr0 using peano_rect'.
-    destruct obj_arr1 using peano_rect'.
-      destruct obj_arr2 using peano_rect'.
-        reflexivity.
-      destruct obj_arr2 using peano_rect'.
-        reflexivity.
-      elimobj obj_def2.
-    destruct obj_arr1 using peano_rect'.
-      destruct obj_arr2 using peano_rect'.
-        destruct mor_arr0 using peano_rect'.
-          elimobj mor_dom0.
-        elimobj mor_cod0.
-      destruct obj_arr2 using peano_rect'.
-        reflexivity.
-      elimobj obj_def2.
-    elimobj obj_def1.
-  destruct obj_arr0 using peano_rect'.
-    destruct obj_arr1 using peano_rect'.
-      destruct obj_arr2 using peano_rect'.
-        destruct mor_arr1 using peano_rect'.
-          elimobj mor_dom1.
-        elimobj mor_cod1.
-      destruct obj_arr2 using peano_rect'.
-        destruct mor_arr1 using peano_rect'.
-          elimobj mor_dom1.
-        elimobj mor_cod1.
-      elimobj obj_def2.
-    destruct obj_arr1 using peano_rect'.
-      destruct obj_arr2 using peano_rect'.
-        destruct mor_arr0 using peano_rect'.
-          elimobj mor_dom0.
-        elimobj mor_cod0.
-      destruct obj_arr2 using peano_rect'.
-        reflexivity.
-      elimobj obj_def2.
-    elimobj obj_def1.
-  elimobj obj_def0.
-Defined.
+  simpl in *.
+  induction f using morphism_Two_rect;
+  induction g using morphism_Two_rect;
+  destruct x, y, z, f, f0;
+  simpl in H, H0, H1, H2, H3, H4; subst;
+  (elimtype False; simpl in *; discriminate)
+    || (vm_compute; reflexivity).
+Qed.
 
 Local Obligation Tactic :=
   program_simpl;
