@@ -304,7 +304,6 @@ Proof.
   apply X0.
 Defined.
 
-(*
 Ltac reflect_on_maps :=
   try split; intros; simpl in *; destruct_maps; subst;
   first [ nomega
@@ -315,9 +314,6 @@ Ltac reflect_on_maps :=
                 | instantiate (1 := 3%N); vm_compute; reflexivity
                 | instantiate (1 := 4%N); vm_compute; reflexivity
                 | instantiate (1 := 5%N); vm_compute; reflexivity] ].
-*)
-
-(* Local Obligation Tactic := reflect_on_maps. *)
 
 Inductive term :=
   | Var : positive -> term
@@ -1019,6 +1015,9 @@ Ltac prepare_maps :=
 
 Ltac map_decide := prepare_maps; solve_map.
 
+(* This first tactic is the Ltac-based reflection; the second uses
+   computational reflection. *)
+(* Local Obligation Tactic := reflect_on_maps. *)
 Local Obligation Tactic :=
   repeat eexists; simpl; try split; intros;
   first [ map_decide
@@ -1061,6 +1060,9 @@ Time Program Definition Three : Metacategory := {|
            ;    (4, 3) +=> 5 ]%N
 |}.
 
+(* Using rewriting and other theorems, this instance takes 481s to define.
+   Using computational reflection, it takes 0.3s. *)
+
 Time Program Definition Four : Metacategory := {|
   pairs := [map (0, 0) +=> 0
            ;    (1, 1) +=> 1
@@ -1091,7 +1093,7 @@ Time Program Definition Four : Metacategory := {|
            ;    (8, 4) +=> 9 ]%N
 |}.
 
-Print Assumptions Four_obligation_1.
+(* Print Assumptions Four_obligation_1. *)
 
 Ltac reflect_on_pairs X Y F D C :=
   repeat (
