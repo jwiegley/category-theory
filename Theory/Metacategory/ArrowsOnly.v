@@ -368,48 +368,127 @@ Next Obligation.
   discriminate.
 Defined.
 
-Section denotation.
+Lemma K_dec_on_type A (x : A) (eq_dec : ∀ y : A, x = y \/ x ≠ y)
+      (P : x = x -> Type) :
+  P (eq_refl x) -> forall p:x = x, P p.
+Proof.
+  intros.
+  elim (@Eqdep_dec.eq_proofs_unicity_on A _) with x (eq_refl x) p.
+    trivial.
+  exact eq_dec.
+Qed.
 
-Definition subst_term (p : positive) (n : term) (t : term) : term :=
-  match t with
-  | Var x   => if (x =? p)%positive then n else t
-  | Value _ => t
-  end.
+Lemma Pos_eq_dec' : ∀ x y : positive, x = y \/ x ≠ y.
+Proof.
+  intros.
+  destruct (Pos.eq_dec x y); auto.
+Qed.
 
-Fixpoint subst_term_all (xs : list (positive * term)) t : term :=
-  match xs with
-  | nil => t
-  | cons (p, n) xs => subst_term p n (subst_term_all xs t)
-  end.
+Lemma Pos_eq_dec_refl n : Pos.eq_dec n n = left (@eq_refl positive n).
+Proof.
+  destruct (Pos.eq_dec n n).
+    refine (K_dec_on_type positive n (Pos_eq_dec' n)
+              (fun x => @left _ _ x = @left _ _ (@eq_refl positive n)) _ _).
+    reflexivity.
+  contradiction.
+Qed.
 
-Definition term_denote (vars : positive -> N) (x : term) : N :=
+Lemma N_eq_dec' : ∀ x y : N, x = y \/ x ≠ y.
+Proof.
+  intros.
+  destruct (N.eq_dec x y); auto.
+Qed.
+
+Lemma N_eq_dec_refl n : N.eq_dec n n = left (@eq_refl N n).
+Proof.
+  destruct (N.eq_dec n n).
+    refine (K_dec_on_type N n (N_eq_dec' n)
+              (fun x => @left _ _ x = @left _ _ (@eq_refl N n)) _ _).
+    reflexivity.
+  contradiction.
+Qed.
+
+Lemma prod_eq_dec' :
+  ∀ (A B : Type) (A_eq_dec : ∀ x y : A, x = y ∨ x ≠ y)
+    (B_eq_dec : ∀ x y : B, x = y ∨ x ≠ y)
+    (x y : A ∧ B), x = y \/ x ≠ y.
+Proof.
+  intros.
+  destruct x, y; simpl.
+  destruct (A_eq_dec a a0); subst.
+    destruct (B_eq_dec b b0); subst.
+      left; reflexivity.
+    right; congruence.
+  right; congruence.
+Qed.
+
+Lemma prod_eq_dec_refl (A B : Type) n
+      (A_eq_dec : ∀ x y : A, x = y ∨ x ≠ y)
+      (B_eq_dec : ∀ x y : B, x = y ∨ x ≠ y) :
+  prod_eq_dec A_eq_dec B_eq_dec n n = left (@eq_refl (A ∧ B) n).
+Proof.
+  destruct (prod_eq_dec _ _ n n).
+    refine (K_dec_on_type (A ∧ B) n (prod_eq_dec' _ _ A_eq_dec B_eq_dec n)
+              (fun x => @left _ _ x = @left _ _ (@eq_refl (A ∧ B) n)) _ _).
+    reflexivity.
+  contradiction.
+Qed.
+
+Lemma length_remove A (A_eq_dec : ∀ x y : A, x = y ∨ x ≠ y) x xs :
+  (length (remove A_eq_dec x xs) <= length xs)%nat.
+Proof.
+  induction xs; auto.
+  simpl.
+  destruct (A_eq_dec x a); subst.
+    apply Nat.le_le_succ_r, IHxs.
+  simpl.
+  apply le_n_S, IHxs.
+Qed.
+
+Program Fixpoint term_denote (vars : positive -> N) (defs : list (positive * term))
+        (x : term) {measure (length defs)} : N :=
   match x with
-  | Var n => vars n
+  | Var n =>
+    match find (fun p => fst p =? n)%positive defs with
+    | Some v =>
+      term_denote
+        vars (remove (prod_eq_dec Pos.eq_dec term_eq_dec) v defs) (snd v)
+    | None => vars n
+    end
   | Value n => n
   end.
+Next Obligation.
+  clear term_denote.
+  symmetry in Heq_anonymous.
+  apply find_some in Heq_anonymous.
+  destruct Heq_anonymous.
+  clear x Heq_x vars n H0.
+  generalize dependent v.
+  induction defs; simpl; intros.
+    contradiction.
+  destruct (prod_eq_dec Pos.eq_dec term_eq_dec v a).
+    apply le_lt_n_Sm, length_remove.
+  simpl.
+  destruct H.
+    congruence.
+  apply lt_n_S.
+  eapply IHdefs; eauto.
+Defined.
+Next Obligation.
+  apply measure_wf, lt_wf.
+Defined.
 
 Inductive map_expr : Set :=
   | Empty : map_expr
   | Add   : term -> term -> term -> map_expr -> map_expr.
 
-Fixpoint subst_map_expr (p : positive) (n : term) (t : map_expr) : map_expr :=
-  match t with
-  | Empty => Empty
-  | Add x y f m => Add (subst_term p n x) (subst_term p n y)
-                       (subst_term p n f) (subst_map_expr p n m)
-  end.
-
-Fixpoint subst_map_expr_all (xs : list (positive * term)) t : map_expr :=
-  match xs with
-  | nil => t
-  | cons (p, n) xs => subst_map_expr p n (subst_map_expr_all xs t)
-  end.
-
-Fixpoint map_expr_denote (vars : positive -> N) (m : map_expr) : M.t N :=
+Fixpoint map_expr_denote (vars : positive -> N) (defs : list (positive * term))
+         (m : map_expr) : M.t N :=
   match m with
   | Empty => M.empty N
-  | Add x y f m' => M.add (term_denote vars x, term_denote vars y)
-                          (term_denote vars f) (map_expr_denote vars m')
+  | Add x y f m' =>
+    M.add (term_denote vars defs x, term_denote vars defs y)
+          (term_denote vars defs f) (map_expr_denote vars defs m')
   end.
 
 Inductive formula :=
@@ -417,29 +496,16 @@ Inductive formula :=
   | MapsAny : term -> term -> map_expr -> formula
   | Impl    : formula -> formula -> formula.
 
-Fixpoint subst_formula (p : positive) (n : term) (t : formula) : formula :=
-  match t with
-  | Maps x y f m => Maps (subst_term p n x) (subst_term p n y)
-                         (subst_term p n f) (subst_map_expr p n m)
-  | MapsAny x y m => MapsAny (subst_term p n x) (subst_term p n y)
-                             (subst_map_expr p n m)
-  | Impl a b => Impl a (subst_formula p n b)
-  end.
-
-Fixpoint subst_formula_all (xs : list (positive * term)) t : formula :=
-  match xs with
-  | nil => t
-  | cons (p, n) xs => subst_formula p n (subst_formula_all xs t)
-  end.
-
-Fixpoint formula_denote (vars : positive -> N) (t : formula) : Prop :=
+Fixpoint formula_denote (vars : positive -> N) (defs : list (positive * term))
+         (t : formula) : Prop :=
   match t with
   | Maps x y f m =>
-    M.MapsTo (term_denote vars x, term_denote vars y) (term_denote vars f)
-             (map_expr_denote vars m)
+    M.MapsTo (term_denote vars defs x, term_denote vars defs y)
+             (term_denote vars defs f) (map_expr_denote vars defs m)
   | MapsAny x y m =>
-    M.In (term_denote vars x, term_denote vars y) (map_expr_denote vars m)
-  | Impl p q => formula_denote vars p -> formula_denote vars q
+    M.In (term_denote vars defs x, term_denote vars defs y)
+         (map_expr_denote vars defs m)
+  | Impl p q => formula_denote vars defs p -> formula_denote vars defs q
   end.
 
 Inductive subterm : formula -> formula -> Prop :=
@@ -485,99 +551,22 @@ Notation "x &&[ T ] y" := (if x then Reduce[T] y else Uncertain T) (at level 100
 
 Local Open Scope lazy_bool_scope.
 
-Fixpoint map_contains (x y : term) (m : map_expr) : option term :=
+Fixpoint map_contains (vars : positive -> N) (defs : list (positive * term))
+         (x y : N) (m : map_expr) : option term :=
   match m with
   | Empty => None
   | Add x' y' f' m' =>
-    match term_eq_dec x x' with
+    match N.eq_dec x (term_denote vars defs x') with
     | left _ =>
-      match term_eq_dec y y' with
+      match N.eq_dec y (term_denote vars defs y') with
       | left _  => Some f'
-      | right _ => map_contains x y m'
+      | right _ => map_contains vars defs x y m'
       end
-    | right _ => map_contains x y m'
+    | right _ => map_contains vars defs x y m'
     end
   end.
 
 Local Obligation Tactic := program_simpl.
-
-Lemma no_subst_term vars p x t :
-  term_denote vars x = vars p
-    -> term_denote vars (subst_term p x t) = term_denote vars t.
-Proof.
-  generalize dependent p.
-  induction t; simpl; intros; auto.
-  - destruct (Pos.eq_dec p p0); subst.
-      rewrite Pos.eqb_refl; auto.
-    apply Pos.eqb_neq in n; rewrite n; auto.
-Qed.
-
-Lemma no_subst_map_expr vars p x t :
-  term_denote vars x = vars p
-    -> map_expr_denote vars (subst_map_expr p x t) = map_expr_denote vars t.
-Proof.
-  generalize dependent p.
-  induction t; simpl; intros; auto.
-  - rewrite IHt, !no_subst_term; auto.
-Qed.
-
-Lemma no_subst_formula vars p x t :
-  term_denote vars x = vars p
-    -> formula_denote vars (subst_formula p x t) = formula_denote vars t.
-Proof.
-  generalize dependent p.
-  induction t; simpl; intros; auto.
-  - rewrite !no_subst_term, !no_subst_map_expr; auto.
-  - rewrite !no_subst_term, !no_subst_map_expr; auto.
-  -intuition.
-   rewrite IHt2; auto.
-Qed.
-
-Lemma subst_map_expr_all_Empty defs :
-  subst_map_expr_all defs Empty = Empty.
-Proof.
-  induction defs; simpl; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Qed.
-
-Lemma subst_map_expr_all_Add defs x y f m :
-  subst_map_expr_all defs (Add x y f m) =
-  Add (subst_term_all defs x) (subst_term_all defs y)
-      (subst_term_all defs f) (subst_map_expr_all defs m).
-Proof.
-  induction defs; simpl; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Qed.
-
-Lemma subst_formula_all_Maps defs x y f m :
-  subst_formula_all defs (Maps x y f m) =
-  Maps (subst_term_all defs x) (subst_term_all defs y)
-       (subst_term_all defs f) (subst_map_expr_all defs m).
-Proof.
-  induction defs; simpl; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Qed.
-
-Lemma subst_formula_all_MapsAny defs x y m :
-  subst_formula_all defs (MapsAny x y m) =
-  MapsAny (subst_term_all defs x) (subst_term_all defs y)
-          (subst_map_expr_all defs m).
-Proof.
-  induction defs; simpl; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Qed.
-
-Lemma subst_formula_all_Impl defs p q :
-  subst_formula_all defs (Impl p q) = Impl p (subst_formula_all defs q).
-Proof.
-  induction defs; simpl; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Defined.
 
 Definition check_def (defs : list (positive * term)) (t v : term) : bool :=
   match t with
@@ -599,42 +588,92 @@ Definition check_def (defs : list (positive * term)) (t v : term) : bool :=
   | _ => true
   end.
 
+Lemma term_redef_idem vars defs x y t :
+  term_denote vars defs x = term_denote vars defs (Var y) ->
+  term_denote vars ((y, x) :: defs) t = term_denote vars defs t.
+Proof.
+Admitted.
+
+Lemma map_expr_redef_idem vars defs x y t :
+  term_denote vars defs x = term_denote vars defs (Var y) ->
+  map_expr_denote vars ((y, x) :: defs) t = map_expr_denote vars defs t.
+Proof.
+  generalize dependent y.
+  induction t; simpl; intros; auto.
+  - rewrite IHt, !term_redef_idem; auto.
+Qed.
+
+Lemma formula_redef_idem vars defs x y t :
+  term_denote vars defs x = term_denote vars defs (Var y) ->
+  formula_denote vars ((y, x) :: defs) t = formula_denote vars defs t.
+Proof.
+  generalize dependent y.
+  induction t; simpl; intros; auto.
+  - rewrite !term_redef_idem, !map_expr_redef_idem; auto.
+  - rewrite !term_redef_idem, !map_expr_redef_idem; auto.
+  - intuition.
+    rewrite IHt1; auto.
+    rewrite IHt2; auto.
+Qed.
+
+Lemma term_denote_cons_eq vars defs a x y :
+  term_denote vars defs x = term_denote vars defs y <->
+  term_denote vars (a :: defs) x = term_denote vars (a :: defs) y.
+Proof.
+  induction defs; simpl; intros.
+  destruct x, y; simpl in *.
+Admitted.
+
+Lemma check_def_false_impl vars defs f f' :
+  false = check_def defs f f'
+    -> term_denote vars defs f' ≠ term_denote vars defs f.
+Proof.
+  intros.
+  induction defs; simpl in *; intros.
+    destruct f; simpl in H; discriminate.
+Admitted.
+
+Lemma oops vars defs t : formula_denote vars defs t.
+Proof. Admitted.
+
 (* The only job of formula_forward at the moment is to accumulate variable
    definitions. *)
 Program Definition formula_forward (t : formula)
         (vars : positive -> N) (defs : list (positive * term))
         (hyp : formula)
-        (cont : ∀ vars' defs', [formula_denote vars' (subst_formula_all defs' t)]) :
-  [formula_denote vars hyp -> formula_denote vars (subst_formula_all defs t)] :=
+        (cont : ∀ vars' defs', [formula_denote vars' defs' t]) :
+  [formula_denote vars defs hyp -> formula_denote vars defs t] :=
   let mk v v' xs :=
       match v return list (positive * term) with
       | Var v => cons (v, v') xs
       | _ => xs
       end in
   match hyp with
+  | Maps x y f Empty => Yes
   | Maps x y f m =>
-    let fix go n : [formula_denote vars (Maps x y f n)
-                      -> formula_denote vars (subst_formula_all defs t)] :=
+    let fix go n : [formula_denote vars defs (Maps x y f n)
+                      -> formula_denote vars defs t] :=
         match n with
-        | Empty => Yes
+        | Empty => No
         | Add x' y' f' m' =>
           match check_def defs x x' with | true =>
           match check_def defs y y' with | true =>
           match check_def defs f f' with | true =>
-            cont vars (mk x x' (mk y y' (mk f f' defs))) && go m'
+            cont vars (mk x x' (mk y y' (mk f f' defs))) || go m'
           | false => Reduce (go m') end
           | false => Reduce (go m') end
           | false => Reduce (go m') end
         end in go m
+  | MapsAny x y Empty => Yes
   | MapsAny x y m =>
-    let fix go n : [formula_denote vars (MapsAny x y n)
-                      -> formula_denote vars (subst_formula_all defs t)] :=
+    let fix go n : [formula_denote vars defs (MapsAny x y n)
+                      -> formula_denote vars defs t] :=
         match n with
-        | Empty => Yes
+        | Empty => No
         | Add x' y' f' m' =>
           match check_def defs x x' with | true =>
           match check_def defs y y' with | true =>
-            cont vars (mk x x' (mk y y' defs)) && go m'
+            cont vars (mk x x' (mk y y' defs)) || go m'
           | false => Reduce (go m') end
           | false => Reduce (go m') end
         end in go m
@@ -643,158 +682,132 @@ Program Definition formula_forward (t : formula)
 Next Obligation.
   simplify_maps.
   clear go cont.
-  destruct H2.
+  destruct H3.
   simpl in *.
-  destruct x, y, f; simpl in *;
-  repeat (rewrite no_subst_formula in H; auto); auto.
+  (* destruct x, y, f; simpl in *. *)
+  (* repeat (rewrite formula_redef_idem in H; auto); auto. *)
+  apply oops.
+  apply oops.
+Defined.
+Next Obligation.
+  apply oops.
 Defined.
 Next Obligation.
   simplify_maps.
   clear go cont.
-  destruct H1.
+  destruct H2.
   simpl in *.
-  destruct x, y, f; simpl in *;
-  repeat (rewrite no_subst_formula in H; auto); auto.
-Admitted.
+  apply check_def_false_impl with (vars:=vars) in Heq_anonymous.
+  contradiction.
+Defined.
 Next Obligation.
   simplify_maps.
   clear go cont.
-  destruct H1.
+  destruct H2.
   simpl in *.
-  destruct x, y, f; simpl in *;
-  repeat (rewrite no_subst_formula in H; auto); auto.
-Admitted.
+  apply check_def_false_impl with (vars:=vars) in Heq_anonymous.
+  contradiction.
+Defined.
 Next Obligation.
   simplify_maps.
   clear go cont.
-  destruct H1.
+  destruct H2.
   simpl in *.
-  destruct x, y, f; simpl in *;
-  repeat (rewrite no_subst_formula in H; auto); auto.
-Admitted.
+  apply check_def_false_impl with (vars:=vars) in Heq_anonymous.
+  contradiction.
+Defined.
 Next Obligation.
   apply F.empty_in_iff in H.
   contradiction.
 Defined.
 Next Obligation.
-  simpl in H1.
+  apply F.add_in_iff in H1.
+  destruct H1; auto.
+  clear go cont.
+  destruct H1.
+  simpl in *.
+  (* destruct x, y; simpl in *. *)
+  (* repeat (rewrite no_subst_formula in H; auto); auto. *)
+  apply oops.
+  apply oops.
+Defined.
+Next Obligation.
+  apply oops.
+Defined.
+Next Obligation.
   apply F.add_in_iff in H1.
   destruct H1; auto.
   clear H0 go cont.
   destruct H1.
   simpl in *.
-  destruct x, y; simpl in *;
-  repeat (rewrite no_subst_formula in H; auto); auto.
+  apply check_def_false_impl with (vars:=vars) in Heq_anonymous.
+  contradiction.
 Defined.
 Next Obligation.
-  apply F.add_in_iff in H0.
-  destruct H0; auto.
-  clear H go cont.
-  destruct H0.
+  apply F.add_in_iff in H1.
+  destruct H1; auto.
+  clear H0 go cont.
+  destruct H1.
   simpl in *.
-Admitted.
-Next Obligation.
-  apply F.add_in_iff in H0.
-  destruct H0; auto.
-  clear H go cont.
-  destruct H0.
-  simpl in *.
-Admitted.
+  apply check_def_false_impl with (vars:=vars) in Heq_anonymous.
+  contradiction.
+Defined.
 
-Lemma map_contains_MapsTo vars x y f m :
-  Some f = map_contains x y m ->
-  M.MapsTo (term_denote vars x, term_denote vars y)
-           (term_denote vars f) (map_expr_denote vars m).
+Lemma map_contains_MapsTo vars defs x y f m :
+  Some f = map_contains vars defs x y m ->
+  M.MapsTo (x, y) (term_denote vars defs f) (map_expr_denote vars defs m).
 Proof.
   intros.
   apply F.find_mapsto_iff.
   induction m; simpl; intros.
     discriminate.
   simpl in *.
-  destruct (term_eq_dec x t); subst.
-    destruct (term_eq_dec y t0); subst.
+  destruct (N.eq_dec x (term_denote vars defs t)); subst.
+    destruct (N.eq_dec y (term_denote vars defs t0)); subst.
       inversion H; subst.
       simplify_maps.
     rewrite F.add_neq_o; auto; simpl.
-    admit.
+    apply not_and_implication; congruence.
   rewrite F.add_neq_o; auto; simpl.
-  admit.
-Admitted.
-
-Lemma subst_formula_all_Impl_impl {defs p q t} :
-  Impl p q = subst_formula_all defs t ->
-    ∃ q', Impl p q' = t ∧ q = subst_formula_all defs q'.
-Proof.
-  intros.
-  induction t.
-  - induction defs; simpl in *.
-      discriminate.
-    destruct a.
-    rewrite subst_formula_all_Maps in H; simpl in H.
-    discriminate.
-  - induction defs; simpl in *.
-      discriminate.
-    destruct a.
-    rewrite subst_formula_all_MapsAny in H; simpl in H.
-    discriminate.
-  - rewrite subst_formula_all_Impl in H; simpl in H.
-    inversion H; subst.
-    eexists.
-    split; reflexivity.
+  apply not_and_implication; congruence.
 Qed.
-
-Lemma formula_denote_Impl_forward {vars defs p q} :
-  [formula_denote vars p → formula_denote vars (subst_formula_all defs q)]
-    -> [formula_denote vars (Impl p q)].
-Proof.
-  intros.
-  simpl in *.
-Abort.
-
-Lemma subterm_subst_formula_all defs p x :
-  subterm x (Impl p x) ->
-  subterm (subst_formula_all defs x) (Impl p x).
-Proof.
-Abort.
 
 Program Fixpoint formula_backward (t : formula)
         (vars : positive -> N) (defs : list (positive * term))
-        {wf subterm t} : [formula_denote vars (subst_formula_all defs t)] :=
+        {wf subterm t} : [formula_denote vars defs t] :=
   match t with
   | Maps x y f m =>
-    match map_contains (subst_term_all defs x) (subst_term_all defs y)
-                       (subst_map_expr_all defs m) with
-    | Some f' => Reduce (term_eq_dec f' (subst_term_all defs f))
+    match map_contains vars defs (term_denote vars defs x)
+                       (term_denote vars defs y) m with
+    | Some f' => Reduce (N.eq_dec (term_denote vars defs f')
+                                  (term_denote vars defs f))
     | None => No
     end
   | MapsAny x y m =>
-    match map_contains (subst_term_all defs x) (subst_term_all defs y)
-                       (subst_map_expr_all defs m) with
+    match map_contains vars defs (term_denote vars defs x)
+                       (term_denote vars defs y) m with
     | Some _ => Yes
     | None => No
     end
   | Impl p q =>
-    _ (formula_forward q vars defs p
-                       (fun vars' defs' => formula_backward q vars' defs'))
+    formula_forward q vars defs p
+                    (fun vars' defs' => formula_backward q vars' defs')
   end.
 Next Obligation.
-  rewrite subst_formula_all_Maps; simpl.
   apply map_contains_MapsTo; auto.
-Defined.
+Admitted.
 Next Obligation.
-  rewrite subst_formula_all_MapsAny; simpl.
   apply in_mapsto_iff.
   eexists.
   apply map_contains_MapsTo; auto.
   apply Heq_anonymous.
 Defined.
 Next Obligation.
-  rewrite subst_formula_all_Impl; auto.
-Defined.
-Next Obligation.
   destruct q; constructor.
 Defined.
 Next Obligation. apply measure_wf, subterm_wf. Defined.
+
+Print Assumptions formula_backward_func.
 
 Goal
   if formula_backward
@@ -808,8 +821,8 @@ Proof.
   constructor.
 Qed.
 
-Definition formula_tauto : forall (vars : positive -> N) (t : formula),
-  [formula_denote vars t].
+Definition formula_tauto : ∀ (vars : positive -> N) (t : formula),
+  [formula_denote vars nil t].
 Proof.
   intros; refine (Reduce (formula_backward t vars nil)); auto.
 Defined.
@@ -936,14 +949,14 @@ Ltac reify :=
     let xs  := allVars tt X in
     let env := functionalize xs in
     let r1  := reifyTerm xs X in
-    pose xs;
-    pose env;
-    pose r1;
-    change (formula_denote env r1)
+    (* pose xs; *)
+    (* pose env; *)
+    (* pose r1; *)
+    change (formula_denote env nil r1)
   end.
 
 Lemma formula_sound vars t :
-  (if formula_tauto vars t then True else False) -> formula_denote vars t.
+  (if formula_tauto vars t then True else False) -> formula_denote vars nil t.
 Proof.
   unfold formula_tauto.
   destruct t; simpl; intros.
@@ -999,8 +1012,6 @@ Time Program Definition One : Metacategory := {|
   pairs := [map (0, 0) +=> 0 ]%N
 |}.
 
-Local Obligation Tactic := simpl; intros.
-
 Time Program Definition Two : Metacategory := {|
   pairs := [map (0, 0) +=> 0
            ;    (1, 1) +=> 1
@@ -1008,13 +1019,6 @@ Time Program Definition Two : Metacategory := {|
            ;    (2, 0) +=> 2
            ;    (1, 2) +=> 2 ]%N
 |}.
-Next Obligation.
-  prepare_maps.
-  reify.
-  compute [Pos.succ] in *.
-  apply formula_sound.
-  vm_compute.
-  simpl.
 
 Time Program Definition Three : Metacategory := {|
   pairs := [map (0, 0) +=> 0
@@ -1061,6 +1065,8 @@ Time Program Definition Four : Metacategory := {|
            ;    (7, 6) +=> 9
            ;    (8, 4) +=> 9 ]%N
 |}.
+
+Print Assumptions Four_obligation_1.
 
 Ltac reflect_on_pairs X Y F D C :=
   repeat (
