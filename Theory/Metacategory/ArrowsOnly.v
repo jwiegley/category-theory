@@ -696,7 +696,18 @@ Program Definition formula_forward (t : formula)
         match n with
         | Empty => No
         | Add x' y' f' m' =>
-          `2 (establish x x' defs _ (fun defs' => cont vars defs')) || go m'
+          match define x x' defs with
+          | Some defs' =>
+            match define y y' defs' with
+            | Some defs'' =>
+              match define f f' defs'' with
+              | Some defs''' => cont vars defs''' || go m'
+              | None => Reduce (go m')
+              end
+            | None => Reduce (go m')
+            end
+          | None => Reduce (go m')
+          end
         end in go m
   | MapsAny x y Empty => Yes
   | MapsAny x y m =>
@@ -721,30 +732,9 @@ Next Obligation.
     destruct H2.
     simpl in *.
     subst.
-    destruct x; simpl in *.
-      destruct (lookup_definition defs p).
-        rewrite N_eq_dec_refl in H0.
-        simpl in H0.
-        auto.
-      simpl in H0.
-      admit.
-    rewrite N_eq_dec_refl in H0.
-    simpl in H0.
-    auto.
-  apply Decidable.not_and in H4; simpl in H4.
-    destruct H4.
-      destruct x; simpl in *.
-        destruct (lookup_definition defs p).
-          destruct (N.eq_dec n x'); subst; [contradiction|].
-          simpl in H0.
-          auto.
-        simpl in H0.
-        admit.
-      destruct (N.eq_dec n x'); subst; [contradiction|].
-      simpl in H0.
-      auto.
-    admit.
-Admitted.
+    apply oops.
+  apply oops.
+Defined.
 Next Obligation.
   simplify_maps.
   clear go cont.
@@ -1105,6 +1095,8 @@ Time Program Definition Three : Metacategory := {|
 (* Using rewriting and other theorems, this instance takes 481s to define.
    Using computational reflection, it takes 0.3s. *)
 
+Local Obligation Tactic := intros.
+
 Time Program Definition Four : Metacategory := {|
   pairs := [map (0, 0) +=> 0
            ;    (1, 1) +=> 1
@@ -1134,6 +1126,11 @@ Time Program Definition Four : Metacategory := {|
            ;    (7, 6) +=> 9
            ;    (8, 4) +=> 9 ]%N
 |}.
+Next Obligation. Admitted.
+Next Obligation.
+  simpl in *.
+  split; intros.
+  -
 
 (* Print Assumptions Four_obligation_1. *)
 
