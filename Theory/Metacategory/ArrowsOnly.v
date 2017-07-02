@@ -630,7 +630,40 @@ Abort.
 Lemma oops vars defs t : formula_denote vars defs t.
 Proof. Admitted.
 
-Fixpoint define v v' xs :=
+Inductive Status (defs : list (positive * N)) (v : term) (v' : N) : Prop :=
+  | Conflict : ∀ d,
+      match v with
+      | Var u => lookup_definition defs u = Some d -> d ≠ v'
+      | Value u => u ≠ v'
+      end -> Status defs v v'
+  | Known : ∀ d,
+      match v with
+      | Var u => lookup_definition defs u = Some d -> d = v'
+      | Value u => u = v'
+      end -> Status defs v v'
+  | New : ∀ u,
+      v = Var u -> lookup_definition defs u = None -> Status defs v v'.
+
+Definition establish v v' defs T (k : ∀ defs' : list (positive * N), [T defs'])
+  : { defs' : list (positive * N) & [T defs']%type } :=
+  match v with
+  | Var u =>
+    match lookup_definition defs u with
+    | Some n =>
+      match N.eq_dec n v' with
+      | left _  => existT _ defs (k defs)
+      | right _ => existT _ defs No
+      end
+    | None => existT _ (cons (u, v') defs) (k (cons (u, v') defs))
+    end
+  | Value u =>
+      match N.eq_dec u v' with
+      | left _  => existT _ defs (k defs)
+      | right _ => existT _ defs No
+      end
+  end.
+
+Definition define v v' xs :=
   match v with
   | Var u =>
     match lookup_definition xs u with
@@ -663,18 +696,7 @@ Program Definition formula_forward (t : formula)
         match n with
         | Empty => No
         | Add x' y' f' m' =>
-          match define x x' defs with
-          | Some defs' =>
-            match define y y' defs' with
-            | Some defs'' =>
-              match define f f' defs'' with
-              | Some defs''' => cont vars defs''' || go m'
-              | None => Reduce (go m')
-              end
-            | None => Reduce (go m')
-            end
-          | None => Reduce (go m')
-          end
+          `2 (establish x x' defs _ (fun defs' => cont vars defs')) || go m'
         end in go m
   | MapsAny x y Empty => Yes
   | MapsAny x y m =>
@@ -695,14 +717,34 @@ Program Definition formula_forward (t : formula)
   | Impl _ _ => Reduce (cont vars defs)
   end.
 Next Obligation.
-  simpl in H1.
   simplify_maps.
     destruct H2.
     simpl in *.
     subst.
-    apply oops.
-  apply oops.
-Defined.
+    destruct x; simpl in *.
+      destruct (lookup_definition defs p).
+        rewrite N_eq_dec_refl in H0.
+        simpl in H0.
+        auto.
+      simpl in H0.
+      admit.
+    rewrite N_eq_dec_refl in H0.
+    simpl in H0.
+    auto.
+  apply Decidable.not_and in H4; simpl in H4.
+    destruct H4.
+      destruct x; simpl in *.
+        destruct (lookup_definition defs p).
+          destruct (N.eq_dec n x'); subst; [contradiction|].
+          simpl in H0.
+          auto.
+        simpl in H0.
+        admit.
+      destruct (N.eq_dec n x'); subst; [contradiction|].
+      simpl in H0.
+      auto.
+    admit.
+Admitted.
 Next Obligation.
   simplify_maps.
   clear go cont.
