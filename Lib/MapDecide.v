@@ -141,11 +141,15 @@ Fixpoint map_expr_denote env (m : map_expr) : M.t N :=
   end.
 
 Inductive formula :=
-  | Maps : term -> term -> term -> map_expr -> formula
-  | Impl : formula -> formula -> formula.
+  | Top    : formula
+  | Bottom : formula
+  | Maps   : term -> term -> term -> map_expr -> formula
+  | Impl   : formula -> formula -> formula.
 
 Fixpoint subst_formula (t : formula) (v v' : term) : formula :=
   match t with
+  | Top => Top
+  | Bottom => Bottom
   | Maps x y f m =>
     Maps (subst_term x v v')
          (subst_term y v v')
@@ -160,6 +164,22 @@ Fixpoint subst_all_formula (x : formula) (xs : list (term * term)) : formula :=
   | cons (v, v') xs =>
     subst_all_formula (subst_formula x v v') xs
   end.
+
+Lemma subst_all_formula_Top defs :
+  subst_all_formula Top defs = Top.
+Proof.
+  induction defs; simpl; intros; auto.
+  destruct a.
+  rewrite IHdefs; reflexivity.
+Qed.
+
+Lemma subst_all_formula_Bottom defs :
+  subst_all_formula Bottom defs = Bottom.
+Proof.
+  induction defs; simpl; intros; auto.
+  destruct a.
+  rewrite IHdefs; reflexivity.
+Qed.
 
 Lemma subst_all_formula_Maps defs x y f m :
   subst_all_formula (Maps x y f m) defs =
@@ -188,6 +208,8 @@ Qed.
 
 Fixpoint formula_denote env (t : formula) : Prop :=
   match t with
+  | Top => True
+  | Bottom => False
   | Maps x y f m =>
     M.MapsTo (term_denote env x, term_denote env y)
              (term_denote env f) (map_expr_denote env m)
@@ -206,6 +228,8 @@ Fixpoint map_expr_size (t : map_expr) : nat :=
 
 Fixpoint formula_size (t : formula) : nat :=
   match t with
+  | Top => 1%nat
+  | Bottom => 1%nat
   | Maps _ _ _ m => 1%nat + map_expr_size m
   | Impl p q => formula_size p + formula_size q
   end.
@@ -225,6 +249,8 @@ Lemma formula_size_subst_all_formula defs q :
   formula_size (subst_all_formula q defs) = formula_size q.
 Proof.
   induction q; simpl.
+  - rewrite subst_all_formula_Top; simpl; auto.
+  - rewrite subst_all_formula_Bottom; simpl; auto.
   - rewrite subst_all_formula_Maps; simpl; auto.
     rewrite map_expr_size_subst_all_map_expr; auto.
   - rewrite subst_all_formula_Impl; simpl; auto.
@@ -306,6 +332,8 @@ Lemma formula_substitution_eq env t xs :
        formula_denote env t.
 Proof.
   induction t; simpl; intros.
+  - rewrite subst_all_formula_Top; simpl; auto.
+  - rewrite subst_all_formula_Bottom; simpl; auto.
   - rewrite subst_all_formula_Maps; simpl; intros.
     rewrite !term_substitution_eq; auto.
     rewrite map_expr_substitution_eq; auto.
@@ -350,6 +378,8 @@ Program Definition formula_forward (t : formula) env (hyp : formula)
         (cont : ∀ env' defs, [formula_denote env' (subst_all_formula t defs)]) :
   [formula_denote env hyp -> formula_denote env t] :=
   match hyp with
+  | Top => Reduce (cont env [])
+  | Bottom => Yes
   | Maps x y f m =>
     let fix go n : [formula_denote env (Maps x y f n)
                     -> formula_denote env t] :=
@@ -360,6 +390,9 @@ Program Definition formula_forward (t : formula) env (hyp : formula)
         end in Reduce (go (remove_conflicts x y f m))
   | Impl _ _ => Reduce (cont env [])
   end.
+Next Obligation.
+  contradiction.
+Defined.
 Next Obligation.
   simplify_maps.
   destruct H2.
@@ -422,6 +455,8 @@ Qed.
 Program Fixpoint formula_backward (t : formula) env {measure (formula_size t)} :
   [formula_denote env t] :=
   match t with
+  | Top => Yes
+  | Bottom => No
   | Maps x y f m =>
     match map_contains env x y m with
     | Some f' => Reduce (term_eq_dec f' f)
@@ -479,6 +514,7 @@ Ltac lookup x xs :=
 Ltac functionalize xs :=
   let rec loop n xs' :=
     lazymatch xs' with
+    | tt => constr:(fun _ : positive => 0%N)
     | (?x, tt) => constr:(fun _ : positive => x)
     | (?x, ?xs'') =>
       let f := loop (Pos.succ n) xs'' in
@@ -535,6 +571,8 @@ Ltac reifyMapTerm env t :=
 
 Ltac reifyTerm env t :=
   match t with
+  | True => constr:(Top)
+  | False => constr:(Bottom)
   | M.MapsTo (?X, ?Y) ?F ?M =>
     let x := reifyValue env X in
     let y := reifyValue env Y in
