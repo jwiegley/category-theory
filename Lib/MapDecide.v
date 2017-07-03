@@ -507,7 +507,7 @@ Ltac allVar xs e :=
   match e with
   | N0 => xs
   | Npos _ => xs
-  | ?x => addToList x xs
+  | _ => addToList e xs
   end.
 
 Ltac allVars xs e :=
@@ -562,6 +562,13 @@ Ltac reifyTerm env t :=
     let p := reifyTerm env P in
     let q := reifyTerm env Q in
     constr:(Impl p q)
+  end.
+
+Ltac gather_vars :=
+  match goal with
+  | [ |- ?X ] =>
+    let xs  := allVars tt X in
+    pose xs
   end.
 
 Ltac reify' :=
