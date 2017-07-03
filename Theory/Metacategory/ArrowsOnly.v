@@ -263,12 +263,6 @@ Ltac destruct_maps :=
   end;
   try congruence.
 
-Ltac elimobj X :=
-  elimtype False;
-  unfold composite in X; simpl in X;
-  clear -X;
-  destruct_maps; nomega.
-
 Ltac reflect_on_maps :=
   try split; intros; simpl in *; destruct_maps; subst;
   first [ nomega
@@ -347,6 +341,12 @@ Time Program Definition Four : Metacategory := {|
            ;    (8, 4) +=> 9 ]%N
 |}.
 *)
+
+Ltac elimobj X :=
+  elimtype False;
+  unfold composite in X; simpl in X;
+  clear -X;
+  destruct_maps; nomega.
 
 Ltac reflect_on_pairs X Y F D C :=
   repeat (
