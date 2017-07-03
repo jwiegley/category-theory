@@ -23,15 +23,6 @@ Inductive partial (P : Prop) : Set :=
 | Proved : P -> partial P
 | Uncertain : partial P.
 
-Definition partialOut {P : Prop} (x : partial P) :=
-  match x return (match x with
-                  | Proved _ _  => P
-                  | Uncertain _ => True
-                  end) with
-  | Proved _ pf => pf
-  | Uncertain _ => I
-  end.
-
 Notation "[ P ]" := (partial P) : type_scope.
 
 Notation "'Yes'" := (Proved _ _) : partial_scope.
@@ -62,24 +53,6 @@ Definition term_beq (x y : term) : bool :=
   | Value x, Value y => (x =? y)%N
   | _, _ => false
   end.
-
-Lemma term_beq_sound x y : term_beq x y = true -> x = y.
-Proof.
-  induction x, y; simpl; intros; intuition.
-  - apply Pos.eqb_eq in H; subst; reflexivity.
-  - apply N.eqb_eq in H; subst; reflexivity.
-Defined.
-
-Lemma term_beq_neq_sound x y : term_beq x y = false -> x ≠ y.
-Proof.
-  induction x, y; simpl; intros; try discriminate.
-  - apply Pos.eqb_neq in H.
-    contradict H.
-    inversion H; subst; reflexivity.
-  - apply N.eqb_neq in H.
-    contradict H.
-    inversion H; subst; reflexivity.
-Defined.
 
 Program Definition term_eq_dec (x y : term) : {x = y} + {x ≠ y} :=
   match x, y with
@@ -221,6 +194,10 @@ Fixpoint formula_denote env (t : formula) : Prop :=
   | Impl p q => formula_denote env p -> formula_denote env q
   end.
 
+(**************************************************************************
+ * Compute structural size of formulas, for well-founded recursion
+ *)
+
 Fixpoint map_expr_size (t : map_expr) : nat :=
   match t with
   | Empty => 1%nat
@@ -254,14 +231,8 @@ Proof.
 Qed.
 
 (**************************************************************************
- * Computational decision procedure
+ * Substitution of variables throughout a formula
  *)
-
-Definition conflicted (x y : term) : bool :=
-  match x, y with
-  | Value n, Value n' => negb (N.eqb n n')
-  | _, _ => false
-  end.
 
 Definition substitution (x y : term) : option (term * term) :=
   match x, y with
@@ -279,15 +250,6 @@ Fixpoint substitutions (xs : list (term * term)) : list (term * term) :=
     | Some p => cons p (substitutions xs)
     | None => substitutions xs
     end
-  end.
-
-Fixpoint remove_conflicts (x y f : term) (m : map_expr) : map_expr :=
-  match m with
-  | Empty => Empty
-  | Add x' y' f' m' =>
-    if (conflicted x x' || conflicted y y' || conflicted f f')%bool
-    then remove_conflicts x y f m'
-    else Add x' y' f' (remove_conflicts x y f m')
   end.
 
 Lemma term_substitution_eq env t xs :
@@ -352,6 +314,25 @@ Proof.
     rewrite H0, H1; auto.
 Qed.
 
+(**************************************************************************
+ * Code for removing conflicted map entries
+ *)
+
+Definition conflicted (x y : term) : bool :=
+  match x, y with
+  | Value n, Value n' => negb (N.eqb n n')
+  | _, _ => false
+  end.
+
+Fixpoint remove_conflicts (x y f : term) (m : map_expr) : map_expr :=
+  match m with
+  | Empty => Empty
+  | Add x' y' f' m' =>
+    if (conflicted x x' || conflicted y y' || conflicted f f')%bool
+    then remove_conflicts x y f m'
+    else Add x' y' f' (remove_conflicts x y f m')
+  end.
+
 Lemma terms_not_conflicted env x y :
   term_denote env x = term_denote env y
     -> conflicted y x = false.
@@ -361,8 +342,10 @@ Proof.
   rewrite N.eqb_refl; reflexivity.
 Qed.
 
-(* The only job of formula_forward at the moment is to accumulate variable
-   definitions. *)
+(**************************************************************************
+ * Computational decision procedure for map membership
+ *)
+
 Program Definition formula_forward (t : formula) env (hyp : formula)
         (cont : ∀ env' defs, [formula_denote env' (subst_all_formula t defs)]) :
   [formula_denote env hyp -> formula_denote env t] :=
