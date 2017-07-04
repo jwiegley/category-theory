@@ -726,7 +726,7 @@ Proof.
   Time destruct_maps; try nomega. (* takes 30s *)
   Undo.
 *)
-  Time map_decide.                (* takes 0.017s *)
+  Time map_decide.                (* takes 0.038s *)
 Qed.
 
 Print Assumptions big_problem.
