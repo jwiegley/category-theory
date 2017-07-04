@@ -536,7 +536,7 @@ Definition composable_pairs_step (n : N) (z : M.t N) : M.t N :=
   N.peano_rect _ z go n.
 
 Definition composable_pairs : N -> M.t N :=
-  N.peano_rect _ (M.empty _) (fun j => composable_pairs_step (N.succ j)).
+  N.peano_rect _ (M.empty _) (composable_pairs_step \o N.succ).
 
 Eval vm_compute in M.this (composable_pairs 4).
 
@@ -562,12 +562,24 @@ Next Obligation. vm_compute triangular_number in *; reflect_on_maps. Qed.
 Local Obligation Tactic := simpl; intros.
 
 Lemma composable_pairs_succ n :
-  composable_pairs (N.succ n) =
-    composable_pairs_step (N.succ n) (composable_pairs n).
+  composable_pairs (N.succ n)
+    = composable_pairs_step (N.succ n) (composable_pairs n).
 Proof.
   unfold composable_pairs.
   rewrite N.peano_rect_succ; reflexivity.
 Qed.
+
+Lemma composable_pairs_step_disjoint n m :
+  P.Disjoint m (composable_pairs n) ->
+  P.Disjoint (composable_pairs_step (N.succ n) m) (composable_pairs n).
+Proof.
+  intros.
+  generalize dependent m.
+  induction n using N.peano_rect; intros.
+    apply P.Disjoint_alt; intros.
+    inversion H1.
+  rewrite composable_pairs_succ in H.
+Abort.
 
 Lemma composable_pairs_step_find n f g fg :
   M.find (f, g) (composable_pairs_step (N.succ n) (composable_pairs n)) = Some fg
