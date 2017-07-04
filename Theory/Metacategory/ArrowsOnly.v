@@ -516,3 +516,165 @@ Next Obligation.
   simpl in H, H0, H1; subst;
   vm_compute; reflexivity.
 Qed.
+
+Local Open Scope N_scope.
+
+(* Given a number of objects in a category, produce the map of all composable
+   pairs. *)
+Definition all_composable_pairs (n : nat) : M.t N :=
+  let fix go n :=
+      match n with
+      | O =>
+        (M.empty _, (0, nil))
+      | S n =>
+        match go n with
+          (xs, (this, ids)) =>
+          let k x p :=
+              match p with
+                (rest, (f, res)) =>
+                (M.add (this, f) f
+                       (M.add (f, x) f
+                              (fst (fold_right (fun _ '(xs, (i, g)) =>
+                                                  (M.add (f, i) g xs, (i + 1, g + 1)))
+                                               (rest, (x + 1, this + 1)) res))),
+                 (f + 1, x :: res))
+              end in
+          let res := fold_right k (M.empty _, (this + 1, nil)) ids in
+          match res with
+            (ys, (next, _)) =>
+            (P.update xs (M.add (this, this) this ys), (next, this :: ids))
+          end
+        end
+      end in
+  fst (go n).
+
+Eval vm_compute in all_composable_pairs 2.
+Eval vm_compute in all_composable_pairs 3.
+
+(* The number assigned to the next identity arrow, for objects N, is the
+   triangular_number for N - 1. *)
+Definition triangular_number (n : N) := (n * (n + 1)) / 2.
+
+Eval vm_compute in triangular_number 0.
+Eval vm_compute in triangular_number 1.
+Eval vm_compute in triangular_number 2.
+
+(* The number of composable pairs for objects N, is the tetrahedral_number for
+   N. *)
+Definition tetrahedral_number (n : N) := (n * (n + 1) * (n + 2)) / 6.
+
+Eval vm_compute in tetrahedral_number 4.
+
+(* Return just the composable pairs to be added between the categories for
+   objects N and N - 1. *)
+Definition composable_pairs_step (n : N) :=
+  let next := triangular_number (n - 1) in
+  N.peano_rect
+    (fun _ => M.t N) (M.empty _)
+    (fun j rest =>
+       let f := next + j in
+       (N.peano_rect
+          (fun _ => M.t N) rest
+          (fun i => M.add (f + i, triangular_number (i + j) + j) f)
+          (n - j))) n.
+
+Eval vm_compute in M.this (composable_pairs_step 3).
+
+Definition all_composable_pairs' : N -> M.t N :=
+  N.peano_rect (fun _ => M.t N) (M.empty _)
+               (fun j rest => P.update rest (composable_pairs_step (j + 1))).
+
+Eval vm_compute in M.this (composable_pairs_step 3).
+Eval vm_compute in M.this (all_composable_pairs' 4).
+
+Local Obligation Tactic := simpl; intros.
+
+Time Program Definition Three' : Metacategory := {|
+  pairs := all_composable_pairs' 3
+|}.
+Next Obligation.
+  destruct_maps.
+  rewrite !update_add in *.
+  rewrite !update_empty_r in *.
+  vm_compute triangular_number in *.
+  destruct_maps; try nomega.
+Qed.
+Next Obligation.
+  split; intros;
+  rewrite !update_add in *;
+  rewrite !update_empty_r in *;
+  vm_compute triangular_number in *;
+  map_decide.
+Qed.
+Next Obligation.
+  rewrite !update_add in *;
+  rewrite !update_empty_r in *;
+  vm_compute triangular_number in *.
+  destruct_maps;
+  eexists; eexists; split; intros; clear;
+  rewrite !update_add in *;
+  rewrite !update_empty_r in *;
+  vm_compute triangular_number in *;
+  first [ instantiate (1 := 0%N); vm_compute; reflexivity
+        | instantiate (1 := 1%N); vm_compute; reflexivity
+        | instantiate (1 := 2%N); vm_compute; reflexivity
+        | instantiate (1 := 3%N); vm_compute; reflexivity
+        | instantiate (1 := 4%N); vm_compute; reflexivity
+        | instantiate (1 := 5%N); vm_compute; reflexivity
+        | instantiate (1 := 6%N); vm_compute; reflexivity ].
+Qed.
+
+Lemma all_composable_pairs'_S n :
+  all_composable_pairs' (N.succ n) =
+  P.update (all_composable_pairs' n) (composable_pairs_step (N.succ n)).
+Proof.
+  induction n using N.peano_rect; simpl; auto.
+  unfold all_composable_pairs'.
+  rewrite N.peano_rect_succ, N.add_1_r.
+  reflexivity.
+Qed.
+
+Lemma composable_pairs_always_new n m :
+  n ≠ m ->
+  P.Disjoint (composable_pairs_step n) (composable_pairs_step m).
+Proof.
+  generalize dependent m.
+  induction n using N.peano_rect; simpl; intros;
+  apply P.Disjoint_alt; intros.
+    inversion H0.
+Admitted.
+
+Program Definition from_composablePairs (n : N) : Metacategory := {|
+  pairs := all_composable_pairs' n
+|}.
+Next Obligation.
+  generalize dependent gh.
+  generalize dependent fg.
+  generalize dependent h.
+  generalize dependent g.
+  generalize dependent f.
+  induction n using N.peano_rect; intros.
+    cbn in H.
+    discriminate.
+  rewrite all_composable_pairs'_S in *.
+  rewrite update_find_l in *.
+    eapply IHn; eauto.
+  unfold composable_pairs_step in *.
+  rewrite N.peano_rect_succ in *.
+  rewrite update_find_l in *.
+Admitted.
+Next Obligation.
+  generalize dependent gh.
+  generalize dependent fg.
+  generalize dependent h.
+  generalize dependent g.
+  generalize dependent f.
+  induction n; cbn; intros.
+    discriminate.
+Admitted.
+Next Obligation.
+  generalize dependent f.
+  generalize dependent y.
+  generalize dependent x.
+  induction n; cbn; intros; eauto.
+Admitted.
