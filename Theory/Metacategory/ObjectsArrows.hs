@@ -16,10 +16,10 @@ import System.Environment (getArgs)
 -- 'step' folds over numbers, not including the starting number. So, for n =
 -- 3, 'f' is called with [2,1,0], in that order.
 step :: (Int -> a -> a) -> a -> Int -> a
-step f z = go
+step f z n = go n z
   where
-    go 0 = z
-    go i = let j = i - 1 in f j (go j)
+    go 0 = id
+    go i = let j = i - 1 in f j . go j
 {-# INLINE step #-}
 
 triangularNumber :: Int -> Int
@@ -30,11 +30,10 @@ composablePairsStep :: Int -> [((Int, Int), Int)] -> [((Int, Int), Int)]
 composablePairsStep n r = step go r n
   where
     next = triangularNumber (n - 1)
-
     go i rest = step ((:) . k) rest (n - i)
       where
-        k j = let mor = next + i
-                  dom = triangularNumber (j + i) + i
+        mor = next + i
+        k j = let dom = triangularNumber (j + i) + i
                   cod = mor + j in ((cod, dom), mor)
 
 composablePairs :: Int -> [((Int, Int), Int)]
