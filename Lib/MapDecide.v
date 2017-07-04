@@ -418,26 +418,25 @@ Next Obligation.
   simplify_maps.
 Defined.
 
-Fixpoint map_contains env (x y : term) (m : map_expr) : option term :=
+Fixpoint map_contains env (x y : N) (m : map_expr) : option term :=
   match m with
   | Empty => None
   | Add x' y' f' m' =>
-    if (N.eqb (term_denote env x) (term_denote env x') &&
-        N.eqb (term_denote env y) (term_denote env y'))%bool
+    if (N.eqb x (term_denote env x') &&
+        N.eqb y (term_denote env y'))%bool
     then Some f'
     else map_contains env x y m'
   end.
 
 Lemma map_contains_MapsTo env x y f m :
   Some f = map_contains env x y m
-    -> M.MapsTo (term_denote env x, term_denote env y)
-                (term_denote env f) (map_expr_denote env m).
+    -> M.MapsTo (x, y) (term_denote env f) (map_expr_denote env m).
 Proof.
   induction m; simpl; intros.
     discriminate.
   simplify_maps.
-  destruct ((term_denote env x =? term_denote env t)%N &&
-            (term_denote env y =? term_denote env t0)%N)%bool eqn:?.
+  destruct ((x =? term_denote env t)%N &&
+            (y =? term_denote env t0)%N)%bool eqn:?.
     inversion_clear H.
     clear IHm.
     apply andb_true_iff in Heqb.
@@ -458,7 +457,7 @@ Program Fixpoint formula_backward (t : formula) env {measure (formula_size t)} :
   | Top => Yes
   | Bottom => No
   | Maps x y f m =>
-    match map_contains env x y m with
+    match map_contains env (term_denote env x) (term_denote env y) m with
     | Some f' => Reduce (term_eq_dec f' f)
     | None => No
     end
