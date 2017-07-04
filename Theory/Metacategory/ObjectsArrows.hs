@@ -26,8 +26,8 @@ triangularNumber :: Int -> Int
 triangularNumber n = shiftR (n * (n + 1)) 1
 {-# INLINE triangularNumber #-}
 
-composablePairsStep :: Int -> [((Int, Int), Int)]
-composablePairsStep n = step go [] n
+composablePairsStep :: Int -> [((Int, Int), Int)] -> [((Int, Int), Int)]
+composablePairsStep n r = step go r n
   where
     next = triangularNumber (n - 1)
 
@@ -38,7 +38,7 @@ composablePairsStep n = step go [] n
                   cod = mor + j in ((cod, dom), mor)
 
 composablePairs :: Int -> [((Int, Int), Int)]
-composablePairs = step (\j rest -> composablePairsStep (j + 1) ++ rest) []
+composablePairs = step (composablePairsStep . (+1)) []
 
 -- The number of composable pairs for a category of N objects as described
 -- above is given by its tetrahedral number:
