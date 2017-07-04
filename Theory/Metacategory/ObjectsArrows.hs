@@ -3,6 +3,9 @@ module Main where
 import Data.List
 import System.Environment (getArgs)
 
+-- jww (2017-07-03): This code is wrong. It generates a correct definition for
+-- 3 objects, but fails for 4.
+
 -- Given a count of objects in a category, such that for every object at index
 -- n : ℕ there is an arrow to it from every other object { m : ℕ | m < n },
 -- compute all the possible compositions of arrows in that category.
