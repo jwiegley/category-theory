@@ -264,15 +264,17 @@ Ltac destruct_maps :=
   try congruence.
 
 Ltac reflect_on_maps :=
-  try split; intros; simpl in *; destruct_maps; subst;
-  first [ nomega
-        | repeat eexists; clear;
-          first [ instantiate (1 := 0%N); vm_compute; reflexivity
-                | instantiate (1 := 1%N); vm_compute; reflexivity
-                | instantiate (1 := 2%N); vm_compute; reflexivity
-                | instantiate (1 := 3%N); vm_compute; reflexivity
-                | instantiate (1 := 4%N); vm_compute; reflexivity
-                | instantiate (1 := 5%N); vm_compute; reflexivity] ].
+  try split; intros; simpl in *;
+  first [ map_decide
+        | destruct_maps; subst;
+          first [ nomega
+                | repeat eexists; clear;
+                  first [ instantiate (1 := 0%N); vm_compute; reflexivity
+                        | instantiate (1 := 1%N); vm_compute; reflexivity
+                        | instantiate (1 := 2%N); vm_compute; reflexivity
+                        | instantiate (1 := 3%N); vm_compute; reflexivity
+                        | instantiate (1 := 4%N); vm_compute; reflexivity
+                        | instantiate (1 := 5%N); vm_compute; reflexivity] ] ].
 
 Local Obligation Tactic := reflect_on_maps.
 
@@ -310,7 +312,6 @@ Time Program Definition Three : Metacategory := {|
            ;    (4, 3) +=> 5 ]%N
 |}.
 
-(*
 Time Program Definition Four : Metacategory := {|
   pairs := [map (0, 0) +=> 0
            ;    (1, 1) +=> 1
@@ -337,10 +338,9 @@ Time Program Definition Four : Metacategory := {|
 
            ;    (5, 4) +=> 7
            ;    (6, 5) +=> 8
-           ;    (7, 6) +=> 9
+           ;    (6, 7) +=> 9
            ;    (8, 4) +=> 9 ]%N
 |}.
-*)
 
 Ltac elimobj X :=
   elimtype False;
