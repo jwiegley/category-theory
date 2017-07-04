@@ -264,17 +264,21 @@ Ltac destruct_maps :=
   try congruence.
 
 Ltac reflect_on_maps :=
-  try split; intros; simpl in *;
-  first [ map_decide
-        | destruct_maps; subst;
-          first [ nomega
-                | repeat eexists; clear;
-                  first [ instantiate (1 := 0%N); vm_compute; reflexivity
-                        | instantiate (1 := 1%N); vm_compute; reflexivity
-                        | instantiate (1 := 2%N); vm_compute; reflexivity
-                        | instantiate (1 := 3%N); vm_compute; reflexivity
-                        | instantiate (1 := 4%N); vm_compute; reflexivity
-                        | instantiate (1 := 5%N); vm_compute; reflexivity] ] ].
+  simpl; intros;
+  match goal with
+  | [ |- ∃ _, M.find _ _ = _ ] => destruct_maps
+  | [ |- _ ↔ _ ] => split; intros; map_decide
+  | [ |- ∃ _ _, _ ] =>
+    destruct_maps;
+    eexists; eexists; split; intros; clear;
+    first [ instantiate (1 := 0%N); vm_compute; reflexivity
+          | instantiate (1 := 1%N); vm_compute; reflexivity
+          | instantiate (1 := 2%N); vm_compute; reflexivity
+          | instantiate (1 := 3%N); vm_compute; reflexivity
+          | instantiate (1 := 4%N); vm_compute; reflexivity
+          | instantiate (1 := 5%N); vm_compute; reflexivity
+          | instantiate (1 := 6%N); vm_compute; reflexivity ]
+  end.
 
 Local Obligation Tactic := reflect_on_maps.
 
@@ -291,55 +295,44 @@ Time Program Definition One : Metacategory := {|
 Time Program Definition Two : Metacategory := {|
   pairs := [map (0, 0) +=> 0
            ;    (1, 1) +=> 1
-
-           ;    (2, 0) +=> 2
-           ;    (1, 2) +=> 2 ]%N
+           ;    (1, 2) +=> 2
+           ;    (2, 0) +=> 2 ]%N
 |}.
 
 Time Program Definition Three : Metacategory := {|
   pairs := [map (0, 0) +=> 0
            ;    (1, 1) +=> 1
-           ;    (2, 2) +=> 2
-
-           ;    (3, 0) +=> 3
-           ;    (1, 3) +=> 3
-
-           ;    (4, 1) +=> 4
-           ;    (2, 4) +=> 4
-
-           ;    (5, 0) +=> 5
-           ;    (2, 5) +=> 5
-           ;    (4, 3) +=> 5 ]%N
+           ;    (1, 2) +=> 2
+           ;    (2, 0) +=> 2
+           ;    (3, 3) +=> 3
+           ;    (3, 5) +=> 5
+           ;    (5, 1) +=> 5
+           ;    (5, 2) +=> 4
+           ;    (3, 4) +=> 4
+           ;    (4, 0) +=> 4 ]%N
 |}.
 
 Time Program Definition Four : Metacategory := {|
   pairs := [map (0, 0) +=> 0
            ;    (1, 1) +=> 1
-           ;    (2, 2) +=> 2
+           ;    (1, 2) +=> 2
+           ;    (2, 0) +=> 2
            ;    (3, 3) +=> 3
-
-           ;    (4, 0) +=> 4
-           ;    (1, 4) +=> 4
-
+           ;    (3, 5) +=> 5
            ;    (5, 1) +=> 5
-           ;    (2, 5) +=> 5
-
-           ;    (6, 2) +=> 6
-           ;    (3, 6) +=> 6
-
-           ;    (7, 0) +=> 7
-           ;    (2, 7) +=> 7
-
+           ;    (5, 2) +=> 4
+           ;    (3, 4) +=> 4
+           ;    (4, 0) +=> 4
+           ;    (6, 6) +=> 6
+           ;    (6, 9) +=> 9
+           ;    (9, 3) +=> 9
+           ;    (9, 5) +=> 8
+           ;    (9, 4) +=> 7
+           ;    (6, 8) +=> 8
            ;    (8, 1) +=> 8
-           ;    (3, 8) +=> 8
-
-           ;    (9, 0) +=> 9
-           ;    (3, 9) +=> 9
-
-           ;    (5, 4) +=> 7
-           ;    (6, 5) +=> 8
-           ;    (6, 7) +=> 9
-           ;    (8, 4) +=> 9 ]%N
+           ;    (8, 2) +=> 7
+           ;    (6, 7) +=> 7
+           ;    (7, 0) +=> 7 ]%N
 |}.
 
 Ltac elimobj X :=

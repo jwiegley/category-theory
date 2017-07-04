@@ -1,6 +1,8 @@
 module Main where
 
 import Data.List
+import Data.Foldable
+import Debug.Trace
 import System.Environment (getArgs)
 
 -- jww (2017-07-03): This code is wrong. It generates a correct definition for
@@ -18,54 +20,29 @@ import System.Environment (getArgs)
 makeArrows :: Int -> [((Int, Int), Int)]
 makeArrows = fst . go
   where
-    go 0 = ([], 0)
+    go 0 = ([], (0, []))
     go n =
-        let (xs, this) = go (pred n)
+        let (xs, (this, ids)) = go (n - 1)
+            (_, next, ys) = foldr' (k this) ([], this + 1, []) ids in
+        (xs ++ ((this, this), this) : ys, (next, this:ids))
 
-            -- First, the "identity arrow" to represent this object.
-            id'  = ((this, this), this)
-
-            -- Find all the previous identity arrows
-            ids  = [ f | ((x, y), f) <- xs, x == y ]
-
-            -- For each previous identity arrow, add a morphism from it to the
-            -- new identity arrow.
-            ys   = concat [ [ ((f, x), f), ((this, f), f) ]
-                          | (x, f) <- zip ids [succ this..] ]
-
-            zs = xs ++ id' : ys
-            next = this + length ys `div` 2 in
-
-        (zs ++ composable this zs, succ next)
-
-    -- Taking all known compositions into account, should there exist more?
-    -- For example, considering object 4, if we have ((2,0),2), ((1,2),2),
-    -- ((6,1),6), ((4,6),6), ((4,0),4), and ((4,4),4), then we should also
-    -- have the composite ((6,2),4).
-
-    composable this fs =
-        [ ((f, g), succ this)
-        | (((fcod, fdom), f), ((gcod, gdom), g)) <- [ (f, g) | f <- fs, g <- fs ]
-        , gcod == fdom
-        , gdom == g
-        , gcod /= g
-        , fcod == f
-        , fdom /= f
-        , ((g, 0), g) `elem` fs
-        , ((this, f), f) `elem` fs
-        ]
+    k this x (res, f, rest) =
+        (x:res, f + 1,
+         ((this, f), f) : ((f, x), f)
+             : fst (foldr' (\_ (xs, (i, g)) -> (((f, i), g) : xs, (i + 1, g + 1)))
+                           (rest, (x + 1, this + 1)) res))
 
 arrowCount :: Int -> Integer
 arrowCount 0 = 0
-arrowCount n = fromIntegral n^(2 :: Integer) + arrowCount (pred n)
+arrowCount n = fromIntegral n^(2 :: Integer) + arrowCount (n - 1)
 
 -- The number of composable pairs for a category of N objects as described
--- above is given by the centered triangular number:
--- https://en.wikipedia.org/wiki/Centered_triangular_number
+-- above is given by its tetrahedral number:
+-- https://en.wikipedia.org/wiki/Tetrahedral_number
 
 prop_makeArrows_length :: Int -> Bool
 prop_makeArrows_length n =
-    length (makeArrows (n + 1)) == (3 * (n^(2 :: Integer)) + 3 * n + 2) `div` 2
+    length (makeArrows n) == (n * (n + 1) * (n + 2)) `div` 6
 
 coqSyntax :: String -> [((Int, Int), Int)] -> String
 coqSyntax name pairs = concat
