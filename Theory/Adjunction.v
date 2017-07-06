@@ -130,6 +130,8 @@ Open Scope adjunction_type_scope.
 Open Scope adjunction_scope.
 
 Notation "F ⊣ G" := (@Adjunction _ _ F G) (at level 59) : category_scope.
+Notation "adj[ A ]" := (@adj _ _ _ _ A _ _)
+  (at level 9, format "adj[ A ]") : morphism_scope.
 
 (* jww (2017-06-02): TODO *)
 (* Wikipedia: "If the functor F : C ← D has two right adjoints G and G', then
