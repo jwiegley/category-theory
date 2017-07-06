@@ -283,65 +283,42 @@ Ltac reflect_on_maps :=
           | instantiate (1 := 9%N); vm_compute; reflexivity ]
   end.
 
-Local Obligation Tactic := reflect_on_maps.
-
 Local Open Scope fmap_scope.
+Local Open Scope N_scope.
 
-Time Program Definition Zero : Metacategory := {|
-  pairs := [map]
-|}.
+Definition triangular_number (n : N) := (n * (n + 1)) / 2.
 
-Time Program Definition One : Metacategory := {|
-  pairs := [map (0, 0) +=> 0 ]%N
-|}.
+Definition composable_pairs_step (n : N) (z : M.t N) : M.t N :=
+  let next := triangular_number (N.pred n) in
+  let go i rest :=
+      let k j r :=
+          let mor := next + i in
+          let dom := triangular_number (j + i) + i in
+          let cod := mor + j in
+          M.add (cod, dom) mor r in
+      N.peano_rect _ rest k (n - i) in
+  N.peano_rect _ z go n.
 
-Time Program Definition Two : Metacategory := {|
-  pairs := [map (0, 0) +=> 0
-           ;    (1, 1) +=> 1
-           ;    (1, 2) +=> 2
-           ;    (2, 0) +=> 2 ]%N
-|}.
+Definition composable_pairs : N -> M.t N :=
+  N.peano_rect _ (M.empty _) (composable_pairs_step \o N.succ).
 
-Time Program Definition Three : Metacategory := {|
-  pairs := [map (0, 0) +=> 0
-           ;    (1, 1) +=> 1
-           ;    (1, 2) +=> 2
-           ;    (2, 0) +=> 2
-           ;    (3, 3) +=> 3
-           ;    (3, 5) +=> 5
-           ;    (5, 1) +=> 5
-           ;    (5, 2) +=> 4
-           ;    (3, 4) +=> 4
-           ;    (4, 0) +=> 4 ]%N
-|}.
+(* The number of composable pairs, for objects N, is the tetrahedral_number *)
+Definition tetrahedral_number (n : N) := (n * (n + 1) * (n + 2)) / 6.
 
-Time Program Definition Four : Metacategory := {|
-  pairs := [map (0, 0) +=> 0
-           ;    (1, 1) +=> 1
-           ;    (1, 2) +=> 2
-           ;    (2, 0) +=> 2
-           ;    (3, 3) +=> 3
-           ;    (3, 5) +=> 5
-           ;    (5, 1) +=> 5
-           ;    (5, 2) +=> 4
-           ;    (3, 4) +=> 4
-           ;    (4, 0) +=> 4
-           ;    (6, 6) +=> 6
-           ;    (6, 9) +=> 9
-           ;    (9, 3) +=> 9
-           ;    (9, 5) +=> 8
-           ;    (9, 4) +=> 7
-           ;    (6, 8) +=> 8
-           ;    (8, 1) +=> 8
-           ;    (8, 2) +=> 7
-           ;    (6, 7) +=> 7
-           ;    (7, 0) +=> 7 ]%N
-|}.
+Local Obligation Tactic :=
+  simpl; intros; vm_compute triangular_number in *; reflect_on_maps.
+
+Time Program Definition Zero  : Metacategory := {| pairs := composable_pairs 0 |}.
+Time Program Definition One   : Metacategory := {| pairs := composable_pairs 1 |}.
+Time Program Definition Two   : Metacategory := {| pairs := composable_pairs 2 |}.
+Time Program Definition Three : Metacategory := {| pairs := composable_pairs 3 |}.
+Time Program Definition Four  : Metacategory := {| pairs := composable_pairs 4 |}.
 
 Ltac elimobj X :=
   elimtype False;
   unfold composite in X; simpl in X;
   clear -X;
+  vm_compute triangular_number in *;
   destruct_maps; nomega.
 
 Ltac reflect_on_pairs X Y F D C :=
@@ -366,7 +343,7 @@ Require Import Category.Instance.Two.
 Monomorphic Lemma object_Two_rect :
   ∀ (P : object Two -> Type),
   (∀ x, obj_arr Two x = 0%N -> P x) ->
-  (∀ x, obj_arr Two x = 1%N -> P x) ->
+  (∀ x, obj_arr Two x = 2%N -> P x) ->
   ∀ (x : object Two), P x.
 Proof.
   intros; destruct x.
@@ -383,8 +360,8 @@ Defined.
 Monomorphic Lemma morphism_Two_rect :
   ∀ {x y : object Two} (P : morphism Two x y -> Type),
   (∀ f, obj_arr Two x = 0%N -> obj_arr Two y = 0%N -> mor_arr Two f = 0%N -> P f) ->
-  (∀ f, obj_arr Two x = 1%N -> obj_arr Two y = 1%N -> mor_arr Two f = 1%N -> P f) ->
-  (∀ f, obj_arr Two x = 0%N -> obj_arr Two y = 1%N -> mor_arr Two f = 2%N -> P f) ->
+  (∀ f, obj_arr Two x = 0%N -> obj_arr Two y = 2%N -> mor_arr Two f = 1%N -> P f) ->
+  (∀ f, obj_arr Two x = 2%N -> obj_arr Two y = 2%N -> mor_arr Two f = 2%N -> P f) ->
   ∀ (f : morphism Two x y), P f.
 Proof.
   intros; destruct x, y, f.
@@ -397,8 +374,8 @@ Proof.
   induction f using morphism_Two_rect;
   destruct x, y, f; simpl in *; subst; simpl.
   - exact TwoIdX.
-  - exact TwoIdY.
   - exact TwoXY.
+  - exact TwoIdY.
 Defined.
 
 Local Obligation Tactic := intros.
@@ -441,7 +418,7 @@ Local Obligation Tactic :=
 Program Definition _2_Two_object (x : TwoObj) : object Two :=
   match x with
   | TwoX => {| obj_arr := 0%N; obj_def := _; obj_id  := _ |}
-  | TwoY => {| obj_arr := 1%N; obj_def := _; obj_id  := _ |}
+  | TwoY => {| obj_arr := 2%N; obj_def := _; obj_id  := _ |}
   end.
 Next Obligation.
   unfold is_identity, defined, composite;
@@ -462,12 +439,12 @@ Program Definition _2_Two_morphism (x y : TwoObj) (f : TwoHom x y) :
     match y as y' in TwoObj
     return y = y' -> morphism Two (_2_Two_object x) (_2_Two_object y) with
     | TwoX => fun _ => {| mor_arr := 0%N; mor_dom := _; mor_cod := _ |}
-    | TwoY => fun _ => {| mor_arr := 2%N; mor_dom := _; mor_cod := _ |}
+    | TwoY => fun _ => {| mor_arr := 1%N; mor_dom := _; mor_cod := _ |}
     end eq_refl
   | TwoY => fun _ =>
     match y as y' in TwoObj
     return y = y' -> morphism Two (_2_Two_object x) (_2_Two_object y) with
-    | TwoY => fun _ => {| mor_arr := 1%N; mor_dom := _; mor_cod := _ |}
+    | TwoY => fun _ => {| mor_arr := 2%N; mor_dom := _; mor_cod := _ |}
     | TwoX => fun _ => !
     end eq_refl
   end eq_refl.
@@ -509,8 +486,8 @@ Next Obligation.
       - reflexivity.
     }
     { isomorphism; simpl.
-      - construct; [exact 1%N|..]; auto.
-      - construct; [exact 1%N|..]; auto.
+      - construct; [exact 2%N|..]; auto.
+      - construct; [exact 2%N|..]; auto.
       - reflexivity.
       - reflexivity.
     }
@@ -519,45 +496,6 @@ Next Obligation.
   simpl in H, H0, H1; subst;
   vm_compute; reflexivity.
 Qed.
-
-Local Open Scope N_scope.
-
-Definition triangular_number (n : N) := (n * (n + 1)) / 2.
-
-Definition composable_pairs_step (n : N) (z : M.t N) : M.t N :=
-  let next := triangular_number (N.pred n) in
-  let go i rest :=
-      let k j r :=
-          let mor := next + i in
-          let dom := triangular_number (j + i) + i in
-          let cod := mor + j in
-          M.add (cod, dom) mor r in
-      N.peano_rect _ rest k (n - i) in
-  N.peano_rect _ z go n.
-
-Definition composable_pairs : N -> M.t N :=
-  N.peano_rect _ (M.empty _) (composable_pairs_step \o N.succ).
-
-Eval vm_compute in M.this (composable_pairs 4).
-
-(* The number of composable pairs, for objects N, is the tetrahedral_number *)
-Definition tetrahedral_number (n : N) := (n * (n + 1) * (n + 2)) / 6.
-
-Local Obligation Tactic := simpl; intros.
-
-Time Program Definition Three' : Metacategory := {|
-  pairs := composable_pairs 3
-|}.
-Next Obligation. vm_compute triangular_number in *; reflect_on_maps. Defined.
-Next Obligation. vm_compute triangular_number in *; reflect_on_maps. Qed.
-Next Obligation. vm_compute triangular_number in *; reflect_on_maps. Qed.
-
-Time Program Definition Four' : Metacategory := {|
-  pairs := composable_pairs 4
-|}.
-Next Obligation. vm_compute triangular_number in *; reflect_on_maps. Defined.
-Next Obligation. vm_compute triangular_number in *; reflect_on_maps. Qed.
-Next Obligation. vm_compute triangular_number in *; reflect_on_maps. Qed.
 
 Local Obligation Tactic := simpl; intros.
 
