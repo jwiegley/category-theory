@@ -283,7 +283,6 @@ Ltac reflect_on_maps :=
           | instantiate (1 := 9%N); vm_compute; reflexivity ]
   end.
 
-Local Open Scope fmap_scope.
 Local Open Scope N_scope.
 
 Definition triangular_number (n : N) := (n * (n + 1)) / 2.

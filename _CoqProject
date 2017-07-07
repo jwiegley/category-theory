@@ -11,6 +11,7 @@ Theory/Category.v
 Theory/Metacategory.v
 Theory/Metacategory/Graph.v
 Theory/Metacategory/ArrowsOnly.v
+Theory/Metacategory/DecideExample.v
 Theory/Morphisms.v
 Theory/Isomorphism.v
 Theory/Unique.v
