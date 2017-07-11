@@ -40,11 +40,13 @@ Construction/Comma/Isomorphism.v
 Structure/Discrete.v
 Structure/Terminal.v
 Structure/Cartesian.v
+Structure/Cartesian/Product.v
 Structure/Initial.v
 Structure/Cocartesian.v
 Structure/Bicartesian.v
 Structure/Distributive.v
 Structure/Closed.v
+Structure/Closed/Product.v
 Structure/BiCCC.v
 Structure/Constant.v
 Structure/Monoidal.v
