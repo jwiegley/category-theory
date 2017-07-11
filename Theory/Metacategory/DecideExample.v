@@ -47,6 +47,8 @@ Proof.
   Time map_decide.                (* takes 0.016s *)
 Qed.
 
+Print Assumptions problem3.
+
 Example problem4 : ∀ f g h fg gh fgh : N,
   let big := composable_pairs 4 in
   M.find (elt:=N) (f,  g)  big = Some fg ->
@@ -73,4 +75,15 @@ Proof.
   Time map_decide.                (* takes 0.085s *)
 Qed.
 
-Print Assumptions problem3.
+Example problem100 : ∀ f g h fg gh fgh : N,
+  let big := composable_pairs 10 in
+  M.find (elt:=N) (f,  g)  big = Some fg ->
+  M.find (elt:=N) (g,  h)  big = Some gh ->
+  M.find (elt:=N) (fg, h)  big = Some fgh ->
+  M.find (elt:=N) (f,  gh) big = Some fgh.
+Proof.
+  simpl; vm_compute triangular_number; intros.
+  (* Time destruct_maps; try nomega. (* takes 2501s *) *)
+  (* Undo. *)
+  Time map_decide.                (* takes 2.445s *)
+Qed.
