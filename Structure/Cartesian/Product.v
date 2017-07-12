@@ -20,9 +20,7 @@ Program Instance Product_Cartesian : @Cartesian (C ∏ D) := {
 
   fork := fun _ _ _ f g => (fst f △ fst g, snd f △ snd g);
   exl  := fun x y => (exl, exl);
-  exr  := fun x y => (exr, exr);
-
-  fork_respects := fun x y z => _
+  exr  := fun x y => (exr, exr)
 }.
 Next Obligation. proper; now rewrites. Qed.
 Next Obligation.
