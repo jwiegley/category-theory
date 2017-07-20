@@ -190,3 +190,9 @@ Class FullyFaithful `(F : C ⟶ D) := {
   fmap_bij {x y} : F x ~> F y ↔ x ~> y;
   fobj_inj {x y} : F x ≅ F y -> x ≅ y
 }.
+
+Definition FAlgebra `(F : C ⟶ C) (a : C) := F a ~> a.
+
+Definition FCoalgebra `(F : C ⟶ C) (a : C) := a ~> F a.
+
+Definition FGDialgebra `(F : C ⟶ C) `(G : C ⟶ C) (a : C) := F a ~> G a.
