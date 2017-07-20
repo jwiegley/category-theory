@@ -56,7 +56,6 @@ Class Category := {
 
   comp_assoc {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) :
     f ∘ (g ∘ h) ≈ (f ∘ g) ∘ h;
-
   comp_assoc_sym {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) :
     (f ∘ g) ∘ h ≈ f ∘ (g ∘ h)
 }.
