@@ -65,17 +65,7 @@ Next Obligation.
   destruct x, y, z; auto with two_laws;
   intuition; discriminate.
 Qed.
-Next Obligation.
-  destruct x, y; auto with two_laws; intuition;
-  symmetry; exact (TwoHom_inv _ _ f).
-Qed.
-Next Obligation.
-  destruct x, y; auto with two_laws; intuition;
-  symmetry; exact (TwoHom_inv _ _ f).
-Qed.
-Next Obligation.
-  destruct x, y, z, w; auto with two_laws; intuition.
-Qed.
-Next Obligation.
-  destruct x, y, z, w; auto with two_laws; intuition.
-Qed.
+Next Obligation. destruct f; auto. Qed.
+Next Obligation. destruct f; auto. Qed.
+Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
+Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
