@@ -55,6 +55,13 @@ Definition term_beq (x y : term) : bool :=
   | _, _ => false
   end.
 
+Lemma term_beq_sound x y : term_beq x y = true -> x = y.
+Proof.
+  induction x, y; simpl; intros; intuition.
+  - apply Pos.eqb_eq in H; subst; reflexivity.
+  - apply N.eqb_eq in H; subst; reflexivity.
+Defined.
+
 Program Definition term_eq_dec (x y : term) : {x = y} + {x ≠ y} :=
   match x, y with
   | Var x,   Var y   => if Pos.eq_dec x y then left _ else right _
@@ -79,12 +86,9 @@ Defined.
 Definition subst_term (x v v' : term) : term :=
   if term_beq x v then v' else x.
 
-Fixpoint subst_all_term (x : term) (xs : list (term * term)) : term :=
-  match xs with
-  | nil => x
-  | cons (v, v') xs =>
-    subst_all_term (subst_term x v v') xs
-  end.
+Definition subst_all {A} (f : A -> term -> term -> A) :
+  A -> list (term * term) -> A :=
+  fold_right (fun '(v, v') rest => f rest v v').
 
 Definition term_denote env (x : term) : N :=
   match x with
@@ -105,34 +109,6 @@ Fixpoint subst_map_expr (t : map_expr) (v v' : term) : map_expr :=
         (subst_term f v v')
         (subst_map_expr m v v')
   end.
-
-Fixpoint subst_all_map_expr (x : map_expr) (xs : list (term * term)) : map_expr :=
-  match xs with
-  | nil => x
-  | cons (v, v') xs =>
-    subst_all_map_expr (subst_map_expr x v v') xs
-  end.
-
-Lemma subst_all_map_expr_Empty defs :
-  subst_all_map_expr Empty defs = Empty.
-Proof.
-  induction defs; simpl; auto.
-  destruct a; auto.
-Qed.
-
-Lemma subst_all_map_expr_Add defs x y f m :
-  subst_all_map_expr (Add x y f m) defs =
-  Add (subst_all_term x defs) (subst_all_term y defs)
-      (subst_all_term f defs) (subst_all_map_expr m defs).
-Proof.
-  generalize dependent m.
-  generalize dependent f.
-  generalize dependent y.
-  generalize dependent x.
-  induction defs; simpl; intros; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Qed.
 
 Fixpoint map_expr_denote env (m : map_expr) : M.t N :=
   match m with
@@ -159,54 +135,6 @@ Fixpoint subst_formula (t : formula) (v v' : term) : formula :=
   | Impl p q => Impl (subst_formula p v v') (subst_formula q v v')
   end.
 
-Fixpoint subst_all_formula (x : formula) (xs : list (term * term)) : formula :=
-  match xs with
-  | nil => x
-  | cons (v, v') xs =>
-    subst_all_formula (subst_formula x v v') xs
-  end.
-
-Lemma subst_all_formula_Top defs :
-  subst_all_formula Top defs = Top.
-Proof.
-  induction defs; simpl; intros; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Qed.
-
-Lemma subst_all_formula_Bottom defs :
-  subst_all_formula Bottom defs = Bottom.
-Proof.
-  induction defs; simpl; intros; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Qed.
-
-Lemma subst_all_formula_Maps defs x y f m :
-  subst_all_formula (Maps x y f m) defs =
-  Maps (subst_all_term x defs) (subst_all_term y defs)
-       (subst_all_term f defs) (subst_all_map_expr m defs).
-Proof.
-  generalize dependent m.
-  generalize dependent f.
-  generalize dependent y.
-  generalize dependent x.
-  induction defs; simpl; intros; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Qed.
-
-Lemma subst_all_formula_Impl defs p q :
-  subst_all_formula (Impl p q) defs =
-  Impl (subst_all_formula p defs) (subst_all_formula q defs).
-Proof.
-  generalize dependent q.
-  generalize dependent p.
-  induction defs; simpl; intros; auto.
-  destruct a.
-  rewrite IHdefs; reflexivity.
-Qed.
-
 Fixpoint formula_denote env (t : formula) : Prop :=
   match t with
   | Top => True
@@ -223,38 +151,46 @@ Fixpoint formula_denote env (t : formula) : Prop :=
 
 Fixpoint map_expr_size (t : map_expr) : nat :=
   match t with
-  | Empty => 1%nat
+  | Empty       => 1%nat
   | Add _ _ _ m => 1%nat + map_expr_size m
   end.
 
+Lemma map_expr_size_subst_map_expr v v' m :
+  map_expr_size (subst_map_expr m v v') = map_expr_size m.
+Proof. induction m; simpl; auto. Qed.
+
+Lemma map_expr_size_subst_all_map_expr defs m :
+  map_expr_size (subst_all subst_map_expr m defs) = map_expr_size m.
+Proof.
+  induction defs; simpl; auto.
+  destruct a.
+  now rewrite map_expr_size_subst_map_expr.
+Qed.
+
 Fixpoint formula_size (t : formula) : nat :=
   match t with
-  | Top => 1%nat
-  | Bottom => 1%nat
+  | Top          => 1%nat
+  | Bottom       => 1%nat
   | Maps _ _ _ m => 1%nat + map_expr_size m
-  | Impl p q => formula_size p + formula_size q
+  | Impl p q     => 1%nat + formula_size p + formula_size q
   end.
 
 Lemma all_formulas_have_size t : (0 < formula_size t)%nat.
 Proof. induction t; simpl; omega. Qed.
 
-Lemma map_expr_size_subst_all_map_expr defs m :
-  map_expr_size (subst_all_map_expr m defs) = map_expr_size m.
+Lemma formula_size_subst_formula v v' m :
+  formula_size (subst_formula m v v') = formula_size m.
 Proof.
-  induction m; simpl.
-  - rewrite subst_all_map_expr_Empty; simpl; auto.
-  - rewrite subst_all_map_expr_Add; simpl; auto.
+  induction m; simpl; auto.
+  now rewrite map_expr_size_subst_map_expr.
 Qed.
 
-Lemma formula_size_subst_all_formula defs q :
-  formula_size (subst_all_formula q defs) = formula_size q.
+Lemma formula_size_subst_all_formula defs m :
+  formula_size (subst_all subst_formula m defs) = formula_size m.
 Proof.
-  induction q; simpl.
-  - rewrite subst_all_formula_Top; simpl; auto.
-  - rewrite subst_all_formula_Bottom; simpl; auto.
-  - rewrite subst_all_formula_Maps; simpl; auto.
-    rewrite map_expr_size_subst_all_map_expr; auto.
-  - rewrite subst_all_formula_Impl; simpl; auto.
+  induction defs; simpl; auto.
+  destruct a.
+  now rewrite formula_size_subst_formula.
 Qed.
 
 (**************************************************************************
@@ -279,68 +215,83 @@ Fixpoint substitutions (xs : list (term * term)) : list (term * term) :=
     end
   end.
 
+Lemma term_denote_subst_term env v v' t :
+  term_denote env v = term_denote env v'
+    -> term_denote env (subst_term t v v') = term_denote env t.
+Proof.
+  unfold subst_term; intros.
+  destruct term_beq eqn:?; auto.
+  apply term_beq_sound in Heqb.
+  congruence.
+Qed.
+
+Lemma term_denote_substitution {env t0 t1 t2 t3} :
+  substitution t0 t1 = Some (t2, t3) ->
+  term_denote env t0 = term_denote env t1 ->
+  term_denote env t2 = term_denote env t3.
+Proof.
+  intros.
+  destruct t0, t1; simpl in H;
+  try (destruct (Pos.eq_dec _ _); [discriminate|]);
+  now inversion_clear H.
+Qed.
+
 Lemma term_substitution_eq env t xs :
-  Forall (fun p => term_denote env (fst p) = term_denote env (snd p)) xs
-  → term_denote env (subst_all_term t (substitutions xs)) =
+  Forall (fun '(v, v') => term_denote env v = term_denote env v') xs
+  → term_denote env (subst_all subst_term t (substitutions xs)) =
     term_denote env t.
 Proof.
-  generalize dependent t.
-  induction xs; simpl; intros; auto.
-  inversion H; subst; clear H.
-  destruct a as [x y]; simpl in *.
-  destruct t; simpl; intros.
-  - destruct x, y; simpl in *; intros; auto.
-    + destruct (Pos.eq_dec p0 p1); simpl; auto.
-        rewrite IHxs; auto.
-      unfold subst_term; simpl.
-      destruct (Pos.eq_dec p p0); subst.
-        rewrite Pos.eqb_refl; simpl; auto.
-        rewrite IHxs; auto.
-      apply Pos.eqb_neq in n0; rewrite n0; simpl; auto.
-      apply IHxs; auto.
-    + unfold subst_term; simpl.
-      destruct (Pos.eq_dec p p0); subst.
-        rewrite Pos.eqb_refl; simpl; auto.
-        apply IHxs; auto.
-      apply Pos.eqb_neq in n0; rewrite n0; simpl; auto.
-      apply IHxs; auto.
-    + unfold subst_term; simpl.
-      destruct (Pos.eq_dec p p0); subst.
-        rewrite Pos.eqb_refl; simpl; auto.
-        apply IHxs; auto.
-      apply Pos.eqb_neq in n0; rewrite n0; simpl; auto.
-      apply IHxs; auto.
-    + apply IHxs; auto.
-  - destruct x, y; simpl in *; intros; try apply IHxs; auto.
-    destruct (Pos.eq_dec p p0); simpl; apply IHxs; auto.
+  induction xs as [|[] ?]; simpl; intros; auto.
+  inversion H.
+  destruct (substitution t0 t1) eqn:?; intuition.
+  destruct p; simpl.
+  rewrite term_denote_subst_term; auto.
+  now apply (term_denote_substitution Heqo).
+Qed.
+
+Lemma map_expr_denote_subst_map_expr env v v' m :
+  term_denote env v = term_denote env v'
+    -> map_expr_denote env (subst_map_expr m v v') = map_expr_denote env m.
+Proof.
+  induction m; simpl; auto; intros.
+  rewrite IHm; auto.
+  now rewrite !term_denote_subst_term.
 Qed.
 
 Lemma map_expr_substitution_eq env t xs :
   Forall (fun p => term_denote env (fst p) = term_denote env (snd p)) xs
-    -> map_expr_denote env (subst_all_map_expr t (substitutions xs)) =
+    -> map_expr_denote env (subst_all subst_map_expr t (substitutions xs)) =
        map_expr_denote env t.
 Proof.
-  induction t; simpl; intros.
-  - rewrite subst_all_map_expr_Empty; simpl; auto.
-  - rewrite subst_all_map_expr_Add; simpl; intros.
-    rewrite !term_substitution_eq; auto.
-    rewrite IHt; auto.
+  induction xs as [|[] ?]; simpl; intros; auto.
+  inversion H.
+  destruct (substitution t0 t1) eqn:?; intuition.
+  destruct p; simpl.
+  rewrite map_expr_denote_subst_map_expr; auto.
+  now apply (term_denote_substitution Heqo).
+Qed.
+
+Lemma formula_denote_subst_formula env v v' t :
+  term_denote env v = term_denote env v'
+    -> formula_denote env (subst_formula t v v') = formula_denote env t.
+Proof.
+  induction t; simpl; auto; intros.
+    rewrite map_expr_denote_subst_map_expr,
+            !term_denote_subst_term; auto.
+  rewrite IHt1, IHt2; auto.
 Qed.
 
 Lemma formula_substitution_eq env t xs :
   Forall (fun p => term_denote env (fst p) = term_denote env (snd p)) xs
-    -> formula_denote env (subst_all_formula t (substitutions xs)) =
+    -> formula_denote env (subst_all subst_formula t (substitutions xs)) =
        formula_denote env t.
 Proof.
-  induction t; simpl; intros.
-  - rewrite subst_all_formula_Top; simpl; auto.
-  - rewrite subst_all_formula_Bottom; simpl; auto.
-  - rewrite subst_all_formula_Maps; simpl; intros.
-    rewrite !term_substitution_eq; auto.
-    rewrite map_expr_substitution_eq; auto.
-  - rewrite subst_all_formula_Impl; simpl; intros.
-    intuition.
-    rewrite H0, H1; auto.
+  induction xs as [|[] ?]; simpl; intros; auto.
+  inversion H.
+  destruct (substitution t0 t1) eqn:?; intuition.
+  destruct p; simpl.
+  rewrite formula_denote_subst_formula; auto.
+  now apply (term_denote_substitution Heqo).
 Qed.
 
 (**************************************************************************
@@ -376,7 +327,8 @@ Qed.
  *)
 
 Program Definition formula_forward (t : formula) env (hyp : formula)
-        (cont : ∀ env' defs, [formula_denote env' (subst_all_formula t defs)]) :
+        (cont : ∀ env' defs,
+            [formula_denote env' (subst_all subst_formula t defs)]) :
   [formula_denote env hyp -> formula_denote env t] :=
   match hyp with
   | Top => Reduce (cont env [])
@@ -464,14 +416,13 @@ Program Fixpoint formula_backward (t : formula) env {measure (formula_size t)} :
     end
   | Impl p q =>
     formula_forward q env p
-      (fun env' defs' => formula_backward (subst_all_formula q defs') env')
+      (fun env' defs' => formula_backward (subst_all subst_formula q defs') env')
   end.
 Next Obligation.
   apply map_contains_MapsTo; auto.
 Defined.
 Next Obligation.
-  rewrite formula_size_subst_all_formula; simpl.
-  apply Nat.lt_add_pos_l, all_formulas_have_size.
+  rewrite formula_size_subst_all_formula; simpl; omega.
 Defined.
 
 Definition formula_tauto : ∀ env t, [formula_denote env t].
