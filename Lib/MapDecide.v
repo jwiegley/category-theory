@@ -83,12 +83,12 @@ Next Obligation.
   destruct H1; discriminate.
 Defined.
 
-Definition subst_term (x v v' : term) : term :=
-  if term_beq x v then v' else x.
-
 Definition subst_all {A} (f : A -> term -> term -> A) :
   A -> list (term * term) -> A :=
   fold_right (fun '(v, v') rest => f rest v v').
+
+Definition subst_term (x v v' : term) : term :=
+  if term_beq x v then v' else x.
 
 Definition term_denote env (x : term) : N :=
   match x with
@@ -175,9 +175,6 @@ Fixpoint formula_size (t : formula) : nat :=
   | Impl p q     => 1%nat + formula_size p + formula_size q
   end.
 
-Lemma all_formulas_have_size t : (0 < formula_size t)%nat.
-Proof. induction t; simpl; omega. Qed.
-
 Lemma formula_size_subst_formula v v' m :
   formula_size (subst_formula m v v') = formula_size m.
 Proof.
@@ -200,9 +197,9 @@ Qed.
 Definition substitution (x y : term) : option (term * term) :=
   match x, y with
   | Var n, Var m => if Pos.eq_dec n m then None else Some (x, y)
-  | Var _, _  => Some (x, y)
-  | _ , Var _ => Some (y, x)
-  | _, _ => None
+  | Var _, _     => Some (x, y)
+  | _ ,    Var _ => Some (y, x)
+  | _,     _     => None
   end.
 
 Fixpoint substitutions (xs : list (term * term)) : list (term * term) :=
@@ -226,9 +223,9 @@ Proof.
 Qed.
 
 Lemma term_denote_substitution {env t0 t1 t2 t3} :
-  substitution t0 t1 = Some (t2, t3) ->
-  term_denote env t0 = term_denote env t1 ->
-  term_denote env t2 = term_denote env t3.
+  substitution t0 t1 = Some (t2, t3)
+    -> term_denote env t0 = term_denote env t1
+    -> term_denote env t2 = term_denote env t3.
 Proof.
   intros.
   destruct t0, t1; simpl in H;
@@ -238,8 +235,8 @@ Qed.
 
 Lemma term_substitution_eq env t xs :
   Forall (fun '(v, v') => term_denote env v = term_denote env v') xs
-  → term_denote env (subst_all subst_term t (substitutions xs)) =
-    term_denote env t.
+    → term_denote env (subst_all subst_term t (substitutions xs)) =
+      term_denote env t.
 Proof.
   induction xs as [|[] ?]; simpl; intros; auto.
   inversion H.
