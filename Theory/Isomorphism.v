@@ -39,25 +39,42 @@ Arguments iso_from_to {x y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
-Global Program Instance isomorphism_equivalence : Equivalence Isomorphism.
+Global Program Instance iso_id {x : C} : x ≅ x := {
+  to   := id;
+  from := id
+}.
+
+Global Program Definition iso_sym {x y : C} `(f : x ≅ y) : y ≅ x := {|
+  to   := from f;
+  from := to f;
+
+  iso_to_from := iso_from_to f;
+  iso_from_to := iso_to_from f
+|}.
+
+Global Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) :
+  x ≅ z := {|
+  to   := to f ∘ to g;
+  from := from g ∘ from f
+|}.
 Next Obligation.
-  intros.
-  apply Build_Isomorphism with (to:=id) (from:=id); cat.
-Defined.
-Next Obligation.
-  intros; destruct X.
-  apply Build_Isomorphism with (to:=from0) (from:=to0); cat.
-Defined.
-Next Obligation.
-  intros; destruct X, X0.
-  apply Build_Isomorphism with (to:=to1 ∘ to0) (from:=from0 ∘ from1).
-    rewrite <- comp_assoc.
-    rewrite (comp_assoc to0).
-    rewrite iso_to_from0; cat.
   rewrite <- comp_assoc.
-  rewrite (@comp_assoc _ _ _ _ _ from1).
-  rewrite iso_from_to1; cat.
-Defined.
+  rewrite (comp_assoc (to g)).
+  rewrite iso_to_from; cat.
+  apply iso_to_from.
+Qed.
+Next Obligation.
+  rewrite <- comp_assoc.
+  rewrite (comp_assoc (from f)).
+  rewrite iso_from_to; cat.
+  apply iso_from_to.
+Qed.
+
+Global Program Instance isomorphism_equivalence : Equivalence Isomorphism := {
+  Equivalence_Reflexive  := @iso_id;
+  Equivalence_Symmetric  := @iso_sym;
+  Equivalence_Transitive := fun _ _ _ g f => iso_compose f g
+}.
 
 Definition ob_equiv : crelation C := fun x y => x ≅ y.
 
@@ -99,29 +116,6 @@ Hint Unfold isomorphism_equiv.
 
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).
-
-Program Instance iso_id {C : Category} {x : C} : x ≅ x := {
-  to := id;
-  from := id
-}.
-
-Program Definition iso_compose {C : Category}
-        {x y z : C} `(f : y ≅ z) `(g : x ≅ y) : x ≅ z := {|
-  to := to f ∘ to g;
-  from := from g ∘ from f
-|}.
-Next Obligation.
-  rewrite <- comp_assoc.
-  rewrite (comp_assoc (to g)).
-  rewrite iso_to_from; cat.
-  apply iso_to_from.
-Qed.
-Next Obligation.
-  rewrite <- comp_assoc.
-  rewrite (comp_assoc (from f)).
-  rewrite iso_from_to; cat.
-  apply iso_from_to.
-Qed.
 
 Program Instance iso_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Monic iso.
