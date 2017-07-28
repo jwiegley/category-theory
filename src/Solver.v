@@ -165,12 +165,8 @@ Proof.
 Qed.
 *)
 
-(*
 Lemma Fin_eq_dec' : ∀ n (x y : Fin.t n), x = y \/ x ≠ y.
-Proof.
-  intros.
-  destruct (Fin.eq_dec x y); auto.
-Qed.
+Proof. intros; destruct (Fin.eq_dec x y); auto. Qed.
 
 Lemma Fin_eq_dec_refl n (x : Fin.t n) :
   Fin.eq_dec x x = left (@eq_refl (Fin.t n) x).
@@ -183,10 +179,7 @@ Proof.
 Qed.
 
 Lemma Fin_eqb_refl n (x : Fin.t n) : Fin.eqb x x = true.
-Proof.
-  now apply Fin.eqb_eq.
-Qed.
-*)
+Proof. now apply Fin.eqb_eq. Qed.
 
 Lemma Nat_eq_dec' : ∀ (x y : nat), x = y \/ x ≠ y.
 Proof. intros; destruct (Nat.eq_dec x y); auto. Qed.
@@ -229,92 +222,46 @@ Section Denotation.
 
 Import EqNotations.
 
+Fixpoint nth_fin {a} (xs : list a) (n : Fin.t (length xs)) : a :=
+  match xs as xs' return length xs = length xs' -> a with
+  | nil => fun H => Fin.case0 _ (rew H in n)
+  | cons x xs' => fun H =>
+    match n in Fin.t n' return length xs = n' -> a with
+    | Fin.F1 => fun _ => x
+    | @Fin.FS n0 x => fun H0 =>
+        nth_fin
+          xs' (rew (eq_add_S n0 (length xs')
+                             (rew [fun n => n = S (length xs')] H0 in H)) in x)
+    end eq_refl
+  end eq_refl.
+
 Record Vars : Type := {
   vars_cat : Category;
-
-  vars_num_objs : nat;
-  vars_num_arrs : nat;
-
   vars_objs : list vars_cat;
-  def_obj : vars_cat;
-
   vars_arrs :
-    list (∃ (dom cod : nat),
-      nth dom vars_objs def_obj ~{vars_cat}~> nth cod vars_objs def_obj);
-  def_arr : ∃ (dom cod : nat),
-    nth dom vars_objs def_obj ~{vars_cat}~> nth cod vars_objs def_obj
+    list (∃ (dom cod : Fin.t (length vars_objs)),
+      nth_fin vars_objs dom ~{vars_cat}~> nth_fin vars_objs cod)
 }.
 
 Set Transparent Obligations.
 
 Program Definition Unused : Category := {|
-  obj     := bool : Type;
-  hom     := fun x y =>
-               (x = true  /\ y = true)  \/
-               (x = false /\ y = false) \/
-               (x = true  /\ y = false);
+  obj     := unit : Type;
+  hom     := fun _ _ => True;
   homset  := Morphism_equality;
   id      := fun x => _;
   compose := fun x y z f g => _
 |}.
-Next Obligation. destruct x; intuition. Defined.
-Next Obligation. destruct x, y, z; intuition. Defined.
 Next Obligation.
   unfold Unused_obligation_1.
   unfold Unused_obligation_2.
-  destruct x, y, f;
-  unfold or_ind, and_ind, and_rect;
-  try destruct a;
-  try destruct o;
-  try destruct a;
-  repeat f_equal;
-  try discriminate;
-  apply Eqdep_dec.UIP_dec;
-  apply bool_dec.
-Defined.
-Next Obligation.
-  unfold Unused_obligation_1.
-  unfold Unused_obligation_2.
-  destruct x, y, f;
-  unfold or_ind, and_ind, and_rect;
-  try destruct a;
-  try destruct o;
-  try destruct a;
-  repeat f_equal;
-  try discriminate;
-  apply Eqdep_dec.UIP_dec;
-  apply bool_dec.
-Defined.
-Next Obligation.
-  unfold Unused_obligation_1.
-  unfold Unused_obligation_2.
-  destruct x, y, z, w, f, g, h;
-  unfold or_ind, and_ind, and_rect;
-  try destruct a;
-  try destruct a0;
-  try destruct a1;
-  try destruct o;
-  try destruct o0;
-  try destruct o1;
-  try destruct a;
-  try destruct a0;
-  try destruct a1;
-  repeat f_equal;
-  try discriminate.
-Defined.
-Next Obligation.
-  symmetry.
-  apply Unused_obligation_5.
+  now destruct f.
 Defined.
 
-Definition UnusedVars : Vars := {|
-  vars_cat      := Unused;
-  vars_num_objs := 2;
-  vars_num_arrs := 3;
-  vars_objs     := [true; false];
-  def_obj       := false;
-  vars_arrs     := [ (0%nat; (0%nat; or_introl (conj eq_refl eq_refl))) ];
-  def_arr       := (0%nat; (0%nat; or_introl (conj eq_refl eq_refl)))
+Program Definition UnusedVars : Vars := {|
+  vars_cat  := Unused;
+  vars_objs := [tt];
+  vars_arrs := [ (@Fin.F1 0; (@Fin.F1 0; I)) ];
 |}.
 
 Record Environment := {
@@ -328,20 +275,18 @@ Record Environment := {
 
   get_vars (c : _cat_idx) := nth c cats UnusedVars;
 
-  _obj_idx (c : _cat_idx) := nat;
-  _arr_idx (c : _cat_idx) := nat;
+  _obj_idx (c : _cat_idx) := Fin.t (length (vars_objs (get_vars c)));
+  _arr_idx (c : _cat_idx) := Fin.t (length (vars_arrs (get_vars c)));
 
-  get_obj_cat c (o : _obj_idx c) := c;
-  get_obj     c (o : _obj_idx c) := nth o (vars_objs (get_vars c))
-                                          (def_obj (get_vars c));
+  get_obj_cat  c (o : _obj_idx c) := c;
+  get_obj      c (o : _obj_idx c) := nth_fin (vars_objs (get_vars c)) o;
 
-  get_arr_cat c (a : _arr_idx c) := c;
-  get_arr_dom c (a : _arr_idx c) := `1 (nth a (vars_arrs (get_vars c))
-                                              (def_arr (get_vars c)));
-  get_arr_cod c (a : _arr_idx c) := `1 `2 (nth a (vars_arrs (get_vars c))
-                                                 (def_arr (get_vars c)));
-  get_arr     c (a : _arr_idx c) := `2 `2 (nth a (vars_arrs (get_vars c))
-                                                 (def_arr (get_vars c)))
+  get_arr_def  c (a : _arr_idx c) := nth_fin (vars_arrs (get_vars c)) a;
+
+  get_arr_cat  c (a : _arr_idx c) := c;
+  get_arr_dom  c (a : _arr_idx c) := `1 (get_arr_def c a);
+  get_arr_cod  c (a : _arr_idx c) := `1 `2 (get_arr_def c a);
+  get_arr      c (a : _arr_idx c) := `2 `2 (get_arr_def c a)
 }.
 
 Variable env : Environment.
@@ -390,13 +335,13 @@ Fixpoint TermCod (e : Term) : obj_idx :=
 
 Definition Arrow := arr_idx.
 
-Definition Arrow_beq (x y : Arrow) : bool := Nat.eqb x y.
+Definition Arrow_beq (x y : Arrow) : bool := Fin.eqb x y.
 
 Lemma Arrow_beq_eq (x y : Arrow) : Arrow_beq x y = true -> x = y.
-Proof. intros; now apply Nat.eqb_eq. Qed.
+Proof. intros; now apply Fin.eqb_eq. Qed.
 
 Lemma Arrow_beq_refl (x : Arrow) : Arrow_beq x x = true.
-Proof. intros; now apply Nat.eqb_eq. Qed.
+Proof. intros; now apply Fin.eqb_eq. Qed.
 
 (* This describes the morphisms of a path, or free, category over a quiver of
    Arrows, while our environment describes a quiver (where vertices are all
@@ -412,7 +357,7 @@ Fixpoint ArrowList_beq (x y : ArrowList) {struct x} : bool :=
   match x with
   | IdentityOnly cod =>
       match y with
-      | IdentityOnly cod' => Nat.eqb cod cod'
+      | IdentityOnly cod' => Fin.eqb cod cod'
       | ArrowChain _ _ => false
       end
   | ArrowChain x x0 =>
@@ -505,14 +450,14 @@ Ltac equalities :=
     (*   let Heqe := fresh "Heqe" in *)
     (*   destruct (N =? M) eqn:Heqe *)
 
-    | [ H : context[match @Nat.eq_dec ?X ?X with _ => _ end] |- _ ] =>
-      rewrite (@Nat_eq_dec_refl X) in H
-    | [ |- context[match @Nat.eq_dec ?X ?X with _ => _ end] ] =>
-      rewrite (@Nat_eq_dec_refl X)
-    | [ H : context[match @Nat.eq_dec ?X ?Y with _ => _ end] |- _ ] =>
-      destruct (@Nat.eq_dec X Y); subst
-    | [ |- context[match Nat.eq_dec ?X ?Y with _ => _ end] ] =>
-      destruct (@Nat.eq_dec X Y); subst
+    | [ H : context[match @Fin.eq_dec ?N ?X ?X with _ => _ end] |- _ ] =>
+      rewrite (@Fin_eq_dec_refl N X) in H
+    | [ |- context[match @Fin.eq_dec ?N ?X ?X with _ => _ end] ] =>
+      rewrite (@Fin_eq_dec_refl N X)
+    | [ H : context[match @Fin.eq_dec ?N ?X ?Y with _ => _ end] |- _ ] =>
+      destruct (@Fin.eq_dec N X Y); subst
+    | [ |- context[match Fin.eq_dec ?N ?X ?Y with _ => _ end] ] =>
+      destruct (@Fin.eq_dec N X Y); subst
 
     | [ H : (_ &&& _) = true |- _ ]          => rewrite <- andb_lazy_alt in H
     | [ H : (_ && _) = true |- _ ]           => apply andb_true_iff in H;
@@ -528,8 +473,8 @@ Ltac equalities :=
     | [ H : list_beq _ _ _   = true |- _ ]   => apply list_beq_eq in H
     | [ |- list_beq _ _ _    = true ]        => apply list_beq_eq
 
-    | [ H : Nat.eqb _ _   = true |- _ ]      => apply Nat.eqb_eq in H
-    | [ |- Nat.eqb _ _    = true ]           => apply Nat.eqb_eq
+    | [ H : Fin.eqb _ _   = true |- _ ]      => apply Fin.eqb_eq in H
+    | [ |- Fin.eqb _ _    = true ]           => apply Fin.eqb_eq
 
     (* | [ H : (_ =? _) = true |- _ ]           => apply Pos.eqb_eq in H *)
     (* | [ |- (_ =? _) = true ]                 => apply Pos.eqb_eq *)
@@ -676,10 +621,10 @@ Fixpoint Term_well_typed dom cod (e : Term) : Prop :=
 
 Fixpoint Term_well_typed_bool dom cod (e : Term) : bool :=
   match e with
-  | Identity x => (Nat.eqb x dom) &&& (Nat.eqb x cod)
-  | Morph f => (Nat.eqb (get_arr_dom f) dom) &&& (Nat.eqb (get_arr_cod f) cod)
+  | Identity x => (Fin.eqb x dom) &&& (Fin.eqb x cod)
+  | Morph f => (Fin.eqb (get_arr_dom f) dom) &&& (Fin.eqb (get_arr_cod f) cod)
   | Compose f g =>
-    (Nat.eqb (TermCod g) (TermDom f)) &&&
+    (Fin.eqb (TermCod g) (TermDom f)) &&&
     Term_well_typed_bool (TermCod g) cod f &&&
     Term_well_typed_bool dom (TermCod g) g
   end.
@@ -691,13 +636,13 @@ Proof.
   generalize dependent cod.
   induction e; simpl;
   intuition; subst; equalities;
-  try rewrite !Nat_eqb_refl; auto.
+  try rewrite !Fin_eqb_refl; auto.
   - apply IHe1; auto.
   - apply IHe2; auto.
   - apply IHe1 in H.
     apply IHe2 in H2.
     rewrite !H0 in *.
-    rewrite Nat_eqb_refl, H, H2; reflexivity.
+    rewrite Fin_eqb_refl, H, H2; reflexivity.
 Qed.
 
 Corollary Term_well_typed_dom {f dom cod } :
@@ -978,7 +923,7 @@ Proof.
     subst; exact (Some (get_arr a)).
   - destruct (denote' f); [|exact None].
     destruct (denote' g); [|exact None].
-    destruct (Nat.eq_dec (TermCod g) (TermDom f)); [|exact None].
+    destruct (Fin.eq_dec (TermCod g) (TermDom f)); [|exact None].
     rewrite e in h0.
     exact (Some (h ∘ h0)).
 Defined.
@@ -987,11 +932,11 @@ Fixpoint denote dom cod (e : Term) :
   option (get_obj dom ~{ get_cat c }~> get_obj cod).
 Proof.
   destruct e as [o|a|f g].
-  - destruct (Nat.eq_dec o dom); [|exact None].
-    destruct (Nat.eq_dec o cod); [|exact None].
+  - destruct (Fin.eq_dec o dom); [|exact None].
+    destruct (Fin.eq_dec o cod); [|exact None].
     subst; exact (Some id).
-  - destruct (Nat.eq_dec (get_arr_dom a) dom); [|exact None].
-    destruct (Nat.eq_dec (get_arr_cod a) cod); [|exact None].
+  - destruct (Fin.eq_dec (get_arr_dom a) dom); [|exact None].
+    destruct (Fin.eq_dec (get_arr_cod a) cod); [|exact None].
     subst; exact (Some (get_arr a)).
   - destruct (denote (TermCod g) cod f); [|exact None].
     destruct (denote dom (TermCod g) g); [|exact None].
@@ -1104,10 +1049,10 @@ Fixpoint normalize_denote_chain dom cod (a : Arrow) (gs : list Arrow) :
   option (get_obj dom ~{ get_cat c }~> get_obj cod).
 Proof.
   destruct gs as [|g gs].
-    destruct (Nat.eq_dec (@get_arr_dom env c a) dom); [|exact None].
-    destruct (Nat.eq_dec (@get_arr_cod env c a) cod); [|exact None].
+    destruct (Fin.eq_dec (@get_arr_dom env c a) dom); [|exact None].
+    destruct (Fin.eq_dec (@get_arr_cod env c a) cod); [|exact None].
     subst; exact (Some (get_arr a)).
-  destruct (Nat.eq_dec (@get_arr_cod env c a) cod); [|exact None].
+  destruct (Fin.eq_dec (@get_arr_cod env c a) cod); [|exact None].
   destruct (normalize_denote_chain dom (@get_arr_dom env c a) g gs); [|exact None].
   subst; exact (Some (get_arr a ∘ h)).
 Defined.
@@ -1173,7 +1118,7 @@ Proof.
     try discriminate.
     exists _, (get_arr x0), h.
     inversion_clear H.
-    rewrite Nat_eq_dec_refl; simpl.
+    rewrite Fin_eq_dec_refl; simpl.
     intuition.
     pose proof (normalize_denote_chain_cod _ _ _ _ _ Heqo); auto.
   - equalities.
@@ -1229,8 +1174,8 @@ Definition normalize_denote dom cod (xs : ArrowList) :
   option (get_obj dom ~{ get_cat c }~> get_obj cod).
 Proof.
   destruct xs as [o|f fs].
-  - destruct (Nat.eq_dec o dom); [|exact None].
-    destruct (Nat.eq_dec o cod); [|exact None].
+  - destruct (Fin.eq_dec o dom); [|exact None].
+    destruct (Fin.eq_dec o cod); [|exact None].
     subst; exact (Some id).
   - exact (normalize_denote_chain dom cod f fs).
 Defined.
@@ -1331,7 +1276,7 @@ Proof.
   - now exists f.
   - now exists f.
   - apply normalize_compose in H0; equalities; subst.
-    + destruct (Nat.eq_dec (ArrowList_dom (normalize p1)) (TermCod p2)).
+    + destruct (Fin.eq_dec (ArrowList_dom (normalize p1)) (TermCod p2)).
       * rewrite <- e in *.
         destruct (IHp1 _ _ _ H2 a2), (IHp2 _ _ _ H3 b0).
         equalities.
@@ -1416,19 +1361,23 @@ Ltac listSize xs :=
   end.
 
 Ltac lookup n x xs :=
-  lazymatch xs with
-  | (x, _) => constr:(0%nat)
-  | (_, ?xs') =>
-    let xn := lookup x xs' in
-    constr:(S n)
+  match n with
+  | O => constr:(@Fin.F1 0)
+  | S ?n' =>
+    lazymatch xs with
+    | (x, _) => constr:(@Fin.F1 n')
+    | (_, ?xs') =>
+      let xn := lookup n' x xs' in
+      constr:(@Fin.FS n' xn)
+    end
   end.
 
-Ltac lookupTriple n c cs :=
+Ltac lookupCat c cs :=
   lazymatch cs with
   | ((c, _, _), _) => constr:(0%nat)
   | (_, ?cs') =>
-    let cn := lookup c cs' in
-    constr:(S n)
+    let cn := lookupCat c cs' in
+    constr:(S cn)
   end.
 
 (** Lists of lists in Ltac *)
@@ -1475,20 +1424,12 @@ Ltac addToArrList c cs f :=
     updateCat c cs os fs'
   end.
 
-Ltac lookupCat c cs :=
-  let len := listSize cs in
-  match len with
-  | S ?len' => lookupTriple len' c cs
-  end.
-
 Ltac lookupObj c cs o :=
   let res := catLists c cs in
   match res with
   | (?os, _) =>
     let len := listSize os in
-    match len with
-    | S ?len' => lookup len' o os
-    end
+    lookup len o os
   end.
 
 Ltac lookupArr c cs f :=
@@ -1496,9 +1437,7 @@ Ltac lookupArr c cs f :=
   match res with
   | (_, ?fs) =>
     let len := listSize fs in
-    match len with
-    | S ?len' => lookup len' f fs
-    end
+    lookup len f fs
   end.
 
 (** Variable capture *)
@@ -1553,50 +1492,33 @@ Ltac listify xs ty f :=
 
 Ltac vectorize xs ty f :=
   let l := listify xs ty f in
-  constr:((length l, l)).
+  constr:(l).
 
 Ltac build_env cs :=
-  let res := vectorize cs Vars ltac:(fun x =>
+  let cs' := vectorize cs Vars ltac:(fun x =>
     match x with
     | (?c, ?os, ?fs) =>
-      let os_res := vectorize os c ltac:(fun x => x) in
-      match os_res with
-      | (?oslen, ?os') =>
-        match os' with
-        | nil => constr:((0%nat, nil))
-        | ?o :: _ =>
-          let fs_res := vectorize fs
-            (∃ (dom cod : nat), nth dom os' o ~{c}~> nth cod os' o)
-            ltac:(fun f => match type of f with
-              | ?x ~{c}~> ?y =>
-                let xn := lookupObj c cs x in
-                let yn := lookupObj c cs y in
-                constr:(existT (fun dom => ∃ (cod : nat),
-                                    nth dom os' x ~{c}~> nth cod os' y)
-                               xn (existT (fun cod =>
-                                             nth xn os' x ~{c}~> nth cod os' y)
-                                          yn f))
-              end) in
-          match fs_res with
-          | (?fslen, ?fs') =>
-            match fs' with
-            | nil => constr:((0%nat, nil))
-            | ?f :: _ =>
-              constr:({| vars_cat      := c
-                       ; vars_num_objs := oslen
-                       ; vars_num_arrs := fslen
-                       ; vars_objs     := os'
-                       ; def_obj       := o
-                       ; vars_arrs     := fs'
-                       ; def_arr       := f |})
-            end
-          end
-        end
-      end
+      let os' := vectorize os c ltac:(fun x => x) in
+      let fs' := vectorize fs
+        (∃ (dom cod : Fin.t (length os')),
+           nth_fin os' dom ~{c}~> nth_fin os' cod)
+        ltac:(fun f => match type of f with
+          | ?x ~{c}~> ?y =>
+            let xn := lookupObj c cs x in
+            let yn := lookupObj c cs y in
+            constr:(existT
+                      (fun dom => ∃ (cod : Fin.t (length os')),
+                           nth_fin os' dom ~{c}~> nth_fin os' cod) xn
+                   (existT
+                      (fun cod =>
+                         nth_fin os' xn ~{c}~> nth_fin os' cod) yn
+                    f))
+          end) in
+      constr:({| vars_cat  := c
+               ; vars_objs := os'
+               ; vars_arrs := fs' |})
     end) in
-  match res with
-  | (?len, ?v) => constr:({| num_cats := len; cats := v |})
-  end.
+  constr:({| num_cats := length cs'; cats := cs' |}).
 
 Ltac find_vars :=
   lazymatch goal with
@@ -1604,9 +1526,19 @@ Ltac find_vars :=
     let cs := allVars tt G in
     pose cs;
     let env := build_env cs in
-    let env := eval compute [length] in env in
     pose env
   end.
+
+Goal ∀ (C : Category) (x y : C) (f : x ~> y),
+    @nth_fin C [y; x] (@Fin.FS 1 (@Fin.F1 0)) ~{ C}~> @nth_fin C [y; x] (@Fin.F1 1).
+  simpl.
+
+Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y),
+  f ≈ f.
+Proof.
+  intros.
+  find_vars.
+Abort.
 
 Definition term_wrapper {A : Type} (x : A) : A := x.
 
@@ -1686,15 +1618,6 @@ Ltac normalize :=
       | idtac ]);
   unfold term_wrapper in *; simpl in *.
 
-Set Printing Implicit.
-Example sample_1 : ∀ (C : Category) (x : C) (f : x ~> x),
-  f ∘ f ≈ f ∘ f ->
-  f ∘ (id ∘ f) ≈ f ∘ f.
-Proof.
-  intros.
-  categorical.
-Qed.
-
 Example sample_2 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y),
     g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
@@ -1708,8 +1631,36 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
+  match goal with
+  | [ |- ?S ≈ ?T ] =>
+    let cs  := allVars tt S in
+    let cs  := allVars cs T in
+    let env := build_env cs in
+    let env := eval compute [length] in env in
+    let r1  := reifyTerm env cs S in
+    let r2  := reifyTerm env cs T in
+    pose (denote env (TermCat env _ r1)
+                 (TermDom env _ r1) (TermCod env _ r1) r1)(* ; *)
+    (* pose (denote env (TermCat env _ r2) *)
+    (*              (TermDom env _ r2) (TermCod env _ r2) r2) *)
+  end.
+  compute [get_obj get_cat get_vars cats
+           get_arr_dom get_arr_cod get_arr_def
+           TermCat TermCod TermDom
+           vars_objs vars_arrs vars_cat nth] in o.
+  simpl nth_fin in o.
+  simpl projT1 in o.
+  simpl projT2 in o.
+  compute [get_obj get_cat get_vars cats
+           get_arr_dom get_arr_cod get_arr_def
+           TermCat TermCod TermDom
+           vars_objs vars_arrs vars_cat nth] in o.
+  simpl nth_fin in o.
+  simpl projT1 in o.
+  simpl projT2 in o.
+  unfold eq_rect in o.
   (* Time normalize. *)
-  Time categorical.
+  (* categorical. *)
 Abort.
 
 (* Print Assumptions sample_2. *)
