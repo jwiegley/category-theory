@@ -2,16 +2,15 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Functor.
-Require Import Category.Instance.Two.
 
 Require Import Coq.Program.Program.
 Require Import Coq.Bool.Bool.
 Require Import Coq.Arith.Bool_nat.
 Require Import Coq.Arith.PeanoNat.
+Require Import Coq.PArith.PArith.
 Require Import Coq.Lists.List.
 Require Import Coq.Classes.Morphisms.
-(* Require Import Coq.quote.Quote. *)
-(* Require Import Coq.Wellfounded.Lexicographic_Product. *)
+Require Import Coq.omega.Omega.
 
 Generalizable All Variables.
 
@@ -148,7 +147,20 @@ Proof.
   exact eq_dec.
 Qed.
 
-(*
+Lemma Nat_eq_dec' : ∀ (x y : nat), x = y \/ x ≠ y.
+Proof. intros; destruct (Nat.eq_dec x y); auto. Qed.
+
+Lemma Nat_eq_dec_refl (x : nat) :
+  Nat.eq_dec x x = left (@eq_refl (nat) x).
+Proof.
+  destruct (Nat.eq_dec x x); [| contradiction].
+  refine (K_dec_on_type (nat) x (Nat_eq_dec' x)
+            (fun H => @left _ _ H = @left _ _ (@eq_refl (nat) x)) _ _); auto.
+Qed.
+
+Lemma Nat_eqb_refl (x : nat) : Nat.eqb x x = true.
+Proof. now apply Nat.eqb_eq. Qed.
+
 Lemma Pos_eq_dec' : ∀ x y : positive, x = y \/ x ≠ y.
 Proof.
   intros.
@@ -163,7 +175,54 @@ Proof.
     reflexivity.
   contradiction.
 Qed.
-*)
+
+Fixpoint Pos_eqb_refl (x : positive) : Pos.eqb x x = true :=
+  match x with
+  | xI x => Pos_eqb_refl x
+  | xO x => Pos_eqb_refl x
+  | xH => eq_refl
+  end.
+
+Definition nth_safe {a} (xs : list a) (n : nat) (H : (n < length xs)%nat) : a.
+Proof.
+  induction xs; simpl in *; auto.
+  contradiction (Nat.nlt_0_r n).
+Defined.
+
+Definition nth_pos {a} (xs : list a) (n : positive) (default : a) : a.
+Proof.
+  generalize dependent n.
+  induction xs; intros.
+    exact default.
+  destruct n using Pos.peano_rect.
+    exact a0.
+  exact (IHxs n).
+Defined.
+
+Definition within_bounds {A} (x : positive) (xs : list A) : Prop :=
+  (Nat.pred (Pos.to_nat x) < length xs)%nat.
+
+Definition Pos_to_fin {n} (x : positive) :
+  (Nat.pred (Pos.to_nat x) < n)%nat -> Fin.t n := Fin.of_nat_lt.
+
+Definition nth_pos_bounded {a} (xs : list a) (n : positive)
+           (H : within_bounds n xs) : a.
+Proof.
+  generalize dependent n.
+  induction xs; intros.
+    unfold within_bounds in H; simpl in H; omega.
+  destruct n using Pos.peano_rect.
+    exact a0.
+  clear IHn.
+  apply IHxs with (n:=n).
+  unfold within_bounds in *.
+  simpl in H.
+  rewrite Pos2Nat.inj_succ in H.
+  simpl in H.
+  apply lt_S_n.
+  rewrite Nat.succ_pred_pos; auto.
+  apply Pos2Nat.is_pos.
+Defined.
 
 Lemma Fin_eq_dec' : ∀ n (x y : Fin.t n), x = y \/ x ≠ y.
 Proof. intros; destruct (Fin.eq_dec x y); auto. Qed.
@@ -177,21 +236,6 @@ Proof.
     reflexivity.
   contradiction.
 Qed.
-
-Lemma Nat_eq_dec' : ∀ (x y : nat), x = y \/ x ≠ y.
-Proof. intros; destruct (Nat.eq_dec x y); auto. Qed.
-
-Lemma Nat_eq_dec_refl (x : nat) :
-  Nat.eq_dec x x = left (@eq_refl (nat) x).
-Proof.
-  destruct (Nat.eq_dec x x); [| contradiction].
-  refine (K_dec_on_type (nat) x (Nat_eq_dec' x)
-            (fun H => @left _ _ H = @left _ _ (@eq_refl (nat) x)) _ _); auto.
-Qed.
-
-Lemma Nat_eqb_refl (x : nat) : Nat.eqb x x = true.
-
-Proof. now apply Nat.eqb_eq. Qed.
 
 Fixpoint Fin_eqb_refl n (x : Fin.t n) : Fin.eqb x x = true :=
   match x with
@@ -212,6 +256,94 @@ Proof.
   f_equal.
   now apply IHx.
 Defined.
+
+Import EqNotations.
+
+Fixpoint nth_fin {a} (xs : list a) (n : Fin.t (length xs)) : a :=
+  match xs as xs' return length xs = length xs' -> a with
+  | nil => fun H => Fin.case0 _ (rew H in n)
+  | cons x xs' => fun H =>
+    match n in Fin.t n' return length xs = n' -> a with
+    | Fin.F1 => fun _ => x
+    | @Fin.FS n0 x => fun H0 =>
+        nth_fin
+          xs' (rew (eq_add_S n0 (length xs')
+                             (rew [fun n => n = S (length xs')] H0 in H)) in x)
+    end eq_refl
+  end eq_refl.
+
+Class Equality (A : Type) := {
+  Eq_eq := @eq A;
+  Eq_eq_refl x := eq_refl;
+
+  Eq_eqb : A -> A -> bool;
+  Eq_eqb_refl x : Eq_eqb x x = true;
+
+  Eq_eqb_eq x y : Eq_eqb x y = true -> x = y;
+
+  Eq_eq_decP (x y : A) : x = y \/ x <> y;
+  Eq_eq_dec  (x y : A) : { x = y } + { x ≠ y };
+
+  Eq_eq_dec_refl x : Eq_eq_dec x x = left (@Eq_eq_refl x)
+}.
+
+Program Instance pos_Eq : Equality positive := {
+  Eq_eqb         := Pos.eqb;
+  Eq_eqb_refl    := Pos_eqb_refl;
+
+  Eq_eqb_eq x y  := proj1 (Pos.eqb_eq x y);
+
+  Eq_eq_decP     := Pos_eq_dec';
+  Eq_eq_dec      := Pos.eq_dec;
+
+  Eq_eq_dec_refl := Pos_eq_dec_refl
+}.
+
+Ltac equalities' :=
+  match goal with
+  | [ H : (_ &&& _) = true |- _ ]      => rewrite <- andb_lazy_alt in H
+  | [ |- (_ &&& _) = true ]            => rewrite <- andb_lazy_alt
+  | [ H : (_ && _) = true |- _ ]       => apply andb_true_iff in H
+  | [ |- (_ && _) = true ]             => apply andb_true_iff; split
+  | [ H : _ /\ _ |- _ ]                => destruct H
+  | [ H : _ ∧ _ |- _ ]                 => destruct H
+  | [ H : ∃ _, _ |- _ ]                => destruct H
+
+  | [ H : context[Pos.eq_dec ?N ?M] |- _ ] =>
+    replace (Pos.eq_dec N M) with (Eq_eq_dec N M) in H
+  | [ |- context[Pos.eq_dec ?N ?M] ] =>
+    replace (Pos.eq_dec N M) with (Eq_eq_dec N M)
+  | [ H : context[(?N =? ?M)%positive] |- _ ] =>
+    replace ((N =? M)%positive) with (Eq_eqb N M) in H
+  | [ |- context[(?N =? ?M)%positive] ] =>
+    replace ((N =? M)%positive) with (Eq_eqb N M)
+
+  | [ |- Eq_eqb ?X ?X = true ]     => apply Eq_eqb_refl
+  | [ H : Eq_eqb _ _ = true |- _ ] => apply Eq_eqb_eq in H
+  | [ |- Eq_eqb _ _ = true ]       => apply Eq_eqb_eq
+
+  | [ H : context[match @Eq_eq_dec ?X ?X with _ => _ end] |- _ ] =>
+    rewrite (@Eq_eq_dec_refl X) in H
+  | [ |- context[match @Eq_eq_dec ?X ?X with _ => _ end] ] =>
+    rewrite (@Eq_eq_dec_refl X)
+  | [ H : context[match @Eq_eq_dec ?X ?Y with _ => _ end] |- _ ] =>
+    destruct (@Eq_eq_dec X Y); subst
+  | [ |- context[match Eq_eq_dec ?X ?Y with _ => _ end] ] =>
+    destruct (@Eq_eq_dec X Y); subst
+
+  | [ H : list_beq _ _ _ = true |- _ ] => apply list_beq_eq in H
+  | [ |- list_beq _ _ _ = true ]       => apply list_beq_eq
+  end.
+
+Ltac equalities :=
+  try equalities';
+  repeat (
+    equalities';
+    subst; simpl; auto;
+    try discriminate;
+    try tauto;
+    try intuition idtac;
+    subst; simpl; auto).
 
 Set Universe Polymorphism.
 
@@ -236,92 +368,40 @@ Qed.
 
 Unset Universe Polymorphism.
 
-Section Denotation.
+Section Representation.
 
-Import EqNotations.
-
-Fixpoint nth_fin {a} (xs : list a) (n : Fin.t (length xs)) : a :=
-  match xs as xs' return length xs = length xs' -> a with
-  | nil => fun H => Fin.case0 _ (rew H in n)
-  | cons x xs' => fun H =>
-    match n in Fin.t n' return length xs = n' -> a with
-    | Fin.F1 => fun _ => x
-    | @Fin.FS n0 x => fun H0 =>
-        nth_fin
-          xs' (rew (eq_add_S n0 (length xs')
-                             (rew [fun n => n = S (length xs')] H0 in H)) in x)
-    end eq_refl
-  end eq_refl.
-
-Record Vars : Type := {
-  vars_cat : Category;
-  vars_objs : list vars_cat;
-  vars_arrs :
-    list (∃ (dom cod : Fin.t (length vars_objs)),
-      nth_fin vars_objs dom ~{vars_cat}~> nth_fin vars_objs cod)
+Record MetaVars : Set := {
+  mvars_objs : positive;
+  mvars_arrs : list (positive * positive)
 }.
 
-Set Transparent Obligations.
+Definition cat_idx := positive.
 
-Program Definition Unused : Category := {|
-  obj     := unit : Type;
-  hom     := fun _ _ => True;
-  homset  := Morphism_equality;
-  id      := fun x => _;
-  compose := fun x y z f g => _
-|}.
-Next Obligation.
-  unfold Unused_obligation_1.
-  unfold Unused_obligation_2.
-  now destruct f.
-Defined.
+Variable c : cat_idx.
 
-Program Definition UnusedVars : Vars := {|
-  vars_cat  := Unused;
-  vars_objs := [tt];
-  vars_arrs := [ (@Fin.F1 0; (@Fin.F1 0; I)) ];
-|}.
+Record MetaEnv : Set := {
+  cats : list MetaVars;
 
-Record Environment := {
-  num_cats : nat;
+  mvars (c : cat_idx) :=
+    nth_pos cats c {| mvars_objs := 1; mvars_arrs := [] |};
 
-  _cat_idx := nat;
+  _obj_idx (c : cat_idx) := positive;
+  _arr_idx (c : cat_idx) := positive;
 
-  cats : list Vars;
+  arr_def  c (a : _arr_idx c) :=
+    nth_pos (mvars_arrs (mvars c)) a (1, 1)%positive;
 
-  get_cat  (c : _cat_idx) := vars_cat (nth c cats UnusedVars);
-
-  get_vars (c : _cat_idx) := nth c cats UnusedVars;
-
-  _obj_idx (c : _cat_idx) := Fin.t (length (vars_objs (get_vars c)));
-  _arr_idx (c : _cat_idx) := Fin.t (length (vars_arrs (get_vars c)));
-
-  get_obj_cat  c (o : _obj_idx c) := c;
-  get_obj      c (o : _obj_idx c) := nth_fin (vars_objs (get_vars c)) o;
-
-  get_arr_def  c (a : _arr_idx c) := nth_fin (vars_arrs (get_vars c)) a;
-
-  get_arr_cat  c (a : _arr_idx c) := c;
-  get_arr_dom  c (a : _arr_idx c) := `1 (get_arr_def c a);
-  get_arr_cod  c (a : _arr_idx c) := `1 `2 (get_arr_def c a);
-  get_arr      c (a : _arr_idx c) := `2 `2 (get_arr_def c a)
+  arr_dom  c (a : _arr_idx c) := fst (arr_def c a);
+  arr_cod  c (a : _arr_idx c) := snd (arr_def c a);
 }.
 
-Variable env : Environment.
-Variable c : _cat_idx env.
+Variable env : MetaEnv.
 
-Arguments num_cats {_}.
-Notation cat_idx := (_cat_idx env).
-Arguments cats {_}.
-Arguments get_cat {_} _.
 Notation obj_idx := (_obj_idx env c).
 Notation arr_idx := (_arr_idx env c).
-Arguments get_obj_cat {_ _} _.
-Arguments get_obj {_ _} _.
-Arguments get_arr_cat {_ _} _.
-Arguments get_arr_dom {_ _} _.
-Arguments get_arr_cod {_ _} _.
-Arguments get_arr {_ _} _.
+
+Arguments arr_dom {_ _} _.
+Arguments arr_cod {_ _} _.
 
 (* This describes the morphisms of a magmoid, which forms a quotient category
    under denotation. *)
@@ -340,26 +420,18 @@ Fixpoint TermCat (e : Term) : cat_idx :=
 Fixpoint TermDom (e : Term) : obj_idx :=
   match e with
   | Identity x  => x
-  | Morph x     => get_arr_dom x
+  | Morph x     => arr_dom x
   | Compose _ g => TermDom g
   end.
 
 Fixpoint TermCod (e : Term) : obj_idx :=
   match e with
   | Identity x  => x
-  | Morph x     => get_arr_cod x
+  | Morph x     => arr_cod x
   | Compose f _ => TermCod f
   end.
 
 Definition Arrow := arr_idx.
-
-Definition Arrow_beq (x y : Arrow) : bool := Fin.eqb x y.
-
-Definition Arrow_beq_eq (x y : Arrow) : Arrow_beq x y = true -> x = y :=
-  Fin_eqb_eq _ _ _.
-
-Definition Arrow_beq_refl (x : Arrow) : Arrow_beq x x = true :=
-  Fin_eqb_refl _ _.
 
 (* This describes the morphisms of a path, or free, category over a quiver of
    Arrows, while our environment describes a quiver (where vertices are all
@@ -375,38 +447,38 @@ Fixpoint ArrowList_beq (x y : ArrowList) {struct x} : bool :=
   match x with
   | IdentityOnly cod =>
       match y with
-      | IdentityOnly cod' => Fin.eqb cod cod'
+      | IdentityOnly cod' => Eq_eqb cod cod'
       | ArrowChain _ _ => false
       end
   | ArrowChain x x0 =>
       match y with
       | IdentityOnly _ => false
-      | ArrowChain x1 x2 => Arrow_beq x x1 &&& list_beq Arrow_beq x0 x2
+      | ArrowChain x1 x2 => Eq_eqb x x1 &&& list_beq Eq_eqb x0 x2
       end
   end.
 
 Definition ArrowList_cod (xs : ArrowList) : obj_idx :=
   match xs with
   | IdentityOnly x => x
-  | ArrowChain f _ => @get_arr_cod env c f
+  | ArrowChain f _ => @arr_cod env c f
   end.
 
 Definition ArrowList_dom (xs : ArrowList) : obj_idx :=
   match xs with
   | IdentityOnly x => x
-  | ArrowChain f xs => @get_arr_dom env c (last xs f)
+  | ArrowChain f xs => @arr_dom env c (last xs f)
   end.
 
 Inductive ForallAligned : list Arrow → Prop :=
     Align_nil : ForallAligned []
   | Align_singleton : ∀ (a : Arrow), ForallAligned [a]
   | Align_cons2 : ∀ (a b : Arrow) (l : list Arrow),
-      @get_arr_dom env c a = @get_arr_cod env c b ->
+      @arr_dom env c a = @arr_cod env c b ->
       ForallAligned (b :: l) → ForallAligned (a :: b :: l).
 
 Lemma ForallAligned_inv {x xs y} :
   ForallAligned (x :: y :: xs)
-    -> @get_arr_dom env c x = @get_arr_cod env c y /\
+    -> @arr_dom env c x = @arr_cod env c y /\
        ForallAligned (y :: xs).
 Proof.
   generalize dependent x.
@@ -418,7 +490,7 @@ Qed.
 Lemma ForallAligned_app {x xs y ys} :
   ForallAligned (x :: xs ++ y :: ys)
     <-> ForallAligned (x :: xs) /\ ForallAligned (y :: ys) /\
-        @get_arr_cod env c y = @get_arr_dom env c (last xs x).
+        @arr_cod env c y = @arr_dom env c (last xs x).
 Proof.
   generalize dependent x.
   generalize dependent y.
@@ -445,67 +517,11 @@ Definition ArrowList_well_typed dom cod (xs : ArrowList) : Prop :=
   match xs with
   | IdentityOnly x => x = dom /\ x = cod
   | ArrowChain f xs =>
-    @get_arr_cod env c f = cod /\
-    @get_arr_dom env c (last xs f) = dom /\
+    @arr_cod env c f = cod /\
+    @arr_dom env c (last xs f) = dom /\
     (* Ensure that it is a correctly type-aligned list *)
     ForallAligned (f :: xs)
   end.
-
-Ltac equalities :=
-  repeat (
-    match goal with
-    (* | [ H : context[match Pos.eq_dec ?N ?N with _ => _ end] |- _ ] => *)
-    (*   rewrite Neq_dec_refl in H *)
-    (* | [ |- context[match Pos.eq_dec ?N ?N with _ => _ end] ] => *)
-    (*   rewrite Neq_dec_refl *)
-    (* | [ H : context[match Pos.eq_dec ?N ?M with _ => _ end] |- _ ] => *)
-    (*   destruct (Pos.eq_dec N M); subst *)
-    (* | [ |- context[match Pos.eq_dec ?N ?M with _ => _ end] ] => *)
-    (*   destruct (Pos.eq_dec N M); subst *)
-    (* | [ |- context[if ?N =? ?N then _ else _] ] => *)
-    (*   rewrite Pos.eqb_refl *)
-    (* | [ |- context[if ?N =? ?M then _ else _] ] => *)
-    (*   let Heqe := fresh "Heqe" in *)
-    (*   destruct (N =? M) eqn:Heqe *)
-
-    | [ H : context[match @Fin.eq_dec ?N ?X ?X with _ => _ end] |- _ ] =>
-      rewrite (@Fin_eq_dec_refl N X) in H
-    | [ |- context[match @Fin.eq_dec ?N ?X ?X with _ => _ end] ] =>
-      rewrite (@Fin_eq_dec_refl N X)
-    | [ H : context[match @Fin.eq_dec ?N ?X ?Y with _ => _ end] |- _ ] =>
-      destruct (@Fin.eq_dec N X Y); subst
-    | [ |- context[match Fin.eq_dec ?N ?X ?Y with _ => _ end] ] =>
-      destruct (@Fin.eq_dec N X Y); subst
-
-    | [ H : (_ &&& _) = true |- _ ]          => rewrite <- andb_lazy_alt in H
-    | [ H : (_ && _) = true |- _ ]           => apply andb_true_iff in H;
-                                                destruct H
-    | [ H : _ /\ _ |- _ ]                    => destruct H
-    | [ H : _ ∧ _ |- _ ]                     => destruct H
-    | [ H : ∃ _, _ |- _ ]                    => destruct H
-
-    | [ |- context[Arrow_beq ?N ?N = true] ] => rewrite Arrow_beq_refl
-    | [ H : Arrow_beq _ _   = true |- _ ]    => apply Arrow_beq_eq in H
-    | [ |- Arrow_beq _ _    = true ]         => apply Arrow_beq_eq
-
-    | [ H : list_beq _ _ _   = true |- _ ]   => apply list_beq_eq in H
-    | [ |- list_beq _ _ _    = true ]        => apply list_beq_eq
-
-    | [ H : Fin.eqb _ _   = true |- _ ]      => apply Fin.eqb_eq in H
-    | [ |- Fin.eqb _ _    = true ]           => apply Fin.eqb_eq
-
-    (* | [ H : (_ =? _) = true |- _ ]           => apply Pos.eqb_eq in H *)
-    (* | [ |- (_ =? _) = true ]                 => apply Pos.eqb_eq *)
-    (* | [ H : (_ =? _) = false |- _ ]          => apply Pos.eqb_neq in H *)
-    (* | [ |- (_ =? _) = false ]                => apply Pos.eqb_neq *)
-    end;
-    subst; simpl; auto;
-    simpl TermCat in *;
-    simpl TermDom in *;
-    simpl TermCod in *;
-    try discriminate;
-    try tauto;
-    try intuition idtac).
 
 Corollary ArrowList_well_typed_dom {f dom cod } :
   ArrowList_well_typed dom cod f -> ArrowList_dom f = dom.
@@ -533,19 +549,13 @@ Lemma ArrowList_beq_eq x y :
 Proof.
   generalize dependent y.
   induction x using ArrowList_list_rect;
-  destruct y; simpl; split; intros; try discriminate.
-  - equalities.
-  - inversion_clear H.
-    equalities.
-  - equalities.
-    destruct l; congruence.
-  - inversion_clear H.
-    now rewrite Arrow_beq_refl.
-  - equalities.
-    destruct l0; equalities; intuition.
-  - inversion_clear H.
-    rewrite !Arrow_beq_refl, list_beq_refl; auto; intros.
-    apply Arrow_beq_refl.
+  destruct y; simpl; split; intros;
+  try discriminate; equalities;
+  try inversion_clear H;
+  equalities; auto; equalities.
+  - destruct l; congruence.
+  - destruct l0; equalities; intuition.
+  - rewrite list_beq_refl; auto; intros; equalities.
 Qed.
 
 Definition ListOfArrows_rect : ∀ (P : Arrow -> list Arrow → Type),
@@ -627,10 +637,23 @@ Proof.
 Qed.
 
 (* A term is valid constructed if composition composes compatible types. *)
+
+(*
+Inductive Term_well_typed' dom cod : Term -> Prop :=
+  | Identity_wt x : x = dom -> x = cod
+      -> Term_well_typed' dom cod (Identity x)
+  | Morph_wt f : arr_dom f = dom -> arr_cod f = cod
+      -> Term_well_typed' dom cod (Morph f)
+  | Compose_wt f g : TermCod g = TermDom f
+      -> Term_well_typed' (TermCod g) cod f
+      -> Term_well_typed' dom (TermCod g) g
+      -> Term_well_typed' dom cod (Compose f g).
+*)
+
 Fixpoint Term_well_typed dom cod (e : Term) : Prop :=
   match e with
   | Identity x => x = dom /\ x = cod
-  | Morph f => get_arr_dom f = dom /\ get_arr_cod f = cod
+  | Morph f => arr_dom f = dom /\ arr_cod f = cod
   | Compose f g =>
     TermCod g = TermDom f /\
     Term_well_typed (TermCod g) cod f /\
@@ -639,10 +662,10 @@ Fixpoint Term_well_typed dom cod (e : Term) : Prop :=
 
 Fixpoint Term_well_typed_bool dom cod (e : Term) : bool :=
   match e with
-  | Identity x => (Fin.eqb x dom) &&& (Fin.eqb x cod)
-  | Morph f => (Fin.eqb (get_arr_dom f) dom) &&& (Fin.eqb (get_arr_cod f) cod)
+  | Identity x => (Eq_eqb x dom) &&& (Eq_eqb x cod)
+  | Morph f => (Eq_eqb (arr_dom f) dom) &&& (Eq_eqb (arr_cod f) cod)
   | Compose f g =>
-    (Fin.eqb (TermCod g) (TermDom f)) &&&
+    (Eq_eqb (TermCod g) (TermDom f)) &&&
     Term_well_typed_bool (TermCod g) cod f &&&
     Term_well_typed_bool dom (TermCod g) g
   end.
@@ -652,15 +675,9 @@ Lemma Term_well_typed_bool_sound dom cod e :
 Proof.
   generalize dependent dom.
   generalize dependent cod.
-  induction e; simpl;
-  intuition; subst; equalities;
-  try rewrite !Fin_eqb_refl; auto.
-  - apply IHe1; auto.
-  - apply IHe2; auto.
-  - apply IHe1 in H.
-    apply IHe2 in H2.
-    rewrite !H0 in *.
-    rewrite Fin_eqb_refl, H, H2; reflexivity.
+  induction e; simpl; intros; repeat equalities.
+  split; intros; equalities; firstorder auto.
+  rewrite H0; equalities.
 Qed.
 
 Corollary Term_well_typed_dom {f dom cod } :
@@ -858,7 +875,7 @@ Proof.
   generalize dependent dom.
   induction l using rev_ind; intros; auto.
   rewrite <- ArrowList_append_chains at 2.
-  - rewrite <- (IHl (@get_arr_cod env c x)); clear IHl.
+  - rewrite <- (IHl (@arr_cod env c x)); clear IHl.
     + simpl.
       now rewrite map_app, fold_left_app.
     + simpl in H |- *;
@@ -882,7 +899,7 @@ Proof.
   induction l using rev_ind; intros.
     simpl in *; intuition.
   assert (ArrowList_well_typed
-            (@get_arr_cod env c x) cod (ArrowChain a l)). {
+            (@arr_cod env c x) cod (ArrowChain a l)). {
     clear IHl.
     simpl in *; equalities.
     - rewrite app_comm_cons in H1.
@@ -890,25 +907,20 @@ Proof.
     - rewrite app_comm_cons in H1.
       now apply ForallAligned_app in H1.
   }
-  rewrite <- ArrowList_append_chains.
-  - specialize (IHl (get_arr_cod x) a H0).
-    simpl in *.
-    equalities.
-    rewrite last_app_cons in H1; simpl in H1.
-    rewrite app_comm_cons in H4.
-    apply ForallAligned_app in H4.
-    equalities.
-    clear H0.
-    rewrite map_app, fold_left_app.
-    simpl.
-    rewrite H5.
-    intuition; subst.
-    + clear -H.
-      induction l using rev_ind; simpl; auto.
-      rewrite map_app, fold_left_app; simpl.
-      now rewrite last_rcons in *.
-    + now rewrite H5 in IHl.
-  - simpl in *; intuition.
+  rewrite <- ArrowList_append_chains by (simpl in *; intuition).
+  specialize (IHl (arr_cod x) a H0).
+  simpl in *; equalities.
+  rewrite app_comm_cons in H4.
+  apply ForallAligned_app in H4; equalities.
+  rewrite map_app, fold_left_app; simpl.
+  rewrite H4.
+  intuition; subst.
+  - clear -H.
+    induction l using rev_ind; simpl; auto.
+    rewrite map_app, fold_left_app; simpl.
+    now rewrite last_rcons in *.
+  - now rewrite H4 in IHl.
+  - now rewrite last_rcons.
 Qed.
 
 Program Instance ArrowList_to_Term :
@@ -929,8 +941,142 @@ Next Obligation.
   eapply ArrowList_append_well_typed; eauto.
 Qed.
 
-Fixpoint denote' (e : Term) :
-  option (get_obj (TermDom e) ~{ get_cat c }~> get_obj (TermCod e)).
+End Representation.
+
+Section Denotation.
+
+Set Transparent Obligations.
+
+Record Vars : Type := {
+  vars_cat  : Category;
+  vars_objs : list vars_cat;
+  vars_arrs : list (∃ (dom cod : Fin.t (length vars_objs)),
+    nth_fin vars_objs dom ~{vars_cat}~> nth_fin vars_objs cod);
+}.
+
+Program Definition Unused : Category := {|
+  obj     := unit : Type;
+  hom     := fun _ _ => True;
+  homset  := Morphism_equality;
+  id      := fun x => _;
+  compose := fun x y z f g => _
+|}.
+Next Obligation.
+  unfold Unused_obligation_1.
+  unfold Unused_obligation_2.
+  now destruct f.
+Defined.
+
+Program Definition UnusedVars : Vars := {|
+  (* vars_mvars := {| mvars_objs := 1 *)
+  (*                ; mvars_arrs := [ (@Fin.F1 0, @Fin.F1 0) ] |}; *)
+  vars_cat   := Unused;
+  vars_objs  := [tt];
+  vars_arrs  := [ (@Fin.F1 0; (@Fin.F1 0; I)) ];
+|}.
+(* Next Obligation. *)
+(*   unfold UnusedVars_obligation_1. *)
+(*   apply Fin.caseS' with (p:=i); simpl; auto. *)
+(*   inversion p. *)
+(* Qed. *)
+(* Next Obligation. *)
+(*   unfold UnusedVars_obligation_1. *)
+(*   apply Fin.caseS' with (p:=i); simpl; auto. *)
+(*   inversion p. *)
+(* Qed. *)
+
+Record Environment := {
+  meta : MetaEnv;
+
+  _cat_i := positive;
+
+  vars : list Vars;
+
+  get_cat  (c : _cat_i) := vars_cat (nth_pos vars c UnusedVars);
+  get_vars (c : _cat_i) := nth_pos vars c UnusedVars;
+
+  _obj_i (c : _cat_i) := Fin.t (length (vars_objs (get_vars c)));
+
+  get_obj_cat  c (o : _obj_i c) := c;
+  get_obj      c (o : _obj_i c) := nth_fin (vars_objs (get_vars c)) o;
+
+  _arr_i (c : _cat_i) := Fin.t (length (vars_arrs (get_vars c)));
+
+  get_arr_def  c (a : _arr_i c) := nth_fin (vars_arrs (get_vars c)) a;
+
+  get_arr_cat  c (a : _arr_i c) := c;
+  get_arr_dom  c (a : _arr_i c) := `1 (get_arr_def c a);
+  get_arr_cod  c (a : _arr_i c) := `1 `2 (get_arr_def c a);
+  get_arr      c (a : _arr_i c) := `2 `2 (get_arr_def c a)
+}.
+
+Variable env : Environment.
+
+Notation cat_idx := positive.
+
+Inductive WellTyped {c : positive} {m : MetaEnv} dom cod : Term c m -> Type :=
+  | Identity_wt x :
+      Term_well_typed c m dom cod (Identity c m x) ->
+      within_bounds x (vars_objs (get_vars env c)) ->
+        WellTyped dom cod (Identity c m x)
+
+  | Morph_wt f
+      (Hf : within_bounds f (vars_arrs (get_vars env c)))
+      (Hd : within_bounds (arr_dom m c f) (vars_objs (get_vars env c)))
+      (Hc : within_bounds (arr_cod m c f) (vars_objs (get_vars env c))) :
+      Term_well_typed c m dom cod (Morph c m f) ->
+      Pos_to_fin (arr_dom m c f) Hd = get_arr_dom env c (Pos_to_fin f Hf) ->
+      Pos_to_fin (arr_cod m c f) Hc = get_arr_cod env c (Pos_to_fin f Hf) ->
+       WellTyped dom cod (Morph c m f)
+
+  | Compose_wt f g :
+      Term_well_typed c m dom cod (Compose c m f g) ->
+      WellTyped (TermCod c m g) cod f ->
+      WellTyped dom (TermCod c m g) g ->
+        WellTyped dom cod (Compose c m f g).
+
+Variable c : cat_idx.
+
+Arguments get_cat {_} _.
+Arguments get_obj_cat {_ _} _.
+Arguments get_obj {_ _} _.
+Arguments get_arr_cat {_ _} _.
+Arguments get_arr_dom {_ _} _.
+Arguments get_arr_cod {_ _} _.
+Arguments get_arr {_ _} _.
+
+Notation Term    := (Term    c (meta env)).
+Notation TermDom := (TermDom c (meta env)).
+Notation TermCod := (TermCod c (meta env)).
+
+Definition getTermDom `(w : @WellTyped c (meta_env env) dom' cod' e) :
+  _obj_i env c.
+Proof.
+  generalize dependent cod'.
+  generalize dependent dom'.
+  induction e; intros; inversion w; simpl in H0; subst.
+  - apply Pos_to_fin with (x:=o).
+    apply H1.
+  - apply Pos_to_fin with (x:=arr_dom (meta_env env) c a).
+    apply Hd.
+  - apply (IHe2 _ _ H3).
+Defined.
+
+Definition getTermCod `(w : @WellTyped c (meta_env env) dom' cod' e) :
+  _obj_i env c.
+Proof.
+  generalize dependent cod'.
+  generalize dependent dom'.
+  induction e; intros; inversion w; simpl in H0; subst.
+  - apply Pos_to_fin with (x:=o).
+    apply H1.
+  - apply Pos_to_fin with (x:=arr_cod (meta_env env) c a).
+    apply Hc.
+  - apply (IHe1 _ _ H2).
+Defined.
+
+Fixpoint denote' `(w : @WellTyped c (meta_env env) dom' cod' e) :
+  option (get_obj dom' ~{ get_cat c }~> get_obj (getTermCod w)).
 Proof.
   destruct e as [o|a|f g].
   - (* destruct (Nat.eq_dec o dom); [|exact None]. *)
@@ -938,7 +1084,9 @@ Proof.
     subst; exact (Some id).
   - (* destruct (Nat.eq_dec (get_arr_dom a) dom); [|exact None]. *)
     (* destruct (Nat.eq_dec (get_arr_cod a) cod); [|exact None]. *)
-    subst; exact (Some (get_arr a)).
+    inversion w; subst.
+    pose (get_arr (Pos_to_fin (n:=length (vars_arrs (get_vars env c))) a Hf)).
+    subst; exact (Some h).
   - destruct (denote' f); [|exact None].
     destruct (denote' g); [|exact None].
     destruct (Fin.eq_dec (TermCod g) (TermDom f)); [|exact None].
@@ -1018,7 +1166,7 @@ Proof.
 Qed.
 
 Program Definition TermDef_Category : Category := {|
-  obj := obj_idx;
+  obj := obj_i;
   hom := fun x y => ∃ l : Term, Term_well_defined x y l;
   homset := fun x y => {| equiv := fun f g =>
     normalize (`1 f) = normalize (`1 g) |};
@@ -1136,7 +1284,7 @@ Proof.
     try discriminate.
     exists _, (get_arr x0), h.
     inversion_clear H.
-    rewrite Fin_eq_dec_refl; simpl.
+    rewrite Eq_eq_dec_refl; simpl.
     intuition.
     pose proof (normalize_denote_chain_cod _ _ _ _ _ Heqo); auto.
   - equalities.
@@ -1701,7 +1849,7 @@ Hint Resolve denormalize_well_typed.
 
    Since the objects of both categories are the same, the monad this gives
    rise to is uninteresting. *)
-Program Instance Term_ArrowList_Adjunction (env : Environment) (c : _cat_idx env) :
+Program Instance Term_ArrowList_Adjunction (env : Environment) (c : _cat_i env) :
   ArrowList_to_Term env c ⊣ Term_to_ArrowList env c := {
   adj := fun x y =>
     {| to   := {| morphism := fun f => (normalize env c (_ f); _) |}
