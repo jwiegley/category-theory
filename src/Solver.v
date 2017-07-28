@@ -178,9 +178,6 @@ Proof.
   contradiction.
 Qed.
 
-Lemma Fin_eqb_refl n (x : Fin.t n) : Fin.eqb x x = true.
-Proof. now apply Fin.eqb_eq. Qed.
-
 Lemma Nat_eq_dec' : ∀ (x y : nat), x = y \/ x ≠ y.
 Proof. intros; destruct (Nat.eq_dec x y); auto. Qed.
 
@@ -193,7 +190,28 @@ Proof.
 Qed.
 
 Lemma Nat_eqb_refl (x : nat) : Nat.eqb x x = true.
+
 Proof. now apply Nat.eqb_eq. Qed.
+
+Fixpoint Fin_eqb_refl n (x : Fin.t n) : Fin.eqb x x = true :=
+  match x with
+  | @Fin.F1 m'    => Nat_eqb_refl m'
+  | @Fin.FS n0 p' => Fin_eqb_refl n0 _
+  end.
+
+Lemma Fin_eqb_eq n (x y : Fin.t n) (H : Fin.eqb x y = true) : x = y.
+Proof.
+  induction x.
+    revert H.
+    apply Fin.caseS with (p:=y); intros; eauto.
+    simpl in H; discriminate.
+  revert H.
+  apply Fin.caseS' with (p:=y); intros; eauto.
+    simpl in H; discriminate.
+  simpl in H.
+  f_equal.
+  now apply IHx.
+Defined.
 
 Set Universe Polymorphism.
 
@@ -337,11 +355,11 @@ Definition Arrow := arr_idx.
 
 Definition Arrow_beq (x y : Arrow) : bool := Fin.eqb x y.
 
-Lemma Arrow_beq_eq (x y : Arrow) : Arrow_beq x y = true -> x = y.
-Proof. intros; now apply Fin.eqb_eq. Qed.
+Definition Arrow_beq_eq (x y : Arrow) : Arrow_beq x y = true -> x = y :=
+  Fin_eqb_eq _ _ _.
 
-Lemma Arrow_beq_refl (x : Arrow) : Arrow_beq x x = true.
-Proof. intros; now apply Fin.eqb_eq. Qed.
+Definition Arrow_beq_refl (x : Arrow) : Arrow_beq x x = true :=
+  Fin_eqb_refl _ _.
 
 (* This describes the morphisms of a path, or free, category over a quiver of
    Arrows, while our environment describes a quiver (where vertices are all
