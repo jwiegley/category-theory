@@ -370,38 +370,16 @@ Unset Universe Polymorphism.
 
 Section Representation.
 
-Record MetaVars : Set := {
-  mvars_objs : positive;
-  mvars_arrs : list (positive * positive)
-}.
-
 Definition cat_idx := positive.
+Definition obj_idx := positive.
+Definition arr_idx := positive.
+
+Variable arr_def : arr_idx -> obj_idx * obj_idx.
+
+Definition arr_dom (f : arr_idx) := fst (arr_def f).
+Definition arr_cod (f : arr_idx) := snd (arr_def f).
 
 Variable c : cat_idx.
-
-Record MetaEnv : Set := {
-  cats : list MetaVars;
-
-  mvars (c : cat_idx) :=
-    nth_pos cats c {| mvars_objs := 1; mvars_arrs := [] |};
-
-  _obj_idx (c : cat_idx) := positive;
-  _arr_idx (c : cat_idx) := positive;
-
-  arr_def  c (a : _arr_idx c) :=
-    nth_pos (mvars_arrs (mvars c)) a (1, 1)%positive;
-
-  arr_dom  c (a : _arr_idx c) := fst (arr_def c a);
-  arr_cod  c (a : _arr_idx c) := snd (arr_def c a);
-}.
-
-Variable env : MetaEnv.
-
-Notation obj_idx := (_obj_idx env c).
-Notation arr_idx := (_arr_idx env c).
-
-Arguments arr_dom {_ _} _.
-Arguments arr_cod {_ _} _.
 
 (* This describes the morphisms of a magmoid, which forms a quotient category
    under denotation. *)
@@ -409,13 +387,6 @@ Inductive Term : Set :=
   | Identity (o : obj_idx)
   | Morph    (a : arr_idx)
   | Compose  (f g : Term).
-
-Fixpoint TermCat (e : Term) : cat_idx :=
-  match e with
-  | Identity  _ => c
-  | Morph _     => c
-  | Compose f _ => TermCat f
-  end.
 
 Fixpoint TermDom (e : Term) : obj_idx :=
   match e with
@@ -460,25 +431,25 @@ Fixpoint ArrowList_beq (x y : ArrowList) {struct x} : bool :=
 Definition ArrowList_cod (xs : ArrowList) : obj_idx :=
   match xs with
   | IdentityOnly x => x
-  | ArrowChain f _ => @arr_cod env c f
+  | ArrowChain f _ => arr_cod f
   end.
 
 Definition ArrowList_dom (xs : ArrowList) : obj_idx :=
   match xs with
   | IdentityOnly x => x
-  | ArrowChain f xs => @arr_dom env c (last xs f)
+  | ArrowChain f xs => arr_dom (last xs f)
   end.
 
 Inductive ForallAligned : list Arrow → Prop :=
     Align_nil : ForallAligned []
   | Align_singleton : ∀ (a : Arrow), ForallAligned [a]
   | Align_cons2 : ∀ (a b : Arrow) (l : list Arrow),
-      @arr_dom env c a = @arr_cod env c b ->
+      arr_dom a = arr_cod b ->
       ForallAligned (b :: l) → ForallAligned (a :: b :: l).
 
 Lemma ForallAligned_inv {x xs y} :
   ForallAligned (x :: y :: xs)
-    -> @arr_dom env c x = @arr_cod env c y /\
+    -> arr_dom x = arr_cod y /\
        ForallAligned (y :: xs).
 Proof.
   generalize dependent x.
@@ -490,7 +461,7 @@ Qed.
 Lemma ForallAligned_app {x xs y ys} :
   ForallAligned (x :: xs ++ y :: ys)
     <-> ForallAligned (x :: xs) /\ ForallAligned (y :: ys) /\
-        @arr_cod env c y = @arr_dom env c (last xs x).
+        arr_cod y = arr_dom (last xs x).
 Proof.
   generalize dependent x.
   generalize dependent y.
@@ -517,8 +488,8 @@ Definition ArrowList_well_typed dom cod (xs : ArrowList) : Prop :=
   match xs with
   | IdentityOnly x => x = dom /\ x = cod
   | ArrowChain f xs =>
-    @arr_cod env c f = cod /\
-    @arr_dom env c (last xs f) = dom /\
+    arr_cod f = cod /\
+    arr_dom (last xs f) = dom /\
     (* Ensure that it is a correctly type-aligned list *)
     ForallAligned (f :: xs)
   end.
@@ -875,7 +846,7 @@ Proof.
   generalize dependent dom.
   induction l using rev_ind; intros; auto.
   rewrite <- ArrowList_append_chains at 2.
-  - rewrite <- (IHl (@arr_cod env c x)); clear IHl.
+  - rewrite <- (IHl (arr_cod x)); clear IHl.
     + simpl.
       now rewrite map_app, fold_left_app.
     + simpl in H |- *;
@@ -899,7 +870,7 @@ Proof.
   induction l using rev_ind; intros.
     simpl in *; intuition.
   assert (ArrowList_well_typed
-            (@arr_cod env c x) cod (ArrowChain a l)). {
+            (arr_cod x) cod (ArrowChain a l)). {
     clear IHl.
     simpl in *; equalities.
     - rewrite app_comm_cons in H1.
