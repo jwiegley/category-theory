@@ -1584,9 +1584,7 @@ Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y) (g : y ~> x),
   g ≈ g -> f ≈ f.
 Proof.
   intros.
-  revert X.
-  find_vars.
-  compute [Pos.succ] in p0.
+  revert X; find_vars; compute [Pos.succ] in p0.
 Abort.
 
 Definition term_wrapper {A : Type} (x : A) : A := x.
@@ -1660,6 +1658,9 @@ Ltac normalize :=
         clear H H1;
         cbv beta iota zeta delta
           [ normalize normalize_denote normalize_denote_chain
+            convert_arr arr_dom arr_cod fst snd Pos.succ app
+            Pos.eq_dec positive_rec positive_rect Pos.eqb
+            Eq_eq_dec Pos_Eq prod_rect
             ArrowList_append TermDom TermCod sumbool_rec sumbool_rect
             eq_rect eq_ind_r eq_ind eq_sym ] in N;
         red in N;
@@ -1691,7 +1692,8 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  categorical.
+  Time normalize.               (* 0.315s *)
+  Time categorical.             (* 0.45s *)
 Qed.
 
 Print Assumptions sample_2.
