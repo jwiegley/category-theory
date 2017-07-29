@@ -287,7 +287,7 @@ Class Equality (A : Type) := {
   Eq_eq_dec_refl x : Eq_eq_dec x x = left (@Eq_eq_refl x)
 }.
 
-Program Instance pos_Eq : Equality positive := {
+Program Instance Pos_Eq : Equality positive := {
   Eq_eqb         := Pos.eqb;
   Eq_eqb_refl    := Pos_eqb_refl;
 
@@ -297,6 +297,18 @@ Program Instance pos_Eq : Equality positive := {
   Eq_eq_dec      := Pos.eq_dec;
 
   Eq_eq_dec_refl := Pos_eq_dec_refl
+}.
+
+Program Instance Fin_Eq (n : nat) : Equality (Fin.t n) := {
+  Eq_eqb         := Fin.eqb;
+  Eq_eqb_refl    := Fin_eqb_refl n;
+
+  Eq_eqb_eq x y  := proj1 (Fin.eqb_eq n x y);
+
+  Eq_eq_decP     := Fin_eq_dec' n;
+  Eq_eq_dec      := Fin.eq_dec;
+
+  Eq_eq_dec_refl := Fin_eq_dec_refl n
 }.
 
 Ltac equalities' :=
@@ -318,18 +330,27 @@ Ltac equalities' :=
   | [ |- context[(?N =? ?M)%positive] ] =>
     replace ((N =? M)%positive) with (Eq_eqb N M)
 
+  | [ H : context[@Fin.eq_dec ?N ?X ?Y] |- _ ] =>
+    replace (@Fin.eq_dec N X Y) with (Eq_eq_dec X Y) in H
+  | [ |- context[Fin.eq_dec ?N ?X ?Y] ] =>
+    replace (@Fin.eq_dec N X Y) with (Eq_eq_dec X Y)
+  | [ H : context[@Fin.eqb ?N ?X ?Y] |- _ ] =>
+    replace (@Fin.eqb ?N ?X ?Y) with (Eq_eqb X Y) in H
+  | [ |- context[@Fin.eqb ?N ?X ?Y] ] =>
+    replace (@Fin.eqb ?N ?X ?Y) with (Eq_eqb X Y)
+
   | [ |- Eq_eqb ?X ?X = true ]     => apply Eq_eqb_refl
   | [ H : Eq_eqb _ _ = true |- _ ] => apply Eq_eqb_eq in H
   | [ |- Eq_eqb _ _ = true ]       => apply Eq_eqb_eq
 
-  | [ H : context[match @Eq_eq_dec ?X ?X with _ => _ end] |- _ ] =>
-    rewrite (@Eq_eq_dec_refl X) in H
-  | [ |- context[match @Eq_eq_dec ?X ?X with _ => _ end] ] =>
-    rewrite (@Eq_eq_dec_refl X)
-  | [ H : context[match @Eq_eq_dec ?X ?Y with _ => _ end] |- _ ] =>
-    destruct (@Eq_eq_dec X Y); subst
+  | [ H : context[match Eq_eq_dec ?X ?X with _ => _ end] |- _ ] =>
+    rewrite (Eq_eq_dec_refl X) in H
+  | [ |- context[match Eq_eq_dec ?X ?X with _ => _ end] ] =>
+    rewrite (Eq_eq_dec_refl X)
+  | [ H : context[match Eq_eq_dec ?X ?Y with _ => _ end] |- _ ] =>
+    destruct (Eq_eq_dec X Y); subst
   | [ |- context[match Eq_eq_dec ?X ?Y with _ => _ end] ] =>
-    destruct (@Eq_eq_dec X Y); subst
+    destruct (Eq_eq_dec X Y); subst
 
   | [ H : list_beq _ _ _ = true |- _ ] => apply list_beq_eq in H
   | [ |- list_beq _ _ _ = true ]       => apply list_beq_eq
@@ -374,12 +395,10 @@ Definition cat_idx := positive.
 Definition obj_idx := positive.
 Definition arr_idx := positive.
 
-Variable arr_def : arr_idx -> obj_idx * obj_idx.
+Variable arr_def : arr_idx -> (obj_idx * obj_idx).
 
-Definition arr_dom (f : arr_idx) := fst (arr_def f).
-Definition arr_cod (f : arr_idx) := snd (arr_def f).
-
-Variable c : cat_idx.
+Definition arr_dom (f : arr_idx) : obj_idx := fst (arr_def f).
+Definition arr_cod (f : arr_idx) : obj_idx := snd (arr_def f).
 
 (* This describes the morphisms of a magmoid, which forms a quotient category
    under denotation. *)
@@ -918,194 +937,62 @@ Section Denotation.
 
 Set Transparent Obligations.
 
-Record Vars : Type := {
-  vars_cat  : Category;
-  vars_objs : list vars_cat;
-  vars_arrs : list (∃ (dom cod : Fin.t (length vars_objs)),
-    nth_fin vars_objs dom ~{vars_cat}~> nth_fin vars_objs cod);
-}.
+Context (C : Category).
 
-Program Definition Unused : Category := {|
-  obj     := unit : Type;
-  hom     := fun _ _ => True;
-  homset  := Morphism_equality;
-  id      := fun x => _;
-  compose := fun x y z f g => _
-|}.
-Next Obligation.
-  unfold Unused_obligation_1.
-  unfold Unused_obligation_2.
-  now destruct f.
-Defined.
+Variable objs : obj_idx -> C.
+Variable arrs : arr_idx -> (obj_idx * obj_idx).
 
-Program Definition UnusedVars : Vars := {|
-  (* vars_mvars := {| mvars_objs := 1 *)
-  (*                ; mvars_arrs := [ (@Fin.F1 0, @Fin.F1 0) ] |}; *)
-  vars_cat   := Unused;
-  vars_objs  := [tt];
-  vars_arrs  := [ (@Fin.F1 0; (@Fin.F1 0; I)) ];
-|}.
-(* Next Obligation. *)
-(*   unfold UnusedVars_obligation_1. *)
-(*   apply Fin.caseS' with (p:=i); simpl; auto. *)
-(*   inversion p. *)
-(* Qed. *)
-(* Next Obligation. *)
-(*   unfold UnusedVars_obligation_1. *)
-(*   apply Fin.caseS' with (p:=i); simpl; auto. *)
-(*   inversion p. *)
-(* Qed. *)
+Definition get_arr_dom (f : arr_idx) := objs (arr_dom arrs f).
+Definition get_arr_cod (f : arr_idx) := objs (arr_cod arrs f).
 
-Record Environment := {
-  meta : MetaEnv;
+Variable get_arr : ∀ f : arr_idx,
+  option (∃ x y, (arr_dom arrs f = x) ∧
+                 (arr_cod arrs f = y) ∧ (objs x ~{C}~> objs y)).
 
-  _cat_i := positive;
-
-  vars : list Vars;
-
-  get_cat  (c : _cat_i) := vars_cat (nth_pos vars c UnusedVars);
-  get_vars (c : _cat_i) := nth_pos vars c UnusedVars;
-
-  _obj_i (c : _cat_i) := Fin.t (length (vars_objs (get_vars c)));
-
-  get_obj_cat  c (o : _obj_i c) := c;
-  get_obj      c (o : _obj_i c) := nth_fin (vars_objs (get_vars c)) o;
-
-  _arr_i (c : _cat_i) := Fin.t (length (vars_arrs (get_vars c)));
-
-  get_arr_def  c (a : _arr_i c) := nth_fin (vars_arrs (get_vars c)) a;
-
-  get_arr_cat  c (a : _arr_i c) := c;
-  get_arr_dom  c (a : _arr_i c) := `1 (get_arr_def c a);
-  get_arr_cod  c (a : _arr_i c) := `1 `2 (get_arr_def c a);
-  get_arr      c (a : _arr_i c) := `2 `2 (get_arr_def c a)
-}.
-
-Variable env : Environment.
-
-Notation cat_idx := positive.
-
-Inductive WellTyped {c : positive} {m : MetaEnv} dom cod : Term c m -> Type :=
-  | Identity_wt x :
-      Term_well_typed c m dom cod (Identity c m x) ->
-      within_bounds x (vars_objs (get_vars env c)) ->
-        WellTyped dom cod (Identity c m x)
-
-  | Morph_wt f
-      (Hf : within_bounds f (vars_arrs (get_vars env c)))
-      (Hd : within_bounds (arr_dom m c f) (vars_objs (get_vars env c)))
-      (Hc : within_bounds (arr_cod m c f) (vars_objs (get_vars env c))) :
-      Term_well_typed c m dom cod (Morph c m f) ->
-      Pos_to_fin (arr_dom m c f) Hd = get_arr_dom env c (Pos_to_fin f Hf) ->
-      Pos_to_fin (arr_cod m c f) Hc = get_arr_cod env c (Pos_to_fin f Hf) ->
-       WellTyped dom cod (Morph c m f)
-
-  | Compose_wt f g :
-      Term_well_typed c m dom cod (Compose c m f g) ->
-      WellTyped (TermCod c m g) cod f ->
-      WellTyped dom (TermCod c m g) g ->
-        WellTyped dom cod (Compose c m f g).
-
-Variable c : cat_idx.
-
-Arguments get_cat {_} _.
-Arguments get_obj_cat {_ _} _.
-Arguments get_obj {_ _} _.
-Arguments get_arr_cat {_ _} _.
-Arguments get_arr_dom {_ _} _.
-Arguments get_arr_cod {_ _} _.
-Arguments get_arr {_ _} _.
-
-Notation Term    := (Term    c (meta env)).
-Notation TermDom := (TermDom c (meta env)).
-Notation TermCod := (TermCod c (meta env)).
-
-Definition getTermDom `(w : @WellTyped c (meta_env env) dom' cod' e) :
-  _obj_i env c.
-Proof.
-  generalize dependent cod'.
-  generalize dependent dom'.
-  induction e; intros; inversion w; simpl in H0; subst.
-  - apply Pos_to_fin with (x:=o).
-    apply H1.
-  - apply Pos_to_fin with (x:=arr_dom (meta_env env) c a).
-    apply Hd.
-  - apply (IHe2 _ _ H3).
-Defined.
-
-Definition getTermCod `(w : @WellTyped c (meta_env env) dom' cod' e) :
-  _obj_i env c.
-Proof.
-  generalize dependent cod'.
-  generalize dependent dom'.
-  induction e; intros; inversion w; simpl in H0; subst.
-  - apply Pos_to_fin with (x:=o).
-    apply H1.
-  - apply Pos_to_fin with (x:=arr_cod (meta_env env) c a).
-    apply Hc.
-  - apply (IHe1 _ _ H2).
-Defined.
-
-Fixpoint denote' `(w : @WellTyped c (meta_env env) dom' cod' e) :
-  option (get_obj dom' ~{ get_cat c }~> get_obj (getTermCod w)).
+Fixpoint denote dom cod (e : Term) : option (objs dom ~{C}~> objs cod).
 Proof.
   destruct e as [o|a|f g].
-  - (* destruct (Nat.eq_dec o dom); [|exact None]. *)
-    (* destruct (Nat.eq_dec o cod); [|exact None]. *)
+  - destruct (Eq_eq_dec o dom); [|exact None].
+    destruct (Eq_eq_dec o cod); [|exact None].
     subst; exact (Some id).
-  - (* destruct (Nat.eq_dec (get_arr_dom a) dom); [|exact None]. *)
-    (* destruct (Nat.eq_dec (get_arr_cod a) cod); [|exact None]. *)
-    inversion w; subst.
-    pose (get_arr (Pos_to_fin (n:=length (vars_arrs (get_vars env c))) a Hf)).
+  - destruct (get_arr a); [|exact None].
+    destruct s, s.
+    equalities.
+    destruct (Eq_eq_dec (arr_dom arrs a) dom); [|exact None].
+    destruct (Eq_eq_dec (arr_cod arrs a) cod); [|exact None].
     subst; exact (Some h).
-  - destruct (denote' f); [|exact None].
-    destruct (denote' g); [|exact None].
-    destruct (Fin.eq_dec (TermCod g) (TermDom f)); [|exact None].
-    rewrite e in h0.
-    exact (Some (h ∘ h0)).
-Defined.
-
-Fixpoint denote dom cod (e : Term) :
-  option (get_obj dom ~{ get_cat c }~> get_obj cod).
-Proof.
-  destruct e as [o|a|f g].
-  - destruct (Fin.eq_dec o dom); [|exact None].
-    destruct (Fin.eq_dec o cod); [|exact None].
-    subst; exact (Some id).
-  - destruct (Fin.eq_dec (get_arr_dom a) dom); [|exact None].
-    destruct (Fin.eq_dec (get_arr_cod a) cod); [|exact None].
-    subst; exact (Some (get_arr a)).
-  - destruct (denote (TermCod g) cod f); [|exact None].
-    destruct (denote dom (TermCod g) g); [|exact None].
+  - destruct (denote (TermCod arrs g) cod f); [|exact None].
+    destruct (denote dom (TermCod arrs g) g); [|exact None].
     exact (Some (h ∘ h0)).
 Defined.
 
 Lemma denote_dom_cod {f dom cod f'} :
   denote dom cod f = Some f' ->
-  TermDom f = dom /\ TermCod f = cod.
+  TermDom arrs f = dom /\ TermCod arrs f = cod.
 Proof.
   generalize dependent cod.
   generalize dependent dom.
-  induction f; intros dom cod; simpl; intros; equalities.
-  specialize (IHf2 dom (TermCod f2)).
-  specialize (IHf1 (TermCod f2) cod).
-  equalities; intros.
-  destruct (denote (TermCod f2) cod f1) eqn:?; try discriminate.
-  destruct (denote dom (TermCod f2) f2) eqn:?; try discriminate.
-  destruct (IHf1 _ eq_refl).
-  destruct (IHf2 _ eq_refl).
-  intuition.
+  induction f; intros dom cod; simpl; intros.
+  - equalities.
+  - destruct (get_arr a) eqn:?; [|discriminate].
+    destruct s, s.
+    equalities; auto.
+  - specialize (IHf2 dom (TermCod arrs f2)).
+    specialize (IHf1 (TermCod arrs f2) cod).
+    equalities; intros.
+    destruct (denote (TermCod arrs f2) cod f1) eqn:?; try discriminate.
+    destruct (denote dom (TermCod arrs f2) f2) eqn:?; try discriminate.
+    destruct (IHf1 _ eq_refl).
+    destruct (IHf2 _ eq_refl).
+    intuition.
 Qed.
-
-Definition Term_well_defined' (e : Term) : Type :=
-  ∃ f, denote' e = Some f.
 
 Definition Term_well_defined dom cod (e : Term) : Type :=
   ∃ f, denote dom cod e = Some f.
 
 Theorem Term_well_defined_is_well_typed {e dom cod} :
   Term_well_defined dom cod e ->
-  Term_well_typed dom cod e.
+  Term_well_typed arrs dom cod e.
 Proof.
   generalize dependent cod.
   generalize dependent dom.
@@ -1113,15 +1000,15 @@ Proof.
   intros dom cod [f H]; simpl in H; equalities.
   destruct (denote _ _ e1) eqn:?; try discriminate.
   destruct (denote _ _ e2) eqn:?; try discriminate.
-  specialize (IHe1 (TermCod e2) cod (h; Heqo)).
-  specialize (IHe2 dom (TermCod e2) (h0; Heqo0)).
+  specialize (IHe1 (TermCod arrs e2) cod (h; Heqo)).
+  specialize (IHe2 dom (TermCod arrs e2) (h0; Heqo0)).
   intuition.
   symmetry.
   eapply Term_well_typed_dom; eauto.
 Qed.
 
 Lemma denote_well_typed {p dom cod f} :
-  denote dom cod p = Some f -> Term_well_typed dom cod p.
+  denote dom cod p = Some f -> Term_well_typed arrs dom cod p.
 Proof.
   generalize dependent f.
   generalize dependent dom.
@@ -1137,14 +1024,14 @@ Proof.
 Qed.
 
 Program Definition TermDef_Category : Category := {|
-  obj := obj_i;
+  obj := obj_idx;
   hom := fun x y => ∃ l : Term, Term_well_defined x y l;
   homset := fun x y => {| equiv := fun f g =>
     normalize (`1 f) = normalize (`1 g) |};
   id := fun x => (Identity x; _);
   compose := fun _ _ _ f g => (Compose (`1 f) (`1 g); _);
   id_left := fun _ y f => ArrowList_id_left y (normalize (`1 f));
-  id_right := fun x _ f => ArrowList_id_right (normalize (`1 f)) _ _;
+  id_right := fun x _ f => ArrowList_id_right arrs (normalize (`1 f)) _ _;
   comp_assoc := fun x y z w f g h =>
     ArrowList_append_assoc
       (normalize (`1 f)) (normalize (`1 g)) (normalize (`1 h))
@@ -1183,66 +1070,31 @@ Next Obligation.
 Qed.
 
 Fixpoint normalize_denote_chain dom cod (a : Arrow) (gs : list Arrow) :
-  option (get_obj dom ~{ get_cat c }~> get_obj cod).
+  option (objs dom ~{C}~> objs cod).
 Proof.
   destruct gs as [|g gs].
-    destruct (Fin.eq_dec (@get_arr_dom env c a) dom); [|exact None].
-    destruct (Fin.eq_dec (@get_arr_cod env c a) cod); [|exact None].
-    subst; exact (Some (get_arr a)).
-  destruct (Fin.eq_dec (@get_arr_cod env c a) cod); [|exact None].
-  destruct (normalize_denote_chain dom (@get_arr_dom env c a) g gs); [|exact None].
-  subst; exact (Some (get_arr a ∘ h)).
+    destruct (get_arr a).
+    destruct (Eq_eq_dec (arr_dom arrs a) dom); [|exact None].
+    destruct (Eq_eq_dec (arr_cod arrs a) cod); [|exact None].
+    subst; exact (get_arr a).
+  destruct (Pos.eq_dec (arr_cod arrs a) cod); [|exact None].
+  destruct (normalize_denote_chain dom (arr_dom arrs a) g gs); [|exact None].
+  destruct (get_arr a); [|exact None].
+  rewrite <- e.
+  subst; exact (Some (h0 ∘ h)).
 Defined.
-
-(*
-Fixpoint normalize_denote_chain dom cod
-         (g : Arrow) (gs : list Arrow) {struct gs} :
-  option (get_obj dom ~{ get_cat c }~> get_obj cod) :=
-  match g, gs with
-  | h, nil =>
-    match get_arr h with
-    | Some p =>
-      match Pos.eq_dec c cat,
-            Pos.eq_dec x dom, Pos.eq_dec y cod with
-      | left Hcat, left Hdom, left Hcod =>
-        Some (eq_rect y (fun z => objs env dom ~> objs env z cat)
-                      (eq_rect x (fun z => objs env z ~> objs env y cat)
-                               (eq_rect c (fun c => objs env x c ~> objs env y c)
-                                        p Hcat) dom Hdom) cod Hcod)
-      | _, _, _ => None
-      end
-    | _ => None
-    end
-  | Arr c1 x y h, Arr c2 z w j :: js =>
-    match arrs env h c1 x y with
-    | Some p =>
-      match Pos.eq_dec c1 cat, Pos.eq_dec y cod with
-      | left Hcat, left Hcod =>
-        match normalize_denote_chain dom x (Arr c2 z w j) js with
-        | Some q =>
-          Some (eq_rect y (fun y => objs env dom ~> objs env y cat)
-                        (eq_rect c1 (fun c => objs env x c ~> objs env y c)
-                                 p Hcat ∘ q) cod Hcod)
-        | _ => None
-        end
-      | _, _ => None
-      end
-    | _ => None
-    end
-  end.
-*)
 
 Corollary normalize_denote_chain_cod :
   ∀ (gs : list Arrow) f dom cod f',
     normalize_denote_chain dom cod f gs = Some f' ->
-    cod = @get_arr_cod env c f.
+    cod = arr_cod arrs f.
 Proof. destruct gs; simpl; intros; equalities. Qed.
 
 Theorem normalize_denote_chain_compose {x xs y ys dom cod f} :
   normalize_denote_chain dom cod x (xs ++ y :: ys) = Some f ->
   ∃ mid g h, f ≈ g ∘ h ∧
-    @get_arr_dom env c (last xs x) = mid ∧
-    @get_arr_cod env c y = mid ∧
+    arr_dom arrs (last xs x) = mid ∧
+    arr_cod arrs y = mid ∧
     normalize_denote_chain mid cod x xs = Some g ∧
     normalize_denote_chain dom mid y ys = Some h.
 Proof.
@@ -1251,21 +1103,24 @@ Proof.
   generalize dependent y.
   apply ListOfArrows_rect with (x:=x) (l:=xs); simpl; intros.
   - equalities.
-    destruct (normalize_denote_chain dom (get_arr_dom x0) y ys) eqn:?;
-    try discriminate.
-    exists _, (get_arr x0), h.
+    destruct (normalize_denote_chain dom (arr_dom arrs x0) y ys) eqn:?;
+    equalities.
+    destruct (get_arr x0); [|discriminate].
+    exists _, h0, h.
     inversion_clear H.
-    rewrite Eq_eq_dec_refl; simpl.
-    intuition.
+    equalities.
+      reflexivity.
     pose proof (normalize_denote_chain_cod _ _ _ _ _ Heqo); auto.
   - equalities.
     destruct (normalize_denote_chain
-                dom (get_arr_dom x0) y (l ++ y0 :: ys)) eqn:?;
+                dom (arr_dom arrs x0) y (l ++ y0 :: ys)) eqn:?;
+    equalities.
     try discriminate.
+    destruct (get_arr x0); [|discriminate].
     destruct (X _ _ _ Heqo), s, s.
     equalities; subst.
     inversion_clear H.
-    exists _, (get_arr x0 ∘ x2), x3.
+    exists _, (h0 ∘ x2), x3.
     clear X.
     intuition.
     + now rewrite e, comp_assoc.
@@ -1276,14 +1131,14 @@ Proof.
                end) with (last l y); auto.
       induction l; auto.
       now rewrite !last_cons.
-    + now rewrite a1.
+    + now rewrite a0.
 Qed.
 
 Lemma normalize_denote_chain_dom_cod :
   ∀ (gs : list Arrow) f dom cod f',
     normalize_denote_chain dom cod f gs = Some f' ->
-    cod = @get_arr_cod env c f /\
-    dom = @get_arr_dom env c (last gs f).
+    cod = arr_cod arrs f /\
+    dom = arr_dom arrs (last gs f).
 Proof.
   induction gs using rev_ind; intros.
     simpl in *.
@@ -1298,33 +1153,30 @@ Qed.
 
 Theorem normalize_denote_chain_append_dom_cod : ∀ x xs y ys dom cod f,
   normalize_denote_chain dom cod x (xs ++ y :: ys) = Some f ->
-  @get_arr_dom env c (last xs x) = @get_arr_cod env c y.
+  arr_dom arrs (last xs x) = arr_cod arrs y.
 Proof.
-  intros.
-  destruct (normalize_denote_chain_compose H).
-  equalities; subst.
-  now rewrite a1.
+  intros; destruct (normalize_denote_chain_compose H); equalities.
 Qed.
 
 (* The list [f; g; h] maps to [f ∘ g ∘ h]. *)
 Definition normalize_denote dom cod (xs : ArrowList) :
-  option (get_obj dom ~{ get_cat c }~> get_obj cod).
+  option (objs dom ~{C}~> objs cod).
 Proof.
   destruct xs as [o|f fs].
-  - destruct (Fin.eq_dec o dom); [|exact None].
-    destruct (Fin.eq_dec o cod); [|exact None].
+  - destruct (Eq_eq_dec o dom); [|exact None].
+    destruct (Eq_eq_dec o cod); [|exact None].
     subst; exact (Some id).
   - exact (normalize_denote_chain dom cod f fs).
 Defined.
 
 Theorem normalize_list_cod {p dom cod f} :
-  normalize_denote dom cod p = Some f -> ArrowList_cod p = cod.
+  normalize_denote dom cod p = Some f -> ArrowList_cod arrs p = cod.
 Proof.
   intros; destruct p as [o|g []]; simpl in *; equalities.
 Qed.
 
 Theorem normalize_list_dom {p dom cod f} :
-  normalize_denote dom cod p = Some f -> ArrowList_dom p = dom.
+  normalize_denote dom cod p = Some f -> ArrowList_dom arrs p = dom.
 Proof.
   generalize dependent f.
   generalize dependent cod.
@@ -1338,7 +1190,7 @@ Qed.
 
 Theorem normalize_denote_well_typed {p dom cod f} :
   normalize_denote dom cod p = Some f
-    -> ∃ p', p = normalize p' ∧ Term_well_typed dom cod p'.
+    -> ∃ p', p = normalize p' ∧ Term_well_typed arrs dom cod p'.
 Proof.
   generalize dependent f.
   generalize dependent cod.
@@ -1361,11 +1213,11 @@ Proof.
 Qed.
 
 Theorem normalize_compose {x y dom cod f} :
-  ArrowList_cod y = ArrowList_dom x ->
+  ArrowList_cod arrs y = ArrowList_dom arrs x ->
   normalize_denote dom cod (ArrowList_append x y) = Some f ->
   ∃ mid g h, f ≈ g ∘ h ∧
-    ArrowList_dom x = mid ∧
-    ArrowList_cod y = mid ∧
+    ArrowList_dom arrs x = mid ∧
+    ArrowList_cod arrs y = mid ∧
     normalize_denote mid cod x = Some g ∧
     normalize_denote dom mid y = Some h.
 Proof.
@@ -1374,65 +1226,66 @@ Proof.
   induction x using ArrowList_list_rect; intros.
   - simpl in H.
     rewrite <- H.
-    exists cod, (@id (get_cat c) _), f.
+    exists cod, (@id _ _), f.
     rewrite ArrowList_id_left in H0; auto.
     rewrite (normalize_list_cod H0) in *.
     cat; simpl; equalities.
   - destruct y using ArrowList_list_rect; simpl in H.
-    + exists dom, f, (@id (get_cat c) _).
+    + exists dom, f, (@id _ _).
       rewrite <- H0.
       pose proof (normalize_list_dom H0).
-      rewrite ArrowList_id_right in * by auto.
+      rewrite (ArrowList_id_right arrs) in * by auto.
       rewrite H, H1; clear H H1.
-      cat; simpl in *; equalities.
-    + rewrite ArrowList_append_chains in H0 by auto.
+      cat; simpl in *; repeat equalities.
+    + rewrite (ArrowList_append_chains arrs) in H0 by auto.
       apply (normalize_denote_chain_compose H0).
-    + rewrite ArrowList_append_chains in H0 by auto.
+    + rewrite (ArrowList_append_chains arrs) in H0 by auto.
       apply (normalize_denote_chain_compose H0).
   - destruct y using ArrowList_list_rect; simpl in H.
-    + exists dom, f, (@id (get_cat c) _).
-      rewrite ArrowList_id_right in H0 by auto.
+    + exists dom, f, (@id _ _).
+      rewrite (ArrowList_id_right arrs) in H0 by auto.
       rewrite (normalize_list_dom H0); subst.
       rewrite H0.
       pose proof (normalize_list_dom H0).
-      cat; simpl in *; equalities.
-    + rewrite ArrowList_append_chains in H0 by auto.
+      cat; simpl in *; repeat equalities.
+    + rewrite (ArrowList_append_chains arrs) in H0 by auto.
       apply (normalize_denote_chain_compose H0).
-    + rewrite ArrowList_append_chains in H0 by auto.
+    + rewrite (ArrowList_append_chains arrs) in H0 by auto.
       apply (normalize_denote_chain_compose H0).
 Qed.
 
 Theorem normalize_sound {p dom cod f} :
-  Term_well_typed dom cod p ->
+  Term_well_typed arrs dom cod p ->
   normalize_denote dom cod (normalize p) = Some f ->
   ∃ f', f ≈ f' ∧ denote dom cod p = Some f'.
 Proof.
-  generalize dependent dom.
   generalize dependent cod.
+  generalize dependent dom.
   induction p as [o|a|]; simpl in *; intros; equalities.
   - now exists f.
   - now exists f.
   - apply normalize_compose in H0; equalities; subst.
-    + destruct (Fin.eq_dec (ArrowList_dom (normalize p1)) (TermCod p2)).
+    + destruct (Eq_eq_dec (ArrowList_dom arrs (normalize p1))
+                          (TermCod arrs p2)).
       * rewrite <- e in *.
-        destruct (IHp1 _ _ _ H2 a2), (IHp2 _ _ _ H3 b0).
+        destruct (IHp1 _ _ _ H1 a2), (IHp2 _ _ _ H2 b0).
         equalities.
-        rewrite b, e1.
+        rewrite e3, e1.
         eexists; intuition.
-        now rewrite <- e0, <- a0.
-      * pose proof (ArrowList_normalize_dom_cod_sound H2);
-        equalities;
-        now rewrite a1 in H4.
+        now rewrite <- e0, <- e2.
+      * pose proof (ArrowList_normalize_dom_cod_sound arrs H2);
+        equalities.
+        now rewrite a1 in H3.
     + clear IHp1 IHp2.
-      pose proof (ArrowList_normalize_dom_cod_sound H2).
-      pose proof (ArrowList_normalize_dom_cod_sound H3).
+      pose proof (ArrowList_normalize_dom_cod_sound arrs H1).
+      pose proof (ArrowList_normalize_dom_cod_sound arrs H2).
       equalities.
-      now rewrite H4.
+      now rewrite H3.
 Qed.
 
 Theorem normalize_apply dom cod : ∀ f g,
-  Term_well_typed_bool dom cod f = true ->
-  Term_well_typed_bool dom cod g = true ->
+  Term_well_typed_bool arrs dom cod f = true ->
+  Term_well_typed_bool arrs dom cod g = true ->
   ArrowList_beq (normalize f) (normalize g) = true ->
   normalize_denote dom cod (normalize f) ||| false = true ->
   denote dom cod f ≈ denote dom cod g.
@@ -1440,10 +1293,9 @@ Proof.
   intros.
   apply Term_well_typed_bool_sound in H.
   apply Term_well_typed_bool_sound in H0.
-  pose proof (ArrowList_well_typed_sound H).
-  apply ArrowList_beq_eq in H1.
-  destruct (normalize_denote dom cod (normalize f)) eqn:?;
-  try discriminate.
+  pose proof (ArrowList_well_typed_sound arrs H).
+  apply (ArrowList_beq_eq arrs) in H1.
+  destruct (normalize_denote dom cod (normalize f)) eqn:?; try discriminate.
   destruct (normalize_sound H Heqo), p.
   rewrite e0; clear e0.
   rewrite H1 in Heqo; clear H1.
@@ -1455,8 +1307,8 @@ Proof.
 Qed.
 
 Corollary normalize_denote_terms dom cod : ∀ f g,
-  Term_well_typed_bool dom cod f = true ->
-  Term_well_typed_bool dom cod g = true ->
+  Term_well_typed_bool arrs dom cod f = true ->
+  Term_well_typed_bool arrs dom cod g = true ->
   ArrowList_beq (normalize f) (normalize g) = true ->
   normalize_denote dom cod (normalize f) ||| false = true ->
   normalize_denote dom cod (normalize f)
@@ -1470,7 +1322,7 @@ Corollary normalize_denote_terms_impl dom cod : ∀ f g,
     ≈ normalize_denote dom cod (normalize g).
 Proof.
   intros.
-  apply ArrowList_beq_eq in H.
+  apply (ArrowList_beq_eq arrs) in H.
   now rewrite H.
 Qed.
 
@@ -1497,24 +1349,20 @@ Ltac listSize xs :=
     constr:((S n)%nat)
   end.
 
-Ltac lookup n x xs :=
-  match n with
-  | O => constr:(@Fin.F1 0)
-  | S ?n' =>
-    lazymatch xs with
-    | (x, _) => constr:(@Fin.F1 n')
-    | (_, ?xs') =>
-      let xn := lookup n' x xs' in
-      constr:(@Fin.FS n' xn)
-    end
+Ltac lookup x xs :=
+  lazymatch xs with
+  | (x, _) => constr:(1%positive)
+  | (_, ?xs') =>
+    let xn := lookup x xs' in
+    constr:(Pos.succ xn)
   end.
 
 Ltac lookupCat c cs :=
   lazymatch cs with
-  | ((c, _, _), _) => constr:(0%nat)
+  | ((c, _, _), _) => constr:(1%positive)
   | (_, ?cs') =>
     let cn := lookupCat c cs' in
-    constr:(S cn)
+    constr:(Pos.succ cn)
   end.
 
 (** Lists of lists in Ltac *)
@@ -1564,17 +1412,13 @@ Ltac addToArrList c cs f :=
 Ltac lookupObj c cs o :=
   let res := catLists c cs in
   match res with
-  | (?os, _) =>
-    let len := listSize os in
-    lookup len o os
+  | (?os, _) => lookup o os
   end.
 
 Ltac lookupArr c cs f :=
   let res := catLists c cs in
   match res with
-  | (_, ?fs) =>
-    let len := listSize fs in
-    lookup len f fs
+  | (_, ?fs) => lookup f fs
   end.
 
 (** Variable capture *)
@@ -1618,44 +1462,121 @@ Ltac reifyTerm env cs t :=
 
 (** Build environment *)
 
-Ltac listify xs ty f :=
-  lazymatch xs with
-  | tt => constr:(@nil ty)
-  | (?x, ?xs') =>
-    let x'  := f x in
-    let xs' := listify xs' ty f in
-    constr:(x' :: xs')
+Ltac foldri xs z f :=
+  let rec go n xs :=
+    lazymatch xs with
+    | (?x, tt) => let z' := z x in f n x z'
+    | (?x, ?xs') =>
+      let rest := go (Pos.succ n) xs' in
+      let x'   := f n x rest in constr:(x')
+    end in go 1%positive xs.
+
+Ltac objects_function xs :=
+  let rec loop o xs' :=
+    lazymatch xs' with
+    | (?x, tt) => constr:(fun (_ : obj_idx) => x)
+    | (?x, ?xs'') =>
+      let f := loop (Pos.succ o) xs'' in
+      constr:(fun (o' : obj_idx) =>
+                if (o =? o')%positive then x else f o')
+    end in
+  loop 1%positive xs.
+
+Ltac observe n f c os objs k :=
+  lazymatch type of f with
+  | ?X ~{?C}~> ?Y =>
+    let xn := lookup X os in
+    let yn := lookup Y os in
+    constr:(fun (i : arr_idx) (x y : obj_idx) =>
+      (* It's unfortunate that we have to carry this structure in the type; if
+         we moved to a typed representation of arrows (where they return
+         appropriate object types), we won't need to do this here. *)
+      if (i =? n)%positive
+      then (match Pos.eq_dec xn x, Pos.eq_dec yn y with
+            | left Hx, left Hy =>
+              @Some (objs x ~{c}~> objs y)
+                    (eq_rect yn (fun y => objs x ~{c}~> objs y)
+                       (eq_rect xn (fun x => objs x ~{c}~> objs yn)
+                                f x Hx) y Hy)
+            | _, _ => k i x y
+            end)
+      else k i x y)
   end.
 
-Ltac vectorize xs ty f :=
-  let l := listify xs ty f in
-  constr:(l).
+Ltac arrows_function fs c os objs :=
+  let rec loop n fs' :=
+    lazymatch fs' with
+    | tt =>
+      constr:(fun _ c x y : obj_idx => @None (objs x c ~{c}~> objs y c))
+    | (?f, tt) =>
+      observe n f c os objs
+              (fun _ c x y : obj_idx => @None (objs x c ~{c}~> objs y c))
+    | (?f, ?fs'') =>
+      let k := loop (Pos.succ n) fs'' in
+      observe n f c os objs k
+    end in
+  loop 1%positive fs.
+
+(*
+Variable objs : obj_idx -> C.
+Variable arrs : arr_idx -> (obj_idx * obj_idx).
+Variable get_arr : ∀ f : arr_idx, option (get_arr_dom f ~{C}~> get_arr_cod f).
+*)
+
+Program Definition Unused : Category := {|
+  obj     := unit : Type;
+  hom     := fun _ _ => True;
+  homset  := Morphism_equality;
+  id      := fun x => _;
+  compose := fun x y z f g => _
+|}.
+Next Obligation.
+  unfold Unused_obligation_1.
+  unfold Unused_obligation_2.
+  now destruct f.
+Defined.
 
 Ltac build_env cs :=
-  let cs' := vectorize cs Vars ltac:(fun x =>
-    match x with
-    | (?c, ?os, ?fs) =>
-      let os' := vectorize os c ltac:(fun x => x) in
-      let fs' := vectorize fs
-        (∃ (dom cod : Fin.t (length os')),
-           nth_fin os' dom ~{c}~> nth_fin os' cod)
-        ltac:(fun f => match type of f with
-          | ?x ~{c}~> ?y =>
-            let xn := lookupObj c cs x in
-            let yn := lookupObj c cs y in
-            constr:(existT
-                      (fun dom => ∃ (cod : Fin.t (length os')),
-                           nth_fin os' dom ~{c}~> nth_fin os' cod) xn
-                   (existT
-                      (fun cod =>
-                         nth_fin os' xn ~{c}~> nth_fin os' cod) yn
-                    f))
-          end) in
-      constr:({| vars_cat  := c
-               ; vars_objs := os'
-               ; vars_arrs := fs' |})
-    end) in
-  constr:({| num_cats := length cs'; cats := cs' |}).
+  foldri cs
+    ltac:(fun cv => constr:((Unused : Category,
+                             (fun o : obj_idx => tt : Unused),
+                             (fun (f : arr_idx) (x y : obj_idx) =>
+                                @None (() ~{Unused}~> ())))))
+    ltac:(fun ci cv k =>
+      match cv with
+      | (?cat, ?os, ?fs) =>
+        let ofun := foldri os
+          ltac:(fun ov => constr:(fun _ : obj_idx => ov))
+          ltac:(fun oi ov ok =>
+                  constr:(fun o => if (o =? oi)%positive
+                                   then ov else ok o)) in
+        let xyfun := foldri fs
+          ltac:(fun fv => match type of fv with
+            | ?x ~{cat}~> ?y =>
+              constr:(fun (_ : arr_idx) => (x, y))
+            end)
+          ltac:(fun fi fv fk => match type of fv with
+            | ?x ~{cat}~> ?y =>
+              constr:(fun (f : arr_idx) =>
+                        if (f =? fi)%positive then (x, y) else fk f)
+            end) in
+        let ffun := foldri fs
+          ltac:(fun fv => match type of fv with
+            | ?x ~{cat}~> ?y =>
+              constr:((fun (f : arr_idx) =>
+                         @None (x ~{cat}~> y)))
+            end)
+          ltac:(fun fi fv fk => match type of fv with
+            | ?x ~{cat}~> ?y =>
+              constr:((fun (f : arr_idx) =>
+                         match Pos.eq_dec f fi with
+                         | left H =>
+                           @Some (x ~{cat}~> y) fv
+                         | right _ => fk f
+                         end))
+            end) in
+        constr:((cat, ofun, ffun))
+      end).
 
 Ltac find_vars :=
   lazymatch goal with
@@ -1666,15 +1587,14 @@ Ltac find_vars :=
     pose env
   end.
 
-Goal ∀ (C : Category) (x y : C) (f : x ~> y),
-    @nth_fin C [y; x] (@Fin.FS 1 (@Fin.F1 0)) ~{ C}~> @nth_fin C [y; x] (@Fin.F1 1).
-  simpl.
-
-Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y),
-  f ≈ f.
+Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y) (g : y ~> x),
+  g ≈ g -> f ≈ f.
 Proof.
   intros.
+  revert X.
   find_vars.
+  compute [Pos.succ] in p0.
+  simpl in p0.
 Abort.
 
 Definition term_wrapper {A : Type} (x : A) : A := x.
@@ -1684,6 +1604,8 @@ Ltac reify_terms_and_then tacHyp tacGoal :=
   | [ H : ?S ≈ ?T |- _ ] =>
     let cs  := allVars tt S in
     let cs  := allVars cs T in
+    let objs := objects_function xs in
+    let arrs := arrows_function fs cs cats xs objs in
     let env := build_env cs in
     let env := eval compute [length] in env in
     let r1  := reifyTerm env cs S in
