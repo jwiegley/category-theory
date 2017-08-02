@@ -14,11 +14,81 @@ Require Import Category.Theory.Functor.
 
 Require Import Solver.Lib.
 Require Import Solver.Expr.
+Require Import Solver.Denote.
 Require Import Solver.Normal.
 
 Generalizable All Variables.
 
 Section Decide.
+
+Open Scope partial_scope.
+
+Definition subst_all_expr (x : Expr) (xs : list (Expr * Expr)) : Expr := x.
+
+Program Fixpoint expr_forward
+        {C : Category}
+        (objs : obj_idx -> C)
+        (arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y))
+        (t : Expr)
+        (hyp : Expr)
+        (cont : forall C objs' arrs' defs',
+           [@expr_denote C objs' arrs' (subst_all_expr t defs')]) :
+  [expr_denote objs arrs hyp -> expr_denote objs arrs t] :=
+  match hyp with
+  | Top           => Reduce (cont C objs arrs nil)
+  | Bottom        => Yes
+  | Equiv x y f g => No         (* jww (2017-08-02): TODO *)
+  | Not p         => Reduce (cont C objs arrs nil)
+  | And p q       => No         (* jww (2017-08-02): TODO *)
+  | Or p q        => if expr_forward objs arrs t p cont
+                     then Reduce (expr_forward objs arrs t q cont)
+                     else No
+  | Impl _ _      => Reduce (cont C objs arrs nil)
+  end.
+Next Obligation. contradiction. Defined.
+Next Obligation. intuition. Defined.
+
+Program Fixpoint expr_backward
+        {C : Category}
+        (objs : obj_idx -> C)
+        (arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y))
+        (t : Expr)
+        {measure (expr_size t)} : [expr_denote objs arrs t] :=
+  match t with
+  | Top           => Yes
+  | Bottom        => No
+  | Equiv x y f g => match ArrowList_beq (normalize f) (normalize g) with
+                     | true  => Yes
+                     | false => No
+                     end
+  | Not p         => match expr_backward objs arrs p with
+                     | Proved _ _  => No
+                     | Uncertain _ => Yes
+                     end
+  | And p q       => match expr_backward objs arrs p with
+                     | Proved _ _  => Reduce (expr_backward objs arrs q)
+                     | Uncertain _ => No
+                     end
+  | Or p q        => match expr_backward objs arrs p with
+                     | Proved _ _  => Yes
+                     | Uncertain _ => Reduce (expr_backward objs arrs q)
+                     end
+  | Impl p q      => expr_forward objs arrs q p
+                       (fun C objs' arrs' defs' =>
+                          @expr_backward C objs' arrs' (subst_all_expr q defs') _)
+  end.
+Next Obligation.
+  destruct f; simpl.
+  destruct (term_denote _ _ f) eqn:?;
+  destruct (term_denote _ _ g) eqn:?.
+  destruct (term_denote _ _ _).
+Admitted.
+Next Obligation.
+  induction p; simpl in *; auto.
+Admitted.
+Next Obligation.
+  abstract omega.
+Defined.
 
 Theorem normalize_sound {p dom cod f} :
   Term_well_typed arrs dom cod p ->
@@ -148,6 +218,19 @@ Proof.
   intros.
   apply (ArrowList_beq_eq arrs) in H.
   now rewrite H.
+Qed.
+
+Definition expr_tauto : forall env t, [expr_denote env t].
+Proof.
+  intros; refine (Reduce (expr_backward (andImpl t) env)); auto.
+  assert (H : True \/ True \/ True \/ True \/ True) by admit.
+  inversion H; limit 0.
+Defined.
+
+Lemma expr_sound env t :
+  (if expr_tauto env t then True else False) -> expr_denote env t.
+Proof.
+  unfold expr_tauto; destruct t, (expr_backward _ env); tauto.
 Qed.
 
 End Decide.

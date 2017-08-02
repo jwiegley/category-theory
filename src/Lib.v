@@ -468,7 +468,7 @@ Next Obligation.
     contradiction.
 Qed.
 
-Inductive partial (P : Prop) : Set :=
+Inductive partial (P : Type) : Type :=
 | Proved : P -> partial P
 | Uncertain : partial P.
 

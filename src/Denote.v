@@ -24,14 +24,14 @@ Import EqNotations.
 Context {C : Category}.
 
 Variable objs : obj_idx -> C.
-Variable get_arr : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y).
+Variable arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y).
 
 Fixpoint term_denote {dom cod} (e : Term dom cod) :
   option (objs dom ~{C}~> objs cod) :=
   match e with
   | Identity _ => Some id
   | @Morph x y a =>
-    match get_arr a with
+    match arrs a with
     | Some (x'; (y'; f)) =>
       match Eq_eq_dec x' x, Eq_eq_dec y' y with
       | left edom, left ecod =>

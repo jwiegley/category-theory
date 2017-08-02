@@ -28,8 +28,15 @@ Inductive Term : obj_idx -> obj_idx-> Set :=
   | Morph    x y  (a : arr_idx) : Term x y
   | Compose x y z (f : Term y z) (g : Term x y) : Term x z.
 
-Definition TermDom `(e : Term a b) : obj_idx := a.
-Definition TermCod `(e : Term a b) : obj_idx := b.
+(* Definition TermDom `(e : Term a b) : obj_idx := a. *)
+(* Definition TermCod `(e : Term a b) : obj_idx := b. *)
+
+Fixpoint term_size `(t : Term a b) : nat :=
+  match t with
+  | Identity _        => 1%nat
+  | Morph _ _ _       => 1%nat
+  | Compose _ _ _ f g => 1%nat + term_size f + term_size g
+  end.
 
 Inductive Expr : Set :=
   | Top    : Expr
@@ -39,6 +46,20 @@ Inductive Expr : Set :=
   | And    : Expr -> Expr -> Expr
   | Or     : Expr -> Expr -> Expr
   | Impl   : Expr -> Expr -> Expr.
+
+Fixpoint expr_size (t : Expr) : nat :=
+  match t with
+  | Top           => 1%nat
+  | Bottom        => 1%nat
+  | Equiv _ _ f g => 1%nat + term_size f + term_size g
+  | Not p         => 1%nat + expr_size p
+  | And p q       => 1%nat + expr_size p + expr_size q
+  | Or p q        => 1%nat + expr_size p + expr_size q
+  | Impl p q      => 1%nat + expr_size p + expr_size q
+  end.
+
+Remark all_exprs_have_size e : (0 < expr_size e)%nat.
+Proof. induction e; simpl; omega. Qed.
 
 End Expr.
 
