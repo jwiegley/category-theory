@@ -1,6 +1,11 @@
 -R category-theory Category
 -R src Solver
-src/Solver.v
-src/Solver2.v
-src/ilist.v
-src/VectorFacts.v
+src/Lib.v
+src/Expr.v
+src/Denote.v
+src/Normal.v
+src/Decide.v
+src/Env.v
+src/Reify.v
+src/Tactic.v
+src/Category.v

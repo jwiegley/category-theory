@@ -522,37 +522,6 @@ Variable get_arr : ∀ f : arr_idx,
   option (∃ x y, (arr_dom arrs f = x) ∧
                  (arr_cod arrs f = y) ∧ (objs x ~{C}~> objs y)).
 
-Fixpoint denote dom cod (e : Term) : option (objs dom ~{C}~> objs cod) :=
-  match e with
-  | Identity o =>
-    match Eq_eq_dec o dom, Eq_eq_dec o cod with
-    | left edom, left ecod =>
-      Some (rew [fun x => objs x ~{ C }~> objs cod] edom in
-            rew [fun y => objs o ~{ C }~> objs y] ecod in @id _ (objs o))
-    | _, _ => None
-    end
-  | Morph a =>
-    match get_arr a with
-    | Some (x; (y; (Hdom, (Hcod, f)))) =>
-      match Eq_eq_dec (arr_dom arrs a) dom,
-            Eq_eq_dec (arr_cod arrs a) cod with
-      | left edom, left ecod =>
-        Some (rew [fun x => objs x ~{ C }~> objs cod] edom in
-              rew [fun y => objs (arr_dom arrs a) ~{ C }~> objs y] ecod in
-              rew <- [fun x => objs x ~{ C }~> objs (arr_cod arrs a)] Hdom in
-              rew <- [fun y => objs x ~{ C }~> objs y] Hcod in f)
-      | _, _ => None
-      end
-    | _ => None
-    end
-  | Compose f g =>
-    match denote (TermCod arrs g) cod f,
-          denote dom (TermCod arrs g) g with
-    | Some f, Some g => Some (f ∘ g)
-    | _, _ => None
-    end
-  end.
-
 Lemma denote_dom_cod {f dom cod f'} :
   denote dom cod f = Some f' ->
   TermDom arrs f = dom /\ TermCod arrs f = cod.
