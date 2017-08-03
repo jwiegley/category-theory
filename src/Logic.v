@@ -43,7 +43,7 @@ Program Fixpoint expr_forward
   | Top           => Reduce (cont C objs arrs nil)
   | Bottom        => Yes
   | Equiv x y f g => No         (* jww (2017-08-02): TODO *)
-  | Not p         => No         (* jww (2017-08-02): TODO *)
+  (* | Not p         => No *)
   | And p q       => No         (* jww (2017-08-02): TODO *)
   | Or p q        => if expr_forward objs arrs t p cont
                      then Reduce (expr_forward objs arrs t q cont)
@@ -63,11 +63,11 @@ Program Fixpoint expr_backward
   | Top => Yes
   | Bottom => No
   | Equiv x y f g => _
-  | Not p         =>
-    match expr_backward objs arrs p with
-    | Proved _ _  => No
-    | Uncertain _ => Yes
-    end
+  (* | Not p         => *)
+  (*   match expr_backward objs arrs p with *)
+  (*   | Proved _ _  => No *)
+  (*   | Uncertain _ => Yes *)
+  (*   end *)
   | And p q       =>
     match expr_backward objs arrs p with
     | Proved _ _  => Reduce (expr_backward objs arrs q)
@@ -84,18 +84,13 @@ Program Fixpoint expr_backward
                     @expr_backward C objs' arrs' (subst_all_expr q defs') _)
   end.
 Next Obligation.
-  destruct (term_denote objs arrs x y f) eqn:?.
-    destruct (term_denote objs arrs x y g) eqn:?.
-      destruct (term_beq (term_append f (Identity x))
-                         (term_append g (Identity x))) eqn:?.
-        apply Proved.
-        eapply normalize_decides; eauto.
-      apply Uncertain.
-    apply Uncertain.
-  apply Uncertain.
+  destruct (term_denote objs arrs x y f) eqn:?; [|apply Uncertain].
+  destruct (term_denote objs arrs x y g) eqn:?; [|apply Uncertain].
+  destruct (term_beq (term_append f (Identity x))
+                     (term_append g (Identity x))) eqn:?; [|apply Uncertain].
+  apply Proved.
+  eapply normalize_decides; eauto.
 Defined.
-Next Obligation.
-Admitted.
 Next Obligation. abstract omega. Defined.
 Next Obligation. abstract omega. Defined.
 Next Obligation. abstract omega. Defined.
@@ -173,7 +168,7 @@ Proof.
         now inversion_clear Heqo.
       now apply denote_well_typed in Heqo.
     admit.
-  
+
   generalize dependent cod.
   generalize dependent dom.
   induction p as [o|a|]; intros.

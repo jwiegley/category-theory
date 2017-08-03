@@ -50,15 +50,15 @@ Qed.
 
 Function term_dom (e : Term) : obj_idx :=
   match e with
-  | Identity x => x
-  | Morph x _ _ => x
+  | Identity x    => x
+  | Morph x _ _   => x
   | Compose _ _ g => term_dom g
   end.
 
 Function term_cod (e : Term) : obj_idx :=
   match e with
-  | Identity y => y
-  | Morph _ y _ => y
+  | Identity y    => y
+  | Morph _ y _   => y
   | Compose _ f _ => term_cod f
   end.
 
@@ -73,7 +73,8 @@ Function term_append (t u : Term) : Term :=
     end
   end.
 
-Functional Scheme term_append_scheme := Induction for term_append Sort Type.
+Functional Scheme term_append_scheme :=
+  Induction for term_append Sort Type.
 
 Definition term_equiv (f g : Term) : Prop :=
   term_beq (term_append f (Identity (term_dom f)))
@@ -106,7 +107,7 @@ Inductive Expr : Set :=
   | Top
   | Bottom
   | Equiv (x y : obj_idx) (f g : Term)
-  | Not   (p : Expr)
+  (* | Not   (p : Expr) *)
   | And   (p q : Expr)
   | Or    (p q : Expr)
   | Impl  (p q : Expr).
@@ -116,7 +117,7 @@ Fixpoint expr_size (t : Expr) : nat :=
   | Top           => 1%nat
   | Bottom        => 1%nat
   | Equiv _ _ f g => 1%nat + term_size f + term_size g
-  | Not p         => 1%nat + expr_size p
+  (* | Not p         => 1%nat + expr_size p *)
   | And p q       => 1%nat + expr_size p + expr_size q
   | Or p q        => 1%nat + expr_size p + expr_size q
   | Impl p q      => 1%nat + expr_size p + expr_size q
