@@ -39,6 +39,15 @@ Function term_beq (f g : Term) : bool :=
   | _, _ => false
   end.
 
+Lemma term_beq_eq (f g : Term) :
+  term_beq f g = true -> f = g.
+Proof.
+  generalize dependent g.
+  induction f, g; simpl; intros;
+  equalities; try discriminate.
+  f_equal; intuition.
+Qed.
+
 Function term_dom (e : Term) : obj_idx :=
   match e with
   | Identity x => x
@@ -57,11 +66,18 @@ Function term_append (t u : Term) : Term :=
   match t with
   | Compose m g h => term_append g (term_append h u)
   | Identity _    => u
-  | Morph x y a   => match u with
-                     | Identity _ => t
-                     | _ => Compose x t u
-                     end
+  | Morph x y a   =>
+    match u with
+    | Identity _ => t
+    | _ => Compose x t u
+    end
   end.
+
+Functional Scheme term_append_scheme := Induction for term_append Sort Type.
+
+Definition term_equiv (f g : Term) : Prop :=
+  term_beq (term_append f (Identity (term_dom f)))
+           (term_append g (Identity (term_dom g))) = true.
 
 Example normalize_term_ex1 :
   term_append
