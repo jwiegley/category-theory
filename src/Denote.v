@@ -46,8 +46,8 @@ Fixpoint term_denote dom cod (e : Term) : option (objs dom ~{C}~> objs cod) :=
       end
     | _ => None
     end
-  | Compose m f g =>
-    match term_denote m cod f, term_denote dom m g with
+  | Compose mid f g =>
+    match term_denote mid cod f, term_denote dom mid g with
     | Some f, Some g => Some (f ∘ g)
     | _, _ => None
     end
