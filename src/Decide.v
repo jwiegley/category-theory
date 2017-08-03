@@ -99,11 +99,10 @@ Proof.
   intros.
   apply normalize_equiv in H.
   apply normalize_equiv in H0.
-  pose proof (@term_denote_proper C objs arrs x y _ _ H1).
-  rewrite <- X in H0; clear X.
-  rewrite H in H0; clear H.
-  red in H0.
-  assumption.
+  apply term_beq_eq in H1.
+  rewrite <- H1 in H0.
+  rewrite H in H0.
+  now red in H0.
 Qed.
 
 End Decide.
