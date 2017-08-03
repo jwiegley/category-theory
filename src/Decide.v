@@ -20,35 +20,6 @@ Generalizable All Variables.
 
 Section Decide.
 
-Program Instance term_denote_proper C objs arrs dom cod :
-  Proper ((fun x y => term_beq x y = true) ==> @equiv _ (@option_setoid _ _))
-         (@term_denote C objs arrs dom cod).
-Next Obligation.
-  proper.
-  generalize dependent y;
-  generalize dependent cod;
-  generalize dependent dom;
-  induction x; simpl in *; intros.
-  - destruct y; repeat equalities; reflexivity.
-  - destruct y0; try discriminate.
-    repeat equalities.
-    destruct (arrs _); auto.
-    destruct s, s; equalities.
-    do 4 (equalities'; auto).
-    simpl_eq; reflexivity.
-  - destruct y; try discriminate.
-    repeat equalities.
-    specialize (IHx1 m0 cod _ H2).
-    specialize (IHx2 dom m0 _ H1).
-    destruct (term_denote _ _ _ _ x1) eqn:?;
-    destruct (term_denote _ _ _ _ y1) eqn:?;
-    try discriminate;
-    destruct (term_denote _ _ _ _ x2) eqn:?;
-    destruct (term_denote _ _ _ _ y2) eqn:?;
-    try discriminate; auto.
-    rewrite IHx1, IHx2; reflexivity.
-Defined.
-
 Lemma term_denote_term_append C objs arrs x m y f1 f2 f' g' :
   term_denote objs arrs m y (term_append f1 (Identity m)) ≈ Some f' ->
   term_denote objs arrs x m (term_append f2 (Identity x)) ≈ Some g' ->
