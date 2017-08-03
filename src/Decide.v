@@ -101,12 +101,33 @@ Proof.
     destruct (term_denote objs arrs m y (term_append f1_1 (Identity m))) eqn:?.
 Admitted.
 
+Program Definition term_rect' x y (f : Term) :
+  ∀ (P : forall (f : Term), Type),
+    (∀ o : obj_idx, x = o -> y = o -> P (Identity o))
+    → (∀ (x' y' : obj_idx) (a : arr_idx),
+          x = x' -> y = y' -> P (Morph x' y' a))
+    → (∀ (x m y : obj_idx) (f1 : Term),
+          P f1 → ∀ g : Term, P g → P (Compose m f1 g))
+    → P f :=
+  match f with
+  | Identity o => _
+  | Morph x y a => _
+  | Compose m f g => _
+  end.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+
 Lemma term_denote_term_append C objs arrs x m y f1 f2 f' g' :
   term_denote objs arrs m y (term_append f1 (Identity m)) ≈ Some f' ->
   term_denote objs arrs x m (term_append f2 (Identity x)) ≈ Some g' ->
-  @term_denote C objs arrs x y (term_append (Compose m f1 f2) (Identity x)) ≈ Some (f' ∘ g').
+  @term_denote C objs arrs x y
+               (term_append (Compose m f1 f2) (Identity x)) ≈ Some (f' ∘ g').
 Proof.
-  simpl; intros.
+  simpl term_append; intros.
+  remember (term_append f1 (Identity m)) as e.
+  generalize dependent m.
+  induction f1; simpl term_append; intros.
 Admitted.
 
 Lemma normalize_equiv C objs arrs x y f f' :
