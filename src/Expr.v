@@ -23,29 +23,77 @@ Definition arr_idx := positive.
 
 (* This describes the morphisms of a magmoid, which forms a quotient category
    under denotation. *)
-Inductive Term : obj_idx -> obj_idx-> Set :=
-  | Identity      (o : obj_idx) : Term o o
-  | Morph    x y  (a : arr_idx) : Term x y
-  | Compose x y z (f : Term y z) (g : Term x y) : Term x z.
+Inductive Term : Set :=
+  | Identity (o : obj_idx) : Term
+  | Morph    (x y : obj_idx) (a : arr_idx) : Term
+  (* With induction-recursion, the [m] argument would be unnecessary. *)
+  | Compose  (m : obj_idx) (f : Term) (g : Term) : Term.
 
-(* Definition TermDom `(e : Term a b) : obj_idx := a. *)
-(* Definition TermCod `(e : Term a b) : obj_idx := b. *)
+Function term_beq (f g : Term) : bool :=
+  match f, g with
+  | Identity x, Identity y => Eq_eqb x y
+  | Morph x y a, Morph x' y' a' =>
+    Eq_eqb x x' &&& Eq_eqb y y' &&& Eq_eqb a a'
+  | Compose m f g, Compose m' f' g' =>
+    Eq_eqb m m' &&& term_beq f f' &&& term_beq g g'
+  | _, _ => false
+  end.
 
-Fixpoint term_size `(t : Term a b) : nat :=
+Function term_dom (e : Term) : obj_idx :=
+  match e with
+  | Identity x => x
+  | Morph x _ _ => x
+  | Compose _ _ g => term_dom g
+  end.
+
+Function term_cod (e : Term) : obj_idx :=
+  match e with
+  | Identity y => y
+  | Morph _ y _ => y
+  | Compose _ f _ => term_cod f
+  end.
+
+Function term_append (t u : Term) : Term :=
   match t with
-  | Identity _        => 1%nat
-  | Morph _ _ _       => 1%nat
-  | Compose _ _ _ f g => 1%nat + term_size f + term_size g
+  | Compose m g h => term_append g (term_append h u)
+  | Identity _    => u
+  | Morph x y a   => match u with
+                     | Identity _ => t
+                     | _ => Compose x t u
+                     end
+  end.
+
+Example normalize_term_ex1 :
+  term_append
+    (Compose
+       1 (Compose
+            1 (Compose 1 (Morph 1 1 1) (Identity 1))
+              (Compose 1 (Morph 1 1 3) (Morph 1 1 4)))
+         (Compose
+            1 (Compose 1 (Identity 1) (Identity 1))
+              (Compose 1 (Morph 1 1 7) (Morph 1 1 8))))%positive
+    (Identity 1)%positive
+    = (Compose 1 (Morph 1 1 1)
+         (Compose 1 (Morph 1 1 3)
+            (Compose 1 (Morph 1 1 4)
+               (Compose 1 (Morph 1 1 7) (Morph 1 1 8)))))%positive.
+Proof. reflexivity. Qed.
+
+Fixpoint term_size (t : Term) : nat :=
+  match t with
+  | Identity _    => 1%nat
+  | Morph _ _ _   => 1%nat
+  | Compose _ f g => 1%nat + term_size f + term_size g
   end.
 
 Inductive Expr : Set :=
-  | Top    : Expr
-  | Bottom : Expr
-  | Equiv  : ∀ a b, Term a b -> Term a b -> Expr
-  | Not    : Expr -> Expr
-  | And    : Expr -> Expr -> Expr
-  | Or     : Expr -> Expr -> Expr
-  | Impl   : Expr -> Expr -> Expr.
+  | Top
+  | Bottom
+  | Equiv (x y : obj_idx) (f g : Term)
+  | Not   (p : Expr)
+  | And   (p q : Expr)
+  | Or    (p q : Expr)
+  | Impl  (p q : Expr).
 
 Fixpoint expr_size (t : Expr) : nat :=
   match t with
@@ -62,7 +110,3 @@ Remark all_exprs_have_size e : (0 < expr_size e)%nat.
 Proof. induction e; simpl; omega. Qed.
 
 End Expr.
-
-Arguments Identity o.
-Arguments Morph {_ _} a.
-Arguments Compose {_ _ _} f g.

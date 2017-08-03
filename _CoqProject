@@ -3,8 +3,9 @@
 src/Lib.v
 src/Expr.v
 src/Denote.v
-src/Normal.v
 src/Decide.v
+src/Subst.v
+src/Logic.v
 src/Env.v
 src/Reify.v
 src/Tactic.v

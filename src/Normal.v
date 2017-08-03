@@ -34,26 +34,27 @@ Import EqNotations.
    functor is only total if the denotation of the quiver itself is total. *)
 Inductive ArrowList : Set :=
   | IdentityOnly (o : obj_idx) : ArrowList
-  | ArrowChain   (a : arr_idx) : ArrowList -> ArrowList.
+  | ArrowChain   (x y : obj_idx) (a : arr_idx) : ArrowList -> ArrowList.
 
 Function ArrowList_beq (f g : ArrowList) : bool :=
   match f with
   | IdentityOnly o =>
     match g with
     | IdentityOnly o' => Eq_eqb o o'
-    | ArrowChain _ _ => false
+    | ArrowChain _ _ _ _ => false
     end
-  | ArrowChain f fs =>
+  | ArrowChain x y f fs =>
     match g with
     | IdentityOnly _ => false
-    | ArrowChain g gs => Eq_eqb f g &&& ArrowList_beq fs gs
+    | ArrowChain x' y' g gs =>
+      Eq_eqb x x' &&& Eq_eqb y y' &&& Eq_eqb f g &&& ArrowList_beq fs gs
     end
   end.
 
 Fixpoint ArrowList_length (x : ArrowList) : nat :=
   match x with
-  | IdentityOnly x  => 0
-  | ArrowChain x xs => 1 + ArrowList_length xs
+  | IdentityOnly _      => 0
+  | ArrowChain _ _ _ xs => 1 + ArrowList_length xs
   end.
 
 Lemma ArrowList_beq_eq (f g : ArrowList) : ArrowList_beq f g = true -> f = g.
@@ -74,19 +75,14 @@ Defined.
 
 Function ArrowList_dom (xs : ArrowList) : obj_idx :=
   match xs with
-  | IdentityOnly o => o
-  | ArrowChain _ x => ArrowList_dom x
+  | IdentityOnly x => x
+  | ArrowChain _ _ _ xs => ArrowList_dom xs
   end.
-
-Variable arrs : arr_idx -> (obj_idx * obj_idx).
-
-Definition arr_dom (f : arr_idx) : obj_idx := fst (arrs f).
-Definition arr_cod (f : arr_idx) : obj_idx := snd (arrs f).
 
 Definition ArrowList_cod (xs : ArrowList) : obj_idx :=
   match xs with
-  | IdentityOnly o => o
-  | ArrowChain a _ => arr_cod a
+  | IdentityOnly y => y
+  | ArrowChain _ y a _ => y
   end.
 
 (*
@@ -194,33 +190,56 @@ Qed.
 
 Function ArrowList_append (xs ys : ArrowList) : ArrowList :=
   match xs with
-  | IdentityOnly _  => ys
-  | ArrowChain f fs => ArrowChain f (ArrowList_append fs ys)
+  | IdentityOnly _ => ys
+  | ArrowChain x y f fs => ArrowChain x y f (ArrowList_append fs ys)
   end.
 
-Fixpoint normalize `(p : Term a b) : ArrowList :=
+Fixpoint normalize (p : Term) : ArrowList :=
   match p with
-  | Identity x   => IdentityOnly x
-  | @Morph x _ f => ArrowChain f (IdentityOnly x)
-  | Compose f g  => ArrowList_append (normalize f) (normalize g)
+  | Identity x    => IdentityOnly x
+  | Morph x y f   => ArrowChain x y f (IdentityOnly x)
+  | Compose _ f g => ArrowList_append (normalize f) (normalize g)
   end.
 
-Function denormalize (f : ArrowList) : ∃ a b, Term a b :=
+Function denormalize (f : ArrowList) : Term :=
   match f with
-  | IdentityOnly o => (o; (o; Identity o))
-  | ArrowChain f fs =>
-    let z := arr_cod f in
-    let '(x; (y; g)) := denormalize fs in
-    (x; (z; match g return Term x z with
-            | Identity _ => @Morph x z f
-            | _ => @Compose x y z (@Morph y z f) g
-            end))
+  | IdentityOnly x => Identity x
+  | ArrowChain x y f gs => Compose y (Morph x y f) (denormalize gs)
   end.
 
-Lemma normalize_denormalize {f} : normalize (`2 `2 (denormalize f)) = f.
+(*
+Function remove_identities (t : Term) : Term :=
+  match t with
+  | Identity _    => t
+  | Morph _ _ _   => t
+  | Compose m f g =>
+    match remove_identities f, remove_identities g with
+    | Identity _, g => g
+    | f, Identity _ => f
+    | f, g => Compose m f g
+    end
+  end.
+
+Function associate_composition (t : Term) : Term :=
+  match t with
+  | Identity _    => t
+  | Morph _ _ _   => t
+  | Compose m f g =>
+    match remove_identities f, remove_identities g with
+    | Identity _, g => g
+    | f, Identity _ => f
+    | f, g => Compose m f g
+    end
+  end.
+*)
+
+Local Obligation Tactic := intros.
+
+
+Lemma normalize_denormalize {f} : normalize (denormalize f) = f.
 Proof.
   induction f; simpl; auto.
-  destruct (denormalize f), s, t; simpl in *;
+  destruct (denormalize f); simpl in *;
   now rewrite IHf.
 Qed.
 
