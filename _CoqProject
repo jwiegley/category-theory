@@ -6,7 +6,6 @@ src/Denote.v
 src/Decide.v
 src/Subst.v
 src/Logic.v
-src/Env.v
 src/Reify.v
 src/Tactic.v
 src/Category.v
