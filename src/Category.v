@@ -25,6 +25,68 @@ Notation Term    := (Term arrs).
 Notation TermDom := (TermDom arrs).
 Notation TermCod := (TermCod arrs).
 
+Program Definition Term_Category {C objs arrs} : Category := {|
+  obj := obj_idx;
+  hom := fun x y => ∃ f f', @termD C objs arrs x y f = Some f';
+  homset := fun x y => {| equiv := fun f g => `1 `2 f ≈ `1 `2 g |};
+  id := fun x => (Identity x; (@id C (objs x); _));
+  compose := fun x y z f g => (Compose y `1 f `1 g; (`1 `2 f ∘ `1 `2 g; _))
+|}.
+Next Obligation. now equalities. Defined.
+Next Obligation. now rewrite X2, X0. Defined.
+
+Program Definition Term_Category' {C objs arrs} : Category := {|
+  obj := obj_idx;
+  hom := fun _ _ => Term;
+  homset := fun x y => {| equiv := fun f g =>
+    @termD C objs arrs x y f ≈ @termD C objs arrs x y g |};
+  id := Identity;
+  compose := fun _ y _ => Compose y
+|}.
+Next Obligation.
+  equivalence.
+  - destruct (termD objs arrs x y x0) eqn:?; auto.
+    reflexivity.
+  - destruct (termD objs arrs x y x0) eqn:?;
+    destruct (termD objs arrs x y y0) eqn:?; auto.
+    now symmetry.
+  - destruct (termD objs arrs x y x0) eqn:?;
+    destruct (termD objs arrs x y y0) eqn:?;
+    destruct (termD objs arrs x y z) eqn:?; auto.
+      now transitivity h0.
+    contradiction.
+Defined.
+Next Obligation.
+  proper.
+  destruct (termD objs arrs y z x0) eqn:?;
+  destruct (termD objs arrs x y x1) eqn:?;
+  destruct (termD objs arrs y z y0) eqn:?;
+  destruct (termD objs arrs x y y1) eqn:?; auto.
+  now rewrite X, X0.
+Defined.
+Next Obligation.
+  equalities'; auto.
+  equalities.
+  destruct (termD objs arrs x y f) eqn:?; cat.
+Qed.
+Next Obligation.
+  equalities'; auto.
+  equalities.
+  destruct (termD objs arrs x y f) eqn:?; cat.
+Qed.
+Next Obligation.
+  destruct (termD objs arrs z w f) eqn:?;
+  destruct (termD objs arrs y z g) eqn:?;
+  destruct (termD objs arrs x y h) eqn:?; cat.
+Qed.
+Next Obligation.
+  destruct (termD objs arrs z w f) eqn:?;
+  destruct (termD objs arrs y z g) eqn:?;
+  destruct (termD objs arrs x y h) eqn:?; cat.
+Qed.
+
+Existing Instance Term_Category'.
+
 (* This describes the morphisms of a path, or free, category over a quiver of
    Arrows, while our environment describes a quiver (where vertices are all
    object indices, and edges are all arrow indices associated pairs of object
