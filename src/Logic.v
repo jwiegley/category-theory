@@ -14,6 +14,7 @@ Require Import Category.Theory.Functor.
 
 Require Import Solver.Lib.
 Require Import Solver.Expr.
+Require Import Solver.Normal.
 Require Import Solver.Denote.
 Require Import Solver.Decide.
 
@@ -37,8 +38,8 @@ Program Fixpoint expr_forward
         (t : Expr)
         (hyp : Expr)
         (cont : forall C objs' arrs' defs',
-           [@expr_denote C objs' arrs' (subst_all_expr t defs')]) :
-  [expr_denote objs arrs hyp -> expr_denote objs arrs t] :=
+           [@exprD C objs' arrs' (subst_all_expr t defs')]) :
+  [exprD objs arrs hyp -> exprD objs arrs t] :=
   match hyp with
   | Top           => Reduce (cont C objs arrs nil)
   | Bottom        => Yes
@@ -58,7 +59,7 @@ Program Fixpoint expr_backward
         (objs : obj_idx -> C)
         (arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y))
         (t : Expr)
-        {measure (expr_size t)} : [expr_denote objs arrs t] :=
+        {measure (expr_size t)} : [exprD objs arrs t] :=
   match t with
   | Top => Yes
   | Bottom => No
@@ -84,11 +85,11 @@ Program Fixpoint expr_backward
                     @expr_backward C objs' arrs' (subst_all_expr q defs') _)
   end.
 Next Obligation.
-  destruct (term_denote objs arrs x y f) eqn:?; [|apply Uncertain].
-  destruct (term_denote objs arrs x y g) eqn:?; [|apply Uncertain].
-  destruct (term_beq (term_normal f) (term_normal g)) eqn:?; [|apply Uncertain].
+  destruct (termD objs arrs x y f) eqn:?; [|apply Uncertain].
+  destruct (termD objs arrs x y g) eqn:?; [|apply Uncertain].
+  destruct (arrows_bequiv (arrows f) (arrows g)) eqn:?; [|apply Uncertain].
   apply Proved.
-  eapply normalize_decides; eauto.
+  eapply arrows_decide; eauto.
 Defined.
 Next Obligation. abstract omega. Defined.
 Next Obligation. abstract omega. Defined.
@@ -230,13 +231,13 @@ Proof.
 Qed.
 *)
 
-Definition expr_tauto : forall C objs arrs t, [@expr_denote C objs arrs t].
+Definition expr_tauto : forall C objs arrs t, [@exprD C objs arrs t].
 Proof.
   intros; refine (Reduce (expr_backward objs arrs t)); auto.
 Defined.
 
 Lemma expr_sound C objs arrs t :
-  (if expr_tauto C objs arrs t then True else False) -> expr_denote objs arrs t.
+  (if expr_tauto C objs arrs t then True else False) -> exprD objs arrs t.
 Proof.
   unfold expr_tauto; destruct t, (expr_backward objs arrs _); tauto.
 Qed.
