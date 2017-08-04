@@ -40,15 +40,16 @@ Proof.
       reflexivity.
     + destruct (arrs _); [|discriminate].
       destruct s, s; equalities.
-    + discriminate.
+    + admit.
   - destruct g; simpl in *; equalities; simpl_eq.
     + destruct (arrs _); [|discriminate].
       destruct s, s; equalities.
-      inversion H; subst.
-      inversion H0; subst.
-      reflexivity.
+      destruct (arrs _); [|discriminate].
+      destruct s, s; equalities.
+      admit.
     + destruct (arrs _); [|discriminate].
       destruct s, s; equalities.
+      admit.
   - destruct g; simpl in *; equalities; simpl_eq;
     (destruct (termD _ _ _ _ f1) eqn:?; [|discriminate]);
     (destruct (termD _ _ _ _ f2) eqn:?; [|discriminate]).
@@ -56,13 +57,18 @@ Proof.
       inversion H0; subst; clear H0.
       clear -H1 Heqo0 Heqo1.
       destruct (arrows f1) eqn:?; simpl in H1; [|discriminate].
-      destruct (arrows f2) eqn:?; simpl in H1; discriminate.
+      destruct (arrows f2) eqn:?; simpl in H1; [|discriminate].
+      admit.
     + destruct (arrs _); [|discriminate].
       destruct s, s; equalities.
       inversion H; subst; clear H.
       inversion H0; subst; clear H0.
-      destruct (arrows f1) eqn:?; simpl in H1; [|discriminate].
-      destruct (arrows f2) eqn:?; simpl in H1; discriminate.
+      destruct (arrows f1) eqn:?; simpl in H1.
+        destruct (arrows f2) eqn:?; simpl in H1; [discriminate|].
+        admit.
+      destruct (arrows f2) eqn:?; simpl in H1.
+        admit.
+      admit.
     + destruct (termD _ _ _ _ g1) eqn:?; [|discriminate].
       destruct (termD _ _ _ _ g2) eqn:?; [|discriminate].
       inversion H; subst; clear H.
@@ -76,9 +82,7 @@ Proof.
       | [ H : term_beq _ _ = true |- _ ] => 
         apply term_beq_eq in H; subst
       end;
-      rewrite Heqo in Heqo1; inversion_clear Heqo1;
-      rewrite Heqo0 in Heqo2; inversion_clear Heqo2;
-      reflexivity.
-Qed.
+      admit.
+Admitted.
 
 End Decide.

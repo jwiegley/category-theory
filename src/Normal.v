@@ -69,7 +69,6 @@ Function arrows (t : Term) : list (Arrow t) :=
 
 Function arrows_bequiv {t t' : Term}
          (ps : list (Arrow t)) (qs : list (Arrow t')) : bool :=
-  term_beq t t' &&&
   match ps, qs with
   | nil, nil => true
   | cons p ps, cons q qs =>
