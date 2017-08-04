@@ -62,6 +62,69 @@ Function term_cod (e : Term) : obj_idx :=
   | Compose _ f _ => term_cod f
   end.
 
+Fixpoint term_size (t : Term) : nat :=
+  match t with
+  | Identity _    => 1%nat
+  | Morph _ _ _   => 1%nat
+  | Compose _ f g => 1%nat + term_size f + term_size g
+  end.
+
+(*
+Inductive NormalForm : obj_idx -> obj_idx -> Term -> Term -> Type :=
+  | NFIdentity : ∀ x, NormalForm x x (Identity x) (Identity x)
+  | NFMorph : ∀ x y f, NormalForm x y (Morph x y f) (Morph x y f)
+  | NFCompose_Id_Left : ∀ x y f f',
+      NormalForm x y f f' ->
+      NormalForm x y (Compose y (Identity y) f) f'
+  | NFCompose_Id_Right : ∀ x y f f',
+      NormalForm x y f f' ->
+      NormalForm x y (Compose x f (Identity x)) f'
+  | NFCompose_Morph : ∀ x y z f g g',
+      NormalForm y z g g' ->
+      NormalForm x z (Compose z (Morph y z f) g)
+                     (Compose z (Morph y z f) g')
+  | NFCompose_Assoc : ∀ x y z w f f' g g' h h',
+      NormalForm z w f f' ->
+      NormalForm y z g g' ->
+      NormalForm x y h h' ->
+      NormalForm x w (Compose y (Compose z f g) h)
+                     (Compose z f' (Compose y g' h')).
+
+Definition term_append (t : Term) : ∃ t' x y, NormalForm x y t t'.
+Proof.
+  induction t.
+  - do 3 eexists; econstructor.
+  - do 3 eexists; econstructor.
+  - equalities.
+    destruct t1; simpl.
+    + inversion n0; subst.
+      exists t2, o, o.
+      apply NFCompose_Id_Left.
+      admit.
+    + exists (Compose m (Morph x1 y a) t2).
+      admit.
+    + exists (Compose m0 t1_1 (Compose m t1_2 t2)).
+      constructor.
+
+Program Fixpoint term_append (t u : Term) :
+  ∃ t' m, NormalForm (Compose m t u) t'  :=
+  match t with
+  | Compose m g h =>
+    match term_append h u with
+    | (t'; (u'; h')) => _ term_append g t'
+    end
+  | Identity o    => _ u
+  | Morph x y a   =>
+    match u with
+    | Identity _ => _ t
+    | _ => _ (Compose x t u)
+    end
+  end.
+Next Obligation.
+  eexists; eexists.
+  econstructor; eauto.
+*)
+
 Function term_append (t u : Term) : Term :=
   match t with
   | Compose m g h => term_append g (term_append h u)
@@ -76,12 +139,13 @@ Function term_append (t u : Term) : Term :=
 Functional Scheme term_append_scheme :=
   Induction for term_append Sort Type.
 
-Definition term_equiv (f g : Term) : Prop :=
-  term_beq (term_append f (Identity (term_dom f)))
-           (term_append g (Identity (term_dom g))) = true.
+Definition term_normal (t : Term) : Term :=
+  term_append t (Identity (term_dom t)).
+
+Definition term_equiv (f g : Term) := term_normal f = term_normal g.
 
 Example normalize_term_ex1 :
-  term_append
+  term_normal
     (Compose
        1 (Compose
             1 (Compose 1 (Morph 1 1 1) (Identity 1))
@@ -89,19 +153,11 @@ Example normalize_term_ex1 :
          (Compose
             1 (Compose 1 (Identity 1) (Identity 1))
               (Compose 1 (Morph 1 1 7) (Morph 1 1 8))))%positive
-    (Identity 1)%positive
     = (Compose 1 (Morph 1 1 1)
          (Compose 1 (Morph 1 1 3)
             (Compose 1 (Morph 1 1 4)
                (Compose 1 (Morph 1 1 7) (Morph 1 1 8)))))%positive.
 Proof. reflexivity. Qed.
-
-Fixpoint term_size (t : Term) : nat :=
-  match t with
-  | Identity _    => 1%nat
-  | Morph _ _ _   => 1%nat
-  | Compose _ f g => 1%nat + term_size f + term_size g
-  end.
 
 Inductive Expr : Set :=
   | Top
