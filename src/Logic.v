@@ -86,8 +86,7 @@ Program Fixpoint expr_backward
 Next Obligation.
   destruct (term_denote objs arrs x y f) eqn:?; [|apply Uncertain].
   destruct (term_denote objs arrs x y g) eqn:?; [|apply Uncertain].
-  destruct (term_beq (term_append f (Identity x))
-                     (term_append g (Identity x))) eqn:?; [|apply Uncertain].
+  destruct (term_beq (term_normal f) (term_normal g)) eqn:?; [|apply Uncertain].
   apply Proved.
   eapply normalize_decides; eauto.
 Defined.
