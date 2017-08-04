@@ -82,12 +82,11 @@ Qed.
 
 Existing Instance Term_Category'.
 
-Lemma term_denote_append C objs arrs x m y (f1 : Term) :
-  (f1 : @hom (@Term_Category' C objs arrs) x y) ≈ term_append f1 (Identity m).
+Lemma term_denote_append C objs arrs x y (f1 : Term) :
+  (f1 : @hom (@Term_Category' C objs arrs) x y) ≈ term_normal f1.
 Proof.
   simpl.
   generalize dependent y.
-  generalize dependent m.
   generalize dependent x.
   induction f1; simpl; intros; equalities.
   - reflexivity.
@@ -96,7 +95,7 @@ Proof.
     equalities'; auto.
     equalities'; auto.
     equalities; reflexivity.
-  - specialize (IHf1_1 m m y).
+  - specialize (IHf1_1 m y).
     destruct (term_denote objs arrs m y f1_1) eqn:?;
     destruct (term_denote objs arrs m y (term_append f1_1 (Identity m))) eqn:?.
 Admitted.
@@ -118,21 +117,38 @@ Next Obligation. Admitted.
 Next Obligation. Admitted.
 Next Obligation. Admitted.
 
-Lemma term_denote_term_append C objs arrs x m y f1 f2 f' g' :
-  term_denote objs arrs m y (term_append f1 (Identity m)) ≈ Some f' ->
-  term_denote objs arrs x m (term_append f2 (Identity x)) ≈ Some g' ->
-  @term_denote C objs arrs x y
-               (term_append (Compose m f1 f2) (Identity x)) ≈ Some (f' ∘ g').
+Lemma term_normal_compose C objs arrs x m y f1 f2 f' g' :
+  term_denote objs arrs m y (term_normal f1) ≈ Some f' ->
+  term_denote objs arrs x m (term_normal f2) ≈ Some g' ->
+  @term_denote C objs arrs x y (term_normal (Compose m f1 f2)) ≈
+  @term_denote C objs arrs x y (Compose m (term_normal f1) (term_normal f2)).
 Proof.
-  simpl term_append; intros.
-  remember (term_append f1 (Identity m)) as e.
-  generalize dependent m.
-  induction f1; simpl term_append; intros.
+  intros.
+  unfold term_normal in *.
+  simpl term_append in *.
+  rewrite X0.
+  destruct (term_denote objs arrs m y (term_normal f1)) eqn:?; [|contradiction].
+  destruct (term_denote objs arrs x m (term_normal f2)) eqn:?; [|contradiction].
 Admitted.
+
+Lemma term_denote_term_append C objs arrs x m y f1 f2 f' g' :
+  term_denote objs arrs m y (term_normal f1) ≈ Some f' ->
+  term_denote objs arrs x m (term_normal f2) ≈ Some g' ->
+  @term_denote C objs arrs x y (term_normal (Compose m f1 f2)) ≈ Some (f' ∘ g').
+Proof.
+  intros.
+  rewrite term_normal_compose; eauto.
+  simpl.
+  destruct (term_denote objs arrs m y (term_normal f1)); auto.
+  destruct (term_denote objs arrs x m (term_normal f2)); auto.
+  red in X.
+  red in X0.
+  cat.
+Qed.
 
 Lemma normalize_equiv C objs arrs x y f f' :
   @term_denote C objs arrs x y f = Some f' ->
-  @term_denote C objs arrs x y (term_append f (Identity x)) ≈ Some f'.
+  @term_denote C objs arrs x y (term_normal f) ≈ Some f'.
 Proof.
   intros.
   generalize dependent y.
@@ -161,7 +177,7 @@ Qed.
 Lemma normalize_decides C objs arrs x y f f' g g' :
   @term_denote C objs arrs x y f = Some f' ->
   @term_denote C objs arrs x y g = Some g' ->
-  term_beq (term_append f (Identity x)) (term_append g (Identity x)) = true ->
+  term_beq (term_normal f) (term_normal g) = true ->
   f' ≈ g'.
 Proof.
   intros.
