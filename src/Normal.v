@@ -45,6 +45,7 @@ Fixpoint arrowsD_work dom (fs : list arr_idx) :
         | Some (mid; g) =>
           match Eq_eq_dec mid x with
           | left emid =>
+            (* jww (2017-08-06): This associates the wrong way. *)
             Some (y; f ∘ rew [fun y => objs dom ~{ C }~> objs y] emid in g)
           | _ => None
           end
