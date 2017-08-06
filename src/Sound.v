@@ -23,6 +23,15 @@ Theorem arrowsD_sound {p dom cod f} :
   arrowsD objs arrs dom cod (arrows p) = Some f ->
   ∃ f', f ≈ f' ∧ termD objs arrs dom cod p = Some f'.
 Proof.
+  unfold termD, arrowsD.
+  generalize dependent cod.
+  induction p; simpl; intros; repeat equalities; simpl_eq.
+  - firstorder.
+  - firstorder.
+  - destruct (arrowsD_work _ _ _ (arrows p1 ++ arrows p2)) eqn:?;
+    [|discriminate].
+    destruct s; equalities.
+    inversion H; subst; clear H.
 Admitted.
 
 Lemma arrowsD_apply dom cod (f g : Term) :
@@ -35,14 +44,23 @@ Proof.
   destruct (arrowsD objs arrs dom cod (arrows f)) eqn:?; [|discriminate].
   destruct (arrowsD_sound Heqo), p.
   rewrite e0; clear e0.
-  rewrite H1 in Heqo; clear H1.
-Admitted.
+  red.
+  symmetry in H1.
+  apply arrowsD_sound in H1.
+  equalities.
+  rewrite e1.
+  rewrite <- e0, <- e.
+  reflexivity.
+Qed.
 
 Lemma exprAD_sound (e : Expr) : exprAD objs arrs e -> exprD objs arrs e.
 Proof.
-  destruct e; auto; intros.
-  red in X; red.
-  apply arrowsD_apply; auto.
+  induction e; simpl; intros; intuition auto.
+    admit.
+  destruct (termD objs _ _ _ f) eqn:?,
+           (termD objs _ _ _ g) eqn:?; try contradiction.
+  admit.
+  admit.
 Abort.
 
 End Normal.
