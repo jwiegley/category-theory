@@ -55,7 +55,7 @@ Fixpoint arrowsD_work dom (fs : list arr_idx) :
     end
   end.
 
-Fixpoint arrowsD dom cod (fs : list arr_idx) :
+Definition arrowsD dom cod (fs : list arr_idx) :
   option (objs dom ~{C}~> objs cod) :=
   match arrowsD_work dom fs with
   | Some (y; f) =>
