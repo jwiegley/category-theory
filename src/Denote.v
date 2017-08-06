@@ -13,6 +13,7 @@ Section Denote.
 Context {C : Category}.
 
 Variable objs : obj_idx -> C.
+(* jww (2017-08-06): Use FMapPositive for arrs, rather than this function *)
 Variable arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y).
 
 Import EqNotations.
