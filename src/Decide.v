@@ -114,6 +114,43 @@ Proof.
       cat.
 Qed.
 
+Lemma arrows_compose {f x y} {f' : objs x ~> objs y}
+      mid i j (i' : objs mid ~> objs y) (j' : objs x ~> objs mid) :
+  arrows f = arrows i ++ arrows j ->
+  @termD C objs arrs mid y i ≈ Some i' ->
+  @termD C objs arrs x mid j ≈ Some j' ->
+  @termD C objs arrs x y f ≈ Some (i' ∘ j').
+Proof.
+  unfold termD.
+  generalize dependent x.
+  induction f; simpl; intros; subst; auto.
+  - equalities'; auto.
+    destruct (termD_work objs _ _ i) eqn:?; [|contradiction]; destruct s.
+    destruct (termD_work objs _ _ j) eqn:?; [|contradiction]; destruct s.
+    repeat equalities; simpl_eq.
+      admit.
+    admit.
+  - assert ((arrows i = [a] ∧ arrows j = []) ∨
+            (arrows j = [a] ∧ arrows i = [])). {
+      destruct (arrows i); simpl in H.
+        now right.
+      destruct (arrows j); simpl in H.
+        rewrite app_nil_r in H.
+        now left.
+      destruct l; simpl in H.
+        inversion H.
+      destruct l0; simpl in H; inversion H.
+    }
+    destruct H0, p.
+    + pose proof (arrows_morph (x:=x) (y:=mid) (f':=j') e).
+      unfold termD in X1.
+      destruct (arrs a).
+        destruct s, s.
+        admit.
+      admit.
+    + admit.
+Admitted.
+
 Lemma arrows_decide {x y f f' g g'} :
   @termD C objs arrs x y f = Some f' ->
   @termD C objs arrs x y g = Some g' ->
@@ -121,10 +158,7 @@ Lemma arrows_decide {x y f f' g g'} :
   f' ≈ g'.
 Proof.
   unfold termD; intros.
-  generalize dependent g'.
-  generalize dependent f'.
   generalize dependent g.
-  generalize dependent y.
   generalize dependent x.
   induction f; simpl; intros; equalities.
   - destruct (arrows g) eqn:?; [|discriminate].
@@ -152,7 +186,25 @@ Proof.
     red in X.
     symmetry.
     assumption.
-  - idtac.
+  - symmetry in H1.
+    destruct (termD_work objs _ _ f2) eqn:?; [|discriminate]; destruct s.
+    destruct (termD_work objs _ _ f1) eqn:?; [|discriminate]; destruct s.
+    equalities.
+    pose proof (arrows_compose (x:=x) (y:=y) (f':=f') x0 f1 f2 h0 h H1).
+    simpl_eq.
+    unfold termD in *.
+    rewrite Heqo in X.
+    rewrite Heqo0 in X.
+    rewrite !Eq_eq_dec_refl in X.
+    equalities; simpl_eq.
+    specialize (X (reflexivity _) (reflexivity _)).
+    destruct (termD_work objs _ _ g) eqn:?; [|discriminate]; destruct s.
+    equalities.
+    inversion H; subst.
+    inversion H0; subst.
+    red in X.
+    rewrite X.
+    reflexivity.
 Admitted.
 
 End Decide.
