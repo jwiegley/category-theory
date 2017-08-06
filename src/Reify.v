@@ -1,13 +1,7 @@
 Set Warnings "-notation-overridden".
 
-Require Import Coq.Program.Program.
-Require Import Coq.Bool.Bool.
-Require Import Coq.Arith.Bool_nat.
-Require Import Coq.Arith.PeanoNat.
 Require Import Coq.PArith.PArith.
 Require Import Coq.Lists.List.
-Require Import Coq.omega.Omega.
-Require Import Recdef.
 
 Require Import Category.Lib.
 Require Import Category.Theory.Functor.
@@ -18,8 +12,6 @@ Require Import Solver.Denote.
 Require Import Solver.Logic.
 
 Generalizable All Variables.
-
-Import ListNotations.
 
 (** Lists in Ltac *)
 
