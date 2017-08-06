@@ -39,19 +39,32 @@ Proof.
   generalize dependent y.
   generalize dependent x.
   induction f; simpl; intros; equalities.
-  - destruct g; simpl in *; equalities; simpl_eq.
-    + inversion_clear H.
-      inversion_clear H0.
+  - destruct (arrows g) eqn:?; [|discriminate].
+    inversion_clear H.
+    destruct (termD_work objs _ _ g) eqn:?; [|discriminate]; destruct s.
+    equalities.
+    simpl in H0.
+    inversion H0.
+    rewrite <- H2.
+    clear H0 H2.
+    clear -Heqo Heql.
+    generalize dependent y.
+    induction g; intros; simpl in Heql; try discriminate.
+    + simpl in Heqo.
+      inversion Heqo.
+      rewrite (Eqdep_dec.inj_pair2_eq_dec _ Eq_eq_dec _ _ _ _ H0).
       reflexivity.
-    + destruct (arrs _); [|discriminate].
-      destruct s, s; equalities.
-    + inversion_clear H.
-      destruct (termD_work objs _ _ g2) eqn:?; [|discriminate].
-      destruct s.
-      destruct (termD_work objs _ _ g1) eqn:?; [|discriminate].
-      destruct s.
-      equalities.
-      inversion_clear H0.
+    + simpl in Heqo.
+      destruct (termD_work objs _ _ g2) eqn:?; [|discriminate]; destruct s.
+      destruct (termD_work objs _ _ g1) eqn:?; [|discriminate]; destruct s.
+      assert (arrows g1 = []).
+        destruct (arrows g2); simpl in Heql.
+          now rewrite app_nil_r in Heql.
+        destruct (arrows g1); simpl in Heql; inversion Heql.
+      assert (arrows g2 = []).
+        destruct (arrows g1); simpl in Heql.
+          assumption.
+        destruct (arrows g2); simpl in Heql; inversion Heql.
       admit.
   - destruct g; simpl in *; equalities; simpl_eq.
     + destruct (arrs _); [|discriminate].
