@@ -134,26 +134,16 @@ Ltac allVars cs e :=
 Ltac reifyTerm cs t :=
   lazymatch t with
   | @id ?c ?x =>
-    let cn := lookupCat c cs in
-    let xn := lookupObj c cs x in
-    constr:(Identity xn)
-  | @compose ?c _ _ _ ?f ?g =>
-    let cn := lookupCat c cs in
+    constr:(Identity)
+  | @compose ?c ?x ?y ?z ?f ?g =>
     let ft := reifyTerm cs f in
     let gt := reifyTerm cs g in
-    lazymatch type of f with
-    | ?x ~{?c}~> ?y =>
-      let xn := lookupObj c cs x in
-      constr:(Compose xn ft gt)
-    end
+    constr:(Compose ft gt)
   | ?f =>
     lazymatch type of f with
     | ?x ~{?c}~> ?y =>
-      let cn := lookupCat c cs in
       let fn := lookupArr c cs f in
-      let xn := lookupObj c cs x in
-      let yn := lookupObj c cs y in
-      constr:(Morph xn yn fn)
+      constr:(Morph fn)
     end
   end.
 
@@ -170,9 +160,6 @@ Ltac reifyExpr cs t :=
       let yn := lookupObj c cs y in
       constr:(Equiv xn yn f g)
     end
-  (* | ~ ?P => *)
-  (*   let p := reifyTerm env P in *)
-  (*   constr:(Not p) *)
   | ?P ∧ ?Q =>
     let p := reifyExpr cs P in
     let q := reifyExpr cs Q in

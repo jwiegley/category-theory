@@ -22,17 +22,15 @@ Definition obj_idx := positive.
 Definition arr_idx := positive.
 
 Inductive Term : Set :=
-  | Identity (o : obj_idx) : Term
-  | Morph    (x y : obj_idx) (a : arr_idx) : Term
-  | Compose  (m : obj_idx) (f : Term) (g : Term) : Term.
+  | Identity : Term
+  | Morph (a : arr_idx) : Term
+  | Compose (f : Term) (g : Term) : Term.
 
 Function term_beq (f g : Term) : bool :=
   match f, g with
-  | Identity x, Identity y => Eq_eqb x y
-  | Morph x y a, Morph x' y' a' =>
-    Eq_eqb x x' &&& Eq_eqb y y' &&& Eq_eqb a a'
-  | Compose m f g, Compose m' f' g' =>
-    Eq_eqb m m' &&& term_beq f f' &&& term_beq g g'
+  | Identity, Identity => true
+  | Morph a, Morph a' => Eq_eqb a a'
+  | Compose f g, Compose f' g' => term_beq f f' &&& term_beq g g'
   | _, _ => false
   end.
 
@@ -41,22 +39,21 @@ Lemma term_beq_eq (f g : Term) :
 Proof.
   generalize dependent g.
   induction f, g; simpl; intros;
-  equalities; try discriminate.
+  equalities; try discriminate; auto.
   f_equal; intuition.
 Qed.
 
 Fixpoint term_size (t : Term) : nat :=
   match t with
-  | Identity _    => 1%nat
-  | Morph _ _ _   => 1%nat
-  | Compose _ f g => 1%nat + term_size f + term_size g
+  | Identity    => 1%nat
+  | Morph _     => 1%nat
+  | Compose f g => 1%nat + term_size f + term_size g
   end.
 
 Inductive Expr : Set :=
   | Top
   | Bottom
   | Equiv (x y : obj_idx) (f g : Term)
-  (* | Not   (p : Expr) *)
   | And   (p q : Expr)
   | Or    (p q : Expr)
   | Impl  (p q : Expr).
@@ -66,7 +63,6 @@ Fixpoint expr_size (t : Expr) : nat :=
   | Top           => 1%nat
   | Bottom        => 1%nat
   | Equiv _ _ f g => 1%nat + term_size f + term_size g
-  (* | Not p         => 1%nat + expr_size p *)
   | And p q       => 1%nat + expr_size p + expr_size q
   | Or p q        => 1%nat + expr_size p + expr_size q
   | Impl p q      => 1%nat + expr_size p + expr_size q

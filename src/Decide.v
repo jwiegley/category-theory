@@ -21,13 +21,18 @@ Generalizable All Variables.
 
 Section Decide.
 
-Lemma arrows_decide C objs arrs x y f f' g g' :
+Context {C : Category}.
+
+Variable objs : obj_idx -> C.
+Variable arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y).
+
+Lemma arrows_decide x y f f' g g' :
   @termD C objs arrs x y f = Some f' ->
   @termD C objs arrs x y g = Some g' ->
-  arrows_bequiv (arrows f) (arrows g) = true ->
+  list_beq Eq_eqb (arrows f) (arrows g) = true ->
   f' ≈ g'.
 Proof.
-  intros.
+  unfold termD; intros.
   generalize dependent g'.
   generalize dependent f'.
   generalize dependent g.
@@ -40,48 +45,40 @@ Proof.
       reflexivity.
     + destruct (arrs _); [|discriminate].
       destruct s, s; equalities.
-    + admit.
+    + inversion_clear H.
+      destruct (termD_work objs _ _ g2) eqn:?; [|discriminate].
+      destruct s.
+      destruct (termD_work objs _ _ g1) eqn:?; [|discriminate].
+      destruct s.
+      equalities.
+      inversion_clear H0.
+      admit.
   - destruct g; simpl in *; equalities; simpl_eq.
     + destruct (arrs _); [|discriminate].
       destruct s, s; equalities.
-      destruct (arrs _); [|discriminate].
-      destruct s, s; equalities.
-      admit.
+      inversion H; subst.
+      inversion H0; subst.
+      reflexivity.
     + destruct (arrs _); [|discriminate].
       destruct s, s; equalities.
       admit.
   - destruct g; simpl in *; equalities; simpl_eq;
-    (destruct (termD _ _ _ _ f1) eqn:?; [|discriminate]);
-    (destruct (termD _ _ _ _ f2) eqn:?; [|discriminate]).
-    + inversion H; subst; clear H.
+    (destruct (termD_work objs _ _ f2) eqn:?; [|discriminate]; destruct s);
+    (destruct (termD_work objs _ _ f1) eqn:?; [|discriminate]; destruct s).
+    + equalities.
+      inversion H; subst; clear H.
       inversion H0; subst; clear H0.
-      clear -H1 Heqo0 Heqo1.
-      destruct (arrows f1) eqn:?; simpl in H1; [|discriminate].
-      destruct (arrows f2) eqn:?; simpl in H1; [|discriminate].
       admit.
     + destruct (arrs _); [|discriminate].
       destruct s, s; equalities.
       inversion H; subst; clear H.
-      inversion H0; subst; clear H0.
-      destruct (arrows f1) eqn:?; simpl in H1.
-        destruct (arrows f2) eqn:?; simpl in H1; [discriminate|].
-        admit.
-      destruct (arrows f2) eqn:?; simpl in H1.
-        admit.
+      inversion H0; rewrite <- H2; clear H0 H2.
       admit.
-    + destruct (termD _ _ _ _ g1) eqn:?; [|discriminate].
-      destruct (termD _ _ _ _ g2) eqn:?; [|discriminate].
+    + destruct (termD_work objs _ _ g2) eqn:?; [|discriminate]; destruct s.
+      destruct (termD_work objs _ _ g1) eqn:?; [|discriminate]; destruct s.
+      equalities.
       inversion H; subst; clear H.
       inversion H0; subst; clear H0.
-      destruct (arrows f1) eqn:?; simpl in H1;
-      destruct (arrows f2) eqn:?; simpl in H1;
-      destruct (arrows g1) eqn:?; simpl in H1;
-      destruct (arrows g2) eqn:?; simpl in H1;
-      equalities; try discriminate;
-      repeat match goal with
-      | [ H : term_beq _ _ = true |- _ ] => 
-        apply term_beq_eq in H; subst
-      end;
       admit.
 Admitted.
 

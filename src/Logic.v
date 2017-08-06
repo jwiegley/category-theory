@@ -87,7 +87,7 @@ Program Fixpoint expr_backward
 Next Obligation.
   destruct (termD objs arrs x y f) eqn:?; [|apply Uncertain].
   destruct (termD objs arrs x y g) eqn:?; [|apply Uncertain].
-  destruct (arrows_bequiv (arrows f) (arrows g)) eqn:?; [|apply Uncertain].
+  destruct (list_beq Eq_eqb (arrows f) (arrows g)) eqn:?; [|apply Uncertain].
   apply Proved.
   eapply arrows_decide; eauto.
 Defined.

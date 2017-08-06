@@ -2,10 +2,11 @@
 -R src Solver
 src/Lib.v
 src/Expr.v
-src/Normal.v
 src/Denote.v
+src/Normal.v
 src/Decide.v
 src/Subst.v
+src/Sound.v
 src/Logic.v
 src/Reify.v
 src/Tactic.v
