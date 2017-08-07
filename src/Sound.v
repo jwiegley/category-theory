@@ -2,6 +2,10 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.Bool.Bool.
 Require Import Coq.Lists.List.
+Require Import Coq.FSets.FMapPositive.
+
+Module Import MP := FMapPositive.
+Module M := MP.PositiveMap.
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -18,18 +22,20 @@ Section Normal.
 Context {C : Category}.
 
 Variable objs : obj_idx -> C.
-Variable arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y).
+Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
+
+Definition arrs (a : arr_idx) := M.find a arrmap.
 
 Ltac destruct_arrows :=
   lazymatch goal with
-  | [ H : context[match arrs ?t with _ => _ end] |- _ ] =>
-    destruct (arrs t) as [[? []]|] eqn:?;
+  | [ H : context[match Solver.Normal.arrs objs arrmap ?t with _ => _ end] |- _ ] =>
+    destruct (Solver.Normal.arrs objs arrmap t) as [[? []]|] eqn:?;
     [|discriminate + contradiction]
   | [ H : context[match arrowsD_work ?objs ?arrs ?o ?t with _ => _ end] |- _ ] =>
-    destruct (arrowsD_work objs arrs o t) as [[]|] eqn:?;
+    destruct (arrowsD_work objs arrmap o t) as [[]|] eqn:?;
     [|discriminate + contradiction]
   | [ H : context[match termD_work ?objs ?arrs ?o ?t with _ => _ end] |- _ ] =>
-    destruct (termD_work objs arrs o t) as [[]|] eqn:?;
+    destruct (termD_work objs arrmap o t) as [[]|] eqn:?;
     [|discriminate + contradiction]
   | [ H : Some _ = Some _ |- _ ] => inversion H; subst; clear H
   | [ H : (?x; ?f) = (?y; ?g) |- _ ] => inversion H; subst
@@ -38,10 +44,10 @@ Ltac destruct_arrows :=
   simpl_eq.
 
 Theorem arrowsD_compose {xs ys dom cod f} :
-  arrowsD_work objs arrs dom (xs ++ ys) = Some (cod; f) ->
+  arrowsD_work objs arrmap dom (xs ++ ys) = Some (cod; f) ->
   ∃ mid g h, f ≈ g ∘ h ∧
-    arrowsD_work objs arrs mid xs = Some (cod; g) ∧
-    arrowsD_work objs arrs dom ys = Some (mid; h).
+    arrowsD_work objs arrmap mid xs = Some (cod; g) ∧
+    arrowsD_work objs arrmap dom ys = Some (mid; h).
 Proof.
   intros.
   generalize dependent ys.
@@ -57,7 +63,7 @@ Proof.
     rewrite app_nil_r in H.
     split; cat.
     assert (
-      match arrowsD_work objs arrs dom (xs ++ a0 :: l) with
+      match arrowsD_work objs arrmap dom (xs ++ a0 :: l) with
       | Some s =>
         match s with
         | (mid; g) =>
@@ -96,10 +102,10 @@ Proof.
 Qed.
 
 Theorem arrowsD_compose_r {xs ys dom mid cod g h} :
-  arrowsD_work objs arrs mid xs = Some (cod; g) ->
-  arrowsD_work objs arrs dom ys = Some (mid; h) ->
+  arrowsD_work objs arrmap mid xs = Some (cod; g) ->
+  arrowsD_work objs arrmap dom ys = Some (mid; h) ->
   ∃ f, f ≈ g ∘ h ∧
-    arrowsD_work objs arrs dom (xs ++ ys) = Some (cod; f).
+    arrowsD_work objs arrmap dom (xs ++ ys) = Some (cod; f).
 Proof.
   intros.
   generalize dependent ys.
@@ -109,7 +115,7 @@ Proof.
     destruct_arrows; cat.
   repeat destruct_arrows.
   (* jww (2017-08-07): I have the feeling this proof is longer than it needs to be. *)
-  destruct (arrowsD_work objs arrs mid xs) eqn:?.
+  destruct (arrowsD_work objs arrmap mid xs) eqn:?.
     destruct s.
     destruct xs; equalities.
       inversion H; subst.
@@ -163,7 +169,7 @@ Proof.
       rewrite <- e.
       rewrite (Eqdep_dec.inj_pair2_eq_dec _ Eq_eq_dec _ _ _ _ H4).
       reflexivity.
-    destruct (arrowsD_work objs arrs dom (a1 :: l)) eqn:?; [|discriminate]; destruct s.
+    destruct (arrowsD_work objs arrmap dom (a1 :: l)) eqn:?; [|discriminate]; destruct s.
     destruct (BinPos.Pos.eq_dec x3 x0); [|discriminate].
     destruct e1.
     inversion e0; subst.
@@ -180,8 +186,8 @@ Proof.
 Qed.
 
 Theorem arrowsD_sound {p dom cod f} :
-  arrowsD objs arrs dom cod (arrows p) = Some f ->
-  ∃ f', f ≈ f' ∧ termD objs arrs dom cod p = Some f'.
+  arrowsD objs arrmap dom cod (arrows p) = Some f ->
+  ∃ f', f ≈ f' ∧ termD objs arrmap dom cod p = Some f'.
 Proof.
   unfold termD, arrowsD.
   generalize dependent dom.
@@ -212,8 +218,8 @@ Proof.
 Qed.
 
 Theorem arrowsD_sound_r {p dom cod f} :
-  termD objs arrs dom cod p = Some f ->
-  ∃ f', f ≈ f' ∧ arrowsD objs arrs dom cod (arrows p) = Some f'.
+  termD objs arrmap dom cod p = Some f ->
+  ∃ f', f ≈ f' ∧ arrowsD objs arrmap dom cod (arrows p) = Some f'.
 Proof.
   unfold termD, arrowsD.
   generalize dependent dom.
@@ -244,12 +250,12 @@ Qed.
 
 Lemma arrowsD_apply dom cod (f g : Term) :
   list_beq Eq_eqb (arrows f) (arrows g) = true ->
-  arrowsD objs arrs dom cod (arrows f) ||| false = true ->
-  arrowsD objs arrs dom cod (arrows f) = arrowsD objs arrs dom cod (arrows g) ->
-  termD objs arrs dom cod f ≈ termD objs arrs dom cod g.
+  arrowsD objs arrmap dom cod (arrows f) ||| false = true ->
+  arrowsD objs arrmap dom cod (arrows f) = arrowsD objs arrmap dom cod (arrows g) ->
+  termD objs arrmap dom cod f ≈ termD objs arrmap dom cod g.
 Proof.
   intros.
-  destruct (arrowsD objs arrs dom cod (arrows f)) eqn:?; [|discriminate].
+  destruct (arrowsD objs arrmap dom cod (arrows f)) eqn:?; [|discriminate].
   destruct (arrowsD_sound Heqo), p.
   rewrite e0; clear e0.
   red.
@@ -261,34 +267,34 @@ Proof.
   reflexivity.
 Qed.
 
-Fixpoint exprAD_sound (e : Expr) : exprAD objs arrs e ↔ exprD objs arrs e.
+Fixpoint exprAD_sound (e : Expr) : exprAD objs arrmap e ↔ exprD objs arrmap e.
 Proof.
   induction e; simpl; split; intros; auto.
-  - destruct (arrowsD objs arrs x y (arrows f)) eqn:?.
-      destruct (arrowsD objs arrs x y (arrows g)) eqn:?; [|contradiction].
+  - destruct (arrowsD objs arrmap x y (arrows f)) eqn:?.
+      destruct (arrowsD objs arrmap x y (arrows g)) eqn:?; [|contradiction].
       destruct (arrowsD_sound Heqo), p.
       destruct (arrowsD_sound Heqo0) ,p.
       now rewrite e0, e2, <- e, <- e1.
-    destruct (arrowsD objs arrs x y (arrows g)) eqn:?; [contradiction|].
-    destruct (termD objs arrs x y f) eqn:?.
+    destruct (arrowsD objs arrmap x y (arrows g)) eqn:?; [contradiction|].
+    destruct (termD objs arrmap x y f) eqn:?.
       destruct (arrowsD_sound_r Heqo1), p.
       rewrite Heqo in e0.
       discriminate.
-    destruct (termD objs arrs x y g) eqn:?; auto.
+    destruct (termD objs arrmap x y g) eqn:?; auto.
     destruct (arrowsD_sound_r Heqo2), p.
     rewrite Heqo0 in e0.
     discriminate.
-  - destruct (termD objs arrs x y f) eqn:?.
-      destruct (termD objs arrs x y g) eqn:?; [|contradiction].
+  - destruct (termD objs arrmap x y f) eqn:?.
+      destruct (termD objs arrmap x y g) eqn:?; [|contradiction].
       destruct (arrowsD_sound_r Heqo), p.
       destruct (arrowsD_sound_r Heqo0), p.
       now rewrite e0, e2, <- e, <- e1.
-    destruct (termD objs arrs x y g) eqn:?; [contradiction|].
-    destruct (arrowsD objs arrs x y (arrows f)) eqn:?.
+    destruct (termD objs arrmap x y g) eqn:?; [contradiction|].
+    destruct (arrowsD objs arrmap x y (arrows f)) eqn:?.
       destruct (arrowsD_sound Heqo1), p.
       rewrite Heqo in e0.
       discriminate.
-    destruct (arrowsD objs arrs x y (arrows g)) eqn:?; auto.
+    destruct (arrowsD objs arrmap x y (arrows g)) eqn:?; auto.
     destruct (arrowsD_sound Heqo2), p.
     rewrite Heqo0 in e0.
     discriminate.

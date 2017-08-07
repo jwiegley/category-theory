@@ -1,6 +1,10 @@
 Set Warnings "-notation-overridden".
 
 Require Import Coq.Lists.List.
+Require Import Coq.FSets.FMapPositive.
+
+Module Import MP := FMapPositive.
+Module M := MP.PositiveMap.
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -18,12 +22,14 @@ Section Decide.
 Context {C : Category}.
 
 Variable objs : obj_idx -> C.
-Variable arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y).
+Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
+
+Definition arrs (a : arr_idx) := M.find a arrmap.
 
 Import EqNotations.
 
 Lemma arrows_identity {f x} :
-  arrows f = [] -> @termD C objs arrs x x f ≈ Some id.
+  arrows f = [] -> @termD C objs arrmap x x f ≈ Some id.
 Proof.
   unfold termD.
   generalize dependent x.
@@ -60,13 +66,14 @@ Qed.
 Lemma arrows_morph {f a x y} {f' : objs x ~> objs y} :
   arrows f = [a] ->
   arrs a = Some (x; (y; f')) ->
-  @termD C objs arrs x y f ≈ Some f'.
+  @termD C objs arrmap x y f ≈ Some f'.
 Proof.
   unfold termD.
   generalize dependent x.
   induction f; simpl; intros; subst; auto.
   - equalities.
   - inversion_clear H.
+    unfold Denote.arrs, arrs in *.
     rewrite H0.
     repeat equalities.
     reflexivity.
@@ -110,14 +117,14 @@ Qed.
 
 Lemma arrows_compose {f x mid y} {f' : objs x ~> objs y} i i' j j' :
   arrows f = arrows i ++ arrows j ->
-  @termD C objs arrs x y f   = Some f' ->
-  @termD C objs arrs mid y i = Some i' ->
-  @termD C objs arrs x mid j = Some j' -> f' ≈ i' ∘ j'.
+  @termD C objs arrmap x y f   = Some f' ->
+  @termD C objs arrmap mid y i = Some i' ->
+  @termD C objs arrmap x mid j = Some j' -> f' ≈ i' ∘ j'.
 Proof.
   intros.
-  destruct (arrowsD_sound_r objs arrs H0), p; clear H0.
-  destruct (arrowsD_sound_r objs arrs H1), p; clear H1.
-  destruct (arrowsD_sound_r objs arrs H2), p; clear H2.
+  destruct (arrowsD_sound_r objs arrmap H0), p; clear H0.
+  destruct (arrowsD_sound_r objs arrmap H1), p; clear H1.
+  destruct (arrowsD_sound_r objs arrmap H2), p; clear H2.
   rewrite H in e0.
   rewrite e, e1, e3; clear H e e1 e3 f f' i' j'.
   unfold arrowsD in *.
@@ -128,7 +135,7 @@ Proof.
   inversion e0; subst; clear e0.
   inversion e2; subst; clear e2.
   inversion e4; subst; clear e4.
-  pose proof (arrowsD_compose objs arrs Heqo).
+  pose proof (arrowsD_compose objs arrmap Heqo).
   equalities.
   rewrite a; clear a.
   clear Heqo x0.
@@ -142,8 +149,8 @@ Proof.
 Qed.
 
 Lemma arrows_decide {x y f f' g g'} :
-  @termD C objs arrs x y f = Some f' ->
-  @termD C objs arrs x y g = Some g' ->
+  @termD C objs arrmap x y f = Some f' ->
+  @termD C objs arrmap x y g = Some g' ->
   list_beq Eq_eqb (arrows f) (arrows g) = true ->
   f' ≈ g'.
 Proof.
@@ -173,7 +180,8 @@ Proof.
     inversion H1; subst; clear H1.
     destruct (termD_work objs _ _ g) eqn:?; [|discriminate]; destruct s.
     inversion Heqo0; subst; clear Heqo0.
-    destruct (arrs a0); [|discriminate].
+    unfold arrs, Denote.arrs in *.
+    destruct (Denote.M.find a0 arrmap); [|discriminate].
     destruct s, s; equalities; simpl_eq.
     red in X.
     rewrite <- X.

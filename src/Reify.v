@@ -2,6 +2,10 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.PArith.PArith.
 Require Import Coq.Lists.List.
+Require Import Coq.FSets.FMapPositive.
+
+Module Import MP := FMapPositive.
+Module M := MP.PositiveMap.
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -206,7 +210,6 @@ Ltac build_env cs :=
     ltac:(fun cv =>
             constr:((Unused : Category,
                      (fun o : obj_idx => tt : Unused),
-                     (fun f : arr_idx => (tt, tt)),
                      (fun f : arr_idx => @None (() ~{Unused}~> ())))))
     ltac:(fun ci cv k =>
       match cv with
@@ -216,36 +219,15 @@ Ltac build_env cs :=
           ltac:(fun oi ov ok =>
                   constr:(fun o => if (o =? oi)%positive
                                    then ov else ok o)) in
-        let xyfun := foldri fs
-          ltac:(fun fv => match type of fv with
-            | ?x ~{cat}~> ?y =>
-              let xn := lookup x os in
-              let yn := lookup y os in
-              constr:(fun (_ : arr_idx) => (xn, yn))
-            end)
-          ltac:(fun fi fv fk => match type of fv with
-            | ?x ~{cat}~> ?y =>
-              let xn := lookup x os in
-              let yn := lookup y os in
-              constr:(fun (f : arr_idx) =>
-                        if (f =? fi)%positive then (xn, yn) else fk f)
-            end) in
         let ffun := foldri fs
-          ltac:(fun fv => match type of fv with
-            | ?x ~{cat}~> ?y =>
-              constr:((fun (f : arr_idx) =>
-                         @None (∃ x y, ofun x ~{cat}~> ofun y)))
-            end)
+          ltac:(fun fv => constr:(M.empty (∃ x y, ofun x ~{cat}~> ofun y)))
           ltac:(fun fi fv fk => match type of fv with
             | ?x ~{cat}~> ?y =>
               let xn := lookup x os in
               let yn := lookup y os in
-              constr:((fun (f : arr_idx) =>
-                         if (f =? fi)%positive
-                         then Some (xn; (yn; fv))
-                         else fk f))
+              constr:(M.add fi (xn; (yn; fv)) fk)
             end) in
-        constr:((cat, ofun, xyfun, ffun))
+        constr:((cat, ofun, ffun))
       end).
 
 Ltac find_vars :=
@@ -273,7 +255,7 @@ Ltac reify_terms_and_then tacGoal :=
     let g   := reifyExpr cs G in
     let env := build_env cs in
     match env with
-    | (?cat, ?ofun, ?xyfun, ?ffun) =>
+    | (?cat, ?ofun, ?ffun) =>
       change (@exprD cat ofun ffun g);
       cbv beta iota zeta delta [Pos.succ];
       tacGoal env g
@@ -283,8 +265,8 @@ Ltac reify_terms_and_then tacGoal :=
 Ltac reify := reify_terms_and_then
   ltac:(fun env g =>
           match env with
-          | (?cat, ?ofun, ?xyfun, ?ffun) =>
-            pose cat; pose ofun; pose xyfun; pose ffun; pose g
+          | (?cat, ?ofun, ?ffun) =>
+            pose cat; pose ofun; pose ffun; pose g
           end).
 
 Ltac categorical :=
@@ -295,15 +277,15 @@ Ltac normalize :=
   reify_terms_and_then
     ltac:(fun env r1 r2 H =>
       match env with
-      | (?cat, ?ofun, ?xyfun, ?ffun) =>
+      | (?cat, ?ofun, ?ffun) =>
         let H1 := fresh "H" in
         assert (H1 : arrows_beq (arrows r1) (arrows r2) = true)
           by (vm_compute; reflexivity);
         (* If we reorganize the arguments and "apply .. in H", this operation is
            about 8% slower than if we pose it in the context and clear H. *)
         let N := fresh "N" in
-        pose proof (normalize_denote_terms_impl cat ofun xyfun ffun
-                      (TermDom xyfun r1) (TermCod xyfun r1) r1 r2 H1) as N;
+        pose proof (normalize_denote_terms_impl cat ofun ffun
+                      (TermDom r1) (TermCod r1) r1 r2 H1) as N;
         clear H H1;
         cbv beta iota zeta delta
           [ normalize normalize_denote normalize_denote_chain
@@ -317,9 +299,9 @@ Ltac normalize :=
       end)
     ltac:(fun env r1 r2 =>
       match env with
-      | (?cat, ?ofun, ?xyfun, ?ffun) =>
-        apply (normalize_denote_terms cat ofun xyfun ffun
-                 (TermDom xyfun r1) (TermCod xyfun r1) r1 r2);
+      | (?cat, ?ofun, ?ffun) =>
+        apply (normalize_denote_terms cat ofun ffun
+                 (TermDom r1) (TermCod r1) r1 r2);
         [ vm_compute; reflexivity
         | vm_compute; reflexivity
         | vm_compute; reflexivity

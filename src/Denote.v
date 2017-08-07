@@ -1,5 +1,10 @@
 Set Warnings "-notation-overridden".
 
+Require Import Coq.FSets.FMapPositive.
+
+Module Import MP := FMapPositive.
+Module M := MP.PositiveMap.
+
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
@@ -13,8 +18,9 @@ Section Denote.
 Context {C : Category}.
 
 Variable objs : obj_idx -> C.
-(* jww (2017-08-06): Use FMapPositive for arrs, rather than this function *)
-Variable arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y).
+Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
+
+Definition arrs (a : arr_idx) := M.find a arrmap.
 
 Import EqNotations.
 
