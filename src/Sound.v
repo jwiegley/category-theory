@@ -149,10 +149,11 @@ Proof.
   induction xs; simpl; intros.
     destruct_arrows; cat.
   repeat destruct_arrows.
-  (* jww (2017-08-07): I have the feeling this proof is longer than it needs to be. *)
   destruct (arrowsD_work objs arrmap mid xs) eqn:?;
   [|destruct xs; [|discriminate]; equalities].
   destruct s, xs; equalities.
+    (* jww (2017-08-07): I have the feeling this branch of the proof is
+       longer than it needs to be. *)
     inversion H; subst.
     simpl in Heqo0.
     inversion Heqo0; subst.
