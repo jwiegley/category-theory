@@ -4,7 +4,6 @@ src/Lib.v
 src/Expr.v
 src/Denote.v
 src/Normal.v
-src/Decide.v
 src/Subst.v
 src/Sound.v
 src/Logic.v

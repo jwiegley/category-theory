@@ -13,7 +13,7 @@ Require Import Solver.Lib.
 Require Import Solver.Expr.
 Require Import Solver.Normal.
 Require Import Solver.Denote.
-Require Import Solver.Decide.
+Require Import Solver.Sound.
 Require Import Solver.Subst.
 
 Generalizable All Variables.
