@@ -32,7 +32,7 @@ Fixpoint termD_work dom (e : Term) : option (∃ cod, objs dom ~{C}~> objs cod) 
     | Some (x; (y; f)) =>
       match Eq_eq_dec x dom with
       | left edom =>
-        Some (y; rew [fun x => objs x  ~{ C }~> objs y] edom in f)
+        Some (y; rew [fun x => objs x ~{ C }~> objs y] edom in f)
       | _ => None
       end
     | _ => None
@@ -52,8 +52,7 @@ Definition termD dom cod (e : Term) : option (objs dom ~{C}~> objs cod) :=
   match termD_work dom e with
   | Some (y; f) =>
     match Eq_eq_dec y cod with
-    | left ecod =>
-        Some (rew [fun y => objs dom ~{ C }~> objs y] ecod in f)
+    | left ecod => Some (rew [fun y => objs dom ~{ C }~> objs y] ecod in f)
     | right _ => None
     end
   | _ => None
