@@ -144,8 +144,8 @@ Proof.
   rename h0 into i'.
   rename h1 into j'.
 
-  (* Now we must induction, effectively over the two terms, to determine if
-     they result in equivalent morphisms. *)
+  (* Now we must use induction, effectively over the two terms, to determine
+     if they result in equivalent morphisms. *)
 Admitted.
 
 Lemma arrows_decide {x y f f' g g'} :
