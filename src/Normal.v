@@ -32,6 +32,9 @@ Function arrows (t : Term) : list arr_idx :=
   | Compose f g => arrows f ++ arrows g
   end.
 
+Definition unarrows (fs : list arr_idx) : Term :=
+  fold_left (fun acc => Compose acc \o Morph) fs Identity.
+
 Fixpoint arrowsD_work dom (fs : list arr_idx) :
   option (∃ cod, objs dom ~{C}~> objs cod) :=
   match fs with
