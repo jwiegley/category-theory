@@ -520,3 +520,16 @@ Proof.
 Defined.
 
 End Symmetric_Product2.
+
+Lemma list_rect2 : ∀ (A : Type) (P : list A -> list A -> Type),
+  P [] [] ->
+  (∀ (a : A) (l1 : list A), P l1 [] -> P (a :: l1) []) ->
+  (∀ (b : A) (l2 : list A), P [] l2 -> P [] (b :: l2)) ->
+  (∀ (a b : A) (l1 l2 : list A), P l1 l2 -> P (a :: l1) (b :: l2))
+    -> ∀ l1 l2 : list A, P l1 l2.
+Proof.
+  intros.
+  generalize dependent l2.
+  induction l1; simpl in *; intros;
+  induction l2; auto.
+Qed.

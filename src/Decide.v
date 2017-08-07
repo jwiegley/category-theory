@@ -9,6 +9,7 @@ Require Import Solver.Lib.
 Require Import Solver.Expr.
 Require Import Solver.Denote.
 Require Import Solver.Normal.
+Require Import Solver.Sound.
 
 Generalizable All Variables.
 
@@ -107,46 +108,38 @@ Proof.
       cat.
 Qed.
 
-Lemma list_rect2 : ∀ (A : Type) (P : list A -> list A -> Type),
-  P [] [] ->
-  (∀ (a : A) (l1 : list A), P l1 [] -> P (a :: l1) []) ->
-  (∀ (b : A) (l2 : list A), P [] l2 -> P [] (b :: l2)) ->
-  (∀ (a b : A) (l1 l2 : list A), P l1 l2 -> P (a :: l1) (b :: l2))
-    -> ∀ l1 l2 : list A, P l1 l2.
-Proof.
-  intros.
-  generalize dependent l2.
-  induction l1; simpl in *; intros;
-  induction l2; auto.
-Qed.
-
 Lemma arrows_compose {f x mid y} {f' : objs x ~> objs y} i i' j j' :
   arrows f = arrows i ++ arrows j ->
-  @termD C objs arrs x y f ≈ Some f' ->
-  @termD C objs arrs mid y i ≈ Some i' ->
-  @termD C objs arrs x mid j ≈ Some j' -> f' ≈ i' ∘ j'.
+  @termD C objs arrs x y f   = Some f' ->
+  @termD C objs arrs mid y i = Some i' ->
+  @termD C objs arrs x mid j = Some j' -> f' ≈ i' ∘ j'.
 Proof.
-  (* Unpack as much "static" information as we can from the hypothesis. *)
-  unfold termD; intros.
-  destruct (termD_work objs _ _ f) eqn:?; [|contradiction]; destruct s.
-  destruct (termD_work objs _ _ i) eqn:?; [|contradiction]; destruct s.
-  destruct (termD_work objs _ _ j) eqn:?; [|contradiction]; destruct s.
-  destruct (Eq_eq_dec x0 y); [|contradiction]; subst.
-  destruct (Eq_eq_dec x1 y); [|contradiction]; subst.
-  destruct (Eq_eq_dec x2 mid); [|contradiction]; subst.
-  simpl_eq.
-  red in X.
-  red in X0.
-  red in X1.
-  rewrite <- X, <- X0, <- X1.
-  clear X X0 X1 f' i' j'.
-  rename h into f'.
-  rename h0 into i'.
-  rename h1 into j'.
-
-  (* Now we must use induction, effectively over the two terms, to determine
-     if they result in equivalent morphisms. *)
-Admitted.
+  intros.
+  destruct (arrowsD_sound_r objs arrs H0), p; clear H0.
+  destruct (arrowsD_sound_r objs arrs H1), p; clear H1.
+  destruct (arrowsD_sound_r objs arrs H2), p; clear H2.
+  rewrite H in e0.
+  rewrite e, e1, e3; clear H e e1 e3 f f' i' j'.
+  unfold arrowsD in *.
+  destruct (arrowsD_work _ _ _ _) as [[]|] eqn:?; [|discriminate].
+  destruct (arrowsD_work _ _ _ (arrows i)) as [[]|] eqn:?; [|discriminate].
+  destruct (arrowsD_work _ _ _ (arrows j)) as [[]|] eqn:?; [|discriminate].
+  equalities; simpl_eq.
+  inversion e0; subst; clear e0.
+  inversion e2; subst; clear e2.
+  inversion e4; subst; clear e4.
+  pose proof (arrowsD_compose objs arrs Heqo).
+  equalities.
+  rewrite a; clear a.
+  clear Heqo x0.
+  rewrite Heqo1 in b0.
+  inversion b0; subst.
+  rewrite <- (Eqdep_dec.inj_pair2_eq_dec _ Eq_eq_dec _ _ _ _ H1).
+  rewrite Heqo0 in a0.
+  inversion a0; subst.
+  rewrite <- (Eqdep_dec.inj_pair2_eq_dec _ Eq_eq_dec _ _ _ _ H0).
+  reflexivity.
+Qed.
 
 Lemma arrows_decide {x y f f' g g'} :
   @termD C objs arrs x y f = Some f' ->
@@ -201,7 +194,7 @@ Proof.
     rewrite !Eq_eq_dec_refl in X.
     rewrite <- (Eqdep_dec.inj_pair2_eq_dec _ Eq_eq_dec _ _ _ _ H2) in X |- *.
     now specialize (X (symmetry H1)
-                      (reflexivity _) (reflexivity _) (reflexivity _)).
+                      (reflexivity _) (reflexivity _) (reflexivity _)); subst.
 Qed.
 
 End Decide.
