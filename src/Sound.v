@@ -4,7 +4,7 @@ Require Import Coq.Bool.Bool.
 Require Import Coq.Lists.List.
 
 Require Import Category.Lib.
-Require Import Category.Theory.Functor.
+Require Import Category.Theory.Category.
 
 Require Import Solver.Lib.
 Require Import Solver.Expr.
@@ -108,6 +108,7 @@ Proof.
   induction xs; simpl; intros.
     destruct_arrows; cat.
   repeat destruct_arrows.
+  (* jww (2017-08-07): I have the feeling this proof is longer than it needs to be. *)
   destruct (arrowsD_work objs arrs mid xs) eqn:?.
     destruct s.
     destruct xs; equalities.
@@ -260,9 +261,57 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma exprAD_sound (e : Expr) : exprAD objs arrs e -> exprD objs arrs e.
+Fixpoint exprAD_sound (e : Expr) : exprAD objs arrs e ↔ exprD objs arrs e.
 Proof.
-  induction e; simpl; intros; intuition auto.
-Abort.
+  induction e; simpl; split; intros; auto.
+  - destruct (arrowsD objs arrs x y (arrows f)) eqn:?.
+      destruct (arrowsD objs arrs x y (arrows g)) eqn:?; [|contradiction].
+      destruct (arrowsD_sound Heqo), p.
+      destruct (arrowsD_sound Heqo0) ,p.
+      now rewrite e0, e2, <- e, <- e1.
+    destruct (arrowsD objs arrs x y (arrows g)) eqn:?; [contradiction|].
+    destruct (termD objs arrs x y f) eqn:?.
+      destruct (arrowsD_sound_r Heqo1), p.
+      rewrite Heqo in e0.
+      discriminate.
+    destruct (termD objs arrs x y g) eqn:?; auto.
+    destruct (arrowsD_sound_r Heqo2), p.
+    rewrite Heqo0 in e0.
+    discriminate.
+  - destruct (termD objs arrs x y f) eqn:?.
+      destruct (termD objs arrs x y g) eqn:?; [|contradiction].
+      destruct (arrowsD_sound_r Heqo), p.
+      destruct (arrowsD_sound_r Heqo0), p.
+      now rewrite e0, e2, <- e, <- e1.
+    destruct (termD objs arrs x y g) eqn:?; [contradiction|].
+    destruct (arrowsD objs arrs x y (arrows f)) eqn:?.
+      destruct (arrowsD_sound Heqo1), p.
+      rewrite Heqo in e0.
+      discriminate.
+    destruct (arrowsD objs arrs x y (arrows g)) eqn:?; auto.
+    destruct (arrowsD_sound Heqo2), p.
+    rewrite Heqo0 in e0.
+    discriminate.
+  - destruct X; split.
+      now apply IHe1.
+    now apply IHe2.
+  - destruct X; split.
+      now apply IHe1.
+    now apply IHe2.
+  - destruct X.
+      left.
+      now apply IHe1.
+    right.
+    now apply IHe2.
+  - destruct X.
+      left.
+      now apply IHe1.
+    right.
+    now apply IHe2.
+  - apply IHe2, X.
+    now apply exprAD_sound.
+  - apply IHe2, X.
+    now apply exprAD_sound.
+Qed.
 
 End Normal.

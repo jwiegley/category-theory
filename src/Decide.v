@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Coq.Lists.List.
 
 Require Import Category.Lib.
-Require Import Category.Theory.Functor.
+Require Import Category.Theory.Category.
 
 Require Import Solver.Lib.
 Require Import Solver.Expr.

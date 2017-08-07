@@ -10,7 +10,6 @@ Set Warnings "-notation-overridden".
 (* Require Import Recdef. *)
 
 Require Import Category.Lib.
-Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 

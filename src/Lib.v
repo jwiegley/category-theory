@@ -308,6 +308,7 @@ Program Instance Fin_Eq (n : nat) : Equality (Fin.t n) := {
   Eq_eq_dec_refl := Fin_eq_dec_refl n
 }.
 
+(*
 Program Instance option_Eq `{Equality A} : Equality (option A) := {
   Eq_eqb         := _;
   Eq_eqb_refl x  := _;
@@ -354,7 +355,7 @@ Next Obligation.
   unfold eq_rec_r, eq_rec; simpl_eq.
   remember (Eq_eq_refl a) as p.
   clear -p.
-Admitted.
+*)
 
 Program Instance list_Eq `{Equality A} : Equality (list A) := {
   Eq_eqb         := list_beq Eq_eqb;

@@ -4,7 +4,7 @@ Require Import Coq.PArith.PArith.
 Require Import Coq.Lists.List.
 
 Require Import Category.Lib.
-Require Import Category.Theory.Functor.
+Require Import Category.Theory.Category.
 
 Require Import Solver.Expr.
 Require Import Solver.Normal.

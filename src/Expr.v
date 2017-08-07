@@ -5,7 +5,6 @@ Require Import Coq.PArith.PArith.
 Require Import Coq.omega.Omega.
 
 Require Import Category.Lib.
-Require Import Category.Theory.Functor.
 
 Require Import Solver.Lib.
 
@@ -20,23 +19,6 @@ Inductive Term : Set :=
   | Identity : Term
   | Morph (a : arr_idx) : Term
   | Compose (f : Term) (g : Term) : Term.
-
-Function term_beq (f g : Term) : bool :=
-  match f, g with
-  | Identity, Identity => true
-  | Morph a, Morph a' => Eq_eqb a a'
-  | Compose f g, Compose f' g' => term_beq f f' &&& term_beq g g'
-  | _, _ => false
-  end.
-
-Lemma term_beq_eq (f g : Term) :
-  term_beq f g = true -> f = g.
-Proof.
-  generalize dependent g.
-  induction f, g; simpl; intros;
-  equalities; try discriminate; auto.
-  f_equal; intuition.
-Qed.
 
 Fixpoint term_size (t : Term) : nat :=
   match t with

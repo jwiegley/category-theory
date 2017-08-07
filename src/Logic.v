@@ -3,56 +3,45 @@ Set Warnings "-notation-overridden".
 Require Import Coq.omega.Omega.
 
 Require Import Category.Lib.
-Require Import Category.Theory.Functor.
+Require Import Category.Theory.Category.
 
 Require Import Solver.Lib.
 Require Import Solver.Expr.
 Require Import Solver.Normal.
 Require Import Solver.Denote.
 Require Import Solver.Decide.
+Require Import Solver.Subst.
 
 Generalizable All Variables.
 
 Section Logic.
 
+Context {C : Category}.
+
+Variable objs : obj_idx -> C.
+Variable arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y).
+
 Open Scope partial_scope.
 
-Definition subst_all_expr (x : Expr) (xs : list (Expr * Expr)) : Expr := x.
-
-Lemma expr_size_subst q defs : expr_size (subst_all_expr q defs) = expr_size q.
-Proof.
-  reflexivity.
-Qed.
-
-Program Fixpoint expr_forward
-        {C : Category}
-        (objs : obj_idx -> C)
-        (arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y))
-        (t : Expr)
-        (hyp : Expr)
-        (cont : forall C objs' arrs' defs',
-           [@exprD C objs' arrs' (subst_all_expr t defs')]) :
+Program Fixpoint expr_forward (t : Expr) (hyp : Expr)
+        (cont : forall defs', [exprD objs arrs (subst_all_expr t defs')]) :
   [exprD objs arrs hyp -> exprD objs arrs t] :=
   match hyp with
-  | Top           => Reduce (cont C objs arrs nil)
+  | Top           => Reduce (cont nil)
   | Bottom        => Yes
   | Equiv x y f g => No         (* jww (2017-08-02): TODO *)
   (* | Not p         => No *)
   | And p q       => No         (* jww (2017-08-02): TODO *)
-  | Or p q        => if expr_forward objs arrs t p cont
-                     then Reduce (expr_forward objs arrs t q cont)
+  | Or p q        => if expr_forward t p cont
+                     then Reduce (expr_forward t q cont)
                      else No
-  | Impl _ _      => Reduce (cont C objs arrs nil)
+  | Impl _ _      => Reduce (cont nil)
   end.
 Next Obligation. contradiction. Defined.
 Next Obligation. intuition. Defined.
 
-Program Fixpoint expr_backward
-        {C : Category}
-        (objs : obj_idx -> C)
-        (arrs : ∀ f : arr_idx, option (∃ x y, objs x ~{C}~> objs y))
-        (t : Expr)
-        {measure (expr_size t)} : [exprD objs arrs t] :=
+Program Fixpoint expr_backward (t : Expr) {measure (expr_size t)} :
+  [exprD objs arrs t] :=
   match t with
   | Top => Yes
   | Bottom => No
@@ -63,19 +52,17 @@ Program Fixpoint expr_backward
   (*   | Uncertain _ => Yes *)
   (*   end *)
   | And p q       =>
-    match expr_backward objs arrs p with
-    | Proved _ _  => Reduce (expr_backward objs arrs q)
+    match expr_backward p with
+    | Proved _ _  => Reduce (expr_backward q)
     | Uncertain _ => No
     end
   | Or p q        =>
-    match expr_backward objs arrs p with
+    match expr_backward p with
     | Proved _ _  => Yes
-    | Uncertain _ => Reduce (expr_backward objs arrs q)
+    | Uncertain _ => Reduce (expr_backward q)
     end
   | Impl p q      =>
-    expr_forward objs arrs q p
-                 (fun C objs' arrs' defs' =>
-                    @expr_backward C objs' arrs' (subst_all_expr q defs') _)
+    expr_forward q p (fun defs' => expr_backward (subst_all_expr q defs'))
   end.
 Next Obligation.
   destruct (termD objs arrs x y f) eqn:?; [|apply Uncertain].
@@ -92,15 +79,15 @@ Next Obligation.
   simpl; rewrite expr_size_subst; omega.
 Defined.
 
-Definition expr_tauto : forall C objs arrs t, [@exprD C objs arrs t].
+Definition expr_tauto : forall t, [exprD objs arrs t].
 Proof.
-  intros; refine (Reduce (expr_backward objs arrs t)); auto.
+  intros; refine (Reduce (expr_backward t)); auto.
 Defined.
 
-Lemma expr_sound C objs arrs t :
-  (if expr_tauto C objs arrs t then True else False) -> exprD objs arrs t.
+Lemma expr_sound t :
+  (if expr_tauto t then True else False) -> exprD objs arrs t.
 Proof.
-  unfold expr_tauto; destruct t, (expr_backward objs arrs _); tauto.
+  unfold expr_tauto; destruct t, (expr_backward _); tauto.
 Qed.
 
 End Logic.

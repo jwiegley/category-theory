@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Coq.Lists.List.
 
 Require Import Category.Lib.
-Require Import Category.Theory.Functor.
+Require Import Category.Theory.Category.
 
 Require Import Solver.Lib.
 Require Import Solver.Expr.
@@ -45,7 +45,9 @@ Fixpoint arrowsD_work dom (fs : list arr_idx) :
         | Some (mid; g) =>
           match Eq_eq_dec mid x with
           | left emid =>
-            (* jww (2017-08-06): This associates the wrong way. *)
+            (* jww (2017-08-06): This associates the wrong way, which doesn't technically
+               matter, but does make the normalized results look funny. At some point, the
+               correct orientation should be done. *)
             Some (y; f ∘ rew [fun y => objs dom ~{ C }~> objs y] emid in g)
           | _ => None
           end
@@ -61,8 +63,7 @@ Definition arrowsD dom cod (fs : list arr_idx) :
   match arrowsD_work dom fs with
   | Some (y; f) =>
     match Eq_eq_dec y cod with
-    | left ecod =>
-      Some (rew [fun y => objs dom ~{ C }~> objs y] ecod in f)
+    | left ecod => Some (rew [fun y => objs dom ~{ C }~> objs y] ecod in f)
     | right _ => None
     end
   | _ => None
