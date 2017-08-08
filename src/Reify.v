@@ -14,6 +14,7 @@ Require Import Solver.Expr.
 Require Import Solver.Normal.
 Require Import Solver.Denote.
 Require Import Solver.Logic.
+Require Import Solver.Sound.
 
 Generalizable All Variables.
 
@@ -246,8 +247,6 @@ Proof.
   revert X; find_vars; compute [Pos.succ] in p0.
 Abort.
 
-Definition term_wrapper {A : Type} (x : A) : A := x.
-
 Ltac reify_terms_and_then tacGoal :=
   match goal with
   | [ |- ?G ] =>
@@ -272,44 +271,8 @@ Ltac reify := reify_terms_and_then
 Ltac categorical :=
   reify_terms_and_then ltac:(fun env g => apply expr_sound; now vm_compute).
 
-(*
 Ltac normalize :=
-  reify_terms_and_then
-    ltac:(fun env r1 r2 H =>
-      match env with
-      | (?cat, ?ofun, ?ffun) =>
-        let H1 := fresh "H" in
-        assert (H1 : arrows_beq (arrows r1) (arrows r2) = true)
-          by (vm_compute; reflexivity);
-        (* If we reorganize the arguments and "apply .. in H", this operation is
-           about 8% slower than if we pose it in the context and clear H. *)
-        let N := fresh "N" in
-        pose proof (normalize_denote_terms_impl cat ofun ffun
-                      (TermDom r1) (TermCod r1) r1 r2 H1) as N;
-        clear H H1;
-        cbv beta iota zeta delta
-          [ normalize normalize_denote normalize_denote_chain
-            convert_arr arr_dom arr_cod fst snd Pos.succ app
-            Pos.eq_dec positive_rec positive_rect Pos.eqb
-            Eq_eq_dec Pos_Eq prod_rect
-            ArrowList_append TermDom TermCod sumbool_rec sumbool_rect
-            eq_rect eq_ind_r eq_ind eq_sym ] in N;
-        red in N;
-        rename N into H
-      end)
-    ltac:(fun env r1 r2 =>
-      match env with
-      | (?cat, ?ofun, ?ffun) =>
-        apply (normalize_denote_terms cat ofun ffun
-                 (TermDom r1) (TermCod r1) r1 r2);
-        [ vm_compute; reflexivity
-        | vm_compute; reflexivity
-        | vm_compute; reflexivity
-        | vm_compute; reflexivity
-        | idtac ]
-      end);
-  unfold term_wrapper in *; simpl in *.
-*)
+  reify_terms_and_then ltac:(fun env g => apply exprAD_sound; simpl).
 
 Example sample_2 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
@@ -324,7 +287,17 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  Time categorical.
+  revert X.
+  revert X0.
+  revert X1.
+  revert X2.
+  revert X3.
+  revert X4.
+  revert X5.
+  revert X6.
+  Time normalize.               (* 0.365s *)
+  Undo.
+  Time categorical.             (* 0.066s *)
 Qed.
 
 Print Assumptions sample_2.

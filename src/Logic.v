@@ -35,9 +35,8 @@ Program Fixpoint expr_forward (t : Expr) (hyp : Expr)
   match hyp with
   | Top           => Reduce (cont nil)
   | Bottom        => Yes
-  | Equiv x y f g => No         (* jww (2017-08-02): TODO *)
-  (* | Not p         => No *)
-  | And p q       => No         (* jww (2017-08-02): TODO *)
+  | Equiv x y f g => Reduce (cont nil) (* jww (2017-08-02): TODO *)
+  | And p q       => Reduce (cont nil) (* jww (2017-08-02): TODO *)
   | Or p q        => if expr_forward t p cont
                      then Reduce (expr_forward t q cont)
                      else No
@@ -52,11 +51,6 @@ Program Fixpoint expr_backward (t : Expr) {measure (expr_size t)} :
   | Top => Yes
   | Bottom => No
   | Equiv x y f g => _
-  (* | Not p         => *)
-  (*   match expr_backward objs arrmap p with *)
-  (*   | Proved _ _  => No *)
-  (*   | Uncertain _ => Yes *)
-  (*   end *)
   | And p q       =>
     match expr_backward p with
     | Proved _ _  => Reduce (expr_backward q)

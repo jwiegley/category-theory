@@ -8,5 +8,4 @@ src/Subst.v
 src/Sound.v
 src/Logic.v
 src/Reify.v
-src/Tactic.v
 src/Category.v
