@@ -14,6 +14,7 @@ Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 
+(*
 Section Normalization.
 
 Variable arrs : arr_idx -> (obj_idx * obj_idx).
@@ -3972,3 +3973,4 @@ Program Instance Term_ArrowList_Adjunction
 }.
 
 Print Assumptions Term_ArrowList_Adjunction.
+*)
