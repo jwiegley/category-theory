@@ -10,11 +10,13 @@ Module M := MP.PositiveMap.
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
+Require Import Solver.Lib.
 Require Import Solver.Expr.
 Require Import Solver.Normal.
 Require Import Solver.Denote.
 Require Import Solver.Logic.
 Require Import Solver.Sound.
+Require Import Solver.Subst.
 
 Generalizable All Variables.
 
@@ -284,9 +286,22 @@ Example sample_2 :
     g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
     g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
     g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ h ≈ i ->
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
+(*
+  revert X7.
+  reify.
+  apply exprAD_sound; unfold exprAD; intros.
+  match goal with
+  | [ H : @arrowsD ?C ?objs ?arrmap ?idom ?icod ?f ≈ arrowsD _ _ _ _ ?g
+      |- @arrowsD ?C ?objs ?arrmap ?dom ?cod ?i ≈ arrowsD _ _ _ _ ?j ] =>
+    apply (@rewrite_arrows C objs arrmap dom cod idom icod f g i j X7)
+  end.
+  simpl.
+*)
+
   revert X.
   revert X0.
   revert X1.
