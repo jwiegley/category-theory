@@ -268,11 +268,11 @@ Ltac reify := reify_terms_and_then
             pose cat; pose ofun; pose ffun; pose g
           end).
 
-Ltac categorical :=
-  reify_terms_and_then ltac:(fun env g => apply expr_sound; now vm_compute).
+Ltac categorical := reify_terms_and_then
+  ltac:(fun env g => apply expr_sound; now vm_compute).
 
-Ltac normalize :=
-  reify_terms_and_then ltac:(fun env g => apply exprAD_sound; simpl).
+Ltac normalize := reify_terms_and_then
+  ltac:(fun env g => apply exprAD_sound; simpl).
 
 Example sample_2 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
