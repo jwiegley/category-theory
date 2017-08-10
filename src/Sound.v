@@ -28,13 +28,13 @@ Definition arrs (a : arr_idx) := M.find a arrmap.
 
 Ltac destruct_arrows :=
   lazymatch goal with
-  | [ H : context[match Solver.Normal.arrs objs arrmap ?t with _ => _ end] |- _ ] =>
+  | [ H : context[match Solver.Normal.arrs ?objs ?arrmap ?t with _ => _ end] |- _ ] =>
     destruct (Solver.Normal.arrs objs arrmap t) as [[? []]|] eqn:?;
     [|discriminate + contradiction]
-  | [ H : context[match arrowsD_work ?objs ?arrs ?o ?t with _ => _ end] |- _ ] =>
+  | [ H : context[match arrowsD_work ?objs ?arrmap ?o ?t with _ => _ end] |- _ ] =>
     destruct (arrowsD_work objs arrmap o t) as [[]|] eqn:?;
     [|discriminate + contradiction]
-  | [ H : context[match termD_work ?objs ?arrs ?o ?t with _ => _ end] |- _ ] =>
+  | [ H : context[match termD_work ?objs ?arrmap ?o ?t with _ => _ end] |- _ ] =>
     destruct (termD_work objs arrmap o t) as [[]|] eqn:?;
     [|discriminate + contradiction]
   | [ H : Some _ = Some _ |- _ ] => inversion H; subst; clear H
@@ -315,3 +315,20 @@ Proof.
 Qed.
 
 End Sound.
+
+Ltac destruct_arrows :=
+  lazymatch goal with
+  | [ H : context[match Solver.Normal.arrs ?objs ?arrmap ?t with _ => _ end] |- _ ] =>
+    destruct (Solver.Normal.arrs objs arrmap t) as [[? []]|] eqn:?;
+    [|discriminate + contradiction]
+  | [ H : context[match arrowsD_work ?objs ?arrmap ?o ?t with _ => _ end] |- _ ] =>
+    destruct (arrowsD_work objs arrmap o t) as [[]|] eqn:?;
+    [|discriminate + contradiction]
+  | [ H : context[match termD_work ?objs ?arrmap ?o ?t with _ => _ end] |- _ ] =>
+    destruct (termD_work objs arrmap o t) as [[]|] eqn:?;
+    [|discriminate + contradiction]
+  | [ H : Some _ = Some _ |- _ ] => inversion H; subst; clear H
+  | [ H : (?x; ?f) = (?y; ?g) |- _ ] => inversion H; subst
+  end;
+  try (equalities; let n := numgoals in guard n < 2);
+  simpl_eq.
