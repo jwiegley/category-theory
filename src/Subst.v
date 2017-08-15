@@ -1,6 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Coq.Lists.List.
+Require Import Coq.Lists.ListDec.
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -40,6 +41,29 @@ Proof.
   rewrite Heqb at 1.
   now rewrite firstn_skipn.
 Qed.
+
+Lemma substitute_app f i :
+  incl f i
+    -> ∃ l1 l2, ∀ g,
+         substitute f g i = l1 ++ g ++ skipn (length f) l2
+           ∧ ~ incl f l1
+           ∧ f = firstn (length f) l2.
+Proof.
+Admitted.
+
+Lemma substitute_not_incl f i : ~ incl f i -> ∀ g, substitute f g i = i.
+Proof.
+  intros.
+  induction i; simpl; auto.
+  destruct (list_beq _ _ _) eqn:?; [|rewrite IHi]; auto; clear IHi.
+    apply list_beq_eq in Heqb; [|apply BinPos.Pos.eqb_eq].
+    rewrite Heqb at 1.
+    admit.
+  intro.
+  contradict H.
+  right.
+  now apply H0.
+Admitted.
 
 Local Obligation Tactic := program_simpl.
 
@@ -107,43 +131,60 @@ Proof.
   cat.
 Qed.
 
-Lemma substitute_sound {C objs arrmap dom cod idom icod f f' g g' h i i'} :
+Lemma arrowsD_app_l {C objs arrmap dom mid cod f f' g g'} :
+  arrowsD objs arrmap dom mid f = Some f' ->
+  arrowsD objs arrmap dom mid g = Some g' ->
+  arrowsD objs arrmap dom mid f ≈ arrowsD objs arrmap dom mid g ->
+  ∀ x x', @arrowsD C objs arrmap mid cod x = Some x' ->
+  arrowsD objs arrmap dom cod (x ++ f) ≈
+  arrowsD objs arrmap dom cod (x ++ g).
+Proof.
+  intros.
+  erewrite arrowsD_app; eauto.
+  erewrite arrowsD_app; eauto.
+  red.
+  destruct (arrowsD objs arrmap mid cod x) eqn:?; [|discriminate].
+  destruct (arrowsD objs arrmap dom mid f) eqn:?; [|discriminate].
+  destruct (arrowsD objs arrmap dom mid g) eqn:?; [|discriminate].
+  simpl.
+  comp_left.
+  now red in X.
+Qed.
+
+Lemma arrowsD_app_r {C objs arrmap dom mid cod f f' g g'} :
+  arrowsD objs arrmap mid cod f = Some f' ->
+  arrowsD objs arrmap mid cod g = Some g' ->
+  arrowsD objs arrmap mid cod f ≈ arrowsD objs arrmap mid cod g ->
+  ∀ x x', @arrowsD C objs arrmap dom mid x = Some x' ->
+  arrowsD objs arrmap dom cod (f ++ x) ≈
+  arrowsD objs arrmap dom cod (g ++ x).
+Proof.
+  intros.
+  erewrite arrowsD_app; eauto.
+  erewrite arrowsD_app; eauto.
+  red.
+  destruct (arrowsD objs arrmap dom mid x) eqn:?; [|discriminate].
+  destruct (arrowsD objs arrmap mid cod f) eqn:?; [|discriminate].
+  destruct (arrowsD objs arrmap mid cod g) eqn:?; [|discriminate].
+  simpl.
+  comp_right.
+  now red in X.
+Qed.
+
+Lemma substitute_sound {C objs arrmap dom cod idom icod f f' g g' i i'} :
   @arrowsD C objs arrmap idom icod f = Some f' ->
   @arrowsD C objs arrmap idom icod g = Some g' ->
   @arrowsD C objs arrmap idom icod f ≈ arrowsD objs arrmap idom icod g ->
   arrowsD objs arrmap dom cod i ≈ Some i' ->
-  arrowsD objs arrmap dom cod (substitute h f i) ≈
-  arrowsD objs arrmap dom cod (substitute h g i).
+  arrowsD objs arrmap dom cod (substitute f g i) ≈ Some i'.
 Proof.
-  generalize dependent cod.
-  induction i; intros.
-    now simpl substitute.
-  unfold substitute.
-  destruct (list_beq _ _ _) eqn:?.
-    assert (icod = cod).
-      admit.
-    subst.
-    apply list_beq_eq in Heqb; [|apply Eq_eqb_eq].
-    destruct (arrowsD objs arrmap dom idom (skipn (length h) (a :: i))) eqn:?.
-      rewrite (arrowsD_app H Heqo).
-      rewrite (arrowsD_app H0 Heqo).
-      rewrite X.
-      reflexivity.
+  intros.
+  destruct (incl_dec Eq_eq_dec f i).
+    destruct (substitute_app f i i0), s.
+    destruct (p g), p0; clear p.
+    rewrite e.
     admit.
-  fold substitute.
-  replace (a :: i) with ([a] ++ i) in X0 by auto.
-  unfold arrowsD in X0.
-  destruct (arrowsD_work objs arrmap dom ([a] ++ i)) eqn:?; [|contradiction].
-  destruct s.
-  apply arrowsD_compose in Heqo.
-  destruct (Eq_eq_dec x cod); [|contradiction]; simpl_eq; subst.
-  red in X0.
-  destruct Heqo, s, s, p, p.
-  simpl in e0.
-  destruct (Normal.arrs objs arrmap a) eqn:?; [|discriminate].
-  destruct s, s.
-  destruct (BinPos.Pos.eq_dec x2 x); [|discriminate]; simpl_eq; subst.
-  pose proof (@arrowsD_cons).
+  now rewrite !(substitute_not_incl f _ n).
 Admitted.
 
 Lemma rewrite_arrows {C objs arrmap dom cod idom icod f f' g g' i i' j} :
@@ -155,9 +196,9 @@ Lemma rewrite_arrows {C objs arrmap dom cod idom icod f f' g g' i i' j} :
   @arrowsD C objs arrmap dom cod i ≈ arrowsD objs arrmap dom cod j.
 Proof.
   intros.
-  erewrite (substitute_sound (g:=f) (i:=i)) in X1; eauto.
-  - now rewrite substitute_idem in X1.
-  - now symmetry.
+  rewrite X0, <- X1.
+  symmetry.
+  eapply substitute_sound; eauto.
 Qed.
 
 End Subst.
