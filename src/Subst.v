@@ -57,21 +57,35 @@ Proof.
   induction i; simpl; auto.
   destruct (list_beq _ _ _) eqn:?; [|rewrite IHi]; auto; clear IHi.
     apply list_beq_eq in Heqb; [|apply BinPos.Pos.eqb_eq].
-    rewrite Heqb at 1.
-    admit.
+    elimtype False.
+    rewrite Heqb in H; clear Heqb.
+    contradict H.
+    clear g.
+    remember (a :: i) as l.
+    remember (length f) as n.
+    clear Heql a i Heqn f.
+    generalize dependent l.
+    induction n; simpl; intros.
+      repeat intro.
+      inversion H.
+    destruct l.
+      apply incl_refl.
+    apply incl_cons; auto.
+      left; auto.
+    apply incl_tl; auto.
   intro.
   contradict H.
   right.
   now apply H0.
-Admitted.
+Qed.
 
 Local Obligation Tactic := program_simpl.
 
 Polymorphic Program Instance Arr {C : Category} objs : Category := {
-  obj := obj_idx;
-  hom := fun dom cod => option (objs dom ~{C}~> objs cod);
-  homset := fun _ _ => option_setoid;
-  id := fun _ => Some id;
+  obj     := obj_idx;
+  hom     := fun dom cod => option (objs dom ~{C}~> objs cod);
+  homset  := fun _ _ => option_setoid;
+  id      := fun _ => Some id;
   compose := fun _ _ _ f g =>
                match f, g with
                | Some f, Some g => Some (f ∘ g)
