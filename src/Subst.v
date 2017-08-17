@@ -23,7 +23,26 @@ Proof.
   reflexivity.
 Qed.
 
-Fixpoint substitute (from to arr : list arr_idx) : list arr_idx :=
+Definition prefix {A} (Aeqb : A -> A -> bool) (xs ys : list A) : bool :=
+  list_beq Aeqb xs (firstn (length xs) ys).
+
+Function infix {A} (Aeqb : A -> A -> bool) (xs ys : list A) : option nat :=
+  match ys with
+  | nil =>
+    match xs with
+    | nil => Some 0%nat
+    | cons _ _ => None
+    end
+  | cons y ys =>
+    if prefix Aeqb xs (y :: ys)
+    then Some 0%nat
+    else match infix Aeqb xs ys with
+         | Some n => Some (S n)
+         | None => None
+         end
+  end.
+
+Function substitute (from to arr : list arr_idx) : list arr_idx :=
   match arr with
   | nil => nil
   | cons x xs =>
@@ -42,7 +61,13 @@ Proof.
   now rewrite firstn_skipn.
 Qed.
 
-Lemma substitute_not_incl f i : ~ incl f i -> ∀ g, substitute f g i = i.
+Lemma substitute_incl f i n : infix Eq_eqb f i = Some n ->
+  ∀ g, substitute f g i = firstn n i ++ g ++ skipn (n + length f) i.
+Proof.
+Admitted.
+
+Lemma substitute_not_incl f i : infix Eq_eqb f i = None ->
+  ∀ g, substitute f g i = i.
 Proof.
   intros.
   induction i; simpl; auto.
@@ -60,7 +85,9 @@ Proof.
       repeat intro.
       inversion H.
     destruct l.
-      apply incl_refl.
+      simpl in H.
+      discriminate.
+(*
     apply incl_cons; auto.
       left; auto.
     apply incl_tl; auto.
@@ -69,6 +96,8 @@ Proof.
   right.
   now apply H0.
 Qed.
+*)
+Admitted.
 
 Local Obligation Tactic := program_simpl.
 
@@ -78,10 +107,10 @@ Polymorphic Program Instance Arr {C : Category} objs : Category := {
   homset  := fun _ _ => option_setoid;
   id      := fun _ => Some id;
   compose := fun _ _ _ f g =>
-               match f, g with
-               | Some f, Some g => Some (f ∘ g)
-               | _, _ => None
-               end
+    match f, g with
+    | Some f, Some g => Some (f ∘ g)
+    | _, _ => None
+    end
 }.
 Next Obligation.
   proper.
@@ -179,9 +208,10 @@ Lemma substitute_sound {C objs arrmap dom cod idom icod f f' g g' i i'} :
   @arrowsD C objs arrmap dom cod (substitute f g i) ≈ Some i'.
 Proof.
   intros.
-  destruct (incl_dec Eq_eq_dec f i).
+  destruct (infix Eq_eqb f i) eqn:?.
+    rewrite (substitute_incl f _ n Heqo).
     admit.
-  rewrite !(substitute_not_incl f _ n).
+  rewrite !(substitute_not_incl f _ Heqo).
   rewrite H1.
   reflexivity.
 Admitted.
