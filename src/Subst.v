@@ -44,7 +44,11 @@ Function infix {A} (Aeqb : A -> A -> bool) (xs ys : list A) : option nat :=
 
 Function substitute (from to arr : list arr_idx) : list arr_idx :=
   match arr with
-  | nil => nil
+  | nil =>
+    match from with
+    | nil => to
+    | cons _ _ => arr
+    end
   | cons x xs =>
     (fun len =>
        if list_beq Eq_eqb from (firstn len arr)
@@ -55,6 +59,7 @@ Function substitute (from to arr : list arr_idx) : list arr_idx :=
 Lemma substitute_idem f i : substitute f f i = i.
 Proof.
   induction i; simpl; auto.
+    destruct f; auto.
   destruct (list_beq _ _ _) eqn:?; [|now rewrite IHi].
   apply list_beq_eq in Heqb; [|apply BinPos.Pos.eqb_eq].
   rewrite Heqb at 1.
@@ -64,6 +69,20 @@ Qed.
 Lemma substitute_incl f i n : infix Eq_eqb f i = Some n ->
   ∀ g, substitute f g i = firstn n i ++ g ++ skipn (n + length f) i.
 Proof.
+  intros.
+  generalize dependent n.
+  generalize dependent g.
+  induction i; simpl; intros; auto.
+    destruct f; simpl; auto.
+      admit.
+    simpl in H.
+    discriminate.
+  destruct (list_beq _ _ _) eqn:?.
+    admit.
+  unfold arr_idx in *.
+  destruct (prefix BinPos.Pos.eqb f (a :: i)) eqn:?.
+    inversion_clear H; simpl in *.
+    simpl in *.
 Admitted.
 
 Lemma substitute_not_incl f i : infix Eq_eqb f i = None ->
@@ -71,6 +90,7 @@ Lemma substitute_not_incl f i : infix Eq_eqb f i = None ->
 Proof.
   intros.
   induction i; simpl; auto.
+(*
   destruct (list_beq _ _ _) eqn:?; [|rewrite IHi]; auto; clear IHi.
     apply list_beq_eq in Heqb; [|apply BinPos.Pos.eqb_eq].
     elimtype False.
@@ -87,7 +107,6 @@ Proof.
     destruct l.
       simpl in H.
       discriminate.
-(*
     apply incl_cons; auto.
       left; auto.
     apply incl_tl; auto.
