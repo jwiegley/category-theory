@@ -170,9 +170,8 @@ Global Program Definition Category_from_Metacategory (M : Metacategory) :
 |}.
 Next Obligation. equivalence; simpl in *; subst; reflexivity. Qed.
 Next Obligation.
-  proper; simpl in *; subst; auto.
-  simpl.
-  apply f_equal.
+  proper; simpl in *; subst.
+  simpl_eq; do 2 f_equal.
   apply Eqdep_dec.UIP_dec.
   apply Fin.eq_dec.
 Qed.

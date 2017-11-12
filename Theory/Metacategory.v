@@ -215,7 +215,21 @@ Next Obligation.
   apply (FMapExt.F.MapsTo_fun c0 H).
 Qed.
 Next Obligation.
-  symmetry; apply FromArrows_obligation_7.
+  symmetry.
+  unfold FromArrows_obligation_3; simpl.
+  destruct x as [x [xl_id xr_id]];
+  destruct y as [y [yl_id yr_id]];
+  destruct z as [z [zl_id zr_id]];
+  destruct w as [w [wl_id wr_id]];
+  destruct f as [f [fl fr]];
+  destruct g as [g [gl gr]];
+  destruct h as [h [hl hr]];
+  simpl in *.
+  repeat destruct (defined_composite _ _ _).
+  unfold composite in *.
+  pose proof (fst (composition_law M f g h x2 x0 c1 c x3) c2).
+  simpl in H.
+  apply (FMapExt.F.MapsTo_fun c0 H).
 Qed.
 
 Notation "[map ]" := (M.empty _) (at level 9, only parsing).

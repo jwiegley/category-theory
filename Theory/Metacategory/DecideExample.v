@@ -42,8 +42,10 @@ Example problem3 : ∀ f g h fg gh fgh : N,
   M.find (elt:=N) (f,  gh) big = Some fgh.
 Proof.
   simpl; vm_compute triangular_number; intros.
+(*
   Time destruct_maps; try nomega. (* takes 1.68s *)
   Undo.
+*)
   Time map_decide.                (* takes 0.016s *)
 Qed.
 

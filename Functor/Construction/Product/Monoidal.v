@@ -10,7 +10,6 @@ Require Export Category.Structure.Monoidal.Proofs.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section ProductMonoidal.
 
@@ -93,8 +92,6 @@ Proof.
   abstract apply (iso_from_to (ap_functor_iso[P]) (H5, H4)).
 Time Defined.
 
-Set Transparent Obligations.
-
 Program Definition ProductFunctor_Monoidal :
   MonoidalFunctor F -> MonoidalFunctor G
     -> MonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
@@ -112,10 +109,10 @@ Next Obligation.
 Defined.
 Next Obligation.
   intros; isomorphism; split; apply pure_iso_left || apply pure_iso_right.
-Qed.
+Defined.
 Next Obligation.
   intros; isomorphism; split; apply pure_iso_left || apply pure_iso_right.
-Qed.
+Defined.
 Next Obligation.
   intros; isomorphism; split; apply ap_iso_assoc.
 Qed.
