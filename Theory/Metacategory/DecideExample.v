@@ -43,10 +43,10 @@ Example problem3 : ∀ f g h fg gh fgh : N,
 Proof.
   simpl; vm_compute triangular_number; intros.
 (*
-  Time destruct_maps; try nomega. (* takes 1.68s *)
+  destruct_maps; try nomega. (* takes 1.68s *)
   Undo.
 *)
-  Time map_decide.                (* takes 0.016s *)
+  map_decide.                (* takes 0.016s *)
 Qed.
 
 Print Assumptions problem3.
@@ -59,9 +59,9 @@ Example problem4 : ∀ f g h fg gh fgh : N,
   M.find (elt:=N) (f,  gh) big = Some fgh.
 Proof.
   simpl; vm_compute triangular_number; intros.
-  (* Time destruct_maps; try nomega. (* takes 30.15s *) *)
+  (* destruct_maps; try nomega. (* takes 30.15s *) *)
   (* Undo. *)
-  Time map_decide.                (* takes 0.035s *)
+  map_decide.                (* takes 0.035s *)
 Qed.
 
 Example problem5 : ∀ f g h fg gh fgh : N,
@@ -72,9 +72,9 @@ Example problem5 : ∀ f g h fg gh fgh : N,
   M.find (elt:=N) (f,  gh) big = Some fgh.
 Proof.
   simpl; vm_compute triangular_number; intros.
-  (* Time destruct_maps; try nomega. (* takes 2501s *) *)
+  (* destruct_maps; try nomega. (* takes 2501s *) *)
   (* Undo. *)
-  Time map_decide.                (* takes 0.085s *)
+  map_decide.                (* takes 0.085s *)
 Qed.
 
 Example problem100 : ∀ f g h fg gh fgh : N,
@@ -85,7 +85,7 @@ Example problem100 : ∀ f g h fg gh fgh : N,
   M.find (elt:=N) (f,  gh) big = Some fgh.
 Proof.
   simpl; vm_compute triangular_number; intros.
-  (* Time destruct_maps; try nomega. (* takes 2501s *) *)
+  (* destruct_maps; try nomega. (* takes 2501s *) *)
   (* Undo. *)
-  Time map_decide.                (* takes 2.445s *)
+  map_decide.                (* takes 2.445s *)
 Qed.

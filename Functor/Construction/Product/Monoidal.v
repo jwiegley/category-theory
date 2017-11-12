@@ -90,7 +90,7 @@ Proof.
   split; simplify.
     abstract apply (iso_from_to (ap_functor_iso[O]) (A, H3)).
   abstract apply (iso_from_to (ap_functor_iso[P]) (H5, H4)).
-Time Defined.
+Defined.
 
 Program Definition ProductFunctor_Monoidal :
   MonoidalFunctor F -> MonoidalFunctor G
