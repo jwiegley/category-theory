@@ -49,8 +49,6 @@ Proof.
   map_decide.                (* takes 0.016s *)
 Qed.
 
-Print Assumptions problem3.
-
 Example problem4 : ∀ f g h fg gh fgh : N,
   let big := composable_pairs 4 in
   M.find (elt:=N) (f,  g)  big = Some fg ->
