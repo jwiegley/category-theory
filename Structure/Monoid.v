@@ -27,6 +27,18 @@ Class MonoidObject (mon : C) := {
     mappend ∘ bimap mappend id ≈ mappend ∘ bimap id mappend ∘ to tensor_assoc
 }.
 
+Context (mon : C).
+Context `{@MonoidObject mon}.
+
+Lemma mappend_assoc_sym :
+  mappend ∘ bimap id mappend ≈ mappend ∘ bimap mappend id ∘ (tensor_assoc ⁻¹).
+Proof.
+  rewrite mappend_assoc.
+  rewrite <- comp_assoc.
+  rewrite iso_to_from.
+  cat.
+Qed.
+
 End MonoidObject.
 
 Notation "mempty[ M ]" := (@mempty _ _ _ M)

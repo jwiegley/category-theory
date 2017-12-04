@@ -65,6 +65,7 @@ Structure/Monoidal/Semicocartesian.v
 Structure/Monoidal/Symmetric.v
 Structure/Monoidal/Braided.v
 Structure/Monoid.v
+Structure/Group.v
 Structure/Cone.v
 Structure/Cone/Natural/Transformation.v
 Structure/Cone/Const.v
