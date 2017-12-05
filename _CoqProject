@@ -66,6 +66,7 @@ Structure/Monoidal/Symmetric.v
 Structure/Monoidal/Braided.v
 Structure/Monoid.v
 Structure/Group.v
+Structure/Group/Proofs.v
 Structure/Cone.v
 Structure/Cone/Natural/Transformation.v
 Structure/Cone/Const.v
