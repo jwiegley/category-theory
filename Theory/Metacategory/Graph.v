@@ -157,6 +157,7 @@ Qed.
    theory, gives rise to a category interpreted in the context of set
    theory. *)
 
+(* jww (2017-12-14): This triggers an Anamoly with Coq 8.7
 Global Program Definition Category_from_Metacategory (M : Metacategory) :
   Category := {|
   obj     := object M;
@@ -179,6 +180,7 @@ Next Obligation. apply identity_left; reflexivity. Qed.
 Next Obligation. apply identity_right; reflexivity. Qed.
 Next Obligation. apply composition_associative. Qed.
 Next Obligation. symmetry; apply composition_associative. Qed.
+*)
 
 Import VectorNotations.
 Import Fin.
