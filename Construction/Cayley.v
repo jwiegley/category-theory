@@ -20,8 +20,7 @@ Program Instance Cayley_Representation : Category := {
     { f : ∀ r, (y ~> r) -> (x ~> r)
     & Proper (forall_relation (fun r => (equiv ==> equiv)%signature)) f ∧
       ∀ r k, f r k ≈ k ∘ f _ id[y] };
-  homset  := fun x y =>
-    {| equiv := fun f g => ∀ r k, `1 f r k ≈ `1 g r k |};
+  homset  := fun x y => {| equiv := fun f g => ∀ r k, `1 f r k ≈ `1 g r k |};
   id      := fun _ => (fun _ => Datatypes.id; _);
   compose := fun x y z f g  => (fun r k => `1 g r (`1 f r k); _)
 }.
