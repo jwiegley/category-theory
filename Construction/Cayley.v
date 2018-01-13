@@ -72,8 +72,8 @@ Program Instance From_Cayley : Cayley_Representation ⟶ C := {
 
 Context `{Cayley_Representation}.
 
-(* No matter how we associate the mapped morphism, the functor back from
-   Cayley returns them left-associated. *)
+(* No matter how we associate the mapped morphisms, the functor back from
+   Cayley yields them left-associated. *)
 
 Lemma Cayley_Right (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) :
   (forall a b (k : a ~{C}~> b), id[b] ∘ k = k) ->
