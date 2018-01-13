@@ -37,6 +37,7 @@ Construction/Comma/Adjunction2.v
 Construction/Comma/Adjunction/Lib.v
 Construction/Comma/Natural/Transformation.v
 Construction/Comma/Isomorphism.v
+Construction/Cayley.v
 Structure/Discrete.v
 Structure/Terminal.v
 Structure/Cartesian.v
