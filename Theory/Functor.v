@@ -186,10 +186,32 @@ Class Full `(F : C ⟶ D) := {
   fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g
 }.
 
-Class FullyFaithful `(F : C ⟶ D) := {
+(* A few more properties that follow from the above. *)
+Record FullyFaithful `(F : C ⟶ D) := {
   fmap_bij {x y} : F x ~> F y ↔ x ~> y;
   fobj_inj {x y} : F x ≅ F y -> x ≅ y
 }.
+
+Theorem Full_and_Faithful `(F : C ⟶ D) :
+  Full F -> Faithful F -> FullyFaithful F.
+Proof.
+  intros.
+  construct.
+    split; intros.
+      now apply prefmap.
+    now apply fmap.
+  construct.
+  - apply (prefmap (to X1)).
+  - apply (prefmap (from X1)).
+  - destruct X1; simpl.
+    apply fmap_inj.
+    rewrite fmap_id, fmap_comp.
+    now rewrite !fmap_sur.
+  - destruct X1; simpl.
+    apply fmap_inj.
+    rewrite fmap_id, fmap_comp.
+    now rewrite !fmap_sur.
+Qed.
 
 Definition FAlgebra `(F : C ⟶ C) (a : C) := F a ~> a.
 
