@@ -98,3 +98,5 @@ Proof.
   rewrite H0.
   reflexivity.
 Qed.
+
+End Cayley.
