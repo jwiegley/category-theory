@@ -12,8 +12,8 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Definition Presheaves   (C : Category) := [C^op, Sets].
-Definition Copresheaves (C : Category) := [C, Sets].
+Definition Presheaves   {C : Category} := [C^op, Sets].
+Definition Copresheaves {C : Category} := [C, Sets].
 
 (* The Yoneda lemma tells us that a natural transformation, from the covariant
    or contravariant hom-functor on some object in C, to some other functor
@@ -40,8 +40,8 @@ Definition Copresheaves (C : Category) := [C, Sets].
    easier, which become more difficult when restricted to the fully abstract
    nature of `C`. *)
 
-Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) {A : C} :
-  [C^op, Sets] [Hom ─,A] F ≅ F A := {
+Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) :
+  ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := {
   to   := {| morphism := fun x => transform[x] A id |};
   from := {| morphism := fun y : F A =>
              {| transform := fun x : C =>
@@ -88,8 +88,8 @@ Next Obligation.
   apply transform; cat.
 Qed.
 
-Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) {A : C} :
-  [C, Sets] [Hom A,─] F ≅ F A := {
+Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) :
+  ∀ A : C, Copresheaves [Hom A,─] F ≅ F A := {
   to   := {| morphism := fun x => transform[x] A id |};
   from := {| morphism := fun y : F A =>
              {| transform := fun x : C =>
