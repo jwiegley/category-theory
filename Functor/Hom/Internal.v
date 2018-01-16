@@ -9,25 +9,19 @@ Require Import Category.Construction.Product.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
+Set Transparent Obligations.
 
 Program Definition InternalHomFunctor `(C : Category)
         {E : @Cartesian C} {O : @Closed C _} : C^op ∏ C ⟶ C := {|
   fobj := fun p => @exponent_obj C E O (fst p) (snd p);
-  fmap := fun x y f => _
+  fmap := fun x y '(f, g) => curry (g ∘ eval ∘ second (op f))
 |}.
 Next Obligation.
-  exact (curry (h0 ∘ eval ∘ (second h))).
-Defined.
-Next Obligation.
-  unfold InternalHomFunctor_obligation_1.
   proper; simpl.
-  rewrites.
-  reflexivity.
+  now rewrites.
 Qed.
-Next Obligation. unfold second; simpl; cat. Qed.
+Next Obligation. unfork; cat. Qed.
 Next Obligation.
-  unfold InternalHomFunctor_obligation_1; simpl.
   rewrite <- !comp_assoc.
   rewrite curry_comp.
   symmetry.
@@ -42,7 +36,7 @@ Next Obligation.
   rewrite !comp_assoc.
   rewrite ump_exponents.
   rewrite <- !comp_assoc.
-  rewrite second_comp.
+  rewrite <- second_comp.
   reflexivity.
 Qed.
 
