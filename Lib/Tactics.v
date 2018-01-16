@@ -1,6 +1,6 @@
 Set Warnings "-notation-overridden".
 
-Require Export Lib.Setoid.
+Require Export Category.Lib.Setoid.
 
 Generalizable All Variables.
 Set Primitive Projections.

@@ -1,6 +1,6 @@
 Set Warnings "-notation-overridden".
 
-Require Export Lib.Foundation.
+Require Export Category.Lib.Foundation.
 Require Export Coq.Classes.CEquivalence.
 Require Export Coq.Classes.CRelationClasses.
 Require Export Coq.Classes.CMorphisms.
