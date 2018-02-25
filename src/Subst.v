@@ -11,11 +11,53 @@ Require Import Solver.Expr.
 Require Import Solver.Denote.
 Require Import Solver.Normal.
 Require Import Solver.Sound.
+Require Import Solver.Category.
 
 Generalizable All Variables.
 
 Section Subst.
 
+Context {C : Category}.
+
+Variable objs : obj_idx -> C.
+Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
+
+Definition substitute dom cod (arr : ReifiedArrow objs arrmap dom cod)
+           i j (from to : ReifiedArrow objs arrmap i j) :
+  ReifiedArrow objs arrmap dom cod.
+Proof.
+  generalize dependent cod.
+  induction 1
+    as [|mid cod x xs f' g' Hf' Hg' f g h Hf Hg Hfg IHarr]
+    using @arr_rect; intros.
+    destruct (getArrList objs arrmap from).
+      destruct (Eq_eq_dec i dom); subst.
+        destruct (Eq_eq_dec j dom); subst.
+          exact to.
+        exact f.
+      exact f.
+    exact f.
+  destruct (Eq_eq_dec j cod); subst.
+    pose (length (getArrList objs arrmap from)) as len.
+    destruct (arr_break objs arrmap len h), s, s.
+    destruct (list_beq Eq_eqb (getArrList objs arrmap x1)
+                       (getArrList objs arrmap from)).
+      destruct (Eq_eq_dec x0 i); subst.
+        exact (to ∘[Reified objs arrmap] x2).
+      exact (f ∘[Reified objs arrmap] IHarr).
+    exact (f ∘[Reified objs arrmap] IHarr).
+  exact (f ∘[Reified objs arrmap] IHarr).
+Defined.
+
+Fixpoint substitute' dom cod (arr : ReifiedArrow objs arrmap dom cod)
+           i j (from to : ReifiedArrow objs arrmap i j) :
+  ReifiedArrow objs arrmap dom cod :=
+  match getArrList arr with
+  | nil => _
+  | cons x x0 => _
+  end
+
+(*
 Definition subst_all_expr (x : Expr) (xs : list (Expr * Expr)) : Expr := x.
 
 Lemma expr_size_subst q defs : expr_size (subst_all_expr q defs) = expr_size q.
@@ -55,10 +97,32 @@ Function substitute (from to arr : list arr_idx) : list arr_idx :=
        then to ++ skipn len arr
        else x :: substitute from to xs) (length from)
   end.
+*)
 
-Lemma substitute_idem f i : substitute f f i = i.
+Program Instance substitute_respects :
+  Proper
+    (forall_relation
+       (fun dom =>
+          forall_relation
+            (fun cod =>
+               @equiv _ (ReifiedArrow_Setoid objs arrmap dom cod) ==>
+               (forall_relation
+                  (fun i =>
+                     forall_relation
+                       (fun j =>
+                          @equiv _ (ReifiedArrow_Setoid objs arrmap i j) ==>
+                          @equiv _ (ReifiedArrow_Setoid objs arrmap i j) ==>
+                          equiv)%signature)))%signature))
+         substitute.
+Next Obligation.
+  proper.
+Admitted.
+
+Lemma substitute_idem dom cod (f : ReifiedArrow objs arrmap dom cod)
+      i j (g : ReifiedArrow objs arrmap i j) :
+  substitute dom cod f i j g g ≈ f.
 Proof.
-  induction i; simpl; auto.
+  induction f using @arr_rect; simpl; auto.
     destruct f; auto.
   destruct (list_beq _ _ _) eqn:?; [|now rewrite IHi].
   apply list_beq_eq in Heqb; [|apply BinPos.Pos.eqb_eq].
@@ -236,11 +300,10 @@ Proof.
 Admitted.
 
 Lemma rewrite_arrows {C objs arrmap dom cod idom icod} :
-  ∀ f f', arrowsD objs arrmap idom icod f = Some f' ->
-  ∀ g g', arrowsD objs arrmap idom icod g = Some g' ->
-  f' ≈ g' ->
-  ∀ i i', arrowsD objs arrmap dom cod i = Some i' ->
-  ∀ j j', arrowsD objs arrmap dom cod j = Some j' ->
+  ∀ f g (af : ReifiedArrow objs arrmap idom icod f)
+        (ag : ReifiedArrow objs arrmap idom icod g), (f; af) ≈ (g; ag) ->
+  ∀ i j (ai : ReifiedArrow objs arrmap dom cod i)
+        (aj : ReifiedArrow objs arrmap dom cod j),
   arrowsD objs arrmap dom cod (substitute f g i) ≈ arrowsD objs arrmap dom cod j ->
   @arrowsD C objs arrmap dom cod i ≈ arrowsD objs arrmap dom cod j.
 Proof.

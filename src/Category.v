@@ -12,7 +12,373 @@ Require Import Recdef.
 Require Import Category.Lib.
 Require Import Category.Theory.Functor.
 
+Require Import Solver.Lib.
+Require Import Solver.Expr.
+Require Import Solver.Sound.
+Require Import Solver.Normal.
+
 Generalizable All Variables.
+
+Section Categories.
+
+Context {C : Category}.
+
+Variable objs : obj_idx -> C.
+Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
+
+Definition arrs (a : arr_idx) := M.find a arrmap.
+
+(* A reified arrow is a list of morphism indices within the current
+   environment that denotes a known arrow. *)
+Inductive ReifiedArrow dom cod :=
+  | mkArr : forall (f : list arr_idx) (f' : objs dom ~{C}~> objs cod),
+      arrowsD objs arrmap dom cod f ≈ Some f' -> ReifiedArrow dom cod.
+
+Arguments mkArr [dom cod] f f' _.
+
+Definition getArrList {dom cod} `(a : ReifiedArrow dom cod) : list arr_idx :=
+  match a with
+  | mkArr f _ _ => f
+  end.
+
+Definition getArrMorph {dom cod} `(a : ReifiedArrow dom cod) :
+  objs dom ~{C}~> objs cod :=
+  match a with
+  | mkArr _ f' _ => f'
+  end.
+
+Definition getArrProof {dom cod} `(a : ReifiedArrow dom cod) :
+  arrowsD objs arrmap dom cod (getArrList a) ≈ Some (getArrMorph a) :=
+  match a with
+  | mkArr _ _ H => H
+  end.
+
+Global Program Instance ReifiedArrow_Setoid dom cod : Setoid (ReifiedArrow dom cod) := {
+  equiv := fun f g => getArrMorph f ≈ getArrMorph g
+}.
+
+Import EqNotations.
+
+Lemma arrowsD_app_comp {dom mid cod f g f' g' fg'} :
+  (0 < length f)%nat ->
+  (0 < length g)%nat ->
+  arrowsD_work objs arrmap mid f = Some (cod; f') ->
+  arrowsD_work objs arrmap dom g = Some (mid; g') ->
+  arrowsD_work objs arrmap dom (f ++ g) = Some (cod; fg') ->
+  fg' = f' ∘ g'.
+Proof.
+Admitted.
+
+Program Definition Reified : Category := {|
+  obj     := obj_idx;
+  hom     := ReifiedArrow;
+  homset  := ReifiedArrow_Setoid;
+  id      := fun x => mkArr (dom:=x) nil id _;
+  compose := fun x y z f g =>
+    (* match getArrList f, getArrList g with *)
+    (* | nil, _ => g *)
+    (* | _, nil => f *)
+    (* | _, _ => *)
+      mkArr (dom:=x) (cod:=z)
+            (getArrList f ++ getArrList g)
+            (getArrMorph f ∘ getArrMorph g) _
+    (* end *)
+|}.
+Next Obligation.
+  unfold arrowsD; simpl.
+  now rewrite Pos_eq_dec_refl.
+Defined.
+Next Obligation.
+  destruct f, g; simpl in *.
+  unfold arrowsD in *.
+  do 2 destruct_arrows.
+  pose proof (arrowsD_compose_r _ _ Heqo0 Heqo).
+  destruct X, p.
+  rewrite e2.
+  rewrite Pos_eq_dec_refl.
+  now rewrite e1, e, e0.
+Defined.
+
+Import EqNotations.
+
+Lemma ReifiedArrow_nil {dom cod} (a : ReifiedArrow dom cod) :
+  getArrList a = []
+    -> ∃ Heq : dom = cod,
+         getArrMorph a ≈ rew [fun cod => objs dom ~> objs cod] Heq
+                           in @id C (objs dom).
+Proof.
+  intros.
+  destruct a; simpl in *.
+  rewrite H in e.
+  unfold arrowsD in e.
+  simpl in e.
+  destruct (Pos.eq_dec dom cod).
+    cat.
+  contradiction.
+Defined.
+
+Lemma ReifiedArrow_cons {dom cod} (a : ReifiedArrow dom cod) x xs :
+  getArrList a = x :: xs
+    -> ∃ mid (f : ReifiedArrow mid cod)
+             (g : ReifiedArrow dom mid),
+         getArrList f = [x] ∧ getArrList g = xs.
+Proof.
+  intros.
+  destruct a; simpl in *.
+  rewrite H in e.
+  replace (x :: xs) with ([x] ++ xs) in e by reflexivity.
+  unfold arrowsD in e.
+  destruct_arrows.
+  destruct (arrowsD_compose objs arrmap Heqo), s, s, p, p.
+  destruct (Eq_eq_dec x0 cod); subst; [|contradiction].
+  exists x1.
+  unshelve eexists (mkArr [x] x2 _).
+    unfold arrowsD.
+    rewrite e1.
+    rewrite Pos_eq_dec_refl.
+    reflexivity.
+  unshelve eexists (mkArr xs x3 _).
+    unfold arrowsD.
+    rewrite e2.
+    rewrite Pos_eq_dec_refl.
+    reflexivity.
+  auto.
+Qed.
+
+Lemma ReifiedArrow_app {dom mid cod}
+      (a : ReifiedArrow dom cod)
+      (f : ReifiedArrow mid cod)
+      (g : ReifiedArrow dom mid) :
+  getArrList a = getArrList f ++ getArrList g -> a ≈ f ∘[Reified] g.
+Proof.
+  destruct a, f, g; simpl in *; intros.
+  subst.
+  unfold arrowsD in e.
+  simpl in e.
+  destruct_arrows.
+  destruct (arrowsD_compose objs arrmap Heqo), s, s, p, p.
+  clear Heqo.
+  rewrite <- e; clear e.
+  rewrite e2; clear e2.
+  unfold arrowsD in e0.
+  simpl in e0.
+  destruct_arrows.
+  rewrite <- e0; clear e0.
+  unfold arrowsD in e1.
+  simpl in e1.
+  destruct_arrows.
+  rewrite <- e1; clear e1.
+  inversion e4; subst.
+  apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply Pos.eq_dec].
+  subst.
+  rewrite e3 in Heqo.
+  inversion Heqo.
+  apply Eqdep_dec.inj_pair2_eq_dec in H0; [|apply Pos.eq_dec].
+  subst.
+  reflexivity.
+Qed.
+
+Program Definition arr_uncons {dom cod} `(f : ReifiedArrow dom cod) :
+  ∃ mid (g : ReifiedArrow mid cod) (h : ReifiedArrow dom mid),
+    f ≈ g ∘[Reified] h ∧
+    match getArrList f with
+    | x :: xs => getArrList g = [x] ∧ getArrList h = xs
+    | nil => getArrList g = nil ∧ getArrList h = nil
+    end :=
+  match f with
+  | mkArr nil g H =>
+    match Pos.eq_dec dom cod with
+    | left _ => (dom; (f; (f; _)))
+    | right _ => !
+    end
+  | mkArr (x :: xs) f' H =>
+    match Normal.arrs objs arrmap x with
+    | None => !
+    | Some (mid; (cod'; g)) =>
+      match Pos.eq_dec cod cod' with
+      | left _ =>
+        match arrowsD objs arrmap dom mid xs with
+        | None => !
+        | Some h => (mid; (mkArr [x] g _; (mkArr xs h _; _)))
+        end
+      | right _ => !
+      end
+    end
+  end.
+Next Obligation.
+  split; auto.
+  unfold arrowsD in H; simpl in H.
+  rewrite Pos_eq_dec_refl in H.
+  simpl_eq.
+  rewrite <- H; cat.
+Qed.
+Next Obligation.
+  unfold arrowsD in H; simpl in H.
+  destruct (Pos.eq_dec dom cod); subst; contradiction.
+Qed.
+Next Obligation.
+  replace (x :: xs) with ([x] ++ xs) in * by reflexivity.
+  unfold arrowsD in H.
+  destruct_arrows.
+  destruct (arrowsD_compose objs arrmap Heqo), s, s, p, p.
+  simpl in e0.
+  rewrite <- Heq_anonymous in e0.
+  discriminate.
+Qed.
+Next Obligation.
+  replace (x :: xs) with ([x] ++ xs) in * by reflexivity.
+  unfold arrowsD in H.
+  destruct_arrows.
+  destruct (arrowsD_compose objs arrmap Heqo), s, s, p, p.
+  unfold arrowsD in Heq_anonymous.
+  rewrite e1 in Heq_anonymous.
+  simpl in e0.
+  rewrite <- Heq_anonymous0 in e0.
+  simpl in *.
+  destruct (Pos.eq_dec x0 mid); subst.
+    discriminate.
+  destruct (Pos.eq_dec mid x0); subst.
+    contradiction.
+  discriminate.
+Qed.
+Next Obligation.
+  unfold arrowsD in *.
+  simpl in *.
+  rewrite <- Heq_anonymous0 in *.
+  do 2 rewrite Pos_eq_dec_refl.
+  reflexivity.
+Qed.
+Next Obligation.
+  replace (x :: xs) with ([x] ++ xs) in * by reflexivity.
+  unfold arrowsD in H.
+  destruct_arrows.
+  destruct (arrowsD_compose objs arrmap Heqo), s, s, p, p.
+  simpl in e0.
+  rewrite <- Heq_anonymous0 in e0.
+  destruct (Pos.eq_dec mid x0); subst; [|discriminate].
+  simpl_eq.
+  inversion e0; clear e0.
+  rewrite H in e.
+  apply Eqdep_dec.inj_pair2_eq_dec in H1.
+    subst.
+    unfold arrowsD in Heq_anonymous.
+    rewrite e1 in Heq_anonymous.
+    rewrite Pos_eq_dec_refl in Heq_anonymous.
+    simpl_eq.
+    inversion Heq_anonymous.
+    subst.
+    assumption.
+  apply Pos.eq_dec.
+Qed.
+Next Obligation.
+  replace (x :: xs) with ([x] ++ xs) in * by reflexivity.
+  unfold arrowsD in H.
+  destruct_arrows.
+  destruct (arrowsD_compose objs arrmap Heqo), s, s, p, p.
+  simpl in e0.
+  rewrite <- Heq_anonymous0 in e0.
+  destruct (Pos.eq_dec mid x0); subst; [|discriminate].
+  simpl_eq.
+  inversion e0.
+  subst.
+  contradiction.
+Qed.
+
+Lemma arr_rect {dom} (P : ∀ cod, ReifiedArrow dom cod → Type) :
+  (∀ f, f ≈[Reified] id -> P dom f)
+    → (∀ mid cod (x : arr_idx) (xs : list arr_idx)
+         (f' : objs mid ~> objs cod)
+         (g' : objs dom ~> objs mid)
+         (Hf' : arrowsD objs arrmap mid cod [x] ≈ Some f')
+         (Hg' : arrowsD objs arrmap dom mid xs  ≈ Some g')
+         f g h,
+              f ≈ mkArr [x] f' Hf'
+           -> g ≈ mkArr xs g' Hg'
+           -> h ≈ f ∘[Reified] g
+           -> P mid g
+           -> P cod h)
+    → ∀ cod (a : ReifiedArrow dom cod), P cod a.
+Proof.
+  intros.
+  destruct a.
+  generalize dependent dom.
+  generalize dependent cod.
+  induction f; simpl; intros.
+    destruct (ReifiedArrow_nil (mkArr [] f' e) eq_refl).
+    subst; simpl_eq.
+    simpl in *; subst.
+    apply X.
+    assumption.
+  destruct (ReifiedArrow_cons (mkArr (a :: f) f' e) a f eq_refl), s, s, p.
+  unshelve refine
+           (X0 x cod a f (getArrMorph x0) (getArrMorph x1) _ _
+               x0 x1 _ (reflexivity _) (reflexivity _) _ _); auto.
+  - rewrite <- e0.
+    destruct x0.
+    apply e2.
+  - rewrite <- e1.
+    destruct x1.
+    apply e2.
+  - simpl.
+    clear X X0 IHf.
+    replace (a :: f) with ([a] ++ f) in e by reflexivity.
+    unfold arrowsD in e.
+    destruct_arrows.
+    destruct (arrowsD_compose objs arrmap Heqo), s, s, p, p.
+    destruct (Eq_eq_dec x2 cod); subst; [|contradiction].
+    rewrite <- e, e2; clear e e2 Heqo.
+    rewrite <- e0 in e3; clear e0.
+
+    destruct x0, x1; simpl in *.
+    unfold arrowsD in *.
+    do 2 destruct_arrows.
+    rewrite <- e, <- e0; clear e e0.
+    inversion e4; subst; clear e4.
+    apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply Pos.eq_dec].
+    rewrite Heqo in e3.
+    inversion e3; subst; clear e3.
+    apply Eqdep_dec.inj_pair2_eq_dec in H0; [|apply Pos.eq_dec].
+    subst.
+    reflexivity.
+  - destruct x1.
+    simpl in e1; subst.
+    eapply IHf; eauto.
+Defined.
+
+Program Definition arr_break {dom cod} (n : nat) `(f : ReifiedArrow dom cod) :
+  ∃ mid (g : ReifiedArrow mid cod) (h : ReifiedArrow dom mid),
+    f ≈ g ∘[Reified] h.
+Proof.
+  generalize dependent cod.
+  induction n; intros.
+    exists cod, (@id Reified _), f; cat.
+  generalize dependent cod.
+  induction f using @arr_rect.
+    exists dom, (@id Reified _), (@id Reified _); cat.
+  clear IHf1.
+  destruct (IHn mid f2), s, s.
+  exists x0, (f1 ∘[Reified] x1), x2.
+  rewrite <- comp_assoc.
+  rewrite <- e.
+  assumption.
+Defined.
+
+Definition arr_size {dom cod} (f : ReifiedArrow dom cod) : nat :=
+  length (getArrList f).
+
+Lemma arr_break_size {dom cod n f} :
+  (0 < arr_size f)%nat -> (0 < n)%nat ->
+  match @arr_break dom cod n f with
+  | (mid; (g; (h; H))) =>
+    (arr_size h < arr_size f)%nat
+  end.
+Proof.
+  intros.
+  generalize dependent cod.
+  induction f using @arr_rect; intros.
+Abort.
+
+End Categories.
 
 (*
 Section Normalization.
