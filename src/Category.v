@@ -34,11 +34,9 @@ Definition arrs (a : arr_idx) := M.find a arrmap.
    environment that denotes a known arrow. *)
 Inductive ReifiedArrow (dom : obj_idx) : obj_idx -> list arr_idx -> Type :=
   | IdentityArrow : ReifiedArrow dom dom []
-  | SingleArrow : forall (f : arr_idx) (cod : obj_idx)
-                         (f' : objs dom ~> objs cod),
-      arrs f = Some (dom; (cod; f'))
-        -> ReifiedArrow dom cod [f]
-  | ComposedArrow : forall (mid cod : obj_idx) f g gs,
+  | SingleArrow : forall f cod f', arrs f = Some (dom; (cod; f'))
+      -> ReifiedArrow dom cod [f]
+  | ComposedArrow : forall mid cod f g gs,
       ReifiedArrow mid cod [f]
         -> ReifiedArrow dom mid (g :: gs)
         -> ReifiedArrow dom cod (f :: g :: gs).
@@ -179,76 +177,6 @@ Proof.
   intros.
   destruct (ReifiedArrow_dom_cod_eq f g); auto.
 Qed.
-
-Axiom undefined : forall A : Type, A.
-
-Definition ReifiedArrow_inv_t : forall dom cod fs,
-  ReifiedArrow dom cod fs -> Prop.
-Proof.
-  intros ??? f.
-  generalize dependent cod.
-  induction fs; intros.
-    destruct (Pos.eq_dec dom cod); subst.
-      exact (f = IdentityArrow cod).
-    exact (False).
-  destruct fs.
-    destruct (arrs a) eqn:?.
-      destruct s, s.
-      destruct (Pos.eq_dec dom x); subst.
-        destruct (Pos.eq_dec cod x0); subst.
-          exact (f = SingleArrow x a x0 h Heqo).
-        exact (False).
-      exact (False).
-    exact (False).
-  destruct (arrs a) eqn:?.
-    destruct s, s.
-    destruct (Pos.eq_dec cod x0); subst.
-      assert (ReifiedArrow dom x (a0 :: fs)).
-        exact (undefined _).
-      exact (f = ComposedArrow dom x x0 a a0 fs (SingleArrow x a x0 h Heqo) X).
-    exact (False).
-  exact (False).
-Defined.
-
-Corollary ReifiedArrow_inv {dom cod fs} f : @ReifiedArrow_inv_t dom cod fs f.
-Proof.
-  destruct f; simpl.
-  - now rewrite Pos_eq_dec_refl.
-  - exact (undefined _).
-  - exact (undefined _).
-Defined.
-
-Lemma ReifiedArrow_IdentityArrow {dom} (f : ReifiedArrow dom dom []) :
-  f = IdentityArrow dom.
-Proof.
-  pose proof (@ReifiedArrow_inv _ _ _ f).
-  simpl in H.
-  rewrite Pos_eq_dec_refl in H.
-  assumption.
-Qed.
-
-Lemma ReifiedArrow_id {dom} (f : ReifiedArrow dom dom []) :
-  getArrMorph f ≈ id.
-Proof.
-  rewrite (ReifiedArrow_IdentityArrow f).
-  now rewrite getArrMorph_equation_1.
-Qed.
-
-Lemma ReifiedArrow_mor {dom cod} `(f : ReifiedArrow dom cod [a]) :
-  ∃ f', arrs a = Some (dom; (cod; f')) ∧ getArrMorph f ≈ f'.
-Proof.
-  dependent destruction f.
-  exists f'.
-  split; auto.
-  now rewrite getArrMorph_equation_2.
-Qed.
-
-Lemma ReifiedArrow_SingleArrow {dom cod} `(f : ReifiedArrow dom cod [a]) :
-  ∃ h Heqo, f = SingleArrow dom a cod h Heqo.
-Proof.
-  pose proof (@ReifiedArrow_inv _ _ _ f).
-  simpl in H.
-Abort.
 
 Equations ReifiedArrow_comp {dom mid cod}
           `(f : ReifiedArrow mid cod (x :: xs))
@@ -429,9 +357,14 @@ Next Obligation. symmetry; apply ReifiedArrow_comp_ex_assoc. Qed.
 
 Import EqNotations.
 
+Lemma ReifiedArrow_eq {dom cod fs} (f g : ReifiedArrow dom cod fs) : f = g.
+Proof.
+Admitted.
+
 Equations ReifiedArrow_eq {dom cod}
       `(f : ReifiedArrow dom cod fs)
       `(g : ReifiedArrow dom cod fs) : f = g :=
+  ReifiedArrow_eq f g by rec fs (MR lt (@length arr_idx)) :=
   ReifiedArrow_eq IdentityArrow IdentityArrow := eq_refl;
   ReifiedArrow_eq (SingleArrow _) (SingleArrow _) := _;
   ReifiedArrow_eq (ComposedArrow f f') (ComposedArrow g g') := _.
@@ -447,7 +380,65 @@ Next Obligation.
   apply UIP_refl.
 Qed.
 Next Obligation.
+  pose proof (ReifiedArrow_dom_eq f g eq_refl); subst.
+  f_equal.
+  - clear ReifiedArrow_eq.
+    intros.
+    generalize dependent dom2.
+    generalize dependent wildcard12.
+    generalize dependent wildcard13.
+    generalize dependent wildcard14.
+    generalize dependent wildcard15.
+    generalize dependent wildcard16.
+    induction f; intros.
+    + dependent destruction g; auto.
+    + dependent destruction g.
+      assert (f' = f'1).
+        rewrite e in e0.
+        inversion e0; subst.
+        apply Eqdep_dec.inj_pair2_eq_dec in H0; [|apply Pos.eq_dec].
+        apply Eqdep_dec.inj_pair2_eq_dec in H0; [|apply Pos.eq_dec].
+        assumption.
+      subst.
+      f_equal.
+      apply proof_irrelevance.
+    + dependent destruction g0.
+      pose proof (ReifiedArrow_dom_eq f2 g0_1 eq_refl); subst.
+      f_equal.
+        eapply IHf1; eauto.
+    apply ReifiedArrow_eq; constructor.
+    simpl.
+    admit.
+  - apply ReifiedArrow_eq; constructor.
 Admitted.
+
+Equations ReifiedArrow_eq_equiv {dom cod}
+          `(f : ReifiedArrow dom cod fs)
+          (g : ReifiedArrow dom cod fs) : getArrMorph f ≈ getArrMorph g :=
+  ReifiedArrow_eq_equiv f g by rec fs (MR lt (@length arr_idx)) :=
+  ReifiedArrow_eq_equiv IdentityArrow IdentityArrow := reflexivity _;
+  ReifiedArrow_eq_equiv SingleArrow SingleArrow := _;
+  ReifiedArrow_eq_equiv (ComposedArrow f f') (ComposedArrow g g') := _.
+Next Obligation.
+  rewrite !getArrMorph_equation_2.
+  rewrite wildcard2 in wildcard6.
+  inversion wildcard6.
+  apply Eqdep_dec.inj_pair2_eq_dec in H0; [|apply Pos.eq_dec].
+  apply Eqdep_dec.inj_pair2_eq_dec in H0; [|apply Pos.eq_dec].
+  subst.
+  reflexivity.
+Qed.
+Next Obligation.
+  rewrite !getArrMorph_equation_3.
+  pose proof (ReifiedArrow_dom_eq f g eq_refl); subst.
+  rewrite (ReifiedArrow_eq_equiv _ _ _ f' g') by constructor.
+  comp_right.
+  induction wildcard16; simpl.
+    admit.
+  apply ReifiedArrow_eq_equiv.
+  constructor; simpl; omega.
+Admitted.
+Next Obligation.
 
 Equations ReifiedArrow_app_equiv {dom mid cod}
       `(f : ReifiedArrow mid cod fs)
@@ -475,6 +466,15 @@ Next Obligation.
 Admitted.
 Next Obligation.
 Admitted.
+
+Lemma ReifiedArrow_ex_equiv {dom cod}
+      (f : ∃ fs, ReifiedArrow dom cod fs)
+      (g : ∃ gs, ReifiedArrow dom cod gs) :
+  getArrList `2 f = getArrList `2 g -> f ≈ g.
+Proof.
+  destruct f, g; simpl in *; intros; subst.
+  destruct r0.
+  - rewrite getArrMorph_equation_1.
 
 Lemma ReifiedArrow_ex_app {dom mid cod}
       (a : ∃ xs, ReifiedArrow dom cod xs)

@@ -22,14 +22,13 @@ Context {C : Category}.
 Variable objs : obj_idx -> C.
 Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
 
-Definition substitute dom cod (arr : ReifiedArrow objs arrmap dom cod)
-           i j (from to : ReifiedArrow objs arrmap i j) :
-  ReifiedArrow objs arrmap dom cod.
+Definition substitute dom cod (arr : ∃ fs, ReifiedArrow objs arrmap dom cod fs)
+           i j (from : ∃ gs, ReifiedArrow objs arrmap i j gs)
+           (to : ∃ hs, ReifiedArrow objs arrmap i j hs) :
+  ∃ ks, ReifiedArrow objs arrmap dom cod ks.
 Proof.
   generalize dependent cod.
-  induction 1
-    as [|mid cod x xs f' g' Hf' Hg' f g h Hf Hg Hfg IHarr]
-    using @arr_rect; intros.
+  induction 1; intros.
     destruct (getArrList objs arrmap from).
       destruct (Eq_eq_dec i dom); subst.
         destruct (Eq_eq_dec j dom); subst.
