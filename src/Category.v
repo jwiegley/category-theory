@@ -16,6 +16,7 @@ Require Import Category.Theory.Functor.
 
 Require Import Solver.Lib.
 Require Import Solver.Expr.
+Require Import Solver.Denote.
 Require Import Solver.Sound.
 Require Import Solver.Normal.
 
@@ -302,6 +303,71 @@ Lemma ReifiedArrow_ex_app {dom mid cod}
   getArrList `2 a = getArrList `2 f ++ getArrList `2 g -> a ≈ f ∘[Reified] g.
 Proof.
 Abort.
+
+Theorem termD_ReifiedArrow {dom cod} {f : Term} {f'} :
+  termD objs arrmap dom cod f = Some f' ->
+  ReifiedArrow dom cod (arrows f).
+Proof.
+  generalize dependent cod.
+  generalize dependent dom.
+  unfold termD; induction f; simpl; intros.
+  - destruct (Pos.eq_dec dom cod); [|discriminate].
+    subst.
+    simpl_eq.
+    inversion H; subst; clear H.
+    constructor.
+  - destruct (Denote.arrs objs arrmap a) eqn:?; [|discriminate].
+    destruct s, s.
+    destruct (Pos.eq_dec x dom); [|discriminate].
+    destruct (Pos.eq_dec x0 cod); [|discriminate].
+    subst.
+    simpl_eq.
+    inversion H; subst; clear H.
+    eapply ComposedArrow; eauto.
+    constructor.
+  - destruct (termD_work objs arrmap dom f2) eqn:?; [|discriminate].
+    destruct s.
+    destruct (termD_work objs arrmap x f1) eqn:?; [|discriminate].
+    destruct s.
+    destruct (Pos.eq_dec x0 cod); [|discriminate].
+    subst.
+    simpl_eq.
+    inversion H; subst; clear H.
+    eapply ReifiedArrow_app; eauto.
+      eapply IHf1; eauto.
+      rewrite Heqo0.
+      rewrite Eq_eq_dec_refl.
+      reflexivity.
+    eapply IHf2; eauto.
+    rewrite Heqo.
+    rewrite Eq_eq_dec_refl.
+    reflexivity.
+Qed.
+
+Theorem ReifiedArrow_termD {dom cod fs} :
+  arrs = Denote.arrs objs arrmap ->
+  forall a : ReifiedArrow dom cod fs,
+    ∃ f, arrows f = fs ∧ termD objs arrmap dom cod f = Some (getArrMorph a).
+Proof.
+  unfold termD; induction a; simpl; intros.
+  - exists Identity; simpl.
+    split; auto.
+    rewrite Pos_eq_dec_refl.
+    simpl_eq.
+    now rewrite getArrMorph_equation_1.
+  - destruct IHa, p.
+    destruct (termD_work objs arrmap dom x) eqn:?; [|discriminate].
+    destruct s.
+    destruct (Eq_eq_dec x0 mid); [|discriminate].
+    simpl_eq.
+    destruct e2.
+    inversion e1; subst; clear e1.
+    exists (Compose (Morph f) x).
+    simpl; split; auto.
+    rewrite getArrMorph_equation_2.
+    rewrite Heqo, <- H, e.
+    now rewrite !Pos_eq_dec_refl.
+Qed.
 
 (*
 Program Definition arr_uncons {dom cod} `(f : ReifiedArrow dom cod) :
