@@ -10,33 +10,20 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
 Require Import Solver.Lib.
-Require Import Solver.Expr.
+Require Import Solver.Env.
+Require Import Solver.Expr.Term.
+Require Import Solver.Normal.Arrow.
 
 Generalizable All Variables.
 
-Section Normal.
+Section NormalDenote.
 
-Context {C : Category}.
-
-Variable objs : obj_idx -> C.
-Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
-
-Definition arrs (a : arr_idx) := M.find a arrmap.
+Context `{Env}.
 
 Import EqNotations.
 
-Function arrows (t : Term) : list arr_idx :=
-  match t with
-  | Identity    => nil
-  | Morph a     => [a]
-  | Compose f g => arrows f ++ arrows g
-  end.
-
-Definition unarrows (fs : list arr_idx) : Term :=
-  fold_left (fun acc => Compose acc \o Morph) fs Identity.
-
 Fixpoint arrowsD_work dom (fs : list arr_idx) :
-  option (∃ cod, objs dom ~{C}~> objs cod) :=
+  option (∃ cod, objs dom ~> objs cod) :=
   match fs with
   | nil => Some (dom; @id _ (objs dom))
   | a :: fs =>
@@ -46,7 +33,7 @@ Fixpoint arrowsD_work dom (fs : list arr_idx) :
       | nil =>
         match Eq_eq_dec x dom with
         | left edom =>
-          Some (y; rew [fun x => objs x ~{C}~> objs y] edom in f)
+          Some (y; rew [fun x => objs x ~> objs y] edom in f)
         | _ => None
         end
       | _ =>
@@ -58,7 +45,7 @@ Fixpoint arrowsD_work dom (fs : list arr_idx) :
                technically matter, but does make the normalized results look
                funny. At some point, the correct orientation should be
                done. *)
-            Some (y; f ∘ rew [fun y => objs dom ~{C}~> objs y] emid in g)
+            Some (y; f ∘ rew [fun y => objs dom ~> objs y] emid in g)
           | _ => None
           end
         | _ => None
@@ -69,11 +56,11 @@ Fixpoint arrowsD_work dom (fs : list arr_idx) :
   end.
 
 Definition arrowsD dom cod (fs : list arr_idx) :
-  option (objs dom ~{C}~> objs cod) :=
+  option (objs dom ~> objs cod) :=
   match arrowsD_work dom fs with
   | Some (y; f) =>
     match Eq_eq_dec y cod with
-    | left ecod => Some (rew [fun y => objs dom ~{ C }~> objs y] ecod in f)
+    | left ecod => Some (rew [fun y => objs dom ~> objs y] ecod in f)
     | right _ => None
     end
   | _ => None
@@ -89,4 +76,4 @@ Fixpoint exprAD (e : Expr) : Type :=
   | Impl p q      => exprAD p -> exprAD q
   end.
 
-End Normal.
+End NormalDenote.

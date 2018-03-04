@@ -7,29 +7,28 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
 Require Import Solver.Lib.
-Require Import Solver.Expr.
-Require Import Solver.Denote.
-Require Import Solver.Normal.
-Require Import Solver.Sound.
-Require Import Solver.Category.
+Require Import Solver.Env.
+Require Import Solver.Expr.Term.
+Require Import Solver.Expr.Denote.
+Require Import Solver.Normal.Arrow.
+Require Import Solver.Normal.Category.
+(* Require Import Solver.Normal.Sound. *)
 
 Generalizable All Variables.
 
 Section Subst.
 
-Context {C : Category}.
+Context `{Env}.
 
-Variable objs : obj_idx -> C.
-Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
-
-Definition substitute dom cod (arr : ∃ fs, ReifiedArrow objs arrmap dom cod fs)
-           i j (from : ∃ gs, ReifiedArrow objs arrmap i j gs)
-           (to : ∃ hs, ReifiedArrow objs arrmap i j hs) :
-  ∃ ks, ReifiedArrow objs arrmap dom cod ks.
+Definition substitute dom cod (arr : ValidArrowEx dom cod)
+           i j (from to : ValidArrowEx i j) :
+  ValidArrowEx dom cod.
 Proof.
+Abort.
+(*
   generalize dependent cod.
   induction 1; intros.
-    destruct (getArrList objs arrmap from).
+    destruct (getArrList from).
       destruct (Eq_eq_dec i dom); subst.
         destruct (Eq_eq_dec j dom); subst.
           exact to.
@@ -37,24 +36,17 @@ Proof.
       exact f.
     exact f.
   destruct (Eq_eq_dec j cod); subst.
-    pose (length (getArrList objs arrmap from)) as len.
-    destruct (arr_break objs arrmap len h), s, s.
-    destruct (list_beq Eq_eqb (getArrList objs arrmap x1)
-                       (getArrList objs arrmap from)).
+    pose (length (getArrList from)) as len.
+    destruct (arr_break len h), s, s.
+    destruct (list_beq Eq_eqb (getArrList x1)
+                       (getArrList from)).
       destruct (Eq_eq_dec x0 i); subst.
-        exact (to ∘[Reified objs arrmap] x2).
-      exact (f ∘[Reified objs arrmap] IHarr).
-    exact (f ∘[Reified objs arrmap] IHarr).
-  exact (f ∘[Reified objs arrmap] IHarr).
+        exact (to ∘[Valid objs arrmap] x2).
+      exact (f ∘[Valid objs arrmap] IHarr).
+    exact (f ∘[Valid objs arrmap] IHarr).
+  exact (f ∘[Valid objs arrmap] IHarr).
 Defined.
-
-Fixpoint substitute' dom cod (arr : ReifiedArrow objs arrmap dom cod)
-           i j (from to : ReifiedArrow objs arrmap i j) :
-  ReifiedArrow objs arrmap dom cod :=
-  match getArrList arr with
-  | nil => _
-  | cons x x0 => _
-  end
+*)
 
 (*
 Definition subst_all_expr (x : Expr) (xs : list (Expr * Expr)) : Expr := x.
@@ -98,27 +90,28 @@ Function substitute (from to arr : list arr_idx) : list arr_idx :=
   end.
 *)
 
+(*
 Program Instance substitute_respects :
   Proper
     (forall_relation
        (fun dom =>
           forall_relation
             (fun cod =>
-               @equiv _ (ReifiedArrow_Setoid objs arrmap dom cod) ==>
+               @equiv _ (ValidArrow_Setoid dom cod) ==>
                (forall_relation
                   (fun i =>
                      forall_relation
                        (fun j =>
-                          @equiv _ (ReifiedArrow_Setoid objs arrmap i j) ==>
-                          @equiv _ (ReifiedArrow_Setoid objs arrmap i j) ==>
+                          @equiv _ (ValidArrow_Setoid i j) ==>
+                          @equiv _ (ValidArrow_Setoid i j) ==>
                           equiv)%signature)))%signature))
          substitute.
 Next Obligation.
   proper.
 Admitted.
 
-Lemma substitute_idem dom cod (f : ReifiedArrow objs arrmap dom cod)
-      i j (g : ReifiedArrow objs arrmap i j) :
+Lemma substitute_idem dom cod (f : ValidArrow dom cod)
+      i j (g : ValidArrow i j) :
   substitute dom cod f i j g g ≈ f.
 Proof.
   induction f using @arr_rect; simpl; auto.
@@ -204,11 +197,11 @@ Next Obligation. destruct f; cat. Qed.
 Next Obligation. destruct f, g, h; cat. Qed.
 Next Obligation. destruct f, g, h; cat. Qed.
 
-Lemma arrowsD_cons {C objs arrmap dom mid cod a a' f f'} :
-  arrs objs arrmap a = Some (mid; (cod; a')) ->
-  arrowsD objs arrmap dom mid f ≈ Some f' ->
-  arrowsD objs arrmap dom cod (a :: f) ≈
-  @arrowsD C objs arrmap mid cod [a] ∘[Arr objs] arrowsD objs arrmap dom mid f.
+Lemma arrowsD_cons {C dom mid cod a a' f f'} :
+  arrs a = Some (mid; (cod; a')) ->
+  arrowsD dom mid f ≈ Some f' ->
+  arrowsD dom cod (a :: f) ≈
+  @arrowsD C mid cod [a] ∘[Arr objs] arrowsD dom mid f.
 Proof.
   unfold arrowsD; simpl; intros.
   unfold arrs, Normal.arrs in *.
@@ -224,18 +217,18 @@ Proof.
   reflexivity.
 Defined.
 
-Lemma arrowsD_app {C objs arrmap dom mid cod f f' g g'} :
-  arrowsD objs arrmap mid cod f = Some f' ->
-  arrowsD objs arrmap dom mid g = Some g' ->
-  @arrowsD C objs arrmap dom cod (f ++ g)
-    ≈ arrowsD objs arrmap mid cod f ∘[Arr objs] arrowsD objs arrmap dom mid g.
+Lemma arrowsD_app {C dom mid cod f f' g g'} :
+  arrowsD mid cod f = Some f' ->
+  arrowsD dom mid g = Some g' ->
+  @arrowsD C dom cod (f ++ g)
+    ≈ arrowsD mid cod f ∘[Arr objs] arrowsD dom mid g.
 Proof.
   intros.
   unfold arrowsD in H, H0.
   do 2 destruct_arrows.
   inversion H; subst; clear H.
   inversion H0; subst; clear H0.
-  destruct (@arrowsD_compose_r C objs arrmap f g dom mid cod f' g'
+  destruct (@arrowsD_compose_r C f g dom mid cod f' g'
                                Heqo0 Heqo), p.
   unfold arrowsD.
   rewrite e0; equalities.
@@ -243,51 +236,51 @@ Proof.
   rewrite Heqo; equalities; cat.
 Qed.
 
-Lemma arrowsD_app_l {C objs arrmap dom mid cod f f' g g'} :
-  arrowsD objs arrmap dom mid f = Some f' ->
-  arrowsD objs arrmap dom mid g = Some g' ->
-  arrowsD objs arrmap dom mid f ≈ arrowsD objs arrmap dom mid g ->
-  ∀ x x', @arrowsD C objs arrmap mid cod x = Some x' ->
-  arrowsD objs arrmap dom cod (x ++ f) ≈
-  arrowsD objs arrmap dom cod (x ++ g).
+Lemma arrowsD_app_l {C dom mid cod f f' g g'} :
+  arrowsD dom mid f = Some f' ->
+  arrowsD dom mid g = Some g' ->
+  arrowsD dom mid f ≈ arrowsD dom mid g ->
+  ∀ x x', @arrowsD C mid cod x = Some x' ->
+  arrowsD dom cod (x ++ f) ≈
+  arrowsD dom cod (x ++ g).
 Proof.
   intros.
   erewrite arrowsD_app; eauto.
   erewrite arrowsD_app; eauto.
   red.
-  destruct (arrowsD objs arrmap mid cod x) eqn:?; [|discriminate].
-  destruct (arrowsD objs arrmap dom mid f) eqn:?; [|discriminate].
-  destruct (arrowsD objs arrmap dom mid g) eqn:?; [|discriminate].
+  destruct (arrowsD mid cod x) eqn:?; [|discriminate].
+  destruct (arrowsD dom mid f) eqn:?; [|discriminate].
+  destruct (arrowsD dom mid g) eqn:?; [|discriminate].
   simpl.
   comp_left.
   now red in X.
 Qed.
 
-Lemma arrowsD_app_r {C objs arrmap dom mid cod f f' g g'} :
-  arrowsD objs arrmap mid cod f = Some f' ->
-  arrowsD objs arrmap mid cod g = Some g' ->
-  arrowsD objs arrmap mid cod f ≈ arrowsD objs arrmap mid cod g ->
-  ∀ x x', @arrowsD C objs arrmap dom mid x = Some x' ->
-  arrowsD objs arrmap dom cod (f ++ x) ≈ arrowsD objs arrmap dom cod (g ++ x).
+Lemma arrowsD_app_r {C dom mid cod f f' g g'} :
+  arrowsD mid cod f = Some f' ->
+  arrowsD mid cod g = Some g' ->
+  arrowsD mid cod f ≈ arrowsD mid cod g ->
+  ∀ x x', @arrowsD C dom mid x = Some x' ->
+  arrowsD dom cod (f ++ x) ≈ arrowsD dom cod (g ++ x).
 Proof.
   intros.
   erewrite arrowsD_app; eauto.
   erewrite arrowsD_app; eauto.
   red.
-  destruct (arrowsD objs arrmap dom mid x) eqn:?; [|discriminate].
-  destruct (arrowsD objs arrmap mid cod f) eqn:?; [|discriminate].
-  destruct (arrowsD objs arrmap mid cod g) eqn:?; [|discriminate].
+  destruct (arrowsD dom mid x) eqn:?; [|discriminate].
+  destruct (arrowsD mid cod f) eqn:?; [|discriminate].
+  destruct (arrowsD mid cod g) eqn:?; [|discriminate].
   simpl.
   comp_right.
   now red in X.
 Qed.
 
-Lemma substitute_sound {C objs arrmap dom cod idom icod f f' g g' i i'} :
-  arrowsD objs arrmap idom icod f = Some f' ->
-  arrowsD objs arrmap idom icod g = Some g' ->
-  arrowsD objs arrmap idom icod f ≈ arrowsD objs arrmap idom icod g ->
-  arrowsD objs arrmap dom cod i = Some i' ->
-  @arrowsD C objs arrmap dom cod (substitute f g i) ≈ Some i'.
+Lemma substitute_sound {C dom cod idom icod f f' g g' i i'} :
+  arrowsD idom icod f = Some f' ->
+  arrowsD idom icod g = Some g' ->
+  arrowsD idom icod f ≈ arrowsD idom icod g ->
+  arrowsD dom cod i = Some i' ->
+  @arrowsD C dom cod (substitute f g i) ≈ Some i'.
 Proof.
   intros.
   destruct (infix Eq_eqb f i) eqn:?.
@@ -298,13 +291,13 @@ Proof.
   reflexivity.
 Admitted.
 
-Lemma rewrite_arrows {C objs arrmap dom cod idom icod} :
-  ∀ f g (af : ReifiedArrow objs arrmap idom icod f)
-        (ag : ReifiedArrow objs arrmap idom icod g), (f; af) ≈ (g; ag) ->
-  ∀ i j (ai : ReifiedArrow objs arrmap dom cod i)
-        (aj : ReifiedArrow objs arrmap dom cod j),
-  arrowsD objs arrmap dom cod (substitute f g i) ≈ arrowsD objs arrmap dom cod j ->
-  @arrowsD C objs arrmap dom cod i ≈ arrowsD objs arrmap dom cod j.
+Lemma rewrite_arrows {C dom cod idom icod} :
+  ∀ f g (af : ValidArrow idom icod f)
+        (ag : ValidArrow idom icod g), (f; af) ≈ (g; ag) ->
+  ∀ i j (ai : ValidArrow dom cod i)
+        (aj : ValidArrow dom cod j),
+  arrowsD dom cod (substitute f g i) ≈ arrowsD dom cod j ->
+  @arrowsD C dom cod i ≈ arrowsD dom cod j.
 Proof.
   intros.
   rewrite H1.
@@ -315,5 +308,6 @@ Proof.
   simpl.
   now rewrite H, H0.
 Qed.
+*)
 
 End Subst.

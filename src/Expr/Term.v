@@ -7,13 +7,9 @@ Require Import Coq.omega.Omega.
 Require Import Category.Lib.
 
 Require Import Solver.Lib.
+Require Import Solver.Env.
 
 Generalizable All Variables.
-
-Section Expr.
-
-Definition obj_idx := positive.
-Definition arr_idx := positive.
 
 Inductive Term : Set :=
   | Identity : Term
@@ -47,5 +43,3 @@ Fixpoint expr_size (t : Expr) : nat :=
 
 Remark all_exprs_have_size e : (0 < expr_size e)%nat.
 Proof. induction e; simpl; omega. Qed.
-
-End Expr.

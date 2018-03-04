@@ -22,9 +22,9 @@ Require Import Solver.Expr.Valid.
 
 Generalizable All Variables.
 
-Module Terms (Base : EnvBase).
+Section ExprCategory.
 
-Module Import Valid := Valid Base.
+Context `{Env}.
 
 Definition ValidTermEx dom cod := ∃ f, ValidTerm dom cod f.
 
@@ -90,4 +90,4 @@ Next Obligation. rewrite getMorph_ValidTermEx_compose; cat. Qed.
 Next Obligation. apply ValidTermEx_compose_assoc. Qed.
 Next Obligation. symmetry; apply ValidTermEx_compose_assoc. Qed.
 
-End Terms.
+End ExprCategory.

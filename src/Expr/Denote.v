@@ -9,22 +9,18 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
 Require Import Solver.Lib.
-Require Import Solver.Expr.
+Require Import Solver.Env.
+Require Import Solver.Expr.Term.
 
 Generalizable All Variables.
 
-Section Denote.
+Section ExprDenote.
 
-Context {C : Category}.
-
-Variable objs : obj_idx -> C.
-Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
-
-Definition arrs (a : arr_idx) := M.find a arrmap.
+Context `{Env}.
 
 Import EqNotations.
 
-Fixpoint termD_work dom (e : Term) : option (∃ cod, objs dom ~{C}~> objs cod) :=
+Fixpoint termD_work dom (e : Term) : option (∃ cod, objs dom ~> objs cod) :=
   match e with
   | Identity => Some (dom; @id _ (objs dom))
   | Morph a =>
@@ -32,7 +28,7 @@ Fixpoint termD_work dom (e : Term) : option (∃ cod, objs dom ~{C}~> objs cod) 
     | Some (x; (y; f)) =>
       match Eq_eq_dec x dom with
       | left edom =>
-        Some (y; rew [fun x => objs x ~{ C }~> objs y] edom in f)
+        Some (y; rew [fun x => objs x ~> objs y] edom in f)
       | _ => None
       end
     | _ => None
@@ -48,11 +44,11 @@ Fixpoint termD_work dom (e : Term) : option (∃ cod, objs dom ~{C}~> objs cod) 
     end
   end.
 
-Definition termD dom cod (e : Term) : option (objs dom ~{C}~> objs cod) :=
+Definition termD dom cod (e : Term) : option (objs dom ~> objs cod) :=
   match termD_work dom e with
   | Some (y; f) =>
     match Eq_eq_dec y cod with
-    | left ecod => Some (rew [fun y => objs dom ~{ C }~> objs y] ecod in f)
+    | left ecod => Some (rew [fun y => objs dom ~> objs y] ecod in f)
     | right _ => None
     end
   | _ => None
@@ -68,4 +64,4 @@ Fixpoint exprD (e : Expr) : Type :=
   | Impl p q      => exprD p -> exprD q
   end.
 
-End Denote.
+End ExprDenote.

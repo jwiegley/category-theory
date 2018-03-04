@@ -11,12 +11,14 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
 Require Import Solver.Lib.
-Require Import Solver.Expr.
-Require Import Solver.Normal.
-Require Import Solver.Denote.
+Require Import Solver.Env.
+Require Import Solver.Expr.Term.
+Require Import Solver.Expr.Denote.
+Require Import Solver.Normal.Arrow.
+Require Import Solver.Normal.Denote.
+Require Import Solver.Normal.Sound.
+(* Require Import Solver.Normal.Subst. *)
 Require Import Solver.Logic.
-Require Import Solver.Sound.
-Require Import Solver.Subst.
 
 Generalizable All Variables.
 
@@ -257,7 +259,9 @@ Ltac reify_terms_and_then tacGoal :=
     let env := build_env cs in
     match env with
     | (?cat, ?ofun, ?ffun) =>
-      change (@exprD cat ofun ffun g);
+      change (@exprD {| cat := cat
+                      ; objs := ofun
+                      ; arrmap := ffun |} g);
       cbv beta iota zeta delta [Pos.succ];
       tacGoal env g
     end

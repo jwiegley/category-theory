@@ -10,43 +10,40 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
 Require Import Solver.Lib.
-Require Import Solver.Expr.
-Require Import Solver.Normal.
-Require Import Solver.Denote.
-Require Import Solver.Sound.
-Require Import Solver.Subst.
+Require Import Solver.Env.
+Require Import Solver.Expr.Term.
+Require Import Solver.Expr.Denote.
+Require Import Solver.Normal.Arrow.
+Require Import Solver.Normal.Denote.
+(* Require Import Solver.Normal.Subst. *)
+Require Import Solver.Normal.Sound.
 
 Generalizable All Variables.
 
 Section Logic.
 
-Context {C : Category}.
-
-Variable objs : obj_idx -> C.
-Variable arrmap : M.t (∃ x y, objs x ~{C}~> objs y).
-
-Definition arrs (a : arr_idx) := M.find a arrmap.
+Context `{Env}.
 
 Open Scope partial_scope.
 
 Program Fixpoint expr_forward (t : Expr) (hyp : Expr)
-        (cont : forall defs', [exprD objs arrmap (subst_all_expr t defs')]) :
-  [exprD objs arrmap hyp -> exprD objs arrmap t] :=
+        (cont : [exprD t (* (subst_all_expr t defs') *)]) :
+  [exprD hyp -> exprD t] :=
   match hyp with
-  | Top           => Reduce (cont nil)
+  | Top           => Reduce cont
   | Bottom        => Yes
-  | Equiv x y f g => Reduce (cont nil) (* jww (2017-08-02): TODO *)
-  | And p q       => Reduce (cont nil) (* jww (2017-08-02): TODO *)
+  | Equiv x y f g => Reduce cont (* jww (2017-08-02): TODO *)
+  | And p q       => Reduce cont (* jww (2017-08-02): TODO *)
   | Or p q        => if expr_forward t p cont
                      then Reduce (expr_forward t q cont)
                      else No
-  | Impl _ _      => Reduce (cont nil)
+  | Impl _ _      => Reduce cont
   end.
 Next Obligation. contradiction. Defined.
 Next Obligation. intuition. Defined.
 
 Program Fixpoint expr_backward (t : Expr) {measure (expr_size t)} :
-  [exprD objs arrmap t] :=
+  [exprD t] :=
   match t with
   | Top => Yes
   | Bottom => No
@@ -62,11 +59,11 @@ Program Fixpoint expr_backward (t : Expr) {measure (expr_size t)} :
     | Uncertain _ => Reduce (expr_backward q)
     end
   | Impl p q      =>
-    expr_forward q p (fun defs' => expr_backward (subst_all_expr q defs'))
+    expr_forward q p (expr_backward q (* (subst_all_expr q defs') *))
   end.
 Next Obligation.
-  destruct (termD objs arrmap x y f) eqn:?; [|apply Uncertain].
-  destruct (termD objs arrmap x y g) eqn:?; [|apply Uncertain].
+  destruct (termD x y f) eqn:?; [|apply Uncertain].
+  destruct (termD x y g) eqn:?; [|apply Uncertain].
   destruct (list_beq Eq_eqb (arrows f) (arrows g)) eqn:?; [|apply Uncertain].
   apply Proved.
   eapply arrows_decide; eauto.
@@ -75,17 +72,15 @@ Next Obligation. abstract omega. Defined.
 Next Obligation. abstract omega. Defined.
 Next Obligation. abstract omega. Defined.
 Next Obligation. abstract omega. Defined.
-Next Obligation.
-  simpl; rewrite expr_size_subst; omega.
-Defined.
+Next Obligation. omega. Defined.
 
-Definition expr_tauto : forall t, [exprD objs arrmap t].
+Definition expr_tauto : forall t, [exprD t].
 Proof.
   intros; refine (Reduce (expr_backward t)); auto.
 Defined.
 
 Lemma expr_sound t :
-  (if expr_tauto t then True else False) -> exprD objs arrmap t.
+  (if expr_tauto t then True else False) -> exprD t.
 Proof.
   unfold expr_tauto; destruct t, (expr_backward _); tauto.
 Qed.
