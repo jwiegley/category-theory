@@ -26,6 +26,52 @@ Section ExprCategory.
 
 Context `{Env}.
 
+(*
+Program Definition NakedTerms : Category := {|
+  obj := obj_idx;
+  hom := fun _ _ => Term;
+  homset := fun x y => {| equiv := fun f g => termD x y f ≈ termD x y g |};
+  id := fun _ => Identity;
+  compose := fun _ _ _ => Compose
+|}.
+Next Obligation.
+  equivalence.
+  - destruct (termD x y x0) eqn:?; auto.
+    reflexivity.
+  - destruct (termD x y x0) eqn:?;
+    destruct (termD x y y0) eqn:?; auto.
+    now symmetry.
+  - destruct (termD x y x0) eqn:?;
+    destruct (termD x y y0) eqn:?;
+    destruct (termD x y z) eqn:?; auto.
+      now transitivity h0.
+    contradiction.
+Defined.
+Next Obligation.
+  proper.
+Admitted.
+Next Obligation.
+  equalities'; auto.
+  equalities.
+  destruct (termD x y f) eqn:?; cat.
+Qed.
+Next Obligation.
+  equalities'; auto.
+  equalities.
+  destruct (termD x y f) eqn:?; cat.
+Qed.
+Next Obligation.
+  destruct (termD z w f) eqn:?;
+  destruct (termD y z g) eqn:?;
+  destruct (termD x y h) eqn:?; cat.
+Qed.
+Next Obligation.
+  destruct (termD z w f) eqn:?;
+  destruct (termD y z g) eqn:?;
+  destruct (termD x y h) eqn:?; cat.
+Qed.
+*)
+
 Definition ValidTermEx dom cod := ∃ f, ValidTerm dom cod f.
 
 Global Program Instance ValidTermEx_Setoid dom cod :
