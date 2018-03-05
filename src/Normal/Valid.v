@@ -6,6 +6,7 @@ Require Import Coq.Lists.List.
 Require Import Coq.omega.Omega.
 
 Require Import Equations.Equations.
+Unset Equations WithK.
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -30,6 +31,36 @@ Inductive ValidArrow (dom : obj_idx) : obj_idx -> list arr_idx -> Type :=
       arrs f = Some (mid; (cod; f'))
         -> ValidArrow dom mid gs
         -> ValidArrow dom cod (f :: gs).
+
+(*
+
+jww (2018-03-05): This is only possible if we can assert UIP of positive map
+lookups on the same key, and finding the same element.
+
+Equations ValidArrow_eq_dec {dom cod fs}
+          (f g : ValidArrow dom cod fs) : { f = g } + { f ≠ g } :=
+  ValidArrow_eq_dec f g by rec fs (MR lt (@length arr_idx)) :=
+  ValidArrow_eq_dec IdentityArrow IdentityArrow := left eq_refl;
+  ValidArrow_eq_dec (ComposedArrow midf _ _ _ _ _ IHf)
+                    (ComposedArrow midg _ _ _ _ _ IHg)
+    <= Eq_eq_dec midf midg => {
+         | left eq_refl := _ (ValidArrow_eq_dec IHf IHg);
+         | right _ := right _
+       }.
+Next Obligation.
+  destruct x.
+    left; subst.
+    pose proof wildcard18.
+    rewrite wildcard13 in H0.
+    inversion H0; clear H0.
+    apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
+    apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
+    subst.
+    f_equal.
+    unfold arrs in *.
+    pose proof wildcard18.
+    apply FMapPositive.PositiveMap.elements_correct in H0.
+*)
 
 Definition getArrList {dom cod} `(a : ValidArrow dom cod fs) :
   list arr_idx := fs.
@@ -147,18 +178,17 @@ Proof.
   rewrite IHf; cat.
 Qed.
 
-Equations ValidArrow_eq_equiv {dom cod fs}
-          (f g : ValidArrow dom cod fs) : getArrMorph f ≈ getArrMorph g :=
-  ValidArrow_eq_equiv f g by rec fs (MR lt (@length arr_idx)) :=
-  ValidArrow_eq_equiv IdentityArrow IdentityArrow := reflexivity _;
-  ValidArrow_eq_equiv (ComposedArrow f _ _ f') (ComposedArrow g _ _ g') := _.
+Equations ValidArrow_eq_arr {dom cod fs}
+          (f g : ValidArrow dom cod fs) : getArrMorph f = getArrMorph g :=
+  ValidArrow_eq_arr f g by rec fs (MR lt (@length arr_idx)) :=
+  ValidArrow_eq_arr IdentityArrow IdentityArrow := eq_refl;
+  ValidArrow_eq_arr (ComposedArrow f _ _ f') (ComposedArrow g _ _ g') := _.
 Next Obligation.
   rewrite !getArrMorph_equation_2.
   destruct wildcard7.
     inversion f'; subst.
     inversion g'; subst.
-    rewrite (ValidArrow_eq_equiv _ _ _ f' g') by constructor.
-    comp_right.
+    rewrite (ValidArrow_eq_arr _ _ _ f' g') by constructor.
     rewrite wildcard3 in wildcard8.
     inversion wildcard8.
     apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply Pos.eq_dec].
@@ -166,8 +196,7 @@ Next Obligation.
     subst.
     reflexivity.
   pose proof (ValidArrow_cod_eq f' g'); subst.
-  rewrite (ValidArrow_eq_equiv _ _ _ f' g') by constructor.
-  comp_right.
+  rewrite (ValidArrow_eq_arr _ _ _ f' g') by constructor.
   rewrite wildcard3 in wildcard8.
   inversion wildcard8.
   apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply Pos.eq_dec].
@@ -176,12 +205,40 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Lemma ValidArrow_app_equiv {dom mid cod}
-      `(f : ValidArrow dom cod (gs ++ hs))
-      `(g : ValidArrow mid cod gs)
-      `(h : ValidArrow dom mid hs) :
-  getArrMorph f ≈ getArrMorph g ∘ getArrMorph h.
+Import EqNotations.
+
+Lemma ValidArrow_Identity {dom} (f : ValidArrow dom dom []) :
+  getArrMorph f ≈ id.
 Proof.
-Abort.
+  dependent elimination f as [IdentityArrow].
+  reflexivity.
+Qed.
+
+Lemma ValidArrow_Compose {dom cod}
+      `(f : ValidArrow dom cod (gs ++ hs)) :
+  ∃ mid (g : ValidArrow mid cod gs)
+        (h : ValidArrow dom mid hs),
+    getArrMorph f ≈ getArrMorph g ∘ getArrMorph h.
+Proof.
+  destruct (ValidArrow_compose_inv f), p.
+  exists x, v0, v.
+  generalize dependent cod.
+  induction gs; simpl; intros.
+    inversion v0; subst.
+    rewrite (ValidArrow_eq_arr f v); cat.
+    rewrite (ValidArrow_Identity v0); cat.
+  dependent elimination f as [ComposedArrow f _ _ f'].
+  dependent elimination v0 as [ComposedArrow g _ _ g'].
+  rewrite !getArrMorph_equation_2.
+  rewrite wildcard3 in wildcard5.
+  inversion wildcard5; subst.
+  rewrite <- comp_assoc.
+  rewrite <- (IHgs _ f' g').
+  comp_right.
+  apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
+  apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
+  subst.
+  reflexivity.
+Qed.
 
 End NormalValid.

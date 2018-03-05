@@ -10,6 +10,7 @@ Require Import Coq.omega.Omega.
 Require Import Recdef.
 
 Require Import Equations.Equations.
+Unset Equations WithK.
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -81,22 +82,5 @@ Next Obligation. proper; now rewrite !getArrMorph_ValidArrowEx_compose, X, X0. Q
 Next Obligation. rewrite getArrMorph_ValidArrowEx_compose; cat. Qed.
 Next Obligation. apply ValidArrowEx_compose_assoc. Qed.
 Next Obligation. symmetry; apply ValidArrowEx_compose_assoc. Qed.
-
-Lemma ValidArrowEx_getArrList_equiv {dom cod} (f g : ValidArrowEx dom cod) :
-  getArrList `2 f = getArrList `2 g -> f ≈ g.
-Proof.
-  destruct f, g; simpl in *; intros; subst.
-  generalize dependent x0.
-  induction v; intros; dependent destruction v0.
-    rewrite getArrMorph_equation_1; cat.
-  rewrite !getArrMorph_equation_2; cat.
-  rewrite e in e0.
-  inversion e0; subst.
-  apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
-  apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
-  subst.
-  comp_left.
-  apply ValidArrow_eq_equiv.
-Qed.
 
 End NormalCategory.

@@ -9,6 +9,9 @@ Require Import Coq.Lists.List.
 Require Import Coq.omega.Omega.
 Require Import Recdef.
 
+Require Import Equations.Equations.
+Unset Equations WithK.
+
 Require Import Category.Lib.
 
 Generalizable All Variables.
@@ -142,10 +145,10 @@ Qed.
 
 Lemma K_dec_on_type A (x : A) (eq_dec : ∀ y : A, x = y \/ x ≠ y)
       (P : x = x -> Type) :
-  P (eq_refl x) -> forall p:x = x, P p.
+  P eq_refl -> forall p:x = x, P p.
 Proof.
   intros.
-  elim (@Eqdep_dec.eq_proofs_unicity_on A _) with x (eq_refl x) p.
+  elim (@Eqdep_dec.eq_proofs_unicity_on A _) with x eq_refl p.
     trivial.
   exact eq_dec.
 Qed.
@@ -394,6 +397,10 @@ Next Obligation.
   apply Eq_eqb_eq in H2.
   now subst.
 Defined.
+
+Program Instance Equality_EqDec `{Equality A} : EqDec.EqDec A := {
+  eq_dec := Eq_eq_dec
+}.
 
 Ltac equalities' :=
   match goal with

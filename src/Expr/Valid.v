@@ -5,6 +5,7 @@ Require Import Coq.PArith.PArith.
 Require Import Coq.omega.Omega.
 
 Require Import Equations.Equations.
+Unset Equations WithK.
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
