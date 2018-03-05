@@ -13,5 +13,6 @@ src/Normal/Sound.v
 src/Normal/Subst.v
 src/Normal/Valid.v
 src/Normal/Valid/Sound.v
+src/Normal/Valid/Adjoint.v
 src/Logic.v
 src/Reify.v

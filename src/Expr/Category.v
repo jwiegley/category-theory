@@ -28,6 +28,11 @@ Context `{Env}.
 
 Definition ValidTermEx dom cod := ∃ f, ValidTerm dom cod f.
 
+Global Program Instance ValidTermEx_Setoid dom cod :
+  Setoid (ValidTermEx dom cod) := {
+  equiv := fun f g => getMorph `2 f ≈ getMorph `2 g
+}.
+
 Equations ValidTermEx_compose {dom mid cod}
           (f : ValidTermEx mid cod)
           (g : ValidTermEx dom mid) : ValidTermEx dom cod :=
@@ -55,10 +60,8 @@ Lemma ValidTermEx_compose_assoc {x y z w : obj_idx}
       (f : ValidTermEx z w) 
       (g : ValidTermEx y z)
       (h : ValidTermEx x y) :
-  getMorph `2
-    (ValidTermEx_compose f (ValidTermEx_compose g h)) ≈
-  getMorph `2
-    (ValidTermEx_compose (ValidTermEx_compose f g) h).
+  getMorph `2 (ValidTermEx_compose f (ValidTermEx_compose g h)) ≈
+  getMorph `2 (ValidTermEx_compose (ValidTermEx_compose f g) h).
 Proof.
   destruct f, g, h, v, v0, v1;
   repeat first
@@ -71,11 +74,6 @@ Proof.
     | rewrite ValidTermEx_compose_equation_7 ]; simpl; cat.
 Qed.
 
-Global Program Instance ValidTermEx_Setoid dom cod :
-  Setoid (ValidTermEx dom cod) := {
-  equiv := fun f g => getMorph `2 f ≈ getMorph `2 g
-}.
-
 Program Definition Terms : Category := {|
   obj     := obj_idx;
   hom     := ValidTermEx;
@@ -85,7 +83,7 @@ Program Definition Terms : Category := {|
 |}.
 Next Obligation.
   proper; rewrite !getMorph_ValidTermEx_compose, X, X0; reflexivity.
-Qed.
+Defined.
 Next Obligation. rewrite getMorph_ValidTermEx_compose; cat. Qed.
 Next Obligation. apply ValidTermEx_compose_assoc. Qed.
 Next Obligation. symmetry; apply ValidTermEx_compose_assoc. Qed.

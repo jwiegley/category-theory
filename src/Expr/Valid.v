@@ -43,4 +43,10 @@ Definition ValidTerm_size {dom cod} `(a : ValidTerm dom cod f) : nat :=
   term_size f.
 Arguments ValidTerm_size {dom cod f} a /.
 
+Definition ValidTerm_compose {dom mid cod}
+           `(f : ValidTerm mid cod t)
+           `(g : ValidTerm dom mid u) : ValidTerm dom cod (Compose t u) :=
+  ComposeTerm dom mid cod t u f g.
+Arguments ValidTerm_compose {dom mid cod t} f {u} g /.
+
 End ExprValid.

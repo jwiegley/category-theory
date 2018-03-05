@@ -23,4 +23,4 @@ Function arrows (t : Term) : list arr_idx :=
   end.
 
 Definition unarrows (fs : list arr_idx) : Term :=
-  fold_left (fun acc => Compose acc \o Morph) fs Identity.
+  fold_right (fun f rest => Compose (Morph f) rest) Identity fs.

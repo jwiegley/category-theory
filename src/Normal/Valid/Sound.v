@@ -53,7 +53,7 @@ Proof.
     subst.
     simpl_eq.
     inversion H0; subst; clear H0.
-    eapply ValidArrow_app; eauto.
+    eapply ValidArrow_compose; eauto.
       eapply IHf1; eauto.
       rewrite Heqo0.
       rewrite Eq_eq_dec_refl.
@@ -62,7 +62,7 @@ Proof.
     rewrite Heqo.
     rewrite Eq_eq_dec_refl.
     reflexivity.
-Qed.
+Defined.
 
 Theorem ValidArrow_termD {dom cod fs} :
   forall a : ValidArrow dom cod fs,
@@ -85,6 +85,6 @@ Proof.
     simpl; split; auto.
     rewrite Heqo, e.
     now rewrite !Pos_eq_dec_refl.
-Qed.
+Defined.
 
 End NormalValidSound.

@@ -54,6 +54,41 @@ Definition termD dom cod (e : Term) : option (objs dom ~> objs cod) :=
   | _ => None
   end.
 
+Lemma termD_Identity {x} : termD x x Identity = Some (@id _ (objs x)).
+Proof.
+  unfold termD; simpl; now rewrite Pos_eq_dec_refl.
+Defined.
+
+Lemma termD_Morph {f dom cod f'} :
+  arrs f = Some (dom; (cod; f'))
+    -> termD dom cod (Morph f) = Some f'.
+Proof.
+  unfold termD; simpl; intros.
+  rewrite H0.
+  now rewrite !Pos_eq_dec_refl.
+Defined.
+
+Lemma termD_Compose {f g dom mid cod f' g'} :
+  termD mid cod f = Some f'
+    -> termD dom mid g = Some g'
+    -> termD dom cod (Compose f g) = Some (f' ∘ g').
+Proof.
+  unfold termD; simpl; intros.
+  destruct (termD_work mid f) eqn:?; [|discriminate].
+  destruct s.
+  destruct (BinPos.Pos.eq_dec x cod); [|discriminate].
+  subst.
+  destruct (termD_work dom g) eqn:?; [|discriminate].
+  destruct s.
+  destruct (BinPos.Pos.eq_dec x mid); [|discriminate].
+  subst.
+  simpl_eq.
+  inversion H0; subst; clear H0.
+  inversion H1; subst; clear H1.
+  rewrite Heqo.
+  now rewrite !Pos_eq_dec_refl.
+Defined.
+
 Fixpoint exprD (e : Expr) : Type :=
   match e with
   | Top           => True

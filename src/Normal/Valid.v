@@ -43,7 +43,7 @@ Equations getArrMorph {dom cod} `(a : ValidArrow dom cod fs) :
 Definition ValidArrow_size {dom cod} `(a : ValidArrow dom cod fs) : nat :=
   length (getArrList a).
 
-Lemma ValidArrow_app_inv {dom cod fs gs} :
+Lemma ValidArrow_compose_inv {dom cod fs gs} :
   ValidArrow dom cod (fs ++ gs)
     -> ∃ mid, ValidArrow dom mid gs ∧ ValidArrow mid cod fs.
 Proof.
@@ -59,7 +59,7 @@ Proof.
   eapply ComposedArrow; eauto.
 Defined.
 
-Lemma ValidArrow_app {dom mid cod fs gs} :
+Lemma ValidArrow_compose {dom mid cod fs gs} :
   ValidArrow mid cod fs
     -> ValidArrow dom mid gs
     -> ValidArrow dom cod (fs ++ gs).
@@ -67,9 +67,8 @@ Proof.
   intros.
   generalize dependent mid.
   generalize dependent cod.
-  induction fs; simpl; intros; auto.
-    inversion X; subst; auto.
-  inversion X; subst.
+  induction fs; simpl; intros; auto;
+  inversion X; subst; auto.
   specialize (IHfs _ _ X1).
   econstructor; eauto.
 Defined.
@@ -87,7 +86,7 @@ Proof.
     now rewrite H2.
   clear IHfs.
   rewrite last_rcons.
-  destruct (ValidArrow_app_inv X), p.
+  destruct (ValidArrow_compose_inv X), p.
   inversion v; subst.
   rewrite H3.
   inversion X0; subst.
@@ -137,12 +136,12 @@ Corollary ValidArrow_cod_eq {dom cod}
   cod = cod'.
 Proof. intros; destruct (ValidArrow_dom_cod_eq f g); auto. Qed.
 
-Lemma getArrMorph_ValidArrow_comp {dom mid cod}
+Lemma getArrMorph_ValidArrow_compose {dom mid cod}
           `(f : ValidArrow mid cod xs)
           `(g : ValidArrow dom mid ys) :
-  getArrMorph (ValidArrow_app f g) ≈ getArrMorph f ∘ getArrMorph g.
+  getArrMorph (ValidArrow_compose f g) ≈ getArrMorph f ∘ getArrMorph g.
 Proof.
-  induction f; simpl; simpl_eq; simpl.
+  induction f; simpl.
     rewrite getArrMorph_equation_1; cat.
   rewrite !getArrMorph_equation_2.
   rewrite IHf; cat.

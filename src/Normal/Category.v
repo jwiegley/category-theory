@@ -29,10 +29,58 @@ Context `{Env}.
 
 Definition ValidArrowEx dom cod := ∃ fs, ValidArrow dom cod fs.
 
-Global Program Instance ValidArrow_Setoid dom cod :
+Global Program Instance ValidArrowEx_Setoid dom cod :
   Setoid (ValidArrowEx dom cod) := {
   equiv := fun f g => getArrMorph `2 f ≈ getArrMorph `2 g
 }.
+
+Equations ValidArrowEx_compose {dom mid cod}
+          (f : ValidArrowEx mid cod)
+          (g : ValidArrowEx dom mid) : ValidArrowEx dom cod :=
+  ValidArrowEx_compose (existT IdentityArrow) g := g;
+  ValidArrowEx_compose f (existT IdentityArrow) := f;
+  ValidArrowEx_compose (existT (ComposedArrow f g)) (existT h) :=
+    (_; ComposedArrow _ _ _ _ _ _ f (ValidArrow_compose g h)).
+
+Lemma getArrMorph_ValidArrowEx_compose {dom mid cod} f g :
+  getArrMorph `2 (ValidArrowEx_compose f g)
+    ≈ getArrMorph (cod:=cod) `2 f ∘
+      getArrMorph (dom:=dom) (cod:=mid) `2 g.
+Proof.
+  destruct f, g, v, v0;
+  repeat first
+    [ rewrite ValidArrowEx_compose_equation_1
+    | rewrite ValidArrowEx_compose_equation_2
+    | rewrite ValidArrowEx_compose_equation_3 ]; cat.
+  simpl; rewrite getArrMorph_ValidArrow_compose; cat.
+Qed.
+
+Lemma ValidArrowEx_compose_assoc {x y z w : obj_idx}
+      `(f : ValidArrowEx z w) 
+      `(g : ValidArrowEx y z)
+      `(h : ValidArrowEx x y) :
+  getArrMorph `2 (ValidArrowEx_compose f (ValidArrowEx_compose g h)) ≈
+  getArrMorph `2 (ValidArrowEx_compose (ValidArrowEx_compose f g) h).
+Proof.
+  destruct f, g, h, v, v0, v1;
+  repeat first
+    [ rewrite ValidTermEx_compose_equation_1
+    | rewrite ValidTermEx_compose_equation_2
+    | rewrite ValidTermEx_compose_equation_3 ]; simpl; cat.
+  do 2 rewrite !getArrMorph_equation_2, !getArrMorph_ValidArrow_compose; cat.
+Qed.
+
+Program Definition Arrows : Category := {|
+  obj     := obj_idx;
+  hom     := ValidArrowEx;
+  homset  := ValidArrowEx_Setoid;
+  id      := fun dom => ([]; IdentityArrow dom);
+  compose := fun _ _ _ => ValidArrowEx_compose
+|}.
+Next Obligation. proper; now rewrite !getArrMorph_ValidArrowEx_compose, X, X0. Qed.
+Next Obligation. rewrite getArrMorph_ValidArrowEx_compose; cat. Qed.
+Next Obligation. apply ValidArrowEx_compose_assoc. Qed.
+Next Obligation. symmetry; apply ValidArrowEx_compose_assoc. Qed.
 
 Lemma ValidArrowEx_getArrList_equiv {dom cod} (f g : ValidArrowEx dom cod) :
   getArrList `2 f = getArrList `2 g -> f ≈ g.
@@ -50,80 +98,5 @@ Proof.
   comp_left.
   apply ValidArrow_eq_equiv.
 Qed.
-
-Equations ValidArrowEx_compose {dom mid cod}
-          (f : ValidArrowEx mid cod)
-          (g : ValidArrowEx dom mid) : ValidArrowEx dom cod :=
-  ValidArrowEx_compose (existT IdentityArrow) g := g;
-  ValidArrowEx_compose f (existT IdentityArrow) := f;
-  ValidArrowEx_compose (existT (ComposedArrow f g)) (existT h) :=
-    (_; ComposedArrow _ _ _ _ _ _ f (ValidArrow_app g h)).
-
-Lemma getArrMorph_ValidArrowEx_compose {dom mid cod bs cs} f g :
-  getArrMorph `2 (ValidArrowEx_compose (bs; f) (cs; g))
-    ≈ getArrMorph (cod:=cod) f ∘
-      getArrMorph (dom:=dom) (cod:=mid) g.
-Proof.
-  destruct g.
-  - destruct f.
-    + rewrite ValidArrowEx_compose_equation_1; cat.
-    + rewrite ValidArrowEx_compose_equation_2; cat.
-  - destruct f.
-    + rewrite ValidArrowEx_compose_equation_1; cat.
-    + rewrite ValidArrowEx_compose_equation_3; cat.
-      rewrite !getArrMorph_equation_2.
-      rewrite getArrMorph_ValidArrow_comp; cat.
-Qed.
-
-Lemma ValidArrowEx_compose_assoc {x y z w : obj_idx}
-      `(f : ValidArrow z w fs) 
-      `(g : ValidArrow y z gs)
-      `(h : ValidArrow x y hs) :
-  getArrMorph `2
-    (ValidArrowEx_compose (fs; f) (ValidArrowEx_compose (gs; g) (hs; h))) ≈
-  getArrMorph `2
-    (ValidArrowEx_compose (ValidArrowEx_compose (fs; f) (gs; g)) (hs; h)).
-Proof.
-  destruct h; intros.
-  - destruct g.
-    + rewrite ValidArrowEx_compose_equation_1; cat.
-      destruct f.
-      * rewrite ValidArrowEx_compose_equation_1; cat.
-      * rewrite ValidArrowEx_compose_equation_2; cat.
-    + rewrite ValidArrowEx_compose_equation_2; cat.
-      destruct f.
-      * rewrite ValidArrowEx_compose_equation_1; cat.
-      * rewrite ValidArrowEx_compose_equation_3; cat.
-  - destruct g.
-    + rewrite ValidArrowEx_compose_equation_1; cat.
-      destruct f.
-      * rewrite ValidArrowEx_compose_equation_1; cat.
-      * rewrite ValidArrowEx_compose_equation_2; cat.
-    + rewrite ValidArrowEx_compose_equation_3; cat.
-      destruct f.
-      * rewrite ValidArrowEx_compose_equation_1; cat.
-      * rewrite ValidArrowEx_compose_equation_3; cat.
-        rewrite !ValidArrowEx_compose_equation_3.
-        rewrite !getArrMorph_equation_2.
-        comp_left.
-        rewrite !getArrMorph_ValidArrow_comp.
-        comp_left.
-        rewrite !getArrMorph_equation_2.
-        rewrite !getArrMorph_ValidArrow_comp.
-        rewrite !getArrMorph_equation_2.
-        cat.
-Qed.
-
-Program Definition Arrows : Category := {|
-  obj     := obj_idx;
-  hom     := fun dom cod => ∃ xs, ValidArrow dom cod xs;
-  homset  := ValidArrow_Setoid;
-  id      := fun dom => ([]; IdentityArrow dom);
-  compose := fun _ _ _ => ValidArrowEx_compose
-|}.
-Next Obligation. proper; now rewrite !getArrMorph_ValidArrowEx_compose, X, X0. Qed.
-Next Obligation. rewrite getArrMorph_ValidArrowEx_compose; cat. Qed.
-Next Obligation. apply ValidArrowEx_compose_assoc. Qed.
-Next Obligation. symmetry; apply ValidArrowEx_compose_assoc. Qed.
 
 End NormalCategory.
