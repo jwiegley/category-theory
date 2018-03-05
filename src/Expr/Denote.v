@@ -54,18 +54,26 @@ Definition termD dom cod (e : Term) : option (objs dom ~> objs cod) :=
   | _ => None
   end.
 
-Lemma termD_Identity {x} : termD x x Identity = Some (@id _ (objs x)).
+Lemma termD_Identity {x f} : f = (@id _ (objs x)) ↔ termD x x Identity = Some f.
 Proof.
-  unfold termD; simpl; now rewrite Pos_eq_dec_refl.
+  unfold termD; simpl; split; intros.
+    now rewrite Pos_eq_dec_refl, H0.
+  rewrite Pos_eq_dec_refl in H0.
+  now inversion H0; subst.
 Defined.
 
 Lemma termD_Morph {f dom cod f'} :
-  arrs f = Some (dom; (cod; f'))
-    -> termD dom cod (Morph f) = Some f'.
+  arrs f = Some (dom; (cod; f')) ↔ termD dom cod (Morph f) = Some f'.
 Proof.
-  unfold termD; simpl; intros.
-  rewrite H0.
-  now rewrite !Pos_eq_dec_refl.
+  unfold termD; simpl; split; intros.
+    rewrite H0.
+    now rewrite !Pos_eq_dec_refl.
+  destruct (arrs f) eqn:?; [|discriminate].
+  destruct s, s.
+  destruct (BinPos.Pos.eq_dec x dom); subst; [|discriminate].
+  destruct (BinPos.Pos.eq_dec x0 cod); subst; [|discriminate].
+  inversion H0; subst; clear H0.
+  reflexivity.
 Defined.
 
 Lemma termD_Compose {f g dom mid cod f' g'} :
@@ -83,10 +91,11 @@ Proof.
   destruct (BinPos.Pos.eq_dec x mid); [|discriminate].
   subst.
   simpl_eq.
+  rewrite Heqo.
+  rewrite !Pos_eq_dec_refl.
   inversion H0; subst; clear H0.
   inversion H1; subst; clear H1.
-  rewrite Heqo.
-  now rewrite !Pos_eq_dec_refl.
+  reflexivity.
 Defined.
 
 Fixpoint exprD (e : Expr) : Type :=

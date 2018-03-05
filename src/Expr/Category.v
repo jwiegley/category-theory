@@ -27,7 +27,9 @@ Section ExprCategory.
 Context `{Env}.
 
 (*
-Program Definition NakedTerms : Category := {|
+Axiom undefined : forall A, A.
+
+Program Definition TermsOnly : Category := {|
   obj := obj_idx;
   hom := fun _ _ => Term;
   homset := fun x y => {| equiv := fun f g => termD x y f ≈ termD x y g |};
@@ -49,26 +51,78 @@ Next Obligation.
 Defined.
 Next Obligation.
   proper.
-Admitted.
+  unfold termD in *; simpl in *.
+  repeat match goal with
+  | [ H : context[match termD_work ?o ?t with _ => _ end] |- _ ] =>
+    destruct (termD_work o t) as [[]|] eqn:?
+  | [ H : context[match Pos.eq_dec ?o ?t with _ => _ end] |- _ ] =>
+    destruct (Pos.eq_dec o t) eqn:?; subst
+  | [ H : Some _ = Some _ |- _ ] => inversion H; subst; clear H
+  | [ H : (?x; ?f) = (?y; ?g) |- _ ] => inversion H; subst
+  end;
+  rewrite ?Heqo, ?Heqo0, ?Heqo1, ?Heqo2;
+  rewrite ?Heqs, ?Heqs0, ?Heqs1, ?Heqs2;
+  rewrite ?Pos_eq_dec_refl;
+  try contradiction;
+  simpl_eq; auto.
+  - now rewrite X, X0.
+  - 
+Qed.
 Next Obligation.
+  unfold termD; simpl.
+  destruct (termD_work x f) eqn:?; cat.
   equalities'; auto.
-  equalities.
-  destruct (termD x y f) eqn:?; cat.
+  equalities; simpl_eq; cat.
 Qed.
 Next Obligation.
+  unfold termD; simpl.
+  destruct (termD_work x f) eqn:?; cat.
   equalities'; auto.
-  equalities.
-  destruct (termD x y f) eqn:?; cat.
+  equalities; simpl_eq; cat.
 Qed.
 Next Obligation.
-  destruct (termD z w f) eqn:?;
-  destruct (termD y z g) eqn:?;
-  destruct (termD x y h) eqn:?; cat.
+  unfold termD; simpl.
+  destruct (termD_work z f) eqn:?;
+  destruct (termD_work y g) eqn:?;
+  destruct (termD_work x h) eqn:?; cat.
+  - destruct (termD_work x0 g) eqn:?; cat.
+    destruct (termD_work x3 f) eqn:?; cat.
+    equalities'; auto.
+    equalities; simpl_eq; cat.
+  - destruct (termD_work x0 g) eqn:?; cat.
+    destruct (termD_work x2 f) eqn:?; cat.
+    equalities'; auto.
+    equalities; simpl_eq; cat.
+  - destruct (termD_work x0 g) eqn:?; cat.
+    destruct (termD_work x2 f) eqn:?; cat.
+    equalities'; auto.
+    equalities; simpl_eq; cat.
+  - destruct (termD_work x0 g) eqn:?; cat.
+    destruct (termD_work x1 f) eqn:?; cat.
+    equalities'; auto.
+    equalities; simpl_eq; cat.
 Qed.
 Next Obligation.
-  destruct (termD z w f) eqn:?;
-  destruct (termD y z g) eqn:?;
-  destruct (termD x y h) eqn:?; cat.
+  unfold termD; simpl.
+  destruct (termD_work z f) eqn:?;
+  destruct (termD_work y g) eqn:?;
+  destruct (termD_work x h) eqn:?; cat.
+  - destruct (termD_work x0 g) eqn:?; cat.
+    destruct (termD_work x3 f) eqn:?; cat.
+    equalities'; auto.
+    equalities; simpl_eq; cat.
+  - destruct (termD_work x0 g) eqn:?; cat.
+    destruct (termD_work x2 f) eqn:?; cat.
+    equalities'; auto.
+    equalities; simpl_eq; cat.
+  - destruct (termD_work x0 g) eqn:?; cat.
+    destruct (termD_work x2 f) eqn:?; cat.
+    equalities'; auto.
+    equalities; simpl_eq; cat.
+  - destruct (termD_work x0 g) eqn:?; cat.
+    destruct (termD_work x1 f) eqn:?; cat.
+    equalities'; auto.
+    equalities; simpl_eq; cat.
 Qed.
 *)
 
