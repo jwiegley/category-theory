@@ -185,25 +185,45 @@ Equations ValidArrow_eq_arr {dom cod fs}
   ValidArrow_eq_arr (ComposedArrow f _ _ f') (ComposedArrow g _ _ g') := _.
 Next Obligation.
   rewrite !getArrMorph_equation_2.
-  destruct wildcard7.
-    inversion f'; subst.
-    inversion g'; subst.
-    rewrite (ValidArrow_eq_arr _ _ _ f' g') by constructor.
-    rewrite wildcard3 in wildcard8.
-    inversion wildcard8.
-    apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply Pos.eq_dec].
-    apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply Pos.eq_dec].
-    subst.
-    reflexivity.
-  pose proof (ValidArrow_cod_eq f' g'); subst.
-  rewrite (ValidArrow_eq_arr _ _ _ f' g') by constructor.
-  rewrite wildcard3 in wildcard8.
-  inversion wildcard8.
-  apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply Pos.eq_dec].
-  apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply Pos.eq_dec].
-  subst.
-  reflexivity.
+  destruct wildcard7;
+  [ inversion f'; inversion g'; subst
+  | pose proof (ValidArrow_cod_eq f' g'); subst ];
+  rewrite (ValidArrow_eq_arr _ _ _ f' g') by constructor;
+  rewrite wildcard3 in wildcard8;
+  inversion wildcard8;
+  do 2 (apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply Pos.eq_dec]);
+  now subst.
 Qed.
+
+Fixpoint sublistp `{Equality A} (ys xs : list A) : bool :=
+  (list_beq Eq_eqb (firstn (length ys) xs) ys) |||
+  match xs with
+  | nil => false
+  | x :: xs => sublistp ys xs
+  end.
+
+Example sublistp_ex1 : sublistp [2; 3]%positive [1; 2; 3; 4]%positive = true.
+Proof. reflexivity. Qed.
+
+(*
+Equations ValidArrow_split {dom cod fs}
+          (f : ValidArrow dom cod fs) gs
+          (is_present : sublistp gs fs = true) :
+  ∃ i j xs ys, (ValidArrow j cod xs * ValidArrow i j gs * ValidArrow dom i ys) :=
+  ValidArrow_split f [] _ :=
+    (cod; (cod; ([]; (fs; (IdentityArrow cod, IdentityArrow cod, f)))));
+  ValidArrow_split (ComposedArrow f f' fs Hf IHf) gs _
+    <= list_eq_dec Eq_eq_dec (firstn (length gs) (f :: fs)) (f :: fs) => {
+      | left _ =>
+        (_; (_; (_; (_; (_, _, _)))));
+      | right _ =>
+        match ValidArrow_split IHf gs _ with
+          (i; (j; (xs; (ys; (beg, mid, fin))))) => _
+        end
+    }.
+Next Obligation.
+Abort.
+*)
 
 Import EqNotations.
 

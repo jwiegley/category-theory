@@ -11,6 +11,7 @@ Require Import Solver.Env.
 Require Import Solver.Expr.Term.
 Require Import Solver.Expr.Denote.
 Require Import Solver.Normal.Arrow.
+Require Import Solver.Normal.Valid.
 Require Import Solver.Normal.Category.
 (* Require Import Solver.Normal.Sound. *)
 
@@ -20,33 +21,42 @@ Section Subst.
 
 Context `{Env}.
 
-Definition substitute dom cod (arr : ValidArrowEx dom cod)
-           i j (from to : ValidArrowEx i j) :
-  ValidArrowEx dom cod.
-Proof.
-Abort.
-(*
-  generalize dependent cod.
-  induction 1; intros.
-    destruct (getArrList from).
-      destruct (Eq_eq_dec i dom); subst.
-        destruct (Eq_eq_dec j dom); subst.
-          exact to.
-        exact f.
-      exact f.
-    exact f.
-  destruct (Eq_eq_dec j cod); subst.
-    pose (length (getArrList from)) as len.
-    destruct (arr_break len h), s, s.
-    destruct (list_beq Eq_eqb (getArrList x1)
-                       (getArrList from)).
-      destruct (Eq_eq_dec x0 i); subst.
-        exact (to ∘[Valid objs arrmap] x2).
-      exact (f ∘[Valid objs arrmap] IHarr).
-    exact (f ∘[Valid objs arrmap] IHarr).
-  exact (f ∘[Valid objs arrmap] IHarr).
-Defined.
-*)
+Fixpoint substitute (arr from to : list arr_idx) : list arr_idx :=
+  match list_eq_dec Eq_eq_dec from (firstn (length from) arr) with
+  | left _ => to ++ skipn (length from) arr
+  | right _ =>
+    match arr with
+    | nil => arr
+    | x :: xs => x :: substitute xs from to
+    end
+  end.
+
+Program Fixpoint ValidArrow_substitute
+        {dom cod} `(arr : ValidArrow dom cod xs)
+        {i j} `(from : ValidArrow i j fs) `(to : ValidArrow i j ts) :
+  option (ValidArrow dom cod (substitute xs fs ts)) :=
+  match list_eq_dec Eq_eq_dec fs (firstn (length fs) xs) with
+  | left _ =>
+    match Eq_eq_dec j cod with
+    | left _ => Some (ValidArrow_compose to _)
+    | right _ => None
+    end
+  | right _ =>
+    match arr with
+    | IdentityArrow _ => Some (IdentityArrow dom)
+    | ComposedArrow _ mid cod f f' gs Hf IHf =>
+      match @ValidArrow_substitute dom mid _ IHf _ _ _ from _ to with
+      | None => None
+      | Some yarr =>
+        Some (ComposedArrow _ mid cod f f' (substitute gs fs ts) Hf yarr)
+      end
+    end
+  end.
+Next Obligation.
+  rewrite wildcard' in from.
+Admitted.
+Next Obligation.
+Admitted.
 
 (*
 Definition subst_all_expr (x : Expr) (xs : list (Expr * Expr)) : Expr := x.
