@@ -13,11 +13,13 @@ Require Import Solver.Lib.
 Require Import Solver.Env.
 Require Import Solver.Expr.Term.
 Require Import Solver.Expr.Denote.
+Require Import Solver.Expr.Valid.
 Require Import Solver.Normal.TList.
 Require Import Solver.Normal.Arrow.
 Require Import Solver.Normal.Denote.
 Require Import Solver.Normal.Valid.
 Require Import Solver.Normal.Valid.Sound.
+Require Import Solver.Normal.Valid.Adjoint.
 Require Import Solver.Normal.Category.
 
 Generalizable All Variables.
@@ -70,6 +72,13 @@ Lemma rewrite_arrows {dom cod} :
   termD dom cod f ≈ termD dom cod g.
 Proof.
   intros.
+  rewrite !termD_getMorph_fromTerm.
+  destruct (fromTerm dom cod f) eqn:?,
+           (fromTerm dom cod g) eqn:?.
+  simpl.
+  admit.
+  rewrite !getMorph_getArrMorph.
+  red.
   rewrite Hf, Hg.
   f_equiv.
   red in X.
