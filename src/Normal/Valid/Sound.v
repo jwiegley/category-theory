@@ -15,6 +15,7 @@ Require Import Solver.Lib.
 Require Import Solver.Env.
 Require Import Solver.Expr.Term.
 Require Import Solver.Expr.Denote.
+Require Import Solver.Normal.TList.
 Require Import Solver.Normal.Arrow.
 Require Import Solver.Normal.Denote.
 Require Import Solver.Normal.Valid.
@@ -25,16 +26,17 @@ Section NormalValidSound.
 
 Context `{Env}.
 
-Theorem termD_ValidArrow {dom cod} {f : Term} {f'} :
+Import EqNotations.
+
+Theorem termD_ArrowList {dom cod} {f : Term} {f'} :
   termD dom cod f = Some f' ->
-  ValidArrow dom cod (arrows f).
+  ArrowList dom cod.
 Proof.
   generalize dependent cod.
   generalize dependent dom.
   unfold termD; induction f; simpl; intros.
   - destruct (Pos.eq_dec dom cod); [|discriminate].
     subst.
-    simpl_eq.
     inversion H0; subst; clear H0.
     constructor.
   - destruct (arrs a) eqn:?; [|discriminate].
@@ -42,9 +44,9 @@ Proof.
     destruct (Pos.eq_dec x dom); [|discriminate].
     destruct (Pos.eq_dec x0 cod); [|discriminate].
     subst.
-    simpl_eq.
     inversion H0; subst; clear H0.
-    eapply ComposedArrow; eauto.
+    eapply tcons; eauto.
+    econstructor; eauto.
     constructor.
   - destruct (termD_work dom f2) eqn:?; [|discriminate].
     destruct s.
@@ -52,9 +54,8 @@ Proof.
     destruct s.
     destruct (Pos.eq_dec x0 cod); [|discriminate].
     subst.
-    simpl_eq.
     inversion H0; subst; clear H0.
-    eapply ValidArrow_compose; eauto.
+    eapply tlist_app; eauto.
       eapply IHf1; eauto.
       rewrite Heqo0.
       rewrite Eq_eq_dec_refl.
@@ -65,9 +66,20 @@ Proof.
     reflexivity.
 Defined.
 
-Theorem ValidArrow_termD {dom cod fs} :
-  forall a : ValidArrow dom cod fs,
-    ∃ f, arrows f = fs ∧
+Lemma getArrMorph_termD_ArrowList {dom cod} {f : Term} {f'}
+      (Hf : termD dom cod f = Some f') :
+  getArrMorph (termD_ArrowList Hf) = f'.
+Proof.
+  unfold termD in Hf.
+  induction f; simpl in *.
+  - destruct (Pos.eq_dec dom cod); [|discriminate].
+    inversion Hf; subst.
+    simpl_eq.
+Abort.
+
+Theorem ArrowList_termD {dom cod} :
+  forall a : ArrowList dom cod,
+    ∃ f, tlist_mapv (fun _ _ => arr) a = arrows f ∧
          termD dom cod f = Some (getArrMorph a).
 Proof.
   unfold termD; induction a; simpl; intros.
@@ -75,16 +87,17 @@ Proof.
     split; auto.
     rewrite Pos_eq_dec_refl.
     reflexivity.
-  - destruct IHa, p.
-    destruct (termD_work dom x) eqn:?; [|discriminate].
+  - destruct x; simpl in *.
+    destruct IHa, p.
+    destruct (termD_work k x) eqn:?; [|discriminate].
     destruct s.
-    destruct (Eq_eq_dec x0 mid); [|discriminate].
-    simpl_eq.
-    destruct e2.
-    inversion e1; subst; clear e1.
-    exists (Compose (Morph f) x).
-    simpl; split; auto.
-    rewrite Heqo, e.
+    destruct (Pos.eq_dec x0 j); [|discriminate].
+    subst; simpl_eq.
+    inversion e0; subst; clear e0.
+    exists (Compose (Morph arr) x).
+    simpl; split.
+      now rewrite e.
+    rewrite Heqo, present.
     now rewrite !Pos_eq_dec_refl.
 Defined.
 

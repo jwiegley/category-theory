@@ -17,7 +17,7 @@ Require Import Solver.Expr.Denote.
 Require Import Solver.Normal.Arrow.
 Require Import Solver.Normal.Denote.
 Require Import Solver.Normal.Sound.
-(* Require Import Solver.Normal.Subst. *)
+Require Import Solver.Normal.Subst.
 Require Import Solver.Logic.
 
 Generalizable All Variables.
@@ -294,9 +294,11 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-(*
+
   revert X7.
   reify.
+  unfold exprD.
+  apply rewrite_arrows.
   apply exprAD_sound; unfold exprAD; intros.
   match goal with
   | [ H : @arrowsD ?C ?objs ?arrmap ?idom ?icod ?f ≈ arrowsD _ _ _ _ ?g
@@ -304,7 +306,6 @@ Proof.
     apply (@rewrite_arrows C objs arrmap dom cod idom icod f g i j X7)
   end.
   simpl.
-*)
 
   revert X.
   revert X0.
