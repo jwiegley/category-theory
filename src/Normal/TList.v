@@ -8,18 +8,15 @@ Require Import Coq.Classes.CEquivalence.
 Require Export Coq.Classes.CRelationClasses.
 Require Import Coq.Classes.CMorphisms.
 
-Open Scope equiv_scope.
-
-Class EquivDec {A} {B : A -> A -> Type} {i j}
-      (R : crelation (B i j)) `{Equivalence _ R} := {
-  equiv_dec : forall (x y : B i j), (x === y) + (x =/= y)
-}.
-
 Require Import Equations.Equations.
 Require Import Equations.EqDec.
 Unset Equations WithK.
 
-Notation "( x ; y )" := (existT _ x y) (at level 0).
+Require Import Category.Lib.
+
+Class EquivDec {A} {B : A -> A -> Type} {i j} `{Setoid (B i j)} := {
+  equiv_dec : forall (x y : B i j), option (x ≈ y)
+}.
 
 Inductive tlist {A : Type} (B : A -> A -> Type) : A -> A -> Type :=
   | tnil : forall i : A, tlist B i i
@@ -130,9 +127,8 @@ Equations tlist_concat {i j} (xs : tlist (tlist B) i j) : tlist B i j :=
 
 Context `{EqDec A}.
 
-Hypothesis B_equiv : forall i j, crelation (B i j).
-Hypothesis B_equivalence : forall i j, `{Equivalence (B_equiv i j)}.
-Hypothesis B_equiv_dec : forall i j, EquivDec (B_equiv i j).
+Hypothesis B_setoid : forall i j, Setoid (B i j).
+Hypothesis B_equiv_dec : forall i j, @EquivDec A B i j (B_setoid i j).
 
 Import EqNotations.
 
@@ -223,9 +219,13 @@ Next Obligation.
   contradiction.
 Qed.
 
+Global Program Instance tlist_Setoid {i j} : Setoid (tlist B i j) := {
+  equiv := tlist_equiv;
+  setoid_equiv := tlist_equiv_Equivalence;
+}.
+
 Global Program Instance tlist_cons_respects {i j k} :
-  Proper (B_equiv i j ==> @tlist_equiv j k ==> @tlist_equiv i k)
-         (@tcons A B i j k).
+  Proper (equiv ==> equiv ==> equiv) (@tcons A B i j k).
 Next Obligation.
   repeat intro.
   simpl in *.
@@ -256,8 +256,7 @@ Proof.
 Qed.
 
 Global Program Instance tlist_app_respects {i j k} :
-  Proper (@tlist_equiv i j ==> @tlist_equiv j k ==> @tlist_equiv i k)
-         tlist_app.
+  Proper (equiv ==> equiv ==> equiv) (@tlist_app i j k).
 Next Obligation.
   repeat intro.
   generalize dependent k.
@@ -279,41 +278,19 @@ Next Obligation.
 Qed.
 
 Global Program Instance tlist_equiv_EquivDec {i j} :
-  EquivDec (@tlist_equiv i j).
+  @EquivDec _ _ i j (@tlist_Setoid i j).
 Next Obligation.
   induction x; dependent elimination y.
   - left; reflexivity.
   - right; intro; inversion X.
   - right; intro; inversion X.
   - destruct (eq_dec j j0); subst.
-    + destruct (@equiv_dec A B _ _ (B_equiv _ _) (B_equivalence _ _)
-                           (B_equiv_dec _ _) x1 x).
+    + destruct (equiv_dec x1 x).
       * destruct (IHx xs).
-          now left; rewrite e, e0.
+          now left; rewrite e, t.
         right; intro.
-        apply c; clear c.
-        rewrite e in X; clear e.
-        unfold equiv in X.
-        rewrite tlist_equiv_equation_4 in X.
-        unfold tlist_equiv_obligation_1 in X.
-        rewrite eq_dec_refl in X.
-        destruct X.
-        apply t.
-      * right; intro.
-        apply c; clear c.
-        unfold equiv in X.
-        rewrite tlist_equiv_equation_4 in X.
-        unfold tlist_equiv_obligation_1 in X.
-        rewrite eq_dec_refl in X.
-        destruct X.
-        apply e.
-    + right; intro.
-      apply n; clear n.
-      unfold equiv in X.
-      rewrite tlist_equiv_equation_4 in X.
-      unfold tlist_equiv_obligation_1 in X.
-      destruct (eq_dec j0 j); auto.
-      contradiction.
+      * right.
+    + right.
 Defined.
 
 End TList.
@@ -330,7 +307,7 @@ Lemma tlist_app_tnil_r {i j} (xs : tlist B i j) :
 Proof. now destruct xs. Qed.
 
 Lemma tlist_app_length {i j k} (xs : tlist B i j) (ys : tlist B j k) :
-  tlist_length (xs +++ ys) = tlist_length xs + tlist_length ys.
+  tlist_length (xs +++ ys) = (tlist_length xs + tlist_length ys)%nat.
 Proof.
   induction xs; auto.
   rewrite <- tlist_app_comm_cons; simpl.
@@ -443,9 +420,8 @@ Context {B : A -> A -> Type}.
 
 Context `{EqDec A}.
 
-Hypothesis B_equiv : forall i j, crelation (B i j).
-Hypothesis B_equivalence : forall i j, `{Equivalence (B_equiv i j)}.
-Hypothesis B_equiv_dec : forall i j, EquivDec (B_equiv i j).
+Hypothesis B_setoid : forall i j, Setoid (B i j).
+Hypothesis B_equiv_dec : forall i j, @EquivDec A B i j (B_setoid i j).
 
 Import EqNotations.
 
@@ -474,10 +450,10 @@ Equations tlist_find_wlist
       | pair (left H1) (left H2)
         <= equiv_dec x (rew <- [fun x => B x _] H1 in
                         rew <- [fun x => B _ x] H2 in y) => {
-          | inl _ <= tlist_find_wlist xs ys => {
+          | Some _ <= tlist_find_wlist xs ys => {
               | Some (pair bs cs)
                 <= equiv_dec bs (rew <- [fun a => tlist B _ a] H2 in tnil) => {
-                  | inl _ =>
+                  | Some _ =>
                     Some (rew [fun a => tlist B a _] H1 in tnil, cs);
                   | _ <= tlist_find_wlist (x ::: xs) ys => {
                     | None => None;
@@ -521,16 +497,12 @@ Context {B : A -> A -> Type}.
 
 Context `{EqDec A}.
 
-Hypothesis B_equiv : forall i j, crelation (B i j).
-Hypothesis B_equivalence : forall i j, `{Equivalence (B_equiv i j)}.
-Hypothesis B_equiv_dec : forall i j, EquivDec (B_equiv i j).
+Hypothesis B_setoid : forall i j, Setoid (B i j).
+Hypothesis B_equiv_dec : forall i j, @EquivDec A B i j (B_setoid i j).
 
 Import EqNotations.
 
 Open Scope signature_scope.
-
-Definition tequiv {i j : A} := tlist_equiv B_equiv B_equivalence (i:=i) (j:=j).
-Arguments tequiv /.
 
 Ltac cleanup H0 H2 H3 IHf Heqo :=
   inversion H0; subst; clear H0;
@@ -543,12 +515,13 @@ Ltac cleanup H0 H2 H3 IHf Heqo :=
   split; auto;
   try reflexivity.
 
-Lemma tlist_find_wlist_app {i l} (f : tlist B i l)
-      {j k} (g : tlist B j k) {pre post} :
-  tlist_find_wlist B_equiv B_equivalence B_equiv_dec g f = Some (pre, post)
-      -> tequiv f (pre +++ g +++ post).
+Lemma tlist_find_wlist_app
+      {j k} (g : tlist B j k)
+      {i l} (f : tlist B i l) {pre post} :
+  tlist_find_wlist (@B_setoid) (@B_equiv_dec) g f = Some (pre, post)
+      -> f ≈ pre +++ g +++ post.
 Proof.
-  unfold tequiv; intros.
+  intros.
   generalize dependent k.
   generalize dependent j.
   induction f; intros; simpl in H0.
@@ -573,7 +546,7 @@ Proof.
           rewrite e.
           unfold tlist_find_wlist_obligation_9 in H0.
           unfold tlist_find_wlist_obligation_7 in H0.
-          destruct (tlist_find_wlist _ _ _ g f) eqn:?. {
+          destruct (tlist_find_wlist _ _ g f) eqn:?. {
             destruct p.
             unfold tlist_find_wlist_obligation_5 in H0.
             destruct (equiv_dec _ _). {
@@ -583,30 +556,30 @@ Proof.
             }
             clear Heqo.
             unfold tlist_find_wlist_obligation_4 in H0.
-            destruct (tlist_find_wlist _ _ _ (x0 ::: g) f) eqn:?; [|discriminate].
+            destruct (tlist_find_wlist _ _ (x0 ::: g) f) eqn:?; [|discriminate].
             destruct p.
             rewrite <- e.
             now cleanup H0 H2 H3 IHf Heqo.
           }
           unfold tlist_find_wlist_obligation_4 in H0.
-          destruct (tlist_find_wlist _ _ _ (x0 ::: g) f) eqn:?; [|discriminate].
+          destruct (tlist_find_wlist _ _ (x0 ::: g) f) eqn:?; [|discriminate].
           destruct p.
           rewrite <- e.
           now cleanup H0 H2 H3 IHf Heqo0.
         }
         unfold tlist_find_wlist_obligation_9 in H0.
         unfold tlist_find_wlist_obligation_8 in H0.
-        destruct (tlist_find_wlist _ _ _ (x0 ::: g) f) eqn:?; [|discriminate].
+        destruct (tlist_find_wlist _ _ (x0 ::: g) f) eqn:?; [|discriminate].
         destruct p.
         now cleanup H0 H2 H3 IHf Heqo.
       }
       unfold tlist_find_wlist_obligation_10 in H0.
-      destruct (tlist_find_wlist _ _ _ (x0 ::: g) f) eqn:?; [|discriminate].
+      destruct (tlist_find_wlist _ _ (x0 ::: g) f) eqn:?; [|discriminate].
       destruct p.
       now cleanup H0 H2 H3 IHf Heqo.
     }
     unfold tlist_find_wlist_obligation_11 in H0.
-    destruct (tlist_find_wlist _ _ _ (x0 ::: g) f) eqn:?; [|discriminate].
+    destruct (tlist_find_wlist _ _ (x0 ::: g) f) eqn:?; [|discriminate].
     destruct p.
     now cleanup H0 H2 H3 IHf Heqo.
 Qed.
@@ -614,6 +587,8 @@ Qed.
 End WListProofsInj.
 
 Definition nat_triple (i j : nat) : Type := ((nat * nat) * nat)%type.
+
+Open Scope nat_scope.
 
 Definition my_list : tlist nat_triple 0 4 :=
   tcons 1 ((0, 1), 100)
@@ -624,12 +599,12 @@ Definition my_list : tlist nat_triple 0 4 :=
 
 Require Import Coq.Arith.EqNat.
 
-Definition nat_equivb (i j : nat) (x y : nat_triple i j) : Type :=
+Definition nat_equiv (i j : nat) (x y : nat_triple i j) : Type :=
   match x, y with
     (_, a), (_, b) => a = b
   end.
 
-Program Instance nat_equivalence {i j} : Equivalence (nat_equivb i j).
+Program Instance nat_equivalence {i j} : Equivalence (nat_equiv i j).
 Next Obligation.
   repeat intro.
   destruct x; simpl; auto.
@@ -643,24 +618,27 @@ Next Obligation.
   destruct x, y, z; simpl in *; subst; auto.
 Qed.
 
+Program Instance nat_Setoid {i j} : Setoid (nat_triple i j) := {
+  equiv := nat_equiv i j;
+  setoid_equiv := nat_equivalence
+}.
+
 Program Instance nat_equiv_dec {i j : nat} :
-  EquivDec (A:=nat) (B:=nat_triple) (i:=i) (j:=j) (nat_equivb i j)
-           (H:=@nat_equivalence i j).
+  EquivDec (A:=nat) (B:=nat_triple) (H:=@nat_Setoid i j).
 Next Obligation.
   destruct x, y.
   destruct (eq_dec n n0).
     subst.
     left; reflexivity.
-  right; intro.
-  apply n1.
-  inversion X.
-  reflexivity.
+  right.
 Defined.
+
+Open Scope equiv_scope.
 
 Example tlist_find_wlist_nat_ex1 :
   @tlist_find_wlist
-    nat nat_triple PeanoNat.Nat.eq_dec nat_equivb
-    (fun _ _ => nat_equivalence) (fun _ _ => nat_equiv_dec)
+    nat nat_triple PeanoNat.Nat.eq_dec
+    (fun _ _ => nat_Setoid) (fun _ _ => nat_equiv_dec)
     1 3 (tcons 2 ((1, 2), 200) (tcons 3 ((2, 3), 300) tnil))
     0 4 my_list
     === Some (((0, 1, 100) ::: tnil), ((3, 4, 400) ::: tnil)).

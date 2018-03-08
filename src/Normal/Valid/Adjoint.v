@@ -46,13 +46,6 @@ Proof.
   - eapply tlist_app; eauto.
 Defined.
 
-Lemma getMorph_getArrMorph {dom cod} `(f : ValidTerm dom cod t) :
-  getMorph f ≈ getArrMorph (ValidTerm_to_ArrowList f).
-Proof.
-  induction f; simpl; cat.
-  now rewrite getArrMorph_ArrowList_compose, IHf1, IHf2.
-Defined.
-
 Lemma getArrMorph_ValidTerm_to_ArrowList {dom cod}
       `(f : ValidTerm dom cod t) :
   getArrMorph (ValidTerm_to_ArrowList f) ≈ getMorph f.

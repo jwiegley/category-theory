@@ -18,6 +18,7 @@ Require Import Solver.Normal.Arrow.
 Require Import Solver.Normal.Denote.
 Require Import Solver.Normal.Sound.
 Require Import Solver.Normal.Subst.
+Require Import Solver.Normal.Valid.
 Require Import Solver.Logic.
 
 Generalizable All Variables.
@@ -278,7 +279,7 @@ Ltac categorical := reify_terms_and_then
   ltac:(fun env g => apply expr_sound; now vm_compute).
 
 Ltac normalize := reify_terms_and_then
-  ltac:(fun env g => apply exprAD_sound; simpl).
+  ltac:(fun env g => apply exprAD_sound; vm_compute).
 
 Example sample_2 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
@@ -294,19 +295,6 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-
-  revert X7.
-  reify.
-  unfold exprD.
-  apply rewrite_arrows.
-  apply exprAD_sound; unfold exprAD; intros.
-  match goal with
-  | [ H : @arrowsD ?C ?objs ?arrmap ?idom ?icod ?f ≈ arrowsD _ _ _ _ ?g
-      |- @arrowsD ?C ?objs ?arrmap ?dom ?cod ?i ≈ arrowsD _ _ _ _ ?j ] =>
-    apply (@rewrite_arrows C objs arrmap dom cod idom icod f g i j X7)
-  end.
-  simpl.
-
   revert X.
   revert X0.
   revert X1.
@@ -315,9 +303,38 @@ Proof.
   revert X4.
   revert X5.
   revert X6.
-  Time normalize.               (* 0.365s *)
+  revert X7.
+  Time normalize.               (* 0.07s *)
   Undo.
-  Time categorical.             (* 0.066s *)
+  Time categorical.             (* 0.07s *)
 Qed.
 
 Print Assumptions sample_2.
+
+Example sample_3 :
+  ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
+    g ∘ id ∘ id ∘ id ∘ h ≈ i ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+    g ∘ h ≈ i ->
+    f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
+Proof.
+  intros.
+  revert X7.
+  reify.
+  red; intros.
+  remember (Compose (Morph 1%positive) (Compose (Compose Identity (Morph 4%positive)) (Morph 3%positive))) as f'.
+  remember (Compose (Compose (Morph 1%positive) (Morph 4%positive)) (Morph 3%positive)) as g'.
+  remember (Compose (Morph 4%positive) (Morph 3%positive)) as h'.
+  remember (Morph 2%positive) as k'.
+  pose (Build_Env C o t) as env.
+  unshelve refine (rewrite_arrows (dom:=2%positive) (cod:=1%positive)
+                                  (i:=_) (j:=_)
+                                  (f:=f') (g:=g') (h:=h') (k:=k')
+                                  _ _ _ _ _ _).
+Abort.

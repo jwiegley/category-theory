@@ -36,9 +36,11 @@ Record Arrow (dom cod : obj_idx) : Type := {
   present : arrs arr = Some (dom; (cod; mor))
 }.
 
+Definition RevArrow (cod dom : obj_idx) := Arrow dom cod.
+
 (* With arrows, the types flow in the reverse direction *)
 Definition ArrowList (dom cod : obj_idx) : Type :=
-  tlist (fun i j => Arrow j i) cod dom.
+  tlist RevArrow cod dom.
 
 End NormalArrow.
 
