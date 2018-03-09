@@ -41,12 +41,12 @@ Class Adjunction := {
 
   to_adj_nat_l {x y c} (f : F y ~> c) (g : x ~> y) :
     to adj (f ∘ fmap[F] g) ≈ to adj f ∘ g;
-  to_adj_nat_r {x} {y} {c : C} (f : y ~> c) (g : F x ~> y) :
+  to_adj_nat_r {x y c} (f : y ~> c) (g : F x ~> y) :
     to adj (f ∘ g) ≈ fmap[U] f ∘ to adj g;
 
   from_adj_nat_l {x y c} (f : y ~> U c) (g : x ~> y) :
     adj⁻¹ (f ∘ g) ≈ adj⁻¹ f ∘ fmap[F] g;
-  from_adj_nat_r {x} {y} {c : C} (f : y ~> c) (g : x ~> U y) :
+  from_adj_nat_r {x y c} (f : y ~> c) (g : x ~> U y) :
     adj⁻¹ (fmap[U] f ∘ g) ≈ f ∘ adj⁻¹ g
 }.
 

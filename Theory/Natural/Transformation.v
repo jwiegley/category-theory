@@ -76,7 +76,7 @@ Corollary fun_comp_assoc {C D E B : Category}
 Proof. transform; simpl; intros; cat. Qed.
 
 Corollary fun_comp_assoc_sym {C D E B : Category}
-      {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : (F ○ G) ○ H ⟹ F ○ (G ○ H).
+          {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : (F ○ G) ○ H ⟹ F ○ (G ○ H).
 Proof. transform; simpl; intros; cat. Qed.
 
 Program Definition outside {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
