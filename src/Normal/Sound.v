@@ -47,7 +47,6 @@ Theorem arrowsD_compose {xs ys dom cod f} :
     arrowsD_work mid xs = Some (cod; g) ∧
     arrowsD_work dom ys = Some (mid; h).
 Proof.
-  intros.
   generalize dependent ys.
   generalize dependent cod.
   generalize dependent dom.
