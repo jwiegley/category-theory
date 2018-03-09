@@ -99,9 +99,24 @@ Proof.
   reflexivity.
 Defined.
 
+Lemma termD_Compose_None_right {f g dom} :
+  termD_work dom g = None
+    -> termD_work dom (Compose f g) = None.
+Proof.
+  induction g; simpl in *; intros.
+  - discriminate.
+  - destruct (arrs a); cat.
+    equalities'; auto;
+    equalities; simpl_eq; cat.
+  - destruct (termD_work dom g2); cat;
+    destruct (termD_work x g1); cat.
+    discriminate.
+Defined.
+
 Lemma termD_rect (P : ∀ dom cod, objs dom ~> objs cod -> Term -> Type) :
-     (∀ dom, P dom dom id Identity)
+     (∀ dom, termD dom dom Identity = Some id -> P dom dom id Identity)
   -> (∀ a dom cod f', arrs a = Some (dom; (cod; f'))
+        -> termD dom cod (Morph a) = Some f'
         -> P dom cod f' (Morph a))
   -> (∀ f mid cod f', termD mid cod f = Some f'
         -> P mid cod f' f
@@ -114,13 +129,20 @@ Proof.
   induction f; simpl; intros.
   - destruct (Pos.eq_dec dom cod); [|discriminate]; subst; auto.
     inversion H0; subst.
-    now apply X.
+    apply X.
+    simpl.
+    now rewrite Pos_eq_dec_refl.
   - destruct (arrs a) eqn:?; [|discriminate].
     destruct s, s.
     destruct (Pos.eq_dec x dom); [|discriminate].
     destruct (Pos.eq_dec x0 cod); [|discriminate].
     inversion H0; subst.
-    now apply X0.
+    apply X0.
+      now rewrite Heqo.
+    simpl.
+    rewrite Heqo.
+    rewrite Pos_eq_dec_refl.
+    now rewrite Pos_eq_dec_refl.
   - destruct (termD_work dom f2) eqn:?; [|discriminate].
     destruct s.
     destruct (termD_work x f1) eqn:?; [|discriminate].

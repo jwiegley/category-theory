@@ -13,7 +13,6 @@ Require Import Solver.Lib.
 Require Import Solver.Env.
 Require Import Solver.Expr.Term.
 Require Import Solver.Expr.Denote.
-Require Import Solver.Expr.Valid.
 Require Import Solver.Normal.TList.
 Require Import Solver.Normal.Arrow.
 Require Import Solver.Normal.Denote.

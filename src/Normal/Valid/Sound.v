@@ -29,53 +29,31 @@ Context `{Env}.
 Import EqNotations.
 
 Theorem termD_ArrowList {dom cod} {f : Term} {f'} :
-  termD dom cod f = Some f' ->
-  ArrowList dom cod.
+  termD dom cod f = Some f' -> ArrowList dom cod.
 Proof.
-  generalize dependent cod.
-  generalize dependent dom.
-  unfold termD; induction f; simpl; intros.
-  - destruct (Pos.eq_dec dom cod); [|discriminate].
-    subst.
-    inversion H0; subst; clear H0.
-    constructor.
-  - destruct (arrs a) eqn:?; [|discriminate].
-    destruct s, s.
-    destruct (Pos.eq_dec x dom); [|discriminate].
-    destruct (Pos.eq_dec x0 cod); [|discriminate].
-    subst.
-    inversion H0; subst; clear H0.
-    eapply tcons; eauto.
-    econstructor; eauto.
-    constructor.
-  - destruct (termD_work dom f2) eqn:?; [|discriminate].
-    destruct s.
-    destruct (termD_work x f1) eqn:?; [|discriminate].
-    destruct s.
-    destruct (Pos.eq_dec x0 cod); [|discriminate].
-    subst.
-    inversion H0; subst; clear H0.
-    eapply tlist_app; eauto.
-      eapply IHf1; eauto.
-      rewrite Heqo0.
-      rewrite Eq_eq_dec_refl.
-      reflexivity.
-    eapply IHf2; eauto.
-    rewrite Heqo.
-    rewrite Eq_eq_dec_refl.
-    reflexivity.
+  intros.
+  pattern f, dom, cod, f'.
+  refine (termD_rect (fun dom cod a' a => ArrowList dom cod)
+                     _ _ _ _ _ _ _ H0); intros.
+  - exact tnil.
+  - exact (Build_Arrow dom0 cod0 a f'0 H1 ::: tnil).
+  - exact (X +++ X0).
 Defined.
 
 Lemma getArrMorph_termD_ArrowList {dom cod} {f : Term} {f'}
       (Hf : termD dom cod f = Some f') :
-  getArrMorph (termD_ArrowList Hf) = f'.
+  getArrMorph (termD_ArrowList Hf) ≈ f'.
 Proof.
   unfold termD in Hf.
   induction f; simpl in *.
   - destruct (Pos.eq_dec dom cod); [|discriminate].
     inversion Hf; subst.
     simpl_eq.
-Abort.
+    unfold EqdepFacts.internal_eq_rew_r_dep.
+    unfold EqdepFacts.internal_eq_sym_involutive.
+    unfold EqdepFacts.internal_eq_sym_internal.
+    simpl.
+Admitted.
 
 Theorem ArrowList_termD {dom cod} :
   forall a : ArrowList dom cod,

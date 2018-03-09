@@ -20,11 +20,10 @@ Require Import Solver.Lib.
 Require Import Solver.Env.
 Require Import Solver.Expr.Term.
 Require Import Solver.Expr.Denote.
-Require Import Solver.Expr.Valid.
-Require Import Solver.Expr.Category.
 Require Import Solver.Normal.TList.
 Require Import Solver.Normal.Arrow.
 Require Import Solver.Normal.Denote.
+Require Import Solver.Normal.Sound.
 Require Import Solver.Normal.Valid.
 Require Import Solver.Normal.Valid.Sound.
 Require Import Solver.Normal.Category.
@@ -35,87 +34,56 @@ Section NormalValidAdjoint.
 
 Context `{Env}.
 
-Definition ValidTerm_to_ArrowList {dom cod} `(f : ValidTerm dom cod t) :
-  ArrowList dom cod.
-Proof.
-  induction f; simpl.
-  - constructor.
-  - econstructor; eauto.
-    econstructor; eauto.
-    constructor.
-  - eapply tlist_app; eauto.
-Defined.
-
-Lemma getArrMorph_ValidTerm_to_ArrowList {dom cod}
-      `(f : ValidTerm dom cod t) :
-  getArrMorph (ValidTerm_to_ArrowList f) ≈ getMorph f.
-Proof.
-  induction f; simpl; cat.
-  now rewrite getArrMorph_ArrowList_compose, IHf1, IHf2.
-Qed.
-
-Definition ValidTermEx_to_ArrowList {dom cod} (f : ValidTermEx dom cod) :
-  ArrowList dom cod := ValidTerm_to_ArrowList `2 f.
-
 Program Instance Terms_Arrows : Terms ⟶ Arrows := {
   fobj := fun x => x;
-  fmap := @ValidTermEx_to_ArrowList
+  fmap := fun x y => arrows
 }.
-Next Obligation.
-  unfold ValidTermEx_to_ArrowList.
-  proper.
-  induction x0, y0; simpl in *.
-  now rewrite !getArrMorph_ValidTerm_to_ArrowList.
-Qed.
-Next Obligation.
-  unfold ValidTermEx_to_ArrowList.
-  destruct f, g; simpl.
-  induction v, v0; simpl; cat.
-  now rewrite tlist_app_tnil_r.
-Qed.
-
-Definition ArrowList_to_ValidTermEx {dom cod} (f : ArrowList dom cod) :
-  ValidTermEx dom cod.
-Proof.
-  induction f; simpl.
-  - exists Identity.
-    constructor.
-  - destruct IHf.
-    destruct x.
-    eexists (Compose (Morph arr) x0).
-    econstructor; eauto.
-    econstructor; eauto.
-Defined.
-
-Lemma getMorph_ArrowList_to_ValidTerm {dom cod}
-      (f : ArrowList dom cod) :
-  getMorph `2 (ArrowList_to_ValidTermEx f) ≈ getArrMorph f.
-Proof.
-  induction f; simpl; cat.
-  destruct (ArrowList_to_ValidTermEx _), x; simpl.
-  now rewrite IHf.
-Qed.
-
-(*
-Definition ArrowList_to_ValidTermEx {dom cod} (f : ArrowList dom cod) :
-  ValidTermEx dom cod :=
-  (unarrows `1 f; ArrowList_to_ValidTerm `2 f).
 
 Program Instance Arrows_Terms : Arrows ⟶ Terms := {
   fobj := fun x => x;
-  fmap := @ArrowList_to_ValidTermEx
+  fmap := fun x y => unarrows
+}.
+Next Obligation.
+Admitted.
+
+(*
+Corollary weaken_eq {A : Type} `{Setoid A} {a b : A} : a = b -> a ≈ b.
+Proof. intros; subst; reflexivity. Qed.
+
+Program Instance DefinedTerms_DefinedArrows : DefinedTerms ⟶ DefinedArrows := {
+  fobj := fun x => x;
+  fmap := fun x y '(f; (f'; Hf)) =>
+    let '(t; (_, Ht)) := arrowsD_sound_r Hf in
+    (arrows f; (t; weaken_eq Ht))
 }.
 Next Obligation.
   proper.
-  destruct x0, y0; simpl in *.
-  now rewrite !getMorph_ArrowList_to_ValidTerm.
-Qed.
+  simpl in *.
+Admitted.
 Next Obligation.
-  destruct f, g; simpl.
-  induction v, v0; simpl; cat; simpl_eq.
-  destruct v; simpl; cat.
-Qed.
+Admitted.
+Next Obligation.
+Admitted.
 
+Program Instance DefinedArrows_DefinedTerms : DefinedArrows ⟶ DefinedTerms := {
+  fobj := fun x => x;
+  fmap := fun x y '(f; (f'; Hf)) =>
+    let '(t; (_, Ht)) := @arrowsD_sound _ _ x y _ _ in
+    (_; (_; Ht))
+}.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+*)
+
+(*
 Definition TA_adj {x y} : Arrows_Terms x ~> y ≊ x ~> Terms_Arrows y.
 Proof.
   isomorphism; simpl.
