@@ -320,6 +320,14 @@ Ltac elimobj X :=
   vm_compute triangular_number in *;
   destruct_maps; nomega.
 
+Lemma peano_rect' : ∀ P : N → Type, P 0%N → (∀ n : N, P (N.succ n)) → ∀ n : N, P n.
+Proof.
+  intros.
+  induction n using N.peano_rect.
+    apply X.
+  apply X0.
+Defined.
+
 Ltac reflect_on_pairs X Y F D C :=
   repeat (
     destruct X using peano_rect';

@@ -1,6 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Export Category.Theory.Naturality.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Instance.Coq.
 

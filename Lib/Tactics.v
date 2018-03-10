@@ -2,16 +2,28 @@ Set Warnings "-notation-overridden".
 
 Require Export Category.Lib.Setoid.
 
+Require Import Coq.Bool.Bool.
+
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
+
+Open Scope lazy_bool_scope.
+
+Ltac simpl_eq :=
+  repeat unfold eq_rect_r, eq_rect, eq_ind_r, eq_ind, eq_sym, prod_rect in *.
 
 Ltac simplify :=
   repeat
     (match goal with
      | [ H : () |- _ ] => destruct H
      | [ |- () ] => exact tt
+
+     | [ H : (_ &&& _) = true |- _ ] => rewrite <- andb_lazy_alt in H
+     | [ |- (_ &&& _) = true ]       => rewrite <- andb_lazy_alt
+     | [ H : (_ && _) = true |- _ ]  => apply andb_true_iff in H
+     | [ |- (_ && _) = true ]        => apply andb_true_iff; split
 
      | [ H : _ ∧ _ |- _ ] =>
        let H' := fresh "H" in destruct H as [H H']

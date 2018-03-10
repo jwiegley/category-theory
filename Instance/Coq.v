@@ -1,6 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Export Category.Theory.EndoFunctor.
 Require Export Category.Theory.Morphisms.
 Require Export Category.Structure.BiCCC.
 Require Export Category.Structure.Constant.
@@ -121,3 +122,37 @@ Proof.
     exists x0.
     reflexivity.
 Qed.
+
+Program Definition option_Functor : Coq ⟶ Coq := {|
+  fmap := option_map
+|}.
+Next Obligation.
+  proper.
+  destruct x1; simpl; auto.
+  now rewrite H.
+Qed.
+Next Obligation. now destruct x0. Qed.
+Next Obligation. now destruct x0. Qed.
+
+Program Instance optionF : EndoFunctor option :=
+  Functor_EndoFunctor (F:=option_Functor).
+
+Program Definition list_Functor : Coq ⟶ Coq := {|
+  fmap := List.map
+|}.
+Next Obligation.
+  proper.
+  induction x1; simpl; auto.
+  now rewrite H, IHx1.
+Qed.
+Next Obligation.
+  induction x0; simpl; auto.
+  now rewrite IHx0.
+Qed.
+Next Obligation.
+  induction x0; simpl; auto.
+  now rewrite IHx0.
+Qed.
+
+Program Instance listF : EndoFunctor list :=
+  Functor_EndoFunctor (F:=list_Functor).

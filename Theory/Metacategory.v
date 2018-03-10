@@ -178,8 +178,7 @@ Next Obligation.                (* compose *)
 Defined.
 Next Obligation.
   proper.
-  unfold FromArrows_obligation_3; simpl.
-  destruct e3, e4, e5; simpl in *; subst;
+  unfold FromArrows_obligation_3; simpl in *; subst.
   destruct (defined_composite _ _ _); reflexivity.
 Qed.
 Next Obligation.

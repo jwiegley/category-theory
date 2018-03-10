@@ -11,6 +11,90 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+Definition rev_list_rect (A : Type) (P : list A -> Type) (H : P [])
+           (H0 : ∀ (a : A) (l : list A), P (rev l) -> P (rev (a :: l)))
+           (l : list A) : P (rev l) :=
+  list_rect (λ l0 : list A, P (rev l0)) H
+            (λ (a : A) (l0 : list A) (IHl : P (rev l0)), H0 a l0 IHl) l.
+
+Definition rev_rect (A : Type) (P : list A -> Type)
+           (H : P []) (H0 : ∀ (x : A) (l : list A), P l -> P (l ++ [x]))
+           (l : list A) : P l :=
+  (λ E : rev (rev l) = l,
+     eq_rect (rev (rev l)) (λ l0 : list A, P l0)
+        (rev_list_rect A P H
+        (λ (a : A) (l0 : list A) (H1 : P (rev l0)), H0 a (rev l0) H1)
+        (rev l)) l E) (rev_involutive l).
+
+Lemma last_rcons A (x y : A) l :
+  last (l ++ [x]) y = x.
+Proof.
+  induction l; simpl.
+    reflexivity.
+  rewrite IHl; clear IHl.
+  destruct l; auto.
+Qed.
+
+Lemma last_app_cons A (x : A) xs y ys :
+  last (xs ++ y :: ys) x = last (y :: ys) x.
+Proof.
+  generalize dependent y.
+  generalize dependent xs.
+  induction ys using rev_ind; simpl; intros.
+    apply last_rcons.
+  rewrite last_rcons.
+  rewrite app_comm_cons.
+  rewrite app_assoc.
+  rewrite last_rcons.
+  destruct ys; auto.
+Qed.
+
+Lemma last_cons A (x : A) y ys :
+  last (y :: ys) x = last ys y.
+Proof.
+  generalize dependent x.
+  induction ys using rev_ind; simpl; intros.
+    reflexivity.
+  rewrite !last_rcons.
+  destruct ys; auto.
+Qed.
+
+Lemma match_last {A} {a : A} {xs x} :
+  match xs with
+  | [] => a
+  | _ :: _ => last xs x
+  end = last xs a.
+Proof.
+  induction xs; auto.
+  rewrite !last_cons; reflexivity.
+Qed.
+
+Lemma Forall_app {A} p (l1 l2: list A) :
+  Forall p (l1 ++ l2) <-> (Forall p l1 /\ Forall p l2).
+Proof.
+  intros.
+  rewrite !Forall_forall.
+  split; intros.
+    split; intros;
+    apply H; apply in_or_app.
+      left; trivial.
+    right; trivial.
+  apply in_app_or in H0.
+  destruct H, H0; eauto.
+Qed.
+
+Lemma last_Forall A (x y : A) l P :
+  last l x = y -> Forall P l -> P x -> P y.
+Proof.
+  generalize dependent x.
+  destruct l using rev_ind; simpl; intros.
+    now subst.
+  rewrite last_rcons in H; subst.
+  apply Forall_app in H0.
+  destruct H0.
+  now inversion H0.
+Qed.
+
 (* The only inductive types from the standard library used in this development
    are products and sums, so we must show how they interact with constructive
    setoids. *)
@@ -71,98 +155,67 @@ Program Instance inl_respects {A B} `{Setoid A} `{Setoid B} :
 Program Instance inr_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@inr A B).
 
-(* Products can be compared for boolean equality if their members can be. *)
-Definition prod_eqb {A B} (A_eqb : A -> A -> bool) (B_eqb : B -> B -> bool)
-           (x y : A * B) : bool :=
-  A_eqb (fst x) (fst y) && B_eqb (snd x) (snd y).
-
-(* Products can be compared for decidable equality if their members can be. *)
-Program Definition prod_eq_dec {A B}
-        (A_eq_dec : forall x y : A, {x = y} + {x ≠ y})
-        (B_eq_dec : forall x y : B, {x = y} + {x ≠ y})
-        (x y : A * B) : {x = y} + {x ≠ y} :=
-  match A_eq_dec (fst x) (fst y) with
-  | in_left =>
-    match B_eq_dec (snd x) (snd y) with
-    | in_left  => in_left
-    | in_right => in_right
+Polymorphic Program Instance option_setoid `{Setoid A} : Setoid (option A) := {
+  equiv := fun x y => match x, y with
+    | Some x, Some y => x ≈ y
+    | None, None => True
+    | _, _ => False
     end
-  | in_right => in_right
+}.
+Next Obligation. intuition; discriminate. Qed.
+Next Obligation. intuition; discriminate. Qed.
+Next Obligation.
+  equivalence.
+  - destruct x; reflexivity.
+  - destruct x, y; auto.
+    symmetry; auto.
+  - destruct x, y, z; auto.
+      transitivity a0; auto.
+    contradiction.
+Qed.
+
+Program Instance Some_respects {A} `{Setoid A} :
+  Proper (equiv ==> equiv) (@Some A).
+
+Fixpoint list_equiv `{Setoid A} (xs ys : list A) : Type :=
+  match xs, ys with
+  | nil, nil => True
+  | x :: xs, y :: ys => x ≈ y ∧ list_equiv xs ys
+  | _, _ => False
   end.
-Next Obligation. congruence. Qed.
 
-Lemma peano_rect' : ∀ P : N → Type, P 0%N → (∀ n : N, P (N.succ n)) → ∀ n : N, P n.
-Proof.
-  intros.
-  induction n using N.peano_rect.
-    apply X.
-  apply X0.
-Defined.
-
-Lemma K_dec_on_type A (x : A) (eq_dec : ∀ y : A, x = y \/ x ≠ y)
-      (P : x = x -> Type) :
-  P (eq_refl x) -> forall p:x = x, P p.
-Proof.
-  intros.
-  elim (@Eqdep_dec.eq_proofs_unicity_on A _) with x (eq_refl x) p.
-    trivial.
-  exact eq_dec.
+Program Instance list_equivalence `{Setoid A} : Equivalence list_equiv.
+Next Obligation.
+  induction x; simpl; simplify; auto.
+  reflexivity.
+Qed.
+Next Obligation.
+  induction x, y; simpl; intros; simplify; auto.
+  now symmetry.
+Qed.
+Next Obligation.
+  induction x, y, z; simpl; intros;
+  simplify; auto; try contradiction.
+  - now transitivity a0.
+  - firstorder.
 Qed.
 
-Lemma Pos_eq_dec' : ∀ x y : positive, x = y \/ x ≠ y.
-Proof.
-  intros.
-  destruct (Pos.eq_dec x y); auto.
-Qed.
+Polymorphic Program Instance list_setoid `{Setoid A} : Setoid (list A) := {
+  equiv := list_equiv
+}.
 
-Lemma Pos_eq_dec_refl n : Pos.eq_dec n n = left (@eq_refl positive n).
-Proof.
-  destruct (Pos.eq_dec n n).
-    refine (K_dec_on_type positive n (Pos_eq_dec' n)
-              (fun x => @left _ _ x = @left _ _ (@eq_refl positive n)) _ _).
-    reflexivity.
-  contradiction.
-Qed.
+Program Instance cons_respects {A} `{Setoid A} :
+  Proper (equiv ==> equiv ==> equiv) (@cons A).
 
-Lemma N_eq_dec' : ∀ x y : N, x = y \/ x ≠ y.
-Proof.
-  intros.
-  destruct (N.eq_dec x y); auto.
-Qed.
-
-Lemma N_eq_dec_refl n : N.eq_dec n n = left (@eq_refl N n).
-Proof.
-  destruct (N.eq_dec n n).
-    refine (K_dec_on_type N n (N_eq_dec' n)
-              (fun x => @left _ _ x = @left _ _ (@eq_refl N n)) _ _).
-    reflexivity.
-  contradiction.
-Qed.
-
-Lemma prod_eq_dec' :
-  ∀ (A B : Type) (A_eq_dec : ∀ x y : A, x = y ∨ x ≠ y)
-    (B_eq_dec : ∀ x y : B, x = y ∨ x ≠ y)
-    (x y : A ∧ B), x = y \/ x ≠ y.
-Proof.
-  intros.
-  destruct x, y; simpl.
-  destruct (A_eq_dec a a0); subst.
-    destruct (B_eq_dec b b0); subst.
-      left; reflexivity.
-    right; congruence.
-  right; congruence.
-Qed.
-
-Lemma prod_eq_dec_refl (A B : Type) n
-      (A_eq_dec : ∀ x y : A, x = y ∨ x ≠ y)
-      (B_eq_dec : ∀ x y : B, x = y ∨ x ≠ y) :
-  prod_eq_dec A_eq_dec B_eq_dec n n = left (@eq_refl (A ∧ B) n).
-Proof.
-  destruct (prod_eq_dec _ _ n n).
-    refine (K_dec_on_type (A ∧ B) n (prod_eq_dec' _ _ A_eq_dec B_eq_dec n)
-              (fun x => @left _ _ x = @left _ _ (@eq_refl (A ∧ B) n)) _ _).
-    reflexivity.
-  contradiction.
+Program Instance app_respects {A} `{Setoid A} :
+  Proper (equiv ==> equiv ==> equiv) (@app A).
+Next Obligation.
+  proper.
+  generalize dependent y.
+  induction x, y; simpl; intros; auto.
+  - contradiction.
+  - contradiction.
+  - simplify; auto.
 Qed.
 
 Lemma length_remove A (A_eq_dec : ∀ x y : A, x = y ∨ x ≠ y) x xs :
@@ -174,4 +227,54 @@ Proof.
     apply PeanoNat.Nat.le_le_succ_r, IHxs.
   simpl.
   apply le_n_S, IHxs.
+Qed.
+
+Section Symmetric_Product2.
+
+Variable A : Type.
+Variable leA : A -> A -> Prop.
+
+Inductive symprod2 : A * A -> A * A -> Prop :=
+  | left_sym2 :
+    forall x x':A, leA x x' -> forall y:A, symprod2 (x, y) (x', y)
+  | right_sym2 :
+    forall y y':A, leA y y' -> forall x:A, symprod2 (x, y) (x, y')
+  | both_sym2 :
+    forall (x x':A) (y y':A),
+      leA x x' ->
+      leA y y' ->
+      symprod2 (x, y) (x', y').
+
+Lemma Acc_symprod2 :
+  forall x:A, Acc leA x -> forall y:A, Acc leA y -> Acc symprod2 (x, y).
+Proof.
+  induction 1 as [x _ IHAcc]; intros y H2.
+  induction H2 as [x1 H3 IHAcc1].
+  apply Acc_intro; intros y H5.
+  inversion_clear H5; auto with sets.
+  apply IHAcc; auto.
+  apply Acc_intro; trivial.
+Defined.
+
+Lemma wf_symprod2 :
+  well_founded leA -> well_founded symprod2.
+Proof.
+  red.
+  destruct a.
+  apply Acc_symprod2; auto with sets.
+Defined.
+
+End Symmetric_Product2.
+
+Lemma list_rect2 : ∀ (A : Type) (P : list A -> list A -> Type),
+  P [] [] ->
+  (∀ (a : A) (l1 : list A), P l1 [] -> P (a :: l1) []) ->
+  (∀ (b : A) (l2 : list A), P [] l2 -> P [] (b :: l2)) ->
+  (∀ (a b : A) (l1 l2 : list A), P l1 l2 -> P (a :: l1) (b :: l2))
+    -> ∀ l1 l2 : list A, P l1 l2.
+Proof.
+  intros.
+  generalize dependent l2.
+  induction l1; simpl in *; intros;
+  induction l2; auto.
 Qed.

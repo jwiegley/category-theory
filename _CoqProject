@@ -4,6 +4,7 @@ Lib/Foundation.v
 Lib/Setoid.v
 Lib/Tactics.v
 Lib/Datatypes.v
+Lib/Equality.v
 Lib/FMapExt.v
 Lib/Nomega.v
 Lib/MapDecide.v
@@ -16,7 +17,7 @@ Theory/Morphisms.v
 Theory/Isomorphism.v
 Theory/Unique.v
 Theory/Functor.v
-Theory/Canonical.v
+Theory/EndoFunctor.v
 Theory/Naturality.v
 Theory/Natural/Transformation.v
 Theory/Dinatural.v

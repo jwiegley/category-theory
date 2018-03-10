@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
-Require Export Category.Theory.Canonical.
+Require Export Category.Theory.EndoFunctor.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -38,7 +38,7 @@ Program Instance Functor_Naturality
 Require Import Category.Functor.Constant.
 
 Program Instance ConstMap {C : Category} {B : C} :
-  CanonicalMap (λ _, B) | 9 := {
+  EndoFunctor (λ _, B) | 9 := {
   map := fun _ _ _ => id;
   is_functor := Constant _ B
 }.
@@ -99,19 +99,19 @@ Qed.
 *)
 
 Program Instance ArityOne {C : Category}
-        (P : C -> C) {F : @CanonicalMap C P}
-        (Q : C -> C) {G : @CanonicalMap C Q} :
+        (P : C -> C) {F : @EndoFunctor C P}
+        (Q : C -> C) {G : @EndoFunctor C Q} :
   @Naturality (∀ A, P A ~> Q A) := {
   natural := fun f => ∀ x y (g : x ~> y), @map _ _ G _ _ g ∘ f x ≈ f y ∘ @map _ _ F _ _ g
 }.
 
 Program Instance ArityTwo {C : Category}
         (P : C -> C -> C)
-            {FA : ∀ B, @CanonicalMap C (fun A => P A B)}
-            {FB : ∀ A, @CanonicalMap C (fun B => P A B)}
+            {FA : ∀ B, @EndoFunctor C (fun A => P A B)}
+            {FB : ∀ A, @EndoFunctor C (fun B => P A B)}
         (Q : C -> C -> C)
-            {GA : ∀ B, @CanonicalMap C (fun A => Q A B)}
-            {GB : ∀ A, @CanonicalMap C (fun B => Q A B)} :
+            {GA : ∀ B, @EndoFunctor C (fun A => Q A B)}
+            {GB : ∀ A, @EndoFunctor C (fun B => Q A B)} :
   @Naturality (∀ A B, P A B ~> Q A B) := {
   natural := fun f => ∀ x y (g : x ~> y) z w (h : z ~> w),
     @map _ _ (GB _) _ _ h ∘ @map _ _ (GA _) _ _ g ∘ f x z
@@ -120,13 +120,13 @@ Program Instance ArityTwo {C : Category}
 
 Program Instance ArityThree {C : Category}
         (P : C -> C -> C -> C)
-            {FA : ∀ B D : C, @CanonicalMap C (fun A => P A B D)}
-            {FB : ∀ A D : C, @CanonicalMap C (fun B => P A B D)}
-            {FC : ∀ A B : C, @CanonicalMap C (fun D => P A B D)}
+            {FA : ∀ B D : C, @EndoFunctor C (fun A => P A B D)}
+            {FB : ∀ A D : C, @EndoFunctor C (fun B => P A B D)}
+            {FC : ∀ A B : C, @EndoFunctor C (fun D => P A B D)}
         (Q : C -> C -> C -> C)
-            {GA : ∀ B D : C, @CanonicalMap C (fun A => Q A B D)}
-            {GB : ∀ A D : C, @CanonicalMap C (fun B => Q A B D)}
-            {GC : ∀ A B : C, @CanonicalMap C (fun D => Q A B D)} :
+            {GA : ∀ B D : C, @EndoFunctor C (fun A => Q A B D)}
+            {GB : ∀ A D : C, @EndoFunctor C (fun B => Q A B D)}
+            {GC : ∀ A B : C, @EndoFunctor C (fun D => Q A B D)} :
   @Naturality (∀ A B D, P A B D ~> Q A B D) := {
   natural := fun f => ∀ x y (g : x ~> y)
                         z w (h : z ~> w)
@@ -143,15 +143,15 @@ Program Instance ArityThree {C : Category}
 
 Program Instance ArityFour {C : Category}
         (P : C -> C -> C -> C -> C)
-            {FA : ∀ B D E : C, @CanonicalMap C (fun A => P A B D E)}
-            {FB : ∀ A D E : C, @CanonicalMap C (fun B => P A B D E)}
-            {FC : ∀ A B E : C, @CanonicalMap C (fun D => P A B D E)}
-            {FD : ∀ A B D : C, @CanonicalMap C (fun E => P A B D E)}
+            {FA : ∀ B D E : C, @EndoFunctor C (fun A => P A B D E)}
+            {FB : ∀ A D E : C, @EndoFunctor C (fun B => P A B D E)}
+            {FC : ∀ A B E : C, @EndoFunctor C (fun D => P A B D E)}
+            {FD : ∀ A B D : C, @EndoFunctor C (fun E => P A B D E)}
         (Q : C -> C -> C -> C -> C)
-            {GA : ∀ B D E : C, @CanonicalMap C (fun A => Q A B D E)}
-            {GB : ∀ A D E : C, @CanonicalMap C (fun B => Q A B D E)}
-            {GC : ∀ A B E : C, @CanonicalMap C (fun D => Q A B D E)}
-            {GD : ∀ A B D : C, @CanonicalMap C (fun E => Q A B D E)} :
+            {GA : ∀ B D E : C, @EndoFunctor C (fun A => Q A B D E)}
+            {GB : ∀ A D E : C, @EndoFunctor C (fun B => Q A B D E)}
+            {GC : ∀ A B E : C, @EndoFunctor C (fun D => Q A B D E)}
+            {GD : ∀ A B D : C, @EndoFunctor C (fun E => Q A B D E)} :
   @Naturality (∀ A B D E, P A B D E ~> Q A B D E) := {
   natural := fun f => ∀ x y (g : x ~> y)
                         z w (h : z ~> w)
@@ -172,17 +172,17 @@ Program Instance ArityFour {C : Category}
 
 Program Instance ArityFive {C : Category}
         (P : C -> C -> C -> C -> C -> C)
-            {FA : ∀ B D E F : C, @CanonicalMap C (fun A => P A B D E F)}
-            {FB : ∀ A D E F : C, @CanonicalMap C (fun B => P A B D E F)}
-            {FC : ∀ A B E F : C, @CanonicalMap C (fun D => P A B D E F)}
-            {FD : ∀ A B D F : C, @CanonicalMap C (fun E => P A B D E F)}
-            {FE : ∀ A B D E : C, @CanonicalMap C (fun F => P A B D E F)}
+            {FA : ∀ B D E F : C, @EndoFunctor C (fun A => P A B D E F)}
+            {FB : ∀ A D E F : C, @EndoFunctor C (fun B => P A B D E F)}
+            {FC : ∀ A B E F : C, @EndoFunctor C (fun D => P A B D E F)}
+            {FD : ∀ A B D F : C, @EndoFunctor C (fun E => P A B D E F)}
+            {FE : ∀ A B D E : C, @EndoFunctor C (fun F => P A B D E F)}
         (Q : C -> C -> C -> C -> C -> C)
-            {GA : ∀ B D E F : C, @CanonicalMap C (fun A => Q A B D E F)}
-            {GB : ∀ A D E F : C, @CanonicalMap C (fun B => Q A B D E F)}
-            {GC : ∀ A B E F : C, @CanonicalMap C (fun D => Q A B D E F)}
-            {GD : ∀ A B D F : C, @CanonicalMap C (fun E => Q A B D E F)}
-            {GE : ∀ A B D E : C, @CanonicalMap C (fun F => Q A B D E F)} :
+            {GA : ∀ B D E F : C, @EndoFunctor C (fun A => Q A B D E F)}
+            {GB : ∀ A D E F : C, @EndoFunctor C (fun B => Q A B D E F)}
+            {GC : ∀ A B E F : C, @EndoFunctor C (fun D => Q A B D E F)}
+            {GD : ∀ A B D F : C, @EndoFunctor C (fun E => Q A B D E F)}
+            {GE : ∀ A B D E : C, @EndoFunctor C (fun F => Q A B D E F)} :
   @Naturality (∀ A B D E F, P A B D E F ~> Q A B D E F) := {
   natural := fun f => ∀ x y (g : x ~> y)
                         z w (h : z ~> w)
@@ -204,8 +204,8 @@ Program Instance ArityFive {C : Category}
 }.
 
 Program Instance Transform_ArityOne {C : Category}
-        (P : C -> C) `{@CanonicalMap C P}
-        (Q : C -> C) `{@CanonicalMap C Q} :
+        (P : C -> C) `{@EndoFunctor C P}
+        (Q : C -> C) `{@EndoFunctor C Q} :
   @Naturality (∀ A, P A ≅ Q A) := {
   natural := fun f => natural (fun A => to (f A)) *
                       natural (fun A => from (f A))
@@ -213,11 +213,11 @@ Program Instance Transform_ArityOne {C : Category}
 
 Program Instance Transform_ArityTwo {C : Category}
         (P : C -> C -> C)
-            `{∀ B, @CanonicalMap C (fun A => P A B)}
-            `{∀ A, @CanonicalMap C (fun B => P A B)}
+            `{∀ B, @EndoFunctor C (fun A => P A B)}
+            `{∀ A, @EndoFunctor C (fun B => P A B)}
         (Q : C -> C -> C)
-            `{∀ B, @CanonicalMap C (fun A => Q A B)}
-            `{∀ A, @CanonicalMap C (fun B => Q A B)} :
+            `{∀ B, @EndoFunctor C (fun A => Q A B)}
+            `{∀ A, @EndoFunctor C (fun B => Q A B)} :
   @Naturality (∀ A B, P A B ≅ Q A B) := {
   natural := fun f => natural (fun A B => to (f A B)) *
                       natural (fun A B => from (f A B))
@@ -225,13 +225,13 @@ Program Instance Transform_ArityTwo {C : Category}
 
 Program Instance Transform_ArityThree {C : Category}
         (P : C -> C -> C -> C)
-            `{∀ B D : C, @CanonicalMap C (fun A => P A B D)}
-            `{∀ A D : C, @CanonicalMap C (fun B => P A B D)}
-            `{∀ A B : C, @CanonicalMap C (fun D => P A B D)}
+            `{∀ B D : C, @EndoFunctor C (fun A => P A B D)}
+            `{∀ A D : C, @EndoFunctor C (fun B => P A B D)}
+            `{∀ A B : C, @EndoFunctor C (fun D => P A B D)}
         (Q : C -> C -> C -> C)
-            `{∀ B D : C, @CanonicalMap C (fun A => Q A B D)}
-            `{∀ A D : C, @CanonicalMap C (fun B => Q A B D)}
-            `{∀ A B : C, @CanonicalMap C (fun D => Q A B D)} :
+            `{∀ B D : C, @EndoFunctor C (fun A => Q A B D)}
+            `{∀ A D : C, @EndoFunctor C (fun B => Q A B D)}
+            `{∀ A B : C, @EndoFunctor C (fun D => Q A B D)} :
   @Naturality (∀ A B D, P A B D ≅ Q A B D) := {
   natural := fun f => natural (fun A B D => to (f A B D)) *
                       natural (fun A B D => from (f A B D))
@@ -239,15 +239,15 @@ Program Instance Transform_ArityThree {C : Category}
 
 Program Instance Transform_ArityFour {C : Category}
         (P : C -> C -> C -> C -> C)
-            `{∀ B D E : C, @CanonicalMap C (fun A => P A B D E)}
-            `{∀ A D E : C, @CanonicalMap C (fun B => P A B D E)}
-            `{∀ A B E : C, @CanonicalMap C (fun D => P A B D E)}
-            `{∀ A B D : C, @CanonicalMap C (fun E => P A B D E)}
+            `{∀ B D E : C, @EndoFunctor C (fun A => P A B D E)}
+            `{∀ A D E : C, @EndoFunctor C (fun B => P A B D E)}
+            `{∀ A B E : C, @EndoFunctor C (fun D => P A B D E)}
+            `{∀ A B D : C, @EndoFunctor C (fun E => P A B D E)}
         (Q : C -> C -> C -> C -> C)
-            `{∀ B D E : C, @CanonicalMap C (fun A => Q A B D E)}
-            `{∀ A D E : C, @CanonicalMap C (fun B => Q A B D E)}
-            `{∀ A B E : C, @CanonicalMap C (fun D => Q A B D E)}
-            `{∀ A B D : C, @CanonicalMap C (fun E => Q A B D E)} :
+            `{∀ B D E : C, @EndoFunctor C (fun A => Q A B D E)}
+            `{∀ A D E : C, @EndoFunctor C (fun B => Q A B D E)}
+            `{∀ A B E : C, @EndoFunctor C (fun D => Q A B D E)}
+            `{∀ A B D : C, @EndoFunctor C (fun E => Q A B D E)} :
   @Naturality (∀ A B D E, P A B D E ≅ Q A B D E) := {
   natural := fun f => natural (fun A B D E => to (f A B D E)) *
                       natural (fun A B D E => from (f A B D E))
@@ -256,17 +256,17 @@ Program Instance Transform_ArityFour {C : Category}
 
 Program Instance Transform_ArityFive {C : Category}
         (P : C -> C -> C -> C -> C -> C)
-            `{∀ B D E F : C, @CanonicalMap C (fun A => P A B D E F)}
-            `{∀ A D E F : C, @CanonicalMap C (fun B => P A B D E F)}
-            `{∀ A B E F : C, @CanonicalMap C (fun D => P A B D E F)}
-            `{∀ A B D F : C, @CanonicalMap C (fun E => P A B D E F)}
-            `{∀ A B D E : C, @CanonicalMap C (fun F => P A B D E F)}
+            `{∀ B D E F : C, @EndoFunctor C (fun A => P A B D E F)}
+            `{∀ A D E F : C, @EndoFunctor C (fun B => P A B D E F)}
+            `{∀ A B E F : C, @EndoFunctor C (fun D => P A B D E F)}
+            `{∀ A B D F : C, @EndoFunctor C (fun E => P A B D E F)}
+            `{∀ A B D E : C, @EndoFunctor C (fun F => P A B D E F)}
         (Q : C -> C -> C -> C -> C -> C)
-            `{∀ B D E F : C, @CanonicalMap C (fun A => Q A B D E F)}
-            `{∀ A D E F : C, @CanonicalMap C (fun B => Q A B D E F)}
-            `{∀ A B E F : C, @CanonicalMap C (fun D => Q A B D E F)}
-            `{∀ A B D F : C, @CanonicalMap C (fun E => Q A B D E F)}
-            `{∀ A B D E : C, @CanonicalMap C (fun F => Q A B D E F)} :
+            `{∀ B D E F : C, @EndoFunctor C (fun A => Q A B D E F)}
+            `{∀ A D E F : C, @EndoFunctor C (fun B => Q A B D E F)}
+            `{∀ A B E F : C, @EndoFunctor C (fun D => Q A B D E F)}
+            `{∀ A B D F : C, @EndoFunctor C (fun E => Q A B D E F)}
+            `{∀ A B D E : C, @EndoFunctor C (fun F => Q A B D E F)} :
   @Naturality (∀ A B D E F, P A B D E F ≅ Q A B D E F) := {
   natural := fun f => natural (fun A B D E F => to (f A B D E F)) *
                       natural (fun A B D E F => from (f A B D E F))
