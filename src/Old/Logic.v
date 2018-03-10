@@ -1,10 +1,22 @@
 Set Warnings "-notation-overridden".
 
-Require Export Solver.Sound.
-Require Import Solver.Partial.
+Require Import Coq.omega.Omega.
+Require Import Coq.FSets.FMapPositive.
 
 Module Import MP := FMapPositive.
 Module M := MP.PositiveMap.
+
+Require Import Category.Lib.
+Require Import Category.Theory.Category.
+
+Require Import Solver.Env.
+Require Import Solver.Partial.
+Require Import Solver.Expr.Term.
+Require Import Solver.Expr.Denote.
+Require Import Solver.Normal.Arrow.
+Require Import Solver.Normal.Denote.
+(* Require Import Solver.Normal.Subst. *)
+Require Import Solver.Normal.Sound.
 
 Generalizable All Variables.
 
@@ -12,11 +24,9 @@ Section Logic.
 
 Context `{Env}.
 
-Remove Hints Coq.Coq : typeclass_instances.
-
 Open Scope partial_scope.
 
-Program Fixpoint expr_forward (t : Expr arr_idx) (hyp : Expr arr_idx)
+Program Fixpoint expr_forward (t : Expr) (hyp : Expr)
         (cont : [exprD t (* (subst_all_expr t defs') *)]) :
   [exprD hyp -> exprD t] :=
   match hyp with
@@ -32,7 +42,7 @@ Program Fixpoint expr_forward (t : Expr arr_idx) (hyp : Expr arr_idx)
 Next Obligation. contradiction. Defined.
 Next Obligation. intuition. Defined.
 
-Program Fixpoint expr_backward (t : Expr arr_idx) {measure (expr_size t)} :
+Program Fixpoint expr_backward (t : Expr) {measure (expr_size t)} :
   [exprD t] :=
   match t with
   | Top => Yes

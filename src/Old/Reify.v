@@ -7,11 +7,17 @@ Require Import Coq.FSets.FMapPositive.
 Module Import MP := FMapPositive.
 Module M := MP.PositiveMap.
 
+Require Import Category.Lib.
+Require Import Category.Theory.Category.
+
 Require Import Solver.Env.
-Require Import Solver.Expr.
-Require Import Solver.Denote.
-Require Import Solver.Normal.
-Require Import Solver.Sound.
+Require Import Solver.Expr.Term.
+Require Import Solver.Expr.Denote.
+Require Import Solver.Normal.Arrow.
+Require Import Solver.Normal.Denote.
+Require Import Solver.Normal.Sound.
+Require Import Solver.Normal.Subst.
+Require Import Solver.Normal.Valid.
 Require Import Solver.Logic.
 
 Generalizable All Variables.
@@ -129,11 +135,11 @@ Ltac allVars cs e :=
 Ltac reifyTerm cs t :=
   lazymatch t with
   | @id ?c ?x =>
-    constr:(@Ident arr_idx)
+    constr:(Identity)
   | @compose ?c ?x ?y ?z ?f ?g =>
     let ft := reifyTerm cs f in
     let gt := reifyTerm cs g in
-    constr:(Comp ft gt)
+    constr:(Compose ft gt)
   | ?f =>
     lazymatch type of f with
     | ?x ~{?c}~> ?y =>
@@ -249,8 +255,8 @@ Ltac reify_terms_and_then tacGoal :=
   match goal with
   | [ |- ?G ] =>
     let cs  := allVars tt G in
-    let env := build_env cs in
     let g   := reifyExpr cs G in
+    let env := build_env cs in
     match env with
     | (?cat, ?ofun, ?ffun) =>
       change (@exprD {| cat := cat
@@ -321,14 +327,13 @@ Proof.
   revert X7.
   reify.
   red; intros.
-  remember (Comp (Morph 1%positive)
-                 (Comp (Comp Ident (Morph 4%positive))
-                       (Morph 3%positive))) as f'.
-  remember (Comp (Comp (Morph 1%positive) (Morph 4%positive))
-                 (Morph 3%positive)) as g'.
-  remember (Comp (Morph 4%positive) (Morph 3%positive)) as h'.
+  remember (Compose (Morph 1%positive) (Compose (Compose Identity (Morph 4%positive)) (Morph 3%positive))) as f'.
+  remember (Compose (Compose (Morph 1%positive) (Morph 4%positive)) (Morph 3%positive)) as g'.
+  remember (Compose (Morph 4%positive) (Morph 3%positive)) as h'.
   remember (Morph 2%positive) as k'.
   pose (Build_Env C o t) as env.
-  rewrite termD_arrows.
-  simpl arrows.
+  unshelve refine (rewrite_arrows (dom:=2%positive) (cod:=1%positive)
+                                  (i:=_) (j:=_)
+                                  (f:=f') (g:=g') (h:=h') (k:=k')
+                                  _ _ _ _ _ _).
 Abort.
