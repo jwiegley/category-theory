@@ -9,12 +9,10 @@ Module M := MP.PositiveMap.
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
-Require Import Solver.Lib.
-
 Generalizable All Variables.
 
-Definition obj_idx := positive.
-Definition arr_idx := positive.
+Definition obj_idx : Type := positive.
+Definition arr_idx : Type := positive.
 
 Class Env := {
   cat : Category;

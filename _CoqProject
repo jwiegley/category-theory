@@ -1,6 +1,5 @@
 -R category-theory Category
 -R src Solver
-src/Lib.v
 src/Env.v
 src/Expr/Term.v
 src/Expr/Denote.v
@@ -13,5 +12,6 @@ src/Normal/Valid/Sound.v
 src/Normal/Valid/Adjoint.v
 src/Normal/Category.v
 src/Normal/Subst.v
+src/Partial.v
 src/Logic.v
 src/Reify.v

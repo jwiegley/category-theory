@@ -15,7 +15,6 @@ Unset Equations WithK.
 Require Import Category.Lib.
 Require Import Category.Theory.Functor.
 
-Require Import Solver.Lib.
 Require Import Solver.Expr.
 Require Import Solver.Denote.
 Require Import Solver.Sound.

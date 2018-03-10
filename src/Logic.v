@@ -9,8 +9,8 @@ Module M := MP.PositiveMap.
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
-Require Import Solver.Lib.
 Require Import Solver.Env.
+Require Import Solver.Partial.
 Require Import Solver.Expr.Term.
 Require Import Solver.Expr.Denote.
 Require Import Solver.Normal.Arrow.
