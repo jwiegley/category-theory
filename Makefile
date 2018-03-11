@@ -1,5 +1,15 @@
+MISSING	 =									\
+	find src \( \( -name coq-haskell -o -name fiat \) -prune \)		\
+	    -o \( -name '*.v'							\
+		! -name fiat							\
+		! -name coq-haskell -print \)				|	\
+		xargs egrep -i -Hn '(abort|admit|undefined|jww)'	|	\
+		      egrep -v 'Definition undefined'			|	\
+		      egrep -v '(old|new|research)/'
+
 all: Makefile.coq
 	make -j4 -k -f Makefile.coq # TIMECMD=time
+	-@$(MISSING) || exit 0
 
 Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
