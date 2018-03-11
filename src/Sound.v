@@ -381,6 +381,8 @@ Next Obligation.
   rewrite e.
   destruct (eq_dec x0 y); subst.
     reflexivity.
+  (* This cannot be a functor because Comp doesn't remember the type
+     of the intermediate object, and there is only one correct choice. *)
 Admitted.
 *)
 
