@@ -192,7 +192,7 @@ Ltac objects_function xs :=
   loop 1%positive xs.
 
 Program Definition Unused : Category := {|
-  obj     := unit : Type;
+  obj     := Datatypes.unit : Type;
   hom     := fun _ _ => True;
   homset  := Morphism_equality;
   id      := fun x => _;
@@ -329,6 +329,6 @@ Proof.
   remember (Comp (Morph 4%positive) (Morph 3%positive)) as h'.
   remember (Morph 2%positive) as k'.
   pose (Build_Env C o t) as env.
-  rewrite termD_arrows.
-  simpl arrows.
+  (* rewrite termD_arrows. *)
+  (* simpl arrows. *)
 Abort.

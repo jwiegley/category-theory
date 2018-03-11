@@ -147,13 +147,11 @@ Qed.
 (** The category of syntactic terms, equivalent up to normalization. *)
 
 Definition Term_equiv `{Setoid A} (f g : Term A) : Type :=
-  arrows f ≈ arrows g.
+  arrows f = arrows g.
 Arguments Term_equiv {A _} f g /.
 
 Global Program Instance Term_equivalence `{Setoid A} :
   Equivalence Term_equiv.
-Next Obligation. intuition. Qed.
-Next Obligation. intros; now rewrite X, X0. Qed.
 
 Global Instance Term_Setoid `{Setoid A} : Setoid (Term A) := {|
   equiv := Term_equiv;
@@ -171,7 +169,6 @@ Qed.
 Program Definition Terms (A : Type) `{Setoid A} : Category := {|
   obj := obj_idx;
   hom := fun _ _ => Term A;
-  homset := fun _ _ => Term_Setoid;
   id := fun _ => Ident;
   compose := fun _ _ _ => Comp
 |}.

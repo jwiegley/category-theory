@@ -200,4 +200,12 @@ Proof.
   destruct (termD y z f); auto.
 Qed.
 
+(*
+Global Program Instance option_arr_respects {dom mid cod} :
+  Proper (@option_arr_equiv _ mid cod
+            ==> @option_arr_equiv _ dom mid
+            ==> @option_arr_equiv _ dom cod)
+         (@compose (@opt_arrs cat) dom mid cod).
+*)
+
 End Normal.

@@ -249,7 +249,7 @@ Proof.
     destruct (Pos.eq_dec x cod); subst; auto.
 Qed.
 
-Lemma arrowsD_app {dom cod f g} :
+Lemma arrowsD_app dom cod f g :
   ∃ mid, arrowsD dom cod (f ++ g)
            ≈ arrowsD mid cod f ∘[opt_arrs] arrowsD dom mid g.
 Proof.
@@ -273,6 +273,28 @@ Proof.
   discriminate.
 Qed.
 
+(*
+Lemma arrowsD_incl {dom cod f g} :
+  incl f g
+    -> ∃ pre post,
+         arrowsD dom cod f ≈ arrowsD dom cod (pre ++ g ++ post).
+Proof.
+Admitted.
+
+Lemma arrowsD_within {dom cod i j pre post f g x} :
+  arrowsD i j f ≈ arrowsD i j g
+    -> arrowsD dom cod (pre ++ g ++ post) ≈ x
+    -> arrowsD dom cod (pre ++ f ++ post) ≈ x.
+Proof.
+  intros.
+  rewrite app_assoc.
+  destruct (arrowsD_app dom cod (pre ++ f) post); rewrite e; clear e.
+  destruct (arrowsD_app x0 cod pre f).
+
+  rewrite e.
+Admitted.
+*)
+
 Lemma arrowsD_apply dom cod (f g : Term arr_idx) :
   list_beq Eq_eqb (arrows f) (arrows g) = true ->
   arrowsD dom cod (arrows f) ||| false = true ->
@@ -288,18 +310,18 @@ Proof.
   apply arrowsD_sound in H2.
   equalities.
   rewrite H2.
+  simpl.
   rewrite <- e0, <- e.
   reflexivity.
 Qed.
 
 Definition list_equiv_termD (x y : Term arr_idx) :
-  list_equiv (arrows x) (arrows y)
+  arrows x = arrows y
     -> ∀ dom cod, termD dom cod x ≈ termD dom cod y.
 Proof.
   intros.
-  apply list_equiv_eq in X; auto.
   rewrite !termD_arrows.
-  now rewrite X.
+  now rewrite H0.
 Qed.
 
 Global Program Instance termD_work_Proper {dom} :
@@ -351,7 +373,9 @@ Proof.
       destruct (termD x y g) eqn:?; [|contradiction].
       destruct (arrowsD_sound_r Heqo), p.
       destruct (arrowsD_sound_r Heqo0), p.
-      now rewrite e0, e2, <- e, <- e1.
+      rewrite e0, e2.
+      simpl.
+      now rewrite <- e, <- e1.
     destruct (termD x y g) eqn:?; [contradiction|].
     destruct (arrowsD x y (arrows f)) eqn:?.
       destruct (arrowsD_sound Heqo1), p.
@@ -361,6 +385,26 @@ Proof.
     destruct (arrowsD_sound Heqo2), p.
     rewrite Heqo0 in e0.
     discriminate.
+Qed.
+
+Corollary eq_equiv `{Setoid A} : forall x y : A, x = y -> x ≈ y.
+Proof. intros; now subst. Qed.
+
+Global Program Instance Terms_Denoted : Terms arr_idx ⟶ Denoted := {
+  fobj := fun x => x;
+  fmap := fun _ _ f => f
+}.
+Next Obligation.
+  proper; simpl in *.
+  destruct (termD x y x0) eqn:?,
+           (termD x y y0) eqn:?; simpl;
+  try reflexivity;
+  apply eq_equiv in Heqo;
+  apply eq_equiv in Heqo0;
+  rewrite termD_arrows in Heqo;
+  rewrite termD_arrows in Heqo0;
+  rewrite X in Heqo;
+  rewrite Heqo in Heqo0; tauto.
 Qed.
 
 (* Program Instance Denote : Terms arr_idx ⟶ Coq := { *)
@@ -437,7 +481,7 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  unfold arrowsD in *; simpl in *.
+  unfold option_arr_equiv, arrowsD in *; simpl in *.
   repeat desh.
   destruct (arrowsD_compose_r Heqo1 Heqo0), p.
   rewrite e0, Pos_eq_dec_refl; simpl.

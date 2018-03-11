@@ -12,6 +12,7 @@ Unset Equations WithK.
 Require Export Category.Theory.Category.
 Require Export Category.Theory.EndoFunctor.
 Require Export Category.Theory.Natural.Transformation.
+Require Export Category.Theory.Adjunction.
 Require Export Category.Monad.Kleisli.
 Require Import Category.Instance.Coq.
 
