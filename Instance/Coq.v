@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.EndoFunctor.
+Require Export Category.Theory.Monad.
 Require Export Category.Theory.Morphisms.
 Require Export Category.Structure.BiCCC.
 Require Export Category.Structure.Constant.
@@ -136,6 +137,30 @@ Next Obligation. now destruct x0. Qed.
 
 Program Instance optionF : EndoFunctor option :=
   Functor_EndoFunctor (F:=option_Functor).
+
+Global Program Instance option_Monad : @Monad Coq option_Functor := {
+  ret := @Some;
+  join := fun _ x =>
+    match x with
+    | Some (Some x) => Some x
+    | _ => None
+    end
+}.
+Next Obligation.
+  destruct x0; simpl; auto.
+  destruct o; auto.
+  destruct o; auto.
+Qed.
+Next Obligation.
+  destruct x0; simpl; auto.
+Qed.
+Next Obligation.
+  destruct x0; simpl; auto.
+Qed.
+Next Obligation.
+  destruct x0; simpl; auto.
+  destruct o; auto.
+Qed.
 
 Program Definition list_Functor : Coq ⟶ Coq := {|
   fmap := List.map
