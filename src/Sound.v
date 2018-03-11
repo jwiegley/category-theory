@@ -420,8 +420,7 @@ Program Definition DefinedTerms : Category := {|
   hom := fun dom cod => ∃ f f', termD dom cod f = Some f';
   homset := fun x y => {| equiv := fun f g => `1 `2 f ≈ `1 `2 g |};
   id := fun _ => (Ident; (id; _));
-  compose := fun _ _ _ '(f; (f'; Hf)) '(g; (g'; Hg)) =>
-    (Comp f g; (f' ∘ g'; _))
+  compose := fun _ _ _ '(f; (f'; _)) '(g; (g'; _)) => (Comp f g; (f' ∘ g'; _))
 |}.
 Next Obligation. now rewrite termD_Ident. Defined.
 Next Obligation. now apply termD_Comp_impl. Defined.
@@ -431,8 +430,7 @@ Program Definition DefinedArrows : Category := {|
   hom := fun dom cod => ∃ f f', arrowsD dom cod f ≈ Some f';
   homset := fun x y => {| equiv := fun f g => `1 `2 f ≈ `1 `2 g |};
   id := fun _ => ([]; (id; _));
-  compose := fun _ _ _ '(f; (f'; Hf)) '(g; (g'; Hg)) =>
-    (f ++ g; (f' ∘ g'; _))
+  compose := fun _ _ _ '(f; (f'; _)) '(g; (g'; _)) => (f ++ g; (f' ∘ g'; _))
 |}.
 Next Obligation.
   unfold arrowsD; simpl; rewrite Pos_eq_dec_refl.
@@ -446,9 +444,11 @@ Next Obligation.
   now rewrite e, X2, X0.
 Qed.
 
-Global Program Instance DenoteDefined : DefinedTerms ⟶ cat := {
+Global Program Instance Denote : DefinedTerms ⟶ cat := {
   fobj := objs;
-  fmap := fun _ _ '(f; (f'; _)) => f'
+  fmap := fun _ _ '(_; (f'; _)) => f'
 }.
+
+Global Program Instance Denote_Faithful : Faithful Denote.
 
 End Sound.
