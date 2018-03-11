@@ -49,6 +49,33 @@ Definition termD dom cod (e : Term arr_idx) : option (objs dom ~> objs cod) :=
   | _ => None
   end.
 
+Lemma termD_app {dom cod f g} :
+  ∃ mid, termD dom cod (Comp f g)
+           = termD mid cod f ∘[opt_arrs] termD dom mid g.
+Proof.
+  unfold termD; simpl.
+  destruct (termD_work dom g) eqn:?.
+  - destruct s.
+    exists x.
+    destruct f; simpl; intros.
+    + rewrite Pos_eq_dec_refl.
+      destruct (Pos.eq_dec x cod); subst; auto.
+    + destruct (arrs a) eqn:?.
+        destruct s, s.
+        repeat desg; repeat desh; cat.
+      repeat desg; repeat desh; cat.
+    + destruct (termD_work x f2) eqn:?; auto.
+      destruct s.
+      destruct (termD_work x0 f1) eqn:?; auto.
+      destruct s.
+      rewrite Pos_eq_dec_refl.
+      destruct (Pos.eq_dec x1 cod); subst; auto.
+  - exists cod.
+    destruct (termD_work cod f) eqn:?; auto.
+    destruct s.
+    destruct (Pos.eq_dec x cod); subst; auto.
+Qed.
+
 Fixpoint exprD (e : Expr arr_idx) : Type :=
   match e with
   | Top           => True
@@ -58,57 +85,5 @@ Fixpoint exprD (e : Expr arr_idx) : Type :=
   | Or p q        => exprD p + exprD q
   | Impl p q      => exprD p -> exprD q
   end.
-
-Definition option_arr_equiv {dom cod}
-           (x y : option (objs dom ~{ cat }~> objs cod)) :=
-  match x, y with
-  | Some f, Some g => f ≈ g
-  | None, None => True
-  | _, _ => False
-  end.
-
-Global Instance option_arr_equivalence {dom cod} :
-  Equivalence (@option_arr_equiv dom cod).
-Proof.
-  unfold option_arr_equiv.
-  equivalence.
-  - destruct x; cat.
-  - destruct x, y; cat; desh.
-  - destruct x, y, z; cat; repeat desh.
-    contradiction.
-Qed.
-
-Global Program Instance option_arr_Setoid {dom cod} :
-  Setoid (option (objs dom ~{ cat }~> objs cod)) := {
-  equiv := option_arr_equiv
-}.
-
-Ltac finish :=
-  program_simpl;
-  proper;
-  unfold option_arr_equiv, termD in *; simpl in *;
-  repeat desh; cat; repeat desg; cat;
-  repeat desh; cat; repeat desg; cat.
-
-Program Definition Denoted : Category := {|
-  obj := obj_idx;
-  hom := fun _ _ => Term arr_idx;
-  homset := fun dom cod => {| equiv := fun f g =>
-    termD dom cod f ≈ termD dom cod g |};
-  id := fun _ => Ident;
-  compose := fun _ _ _ => Comp
-|}.
-Next Obligation.
-  equivalence.
-  now transitivity (termD dom cod y).
-Qed.
-Next Obligation.
-  proper.
-  finish.
-Admitted.
-Next Obligation. finish. Qed.
-Next Obligation. finish. Qed.
-Next Obligation. finish; inv Heqo; cat. Qed.
-Next Obligation. finish. Qed.
 
 End Denote.

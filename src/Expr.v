@@ -51,7 +51,7 @@ Fixpoint expr_size `(t : Expr A) : nat :=
 Remark all_exprs_have_size {A} e : (0 < expr_size (A:=A) e)%nat.
 Proof. induction e; simpl; omega. Qed.
 
-(** Our syntactic terms are endofunctors on Coq. *)
+(** Syntactic terms are endofunctors on Coq. *)
 
 Program Definition TermF : Coq ⟶ Coq := {|
   fmap := @term_map
@@ -74,7 +74,7 @@ Qed.
 Global Program Instance TermF_Map : EndoFunctor TermF :=
   Functor_EndoFunctor (F:=TermF).
 
-(** This is a more lawful way of saying that Term is Foldable. *)
+(** A lawful way of saying that Term is Foldable. *)
 
 Fixpoint arrows {a} (t : Term a) : list a :=
   match t with
@@ -103,7 +103,7 @@ Next Obligation.
   now rewrite List.map_app.
 Qed.
 
-(** This is similar to saying that Term is Traversable.
+(** Term is also Traversable.
 
     jww (2018-03-10): For the moment this is too painful to do this generally,
     so we do it for the few cases that we need. *)
@@ -150,15 +150,15 @@ Definition Term_equiv `{Setoid A} (f g : Term A) : Type :=
   arrows f = arrows g.
 Arguments Term_equiv {A _} f g /.
 
-Global Program Instance Term_equivalence `{Setoid A} :
+Program Instance Term_equivalence `{Setoid A} :
   Equivalence Term_equiv.
 
-Global Instance Term_Setoid `{Setoid A} : Setoid (Term A) := {|
+Instance Term_Setoid `{Setoid A} : Setoid (Term A) := {|
   equiv := Term_equiv;
   setoid_equiv := Term_equivalence
 |}.
 
-Global Program Instance Comp_Proper `{Setoid A} :
+Program Instance Comp_Proper `{Setoid A} :
   Proper (equiv ==> equiv ==> equiv) (@Comp A).
 Next Obligation.
   proper.
@@ -166,7 +166,7 @@ Next Obligation.
   now rewrite X, X0.
 Qed.
 
-Program Definition Terms (A : Type) `{Setoid A} : Category := {|
+Program Instance Terms (A : Type) `{Setoid A} : Category := {|
   obj := obj_idx;
   hom := fun _ _ => Term A;
   id := fun _ => Ident;
