@@ -222,28 +222,56 @@ Proof.
   apply Eq_eqb_eq.
 Qed.
 
+Lemma termD_app {dom cod f g} :
+  ∃ mid, termD dom cod (Comp f g)
+           = termD mid cod f ∘[opt_arrs] termD dom mid g.
+Proof.
+  unfold termD; simpl.
+  destruct (termD_work dom g) eqn:?.
+  - destruct s.
+    exists x.
+    destruct f; simpl; intros.
+    + rewrite Pos_eq_dec_refl.
+      destruct (Pos.eq_dec x cod); subst; auto.
+    + destruct (arrs a) eqn:?.
+        destruct s, s.
+        repeat desg; repeat desh; cat.
+      repeat desg; repeat desh; cat.
+    + destruct (termD_work x f2) eqn:?; auto.
+      destruct s.
+      destruct (termD_work x0 f1) eqn:?; auto.
+      destruct s.
+      rewrite Pos_eq_dec_refl.
+      destruct (Pos.eq_dec x1 cod); subst; auto.
+  - exists cod.
+    destruct (termD_work cod f) eqn:?; auto.
+    destruct s.
+    destruct (Pos.eq_dec x cod); subst; auto.
+Qed.
+
 Lemma arrowsD_app {dom cod f g} :
   ∃ mid, arrowsD dom cod (f ++ g)
            ≈ arrowsD mid cod f ∘[opt_arrs] arrowsD dom mid g.
 Proof.
-  unfold arrowsD.
-  generalize dependent cod.
-  generalize dependent f.
-  induction f; simpl; intros.
-    destruct (arrowsD_work dom g) eqn:?.
-      destruct s.
-      exists x.
-      repeat desg; repeat desh; cat.
-      simpl in Heqo1.
-      inv Heqo1; cat.
-    exists cod.
-    repeat desg; repeat desh; cat.
-  destruct (arrs a).
-    destruct s, s.
-    destruct (IHf x); clear IHf.
-    destruct (f ++ g).
-      simpl arrowsD_work in e.
-Abort.
+  unfold arrowsD; simpl.
+  destruct (arrowsD_work dom (f ++ g)) eqn:?.
+    destruct s.
+    destruct (arrowsD_compose Heqo), s, s, p, p.
+    exists x0.
+    destruct (Pos.eq_dec x cod); subst; simpl; cat;
+    rewrite e0, e1;
+    rewrite !Pos_eq_dec_refl; auto.
+    destruct (Pos.eq_dec x cod); subst; [contradiction|];
+    simpl; auto.
+  exists cod.
+  destruct (arrowsD_work cod f) eqn:?; cat.
+  destruct (Pos.eq_dec x cod); subst; simpl; cat.
+  destruct (arrowsD_work dom g) eqn:?; cat.
+  destruct (Pos.eq_dec x cod); subst; simpl; cat.
+  destruct (arrowsD_compose_r Heqo0 Heqo1), p.
+  rewrite Heqo in e2.
+  discriminate.
+Qed.
 
 Lemma arrowsD_apply dom cod (f g : Term arr_idx) :
   list_beq Eq_eqb (arrows f) (arrows g) = true ->
@@ -340,40 +368,50 @@ Qed.
 (*   fmap := fun dom cod x => arrows x *)
 (* }. *)
 
+(*
+Local Obligation Tactic := intros.
+
 Global Program Instance Denote : Terms arr_idx ⟶ @opt_arrs cat := {
   fobj := objs;
   fmap := termD
 }.
 Next Obligation. now rewrite termD_Ident. Qed.
 Next Obligation.
-  unfold termD; simpl.
-  destruct (termD_work x g) eqn:?; cat.
-  - destruct (termD_work x0 f) eqn:?; cat.
-    + destruct (Pos.eq_dec x1 z); subst; simpl_eq; simpl; auto.
-      * destruct (termD_work y f) eqn:?; cat.
-        ** destruct (Pos.eq_dec x1 z); subst; simpl_eq; simpl; auto.
-           *** destruct (Pos.eq_dec x0 y); subst; simpl_eq; simpl; auto.
-               **** rewrite Heqo0 in Heqo1.
-                    inv Heqo1.
-                    now equalities; subst.
-               **** admit.      (* easy *)
-           *** admit.           (* easy *)
-        ** destruct (Pos.eq_dec x0 y); subst; simpl_eq; simpl; auto.
-           *** rewrite Heqo0 in Heqo1; discriminate.
-           *** admit.           (* impossible *)
-      * destruct (termD_work y f) eqn:?; cat.
-        ** destruct (Pos.eq_dec x2 z); subst; simpl_eq; simpl; auto.
-           *** destruct (Pos.eq_dec x0 y); subst; simpl_eq; simpl; auto.
-               rewrite Heqo0 in Heqo1.
-               inv Heqo1.
-               now equalities; subst.
-    + destruct (termD_work y f) eqn:?; cat.
-      destruct (Pos.eq_dec x1 z); subst; simpl_eq; simpl; auto.
-      destruct (Pos.eq_dec x0 y); subst; simpl_eq; simpl; auto.
-      rewrite Heqo0 in Heqo1; discriminate.
-  - destruct (termD_work y f) eqn:?; cat.
-    destruct (Pos.eq_dec x0 z); subst; simpl_eq; simpl; auto.
+  destruct (@termD_app x z f g).
+  rewrite e.
+  destruct (eq_dec x0 y); subst.
+    reflexivity.
 Admitted.
+*)
+
+Lemma termD_Ident {x} : termD x x Ident = Some id.
+Proof.
+  unfold termD; simpl; intros.
+  now rewrite Pos_eq_dec_refl.
+Defined.
+
+Lemma termD_Comp {f g dom cod h} :
+  termD dom cod (Comp f g) = Some h ->
+  ∃ mid f' g',
+    h = f' ∘ g' ∧ termD mid cod f = Some f' ∧ termD dom mid g = Some g'.
+Proof.
+  unfold termD; simpl; intros;
+  repeat desg; repeat desh.
+  exists x, e0, e.
+  split; auto.
+  rewrite Heqo1.
+  rewrite !Pos_eq_dec_refl.
+  split; auto.
+Defined.
+
+Lemma termD_Comp_impl {f g dom mid cod f' g'} :
+  termD mid cod f = Some f'
+    -> termD dom mid g = Some g'
+    -> termD dom cod (Comp f g) = Some (f' ∘ g').
+Proof.
+  unfold termD; simpl; intros;
+  now repeat desh; repeat desg.
+Defined.
 
 Program Definition DefinedTerms : Category := {|
   obj := obj_idx;

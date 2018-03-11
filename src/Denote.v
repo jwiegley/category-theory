@@ -49,21 +49,6 @@ Definition termD dom cod (e : Term arr_idx) : option (objs dom ~> objs cod) :=
   | _ => None
   end.
 
-Lemma termD_Ident {x} : termD x x Ident = Some id.
-Proof.
-  unfold termD; simpl; intros.
-  now rewrite Pos_eq_dec_refl.
-Defined.
-
-Lemma termD_Comp_impl {f g dom mid cod f' g'} :
-  termD mid cod f = Some f'
-    -> termD dom mid g = Some g'
-    -> termD dom cod (Comp f g) = Some (f' ∘ g').
-Proof.
-  unfold termD; simpl; intros;
-  now repeat desh; repeat desg.
-Defined.
-
 Fixpoint exprD (e : Expr arr_idx) : Type :=
   match e with
   | Top           => True
