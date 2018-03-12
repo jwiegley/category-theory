@@ -102,7 +102,7 @@ Proof.
   dependent elimination e; simpl.
   comp_left.
   apply IHt1.
-Qed.
+Defined.
 
 Theorem unarrows_arrows d c (t : Term tys d c) :
   termD (unarrows (arrows t)) ≈ termD t.
@@ -110,6 +110,22 @@ Proof.
   induction t; simpl; cat.
   rewrite unarrows_app; simpl.
   now rewrite IHt1, IHt2.
-Qed.
+Defined.
+
+Fixpoint exprAD (e : Expr) : Type :=
+  match e with
+  | Top           => True
+  | Bottom        => False
+  | Equiv _ _ f g => termD (unarrows (arrows f)) ≈ termD (unarrows (arrows g))
+  | And p q       => exprD p ∧ exprD q
+  | Or p q        => exprD p + exprD q
+  | Impl p q      => exprD p -> exprD q
+  end.
+
+Theorem exprAD_sound (e : Expr) : exprAD e -> exprD e.
+Proof.
+  induction e; intuition; simpl in *.
+  now rewrite !unarrows_arrows in X.
+Defined.
 
 End Normal.

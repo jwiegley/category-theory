@@ -281,10 +281,8 @@ Ltac reify := reify_terms_and_then
 Ltac categorical := reify_terms_and_then
   ltac:(fun env g => apply expr_sound; now vm_compute).
 
-(*
 Ltac normalize := reify_terms_and_then
   ltac:(fun env g => apply exprAD_sound; vm_compute).
-*)
 
 Example sample_2 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
@@ -300,17 +298,8 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  (* revert X. *)
-  (* revert X0. *)
-  (* revert X1. *)
-  (* revert X2. *)
-  (* revert X3. *)
-  (* revert X4. *)
-  (* revert X5. *)
-  (* revert X6. *)
-  (* revert X7. *)
-  (* Time normalize.               (* 0.07s *) *)
-  (* Undo. *)
+  Time normalize.               (* 0.07s *)
+  Undo.
   Time categorical.             (* 0.096s *)
 Qed.
 
