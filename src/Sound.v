@@ -487,8 +487,7 @@ Proof.
   - destruct x, y; cat; desh.
     now rewrite eq_dec_refl.
   - destruct x, y, z; cat; repeat desh.
-      now transitivity e0.
-    contradiction.
+    now transitivity e0.
 Qed.
 
 Global Program Instance option_ex_Setoid {dom} :

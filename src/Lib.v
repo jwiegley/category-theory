@@ -44,7 +44,7 @@ Proof. proper; destruct x, y; simpl; auto. Defined.
 (** Destruct in the hypothesis. *)
 
 Ltac desh :=
-  lazymatch goal with
+  try lazymatch goal with
   | [ H : match Pos.eq_dec ?n ?m with _ => _ end = _ |- _ ] =>
     destruct (Pos.eq_dec n m)
   | [ H : match Eq_eq_dec ?n ?m with _ => _ end = _ |- _ ] =>
