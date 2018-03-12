@@ -2,8 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Export Solver.Expr.
 
-Unset Equations WithK.
-
 Generalizable All Variables.
 
 Section Denote.
@@ -11,8 +9,6 @@ Section Denote.
 Context `{Env}.
 
 Import VectorNotations.
-
-(** The denotation Functor from syntactic terms over environment indices. *)
 
 Corollary helper {f} :
   (let '(dom, cod) := tys[@f] in objs dom ~> objs cod)

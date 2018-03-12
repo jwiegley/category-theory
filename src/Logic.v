@@ -3,16 +3,11 @@ Set Warnings "-notation-overridden".
 Require Export Solver.Normal.
 Require Import Solver.Partial.
 
-Module Import MP := FMapPositive.
-Module M := MP.PositiveMap.
-
 Generalizable All Variables.
 
 Section Logic.
 
 Context `{Env}.
-
-Remove Hints Coq.Coq : typeclass_instances.
 
 Open Scope partial_scope.
 
@@ -21,8 +16,8 @@ Program Fixpoint expr_forward (t : Expr) (hyp : Expr) (cont : [exprD t]) :
   match hyp with
   | Top           => Reduce cont
   | Bottom        => Yes
-  | Equiv x y f g => Reduce cont (* jww (2017-08-02): TODO *)
-  | And p q       => Reduce cont (* jww (2017-08-02): TODO *)
+  | Equiv x y f g => Reduce cont
+  | And p q       => Reduce cont
   | Or p q        => if expr_forward t p cont
                      then Reduce (expr_forward t q cont)
                      else No
@@ -55,15 +50,13 @@ Next Obligation.
   apply Proved.
   rewrite <- unarrows_arrows.
   symmetry.
-  rewrite <- unarrows_arrows.
-  rewrite e.
-  reflexivity.
+  now rewrite <- unarrows_arrows, e.
 Defined.
-Next Obligation. abstract omega. Defined.
-Next Obligation. abstract omega. Defined.
-Next Obligation. abstract omega. Defined.
-Next Obligation. abstract omega. Defined.
-Next Obligation. omega. Defined.
+Next Obligation. simpl; abstract omega. Defined.
+Next Obligation. simpl; abstract omega. Defined.
+Next Obligation. intuition. Defined.
+Next Obligation. simpl; abstract omega. Defined.
+Next Obligation. intuition. Defined.
 
 Definition expr_tauto : forall t, [exprD t].
 Proof.

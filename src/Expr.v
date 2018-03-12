@@ -1,9 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Export Solver.Env.
-Require Import Category.Instance.Coq.
-
-Unset Equations WithK.
 
 Generalizable All Variables.
 
@@ -20,8 +17,6 @@ Inductive Term {a} (tys : Vector.t (obj_idx * obj_idx) a) :
 Arguments Ident {a tys dom}.
 Arguments Morph {a tys} f.
 Arguments Comp {a tys dom mid cod} f g.
-
-Derive Signature NoConfusion Subterm for Term.
 
 Section Expr.
 
@@ -51,8 +46,5 @@ Fixpoint expr_size (t : Expr) : nat :=
   | Or p q        => 1%nat + expr_size p + expr_size q
   | Impl p q      => 1%nat + expr_size p + expr_size q
   end.
-
-Remark all_exprs_have_size e : (0 < expr_size e)%nat.
-Proof. induction e; simpl; omega. Qed.
 
 End Expr.

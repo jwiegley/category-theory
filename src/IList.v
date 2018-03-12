@@ -2,6 +2,8 @@ Require Import Coq.Vectors.Vector.
 
 Generalizable All Variables.
 
+(** This code is borrowed from the Fiat code base. *)
+
 Section ilist.
 
 Import VectorNotations.
@@ -13,8 +15,7 @@ Definition Vector_caseS'
            {A'} (Q : nat -> Type)
            (P : forall {n} (v : Vector.t A' (S n)), Q n -> Type)
            (H : forall h {n} t q, @P n (h :: t) q) {n} (v: Vector.t A' (S n))
-           (q : Q n)
-: P v q.
+           (q : Q n) : P v q.
 Proof.
   specialize (fun h t => H h _ t q).
   change n with (pred (S n)) in H, q |- *.
@@ -70,9 +71,8 @@ Definition icons
            {n}
            {l : Vector.t A n}
            (b : B a)
-           (il : ilist l)
-: ilist (a :: l)
-  := {| prim_fst := b; prim_snd := il |}.
+           (il : ilist l) : ilist (a :: l) :=
+  {| prim_fst := b; prim_snd := il |}.
 
 Definition inil : ilist [] := tt.
 
@@ -108,12 +108,10 @@ Definition ilist_tl {n} {As : Vector.t A n} (il : ilist As) :
     | [] => fun il => tt
   end il.
 
-Fixpoint ith
-           {m : nat}
-           {As : Vector.t A m}
-           (il : ilist As)
-           (n : Fin.t m)
-: B (Vector.nth As n) :=
+Fixpoint ith {m : nat}
+         {As : Vector.t A m}
+         (il : ilist As)
+         (n : Fin.t m) : B (Vector.nth As n) :=
   match n in Fin.t m return
         forall (As : Vector.t A m),
           ilist As
@@ -131,20 +129,5 @@ Fixpoint ith
                       (fun h n t m il => ith (ilist_tl il) m)
                       As n'
   end As il.
-
-Infix "++" := Vector.append.
-
-Fixpoint ilist_app {n} {As : Vector.t A n}
-  : forall {n'} {As' : Vector.t A n'},  ilist As -> ilist As' -> ilist (As ++ As') :=
-    match As return
-          forall {n'} (As' : Vector.t A n'),
-            ilist As -> ilist As' -> ilist (As ++ As') with
-      | [] =>
-        fun n' As' il il' => il'
-      | a :: As'' =>
-        fun n' As' il il' =>
-          {| prim_fst := ilist_hd il;
-             prim_snd := ilist_app (ilist_tl il) il' |}
-    end.
 
 End ilist.

@@ -1,6 +1,5 @@
 -R category-theory Category
 -R src Solver
-src/Lib.v
 src/Env.v
 src/Expr.v
 src/Denote.v

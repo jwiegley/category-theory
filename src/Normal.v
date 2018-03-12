@@ -1,8 +1,10 @@
 Set Warnings "-notation-overridden".
 
-Require Export Solver.Denote.
-
+Require Export Equations.Equations.
+Require Export Equations.EqDec.
 Unset Equations WithK.
+
+Require Export Solver.Denote.
 
 Generalizable All Variables.
 
@@ -25,6 +27,10 @@ Arguments Nil {a tys dom}.
 Arguments Arr {a tys dom mid cod} _ _.
 
 Import EqNotations.
+
+Instance positive_EqDec : EqDec.EqDec positive := {
+  eq_dec := Eq_eq_dec
+}.
 
 Lemma Arrows_eq_dec {d c} (f g : Arrows tys d c) : {f = g} + {f ≠ g}.
 Proof.
@@ -105,37 +111,5 @@ Proof.
   rewrite unarrows_app; simpl.
   now rewrite IHt1, IHt2.
 Qed.
-
-(** The category of syntactic terms, equivalent up to normalization. *)
-
-Definition Term_equiv {d c} (f g : Term tys d c) : Type :=
-  arrows f = arrows g.
-Arguments Term_equiv {d c} f g /.
-
-Program Instance Term_equivalence {d c} : Equivalence (@Term_equiv d c).
-
-Instance Term_Setoid {d c} : Setoid (Term tys d c) := {|
-  equiv := Term_equiv;
-  setoid_equiv := Term_equivalence
-|}.
-
-Program Instance Comp_Proper {d m c} :
-  Proper (equiv ==> equiv ==> equiv) (@Comp _ tys d m c).
-Next Obligation.
-  proper.
-  simpl in *.
-  now rewrite X, X0.
-Qed.
-
-Program Instance Terms : Category := {|
-  obj := obj_idx;
-  hom := Term tys;
-  id := fun _ => Ident;
-  compose := fun _ _ _ => Comp
-|}.
-Admit Obligations.
-(* Next Obligation. now rewrite List.app_nil_r. Defined. *)
-(* Next Obligation. now rewrite List.app_assoc. Defined. *)
-(* Next Obligation. now rewrite List.app_assoc. Defined. *)
 
 End Normal.

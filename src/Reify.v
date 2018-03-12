@@ -250,7 +250,8 @@ Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y) (g : y ~> x),
 Proof.
   intros.
   revert X; find_vars; compute [Pos.succ] in p0.
-Abort.
+  reflexivity.
+Qed.
 
 Definition vec_size {A n} (l : Vector.t A n) : nat := n.
 
@@ -330,8 +331,9 @@ Example sample_3 :
 Proof.
   intros.
   revert X7.
-  reify.
-  red; intros.
+  (* reify. *)
+  (* red; intros. *)
   (* rewrite termD_arrows. *)
   (* simpl arrows. *)
-Abort.
+  cat.
+Qed.
