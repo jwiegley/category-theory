@@ -35,7 +35,6 @@ Theorem arrowsD_work_compose {xs ys dom cod f} :
     arrowsD_work mid xs = Some (cod; g) ∧
     arrowsD_work dom ys = Some (mid; h).
 Proof.
-  generalize dependent ys.
   generalize dependent cod.
   generalize dependent dom.
   induction xs; simpl; intros.
@@ -47,25 +46,25 @@ Proof.
     exists dom, f, (@id cat _).
     rewrite app_nil_r in H0.
     split; cat.
-    assert (
-      match arrowsD_work dom (xs ++ a0 :: l) with
-      | Some s =>
-        match s with
-        | (mid; g) =>
-          match BinPos.Pos.eq_dec mid x with
-          | left emid =>
-            Some (x0; (h ∘ match emid with eq_refl => g end))
-          | right _ =>
-            @None (@sigT obj_idx
-                         (fun cod : obj_idx =>
-                            @hom _ (objs dom) (objs cod)))
-          end
+  assert (
+    match arrowsD_work dom (xs ++ a0 :: l) with
+    | Some s =>
+      match s with
+      | (mid; g) =>
+        match BinPos.Pos.eq_dec mid x with
+        | left emid =>
+          Some (x0; (h ∘ match emid with eq_refl => g end))
+        | right _ =>
+          @None (@sigT obj_idx
+                       (fun cod : obj_idx =>
+                          @hom _ (objs dom) (objs cod)))
         end
-      | None => None
-      end = Some (existT _ cod f)) by (destruct xs; auto).
+      end
+    | None => None
+    end = Some (existT _ cod f)) by (destruct xs; auto).
   clear H0.
   destruct_arrows.
-  destruct (IHxs _ _ _ _ Heqo0), s, s, p, p.
+  destruct (IHxs _ _ _ Heqo0), s, s, p, p.
   simpl in e1.
   destruct_arrows.
   destruct xs.
@@ -154,9 +153,9 @@ Proof.
     destruct ys.
       inv H1.
       rewrite Pos_eq_dec_refl.
-      rewrite <- (Eqdep_dec.inj_pair2_eq_dec _ Eq_eq_dec _ _ _ _ H3).
-      exists g; cat.
-    exists (g ∘ h); cat.
+      desh.
+      eexists; split; cat.
+    eexists; cat.
   simpl in *.
   desh; desh; desh.
   destruct (IHxs dom h x _ eq_refl _ H1); clear IHxs.
@@ -234,25 +233,30 @@ Proof.
   - reflexivity.
 Qed.
 
+Corollary eq_equiv `{Setoid A} {x y : A} : x = y -> x ≈ y.
+Proof. intros; subst; reflexivity. Qed.
+
 Lemma arrows_decide {x y f f' g g'} :
   termD x y f = Some f' ->
   termD x y g = Some g' ->
   list_beq Eq_eqb (arrows f) (arrows g) = true -> f' ≈ g'.
 Proof.
   intros.
-  destruct (arrowsD_sound_r H0), p.
-  destruct (arrowsD_sound_r H1), p.
+  apply eq_equiv in H0.
+  apply eq_equiv in H1.
+  rewrite termD_arrows in H0.
+  rewrite termD_arrows in H1.
   apply list_beq_eq in H2.
-    rewrite H2 in e0.
-    rewrite e, e1.
-    rewrite e0 in e2.
-    now inversion_clear e2.
+    rewrite H2 in H0.
+    rewrite H0 in H1.
+    unfold list_beq in H2.
+    now simpl in H1.
   apply Eq_eqb_eq.
 Qed.
 
 Lemma arrowsD_app dom cod f g :
   ∃ mid, arrowsD dom cod (f ++ g)
-           ≈ arrowsD mid cod f ∘[opt_arrs] arrowsD dom mid g.
+           ≈ arrowsD mid cod f ∘ arrowsD dom mid g.
 Proof.
   unfold arrowsD; simpl.
   destruct (arrowsD_work dom (f ++ g)) eqn:?.
@@ -276,10 +280,9 @@ Qed.
 
 Lemma arrowsD_cons {dom cod f fs f'} :
   arrowsD dom cod (f :: fs) = Some f' ->
-    ∃ mid g' h',
-      f' ≈ g' ∘ h'
-        ∧ arrs f = Some (mid; (cod; g'))
-        ∧ arrowsD dom mid fs = Some h'.
+    ∃ mid g' h', f' ≈ g' ∘ h'
+      ∧ arrs f = Some (mid; (cod; g'))
+      ∧ arrowsD dom mid fs = Some h'.
 Proof.
   intros.
   unfold arrowsD in *; simpl in *.
@@ -327,6 +330,17 @@ Proof.
   rewrite e0 in e3; clear e0.
   inv e3; split; auto.
 Qed.
+
+Ltac domcod H1 H2 fnil :=
+  pose proof (arrowsD_cod_eq H1 H2 fnil) as HX;
+  pose proof (arrowsD_dom_eq H1 H2 fnil) as HY;
+  subst; clear H2.
+
+Ltac decompose_arrows H :=
+  destruct (arrowsD_compose H) as [? [? [? [? [? ?]]]]].
+
+Ltac compose_arrows H1 H2 :=
+  destruct (arrowsD_compose_r H1 H2) as [? [? ?]].
 
 Lemma arrowsD_app_alt {dom mid cod f g f' fg'} :
   arrowsD dom mid g = Some f' ->
@@ -383,21 +397,18 @@ Proof.
   destruct (arrowsD_app dom x5 g post).
   rewrite e, e2.
   assert (∃ h', arrowsD dom cod (pre ++ g ++ post) ≈ Some h').
-    destruct (arrowsD_compose Hpfp), s, s, p, p.
-    destruct (arrowsD_compose e5), s, s, p, p.
-    pose proof (arrowsD_cod_eq Hf e7 fnil).
-    pose proof (arrowsD_dom_eq Hf e7 fnil).
-    subst.
+    decompose_arrows Hpfp.
+    decompose_arrows e5.
+    domcod Hf H2 fnil.
+    domcod Hf e7 fnil.
     rewrite app_assoc in Hpfp.
-    destruct (arrowsD_compose Hpfp), s, s, p, p.
-    destruct (arrowsD_compose e10), s, s, p, p.
-    pose proof (arrowsD_cod_eq Hf e14 fnil).
-    pose proof (arrowsD_dom_eq Hf e14 fnil).
-    subst.
-    destruct (arrowsD_compose_r e13 Hg), p.
-    destruct (arrowsD_compose_r e16 e11), p.
-    rewrite <- app_assoc in e18.
-    rewrite e18.
+    decompose_arrows Hpfp.
+    decompose_arrows e9.
+    domcod Hf e13 fnil.
+    compose_arrows e12 Hg.
+    compose_arrows e14 e10.
+    rewrite <- app_assoc in e16.
+    rewrite e16.
     now exists x10.
   destruct X as [h' Hpgp].
   destruct (arrowsD x6 x5 g) eqn:?.
@@ -407,32 +418,22 @@ Proof.
       rewrite Heqo.
       destruct (arrowsD_nil Hg); subst; simpl_eq.
       rewrite Hg in Hfg.
-      rewrite Hfg.
-      rewrite <- e2.
+      rewrite Hfg, <- e2.
       simpl app in *.
       rewrite Hpgp in e.
-      rewrite id_left.
-      rewrite <- e.
-      rewrite <- Hpgp.
+      rewrite id_left, <- e, <- Hpgp.
       clear -Hf Hpfp fnil.
-      destruct (arrowsD_compose Hpfp), s, s, p, p.
-      destruct (arrowsD_compose e1), s, s, p, p.
-      pose proof (arrowsD_cod_eq Hf e3 fnil).
-      pose proof (arrowsD_dom_eq Hf e3 fnil).
-      subst.
-      destruct (arrowsD_compose_r e0 e4), p.
-      rewrite e6, e4, e0.
-      simpl.
+      decompose_arrows Hpfp.
+      decompose_arrows e1.
+      domcod Hf e3 fnil.
+      compose_arrows e0 e4.
+      rewrite e5, e4, e0; simpl.
       now symmetry.
     assert (a :: g ≠ nil) as gnil by (intro; discriminate).
-    pose proof (arrowsD_cod_eq Hg Heqo gnil).
-    pose proof (arrowsD_dom_eq Hg Heqo gnil).
-    rewrite <- H4, <- H5.
+    domcod Hg Heqo gnil.
     now rewrite Hfg.
-  rewrite Hpgp in e.
-  rewrite e2 in e.
-  clear -e.
-  simpl in *.
+  rewrite Hpgp, e2 in e; clear -e.
+  simpl in *; desh.
   destruct (arrowsD x5 cod pre); repeat desh.
 Qed.
 
@@ -450,8 +451,7 @@ Proof.
   symmetry in H2.
   apply arrowsD_sound in H2.
   equalities.
-  rewrite H2.
-  simpl.
+  rewrite H2; simpl.
   rewrite <- e0, <- e.
   reflexivity.
 Qed.
@@ -495,6 +495,13 @@ Global Program Instance option_ex_Setoid {dom} :
   equiv := option_ex_equiv
 }.
 
+Global Program Instance termD_Proper {dom cod} :
+  Proper (equiv ==> equiv) (@termD _ dom cod).
+Next Obligation.
+  repeat intro.
+  apply list_equiv_termD, X.
+Qed.
+
 Global Program Instance termD_work_Proper {dom} :
   Proper (equiv ==> equiv) (@termD_work _ dom).
 Next Obligation.
@@ -515,55 +522,18 @@ Next Obligation.
   inv X0.
 Qed.
 
-Global Program Instance termD_Proper {dom cod} :
-  Proper (equiv ==> equiv) (@termD _ dom cod).
-Next Obligation.
-  repeat intro.
-  apply list_equiv_termD.
-  exact X.
-Qed.
-
 Lemma exprAD_sound (e : Expr arr_idx) : exprAD e ↔ exprD e.
 Proof.
-  induction e; simpl; split; intros; firstorder auto;
-  simpl in *; unfold opt_arrs_equiv.
-  - destruct (arrowsD x y (arrows f)) eqn:?.
-      destruct (arrowsD x y (arrows g)) eqn:?; [|contradiction].
-      destruct (arrowsD_sound Heqo), p.
-      destruct (arrowsD_sound Heqo0), p.
-      now rewrite e0, e2, <- e, <- e1.
-    destruct (arrowsD x y (arrows g)) eqn:?; [contradiction|].
-    destruct (termD x y f) eqn:?.
-      destruct (arrowsD_sound_r Heqo1), p.
-      rewrite Heqo in e0.
-      discriminate.
-    destruct (termD x y g) eqn:?; auto.
-    destruct (arrowsD_sound_r Heqo2), p.
-    rewrite Heqo0 in e0.
-    discriminate.
-  - destruct (termD x y f) eqn:?.
-      destruct (termD x y g) eqn:?; [|contradiction].
-      destruct (arrowsD_sound_r Heqo), p.
-      destruct (arrowsD_sound_r Heqo0), p.
-      rewrite e0, e2.
-      simpl.
-      now rewrite <- e, <- e1.
-    destruct (termD x y g) eqn:?; [contradiction|].
-    destruct (arrowsD x y (arrows f)) eqn:?.
-      destruct (arrowsD_sound Heqo1), p.
-      rewrite Heqo in e0.
-      discriminate.
-    destruct (arrowsD x y (arrows g)) eqn:?; auto.
-    destruct (arrowsD_sound Heqo2), p.
-    rewrite Heqo0 in e0.
-    discriminate.
+  induction e; split; intros; auto;
+  try solve [ simpl; intuition
+            | simpl; firstorder auto ];
+  unfold exprD, exprAD.
+  - now rewrite !termD_arrows.
+  - now rewrite <- !termD_arrows.
 Qed.
 
 Lemma termD_Ident {x} : termD x x Ident = Some id.
-Proof.
-  unfold termD; simpl; intros.
-  now rewrite Pos_eq_dec_refl.
-Defined.
+Proof. unfold termD; simpl; intros; equalities. Defined.
 
 Lemma termD_Comp {f g dom cod h} :
   termD dom cod (Comp f g) = Some h ->
@@ -572,11 +542,10 @@ Lemma termD_Comp {f g dom cod h} :
 Proof.
   unfold termD; simpl; intros;
   repeat desg; repeat desh.
-  exists x, e0, e.
-  split; auto.
+  exists x.
   rewrite Heqo1.
-  rewrite !Pos_eq_dec_refl.
-  split; auto.
+  eexists; eexists.
+  now split; equalities.
 Defined.
 
 Lemma termD_Comp_impl {f g dom mid cod f' g'} :
@@ -613,7 +582,8 @@ Next Obligation.
   unfold opt_arrs_equiv, arrowsD in *; simpl in *.
   repeat desh.
   destruct (arrowsD_work_compose_r Heqo1 Heqo0), p.
-  rewrite e0, Pos_eq_dec_refl; simpl.
+  rewrite e0.
+  equalities.
   now rewrite e, X2, X0.
 Qed.
 
