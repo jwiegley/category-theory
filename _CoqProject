@@ -5,7 +5,6 @@ src/Env.v
 src/Expr.v
 src/Denote.v
 src/Normal.v
-src/Sound.v
 src/Logic.v
 src/Partial.v
 src/Reify.v

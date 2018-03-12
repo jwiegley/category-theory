@@ -10,145 +10,132 @@ Section Normal.
 
 Context `{Env}.
 
-Import ListNotations.
+Import VectorNotations.
+
+Inductive Arrows {a} (tys : Vector.t (obj_idx * obj_idx) a) :
+  obj_idx -> obj_idx -> Type :=
+  | Nil : ∀ dom, Arrows tys dom dom
+  | Arr dom mid cod (f : arr_idx a) :
+      mid = fst (tys[@f]) -> cod = snd (tys[@f]) ->
+      (* We can't use the results of function calls directly as constructor
+         arguments, because it breaks dependent elimination. *)
+      Arrows tys dom mid -> Arrows tys dom cod.
+
+Arguments Nil {a tys dom}.
+Arguments Arr {a tys dom mid cod} _ _.
+
 Import EqNotations.
 
-Fixpoint arrowsD_work dom (fs : list arr_idx) :
-  option (∃ cod, objs dom ~> objs cod) :=
-  match fs with
-  | nil => Some (dom; @id _ (objs dom))
-  | a :: fs =>
-    match arrs a with
-    | Some (x; (y; f)) =>
-      match fs with
-      | nil =>
-        match Eq_eq_dec x dom with
-        | Specif.left edom =>
-          Some (y; rew [fun x => objs x ~> objs y] edom in f)
-        | _ => None
-        end
-      | _ =>
-        match arrowsD_work dom fs with
-        | Some (mid; g) =>
-          match Eq_eq_dec mid x with
-          | Specif.left emid =>
-            (* jww (2017-08-06): This associates the wrong way, which doesn't
-               technically matter, but does make the normalized results look
-               funny. At some point, the correct orientation should be
-               done. *)
-            Some (y; f ∘ rew [fun y => objs dom ~> objs y] emid in g)
-          | _ => None
-          end
-        | _ => None
-        end
-      end
-    | _ => None
-    end
-  end.
-
-Definition arrowsD dom cod (fs : list arr_idx) :
-  option (objs dom ~> objs cod) :=
-  match arrowsD_work dom fs with
-  | Some (y; f) =>
-    match Eq_eq_dec y cod with
-    | Specif.left ecod => Some (rew [fun y => objs dom ~> objs y] ecod in f)
-    | _ => None
-    end
-  | _ => None
-  end.
-
-(** Template for using this:
-
-  pattern f, dom, cod, f'.
-  apply arrowsD_rect. *)
-
-Lemma arrowsD_rect
-      (P : ∀ (f : list arr_idx) dom cod (f' : objs dom ~> objs cod), Type) :
-     Proper (eq ==>
-             forall_relation (fun dom =>
-             forall_relation (fun cod =>
-               @equiv _ (@homset cat (objs dom) (objs cod))
-                 ==> arrow)%signature)) P
-  -> (∀ dom (H : arrowsD dom dom [] = Some id), P [] dom dom id)
-  -> (∀ f mid cod f', arrs f = Some (mid; (cod; f'))
-        -> ∀ g dom g' (H : arrowsD dom mid g = Some g'),
-           P g dom mid g'
-        -> ∀ fg' (Hfg : arrowsD dom cod (f :: g) = Some fg'),
-           P (f :: g) dom cod fg')
-  -> ∀ f dom cod f' (H : arrowsD dom cod f = Some f'),
-       P f dom cod f'.
+Lemma Arrows_eq_dec {d c} (f g : Arrows tys d c) : {f = g} + {f ≠ g}.
 Proof.
-  unfold arrowsD.
-  induction f; simpl; intros.
-  - destruct (Pos.eq_dec dom cod); [|discriminate]; subst; auto.
-    inversion H0; subst.
-    apply X0; simpl.
-    now rewrite Pos_eq_dec_refl.
-  - destruct (arrs a) eqn:?; [|discriminate].
-    destruct s, s.
-    destruct f.
-      destruct (Pos.eq_dec x dom); [|discriminate].
-      destruct (Pos.eq_dec x0 cod); [|discriminate].
-      inversion H0; subst.
-      simpl.
-      specialize (X1 a dom cod h Heqo [] dom id).
-      simpl in X1.
-      rewrite Pos_eq_dec_refl in X1.
-      simpl in X0.
-      specialize (X0 dom).
-      rewrite Pos_eq_dec_refl in X0.
-      specialize (X1 eq_refl (X0 eq_refl)).
-      rewrite Heqo in X1.
-      rewrite Pos_eq_dec_refl in X1.
-      rewrite Pos_eq_dec_refl in X1.
-      simpl in X1.
-      eapply X; eauto; cat.
-    destruct (arrowsD_work dom (a0 :: f)) eqn:?; [|discriminate].
-    destruct s.
-    destruct (Pos.eq_dec x1 x); [|discriminate].
-    destruct (Pos.eq_dec x0 cod); [|discriminate].
-    subst.
-    specialize (IHf dom x h0).
-    rewrite Heqo0, Eq_eq_dec_refl in IHf.
-    specialize (IHf eq_refl).
-    specialize (X1 a x cod h Heqo (a0 :: f) dom h0).
-    rewrite Heqo0, Eq_eq_dec_refl in X1.
-    specialize (X1 eq_refl IHf).
-    inversion H0; subst.
-    apply X1; clear X1 X0 IHf.
-    simpl in *.
-    rewrite Heqo; clear Heqo.
-    destruct (arrs a0) eqn:?; [|discriminate].
-    destruct s, s.
-    destruct f.
-      destruct (Pos.eq_dec x0 dom); [|discriminate].
-      subst.
-      inversion Heqo0; subst; clear Heqo0.
-      rewrite Pos_eq_dec_refl.
-      eapply Eqdep_dec.inj_pair2_eq_dec in H3; [ | apply Eq_eq_dec ].
-      subst.
-      rewrite Pos_eq_dec_refl.
-      reflexivity.
-    destruct (arrowsD_work dom (a1 :: f)); [|discriminate].
-    destruct s.
-    destruct (Pos.eq_dec x2 x0); [|discriminate].
-    subst.
-    inversion Heqo0; subst; clear Heqo0.
-    rewrite Pos_eq_dec_refl.
-    eapply Eqdep_dec.inj_pair2_eq_dec in H3; [ | apply Eq_eq_dec ].
-    subst.
-    rewrite Pos_eq_dec_refl.
-    reflexivity.
+  induction f; dependent elimination g; auto;
+  try (right; intro; discriminate).
+  destruct (Fin_eq_dec f1 f); subst.
+    destruct (IHf y); subst.
+      left; f_equal.
+      now dependent elimination e.
+    right.
+    intro.
+    apply n.
+    inv H0.
+    apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
+    now apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
+  right.
+  intro.
+  apply n.
+  now inv H0.
 Defined.
 
-Fixpoint exprAD (e : Expr arr_idx) : Type :=
-  match e with
-  | Top           => True
-  | Bottom        => False
-  | Equiv x y f g => arrowsD x y (arrows f) ≈ arrowsD x y (arrows g)
-  | And p q       => exprAD p ∧ exprAD q
-  | Or p q        => exprAD p + exprAD q
-  | Impl p q      => exprAD p -> exprAD q
+Program Fixpoint Arrows_app {d m c} (f : Arrows tys m c) (g : Arrows tys d m) :
+  Arrows tys d c :=
+  match f with
+  | Nil => g
+  | Arr x _ _ xs => Arr x _ _ (Arrows_app xs g)
   end.
+
+Program Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
+  match t with
+  | Ident    => Nil
+  | Morph a  => Arr a _ _ Nil
+  | Comp f g => Arrows_app (arrows f) (arrows g)
+  end.
+
+Program Fixpoint unarrows `(t : Arrows tys d c) : Term tys d c :=
+  match t with
+  | Nil => Ident
+  | Arr x _ _ xs => Comp (Morph x) (unarrows xs)
+  end.
+
+Theorem arrows_unarrows d c (xs : Arrows tys d c) : arrows (unarrows xs) = xs.
+Proof.
+  induction xs; simpl; auto.
+  unfold unarrows_obligation_1.
+  unfold unarrows_obligation_2.
+  simpl_eq.
+  unfold EqdepFacts.internal_eq_rew_r_dep.
+  unfold EqdepFacts.internal_eq_sym_involutive.
+  dependent elimination e0; simpl.
+  dependent elimination e; simpl.
+  rewrite IHxs.
+  reflexivity.
+Qed.
+
+Theorem unarrows_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
+  termD (unarrows (Arrows_app t1 t2)) ≈ termD (Comp (unarrows t1) (unarrows t2)).
+Proof.
+  induction t1; simpl; cat.
+  unfold unarrows_obligation_2.
+  simpl_eq.
+  unfold EqdepFacts.internal_eq_rew_r_dep.
+  unfold EqdepFacts.internal_eq_sym_involutive.
+  unfold Arrows_app_obligation_3.
+  unfold EqdepFacts.internal_eq_rew_r_dep.
+  unfold EqdepFacts.internal_eq_sym_involutive.
+  dependent elimination e0; simpl.
+  simpl_eq.
+  dependent elimination e; simpl.
+  comp_left.
+  apply IHt1.
+Qed.
+
+Theorem unarrows_arrows d c (t : Term tys d c) :
+  termD (unarrows (arrows t)) ≈ termD t.
+Proof.
+  induction t; simpl; cat.
+  rewrite unarrows_app; simpl.
+  now rewrite IHt1, IHt2.
+Qed.
+
+(** The category of syntactic terms, equivalent up to normalization. *)
+
+Definition Term_equiv {d c} (f g : Term tys d c) : Type :=
+  arrows f = arrows g.
+Arguments Term_equiv {d c} f g /.
+
+Program Instance Term_equivalence {d c} : Equivalence (@Term_equiv d c).
+
+Instance Term_Setoid {d c} : Setoid (Term tys d c) := {|
+  equiv := Term_equiv;
+  setoid_equiv := Term_equivalence
+|}.
+
+Program Instance Comp_Proper {d m c} :
+  Proper (equiv ==> equiv ==> equiv) (@Comp _ tys d m c).
+Next Obligation.
+  proper.
+  simpl in *.
+  now rewrite X, X0.
+Qed.
+
+Program Instance Terms : Category := {|
+  obj := obj_idx;
+  hom := Term tys;
+  id := fun _ => Ident;
+  compose := fun _ _ _ => Comp
+|}.
+Admit Obligations.
+(* Next Obligation. now rewrite List.app_nil_r. Defined. *)
+(* Next Obligation. now rewrite List.app_assoc. Defined. *)
+(* Next Obligation. now rewrite List.app_assoc. Defined. *)
 
 End Normal.

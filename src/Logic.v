@@ -1,6 +1,6 @@
 Set Warnings "-notation-overridden".
 
-Require Export Solver.Sound.
+Require Export Solver.Normal.
 Require Import Solver.Partial.
 
 Module Import MP := FMapPositive.
@@ -16,8 +16,7 @@ Remove Hints Coq.Coq : typeclass_instances.
 
 Open Scope partial_scope.
 
-Program Fixpoint expr_forward (t : Expr arr_idx) (hyp : Expr arr_idx)
-        (cont : [exprD t (* (subst_all_expr t defs') *)]) :
+Program Fixpoint expr_forward (t : Expr) (hyp : Expr) (cont : [exprD t]) :
   [exprD hyp -> exprD t] :=
   match hyp with
   | Top           => Reduce cont
@@ -32,7 +31,7 @@ Program Fixpoint expr_forward (t : Expr arr_idx) (hyp : Expr arr_idx)
 Next Obligation. contradiction. Defined.
 Next Obligation. intuition. Defined.
 
-Program Fixpoint expr_backward (t : Expr arr_idx) {measure (expr_size t)} :
+Program Fixpoint expr_backward (t : Expr) {measure (expr_size t)} :
   [exprD t] :=
   match t with
   | Top => Yes
@@ -49,14 +48,16 @@ Program Fixpoint expr_backward (t : Expr arr_idx) {measure (expr_size t)} :
     | Uncertain _ => Reduce (expr_backward q)
     end
   | Impl p q      =>
-    expr_forward q p (expr_backward q (* (subst_all_expr q defs') *))
+    expr_forward q p (expr_backward q)
   end.
 Next Obligation.
-  destruct (termD x y f) eqn:?; [|apply Uncertain].
-  destruct (termD x y g) eqn:?; [|apply Uncertain].
-  destruct (list_beq Eq_eqb (arrows f) (arrows g)) eqn:?; [|apply Uncertain].
+  destruct (Arrows_eq_dec (arrows f) (arrows g)) eqn:?; [|apply Uncertain].
   apply Proved.
-  eapply arrows_decide; eauto.
+  rewrite <- unarrows_arrows.
+  symmetry.
+  rewrite <- unarrows_arrows.
+  rewrite e.
+  reflexivity.
 Defined.
 Next Obligation. abstract omega. Defined.
 Next Obligation. abstract omega. Defined.

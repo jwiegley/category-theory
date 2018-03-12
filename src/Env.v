@@ -6,6 +6,7 @@ Module Export MP := FMapPositive.
 Module M := MP.PositiveMap.
 
 Require Export Solver.Lib.
+Require Export Solver.IList.
 
 Unset Equations WithK.
 
@@ -15,21 +16,26 @@ Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Theory.Adjunction.
 Require Import Category.Instance.Coq.
 
+Require Import Solver.IList.
+
 Generalizable All Variables.
 
 Definition obj_idx : Type := positive.
-Definition arr_idx : Type := positive.
+Definition arr_idx (n : nat) : Type := Fin.t n.
+
+Definition obj_pair := obj_idx * obj_idx.
+Definition dep_arr {C: Category}
+           (objs : obj_idx -> C) (p : obj_pair) :=
+  match p with (dom, cod) => objs dom ~> objs cod end.
+Arguments dep_arr {C} objs p /.
 
 Class Env := {
   cat : Category;
   objs : obj_idx -> cat;
-  arrmap : M.t (∃ x y, objs x ~{cat}~> objs y);
-  arrs (a : arr_idx) : option (∃ x y, objs x ~{cat}~> objs y) :=
-    M.find a arrmap
+  num_arrs : nat;
+  tys : Vector.t (obj_idx * obj_idx) num_arrs;
+  arrs : ilist (B:=dep_arr objs) tys
 }.
-
-(* jww (2018-03-10): Why doesn't this work? *)
-(* Instance obj_idx_Equality : Equality obj_idx := Pos_Eq. *)
 
 Instance obj_idx_Equality : Equality obj_idx := {
   Eq_eqb         := Pos.eqb;
@@ -41,14 +47,22 @@ Instance obj_idx_Equality : Equality obj_idx := {
   Eq_eq_dec_refl := Pos_eq_dec_refl
 }.
 
-Instance arr_idx_Setoid : Setoid arr_idx := {
+Program Instance arr_idx_Equality (n : nat) : Equality (arr_idx n) := {
+  Eq_eqb         := Fin.eqb;
+  Eq_eqb_refl    := Fin_eqb_refl n;
+
+  Eq_eqb_eq x y  := proj1 (Fin_eqb_eq n x y);
+
+  Eq_eq_dec      := Fin_eq_dec;
+  Eq_eq_dec_refl := Fin_eq_dec_refl n
+}.
+
+Instance arr_idx_Setoid {a} : Setoid (arr_idx a) := {
   equiv := Eq_eq;
   setoid_equiv := eq_equivalence
 }.
 
-(** Every monoid defines a category where composition is mappend.
-
-    jww (2018-03-10): This is only specialized to lists for now. *)
+(** Every monoid defines a category where composition is mappend. *)
 
 Import EqNotations.
 

@@ -1,17 +1,5 @@
 Set Warnings "-notation-overridden".
 
-Require Import Coq.PArith.PArith.
-Require Import Coq.Lists.List.
-Require Import Coq.FSets.FMapPositive.
-
-Module Import MP := FMapPositive.
-Module M := MP.PositiveMap.
-
-Require Import Solver.Env.
-Require Import Solver.Expr.
-Require Import Solver.Denote.
-Require Import Solver.Normal.
-Require Import Solver.Sound.
 Require Import Solver.Logic.
 
 Generalizable All Variables.
@@ -41,6 +29,18 @@ Ltac lookup x xs :=
   | (_, ?xs') =>
     let xn := lookup x xs' in
     constr:(Pos.succ xn)
+  end.
+
+Ltac lookupFin n x xs :=
+  lazymatch n with
+  | 0%nat => constr:(@Fin.F1 0%nat)
+  | S ?n' =>
+    lazymatch xs with
+    | (x, _) => constr:(@Fin.F1 n')
+    | (_, ?xs') =>
+      let xn := lookupFin n' x xs' in
+      constr:(Fin.FS xn)
+    end
   end.
 
 Ltac lookupCat c cs :=
@@ -104,7 +104,9 @@ Ltac lookupObj c cs o :=
 Ltac lookupArr c cs f :=
   let res := catLists c cs in
   match res with
-  | (_, ?fs) => lookup f fs
+  | (_, ?fs) =>
+    let n := listSize fs in
+    lookupFin n f fs
   end.
 
 (** Variable capture *)
@@ -126,70 +128,54 @@ Ltac allVars cs e :=
 
 (** Term capture *)
 
-Ltac reifyTerm cs t :=
+Ltac reifyTerm env cs t :=
   lazymatch t with
   | @id ?c ?x =>
-    constr:(@Ident arr_idx)
+    let xn := lookupObj c cs x in
+    constr:(@Ident _ (@tys env) xn)
   | @compose ?c ?x ?y ?z ?f ?g =>
-    let ft := reifyTerm cs f in
-    let gt := reifyTerm cs g in
-    constr:(Comp ft gt)
+    let ft := reifyTerm env cs f in
+    let gt := reifyTerm env cs g in
+    let xn := lookupObj c cs x in
+    let yn := lookupObj c cs y in
+    let zn := lookupObj c cs z in
+    constr:(@Comp _ (@tys env) xn yn zn ft gt)
   | ?f =>
     lazymatch type of f with
     | ?x ~{?c}~> ?y =>
       let fn := lookupArr c cs f in
-      constr:(Morph fn)
+      constr:(@Morph _ (@tys env) fn)
     end
   end.
 
-Ltac reifyExpr cs t :=
+Ltac reifyExpr env cs t :=
   lazymatch t with
-  | True => constr:(Top)
-  | False => constr:(Bottom)
+  | True => constr:(@Top env)
+  | False => constr:(@Bottom env)
   | ?F ≈ ?G =>
-    let f := reifyTerm cs F in
-    let g := reifyTerm cs G in
+    let f := reifyTerm env cs F in
+    let g := reifyTerm env cs G in
     lazymatch type of F with
     | ?x ~{?c}~> ?y =>
       let xn := lookupObj c cs x in
       let yn := lookupObj c cs y in
-      constr:(Equiv xn yn f g)
+      constr:(@Equiv env xn yn f g)
     end
   | ?P ∧ ?Q =>
-    let p := reifyExpr cs P in
-    let q := reifyExpr cs Q in
-    constr:(And p q)
+    let p := reifyExpr env cs P in
+    let q := reifyExpr env cs Q in
+    constr:(@And env p q)
   | ?P ∨ ?Q =>
-    let p := reifyExpr cs P in
-    let q := reifyExpr cs Q in
-    constr:(Or p q)
+    let p := reifyExpr env cs P in
+    let q := reifyExpr env cs Q in
+    constr:(@Or env p q)
   | ?P -> ?Q =>
-    let p := reifyExpr cs P in
-    let q := reifyExpr cs Q in
-    constr:(Impl p q)
+    let p := reifyExpr env cs P in
+    let q := reifyExpr env cs Q in
+    constr:(@Impl env p q)
   end.
 
 (** Build environment *)
-
-Ltac foldri xs z f :=
-  let rec go n xs :=
-    lazymatch xs with
-    | (?x, tt) => let z' := z x in f n x z'
-    | (?x, ?xs') =>
-      let rest := go (Pos.succ n) xs' in
-      let x'   := f n x rest in constr:(x')
-    end in go 1%positive xs.
-
-Ltac objects_function xs :=
-  let rec loop o xs' :=
-    lazymatch xs' with
-    | (?x, tt) => constr:(fun (_ : obj_idx) => x)
-    | (?x, ?xs'') =>
-      let f := loop (Pos.succ o) xs'' in
-      constr:(fun (o' : obj_idx) =>
-                if (o =? o')%positive then x else f o')
-    end in
-  loop 1%positive xs.
 
 Program Definition Unused : Category := {|
   obj     := Datatypes.unit : Type;
@@ -204,29 +190,50 @@ Next Obligation.
   now destruct f.
 Defined.
 
+Ltac foldr xs z f :=
+  let rec go xs :=
+    lazymatch xs with
+    | tt => z
+    | (?x, ?xs') =>
+      let rest := go xs' in
+      let x'   := f x rest in constr:(x')
+    end in go xs.
+
+Ltac foldri1 xs z f :=
+  let rec go n xs :=
+    lazymatch xs with
+    | (?x, tt) => let z' := z x in f n x z'
+    | (?x, ?xs') =>
+      let rest := go (Pos.succ n) xs' in
+      let x'   := f n x rest in constr:(x')
+    end in go 1%positive xs.
+
 Ltac build_env cs :=
-  foldri cs
+  foldri1 cs
     ltac:(fun cv =>
             constr:((Unused : Category,
                      (fun o : obj_idx => tt : Unused),
-                     (fun f : arr_idx => @None (() ~{Unused}~> ())))))
+                     (inil (B:=@dep_arr Unused
+                                 (fun _ : obj_idx => tt : Unused))))))
     ltac:(fun ci cv k =>
       match cv with
-      | (?cat, ?os, ?fs) =>
-        let ofun := foldri os
+      | (?c, ?os, ?fs) =>
+        let ofun := foldri1 os
           ltac:(fun ov => constr:(fun _ : obj_idx => ov))
           ltac:(fun oi ov ok =>
                   constr:(fun o => if (o =? oi)%positive
                                    then ov else ok o)) in
-        let ffun := foldri fs
-          ltac:(fun fv => constr:(M.empty (∃ x y, ofun x ~{cat}~> ofun y)))
-          ltac:(fun fi fv fk => match type of fv with
-            | ?x ~{cat}~> ?y =>
-              let xn := lookup x os in
-              let yn := lookup y os in
-              constr:(M.add fi (xn; (yn; fv)) fk)
-            end) in
-        constr:((cat, ofun, ffun))
+        let alist := foldr fs
+          constr:((inil (B:=@dep_arr c ofun)))
+          ltac:(fun f fs =>
+                  lazymatch type of f with
+                  | ?x ~{?c}~> ?y =>
+                    let xn := lookupObj c cs x in
+                    let yn := lookupObj c cs y in
+                    constr:((icons (A:=obj_pair) (B:=@dep_arr c ofun)
+                                   (xn, yn) f fs))
+                  end) in
+        constr:((c, ofun, alist))
       end).
 
 Ltac find_vars :=
@@ -234,8 +241,8 @@ Ltac find_vars :=
   | [ |- ?G ] =>
     let cs := allVars tt G in
     pose cs;
-    let env := build_env cs in
-    pose env
+    let ofun := build_env cs in
+    pose ofun
   end.
 
 Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y) (g : y ~> x),
@@ -245,34 +252,38 @@ Proof.
   revert X; find_vars; compute [Pos.succ] in p0.
 Abort.
 
+Definition vec_size {A n} (l : Vector.t A n) : nat := n.
+
 Ltac reify_terms_and_then tacGoal :=
   match goal with
   | [ |- ?G ] =>
     let cs  := allVars tt G in
     let env := build_env cs in
-    let g   := reifyExpr cs G in
     match env with
-    | (?cat, ?ofun, ?ffun) =>
-      change (@exprD {| cat := cat
-                      ; objs := ofun
-                      ; arrmap := ffun |} g);
+    | (?c, ?ofun, ?alist) =>
+      let env :=
+          constr:({| cat := c
+                   ; objs := ofun
+                   ; num_arrs := vec_size (vec_of alist)
+                   ; tys := vec_of alist
+                   ; arrs := alist |}) in
+      let g := reifyExpr env cs G in
+      change (@exprD env g);
       cbv beta iota zeta delta [Pos.succ];
       tacGoal env g
     end
   end.
 
 Ltac reify := reify_terms_and_then
-  ltac:(fun env g =>
-          match env with
-          | (?cat, ?ofun, ?ffun) =>
-            pose cat; pose ofun; pose ffun; pose g
-          end).
+  ltac:(fun env g => pose env; pose g).
 
 Ltac categorical := reify_terms_and_then
   ltac:(fun env g => apply expr_sound; now vm_compute).
 
+(*
 Ltac normalize := reify_terms_and_then
   ltac:(fun env g => apply exprAD_sound; vm_compute).
+*)
 
 Example sample_2 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
@@ -288,18 +299,18 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  revert X.
-  revert X0.
-  revert X1.
-  revert X2.
-  revert X3.
-  revert X4.
-  revert X5.
-  revert X6.
-  revert X7.
-  Time normalize.               (* 0.07s *)
-  Undo.
-  Time categorical.             (* 0.07s *)
+  (* revert X. *)
+  (* revert X0. *)
+  (* revert X1. *)
+  (* revert X2. *)
+  (* revert X3. *)
+  (* revert X4. *)
+  (* revert X5. *)
+  (* revert X6. *)
+  (* revert X7. *)
+  (* Time normalize.               (* 0.07s *) *)
+  (* Undo. *)
+  Time categorical.             (* 0.096s *)
 Qed.
 
 Print Assumptions sample_2.
@@ -321,14 +332,6 @@ Proof.
   revert X7.
   reify.
   red; intros.
-  remember (Comp (Morph 1%positive)
-                 (Comp (Comp Ident (Morph 4%positive))
-                       (Morph 3%positive))) as f'.
-  remember (Comp (Comp (Morph 1%positive) (Morph 4%positive))
-                 (Morph 3%positive)) as g'.
-  remember (Comp (Morph 4%positive) (Morph 3%positive)) as h'.
-  remember (Morph 2%positive) as k'.
-  pose (Build_Env C o t) as env.
   (* rewrite termD_arrows. *)
   (* simpl arrows. *)
 Abort.

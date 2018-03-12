@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Export Coq.Bool.Bool.
 Require Export Coq.Lists.List.
+Require Export Coq.Vectors.Vector.
 Require Export Coq.PArith.PArith.
 Require Export Coq.omega.Omega.
 
