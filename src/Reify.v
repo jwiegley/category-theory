@@ -253,8 +253,6 @@ Proof.
   reflexivity.
 Qed.
 
-Definition vec_size {A n} (l : Vector.t A n) : nat := n.
-
 Ltac reify_terms_and_then tacGoal :=
   match goal with
   | [ |- ?G ] =>
@@ -298,8 +296,8 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  Time normalize.               (* 0.07s *)
-  Undo.
+  (* Time normalize.               (* 0.07s *) *)
+  (* Undo. *)
   Time categorical.             (* 0.096s *)
 Qed.
 

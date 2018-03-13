@@ -50,7 +50,4 @@ Program Instance arr_idx_Equality (n : nat) : Equality (arr_idx n) := {
   Eq_eq_dec_refl := Fin_eq_dec_refl n
 }.
 
-(* Instance arr_idx_Setoid {a} : Setoid (arr_idx a) := { *)
-(*   equiv := Eq_eq; *)
-(*   setoid_equiv := eq_equivalence *)
-(* }. *)
+Definition vec_size {A n} (l : Vector.t A n) : nat := n.
