@@ -68,6 +68,12 @@ Program Fixpoint unarrows `(t : Arrows tys d c) : Term tys d c :=
   match t with
   | Nil => Ident
   | Arr x _ _ xs => Comp (Morph x) (unarrows xs)
+  (* | @Arr _ _ dom mid cod f _ _ xs => *)
+  (*   match unarrows xs in Term _ d' c' *)
+  (*   return d' = dom -> c' = mid -> Term tys dom cod with *)
+  (*   | Ident => fun _ _ => Morph f *)
+  (*   | ys => fun _ _ => Comp (Morph f) ys *)
+  (*   end eq_refl eq_refl *)
   end.
 
 Theorem arrows_unarrows d c (xs : Arrows tys d c) : arrows (unarrows xs) = xs.
