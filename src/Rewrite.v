@@ -195,18 +195,14 @@ Lemma Term_find_app
       {i l} (f : Term tys i l) {pre post} :
   Arrows_find (arrows g) (arrows f) = Some (pre, post)
     -> termD g ≈ termD h
-    -> termD f ≈ termD (unarrows ((pre +++ arrows h) +++ post)).
+    -> termD f ≈ termD (unarrows pre) ∘ termD h ∘ termD (unarrows post).
 Proof.
   intros.
   rewrite <- unarrows_arrows.
   erewrite Arrows_find_app; eauto.
-  rewrite !unarrows_app.
-  rewrite !termD_Comp.
-  rewrite !unarrows_app.
-  rewrite !termD_Comp.
-  rewrite !unarrows_arrows.
-  rewrite comp_assoc.
-  now rewrite X.
+  repeat rewrite unarrows_app, termD_Comp.
+  rewrite unarrows_arrows.
+  now rewrite X; cat.
 Defined.
 
 End Rewrite.
