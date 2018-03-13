@@ -12,7 +12,10 @@ Unset Transparent Obligations.
 Open Scope lazy_bool_scope.
 
 Ltac simpl_eq :=
-  repeat unfold eq_rect_r, eq_rect, eq_ind_r, eq_ind, eq_sym, prod_rect in *.
+  unfold eq_rect_r, eq_rect, eq_ind_r, eq_ind, eq_sym, prod_rect,
+         EqdepFacts.internal_eq_rew_r_dep,
+         EqdepFacts.internal_eq_sym_involutive,
+         EqdepFacts.internal_eq_sym_internal in *.
 
 Ltac simplify :=
   repeat

@@ -118,26 +118,28 @@ Proof.
   apply Pos2Nat.is_pos.
 Defined.
 
-Lemma Fin_eq_dec' : ∀ n (x y : Fin.t n), x = y \/ x ≠ y.
-Proof. intros; destruct (Fin.eq_dec x y); auto. Qed.
-
-Lemma Fin_eq_dec_refl n (x : Fin.t n) :
-  Fin.eq_dec x x = left (@eq_refl (Fin.t n) x).
+Lemma Nat_eqb_eq n m : Nat.eqb n m = true <-> n = m.
 Proof.
-  destruct (Fin.eq_dec x x).
-    refine (K_dec_on_type (Fin.t n) x (Fin_eq_dec' n x)
-              (fun H => @left _ _ H = @left _ _ (@eq_refl (Fin.t n) x)) _ _).
-    reflexivity.
-  contradiction.
-Qed.
+ revert m.
+ induction n; destruct m; simpl; rewrite ?IHn; split; try easy.
+ - now intros ->.
+ - now injection 1.
+Defined.
 
-Fixpoint Fin_eqb_refl n (x : Fin.t n) : Fin.eqb x x = true :=
-  match x with
-  | @Fin.F1 m'    => Nat_eqb_refl m'
-  | @Fin.FS n0 p' => Fin_eqb_refl n0 _
-  end.
+Lemma Fin_eqb_eq : forall n (p q : Fin.t n), Fin.eqb p q = true <-> p = q.
+Proof.
+  apply Fin.rect2; simpl; intros.
+  - split; intros ; [ reflexivity | now apply Nat_eqb_eq ].
+  - now split.
+  - now split.
+  - split; intros.
+    * f_equal.
+      now apply H.
+    * apply Fin.FS_inj in H0.
+      now apply H.
+Defined.
 
-Lemma Fin_eqb_eq n (x y : Fin.t n) (H : Fin.eqb x y = true) : x = y.
+Lemma Fin_eqb_eq' n (x y : Fin.t n) (H : Fin.eqb x y = true) : x = y.
 Proof.
   induction x.
     revert H.
@@ -150,6 +152,32 @@ Proof.
   f_equal.
   now apply IHx.
 Defined.
+
+Lemma Fin_eq_dec {n} (x y : Fin.t n): {x = y} + {x <> y}.
+Proof.
+case_eq (Fin.eqb x y); intros.
+- left; now apply Fin_eqb_eq.
+- right. intros Heq. apply <- Fin_eqb_eq in Heq. congruence.
+Defined.
+
+Lemma Fin_eq_dec' : ∀ n (x y : Fin.t n), x = y \/ x ≠ y.
+Proof. intros; destruct (Fin_eq_dec x y); auto. Qed.
+
+Lemma Fin_eq_dec_refl n (x : Fin.t n) :
+  Fin_eq_dec x x = left (@eq_refl (Fin.t n) x).
+Proof.
+  destruct (Fin_eq_dec x x).
+    refine (K_dec_on_type (Fin.t n) x (Fin_eq_dec' n x)
+              (fun H => @left _ _ H = @left _ _ (@eq_refl (Fin.t n) x)) _ _).
+    reflexivity.
+  contradiction.
+Qed.
+
+Fixpoint Fin_eqb_refl n (x : Fin.t n) : Fin.eqb x x = true :=
+  match x with
+  | @Fin.F1 m'    => Nat_eqb_refl m'
+  | @Fin.FS n0 p' => Fin_eqb_refl n0 _
+  end.
 
 Import EqNotations.
 
@@ -193,9 +221,9 @@ Program Instance Fin_Eq (n : nat) : Equality (Fin.t n) := {
   Eq_eqb         := Fin.eqb;
   Eq_eqb_refl    := Fin_eqb_refl n;
 
-  Eq_eqb_eq x y  := proj1 (Fin.eqb_eq n x y);
+  Eq_eqb_eq x y  := proj1 (Fin_eqb_eq n x y);
 
-  Eq_eq_dec      := Fin.eq_dec;
+  Eq_eq_dec      := Fin_eq_dec;
   Eq_eq_dec_refl := Fin_eq_dec_refl n
 }.
 
@@ -384,10 +412,10 @@ Ltac equalities' :=
   | [ |- context[(?N =? ?M)%positive] ] =>
     replace ((N =? M)%positive) with (Eq_eqb N M)
 
-  | [ H : context[@Fin.eq_dec ?N ?X ?Y] |- _ ] =>
-    replace (@Fin.eq_dec N X Y) with (Eq_eq_dec X Y) in H
-  | [ |- context[Fin.eq_dec ?N ?X ?Y] ] =>
-    replace (@Fin.eq_dec N X Y) with (Eq_eq_dec X Y)
+  | [ H : context[@Fin_eq_dec ?N ?X ?Y] |- _ ] =>
+    replace (@Fin_eq_dec N X Y) with (Eq_eq_dec X Y) in H
+  | [ |- context[Fin_eq_dec ?N ?X ?Y] ] =>
+    replace (@Fin_eq_dec N X Y) with (Eq_eq_dec X Y)
   | [ H : context[@Fin.eqb ?N ?X ?Y] |- _ ] =>
     replace (@Fin.eqb ?N ?X ?Y) with (Eq_eqb X Y) in H
   | [ |- context[@Fin.eqb ?N ?X ?Y] ] =>

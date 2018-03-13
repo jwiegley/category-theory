@@ -174,7 +174,7 @@ Next Obligation.
   proper; simpl in *; subst.
   simpl_eq; do 2 f_equal.
   apply Eqdep_dec.UIP_dec.
-  apply Fin.eq_dec.
+  apply Fin_eq_dec.
 Qed.
 Next Obligation. apply identity_left; reflexivity. Qed.
 Next Obligation. apply identity_right; reflexivity. Qed.
