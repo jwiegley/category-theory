@@ -1,0 +1,3 @@
+[submodule "category-theory"]
+	path = category-theory
+	url = git://github.com/jwiegley/category-theory.git
