@@ -57,10 +57,10 @@ Program Fixpoint Arrows_app {d m c} (f : Arrows tys m c) (g : Arrows tys d m) :
   | Arr x _ _ xs => Arr x _ _ (Arrows_app xs g)
   end.
 
-Program Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
+Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
   match t with
   | Ident    => Nil
-  | Morph a  => Arr a _ _ Nil
+  | Morph a  => Arr a eq_refl eq_refl Nil
   | Comp f g => Arrows_app (arrows f) (arrows g)
   end.
 
