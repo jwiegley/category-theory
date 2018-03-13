@@ -7,3 +7,4 @@ src/Normal.v
 src/Logic.v
 src/Partial.v
 src/Reify.v
+src/Rewrite.v

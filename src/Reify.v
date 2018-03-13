@@ -1,6 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Solver.Logic.
+Require Import Solver.Rewrite.
 
 Generalizable All Variables.
 
@@ -296,8 +297,9 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  (* Time normalize.               (* 0.07s *) *)
-  (* Undo. *)
+  repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
+  Time normalize.               (* 0.07s *)
+  Undo.
   Time categorical.             (* 0.096s *)
 Qed.
 
@@ -317,10 +319,29 @@ Example sample_3 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
+  clear -X7.
   revert X7.
-  (* reify. *)
-  (* red; intros. *)
-  (* rewrite termD_arrows. *)
-  (* simpl arrows. *)
-  cat.
+  reify.
+  red; intros.
+  match goal with
+  | [ H : @termD ?E ?A ?B ?X ≈ @termD _ _ _ ?Y |- @termD _ ?D ?C ?F ≈ termD ?G ] =>
+    pose E;
+    pose A;
+    pose B;
+    pose X;
+    pose Y;
+    pose D;
+    pose C;
+    pose F
+  end.
+  pose (Arrows_find (arrows t) (arrows t1)).
+  vm_compute in o.
+  pose proof (@Term_find_app e p p0 t t0 p1 p2 t1 _ _ (@eq_refl _ o)).
+  unfold t0 in *.
+  etransitivity.
+    apply X0; auto.
+  vm_compute.
+  (* g ∘ h ≈ i -> f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.*)
+  vm_compute in X.
+  rewrite <- comp_assoc, X; cat.
 Qed.
