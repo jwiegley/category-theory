@@ -46,7 +46,7 @@ Program Fixpoint expr_backward (t : Expr) {measure (expr_size t)} :
     expr_forward q p (expr_backward q)
   end.
 Next Obligation.
-  destruct (Arrows_eq_dec (arrows f) (arrows g)) eqn:?; [|apply Uncertain].
+  destruct (tlist_eq_dec (arrows f) (arrows g)) eqn:?; [|apply Uncertain].
   apply Proved.
   rewrite <- unarrows_arrows.
   symmetry.

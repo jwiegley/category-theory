@@ -4,106 +4,74 @@ Require Export Equations.Equations.
 Require Export Equations.EqDec.
 Unset Equations WithK.
 
+Require Export Category.Lib.TList.
 Require Export Category.Solver.Denote.
 
 Generalizable All Variables.
 
 Import VectorNotations.
 
-Inductive Arrows {a} (tys : Vector.t (obj_idx * obj_idx) a) :
-  obj_idx -> obj_idx -> Type :=
-  | Nil : ∀ dom, Arrows tys dom dom
-  | Arr dom mid cod (f : arr_idx a) :
-      mid = fst (tys[@f]) -> cod = snd (tys[@f]) ->
-      (* We can't use the results of function calls directly as constructor
-         arguments, because it breaks dependent elimination. *)
-      Arrows tys dom mid -> Arrows tys dom cod.
+Definition Arrows {a} (tys : Vector.t obj_pair a) (dom cod : obj_idx) :=
+  tlist (A:=obj_idx)
+        (fun c d => { f : arr_idx a & d = fst (tys[@f])
+                                    & c = snd (tys[@f]) }) cod dom.
 
-Arguments Nil {a tys dom}.
-Arguments Arr {a tys dom mid cod} _ _.
+Global Instance positive_EqDec : EqDec positive := {
+  eq_dec := Eq_eq_dec
+}.
 
 Section Normal.
 
 Context `{Env}.
 
-Global Instance positive_EqDec : EqDec.EqDec positive := {
-  eq_dec := Eq_eq_dec
-}.
+Import EqNotations.
 
-Lemma Arrows_eq_dec {d c} (f g : Arrows tys d c) : {f = g} + {f ≠ g}.
-Proof.
-  induction f; dependent elimination g; auto;
-  try (right; intro; discriminate).
-  destruct (Fin_eq_dec f1 f); subst.
-    destruct (IHf y); subst.
-      left; f_equal.
-      now dependent elimination e.
-    right.
-    intro.
-    apply n.
-    inv H0.
-    apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
-    now apply Eqdep_dec.inj_pair2_eq_dec in H2; [|apply Pos.eq_dec].
-  right.
-  intro.
+Global Program Instance arrow_EqDec (i j : obj_idx) :
+  EqDec {f : arr_idx num_arrs & i = fst (nth tys f) & j = snd (nth tys f)}.
+Next Obligation.
+  destruct (Eq_eq_dec x y); subst.
+    left.
+    f_equal; apply eq_proofs_unicity.
+  right; intro.
   apply n.
   now inv H0.
 Defined.
 
-Program Fixpoint Arrows_app {d m c} (f : Arrows tys m c) (g : Arrows tys d m) :
-  Arrows tys d c :=
-  match f with
-  | Nil => g
-  | Arr x _ _ xs => Arr x _ _ (Arrows_app xs g)
-  end.
-
 Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
   match t with
-  | Ident    => Nil
-  | Morph a  => Arr a eq_refl eq_refl Nil
-  | Comp f g => Arrows_app (arrows f) (arrows g)
+  | Ident    => tnil
+  | Morph a  => existT2 _ _ a eq_refl eq_refl ::: tnil
+  | Comp f g => arrows f +++ arrows g
   end.
 
-Program Fixpoint unarrows `(t : Arrows tys d c) : Term tys d c :=
+Fixpoint unarrows `(t : Arrows tys d c) : Term tys d c :=
   match t with
-  | Nil => Ident
-  | Arr x _ _ xs => Comp (Morph x) (unarrows xs)
-  (* | @Arr _ _ dom mid cod f _ _ xs => *)
-  (*   match unarrows xs in Term _ d' c' *)
-  (*   return d' = dom -> c' = mid -> Term tys dom cod with *)
-  (*   | Ident => fun _ _ => Morph f *)
-  (*   | ys => fun _ _ => Comp (Morph f) ys *)
-  (*   end eq_refl eq_refl *)
+  | tnil => Ident
+  | existT2 _ _ x Hd Hc ::: xs =>
+    Comp (rew <- [fun x => Term _ _ x] Hc in
+          rew <- [fun x => Term _ x _] Hd in Morph x) (unarrows xs)
   end.
 
 Theorem arrows_unarrows d c (xs : Arrows tys d c) : arrows (unarrows xs) = xs.
 Proof.
   induction xs; simpl; auto.
-  unfold unarrows_obligation_1.
-  unfold unarrows_obligation_2.
+  destruct b. simpl.
+  rewrite IHxs.
   simpl_eq.
-  unfold EqdepFacts.internal_eq_rew_r_dep.
-  unfold EqdepFacts.internal_eq_sym_involutive.
   dependent elimination e0; simpl.
   dependent elimination e; simpl.
-  rewrite IHxs.
-  reflexivity.
+  dependent elimination xs; simpl; auto.
 Qed.
 
 Theorem unarrows_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
-  termD (unarrows (Arrows_app t1 t2)) ≈ termD (Comp (unarrows t1) (unarrows t2)).
+  termD (unarrows (t1 +++ t2)) ≈ termD (Comp (unarrows t1) (unarrows t2)).
 Proof.
   induction t1; simpl; cat.
-  unfold unarrows_obligation_2.
+  destruct b.
   simpl_eq.
-  unfold EqdepFacts.internal_eq_rew_r_dep.
-  unfold EqdepFacts.internal_eq_sym_involutive.
-  unfold Arrows_app_obligation_3.
-  unfold EqdepFacts.internal_eq_rew_r_dep.
-  unfold EqdepFacts.internal_eq_sym_involutive.
   dependent elimination e0; simpl.
-  simpl_eq.
   dependent elimination e; simpl.
+  destruct t2; simpl; cat.
   comp_left.
   apply IHt1.
 Defined.
