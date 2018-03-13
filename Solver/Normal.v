@@ -4,7 +4,7 @@ Require Export Equations.Equations.
 Require Export Equations.EqDec.
 Unset Equations WithK.
 
-Require Export Solver.Denote.
+Require Export Category.Solver.Denote.
 
 Generalizable All Variables.
 

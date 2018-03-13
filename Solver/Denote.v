@@ -1,6 +1,6 @@
 Set Warnings "-notation-overridden".
 
-Require Export Solver.Expr.
+Require Export Category.Solver.Expr.
 
 Generalizable All Variables.
 

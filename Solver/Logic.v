@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
-Require Export Solver.Normal.
-Require Import Solver.Partial.
+Require Export Category.Solver.Normal.
+Require Import Category.Solver.Partial.
 
 Generalizable All Variables.
 

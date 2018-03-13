@@ -8,6 +8,7 @@ Lib/Equality.v
 Lib/FMapExt.v
 Lib/Nomega.v
 Lib/MapDecide.v
+Lib/IList.v
 Theory/Category.v
 Theory/Metacategory.v
 Theory/Metacategory/Graph.v
@@ -162,4 +163,12 @@ Algebra/Basic.v
 Algebra/Monoid.v
 Tools/Abstraction.v
 Tools/Represented.v
+Solver/Env.v
+Solver/Expr.v
+Solver/Denote.v
+Solver/Normal.v
+Solver/Logic.v
+Solver/Partial.v
+Solver/Reify.v
+Solver/Rewrite.v
 Theory.v

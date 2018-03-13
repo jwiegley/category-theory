@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
-Require Import Solver.Logic.
-Require Import Solver.Rewrite.
+Require Import Category.Solver.Logic.
+Require Import Category.Solver.Rewrite.
 
 Generalizable All Variables.
 

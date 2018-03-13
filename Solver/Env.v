@@ -7,9 +7,8 @@ Require Export Coq.omega.Omega.
 
 Require Export Category.Lib.
 Require Export Category.Lib.Equality.
+Require Export Category.Lib.IList.
 Require Export Category.Theory.Category.
-
-Require Export Solver.IList.
 
 Generalizable All Variables.
 
