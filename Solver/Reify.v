@@ -298,10 +298,10 @@ Example sample_2 :
 Proof.
   intros.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
-  Time normalize.               (* 0.07s *)
+  Time normalize.               (* 1.07s *)
   Undo.
-  Time categorical.             (* 0.096s *)
-Qed.
+  Time categorical.             (* 1.174s *)
+Time Qed.                       (* 3.783s *)
 
 Print Assumptions sample_2.
 
@@ -327,11 +327,7 @@ Example sample_3 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  normalize.
-  find_vars.
-  reify.
   rrewrite X.
-  reify.
   rewrite <- X; cat.
   apply comp_assoc.
 Qed.
