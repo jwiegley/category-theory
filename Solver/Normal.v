@@ -5,16 +5,21 @@ Require Export Equations.EqDec.
 Unset Equations WithK.
 
 Require Export Category.Lib.TList.
+Require Export Category.Lib.NETList.
 Require Export Category.Solver.Denote.
 
 Generalizable All Variables.
 
 Import VectorNotations.
 
+Definition Arr {a} (tys : Vector.t obj_pair a) (cod dom : obj_idx) :=
+  { f : arr_idx a & dom = fst (tys[@f]) & cod = snd (tys[@f]) }.
+
+Definition NEArrows {a} (tys : Vector.t obj_pair a) (dom cod : obj_idx) :=
+  netlist (A:=obj_idx) (Arr tys) cod dom.
+
 Definition Arrows {a} (tys : Vector.t obj_pair a) (dom cod : obj_idx) :=
-  tlist (A:=obj_idx)
-        (fun c d => { f : arr_idx a & d = fst (tys[@f])
-                                    & c = snd (tys[@f]) }) cod dom.
+  tlist (A:=obj_idx) (Arr tys) cod dom.
 
 Global Instance positive_EqDec : EqDec positive := {
   eq_dec := Eq_eq_dec
@@ -26,8 +31,9 @@ Context `{Env}.
 
 Import EqNotations.
 
-Global Program Instance arrow_EqDec (i j : obj_idx) :
-  EqDec {f : arr_idx num_arrs & i = fst (nth tys f) & j = snd (nth tys f)}.
+Local Obligation Tactic := unfold Arr; program_simpl.
+
+Global Program Instance arrow_EqDec (i j : obj_idx) : EqDec (Arr tys i j).
 Next Obligation.
   destruct (Eq_eq_dec x y); subst.
     left.
@@ -36,6 +42,16 @@ Next Obligation.
   apply n.
   now inv H0.
 Defined.
+
+Fixpoint winnow `(t : Arrows tys d c) : NEArrows tys d c + { d = c } :=
+  match t with
+  | tnil => inright eq_refl
+  | tcons _ f fs =>
+    inleft (match winnow fs with
+            | inright H => tfin (rew <- [fun x => Arr _ _ x] H in f)
+            | inleft fs => f :::: fs
+            end)
+  end.
 
 Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
   match t with
@@ -50,6 +66,16 @@ Fixpoint unarrows `(t : Arrows tys d c) : Term tys d c :=
   | existT2 _ _ x Hd Hc ::: xs =>
     Comp (rew <- [fun x => Term _ _ x] Hc in
           rew <- [fun x => Term _ x _] Hd in Morph x) (unarrows xs)
+  end.
+
+Fixpoint unnearrows `(t : NEArrows tys d c) : Term tys d c :=
+  match t with
+  | tfin (existT2 _ _ x Hd Hc) =>
+    rew <- [fun x => Term _ _ x] Hc in
+    rew <- [fun x => Term _ x _] Hd in Morph x
+  | tadd _ (existT2 _ _ x Hd Hc) xs =>
+    Comp (rew <- [fun x => Term _ _ x] Hc in
+          rew <- [fun x => Term _ x _] Hd in Morph x) (unnearrows xs)
   end.
 
 Theorem arrows_unarrows d c (xs : Arrows tys d c) : arrows (unarrows xs) = xs.
@@ -84,11 +110,41 @@ Proof.
   now rewrite IHt1, IHt2.
 Defined.
 
+Theorem unnearrows_arrows d c (t : Term tys d c) :
+  termD (match winnow (arrows t) with
+         | inright H => rew H in Ident
+         | inleft f => unnearrows f
+         end) ≈ termD t.
+Proof.
+  symmetry.
+  rewrite <- unarrows_arrows.
+  induction (arrows t); simpl; cat.
+  destruct b; subst; simpl_eq; simpl.
+  destruct (winnow a); simpl.
+    comp_left.
+    apply IHa.
+    apply unnearrows.
+    assumption.
+  dependent elimination e; simpl in *.
+  rewrite IHa; cat.
+  apply unarrows.
+  assumption.
+Defined.
+
 Fixpoint exprAD (e : Expr) : Type :=
   match e with
   | Top           => True
   | Bottom        => False
-  | Equiv _ _ f g => termD (unarrows (arrows f)) ≈ termD (unarrows (arrows g))
+  | Equiv d _ f g =>
+    termD (match winnow (arrows f) with
+         | inright H => rew H in Ident
+         | inleft f => unnearrows f
+         end)
+      ≈
+    termD (match winnow (arrows g) with
+           | inright H => rew H in Ident
+           | inleft g => unnearrows g
+           end)
   | And p q       => exprD p ∧ exprD q
   | Or p q        => exprD p + exprD q
   | Impl p q      => exprD p -> exprD q
@@ -97,7 +153,7 @@ Fixpoint exprAD (e : Expr) : Type :=
 Theorem exprAD_sound (e : Expr) : exprAD e -> exprD e.
 Proof.
   induction e; intuition; simpl in *.
-  now rewrite !unarrows_arrows in X.
+  now rewrite !unnearrows_arrows in X.
 Defined.
 
 End Normal.

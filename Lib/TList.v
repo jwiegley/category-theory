@@ -119,9 +119,11 @@ Equations tlist_rev (flip : forall x y : A, B x y -> B y x)
   tlist_rev flip (tcons x xs) :=
     tlist_rev flip xs +++ flip _ _ x ::: tnil.
 
-Equations tlist_concat {i j} (xs : tlist (tlist B) i j) : tlist B i j :=
-  tlist_concat tnil := tnil;
-  tlist_concat (tcons x xs) := x +++ tlist_concat xs.
+Fixpoint tlist_concat {i j} (xs : tlist (tlist B) i j) : tlist B i j :=
+  match xs with
+  | tnil => tnil
+  | tcons _ x xs => x +++ tlist_concat xs
+  end.
 
 Context `{EqDec A}.
 Context `{forall i j, EqDec (B i j)}.
@@ -441,60 +443,68 @@ Context `{forall i j, EqDec (B i j)}.
 
 Import EqNotations.
 
-Equations tlist_find_sublist
-          {j k} (xs : tlist B j k)
-          {i l} (ys : tlist B i l) : option (tlist B i j * tlist B k l) :=
-  tlist_find_sublist (tnil j) (tnil i)
-    <= eq_dec j i => {
-      | left H => Some (rew [fun x => tlist B x _] H in tnil,
-                        rew [fun x => tlist B _ x] H in tnil);
-      | _ => None
-    };
-  tlist_find_sublist (tnil j) (tcons k n l y ys)
-    <= eq_dec j k => {
-      | left H =>
-        Some (rew [fun x => tlist B x _] H in tnil,
-              rew <- [fun x => tlist B x _] H in (y ::: ys));
-      | _ <= tlist_find_sublist tnil ys => {
-        | None => None;
-        | Some (pair ys zs) => Some (y ::: ys, zs)
-      }
-    };
-  tlist_find_sublist _ tnil := None;
-  tlist_find_sublist (tcons j m k x xs) (tcons i o l y ys)
-    <= (eq_dec j i, eq_dec m o) => {
-      | pair (left H1) (left H2)
-        <= eq_dec x (rew <- [fun x => B x _] H1 in
-                     rew <- [fun x => B _ x] H2 in y) => {
-          | left _ <= tlist_find_sublist xs ys => {
-              | Some (pair bs cs)
-                <= tlist_eq_dec bs (rew <- [fun a => tlist B _ a] H2 in tnil) => {
-                  | left _ =>
-                    Some (rew [fun a => tlist B a _] H1 in tnil, cs);
-                  | _ <= tlist_find_sublist (x ::: xs) ys => {
-                    | None => None;
-                    | Some (pair ys zs) =>
-                      Some (y ::: ys, zs)
-                  }
-                };
-              | None <= tlist_find_sublist (x ::: xs) ys => {
-                  | None => None;
-                  | Some (pair ys zs) =>
-                    Some (y ::: ys, zs)
-                }
-            };
-          | _ <= tlist_find_sublist (x ::: xs) ys => {
-              | None => None;
-              | Some (pair ys zs) =>
-                Some (y ::: ys, zs)
-            }
-        };
-      | _  <= tlist_find_sublist (x ::: xs) ys => {
-          | None => None;
+Fixpoint tlist_find_sublist
+         {j k} (xs : tlist B j k)
+         {i l} (ys : tlist B i l) : option (tlist B i j * tlist B k l) :=
+  match xs, ys with
+  | @tnil _ _ j, @tnil _ _ i =>
+    match eq_dec j i with
+    | left H => Some (rew [fun x => tlist B x _] H in tnil,
+                      rew [fun x => tlist B _ x] H in tnil)
+    | _ => None
+    end
+  | @tnil _ _ j, @tcons _ _ k n l y ys =>
+    match eq_dec j k with
+    | left H =>
+      Some (rew [fun x => tlist B x _] H in tnil,
+            rew <- [fun x => tlist B x _] H in (y ::: ys))
+    | _ =>
+      match tlist_find_sublist tnil ys with
+      | None => None
+      | Some (ys, zs) => Some (y ::: ys, zs)
+      end
+    end
+  | _, tnil => None
+  | @tcons _ _ j m k x xs, @tcons _ _ i o l y ys =>
+    match eq_dec j i, eq_dec m o with
+    | left H1, left H2 =>
+      match eq_dec x (rew <- [fun x => B x _] H1 in
+                      rew <- [fun x => B _ x] H2 in y) with
+      | left _ =>
+        match tlist_find_sublist xs ys with
+        | Some (bs, cs) =>
+          match tlist_eq_dec bs (rew <- [fun a => tlist B _ a] H2 in tnil) with
+          | left _ =>
+            Some (rew [fun a => tlist B a _] H1 in tnil, cs)
+          | _ =>
+            match tlist_find_sublist (x ::: xs) ys with
+            | None => None
+            | Some (pair ys zs) =>
+              Some (y ::: ys, zs)
+            end
+          end
+        | _ =>
+          match tlist_find_sublist (x ::: xs) ys with
+          | None => None
           | Some (pair ys zs) =>
             Some (y ::: ys, zs)
-        }
-      }.
+          end
+        end
+      | _ =>
+        match tlist_find_sublist (x ::: xs) ys with
+        | None => None
+        | Some (pair ys zs) =>
+          Some (y ::: ys, zs)
+        end
+      end
+    | _, _ =>
+      match tlist_find_sublist (x ::: xs) ys with
+      | None => None
+      | Some (pair ys zs) =>
+        Some (y ::: ys, zs)
+      end
+    end
+  end.
 
 End Sublist.
 
@@ -534,51 +544,40 @@ Proof.
   generalize dependent j.
   induction f; intros; simpl in H1.
   - destruct g.
-      unfold tlist_find_sublist_obligation_1 in H1.
       destruct (eq_dec i0 i); [|discriminate].
       inversion H1; now subst.
     discriminate.
   - destruct g.
-      unfold tlist_find_sublist_obligation_3 in H1.
       destruct (eq_dec i0 i); subst.
         inversion H1; now subst.
-      unfold tlist_find_sublist_obligation_2 in H1.
       destruct (tlist_find_sublist _ _) eqn:?; [|discriminate].
       destruct p.
       now cleanup H1 IHf Heqo.
     destruct (eq_dec i0 i); subst. {
       destruct (eq_dec j0 j); subst. {
-        unfold tlist_find_sublist_obligation_9 in H1.
         destruct (eq_dec _ _). {
           rewrite e.
-          unfold tlist_find_sublist_obligation_7 in H1.
           destruct (tlist_find_sublist g f) eqn:?. {
             destruct p.
-            unfold tlist_find_sublist_obligation_5 in H1.
             destruct (tlist_eq_dec _ _).
               now cleanup H1 IHf Heqo.
             clear Heqo.
-            unfold tlist_find_sublist_obligation_4 in H1.
             destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
             destruct p.
             now cleanup H1 IHf Heqo.
           }
-          unfold tlist_find_sublist_obligation_6 in H1.
           destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
           destruct p.
           now cleanup H1 IHf Heqo0.
         }
-        unfold tlist_find_sublist_obligation_8 in H1.
         destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
         destruct p.
         now cleanup H1 IHf Heqo.
       }
-      unfold tlist_find_sublist_obligation_10 in H1.
       destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
       destruct p.
       now cleanup H1 IHf Heqo.
     }
-    unfold tlist_find_sublist_obligation_11 in H1.
     destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
     destruct p.
     now cleanup H1 IHf Heqo.

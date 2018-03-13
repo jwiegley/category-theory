@@ -48,9 +48,9 @@ Program Fixpoint expr_backward (t : Expr) {measure (expr_size t)} :
 Next Obligation.
   destruct (tlist_eq_dec (arrows f) (arrows g)) eqn:?; [|apply Uncertain].
   apply Proved.
-  rewrite <- unarrows_arrows.
+  rewrite <- unnearrows_arrows.
   symmetry.
-  now rewrite <- unarrows_arrows, e.
+  now rewrite <- unnearrows_arrows, e.
 Defined.
 Next Obligation. simpl; abstract omega. Defined.
 Next Obligation. simpl; abstract omega. Defined.

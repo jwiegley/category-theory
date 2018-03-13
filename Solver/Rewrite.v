@@ -29,19 +29,33 @@ Corollary Arrows_find_app
     -> termD (unarrows f) ≈ termD (unarrows (pre +++ g +++ post)).
 Proof. now intros; rewrite (tlist_find_sublist_app _ _ H0). Defined.
 
+Import EqNotations.
+
 Lemma Term_find_app
       {j k} (g h : Term tys j k)
       {i l} (f : Term tys i l) {pre post} :
   Arrows_find (arrows g) (arrows f) = Some (pre, post)
     -> termD g ≈ termD h
-    -> termD f ≈ termD (unarrows pre) ∘ termD h ∘ termD (unarrows post).
+    -> termD f ≈
+         match winnow pre, winnow post with
+         | inright H1, inright H2 =>
+           rew <- [fun x => objs x ~> _] H2 in
+           rew [fun x => _ ~> objs x] H1 in termD h
+         | inright H, _ =>
+           rew [fun x => _ ~> objs x] H in (termD h ∘ termD (unarrows post))
+         | _, inright H =>
+           rew <- [fun x => objs x ~> _] H in (termD (unarrows pre) ∘ termD h)
+         | _, _ =>
+           termD (unarrows pre) ∘ termD h ∘ termD (unarrows post)
+         end.
 Proof.
   intros.
   rewrite <- unarrows_arrows.
   erewrite Arrows_find_app; eauto.
   repeat rewrite unarrows_app, termD_Comp.
   rewrite unarrows_arrows.
-  now rewrite X; cat.
+  rewrite X.
+  destruct pre, post; simpl; cat.
 Defined.
 
 End Rewrite.

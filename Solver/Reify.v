@@ -327,7 +327,11 @@ Example sample_3 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
+  normalize.
+  find_vars.
+  reify.
   rrewrite X.
+  reify.
   rewrite <- X; cat.
   apply comp_assoc.
 Qed.

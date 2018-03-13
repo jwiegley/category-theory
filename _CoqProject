@@ -10,6 +10,7 @@ Lib/Nomega.v
 Lib/MapDecide.v
 Lib/IList.v
 Lib/TList.v
+Lib/NETList.v
 Theory/Category.v
 Theory/Metacategory.v
 Theory/Metacategory/Graph.v
