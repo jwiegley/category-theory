@@ -45,7 +45,7 @@ Proof.
   destruct (narrows pre), (narrows post);
   simpl_eq; subst; simpl;
   rewrite ?term_unnarrows; cat.
-Defined.
+Qed.
 
 End Rewrite.
 
@@ -73,9 +73,11 @@ Example sample_3 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  Time rrewrite X.
+  (* Set Ltac Profiling. *)
+  rrewrite X.
+  (* Show Ltac Profile. *)
   rewrite <- X; cat.
   apply comp_assoc.
-Time Qed.
+Qed.
 
 Print Assumptions sample_3.

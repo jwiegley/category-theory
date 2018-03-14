@@ -113,7 +113,6 @@ Ltac lookupArr c cs f :=
 
 Ltac allVars cs e :=
   lazymatch e with
-  | @id ?c ?o => let cs := addToCatList c cs in addToObjList c cs o
   | ?f ∘ ?g   => let cs := allVars cs f in allVars cs g
   | ?P -> ?Q  => let cs := allVars cs P in allVars cs Q
   | ?X ≈ ?Y   => let cs := allVars cs X in allVars cs Y
@@ -224,7 +223,7 @@ Ltac build_env cs :=
                   constr:(fun o => if (o =? oi)%positive
                                    then ov else ok o)) in
         let alist := foldr fs
-          constr:((inil (B:=@dep_arr c ofun)))
+          constr:(inil (B:=@dep_arr c ofun))
           ltac:(fun f fs =>
                   lazymatch type of f with
                   | ?x ~{?c}~> ?y =>
@@ -249,7 +248,7 @@ Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y) (g : y ~> x),
   g ≈ g -> f ≈ f.
 Proof.
   intros.
-  revert X; find_vars; compute [Pos.succ] in p0.
+  find_vars.
   reflexivity.
 Qed.
 
@@ -265,15 +264,28 @@ Ltac reify_terms_and_then tacGoal :=
       let env :=
           constr:({| cat := c
                    ; objs := ofun
-                   ; num_arrs := vec_size (vec_of alist)
-                   ; tys := vec_of alist
+                   ; num_arrs := ltac:(vm_compute (vec_size (vec_of alist)))
+                   ; tys := ltac:(vm_compute (vec_of alist))
                    ; arrs := alist |}) in
       let g := reifyExpr env cs G in
       change (@exprD env g);
-      cbv beta iota zeta delta [Pos.succ];
       tacGoal env g
     end
   end.
 
 Ltac reify := reify_terms_and_then
   ltac:(fun env _ => pose env).
+
+Example sample_0 :
+  ∀ (C : Category) (x y z w : C)
+    (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
+    g ∘ h ≈ i ->
+    f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
+Proof.
+  intros.
+  (* match goal with *)
+  (* | [ |- @equiv _ (@homset _ _ _) ?X ?Y ] => idtac *)
+  (* end. *)
+  find_vars.
+  cat.
+Qed.

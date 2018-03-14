@@ -163,7 +163,9 @@ Example sample_1 :
 Proof.
   intros.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
-  Time categorical.             (* 1.174s *)
-Time Qed.                       (* 3.783s *)
+  (* Set Ltac Profiling. *)
+  categorical.
+  (* Show Ltac Profile. *)
+Qed.
 
 Print Assumptions sample_1.

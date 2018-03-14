@@ -54,7 +54,7 @@ Proof.
     rewrite term_narrows in X.
     symmetry in X.
     destruct (narrows (arrows f)), (narrows (arrows g)); auto.
-Defined.
+Qed.
 
 End Normal.
 
@@ -78,8 +78,10 @@ Example sample_2 :
 Proof.
   intros.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
-  Time normalize.               (* 1.23s *)
+  (* Set Ltac Profiling. *)
+  normalize.
+  (* Show Ltac Profile. *)
   intros; cat.
-Time Qed.                       (* 3.783s *)
+Qed.
 
 Print Assumptions sample_2.

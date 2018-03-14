@@ -73,7 +73,7 @@ Proof.
   destruct t2; simpl; cat.
   comp_left.
   apply IHt1.
-Defined.
+Qed.
 
 Theorem unarrows_arrows d c (t : Term tys d c) :
   termD (unarrows (arrows t)) ≈ termD t.
