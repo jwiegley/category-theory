@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
-Require Import Category.Solver.Logic.
-Require Import Category.Solver.Rewrite.
+Require Export Category.Solver.Denote.
 
 Generalizable All Variables.
 
@@ -254,6 +253,8 @@ Proof.
   reflexivity.
 Qed.
 
+Definition vec_size {A n} (l : Vector.t A n) : nat := n.
+
 Ltac reify_terms_and_then tacGoal :=
   match goal with
   | [ |- ?G ] =>
@@ -276,58 +277,3 @@ Ltac reify_terms_and_then tacGoal :=
 
 Ltac reify := reify_terms_and_then
   ltac:(fun env _ => pose env).
-
-Ltac categorical := reify_terms_and_then
-  ltac:(fun env g => apply expr_sound; now vm_compute).
-
-Ltac normalize := reify_terms_and_then
-  ltac:(fun env g => apply exprAD_sound; vm_compute).
-
-Example sample_2 :
-  ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
-    g ∘ id ∘ id ∘ id ∘ h ≈ i ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ h ≈ i ->
-    f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
-Proof.
-  intros.
-  repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
-  Time normalize.               (* 1.07s *)
-  Undo.
-  Time categorical.             (* 1.174s *)
-Time Qed.                       (* 3.783s *)
-
-Print Assumptions sample_2.
-
-Ltac rrewrite H :=
-  revert H; reify; red; intros;
-  match goal with
-  | [ H0 : @termD ?E ?A ?B ?X ≈ @termD _ _ _ ?Y |- @termD _ ?D ?C ?F ≈ termD ?G ] =>
-    let o := fresh "o" in
-    pose (Arrows_find (arrows X) (arrows F)) as o;
-    vm_compute in o;
-    etransitivity;
-    [apply (@Term_find_app E A B X Y D C F _ _ (@eq_refl _ o)); auto|];
-    clear o;
-    vm_compute
-  end;
-  vm_compute in H;
-  match goal with [ E : Env |- _ ] => clear E end.
-
-Example sample_3 :
-  ∀ (C : Category) (x y z w : C)
-    (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
-    g ∘ h ≈ i ->
-    f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
-Proof.
-  intros.
-  rrewrite X.
-  rewrite <- X; cat.
-  apply comp_assoc.
-Qed.

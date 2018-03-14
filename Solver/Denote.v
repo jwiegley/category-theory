@@ -14,7 +14,6 @@ Corollary helper {f} :
   (let '(dom, cod) := tys[@f] in objs dom ~> objs cod)
     -> objs (fst (tys[@f])) ~> objs (snd (tys[@f])).
 Proof. destruct (tys[@f]); auto. Defined.
-Arguments helper {f} /.
 
 Fixpoint termD {dom cod} (t : Term tys dom cod) : objs dom ~> objs cod :=
   match t with

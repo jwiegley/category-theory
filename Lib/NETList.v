@@ -497,14 +497,6 @@ End Sublist.
 
 Section SublistProofsInj.
 
-(* Dependending on the choice of A, this can be either
-      Eqdep.EqdepTheory.inj_pair2  (incurs axiom)
-   or Eqdep_dec.inj_pair2_eq_dec   (when A is decidable)
-*)
-Hypothesis inj_pair2 :
-  forall (U : Type) (P : U -> Type) (p : U) (x y : P p),
-    (p; x) = (p; y) -> x = y.
-
 Context {A : Type}.
 Context {B : A -> A -> Type}.
 
