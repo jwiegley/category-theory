@@ -18,36 +18,6 @@ Context `{Env}.
 
 Import EqNotations.
 
-(*
-Fixpoint arrowsD `(t : Arrows tys d c) : objs d ~> objs c :=
-  match t with
-  | tnil => id
-  | tcons _ f fs =>
-    match f with
-      existT2 _ _ f H1 H2 =>
-      rew <- [fun x => _ ~> objs x] H2 in
-        helper (ith arrs f) ∘ rew [fun x => _ ~> objs x] H1 in arrowsD fs
-    end
-  end.
-
-Theorem arrowsD_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
-  arrowsD (t1 +++ t2) ≈ arrowsD t1 ∘ arrowsD t2.
-Proof.
-  induction t1; simpl; cat.
-  destruct b; subst.
-  simpl_eq.
-  destruct t2; simpl; cat.
-  comp_left.
-  apply IHt1.
-Qed.
-
-Theorem term_arrows `(f : Term tys d c) : termD f ≈ arrowsD (arrows f).
-Proof.
-  induction f; simpl; cat.
-  now rewrite arrowsD_app, IHf1, IHf2.
-Qed.
-*)
-
 Definition NArrows {a} (tys : Vector.t obj_pair a) (dom cod : obj_idx) :=
   netlist (A:=obj_idx) (Arr tys) cod dom.
 
