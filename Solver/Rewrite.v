@@ -21,7 +21,7 @@ Lemma Term_find_app
   tlist_find_sublist (arrows g) (arrows f) = Some (pre, post)
     -> termD g ≈ termD h
     -> termD f ≈
-         match winnow pre, winnow post with
+         match narrows pre, narrows post with
          | inright H1, inright H2 =>
            rew <- [fun x => objs x ~> _] H2 in
            rew [fun x => _ ~> objs x] H1 in termD h
@@ -42,7 +42,7 @@ Proof.
   rewrite <- unnarrows_arrows.
   rewrite <- (unnarrows_arrows _ _ (unarrows post)) at 1.
   rewrite !arrows_unarrows.
-  destruct (winnow pre), (winnow post);
+  destruct (narrows pre), (narrows post);
   simpl_eq; subst; simpl;
   rewrite ?term_unnarrows; cat.
 Defined.

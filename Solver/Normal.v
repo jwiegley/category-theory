@@ -24,7 +24,7 @@ Fixpoint exprAD (e : Expr) : Type :=
   | Top           => True
   | Bottom        => False
   | Equiv d _ f g =>
-    match winnow (arrows f), winnow (arrows g) with
+    match narrows (arrows f), narrows (arrows g) with
     | inright H1, inright H2 => True
     | inleft f, inright H2 =>
       narrowsD f ≈ rew [fun x => _ ~> objs x] H2 in @id cat (objs d)
@@ -44,7 +44,7 @@ Proof.
     symmetry.
     rewrite term_narrows.
     symmetry.
-    destruct (winnow (arrows f)), (winnow (arrows g)); auto.
+    destruct (narrows (arrows f)), (narrows (arrows g)); auto.
     simpl_eq.
     dependent elimination e.
     dependent elimination e0; simpl.
@@ -53,7 +53,7 @@ Proof.
     symmetry in X.
     rewrite term_narrows in X.
     symmetry in X.
-    destruct (winnow (arrows f)), (winnow (arrows g)); auto.
+    destruct (narrows (arrows f)), (narrows (arrows g)); auto.
 Defined.
 
 End Normal.

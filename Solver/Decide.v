@@ -36,6 +36,17 @@ Proof.
     apply eq_proofs_unicity.
 Qed.
 
+Theorem indices_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
+  indices (t1 +++ t2) = (indices t1 ++ indices t2)%list.
+Proof.
+  induction t1; simpl in *; cat.
+  destruct b; subst.
+  destruct t2; simpl; cat.
+    now rewrite List.app_nil_r.
+  f_equal.
+  apply IHt1.
+Qed.
+
 Fixpoint term_indices `(t : Term tys d c) : list (arr_idx num_arrs) :=
   match t with
   | Ident => []
@@ -51,63 +62,27 @@ Proof.
   now rewrite IHx.
 Qed.
 
-Theorem term_indices_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
-  term_indices (unarrows (t1 +++ t2)) =
-  term_indices (Comp (unarrows t1) (unarrows t2)).
-Proof.
-  induction t1; simpl in *; cat.
-  destruct b; subst.
-  simpl_eq; simpl.
-  destruct t2; simpl; cat.
-    now rewrite List.app_nil_r.
-  f_equal.
-  apply IHt1.
-Qed.
-
 Theorem term_indices_unarrows {d c} (x : Term tys d c) :
   term_indices (unarrows (arrows x)) = term_indices x.
 Proof.
   induction x; simpl; auto.
   rewrite <- IHx1, <- IHx2; clear IHx1 IHx2.
-  now rewrite term_indices_app.
-Qed.
-
-Theorem term_indices_match {d c} (x y : Term tys d c) :
-  term_indices x = term_indices y ->
-  arrows x = arrows y.
-Proof.
-  intros.
-  rewrite <- term_indices_unarrows in H0.
-  symmetry in H0.
-  rewrite <- term_indices_unarrows in H0.
-  generalize dependent (arrows y).
-  generalize dependent (arrows x).
-  intros.
-  induction a; simpl; intros;
-  dependent elimination a0; simpl in *; auto.
-  - destruct y0; subst; simpl in H0.
-    inv H0.
-  - destruct b; subst; simpl in H0.
-    inv H0.
-  - destruct b, y0; subst; simpl in H0; simpl_eq.
-    rewrite e2 in H0.
-    simpl in H0.
-    inv H0.
-    f_equal.
-    f_equal.
-    apply eq_proofs_unicity.
-    rewrite !term_indices_consistent in H3.
-    now apply indices_impl in H3.
+  rewrite !term_indices_consistent.
+  now rewrite indices_app.
 Qed.
 
 Theorem term_indices_equiv {d c} (x y : Term tys d c) :
   term_indices x = term_indices y -> termD x ≈ termD y.
 Proof.
   intros.
+  rewrite <- term_indices_unarrows in H0.
+  symmetry in H0.
+  rewrite <- term_indices_unarrows in H0.
+  rewrite !term_indices_consistent in H0.
   rewrite <- unarrows_arrows.
   symmetry.
   rewrite <- unarrows_arrows.
-  apply term_indices_match in H0.
+  apply indices_impl in H0.
   now rewrite H0.
 Qed.
 
@@ -146,8 +121,7 @@ Program Fixpoint expr_backward (t : Expr) {measure (expr_size t)} :
     expr_forward q p (expr_backward q)
   end.
 Next Obligation.
-  destruct (list_beq Fin.eqb (term_indices f)
-                             (term_indices g)) eqn:?;
+  destruct (list_beq Fin.eqb (term_indices f) (term_indices g)) eqn:?;
     [|apply Uncertain].
   apply Proved.
   apply term_indices_equiv.

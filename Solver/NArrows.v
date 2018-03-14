@@ -21,6 +21,16 @@ Import EqNotations.
 Definition NArrows {a} (tys : Vector.t obj_pair a) (dom cod : obj_idx) :=
   netlist (A:=obj_idx) (Arr tys) cod dom.
 
+Fixpoint narrows `(t : Arrows tys d c) : NArrows tys d c + { d = c } :=
+  match t with
+  | tnil => inright eq_refl
+  | tcons _ f fs =>
+    inleft (match narrows fs with
+            | inright H => tfin (rew <- [fun x => Arr _ _ x] H in f)
+            | inleft fs => f :::: fs
+            end)
+  end.
+
 Fixpoint unnarrows `(t : NArrows tys d c) : Term tys d c :=
   match t with
   | tfin (existT2 _ _ x Hd Hc) =>
@@ -31,18 +41,8 @@ Fixpoint unnarrows `(t : NArrows tys d c) : Term tys d c :=
           rew <- [fun x => Term _ x _] Hd in Morph x) (unnarrows xs)
   end.
 
-Fixpoint winnow `(t : Arrows tys d c) : NArrows tys d c + { d = c } :=
-  match t with
-  | tnil => inright eq_refl
-  | tcons _ f fs =>
-    inleft (match winnow fs with
-            | inright H => tfin (rew <- [fun x => Arr _ _ x] H in f)
-            | inleft fs => f :::: fs
-            end)
-  end.
-
 Theorem unnarrows_arrows d c (t : Term tys d c) :
-  termD (match winnow (arrows t) with
+  termD (match narrows (arrows t) with
          | inright H => rew H in Ident
          | inleft f => unnarrows f
          end) ≈ termD t.
@@ -51,7 +51,7 @@ Proof.
   rewrite <- unarrows_arrows.
   induction (arrows t); simpl; cat.
   destruct b; subst; simpl_eq; simpl.
-  destruct (winnow a); simpl.
+  destruct (narrows a); simpl.
     comp_left.
     apply IHa.
     apply unnarrows.
@@ -86,7 +86,7 @@ Proof.
 Qed.
 
 Theorem term_narrows `(f : Term tys d c) :
-  termD f ≈ match winnow (arrows f) with
+  termD f ≈ match narrows (arrows f) with
             | inright H => rew [fun x => _ ~> objs x] H in @id cat (objs d)
             | inleft f => narrowsD f
             end.
@@ -97,7 +97,7 @@ Proof.
   clear IHa.
   rewrite <- unnarrows_arrows.
   rewrite arrows_unarrows.
-  destruct (winnow a); simpl; simpl_eq.
+  destruct (narrows a); simpl; simpl_eq.
     now rewrite term_unnarrows.
   subst; cat.
 Qed.

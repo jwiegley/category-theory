@@ -54,7 +54,8 @@ Fixpoint unarrows `(t : Arrows tys d c) : Term tys d c :=
           rew <- [fun x => Term _ x _] Hd in Morph x) (unarrows xs)
   end.
 
-Theorem arrows_unarrows d c (xs : Arrows tys d c) : arrows (unarrows xs) = xs.
+Theorem arrows_unarrows d c (xs : Arrows tys d c) :
+  arrows (unarrows xs) = xs.
 Proof.
   induction xs; simpl; auto.
   destruct b; subst; simpl.
