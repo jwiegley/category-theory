@@ -11,11 +11,11 @@ Context `{Env}.
 Import VectorNotations.
 
 Corollary helper {f} :
-  (let '(dom, cod) := tys[@f] in objs dom ~> objs cod)
-    -> objs (fst (tys[@f])) ~> objs (snd (tys[@f])).
+  (let '(dom, cod) := tys[@f] in objs[@dom] ~> objs[@cod])
+    -> objs[@(fst (tys[@f]))] ~> objs[@(snd (tys[@f]))].
 Proof. destruct (tys[@f]); auto. Defined.
 
-Fixpoint termD {dom cod} (t : Term tys dom cod) : objs dom ~> objs cod :=
+Fixpoint termD {dom cod} (t : Term tys dom cod) : objs[@dom] ~> objs[@cod] :=
   match t with
   | Ident => id
   | Morph f => helper (ith arrs f)

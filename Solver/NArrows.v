@@ -18,8 +18,9 @@ Context `{Env}.
 
 Import EqNotations.
 
-Definition NArrows {a} (tys : Vector.t obj_pair a) (dom cod : obj_idx) :=
-  netlist (A:=obj_idx) (Arr tys) cod dom.
+Definition NArrows {a o} (tys : Vector.t (obj_pair o) a)
+           (dom cod : obj_idx o) :=
+  netlist (Arr tys) cod dom.
 
 Fixpoint narrows `(t : Arrows tys d c) : NArrows tys d c + { d = c } :=
   match t with
@@ -62,19 +63,20 @@ Proof.
   assumption.
 Qed.
 
-Fixpoint narrowsD `(t : NArrows tys d c) : objs d ~> objs c :=
+Fixpoint narrowsD `(t : NArrows tys d c) : objs[@d] ~> objs[@c] :=
   match t with
   | tfin f =>
     match f with
       existT2 _ _ f H1 H2 =>
-      rew <- [fun x => objs x ~> _] H1 in
-      rew <- [fun x => _ ~> objs x] H2 in helper (ith arrs f)
+      rew <- [fun x => objs[@x] ~> _] H1 in
+      rew <- [fun x => _ ~> objs[@x]] H2 in helper (ith arrs f)
     end
   | tadd _ f fs =>
     match f with
       existT2 _ _ f H1 H2 =>
-      rew <- [fun x => _ ~> objs x] H2 in
-        helper (ith arrs f) ∘ rew [fun x => _ ~> objs x] H1 in narrowsD fs
+      rew <- [fun x => _ ~> objs[@x]] H2 in
+        helper (ith arrs f)
+          ∘ rew [fun x => _ ~> objs[@x]] H1 in narrowsD fs
     end
   end.
 
@@ -87,7 +89,8 @@ Qed.
 
 Theorem term_narrows `(f : Term tys d c) :
   termD f ≈ match narrows (arrows f) with
-            | inright H => rew [fun x => _ ~> objs x] H in @id cat (objs d)
+            | inright H =>
+              rew [fun x => _ ~> objs[@x]] H in @id cat (objs[@d])
             | inleft f => narrowsD f
             end.
 Proof.

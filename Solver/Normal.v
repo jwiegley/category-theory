@@ -17,6 +17,7 @@ Section Normal.
 
 Context `{Env}.
 
+Import VectorNotations.
 Import EqNotations.
 
 Fixpoint exprAD (e : Expr) : Type :=
@@ -27,9 +28,9 @@ Fixpoint exprAD (e : Expr) : Type :=
     match narrows (arrows f), narrows (arrows g) with
     | inright H1, inright H2 => True
     | inleft f, inright H2 =>
-      narrowsD f ≈ rew [fun x => _ ~> objs x] H2 in @id cat (objs d)
+      narrowsD f ≈ rew [fun x => _ ~> objs[@x]] H2 in @id cat (objs[@d])
     | inright H1, inleft g =>
-      rew [fun x => _ ~> objs x] H1 in @id cat (objs d) ≈ narrowsD g
+      rew [fun x => _ ~> objs[@x]] H1 in @id cat (objs[@d]) ≈ narrowsD g
     | inleft f, inleft g => narrowsD f ≈ narrowsD g
     end
   | And p q       => exprAD p ∧ exprAD q
@@ -79,7 +80,7 @@ Proof.
   intros.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
   (* Set Ltac Profiling. *)
-  normalize.
+  Time normalize.
   (* Show Ltac Profile. *)
   intros; cat.
 Qed.

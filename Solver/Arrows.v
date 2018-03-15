@@ -11,14 +11,16 @@ Generalizable All Variables.
 
 Import VectorNotations.
 
-Definition Arr {a} (tys : Vector.t obj_pair a) (cod dom : obj_idx) :=
+Definition Arr {a o} (tys : Vector.t (obj_pair o) a)
+           (cod dom : obj_idx o) :=
   { f : arr_idx a & dom = fst (tys[@f]) & cod = snd (tys[@f]) }.
 
-Definition Arrows {a} (tys : Vector.t obj_pair a) (dom cod : obj_idx) :=
-  tlist (A:=obj_idx) (Arr tys) cod dom.
+Definition Arrows {a o} (tys : Vector.t (obj_pair o) a)
+           (dom cod : obj_idx o) :=
+  tlist (Arr tys) cod dom.
 
-Global Instance positive_EqDec : EqDec positive := {
-  eq_dec := Eq_eq_dec
+Global Instance Fin_EqDec (n : nat) : EqDec (Fin.t n) := {
+  eq_dec := Fin_eq_dec
 }.
 
 Section Arrows.
@@ -29,11 +31,12 @@ Import EqNotations.
 
 Local Obligation Tactic := unfold Arr; program_simpl.
 
-Global Program Instance arrow_EqDec (i j : obj_idx) : EqDec (Arr tys i j).
+Global Program Instance arrow_EqDec (i j : obj_idx num_objs) :
+  EqDec (Arr tys i j).
 Next Obligation.
   destruct (Eq_eq_dec x y); subst.
     left.
-    f_equal; apply eq_proofs_unicity.
+    now f_equal; apply eq_proofs_unicity.
   right; intro.
   apply n.
   now inv H0.

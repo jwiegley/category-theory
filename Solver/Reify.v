@@ -98,7 +98,9 @@ Ltac addToArrList c cs f :=
 Ltac lookupObj c cs o :=
   let res := catLists c cs in
   match res with
-  | (?os, _) => lookup o os
+  | (?os, _) =>
+    let n := listSize os in
+    lookupFin n o os
   end.
 
 Ltac lookupArr c cs f :=
@@ -131,19 +133,19 @@ Ltac reifyTerm env cs t :=
   lazymatch t with
   | @id ?c ?x =>
     let xn := lookupObj c cs x in
-    constr:(@Ident _ (@tys env) xn)
+    constr:(@Ident _ _ (@tys env) xn)
   | @compose ?c ?x ?y ?z ?f ?g =>
     let ft := reifyTerm env cs f in
     let gt := reifyTerm env cs g in
     let xn := lookupObj c cs x in
     let yn := lookupObj c cs y in
     let zn := lookupObj c cs z in
-    constr:(@Comp _ (@tys env) xn yn zn ft gt)
+    constr:(@Comp _ _ (@tys env) xn yn zn ft gt)
   | ?f =>
     lazymatch type of f with
     | ?x ~{?c}~> ?y =>
       let fn := lookupArr c cs f in
-      constr:(@Morph _ (@tys env) fn)
+      constr:(@Morph _ _ (@tys env) fn)
     end
   end.
 
@@ -207,48 +209,51 @@ Ltac foldri1 xs z f :=
       let x'   := f n x rest in constr:(x')
     end in go 1%positive xs.
 
-Ltac build_env cs :=
+Import VectorNotations.
+
+Ltac build_objs cs andThen :=
   foldri1 cs
     ltac:(fun cv =>
-            constr:((Unused : Category,
-                     (fun o : obj_idx => tt : Unused),
-                     (inil (B:=@dep_arr Unused
-                                 (fun _ : obj_idx => tt : Unused))))))
-    ltac:(fun ci cv k =>
+      constr:((Unused : Category,
+               (nil Unused),
+               (inil (B:=dep_arr (nil Unused))))))
+    ltac:(fun ci cv _k =>
       match cv with
       | (?c, ?os, ?fs) =>
-        let ofun := foldri1 os
-          ltac:(fun ov => constr:(fun _ : obj_idx => ov))
-          ltac:(fun oi ov ok =>
-                  constr:(fun o => if (o =? oi)%positive
-                                   then ov else ok o)) in
-        let alist := foldr fs
-          constr:(inil (B:=@dep_arr c ofun))
-          ltac:(fun f fs =>
-                  lazymatch type of f with
-                  | ?x ~{?c}~> ?y =>
-                    let xn := lookupObj c cs x in
-                    let yn := lookupObj c cs y in
-                    constr:((icons (A:=obj_pair) (B:=@dep_arr c ofun)
-                                   (xn, yn) f fs))
-                  end) in
-        constr:((c, ofun, alist))
+        andThen c fs ltac:(foldr os
+          constr:(nil c)
+          ltac:(fun ov os => constr:(ov :: os)))
       end).
+
+Ltac build_arrs c cs fs objs andThen :=
+  andThen ltac:(foldr fs
+    constr:(inil (B:=dep_arr objs))
+    ltac:(fun f fs =>
+            lazymatch type of f with
+            | ?x ~{?c}~> ?y =>
+              let xn := lookupObj c cs x in
+              let yn := lookupObj c cs y in
+              constr:(icons (B:=dep_arr objs) (xn, yn) f fs)
+            end)).
 
 Ltac find_vars :=
   lazymatch goal with
   | [ |- ?G ] =>
     let cs := allVars tt G in
     pose cs;
-    let ofun := build_env cs in
-    pose ofun
+    build_objs cs ltac:(fun c fs objs =>
+      build_arrs c cs fs objs ltac:(fun arrs =>
+        pose objs;
+        pose arrs))
   end.
 
 Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y) (g : y ~> x),
   g ≈ g -> f ≈ f.
 Proof.
   intros.
+  Set Printing All.
   find_vars.
+  Unset Printing All.
   reflexivity.
 Qed.
 
@@ -257,24 +262,22 @@ Definition vec_size {A n} (l : Vector.t A n) : nat := n.
 Ltac reify_terms_and_then tacGoal :=
   match goal with
   | [ |- ?G ] =>
-    let cs  := allVars tt G in
-    let env := build_env cs in
-    match env with
-    | (?c, ?ofun, ?alist) =>
-      let env :=
-          constr:({| cat := c
-                   ; objs := ofun
-                   ; num_arrs := ltac:(vm_compute (vec_size (vec_of alist)))
-                   ; tys := ltac:(vm_compute (vec_of alist))
-                   ; arrs := alist |}) in
-      let g := reifyExpr env cs G in
-      change (@exprD env g);
-      tacGoal env g
-    end
+    let cs := allVars tt G in
+    build_objs cs ltac:(fun c fs objs =>
+      build_arrs c cs fs objs ltac:(fun arrs =>
+        let env :=
+            constr:({| cat := c
+                     ; num_objs := ltac:(vm_compute (vec_size objs))
+                     ; objs := objs
+                     ; num_arrs := ltac:(vm_compute (vec_size (vec_of arrs)))
+                     ; tys := ltac:(vm_compute (vec_of arrs))
+                     ; arrs := arrs |}) in
+        let g := reifyExpr env cs G in
+        change (@exprD env g);
+        tacGoal env g))
   end.
 
-Ltac reify := reify_terms_and_then
-  ltac:(fun env _ => pose env).
+Ltac reify := reify_terms_and_then ltac:(fun env _ => pose env).
 
 Example sample_0 :
   ∀ (C : Category) (x y z w : C)
@@ -283,9 +286,11 @@ Example sample_0 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
+  reify.
+  vm_compute.
   (* match goal with *)
   (* | [ |- @equiv _ (@homset _ _ _) ?X ?Y ] => idtac *)
   (* end. *)
-  find_vars.
   cat.
+  apply comp_assoc.
 Qed.

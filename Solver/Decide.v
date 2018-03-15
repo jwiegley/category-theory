@@ -164,7 +164,7 @@ Proof.
   intros.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
   (* Set Ltac Profiling. *)
-  categorical.
+  Time categorical.
   (* Show Ltac Profile. *)
 Qed.
 

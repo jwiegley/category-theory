@@ -13,6 +13,7 @@ Section Rewrite.
 
 Context `{Env}.
 
+Import VectorNotations.
 Import EqNotations.
 
 Lemma Term_find_app
@@ -23,12 +24,12 @@ Lemma Term_find_app
     -> termD f ≈
          match narrows pre, narrows post with
          | inright H1, inright H2 =>
-           rew <- [fun x => objs x ~> _] H2 in
-           rew [fun x => _ ~> objs x] H1 in termD h
+           rew <- [fun x => objs[@x] ~> _] H2 in
+           rew [fun x => _ ~> objs[@x]] H1 in termD h
          | inright H, inleft post =>
-           rew [fun x => _ ~> objs x] H in (termD h ∘ narrowsD post)
+           rew [fun x => _ ~> objs[@x]] H in (termD h ∘ narrowsD post)
          | inleft pre, inright H =>
-           rew <- [fun x => objs x ~> _] H in (narrowsD pre ∘ termD h)
+           rew <- [fun x => objs[@x] ~> _] H in (narrowsD pre ∘ termD h)
          | inleft pre, inleft post =>
            narrowsD pre ∘ termD h ∘ narrowsD post
          end.
@@ -74,7 +75,7 @@ Example sample_3 :
 Proof.
   intros.
   (* Set Ltac Profiling. *)
-  rrewrite X.
+  Time rrewrite X.
   (* Show Ltac Profile. *)
   rewrite <- X; cat.
   apply comp_assoc.

@@ -6,17 +6,17 @@ Generalizable All Variables.
 
 Import VectorNotations.
 
-Inductive Term {a} (tys : Vector.t (obj_idx * obj_idx) a) :
-  obj_idx -> obj_idx -> Type :=
+Inductive Term {a o} (tys : Vector.t (obj_pair o) a) :
+  obj_idx o -> obj_idx o -> Type :=
   | Ident : ∀ dom, Term tys dom dom
   | Morph (f : arr_idx a) : Term tys (fst (tys[@f])) (snd (tys[@f]))
-  | Comp (dom mid cod : obj_idx)
+  | Comp (dom mid cod : obj_idx o)
          (f : Term tys mid cod) (g : Term tys dom mid) :
       Term tys dom cod.
 
-Arguments Ident {a tys dom}.
-Arguments Morph {a tys} f.
-Arguments Comp {a tys dom mid cod} f g.
+Arguments Ident {a o tys dom}.
+Arguments Morph {a o tys} f.
+Arguments Comp {a o tys dom mid cod} f g.
 
 Section Expr.
 
@@ -32,7 +32,7 @@ Fixpoint term_size `(t : Term tys d c) : nat :=
 Inductive Expr : Type :=
   | Top
   | Bottom
-  | Equiv (d c : obj_idx) (f g : Term tys d c)
+  | Equiv (d c : obj_idx num_objs) (f g : Term tys d c)
   | And   (p q : Expr)
   | Or    (p q : Expr)
   | Impl  (p q : Expr).
