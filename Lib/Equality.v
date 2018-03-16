@@ -55,6 +55,11 @@ Proof.
   contradiction.
 Qed.
 
+Theorem Pos_eqb_eq (p q : positive) : (p =? q)%positive = true <-> p=q.
+Proof.
+ revert q. induction p; destruct q; simpl; rewrite ?IHp; split; congruence.
+Qed.
+
 Fixpoint Pos_eqb_refl (x : positive) : Pos.eqb x x = true :=
   match x with
   | xI x => Pos_eqb_refl x
@@ -211,7 +216,7 @@ Program Instance Pos_Eq : Equality positive := {
   Eq_eqb         := Pos.eqb;
   Eq_eqb_refl    := Pos_eqb_refl;
 
-  Eq_eqb_eq x y  := proj1 (Pos.eqb_eq x y);
+  Eq_eqb_eq x y  := proj1 (Pos_eqb_eq x y);
 
   Eq_eq_dec      := Pos.eq_dec;
   Eq_eq_dec_refl := Pos_eq_dec_refl

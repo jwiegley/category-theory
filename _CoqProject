@@ -175,4 +175,6 @@ Solver/Decide.v
 Solver/Reify.v
 Solver/Normal.v
 Solver/Rewrite.v
+Solver/SExpr.v
+Solver/SDenote.v
 Theory.v

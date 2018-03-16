@@ -1,6 +1,6 @@
 Set Warnings "-notation-overridden".
 
-Require Export Category.Solver.Denote.
+Require Export Category.Solver.SDenote.
 
 Generalizable All Variables.
 
@@ -103,12 +103,26 @@ Ltac lookupObj c cs o :=
     lookupFin n o os
   end.
 
+Ltac lookupObjPos c cs o :=
+  let res := catLists c cs in
+  match res with
+  | (?os, _) =>
+    lookup o os
+  end.
+
 Ltac lookupArr c cs f :=
   let res := catLists c cs in
   match res with
   | (_, ?fs) =>
     let n := listSize fs in
     lookupFin n f fs
+  end.
+
+Ltac lookupArrPos c cs f :=
+  let res := catLists c cs in
+  match res with
+  | (_, ?fs) =>
+    lookup f fs
   end.
 
 (** Variable capture *)
@@ -132,48 +146,48 @@ Ltac allVars cs e :=
 Ltac reifyTerm env cs t :=
   lazymatch t with
   | @id ?c ?x =>
-    let xn := lookupObj c cs x in
-    constr:(@Ident _ _ (@tys env) xn)
+    (* let xn := lookupObj c cs x in *)
+    constr:(@SIdent positive)
   | @compose ?c ?x ?y ?z ?f ?g =>
     let ft := reifyTerm env cs f in
     let gt := reifyTerm env cs g in
-    let xn := lookupObj c cs x in
-    let yn := lookupObj c cs y in
-    let zn := lookupObj c cs z in
-    constr:(@Comp _ _ (@tys env) xn yn zn ft gt)
+    (* let xn := lookupObj c cs x in *)
+    (* let yn := lookupObj c cs y in *)
+    (* let zn := lookupObj c cs z in *)
+    constr:(@SComp positive ft gt)
   | ?f =>
     lazymatch type of f with
     | ?x ~{?c}~> ?y =>
-      let fn := lookupArr c cs f in
-      constr:(@Morph _ _ (@tys env) fn)
+      let fn := lookupArrPos c cs f in
+      constr:(@SMorph positive fn)
     end
   end.
 
 Ltac reifyExpr env cs t :=
   lazymatch t with
-  | True => constr:(@Top env)
-  | False => constr:(@Bottom env)
+  | True => constr:(@STop positive)
+  | False => constr:(@SBottom positive)
   | ?F ≈ ?G =>
     let f := reifyTerm env cs F in
     let g := reifyTerm env cs G in
     lazymatch type of F with
     | ?x ~{?c}~> ?y =>
-      let xn := lookupObj c cs x in
-      let yn := lookupObj c cs y in
-      constr:(@Equiv env xn yn f g)
+      let xn := lookupObjPos c cs x in
+      let yn := lookupObjPos c cs y in
+      constr:(@SEquiv positive xn yn f g)
     end
   | ?P ∧ ?Q =>
     let p := reifyExpr env cs P in
     let q := reifyExpr env cs Q in
-    constr:(@And env p q)
+    constr:(@SAnd positive p q)
   | ?P ∨ ?Q =>
     let p := reifyExpr env cs P in
     let q := reifyExpr env cs Q in
-    constr:(@Or env p q)
+    constr:(@SOr positive p q)
   | ?P -> ?Q =>
     let p := reifyExpr env cs P in
     let q := reifyExpr env cs Q in
-    constr:(@Impl env p q)
+    constr:(@SImpl positive p q)
   end.
 
 (** Build environment *)
@@ -273,11 +287,13 @@ Ltac reify_terms_and_then tacGoal :=
                      ; tys := ltac:(vm_compute (vec_of arrs))
                      ; arrs := arrs |}) in
         let g := reifyExpr env cs G in
-        change (@exprD env g);
         tacGoal env g))
   end.
 
-Ltac reify := reify_terms_and_then ltac:(fun env _ => pose env).
+Ltac reify := reify_terms_and_then ltac:(fun env g => pose env; pose g).
+
+Ltac reify_and_change :=
+  reify_terms_and_then ltac:(fun env g => change (@sexprD env g)).
 
 Example sample_0 :
   ∀ (C : Category) (x y z w : C)
@@ -286,7 +302,7 @@ Example sample_0 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  reify.
+  reify_and_change.
   vm_compute.
   (* match goal with *)
   (* | [ |- @equiv _ (@homset _ _ _) ?X ?Y ] => idtac *)
