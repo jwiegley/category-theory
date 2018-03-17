@@ -54,7 +54,6 @@ Require Export Category.Solver.Reify.
 
 Ltac rrewrite H := revert H; reify_terms_and_then
   ltac:(fun env g =>
-          change (@exprD env g);
           red;
           match goal with
           | [ H0 : @termD ?E ?A ?B ?X ≈ @termD _ _ _ ?Y

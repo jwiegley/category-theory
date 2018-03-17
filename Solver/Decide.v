@@ -24,7 +24,7 @@ Proof.
   now apply IHxs.
 Qed.
 
-Program Fixpoint sexpr_forward (t : SExpr positive) (hyp : SExpr positive)
+Program Fixpoint sexpr_forward (t : SExpr) (hyp : SExpr)
         (cont : [sexprD t]) :
   [sexprD hyp -> sexprD t] :=
   match hyp with
@@ -40,7 +40,7 @@ Program Fixpoint sexpr_forward (t : SExpr positive) (hyp : SExpr positive)
 Next Obligation. contradiction. Defined.
 Next Obligation. intuition. Defined.
 
-Program Fixpoint sexpr_backward (t : SExpr positive) {measure (sexpr_size t)} :
+Program Fixpoint sexpr_backward (t : SExpr) {measure (sexpr_size t)} :
   [sexprD t] :=
   match t with
   | STop => Yes

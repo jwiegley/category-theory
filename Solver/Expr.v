@@ -24,38 +24,27 @@ Arguments Comp {a o tys dom mid cod} f g.
 (** Weakly-typed terms, only correct in certain environments, but if that
     holds, then isomorphic to the denoted terms. *)
 
-Inductive STerm {A : Type} : Type :=
+Inductive STerm : Type :=
   | SIdent : STerm
-  | SMorph (a : A) : STerm
+  | SMorph (a : positive) : STerm
   | SComp (f : STerm) (g : STerm) : STerm.
 
-Arguments STerm : clear implicits.
-
-Fixpoint sterm_size `(t : STerm A) : nat :=
+Fixpoint sterm_size (t : STerm) : nat :=
   match t with
   | SIdent    => 1%nat
   | SMorph _  => 1%nat
   | SComp f g => 1%nat + sterm_size f + sterm_size g
   end.
 
-Fixpoint sterm_map {A B : Type} (f : A -> B) (t : STerm A) : STerm B :=
-  match t with
-  | SIdent    => SIdent
-  | SMorph a  => SMorph (f a)
-  | SComp l r => SComp (sterm_map f l) (sterm_map f r)
-  end.
-
-Inductive SExpr {A : Type} : Type :=
+Inductive SExpr : Type :=
   | STop
   | SBottom
-  | SEquiv (x y : positive) (f g : STerm A)
+  | SEquiv (x y : positive) (f g : STerm)
   | SAnd   (p q : SExpr)
   | SOr    (p q : SExpr)
   | SImpl  (p q : SExpr).
 
-Arguments SExpr : clear implicits.
-
-Fixpoint sexpr_size `(t : SExpr A) : nat :=
+Fixpoint sexpr_size (t : SExpr) : nat :=
   match t with
   | STop           => 1%nat
   | SBottom        => 1%nat
@@ -65,5 +54,5 @@ Fixpoint sexpr_size `(t : SExpr A) : nat :=
   | SImpl p q      => 1%nat + sexpr_size p + sexpr_size q
   end.
 
-Remark all_sexprs_have_size {A} e : (0 < sexpr_size (A:=A) e)%nat.
+Remark all_sexprs_have_size e : (0 < sexpr_size e)%nat.
 Proof. induction e; simpl; omega. Qed.

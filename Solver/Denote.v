@@ -22,24 +22,6 @@ Fixpoint termD {dom cod} (t : Term tys dom cod) : objs[@dom] ~> objs[@cod] :=
   | Comp f g => termD f ∘ termD g
   end.
 
-Inductive Expr : Type :=
-  | Top
-  | Bottom
-  | Equiv (x y : obj_idx num_objs) (f g : Term tys x y)
-  | And   (p q : Expr)
-  | Or    (p q : Expr)
-  | Impl  (p q : Expr).
-
-Fixpoint exprD (e : Expr) : Type :=
-  match e with
-  | Top           => True
-  | Bottom        => False
-  | Equiv _ _ f g => termD f ≈ termD g
-  | And p q       => exprD p ∧ exprD q
-  | Or p q        => exprD p + exprD q
-  | Impl p q      => exprD p -> exprD q
-  end.
-
 (** Transform a 0-based [Fin.t] into a 1-based [positive]. *)
 Fixpoint Fin_to_pos {n} (f : Fin.t n) : positive :=
   match f with
@@ -63,7 +45,7 @@ Defined.
 
 Import EqNotations.
 
-Program Fixpoint stermD_work dom (e : STerm positive) :
+Program Fixpoint stermD_work dom (e : STerm) :
   option (∃  cod, objs[@dom] ~> objs[@cod]) :=
   match e with
   | SIdent => Some (dom; @id _ (objs[@dom]))
@@ -89,7 +71,7 @@ Program Fixpoint stermD_work dom (e : STerm positive) :
     end
   end.
 
-Definition stermD dom cod (e : STerm positive) :
+Definition stermD dom cod (e : STerm) :
   option (objs[@dom] ~> objs[@cod]) :=
   match stermD_work dom e with
   | Some (y; f) =>
@@ -101,7 +83,7 @@ Definition stermD dom cod (e : STerm positive) :
   | _ => None
   end.
 
-Program Fixpoint sexprD (e : SExpr positive) : Type :=
+Program Fixpoint sexprD (e : SExpr) : Type :=
   match e with
   | STop           => True
   | SBottom        => False

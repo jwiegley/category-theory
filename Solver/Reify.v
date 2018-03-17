@@ -147,26 +147,26 @@ Ltac reifyTerm env cs t :=
   lazymatch t with
   | @id ?c ?x =>
     (* let xn := lookupObj c cs x in *)
-    constr:(@SIdent positive)
+    constr:(@SIdent)
   | @compose ?c ?x ?y ?z ?f ?g =>
     let ft := reifyTerm env cs f in
     let gt := reifyTerm env cs g in
     (* let xn := lookupObj c cs x in *)
     (* let yn := lookupObj c cs y in *)
     (* let zn := lookupObj c cs z in *)
-    constr:(@SComp positive ft gt)
+    constr:(@SComp ft gt)
   | ?f =>
     lazymatch type of f with
     | ?x ~{?c}~> ?y =>
       let fn := lookupArrPos c cs f in
-      constr:(@SMorph positive fn)
+      constr:(@SMorph fn)
     end
   end.
 
 Ltac reifyExpr env cs t :=
   lazymatch t with
-  | True => constr:(@STop positive)
-  | False => constr:(@SBottom positive)
+  | True => constr:(@STop)
+  | False => constr:(@SBottom)
   | ?F ≈ ?G =>
     let f := reifyTerm env cs F in
     let g := reifyTerm env cs G in
@@ -174,20 +174,20 @@ Ltac reifyExpr env cs t :=
     | ?x ~{?c}~> ?y =>
       let xn := lookupObjPos c cs x in
       let yn := lookupObjPos c cs y in
-      constr:(@SEquiv positive xn yn f g)
+      constr:(@SEquiv xn yn f g)
     end
   | ?P ∧ ?Q =>
     let p := reifyExpr env cs P in
     let q := reifyExpr env cs Q in
-    constr:(@SAnd positive p q)
+    constr:(@SAnd p q)
   | ?P ∨ ?Q =>
     let p := reifyExpr env cs P in
     let q := reifyExpr env cs Q in
-    constr:(@SOr positive p q)
+    constr:(@SOr p q)
   | ?P -> ?Q =>
     let p := reifyExpr env cs P in
     let q := reifyExpr env cs Q in
-    constr:(@SImpl positive p q)
+    constr:(@SImpl p q)
   end.
 
 (** Build environment *)

@@ -62,14 +62,14 @@ Ltac desh :=
       destruct H as [x e]
     end); auto; try solve cat.
 
-Fixpoint unsarrows `(fs : list A) : STerm A :=
+Fixpoint unsarrows (fs : list positive) : STerm :=
   match fs with
   | List.nil => SIdent
   | List.cons f List.nil => SMorph f
   | List.cons f fs => SComp (SMorph f) (unsarrows fs)
   end.
 
-Lemma sarrows_unsarrows `(f : list A) : sarrows (unsarrows f) = f.
+Lemma sarrows_unsarrows (f : list positive) : sarrows (unsarrows f) = f.
 Proof.
   induction f; simpl; auto; simpl.
   destruct f; auto; simpl in *.
@@ -118,7 +118,7 @@ Proof.
     split; auto.
 Qed.
 
-Theorem unsarrows_sarrows d c (t : STerm positive) f :
+Theorem unsarrows_sarrows d c (t : STerm) f :
   stermD d c (unsarrows (sarrows t)) = Some f
     -> stermD d c t ≈ Some f.
 Proof.
@@ -177,7 +177,7 @@ Proof.
     now rewrite Fin_eq_dec_refl.
 Qed.
 
-Theorem unsarrows_sarrows_r d c (t : STerm positive) f :
+Theorem unsarrows_sarrows_r d c (t : STerm) f :
   stermD d c t = Some f
     -> stermD d c (unsarrows (sarrows t)) ≈ Some f.
 Proof.
@@ -277,7 +277,7 @@ Abort.
 
 Import VectorNotations.
 
-Fixpoint sexprAD (e : SExpr positive) : Type :=
+Fixpoint sexprAD (e : SExpr) : Type :=
   match e with
   | STop    => True
   | SBottom => False
@@ -450,7 +450,7 @@ Lemma sarrows_sterm e {dom cod} (f : objs[@dom] ~> objs[@cod]) :
 Proof.
 Abort.
 
-Theorem sexprAD_sound (e : SExpr positive) : sexprAD e ↔ sexprD e.
+Theorem sexprAD_sound (e : SExpr) : sexprAD e ↔ sexprD e.
 Proof.
   induction e; split; simpl in *; intuition.
   - destruct (Pos_to_fin _); [|contradiction].
@@ -491,15 +491,13 @@ Example sample_2 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  (* repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end. *)
+  repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
   (* Set Ltac Profiling. *)
-
 (*
   reify_and_change.
   clear.
   apply sexprAD_sound.
 *)
-
   Time normalize.
   (* Show Ltac Profile. *)
   intros; cat.

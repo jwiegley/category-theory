@@ -17,14 +17,14 @@ Context `{Env}.
 Import VectorNotations.
 Import EqNotations.
 
-Fixpoint Term_strip {dom cod} (e : Term tys dom cod) : STerm positive :=
+Fixpoint Term_strip {dom cod} (e : Term tys dom cod) : STerm :=
   match e with
   | Ident => SIdent
   | Morph f => SMorph (Fin_to_pos f)
   | Comp f g => SComp (Term_strip f) (Term_strip g)
   end.
 
-Fixpoint STerm_embed_work dom (e : STerm positive) :
+Fixpoint STerm_embed_work dom (e : STerm) :
   option (∃ cod, Term tys dom cod) :=
   match e with
   | SIdent => Some (dom; Ident)
@@ -49,7 +49,7 @@ Fixpoint STerm_embed_work dom (e : STerm positive) :
     end
   end.
 
-Definition STerm_embed dom cod (e : STerm positive) :
+Definition STerm_embed dom cod (e : STerm) :
   option (Term tys dom cod) :=
   match STerm_embed_work dom e with
   | Some (y; f) =>
@@ -146,15 +146,15 @@ Qed.
     Term. *)
 
 (* Lemma stermD_ind : *)
-(*   ∀ (P : ∀ (dom cod : positive) (s : STerm positive), Type), *)
+(*   ∀ (P : ∀ (dom cod : positive) (s : STerm), Type), *)
 (*       (∀ dom, P dom dom SIdent) *)
 (*     → (∀ dom cod (f : positive), P dom cod (SMorph f)) *)
-(*     → (∀ dom cod mid (f : STerm positive), P mid cod f *)
-(*          → ∀ g : STerm positive, P dom mid g → P dom cod (SComp f g)) *)
-(*     → ∀ dom cod (s : STerm positive), P dom cod s. *)
+(*     → (∀ dom cod mid (f : STerm), P mid cod f *)
+(*          → ∀ g : STerm, P dom mid g → P dom cod (SComp f g)) *)
+(*     → ∀ dom cod (s : STerm), P dom cod s. *)
 (* Proof. *)
 
-Lemma Term_strip_embed dom cod (e : STerm positive) t :
+Lemma Term_strip_embed dom cod (e : STerm) t :
   STerm_embed dom cod e = Some t -> Term_strip t = e.
 Proof.
   generalize dependent cod.
@@ -285,7 +285,7 @@ Fixpoint term_indices `(t : Term tys d c) : list (arr_idx num_arrs) :=
   | Comp f g => term_indices f ++ term_indices g
   end.
 
-Fixpoint sarrows {a} (t : STerm a) : list a :=
+Fixpoint sarrows (t : STerm) : list positive :=
   match t with
   | SIdent    => List.nil
   | SMorph a  => [a]
