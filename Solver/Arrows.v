@@ -86,4 +86,16 @@ Proof.
   now rewrite IHt1, IHt2.
 Defined.
 
+Fixpoint arrowsD `(t : Arrows tys d c) : objs[@d] ~> objs[@c] :=
+  match t with
+  | tnil => id
+  | tcons _ f fs =>
+    match f with
+      existT2 _ _ f H1 H2 =>
+      rew <- [fun x => _ ~> objs[@x]] H2 in
+        helper (ith arrs f)
+          ∘ rew [fun x => _ ~> objs[@x]] H1 in arrowsD fs
+    end
+  end.
+
 End Arrows.

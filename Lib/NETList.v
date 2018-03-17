@@ -205,6 +205,7 @@ Equations netlist_equiv {i j : A} (x y : netlist B i j) : Type :=
       | right _ => False
     }.
 
+(*
 Global Program Instance netlist_equiv_Equivalence {i j} :
   Equivalence (@netlist_equiv i j).
 Next Obligation.
@@ -234,8 +235,6 @@ Next Obligation.
   apply IHx, n.
 Qed.
 Next Obligation.
-Admitted.
-(*
   repeat intro.
   induction x; simpl.
     dependent elimination y as [tfin]; auto.
@@ -256,7 +255,6 @@ Admitted.
   simpl; intros.
   contradiction.
 Qed.
-*)
 
 Global Program Instance netlist_Setoid {i j} : Setoid (netlist B i j) := {
   equiv := netlist_equiv;
@@ -272,15 +270,14 @@ Next Obligation.
   unfold netlist_equiv_obligation_1.
   now rewrite eq_dec_refl.
 Qed.
+*)
 
-Global Program Instance netlist_app_respects {i j k} :
+(*Global Program Instance netlist_app_respects {i j k} :
   Proper (equiv ==> equiv ==> equiv) (@netlist_app i j k).
 Next Obligation.
   repeat intro.
   generalize dependent k.
   induction x; intros; dependent elimination y.
-Admitted.
-(*
   - rewrite !netlist_app_tfin_l.
     exact X0.
   - contradiction.

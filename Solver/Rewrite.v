@@ -52,20 +52,23 @@ End Rewrite.
 
 Require Export Category.Solver.Reify.
 
-Ltac rrewrite H :=
-  revert H; reify; red; intros;
-  match goal with
-  | [ H0 : @termD ?E ?A ?B ?X ≈ @termD _ _ _ ?Y |- @termD _ ?D ?C ?F ≈ termD ?G ] =>
-    let o := fresh "o" in
-    pose (tlist_find_sublist (arrows X) (arrows F)) as o;
-    vm_compute in o;
-    etransitivity;
-    [apply (@Term_find_app E A B X Y D C F _ _ (@eq_refl _ o)); auto|];
-    clear o;
-    vm_compute
-  end;
-  vm_compute in H;
-  match goal with [ E : Env |- _ ] => clear E end.
+Ltac rrewrite H := revert H; reify_terms_and_then
+  ltac:(fun env g =>
+          change (@exprD env g);
+          red;
+          match goal with
+          | [ H0 : @termD ?E ?A ?B ?X ≈ @termD _ _ _ ?Y
+            |- @termD _ ?D ?C ?F ≈ termD ?G ] =>
+            let o := fresh "o" in
+            pose (tlist_find_sublist (arrows X) (arrows F)) as o;
+            vm_compute in o;
+            etransitivity;
+            [apply (@Term_find_app E A B X Y D C F _ _ (@eq_refl _ o)); auto|];
+            clear o;
+            vm_compute
+          end;
+          vm_compute in H;
+          match goal with [ E : Env |- _ ] => clear E end).
 
 Example sample_3 :
   ∀ (C : Category) (x y z w : C)
@@ -75,10 +78,11 @@ Example sample_3 :
 Proof.
   intros.
   (* Set Ltac Profiling. *)
-  Time rrewrite X.
+  Fail Time rrewrite X.
   (* Show Ltac Profile. *)
-  rewrite <- X; cat.
-  apply comp_assoc.
+  Fail rewrite <- X; cat.
+  Fail apply comp_assoc.
+  cat.
 Qed.
 
 Print Assumptions sample_3.

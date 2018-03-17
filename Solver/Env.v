@@ -18,9 +18,9 @@ Definition obj_idx (n : nat) : Type := Fin.t n.
 Definition arr_idx (n : nat) : Type := Fin.t n.
 
 Definition obj_pair (n : nat) := obj_idx n * obj_idx n.
+
 Definition dep_arr {C: Category} {n} (objs : Vector.t C n) '(dom, cod) :=
   objs[@dom] ~> objs[@cod].
-Arguments dep_arr {C n} objs _ /.
 
 Class Env := {
   cat      : Category;

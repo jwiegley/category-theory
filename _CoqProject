@@ -172,9 +172,8 @@ Solver/Arrows.v
 Solver/NArrows.v
 Solver/Partial.v
 Solver/Decide.v
+Solver/Reflect.v
 Solver/Reify.v
 Solver/Normal.v
 Solver/Rewrite.v
-Solver/SExpr.v
-Solver/SDenote.v
 Theory.v

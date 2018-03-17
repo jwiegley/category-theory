@@ -22,6 +22,14 @@ Fixpoint termD {dom cod} (t : Term tys dom cod) : objs[@dom] ~> objs[@cod] :=
   | Comp f g => termD f ∘ termD g
   end.
 
+Inductive Expr : Type :=
+  | Top
+  | Bottom
+  | Equiv (x y : obj_idx num_objs) (f g : Term tys x y)
+  | And   (p q : Expr)
+  | Or    (p q : Expr)
+  | Impl  (p q : Expr).
+
 Fixpoint exprD (e : Expr) : Type :=
   match e with
   | Top           => True
@@ -30,6 +38,85 @@ Fixpoint exprD (e : Expr) : Type :=
   | And p q       => exprD p ∧ exprD q
   | Or p q        => exprD p + exprD q
   | Impl p q      => exprD p -> exprD q
+  end.
+
+(** Transform a 0-based [Fin.t] into a 1-based [positive]. *)
+Fixpoint Fin_to_pos {n} (f : Fin.t n) : positive :=
+  match f with
+  | Fin.F1 => 1%positive
+  | Fin.FS x => Pos.succ (Fin_to_pos x)
+  end.
+
+Definition Pos_to_fin {n} (p : positive) : option (Fin.t n).
+Proof.
+  generalize dependent n.
+  induction p using Pos.peano_rect; intros.
+    destruct n.
+      exact None.
+    exact (Some Fin.F1).
+  destruct n.
+    exact None.
+  destruct (IHp n).
+    exact (Some (Fin.FS t)).
+  exact None.
+Defined.
+
+Import EqNotations.
+
+Program Fixpoint stermD_work dom (e : STerm positive) :
+  option (∃  cod, objs[@dom] ~> objs[@cod]) :=
+  match e with
+  | SIdent => Some (dom; @id _ (objs[@dom]))
+  | SMorph a =>
+    match Pos_to_fin a with
+    | Some f =>
+      match Eq_eq_dec (fst (tys[@f])) dom with
+      | left H =>
+        Some (snd (tys[@f]);
+              rew [fun x => objs[@x] ~> _] H in helper (ith arrs f))
+      | _ => None
+      end
+    | _ => None
+    end
+  | SComp f g =>
+    match stermD_work dom g with
+    | Some (mid; g) =>
+      match stermD_work mid f with
+      | Some (y; f) => Some (y; f ∘ g)
+      | _ => None
+      end
+    | _ => None
+    end
+  end.
+
+Definition stermD dom cod (e : STerm positive) :
+  option (objs[@dom] ~> objs[@cod]) :=
+  match stermD_work dom e with
+  | Some (y; f) =>
+    match Eq_eq_dec y cod with
+    | Specif.left ecod =>
+      Some (rew [fun y => objs[@dom] ~> objs[@y]] ecod in f)
+    | _ => None
+    end
+  | _ => None
+  end.
+
+Program Fixpoint sexprD (e : SExpr positive) : Type :=
+  match e with
+  | STop           => True
+  | SBottom        => False
+  | SEquiv x y f g =>
+    match Pos_to_fin x, Pos_to_fin y with
+    | Some d, Some c =>
+      match stermD d c f, stermD d c g with
+      | Some f, Some g => f ≈ g
+      | _, _ => False
+      end
+    | _, _ => False
+    end
+  | SAnd p q       => sexprD p ∧ sexprD q
+  | SOr p q        => sexprD p + sexprD q
+  | SImpl p q      => sexprD p -> sexprD q
   end.
 
 End Denote.

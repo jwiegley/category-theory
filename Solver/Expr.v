@@ -6,6 +6,9 @@ Generalizable All Variables.
 
 Import VectorNotations.
 
+(** Richly-typed terms, always correct by construction, and isomorphic to the
+    denoted terms. *)
+
 Inductive Term {a o} (tys : Vector.t (obj_pair o) a) :
   obj_idx o -> obj_idx o -> Type :=
   | Ident : ∀ dom, Term tys dom dom
@@ -18,33 +21,49 @@ Arguments Ident {a o tys dom}.
 Arguments Morph {a o tys} f.
 Arguments Comp {a o tys dom mid cod} f g.
 
-Section Expr.
+(** Weakly-typed terms, only correct in certain environments, but if that
+    holds, then isomorphic to the denoted terms. *)
 
-Context `{Env}.
+Inductive STerm {A : Type} : Type :=
+  | SIdent : STerm
+  | SMorph (a : A) : STerm
+  | SComp (f : STerm) (g : STerm) : STerm.
 
-Fixpoint term_size `(t : Term tys d c) : nat :=
+Arguments STerm : clear implicits.
+
+Fixpoint sterm_size `(t : STerm A) : nat :=
   match t with
-  | Ident    => 1%nat
-  | Morph _  => 1%nat
-  | Comp f g => 1%nat + term_size f + term_size g
+  | SIdent    => 1%nat
+  | SMorph _  => 1%nat
+  | SComp f g => 1%nat + sterm_size f + sterm_size g
   end.
 
-Inductive Expr : Type :=
-  | Top
-  | Bottom
-  | Equiv (d c : obj_idx num_objs) (f g : Term tys d c)
-  | And   (p q : Expr)
-  | Or    (p q : Expr)
-  | Impl  (p q : Expr).
-
-Fixpoint expr_size (t : Expr) : nat :=
+Fixpoint sterm_map {A B : Type} (f : A -> B) (t : STerm A) : STerm B :=
   match t with
-  | Top           => 1%nat
-  | Bottom        => 1%nat
-  | Equiv _ _ f g => 1%nat + term_size f + term_size g
-  | And p q       => 1%nat + expr_size p + expr_size q
-  | Or p q        => 1%nat + expr_size p + expr_size q
-  | Impl p q      => 1%nat + expr_size p + expr_size q
+  | SIdent    => SIdent
+  | SMorph a  => SMorph (f a)
+  | SComp l r => SComp (sterm_map f l) (sterm_map f r)
   end.
 
-End Expr.
+Inductive SExpr {A : Type} : Type :=
+  | STop
+  | SBottom
+  | SEquiv (x y : positive) (f g : STerm A)
+  | SAnd   (p q : SExpr)
+  | SOr    (p q : SExpr)
+  | SImpl  (p q : SExpr).
+
+Arguments SExpr : clear implicits.
+
+Fixpoint sexpr_size `(t : SExpr A) : nat :=
+  match t with
+  | STop           => 1%nat
+  | SBottom        => 1%nat
+  | SEquiv _ _ f g => 1%nat + sterm_size f + sterm_size g
+  | SAnd p q       => 1%nat + sexpr_size p + sexpr_size q
+  | SOr p q        => 1%nat + sexpr_size p + sexpr_size q
+  | SImpl p q      => 1%nat + sexpr_size p + sexpr_size q
+  end.
+
+Remark all_sexprs_have_size {A} e : (0 < sexpr_size (A:=A) e)%nat.
+Proof. induction e; simpl; omega. Qed.

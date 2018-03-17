@@ -87,22 +87,4 @@ Proof.
   destruct b; subst; simpl; simpl_eq; cat.
 Qed.
 
-Theorem term_narrows `(f : Term tys d c) :
-  termD f ≈ match narrows (arrows f) with
-            | inright H =>
-              rew [fun x => _ ~> objs[@x]] H in @id cat (objs[@d])
-            | inleft f => narrowsD f
-            end.
-Proof.
-  rewrite <- unarrows_arrows.
-  induction (arrows f); simpl; cat.
-  destruct b; subst; simpl.
-  clear IHa.
-  rewrite <- unnarrows_arrows.
-  rewrite arrows_unarrows.
-  destruct (narrows a); simpl; simpl_eq.
-    now rewrite term_unnarrows.
-  subst; cat.
-Qed.
-
 End NArrows.
