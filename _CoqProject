@@ -12,6 +12,7 @@ Lib/IList.v
 Lib/TList.v
 Lib/NETList.v
 Lib/Tree.v
+Lib/Lambda.v
 Theory/Category.v
 Theory/Metacategory.v
 Theory/Metacategory/Graph.v
@@ -176,4 +177,5 @@ Solver/Decide.v
 Solver/Reflect.v
 Solver/Reify.v
 Solver/Normal.v
+Solver/Categories.v
 Theory.v
