@@ -67,14 +67,13 @@ Next Obligation.
   apply list_beq_eq in Heqb; auto; [|apply Pos_eqb_eq].
   destruct (stermD_embeds _ _ Heqo) eqn:?, p.
   destruct (stermD_embeds _ _ Heqo0) eqn:?, p.
-  rewrite <- e0, <- e2.
-  apply term_indices_equiv.
+  subst.
   pose proof (arrows_and_indices _ _ _ _ e).
   pose proof (arrows_and_indices _ _ _ _ e1).
   rewrite Heqb in H0.
   rewrite H0 in H1.
-  apply map_inj in H1; auto.
-  apply Fin_to_pos_inj.
+  apply map_inj in H1; auto; [|apply Fin_to_pos_inj].
+  now apply term_indices_equiv.
 Defined.
 Next Obligation. simpl; abstract omega. Defined.
 Next Obligation. simpl; abstract omega. Defined.

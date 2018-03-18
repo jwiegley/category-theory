@@ -11,6 +11,7 @@ Unset Equations WithK.
 Require Import Category.Lib.
 Require Import Category.Lib.Equality.
 Require Import Category.Lib.TList.
+Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 Require Import Category.Solver.Tactics.
 Require Import Category.Solver.Env.
@@ -140,13 +141,10 @@ Lemma Term_strip_embed dom cod (e : STerm) t :
 Proof.
   generalize dependent cod.
   generalize dependent dom.
-  unfold STerm_embed; induction e; simpl; intros.
-  - now desh.
-  - desh; simpl.
-    f_equal.
+  unfold STerm_embed; induction e; simpl; intros; desh.
+  - simpl; f_equal.
     now apply Fin_to_pos_spec in Heqo0.
-  - desh.
-    specialize (IHe2 _ _ t1).
+  - specialize (IHe2 _ _ t1).
     specialize (IHe1 _ _ t2).
     rewrite Heqo0 in IHe2.
     rewrite Heqo1 in IHe1.
@@ -154,8 +152,7 @@ Proof.
     rewrite Eq_eq_dec_refl in IHe2.
     specialize (IHe2 eq_refl).
     specialize (IHe1 eq_refl).
-    simpl.
-    now f_equal.
+    now simpl; f_equal.
 Qed.
 
 (** This is the key connecting theorem between the richly-typed and
@@ -164,17 +161,32 @@ Qed.
     term into the richly-typed domain, meaning that _for this term_, all of
     our proofs concerning richly-typed terms also hold. *)
 
+Lemma STerm_denotes e {dom cod} t :
+  STerm_embed dom cod e = Some t
+    -> ∃ f, stermD dom cod e = Some f ∧ termD t = f.
+Proof.
+  intros.
+  apply Term_strip_embed in H0; subst.
+  generalize dependent cod.
+  generalize dependent dom.
+  unfold stermD; induction t; simpl; intros; desh.
+  - now exists id; cat.
+  - rewrite Pos_to_fin_spec; desh.
+    now exists (helper (ith arrs f)); cat.
+  - exists (termD t1 ∘ termD t2).
+    now rewrite Heqo0, Fin_eq_dec_refl; cat.
+Qed.
+
 Lemma stermD_embeds e {dom cod} (f : objs[@dom] ~> objs[@cod]) :
   stermD dom cod e = Some f
     -> ∃ t, STerm_embed dom cod e = Some t ∧ termD t = f.
 Proof.
   generalize dependent cod.
   generalize dependent dom.
-  unfold stermD, STerm_embed; induction e; simpl; intros.
-  - desh; now exists Ident; cat.
-  - desh; now exists (Morph t); cat.
-  - desh.
-    specialize (IHe1 _ _ h1).
+  unfold stermD, STerm_embed; induction e; simpl; intros; desh.
+  - now eexists; cat.
+  - now eexists; cat.
+  - specialize (IHe1 _ _ h1).
     specialize (IHe2 _ _ h0).
     rewrite Heqo0 in IHe2.
     rewrite Heqo1 in IHe1.
@@ -183,7 +195,7 @@ Proof.
     specialize (IHe1 eq_refl).
     specialize (IHe2 eq_refl).
     desh.
-    exists (Comp x1 x).
+    eexists.
     rewrite Heqo2.
     now rewrite Fin_eq_dec_refl.
 Qed.

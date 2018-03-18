@@ -10,31 +10,108 @@ Generalizable All Variables.
 
 Ltac desh :=
   repeat (
-    repeat lazymatch goal with
-    | [ H : match Pos_to_fin ?n with _ => _ end = _ |- _ ] => destruct (Pos_to_fin n) eqn:?
-    | [ H : match Pos_to_fin ?n with _ => _ end _ = _ |- _ ] => destruct (Pos_to_fin n) eqn:?
-    | [ H : match Pos_to_fin ?n with _ => _ end     |- _ ] => destruct (Pos_to_fin n) eqn:?
-    | [ H : match Pos_to_fin ?n with _ => _ end _   |- _ ] => destruct (Pos_to_fin n) eqn:?
-    | [ H : match Pos_to_fin ?n with _ => _ end _ _ |- _ ] => destruct (Pos_to_fin n) eqn:?
-    | [ H : match stermD_work ?n ?s with _ => _ end = _ |- _ ] => destruct (stermD_work n s) eqn:?
-    | [ H : match stermD_work ?n ?s with _ => _ end _ = _ |- _ ] => destruct (stermD_work n s) eqn:?
-    | [ H : match stermD_work ?n ?s with _ => _ end     |- _ ] => destruct (stermD_work n s) eqn:?
-    | [ H : match stermD_work ?n ?s with _ => _ end _   |- _ ] => destruct (stermD_work n s) eqn:?
-    | [ H : match stermD_work ?n ?s with _ => _ end _ _ |- _ ] => destruct (stermD_work n s) eqn:?
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end = _ |- _ ] => destruct (Fin_eq_dec n m) eqn:?
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end _ = _ |- _ ] => destruct (Fin_eq_dec n m) eqn:?
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end     |- _ ] => destruct (Fin_eq_dec n m) eqn:?
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end _   |- _ ] => destruct (Fin_eq_dec n m) eqn:?
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end _ _ |- _ ] => destruct (Fin_eq_dec n m) eqn:?
-    | [ H : match ?b with _ => _ end = _ |- _ ] => destruct b eqn:?
-    | [ H : match ?b with _ => _ end _ = _ |- _ ] => destruct b eqn:?
-    | [ H : match ?b with _ => _ end     |- _ ] => destruct b eqn:?
-    | [ H : match ?b with _ => _ end _   |- _ ] => destruct b eqn:?
-    | [ H : match ?b with _ => _ end _ _ |- _ ] => destruct b eqn:?
+    repeat match goal with
+    | [ H : match Pos_to_fin ?n with _ => _ end = _ |- _ ] =>
+      destruct (Pos_to_fin n) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match Pos_to_fin ?n with _ => _ end _ = _ |- _ ] =>
+      destruct (Pos_to_fin n) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match Pos_to_fin ?n with _ => _ end     |- _ ] =>
+      destruct (Pos_to_fin n) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match Pos_to_fin ?n with _ => _ end _   |- _ ] =>
+      destruct (Pos_to_fin n) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match Pos_to_fin ?n with _ => _ end _ _ |- _ ] =>
+      destruct (Pos_to_fin n) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match @stermD_work ?h ?n ?s with _ => _ end = _ |- _ ] =>
+      destruct (@stermD_work h n s) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match @stermD_work ?h ?n ?s with _ => _ end _ = _ |- _ ] =>
+      destruct (@stermD_work h n s) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match @stermD_work ?h ?n ?s with _ => _ end     |- _ ] =>
+      destruct (@stermD_work h n s) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match @stermD_work ?h ?n ?s with _ => _ end _   |- _ ] =>
+      destruct (@stermD_work h n s) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match @stermD_work ?h ?n ?s with _ => _ end _ _ |- _ ] =>
+      destruct (@stermD_work h n s) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match Fin_eq_dec ?n ?m with _ => _ end = _ |- _ ] =>
+      destruct (Fin_eq_dec n m) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match Fin_eq_dec ?n ?m with _ => _ end _ = _ |- _ ] =>
+      destruct (Fin_eq_dec n m) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match Fin_eq_dec ?n ?m with _ => _ end     |- _ ] =>
+      destruct (Fin_eq_dec n m) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match Fin_eq_dec ?n ?m with _ => _ end _   |- _ ] =>
+      destruct (Fin_eq_dec n m) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match Fin_eq_dec ?n ?m with _ => _ end _ _ |- _ ] =>
+      destruct (Fin_eq_dec n m) eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match ?b with _ => _ end = _ |- _ ] =>
+      destruct b eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match ?b with _ => _ end _ = _ |- _ ] =>
+      destruct b eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match ?b with _ => _ end     |- _ ] =>
+      destruct b eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match ?b with _ => _ end _   |- _ ] =>
+      destruct b eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
+    | [ H : match ?b with _ => _ end _ _ |- _ ] =>
+      destruct b eqn:?;
+      try contradiction;
+      try discriminate;
+      let n := numgoals in guard n < 2
     end;
-    try contradiction;
-    try discriminate;
-    let n := numgoals in guard n < 2;
     simpl_eq;
     try rewrite Fin_eq_dec_refl in *;
     try rewrite Pos_eq_dec_refl in *;
