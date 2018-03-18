@@ -193,11 +193,19 @@ End Normal.
 
 Require Export Category.Solver.Reify.
 
+(* * This is a much easier theorem to apply, so it speeds things up a lot! *)
+Theorem sexprAD_sound' (env : Env) (e : SExpr) : sexprAD e -> sexprD e.
+Proof.
+  apply sexprAD_sound.
+Qed.
+
 Ltac normalize := reify_terms_and_then
   ltac:(fun env g =>
           change (@sexprD env g);
-          apply sexprAD_sound;
+          simple apply sexprAD_sound';
           vm_compute).
+
+
 
 Example sample_2 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
