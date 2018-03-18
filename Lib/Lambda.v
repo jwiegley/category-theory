@@ -120,7 +120,7 @@ Definition example1 :
 Notation "^" := Var.
 Infix "@" := App (left associativity, at level 50).
 Notation "\ x : t , e" :=
-  (@Abs _ t _ e) (no associativity, at level 51, x at level 0).
+  (@Abs _ t _ e) (no associativity, at level 51, x at level 0, only parsing).
 
 Eval cbv beta iota delta zeta in
     lamD (fun _ => unit) ((\x : Ty, ^Here) @ ^tt).
