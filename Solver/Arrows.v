@@ -49,6 +49,18 @@ Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
   | Comp f g => arrows f +++ arrows g
   end.
 
+Fixpoint arrowsD `(t : Arrows tys d c) : objs[@d] ~> objs[@c] :=
+  match t with
+  | tnil => id
+  | tcons _ f fs =>
+    match f with
+      existT2 _ _ f H1 H2 =>
+      rew <- [fun x => _ ~> objs[@x]] H2 in
+        helper (ith arrs f)
+          ∘ rew [fun x => _ ~> objs[@x]] H1 in arrowsD fs
+    end
+  end.
+
 Fixpoint unarrows `(t : Arrows tys d c) : Term tys d c :=
   match t with
   | tnil => Ident
@@ -86,16 +98,37 @@ Proof.
   now rewrite IHt1, IHt2.
 Defined.
 
-Fixpoint arrowsD `(t : Arrows tys d c) : objs[@d] ~> objs[@c] :=
+Fixpoint indices `(t : Arrows tys d c) : list (arr_idx num_arrs) :=
   match t with
-  | tnil => id
-  | tcons _ f fs =>
-    match f with
-      existT2 _ _ f H1 H2 =>
-      rew <- [fun x => _ ~> objs[@x]] H2 in
-        helper (ith arrs f)
-          ∘ rew [fun x => _ ~> objs[@x]] H1 in arrowsD fs
-    end
+  | tnil => List.nil
+  | existT2 _ _ f _ _ ::: fs => f :: indices fs
   end.
+
+Theorem indices_impl {d c} (x y : Arrows tys d c) :
+  indices x = indices y -> x = y.
+Proof.
+  induction x; dependent elimination y;
+  simpl; auto; intros.
+  - destruct y0.
+    inv H0.
+  - destruct b.
+    inv H0.
+  - destruct b, y0.
+    inv H0.
+    f_equal; auto.
+    f_equal; auto.
+    apply eq_proofs_unicity.
+Qed.
+
+Theorem indices_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
+  indices (t1 +++ t2) = (indices t1 ++ indices t2)%list.
+Proof.
+  induction t1; simpl in *; cat.
+  destruct b; subst.
+  destruct t2; simpl; cat.
+    now rewrite List.app_nil_r.
+  f_equal.
+  apply IHt1.
+Qed.
 
 End Arrows.

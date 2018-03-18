@@ -7,6 +7,7 @@ Unset Equations WithK.
 Require Export Category.Lib.TList.
 Require Export Category.Solver.Arrows.
 Require Export Category.Solver.Denote.
+Require Export Category.Solver.Tactics.
 
 Generalizable All Variables.
 
@@ -24,8 +25,7 @@ Fixpoint Term_strip {dom cod} (e : Term tys dom cod) : STerm :=
   | Comp f g => SComp (Term_strip f) (Term_strip g)
   end.
 
-Fixpoint STerm_embed_work dom (e : STerm) :
-  option (∃ cod, Term tys dom cod) :=
+Fixpoint STerm_embed_work dom (e : STerm) : option (∃ cod, Term tys dom cod) :=
   match e with
   | SIdent => Some (dom; Ident)
   | SMorph a =>
@@ -49,8 +49,7 @@ Fixpoint STerm_embed_work dom (e : STerm) :
     end
   end.
 
-Definition STerm_embed dom cod (e : STerm) :
-  option (Term tys dom cod) :=
+Definition STerm_embed dom cod (e : STerm) : option (Term tys dom cod) :=
   match STerm_embed_work dom e with
   | Some (y; f) =>
     match Eq_eq_dec y cod with
@@ -122,37 +121,10 @@ Proof.
   generalize dependent cod.
   generalize dependent dom.
   unfold STerm_embed; induction t; simpl; intros.
-  - rewrite Fin_eq_dec_refl.
-    reflexivity.
-  - rewrite Pos_to_fin_spec.
-    rewrite !Fin_eq_dec_refl.
-    reflexivity.
-  - destruct (STerm_embed_work dom (Term_strip t2)); [|discriminate].
-    destruct s.
-    destruct (STerm_embed_work mid (Term_strip t1)) eqn:?; [|discriminate].
-    destruct s.
-    destruct (Eq_eq_dec _ _); [|discriminate].
-    destruct (Eq_eq_dec _ _); [|discriminate].
-    subst.
-    inv IHt1.
-    inv IHt2.
-    rewrite Heqo.
-    rewrite !Fin_eq_dec_refl.
-    reflexivity.
+  - now desh.
+  - now rewrite Pos_to_fin_spec; desh.
+  - now desh; rewrite Heqo0; desh.
 Qed.
-
-(** Induction over an STerm within the right environment provides a great deal
-    more information. Most importantly, there is a corresponding well-typed
-    Term. *)
-
-(* Lemma stermD_ind : *)
-(*   ∀ (P : ∀ (dom cod : positive) (s : STerm), Type), *)
-(*       (∀ dom, P dom dom SIdent) *)
-(*     → (∀ dom cod (f : positive), P dom cod (SMorph f)) *)
-(*     → (∀ dom cod mid (f : STerm), P mid cod f *)
-(*          → ∀ g : STerm, P dom mid g → P dom cod (SComp f g)) *)
-(*     → ∀ dom cod (s : STerm), P dom cod s. *)
-(* Proof. *)
 
 Lemma Term_strip_embed dom cod (e : STerm) t :
   STerm_embed dom cod e = Some t -> Term_strip t = e.
@@ -160,27 +132,15 @@ Proof.
   generalize dependent cod.
   generalize dependent dom.
   unfold STerm_embed; induction e; simpl; intros.
-  - destruct (Fin_eq_dec _ _); [|discriminate].
-    now inv H0.
-  - destruct (Pos_to_fin _) eqn:?; [|discriminate].
-    destruct (Fin_eq_dec _ _); [|discriminate].
-    destruct (Fin_eq_dec _ _); [|discriminate].
-    subst.
-    inv H0.
-    simpl.
+  - now desh.
+  - desh; simpl.
     f_equal.
-    now apply Fin_to_pos_spec in Heqo.
-  - destruct (STerm_embed_work dom e2) eqn:?; [|discriminate].
-    destruct s.
-    destruct (STerm_embed_work x e1) eqn:?; [|discriminate].
-    destruct s.
-    destruct (Fin_eq_dec _ _); [|discriminate].
-    subst.
-    inv H0.
-    specialize (IHe2 dom x t0).
-    specialize (IHe1 x cod t1).
-    rewrite Heqo in IHe2.
-    rewrite Heqo0 in IHe1.
+    now apply Fin_to_pos_spec in Heqo0.
+  - desh.
+    specialize (IHe2 _ _ t1).
+    specialize (IHe1 _ _ t2).
+    rewrite Heqo0 in IHe2.
+    rewrite Heqo1 in IHe1.
     rewrite Eq_eq_dec_refl in IHe1.
     rewrite Eq_eq_dec_refl in IHe2.
     specialize (IHe2 eq_refl).
@@ -194,6 +154,7 @@ Qed.
     that denotes within the environment, then there exists an embedded of that
     term into the richly-typed domain, meaning that _for this term_, all of
     our proofs concerning richly-typed terms also hold. *)
+
 Lemma stermD_embeds e {dom cod} (f : objs[@dom] ~> objs[@cod]) :
   stermD dom cod e = Some f
     -> ∃ t, STerm_embed dom cod e = Some t ∧ termD t = f.
@@ -201,81 +162,21 @@ Proof.
   generalize dependent cod.
   generalize dependent dom.
   unfold stermD, STerm_embed; induction e; simpl; intros.
-  - destruct (Fin_eq_dec _ _); [|discriminate].
-    subst.
-    inv H0.
-    exists Ident.
-    cat.
-  - destruct (Pos_to_fin _); [|discriminate].
-    destruct (Fin_eq_dec _ _); [|discriminate].
-    destruct (Fin_eq_dec _ _); [|discriminate].
-    subst.
-    inv H0.
-    exists (Morph t).
-    cat.
-  - destruct (stermD_work dom e2) eqn:?; [|discriminate].
-    destruct s.
-    destruct (stermD_work x e1) eqn:?; [|discriminate].
-    destruct s.
-    destruct (Fin_eq_dec _ _); [|discriminate].
-    subst.
-    inv H0.
-    specialize (IHe1 x cod h0).
-    specialize (IHe2 dom x h).
-    rewrite Heqo in IHe2.
-    rewrite Heqo0 in IHe1.
+  - desh; now exists Ident; cat.
+  - desh; now exists (Morph t); cat.
+  - desh.
+    specialize (IHe1 _ _ h1).
+    specialize (IHe2 _ _ h0).
+    rewrite Heqo0 in IHe2.
+    rewrite Heqo1 in IHe1.
     rewrite Eq_eq_dec_refl in IHe1.
     rewrite Eq_eq_dec_refl in IHe2.
-    simpl_eq.
-    destruct (IHe1 eq_refl), p; clear IHe1.
-    destruct (IHe2 eq_refl), p; clear IHe2.
-    subst.
-    destruct (STerm_embed_work dom e2) eqn:?; [|discriminate].
-    destruct s.
-    destruct (STerm_embed_work x e1) eqn:?; [|discriminate].
-    destruct s.
-    destruct (Eq_eq_dec _ _); [|discriminate].
-    destruct (Eq_eq_dec _ _); [|discriminate].
-    subst.
-    inv e.
-    inv e3.
+    specialize (IHe1 eq_refl).
+    specialize (IHe2 eq_refl).
+    desh.
+    exists (Comp x1 x).
     rewrite Heqo2.
-    rewrite Fin_eq_dec_refl.
-    exists (Comp x0 x1).
-    cat.
-Qed.
-
-Fixpoint indices `(t : Arrows tys d c) : list (arr_idx num_arrs) :=
-  match t with
-  | tnil => List.nil
-  | existT2 _ _ f _ _ ::: fs => f :: indices fs
-  end.
-
-Theorem indices_impl {d c} (x y : Arrows tys d c) :
-  indices x = indices y -> x = y.
-Proof.
-  induction x; dependent elimination y;
-  simpl; auto; intros.
-  - destruct y0.
-    inv H0.
-  - destruct b.
-    inv H0.
-  - destruct b, y0.
-    inv H0.
-    f_equal; auto.
-    f_equal; auto.
-    apply eq_proofs_unicity.
-Qed.
-
-Theorem indices_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
-  indices (t1 +++ t2) = (indices t1 ++ indices t2)%list.
-Proof.
-  induction t1; simpl in *; cat.
-  destruct b; subst.
-  destruct t2; simpl; cat.
-    now rewrite List.app_nil_r.
-  f_equal.
-  apply IHt1.
+    now rewrite Fin_eq_dec_refl.
 Qed.
 
 Fixpoint term_indices `(t : Term tys d c) : list (arr_idx num_arrs) :=
@@ -284,57 +185,6 @@ Fixpoint term_indices `(t : Term tys d c) : list (arr_idx num_arrs) :=
   | Morph a => [a]
   | Comp f g => term_indices f ++ term_indices g
   end.
-
-Fixpoint sarrows (t : STerm) : list positive :=
-  match t with
-  | SIdent    => List.nil
-  | SMorph a  => [a]
-  | SComp f g => sarrows f ++ sarrows g
-  end.
-
-Lemma arrows_and_indices f dom cod (t : Term tys dom cod) :
-  STerm_embed dom cod f = Some t
-    -> sarrows f = List.map Fin_to_pos (term_indices t).
-Proof.
-  generalize dependent cod.
-  generalize dependent dom.
-  unfold STerm_embed, sarrows in *; induction f; simpl in *; auto.
-  - intros.
-    repeat match goal with
-             [ H : context[match ?b with _ => _ end] |- _ ] =>
-             destruct b; [|discriminate]; cat
-           end; subst.
-    inv H0.
-    reflexivity.
-  - intros.
-    repeat match goal with
-             [ H : context[match ?b with _ => _ end] |- _ ] =>
-             destruct b eqn:?; [|discriminate]; cat
-           end; subst.
-    inv H0.
-    inv Heqo.
-    apply Fin_to_pos_spec in Heqo0; subst.
-    reflexivity.
-  - intros.
-    repeat match goal with
-             [ H : context[match ?b with _ => _ end] |- _ ] =>
-             destruct b eqn:?; [|discriminate]; cat
-           end; subst.
-    inv H0.
-    inv Heqo.
-    inv Heqo1.
-    subst; simpl.
-    specialize (IHf2 _ _ e1).
-    specialize (IHf1 _ _ e2).
-    rewrite Heqo0 in IHf2.
-    rewrite H1 in IHf1.
-    rewrite Fin_eq_dec_refl in *.
-    simpl_eq.
-    specialize (IHf2 eq_refl).
-    specialize (IHf1 eq_refl).
-    rewrite List.map_app.
-    now rewrite IHf1, IHf2.
-Qed.
 
 Theorem term_indices_consistent {d c} (x : Arrows tys d c) :
   term_indices (unarrows x) = indices x.
@@ -366,6 +216,23 @@ Proof.
   rewrite <- unarrows_arrows.
   apply indices_impl in H0.
   now rewrite H0.
+Qed.
+
+Fixpoint sarrows (t : STerm) : list positive :=
+  match t with
+  | SIdent    => List.nil
+  | SMorph a  => [a]
+  | SComp f g => sarrows f ++ sarrows g
+  end.
+
+Lemma arrows_and_indices f dom cod (t : Term tys dom cod) :
+  STerm_embed dom cod f = Some t
+    -> sarrows f = List.map Fin_to_pos (term_indices t).
+Proof.
+  intros.
+  apply Term_strip_embed in H0; subst.
+  induction t; simpl; auto.
+  now rewrite IHt1, IHt2, List.map_app.
 Qed.
 
 End Reflect.

@@ -3,7 +3,6 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.TList.
 Require Import Category.Solver.Partial.
 Require Import Category.Solver.Reflect.
-Require Import Category.Solver.Arrows.
 
 Generalizable All Variables.
 
@@ -12,17 +11,6 @@ Section Decide.
 Context `{Env}.
 
 Open Scope partial_scope.
-
-Lemma map_inj {A B : Type} (f : A -> B)
-      (f_inj : forall x y, f x = f y -> x = y) xs ys :
-  List.map f xs = List.map f ys -> xs = ys.
-Proof.
-  generalize dependent ys.
-  induction xs, ys; simpl; intros; auto; try inv H0.
-  apply f_inj in H2; subst.
-  f_equal.
-  now apply IHxs.
-Qed.
 
 Program Fixpoint sexpr_forward (t : SExpr) (hyp : SExpr)
         (cont : [sexprD t]) :

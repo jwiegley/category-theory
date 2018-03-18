@@ -95,6 +95,17 @@ Proof.
   now inversion H0.
 Qed.
 
+Lemma map_inj {A B : Type} (f : A -> B)
+      (f_inj : forall x y, f x = f y -> x = y) xs ys :
+  List.map f xs = List.map f ys -> xs = ys.
+Proof.
+  generalize dependent ys.
+  induction xs, ys; simpl; intros; auto; try inv H.
+  apply f_inj in H1; subst.
+  f_equal.
+  now apply IHxs.
+Qed.
+
 (* The only inductive types from the standard library used in this development
    are products and sums, so we must show how they interact with constructive
    setoids. *)
