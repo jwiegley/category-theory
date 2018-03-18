@@ -41,11 +41,9 @@ Fixpoint scope_map {var var' : type -> Type}
     The type of free variables is given by [var] at the outermost level. *)
 
 Inductive Lam (var : type -> Type) : type -> Type :=
-  | Var : forall t : type, var t -> Lam var t
-  | Abs : forall d c : type,
-      Lam (Scope var d) c -> Lam var (Func d c)
-  | App : forall d c : type,
-      Lam var (Func d c) -> Lam var d -> Lam var c.
+  | Var : forall t   : type, var t -> Lam var t
+  | Abs : forall d c : type, Lam (Scope var d) c -> Lam var (Func d c)
+  | App : forall d c : type, Lam var (Func d c) -> Lam var d -> Lam var c.
 
 Arguments Var {var _} _.
 Arguments Abs {var _ _} _.
