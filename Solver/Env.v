@@ -1,14 +1,11 @@
 Set Warnings "-notation-overridden".
 
-Require Export Coq.Bool.Bool.
-Require Export Coq.Vectors.Vector.
-Require Export Coq.PArith.PArith.
-Require Export Coq.omega.Omega.
+Require Import Coq.Vectors.Vector.
 
-Require Export Category.Lib.
-Require Export Category.Lib.Equality.
-Require Export Category.Lib.IList.
-Require Export Category.Theory.Category.
+Require Import Category.Lib.
+Require Import Category.Lib.Equality.
+Require Import Category.Lib.IList.
+Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 

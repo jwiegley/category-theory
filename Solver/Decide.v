@@ -1,6 +1,15 @@
 Set Warnings "-notation-overridden".
 
+Require Import Coq.PArith.PArith.
+Require Import Coq.omega.Omega.
+
+Require Import Category.Lib.
+Require Import Category.Lib.Equality.
 Require Import Category.Lib.TList.
+Require Import Category.Theory.Category.
+Require Import Category.Solver.Env.
+Require Import Category.Solver.Expr.
+Require Import Category.Solver.Denote.
 Require Import Category.Solver.Partial.
 Require Import Category.Solver.Reflect.
 
@@ -82,7 +91,7 @@ Proof. unfold sexpr_tauto; destruct t, (sexpr_backward _); tauto. Qed.
 
 End Decide.
 
-Require Export Category.Solver.Reify.
+Require Import Category.Solver.Reify.
 
 Ltac categorical := reify_terms_and_then
   ltac:(fun env g =>

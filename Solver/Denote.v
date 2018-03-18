@@ -1,6 +1,14 @@
 Set Warnings "-notation-overridden".
 
-Require Export Category.Solver.Expr.
+Require Import Coq.Vectors.Vector.
+Require Import Coq.PArith.PArith.
+
+Require Import Category.Lib.
+Require Import Category.Lib.Equality.
+Require Import Category.Lib.IList.
+Require Import Category.Theory.Category.
+Require Import Category.Solver.Env.
+Require Import Category.Solver.Expr.
 
 Generalizable All Variables.
 

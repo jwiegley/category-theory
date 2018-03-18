@@ -1,11 +1,19 @@
 Set Warnings "-notation-overridden".
 
-Require Export Equations.Equations.
-Require Export Equations.EqDec.
+Require Import Coq.Vectors.Vector.
+
+Require Import Equations.Equations.
+Require Import Equations.EqDec.
 Unset Equations WithK.
 
-Require Export Category.Lib.TList.
-Require Export Category.Solver.Denote.
+Require Import Category.Lib.
+Require Import Category.Lib.Equality.
+Require Import Category.Lib.IList.
+Require Import Category.Lib.TList.
+Require Import Category.Theory.Category.
+Require Import Category.Solver.Env.
+Require Import Category.Solver.Expr.
+Require Import Category.Solver.Denote.
 
 Generalizable All Variables.
 

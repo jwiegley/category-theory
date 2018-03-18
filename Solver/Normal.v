@@ -1,8 +1,17 @@
 Set Warnings "-notation-overridden".
 
-Require Export Category.Lib.TList.
-Require Export Category.Lib.NETList.
-Require Export Category.Solver.Reflect.
+Require Import Coq.Vectors.Vector.
+Require Import Coq.PArith.PArith.
+
+Require Import Category.Lib.
+Require Import Category.Lib.Equality.
+Require Import Category.Lib.IList.
+Require Import Category.Theory.Category.
+Require Import Category.Solver.Tactics.
+Require Import Category.Solver.Env.
+Require Import Category.Solver.Expr.
+Require Import Category.Solver.Denote.
+Require Import Category.Solver.Reflect.
 
 Generalizable All Variables.
 
@@ -191,7 +200,7 @@ Qed.
 
 End Normal.
 
-Require Export Category.Solver.Reify.
+Require Import Category.Solver.Reify.
 
 (* * This is a much easier theorem to apply, so it speeds things up a lot! *)
 Theorem sexprAD_sound' (env : Env) (e : SExpr) : sexprAD e -> sexprD e.
@@ -204,8 +213,6 @@ Ltac normalize := reify_terms_and_then
           change (@sexprD env g);
           simple apply sexprAD_sound';
           vm_compute).
-
-
 
 Example sample_2 :
   ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
@@ -223,11 +230,6 @@ Proof.
   intros.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
   (* Set Ltac Profiling. *)
-(*
-  reify_and_change.
-  clear.
-  apply sexprAD_sound.
-*)
   Time normalize.
   (* Show Ltac Profile. *)
   intros; cat.

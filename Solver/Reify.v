@@ -1,6 +1,14 @@
 Set Warnings "-notation-overridden".
 
-Require Export Category.Solver.Denote.
+Require Import Coq.PArith.PArith.
+Require Import Coq.Vectors.Vector.
+
+Require Import Category.Lib.
+Require Import Category.Lib.IList.
+Require Import Category.Theory.Category.
+Require Import Category.Solver.Env.
+Require Import Category.Solver.Expr.
+Require Import Category.Solver.Denote.
 
 Generalizable All Variables.
 
@@ -129,6 +137,7 @@ Ltac lookupArrPos c cs f :=
 
 Ltac allVars cs e :=
   lazymatch e with
+  | @id ?c ?o => let cs := addToCatList c cs in addToObjList c cs o
   | ?f ∘ ?g   => let cs := allVars cs f in allVars cs g
   | ?P -> ?Q  => let cs := allVars cs P in allVars cs Q
   | ?X ≈ ?Y   => let cs := allVars cs X in allVars cs Y
@@ -145,10 +154,12 @@ Ltac allVars cs e :=
 
 Ltac reifyTerm env cs t :=
   lazymatch t with
-  | @id ?c ?x =>
+  (* | @id ?c ?x => *)
+  | @id _ _ =>
     (* let xn := lookupObj c cs x in *)
     constr:(@SIdent)
-  | @compose ?c ?x ?y ?z ?f ?g =>
+  (* | @compose ?c ?x ?y ?z ?f ?g => *)
+  | @compose _ _ _ _ ?f ?g =>
     let ft := reifyTerm env cs f in
     let gt := reifyTerm env cs g in
     (* let xn := lookupObj c cs x in *)

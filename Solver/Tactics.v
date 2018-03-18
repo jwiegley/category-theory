@@ -1,7 +1,10 @@
 Set Warnings "-notation-overridden".
 
-Require Export Category.Lib.
-Require Export Solver.Denote.
+Require Import Coq.PArith.PArith.
+
+Require Import Category.Lib.
+Require Import Category.Lib.Equality.
+Require Import Category.Solver.Denote.
 
 Generalizable All Variables.
 
