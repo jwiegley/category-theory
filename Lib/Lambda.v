@@ -21,7 +21,7 @@ Inductive Scope (var : type -> Type) (t : type) : type -> Type :=
 Arguments Here {_ _}.
 Arguments Next {_ _ _} _.
 
-Fixpoint map_scope {var var' : type -> Type}
+Fixpoint scope_map {var var' : type -> Type}
         (f : forall t, var t -> var' t)
         {d ty} (e : Scope var d ty) : Scope var' d ty :=
   match e with
@@ -29,58 +29,69 @@ Fixpoint map_scope {var var' : type -> Type}
   | Next x => Next (f _ x)
   end.
 
-Inductive Lambda (var : type -> Type) : type -> Type :=
-  | Var : forall t : type, var t -> Lambda var t
+(** The lambda calculus
+
+    This variant of the lambda calculus uses the "Bound" approach to lexical
+    binding. It lacks the elegance of PHOAS when constructing terms in Coq
+    directly, but if you are parsing an into this form, it has the benefit
+    of no higher-order functions.
+
+    Using Scope, referencing an unbound variable is a type error, and
+    referencing a bound variable of the wrong type is also a type error.
+    The type of free variables is given by [var] at the outermost level. *)
+
+Inductive Lam (var : type -> Type) : type -> Type :=
+  | Var : forall t : type, var t -> Lam var t
   | Abs : forall d c : type,
-      Lambda (Scope var d) c -> Lambda var (Func d c)
+      Lam (Scope var d) c -> Lam var (Func d c)
   | App : forall d c : type,
-      Lambda var (Func d c) -> Lambda var d -> Lambda var c.
+      Lam var (Func d c) -> Lam var d -> Lam var c.
 
 Arguments Var {var _} _.
 Arguments Abs {var _ _} _.
 Arguments App {var _ _} _ _.
 
-Fixpoint lambda_size {var : type -> Type} {ty} (e : Lambda var ty) : nat :=
+Fixpoint lam_size {var : type -> Type} {ty} (e : Lam var ty) : nat :=
   match e with
   | Var x => 1
-  | Abs x => 1 + lambda_size x
-  | App func arg => 1 + lambda_size func + lambda_size arg
+  | Abs x => 1 + lam_size x
+  | App func arg => 1 + lam_size func + lam_size arg
   end.
 
-Fixpoint map_lambda {var var' : type -> Type}
-         (f : forall t, var t -> var' t)
-         {ty} (e : Lambda var ty) : Lambda var' ty :=
+Fixpoint lam_map {var var' : type -> Type} (f : forall t, var t -> var' t)
+         {ty} (e : Lam var ty) : Lam var' ty :=
   match e with
   | Var x => Var (f _ x)
-  | Abs x => Abs (map_lambda (fun _ => map_scope f) x)
-  | App func arg => App (map_lambda f func) (map_lambda f arg)
+  | Abs x => Abs (lam_map (fun _ => scope_map f) x)
+  | App func arg => App (lam_map f func) (lam_map f arg)
   end.
 
-Lemma map_lambda_size {var var' : type -> Type}
-      (f : forall t, var t -> var' t)
-      {ty} (e : Lambda var ty) :
-  lambda_size (map_lambda f e) = lambda_size e.
+Lemma lam_map_size {var var' : type -> Type}
+      (f : forall t, var t -> var' t) {ty} (e : Lam var ty) :
+  lam_size (lam_map f e) = lam_size e.
 Proof.
   generalize dependent var'.
   induction e; simpl; auto.
 Defined.
 
+(** Instantiating a bound variable is function application. *)
+
 Definition instantiate {var : type -> Type}
-           {d c} (v : var d) (e : Lambda (Scope var d) c) :
-  Lambda var c :=
+           {d c} (v : var d) (e : Lam (Scope var d) c) :
+  Lam var c :=
   let go _ x :=
       match x with
       | Here => v
       | Next x => x
       end in
-  map_lambda go e.
+  lam_map go e.
 
 Corollary instantiate_size {var : type -> Type} {d c} (v : var d)
-          (e : Lambda (Scope var d) c) :
-  lambda_size (instantiate v e) = lambda_size e.
+          (e : Lam (Scope var d) c) :
+  lam_size (instantiate v e) = lam_size e.
 Proof.
   unfold instantiate.
-  apply map_lambda_size.
+  apply lam_map_size.
 Defined.
 
 Import EqNotations.
@@ -92,9 +103,9 @@ Ltac simpl_eq :=
          EqdepFacts.internal_eq_sym_internal in *.
 
 Program Fixpoint lamD {t : type} (var : type -> Type)
-        (e : Lambda (typeD var) t)
-        {measure (lambda_size e)} : typeD var t :=
-  match e as e' in Lambda _ t'
+        (e : Lam (typeD var) t)
+        {measure (lam_size e)} : typeD var t :=
+  match e as e' in Lam _ t'
   return forall H : t' = t, e' = rew <- H in e -> typeD var t' with
   | Var x => fun _ _ => x
   | Abs body => fun _ _ => fun arg => lamD var (instantiate arg body)
@@ -109,9 +120,22 @@ Next Obligation. simpl_eq; subst; simpl; abstract omega. Defined.
 
 Print Assumptions lamD.
 
+Program Fixpoint lamT {t} (e : Lam (fun _ => Type) t)
+        {measure (lam_size e)} : Type :=
+  match e as e' in Lam _ t'
+  return forall H : t' = t, e' = rew <- H in e -> Type with
+  | Var x => fun _ _ => x
+  | Abs body => fun _ _ => forall arg, lamT (instantiate arg body)
+  | App func arg => fun _ _ => False
+  end eq_refl eq_refl.
+Next Obligation.
+  rewrite instantiate_size.
+  simpl_eq; subst; simpl; abstract omega.
+Defined.
+
 (* ∀ (f : () -> ()) (t : ()), f t : () *)
 Definition example1 :
-  Lambda (fun _ => nat) (Func Ty (Func Ty Ty)) :=
+  Lam (fun _ => nat) (Func Ty (Func Ty Ty)) :=
   Abs (Abs (App (Abs (Var Here)) (Var Here))).
 
 Notation "^" := Var.
@@ -123,7 +147,8 @@ Eval cbv beta iota delta zeta in
     lamD (fun _ => unit) ((\x : Ty, ^Here) @ ^tt).
 
 Eval cbv beta iota delta zeta in
-    lamD (fun _ => nat) (@Abs _ Ty Ty (^(Next 5)) @ ^5).
+    lamT (\x : Ty, \y : Ty, \z : Ty,
+           ^(Next (Next (Next (list nat)))) @ ^(Next Here)).
 
-Definition Let_In {d c var} (x : Lambda var d) (e : Lambda (Scope var d) c) :
-  Lambda var c := App (Abs e) x.
+Eval cbv beta iota delta zeta in
+    lamD (fun _ => nat) (@Abs _ Ty Ty (^(Next 5)) @ ^5).
