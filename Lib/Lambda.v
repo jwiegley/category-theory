@@ -118,19 +118,6 @@ Next Obligation. simpl_eq; subst; simpl; abstract omega. Defined.
 
 Print Assumptions lamD.
 
-Program Fixpoint lamT {t} (e : Lam (fun _ => Type) t)
-        {measure (lam_size e)} : Type :=
-  match e as e' in Lam _ t'
-  return forall H : t' = t, e' = rew <- H in e -> Type with
-  | Var x => fun _ _ => x
-  | Abs body => fun _ _ => forall arg, lamT (instantiate arg body)
-  | App func arg => fun _ _ => False
-  end eq_refl eq_refl.
-Next Obligation.
-  rewrite instantiate_size.
-  simpl_eq; subst; simpl; abstract omega.
-Defined.
-
 (* ∀ (f : () -> ()) (t : ()), f t : () *)
 Definition example1 :
   Lam (fun _ => nat) (Func Ty (Func Ty Ty)) :=
@@ -143,10 +130,6 @@ Notation "\ x : t , e" :=
 
 Eval cbv beta iota delta zeta in
     lamD (fun _ => unit) ((\x : Ty, ^Here) @ ^tt).
-
-Eval cbv beta iota delta zeta in
-    lamT (\x : Ty, \y : Ty, \z : Ty,
-           ^(Next (Next (Next (list nat)))) @ ^(Next Here)).
 
 Eval cbv beta iota delta zeta in
     lamD (fun _ => nat) (@Abs _ Ty Ty (^(Next 5)) @ ^5).
