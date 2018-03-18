@@ -1,9 +1,6 @@
 Require Import Coq.Bool.Bool.
 Require Import Coq.omega.Omega.
-
-Require Import Equations.Equations.
-Require Import Equations.EqDec.
-Unset Equations WithK.
+Require Import Coq.Program.Wf.
 
 Generalizable All Variables.
 
@@ -24,7 +21,7 @@ Inductive Scope (var : type -> Type) (t : type) : type -> Type :=
 Arguments Here {_ _}.
 Arguments Next {_ _ _} _.
 
-Program Fixpoint map_scope {var var' : type -> Type}
+Fixpoint map_scope {var var' : type -> Type}
         (f : forall t, var t -> var' t)
         {d ty} (e : Scope var d ty) : Scope var' d ty :=
   match e with
