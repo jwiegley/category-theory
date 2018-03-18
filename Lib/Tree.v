@@ -6,6 +6,7 @@ Unset Equations WithK.
 
 Require Import Category.Lib.
 Require Import Category.Lib.TList.
+(* Require Import Category.Lib.IList. *)
 
 Generalizable All Variables.
 
@@ -130,5 +131,15 @@ Fixpoint demote `(t : ttree d c) : tree (forgetType rd) :=
 
 Definition promote (d c : indexType td) (e : tree (forgetType rd)) :
   option (ttree d c) := fold TLeaf TNode TBranch d c e.
+
+(*
+Inductive trose : indexType td -> indexType td -> Type :=
+  | RLeaf (d : indexType td) : trose d d
+  | RNode (f : valueType td) (arity : nat)
+          (tys : Vector.t (indexType td * indexType td) arity)
+          (xs : list (trose (valueDom td f) (valueCod td f)))  :
+      trose (valueDom td f) (valueCod td f)
+  | RBranch (d m c : indexType td) (f : trose d m) (g : trose m c) : trose d c.
+*)
 
 End Functions.
