@@ -129,4 +129,4 @@ Ltac desh :=
       let x := fresh "x" in
       let e := fresh "e" in
       destruct H as [x e]
-    end); auto; try solve cat.
+    end); auto; try solve [ cat ].
