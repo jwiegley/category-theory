@@ -39,9 +39,6 @@ Construction/Arrow.v
 Construction/Opposite.v
 Construction/Groupoid.v
 Construction/Subcategory.v
-Construction/Comma/Adjunction.v
-Construction/Comma/Adjunction2.v
-Construction/Comma/Adjunction/Lib.v
 Construction/Comma/Natural/Transformation.v
 Construction/Comma/Isomorphism.v
 Construction/Cayley.v
