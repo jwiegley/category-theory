@@ -5,7 +5,7 @@
 # done
 
 all: Makefile.coq
-	make -f Makefile.coq # TIMECMD=time
+	make -j1 -f Makefile.coq TIMECMD=time
 
 Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
