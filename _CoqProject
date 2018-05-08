@@ -39,9 +39,6 @@ Construction/Arrow.v
 Construction/Opposite.v
 Construction/Groupoid.v
 Construction/Subcategory.v
-Construction/Comma/Adjunction.v
-Construction/Comma/Adjunction2.v
-Construction/Comma/Adjunction/Lib.v
 Construction/Comma/Natural/Transformation.v
 Construction/Comma/Isomorphism.v
 Construction/Cayley.v
@@ -131,11 +128,9 @@ Functor/Product.v
 Functor/Product/Internal.v
 Functor/Coproduct.v
 Functor/Construction/Product.v
-Functor/Construction/Product/Monoidal.v
 Functor/Construction/Product/Strong.v
 Functor/Representable.v
 Functor/Strong.v
-Functor/Strong/Product.v
 Functor/Structure/Monoidal.v
 Functor/Structure/Monoidal/Id.v
 Functor/Structure/Monoidal/Compose.v
