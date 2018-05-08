@@ -22,7 +22,7 @@ matrix:
     - env: COQVERSION=coq_8_8
 
 script:
-  - nix-build --argstr compiler $COQVERSION
+  - travis_wait 30 nix-build --argstr compiler $COQVERSION
 
 branches:
   only:
