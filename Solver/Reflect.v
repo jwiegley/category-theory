@@ -170,9 +170,7 @@ Proof.
   generalize dependent cod.
   generalize dependent dom.
   unfold stermD; induction t; simpl; intros; desh.
-  - now exists id; cat.
   - rewrite Pos_to_fin_spec; desh.
-    now exists (helper (ith arrs f)); cat.
   - exists (termD t1 ∘ termD t2).
     now rewrite Heqo0, Fin_eq_dec_refl; cat.
 Qed.
@@ -184,8 +182,6 @@ Proof.
   generalize dependent cod.
   generalize dependent dom.
   unfold stermD, STerm_embed; induction e; simpl; intros; desh.
-  - now eexists; cat.
-  - now eexists; cat.
   - specialize (IHe1 _ _ h1).
     specialize (IHe2 _ _ h0).
     rewrite Heqo0 in IHe2.

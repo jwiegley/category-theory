@@ -111,14 +111,10 @@ Proof.
   generalize dependent t2.
   unfold stermD; induction t1; simpl; intros.
   - desh.
-    eexists h.
-    now split; cat.
   - desh.
     destruct t1; simpl in *.
       destruct t2; simpl in *.
         desh.
-        exists (helper (ith arrs t)).
-        now split; cat.
       desh.
       exists (helper (ith arrs t) ∘ h).
       split; cat.
