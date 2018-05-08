@@ -4,8 +4,6 @@ git:
   depth: 1
 
 install:
-  - nix-shell --argstr compiler coq_8_4 --run true
-  - nix-shell --argstr compiler coq_8_5 --run true
   - nix-shell --argstr compiler coq_8_6 --run true
   - nix-shell --argstr compiler coq_8_7 --run true
   - nix-shell --argstr compiler coq_8_8 --run true
@@ -15,16 +13,12 @@ env:
     - NIXPKGS_TESTS=yes
     - MATCHING_TESTS=yes
   matrix:
-    - COQVERSION=coq_8_4
-    - COQVERSION=coq_8_5
     - COQVERSION=coq_8_6
     - COQVERSION=coq_8_7
     - COQVERSION=coq_8_8
 
 matrix:
   allow_failures:
-    - env: COQVERSION=coq_8_4
-    - env: COQVERSION=coq_8_5
     - env: COQVERSION=coq_8_8
 
 script:
