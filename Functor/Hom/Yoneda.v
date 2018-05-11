@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Theory.Sheaf.
 Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Hom.
 Require Import Category.Instance.Fun.
@@ -11,9 +12,6 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
-
-Definition Presheaves   {C : Category} := [C^op, Sets].
-Definition Copresheaves {C : Category} := [C, Sets].
 
 (* The Yoneda lemma tells us that a natural transformation, from the covariant
    or contravariant hom-functor on some object in C, to some other functor

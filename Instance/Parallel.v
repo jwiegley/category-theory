@@ -138,3 +138,60 @@ Next Obligation. destruct x0; simpl; cat. Qed.
 Next Obligation.
   destruct x0, y0, z; simpl; auto with parallel_laws; cat.
 Qed.
+
+(* A contravariant functor on this category is given by a pair of sets G0,G1
+   and a pair of function source, target: G_1\to G_0. Identities are sent to
+   identities.
+
+   In other words, a presheaf on the category 0⟹1 is a graph. *)
+
+Require Import Category.Functor.Opposite.
+Require Import Category.Instance.Sets.
+
+Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {|
+  fobj := fun z => match z with
+    | ParX => {| carrier := nat |}       (* vertices *)
+    | ParY => {| carrier := nat * nat |} (* edges *)
+    end;
+  fmap := fun z w h => match z, w with
+    | ParX, ParX => id
+    | ParY, ParY => id
+    | ParX, ParY => False_rect _ (ParHom_Y_X_absurd _ (projT2 h))
+    | ParY, ParX =>
+      match ``h with
+      | true  => {| morphism := fst |} (* source *)
+      | false => {| morphism := snd |} (* target *)
+      end
+    end
+|}.
+Next Obligation.
+  construct.
+  exact eq.
+  exact eq_equivalence.
+Defined.
+Next Obligation.
+  construct.
+  exact eq.
+  exact eq_equivalence.
+Defined.
+Next Obligation.
+  proper.
+  simpl in H; subst.
+  destruct x, y; simpl; auto.
+  - elimtype False.
+    now apply ParHom_Y_X_absurd in e.
+Qed.
+Next Obligation.
+  destruct x; simpl; auto.
+Qed.
+Next Obligation.
+  destruct x, y, z; simpl; auto.
+  - elimtype False.
+    now apply ParHom_Y_X_absurd in X0.
+  - elimtype False.
+    now apply ParHom_Y_X_absurd in X.
+  - elimtype False.
+    now apply ParHom_Y_X_absurd in X.
+  - elimtype False.
+    now apply ParHom_Y_X_absurd in X0.
+Qed.
