@@ -1,6 +1,6 @@
 language: nix
 
-sudo: false
+sudo: true
 
 git:
   depth: 1
