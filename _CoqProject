@@ -43,6 +43,9 @@ Construction/Subcategory.v
 Construction/Comma/Natural/Transformation.v
 Construction/Comma/Isomorphism.v
 Construction/Cayley.v
+Construction/Comma/Adjunction2.v
+Construction/Comma/Adjunction.v
+Construction/Comma/Adjunction/Lib.v
 Structure/Discrete.v
 Structure/Terminal.v
 Structure/Cartesian.v
@@ -129,7 +132,6 @@ Functor/Product.v
 Functor/Product/Internal.v
 Functor/Coproduct.v
 Functor/Construction/Product.v
-Functor/Construction/Product/Strong.v
 Functor/Representable.v
 Functor/Strong.v
 Functor/Structure/Monoidal.v
@@ -137,11 +139,14 @@ Functor/Structure/Monoidal/Id.v
 Functor/Structure/Monoidal/Compose.v
 Functor/Structure/Monoidal/Pure.v
 Functor/Traversable.v
-Functor/Traversable/Product.v
 Functor/Structure/Cartesian.v
 Functor/Structure/Closed.v
 Functor/Structure/Constant.v
 Functor/Structure/Terminal.v
+Functor/Traversable/Product.v
+Functor/Strong/Product.v
+Functor/Construction/Product/Strong.v
+Functor/Construction/Product/Monoidal.v
 Natural/Transformation/Opposite.v
 Natural/Transformation/Monoidal.v
 Natural/Transformation/Strong.v

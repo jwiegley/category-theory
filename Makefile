@@ -1,11 +1,10 @@
-# @for i in $$(find . -name '*.v' | sed 's/^\.\///'); do	\
-#     if ! grep -q $$i _CoqProject; then			\
-#	echo $$i is not in_CoqProject; exit 1;		\
-#     fi;							\
-# done
-
 all: Makefile.coq
-	make -j1 -f Makefile.coq # TIMECMD=time
+	@for i in $$(find . -name '*.v' | sed 's/^\.\///'); do	\
+	    if ! grep -q $$i _CoqProject; then			\
+		echo NOT IN _CoqProject: $$i;			\
+	    fi;							\
+	done
+	make -j4 -f Makefile.coq # TIMECMD=time
 
 Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
