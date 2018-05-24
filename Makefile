@@ -9,6 +9,9 @@ all: Makefile.coq
 Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
 
+install: _CoqProject Makefile.coq
+	make -f Makefile.coq COQLIB=$(COQLIB) install
+
 clean: _CoqProject Makefile.coq
 	make -f Makefile.coq clean
 	@find . \( -name '*.glob' -o				\
