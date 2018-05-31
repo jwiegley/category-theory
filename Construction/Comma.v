@@ -3,6 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
+Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Construction.Product.
 
 Generalizable All Variables.
@@ -11,9 +12,7 @@ Set Universe Polymorphism.
 
 Section Comma.
 
-Context {A : Category}.
-Context {B : Category}.
-Context {C : Category}.
+Context {A B C : Category}.
 
 Context {S : A ⟶ C}.
 Context {T : B ⟶ C}.
@@ -30,14 +29,14 @@ Context {T : B ⟶ C}.
    punctuation mark." *)
 
 Program Definition Comma : Category := {|
-  obj     := ∃ p : A ∏ B, S (fst p) ~> T (snd p);
+  obj     := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p);
   hom     := fun x y =>
-    ∃ f : (fst (`` x) ~> fst (`` y)) * (snd (`` x) ~> snd (`` y)),
-      projT2 y ∘ fmap (fst f) ≈ fmap (snd f) ∘ projT2 x;
+    ∃ f : (fst (`1 x) ~{A}~> fst (`1 y)) * (snd (`1 x) ~{B}~> snd (`1 y)),
+      `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x;
   homset  := fun _ _ =>
-    {| equiv := fun f g => (fst ``f ≈ fst ``g) * (snd ``f ≈ snd ``g) |};
+    {| equiv := fun f g => (fst `1 f ≈ fst `1 g) * (snd `1 f ≈ snd `1 g) |};
   id      := fun _ => ((id, id); _);
-  compose := fun _ _ _ f g => ((fst ``f ∘ fst ``g, snd ``f ∘ snd ``g); _)
+  compose := fun _ _ _ f g => ((fst `1 f ∘ fst `1 g, snd `1 f ∘ snd `1 g); _)
 |}.
 Next Obligation.
   simpl in *.
@@ -62,12 +61,14 @@ Program Instance comma_proj2 : Comma ⟶ B := {|
   fmap := fun _ _ f => snd ``f
 |}.
 
+Program Instance comma_proj_nat : S ○ comma_proj1 ⟹ T ○ comma_proj2.
+
 End Comma.
 
 Notation "S ↓ T" := (@Comma _ _ _ S T) (at level 90) : category_scope.
 
-Theorem comma_proj_iso A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
-  x ≅ y -> ``x ≅[A ∏ B] ``y.
+Theorem comma_proj_mor_iso A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
+  x ≅ y -> `1 x ≅[A ∏ B] `1 y.
 Proof.
   destruct 1; simpl.
   isomorphism.
@@ -76,6 +77,36 @@ Proof.
   - apply iso_to_from.
   - apply iso_from_to.
 Qed.
+
+Theorem comma_proj_com_iso A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
+  forall iso : x ≅ y,
+    `2 x ≈ fmap[T] (snd `1 (from iso)) ∘ `2 y ∘
+           fmap[S] (fst `1 (to   iso)).
+Proof.
+  intros.
+  pose proof (iso_from_to iso); simpl in X.
+  destruct (from iso), x0; simpl in *.
+  rewrite <- e.
+  rewrite <- comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite (fst X).
+  cat.
+Qed.
+
+Require Import Category.Instance.Cat.
+
+Theorem comma_iso
+        A B C (S : A ⟶ C) (T : B ⟶ C)
+        D E F (U : D ⟶ F) (V : E ⟶ F) :
+  forall iso : (S ↓ T) ≅[Cat] (U ↓ V),
+    True.
+Proof.
+Abort.
+
+Corollary comma_mor_nat A B C (S : A ⟶ C) (T : B ⟶ C)
+          (x y : S ↓ T) (f : x ~> y) :
+  `2 y ∘ fmap[S] (fst `1 f) ≈ fmap[T] (snd `1 f) ∘ `2 x.
+Proof. exact `2 f. Qed.
 
 Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Opposite.
