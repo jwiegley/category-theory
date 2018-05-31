@@ -211,25 +211,25 @@ Next Obligation.
   simpl; srewrite (iso_from_to hom_adj (a, b) x); cat.
 Defined.
 Next Obligation.
-  spose (naturality (to hom_adj) (y, c) (x, c) (g, id) f) as X.
+  spose (naturality (to hom_adj) (y, z) (x, z) (g, id) f) as X.
   rewrite fmap_id, id_left in X.
   rewrites.
   apply proper_morphism; cat.
 Qed.
 Next Obligation.
-  spose (naturality (to hom_adj) (x, y) (x, c) (id, f) g) as X.
+  spose (naturality (to hom_adj) (x, y) (x, z) (id, f) g) as X.
   rewrite id_right in X.
   rewrites.
   apply proper_morphism; cat.
 Qed.
 Next Obligation.
-  spose (naturality (from hom_adj) (y, c) (x, c) (g, id) f) as X.
+  spose (naturality (from hom_adj) (y, z) (x, z) (g, id) f) as X.
   rewrite id_left in X.
   rewrites.
   apply proper_morphism; cat.
 Qed.
 Next Obligation.
-  spose (naturality (from hom_adj) (x, y) (x, c) (id, f) g) as X.
+  spose (naturality (from hom_adj) (x, y) (x, z) (id, f) g) as X.
   rewrite fmap_id, id_right in X.
   rewrites.
   apply proper_morphism; cat.

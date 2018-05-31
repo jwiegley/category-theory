@@ -36,27 +36,101 @@ Context {D : Category}.
 Context {F : D ⟶ C}.
 Context {U : C ⟶ D}.
 
+Reserved Notation "⌊ f ⌋".
+Reserved Notation "⌈ f ⌉".
+
 Class Adjunction := {
-  adj {x y} : F x ~{C}~> y ≊ x ~{D}~> U y;
+  adj {x y} : F x ~{C}~> y ≊ x ~{D}~> U y
+     where "⌊ f ⌋" := (to   adj f)
+       and "⌈ f ⌉" := (from adj f);
 
-  to_adj_nat_l {x y c} (f : F y ~> c) (g : x ~> y) :
-    to adj (f ∘ fmap[F] g) ≈ to adj f ∘ g;
-  to_adj_nat_r {x y c} (f : y ~> c) (g : F x ~> y) :
-    to adj (f ∘ g) ≈ fmap[U] f ∘ to adj g;
+  to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) :
+    ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g;
+  to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) :
+    ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋;
 
-  from_adj_nat_l {x y c} (f : y ~> U c) (g : x ~> y) :
-    adj⁻¹ (f ∘ g) ≈ adj⁻¹ f ∘ fmap[F] g;
-  from_adj_nat_r {x y c} (f : y ~> c) (g : x ~> U y) :
-    adj⁻¹ (fmap[U] f ∘ g) ≈ f ∘ adj⁻¹ g
+  from_adj_nat_l {x y z} (f : y ~> U z) (g : x ~> y) :
+    ⌈f ∘ g⌉ ≈ ⌈f⌉ ∘ fmap[F] g;
+  from_adj_nat_r {x y z} (f : y ~> z) (g : x ~> U y) :
+    ⌈fmap[U] f ∘ g⌉ ≈ f ∘ ⌈g⌉
 }.
 
 Context `{@Adjunction}.
 
-Definition unit   {x : D} : x ~> U (F x) := to adj id.
-Definition counit {x : C} : F (U x) ~> x := adj⁻¹ id.
+Notation "⌊ f ⌋" := (to adj f).
+Notation "⌈ f ⌉" := (from adj f).
 
-Corollary adj_unit  {x y} (f : F x ~> y) :
-  to adj f ≈ fmap f ∘ unit.
+Corollary adj_univ `(f : F x ~> y) (g : x ~> U y) :
+  f ≈ ⌈g⌉ ↔ ⌊f⌋ ≈ g.
+Proof.
+  split; intros.
+    rewrite X.
+    sapply (@iso_to_from Sets _ _ (@adj _ x y)).
+  rewrite <- X.
+  symmetry.
+  sapply (@iso_from_to Sets _ _ (@adj _ x y)).
+Qed.
+
+Corollary to_adj_comp_law {x y} (f : F x ~> y) :
+  ⌈⌊f⌋⌉ ≈ f.
+Proof. sapply (@iso_from_to Sets _ _ (@adj _ x y) f). Qed.
+
+Corollary from_adj_comp_law {x y} (f : x ~> U y) :
+  ⌊⌈f⌉⌋ ≈ f.
+Proof. sapply (@iso_to_from Sets _ _ (@adj _ x y) f). Qed.
+
+Definition unit   {x : D} : x ~> U (F x) := ⌊id⌋.
+Definition counit {x : C} : F (U x) ~> x := ⌈id⌉.
+
+Notation "'η'" := unit.
+Notation "'ε'" := counit.
+
+Corollary from_adj_unit {x} :
+  ⌈η⌉ ≈ id[F x].
+Proof. sapply (@iso_from_to Sets _ _ (@adj _ x (F x))). Qed.
+
+Corollary to_adj_counit {x} :
+  ⌊ε⌋ ≈ id[U x].
+Proof. sapply (@iso_to_from Sets _ _ (@adj _ (U x) x)). Qed.
+
+Corollary counit_comp {x y} (f : F x ~> y) :
+  ε ∘ fmap[F] (fmap[U] f) ≈ f ∘ ε.
+Proof.
+  unfold counit.
+  rewrite <- from_adj_nat_l.
+  rewrite <- from_adj_nat_r.
+  rewrite id_left, id_right.
+  reflexivity.
+Qed.
+
+Corollary unit_comp {x y} (f : x ~> U y) :
+  fmap[U] (fmap[F] f) ∘ η ≈ η ∘ f.
+Proof.
+  unfold unit.
+  rewrite <- to_adj_nat_l.
+  rewrite <- to_adj_nat_r.
+  rewrite id_left, id_right.
+  reflexivity.
+Qed.
+
+Corollary adj_univ_impl {x y} (f : F x ~> y) (g : x ~> U y) :
+  f ≈ ε ∘ fmap[F] g ↔ ⌊f⌋ ≈ g.
+Proof.
+  unfold counit.
+  split; intros.
+    rewrite X; clear X.
+    rewrite <- from_adj_nat_l.
+    rewrite id_left.
+    apply from_adj_comp_law.
+  rewrite <- X; clear X.
+  rewrite <- from_adj_nat_l.
+  rewrite id_left.
+  symmetry.
+  apply to_adj_comp_law.
+Qed.
+
+Corollary to_adj_unit {x y} (f : F x ~> y) :
+  ⌊f⌋ ≈ fmap[U] f ∘ η.
 Proof.
   rewrite <- (id_right f).
   rewrite to_adj_nat_r.
@@ -64,37 +138,47 @@ Proof.
 Qed.
 
 Corollary from_adj_counit {x y} (f : x ~> U y) :
-  adj⁻¹ f ≈ counit ∘ fmap f.
+  ⌈f⌉ ≈ ε ∘ fmap[F] f.
 Proof.
   rewrite <- (id_left f).
   rewrite from_adj_nat_l.
   rewrite fmap_comp; cat.
 Qed.
 
-Corollary adj_counit {x} : to adj counit ≈ @id D (U x).
-Proof. sapply (@iso_to_from Sets _ _ (@adj _ (U x) x)). Qed.
-
-Corollary from_adj_unit {x} : adj⁻¹ unit ≈ @id C (F x).
-Proof. sapply (@iso_from_to Sets _ _ (@adj _ x (F x))). Qed.
-
-Corollary counit_fmap_unit  {x} : counit ∘ fmap[F] unit ≈ @id C (F x).
+Corollary counit_fmap_unit  {x} :
+  ε ∘ fmap[F] η ≈ id[F x].
 Proof.
   unfold unit, counit.
   rewrite <- from_adj_nat_l; cat.
   sapply (@iso_from_to Sets _ _ (@adj _ x (F x))).
 Qed.
 
-Corollary fmap_counit_unit  {x} : fmap[U] counit ∘ unit ≈ @id D (U x).
+Corollary fmap_counit_unit  {x} :
+  fmap[U] ε ∘ η ≈ id[U x].
 Proof.
   unfold unit, counit.
   rewrite <- to_adj_nat_r; cat.
   sapply (@iso_to_from Sets _ _ (@adj _ (U x) x)).
 Qed.
 
+Corollary fmap_from_adj_unit {x y} (f : x ~{D}~> y) : fmap[F] f ≈ ⌈η ∘ f⌉.
+Proof.
+  unfold unit.
+  rewrite from_adj_nat_l.
+  rewrite to_adj_comp_law; cat.
+Qed.
+
+Corollary fmap_to_adj_counit {x y} (f : x ~{C}~> y) : fmap[U] f ≈ ⌊f ∘ ε⌋.
+Proof.
+  unfold counit.
+  rewrite to_adj_nat_r.
+  rewrite from_adj_comp_law; cat.
+Qed.
+
 (* If F is a faithful functor, and f is monic, then adj f is monic. *)
 Theorem adj_monic  {x y} (f : F x ~> y) c (g h : c ~> x) :
-  Faithful F -> Monic f
-    -> to adj f ∘ g ≈ to adj f ∘ h -> g ≈ h.
+  Faithful F -> Monic f ->
+    ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h -> g ≈ h.
 Proof.
   intros.
   rewrite <- !to_adj_nat_l in X1.
@@ -111,13 +195,13 @@ Proof.
   exact tt.
 Qed.
 
-Corollary from_adj_respects {x y} (f g : x ~{D}~> U y) :
-  f ≈ g -> adj⁻¹ f ≈ adj⁻¹ g.
-Proof. intros; rewrites; reflexivity. Qed.
+Corollary to_adj_respects {x y} (f g : F x ~{C}~> y) :
+  f ≈ g -> ⌊f⌋ ≈ ⌊g⌋.
+Proof. intros; now rewrites. Qed.
 
-Corollary adj_respects {x y} (f g : F x ~{C}~> y) :
-  f ≈ g -> to adj f ≈ to adj g.
-Proof. intros; rewrites; reflexivity. Qed.
+Corollary from_adj_respects {x y} (f g : x ~{D}~> U y) :
+  f ≈ g -> ⌈f⌉ ≈ ⌈g⌉.
+Proof. intros; now rewrites. Qed.
 
 End Adjunction.
 
