@@ -202,3 +202,14 @@ This is as a Coq implementation of an idea developed by Conal Elliott, which
 he first implemented in and for Haskell. It is hoped that the medium of
 categories may provide a sound means for transporting Gallina terms into other
 syntactic domains, without relying on Coq's extraction mechanism.
+
+## License
+
+This library is made available under the MIT license, a copy of which is
+included in the file `LICENSE`. Basically: you are free to use it for any
+purpose, personal or commercial (including proprietary derivates), so long as
+a copy of the license file is maintained in the derived work. Further, any
+acknowledgement referring back to this repository, while not necessary, is
+certainly appreciated.
+
+John Wiegley
