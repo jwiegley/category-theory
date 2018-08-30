@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.EndoFunctor.
+Require Export Category.Theory.Functor.Endo.
 Require Export Category.Theory.Monad.
 Require Export Category.Theory.Morphisms.
 Require Export Category.Structure.BiCCC.

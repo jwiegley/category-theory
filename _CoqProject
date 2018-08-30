@@ -21,7 +21,7 @@ Theory/Morphisms.v
 Theory/Isomorphism.v
 Theory/Unique.v
 Theory/Functor.v
-Theory/EndoFunctor.v
+Theory/Functor/Endo.v
 Theory/Naturality.v
 Theory/Natural/Transformation.v
 Theory/Dinatural.v

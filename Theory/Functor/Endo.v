@@ -64,3 +64,7 @@ Next Obligation.
   apply fmap_respects.
   apply fmap_related0.
 Defined.
+
+(** Every Functor from [C] to itself is an endo-functor. *)
+Theorem EndoFunctor_Denotes {C : Category} (F : C ⟶ C) : EndoFunctor F.
+Proof. construct; cat. Qed.
