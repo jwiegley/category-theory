@@ -20,3 +20,4 @@
 /Book.toc
 /Theory/Metacategory/ObjectsArrows
 /Makefile.coq.conf
+/.coqdeps.d
