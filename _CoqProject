@@ -12,7 +12,6 @@ Lib/IList.v
 Lib/TList.v
 Lib/NETList.v
 Lib/Tree.v
-Lib/Lambda.v
 Theory/Category.v
 Theory/Metacategory.v
 Theory/Metacategory/Graph.v
@@ -122,6 +121,7 @@ Instance/Cones/Comma.v
 Instance/Finite.v
 Instance/Finite/Span.v
 Instance/Fact.v
+Instance/Lambda.v
 Functor/Opposite.v
 Functor/Applicative.v
 Functor/Hom.v

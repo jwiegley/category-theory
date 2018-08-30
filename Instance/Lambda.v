@@ -33,8 +33,8 @@ Fixpoint scope_map {var var' : type -> Type}
 
     This variant of the lambda calculus uses the "Bound" approach to lexical
     binding. It lacks the elegance of PHOAS when constructing terms in Coq
-    directly, but if you are parsing an into this form, it has the benefit
-    of no higher-order functions.
+    directly, but if you are parsing an expression into this form, it has
+    the benefit of no higher-order functions.
 
     Using Scope, referencing an unbound variable is a type error, and
     referencing a bound variable of the wrong type is also a type error.
