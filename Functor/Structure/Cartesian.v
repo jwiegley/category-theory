@@ -52,7 +52,7 @@ Qed.
 
 Hint Rewrite @prod_out_in : functors.
 
-Corollary prod_in_inj {x y z : C} (f g : F x ~> F x × F y) :
+Corollary prod_in_inj {x y z : C} (f g : F x ~> F y × F z) :
   prod_in ∘ f ≈ prod_in ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hprod.
