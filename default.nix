@@ -24,7 +24,7 @@ with pkgs.${packages}; pkgs.stdenv.mkDerivation rec {
   buildInputs = [ coq coq.ocaml coq.camlp5 coq.findlib equations ];
   enableParallelBuilding = true;
 
-  buildPhase = "make -j$NIX_BUILD_CORES";
+  buildPhase = "make JOBS=$NIX_BUILD_CORES";
   preBuild = "coq_makefile -f _CoqProject -o Makefile";
   installFlags = "COQLIB=$(out)/lib/coq/${coq.coq-version}/";
 

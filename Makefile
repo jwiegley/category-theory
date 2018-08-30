@@ -4,7 +4,7 @@ all: Makefile.coq
 		echo NOT IN _CoqProject: $$i;			\
 	    fi;							\
 	done
-	make -j4 -f Makefile.coq # TIMECMD=time
+	make -j$(JOBS) -f Makefile.coq # TIMECMD=time
 
 Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
