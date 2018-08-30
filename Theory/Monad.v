@@ -22,8 +22,7 @@ Class Monad := {
   join_fmap_ret  {x} : join ∘ fmap (@ret x) ≈ id;
   join_ret       {x} : join ∘ @ret (M x) ≈ id;
 
-  (* This law states that join is a natural transformation from [fmap . fmap]
-     to [fmap]. *)
+  (* This law states that join is a natural transformation. *)
   join_fmap_fmap {x y} (f : x ~> y) :
     join ∘ fmap (fmap f) ≈ fmap f ∘ join
 }.
