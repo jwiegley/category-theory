@@ -55,7 +55,6 @@ Next Obligation.
 Qed.
 
 Hint Unfold setoid_morphism_compose.
-(* Hint Unfold setoid_morphism_compose_obligation_1. *)
 
 (* The category of setoids.
 
