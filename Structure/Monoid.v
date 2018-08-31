@@ -14,7 +14,7 @@ Unset Transparent Obligations.
 Section MonoidObject.
 
 Context {C : Category}.
-Context `{@Monoidal C}.
+Context `{M : @Monoidal C}.
 
 Class MonoidObject (mon : C) := {
   mempty  : I ~> mon;
@@ -144,6 +144,121 @@ Next Obligation.
   rewrite !id_left.
   apply fork_respects; clear;
   now unfold split; unfork; cat.
+Qed.
+
+Context `{@Closed C _}.
+
+Definition doppel {x y z : C} : x × y × z ~> x × z × (y × z) :=
+  first exl △ first exr.
+
+Global Program Instance InternalHom_Monoid {x} `(Y : Monoid y) :
+  @MonoidObject C InternalProduct_Monoidal (y ^ x) := {
+  mempty  := curry (@mempty _ _ _ Y ∘ exl);
+  mappend := curry (@mappend _ _ _ Y ∘ split eval eval ∘ doppel)
+}.
+Next Obligation.
+  spose (@mempty_left _ _ _ Y) as HY.
+  remember ((curry _ ∘ exl) △ (id[y ^ x] ∘ exr)) as h.
+  assert (h ≈ split (curry (mempty[Y] ∘ exl)) id[y ^ x])
+    by (rewrite Heqh; unfork; cat).
+  rewrite X; clear X Heqh h.
+  unfold doppel.
+  rewrite <- comp_assoc.
+  rewrite split_fork.
+  rewrite curry_comp_l.
+  rewrite <- comp_assoc.
+  rewrite <- fork_comp.
+  rewrite <- !comp_assoc.
+  rewrite <- !first_comp.
+  rewrite exl_split.
+  rewrite exr_split.
+  rewrite !eval_first.
+  rewrite !uncurry_comp.
+  rewrite !uncurry_curry.
+  rewrite <- !comp_assoc.
+  rewrite !exl_first.
+  rewrite <- split_fork.
+  rewrite <- (id_right mempty[Y]) at 1.
+  rewrite <- (id_left (uncurry id[y ^ x])).
+  rewrite <- split_comp.
+  rewrite !comp_assoc.
+  rewrite HY; clear HY.
+  rewrite <- comp_assoc.
+  rewrite split_fork.
+  rewrite exr_fork.
+  rewrite eval_first.
+  now rewrite curry_uncurry.
+Qed.
+Next Obligation.
+  spose (@mempty_right _ _ _ Y) as HY.
+  remember ((id[y ^ x] ∘ exl) △ (curry _ ∘ exr)) as h.
+  assert (h ≈ split id[y ^ x] (curry (mempty[Y] ∘ exl)))
+    by (rewrite Heqh; unfork; cat).
+  rewrite X; clear X Heqh h.
+  unfold doppel.
+  rewrite <- comp_assoc.
+  rewrite split_fork.
+  rewrite curry_comp_l.
+  rewrite <- comp_assoc.
+  rewrite <- fork_comp.
+  rewrite <- !comp_assoc.
+  rewrite <- !first_comp.
+  rewrite exl_split.
+  rewrite exr_split.
+  rewrite !eval_first.
+  rewrite !uncurry_comp.
+  rewrite !uncurry_curry.
+  rewrite <- !comp_assoc.
+  rewrite !exl_first.
+  rewrite <- split_fork.
+  rewrite <- (id_right mempty[Y]) at 1.
+  rewrite <- (id_left (uncurry id[y ^ x])).
+  rewrite <- split_comp.
+  rewrite !comp_assoc.
+  rewrite HY; clear HY.
+  rewrite <- comp_assoc.
+  rewrite split_fork.
+  rewrite exl_fork.
+  rewrite eval_first.
+  now rewrite curry_uncurry.
+Qed.
+Next Obligation.
+  spose (@mappend_assoc _ _ _ Y) as HY.
+  remember ((curry _ ∘ exl) △ (id[y ^ x] ∘ exr)) as h.
+  assert (h ≈ split (curry (mappend[Y] ∘ split eval eval ∘ doppel)) id[y ^ x])
+    by (rewrite Heqh; unfork; cat).
+  rewrite X; clear X Heqh h.
+  remember ((id[y ^ x] ∘ exl) △ (curry _ ∘ exr)) as h.
+  assert (h ≈ split id[y ^ x] (curry (mappend[Y] ∘ split eval eval ∘ doppel)))
+    by (rewrite Heqh; unfork; cat).
+  rewrite X; clear X Heqh h.
+  unfold doppel.
+  rewrite <- !comp_assoc.
+  rewrite !split_fork.
+  rewrite !eval_first.
+  simpl.
+  rewrite split_fork.
+  rewrite !eval_first.
+  unfold split.
+  rewrite !id_left.
+  rewrite !curry_comp_l.
+  rewrite <- !comp_assoc.
+  rewrite <- !fork_comp.
+  rewrite <- !uncurry_comp.
+  rewrite exl_fork.
+  rewrite exr_fork.
+  rewrite !uncurry_curry.
+  rewrite <- (id_left (uncurry exr)).
+  rewrite <- split_fork.
+  rewrite comp_assoc.
+  rewrite HY; clear HY.
+  rewrite id_left.
+  rewrite <- !comp_assoc.
+  rewrite <- !fork_comp.
+  rewrite <- !comp_assoc.
+  rewrite !exl_fork.
+  rewrite !exr_fork.
+  now rewrite uncurry_curry.
 Qed.
 
 End Monoid.
