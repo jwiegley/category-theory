@@ -113,15 +113,15 @@ Ltac morphism :=
 
 Require Import Category.Structure.Terminal.
 
-Program Instance Unit_Setoid : Setoid () := {
+Program Instance Unit_Setoid : Setoid (unit : Type) := {
   equiv := fun x y => x = y
 }.
 
 Program Instance Sets_Terminal : @Terminal Sets := {
-  terminal_obj := {| carrier := unit |};
-  one := _
+  terminal_obj := {| carrier := unit : Type |};
+  one := fun _ => {| morphism := fun _ => tt |};
+  one_unique := fun x f g => _
 }.
-Next Obligation. morphism; [ intros; exact tt | proper ]. Qed.
 Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
 
 Require Import Category.Structure.Initial.
