@@ -240,9 +240,14 @@ Qed.
 
 Hint Rewrite @split_id : categories.
 
-Corollary fork_comp_hetero {x y z w : C}
-          (f : y ~> z) (h : y ~> w) (g i : x ~> y) :
-  (f ∘ g) △ (h ∘ i) ≈ split f h ∘ g △ i.
+Theorem split_comp {x y z w v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) (i : w ~> v) :
+  split f g ∘ split h i ≈ split (f ∘ h) (g ∘ i).
+Proof. unfork. Qed.
+
+Corollary split_fork {x y z w v : C}
+          (f : y ~> w) (h : z ~> v) (g : x ~> y) (i : x ~> z):
+  split f h ∘ g △ i ≈ (f ∘ g) △ (h ∘ i).
 Proof. unfold split; intros; unfork. Qed.
 
 Global Program Instance prod_respects_iso {x y z : C} :
