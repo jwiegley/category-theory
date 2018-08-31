@@ -16,9 +16,9 @@ Context `{@Terminal C}.
 Context `{@Terminal D}.
 
 Class TerminalFunctor := {
-  map_one : 1 ~> F 1;
+  fobj_one_iso : 1 ≅ F 1;
 
-  fmap_one {X : C} : fmap one ≈ map_one ∘ @one _ _ (F X)
+  fmap_one {X : C} : fmap one ≈ to fobj_one_iso ∘ @one _ _ (F X)
 }.
 
 End TerminalFunctor.

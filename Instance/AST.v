@@ -176,7 +176,7 @@ Global Program Instance AST_Functor : AST ⟶ C := {
 }.
 
 Global Program Instance Hom_TerminalFunctor : TerminalFunctor := {
-  map_one := id
+  fobj_one_iso := _
 }.
 
 Global Program Instance Hom_CartesianFunctor : CartesianFunctor := {
@@ -188,7 +188,7 @@ Global Program Instance Hom_ClosedFunctor : ClosedFunctor := {
 }.
 
 Global Program Instance Hom_InitialFunctor : InitialFunctor AST_Functor := {
-  map_one := id
+  fobj_one_iso := _
 }.
 
 Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor AST_Functor := {
