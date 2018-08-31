@@ -322,6 +322,9 @@ Global Program Instance prod_assoc  {x y z : C} :
 Next Obligation. rewrite fork_comp; cat. Qed.
 Next Obligation. rewrite fork_comp; cat. Qed.
 
+Definition toggle {x y : C} : (x × y) × (x × y) ~> (x × x) × (y × y) :=
+  split exl exl △ split exr exr.
+
 End Cartesian.
 
 Infix "×" := (@product_obj _ _) (at level 40, left associativity) : object_scope.
