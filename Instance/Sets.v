@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
-Require Export Category.Theory.Isomorphism.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -76,6 +75,8 @@ Next Obligation.
   rewrite X.
   apply proper_morphism, X0.
 Qed.
+
+Require Import Category.Theory.Isomorphism.
 
 (* An isomorphism between arrows in a category C is an isomorphism of objects
    in the category of set(oid)s, taking [hom] to the be the carrier type, and
