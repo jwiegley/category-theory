@@ -15,6 +15,12 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+Section InternalProduct.
+
+Context {C : Category}.
+Context `{@Cartesian C}.
+Context `{@Terminal C}.
+
 Local Obligation Tactic :=
   unfold proj_left, proj_right; simpl;
   cat_simpl; try split; intros; unfork; cat.
@@ -22,14 +28,12 @@ Local Obligation Tactic :=
 (* Every cartesian category with terminal objects gives rise to a monoidal
    category taking the terminal object as unit, and the tensor as product. *)
 
-Program Definition InternalProduct_Monoidal
-        {C : Category} `{@Cartesian C} `{@Terminal C} : @Monoidal C := {|
+Program Definition InternalProduct_Monoidal : @Monoidal C := {|
   tensor := InternalProductFunctor C;
   I := 1
 |}.
 
-Program Definition InternalProduct_SymmetricMonoidal
-        {C : Category} `{@Cartesian C} `{@Terminal C} :
+Program Definition InternalProduct_SymmetricMonoidal :
   @SymmetricMonoidal C InternalProduct_Monoidal := {|
   twist := fun x y =>
     {| to   := @swap C _ x y
@@ -39,8 +43,7 @@ Program Definition InternalProduct_SymmetricMonoidal
     |}
 |}.
 
-Program Definition InternalProduct_CartesianMonoidal
-        {C : Category} `{@Cartesian C} `{@Terminal C} :
+Program Definition InternalProduct_CartesianMonoidal :
   @CartesianMonoidal C InternalProduct_Monoidal := {|
   is_semicartesian := {| eliminate := fun _ => one |};
   is_relevance := {| diagonal  := fun _ => id △ id |}
@@ -53,3 +56,5 @@ Next Obligation.
     apply one_unique.
   reflexivity.
 Qed.
+
+End InternalProduct.
