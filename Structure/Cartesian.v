@@ -43,7 +43,7 @@ Definition second  {x y z : C} (f : x ~> y) : z × x ~> z × y :=
 
 Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x × z ~> y × w :=
-  first f ∘ second g.
+  (f ∘ exl) △ (g ∘ exr).
 
 Global Program Instance parametric_morphism_first {a b c : C} :
   Proper (equiv ==> equiv) (@first a b c).
@@ -233,10 +233,7 @@ Proof. unfork. Qed.
 
 Theorem split_id {x y : C} :
   split (id[x]) (id[y]) ≈ id[x × y].
-Proof.
-  unfold split.
-  rewrite first_id, second_id; cat.
-Qed.
+Proof. unfork; cat. Qed.
 
 Hint Rewrite @split_id : categories.
 
@@ -245,7 +242,15 @@ Theorem split_comp {x y z w v u : C}
   split f g ∘ split h i ≈ split (f ∘ h) (g ∘ i).
 Proof. unfork. Qed.
 
-Corollary split_fork {x y z w v : C}
+Theorem exl_split {x y z w : C} (f : x ~> y) (g : z ~> w):
+  exl ∘ split f g ≈ f ∘ exl.
+Proof. unfork; cat. Qed.
+
+Theorem exr_split {x y z w : C} (f : x ~> y) (g : z ~> w):
+  exr ∘ split f g ≈ g ∘ exr.
+Proof. unfork; cat. Qed.
+
+Theorem split_fork {x y z w v : C}
           (f : y ~> w) (h : z ~> v) (g : x ~> y) (i : x ~> z):
   split f h ∘ g △ i ≈ (f ∘ g) △ (h ∘ i).
 Proof. unfold split; intros; unfork. Qed.
@@ -324,6 +329,9 @@ Next Obligation. rewrite fork_comp; cat. Qed.
 
 Definition toggle {x y : C} : (x × y) × (x × y) ~> (x × x) × (y × y) :=
   split exl exl △ split exr exr.
+
+(* Theorem toggle_fork_fork : *)
+(*   toggle ∘ (f △ g) △ (h △ i) ≈  *)
 
 End Cartesian.
 
