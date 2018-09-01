@@ -29,7 +29,7 @@ Program Instance Coq_Terminal : @Terminal Coq := {
 Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
 
 Program Instance Coq_Cartesian : @Cartesian Coq := {
-  product_obj := prod;
+  product_obj := fun x y => x * y : Type;
   fork := fun _ _ _ f g x => (f x, g x);
   exl  := fun _ _ p => fst p;
   exr  := fun _ _ p => snd p
