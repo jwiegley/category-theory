@@ -33,3 +33,5 @@ Hint Rewrite @one_comp : categories.
 
 Notation "one[ C ]" := (@one _ _ C)
   (at level 9, format "one[ C ]") : morphism_scope.
+
+Definition const `{@Terminal C} {x y : C} {f : 1 ~> y} := f ∘ one[x].
