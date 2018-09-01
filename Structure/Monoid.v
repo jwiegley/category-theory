@@ -151,7 +151,7 @@ Context `{@Closed C _}.
 Definition doppel {x y z : C} : x × y × z ~> x × z × (y × z) :=
   first exl △ first exr.
 
-Global Program Instance InternalHom_Monoid {x} `(Y : Monoid y) :
+Global Program Instance Hom_Monoid {x} `(Y : Monoid y) :
   @MonoidObject C InternalProduct_Monoidal (y ^ x) := {
   mempty  := curry (@mempty _ _ _ Y ∘ exl);
   mappend := curry (@mappend _ _ _ Y ∘ split eval eval ∘ doppel)
