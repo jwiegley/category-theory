@@ -151,10 +151,18 @@ Context `{@Closed C _}.
 Definition doppel {x y z : C} : x × y × z ~> x × z × (y × z) :=
   first exl △ first exr.
 
+Lemma uncurry_exl_fork_exr {x y : C} :
+  uncurry exl △ uncurry exr ≈ split eval eval ∘ @doppel (y ^ x) (y ^ x) x.
+Proof.
+  unfold doppel.
+  rewrite split_fork.
+  now rewrite !eval_first.
+Qed.
+
 Global Program Instance Hom_Monoid {x} `(Y : Monoid y) :
   @MonoidObject C InternalProduct_Monoidal (y ^ x) := {
   mempty  := curry (@mempty _ _ _ Y ∘ exl);
-  mappend := curry (@mappend _ _ _ Y ∘ split eval eval ∘ doppel)
+  mappend := curry (@mappend _ _ _ Y ∘ uncurry exl △ uncurry exr)
 }.
 Next Obligation.
   spose (@mempty_left _ _ _ Y) as HY.
@@ -162,8 +170,8 @@ Next Obligation.
   assert (h ≈ split (curry (mempty[Y] ∘ exl)) id[y ^ x])
     by (rewrite Heqh; unfork; cat).
   rewrite X; clear X Heqh h.
+  rewrite uncurry_exl_fork_exr.
   unfold doppel.
-  rewrite <- comp_assoc.
   rewrite split_fork.
   rewrite curry_comp_l.
   rewrite <- comp_assoc.
@@ -195,8 +203,8 @@ Next Obligation.
   assert (h ≈ split id[y ^ x] (curry (mempty[Y] ∘ exl)))
     by (rewrite Heqh; unfork; cat).
   rewrite X; clear X Heqh h.
+  rewrite uncurry_exl_fork_exr.
   unfold doppel.
-  rewrite <- comp_assoc.
   rewrite split_fork.
   rewrite curry_comp_l.
   rewrite <- comp_assoc.
@@ -224,6 +232,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   spose (@mappend_assoc _ _ _ Y) as HY.
+  rewrite uncurry_exl_fork_exr.
   remember ((curry _ ∘ exl) △ (id[y ^ x] ∘ exr)) as h.
   assert (h ≈ split (curry (mappend[Y] ∘ split eval eval ∘ doppel)) id[y ^ x])
     by (rewrite Heqh; unfork; cat).
