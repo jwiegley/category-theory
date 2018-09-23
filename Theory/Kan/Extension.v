@@ -26,7 +26,7 @@ Next Obligation. apply naturality_sym. Qed.
 Class RightKan := {
   (* jww (2017-06-09): Rename this to ran_functor, RightKan to Ran, and then a
      coercion from Ran to functor? *)
-  Ran : ([A, C]) ⟶ ([B, C]);
+  Ran : [A, C] ⟶ [B, C];
 
   ran_adjoint : Induced ⊣ Ran
 }.
@@ -81,7 +81,7 @@ Next Obligation.
 Qed.
 
 Class LeftKan := {
-  Lan : ([A, C]) ⟶ ([B, C]);
+  Lan : [A, C] ⟶ [B, C];
 
   lan_adjoint : Lan ⊣ Induced
 }.
@@ -113,7 +113,7 @@ Arguments LocalLan {_ _} F {_} _ {_}.
 
 (* jww (2017-06-02): TODO *)
 (* A functor F : C → D possesses a left adjoint if and only if the right Kan
-   extension of I d : C → C along F exists and is preserved by F. In this
-   case, a left adjoint is given by Ran F Id and this Kan extension is even
+   extension of Id : C → C along F exists and is preserved by F. In this case,
+   a left adjoint is given by Ran F Id and this Kan extension is even
    preserved by any functor C → E whatsoever, i.e. is an absolute Kan
    extension. *)
