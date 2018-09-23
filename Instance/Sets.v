@@ -134,3 +134,78 @@ Program Instance Sets_Initial : @Initial Sets := {
 }.
 Next Obligation. morphism; contradiction. Qed.
 Next Obligation. contradiction. Qed.
+
+Require Import Category.Structure.Monoidal.
+
+Program Instance Sets_Product_Monoidal : @Monoidal Sets := {
+  I      := {| carrier := unit : Type |};
+  tensor := {|
+    fobj := fun p =>
+      {| carrier := carrier (fst p) * carrier (snd p)
+       ; is_setoid := _
+       |};
+    fmap := fun x y f =>
+      {| morphism := fun p => (fst f (fst p), snd f (snd p))
+       ; proper_morphism := _ |}
+  |}
+}.
+Next Obligation.
+  construct.
+  - repeat intro.
+    destruct s, s0.
+    exact (fst X ≈ fst X0 ∧ snd X ≈ snd X0).
+  - simpl.
+    equivalence.
+Defined.
+Next Obligation.
+  proper; simpl in *.
+  - destruct s.
+    now rewrite X.
+  - destruct s0.
+    now rewrite H.
+Qed.
+Next Obligation.
+  construct.
+  - construct.
+    + now destruct X.
+    + proper.
+  - construct.
+    + split; [ exact tt | assumption ].
+    + proper.
+  - simpl.
+    reflexivity.
+  - simpl.
+    destruct x0.
+    simpl.
+    destruct u.
+    split; reflexivity.
+Defined.
+Next Obligation.
+  construct.
+  - construct.
+    + now destruct X.
+    + proper.
+  - construct.
+    + split; [ assumption | exact tt ].
+    + proper.
+  - simpl.
+    reflexivity.
+  - simpl.
+    destruct x0.
+    simpl.
+    destruct u.
+    split; reflexivity.
+Defined.
+Next Obligation.
+  construct.
+  - construct.
+    + simplify; auto.
+    + proper.
+  - construct.
+    + simplify; auto.
+    + proper.
+  - simpl.
+    simplify; simpl; cat.
+  - simpl.
+    simplify; simpl; cat.
+Defined.
