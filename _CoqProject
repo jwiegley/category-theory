@@ -30,6 +30,7 @@ Theory/Monad.v
 Theory/Kan/Extension.v
 Theory/Universal/Arrow.v
 Theory/Sheaf.v
+Construction/Enriched.v
 Construction/Product.v
 Construction/Product/Comma.v
 Construction/Coproduct.v
