@@ -59,11 +59,10 @@ Global Program Instance RightKan_to_LocalRightKan {R : RightKan} (X : A ⟶ C) :
   LocalRightKan X := {|
   LocalRan := Ran X;
   ran_transform :=
-    let adj_from := from (@adj _ _ _ _ ran_adjoint (Ran X) X)
-                         nat_id in
+    let adj_from := from (@adj _ _ _ _ ran_adjoint (Ran X) X) nat_id in
     {| transform  := transform[adj_from]
      ; naturality := naturality[adj_from] |};
-  ran_delta := fun M N => to (@adj _ _ _ _ ran_adjoint M X) N
+  ran_delta := fun M => to (@adj _ _ _ _ ran_adjoint M X)
 |}.
 Next Obligation.
   srewrite_r (naturality[from (@adj _ _ _ _ ran_adjoint (Ran X) X) nat_id]).
