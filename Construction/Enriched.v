@@ -54,6 +54,24 @@ Class Enriched (K : Category) `{@Monoidal K} := {
     ecompose ∘ id ⨂ ecompose ∘ tensor_assoc
 }.
 
+Infix "⟿" := ehom (at level 90, right associativity).
+
+Coercion eobj : Enriched >-> Sortclass.
+
+Class EnrichedFunctor
+      (K : Category) `{@Monoidal K}
+      (C : Enriched K) (D : Enriched K) := {
+  efobj : C -> D;
+  efmap {x y} : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y);
+
+  efmap_id : ∀ x,
+    efmap ∘ eid << I ~~> (efobj x ⟿ efobj x) >> eid;
+  efmap_comp : ∀ x y z,
+    ecompose ∘ efmap ⨂ efmap
+      << (y ⟿ z) ⨂ (x ⟿ y) ~~> (efobj x ⟿ efobj z) >>
+    efmap ∘ ecompose
+}.
+
 Require Import Category.Instance.Sets.
 
 Theorem Category_is_Enriched_over_Set : Enriched Sets ↔ Category.
@@ -104,4 +122,34 @@ Proof.
     + now simpl; intros; cat.
     + now simpl; intros; cat.
     + now simpl; intros; cat.
-Qed.
+Defined.
+
+Theorem Functor_is_Enriched_over_Set (C D : Category) :
+  EnrichedFunctor
+    Sets
+    (snd Category_is_Enriched_over_Set C)
+    (snd Category_is_Enriched_over_Set D)
+    ↔ (C ⟶ D).
+Proof.
+  split; intros.
+  - destruct X; simpl in *.
+    construct.
+    + now apply efobj0.
+    + now apply efmap0.
+    + proper.
+      now apply efmap0.
+    + now apply efmap_id0.
+    + simpl in *.
+      now srewrite (efmap_comp0 x y z (f, g)).
+  - destruct X; simpl in *.
+    construct.
+    + now apply fobj.
+    + construct.
+      * now apply fmap.
+      * proper.
+        now apply fmap_respects.
+    + now apply fmap_id.
+    + simpl.
+      symmetry.
+      now apply fmap_comp.
+Defined.
