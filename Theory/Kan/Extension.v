@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
+Require Export Category.Theory.Unique.
 Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
@@ -36,10 +37,8 @@ Class LocalRightKan (X : A ⟶ C) := {
 
   ran_transform : LocalRan ○ F ⟹ X;
 
-  ran_delta (M : B ⟶ C) (N : M ○ F ⟹ X) : M ⟹ LocalRan;
-
-  ump_ran (M : B ⟶ C) (N : M ○ F ⟹ X) :
-    N ≈[[A, C]] ran_transform ⊙ outside (ran_delta M N) F
+  ump_ran (M : B ⟶ C) (μ : M ○ F ⟹ X) :
+    @Unique Fun _ _ (fun δ => μ ≈ ran_transform ⊙ outside δ F)
 }.
 
 Require Import Category.Instance.Cat.
@@ -61,22 +60,41 @@ Global Program Instance RightKan_to_LocalRightKan {R : RightKan} (X : A ⟶ C) :
   ran_transform :=
     let adj_from := from (@adj _ _ _ _ ran_adjoint (Ran X) X) nat_id in
     {| transform  := transform[adj_from]
-     ; naturality := naturality[adj_from] |};
-  ran_delta := fun M => to (@adj _ _ _ _ ran_adjoint M X)
+     ; naturality := naturality[adj_from] |}
 |}.
 Next Obligation.
   srewrite_r (naturality[from (@adj _ _ _ _ ran_adjoint (Ran X) X) nat_id]).
   reflexivity.
 Qed.
 Next Obligation.
-  pose proof (@from_adj_nat_l _ _ _ _ ran_adjoint); simpl in X0.
-  rewrite <- X0; clear X0.
-  pose proof (@iso_from_to _ _ _ (@adj _ _ _ _ ran_adjoint M X) N A0).
-  simpl in *.
-  unfold nat_compose; simpl in *.
-  rewrites.
-  sapply (proper_morphism (@from _ _ _ (@adj _ _ _ _ ran_adjoint M X))).
-  simpl; intros; cat.
+  exists (to (@adj _ _ _ _ (@ran_adjoint R) M X) μ).
+  - intros.
+    spose (@from_adj_nat_l _ _ _ _ ran_adjoint) as X0.
+    rewrite <- X0; clear X0.
+    spose (@iso_from_to _ _ _ (@adj _ _ _ _ ran_adjoint M X) μ A0) as X0.
+    unfold nat_compose; simpl in *.
+    rewrites.
+    sapply (proper_morphism (@from _ _ _ (@adj _ _ _ _ ran_adjoint M X))).
+    simpl; intros; cat.
+  - intros.
+    assert (μ ≈ (adj[ran_adjoint])⁻¹ v). {
+      intro.
+      specialize (X0 A0).
+      rewrite X0; clear X0.
+      srewrite_r (@from_adj_nat_l _ _ _ _ ran_adjoint).
+      destruct (adj[ran_adjoint]); simpl in *.
+      destruct from; simpl in *.
+      apply proper_morphism; simpl.
+      now apply nat_id_left.
+    }
+    clear -X1.
+    destruct (adj[ran_adjoint]); simpl in *.
+    intros.
+    rewrite <- (iso_to_from v).
+    destruct to; simpl in *.
+    apply proper_morphism.
+    simpl.
+    now apply X1.
 Qed.
 
 Class LeftKan := {
@@ -90,11 +108,51 @@ Class LocalLeftKan (X : A ⟶ C) := {
 
   lan_transform : X ⟹ LocalLan ○ F;
 
-  lan_delta (M : B ⟶ C) (N : X ⟹ M ○ F) : LocalLan ⟹ M;
-
-  ump_lan (M : B ⟶ C) (N : X ⟹ M ○ F) :
-    N ≈[[A, C]] outside (lan_delta M N) F ⊙ lan_transform
+  ump_lan (M : B ⟶ C) (ε : X ⟹ M ○ F) :
+    @Unique Fun _ _  (fun δ => ε ≈ outside δ F ⊙ lan_transform)
 }.
+
+Global Program Instance LeftKan_to_LocalLeftKan {R : LeftKan} (X : A ⟶ C) :
+  LocalLeftKan X := {|
+  LocalLan := Lan X;
+  lan_transform :=
+    let adj_to := to (@adj _ _ _ _ lan_adjoint X (Lan X)) nat_id in
+    {| transform  := transform[adj_to]
+     ; naturality := naturality[adj_to] |}
+|}.
+Next Obligation.
+  srewrite_r (naturality[to (@adj _ _ _ _ lan_adjoint X (Lan X)) nat_id]).
+  reflexivity.
+Qed.
+Next Obligation.
+  exists (from (@adj _ _ _ _ (@lan_adjoint R) X M) ε).
+  - intros.
+    spose (@to_adj_nat_r _ _ _ _ lan_adjoint) as X0.
+    rewrite <- X0; clear X0.
+    spose (@iso_to_from _ _ _ (@adj _ _ _ _ lan_adjoint X M) ε A0) as X0.
+    unfold nat_compose; simpl in *.
+    rewrites.
+    sapply (proper_morphism (@to _ _ _ (@adj _ _ _ _ lan_adjoint X M))).
+    simpl; intros; cat.
+  - intros.
+    assert (ε ≈ (to adj[lan_adjoint]) v). {
+      intro.
+      specialize (X0 A0).
+      rewrite X0; clear X0.
+      srewrite_r (@to_adj_nat_r _ _ _ _ lan_adjoint).
+      destruct (to adj[lan_adjoint]); simpl in *.
+      apply proper_morphism; simpl.
+      now apply nat_id_right.
+    }
+    clear -X1.
+    destruct (adj[lan_adjoint]); simpl in *.
+    intros.
+    rewrite <- (iso_from_to v).
+    destruct from; simpl in *.
+    apply proper_morphism.
+    simpl.
+    now apply X1.
+Qed.
 
 End KanExtension.
 
