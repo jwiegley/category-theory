@@ -162,10 +162,10 @@ Theorem inverse_pentagon_identity {x y z w} :
       << x ⨂ (y ⨂ (z ⨂ w)) ~~> ((x ⨂ y) ⨂ z) ⨂ w >>
   tensor_assoc⁻¹ ∘ tensor_assoc⁻¹.
 Proof.
-  apply (iso_epic tensor_assoc).
+  apply (iso_to_epic tensor_assoc).
   rewrite <- !comp_assoc.
   rewrite iso_from_to, id_right.
-  apply (iso_epic tensor_assoc).
+  apply (iso_to_epic tensor_assoc).
   rewrite iso_from_to.
   rewrite <- !comp_assoc.
   rewrite <- pentagon_identity.

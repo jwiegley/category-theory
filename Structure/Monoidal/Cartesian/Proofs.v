@@ -55,7 +55,7 @@ Qed.
 Lemma eliminate_right_diagonal {x} :
   id[x] ⨂ eliminate ∘ ∆x ≈ unit_right⁻¹.
 Proof.
-  apply (iso_monic unit_right).
+  apply (iso_to_monic unit_right).
   rewrite comp_assoc.
   rewrite unit_right_eliminate.
   rewrite iso_to_from.
@@ -65,7 +65,7 @@ Qed.
 Lemma eliminate_left_diagonal {x} :
   eliminate ⨂ id[x] ∘ ∆x ≈ unit_left⁻¹.
 Proof.
-  apply (iso_monic unit_left).
+  apply (iso_to_monic unit_left).
   rewrite comp_assoc.
   rewrite unit_left_eliminate.
   rewrite iso_to_from.

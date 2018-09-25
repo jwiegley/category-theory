@@ -99,7 +99,7 @@ Proof.
   rewrite <- X.
   rewrite <- !comp_assoc.
   remember (_ ∘ (fiber_eqv_counit E ∘ _)) as p.
-  pose proof (@monic _ _ _ _ (iso_monic (`1 (projF E) (Left_Functor a)))
+  pose proof (@monic _ _ _ _ (iso_to_monic (`1 (projF E) (Left_Functor a)))
                      (a, F a) (id, p) (id, id)).
   simpl in X0.
   refine (snd (X0 _)).

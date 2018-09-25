@@ -117,7 +117,7 @@ Hint Unfold isomorphism_equiv.
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).
 
-Program Instance iso_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
+Program Instance iso_to_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Monic iso.
 Next Obligation.
   rewrite <- (id_left g1).
@@ -137,7 +137,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-Program Instance iso_epic {C : Category} {x y} (iso : @Isomorphism C x y) :
+Program Instance iso_to_epic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Epic iso.
 Next Obligation.
   rewrite <- (id_right g1).
