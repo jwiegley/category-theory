@@ -43,9 +43,7 @@ Construction/Subcategory.v
 Construction/Comma/Natural/Transformation.v
 Construction/Comma/Isomorphism.v
 Construction/Cayley.v
-Construction/Comma/Adjunction2.v
 Construction/Comma/Adjunction.v
-Construction/Comma/Adjunction/Lib.v
 Structure/Discrete.v
 Structure/Terminal.v
 Structure/Cartesian.v
