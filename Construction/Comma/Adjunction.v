@@ -150,112 +150,6 @@ Proof.
     now rewrite iso_to_from.
 Defined.
 
-Lemma lawvere_to_functorial {a b} (f : F a ~{C}~> b)
-      {a' b'} (i : a' ~> a) (j : b ~> b') :
-  lawvere_to (j ∘ f ∘ fmap[F] i) ≈ fmap[G] j ∘ lawvere_to f ∘ i.
-Proof.
-  (* φ'(j ∘ f ∘ Fi) = φ'(j ∘ f) ∘ i *)
-
-  given (Fi : ((a', b'); j ∘ f ∘ fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b'); j ∘ f)).
-    now refine ((i, id); _); abstract cat.
-
-  spose (`2 (to (lawvere_iso_to (j ∘ f))
-                ∘ fmap[to (lawvere_iso E)] Fi
-                ∘ from (lawvere_iso_to (j ∘ f ∘ fmap[F] i)))) as H.
-  spose (`2 (projF E) ((a', b'); j ∘ f ∘ fmap[F] i) ((a, b'); j ∘ f) Fi) as H1.
-  destruct H1 as [H1 H2].
-  rewrite <- H1 in H; clear H1.
-  rewrite <- H2 in H; clear H2.
-  rewrite fmap_id, id_left in H.
-  rewrite <- H.
-  clear Fi H.
-
-  (*                = G(j ∘ f) ∘ φ'(Fi) *)
-
-  given (Fi : ((a', F a); fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b'); j ∘ f)).
-    now refine ((i, j ∘ f); _); abstract cat.
-  spose (`2 (to (lawvere_iso_to (j ∘ f))
-                ∘ fmap[to (lawvere_iso E)] Fi
-                ∘ from (lawvere_iso_to (fmap[F] i)))) as H.
-  spose (`2 (projF E) ((a', F a); fmap[F] i) ((a, b'); j ∘ f) Fi) as H1.
-  destruct H1 as [H1 H2].
-  rewrite <- H1 in H; clear H1.
-  rewrite <- H2 in H; clear H2.
-  rewrite H.
-  clear Fi H.
-
-  (*                = Gj ∘ Gf ∘ φ'(Fi) *)
-
-  rewrite fmap_comp.
-
-  (*                = Gj ∘ φ'(f) ∘ i *)
-
-  given (Fi : ((a', F a); fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b); f)).
-    now refine ((i, f); _); abstract cat.
-  spose (`2 (to (lawvere_iso_to f)
-                ∘ fmap[to (lawvere_iso E)] Fi
-                ∘ from (lawvere_iso_to (fmap[F] i)))) as H.
-  spose (`2 (projF E) ((a', F a); fmap[F] i) ((a, b); f) Fi) as H1.
-  destruct H1 as [H1 H2].
-  rewrite <- H1 in H; clear H1.
-  rewrite <- H2 in H; clear H2.
-  rewrite <- comp_assoc.
-  rewrite <- H.
-  now cat.
-Qed.
-
-Lemma lawvere_from_functorial {a b} (g : a ~{D}~> G b)
-      {a' b'} (i : a' ~> a) (j : b ~> b') :
-  j ∘ lawvere_from g ∘ fmap[F] i ≈ lawvere_from (fmap[G] j ∘ g ∘ i).
-Proof.
-  (* ψ'(Gj ∘ g ∘ i) = j ∘ ψ'(g ∘ i) *)
-
-  given (Gj : ((a', b); g ∘ i) ~{ Id[D] ↓ G }~> ((a', b'); fmap[G] j ∘ g ∘ i)).
-    now refine ((id, j); _); simpl; abstract cat.
-  spose (`2 (to (lawvere_iso_from (fmap[G] j ∘ g ∘ i))
-                ∘ fmap[from (lawvere_iso E)] Gj
-                ∘ from (lawvere_iso_from (g ∘ i)))) as H.
-  spose (`2 (projG E) ((a', b); g ∘ i) ((a', b'); fmap[G] j ∘ g ∘ i) Gj) as H1.
-  destruct H1 as [H1 H2].
-  rewrite <- H1 in H; clear H1.
-  rewrite <- H2 in H; clear H2.
-  rewrite fmap_id, id_right in H.
-  rewrite H.
-  clear Gj H.
-
-  (*                = ψ'(Gj) ∘ F(g ∘ i) *)
-
-  given (Gj : ((a', b); g ∘ i) ~{ Id[D] ↓ G }~> ((G b, b'); fmap[G] j)).
-    now refine ((g ∘ i, j); _); simpl; abstract cat.
-  spose (`2 (to (lawvere_iso_from (fmap[G] j))
-                ∘ fmap[from (lawvere_iso E)] Gj
-                ∘ from (lawvere_iso_from (g ∘ i)))) as H.
-  spose (`2 (projG E) ((a', b); g ∘ i) ((G b, b'); fmap[G] j) Gj) as H1.
-  destruct H1 as [H1 H2].
-  rewrite <- H1 in H; clear H1.
-  rewrite <- H2 in H; clear H2.
-  rewrite <- H.
-  clear Gj H.
-
-  (*                = ψ'(Gj) ∘ Gg ∘ Gi *)
-
-  rewrite fmap_comp.
-
-  (*                = Gj ∘ ψ'(f) ∘ i *)
-
-  given (Gj : ((a, b); g) ~{ Id[D] ↓ G }~> ((G b, b'); fmap[G] j)).
-    now refine ((g, j); _); simpl; abstract cat.
-  spose (`2 (to (lawvere_iso_from (fmap[G] j))
-                ∘ fmap[from (lawvere_iso E)] Gj
-                ∘ from (lawvere_iso_from (g)))) as H.
-  spose (`2 (projG E) ((a, b); g) ((G b, b'); fmap[G] j) Gj) as H1.
-  destruct H1 as [H1 H2].
-  rewrite <- H1 in H; clear H1.
-  rewrite <- H2 in H; clear H2.
-  rewrite <- H.
-  now cat.
-Qed.
-
 Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
   to   := {| morphism := lawvere_to |};
   from := {| morphism := lawvere_from |}
@@ -331,6 +225,146 @@ Next Obligation.
 Admitted.
 Next Obligation.
 Admitted.
+
+Lemma lawvere_to_functorial {a b} (f : F a ~{C}~> b)
+      {a' b'} (i : a' ~> a) (j : b ~> b') :
+  to lawvere_morph_iso (j ∘ f ∘ fmap[F] i)
+   ≈ fmap[G] j ∘ to lawvere_morph_iso f ∘ i.
+Proof.
+  (* φ'(j ∘ f ∘ Fi) = φ'(j ∘ f) ∘ i *)
+
+  given (Fi : ((a', b'); j ∘ f ∘ fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b'); j ∘ f)).
+    now refine ((i, id); _); abstract cat.
+
+  spose (`2 (to (lawvere_iso_to (j ∘ f))
+                ∘ fmap[to (lawvere_iso E)] Fi
+                ∘ from (lawvere_iso_to (j ∘ f ∘ fmap[F] i)))) as H.
+  spose (`2 (projF E) ((a', b'); j ∘ f ∘ fmap[F] i) ((a, b'); j ∘ f) Fi) as H1.
+  destruct H1 as [H1 H2].
+  rewrite <- H1 in H; clear H1.
+  rewrite <- H2 in H; clear H2.
+  rewrite fmap_id, id_left in H.
+  rewrite <- H.
+  clear Fi H.
+
+  (*                = G(j ∘ f) ∘ φ'(Fi) *)
+
+  given (Fi : ((a', F a); fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b'); j ∘ f)).
+    now refine ((i, j ∘ f); _); abstract cat.
+  spose (`2 (to (lawvere_iso_to (j ∘ f))
+                ∘ fmap[to (lawvere_iso E)] Fi
+                ∘ from (lawvere_iso_to (fmap[F] i)))) as H.
+  spose (`2 (projF E) ((a', F a); fmap[F] i) ((a, b'); j ∘ f) Fi) as H1.
+  destruct H1 as [H1 H2].
+  rewrite <- H1 in H; clear H1.
+  rewrite <- H2 in H; clear H2.
+  rewrite H.
+  clear Fi H.
+
+  (*                = Gj ∘ Gf ∘ φ'(Fi) *)
+
+  rewrite fmap_comp.
+
+  (*                = Gj ∘ φ'(f) ∘ i *)
+
+  given (Fi : ((a', F a); fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b); f)).
+    now refine ((i, f); _); abstract cat.
+  spose (`2 (to (lawvere_iso_to f)
+                ∘ fmap[to (lawvere_iso E)] Fi
+                ∘ from (lawvere_iso_to (fmap[F] i)))) as H.
+  spose (`2 (projF E) ((a', F a); fmap[F] i) ((a, b); f) Fi) as H1.
+  destruct H1 as [H1 H2].
+  rewrite <- H1 in H; clear H1.
+  rewrite <- H2 in H; clear H2.
+  rewrite <- comp_assoc.
+  rewrite <- H.
+  now cat.
+Qed.
+
+Lemma lawvere_from_functorial {a b} (g : a ~{D}~> G b)
+      {a' b'} (i : a' ~> a) (j : b ~> b') :
+  j ∘ from lawvere_morph_iso g ∘ fmap[F] i
+    ≈ from lawvere_morph_iso (fmap[G] j ∘ g ∘ i).
+Proof.
+  (* ψ'(Gj ∘ g ∘ i) = j ∘ ψ'(g ∘ i) *)
+
+  given (Gj : ((a', b); g ∘ i) ~{ Id[D] ↓ G }~> ((a', b'); fmap[G] j ∘ g ∘ i)).
+    now refine ((id, j); _); simpl; abstract cat.
+  spose (`2 (to (lawvere_iso_from (fmap[G] j ∘ g ∘ i))
+                ∘ fmap[from (lawvere_iso E)] Gj
+                ∘ from (lawvere_iso_from (g ∘ i)))) as H.
+  spose (`2 (projG E) ((a', b); g ∘ i) ((a', b'); fmap[G] j ∘ g ∘ i) Gj) as H1.
+  destruct H1 as [H1 H2].
+  rewrite <- H1 in H; clear H1.
+  rewrite <- H2 in H; clear H2.
+  rewrite fmap_id, id_right in H.
+  rewrite H.
+  clear Gj H.
+
+  (*                = ψ'(Gj) ∘ F(g ∘ i) *)
+
+  given (Gj : ((a', b); g ∘ i) ~{ Id[D] ↓ G }~> ((G b, b'); fmap[G] j)).
+    now refine ((g ∘ i, j); _); simpl; abstract cat.
+  spose (`2 (to (lawvere_iso_from (fmap[G] j))
+                ∘ fmap[from (lawvere_iso E)] Gj
+                ∘ from (lawvere_iso_from (g ∘ i)))) as H.
+  spose (`2 (projG E) ((a', b); g ∘ i) ((G b, b'); fmap[G] j) Gj) as H1.
+  destruct H1 as [H1 H2].
+  rewrite <- H1 in H; clear H1.
+  rewrite <- H2 in H; clear H2.
+  rewrite <- H.
+  clear Gj H.
+
+  (*                = ψ'(Gj) ∘ Gg ∘ Gi *)
+
+  rewrite fmap_comp.
+
+  (*                = Gj ∘ ψ'(f) ∘ i *)
+
+  given (Gj : ((a, b); g) ~{ Id[D] ↓ G }~> ((G b, b'); fmap[G] j)).
+    now refine ((g, j); _); simpl; abstract cat.
+  spose (`2 (to (lawvere_iso_from (fmap[G] j))
+                ∘ fmap[from (lawvere_iso E)] Gj
+                ∘ from (lawvere_iso_from (g)))) as H.
+  spose (`2 (projG E) ((a, b); g) ((G b, b'); fmap[G] j) Gj) as H1.
+  destruct H1 as [H1 H2].
+  rewrite <- H1 in H; clear H1.
+  rewrite <- H2 in H; clear H2.
+  rewrite <- H.
+  now cat.
+Qed.
+
+Definition lawvere_eqv_unit {a} :
+  a ~{ D }~> G (F a) := to lawvere_morph_iso (`2 (Left_Functor a)).
+
+Definition lawvere_eqv_counit {a} :
+  F (G a) ~{ C }~> a := from lawvere_morph_iso (`2 (Right_Functor a)).
+
+Lemma lawvere_eqv_counit_fmap_unit {a} :
+  lawvere_eqv_counit ∘ fmap[F] lawvere_eqv_unit ≈ id[F a].
+Proof.
+  simpl; intros.
+  unfold lawvere_eqv_counit, lawvere_eqv_unit.
+  rewrite <- id_left.
+  rewrite comp_assoc.
+  rewrite lawvere_from_functorial.
+  simpl (`2 _).
+  rewrite fmap_id, !id_left.
+  now sapply (iso_from_to (@lawvere_morph_iso a (F a))).
+Qed.
+
+Lemma lawvere_eqv_fmap_counit_unit {a} :
+  fmap[G] lawvere_eqv_counit ∘ lawvere_eqv_unit ≈ id[G a].
+Proof.
+  simpl; intros.
+  unfold lawvere_eqv_counit, lawvere_eqv_unit.
+  rewrite <- (id_right (to lawvere_morph_iso _)).
+  rewrite comp_assoc.
+  rewrite <- lawvere_to_functorial.
+  simpl (`2 _).
+  rewrite fmap_id, !id_right.
+  now sapply (iso_to_from (@lawvere_morph_iso (G a) a)).
+Qed.
 
 Lemma Left_Functoriality
       x y (f : comma_proj (Left_Functor x) ~> comma_proj (Left_Functor y)) :
@@ -411,6 +445,22 @@ Proof.
   apply (`2 (fmap[from (lawvere_iso E)] ff)).
 Qed.
 
+Program Definition lawvere_eqv_unit_transform : Id ⟹ G ○ F := {|
+  transform := @lawvere_eqv_unit;
+  naturality := fun x y f =>
+    Left_Functoriality x y (f, fmap[F] f);
+  naturality_sym := fun x y f =>
+    symmetry (Left_Functoriality x y (f, fmap[F] f))
+|}.
+
+Program Definition lawvere_eqv_counit_transform : F ○ G ⟹ Id := {|
+  transform := @lawvere_eqv_counit;
+  naturality := fun x y f =>
+    Right_Functoriality x y (fmap[G] f, f);
+  naturality_sym := fun x y f =>
+    symmetry (Right_Functoriality x y (fmap[G] f, f))
+|}.
+
 Program Definition Comma_Functor_F_Id_Id_G (H : F ⊣ G) :
   (F ↓ Id[C]) ⟶ (Id[D] ↓ G) := {|
   fobj := fun x => (``x; to adj (`2 x));
@@ -465,76 +515,26 @@ Next Obligation.
   - clear; simpl; split; cat.
 Qed.
 
-Definition lawvere_eqv_unit `{E : @lawvere_equiv _ _ F G} {a} :
-  a ~{ D }~> G (F a) := lawvere_to E (`2 (Left_Functor a)).
+End AdjunctionComma.
 
-Definition lawvere_eqv_counit `{E : @lawvere_equiv _ _ F G} {a} :
-  F (G a) ~{ C }~> a := lawvere_from E (`2 (Right_Functor a)).
-
-Program Definition lawvere_eqv_unit_transform
-        `{E : @lawvere_equiv _ _ F G} : Id ⟹ G ○ F := {|
-  transform := @lawvere_eqv_unit E;
-  naturality := fun x y f =>
-    Left_Functoriality E x y (f, fmap[F] f);
-  naturality_sym := fun x y f =>
-    symmetry (Left_Functoriality E x y (f, fmap[F] f))
-|}.
-
-Program Definition lawvere_eqv_counit_transform
-        `{E : @lawvere_equiv _ _ F G} : F ○ G ⟹ Id := {|
-  transform := @lawvere_eqv_counit E;
-  naturality := fun x y f =>
-    Right_Functoriality E x y (fmap[G] f, f);
-  naturality_sym := fun x y f =>
-    symmetry (Right_Functoriality E x y (fmap[G] f, f))
-|}.
-
-Lemma lawvere_eqv_counit_fmap_unit `{E : @lawvere_equiv _ _ F G} {a} :
-  @lawvere_eqv_counit E _ ∘ fmap[F] (@lawvere_eqv_unit E _) ≈ id[F a].
-Proof.
-  simpl; intros.
-  unfold lawvere_eqv_counit, lawvere_eqv_unit.
-  simpl.
-  rewrite <- (id_left (lawvere_from _ _)).
-  rewrite lawvere_from_functorial.
-  cat.
-  rewrite lawvere_from_to.
-  reflexivity.
-Qed.
-
-Lemma lawvere_eqv_fmap_counit_unit `{E : @lawvere_equiv _ _ F G} {a} :
-  fmap[G] (@lawvere_eqv_counit E _) ∘ @lawvere_eqv_unit E _ ≈ id[G a].
-Proof.
-  simpl; intros.
-  unfold lawvere_eqv_counit, lawvere_eqv_unit.
-  simpl.
-  rewrite <- (id_right (lawvere_to _ _)).
-  rewrite comp_assoc.
-  rewrite lawvere_to_functorial.
-  cat.
-  rewrite lawvere_to_from.
-  reflexivity.
-Qed.
-
-Theorem Adjunction_Comma : F ⊣ G  ↔  @lawvere_equiv _ _ F G.
+Theorem Adjunction_Comma `{F : D ⟶ C} `{G : C ⟶ D} :
+  F ⊣ G  ↔  @lawvere_equiv _ _ F G.
 Proof.
   split; intros H. {
     refine {| lawvere_iso := Comma_F_Id_Id_G_Iso H |}.
-    - abstract (
-        simpl; unshelve eexists; intros; split;
-        destruct f; simpl; cat).
-    - abstract (
-        simpl; unshelve eexists; intros; split;
-        destruct f; simpl; cat).
+    - abstract
+        (simpl; unshelve eexists; intros; split;
+         destruct f; simpl; cat).
+    - abstract
+        (simpl; unshelve eexists; intros; split;
+         destruct f; simpl; cat).
   }
 
   apply Adjunction_from_Transform.
 
   exact (Build_Adjunction_Transform
-           (@lawvere_eqv_unit_transform H)
-           (@lawvere_eqv_counit_transform H)
-           (@lawvere_eqv_counit_fmap_unit H)
-           (@lawvere_eqv_fmap_counit_unit H)).
+           (@lawvere_eqv_unit_transform _ _ _ _ H)
+           (@lawvere_eqv_counit_transform _ _ _ _ H)
+           (@lawvere_eqv_counit_fmap_unit _ _ _ _ H)
+           (@lawvere_eqv_fmap_counit_unit _ _ _ _ H)).
 Qed.
-
-End AdjunctionComma.
