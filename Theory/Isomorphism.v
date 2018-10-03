@@ -62,13 +62,13 @@ Next Obligation.
   rewrite (comp_assoc (to g)).
   rewrite iso_to_from; cat.
   apply iso_to_from.
-Qed.
+Defined.
 Next Obligation.
   rewrite <- comp_assoc.
   rewrite (comp_assoc (from f)).
   rewrite iso_from_to; cat.
   apply iso_from_to.
-Qed.
+Defined.
 
 Global Program Instance isomorphism_equivalence : Equivalence Isomorphism := {
   Equivalence_Reflexive  := @iso_id;
