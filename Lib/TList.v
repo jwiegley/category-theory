@@ -300,12 +300,12 @@ Next Obligation.
   - rewrite <- !tlist_app_comm_cons.
     rewrite tlist_equiv_equation_4 in *.
     unfold tlist_equiv_obligation_1 in *.
-    destruct (eq_dec j0 j); [|contradiction].
+    destruct (eq_dec j j0); [|contradiction].
     subst.
     destruct X.
     split; auto.
     apply IHx.
-      exact t.
+      exact t0.
     exact X0.
 Qed.
 
