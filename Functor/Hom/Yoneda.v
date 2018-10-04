@@ -133,3 +133,47 @@ Next Obligation.
   rewrite naturality.
   apply transform; cat.
 Qed.
+
+Program Instance Yoneda_Embedding `(C : Category) :
+  ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.
+Next Obligation. morphism. Defined.
+Next Obligation.
+  morphism.
+  - intros.
+    transform; simpl.
+    + intros.
+      morphism.
+      * intros.
+        exact (X ∘ X0).
+      * proper.
+    + simpl; cat.
+    + simpl; cat.
+  - proper.
+Defined.
+Next Obligation.
+  destruct x; simpl in *.
+  rewrite naturality.
+  apply proper_morphism; cat.
+Qed.
+
+Program Instance Covariant_Yoneda_Embedding `(C : Category) :
+  ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B.
+Next Obligation. morphism. Defined.
+Next Obligation.
+  morphism.
+  - intros.
+    transform; simpl.
+    + intros.
+      morphism.
+      * intros.
+        exact (X0 ∘ X).
+      * proper.
+    + simpl; cat.
+    + simpl; cat.
+  - proper.
+Defined.
+Next Obligation.
+  destruct x; simpl in *.
+  rewrite naturality.
+  apply proper_morphism; cat.
+Qed.
