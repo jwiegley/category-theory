@@ -17,6 +17,9 @@ Require Import Category.Solver.Tactics.
 Require Import Category.Construction.Coproduct.
 
 Generalizable All Variables.
+Set Primitive Projections.
+Set Universe Polymorphism.
+Unset Transparent Obligations.
 
 Section Categories.
 
@@ -32,9 +35,9 @@ Program Definition STerms : Category := {|
   id  := fun _ => SIdent;
   compose := fun _ _ _ => SComp
 |}.
-Next Obligation. now rewrite List.app_nil_r. Qed.
-Next Obligation. now rewrite List.app_assoc. Qed.
-Next Obligation. now symmetry; rewrite List.app_assoc. Qed.
+Next Obligation. now rewrite List.app_nil_r. Defined.
+Next Obligation. now rewrite List.app_assoc. Defined.
+Next Obligation. now symmetry; rewrite List.app_assoc. Defined.
 
 Context `{Env}.
 

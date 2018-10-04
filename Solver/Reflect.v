@@ -118,7 +118,7 @@ Proof.
   generalize dependent y.
   induction x; intros;
   dependent elimination y; simpl in *; intros; auto.
-  - destruct (Fin_to_pos y); inv H0.
+  - destruct (Fin_to_pos t0); inv H0.
   - destruct (Fin_to_pos x); inv H0.
   - f_equal.
     apply Pos.succ_inj in H0.

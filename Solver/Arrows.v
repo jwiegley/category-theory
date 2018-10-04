@@ -117,11 +117,11 @@ Theorem indices_impl {d c} (x y : Arrows tys d c) :
 Proof.
   induction x; dependent elimination y;
   simpl; auto; intros.
-  - destruct y0.
+  - destruct a.
     inv H0.
   - destruct b.
     inv H0.
-  - destruct b, y0.
+  - destruct a, b.
     inv H0.
     f_equal; auto.
     f_equal; auto.
