@@ -14,7 +14,7 @@ Context {C : Category}.
 
 (* Given any category, the Cayley representation forces all associations to
    the left. *)
-Program Instance Cayley_Representation : Category := {
+Program Instance Cayley : Category := {
   obj     := C;
   hom     := fun x y =>
     { f : ∀ r, (y ~> r) -> (x ~> r)
@@ -56,7 +56,7 @@ Next Obligation.
   apply X0.
 Qed.
 
-Program Instance To_Cayley : C ⟶ Cayley_Representation := {
+Program Instance To_Cayley : C ⟶ Cayley := {
   fobj := fun x => x;
   fmap := fun _ _ f => (fun _ k => k ∘ f; _);
 }.
@@ -65,12 +65,12 @@ Next Obligation.
   proper.
 Qed.
 
-Program Instance From_Cayley : Cayley_Representation ⟶ C := {
+Program Instance From_Cayley : Cayley ⟶ C := {
   fobj := fun x => x;
   fmap := fun x y f => `1 f y (@id C y);
 }.
 
-Context `{Cayley_Representation}.
+Context `{Cayley}.
 
 (* No matter how we associate the mapped morphisms, the functor back from
    Cayley yields them left-associated. *)
@@ -97,6 +97,121 @@ Proof.
   simpl.
   rewrite H0.
   reflexivity.
+Qed.
+
+Require Import Category.Structure.Cartesian.
+Require Import Category.Functor.Hom.Yoneda.
+Require Import Category.Instance.Sets.
+
+Program Instance Cayley_Cartesian `{CA : @Cartesian C} : @Cartesian Cayley := {
+  product_obj := @product_obj C CA;
+  fork := fun x y z f g =>
+    let f' := to (Covariant_Yoneda_Embedding C x y) (_ f) in
+    let g' := to (Covariant_Yoneda_Embedding C x z) (_ g) in
+    _ f' g';
+  exl := fun x y =>
+    let f' := from (Covariant_Yoneda_Embedding C _ _) (@exl C CA x y) in
+    _ f';
+  exr := fun x y =>
+    let f' := from (Covariant_Yoneda_Embedding C _ _) (@exr C CA x y) in
+    _ f';
+}.
+Next Obligation.
+  construct.
+  - construct.
+    + apply f.
+      exact X.
+    + proper.
+      rewrite e1.
+      rewrite X.
+      rewrite <- e1.
+      reflexivity.
+  - simpl.
+    rewrite e1.
+    rewrite comp_assoc.
+    rewrite <- e1.
+    reflexivity.
+  - simpl.
+    rewrite e1.
+    rewrite <- comp_assoc.
+    rewrite <- e1.
+    reflexivity.
+Defined.
+Next Obligation.
+  construct.
+  - construct.
+    + apply g.
+      exact X.
+    + proper.
+      rewrite e0.
+      rewrite X.
+      rewrite <- e0.
+      reflexivity.
+  - simpl.
+    rewrite e0.
+    rewrite comp_assoc.
+    rewrite <- e0.
+    reflexivity.
+  - simpl.
+    rewrite e0.
+    rewrite <- comp_assoc.
+    rewrite <- e0.
+    reflexivity.
+Defined.
+Next Obligation.
+  exists (fun r h => h ∘ x0 △ x1).
+  split.
+    proper.
+  intros; cat.
+Defined.
+Next Obligation.
+  destruct x0; simpl in *.
+  exists (fun r h => transform r h).
+  split.
+    proper.
+    now apply proper_morphism.
+  intros.
+  rewrite naturality.
+  apply proper_morphism; cat.
+Defined.
+Next Obligation.
+  destruct x0; simpl in *.
+  exists (fun r h => transform r h).
+  split.
+    proper.
+    now apply proper_morphism.
+  intros.
+  rewrite naturality.
+  apply proper_morphism; cat.
+Defined.
+Next Obligation.
+  proper; simpl in *.
+  comp_left.
+  apply fork_respects.
+    apply X.
+  apply X0.
+Qed.
+Next Obligation.
+  proper; simpl in *.
+  - rewrite X.
+    rewrite <- comp_assoc.
+    rewrite exl_fork.
+    rewrite <- e1.
+    reflexivity.
+  - rewrite X.
+    rewrite <- comp_assoc.
+    rewrite exr_fork.
+    rewrite <- e0.
+    reflexivity.
+  - rewrite <- X, <- H0.
+    rewrite e.
+    comp_left.
+    rewrite (e _ (_ ∘ exl)).
+    rewrite (e _ (_ ∘ exr)).
+    cat.
+    rewrite fork_comp.
+    rewrite fork_exl_exr.
+    cat.
 Qed.
 
 End Cayley.
