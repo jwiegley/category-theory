@@ -21,8 +21,7 @@ Inductive Scope (var : type -> Type) (t : type) : type -> Type :=
 Arguments Here {_ _}.
 Arguments Next {_ _ _} _.
 
-Fixpoint scope_map {var var' : type -> Type}
-        (f : forall t, var t -> var' t)
+Fixpoint scope_map {var var' : type -> Type} (f : forall t, var t -> var' t)
         {d ty} (e : Scope var d ty) : Scope var' d ty :=
   match e with
   | Here => Here
@@ -116,8 +115,6 @@ Defined.
 Next Obligation. simpl_eq; subst; simpl; abstract omega. Defined.
 Next Obligation. simpl_eq; subst; simpl; abstract omega. Defined.
 
-Print Assumptions lamD.
-
 (* ∀ (f : () -> ()) (t : ()), f t : () *)
 Definition example1 :
   Lam (fun _ => nat) (Func Ty (Func Ty Ty)) :=
@@ -128,8 +125,10 @@ Infix "@" := App (left associativity, at level 50).
 Notation "\ x : t , e" :=
   (@Abs _ t _ e) (no associativity, at level 51, x at level 0, only parsing).
 
+(*
 Eval cbv beta iota delta zeta in
     lamD (fun _ => unit) ((\x : Ty, ^Here) @ ^tt).
 
 Eval cbv beta iota delta zeta in
     lamD (fun _ => nat) (@Abs _ Ty Ty (^(Next 5)) @ ^5).
+*)

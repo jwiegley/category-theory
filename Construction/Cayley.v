@@ -2,6 +2,9 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
+Require Import Category.Structure.Cartesian.
+Require Import Category.Functor.Hom.Yoneda.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -98,10 +101,6 @@ Proof.
   rewrite H0.
   reflexivity.
 Qed.
-
-Require Import Category.Structure.Cartesian.
-Require Import Category.Functor.Hom.Yoneda.
-Require Import Category.Instance.Sets.
 
 Program Instance Cayley_Cartesian `{CA : @Cartesian C} : @Cartesian Cayley := {
   product_obj := @product_obj C CA;
@@ -214,12 +213,12 @@ Next Obligation.
     cat.
 Qed.
 
+End Cayley.
+
 Require Import Category.Functor.Structure.Cartesian.
 
 Program Instance To_Cayley_CartesianFunctor `{@Cartesian C} :
-  @CartesianFunctor _ _ To_Cayley _ _.
+  @CartesianFunctor _ _ To_Cayley _ Cayley_Cartesian.
 
 Program Instance From_Cayley_CartesianFunctor `{@Cartesian C} :
-  @CartesianFunctor _ _ From_Cayley _ _.
-
-End Cayley.
+  @CartesianFunctor _ _ From_Cayley Cayley_Cartesian _.

@@ -226,9 +226,7 @@ Proof.
   intros.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
   (* Set Ltac Profiling. *)
-  Time normalize.
+  normalize.
   (* Show Ltac Profile. *)
   intros; cat.
 Qed.
-
-Print Assumptions sample_2.

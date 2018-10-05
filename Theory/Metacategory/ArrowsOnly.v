@@ -539,6 +539,7 @@ Proof.
   rewrite composable_pairs_succ in *.
 Abort.
 
+(*
 Program Definition from_composablePairs (n : N) : Metacategory := {|
   pairs := composable_pairs n
 |}.
@@ -550,7 +551,6 @@ Next Obligation.
   generalize dependent f.
   induction n using N.peano_rect; intros.
     cbn in H; discriminate.
-Admitted.
 Next Obligation.
   generalize dependent gh.
   generalize dependent fg.
@@ -559,10 +559,9 @@ Next Obligation.
   generalize dependent f.
   induction n; cbn; intros.
     discriminate.
-Admitted.
 Next Obligation.
   generalize dependent f.
   generalize dependent y.
   generalize dependent x.
   induction n; cbn; intros; eauto.
-Admitted.
+*)

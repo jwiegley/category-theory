@@ -3,6 +3,9 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Theory.Unique.
+Require Import Category.Structure.Initial.
+Require Import Category.Construction.Comma.
+Require Import Category.Functor.Diagonal.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -13,10 +16,6 @@ Section UniversalArrow.
 
 Context `{C : Category}.
 Context `{D : Category}.
-
-Require Import Category.Structure.Initial.
-Require Import Category.Construction.Comma.
-Require Import Category.Functor.Diagonal.
 
 (* A universal arrow is an initial object in the comma category (=(c) ↓ F). *)
 Class UniversalArrow (c : C) (F : D ⟶ C) := {

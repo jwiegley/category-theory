@@ -1,3 +1,6 @@
+Set Warnings "-compatibility-notation".
+Set Warnings "-deprecated".
+
 Require Export
   Coq.Arith.Arith
   Coq.NArith.NArith

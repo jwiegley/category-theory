@@ -4,6 +4,7 @@ Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
 Require Export Category.Theory.Unique.
 Require Export Category.Instance.Fun.
+Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -40,8 +41,6 @@ Class LocalRightKan (X : A ⟶ C) := {
   ump_ran (M : B ⟶ C) (μ : M ○ F ⟹ X) :
     @Unique Fun _ _ (fun δ => μ ≈ ran_transform ⊙ outside δ F)
 }.
-
-Require Import Category.Instance.Cat.
 
 (* Wikipedia: "There is also a local definition of 'the Kan extension of a
    given functor F along p' which can exist even if the entire functor defined

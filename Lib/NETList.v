@@ -608,8 +608,6 @@ Example netlist_find_sublist_nat_ex1 :
     = Some (inleft (tfin ((0, 1), 100)), inleft (tfin (3, 4, 400))).
 Proof. reflexivity. Qed.
 
-Print Assumptions netlist_find_sublist_nat_ex1.
-
 Reserved Infix "<+>" (at level 42, right associativity).
 
 Class ISemigroup {A : Type} (B : A -> A -> Type) := {

@@ -630,8 +630,6 @@ Example tlist_find_sublist_nat_ex1 :
     = Some (((0, 1, 100) ::: tnil), ((3, 4, 400) ::: tnil)).
 Proof. reflexivity. Qed.
 
-Print Assumptions tlist_find_sublist_nat_ex1.
-
 Reserved Infix "<+>" (at level 42, right associativity).
 
 Class IMonoid {A : Type} (B : A -> A -> Type) := {
