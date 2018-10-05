@@ -7,7 +7,7 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Monoidal.Semicartesian.
-Require Export Category.Structure.Monoidal.Relevance.
+Require Export Category.Structure.Monoidal.Relevant.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -31,7 +31,7 @@ Context {C : Category}.
 
 Class CartesianMonoidal `{@Monoidal C} := {
   is_semicartesian :> @SemicartesianMonoidal C _;
-  is_relevance     :> @RelevanceMonoidal C _;
+  is_relevance     :> @RelevantMonoidal C _;
 
   proj_left_diagonal  {x} : proj_left  ∘ diagonal ≈ id[x];
   proj_right_diagonal {x} : proj_right ∘ diagonal ≈ id[x];

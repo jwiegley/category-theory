@@ -13,11 +13,11 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Section RelevanceMonoidal.
+Section RelevantMonoidal.
 
 Context {C : Category}.
 
-Class RelevanceMonoidal `{@Monoidal C} := {
+Class RelevantMonoidal `{@Monoidal C} := {
   is_symmetric :> SymmetricMonoidal;
 
   diagonal {x} : x ~> x ⨂ x;
@@ -43,7 +43,7 @@ Class RelevanceMonoidal `{@Monoidal C} := {
     @diagonal (x ⨂ y) ≈ twist2 ∘ diagonal ⨂ diagonal
 }.
 
-Lemma twist2_natural `{@Monoidal C} `{@RelevanceMonoidal _} :
+Lemma twist2_natural `{@Monoidal C} `{@RelevantMonoidal _} :
   natural (@twist2 _ _).
 Proof.
   unfold twist2; simpl; intros; normal.
@@ -66,7 +66,7 @@ Proof.
   normal; assumption.
 Qed.
 
-End RelevanceMonoidal.
+End RelevantMonoidal.
 
 Notation "∆ x" := (@diagonal _ _ _ x)
   (at level 9, format "∆ x") : morphism_scope.
