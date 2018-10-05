@@ -26,19 +26,19 @@ Program Definition Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E] := {|
     transform := fun z => fmap[F] (f, id[z])
   |}
 |}.
-Next Obligation. proper; simpl_eq; rewrite X. Qed.
-Next Obligation. rewrite <- fmap_comp; simpl; cat. Qed.
-Next Obligation. rewrite <- !fmap_comp; simpl; cat. Qed.
-Next Obligation. rewrite <- !fmap_comp; simpl; cat. Qed.
-Next Obligation. proper; rewrite X. Qed.
-Next Obligation. rewrite <- !fmap_comp; simpl; cat. Qed.
+Next Obligation. now proper; simpl_eq; rewrite X. Qed.
+Next Obligation. now rewrite <- fmap_comp; simpl; cat. Qed.
+Next Obligation. now rewrite <- !fmap_comp; simpl; cat. Qed.
+Next Obligation. now rewrite <- !fmap_comp; simpl; cat. Qed.
+Next Obligation. now proper; rewrite X. Qed.
+Next Obligation. now rewrite <- !fmap_comp; simpl; cat. Qed.
 
 Program Definition Flip (F : C^op ∏ D ⟶ E) : D ∏ C^op ⟶ E := {|
   fobj := fun x => F (snd x, fst x);
   fmap := fun _ _ f => fmap[F] (snd f, fst f)
 |}.
-Next Obligation. proper; simpl_eq; simpl in *; rewrite X, H. Qed.
-Next Obligation. rewrite <- fmap_comp. Qed.
+Next Obligation. now proper; simpl_eq; simpl in *; rewrite X, H. Qed.
+Next Obligation. now rewrite <- fmap_comp. Qed.
 
 Reserved Notation "[ X , Y ]"
   (at level 90, right associativity, format "[ X ,  Y ]").
