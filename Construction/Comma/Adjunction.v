@@ -365,106 +365,18 @@ Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
            ; proper_morphism := lawvere_from_Proper |}
 }.
 Next Obligation.
-  spose (lawvere_to_from_iso x) as X1.
-  srewrite (comma_proj_com_iso _ _ _ _ _ _ _ X1).
-  spose (`2 (projG E) _ _ (to X1)) as X2.
-  destruct X2 as [X2 _].
-  spose (`2 (projG E) _ _ (from X1)) as X3.
-  destruct X3 as [_ X3].
-  rewrite X2, X3.
-(*
-  spose (foo _ (comma_proj_mor_iso _ _ _ _ _ _ _ X1)) as X2.
-  spose (iso_to_from (comma_proj_mor_iso _ _ _ _ _ _ _ X1)) as X2.
-  spose (`2 (to X1)) as X3.
-  simpl projT2 in X3.
-  simpl in X3.
-  rewrite X1.
-  assert (fmap[G] (snd (`1 (projF E) ((a, b); lawvere_from x))⁻¹
-            ∘ snd `1 (fmap[to (lawvere_iso E)] (to (lawvere_iso_from x)))
-            ∘ snd `1 ((`1 (iso_to_from (lawvere_iso E)) ((a, b); x))⁻¹)) ≈ id). {
-    clear.
-    simpl.
-    spose (`2 (projF E) _ _ (to (lawvere_iso_from x))) as X2.
-    destruct X2 as [_ X2].
-    rewrite <- (id_left (snd `1 ((`1 (iso_to_from (lawvere_iso E)) ((a, b); x))⁻¹))).
-    assert (snd (to (`1 (projF E) ((lawvere_iso E)⁻¹ ((a, b); x))))
-              ∘ snd (from (`1 (projF E) ((lawvere_iso E)⁻¹ ((a, b); x))))
-              ≈ id[snd `1 (to (lawvere_iso E) ((lawvere_iso E)⁻¹ ((a, b); x)))])
-      by apply (snd (iso_to_from (`1 (projF E) ((lawvere_iso E)⁻¹ ((a, b); x))))).
-    simpl in *.
-    rewrite <- X; clear X.
-    rewrite !comp_assoc.
-    rewrite <- X2; clear X2.
-    rewrite <- fmap_id.
-    spose (snd (iso_from_to (`1 (projG E) ((a, b); x)))) as X.
-    rewrite <- X.
-    rewrite !fmap_comp.
-    comp_left.
-    rewrite <- fmap_comp.
-    apply fmap_respects.
-    spose (snd (iso_from_to (`1 (projF E) ((lawvere_iso E)⁻¹ ((a, b); x))))) as X1.
-    symmetry.
-    rewrite <- (id_left (snd (to (`1 (projG E) ((a, b); x))))).
-    simpl in *.
-    rewrite <- X1; clear X1.
-    comp_left.
-    spose (`2 (iso_to_from (lawvere_iso E)) ((a, b); x) ((G b, b); id)) as X2.
-    given (ff : ((a, b); x) ~{ Id[D] ↓ G }~> ((a, b); x)).
-      now refine ((id, id); _); abstract cat.
-    spose (`2 (fmap[from (lawvere_iso E)] ff)) as X1.
-    given (ff : ((a, b); x) ~{ Id[D] ↓ G }~> ((G b, b); id)).
-      now refine ((x, id); _); abstract cat.
-    specialize (X2 ff).
-    unfold ff in X2.
-    simpl in X2.
-    epose proof (`2 (fmap[(lawvere_iso E)⁻¹] _)).
-    simpl in *.
-    (* spose (`2 (from (lawvere_iso_to_from x))) as X3. *)
-    admit.
-  }
-  rewrite X, id_left; clear X.
-  unfold lawvere_from.
-  rewrite lawvere_to_functorial.
-  symmetry.
-  unfold ff in X1.
-  simpl in X1.
-  destruct X1; simpl in *.
-  destruct to; simpl in *.
-    given (ff : ((a, b); x) ~{ Id[D] ↓ G }~> ((a, b); x)).
-      now refine ((id, id); _); abstract cat.
-    spose (`2 (iso_to_from (lawvere_iso E)) ((a, b); x) ((a, b); x) ff) as X1.
-  unfold lawvere_to.
+  unfold lawvere_to, lawvere_from.
   simpl.
   spose (`2 (projF E)) as X1.
-  pose proof (equiv_comma_iso_mor' (lawvere_iso_to (lawvere_from x))).
-  simpl in *.
-  spose (equiv_comma_iso_mor' (lawvere_to_from_iso x)) as X1.
-  rewrite X1.
-  spose (iso_to_from (lawvere_to_from_iso x)) as X2.
-  rewrite X1.
-  pose proof (equiv_comma_iso_mor (lawvere_iso_from x)).
-  unfold lawvere_to.
-  unfold lawvere_from in X.
-  rewrite X.
-  simpl.
-  unfold lawvere_from.
-  pose proof lawvere_morph_iso_obligation_1.
-  rewrite X.
-  simpl projT2.
-  rewrite <- !comp_assoc.
-  rewrite <- fmap_comp.
-  rewrite !comp_assoc.
-  rewrite lawvere_to_functorial.
-  simpl.
-  unfold lawvere_from.
+  assert (∀ (f : F ↓ Id[C]) (g : Id[D] ↓ G), comma_proj f ≈ comma_proj g) by admit.
   simpl in X.
-  spose (`2 (to (lawvere_iso_to (`2 (from (lawvere_iso E) ((a, b); x)))))) as X1.
-  unfold lawvere_to.
-  rewrite <- X1.
-  spose (`2 (projG E)) as X1.
-  epose proof (snd `1 (fmap[(lawvere_iso E)⁻¹] _)).
-  epose proof (`2 (fmap[to (lawvere_iso E)] _)) as X4.
-  unfold lawvere_to, lawvere_from.
+  specialize (X ((a, b); lawvere_from x) ((a, b); x)).
+  simpl in X.
+  destruct X; simpl in *.
+(*
+  pose (lawvere_to_from_iso x) as X1.
+  srewrite (comma_proj_com_iso _ _ _ _ _ _ _ X1).
+  clear X1.
 *)
 Admitted.
 Next Obligation.
