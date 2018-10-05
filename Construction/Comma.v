@@ -50,7 +50,7 @@ Qed.
 
 Program Instance comma_proj  : Comma ⟶ A ∏ B := {|
   fobj := fun x => ``x;
-  fmap := fun _ _ f => (fst ``f, snd ``f)
+  fmap := fun _ _ f => ``f
 |}.
 Program Instance comma_proj1 : Comma ⟶ A := {|
   fobj := fun x => fst ``x;
