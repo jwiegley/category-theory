@@ -104,34 +104,41 @@ Proof.
       intros; isomorphism; simpl; intros.
       - apply X.
       - apply (X⁻¹).
-      - srewrite (iso_to_from X); cat.
-      - srewrite (iso_from_to X); cat.
+      - abstract (srewrite (iso_to_from X); cat).
+      - abstract (srewrite (iso_from_to X); cat).
     }
     exists iso; simpl in *; intros.
-    rewrite <- comp_assoc.
-    rewrite (naturality[to X]).
-    rewrite comp_assoc.
-    srewrite (iso_from_to X); cat.
+    abstract
+      (rewrite <- comp_assoc;
+       rewrite (naturality[to X]);
+       rewrite comp_assoc;
+       srewrite (iso_from_to X); cat).
   destruct X.
   isomorphism; simpl; intros.
   - transform; simpl; intros.
     + apply x.
-    + rewrite e; simpl.
-      rewrite !comp_assoc.
-      rewrite iso_to_from; cat.
-    + rewrite e; simpl.
-      rewrite !comp_assoc.
-      rewrite iso_to_from; cat.
+    + abstract
+        (rewrite e; simpl;
+         rewrite !comp_assoc;
+         rewrite iso_to_from; cat).
+    + abstract
+        (rewrite e; simpl;
+         rewrite !comp_assoc;
+         rewrite iso_to_from; cat).
   - transform; simpl; intros.
     + apply x.
-    + rewrite e; simpl.
-      rewrite <- !comp_assoc.
-      rewrite iso_to_from; cat.
-    + rewrite e; simpl.
-      rewrite <- !comp_assoc.
-      rewrite iso_to_from; cat.
-  - rewrite fmap_id.
-    apply iso_to_from.
-  - rewrite fmap_id.
-    apply iso_from_to.
+    + abstract
+        (rewrite e; simpl;
+         rewrite <- !comp_assoc;
+         rewrite iso_to_from; cat).
+    + abstract
+        (rewrite e; simpl;
+         rewrite <- !comp_assoc;
+         rewrite iso_to_from; cat).
+  - abstract
+      (rewrite fmap_id;
+       apply iso_to_from).
+  - abstract
+      (rewrite fmap_id;
+       apply iso_from_to).
 Defined.
