@@ -315,7 +315,7 @@ Proof.
   rewrite <- H.
   clear Gj H.
 
-  (*                = ψ'(Gj) ∘ Gg ∘ Gi *)
+  (*                = ψ'(Gj) ∘ Fg ∘ Fi *)
 
   rewrite fmap_comp.
 
