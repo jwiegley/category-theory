@@ -365,21 +365,10 @@ Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
            ; proper_morphism := lawvere_from_Proper |}
 }.
 Next Obligation.
-  unfold lawvere_to, lawvere_from.
-  simpl.
-  spose (`2 (projF E)) as X1.
-  assert (∀ (f : F ↓ Id[C]) (g : Id[D] ↓ G), comma_proj f ≈ comma_proj g) by admit.
-  simpl in X.
-  specialize (X ((a, b); lawvere_from x) ((a, b); x)).
-  simpl in X.
-  destruct X; simpl in *.
-(*
-  pose (lawvere_to_from_iso x) as X1.
-  srewrite (comma_proj_com_iso _ _ _ _ _ _ _ X1).
-  clear X1.
-*)
+  (* lawvere_to (lawvere_from x) ≈ x *)
 Admitted.
 Next Obligation.
+  (* lawvere_from (lawvere_to x) ≈ x *)
 Admitted.
 
 Corollary lawvere_to_morph_iso_functorial {a b} (f : F a ~{C}~> b)
