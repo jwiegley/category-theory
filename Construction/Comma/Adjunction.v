@@ -138,7 +138,7 @@ Proof.
   now apply lawvere_iso_to.
 Defined.
 
-Lemma lawvere_iso_to_from {a b} (g : a ~> G b) :
+Definition lawvere_iso_to_from {a b} (g : a ~> G b) :
   to (lawvere_iso E) (from (lawvere_iso E) ((a, b); g))
     ≅[Id[D] ↓ G] ((a, b); lawvere_to (lawvere_from g)).
 Proof.
@@ -157,36 +157,27 @@ Definition lawvere_from_to_iso {a b} (f : F a ~> b) :
   iso_compose (`1 (iso_from_to (lawvere_iso E)) ((a, b); f))
               (iso_sym (@lawvere_iso_from_to _ _ f)).
 
+Lemma equiv_comma_projF_iso {a b} (f g : F a ~> b)
+      (iso : ((a, b); f) ≅[F ↓ Id[C]] ((a, b); g)) :
+  `1 (to iso) ≈ @id (D ∏ C) _.
+Proof.
+  destruct iso; simpl in *.
+  simpl; split.
+Admitted.
+
+Lemma equiv_comma_projG_iso {a b} (f g : a ~> G b)
+      (iso : ((a, b); f) ≅[Id[D] ↓ G] ((a, b); g)) :
+  `1 (to iso) ≈ @id (D ∏ C) _.
+Proof.
+Admitted.
+
 Lemma lawvere_to_from_iso_proj {a b} (g : a ~> G b) :
   `1 (to (lawvere_to_from_iso g)) ≈ @id (D ∏ C) _.
-Proof.
-  unfold lawvere_to_from_iso.
-  unfold lawvere_iso_to.
-  unfold lawvere_iso_from.
-  simpl.
-  split.
-  - given (ff : ((a, b); lawvere_from g) ~{ F ↓ Id[C] }~> ((lawvere_iso E)⁻¹ ((a, b); g))).
-      exact (to (`1 (projG E) ((a, b); g)); lawvere_iso_from_subproof0 a b g).
-    spose (`2 (projF E) _ _ ff) as X1.
-    destruct X1 as [X1 X2].
-    spose (iso_to_from (`1 (projF E) ((a, b); lawvere_from g))) as X3.
-    destruct X3 as [X3 X4].
-    spose (`2 (fmap[to (lawvere_iso E)] ff)) as X5.
-    spose (iso_to_from (`1 (iso_to_from (lawvere_iso E)) ((a, b); g))) as X6.
-    enough ((fst `1 (fmap[to (lawvere_iso E)] ff)
-                 ∘ fst (to (`1 (projF E) ((a, b); lawvere_from g))))
-              ≈ fst `1 ((`1 (iso_to_from (lawvere_iso E)) ((a, b); g))⁻¹)).
-      unfold ff in X.
-      rewrite X.
-      now rewrite (fst X6).
-    clear X6.
-    spose (`2 (iso_to_from (lawvere_iso E)) ((a, b); g) ((a, b); g)) as X7.
-Admitted.
+Proof. now apply (equiv_comma_projG_iso _ _ (lawvere_to_from_iso g)). Qed.
 
 Lemma lawvere_from_to_iso_proj {a b} (f : F a ~> b) :
   `1 (to (lawvere_from_to_iso f)) ≈ @id (D ∏ C) _.
-Proof.
-Admitted.
+Proof. now apply (equiv_comma_projF_iso _ _ (lawvere_from_to_iso f)). Qed.
 
 Lemma lawvere_to_functorial {a b} (f : F a ~{C}~> b)
       {a' b'} (i : a' ~> a) (j : b ~> b') :
