@@ -76,12 +76,11 @@ Proof.
   - exact (`1 from).
   - apply iso_to_from.
   - apply iso_from_to.
-Qed.
+Defined.
 
 Theorem comma_proj_com_iso A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
   forall iso : x ≅ y,
-    `2 x ≈ fmap[T] (snd `1 (from iso)) ∘ `2 y ∘
-           fmap[S] (fst `1 (to   iso)).
+    `2 x ≈ fmap[T] (snd `1 (from iso)) ∘ `2 y ∘ fmap[S] (fst `1 (to iso)).
 Proof.
   intros.
   pose proof (iso_from_to iso); simpl in X.
@@ -92,21 +91,6 @@ Proof.
   rewrite (fst X).
   cat.
 Qed.
-
-Require Import Category.Instance.Cat.
-
-Theorem comma_iso
-        A B C (S : A ⟶ C) (T : B ⟶ C)
-        D E F (U : D ⟶ F) (V : E ⟶ F) :
-  forall iso : (S ↓ T) ≅[Cat] (U ↓ V),
-    True.
-Proof.
-Abort.
-
-Corollary comma_mor_nat A B C (S : A ⟶ C) (T : B ⟶ C)
-          (x y : S ↓ T) (f : x ~> y) :
-  `2 y ∘ fmap[S] (fst `1 f) ≈ fmap[T] (snd `1 f) ∘ `2 x.
-Proof. exact `2 f. Qed.
 
 Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Opposite.
