@@ -47,6 +47,30 @@ Record lawvere_equiv := {
 
 Context `(E : lawvere_equiv).
 
+Program Instance to_lawvere_iso_Proper :
+  Proper (Isomorphism ==> Isomorphism) (to (lawvere_iso E)).
+Next Obligation.
+  proper.
+  simpl in *.
+  construct.
+  - exact (fmap[to (lawvere_iso E)] (to X)).
+  - exact (fmap[to (lawvere_iso E)] (from X)).
+  - exact (iso_to_from (@fmap_iso _ _ (to (lawvere_iso E)) _ _ X)).
+  - exact (iso_from_to (@fmap_iso _ _ (to (lawvere_iso E)) _ _ X)).
+Qed.
+
+Program Instance from_lawvere_iso_Proper :
+  Proper (Isomorphism ==> Isomorphism) (from (lawvere_iso E)).
+Next Obligation.
+  proper.
+  simpl in *.
+  construct.
+  - exact (fmap[from (lawvere_iso E)] (to X)).
+  - exact (fmap[from (lawvere_iso E)] (from X)).
+  - exact (iso_to_from (@fmap_iso _ _ (from (lawvere_iso E)) _ _ X)).
+  - exact (iso_from_to (@fmap_iso _ _ (from (lawvere_iso E)) _ _ X)).
+Qed.
+
 Definition lawvere_to {a b} (f : F a ~> b) : a ~> G b :=
   let o := ((a, b); f) in
   fmap[G] (snd (from (`1 (projF E) o)))
