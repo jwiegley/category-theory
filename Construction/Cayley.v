@@ -63,7 +63,7 @@ Program Instance To_Cayley : C ⟶ Cayley := {
 Next Obligation.
   proper.
   proper.
-Qed.
+Defined.
 
 Program Instance From_Cayley : Cayley ⟶ C := {
   fobj := fun x => x;
@@ -213,5 +213,13 @@ Next Obligation.
     rewrite fork_exl_exr.
     cat.
 Qed.
+
+Require Import Category.Functor.Structure.Cartesian.
+
+Program Instance To_Cayley_CartesianFunctor `{@Cartesian C} :
+  @CartesianFunctor _ _ To_Cayley _ _.
+
+Program Instance From_Cayley_CartesianFunctor `{@Cartesian C} :
+  @CartesianFunctor _ _ From_Cayley _ _.
 
 End Cayley.
