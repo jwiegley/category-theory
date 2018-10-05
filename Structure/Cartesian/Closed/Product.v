@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.Product.
-Require Export Category.Structure.Closed.
+Require Export Category.Structure.Cartesian.Closed.
 
 Generalizable All Variables.
 Set Primitive Projections.

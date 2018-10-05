@@ -6,7 +6,7 @@ Require Export Category.Theory.Functor.
 Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Cocartesian.
-Require Export Category.Structure.Closed.
+Require Export Category.Structure.Cartesian.Closed.
 Require Export Category.Structure.Initial.
 Require Export Category.Structure.Terminal.
 

@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Natural.Transformation.
-Require Import Category.Structure.Closed.
+Require Import Category.Structure.Cartesian.Closed.
 Require Import Category.Construction.Opposite.
 Require Import Category.Construction.Product.
 

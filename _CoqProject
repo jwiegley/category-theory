@@ -48,12 +48,13 @@ Structure/Discrete.v
 Structure/Terminal.v
 Structure/Cartesian.v
 Structure/Cartesian/Product.v
+Structure/Cartesian/Closed.v
+Structure/Cartesian/Closed/Product.v
 Structure/Initial.v
 Structure/Cocartesian.v
 Structure/Bicartesian.v
 Structure/Distributive.v
 Structure/Closed.v
-Structure/Closed/Product.v
 Structure/BiCCC.v
 Structure/Constant.v
 Structure/Monoidal.v
@@ -89,8 +90,8 @@ Structure/Pullback.v
 Structure/Pullback/Limit.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
+Instance/Cat/Cartesian/Closed.v
 Instance/Cat/Cocartesian.v
-Instance/Cat/Closed.v
 Instance/Zero.v
 Instance/One.v
 Instance/One/Diagonal.v
@@ -106,8 +107,8 @@ Instance/Coq/Applicative.v
 Instance/Coq/Monad.v
 Instance/Sets.v
 Instance/Sets/Cartesian.v
+Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cocartesian.v
-Instance/Sets/Closed.v
 Instance/Props.v
 Instance/Rel.v
 Instance/Ens.v
@@ -140,7 +141,7 @@ Functor/Structure/Monoidal/Compose.v
 Functor/Structure/Monoidal/Pure.v
 Functor/Traversable.v
 Functor/Structure/Cartesian.v
-Functor/Structure/Closed.v
+Functor/Structure/Cartesian/Closed.v
 Functor/Structure/Constant.v
 Functor/Structure/Terminal.v
 Functor/Traversable/Product.v

@@ -5,7 +5,7 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Strong.
 Require Export Category.Functor.Hom.Internal.
 Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Closed.
+Require Export Category.Structure.Cartesian.Closed.
 Require Export Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Internal.Product.
 Require Import Category.Functor.Structure.Monoidal.

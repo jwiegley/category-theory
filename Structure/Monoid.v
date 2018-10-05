@@ -4,7 +4,7 @@ Require Import Category.Lib.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Internal.Product.
-Require Import Category.Structure.Closed.
+Require Import Category.Structure.Cartesian.Closed.
 
 Generalizable All Variables.
 Set Primitive Projections.

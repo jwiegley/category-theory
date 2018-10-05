@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Structure.Closed.
+Require Export Category.Structure.Cartesian.Closed.
 Require Export Category.Functor.Structure.Cartesian.
 
 Generalizable All Variables.

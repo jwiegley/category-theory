@@ -159,7 +159,7 @@ Program Instance interp_proper {x y : Obj}
 
 Require Export Category.Functor.Structure.Terminal.
 Require Export Category.Functor.Structure.Cartesian.
-Require Export Category.Functor.Structure.Closed.
+Require Export Category.Functor.Structure.Cartesian.Closed.
 
 Section AST.
 

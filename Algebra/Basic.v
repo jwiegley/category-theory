@@ -6,7 +6,7 @@ Require Export Category.Structure.Cocartesian.
 Require Export Category.Structure.Initial.
 Require Export Category.Structure.Terminal.
 Require Export Category.Structure.Bicartesian.
-Require Export Category.Structure.Closed.
+Require Export Category.Structure.Cartesian.Closed.
 Require Export Category.Structure.BiCCC.
 
 Generalizable All Variables.
