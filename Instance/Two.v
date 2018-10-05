@@ -69,3 +69,47 @@ Next Obligation. destruct f; auto. Qed.
 Next Obligation. destruct f; auto. Qed.
 Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
 Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
+
+Require Import Category.Instance.Sets.
+
+Program Definition _2_as_Set : _2 ⟶ Sets := {|
+  fobj := fun x =>
+    match x with
+    | TwoX => {| carrier := False |}
+    | TwoY => {| carrier := True |}
+    end;
+  fmap := fun x y f =>
+    match x, y with
+    | TwoY, TwoY => _
+    | _, _       => _
+    end
+|}.
+Next Obligation.
+  construct.
+  - repeat intro.
+    contradiction.
+  - equivalence.
+Defined.
+Next Obligation.
+  construct.
+  - repeat intro.
+    exact True.
+  - equivalence.
+Defined.
+Next Obligation.
+  construct; auto.
+Defined.
+Next Obligation.
+  construct; auto.
+  destruct x, y; simpl in *; auto with two_laws.
+  proper.
+  destruct x, y; simpl in *; auto with two_laws.
+Qed.
+Next Obligation.
+  destruct x; simpl in *; auto with two_laws.
+  contradiction.
+Qed.
+Next Obligation.
+  destruct x, y, z; simpl in *; auto with two_laws.
+  contradiction.
+Qed.
