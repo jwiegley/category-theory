@@ -97,7 +97,7 @@ Corollary nat_id_right C D (F G : C ⟶ D) (N : F ⟹ G) :
 Proof. unfold nat_id, nat_compose; simpl; intros; cat. Qed.
 
 Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :
-  F ≅[Fun] G ↔ @equiv _ Functor_Setoid F G.
+  F ≅[Fun] G ↔ F ≈ G.
 Proof.
   split; intros; simpl.
     given (iso : ∀ x : C, F x ≅ G x). {
@@ -134,4 +134,4 @@ Proof.
     apply iso_to_from.
   - rewrite fmap_id.
     apply iso_from_to.
-Qed.
+Defined.
