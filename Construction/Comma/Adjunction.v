@@ -154,6 +154,19 @@ Next Obligation.
   apply e.
 Qed.
 
+(** The following statements witness the fact that transporting an object of
+    the comma category along the isomorphism cannot change the domain and
+    codomain of its associated morphism. *)
+Lemma equiv_comma_projF_iso : ∀ {a b} {f : F a ~> b}
+  (iso : ((a, b); lawvere_from (lawvere_to f)) ≅[F ↓ Id[C]] ((a, b); f)),
+    `1 (to iso) ≈ @id (D ∏ C) _ ∧ `1 (from iso) ≈ @id (D ∏ C) _.
+Admitted.
+
+Lemma equiv_comma_projG_iso : ∀ {a b} {g : a ~> G b}
+  (iso : ((a, b); lawvere_to (lawvere_from g)) ≅[Id[D] ↓ G] ((a, b); g)),
+    `1 (to iso) ≈ @id (D ∏ C) _ ∧ `1 (from iso) ≈ @id (D ∏ C) _.
+Admitted.
+
 Ltac pair_comp :=
   match goal with
   | [ |- context[@fst _ _ ?F ∘ @fst _ _ ?G] ] =>
@@ -365,11 +378,17 @@ Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
            ; proper_morphism := lawvere_from_Proper |}
 }.
 Next Obligation.
-  (* lawvere_to (lawvere_from x) ≈ x *)
-Admitted.
+  pose (lawvere_to_from_iso x) as X1.
+  rewrite (comma_proj_com_iso _ _ _ _ _ _ _ X1).
+  destruct (equiv_comma_projG_iso X1) as [[X2 _] [_ X3]].
+  rewrite X2, X3; cat.
+Qed.
 Next Obligation.
-  (* lawvere_from (lawvere_to x) ≈ x *)
-Admitted.
+  pose (lawvere_from_to_iso x) as X1.
+  rewrite (comma_proj_com_iso _ _ _ _ _ _ _ X1).
+  destruct (equiv_comma_projF_iso X1) as [[X2 _] [_ X3]].
+  rewrite X2, X3; cat.
+Qed.
 
 Corollary lawvere_to_morph_iso_functorial {a b} (f : F a ~{C}~> b)
           {a' b'} (i : a' ~> a) (j : b ~> b') :
