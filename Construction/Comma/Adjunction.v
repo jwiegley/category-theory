@@ -441,10 +441,7 @@ Lemma Left_Functoriality
         ∘ fst f.
 Proof.
   Opaque Left_Functor.
-  given (ff :
-    { f : (fst `1 (Left_Functor x) ~{ D }~> fst `1 (Left_Functor y)) *
-          (snd `1 (Left_Functor x) ~{ C }~> snd `1 (Left_Functor y))
-    & `2 (Left_Functor y) ∘ fmap[F] (fst f) ≈ snd f ∘ `2 (Left_Functor x) }).
+  given (ff : (Left_Functor x) ~{ F ↓ Id[C] }~> (Left_Functor y)).
     exists (fst f, fmap[F] (fst f)).
     abstract (simpl; rewrite id_left, id_right; reflexivity).
   destruct (`2 (projF E) (Left_Functor x) (Left_Functor y) ff).
@@ -481,10 +478,7 @@ Lemma Right_Functoriality
       ∘ fmap[F] (fmap[G] (snd f)).
 Proof.
   Opaque Right_Functor.
-  given (ff :
-    { f : (fst `1 (Right_Functor x) ~{ D }~> fst `1 (Right_Functor y)) *
-          (snd `1 (Right_Functor x) ~{ C }~> snd `1 (Right_Functor y))
-    & `2 (Right_Functor y) ∘ fst f ≈ fmap[G] (snd f) ∘ `2 (Right_Functor x) }).
+  given (ff : (Right_Functor x) ~{ Id[D] ↓ G }~> (Right_Functor y)).
     exists (fmap[G] (snd f), snd f).
     abstract (simpl; rewrite id_left, id_right; reflexivity).
   destruct (`2 (projG E) (Right_Functor x) (Right_Functor y) ff).
