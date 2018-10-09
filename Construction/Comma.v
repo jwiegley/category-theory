@@ -79,7 +79,7 @@ Proof.
 Defined.
 
 Theorem comma_proj_com_iso A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
-  forall iso : x ≅ y,
+  ∀ iso : x ≅ y,
     `2 x ≈ fmap[T] (snd `1 (from iso)) ∘ `2 y ∘ fmap[S] (fst `1 (to iso)).
 Proof.
   intros.
