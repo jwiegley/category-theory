@@ -6,6 +6,7 @@ Unset Equations WithK.
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
+Require Import Category.Instance.Lambda.Stlc.
 
 Generalizable All Variables.
 Set Primitive Projections.

@@ -9,7 +9,47 @@
   }
 }:
 
-with pkgs.${packages}; pkgs.stdenv.mkDerivation rec {
+with pkgs.${packages};
+
+let
+  metalib = pkgs.${packages}.metalib.overrideAttrs (attrs: rec {
+    name = "metalib-${coq.coq-version}-${version}";
+    version = "20180911";
+
+    src = pkgs.fetchgit {
+      url = https://github.com/plclub/metalib.git;
+      rev = "7cc5702462d952327304500165bf19478f156a17";
+      sha256 = "1w67r400g07v4fpvw69vdkhibxi5ikv09qjxly41d0w7csr00r5a";
+      # date = 2018-09-11T08:47:41-04:00;
+    };
+  });
+
+  stlc = pkgs.${packages}.metalib.overrideAttrs (attrs: rec {
+    name = "stlc-${coq.coq-version}-${version}";
+    version = "20180911";
+
+    src = pkgs.fetchgit {
+      url = https://github.com/plclub/metalib.git;
+      rev = "7cc5702462d952327304500165bf19478f156a17";
+      sha256 = "1w67r400g07v4fpvw69vdkhibxi5ikv09qjxly41d0w7csr00r5a";
+      # date = 2018-09-11T08:47:41-04:00;
+    };
+
+    buildInputs = attrs.buildInputs ++ [ metalib ];
+
+    buildPhase = ''
+      cd Stlc
+      coq_makefile -o Makefile.coq -f _CoqProject
+      make -f Makefile.coq
+      cd ..
+    '';
+
+    installPhase = ''
+      (cd Stlc; make -f CoqSrc.mk DSTROOT=/ COQLIB=$out/lib/coq/${coq.coq-version}/ install)
+    '';
+  });
+
+in pkgs.stdenv.mkDerivation rec {
   name = "category-theory";
   version = "1.0";
 
@@ -21,7 +61,9 @@ with pkgs.${packages}; pkgs.stdenv.mkDerivation rec {
     then pkgs.coqFilterSource [] ./.
     else ./.;
 
-  buildInputs = [ coq coq.ocaml coq.camlp5 coq.findlib equations ];
+  buildInputs = [
+    coq coq.ocaml coq.camlp5 coq.findlib equations metalib stlc
+  ];
   enableParallelBuilding = true;
 
   buildPhase = "make JOBS=$NIX_BUILD_CORES";
