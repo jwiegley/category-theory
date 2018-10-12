@@ -1,10 +1,7 @@
-Require Import Coq.Logic.FunctionalExtensionality.
-Require Import Coq.Program.Equality.
+Require Import Metalib.Metatheory.
+Require Import Metalib.LibLNgen.
 
-Require Export Metalib.Metatheory.
-Require Export Metalib.LibLNgen.
-
-Require Export Stlc.Definitions.
+Require Import Definitions.
 
 (** NOTE: Auxiliary theorems are hidden in generated documentation.
     In general, there is a [_rec] version of every lemma involving
