@@ -106,6 +106,19 @@ Corollary merge_comp {x y z w : C} (f : y ~> z) (h : w ~> z) (g : z ~> x) :
   (g ∘ f) ▽ (g ∘ h) ≈ g ∘ f ▽ h.
 Proof. apply (@fork_comp _ O). Qed.
 
+Ltac unmerge :=
+  unfold paws, cover, left, right; simpl;
+  repeat (rewrite <- !merge_comp; cat;
+          rewrite <- !comp_assoc; cat).
+
+Local Obligation Tactic := cat_simpl; unmerge.
+
+Theorem left_id {x y : C} :
+  left (id[x]) ≈ id[x + y].
+Proof. unfold left; cat. Qed.
+
+Hint Rewrite @left_id : categories.
+
 Theorem left_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
   left (z:=w) (f ∘ g) ≈ left f ∘ left g.
 Proof. apply (@first_comp _ O). Qed.
@@ -113,6 +126,12 @@ Proof. apply (@first_comp _ O). Qed.
 Theorem left_fork {x y z w : C} (f : y ~> x) (g : z ~> x) (h : w ~> y) :
   f ▽ g ∘ left h ≈ (f ∘ h) ▽ g.
 Proof. apply (@first_fork _ O). Qed.
+
+Theorem right_id {x y : C} :
+  right (id[y]) ≈ id[x + y].
+Proof. unfold right; cat. Qed.
+
+Hint Rewrite @right_id : categories.
 
 Theorem right_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
   right (z:=w) (f ∘ g) ≈ right f ∘ right g.
@@ -168,6 +187,83 @@ Proof. unfold paws; apply (@swap_invol _ O). Qed.
 
 Hint Rewrite @paws_invol : categories.
 
+Theorem cover_id {x y : C} :
+  cover (id[x]) (id[y]) ≈ id[x + y].
+Proof. now unmerge; cat. Qed.
+
+Hint Rewrite @cover_id : categories.
+
+Theorem cover_comp {x y z w v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) (i : w ~> v) :
+  cover f g ∘ cover h i ≈ cover (f ∘ h) (g ∘ i).
+Proof.
+  unmerge.
+  rewrite !comp_assoc.
+  rewrite <- merge_comp.
+  unfold cover.
+  rewrite !comp_assoc.
+  rewrite inl_merge.
+  rewrite inr_merge.
+  reflexivity.
+Qed.
+
+Theorem cover_left {x y z v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) :
+  cover f g ∘ left h ≈ cover (f ∘ h) g.
+Proof.
+  unmerge.
+  rewrite <- merge_comp.
+  rewrite inr_merge.
+  rewrite comp_assoc.
+  rewrite inl_merge.
+  rewrite comp_assoc.
+  reflexivity.
+Qed.
+
+Theorem left_cover {x y z v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) :
+  left f ∘ cover h g ≈ cover (f ∘ h) g.
+Proof.
+  unmerge.
+  rewrite <- merge_comp.
+  rewrite !comp_assoc.
+  rewrite inl_merge.
+  rewrite inr_merge.
+  reflexivity.
+Qed.
+
+Theorem cover_right {x y z v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) :
+  cover g f ∘ right h ≈ cover g (f ∘ h).
+Proof.
+  unmerge.
+  rewrite <- merge_comp.
+  rewrite !comp_assoc.
+  rewrite inl_merge.
+  rewrite inr_merge.
+  reflexivity.
+Qed.
+
+Theorem right_cover {x y z v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) :
+  right f ∘ cover g h ≈ cover g (f ∘ h).
+Proof.
+  unmerge.
+  rewrite <- merge_comp.
+  rewrite !comp_assoc.
+  rewrite inl_merge.
+  rewrite inr_merge.
+  reflexivity.
+Qed.
+
+Theorem cover_inl {x y z w : C} (f : x ~> y) (g : z ~> w):
+  cover f g ∘ inl ≈ inl ∘ f.
+Proof. unmerge; cat. Qed.
+
+Theorem cover_inr {x y z w : C} (f : x ~> y) (g : z ~> w):
+  cover f g ∘ inr ≈ inr ∘ g.
+Proof. unmerge; cat. Qed.
+
 Context `{I : @Initial C}.
 
 Global Program Instance coprod_zero_l {x : C} :
@@ -212,3 +308,8 @@ Hint Rewrite @inr_merge : categories.
 Hint Rewrite @merge_inl_inr : categories.
 Hint Rewrite @coprod_zero_r : isos.
 Hint Rewrite @coprod_zero_l : isos.
+
+Ltac unmerge :=
+  unfold paws, cover, left, right; simpl;
+  repeat (rewrite <- !merge_comp; cat;
+          rewrite <- !comp_assoc; cat).
