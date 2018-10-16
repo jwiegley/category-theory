@@ -242,6 +242,26 @@ Theorem split_comp {x y z w v u : C}
   split f g ∘ split h i ≈ split (f ∘ h) (g ∘ i).
 Proof. unfork. Qed.
 
+Theorem split_first {x y z v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) :
+  split f g ∘ first h ≈ split (f ∘ h) g.
+Proof. unfork. Qed.
+
+Theorem first_split {x y z v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) :
+  first f ∘ split h g ≈ split (f ∘ h) g.
+Proof. unfork. Qed.
+
+Theorem split_second {x y z v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) :
+  split g f ∘ second h ≈ split g (f ∘ h).
+Proof. unfork. Qed.
+
+Theorem second_split {x y z v u : C}
+        (f : y ~> z) (h : x ~> y) (g : v ~> u) :
+  second f ∘ split g h ≈ split g (f ∘ h).
+Proof. unfork. Qed.
+
 Theorem exl_split {x y z w : C} (f : x ~> y) (g : z ~> w):
   exl ∘ split f g ≈ f ∘ exl.
 Proof. unfork; cat. Qed.
