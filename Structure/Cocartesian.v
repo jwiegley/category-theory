@@ -27,18 +27,6 @@ Definition Coprod : C -> C -> C := @product_obj _ O.
 
 Infix "+" := Coprod (at level 50, left associativity) : object_scope.
 
-Global Program Instance coprod_respects_iso {x y z : C} :
-  Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Coprod.
-Next Obligation.
-  proper.
-  pose proof (@isomorphism_equivalence (C^op)).
-  spose (@prod_respects_iso _ O x y z
-           y0 x0 (symmetry (Isomorphism_Opposite X))
-           y1 x1 (symmetry (Isomorphism_Opposite X0))) as X2.
-  pose proof (@isomorphism_equivalence C).
-  apply (symmetry (Isomorphism_Opposite X2)).
-Qed.
-
 Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x :=
   @fork _ O _ _ _ f g.
 
@@ -263,6 +251,17 @@ Proof. unmerge; cat. Qed.
 Theorem cover_inr {x y z w : C} (f : x ~> y) (g : z ~> w):
   cover f g ∘ inr ≈ inr ∘ g.
 Proof. unmerge; cat. Qed.
+
+Global Program Instance coprod_respects_iso :
+  Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Coprod.
+Next Obligation.
+  proper.
+  construct.
+  - exact (cover (to X) (to X0)).
+  - exact (cover (from X) (from X0)).
+  - now rewrite cover_comp, !iso_to_from, cover_id.
+  - now rewrite cover_comp, !iso_from_to, cover_id.
+Defined.
 
 Context `{I : @Initial C}.
 

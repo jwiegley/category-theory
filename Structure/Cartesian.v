@@ -275,35 +275,16 @@ Theorem split_fork {x y z w v : C}
   split f h ∘ g △ i ≈ (f ∘ g) △ (h ∘ i).
 Proof. unfold split; intros; unfork. Qed.
 
-Global Program Instance prod_respects_iso {x y z : C} :
+Global Program Instance prod_respects_iso :
   Proper (Isomorphism ==> Isomorphism ==> Isomorphism) product_obj.
 Next Obligation.
   proper.
-  transitivity (x0 × y1). {
-    isomorphism.
-    - exact (second (to X0)).
-    - exact (second (from X0)).
-    - rewrite <- second_comp.
-      rewrite iso_to_from.
-      rewrite second_id.
-      reflexivity.
-    - rewrite <- second_comp.
-      rewrite iso_from_to.
-      rewrite second_id.
-      reflexivity.
-  }
-  isomorphism.
-  - exact (first (to X)).
-  - exact (first (from X)).
-  - rewrite <- first_comp.
-    rewrite iso_to_from.
-    rewrite first_id.
-    reflexivity.
-  - rewrite <- first_comp.
-    rewrite iso_from_to.
-    rewrite first_id.
-    reflexivity.
-Qed.
+  construct.
+  - exact (split (to X) (to X0)).
+  - exact (split (from X) (from X0)).
+  - now rewrite split_comp, !iso_to_from, split_id.
+  - now rewrite split_comp, !iso_from_to, split_id.
+Defined.
 
 Context `{@Terminal C}.
 
