@@ -11,31 +11,13 @@ Unset Transparent Obligations.
 
 (** The category of partial maps, built on the category of setoids. *)
 
-Program Definition Partial : Category := {|
+Program Definition Part : Category := {|
   obj := Sets;
   hom := fun x y =>
     @SetoidMorphism x (is_setoid x) (option y) (@option_setoid _ (is_setoid y));
   homset := fun x y =>
-    {| equiv := fun f g =>
-         ∀ a, @equiv _ (@option_setoid _ (is_setoid y)) (f a) (g a) |};
+    @SetoidMorphism_Setoid x {| is_setoid := @option_setoid _ (is_setoid y) |}
 |}.
-Next Obligation.
-  equivalence.
-  - destruct (x0 a); auto.
-    reflexivity.
-  - specialize (X a).
-    destruct (y0 a); auto.
-      destruct (x0 a); auto.
-      now symmetry.
-    now destruct (x0 a); auto.
-  - specialize (X a).
-    specialize (X0 a).
-    destruct (x0 a); auto;
-    destruct (y0 a); auto;
-    destruct (z a); auto;
-    try contradiction.
-    now transitivity c0.
-Qed.
 Next Obligation.
   construct.
   - exact (Some X).
@@ -59,11 +41,11 @@ Next Obligation.
 Defined.
 Next Obligation.
   proper.
-  specialize (X0 a).
-  destruct (x1 a); auto.
+  specialize (X0 x2).
+  destruct (x1 x2); auto.
   - specialize (X c).
     destruct (x0 c); auto;
-    destruct (y1 a); auto;
+    destruct (y1 x2); auto;
     destruct y0; simpl in *;
     spose (proper_morphism _ _ X0) as X1.
       destruct (morphism c); auto;
@@ -71,29 +53,29 @@ Next Obligation.
       now transitivity c2.
     destruct (morphism c); auto;
     destruct (morphism c0); tauto.
-  - destruct (y1 a); auto.
+  - destruct (y1 x2); auto.
     contradiction.
 Qed.
 Next Obligation.
   intros.
-  destruct (f a); auto.
+  destruct (f x0); auto.
   reflexivity.
 Qed.
 Next Obligation.
   intros.
-  destruct (f a); auto.
+  destruct (f x0); auto.
   reflexivity.
 Qed.
 Next Obligation.
   intros.
-  destruct (h a); auto.
+  destruct (h x0); auto.
   destruct (g c); auto.
   destruct (f c0); auto.
   reflexivity.
 Qed.
 Next Obligation.
   intros.
-  destruct (h a); auto.
+  destruct (h x0); auto.
   destruct (g c); auto.
   destruct (f c0); auto.
   reflexivity.
@@ -106,7 +88,7 @@ Require Import Category.Structure.Cartesian.
 Arguments option_setoid A {_}.
 Arguments sum_setoid A B {_ _}.
 
-Program Instance Partial_Cartesian : @Cartesian Partial := {
+Program Instance Part_Cartesian : @Cartesian Part := {
   product_obj := fun x y =>
     {| carrier := sum (carrier x) (sum (carrier y) (carrier x * carrier y)) |}
 }.
@@ -133,7 +115,7 @@ Next Obligation.
     destruct (morphism0 y0); try tauto.
 Defined.
 Next Obligation.
-  unfold Partial_Cartesian_obligation_1.
+  unfold Part_Cartesian_obligation_1.
   construct.
   - destruct H.
       exact (Some c).
@@ -147,7 +129,7 @@ Next Obligation.
     destruct p, p0, X; auto.
 Defined.
 Next Obligation.
-  unfold Partial_Cartesian_obligation_1.
+  unfold Part_Cartesian_obligation_1.
   construct.
   - destruct H.
       exact None.
@@ -162,27 +144,27 @@ Next Obligation.
 Defined.
 Next Obligation.
   proper.
-  specialize (X a).
-  specialize (X0 a).
-  destruct (x0 a), (x1 a), (y0 a), (y1 a); auto.
+  specialize (X x2).
+  specialize (X0 x2).
+  destruct (x0 x2), (x1 x2), (y0 x2), (y1 x2); auto.
 Qed.
 Next Obligation.
   split; intros.
   - split; intros.
-    + specialize (X a).
-      destruct (h a), (f a), (g a); try tauto;
+    + specialize (X x0).
+      destruct (h x0), (f x0), (g x0); try tauto;
       destruct s; try tauto;
       destruct s; try tauto.
       destruct p, X; auto.
-    + specialize (X a).
-      destruct (h a), (f a), (g a); try tauto;
+    + specialize (X x0).
+      destruct (h x0), (f x0), (g x0); try tauto;
       destruct s; try tauto;
       destruct s; try tauto.
       destruct p, X; auto.
   - destruct X.
-    specialize (y0 a).
-    specialize (y1 a).
-    destruct (h a), (f a), (g a); try tauto;
+    specialize (y0 x0).
+    specialize (y1 x0).
+    destruct (h x0), (f x0), (g x0); try tauto;
     destruct s; try tauto;
     destruct s; try tauto;
     destruct p; simpl in *; auto.

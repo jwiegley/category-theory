@@ -110,7 +110,7 @@ Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cocartesian.v
-Instance/Sets/Partial.v
+Instance/Sets/Part.v
 Instance/Props.v
 Instance/Rel.v
 Instance/Ens.v
