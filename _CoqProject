@@ -107,6 +107,7 @@ Instance/Adjoints.v
 Instance/Coq.v
 Instance/Coq/Applicative.v
 Instance/Coq/Monad.v
+Instance/Coq/Dist.v
 Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
