@@ -289,3 +289,15 @@ Proof.
   induction l1; simpl in *; intros;
   induction l2; auto.
 Qed.
+
+Program Instance nat_setoid : Setoid nat.
+
+Program Instance fun_setoid {A : Type} `{Setoid B} : Setoid (A -> B) := {
+  equiv := fun f g => ∀ x, f x ≈ g x
+}.
+Next Obligation.
+  equivalence.
+  now rewrite X, X0.
+Qed.
+
+Arguments fun_setoid A B {_}.
