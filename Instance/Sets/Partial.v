@@ -187,3 +187,84 @@ Next Obligation.
     destruct s; try tauto;
     destruct p; simpl in *; auto.
 Qed.
+
+Require Import Category.Instance.Sets.
+
+(** This is an invalid definition, since there are three ways we could produce
+    an [option c], but no way to decide which. *)
+Definition to {a b c} :
+  (a + (b + (a * b)) -> option c) -> (a -> option (b -> option c)) :=
+  fun f a => Some (fun b => f (inr (inr (a, b)))).
+
+(** Meanwhile, there is only one scenario that yields an [option c] here,
+    leaving us unable to use the information at hand for the other two. *)
+Definition from {a b c} :
+  (a -> option (b -> option c)) -> (a + (b + (a * b)) -> option c) :=
+  fun f x =>
+    match x with
+    | inl _            => None
+    | inr (inl _)      => None
+    | inr (inr (a, b)) =>
+      match f a with
+      | None => None
+      | Some k => k b
+      end
+    end.
+
+Lemma to_from {a b c} :
+  to \o from = @Datatypes.id (a -> option (b -> option c)).
+Proof.
+  extensionality f.
+  simpl.
+  extensionality x.
+  unfold to, from.
+  destruct (f x).
+    f_equal.
+    (** Stuck proving False. *)
+Abort.
+
+Lemma to_from_impossible {a b c} :
+  to \o from = @Datatypes.id (a -> option (b -> option c))
+    -> inhabited a -> False.
+Proof.
+  intros.
+  pose proof (equal_f H).
+  pose proof (equal_f (H1 (fun _ => None))).
+  simpl in H2.
+  destruct H0.
+  specialize (H2 X).
+  unfold to, from in H2.
+  discriminate.
+Qed.
+
+Lemma from_to {a b c} :
+  from \o to = @Datatypes.id (a + (b + (a * b)) -> option c).
+Proof.
+  extensionality f.
+  simpl.
+  extensionality x.
+  unfold to, from.
+  destruct x; simpl.
+    (** Stuck proving a fact we can't determine. *)
+    admit.
+  destruct s; simpl.
+    admit.
+  destruct p; auto.
+Abort.
+
+Lemma from_to_impossible {a b c} :
+  from \o to = @Datatypes.id (a + (b + (a * b)) -> option c)
+    -> inhabited a ∨ inhabited b -> inhabited c -> False.
+Proof.
+  intros.
+  pose proof (equal_f H).
+  destruct H1.
+  pose proof (equal_f (H2 (fun _ => Some X))).
+  simpl in H1.
+  unfold to, from in H1.
+  destruct H0, i.
+    specialize (H1 (inl X0)).
+    discriminate.
+  specialize (H1 (inr (inl X0))).
+  discriminate.
+Qed.
