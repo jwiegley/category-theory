@@ -93,6 +93,31 @@ Global Program Instance isomorphism_setoid {x y : C} : Setoid (x ≅ y) := {
   setoid_equiv := isomorphism_equiv_equivalence
 }.
 
+Local Obligation Tactic := program_simpl.
+
+Global Program Instance Isomorphism_Proper :
+  Proper (Isomorphism ==> Isomorphism ==> iffT) Isomorphism.
+Next Obligation.
+  proper.
+    refine (iso_compose _ (iso_sym X)).
+    exact (iso_compose _ X1).
+  refine (iso_compose _ X).
+  refine (iso_compose _ X1).
+  exact (iso_sym X0).
+Defined.
+
+Global Program Instance Isomorphism_flip_Proper :
+  Proper (Isomorphism ==> Isomorphism ==> Basics.flip iffT) Isomorphism.
+Next Obligation.
+  unfold Basics.flip.
+  proper.
+    refine (iso_compose _ X).
+    refine (iso_compose _ X1).
+    exact (iso_sym X0).
+  refine (iso_compose _ (iso_sym X)).
+  exact (iso_compose _ X1).
+Defined.
+
 End Isomorphism.
 
 Delimit Scope isomorphism_scope with isomorphism.
