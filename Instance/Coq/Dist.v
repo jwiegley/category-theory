@@ -6,7 +6,7 @@ Require Import Coq.Sets.Ensembles.
 Require Import Category.Lib.
 Require Import Category.Lib.Same_set.
 Require Export Category.Theory.Functor.
-Require Import Category.Instance.Sets.
+Require Import Category.Instance.Coq.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -162,34 +162,6 @@ Qed.
 Program Instance real_setoid : Setoid R.
 
 (** The category of partial maps, built on the category of setoids. *)
-
-(*
-Program Definition Dist : Category := {|
-  obj := Sets;
-
-  hom := fun x y =>
-    @SetoidMorphism
-      _ (is_setoid x) _ (@Ensemble_setoid
-                           _ (@prod_setoid _ _ (is_setoid y) real_setoid));
-  homset := fun x y =>
-    @SetoidMorphism_Setoid
-      x {| is_setoid := @Ensemble_setoid
-                          _ (@prod_setoid _ _ (is_setoid y) real_setoid) |};
-
-  id := fun x =>
-    {| morphism := fun v => Singleton _ (v, 1%R) |};
-
-  compose := fun x y z f g =>
-    {| morphism := fun v =>
-         Ensemble_unionWith
-           Rplus (Ensemble_map
-                    (fun '(b, pb) =>
-                       Ensemble_map
-                         (fun '(c, pc) => (c, pb * pc)%R) (f b)) (g v)) |}
-|}.
-*)
-
-Require Import Category.Instance.Coq.
 
 Program Definition Dist : Category := {|
   obj := Coq;
