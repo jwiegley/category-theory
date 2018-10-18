@@ -293,22 +293,6 @@ Definition lawvere_from_to_iso {a b} (f : F a ~> b) :
   iso_compose (`1 (iso_from_to (lawvere_iso E)) ((a, b); f))
               (iso_sym (@lawvere_iso_from_to _ _ f)).
 
-Lemma lawvere_iso_from_to' {a b} (f : F a ~> b) :
-  from (lawvere_iso E) (to (lawvere_iso E) ((a, b); f))
-    ≅[F ↓ Id[C]] ((a, b); f).
-Proof.
-  refine (iso_compose (lawvere_from_to_iso f) _).
-  apply lawvere_iso_from_to.
-Defined.
-
-Definition lawvere_iso_to_from' {a b} (g : a ~> G b) :
-  to (lawvere_iso E) (from (lawvere_iso E) ((a, b); g))
-    ≅[Id[D] ↓ G] ((a, b); g).
-Proof.
-  refine (iso_compose (lawvere_to_from_iso g) _).
-  apply lawvere_iso_to_from.
-Defined.
-
 Lemma lawvere_to_functorial {a b} (f : F a ~{C}~> b)
       {a' b'} (i : a' ~> a) (j : b ~> b') :
   lawvere_to E (j ∘ f ∘ fmap[F] i) ≈ fmap[G] j ∘ lawvere_to E f ∘ i.
@@ -435,36 +419,73 @@ Proof.
   reflexivity.
 Defined.
 
+Lemma foo {a b} (g : a ~> G b) :
+  to (lawvere_iso E) ((lawvere_iso E)⁻¹ ((a, b); g)) ≅[Id[D] ↓ G]
+  to (lawvere_iso E)
+    ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); g)),
+      snd `1 ((lawvere_iso E)⁻¹ ((a, b); g)));
+       `2 ((lawvere_iso E)⁻¹ ((a, b); g))).
+Proof. now rewrite surjective_tripleF. Defined.
+
+Definition lawvere_iso_to_from' {a b} (g : a ~> G b) :
+  to (lawvere_iso E) ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); g)),
+                       snd `1 ((lawvere_iso E)⁻¹ ((a, b); g)));
+                        `2 ((lawvere_iso E)⁻¹ ((a, b); g)))
+    ~{ Id[D] ↓ G }~> ((a, b); g).
+Proof.
+  exists ((`1 (projG E) ((a, b); g))⁻¹ ∘
+          (`1 (projF E) ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); g)),
+                          snd `1 ((lawvere_iso E)⁻¹ ((a, b); g)));
+                         `2 ((lawvere_iso E)⁻¹ ((a, b); g))))⁻¹).
+  simpl.
+  pose proof (fst_comp _ _ _
+                (`1 (projG E) ((a, b); g))⁻¹
+                (`1 (projF E) ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); g)),
+                                snd `1 ((lawvere_iso E)⁻¹ ((a, b); g)));
+                               `2 ((lawvere_iso E)⁻¹ ((a, b); g))))⁻¹).
+  rewrite X; clear X.
+Admitted.
+
+Lemma lawvere_iso_from_to' {a b} (f : F a ~> b) :
+  from (lawvere_iso E) (to (lawvere_iso E) ((a, b); f))
+    ~{ F ↓ Id[C] }~> ((a, b); f).
+Proof.
+Abort.
+
 Lemma lawvere_to_from' : ∀ a b (f : a ~> G b), lawvere_to E (lawvere_from E f) ≈ f.
 Proof.
   intros.
   unfold lawvere_from.
   rewrite lawvere_to_functorial.
   unfold lawvere_to.
+  simpl.
+  assert (snd (`1 (projG E) ((a, b); f))⁻¹
+            ≈ snd (`1 (to (`1 (iso_to_from (lawvere_iso E)) ((a, b); f)))) ∘
+              snd (to (`1 (projF E) ((lawvere_iso E)⁻¹ ((a, b); f))))).
+    admit.
+  rewrite X.
+  spose (`2 (to (`1 (iso_to_from (lawvere_iso E)) ((a, b); f)))) as X2.
+    admit.
+    pose proof (projF E) as X2.
+    pose proof (projG E) as X3.
+    rewrite X2 in X3.
+    spose (to (`1 X3 ((a, b); f))) as X4.
+  spose (snd (`1 (projG E) ((a, b); f))⁻¹) as X1.
+  spose (snd (to (`1 (projF E) ((lawvere_iso E)⁻¹ ((a, b); f))))) as X2.
+  unfold lawvere_to.
+  rewrite X.
   rewrite !comp_assoc.
   rewrite <- fmap_comp.
   simpl.
-  pose proof (snd_comp
-                _ _ _
+  pose proof (snd_comp _ _ _
                 (`1 (projG E) ((a, b); f))⁻¹
                 (`1 (projF E) ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); f)),
                                 snd `1 ((lawvere_iso E)⁻¹ ((a, b); f)));
                                `2 ((lawvere_iso E)⁻¹ ((a, b); f))))⁻¹).
   rewrite X; clear X.
-  given (ff : (to (lawvere_iso E)
-                  ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); f)),
-                    snd `1 ((lawvere_iso E)⁻¹ ((a, b); f)));
-                   `2 ((lawvere_iso E)⁻¹ ((a, b); f))))
-                ~{ Id[D] ↓ G }~> ((a, b); f)). {
-    exists ((`1 (projG E) ((a, b); f))⁻¹ ∘
-            (`1 (projF E) ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); f)),
-                            snd `1 ((lawvere_iso E)⁻¹ ((a, b); f)));
-                           `2 ((lawvere_iso E)⁻¹ ((a, b); f))))⁻¹).
-    simpl.
-    admit.
-  }
-  spose (`2 ff) as X.
-  unfold ff in X; clear ff.
+  spose (`2 (lawvere_iso_to_from' f)) as X.
+(*
+  unfold lawvere_iso_to_from' in X.
   rewrite <- X; clear X.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc
@@ -480,13 +501,13 @@ Proof.
                 `2 ((lawvere_iso E)⁻¹ ((a, b); f))))).
   simpl.
   rewrite id_left.
-  pose proof (fst_comp
-                _ _ _
+  pose proof (fst_comp _ _ _
                 (`1 (projG E) ((a, b); f))⁻¹
                 (`1 (projG E) ((a, b); f))).
   rewrite X; clear X.
   rewrite (iso_from_to (`1 (projG E) ((a, b); f))).
   cat.
+*)
 Admitted.
 
 Lemma lawvere_from_to' : ∀ a b (f : F a ~> b), lawvere_from E (lawvere_to E f) ≈ f.
