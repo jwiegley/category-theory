@@ -126,7 +126,6 @@ Instance/Finite.v
 Instance/Finite/Span.v
 Instance/Fact.v
 Instance/Lambda.v
-Instance/These.v
 Functor/Opposite.v
 Functor/Applicative.v
 Functor/Hom.v
