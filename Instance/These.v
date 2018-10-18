@@ -15,7 +15,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Section Proc.
+Section These.
 
 Context `{C : Category}.
 Context `{CA : @Cartesian C}.
@@ -23,6 +23,7 @@ Context `{@Cocartesian C}.
 Context `{@Initial C}.
 Context `{@Closed C _}.
 
+(*
 (** The type [These x y] in Haskell is algebraically equivalent to [x + y + x * y].
     The following definition proves that [These] with [zero] is a monoidal tensor on
     any category C. *)
@@ -132,3 +133,6 @@ Admitted.
 Next Obligation.
   unmerge.
 Admitted.
+*)
+
+End These.
