@@ -41,9 +41,8 @@ Proof.
   rewrite X; clear X.
   rewrite !comp_assoc.
   spose (`2 (to (`1 (iso_from_to H) ((a, b); f)))) as X2.
-  pose proof (snd (Functor_Setoid_Nat_Iso _ _) θ) as θ2.
-  pose proof (snd (Functor_Setoid_Nat_Iso _ _) κ) as κ2.
-  pose proof (θ2⁻¹ ⊙ κ2⁻¹ ≈ id).
+  (* pose proof (snd (Functor_Setoid_Nat_Iso _ _) θ) as θ2. *)
+  (* pose proof (snd (Functor_Setoid_Nat_Iso _ _) κ) as κ2. *)
   assert ((`1 (θ) ((a, b); f))⁻¹ ∘ (`1 (κ) (to H ((a, b); f)))⁻¹
             ≈ `1 (to (`1 (iso_from_to H) ((a, b); f)))).
     admit.
