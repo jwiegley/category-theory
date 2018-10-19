@@ -6,11 +6,58 @@ Require Export Category.Adjunction.Natural.Transformation.Universal.
 Require Export Category.Construction.Comma.
 Require Export Category.Construction.Product.
 Require Export Category.Instance.Cat.
+Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
+
+Theorem comma_equiv
+        {C D : Category}
+        (F : D ⟶ C) (G : C ⟶ D)
+        (H : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G))
+        (θ : comma_proj ≈[Cat] comma_proj ○ to H)
+        (κ : comma_proj ≈[Cat] comma_proj ○ from H) :
+  ∀ x, snd (from (`1 θ x))
+         ∘ snd (from (`1 κ (to H x)))
+         ∘ `2 (from H (to H x))
+         ∘ fmap[F] (fst (to (`1 κ (to H x))))
+         ∘ fmap[F] (fst (to (`1 θ x)))
+         ≈ `2 x.
+Proof.
+  intros [[a b] f].
+  simpl in f.
+  simpl.
+  pose proof (snd_comp _ _ _
+                (`1 (θ) ((a, b); f))⁻¹
+                (`1 (κ) (to H ((a, b); f)))⁻¹).
+  rewrite X; clear X.
+  rewrite <- !comp_assoc.
+  rewrite <- fmap_comp.
+  pose proof (fst_comp _ _ _
+                (`1 (κ) (to H ((a, b); f)))
+                (`1 (θ) ((a, b); f))).
+  rewrite X; clear X.
+  rewrite !comp_assoc.
+  spose (`2 (to (`1 (iso_from_to H) ((a, b); f)))) as X2.
+  pose proof (snd (Functor_Setoid_Nat_Iso _ _) θ) as θ2.
+  pose proof (snd (Functor_Setoid_Nat_Iso _ _) κ) as κ2.
+  pose proof (θ2⁻¹ ⊙ κ2⁻¹ ≈ id).
+  assert ((`1 (θ) ((a, b); f))⁻¹ ∘ (`1 (κ) (to H ((a, b); f)))⁻¹
+            ≈ `1 (to (`1 (iso_from_to H) ((a, b); f)))).
+    admit.
+  rewrite X; clear X.
+  rewrite <- X2; clear X2.
+  rewrite <- (comp_assoc _ (fmap _)).
+  rewrite <- fmap_comp.
+  assert ((`1 (κ) (to H ((a, b); f))) ∘ (`1 (θ) ((a, b); f))
+            ≈ `1 (from (`1 (iso_from_to H) ((a, b); f)))).
+    admit.
+  rewrite X; clear X.
+  spose (iso_to_from (`1 (iso_from_to H) ((a, b); f))) as X3.
+  now rewrite (fst X3); cat.
+Admitted.
 
 Section AdjunctionComma.
 
@@ -60,7 +107,7 @@ Record lawvere_equiv := {
     let o := ((a, b); g) in
     snd (from (`1 projG o))
       ∘ `2 (from lawvere_iso o)
-      ∘ fmap (fst (to (`1 projG o)));
+      ∘ fmap[F] (fst (to (`1 projG o)));
 
   (** Given that:
 
@@ -464,15 +511,8 @@ Proof.
               snd (to (`1 (projF E) ((lawvere_iso E)⁻¹ ((a, b); f))))).
     admit.
   rewrite X.
-  spose (`2 (to (`1 (iso_to_from (lawvere_iso E)) ((a, b); f)))) as X2.
-    admit.
-    pose proof (projF E) as X2.
-    pose proof (projG E) as X3.
-    rewrite X2 in X3.
-    spose (to (`1 X3 ((a, b); f))) as X4.
-  spose (snd (`1 (projG E) ((a, b); f))⁻¹) as X1.
-  spose (snd (to (`1 (projF E) ((lawvere_iso E)⁻¹ ((a, b); f))))) as X2.
   unfold lawvere_to.
+(*
   rewrite X.
   rewrite !comp_assoc.
   rewrite <- fmap_comp.
@@ -484,7 +524,6 @@ Proof.
                                `2 ((lawvere_iso E)⁻¹ ((a, b); f))))⁻¹).
   rewrite X; clear X.
   spose (`2 (lawvere_iso_to_from' f)) as X.
-(*
   unfold lawvere_iso_to_from' in X.
   rewrite <- X; clear X.
   rewrite <- !comp_assoc.
@@ -512,6 +551,13 @@ Admitted.
 
 Lemma lawvere_from_to' : ∀ a b (f : F a ~> b), lawvere_from E (lawvere_to E f) ≈ f.
 Proof.
+  intros.
+  unfold lawvere_to.
+  rewrite <- lawvere_from_functorial.
+  unfold lawvere_from.
+  pose proof (@comma_equiv _ _ F G (lawvere_iso E) (projF E) (projG E) ((a, b); f)).
+  simpl in *.
+  rewrite !comp_assoc.
 Admitted.
 
 Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
