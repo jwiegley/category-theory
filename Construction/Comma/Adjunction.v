@@ -13,51 +13,6 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Theorem comma_equiv
-        {C D : Category}
-        (F : D ⟶ C) (G : C ⟶ D)
-        (H : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G))
-        (θ : comma_proj ≈[Cat] comma_proj ○ to H)
-        (κ : comma_proj ≈[Cat] comma_proj ○ from H) :
-  ∀ x, snd (from (`1 θ x))
-         ∘ snd (from (`1 κ (to H x)))
-         ∘ `2 (from H (to H x))
-         ∘ fmap[F] (fst (to (`1 κ (to H x))))
-         ∘ fmap[F] (fst (to (`1 θ x)))
-         ≈ `2 x.
-Proof.
-  intros [[a b] f].
-  simpl in f.
-  simpl.
-  pose proof (snd_comp _ _ _
-                (`1 (θ) ((a, b); f))⁻¹
-                (`1 (κ) (to H ((a, b); f)))⁻¹).
-  rewrite X; clear X.
-  rewrite <- !comp_assoc.
-  rewrite <- fmap_comp.
-  pose proof (fst_comp _ _ _
-                (`1 (κ) (to H ((a, b); f)))
-                (`1 (θ) ((a, b); f))).
-  rewrite X; clear X.
-  rewrite !comp_assoc.
-  spose (`2 (to (`1 (iso_from_to H) ((a, b); f)))) as X2.
-  (* pose proof (snd (Functor_Setoid_Nat_Iso _ _) θ) as θ2. *)
-  (* pose proof (snd (Functor_Setoid_Nat_Iso _ _) κ) as κ2. *)
-  assert ((`1 (θ) ((a, b); f))⁻¹ ∘ (`1 (κ) (to H ((a, b); f)))⁻¹
-            ≈ `1 (to (`1 (iso_from_to H) ((a, b); f)))).
-    admit.
-  rewrite X; clear X.
-  rewrite <- X2; clear X2.
-  rewrite <- (comp_assoc _ (fmap _)).
-  rewrite <- fmap_comp.
-  assert ((`1 (κ) (to H ((a, b); f))) ∘ (`1 (θ) ((a, b); f))
-            ≈ `1 (from (`1 (iso_from_to H) ((a, b); f)))).
-    admit.
-  rewrite X; clear X.
-  spose (iso_to_from (`1 (iso_from_to H) ((a, b); f))) as X3.
-  now rewrite (fst X3); cat.
-Admitted.
-
 Section AdjunctionComma.
 
 (* Wikipedia: "Lawvere showed that the functors F : C → D and G : D → C are
@@ -84,67 +39,95 @@ Context {D : Category}.
 Context {F : D ⟶ C}.
 Context {G : C ⟶ D}.
 
+Definition πD := comma_proj1.
+Definition πC := comma_proj2.
+
+Local Notation "⟨πD,πC⟩" := comma_proj (at level 100).
+
 Record lawvere_equiv := {
-  lawvere_iso : (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G);
+  lawvere_iso : F ↓ Id[C] ≅[Cat] Id[D] ↓ G;
 
-  (** φ = to   lawvere_iso
-      ψ = from lawvere_iso *)
+  φ := to lawvere_iso;
+  ψ := from lawvere_iso;
 
-  projF : comma_proj ≈[Cat] comma_proj ○ to lawvere_iso;
-  projG : comma_proj ≈[Cat] comma_proj ○ from lawvere_iso;
+  η {x} := from (`1 (iso_from_to lawvere_iso) x);
+  μ {x} := from (`1 (iso_to_from lawvere_iso) x);
 
-  (** φ' = lawvere_to
-      ψ' = lawvere_from *)
+  projF : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ○ φ;
+  projG : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ○ ψ;
+
+  κ := `1 projF;
+  θ := `1 projG;
+
+  η_θ_κ : ∀ x, `1 (η x) ≈ θ (φ x) ∘ κ x;
+  μ_κ_θ : ∀ x, `1 (μ x) ≈ κ (ψ x) ∘ θ x;
 
   lawvere_to {a b} (f : F a ~> b) : a ~> G b :=
     let o := ((a, b); f) in
-    fmap[G] (snd (from (`1 projF o)))
-      ∘ `2 (to lawvere_iso o)
-      ∘ fst (to (`1 projF o));
+    fmap[G] (snd (from (κ o))) ∘ `2 (φ o) ∘ fst (to (κ o));
 
   lawvere_from {a b} (g : a ~> G b) : F a ~> b :=
     let o := ((a, b); g) in
-    snd (from (`1 projG o))
-      ∘ `2 (from lawvere_iso o)
-      ∘ fmap[F] (fst (to (`1 projG o)));
+    snd (from (θ o)) ∘ `2 (ψ o) ∘ fmap[F] (fst (to (θ o)));
 
-  (** Given that:
-
-        π₁((A,B),f) = (A,B)
-          = π₁(φ((A,B),f)) = π₁(φ((A,B),f))       [projF, projG]
-        φ((A,B),f) ≅ ((A,B),φ'(f))                [lawvere_iso_to]
-        ψ((A,B),f) ≅ ((A,B),ψ'(f))                [lawvere_iso_from]
-        φ(ψ(f)) ≈ f and ψ(φ(f)) ≈ f               [lawvere_iso]
-
-      it follows that:
-
-        φ'(ψ'(f)) ≈ f and ψ'(φ'(f)) ≈ f
-
-      However, we must state this explicitly below to work around a
-      difficulty with [lawvere_iso]. This is because, since we work
-      with quasi-categories, it is not the case that:
-
-        π₂(φ((A,B),f)) ≈ f
-
-      even though we know, due to the projF and projG equivalences, that
-      this must effectively be so. Instead:
-
-        π₂(φ((A,B),f)) ≈ fmap[G] b ∘ f ∘ a,
-
-      where:
-
-        a : A ~> fst π₁(φ((A,B),f))
-        b : snd π₁(φ((A,B),f)) ~> B
-
-      We know these two mappings cannot be anything but [id], however, Coq
-      cannot see this, since it knows nothing about the definition of
-      [lawvere_iso] that is to be defined later in [Adjunction_Comma]. *)
-
-  lawvere_to_from : ∀ a b (f : a ~> G b), lawvere_to (lawvere_from f) ≈ f;
-  lawvere_from_to : ∀ a b (f : F a ~> b), lawvere_from (lawvere_to f) ≈ f
+  φ' {a b} (f : F a ~> b) := lawvere_to f;
+  ψ' {a b} (g : a ~> G b) := lawvere_from g
 }.
 
 Context `(E : lawvere_equiv).
+
+Theorem ψ_φ_equiv :
+  ∀ x, snd (from (κ E x))
+         ∘ snd (from (θ E (φ E x)))
+         ∘ `2 (ψ E (φ E x))
+         ∘ fmap[F] (fst (to (θ E (φ E x))))
+         ∘ fmap[F] (fst (to (κ E x)))
+         ≈ `2 x.
+Proof.
+  intros [[a b] f]; simpl in f; simpl.
+  rewrite (snd_comp _ _ _ (κ E ((a, b); f))⁻¹ (θ E (φ E _))⁻¹).
+  rewrite <- !comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite (fst_comp _ _ _ (θ E (φ E _)) (κ E ((a, b); f))).
+  rewrite <- (η_θ_κ E).
+  rewrite (`2 (η E ((a, b); f))).
+  rewrite (η_θ_κ E ((a, b); f)).
+  rewrite !comp_assoc.
+  rewrite (snd_comp _ _ _
+             ((κ E _)⁻¹ ∘ (θ E (φ E _))⁻¹)
+             (θ E (φ E _) ∘ κ E ((a, b); f))).
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (θ E (φ E ((a, b); f)))⁻¹ _).
+  rewrite iso_from_to, id_left.
+  now rewrite iso_from_to; cat.
+Qed.
+
+Theorem φ_ψ_equiv :
+  ∀ x, fmap[G] (snd (from (θ E x)))
+         ∘ fmap[G] (snd (from (κ E (ψ E x))))
+         ∘ `2 (φ E (ψ E x))
+         ∘ fst (to (κ E (ψ E x)))
+         ∘ fst (to (θ E x))
+         ≈ `2 x.
+Proof.
+  intros [[a b] f]; simpl in f; simpl.
+  rewrite <- fmap_comp.
+  rewrite (snd_comp _ _ _ (θ E ((a, b); f))⁻¹ (κ E (ψ E _))⁻¹).
+  rewrite <- !comp_assoc.
+  rewrite (fst_comp _ _ _ (κ E (ψ E _)) (θ E ((a, b); f))).
+  rewrite <- (μ_κ_θ E).
+  rewrite (`2 (μ E ((a, b); f))).
+  rewrite (μ_κ_θ E ((a, b); f)).
+  rewrite !comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite (snd_comp _ _ _
+             ((θ E _)⁻¹ ∘ (κ E (ψ E _))⁻¹)
+             (κ E (ψ E _) ∘ θ E ((a, b); f))).
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (κ E (ψ E ((a, b); f)))⁻¹ _).
+  rewrite iso_from_to, id_left.
+  now rewrite iso_from_to; cat.
+Qed.
 
 Program Instance to_lawvere_iso_Proper :
   Proper (Isomorphism ==> Isomorphism) (to (lawvere_iso E)).
@@ -445,8 +428,6 @@ Proof.
   now cat.
 Qed.
 
-Import EqNotations.
-
 Lemma surjective_tripleF (p : obj[F ↓ Id[C]]) :
   existT _ (fst `1 p, snd `1 p) (`2 p) = p.
 Proof.
@@ -465,107 +446,84 @@ Proof.
   reflexivity.
 Defined.
 
-Lemma foo {a b} (g : a ~> G b) :
-  to (lawvere_iso E) ((lawvere_iso E)⁻¹ ((a, b); g)) ≅[Id[D] ↓ G]
+Lemma expand_φ_ψ {a b} (g : a ~> G b) :
+  to (lawvere_iso E) (from (lawvere_iso E) ((a, b); g))
+    ≈
   to (lawvere_iso E)
     ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); g)),
       snd `1 ((lawvere_iso E)⁻¹ ((a, b); g)));
        `2 ((lawvere_iso E)⁻¹ ((a, b); g))).
 Proof. now rewrite surjective_tripleF. Defined.
 
-Definition lawvere_iso_to_from' {a b} (g : a ~> G b) :
-  to (lawvere_iso E) ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); g)),
-                       snd `1 ((lawvere_iso E)⁻¹ ((a, b); g)));
-                        `2 ((lawvere_iso E)⁻¹ ((a, b); g)))
-    ~{ Id[D] ↓ G }~> ((a, b); g).
-Proof.
-  exists ((`1 (projG E) ((a, b); g))⁻¹ ∘
-          (`1 (projF E) ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); g)),
-                          snd `1 ((lawvere_iso E)⁻¹ ((a, b); g)));
-                         `2 ((lawvere_iso E)⁻¹ ((a, b); g))))⁻¹).
-  simpl.
-  pose proof (fst_comp _ _ _
-                (`1 (projG E) ((a, b); g))⁻¹
-                (`1 (projF E) ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); g)),
-                                snd `1 ((lawvere_iso E)⁻¹ ((a, b); g)));
-                               `2 ((lawvere_iso E)⁻¹ ((a, b); g))))⁻¹).
-  rewrite X; clear X.
-Admitted.
-
-Lemma lawvere_iso_from_to' {a b} (f : F a ~> b) :
+Lemma expand_ψ_φ {a b} (f : F a ~> b) :
   from (lawvere_iso E) (to (lawvere_iso E) ((a, b); f))
-    ~{ F ↓ Id[C] }~> ((a, b); f).
-Proof.
-Abort.
+    ≈
+  from (lawvere_iso E)
+    ((fst `1 (to (lawvere_iso E) ((a, b); f)),
+      snd `1 (to (lawvere_iso E) ((a, b); f)));
+       `2 (to (lawvere_iso E) ((a, b); f))).
+Proof. now rewrite surjective_tripleG. Defined.
 
-Lemma lawvere_to_from' : ∀ a b (f : a ~> G b), lawvere_to E (lawvere_from E f) ≈ f.
+(** Given that:
+
+      π₁((A,B),f) = (A,B)
+        = π₁(φ((A,B),f)) = π₁(φ((A,B),f))       [projF, projG]
+      φ((A,B),f) ≅ ((A,B),φ'(f))                [lawvere_iso_to]
+      ψ((A,B),f) ≅ ((A,B),ψ'(f))                [lawvere_iso_from]
+      φ(ψ(f)) ≈ f and ψ(φ(f)) ≈ f               [lawvere_iso]
+
+    it follows that:
+
+      φ'(ψ'(f)) ≈ f and ψ'(φ'(f)) ≈ f *)
+
+Arguments φ' l {_ _} _.
+Arguments ψ' l {_ _} _.
+
+Lemma lawvere_to_from : ∀ a b (g : a ~> G b), φ' E (ψ' E g) ≈ g.
 Proof.
   intros.
+  unfold φ', ψ'.
   unfold lawvere_from.
   rewrite lawvere_to_functorial.
   unfold lawvere_to.
-  simpl.
-  assert (snd (`1 (projG E) ((a, b); f))⁻¹
-            ≈ snd (`1 (to (`1 (iso_to_from (lawvere_iso E)) ((a, b); f)))) ∘
-              snd (to (`1 (projF E) ((lawvere_iso E)⁻¹ ((a, b); f))))).
-    admit.
-  rewrite X.
-  unfold lawvere_to.
-(*
-  rewrite X.
-  rewrite !comp_assoc.
-  rewrite <- fmap_comp.
-  simpl.
-  pose proof (snd_comp _ _ _
-                (`1 (projG E) ((a, b); f))⁻¹
-                (`1 (projF E) ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); f)),
-                                snd `1 ((lawvere_iso E)⁻¹ ((a, b); f)));
-                               `2 ((lawvere_iso E)⁻¹ ((a, b); f))))⁻¹).
-  rewrite X; clear X.
-  spose (`2 (lawvere_iso_to_from' f)) as X.
-  unfold lawvere_iso_to_from' in X.
-  rewrite <- X; clear X.
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc
-             (fst (`1 (projF E)
-                    ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); f)),
-                      snd `1 ((lawvere_iso E)⁻¹ ((a, b); f)));
-                     `2 ((lawvere_iso E)⁻¹ ((a, b); f))))⁻¹) (fst _)).
-  rewrite fst_comp.
-  rewrite (iso_from_to
-             (`1 (projF E)
-               ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); f)),
-                 snd `1 ((lawvere_iso E)⁻¹ ((a, b); f)));
-                `2 ((lawvere_iso E)⁻¹ ((a, b); f))))).
-  simpl.
-  rewrite id_left.
-  pose proof (fst_comp _ _ _
-                (`1 (projG E) ((a, b); f))⁻¹
-                (`1 (projG E) ((a, b); f))).
-  rewrite X; clear X.
-  rewrite (iso_from_to (`1 (projG E) ((a, b); f))).
-  cat.
-*)
-Admitted.
+  simpl in *.
+  spose (φ_ψ_equiv ((a, b); g)) as X1.
+  spose (surjective_tripleF (ψ E ((a, b); g))) as X2.
+  symmetry.
+  etransitivity.
+    symmetry in X1.
+    apply X1.
+  comp_left.
+  comp_right.
+  now rewrite <- X2.
+Qed.
 
-Lemma lawvere_from_to' : ∀ a b (f : F a ~> b), lawvere_from E (lawvere_to E f) ≈ f.
+Lemma lawvere_from_to : ∀ a b (f : F a ~> b), ψ' E (φ' E f) ≈ f.
 Proof.
   intros.
+  unfold φ', ψ'.
   unfold lawvere_to.
   rewrite <- lawvere_from_functorial.
   unfold lawvere_from.
-  pose proof (@comma_equiv _ _ F G (lawvere_iso E) (projF E) (projG E) ((a, b); f)).
   simpl in *.
-  rewrite !comp_assoc.
-Admitted.
+  spose (ψ_φ_equiv ((a, b); f)) as X1.
+  spose (surjective_tripleG (φ E ((a, b); f))) as X2.
+  symmetry.
+  etransitivity.
+    symmetry in X1.
+    apply X1.
+  comp_left.
+  comp_right.
+  now rewrite <- X2.
+Qed.
 
 Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
   to   := {| morphism := lawvere_to E
            ; proper_morphism := lawvere_to_Proper |};
   from := {| morphism := lawvere_from E
            ; proper_morphism := lawvere_from_Proper |};
-  iso_to_from := lawvere_to_from E _ _;
-  iso_from_to := lawvere_from_to E _ _
+  iso_to_from := lawvere_to_from _ _;
+  iso_from_to := lawvere_from_to _ _
 }.
 
 Corollary lawvere_to_morph_iso_functorial {a b} (f : F a ~{C}~> b)
@@ -755,7 +713,7 @@ Next Obligation.
   - clear; simpl; split; cat.
   - clear; simpl; split; cat.
   - clear; simpl; split; cat.
-Qed.
+Defined.
 Next Obligation.
   constructive; simpl.
   - exists (id, id).
@@ -767,7 +725,7 @@ Next Obligation.
   - clear; simpl; split; cat.
   - clear; simpl; split; cat.
   - clear; simpl; split; cat.
-Qed.
+Defined.
 
 End AdjunctionComma.
 
@@ -780,16 +738,8 @@ Proof.
       destruct f; simpl; cat.
     - simpl; unshelve eexists; intros; split;
       destruct f; simpl; cat.
-    - intros.
-      simpl; cat.
-      epose proof (iso_to_from adj).
-      simpl in X.
-      apply X.
-    - intros.
-      simpl; cat.
-      epose proof (iso_from_to adj).
-      simpl in X.
-      apply X.
+    - intros; simpl; cat.
+    - intros; simpl; cat.
   }
 
   apply Adjunction_from_Transform.
