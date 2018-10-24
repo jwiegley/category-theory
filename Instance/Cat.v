@@ -6,7 +6,7 @@ Require Export Category.Theory.Functor.
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
-Unset Transparent Obligations.
+Set Transparent Obligations.
 
 (* Cat is the category of all small categories:
 
