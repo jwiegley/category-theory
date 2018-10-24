@@ -13,6 +13,60 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+(**
+              C                C
+            ^   \            ^   \
+          ψ/  ⇑  \πC      Id/  ⇑  \φ
+          /   θ   v        /   id  v
+  C ---> D   --->  E  ≃  C    --->  D ---> E
+     φ        πD               φ       πD
+
+              D                D
+            ^   \            ^   \
+          φ/  ⇑  \πD       φ/  ⇑  \ψ
+          /   κ   v        /   η   v
+  C ---> C   --->  E  ≃  C    --->  C ---> E
+     Id       πC               Id      πC
+
+This 2-cat equivalence establishes that:
+
+    κ           : πC     ⟹ πD ○ φ
+    θ           : πD     ⟹ πC ○ ψ
+    θ ∘ φ       : πD ○ φ ⟹ πC ○ ψ ○ φ
+    (θ ∘ φ) ⊙ κ : πC     ⟹ πC ○ ψ ○ φ
+
+         η      :     Id ⟹      ψ ○ φ
+    πC ∘ η      : πC     ⟹ πC ○ ψ ○ φ
+
+    (θ ∘ φ) ⊙ (κ ∘ Id) ≈ (πD ∘ id) ⊙ (πC ∘ η)
+                             ^--- this part is not correct
+ *)
+
+Definition iso_exchange_law {C D E : Category} (M : C ≅[Cat] D) :=
+  let φ : C ⟶ D := to M in
+  let ψ : D ⟶ C := from M in
+
+  let η := from (equiv_iso (iso_from_to M)) in
+  let μ := from (equiv_iso (iso_to_from M)) in
+
+  ∀ (πC : C ~{Cat}~> E) (πD : D ~{Cat}~> E)
+    (CD : πC ≈ πD ∘ φ)
+    (DC : πD ≈ πC ∘ ψ),
+
+  let κ := to (equiv_iso CD) in
+  let θ := to (equiv_iso DC) in
+
+  (* let outC := to   (equiv_iso (comp_assoc πC ψ φ)) in *)
+  (* let inC  := from (equiv_iso (id_right πC)) in *)
+  (* let outD := to   (equiv_iso (comp_assoc πD φ ψ)) in *)
+  (* let inD  := from (equiv_iso (id_right πD)) in *)
+
+  (* (outC ⊙ inside η πC ⊙ inC ≈ outside θ φ ⊙ κ) ∧ *)
+  (* (outD ⊙ inside μ πD ⊙ inD ≈ outside κ ψ ⊙ θ). *)
+
+  (∀ A, fmap[πC] (η A) ≈ θ (φ A) ∘ κ A) ∧
+  (∀ A, fmap[πD] (μ A) ≈ κ (ψ A) ∘ θ A).
+
 Section AdjunctionComma.
 
 (* Wikipedia: "Lawvere showed that the functors F : C → D and G : D → C are
@@ -59,8 +113,8 @@ Record lawvere_equiv := {
   κ := `1 projF;
   θ := `1 projG;
 
-  η_θ_κ : ∀ x, `1 (η x) ≈ θ (φ x) ∘ κ x;
-  μ_κ_θ : ∀ x, `1 (μ x) ≈ κ (ψ x) ∘ θ x;
+  exchange : @iso_exchange_law (F ↓ Id[C]) (Id[D] ↓ G) (D ∏ C)
+                               lawvere_iso;
 
   lawvere_to {a b} (f : F a ~> b) : a ~> G b :=
     let o := ((a, b); f) in
@@ -75,6 +129,28 @@ Record lawvere_equiv := {
 }.
 
 Context `(E : lawvere_equiv).
+
+Lemma η_θ_κ : ∀ x, `1 (η E x) ≈ θ E (φ E x) ∘ κ E x.
+Proof.
+  intros.
+  pose proof (exchange E _ _ (projF E) (projG E)).
+  destruct X as [X _].
+  specialize (X x); simpl in X.
+  unfold equiv_iso, η, κ, θ, φ in *; simpl in *.
+  destruct (iso_from_to (lawvere_iso E)), (projG E), (projF E).
+  apply X.
+Qed.
+
+Lemma μ_κ_θ : ∀ x, `1 (μ E x) ≈ κ E (ψ E x) ∘ θ E x.
+Proof.
+  intros.
+  pose proof (exchange E _ _ (projF E) (projG E)).
+  destruct X as [_ X].
+  specialize (X x); simpl in X.
+  unfold equiv_iso, μ, κ, θ, ψ in *; simpl in *.
+  destruct (iso_to_from (lawvere_iso E)), (projG E), (projF E).
+  apply X.
+Qed.
 
 Theorem ψ_φ_equiv :
   ∀ x, snd (from (κ E x))
