@@ -42,28 +42,18 @@ This 2-cat equivalence establishes that:
                              ^--- this part is not correct
  *)
 
-Definition iso_exchange_law {C D E : Category} (M : C ≅[Cat] D) :=
-  let φ : C ⟶ D := to M in
-  let ψ : D ⟶ C := from M in
-
-  let η := from (equiv_iso (iso_from_to M)) in
-  let μ := from (equiv_iso (iso_to_from M)) in
-
-  ∀ (πC : C ~{Cat}~> E) (πD : D ~{Cat}~> E)
-    (CD : πC ≈ πD ∘ φ)
-    (DC : πD ≈ πC ∘ ψ),
-
-  let κ := to (equiv_iso CD) in
-  let θ := to (equiv_iso DC) in
-
-  (* let outC := to   (equiv_iso (comp_assoc πC ψ φ)) in *)
-  (* let inC  := from (equiv_iso (id_right πC)) in *)
-  (* let outD := to   (equiv_iso (comp_assoc πD φ ψ)) in *)
-  (* let inD  := from (equiv_iso (id_right πD)) in *)
-
-  (* (outC ⊙ inside η πC ⊙ inC ≈ outside θ φ ⊙ κ) ∧ *)
-  (* (outD ⊙ inside μ πD ⊙ inD ≈ outside κ ψ ⊙ θ). *)
-
+Definition iso_exchange_law
+           {C D E : Category}
+           (M : C ≅[Cat] D)
+           (πC : C ~{Cat}~> E) (πD : D ~{Cat}~> E)
+           (φ : C ⟶ D := to M)
+           (ψ : D ⟶ C := from M)
+           (η := from (equiv_iso (iso_from_to M)))
+           (μ := from (equiv_iso (iso_to_from M)))
+           (CD : πC ≈ πD ∘ φ)
+           (DC : πD ≈ πC ∘ ψ)
+           (κ := to (equiv_iso CD))
+           (θ := to (equiv_iso DC)) :=
   (∀ A, fmap[πC] (η A) ≈ θ (φ A) ∘ κ A) ∧
   (∀ A, fmap[πD] (μ A) ≈ κ (ψ A) ∘ θ A).
 
@@ -113,8 +103,9 @@ Record lawvere_equiv := {
   κ := `1 projF;
   θ := `1 projG;
 
-  exchange : @iso_exchange_law (F ↓ Id[C]) (Id[D] ↓ G) (D ∏ C)
-                               lawvere_iso;
+  exchange : @iso_exchange_law
+               (F ↓ Id[C]) (Id[D] ↓ G) (D ∏ C)
+               lawvere_iso comma_proj comma_proj projF projG;
 
   lawvere_to {a b} (f : F a ~> b) : a ~> G b :=
     let o := ((a, b); f) in
@@ -133,7 +124,7 @@ Context `(E : lawvere_equiv).
 Lemma η_θ_κ : ∀ x, `1 (η E x) ≈ θ E (φ E x) ∘ κ E x.
 Proof.
   intros.
-  pose proof (exchange E _ _ (projF E) (projG E)).
+  pose proof (exchange E).
   destruct X as [X _].
   specialize (X x); simpl in X.
   unfold equiv_iso, η, κ, θ, φ in *; simpl in *.
@@ -144,7 +135,7 @@ Qed.
 Lemma μ_κ_θ : ∀ x, `1 (μ E x) ≈ κ E (ψ E x) ∘ θ E x.
 Proof.
   intros.
-  pose proof (exchange E _ _ (projF E) (projG E)).
+  pose proof (exchange E).
   destruct X as [_ X].
   specialize (X x); simpl in X.
   unfold equiv_iso, μ, κ, θ, ψ in *; simpl in *.
@@ -165,9 +156,9 @@ Proof.
   rewrite <- !comp_assoc.
   rewrite <- fmap_comp.
   rewrite (fst_comp _ _ _ (θ E (φ E _)) (κ E ((a, b); f))).
-  rewrite <- (η_θ_κ E).
+  rewrite <- η_θ_κ.
   rewrite (`2 (η E ((a, b); f))).
-  rewrite (η_θ_κ E ((a, b); f)).
+  rewrite η_θ_κ.
   rewrite !comp_assoc.
   rewrite (snd_comp _ _ _
              ((κ E _)⁻¹ ∘ (θ E (φ E _))⁻¹)
@@ -191,9 +182,9 @@ Proof.
   rewrite (snd_comp _ _ _ (θ E ((a, b); f))⁻¹ (κ E (ψ E _))⁻¹).
   rewrite <- !comp_assoc.
   rewrite (fst_comp _ _ _ (κ E (ψ E _)) (θ E ((a, b); f))).
-  rewrite <- (μ_κ_θ E).
+  rewrite <- μ_κ_θ.
   rewrite (`2 (μ E ((a, b); f))).
-  rewrite (μ_κ_θ E ((a, b); f)).
+  rewrite μ_κ_θ.
   rewrite !comp_assoc.
   rewrite <- fmap_comp.
   rewrite (snd_comp _ _ _
@@ -814,8 +805,8 @@ Proof.
       destruct f; simpl; cat.
     - simpl; unshelve eexists; intros; split;
       destruct f; simpl; cat.
-    - intros; simpl; cat.
-    - intros; simpl; cat.
+    - unfold iso_exchange_law.
+      split; intros; simpl; cat.
   }
 
   apply Adjunction_from_Transform.
