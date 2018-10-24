@@ -42,20 +42,26 @@ This 2-cat equivalence establishes that:
                              ^--- this part is not correct
  *)
 
-Definition iso_exchange_law
-           {C D E : Category}
-           (M : C ≅[Cat] D)
-           (πC : C ~{Cat}~> E) (πD : D ~{Cat}~> E)
-           (φ : C ⟶ D := to M)
-           (ψ : D ⟶ C := from M)
-           (η := from (equiv_iso (iso_from_to M)))
-           (μ := from (equiv_iso (iso_to_from M)))
-           (CD : πC ≈ πD ∘ φ)
-           (DC : πD ≈ πC ∘ ψ)
-           (κ := to (equiv_iso CD))
-           (θ := to (equiv_iso DC)) :=
-  (∀ A, fmap[πC] (η A) ≈ θ (φ A) ∘ κ A) ∧
-  (∀ A, fmap[πD] (μ A) ≈ κ (ψ A) ∘ θ A).
+Program Definition exchange_law
+        {C D E : Category}
+        (φ  : C ⟶ D)
+        (ψ  : D ⟶ C)
+        (πC : C ⟶ E)
+        (πD : D ⟶ E)
+        (η  : Id ⟹ ψ ○ φ)
+        (μ  : Id ⟹ φ ○ ψ)
+        (κ  : πC ⟹ πD ○ φ)
+        (θ  : πD ⟹ πC ○ ψ) :=
+  _ (inside η πC) ≈ outside θ φ ⊙ κ ∧
+  _ (inside μ πD) ≈ outside κ ψ ⊙ θ.
+Next Obligation.
+  pose proof (to (equiv_iso (@comp_assoc Cat _ _ _ _ πC ψ φ))) as y.
+  construct; apply (y ⊙ x).
+Defined.
+Next Obligation.
+  pose proof (to (equiv_iso (@comp_assoc Cat _ _ _ _ πD φ ψ))) as y.
+  construct; apply (y ⊙ x).
+Defined.
 
 Section AdjunctionComma.
 
@@ -103,9 +109,14 @@ Record lawvere_equiv := {
   κ := `1 projF;
   θ := `1 projG;
 
-  exchange : @iso_exchange_law
+  exchange : @exchange_law
                (F ↓ Id[C]) (Id[D] ↓ G) (D ∏ C)
-               lawvere_iso comma_proj comma_proj projF projG;
+               (to lawvere_iso) (from lawvere_iso)
+               comma_proj comma_proj
+               (from (equiv_iso (iso_from_to lawvere_iso)))
+               (from (equiv_iso (iso_to_from lawvere_iso)))
+               (to (equiv_iso projF))
+               (to (equiv_iso projG));
 
   lawvere_to {a b} (f : F a ~> b) : a ~> G b :=
     let o := ((a, b); f) in
@@ -129,7 +140,10 @@ Proof.
   specialize (X x); simpl in X.
   unfold equiv_iso, η, κ, θ, φ in *; simpl in *.
   destruct (iso_from_to (lawvere_iso E)), (projG E), (projF E).
-  apply X.
+  simpl in *.
+  destruct X; split.
+    rewrite <- e2; cat.
+  rewrite <- e3; cat.
 Qed.
 
 Lemma μ_κ_θ : ∀ x, `1 (μ E x) ≈ κ E (ψ E x) ∘ θ E x.
@@ -140,7 +154,10 @@ Proof.
   specialize (X x); simpl in X.
   unfold equiv_iso, μ, κ, θ, ψ in *; simpl in *.
   destruct (iso_to_from (lawvere_iso E)), (projG E), (projF E).
-  apply X.
+  simpl in *.
+  destruct X; split.
+    rewrite <- e2; cat.
+  rewrite <- e3; cat.
 Qed.
 
 Theorem ψ_φ_equiv :
@@ -805,7 +822,7 @@ Proof.
       destruct f; simpl; cat.
     - simpl; unshelve eexists; intros; split;
       destruct f; simpl; cat.
-    - unfold iso_exchange_law.
+    - unfold exchange_law.
       split; intros; simpl; cat.
   }
 
