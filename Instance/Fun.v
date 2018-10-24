@@ -142,3 +142,9 @@ Proof.
       (rewrite fmap_id;
        apply iso_from_to).
 Defined.
+
+Definition iso_equiv {C D : Category} {f g : C ⟶ D} :
+  f ≅[Fun] g -> f ≈ g := fst (Functor_Setoid_Nat_Iso _ _).
+
+Definition equiv_iso {C D : Category} {f g : C ⟶ D} :
+  f ≈ g -> f ≅[Fun] g := snd (Functor_Setoid_Nat_Iso _ _).
