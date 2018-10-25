@@ -177,41 +177,43 @@ Next Obligation.
     reflexivity.
 Qed.
 
+Class Full `(F : C ⟶ D) := {
+  prefmap {x y} (g : F x ~> F y) : x ~> y;
+
+  prefmap_respects {x y} : Proper (equiv ==> equiv) (@prefmap x y);
+
+  prefmap_id : ∀ x, @prefmap x x id ≈ id;
+  prefmap_comp : ∀ x y z (f : F y ~> F z) (g : F x ~> F y),
+    prefmap (f ∘ g) ≈ prefmap f ∘ prefmap g;
+
+  fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g
+}.
+
 Class Faithful `(F : C ⟶ D) := {
   fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g -> f ≈ g
 }.
 
-Class Full `(F : C ⟶ D) := {
-  prefmap {x y} (g : F x ~> F y) : x ~> y;
-  fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g
-}.
-
-(* A few more properties that follow from the above. *)
-Record FullyFaithful `(F : C ⟶ D) := {
-  fmap_bij {x y} : F x ~> F y ↔ x ~> y;
-  fobj_inj {x y} : F x ≅ F y -> x ≅ y
-}.
-
-Theorem Full_and_Faithful `(F : C ⟶ D) :
-  Full F -> Faithful F -> FullyFaithful F.
+(* Properties that follow from the above. *)
+Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} :
+  ∀ x y, F x ≅ F y -> x ≅ y.
 Proof.
   intros.
   construct.
-    split; intros.
-      now apply prefmap.
-    now apply fmap.
-  construct.
-  - apply (prefmap (to X1)).
-  - apply (prefmap (from X1)).
-  - destruct X1; simpl.
-    apply fmap_inj.
-    rewrite fmap_id, fmap_comp.
-    now rewrite !fmap_sur.
-  - destruct X1; simpl.
-    apply fmap_inj.
-    rewrite fmap_id, fmap_comp.
-    now rewrite !fmap_sur.
-Qed.
+  + apply prefmap, X.
+  + apply prefmap, X.
+  + abstract
+      (simpl;
+       rewrite <- prefmap_comp;
+       destruct H;
+       rewrite iso_to_from;
+       apply prefmap_id).
+  + abstract
+      (simpl;
+       rewrite <- prefmap_comp;
+       destruct H;
+       rewrite iso_from_to;
+       apply prefmap_id).
+Defined.
 
 Definition FAlgebra `(F : C ⟶ C) (a : C) := F a ~> a.
 
