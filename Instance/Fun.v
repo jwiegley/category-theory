@@ -170,6 +170,15 @@ Lemma whisker_flip A B C (F : A ⟶ B) (G : B ⟶ C) :
   (to (nat_λ G) ⊲ F) ⊙ to (nat_α F Id G) ≈ G ⊳ (to (nat_ρ F)).
 Proof. simpl; intros; cat. Qed.
 
+Class Pointed {C : Category} (F : C ⟶ C) := {
+  point : Id ⟹ F
+}.
+
+Class WellPointed `{@Pointed C F} := {
+  well_pointed :
+    (F ⊳ point) ⊙ from (nat_λ _) ≈ (point ⊲ F) ⊙ from (nat_ρ _)
+}.
+
 Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :
   F ≅[Fun] G ↔ F ≈ G.
 Proof.
