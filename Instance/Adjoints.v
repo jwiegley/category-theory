@@ -19,7 +19,7 @@ Program Definition adj_comp
         {C : Category} {D : Category} {E : Category}
         (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E)
         (X : F ⊣ U) (Y : F' ⊣ U') :
-  F ○ F' ⊣ U' ○ U := {|
+  F ◯ F' ⊣ U' ◯ U := {|
   adj := fun a b =>
     {| to   := {| morphism := fun (f : F (F' a) ~> b) => to adj (to adj f) |}
      ; from := {| morphism := fun (f : a ~> U' (U b)) => adj⁻¹ (adj⁻¹ f) |} |}

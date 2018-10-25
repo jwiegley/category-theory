@@ -30,7 +30,7 @@ Class StrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
 }.
 
 Class RightStrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
-  rstrength_nat : (⨂) ○ F ∏⟶ Id ⟹ F ○ (⨂);
+  rstrength_nat : (⨂) ◯ F ∏⟶ Id ⟹ F ◯ (⨂);
 
   rstrength {x y} : F x ⨂ y ~> F (x ⨂ y) := transform[rstrength_nat] (x, y);
 
@@ -55,7 +55,7 @@ Global Program Instance Id_StrongFunctor : StrongFunctor Id[C] := {
 Local Obligation Tactic := program_simpl.
 
 Global Program Instance Compose_StrongFunctor (F G : C ⟶ C) :
-  StrongFunctor F -> StrongFunctor G -> StrongFunctor (F ○ G) := {
+  StrongFunctor F -> StrongFunctor G -> StrongFunctor (F ◯ G) := {
   strength := fun _ _ => fmap[F] strength ∘ strength
 }.
 Next Obligation.

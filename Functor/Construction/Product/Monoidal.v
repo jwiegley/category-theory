@@ -29,7 +29,7 @@ Local Obligation Tactic := program_simpl.
 
 Lemma ProductFunctor_Monoidal_ap_functor_iso :
   MonoidalFunctor F → MonoidalFunctor G
-    → (⨂) ○ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ≅[[(C ∏ D) ∏ (C ∏ D), J ∏ K]] F ∏⟶ G ○ (⨂).
+    → (⨂) ◯ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ≅[[(C ∏ D) ∏ (C ∏ D), J ∏ K]] F ∏⟶ G ◯ (⨂).
 Proof.
   intros O P.
   isomorphism.
@@ -137,7 +137,7 @@ Qed.
 
 Lemma ProductFunctor_Monoidal_proj1_ap_functor_iso :
   MonoidalFunctor F ∏⟶ G
-    → (⨂) ○ F ∏⟶ F ≅[[(C ∏ C), J]] F ○ (⨂).
+    → (⨂) ◯ F ∏⟶ F ≅[[(C ∏ C), J]] F ◯ (⨂).
 Proof.
   intros P.
 
@@ -260,7 +260,7 @@ Qed.
 
 Lemma ProductFunctor_Monoidal_proj2_ap_functor_iso :
   MonoidalFunctor F ∏⟶ G
-    → (⨂) ○ G ∏⟶ G ≅[[(D ∏ D), K]] G ○ (⨂).
+    → (⨂) ◯ G ∏⟶ G ≅[[(D ∏ D), K]] G ◯ (⨂).
 Proof.
   intros P.
 
@@ -383,7 +383,7 @@ Qed.
 
 Lemma ProductFunctor_LaxMonoidal_ap_functor_nat :
   LaxMonoidalFunctor F → LaxMonoidalFunctor G
-    → (⨂) ○ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ⟹ F ∏⟶ G ○ (⨂).
+    → (⨂) ◯ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ⟹ F ∏⟶ G ◯ (⨂).
 Proof.
   intros O P.
 
@@ -439,7 +439,7 @@ Next Obligation. intros; split; apply lax_monoidal_assoc. Qed.
 
 Lemma ProductFunctor_LaxMonoidal_proj1_ap_functor_nat :
   LaxMonoidalFunctor F ∏⟶ G
-    → (⨂) ○ F ∏⟶ F ⟹ F ○ (⨂).
+    → (⨂) ◯ F ∏⟶ F ⟹ F ◯ (⨂).
 Proof.
   intros P.
 
@@ -533,7 +533,7 @@ Qed.
 
 Lemma ProductFunctor_LaxMonoidal_proj2_ap_functor_nat :
   LaxMonoidalFunctor F ∏⟶ G
-    → (⨂) ○ G ∏⟶ G ⟹ G ○ (⨂).
+    → (⨂) ◯ G ∏⟶ G ⟹ G ◯ (⨂).
 Proof.
   intros P.
 
@@ -642,8 +642,8 @@ Variable (P : (C ∏ J) ⟶ D ∏ K).
 
 Lemma ProductFunctor_fst_LaxMonoidal_ap_functor_nat :
   LaxMonoidalFunctor P
-    → (⨂) ○ (ProductFunctor_fst P) ∏⟶ (ProductFunctor_fst P)
-          ⟹ ProductFunctor_fst P ○ (⨂).
+    → (⨂) ◯ (ProductFunctor_fst P) ∏⟶ (ProductFunctor_fst P)
+          ⟹ ProductFunctor_fst P ◯ (⨂).
 Proof.
   intro L.
   transform; simpl.
@@ -872,8 +872,8 @@ Qed.
 
 Lemma ProductFunctor_snd_LaxMonoidal_ap_functor_nat :
   LaxMonoidalFunctor P
-    → (⨂) ○ (ProductFunctor_snd P) ∏⟶ (ProductFunctor_snd P)
-          ⟹ ProductFunctor_snd P ○ (⨂).
+    → (⨂) ◯ (ProductFunctor_snd P) ∏⟶ (ProductFunctor_snd P)
+          ⟹ ProductFunctor_snd P ◯ (⨂).
 Proof.
   intro L.
   transform; simpl.

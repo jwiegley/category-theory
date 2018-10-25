@@ -51,7 +51,7 @@ Program Instance Functor_Map_EndoFunctor {C : Category}
         `{G : @EndoFunctor C P} {F : C ⟶ C} :
   EndoFunctor (fun x => F (P x)) := {
   map := fun _ _ f => fmap[F] (map f);
-  is_functor := F ○ G
+  is_functor := F ◯ G
 }.
 Next Obligation.
   destruct G; simpl.

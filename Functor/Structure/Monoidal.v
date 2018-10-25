@@ -21,7 +21,7 @@ Context `{@Monoidal D}.
 Context {F : C ⟶ D}.
 
 Lemma ap_iso_to_from
-      (ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) {x y} :
+      (ap_functor_iso : (⨂) ◯ F ∏⟶ F ≅[[C ∏ C, D]] F ◯ (⨂)) {x y} :
   transform (to ap_functor_iso) (x, y)
     ∘ transform (from ap_functor_iso) (x, y) ≈ id[F (x ⨂ y)].
 Proof.
@@ -31,9 +31,9 @@ Proof.
 Qed.
 
 Lemma ap_iso_from_to
-      (ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂)) {x y} :
+      (ap_functor_iso : (⨂) ◯ F ∏⟶ F ≅[[C ∏ C, D]] F ◯ (⨂)) {x y} :
   transform (from ap_functor_iso) (x, y) ∘ transform (to ap_functor_iso) (x, y)
-    ≈ id[((⨂) ○ F ∏⟶ F) (x, y)].
+    ≈ id[((⨂) ◯ F ∏⟶ F) (x, y)].
 Proof.
   spose (iso_from_to ap_functor_iso (x, y)) as X.
   rewrite !fmap_id in X.
@@ -43,7 +43,7 @@ Qed.
 Class MonoidalFunctor := {
   pure_iso : I ≅ F I;
 
-  ap_functor_iso : (⨂) ○ F ∏⟶ F ≅[[C ∏ C, D]] F ○ (⨂);
+  ap_functor_iso : (⨂) ◯ F ∏⟶ F ≅[[C ∏ C, D]] F ◯ (⨂);
 
   ap_iso {x y} : F x ⨂ F y ≅ F (x ⨂ y) := {|
     to   := transform[to ap_functor_iso] (x, y);
@@ -73,7 +73,7 @@ Class MonoidalFunctor := {
 Class LaxMonoidalFunctor := {
   lax_pure : I ~> F I;
 
-  ap_functor_nat : ((⨂) ○ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ○ (⨂));
+  ap_functor_nat : ((⨂) ◯ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ◯ (⨂));
 
   lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y) := transform[ap_functor_nat] (x, y);
 

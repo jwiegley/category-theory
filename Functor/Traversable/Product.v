@@ -29,7 +29,7 @@ Existing Instance InternalProduct_Monoidal.
 Lemma ProductFunctor_Traversable_ap_functor_nat :
   Traversable F → Traversable G
     → ∀ H : C ⟶ C, @Applicative _ _ _ _ H
-    → (F :*: G) ○ H ⟹ H ○ (F :*: G).
+    → (F :*: G) ◯ H ⟹ H ◯ (F :*: G).
 Proof.
   intros O P ??.
 

@@ -49,12 +49,12 @@ Context {U : C ⟶ D}.
    bifunctors from D^op × C to Set (the category of sets)." *)
 
 Class Adjunction_Hom := {
-  hom_adj : Hom C ○ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ○ Id^op ∏⟶ U
+  hom_adj : Hom C ◯ F^op ∏⟶ Id ≅[[D^op ∏ C, Sets]] Hom D ◯ Id^op ∏⟶ U
 }.
 
 Context `{Adjunction_Hom}.
 
-Program Definition hom_unit : Id ⟹ U ○ F := {|
+Program Definition hom_unit : Id ⟹ U ◯ F := {|
   transform := fun x => @morphism _ _ _ _ (to hom_adj (x, F x)) id
 |}.
 Next Obligation.
@@ -73,7 +73,7 @@ Next Obligation.
   apply hom_unit_obligation_1.
 Qed.
 
-Program Definition hom_counit : F ○ U ⟹ Id := {|
+Program Definition hom_counit : F ◯ U ⟹ Id := {|
   transform := fun x => @morphism _ _ _ _ (from hom_adj (U x, x)) id
 |}.
 Next Obligation.

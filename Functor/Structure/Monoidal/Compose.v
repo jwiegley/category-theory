@@ -30,7 +30,7 @@ Local Obligation Tactic := program_simpl.
 Global Program Instance Compose_MonoidalFunctor
        `(M : @MonoidalFunctor D E _ _ F)
        `(N : @MonoidalFunctor C D _ _ G) :
-  `{@MonoidalFunctor C E _ _ (F ○ G)} := {
+  `{@MonoidalFunctor C E _ _ (F ◯ G)} := {
   pure_iso := iso_compose (fmap_iso F _ _ (@pure_iso _ _ _ _ G _))
                           (@pure_iso _ _ _ _ F _);
   ap_functor_iso :=
@@ -260,7 +260,7 @@ Qed.
 Global Program Instance Compose_LaxMonoidalFunctor
        `(M : @LaxMonoidalFunctor D E _ _ F)
        `(N : @LaxMonoidalFunctor C D _ _ G) :
-  `{@LaxMonoidalFunctor C E _ _ (F ○ G)} := {
+  `{@LaxMonoidalFunctor C E _ _ (F ◯ G)} := {
   lax_pure := fmap lax_pure ∘ lax_pure;
   ap_functor_nat := {| transform := fun p =>
     fmap lax_ap ∘ @lax_ap _ _ _ _ F _ (G (fst p)) (G (snd p)) |}

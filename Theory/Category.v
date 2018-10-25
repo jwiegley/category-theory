@@ -88,6 +88,9 @@ Notation "x <~{ C }~ y" := (@hom C%category y%object x%object)
 Notation "id[ x ]" := (@id _%category x%object)
   (at level 9, format "id[ x ]") : morphism_scope.
 
+Notation "id{ C }" := (@id C%category _%object)
+  (at level 9, format "id{ C }") : morphism_scope.
+
 Notation "f ∘ g" :=
   (@compose _%category _%object _%object _%object f%morphism g%morphism)
   : morphism_scope.

@@ -16,8 +16,8 @@ Context {F : D ⟶ C}.
 Context {U : C ⟶ D}.
 
 Class Adjunction_Transform := {
-  unit   : Id ⟹ U ○ F;
-  counit : F ○ U ⟹ Id;
+  unit   : Id ⟹ U ◯ F;
+  counit : F ◯ U ⟹ Id;
 
   counit_fmap_unit {X} :
     transform[counit] (F X) ∘ fmap[F] (transform[unit] X) ≈ id;

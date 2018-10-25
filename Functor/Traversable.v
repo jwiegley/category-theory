@@ -47,7 +47,7 @@ Program Instance Compose_Applicative
 }.
 
 Class Traversable := {
-  sequence {G : C ⟶ C} `{@Applicative C _ _ _ G} : F ○ G ⟹ G ○ F;
+  sequence {G : C ⟶ C} `{@Applicative C _ _ _ G} : F ◯ G ⟹ G ◯ F;
 
   sequence_naturality {G : C ⟶ C} `{@Applicative C _ _ _ G}
                       {H : C ⟶ C} `{@Applicative C _ _ _ H} (N : G ⟹ H)

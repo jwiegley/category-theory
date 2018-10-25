@@ -96,6 +96,80 @@ Corollary nat_id_right C D (F G : C ⟶ D) (N : F ⟹ G) :
   N ⊙ nat_id ≈[Fun] N.
 Proof. unfold nat_id, nat_compose; simpl; intros; cat. Qed.
 
+Corollary nat_comp_assoc C D (F G H J : C ⟶ D)
+          (M : H ⟹ J) (N : G ⟹ H) (O : F ⟹ G) :
+  M ⊙ (N ⊙ O) ≈[Fun] (M ⊙ N) ⊙ O.
+Proof. unfold nat_compose; simpl; intros; cat. Qed.
+
+Lemma whisker_right_id A B C (F : A ⟶ B) (G : B ⟶ C) : id{Fun} ⊲ F ≈ id{Fun}.
+Proof. simpl; intros; cat. Qed.
+
+Lemma whisker_left_id A B C (F : A ⟶ B) (G : B ⟶ C) : G ⊳ id{Fun} ≈ id{Fun}.
+Proof. simpl; intros; cat. Qed.
+
+Lemma whisker_left_dist A B C (F : A ⟶ B) (G H J : B ⟶ C)
+      (η : G ⟹ H) (θ : H ⟹ J) : (θ ⊲ F) ⊙ (η ⊲ F) ≈ (θ ⊙ η) ⊲ F.
+Proof. simpl; intros; cat. Qed.
+
+Lemma whisker_right_dist A B C (F G H : A ⟶ B) (J : B ⟶ C)
+      (η : F ⟹ G) (θ : G ⟹ H) : (J ⊳ θ) ⊙ (J ⊳ η) ≈ J ⊳ (θ ⊙ η).
+Proof. simpl; intros; cat. now rewrite fmap_comp. Qed.
+
+Lemma nat_λ {A B} (F : A ⟶ B) : F ◯ Id ≅[Fun] F.
+Proof.
+  construct; simpl.
+  - construct.
+    + exact id.
+    + abstract cat.
+    + abstract cat.
+  - construct.
+    + exact id.
+    + abstract cat.
+    + abstract cat.
+  - abstract cat.
+  - abstract cat.
+Defined.
+
+Lemma nat_ρ {A B} (F : A ⟶ B) : Id ◯ F ≅[Fun] F.
+Proof.
+  construct; simpl.
+  - construct.
+    + exact id.
+    + abstract cat.
+    + abstract cat.
+  - construct.
+    + exact id.
+    + abstract cat.
+    + abstract cat.
+  - abstract cat.
+  - abstract cat.
+Defined.
+
+Lemma nat_α {A B C D} (F : A ⟶ B) (G : B ⟶ C) (H : C ⟶ D) :
+  H ◯ (G ◯ F) ≅[Fun] (H ◯ G) ◯ F.
+Proof.
+  construct; simpl.
+  - construct.
+    + exact id.
+    + abstract cat.
+    + abstract cat.
+  - construct.
+    + exact id.
+    + abstract cat.
+    + abstract cat.
+  - abstract cat.
+  - abstract cat.
+Defined.
+
+Lemma whisker_left_right A B C (F G : A ⟶ B) (H J : B ⟶ C)
+      (η : F ⟹ G) (θ : H ⟹ J) :
+  (J ⊳ η) ⊙ (θ ⊲ F) ≈ (θ ⊲ G) ⊙ (H ⊳ η).
+Proof. simpl; intros; cat; apply naturality. Qed.
+
+Lemma whisker_flip A B C (F : A ⟶ B) (G : B ⟶ C) :
+  (to (nat_λ G) ⊲ F) ⊙ to (nat_α F Id G) ≈ G ⊳ (to (nat_ρ F)).
+Proof. simpl; intros; cat. Qed.
+
 Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :
   F ≅[Fun] G ↔ F ≈ G.
 Proof.

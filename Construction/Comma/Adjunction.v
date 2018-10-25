@@ -13,55 +13,18 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-(**
-              C                C
-            ^   \            ^   \
-          ψ/  ⇑  \πC      Id/  ⇑  \φ
-          /   θ   v        /   id  v
-  C ---> D   --->  E  ≃  C    --->  D ---> E
-     φ        πD               φ       πD
-
-              D                D
-            ^   \            ^   \
-          φ/  ⇑  \πD       φ/  ⇑  \ψ
-          /   κ   v        /   η   v
-  C ---> C   --->  E  ≃  C    --->  C ---> E
-     Id       πC               Id      πC
-
-This 2-cat equivalence establishes that:
-
-    κ           : πC     ⟹ πD ○ φ
-    θ           : πD     ⟹ πC ○ ψ
-    θ ∘ φ       : πD ○ φ ⟹ πC ○ ψ ○ φ
-    (θ ∘ φ) ⊙ κ : πC     ⟹ πC ○ ψ ○ φ
-
-         η      :     Id ⟹      ψ ○ φ
-    πC ∘ η      : πC     ⟹ πC ○ ψ ○ φ
-
-    (θ ∘ φ) ⊙ (κ ∘ Id) ≈ (πD ∘ id) ⊙ (πC ∘ η)
-                             ^--- this part is not correct
- *)
-
-Program Definition exchange_law
-        {C D E : Category}
-        (φ  : C ⟶ D)
-        (ψ  : D ⟶ C)
-        (πC : C ⟶ E)
-        (πD : D ⟶ E)
-        (η  : Id ⟹ ψ ○ φ)
-        (μ  : Id ⟹ φ ○ ψ)
-        (κ  : πC ⟹ πD ○ φ)
-        (θ  : πD ⟹ πC ○ ψ) :=
-  _ (inside η πC) ≈ outside θ φ ⊙ κ ∧
-  _ (inside μ πD) ≈ outside κ ψ ⊙ θ.
-Next Obligation.
-  pose proof (to (equiv_iso (@comp_assoc Cat _ _ _ _ πC ψ φ))) as y.
-  construct; apply (y ⊙ x).
-Defined.
-Next Obligation.
-  pose proof (to (equiv_iso (@comp_assoc Cat _ _ _ _ πD φ ψ))) as y.
-  construct; apply (y ⊙ x).
-Defined.
+Definition exchange_law
+           {C D E : Category}
+           (φ  : C ⟶ D)
+           (ψ  : D ⟶ C)
+           (πC : C ⟶ E)
+           (πD : D ⟶ E)
+           (η  : Id ⟹ ψ ◯ φ)
+           (μ  : Id ⟹ φ ◯ ψ)
+           (κ  : πC ⟹ πD ◯ φ)
+           (θ  : πD ⟹ πC ◯ ψ) :=
+  to (nat_α _ _ _) ⊙ πC ⊳ η ⊙ from (nat_λ _) ≈ (θ ⊲ φ) ⊙ κ ∧
+  to (nat_α _ _ _) ⊙ πD ⊳ μ ⊙ from (nat_λ _) ≈ (κ ⊲ ψ) ⊙ θ.
 
 Section AdjunctionComma.
 
@@ -103,8 +66,8 @@ Record lawvere_equiv := {
   η {x} := from (`1 (iso_from_to lawvere_iso) x);
   μ {x} := from (`1 (iso_to_from lawvere_iso) x);
 
-  projF : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ○ φ;
-  projG : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ○ ψ;
+  projF : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ φ;
+  projG : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ ψ;
 
   κ := `1 projF;
   θ := `1 projG;
@@ -737,7 +700,7 @@ Proof.
   apply (`2 (fmap[ψ E] ff)).
 Qed.
 
-Program Definition lawvere_eqv_unit_transform : Id ⟹ G ○ F := {|
+Program Definition lawvere_eqv_unit_transform : Id ⟹ G ◯ F := {|
   transform := @lawvere_eqv_unit;
   naturality := fun x y f =>
     Left_Functoriality x y (f, fmap[F] f);
@@ -745,7 +708,7 @@ Program Definition lawvere_eqv_unit_transform : Id ⟹ G ○ F := {|
     symmetry (Left_Functoriality x y (f, fmap[F] f))
 |}.
 
-Program Definition lawvere_eqv_counit_transform : F ○ G ⟹ Id := {|
+Program Definition lawvere_eqv_counit_transform : F ◯ G ⟹ Id := {|
   transform := @lawvere_eqv_counit;
   naturality := fun x y f =>
     Right_Functoriality x y (fmap[G] f, f);
@@ -823,7 +786,7 @@ Proof.
     - simpl; unshelve eexists; intros; split;
       destruct f; simpl; cat.
     - unfold exchange_law.
-      split; intros; simpl; cat.
+      split; intros; simpl; intros; cat.
   }
 
   apply Adjunction_from_Transform.

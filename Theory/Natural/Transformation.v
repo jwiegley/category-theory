@@ -59,36 +59,39 @@ Coercion transform : Transform >-> Funclass.
 Ltac transform :=
   unshelve (refine {| transform := _ |}; simpl; intros).
 
-Corollary fun_id_left {C D : Category} {F : C ⟶ D} : Id ○ F ⟹ F.
+Corollary fun_id_left {C D : Category} {F : C ⟶ D} : Id ◯ F ⟹ F.
 Proof. transform; simpl; intros; cat. Qed.
 
-Corollary fun_id_left_sym {C D : Category} {F : C ⟶ D} : F ⟹ Id ○ F.
+Corollary fun_id_left_sym {C D : Category} {F : C ⟶ D} : F ⟹ Id ◯ F.
 Proof. transform; simpl; intros; cat. Qed.
 
-Corollary fun_id_right {C D : Category} {F : C ⟶ D} : F ○ Id ⟹ F.
+Corollary fun_id_right {C D : Category} {F : C ⟶ D} : F ◯ Id ⟹ F.
 Proof. transform; simpl; intros; cat. Qed.
 
-Corollary fun_id_right_sym {C D : Category} {F : C ⟶ D} : F ⟹ F ○ Id.
+Corollary fun_id_right_sym {C D : Category} {F : C ⟶ D} : F ⟹ F ◯ Id.
 Proof. transform; simpl; intros; cat. Qed.
 
 Corollary fun_comp_assoc {C D E B : Category}
-      {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : F ○ (G ○ H) ⟹ (F ○ G) ○ H.
+      {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : F ◯ (G ◯ H) ⟹ (F ◯ G) ◯ H.
 Proof. transform; simpl; intros; cat. Qed.
 
 Corollary fun_comp_assoc_sym {C D E B : Category}
-          {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : (F ○ G) ○ H ⟹ F ○ (G ○ H).
+          {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : (F ◯ G) ◯ H ⟹ F ◯ (G ◯ H).
 Proof. transform; simpl; intros; cat. Qed.
 
-Program Definition outside {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
-        {E : Category} (X : E ⟶ C) : F ○ X ⟹ G ○ X := {|
+Program Definition whisker_right {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
+        {E : Category} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {|
   transform := fun x => N (X x);
 
   naturality     := fun _ _ _ => naturality;
   naturality_sym := fun _ _ _ => naturality_sym
 |}.
 
-Program Definition inside {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
-           {E : Category} (X : D ⟶ E) : X ○ F ⟹ X ○ G := {|
+Notation "N ⊲ F" := (whisker_right N F) (at level 10).
+
+Program Definition whisker_left {C D : Category}
+        {E : Category} (X : D ⟶ E)
+        {F G : C ⟶ D} `(N : F ⟹ G) : X ◯ F ⟹ X ◯ G := {|
   transform := fun x => fmap[X] (N x)
 |}.
 Next Obligation.
@@ -99,6 +102,8 @@ Next Obligation.
   simpl; rewrite <- !fmap_comp;
   apply fmap_respects, naturality_sym.
 Qed.
+
+Notation "F ⊳ N" := (whisker_left F N) (at level 10).
 
 (* jww (2017-06-02): TODO *)
 (* Wikipedia: "Natural transformations also have a "horizontal composition".

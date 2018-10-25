@@ -24,7 +24,7 @@ Proof.
       apply adj_from.
     abstract (intros; rewrite (naturality[adj_from]); simpl; cat).
 
-  given (nat : Const Lim ○ Erase J ⟹ F). {
+  given (nat : Const Lim ◯ Erase J ⟹ F). {
     transform; simpl; intros.
     + apply vertex_map.
     + abstract (cat; apply ump_cones).

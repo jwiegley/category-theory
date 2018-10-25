@@ -61,7 +61,7 @@ Program Instance comma_proj2 : Comma ⟶ B := {|
   fmap := fun _ _ f => snd ``f
 |}.
 
-Program Instance comma_proj_nat : S ○ comma_proj1 ⟹ T ○ comma_proj2.
+Program Instance comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2.
 
 End Comma.
 

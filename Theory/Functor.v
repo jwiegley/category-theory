@@ -146,7 +146,7 @@ Next Obligation. intros; rewrite !fmap_comp; reflexivity. Qed.
 
 Hint Unfold Compose.
 
-Notation "F ○ G" := (Compose F%functor G%functor)
+Notation "F ◯ G" := (Compose F%functor G%functor)
   (at level 40, left associativity) : category_scope.
 
 Program Instance Compose_respects {C D E : Category} :

@@ -37,8 +37,8 @@ Local Obligation Tactic := simpl; intros.
 
 Program Definition Comma_Transform {C D : Category} {S T : D ⟶ C}
         (F : D ⟶ (S ↓ T))
-        (proj1 : comma_proj1 ○ F ≈[Cat] Id)
-        (proj2 : comma_proj2 ○ F ≈[Cat] Id) : S ⟹ T := {|
+        (proj1 : comma_proj1 ◯ F ≈[Cat] Id)
+        (proj2 : comma_proj2 ◯ F ≈[Cat] Id) : S ⟹ T := {|
   transform := fun X =>
     fmap (to (`1 proj2 X)) ∘ `2 (F X) ∘ fmap (from (`1 proj1 X))
 |}.

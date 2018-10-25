@@ -19,7 +19,7 @@ Context {F : A ⟶ B}.
 Context {C : Category}.
 
 Program Definition Induced : ([B, C]) ⟶ ([A, C]) := {|
-  fobj := fun G => G ○ F;
+  fobj := fun G => G ◯ F;
   fmap := fun _ _ f => {| transform := fun z => transform[f] (F z) |}
 |}.
 Next Obligation. apply naturality. Qed.
@@ -36,10 +36,10 @@ Class RightKan := {
 Class LocalRightKan (X : A ⟶ C) := {
   LocalRan : B ⟶ C;
 
-  ran_transform : LocalRan ○ F ⟹ X;
+  ran_transform : LocalRan ◯ F ⟹ X;
 
-  ump_ran (M : B ⟶ C) (μ : M ○ F ⟹ X) :
-    @Unique Fun _ _ (fun δ => μ ≈ ran_transform ⊙ outside δ F)
+  ump_ran (M : B ⟶ C) (μ : M ◯ F ⟹ X) :
+    @Unique Fun _ _ (fun δ => μ ≈ ran_transform ⊙ δ ⊲ F)
 }.
 
 (* Wikipedia: "There is also a local definition of 'the Kan extension of a
@@ -105,10 +105,10 @@ Class LeftKan := {
 Class LocalLeftKan (X : A ⟶ C) := {
   LocalLan : B ⟶ C;
 
-  lan_transform : X ⟹ LocalLan ○ F;
+  lan_transform : X ⟹ LocalLan ◯ F;
 
-  ump_lan (M : B ⟶ C) (ε : X ⟹ M ○ F) :
-    @Unique Fun _ _  (fun δ => ε ≈ outside δ F ⊙ lan_transform)
+  ump_lan (M : B ⟶ C) (ε : X ⟹ M ◯ F) :
+    @Unique Fun _ _  (fun δ => ε ≈ δ ⊲ F ⊙ lan_transform)
 }.
 
 Global Program Instance LeftKan_to_LocalLeftKan {R : LeftKan} (X : A ⟶ C) :

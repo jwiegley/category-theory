@@ -128,7 +128,7 @@ Fixpoint insertM {a} (P : a -> a -> m bool)
   end.
 Arguments insertM {a} P z l : simpl never.
 
-Corollary join_fmap_join_x : forall a (x : (m ○ m ○ m) a),
+Corollary join_fmap_join_x : forall a (x : (m ◯ m ◯ m) a),
   join (fmap join x) = join (join x).
 Proof.
   destruct m, M; simpl in *; intros.
