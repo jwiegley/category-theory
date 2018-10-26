@@ -80,7 +80,7 @@ End Fun.
 Notation "[ C , D ]" := (@Fun C D)
   (at level 90, right associativity, format "[ C ,  D ]") : category_scope.
 
-Notation "F ⊙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
+Notation "F ∙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
 
 Hint Unfold nat_compose.
 Hint Unfold nat_id.
@@ -89,16 +89,16 @@ Hint Unfold nat_equiv.
 Arguments nat_equiv {_ _ _ _} _ _ /.
 
 Corollary nat_id_left C D (F G : C ⟶ D) (N : F ⟹ G) :
-  nat_id ⊙ N ≈[Fun] N.
+  nat_id ∙ N ≈[Fun] N.
 Proof. unfold nat_id, nat_compose; simpl; intros; cat. Qed.
 
 Corollary nat_id_right C D (F G : C ⟶ D) (N : F ⟹ G) :
-  N ⊙ nat_id ≈[Fun] N.
+  N ∙ nat_id ≈[Fun] N.
 Proof. unfold nat_id, nat_compose; simpl; intros; cat. Qed.
 
 Corollary nat_comp_assoc C D (F G H J : C ⟶ D)
           (M : H ⟹ J) (N : G ⟹ H) (O : F ⟹ G) :
-  M ⊙ (N ⊙ O) ≈[Fun] (M ⊙ N) ⊙ O.
+  M ∙ (N ∙ O) ≈[Fun] (M ∙ N) ∙ O.
 Proof. unfold nat_compose; simpl; intros; cat. Qed.
 
 Lemma whisker_right_id A B C (F : A ⟶ B) (G : B ⟶ C) : id{Fun} ⊲ F ≈ id{Fun}.
@@ -108,11 +108,11 @@ Lemma whisker_left_id A B C (F : A ⟶ B) (G : B ⟶ C) : G ⊳ id{Fun} ≈ id{F
 Proof. simpl; intros; cat. Qed.
 
 Lemma whisker_left_dist A B C (F : A ⟶ B) (G H J : B ⟶ C)
-      (η : G ⟹ H) (θ : H ⟹ J) : (θ ⊲ F) ⊙ (η ⊲ F) ≈ (θ ⊙ η) ⊲ F.
+      (η : G ⟹ H) (θ : H ⟹ J) : (θ ⊲ F) ∙ (η ⊲ F) ≈ (θ ∙ η) ⊲ F.
 Proof. simpl; intros; cat. Qed.
 
 Lemma whisker_right_dist A B C (F G H : A ⟶ B) (J : B ⟶ C)
-      (η : F ⟹ G) (θ : G ⟹ H) : (J ⊳ θ) ⊙ (J ⊳ η) ≈ J ⊳ (θ ⊙ η).
+      (η : F ⟹ G) (θ : G ⟹ H) : (J ⊳ θ) ∙ (J ⊳ η) ≈ J ⊳ (θ ∙ η).
 Proof. simpl; intros; cat. now rewrite fmap_comp. Qed.
 
 Lemma nat_λ {A B} (F : A ⟶ B) : F ◯ Id ≅[Fun] F.
@@ -163,11 +163,31 @@ Defined.
 
 Lemma whisker_left_right A B C (F G : A ⟶ B) (H J : B ⟶ C)
       (η : F ⟹ G) (θ : H ⟹ J) :
-  (J ⊳ η) ⊙ (θ ⊲ F) ≈ (θ ⊲ G) ⊙ (H ⊳ η).
+  (J ⊳ η) ∙ (θ ⊲ F) ≈ (θ ⊲ G) ∙ (H ⊳ η).
 Proof. simpl; intros; cat; apply naturality. Qed.
 
 Lemma whisker_flip A B C (F : A ⟶ B) (G : B ⟶ C) :
-  (to (nat_λ G) ⊲ F) ⊙ to (nat_α F Id G) ≈ G ⊳ (to (nat_ρ F)).
+  (to (nat_λ G) ⊲ F) ∙ to (nat_α F Id G) ≈ G ⊳ (to (nat_ρ F)).
+Proof. simpl; intros; cat. Qed.
+
+Lemma nat_α_whisker_right_comp
+      A B C D (F : A ⟶ B) (G : B ⟶ C) (H J : C ⟶ D) (η : H ⟹ J) :
+  to (nat_α F G J) ∙ η ⊲ (G ◯ F) ≈ (η ⊲ G) ⊲ F ∙ to (nat_α F G H).
+Proof. simpl; intros; cat. Qed.
+
+Lemma nat_α_whisker_left_comp
+      A B C D (F G : A ⟶ B) (H : B ⟶ C) (J : C ⟶ D) (η : F ⟹ G) :
+  to (nat_α G H J) ∙ J ⊳ (H ⊳ η) ≈ (J ◯ H) ⊳ η ∙ to (nat_α F H J).
+Proof. simpl; intros; cat. Qed.
+
+Lemma nat_α_whisker_assoc
+      A B C D (F : A ⟶ B) (G H : B ⟶ C) (J : C ⟶ D) (η : G ⟹ H) :
+  to (nat_α F H J) ∙ J ⊳ (η ⊲ F) ≈ (J ⊳ η) ⊲ F ∙ to (nat_α F G J).
+Proof. simpl; intros; cat. Qed.
+
+Lemma nat_α_nat_α A B C D E (F : A ⟶ B) (G : B ⟶ C) (H : C ⟶ D) (J : D ⟶ E) :
+  (to (nat_α G H J) ⊲ F ∙ to (nat_α F (H ◯ G) J)) ∙ (J ⊳ (to (nat_α F G H)))
+    ≈ to (nat_α F G (J ◯ H)) ∙ to (nat_α (G ◯ F) H J).
 Proof. simpl; intros; cat. Qed.
 
 Class Pointed {C : Category} (F : C ⟶ C) := {
@@ -176,7 +196,7 @@ Class Pointed {C : Category} (F : C ⟶ C) := {
 
 Class WellPointed `{@Pointed C F} := {
   well_pointed :
-    (F ⊳ point) ⊙ from (nat_λ _) ≈ (point ⊲ F) ⊙ from (nat_ρ _)
+    (F ⊳ point) ∙ from (nat_λ _) ≈ (point ⊲ F) ∙ from (nat_ρ _)
 }.
 
 Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :

@@ -13,7 +13,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Definition exchange_law
+Definition whisker_equiv
            {C D E : Category}
            (φ  : C ⟶ D)
            (ψ  : D ⟶ C)
@@ -23,8 +23,8 @@ Definition exchange_law
            (μ  : Id ⟹ φ ◯ ψ)
            (κ  : πC ⟹ πD ◯ φ)
            (θ  : πD ⟹ πC ◯ ψ) :=
-  to (nat_α _ _ _) ⊙ πC ⊳ η ⊙ from (nat_λ _) ≈ (θ ⊲ φ) ⊙ κ ∧
-  to (nat_α _ _ _) ⊙ πD ⊳ μ ⊙ from (nat_λ _) ≈ (κ ⊲ ψ) ⊙ θ.
+  to (nat_α _ _ _) ∙ πC ⊳ η ∙ from (nat_λ _) ≈ (θ ⊲ φ) ∙ κ ∧
+  to (nat_α _ _ _) ∙ πD ⊳ μ ∙ from (nat_λ _) ≈ (κ ⊲ ψ) ∙ θ.
 
 Section AdjunctionComma.
 
@@ -72,14 +72,14 @@ Record lawvere_equiv := {
   κ := `1 projF;
   θ := `1 projG;
 
-  exchange : @exchange_law
-               (F ↓ Id[C]) (Id[D] ↓ G) (D ∏ C)
-               (to lawvere_iso) (from lawvere_iso)
-               comma_proj comma_proj
-               (from (equiv_iso (iso_from_to lawvere_iso)))
-               (from (equiv_iso (iso_to_from lawvere_iso)))
-               (to (equiv_iso projF))
-               (to (equiv_iso projG));
+  σ : @whisker_equiv
+        (F ↓ Id[C]) (Id[D] ↓ G) (D ∏ C)
+        (to lawvere_iso) (from lawvere_iso)
+        comma_proj comma_proj
+        (from (equiv_iso (iso_from_to lawvere_iso)))
+        (from (equiv_iso (iso_to_from lawvere_iso)))
+        (to (equiv_iso projF))
+        (to (equiv_iso projG));
 
   lawvere_to {a b} (f : F a ~> b) : a ~> G b :=
     let o := ((a, b); f) in
@@ -98,7 +98,7 @@ Context `(E : lawvere_equiv).
 Lemma η_θ_κ : ∀ x, `1 (η E x) ≈ θ E (φ E x) ∘ κ E x.
 Proof.
   intros.
-  pose proof (exchange E).
+  pose proof (σ E).
   destruct X as [X _].
   specialize (X x); simpl in X.
   unfold equiv_iso, η, κ, θ, φ in *; simpl in *.
@@ -112,7 +112,7 @@ Qed.
 Lemma μ_κ_θ : ∀ x, `1 (μ E x) ≈ κ E (ψ E x) ∘ θ E x.
 Proof.
   intros.
-  pose proof (exchange E).
+  pose proof (σ E).
   destruct X as [_ X].
   specialize (X x); simpl in X.
   unfold equiv_iso, μ, κ, θ, ψ in *; simpl in *.
@@ -785,7 +785,7 @@ Proof.
       destruct f; simpl; cat.
     - simpl; unshelve eexists; intros; split;
       destruct f; simpl; cat.
-    - unfold exchange_law.
+    - unfold whisker_equiv.
       split; intros; simpl; intros; cat.
   }
 

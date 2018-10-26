@@ -223,3 +223,5 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite <- section_comp; cat.
 Qed.
+
+Notation "f ⊙ g" := (@iso_compose _ _ _ _ f g) (at level 40, left associativity).

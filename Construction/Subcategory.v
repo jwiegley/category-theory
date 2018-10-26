@@ -64,6 +64,9 @@ Proof.
   - exists g.
     destruct x, y.
     apply X; auto.
+  - proper.
+  - reflexivity.
+  - reflexivity.
   - reflexivity.
 Qed.
 

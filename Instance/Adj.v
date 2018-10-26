@@ -24,7 +24,7 @@ Program Definition Adj (C D : Category) : Category := {|
   obj := ∃ (F : D ⟶ C) (U : C ⟶ D), F ⊣ U;
   hom := fun x y => (`1 x ⟹ `1 y) ∧ (`1`2 x ⟹ `1`2 y);
   id  := fun x => (nat_id, nat_id);
-  compose := fun _ _ _ f g => (fst f ⊙ fst g, snd f ⊙ snd g)
+  compose := fun _ _ _ f g => (fst f ∙ fst g, snd f ∙ snd g)
 |}.
 Next Obligation. apply prod_setoid. Defined.
 Next Obligation.
