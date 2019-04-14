@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Equations.Equations.
 Require Import Equations.EqDec.
-Unset Equations WithK.
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.

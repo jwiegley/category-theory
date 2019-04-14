@@ -272,13 +272,12 @@ Ltac find_vars :=
         pose arrs))
   end.
 
+(*
 Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y) (g : y ~> x),
   g ≈ g -> f ≈ f.
 Proof.
   intros.
-  Set Printing All.
   find_vars.
-  Unset Printing All.
   reflexivity.
 Qed.
 
@@ -321,3 +320,4 @@ Proof.
   cat.
   apply comp_assoc.
 Qed.
+*)

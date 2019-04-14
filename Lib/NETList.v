@@ -12,7 +12,7 @@ Require Import Coq.Classes.CMorphisms.
 
 Require Import Equations.Equations.
 Require Import Equations.EqDec.
-Unset Equations WithK.
+Set Equations With UIP.
 
 Require Import Category.Lib.
 
@@ -21,6 +21,8 @@ Inductive netlist {A : Type} (B : A -> A -> Type) : A -> A -> Type :=
   | tadd : forall i j k : A, B i j -> netlist B j k -> netlist B i k.
 
 Derive Signature Subterm for netlist.
+Next Obligation.
+Admitted.
 
 Arguments tfin {A B i j} x.
 Arguments tadd {A B i} j {k} x xs.
@@ -41,59 +43,59 @@ Fixpoint netlist_length {i j} (xs : netlist B i j) : nat :=
 Equations netlist_app {i j k} (xs : netlist B i j) (ys : netlist B j k) :
   netlist B i k :=
   netlist_app (tfin x) ys := x :::: ys;
-  netlist_app (tadd x xs) ys := x :::: netlist_app xs ys.
+  netlist_app (@tadd _ _ _ x xs) ys := x :::: netlist_app xs ys.
 
 Notation "xs ++++ ys" := (netlist_app xs ys) (at level 60, right associativity).
 
 Equations netlist_uncons {i j} (xs : netlist B i j) :
   { z : A & B i z & option (netlist B z j) }%type :=
   netlist_uncons (tfin x) := existT2 _ _ _ x None;
-  netlist_uncons (tadd x xs) := existT2 _ _ _ x (Some xs).
+  netlist_uncons (@tadd _ _ _ x xs) := existT2 _ _ _ x (Some xs).
 
 Equations netlist_map {i j A' C} {f : A -> A'}
           (g : forall i j : A, B i j -> C (f i) (f j))
           (xs : netlist B i j) : netlist C (f i) (f j) :=
   netlist_map g (tfin x) := tfin (g _ _ x);
-  netlist_map g (tadd x xs) := g _ _ x :::: netlist_map g xs.
+  netlist_map g (@tadd _ _ _ x xs) := g _ _ x :::: netlist_map g xs.
 
 Equations netlist_mapv {i j C}
           (g : forall i j : A, B i j -> C)
           (xs : netlist B i j) : list C :=
   netlist_mapv g (tfin x) := [g _ _ x];
-  netlist_mapv g (tadd x xs) := g _ _ x :: netlist_mapv g xs.
+  netlist_mapv g (@tadd _ _ _ x xs) := g _ _ x :: netlist_mapv g xs.
 
 Equations netlist_head {i j} (xs : netlist B i j) :
   { z : A & B i z }%type :=
   netlist_head (tfin x) := (_; x);
-  netlist_head (tadd x _) := (_; x).
+  netlist_head (@tadd _ _ _ x _) := (_; x).
 
 Equations netlist_tail {i j} (xs : netlist B i j) :
   option { z : A & netlist B z j }%type :=
   netlist_tail (tfin _) := None;
-  netlist_tail (tadd _ xs) := Some (_; xs).
+  netlist_tail (@tadd _ _ _ _ xs) := Some (_; xs).
 
 Equations netlist_init {i j} (xs : netlist B i j) :
   option { z : A & netlist B i z }%type :=
   netlist_init (tfin _) := None;
-  netlist_init (tadd x xs) <= netlist_init xs => {
+  netlist_init (@tadd _ _ _ x xs) with netlist_init xs := {
     | None => Some (_; tfin x);
-    | Some (existT _ ys) => Some (_; (x :::: ys))
+    | Some (existT ys) => Some (_; (x :::: ys))
   }.
 
 Equations netlist_last {i j} (xs : netlist B i j) :
   { z : A & B z j }%type :=
   netlist_last (tfin x) := (_; x);
-  netlist_last (tadd _ xs) := netlist_last xs.
+  netlist_last (@tadd _ _ _ _ xs) := netlist_last xs.
 
 Equations netlist_rev (flip : forall x y : A, B x y -> B y x)
           {i j} (xs : netlist B i j) : netlist B j i :=
   netlist_rev flip (tfin x) := tfin (flip _ _ x);
-  netlist_rev flip (tadd x xs) :=
+  netlist_rev flip (@tadd _ _ _ x xs) :=
     netlist_rev flip xs ++++ tfin (flip _ _ x).
 
 Equations netlist_concat {i j} (xs : netlist (netlist B) i j) : netlist B i j :=
   netlist_concat (tfin x) := x;
-  netlist_concat (tadd x xs) := x ++++ netlist_concat xs.
+  netlist_concat (@tadd _ _ _ x xs) := x ++++ netlist_concat xs.
 
 Context `{EqDec A}.
 Context `{forall i j, EqDec (B i j)}.
@@ -104,29 +106,29 @@ Import EqNotations.
 Equations netlist_incl
           {j k} (xs : netlist B j k)
           {i l} (ys : netlist B i l) : bool :=
-  netlist_incl (tfin j k x) (tfin i l y)
-    <= (eq_dec j i, eq_dec k l) => {
+  netlist_incl (@tfin _ _ j k x) (@tfin _ _ i l y)
+    with (eq_dec j i, eq_dec k l) := {
       | pair (left H1) (left H2)
-        <= eq_dec x (rew <- [fun y => B _ y] H2 in
-                     rew <- [fun x => B x _] H1 in y) => {
+        with eq_dec x (rew <- [fun y => B _ y] H2 in
+                     rew <- [fun x => B x _] H1 in y) := {
           | left _ => true;
           | _ => false
         };
       | _ => false
     };
-  netlist_incl (tfin j k x) (tadd i o _ y ys)
-    <= (eq_dec j i, eq_dec k o) => {
+  netlist_incl (@tfin _ _ j k x) (@tadd _ _ i o _ y ys)
+    with (eq_dec j i, eq_dec k o) := {
       | pair (left H1) (left H2)
-        <= eq_dec x (rew <- [fun y => B _ y] H2 in
-                     rew <- [fun x => B x _] H1 in y) => {
+        with eq_dec x (rew <- [fun y => B _ y] H2 in
+                     rew <- [fun x => B x _] H1 in y) := {
           | left _ => true;
           | _ => false
         };
       | _ => netlist_incl (tfin x) ys
     };
   netlist_incl _ (tfin _) := false;
-  netlist_incl (tadd j m _ x xs) (tadd i o _ y ys)
-    <= (eq_dec j i, eq_dec m o) => {
+  netlist_incl (@tadd _ _ j m _ x xs) (@tadd _ _ i o _ y ys)
+    with (eq_dec j i, eq_dec m o) := {
       | pair (left H1) (left H2) =>
         (eq_dec x (rew <- [fun y => B _ y] H2 in
                    rew <- [fun x => B x _] H1 in y)
@@ -136,16 +138,16 @@ Equations netlist_incl
     }.
 
 Equations netlist_eq_dec {i j : A} (x y : netlist B i j) : {x = y} + {x ≠ y} :=
-  netlist_eq_dec (tfin x) (tfin y) <= eq_dec x y => {
+  netlist_eq_dec (tfin x) (tfin y) with eq_dec x y := {
     | left _ => in_left;
     | _ => in_right
   };
-  netlist_eq_dec tfin _ := in_right;
-  netlist_eq_dec _ tfin := in_right;
-  netlist_eq_dec (tadd m _ x xs) (tadd o _ y ys)
-    <= eq_dec m o => {
-      | left H <= eq_dec x (rew <- [fun x => B _ x] H in y) => {
-          | left _ <= netlist_eq_dec xs (rew <- [fun x => netlist B x _] H in ys) => {
+  netlist_eq_dec (@tfin _ _ _) _ := in_right;
+  netlist_eq_dec _ (@tfin _ _ _) := in_right;
+  netlist_eq_dec (@tadd _ _ _ m _ x xs) (@tadd _ _ _ o _ y ys)
+    with eq_dec m o := {
+      | left H with eq_dec x (rew <- [fun x => B _ x] H in y) := {
+          | left _ with netlist_eq_dec xs (rew <- [fun x => netlist B x _] H in ys) := {
              | left _ => in_left;
              | _ => in_right
             };
@@ -181,7 +183,7 @@ Defined.
 Lemma netlist_app_comm_cons {i j k l} (x : B i j)
       (xs : netlist B j k) (ys : netlist B k l) :
   x :::: (xs ++++ ys) = (x :::: xs) ++++ ys.
-Proof. now destruct xs, ys. Qed.
+Proof. now rewrite netlist_app_equation_2. Qed.
 
 Lemma netlist_app_assoc {i j k l}
       (xs : netlist B i j) (ys : netlist B j k) (zs : netlist B k l) :
@@ -194,26 +196,25 @@ Qed.
 Context `{forall i j, Setoid (B i j)}.
 
 Equations netlist_equiv {i j : A} (x y : netlist B i j) : Type :=
-  netlist_equiv tfin tfin := True;
-  netlist_equiv tfin _ := False;
-  netlist_equiv _ tfin := False;
-  netlist_equiv (tadd _ m _ x xs) (tadd _ o _ y ys)
-    <= eq_dec m o => {
+  netlist_equiv (@tfin _ _ x) (@tfin _ _ y) := x ≈ y;
+  netlist_equiv (@tfin _ _ _) _ := False;
+  netlist_equiv _ (@tfin _ _ _) := False;
+  netlist_equiv (@tadd _ _ _ m _ x xs) (@tadd _ _ _ o _ y ys)
+    with eq_dec m o := {
       | left H =>
          equiv x (rew <- [fun x => B _ x] H in y) *
          netlist_equiv xs (rew <- [fun x => netlist B x _] H in ys);
       | right _ => False
     }.
 
-(*
 Global Program Instance netlist_equiv_Equivalence {i j} :
   Equivalence (@netlist_equiv i j).
 Next Obligation.
   repeat intro.
   induction x; simpl.
-    constructor.
+    rewrite netlist_equiv_equation_1.
+    reflexivity.
   rewrite netlist_equiv_equation_4.
-  unfold netlist_equiv_obligation_1.
   rewrite eq_dec_refl.
   split.
     apply Equivalence_Reflexive.
@@ -222,10 +223,11 @@ Qed.
 Next Obligation.
   repeat intro.
   induction x; simpl.
-    dependent elimination y as [tfin]; auto.
-  dependent elimination y as [tadd y ys]; auto.
+    dependent elimination y as [tfin _]; auto.
+    rewrite netlist_equiv_equation_1 in *.
+    now symmetry.
+  dependent elimination y as [tadd _ y ys]; auto.
   rewrite netlist_equiv_equation_4 in *.
-  unfold netlist_equiv_obligation_1 in *.
   destruct (eq_dec j wildcard0); [|contradiction].
   subst.
   rewrite eq_dec_refl.
@@ -237,23 +239,23 @@ Qed.
 Next Obligation.
   repeat intro.
   induction x; simpl.
-    dependent elimination y as [tfin]; auto.
-    contradiction.
-  dependent elimination y as [tadd y ys]; auto.
-    simpl; intros.
-    dependent elimination z as [tadd z zs]; auto.
-    rewrite netlist_equiv_equation_4 in *.
-    unfold netlist_equiv_obligation_1 in *.
-    destruct (eq_dec j wildcard2); [|contradiction].
-    destruct (eq_dec wildcard2 wildcard0); [|contradiction].
-    subst.
-    rewrite eq_dec_refl.
-    destruct X, X0.
-    split.
-      transitivity y; auto.
-    eapply IHx; eauto.
+    dependent elimination y as [tfin _]; auto.
+    induction z; simpl.
+      rewrite netlist_equiv_equation_1 in *.
+      now transitivity wildcard1.
+    now rewrite netlist_equiv_equation_2.
+  dependent elimination y as [tadd _ y ys]; auto.
   simpl; intros.
-  contradiction.
+  dependent elimination z as [tadd _ z zs]; auto.
+  rewrite netlist_equiv_equation_4 in *.
+  destruct (eq_dec j wildcard2); [|contradiction].
+  destruct (eq_dec wildcard2 wildcard0); [|contradiction].
+  subst.
+  rewrite eq_dec_refl.
+  destruct X, X0.
+  split.
+    transitivity y; auto.
+  eapply IHx; eauto.
 Qed.
 
 Global Program Instance netlist_Setoid {i j} : Setoid (netlist B i j) := {
@@ -267,33 +269,31 @@ Next Obligation.
   repeat intro.
   simpl in *.
   rewrite netlist_equiv_equation_4.
-  unfold netlist_equiv_obligation_1.
   now rewrite eq_dec_refl.
 Qed.
-*)
 
-(*Global Program Instance netlist_app_respects {i j k} :
+Global Program Instance netlist_app_respects {i j k} :
   Proper (equiv ==> equiv ==> equiv) (@netlist_app i j k).
 Next Obligation.
   repeat intro.
   generalize dependent k.
   induction x; intros; dependent elimination y.
-  - rewrite !netlist_app_tfin_l.
-    exact X0.
+  - rewrite !netlist_app_equation_1.
+    rewrite netlist_equiv_equation_1 in X.
+    now f_equiv.
   - contradiction.
   - contradiction.
   - rewrite <- !netlist_app_comm_cons.
     rewrite netlist_equiv_equation_4 in *.
-    unfold netlist_equiv_obligation_1 in *.
-    destruct (eq_dec j0 j); [|contradiction].
+    unfold netlist_equiv_clause_4 in *.
+    destruct (eq_dec j j1); [|contradiction].
     subst.
     destruct X.
     split; auto.
     apply IHx.
-      exact t.
+      exact n0.
     exact X0.
 Qed.
-*)
 
 Global Program Instance netlist_EqDec {i j} : @EqDec (netlist B i j) := {
   eq_dec := netlist_eq_dec
@@ -328,6 +328,7 @@ Lemma netlist_concat_app {A : Type} {B : A -> A -> Type} {i j k}
 Proof.
   induction xs; auto.
   rewrite <- netlist_app_comm_cons; simpl.
+  rewrite !netlist_concat_equation_2.
   rewrite IHxs.
   now rewrite netlist_app_assoc.
 Qed.
@@ -343,6 +344,8 @@ Lemma netlist_rev_unit {i j k} (xs : netlist B i j) (x : B j k) :
   netlist_rev flip (xs ++++ tfin x) = flip _ _ x :::: netlist_rev flip xs.
 Proof.
   induction xs; auto; simpl.
+  rewrite <- netlist_app_comm_cons; simpl.
+  rewrite netlist_rev_equation_2.
   now rewrite IHxs.
 Qed.
 
@@ -351,6 +354,8 @@ Lemma netlist_rev_app_distr {i j k} (xs : netlist B i j) (ys : netlist B j k) :
 Proof.
   generalize dependent i.
   induction xs; simpl; intros; auto.
+  rewrite <- netlist_app_comm_cons; simpl.
+  rewrite !netlist_rev_equation_2.
   rewrite IHxs.
   now rewrite <- netlist_app_assoc.
 Qed.
@@ -362,10 +367,12 @@ Lemma netlist_rev_involutive {i j} (xs : netlist B i j) :
   netlist_rev flip (netlist_rev flip xs) = xs.
 Proof.
   induction xs; simpl; auto.
+    rewrite !netlist_rev_equation_1.
     now rewrite flip_involutive.
+  rewrite netlist_rev_equation_2.
   rewrite netlist_rev_app_distr.
   rewrite IHxs.
-  simpl netlist_rev.
+  rewrite netlist_rev_equation_1.
   now rewrite flip_involutive.
 Qed.
 
@@ -373,6 +380,7 @@ Lemma netlist_rev_length {i j} (xs : netlist B i j) :
   netlist_length (netlist_rev flip xs) = netlist_length xs.
 Proof.
   induction xs; auto; simpl.
+  rewrite netlist_rev_equation_2.
   rewrite netlist_app_length, IHxs; simpl.
   apply PeanoNat.Nat.add_1_r.
 Qed.
@@ -401,7 +409,7 @@ Proof.
   inversion H; subst; clear H.
   apply inj_pair2 in H2; auto.
   apply inj_pair2 in H3; auto.
-  now subst.
+  now rewrite H2, H3.
 Qed.
 
 End NetlistProofsInj.
@@ -601,12 +609,16 @@ Definition my_list : netlist nat_triple 0 4 :=
 Require Import Coq.Arith.EqNat.
 
 Example netlist_find_sublist_nat_ex1 :
+  ∀ H : ∀ i j : nat, EqDec (nat_triple i j),
   @netlist_find_sublist
     nat nat_triple PeanoNat.Nat.eq_dec _
     1 3 (tadd 2 ((1, 2), 200) (tfin ((2, 3), 300)))
     0 4 my_list
     = Some (inleft (tfin ((0, 1), 100)), inleft (tfin (3, 4, 400))).
-Proof. reflexivity. Qed.
+Proof.
+  intros; simpl; simpl_eq.
+  now rewrite !eq_dec_refl.
+Qed.
 
 Reserved Infix "<+>" (at level 42, right associativity).
 

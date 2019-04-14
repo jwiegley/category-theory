@@ -6,7 +6,6 @@ Require Import Coq.Arith.PeanoNat.
 
 Require Import Equations.Equations.
 Require Import Equations.EqDec.
-Unset Equations WithK.
 
 Require Import Category.Lib.
 Require Import Category.Lib.Equality.

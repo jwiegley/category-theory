@@ -4,7 +4,7 @@ Require Import Coq.Vectors.Vector.
 
 Require Import Equations.Equations.
 Require Import Equations.EqDec.
-Unset Equations WithK.
+Set Equations With UIP.
 
 Require Import Category.Lib.
 Require Import Category.Lib.Equality.
@@ -44,7 +44,7 @@ Global Program Instance arrow_EqDec (i j : obj_idx num_objs) :
 Next Obligation.
   destruct (Eq_eq_dec x y); subst.
     left.
-    now f_equal; apply eq_proofs_unicity.
+    now f_equal; eapply eq_proofs_unicity.
   right; intro.
   apply n.
   now inv H0.
@@ -132,11 +132,12 @@ Theorem indices_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
   indices (t1 +++ t2) = (indices t1 ++ indices t2)%list.
 Proof.
   induction t1; simpl in *; cat.
-  destruct b; subst.
   destruct t2; simpl; cat.
     now rewrite List.app_nil_r.
   f_equal.
-  apply IHt1.
+  rewrite <- tlist_app_comm_cons; simpl.
+  rewrite IHt1; simpl.
+  now destruct b, a.
 Qed.
 
 End Arrows.

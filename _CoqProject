@@ -9,9 +9,6 @@ Lib/FMapExt.v
 Lib/Nomega.v
 Lib/MapDecide.v
 Lib/IList.v
-Lib/TList.v
-Lib/NETList.v
-Lib/Tree.v
 Lib/Same_set.v
 Theory/Category.v
 Theory/Metacategory.v
@@ -125,7 +122,6 @@ Instance/Cones/Comma.v
 Instance/Finite.v
 Instance/Finite/Span.v
 Instance/Fact.v
-Instance/Lambda.v
 Functor/Opposite.v
 Functor/Applicative.v
 Functor/Hom.v
@@ -174,15 +170,4 @@ Algebra/Basic.v
 Algebra/Monoid.v
 Tools/Abstraction.v
 Tools/Represented.v
-Solver/Tactics.v
-Solver/Env.v
-Solver/Expr.v
-Solver/Denote.v
-Solver/Arrows.v
-Solver/Partial.v
-Solver/Decide.v
-Solver/Reflect.v
-Solver/Reify.v
-Solver/Normal.v
-Solver/Categories.v
 Theory.v

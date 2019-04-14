@@ -7,9 +7,15 @@ Require Import Category.Lib.Equality.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 
+Require Import Equations.Equations.
+Require Import Equations.EqDec.
+
 Generalizable All Variables.
 
 Import VectorNotations.
+
+Derive Signature EqDec for Fin.t.
+Next Obligation. now apply Fin_eq_dec. Defined.
 
 Definition obj_idx (n : nat) : Type := Fin.t n.
 Definition arr_idx (n : nat) : Type := Fin.t n.

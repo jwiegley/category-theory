@@ -12,7 +12,7 @@ Require Import Coq.Classes.CMorphisms.
 
 Require Import Equations.Equations.
 Require Import Equations.EqDec.
-Unset Equations WithK.
+Set Equations With UIP.
 
 Require Import Category.Lib.
 
@@ -21,6 +21,8 @@ Inductive tlist {A : Type} (B : A -> A -> Type) : A -> A -> Type :=
   | tcons : forall i j k : A, B i j -> tlist B j k -> tlist B i k.
 
 Derive Signature Subterm for tlist.
+Next Obligation.
+Admitted.
 
 Arguments tnil {A B i}.
 Arguments tcons {A B i} j {k} x xs.
@@ -66,57 +68,57 @@ Equations tlist_app {i j k} (xs : tlist B i j) (ys : tlist B j k) :
   tlist B i k :=
   tlist_app tnil ys := ys;
   tlist_app xs tnil := xs;
-  tlist_app (tcons x xs) ys := x ::: tlist_app xs ys.
+  tlist_app (@tcons _ _ _ _ _ x xs) ys := x ::: tlist_app xs ys.
 
 Notation "xs +++ ys" := (tlist_app xs ys) (at level 60, right associativity).
 
 Equations tlist_uncons {i j} (xs : tlist B i j) :
   option { z : A & B i z * tlist B z j }%type :=
   tlist_uncons tnil := None;
-  tlist_uncons (tcons x xs) := Some (_; (x, xs)).
+  tlist_uncons (@tcons _ _ _ _ _ x xs) := Some (_; (x, xs)).
 
 Equations tlist_map {i j A' C} {f : A -> A'}
           (g : forall i j : A, B i j -> C (f i) (f j))
           (xs : tlist B i j) : tlist C (f i) (f j) :=
   tlist_map _ tnil := tnil;
-  tlist_map g (tcons x xs) := g _ _ x ::: tlist_map g xs.
+  tlist_map g (@tcons _ _ _ _ _ x xs) := g _ _ x ::: tlist_map g xs.
 
 Equations tlist_mapv {i j C}
           (g : forall i j : A, B i j -> C)
           (xs : tlist B i j) : list C :=
   tlist_mapv _ tnil := nil;
-  tlist_mapv g (tcons x xs) := g _ _ x :: tlist_mapv g xs.
+  tlist_mapv g (@tcons _ _ _ _ _ x xs) := g _ _ x :: tlist_mapv g xs.
 
 Equations tlist_head {i j} (xs : tlist B i j) :
   option { z : A & B i z }%type :=
   tlist_head tnil := None;
-  tlist_head (tcons x xs) := Some (_; x).
+  tlist_head (@tcons _ _ _ _ _ x xs) := Some (_; x).
 
 Equations tlist_tail {i j} (xs : tlist B i j) :
   option { z : A & tlist B z j }%type :=
   tlist_tail tnil := None;
-  tlist_tail (tcons x xs) := Some (_; xs).
+  tlist_tail (@tcons _ _ _ _ _ x xs) := Some (_; xs).
 
 Equations tlist_init {i j} (xs : tlist B i j) :
   option { z : A & tlist B i z }%type :=
   tlist_init tnil := None;
-  tlist_init (tcons x xs) <= tlist_init xs => {
+  tlist_init (@tcons _ _ _ _ _ x xs) with tlist_init xs := {
     | None => Some (_; tnil);
-    | Some (existT _ ys) => Some (_; (x ::: ys))
+    | Some (existT ys) => Some (_; (x ::: ys))
   }.
 
 Equations tlist_last {i j} (xs : tlist B i j) :
   option { z : A & B z j }%type :=
   tlist_last tnil := None;
-  tlist_last (tcons x xs) <= xs => {
+  tlist_last (@tcons _ _ _ _ _ x xs) with xs := {
     | tnil => Some (_; x);
-    | tcons y ys => tlist_last ys
+    | @tcons _ _ _ _ _ y ys => tlist_last ys
   }.
 
 Equations tlist_rev (flip : forall x y : A, B x y -> B y x)
           {i j} (xs : tlist B i j) : tlist B j i :=
   tlist_rev flip tnil := tnil;
-  tlist_rev flip (tcons x xs) :=
+  tlist_rev flip (@tcons _ _ _ _ _ x xs) :=
     tlist_rev flip xs +++ flip _ _ x ::: tnil.
 
 Fixpoint tlist_concat {i j} (xs : tlist (tlist B) i j) : tlist B i j :=
@@ -125,8 +127,8 @@ Fixpoint tlist_concat {i j} (xs : tlist (tlist B) i j) : tlist B i j :=
   | tcons _ x xs => x +++ tlist_concat xs
   end.
 
-Context `{EqDec A}.
-Context `{forall i j, EqDec (B i j)}.
+Context `{AE : EqDec A}.
+Context `{BE : forall i j, EqDec (B i j)}.
 
 Import EqNotations.
 
@@ -134,19 +136,19 @@ Import EqNotations.
 Equations tlist_incl
           {j k} (xs : tlist B j k)
           {i l} (ys : tlist B i l) : bool :=
-  tlist_incl (tnil j) (tnil i)
-    <= eq_dec j i => {
+  tlist_incl (@tnil _ _ j) (@tnil _ _ i)
+    with eq_dec j i := {
       | left _ => true;
       | right _ => false
     };
-  tlist_incl (tnil j) (tcons i _ _ y ys)
-    <= eq_dec j i => {
+  tlist_incl (@tnil _ _ j) (@tcons _ _ i _ _ y ys)
+    with eq_dec j i := {
       | left _ => true;
       | right _ => tlist_incl tnil ys
     };
   tlist_incl _ tnil := false;
-  tlist_incl (tcons j m _ x xs) (tcons i o _ y ys)
-    <= (eq_dec j i, eq_dec m o) => {
+  tlist_incl (@tcons _ _ j m _ x xs) (@tcons _ _ i o _ y ys)
+    with (eq_dec j i, eq_dec m o) := {
       | pair (left H1) (left H2) =>
         (eq_dec x (rew <- [fun y => B _ y] H2 in
                    rew <- [fun x => B x _] H1 in y)
@@ -159,10 +161,10 @@ Equations tlist_eq_dec {i j : A} (x y : tlist B i j) : {x = y} + {x ≠ y} :=
   tlist_eq_dec tnil tnil := left eq_refl;
   tlist_eq_dec tnil _ := in_right;
   tlist_eq_dec _ tnil := in_right;
-  tlist_eq_dec (tcons m _ x xs) (tcons o _ y ys)
-    <= eq_dec m o => {
-      | left H <= eq_dec x (rew <- [fun x => B _ x] H in y) => {
-          | left _ <= tlist_eq_dec xs (rew <- [fun x => tlist B x _] H in ys) => {
+  tlist_eq_dec (@tcons _ _ _ m _ x xs) (@tcons _ _ _ o _ y ys)
+    with @eq_dec _ AE m o := {
+      | left H with @eq_dec _ (BE _ _) x (rew <- [fun x => B _ x] H in y) := {
+          | left _ with tlist_eq_dec xs (rew <- [fun x => tlist B x _] H in ys) := {
              | left _ => left _;
              | _ => in_right
             };
@@ -173,17 +175,17 @@ Equations tlist_eq_dec {i j : A} (x y : tlist B i j) : {x = y} + {x ≠ y} :=
 Next Obligation.
   simpl_eq; intros.
   apply n.
-  inv H1.
-  apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
-  apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
+  inv H.
+  apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply eq_dec].
+  apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply eq_dec].
   assumption.
 Defined.
 Next Obligation.
   simpl_eq; intros.
   apply n.
-  inv H1.
-  apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
-  apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
+  inv H.
+  apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply eq_dec].
+  apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply eq_dec].
   assumption.
 Defined.
 
@@ -214,8 +216,8 @@ Equations tlist_equiv {i j : A} (x y : tlist B i j) : Type :=
   tlist_equiv tnil tnil := True;
   tlist_equiv tnil _ := False;
   tlist_equiv _ tnil := False;
-  tlist_equiv (tcons _ m _ x xs) (tcons _ o _ y ys)
-    <= eq_dec m o => {
+  tlist_equiv (@tcons _ _ _ m _ x xs) (@tcons _ _ _ o _ y ys)
+    with eq_dec m o := {
       | left H =>
          equiv x (rew <- [fun x => B _ x] H in y) *
          tlist_equiv xs (rew <- [fun x => tlist B x _] H in ys);
@@ -229,7 +231,7 @@ Next Obligation.
   induction x; simpl.
     constructor.
   rewrite tlist_equiv_equation_4.
-  unfold tlist_equiv_obligation_1.
+  unfold tlist_equiv_clause_4.
   rewrite eq_dec_refl.
   split.
     apply Equivalence_Reflexive.
@@ -239,9 +241,8 @@ Next Obligation.
   repeat intro.
   induction x; simpl.
     dependent elimination y as [tnil]; auto.
-  dependent elimination y as [tcons y ys]; auto.
+  dependent elimination y as [tcons _ y ys]; auto.
   rewrite tlist_equiv_equation_4 in *.
-  unfold tlist_equiv_obligation_1 in *.
   destruct (eq_dec j wildcard0); [|contradiction].
   subst.
   rewrite eq_dec_refl.
@@ -254,22 +255,18 @@ Next Obligation.
   repeat intro.
   induction x; simpl.
     dependent elimination y as [tnil]; auto.
-    contradiction.
-  dependent elimination y as [tcons y ys]; auto.
-    simpl; intros.
-    dependent elimination z as [tcons z zs]; auto.
-    rewrite tlist_equiv_equation_4 in *.
-    unfold tlist_equiv_obligation_1 in *.
-    destruct (eq_dec j wildcard2); [|contradiction].
-    destruct (eq_dec wildcard2 wildcard0); [|contradiction].
-    subst.
-    rewrite eq_dec_refl.
-    destruct X, X0.
-    split.
-      transitivity y; auto.
-    eapply IHx; eauto.
+  dependent elimination y as [tcons _ y ys]; auto.
   simpl; intros.
-  contradiction.
+  dependent elimination z as [tcons _ z zs]; auto.
+  rewrite tlist_equiv_equation_4 in *.
+  destruct (eq_dec j wildcard2); [|contradiction].
+  destruct (eq_dec wildcard2 wildcard0); [|contradiction].
+  subst.
+  rewrite eq_dec_refl.
+  destruct X, X0.
+  split.
+    transitivity y; auto.
+  eapply IHx; eauto.
 Qed.
 
 Global Program Instance tlist_Setoid {i j} : Setoid (tlist B i j) := {
@@ -283,7 +280,6 @@ Next Obligation.
   repeat intro.
   simpl in *.
   rewrite tlist_equiv_equation_4.
-  unfold tlist_equiv_obligation_1.
   now rewrite eq_dec_refl.
 Qed.
 
@@ -299,7 +295,6 @@ Next Obligation.
   - contradiction.
   - rewrite <- !tlist_app_comm_cons.
     rewrite tlist_equiv_equation_4 in *.
-    unfold tlist_equiv_obligation_1 in *.
     destruct (eq_dec j j0); [|contradiction].
     subst.
     destruct X.
@@ -364,6 +359,8 @@ Lemma tlist_rev_unit {i j k} (xs : tlist B i j) (x : B j k) :
   tlist_rev flip (xs +++ x ::: tnil) = flip _ _ x ::: tlist_rev flip xs.
 Proof.
   induction xs; auto; simpl.
+  rewrite <- tlist_app_comm_cons; simpl.
+  rewrite tlist_rev_equation_2.
   now rewrite IHxs.
 Qed.
 
@@ -371,15 +368,12 @@ Lemma tlist_rev_app_distr {i j k} (xs : tlist B i j) (ys : tlist B j k) :
   tlist_rev flip (xs +++ ys) = tlist_rev flip ys +++ tlist_rev flip xs.
 Proof.
   generalize dependent i.
-  induction ys; intros.
+  induction xs; simpl; intros; auto.
     now rewrite tlist_app_tnil_r.
-  rewrite tlist_app_cons.
-  rewrite <- tlist_app_assoc.
-  rewrite IHys, (IHys _ (b ::: tnil)).
-  rewrite tlist_app_assoc.
-  f_equal.
-  rewrite tlist_rev_unit.
-  now rewrite <- tlist_app_cons.
+  rewrite <- tlist_app_comm_cons; simpl.
+  rewrite !tlist_rev_equation_2.
+  rewrite IHxs.
+  now rewrite <- tlist_app_assoc.
 Qed.
 
 Hypothesis flip_involutive : forall (i j : A) (x : B i j),
@@ -389,17 +383,21 @@ Lemma tlist_rev_involutive {i j} (xs : tlist B i j) :
   tlist_rev flip (tlist_rev flip xs) = xs.
 Proof.
   induction xs; simpl; auto.
+  rewrite tlist_rev_equation_2.
   rewrite tlist_rev_app_distr.
   rewrite IHxs.
-  simpl tlist_rev.
-  rewrite <- tlist_app_comm_cons.
-  now rewrite flip_involutive.
+  rewrite tlist_rev_equation_2.
+  rewrite tlist_rev_equation_1.
+  rewrite flip_involutive.
+  rewrite tlist_app_equation_1.
+  now rewrite <- tlist_app_cons.
 Qed.
 
 Lemma tlist_rev_length {i j} (xs : tlist B i j) :
   tlist_length (tlist_rev flip xs) = tlist_length xs.
 Proof.
   induction xs; auto; simpl.
+  rewrite tlist_rev_equation_2.
   rewrite tlist_app_length, IHxs; simpl.
   apply PeanoNat.Nat.add_1_r.
 Qed.
@@ -428,7 +426,7 @@ Proof.
   inversion H; subst; clear H.
   apply inj_pair2 in H2; auto.
   apply inj_pair2 in H3; auto.
-  now subst.
+  now rewrite H2, H3.
 Qed.
 
 End TListProofsInj.
@@ -623,12 +621,16 @@ Program Instance nat_Setoid {i j} : Setoid (nat_triple i j) := {
 }.
 
 Example tlist_find_sublist_nat_ex1 :
+  ∀ H : ∀ i j : nat, EqDec (nat_triple i j),
   @tlist_find_sublist
     nat nat_triple PeanoNat.Nat.eq_dec _
     1 3 (tcons 2 ((1, 2), 200) (tcons 3 ((2, 3), 300) tnil))
     0 4 my_list
     = Some (((0, 1, 100) ::: tnil), ((3, 4, 400) ::: tnil)).
-Proof. reflexivity. Qed.
+Proof.
+  intros; simpl; simpl_eq.
+  now rewrite !eq_dec_refl.
+Qed.
 
 Reserved Infix "<+>" (at level 42, right associativity).
 
