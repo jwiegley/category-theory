@@ -60,10 +60,12 @@ Proof.
               -> to (@adj _ _ _ _ ran_adjoint (Ran (Erase J) F) F) f
                ≈ to (@adj _ _ _ _ ran_adjoint (Ran (Erase J) F) F) g).
       intros; rewrites; reflexivity.
-    simpl in X; apply X; clear X.
-
-    intros; simpl.
-    apply (unique_property (ump_limits cone)).
+    simpl in X.
+    rewrite <- X.
+      rewrite <- X0.
+      apply X; simpl.
+      apply (unique_property (ump_limits cone)).
+    intros; reflexivity.
   }
 
   isomorphism; simpl.

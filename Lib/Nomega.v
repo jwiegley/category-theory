@@ -43,56 +43,56 @@ Proof. intuition; apply Neq_in in H0; tauto. Qed.
 
 Lemma Nlt_in : (nat_of_N n < nat_of_N m)%nat -> n < m.
 Proof.
-  unfold Nlt; intros.
+  unfold N.lt; intros.
   rewrite nat_of_Ncompare.
   apply (proj1 (nat_compare_lt _ _)); assumption.
 Qed.
 
 Lemma Nlt_out : n < m -> (nat_of_N n < nat_of_N m)%nat.
 Proof.
-  unfold Nlt; intros.
+  unfold N.lt; intros.
   rewrite nat_of_Ncompare in H.
   apply nat_compare_Lt_lt; assumption.
 Qed.
 
 Lemma Nle_in : (nat_of_N n <= nat_of_N m)%nat -> n <= m.
 Proof.
-  unfold Nle; intros.
+  unfold N.le; intros.
   rewrite nat_of_Ncompare.
   apply (proj1 (nat_compare_le _ _)); assumption.
 Qed.
 
 Lemma Nle_out : n <= m -> (nat_of_N n <= nat_of_N m)%nat.
 Proof.
-  unfold Nle; intros.
+  unfold N.le; intros.
   rewrite nat_of_Ncompare in H.
   apply nat_compare_le; assumption.
 Qed.
 
 Lemma Ngt_out : n > m -> (nat_of_N n > nat_of_N m)%nat.
 Proof.
-  unfold Ngt; intros.
+  unfold N.gt; intros.
   rewrite nat_of_Ncompare in H.
   apply nat_compare_gt; assumption.
 Qed.
 
 Lemma Ngt_in : (nat_of_N n > nat_of_N m)%nat -> n > m.
 Proof.
-  unfold Ngt; intros.
+  unfold N.gt; intros.
   rewrite nat_of_Ncompare.
   apply nat_compare_gt; assumption.
 Qed.
 
 Lemma Nge_out : n >= m -> (nat_of_N n >= nat_of_N m)%nat.
 Proof.
-  unfold Nge; intros.
+  unfold N.ge; intros.
   rewrite nat_of_Ncompare in H.
   apply nat_compare_ge; assumption.
 Qed.
 
 Lemma Nge_in : (nat_of_N n >= nat_of_N m)%nat -> n >= m.
 Proof.
-  unfold Nge; intros.
+  unfold N.ge; intros.
   rewrite nat_of_Ncompare.
   apply nat_compare_ge; assumption.
 Qed.
