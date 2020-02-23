@@ -20,6 +20,8 @@ Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op :=
 Notation "F ^op" := (@Opposite_Functor _ _ F)
   (at level 7, format "F ^op") : functor_scope.
 
+Open Scope functor_scope.
+
 Corollary Opposite_Functor_invol `{F : C ⟶ D} : (F^op)^op = F.
 Proof. reflexivity. Qed.
 

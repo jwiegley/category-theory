@@ -157,7 +157,7 @@ Global Program Definition FromArrows (M : Metacategory) : Category := {|
   homset := fun _ _ => {| Setoid.equiv := fun f g => `1 f = `1 g |}
 |}.
 Next Obligation.
-  equivalence; simpl in *; subst.
+  equivalence; simpl in *; subst; reflexivity.
 Qed.
 Next Obligation.                (* id *)
   destruct x as [i [Hil Hir]].

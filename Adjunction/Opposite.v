@@ -29,6 +29,8 @@ Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D)
 Notation "N ^op" := (@Opposite_Adjunction _ _ _ _ N)
   (at level 7, format "N ^op") : adjunction_scope.
 
+Open Scope adjunction_scope.
+
 Corollary Opposite_Adjunction_invol `(F : D ⟶ C) `(U : C ⟶ D) (A : F ⊣ U) :
   (A^op)^op = A.
 Proof. reflexivity. Qed.
