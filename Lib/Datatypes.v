@@ -11,6 +11,8 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+Import ListNotations.
+
 Definition rev_list_rect (A : Type) (P : list A -> Type) (H : P [])
            (H0 : ∀ (a : A) (l : list A), P (rev l) -> P (rev (a :: l)))
            (l : list A) : P (rev l) :=

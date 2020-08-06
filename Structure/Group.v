@@ -26,7 +26,9 @@ Class GroupObject (grp : C) := {
   right_inverse : mappend ∘ id ⨂ inverse ∘ ∆ grp ≈ mempty ∘ eliminate;
 }.
 
+Definition inverse' `{GroupObject grp} := inverse.
+
 End GroupObject.
 
-Notation "inverse [ G ]" := (@inverse _ _ _ G)
+Notation "inverse [ G ]" := (@inverse' _ _ _ G)
   (at level 9, format "inverse [ G ]") : category_scope.
