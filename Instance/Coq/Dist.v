@@ -163,6 +163,7 @@ Program Instance real_setoid : Setoid R.
 
 (** The category of partial maps, built on the category of setoids. *)
 
+(*
 Program Definition Dist : Category := {|
   obj := Coq;
 
@@ -200,7 +201,6 @@ Admitted.
 Next Obligation.
 Admitted.
 
-(*
 Require Import Category.Structure.Cartesian.
 
 Program Instance Dist_Cartesian : @Cartesian Dist := {

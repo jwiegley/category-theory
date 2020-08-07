@@ -26,27 +26,27 @@ Context `{@Terminal C}.
 Context `{@Initial C}.
 Context `{@Cocartesian C}.
 
-Hint Resolve coprod_zero_r.
-Hint Resolve coprod_zero_l.
-Hint Resolve coprod_comm.
-Hint Resolve coprod_assoc.
-Hint Resolve prod_zero_r.
-Hint Resolve prod_zero_l.
-Hint Resolve prod_one_r.
-Hint Resolve prod_one_l.
-Hint Resolve prod_assoc.
-Hint Resolve prod_comm.
-Hint Resolve exp_zero.
-Hint Resolve exp_one.
-Hint Resolve one_exp.
-Hint Resolve prod_coprod_l.
-Hint Resolve prod_coprod_r.
-Hint Resolve exp_swap.
-Hint Resolve exp_prod_l.
-Hint Resolve exp_prod_r.
-Hint Resolve exp_coprod.
+Hint Resolve coprod_zero_r : core.
+Hint Resolve coprod_zero_l : core.
+Hint Resolve coprod_comm : core.
+Hint Resolve coprod_assoc : core.
+Hint Resolve prod_zero_r : core.
+Hint Resolve prod_zero_l : core.
+Hint Resolve prod_one_r : core.
+Hint Resolve prod_one_l : core.
+Hint Resolve prod_assoc : core.
+Hint Resolve prod_comm : core.
+Hint Resolve exp_zero : core.
+Hint Resolve exp_one : core.
+Hint Resolve one_exp : core.
+Hint Resolve prod_coprod_l : core.
+Hint Resolve prod_coprod_r : core.
+Hint Resolve exp_swap : core.
+Hint Resolve exp_prod_l : core.
+Hint Resolve exp_prod_r : core.
+Hint Resolve exp_coprod : core.
 
-Hint Extern 4 => intros x y z; transitivity ((x^z)^y); auto.
+Hint Extern 4 => intros x y z; transitivity ((x^z)^y); auto : core.
 
 Goal ∀ x : C,        x + 0 ≅ x.                          auto. Qed.
 Goal ∀ x : C,        0 + x ≅ x.                          auto. Qed.

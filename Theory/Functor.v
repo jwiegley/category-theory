@@ -27,6 +27,8 @@ Class Functor {C D : Category} := {
     fmap (f ∘ g) ≈ fmap f ∘ fmap g
 }.
 
+Declare Scope functor_scope.
+Declare Scope functor_type_scope.
 Bind Scope functor_scope with Functor.
 Delimit Scope functor_type_scope with functor_type.
 Delimit Scope functor_scope with functor.
@@ -144,7 +146,7 @@ Program Definition Compose
 Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation. intros; rewrite !fmap_comp; reflexivity. Qed.
 
-Hint Unfold Compose.
+Hint Unfold Compose : core.
 
 Notation "F ◯ G" := (Compose F%functor G%functor)
   (at level 40, left associativity) : category_scope.

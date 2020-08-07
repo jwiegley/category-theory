@@ -29,6 +29,8 @@ End AdjunctionTransform.
 
 Arguments Adjunction_Transform {C D} F%functor U%functor.
 
+Declare Scope adjunction_scope.
+Declare Scope adjunction_type_scope.
 Bind Scope adjunction_scope with Adjunction_Transform.
 Delimit Scope adjunction_type_scope with adjunction_type.
 Delimit Scope adjunction_scope with adjunction.
