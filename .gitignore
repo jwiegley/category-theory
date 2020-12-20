@@ -3,7 +3,11 @@
 .*.aux
 *.aux
 *.vo
+*.vok
+*.vos
 *.glob
+.Makefile.coq.d
+.lia.cache
 .coq-native/
 /coqdoc.sty
 /html/
