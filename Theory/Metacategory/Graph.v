@@ -290,13 +290,11 @@ Next Obligation.
 Qed.
 Next Obligation.
   unfold composite; simpl.
-  repeat destruct f using caseS';
-  repeat destruct p using caseS'; cleanup.
-  inversion p.
+  repeat destruct f as [|f] using caseS'; cleanup.
+  inversion f.
 Qed.
 Next Obligation.
   unfold composite; simpl.
-  repeat destruct f using caseS';
-  repeat destruct p using caseS'; cleanup.
-  inversion p.
+  repeat destruct f as [|f] using caseS'; cleanup.
+  inversion f.
 Qed.
