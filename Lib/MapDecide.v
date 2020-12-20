@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.NArith.NArith.
 Require Import Coq.FSets.FMaps.
+Import ListNotations.
 
 Require Import Category.Lib.
 Require Import Category.Lib.Nomega.
