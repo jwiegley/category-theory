@@ -1,0 +1,28 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - 'coqorg/coq:dev'
+          - 'coqorg/coq:8.13'
+          - 'coqorg/coq:8.12'
+          - 'coqorg/coq:8.11'
+          - 'coqorg/coq:8.10'
+          - 'coqorg/coq:8.9'
+          - 'coqorg/coq:8.8'
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2
+      - uses: coq-community/docker-coq-action@v1
+        with:
+          opam_file: 'coq-category-theory.opam'
+          custom_image: ${{ matrix.image }}
+
+# See also:
+# https://github.com/coq-community/docker-coq-action#readme
+# https://github.com/erikmd/docker-coq-github-action-demo

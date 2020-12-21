@@ -1,0 +1,26 @@
+opam-version: "2.0"
+maintainer: "johnw@newartisans.com"
+version: "dev"
+
+homepage: "https://github.com/jwiegley/category-theory"
+dev-repo: "git+https://github.com/jwiegley/category-theory.git"
+bug-reports: "https://github.com/jwiegley/category-theory/issues"
+license: "MIT"
+
+synopsis: "An axiom-free formalization of category theory in Coq"
+description: """
+An axiom-free formalization of category theory in Coq for personal study and
+practical work.
+"""
+
+build: [make "-j%{jobs}%" ]
+install: [make "install"]
+depends: [
+  "coq" {(>= "8.8" & < "8.14~") | (= "dev")}
+]
+
+tags: [
+]
+authors: [
+  "John Wiegley"
+]
