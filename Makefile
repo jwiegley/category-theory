@@ -4,25 +4,17 @@ all: Makefile.coq
 		echo NOT IN _CoqProject: $$i;			\
 	    fi;							\
 	done
-	make -k -j$(JOBS) -f Makefile.coq $(CMD) # TIMECMD=time
+	@+$(MAKE) -f Makefile.coq all
 
 Makefile.coq: _CoqProject
-	coq_makefile -f $< -o $@
+	$(COQBIN)coq_makefile -f $< -o $@
 
 install: _CoqProject Makefile.coq
-	make -f Makefile.coq COQLIB=$(COQLIB) install
+	@+$(MAKE) -f Makefile.coq COQLIB=$(COQLIB) install
 
 clean: _CoqProject Makefile.coq
-	make -f Makefile.coq clean
-	@find . \( -name '*.glob' -o				\
-		  -name '*.v.d' -o				\
-		  -name '*.vo' -o				\
-		  -name '*.hi' -o				\
-		  -name '*.o' -o				\
-		  -name '.*.aux' -o				\
-		  -name '*.hp' -o				\
-		  -name 'result' -o				\
-		  -name 'dist' \) -print0 | xargs -0 rm -fr
+	@+$(MAKE) -f Makefile.coq cleanall
+	@rm -f Makefile.coq Makefile.coq.conf
 
 fullclean: clean
 	rm -f Makefile.coq
@@ -34,3 +26,10 @@ todo:
 		      egrep -v '(Definition undefined|DEFERRED)'   | \
 		      egrep -v '(old|new|research|Pending)/'	     \
 	    || echo "No pending tasks!"
+
+force _CoqProject Makefile: ;
+
+%: Makefile.coq force
+	@+$(MAKE) -f Makefile.coq $@
+
+.PHONY: all clean force todo
