@@ -7,7 +7,7 @@ Require Import Coq.Bool.Bool.
 Require Import Coq.Lists.List.
 Require Import Coq.Arith.PeanoNat.
 Require Import Coq.NArith.NArith.
-Require Import Coq.omega.Omega.
+Require Import Coq.micromega.Lia.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -109,18 +109,18 @@ Definition nth_pos_bounded {a} (xs : list a) (n : positive)
 Proof.
   generalize dependent n.
   induction xs; intros.
-    unfold within_bounds in H; simpl in H; omega.
+    unfold within_bounds in H; simpl in H; lia.
   destruct n using Pos.peano_rect.
     exact a0.
   clear IHn.
   apply IHxs with (n:=n).
   unfold within_bounds in *.
   simpl in H.
-  rewrite Pos2Nat.inj_succ in H.
+  rewrite Pnat.Pos2Nat.inj_succ in H.
   simpl in H.
-  apply lt_S_n.
+  apply Lt.lt_S_n.
   rewrite Nat.succ_pred_pos; auto.
-  apply Pos2Nat.is_pos.
+  apply Pnat.Pos2Nat.is_pos.
 Defined.
 
 Lemma Nat_eqb_eq n m : Nat.eqb n m = true <-> n = m.
