@@ -160,9 +160,15 @@ Defined.
 Next Obligation.
   proper; simpl in *.
   - destruct s.
-    now rewrite X.
+    match goal with
+    | H : ?a ≈ ?b |- _ ?a ≈ _ ?b =>
+      now rewrite H
+    end.
   - destruct s0.
-    now rewrite H.
+    match goal with
+    | H : ?a ≈ ?b |- _ ?a ≈ _ ?b =>
+      now rewrite H
+    end.
 Qed.
 Next Obligation.
   construct.
