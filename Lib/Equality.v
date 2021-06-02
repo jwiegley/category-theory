@@ -109,7 +109,7 @@ Definition nth_pos_bounded {a} (xs : list a) (n : positive)
 Proof.
   generalize dependent n.
   induction xs; intros.
-    unfold within_bounds in H; simpl in H; lia.
+    unfold within_bounds in H; simpl in H. exfalso. inversion H.
   destruct n using Pos.peano_rect.
     exact a0.
   clear IHn.
