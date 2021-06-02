@@ -25,3 +25,4 @@
 /Theory/Metacategory/ObjectsArrows
 /Makefile.coq.conf
 /.coqdeps.d
+/.Makefile.coq.d
