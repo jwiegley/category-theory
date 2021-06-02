@@ -4,7 +4,8 @@ This development encodes category theory in Coq, with the primary aim being to
 allow representation and manipulation of categorical terms, as well
 realization of those terms in various target categories.
 
-Versions used: [Coq](https://github.com/coq/coq/) 8.8.2, [Coq-Equations](https://github.com/mattam82/Coq-Equations) v1.0-8.8.
+Versions used: [Coq](https://github.com/coq/coq/) 8.10.2.
+Some incomplete parts depend on [Coq-Equations](https://github.com/mattam82/Coq-Equations).
 
 ## Usage
 
@@ -66,7 +67,7 @@ avoid repetition when stating the dual of whole structures.
 As a result, the definition of comonads, for example, is reduced to one line:
 
     Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op).
-    
+
 Most dual constructions are similarly defined, with the exception of `Initial`
 and `Cocartesian` structures. Although the core classes are indeed defined in
 terms of their dual construction, an alternate surface syntax and set of

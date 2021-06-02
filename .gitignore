@@ -3,7 +3,11 @@
 .*.aux
 *.aux
 *.vo
+*.vok
+*.vos
 *.glob
+.Makefile.coq.d
+.lia.cache
 .coq-native/
 /coqdoc.sty
 /html/
@@ -21,3 +25,4 @@
 /Theory/Metacategory/ObjectsArrows
 /Makefile.coq.conf
 /.coqdeps.d
+/.Makefile.coq.d
