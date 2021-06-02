@@ -9,9 +9,6 @@ all: Makefile.coq
 Makefile.coq: _CoqProject
 	$(COQBIN)coq_makefile -f $< -o $@
 
-install: _CoqProject Makefile.coq
-	@+$(MAKE) -f Makefile.coq COQLIB=$(COQLIB) install
-
 clean: _CoqProject Makefile.coq
 	@+$(MAKE) -f Makefile.coq cleanall
 	@rm -f Makefile.coq Makefile.coq.conf
