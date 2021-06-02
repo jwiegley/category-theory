@@ -4,19 +4,9 @@ Set Warnings "-deprecated".
 Require Export
   Coq.Arith.Arith
   Coq.NArith.NArith
-  Coq.omega.Omega.
+  Coq.micromega.Lia.
 
 Local Open Scope N_scope.
-
-Hint Rewrite
-  Nplus_0_r
-  nat_of_Nsucc
-  nat_of_Nplus
-  nat_of_Nminus
-  N_of_nat_of_N
-  nat_of_N_of_nat
-  nat_of_P_o_P_of_succ_nat_eq_succ
-  nat_of_P_succ_morphism : N.
 
 Corollary sumbool_split : forall P Q : Prop,
   {P} + {~P} -> {Q} + {~Q} -> {P /\ Q} + {~ (P /\ Q)}.
@@ -28,14 +18,12 @@ Variables n m : N.
 
 Lemma Neq_in : nat_of_N n = nat_of_N m -> n = m.
 Proof.
-  intros H; apply (f_equal N_of_nat) in H;
-  autorewrite with N in *; assumption.
+  lia.
 Qed.
 
 Lemma Neq_out : n = m -> nat_of_N n = nat_of_N m.
 Proof.
-  intros H; apply (f_equal N.to_nat) in H;
-  autorewrite with N in *; assumption.
+  lia.
 Qed.
 
 Lemma Nneq_out : n <> m -> nat_of_N n <> nat_of_N m.
@@ -258,7 +246,7 @@ Ltac pre_nomega :=
 Ltac nomega' :=
   pre_nomega;
   repeat progress match goal with
-  | _ => omega || (unfold nat_of_P in *; simpl in *; omega)
+  | _ => lia || (unfold nat_of_P in *; simpl in *; lia)
 
   | [ H : _ \/ _ |- _ ] => destruct H; nomega'
   | [ |- _ /\ _ ]       => split; intros; nomega'

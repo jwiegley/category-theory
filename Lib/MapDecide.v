@@ -422,7 +422,7 @@ Next Obligation.
   apply map_contains_MapsTo; auto.
 Defined.
 Next Obligation.
-  rewrite formula_size_subst_all_formula; simpl; omega.
+  rewrite formula_size_subst_all_formula; simpl; lia.
 Defined.
 
 Definition formula_tauto : ∀ env t, [formula_denote env t].
