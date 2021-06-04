@@ -66,6 +66,12 @@ Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
 
 #[global]
 Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := {
+(* Note that it doesn’t make much sense (with our definition of [Category]) to
+   ask that [∀ x : C, F x = G x] and
+   [∀ (x y :C) (f : x ~> y), fmap[F] f ≈ fmap[G] f] because the second
+   condition is hard to work with in the type-system, because it needs lots of
+   equality proofs.
+*)
   equiv := fun F G =>
     (* Equality of objects in a category is taken to be isomorphism *)
     { iso : ∀ x : C, F x ≅ G x
