@@ -97,3 +97,16 @@ Next Obligation.
     now apply X.
   - now rewrite X, X0.
 Qed.
+
+Class Unique `{S : Setoid A} (P : A -> Type) := {
+  unique_obj : A;
+  unique_property : P unique_obj;
+  uniqueness      : ∀ v : A, P v -> unique_obj ≈ v;
+}.
+
+Arguments unique_obj {_ _ _} _.
+Arguments unique_property {_ _ _} _.
+Arguments uniqueness {_ _ _} _.
+
+Notation "∃! x .. y , P" := (Unique (fun x => .. (Unique (fun y => P)) ..))
+  (at level 200, x binder, y binder, right associativity) : category_theory_scope.

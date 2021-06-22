@@ -34,7 +34,7 @@ Proof.
   pose (to (@adj _ _ _ _ ran_adjoint (Δ(Lim)) F) nat)
     as adj_to; simpl in adj_to.
 
-  assert (to_from : adj_to () ∘ unique_morphism (ump_limits cone) ≈ id). {
+  assert (to_from : adj_to () ∘ unique_obj (ump_limits cone) ≈ id). {
     simpl.
     spose (iso_to_from
              ((@adj _ _ _ _ ran_adjoint
@@ -46,7 +46,7 @@ Proof.
     given (from_ran : Ran (Erase J) F ⟹ Δ(Lim)). {
       transform; simpl; intros.
       + destruct x.
-        apply (unique_morphism (ump_limits cone)).
+        apply (unique_obj (ump_limits cone)).
       + abstract cat.
       + abstract cat.
     }
@@ -70,7 +70,7 @@ Proof.
 
   isomorphism; simpl.
   - apply adj_to.
-  - apply (unique_morphism (ump_limits cone)).
+  - apply (unique_obj (ump_limits cone)).
   - apply to_from.
   - simpl in *.
     (* Since half of the isomorphism has already been proven in [to_from], it
@@ -83,8 +83,8 @@ Proof.
     assert (∀ (f g : Lim ~{ C }~> Lim),
               (∀ x, vertex_map[Lim] ∘ f ≈ @vertex_map _ _ _ Lim x) ->
               (∀ x, vertex_map[Lim] ∘ g ≈ @vertex_map _ _ _ Lim x) ->
-              f ∘ unique_morphism (ump_limits cone) ≈
-              g ∘ unique_morphism (ump_limits cone) -> f ≈ g) as HA.
+              f ∘ unique_obj (ump_limits cone) ≈
+              g ∘ unique_obj (ump_limits cone) -> f ≈ g) as HA.
       intros; clear adj_to to_from nat.
       rewrite <- (uniqueness (ump_limits Lim) _ X).
       rewrite <- (uniqueness (ump_limits Lim) _ X0).

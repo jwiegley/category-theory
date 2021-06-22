@@ -202,7 +202,6 @@ Theory/Morphisms.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Sheaf.v
-Theory/Unique.v
 Theory/Universal/Arrow.v
 Tools/Abstraction.v
 Tools/Represented.v

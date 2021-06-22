@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Theory.Unique.
 Require Import Category.Structure.Initial.
 Require Import Category.Construction.Comma.
 Require Import Category.Functor.Diagonal.

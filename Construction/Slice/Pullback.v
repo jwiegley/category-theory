@@ -44,7 +44,7 @@ Program Definition Star_Functor `(f : c ~> a) :
                     (pullback_snd x f xpb)
                     ltac:(rewrite comp_assoc, H;
                           exact (pullback_commutes x f xpb)) in
-            (unique_morphism uniq; snd (unique_property uniq))
+            (unique_obj uniq; snd (unique_property uniq))
 |}.
 Next Obligation.
   proper; simpl in *.
