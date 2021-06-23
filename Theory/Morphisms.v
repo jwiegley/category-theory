@@ -104,7 +104,10 @@ Proof.
   rewrite <- id_right.
   symmetry.
   rewrite <- id_right.
-  rewrite <- retract_comp0.
+  transitivity (g2 ∘ (f ∘ retract0));
+  [ apply compose_respects; [reflexivity|symmetry;assumption] |];
+  transitivity (g1 ∘ (f ∘ retract0));
+  [|apply compose_respects; [reflexivity|assumption]].
   reassociate_right.
 Qed.
 
