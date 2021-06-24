@@ -80,33 +80,20 @@ Qed.
 Section Cat_Iso_FullyFaithful.
   Local Obligation Tactic := simpl; intros.
 
-  Program Definition Cat_Iso_FullyFaithful `(iso : C ≅ D) :
+  Program Definition Cat_Iso_to_Full `(iso : C ≅ D) :
     let φ := to iso in
-    let ψ := from iso in
     let η x := to (`1 (iso_from_to iso) x) in
     let μ x := to (`1 (iso_to_from iso) x) in
-    (* jww (2018-10-25): Do these two preconditions follow from [iso]? *)
     (∀ x, fmap[φ] (η x) ≈ μ (φ x)) ->
-    (∀ x, fmap[ψ] (μ x) ≈ η (ψ x)) ->
-    Isomorphism_FullyFaithful iso :=
+    Full (to iso) :=
     let φ := to iso in
-    let ψ := from iso in
     let η x := to (`1 (iso_from_to iso) x) in
     let μ x := to (`1 (iso_to_from iso) x) in
-    fun H0 H1 =>
-    {| to_full :=
-         {| prefmap x y g := to (`1 (iso_from_to iso) y)
-                 ∘ fmap[from iso] g
-                 ∘ from (`1 (iso_from_to iso) x) |};
-       from_full :=
-         {| prefmap x y g := to (`1 (iso_to_from iso) y)
-                 ∘ fmap[to iso] g
-                 ∘ from (`1 (iso_to_from iso) x) |};
-       to_faithful :=
-         Cat_Iso_to_Faithful iso;
-       from_faithful :=
-         Cat_Iso_from_Faithful iso;
-    |}.
+    fun H0 =>
+      {| prefmap x y g := to (`1 (iso_from_to iso) y)
+                             ∘ fmap[from iso] g
+                             ∘ from (`1 (iso_from_to iso) x)
+      |}.
   Next Obligation.
     proper. comp_right. comp_left. now rewrite X.
   Qed.
@@ -136,31 +123,37 @@ Section Cat_Iso_FullyFaithful.
     - comp_left. rewrite iso_to_from. apply fmap_id.
     - apply id_right.
   Qed.
-  Next Obligation.
-    proper. comp_left. comp_right. now rewrite X.
-  Qed.
-  Next Obligation.
-    cat. apply iso_to_from.
-  Qed.
-  Next Obligation.
-    comp_right. comp_left.
-    rewrite !fmap_comp.
-    comp_left.
-    rewrite comp_assoc.
-    rewrite iso_from_to.
-    cat.
-  Qed.
-  Next Obligation.
-    simpl.
-    rewrite !fmap_comp.
-    srewrite H1.
-    srewrite (`2 (iso_from_to iso)).
-    rewrite !comp_assoc.
-    rewrite iso_to_from, id_left.
-    srewrite_r H1.
-    rewrite <- comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite iso_to_from, fmap_id, id_right.
-    reflexivity.
-  Qed.
 End Cat_Iso_FullyFaithful.
+
+Corollary Cat_Iso_from_Full `(iso : C ≅ D) :
+  let ψ := from iso in
+  let η x := to (`1 (iso_from_to iso) x) in
+  let μ x := to (`1 (iso_to_from iso) x) in
+  (∀ x, fmap[ψ] (μ x) ≈ η (ψ x)) ->
+  Full (from iso).
+Proof.
+  apply (Cat_Iso_to_Full (iso_sym iso)).
+Qed.
+
+Definition Cat_Iso_FullyFaithful `(iso : C ≅ D) :
+  let φ := to iso in
+  let ψ := from iso in
+  let η x := to (`1 (iso_from_to iso) x) in
+  let μ x := to (`1 (iso_to_from iso) x) in
+  (* jww (2018-10-25): Do these two preconditions follow from [iso]?
+     Columbus240 (2021-06-24): I believe, if every [iso] has these
+        properties, then the axiom of choice holds in [Cat]. See
+        https://ncatlab.org/nlab/show/equivalence+of+categories *)
+  (∀ x, fmap[φ] (η x) ≈ μ (φ x)) ->
+  (∀ x, fmap[ψ] (μ x) ≈ η (ψ x)) ->
+  Isomorphism_FullyFaithful iso :=
+  let φ := to iso in
+  let ψ := from iso in
+  let η x := to (`1 (iso_from_to iso) x) in
+  let μ x := to (`1 (iso_to_from iso) x) in
+  fun H0 H1 =>
+  {| to_full := Cat_Iso_to_Full iso H0;
+     from_full := Cat_Iso_from_Full iso H1;
+     to_faithful := Cat_Iso_to_Faithful iso;
+     from_faithful := Cat_Iso_from_Faithful iso;
+  |}.
