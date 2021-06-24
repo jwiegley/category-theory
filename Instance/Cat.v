@@ -35,6 +35,48 @@ Record Isomorphism_FullyFaithful `(iso : C ≅ D) := {
   from_faithful : Faithful (from iso)
 }.
 
+Global Instance Cat_Iso_to_Faithful `(iso : C ≅ D) : Faithful (to iso).
+Proof.
+  construct.
+  rewrite <- id_left.
+  rewrite <- id_right.
+  symmetry.
+  rewrite <- id_left.
+  rewrite <- id_right.
+  symmetry.
+  spose (`2 (iso_from_to iso) x y) as X2.
+  transitivity (`1 (iso_from_to iso) y ∘ (`1 (iso_from_to iso) y)⁻¹ ∘ f
+                 ∘ (`1 (iso_from_to iso) x ∘ (`1 (iso_from_to iso) x)⁻¹)).
+  { repeat apply compose_respects.
+    - symmetry. apply (iso_to_from (`1 (iso_from_to iso) y)).
+    - reflexivity.
+    - symmetry. apply (iso_to_from (`1 (iso_from_to iso) x)).
+  }
+  transitivity (`1 (iso_from_to iso) y ∘ (`1 (iso_from_to iso) y)⁻¹ ∘ g
+                 ∘ (`1 (iso_from_to iso) x ∘ (`1 (iso_from_to iso) x)⁻¹)).
+  2: {
+    repeat apply compose_respects.
+    - apply (iso_to_from (`1 (iso_from_to iso) y)).
+    - reflexivity.
+    - apply (iso_to_from (`1 (iso_from_to iso) x)).
+  }
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc _ f _).
+  rewrite (comp_assoc _ g _).
+  rewrite (comp_assoc (_ ∘ _) _ _).
+  rewrite (comp_assoc (_ ∘ _) _ _).
+  rewrite <- (X2 f).
+  rewrite <- (X2 g).
+  comp_left.
+  comp_right.
+  now apply (@fmap_respects D C iso⁻¹).
+Qed.
+
+Global Instance Cat_Iso_from_Faithful `(iso : C ≅ D) : Faithful (from iso).
+Proof.
+  apply (Cat_Iso_to_Faithful (iso_sym iso)).
+Qed.
+
 Section Cat_Iso_FullyFaithful.
   Local Obligation Tactic := simpl; intros.
 
@@ -60,6 +102,10 @@ Section Cat_Iso_FullyFaithful.
          {| prefmap x y g := to (`1 (iso_to_from iso) y)
                  ∘ fmap[to iso] g
                  ∘ from (`1 (iso_to_from iso) x) |};
+       to_faithful :=
+         Cat_Iso_to_Faithful iso;
+       from_faithful :=
+         Cat_Iso_from_Faithful iso;
     |}.
   Next Obligation.
     proper. comp_right. comp_left. now rewrite X.
@@ -91,41 +137,6 @@ Section Cat_Iso_FullyFaithful.
     - apply id_right.
   Qed.
   Next Obligation.
-    construct.
-    rewrite <- id_left.
-    rewrite <- id_right.
-    symmetry.
-    rewrite <- id_left.
-    rewrite <- id_right.
-    symmetry.
-    spose (`2 (iso_from_to iso) x y) as X2.
-    transitivity (`1 (iso_from_to iso) y ∘ (`1 (iso_from_to iso) y)⁻¹ ∘ f
-                   ∘ (`1 (iso_from_to iso) x ∘ (`1 (iso_from_to iso) x)⁻¹)).
-    { repeat apply compose_respects.
-      - symmetry. apply (iso_to_from (`1 (iso_from_to iso) y)).
-      - reflexivity.
-      - symmetry. apply (iso_to_from (`1 (iso_from_to iso) x)).
-    }
-    transitivity (`1 (iso_from_to iso) y ∘ (`1 (iso_from_to iso) y)⁻¹ ∘ g
-                   ∘ (`1 (iso_from_to iso) x ∘ (`1 (iso_from_to iso) x)⁻¹)).
-    2: {
-      repeat apply compose_respects.
-      - apply (iso_to_from (`1 (iso_from_to iso) y)).
-      - reflexivity.
-      - apply (iso_to_from (`1 (iso_from_to iso) x)).
-    }
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ f _).
-    rewrite (comp_assoc _ g _).
-    rewrite (comp_assoc (_ ∘ _) _ _).
-    rewrite (comp_assoc (_ ∘ _) _ _).
-    rewrite <- (X2 f).
-    rewrite <- (X2 g).
-    comp_left.
-    comp_right.
-    now apply (@fmap_respects D C iso⁻¹).
-  Qed.
-  Next Obligation.
     proper. comp_left. comp_right. now rewrite X.
   Qed.
   Next Obligation.
@@ -151,38 +162,5 @@ Section Cat_Iso_FullyFaithful.
     rewrite <- fmap_comp.
     rewrite iso_to_from, fmap_id, id_right.
     reflexivity.
-  Qed.
-  Next Obligation.
-    construct.
-    rewrite <- id_left, <- id_right.
-    symmetry.
-    rewrite <- id_left, <- id_right.
-    symmetry.
-    transitivity (`1 (iso_to_from iso) y ∘ (`1 (iso_to_from iso) y)⁻¹ ∘ f
-                   ∘ (`1 (iso_to_from iso) x ∘ (`1 (iso_to_from iso) x)⁻¹)).
-    { repeat apply compose_respects.
-      - symmetry; apply (iso_to_from (`1 (iso_to_from iso) y)).
-      - reflexivity.
-      - symmetry; apply (iso_to_from (`1 (iso_to_from iso) x)).
-    }
-    transitivity (`1 (iso_to_from iso) y ∘ (`1 (iso_to_from iso) y)⁻¹ ∘ g
-                   ∘ (`1 (iso_to_from iso) x ∘ (`1 (iso_to_from iso) x)⁻¹)).
-    2: {
-      repeat apply compose_respects.
-      - apply (iso_to_from (`1 (iso_to_from iso) y)).
-      - reflexivity.
-      - apply (iso_to_from (`1 (iso_to_from iso) x)).
-    }
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ f _).
-    rewrite (comp_assoc _ g _).
-    rewrite (comp_assoc (_ ∘ _) _ _).
-    rewrite (comp_assoc (_ ∘ _) _ _).
-    spose (`2 (iso_to_from iso) x y) as X2.
-    rewrite <- (X2 f).
-    rewrite <- (X2 g).
-    comp_left.
-    comp_right.
-    now apply (@fmap_respects C D (to iso)).
   Qed.
 End Cat_Iso_FullyFaithful.
