@@ -87,13 +87,15 @@ Next Obligation.
 Qed.
 Next Obligation.
   cat_simpl.
+  rewrite id_left.
   rewrite <- !fork_comp.
-  repeat fork_simpl.
+  rewrite exl_fork.
+  apply fork_respects.
   { cat. }
-  transitivity (g ∘ id{C}).
-  2: { cat. }
-  apply compose_respects; [reflexivity|].
   cat.
+  rewrite <- comp_assoc.
+  rewrite <- id_right with (f := g) at 2;
+  apply compose_respects; cat.
 Qed.
 Next Obligation.
   cat_simpl.
@@ -111,43 +113,17 @@ Qed.
 Next Obligation.
   cat_simpl.
   repeat fork_simpl.
-  symmetry; repeat fork_simpl; symmetry; repeat fork_simpl.
-  - symmetry.
-    solve_fork_split.
-    apply compose_respects; [reflexivity|].
-    symmetry.
-    repeat fork_simpl.
-    reflexivity.
-  - symmetry.
-    repeat fork_simpl.
-    solve_fork_split.
-    apply compose_respects; [reflexivity|].
-    symmetry.
-    solve_fork_split.
-    reflexivity.
-  - symmetry.
-    fork_simpl.
-    apply compose_respects; [reflexivity|].
-    symmetry.
-    solve_fork_split.
-    reflexivity.
+  symmetry; repeat fork_simpl; symmetry; repeat fork_simpl;
+    symmetry; repeat fork_simpl; try solve_fork_split;
+    (apply compose_respects; [reflexivity|]);
+    symmetry; solve_fork_split; reflexivity.
 Qed.
 Next Obligation.
   cat_simpl.
-  repeat fork_simpl; symmetry; repeat fork_simpl; symmetry; repeat fork_simpl; symmetry; repeat fork_simpl.
-  - apply compose_respects; [reflexivity|].
-    symmetry.
-    solve_fork_split.
-  - solve_fork_split.
-    apply compose_respects; [reflexivity|].
-    symmetry.
-    solve_fork_split.
-    reflexivity.
-  - solve_fork_split.
-    apply compose_respects; [reflexivity|].
-    symmetry.
-    fork_simpl.
-    reflexivity.
+  repeat fork_simpl; symmetry; repeat fork_simpl; symmetry;
+    repeat fork_simpl; symmetry; repeat fork_simpl;
+    try solve_fork_split; (apply compose_respects; [reflexivity|]);
+    symmetry; solve_fork_split; reflexivity.
 Qed.
 Next Obligation.
   intros. simpl.
