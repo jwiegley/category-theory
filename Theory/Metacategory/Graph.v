@@ -6,7 +6,7 @@ Require Import Category.Theory.Functor.
 Require Import Coq.FSets.FMaps.
 Require Import Category.Lib.FMapExt.
 Require Import Coq.Vectors.Vector.
-Require Import Coq.omega.Omega.
+Require Import Coq.micromega.Lia.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -230,7 +230,7 @@ Next Obligation.
     destruct H1.
     inversion_clear H.
     inversion_clear H1.
-    split; omega.
+    split; lia.
   - destruct (fst (in_mapsto_iffT _ _ _) H); clear H.
     cleanup.
       destruct H1; discriminate.
@@ -238,12 +238,12 @@ Next Obligation.
       destruct H1.
       simpl in *.
       rewrite <- H, <- H0.
-      split; omega.
+      split; lia.
     cleanup.
       destruct H1.
       simpl in *.
       rewrite <- H, <- H1.
-      split; omega.
+      split; lia.
     cleanup.
     destruct H1.
     inversion_clear H.
@@ -292,11 +292,11 @@ Next Obligation.
   unfold composite; simpl.
   repeat destruct f using caseS';
   repeat destruct p using caseS'; cleanup.
-  inversion p.
+  inversion f.
 Qed.
 Next Obligation.
   unfold composite; simpl.
   repeat destruct f using caseS';
   repeat destruct p using caseS'; cleanup.
-  inversion p.
+  inversion f.
 Qed.

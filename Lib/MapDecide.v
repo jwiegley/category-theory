@@ -325,6 +325,8 @@ Qed.
  * Computational decision procedure for map membership
  *)
 
+Import ListNotations.
+
 Program Definition formula_forward (t : formula) env (hyp : formula)
         (cont : ∀ env' defs,
             [formula_denote env' (subst_all subst_formula t defs)]) :
@@ -421,7 +423,7 @@ Next Obligation.
   apply map_contains_MapsTo; auto.
 Defined.
 Next Obligation.
-  rewrite formula_size_subst_all_formula; simpl; omega.
+  rewrite formula_size_subst_all_formula; simpl; lia.
 Defined.
 
 Definition formula_tauto : ∀ env t, [formula_denote env t].

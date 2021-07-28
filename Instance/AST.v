@@ -6,7 +6,6 @@ Require Export Category.Structure.BiCCC.
 
 Generalizable All Variables.
 Set Primitive Projections.
-Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Inductive Obj : Type :=
@@ -51,7 +50,7 @@ Inductive Hom : Obj -> Obj -> Type :=
   | Inr     : ∀ {a b}, Hom b (Coprod_ a b)
   | Merge   : ∀ {a c d}, Hom c a -> Hom d a -> Hom (Coprod_ c d) a.
 
-Program Fixpoint interp `(c : Hom a b) :
+Fixpoint interp `(c : Hom a b) :
   ∀ {C : Category}
     {A : @Cartesian C}
     `{@Closed C A}
@@ -83,8 +82,8 @@ Program Instance AST : Category := {
   hom     := Hom;
   id      := @Id;
   compose := @Compose;
-  homset  := fun _ _ =>
-    {| equiv := fun f g =>
+  homset  := fun x y =>
+    {| equiv := fun (f g : Hom x y) =>
          forall {C : Category}
                 {A : @Cartesian C}
                 `{@Closed C A}
@@ -95,8 +94,8 @@ Program Instance AST : Category := {
 }.
 Next Obligation.
   equivalence.
-  transitivity (interp y); auto.
-Qed.
+  now rewrite X, X0.
+Defined.
 
 Program Instance Hom_Terminal : @Terminal AST := {
   terminal_obj := One_;

@@ -4,7 +4,8 @@ Set Warnings "-deprecated".
 Require Export
   Coq.Arith.Arith
   Coq.NArith.NArith
-  Coq.omega.Omega.
+  Coq.omega.Omega
+  Coq.micromega.Lia.
 
 Local Open Scope N_scope.
 
@@ -258,7 +259,7 @@ Ltac pre_nomega :=
 Ltac nomega' :=
   pre_nomega;
   repeat progress match goal with
-  | _ => omega || (unfold nat_of_P in *; simpl in *; omega)
+  | _ => lia || (unfold nat_of_P in *; simpl in *; lia)
 
   | [ H : _ \/ _ |- _ ] => destruct H; nomega'
   | [ |- _ /\ _ ]       => split; intros; nomega'

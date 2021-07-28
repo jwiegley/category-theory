@@ -47,7 +47,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   simplify.
-  - specialize (X (Datatypes.inl x0)); auto.
-  - specialize (X (Datatypes.inr x0)); auto.
+  - specialize (H (Datatypes.inl x0)); auto.
+  - specialize (H (Datatypes.inr x0)); auto.
   - destruct x0; auto.
 Qed.

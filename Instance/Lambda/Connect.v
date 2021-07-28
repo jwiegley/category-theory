@@ -325,7 +325,7 @@ Lemma swap_spec_aux : forall m t w y,
     nom_to_exp (swap w y t).
 Proof.
   induction m; intros t w y SZ;
-  destruct t; simpl in *; try omega;
+  destruct t; simpl in *; try lia;
   intros.
   + unfold swap_var; default_simp.
   + unfold swap_var; default_simp.
@@ -369,8 +369,8 @@ Proof.
        autorewrite with lngen in *.
        fsetdec.
     }
-  + rewrite IHm; auto; try omega; try fsetdec.
-    rewrite IHm; auto; try omega; try fsetdec.
+  + rewrite IHm; auto; try lia; try fsetdec.
+    rewrite IHm; auto; try lia; try fsetdec.
 Qed.
 
 Lemma swap_spec : forall t w y,

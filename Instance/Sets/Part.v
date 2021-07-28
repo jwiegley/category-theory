@@ -107,10 +107,10 @@ Next Obligation.
     exact None.
   - proper.
     destruct f, g; simpl in *.
-    spose (proper_morphism _ _ X) as X1.
+    spose (proper_morphism _ _ H) as X1.
     destruct (morphism x0);
     destruct (morphism y0); try tauto;
-    spose (proper_morphism0 _ _ X) as X2;
+    spose (proper_morphism0 _ _ H) as X2;
     destruct (morphism0 x0);
     destruct (morphism0 y0); try tauto.
 Defined.
@@ -126,7 +126,7 @@ Next Obligation.
   - proper.
     destruct x0, y0; try tauto.
     destruct s, s0; try tauto.
-    destruct p, p0, X; auto.
+    destruct p, p0, H; auto.
 Defined.
 Next Obligation.
   unfold Part_Cartesian_obligation_1.
@@ -140,28 +140,28 @@ Next Obligation.
   - proper.
     destruct x0, y0; try tauto.
     destruct s, s0; try tauto.
-    destruct p, p0, X; auto.
+    destruct p, p0, H; auto.
 Defined.
 Next Obligation.
   proper.
-  specialize (X x2).
-  specialize (X0 x2).
+  specialize (H x2).
+  specialize (H0 x2).
   destruct (x0 x2), (x1 x2), (y0 x2), (y1 x2); auto.
 Qed.
 Next Obligation.
   split; intros.
   - split; intros.
-    + specialize (X x0).
+    + specialize (H x0).
       destruct (h x0), (f x0), (g x0); try tauto;
       destruct s; try tauto;
       destruct s; try tauto.
-      destruct p, X; auto.
-    + specialize (X x0).
+      destruct p, H; auto.
+    + specialize (H x0).
       destruct (h x0), (f x0), (g x0); try tauto;
       destruct s; try tauto;
       destruct s; try tauto.
-      destruct p, X; auto.
-  - destruct X.
+      destruct p, H; auto.
+  - destruct H.
     specialize (y0 x0).
     specialize (y1 x0).
     destruct (h x0), (f x0), (g x0); try tauto;

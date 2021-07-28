@@ -222,3 +222,12 @@ Definition FAlgebra `(F : C ⟶ C) (a : C) := F a ~> a.
 Definition FCoalgebra `(F : C ⟶ C) (a : C) := a ~> F a.
 
 Definition FGDialgebra `(F : C ⟶ C) `(G : C ⟶ C) (a : C) := F a ~> G a.
+
+(** Conal's homomorphism-based definition of the catgeory laws. *)
+
+(** jww (2021-06-18): For any function a -> b, if I have an equivalence for
+    type b, I can derive an equivalence for type a. *)
+
+Lemma IdLeftByHomorphism `(F : C ⟶ D) :
+  ∀ {x y} (f : x ~{C}~> y), id ∘[C] f ≈[C] f.
+Abort.

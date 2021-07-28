@@ -23,10 +23,10 @@ Class Closed := {
   curry'   {x y z} := to (@exp_iso x y z);
   uncurry' {x y z} := from (@exp_iso x y z);
 
-  eval' {x y} : y^x × x ~> y := uncurry' _ _ _ id;
+  eval' {x y} : y^x × x ~> y := uncurry' id;
 
   ump_exponents' {x y z} (f : x × y ~> z) :
-    eval' ∘ first (curry' _ _ _ f) ≈ f
+    eval' ∘ first (curry' f) ≈ f
 }.
 
 Notation "y ^ x" := (exponent_obj x y)

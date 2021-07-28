@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Coq.PArith.PArith.
-Require Import Coq.omega.Omega.
+Require Import Coq.micromega.Lia.
 
 Require Import Category.Lib.
 Require Import Category.Lib.Equality.
@@ -75,10 +75,10 @@ Next Obligation.
   apply map_inj in H1; auto; [|apply Fin_to_pos_inj].
   now apply term_indices_equiv.
 Defined.
-Next Obligation. simpl; abstract omega. Defined.
-Next Obligation. simpl; abstract omega. Defined.
+Next Obligation. simpl; abstract lia. Defined.
+Next Obligation. simpl; abstract lia. Defined.
 Next Obligation. intuition. Defined.
-Next Obligation. simpl; abstract omega. Defined.
+Next Obligation. simpl; abstract lia. Defined.
 Next Obligation. intuition. Defined.
 
 Definition sexpr_tauto : forall t, [sexprD t].

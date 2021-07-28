@@ -86,8 +86,12 @@ Definition isomorphism_equiv {x y : C} : crelation (x ≅ y) :=
 Global Program Instance isomorphism_equiv_equivalence {x y : C} :
   Equivalence (@isomorphism_equiv x y).
 Next Obligation. firstorder reflexivity. Qed.
-Next Obligation. firstorder. Qed.
-Next Obligation. firstorder. Qed.
+Next Obligation. now firstorder symmetry. Qed.
+Next Obligation.
+  firstorder.
+  - now rewrite a0.
+  - now rewrite b0.
+Qed.
 
 Global Program Instance isomorphism_setoid {x y : C} : Setoid (x ≅ y) := {
   equiv := isomorphism_equiv;

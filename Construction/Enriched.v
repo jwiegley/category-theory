@@ -118,7 +118,7 @@ Proof.
     + now proper.
     + proper; simpl.
       apply compose_respects;
-      now destruct X0.
+      now destruct H.
     + now simpl; intros; cat.
     + now simpl; intros; cat.
     + now simpl; intros; cat.
