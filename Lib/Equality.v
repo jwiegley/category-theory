@@ -284,6 +284,8 @@ Next Obligation.
   clear -p.
 *)
 
+Import ListNotations.
+
 Fixpoint list_beq {A : Type} (eq_A : A -> A -> bool) (X Y : list A)
          {struct X} : bool :=
   match X with

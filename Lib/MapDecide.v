@@ -325,6 +325,8 @@ Qed.
  * Computational decision procedure for map membership
  *)
 
+Import ListNotations.
+
 Program Definition formula_forward (t : formula) env (hyp : formula)
         (cont : ∀ env' defs,
             [formula_denote env' (subst_all subst_formula t defs)]) :
