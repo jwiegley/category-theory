@@ -62,23 +62,23 @@ Ltac cat :=
   auto with category_laws;
   try reflexivity.
 
-Hint Constructors Equivalence : core.
+Hint Constructors Equivalence.
 
-Hint Unfold Reflexive : core.
-Hint Unfold Symmetric : core.
-Hint Unfold Transitive : core.
+Hint Unfold Reflexive.
+Hint Unfold Symmetric.
+Hint Unfold Transitive.
 
 Hint Extern 1 (Reflexive ?X) =>
-  unfold Reflexive; auto : core.
+  unfold Reflexive; auto.
 Hint Extern 1 (Symmetric ?X) =>
-  unfold Symmetric; intros; auto : core.
+  unfold Symmetric; intros; auto.
 Hint Extern 1 (Transitive ?X) =>
-  unfold Transitive; intros; auto : core.
+  unfold Transitive; intros; auto.
 Hint Extern 1 (Equivalence ?X) =>
-  apply Build_Equivalence : core.
-Hint Extern 1 (Proper _ _) => unfold Proper; auto : core.
+  apply Build_Equivalence.
+Hint Extern 1 (Proper _ _) => unfold Proper; auto.
 Hint Extern 8 (respectful _ _ _ _) =>
-  unfold respectful; auto : core.
+  unfold respectful; auto.
 
 Hint Extern 4 (equiv ?A ?A) => reflexivity : category_laws.
 Hint Extern 6 (equiv ?X ?Y) =>

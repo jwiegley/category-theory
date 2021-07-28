@@ -55,8 +55,8 @@ Context `{@GroupObject C _ _ grp}.
        = x⁻¹ *)
 Lemma left_inverse_unique
   (X : C) (f : X ~> grp) (f_inv : X ~> grp)
-  (f_left_inverse : mappend ∘ f_inv ⨂ f ∘ ∆ X ≈ mempty ∘ eliminate) :
-  f_inv ≈ inverse[grp] ∘ f.
+  (f_left_inverse : mappend ∘ f_inv ⨂ f ∘ ∆ X ≈ mempty ∘ eliminate)
+  : f_inv ≈ inverse ∘ f.
 Proof.
   rewrite <- (id_left f_inv).
   (* ... = yI *)
@@ -70,7 +70,7 @@ Proof.
   rewrite !comp_assoc.
   (* ... = y(xx⁻¹) *)
   rewrite <- right_inverse.
-  assert (mappend ∘ id ⨂ inverse[grp] ∘ ∆grp ∘ f ≈ mappend ∘ (id ⨂ inverse[grp] ∘ ∆grp ∘ f)) as R by cat;
+  assert (mappend ∘ id ⨂ inverse ∘ ∆grp ∘ f ≈ mappend ∘ (id ⨂ inverse ∘ ∆grp ∘ f)) as R by cat;
     rewrite R; clear R.
   rewrite bimap_comp.
   rewrite !comp_assoc.
@@ -93,13 +93,13 @@ Proof.
   rewrite !comp_assoc.
   (* ... = Ix⁻¹ *)
   rewrite f_left_inverse.
-  rewrite (unit_terminal eliminate (eliminate ∘ (inverse[grp] ∘ f))).
-  rewrite !comp_assoc; rewrite <- 2!(comp_assoc _ inverse[grp] f).
+  rewrite (unit_terminal eliminate (eliminate ∘ (inverse ∘ f))).
+  rewrite !comp_assoc; rewrite <- 2!(comp_assoc _ inverse f).
   rewrite bimap_comp.
   rewrite <- (comp_assoc _ _ ∆X).
-  assert ((inverse[grp] ∘ f) ⨂ (inverse[grp] ∘ f) ≈ map (inverse[grp] ∘ f)) as R by reflexivity; rewrite R; clear R.
+  assert ((inverse ∘ f) ⨂ (inverse ∘ f) ≈ map (inverse ∘ f)) as R by reflexivity; rewrite R; clear R.
   rewrite <- (comp_assoc _ _ ∆X).
-  rewrite (diagonal_natural _ _ (inverse[grp] ∘ f)).
+  rewrite (diagonal_natural _ _ (inverse ∘ f)).
   simpl.
   rewrite !comp_assoc.
   (* ... = x⁻¹ *)
@@ -117,9 +117,9 @@ Qed.
                   = I
 
    Then use the lemma above. *)
-Lemma mappend_inverse : mappend ∘ inverse[grp] ⨂ inverse[grp] ≈ inverse[grp] ∘ mappend ∘ twist.
+Lemma mappend_inverse : mappend ∘ inverse ⨂ inverse ≈ inverse ∘ mappend ∘ twist.
 Proof.
-  rewrite <- (comp_assoc inverse[grp] mappend twist).
+  rewrite <- (comp_assoc inverse mappend twist).
   apply left_inverse_unique.
   (* (y⁻¹x⁻¹)(xy) = ... *)
   rewrite bimap_comp.
@@ -141,10 +141,10 @@ Proof.
   rewrite diagonal_twist2.
   rewrite !comp_assoc; rewrite <- (comp_assoc _ tensor_assoc (tensor_assoc ⁻¹)).
   rewrite iso_to_from; rewrite id_right.
-  rewrite <- (comp_assoc _ (inverse[grp] ⨂ _) _).
+  rewrite <- (comp_assoc _ (inverse ⨂ _) _).
   rewrite <- bimap_comp; rewrite id_right.
   rewrite hexagon_rotated.
-  rewrite !comp_assoc; rewrite <- (comp_assoc _ (inverse[grp] ⨂ twist) _).
+  rewrite !comp_assoc; rewrite <- (comp_assoc _ (inverse ⨂ twist) _).
   rewrite <- bimap_comp; rewrite id_right.
   rewrite twist_invol.
   rewrite <- bimap_id_id.
@@ -156,11 +156,11 @@ Proof.
   rewrite !comp_assoc; rewrite <- (comp_assoc _ tensor_assoc _).
   rewrite <- bimap_id_id.
   rewrite <- to_tensor_assoc_natural.
-  rewrite !comp_assoc; rewrite <- (comp_assoc mappend (inverse[grp] ⨂ _) _).
+  rewrite !comp_assoc; rewrite <- (comp_assoc mappend (inverse ⨂ _) _).
   rewrite <- bimap_comp; rewrite id_right.
   rewrite <- (comp_assoc _ twist _).
   rewrite <- bimap_twist.
-  rewrite !comp_assoc; rewrite <- (comp_assoc _ ((inverse[grp] ⨂ id) ⨂ id) _).
+  rewrite !comp_assoc; rewrite <- (comp_assoc _ ((inverse ⨂ id) ⨂ id) _).
   rewrite <- bimap_comp; rewrite id_left.
   rewrite <- (comp_assoc _ (mappend ⨂ id) _).
   rewrite <- bimap_comp; rewrite id_left.
@@ -175,7 +175,7 @@ Proof.
   rewrite bimap_twist.
   rewrite comp_assoc.
   rewrite unit_left_twist.
-  rewrite <- (id_left inverse[grp]).
+  rewrite <- (id_left inverse).
   rewrite bimap_comp.
   rewrite comp_assoc; rewrite <- (comp_assoc _ _ tensor_assoc).
   rewrite to_tensor_assoc_natural.

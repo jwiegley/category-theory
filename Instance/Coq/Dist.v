@@ -151,7 +151,7 @@ Qed.
 Definition Ensemble_sum_at_key `(xs : Ensemble (A * R)) : Ensemble (A * R) :=
   Ensemble_unionWith Rplus 0%R xs.
 
-Program Instance Ensemble_sum_at_key_Proper A :
+Program Instance Ensemble_sum_at_key_Proper :
   Proper (Same_set (A * R) ==> Same_set (A * R)) Ensemble_sum_at_key.
 Next Obligation.
   repeat intro.
@@ -163,7 +163,6 @@ Program Instance real_setoid : Setoid R.
 
 (** The category of partial maps, built on the category of setoids. *)
 
-(*
 Program Definition Dist : Category := {|
   obj := Coq;
 
@@ -201,6 +200,7 @@ Admitted.
 Next Obligation.
 Admitted.
 
+(*
 Require Import Category.Structure.Cartesian.
 
 Program Instance Dist_Cartesian : @Cartesian Dist := {

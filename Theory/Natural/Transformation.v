@@ -40,8 +40,6 @@ Arguments naturality
 Arguments naturality_sym
   {_ _ _ _ _ _ _ _}, {_ _ _ _} _ {_ _ _}, {_ _ _ _} _ _ _ _.
 
-Declare Scope transform_scope.
-Declare Scope transform_type_scope.
 Bind Scope transform_scope with Transform.
 Delimit Scope transform_type_scope with transform_type.
 Delimit Scope transform_scope with transform.

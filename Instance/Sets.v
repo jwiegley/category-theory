@@ -39,7 +39,7 @@ Definition setoid_morphism_id {x : SetoidObject} : SetoidMorphism x x := {|
   morphism := Datatypes.id
 |}.
 
-Hint Unfold setoid_morphism_id : core.
+Hint Unfold setoid_morphism_id.
 
 Program Definition setoid_morphism_compose {x y C : SetoidObject}
         (g : SetoidMorphism y C)
@@ -53,7 +53,7 @@ Next Obligation.
   assumption.
 Qed.
 
-Hint Unfold setoid_morphism_compose : core.
+Hint Unfold setoid_morphism_compose.
 
 (* The category of setoids.
 
@@ -160,9 +160,9 @@ Defined.
 Next Obligation.
   proper; simpl in *.
   - destruct s.
-    now rewrite H.
+    now rewrite X.
   - destruct s0.
-    now rewrite H0.
+    now rewrite H.
 Qed.
 Next Obligation.
   construct.

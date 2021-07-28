@@ -28,5 +28,5 @@ Class GroupObject (grp : C) := {
 
 End GroupObject.
 
-Notation "'inverse' [ G ]" := (@inverse _ _ _ G)
+Notation "inverse [ G ]" := (@inverse _ _ _ G)
   (at level 9, format "inverse [ G ]") : category_scope.

@@ -16,7 +16,6 @@ Context {M : @Monad Coq m}.
 
 Notation "()" := Datatypes.unit : category_scope.
 
-Declare Scope monad_scope.
 Delimit Scope monad_scope with monad.
 
 Open Scope monad_scope.

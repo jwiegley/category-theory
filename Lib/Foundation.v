@@ -10,7 +10,6 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Close Scope nat_scope.
-Declare Scope category_theory_scope.
 Delimit Scope category_theory_scope with category_theory.
 Open Scope category_theory_scope.
 
@@ -27,9 +26,9 @@ Notation "`3 x" := (@projT3 _ _ x) (at level 0) : category_theory_scope.
 Tactic Notation "given" "(" ident(H) ":" lconstr(type) ")" :=
   unshelve (refine (let H := (_ : type) in _)).
 
-Hint Unfold Basics.compose : core.
-Hint Unfold Basics.arrow : core.
-Hint Unfold Datatypes.id : core.
+Hint Unfold Basics.compose.
+Hint Unfold Basics.arrow.
+Hint Unfold Datatypes.id.
 
 Arguments Basics.compose {_ _ _} _ _ /.
 Arguments Basics.arrow _ _ /.

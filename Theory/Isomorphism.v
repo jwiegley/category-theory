@@ -25,8 +25,8 @@ Context {C : Category}.
    usually too strong a notion, it does not have its own abstraction here. *)
 
 Class Isomorphism (x y : C) : Type := {
-  to   : x ~> y;
-  from : y ~> x;
+  to   :> x ~> y;
+  from :  y ~> x;
 
   iso_to_from : to ∘ from ≈ id;
   iso_from_to : from ∘ to ≈ id
@@ -83,15 +83,10 @@ Global Program Instance ob_setoid : Setoid C.
 Definition isomorphism_equiv {x y : C} : crelation (x ≅ y) :=
   fun f g => (to f ≈ to g) * (from f ≈ from g).
 
+Local Obligation Tactic := firstorder.
+
 Global Program Instance isomorphism_equiv_equivalence {x y : C} :
   Equivalence (@isomorphism_equiv x y).
-Next Obligation. firstorder reflexivity. Qed.
-Next Obligation. now firstorder symmetry. Qed.
-Next Obligation.
-  firstorder.
-  - now rewrite a0.
-  - now rewrite b0.
-Qed.
 
 Global Program Instance isomorphism_setoid {x y : C} : Setoid (x ≅ y) := {
   equiv := isomorphism_equiv;
@@ -125,7 +120,6 @@ Defined.
 
 End Isomorphism.
 
-Declare Scope isomorphism_scope.
 Delimit Scope isomorphism_scope with isomorphism.
 Open Scope isomorphism_scope.
 
@@ -143,7 +137,7 @@ Coercion to : Isomorphism >-> hom.
 
 Notation "f '⁻¹'" := (from f) (at level 9, format "f '⁻¹'") : morphism_scope.
 
-Hint Unfold isomorphism_equiv : core.
+Hint Unfold isomorphism_equiv.
 
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).

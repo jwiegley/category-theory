@@ -81,7 +81,7 @@ Hint Extern 5 =>
   match goal with
     [ H : M.MapsTo _ _ (M.empty _) |- _ ] =>
       apply F.empty_mapsto_iff in H; contradiction
-  end : core.
+  end.
 
 Global Program Instance MapsTo_Proper {elt} :
   Proper (E.eq ==> eq ==> M.Equal ==> iff) (@M.MapsTo elt) :=
@@ -545,7 +545,6 @@ Proof.
     rewrite P.fold_Add with (k:=k) (e:=e) (m1:=m) in H4; eauto.
       rewrite Heqf in *.
       destruct (P k e); firstorder.
-      inversion H4.
     constructor.
   rewrite P.fold_Add with (k:=k) (e:=e) (m1:=m); eauto.
     rewrite Heqf in *.
@@ -704,14 +703,14 @@ Proof.
   contradiction.
 Qed.
 
-Hint Resolve Oeq_neq_sym : core.
+Hint Resolve Oeq_neq_sym.
 
 Lemma Proper_Oeq_negb : forall B f,
   Proper (E.eq ==> eq ==> eq) f ->
   Proper (E.eq ==> eq ==> eq) (fun (k : M.key) (e : B) => negb (f k e)).
 Proof. intros ?????????; f_equal; subst; rewrite H0; reflexivity. Qed.
 
-Hint Resolve Proper_Oeq_negb : core.
+Hint Resolve Proper_Oeq_negb.
 
 Ltac apply_for_all :=
   try match goal with

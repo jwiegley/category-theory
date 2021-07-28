@@ -80,11 +80,11 @@ Lemma composition_left {x y z : object}
 Proof.
   intros.
   destruct z, obj_id0, f, g; simpl in *.
-  specialize (e0 _ (composite_defined M H0)); clear H0.
-  destruct (composite_correct M e0 H).
-  spose (fst (composition_law M e0 H _) e1) as X.
+  specialize (c0 _ (composite_defined M H0)); clear H0.
+  destruct (composite_correct M c0 H).
+  spose (fst (composition_law M c0 H _) e) as X.
   unfold composite, arrow in *.
-  rewrite X, <- H, <- e1; reflexivity.
+  rewrite X, <- H, <- e; reflexivity.
 Qed.
 
 Lemma composition_right {x y z : object}
@@ -95,11 +95,11 @@ Lemma composition_right {x y z : object}
 Proof.
   intros.
   destruct x, obj_id0, f, g; simpl in *.
-  specialize (e _ (composite_defined M H0)); clear H0.
-  destruct (composite_correct M H e).
-  spose (fst (composition_law M H e _) e1) as X.
+  specialize (c _ (composite_defined M H0)); clear H0.
+  destruct (composite_correct M H c).
+  spose (fst (composition_law M H c _) e) as X.
   unfold composite, arrow in *.
-  rewrite e1, <- H, <- X; reflexivity.
+  rewrite e, <- H, <- X; reflexivity.
 Qed.
 
 Definition composition {x y z : object}
@@ -393,7 +393,7 @@ Program Definition Two_to_Two : Category_from_Metacategory Two ⟶ _2 := {|
 |}.
 Next Obligation.
   proper.
-  destruct x0, y0; simpl in H; subst.
+  destruct x0, y0; simpl in X; subst.
   apply f_equal.
   apply f_equal2;
   apply Eqdep_dec.UIP_dec;
@@ -411,7 +411,7 @@ Next Obligation.
   simpl in *.
   induction f using morphism_Two_rect;
   induction g using morphism_Two_rect;
-  destruct x, y, z, f, g;
+  destruct x, y, z, f, f0;
   simpl in H, H0, H1, H2, H3, H4; subst;
   (elimtype False; simpl in *; discriminate)
     || (vm_compute; reflexivity).

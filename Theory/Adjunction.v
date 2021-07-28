@@ -176,27 +176,24 @@ Proof.
 Qed.
 
 (* If F is a faithful functor, and f is monic, then adj f is monic. *)
-(* jww (2021-07-24): Typeclass instance missing *)
-(*
 Theorem adj_monic  {x y} (f : F x ~> y) c (g h : c ~> x) :
   Faithful F -> Monic f ->
     ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h -> g ≈ h.
 Proof.
   intros.
   rewrite <- !to_adj_nat_l in X1.
-  apply X.
-  apply X0.
   pose proof (monic (Monic:=@iso_to_monic Sets _ _ (@adj H c y))
-                    {| carrier   := ()
+                    {| carrier   := Datatypes.unit
                      ; is_setoid := {| equiv := eq |} |}
                     {| morphism  := fun _ => f ∘ fmap[F] g |}
                     {| morphism  := fun _ => f ∘ fmap[F] h |}) as X2;
   simpl in X2.
+  apply X.
+  apply X0.
   apply X2; intros.
   exact X1.
   exact tt.
 Qed.
-*)
 
 Corollary to_adj_respects {x y} (f g : F x ~{C}~> y) :
   f ≈ g -> ⌊f⌋ ≈ ⌊g⌋.
@@ -210,8 +207,6 @@ End Adjunction.
 
 Arguments Adjunction {C D} F%functor U%functor.
 
-Declare Scope adjunction_scope.
-Declare Scope adjunction_type_scope.
 Bind Scope adjunction_scope with Adjunction.
 Delimit Scope adjunction_type_scope with adjunction_type.
 Delimit Scope adjunction_scope with adjunction.

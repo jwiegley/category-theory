@@ -95,7 +95,7 @@ Record lawvere_equiv := {
 
 Context `(E : lawvere_equiv).
 
-Lemma η_θ_κ : ∀ x, `1 (η E) ≈ θ E (φ E x) ∘ κ E x.
+Lemma η_θ_κ : ∀ x, `1 (η E x) ≈ θ E (φ E x) ∘ κ E x.
 Proof.
   intros.
   pose proof (σ E).
@@ -109,7 +109,7 @@ Proof.
   rewrite <- e3; cat.
 Qed.
 
-Lemma μ_κ_θ : ∀ x, `1 (μ E) ≈ κ E (ψ E x) ∘ θ E x.
+Lemma μ_κ_θ : ∀ x, `1 (μ E x) ≈ κ E (ψ E x) ∘ θ E x.
 Proof.
   intros.
   pose proof (σ E).
@@ -137,7 +137,7 @@ Proof.
   rewrite <- fmap_comp.
   rewrite (fst_comp _ _ _ (θ E (φ E _)) (κ E ((a, b); f))).
   rewrite <- η_θ_κ.
-  rewrite (`2 (@η E ((a, b); f))).
+  rewrite (`2 (η E ((a, b); f))).
   rewrite η_θ_κ.
   rewrite !comp_assoc.
   rewrite (snd_comp _ _ _
@@ -163,7 +163,7 @@ Proof.
   rewrite <- !comp_assoc.
   rewrite (fst_comp _ _ _ (κ E (ψ E _)) (θ E ((a, b); f))).
   rewrite <- μ_κ_θ.
-  rewrite (`2 (@μ E ((a, b); f))).
+  rewrite (`2 (μ E ((a, b); f))).
   rewrite μ_κ_θ.
   rewrite !comp_assoc.
   rewrite <- fmap_comp.
@@ -529,7 +529,7 @@ Proof.
   intros.
   unfold φ', ψ'.
   unfold lawvere_from.
-  setoid_rewrite lawvere_to_functorial.
+  rewrite lawvere_to_functorial.
   unfold lawvere_to.
   simpl in *.
   spose (φ_ψ_equiv ((a, b); g)) as X1.
@@ -548,7 +548,7 @@ Proof.
   intros.
   unfold φ', ψ'.
   unfold lawvere_to.
-  setoid_rewrite <- lawvere_from_functorial.
+  rewrite <- lawvere_from_functorial.
   unfold lawvere_from.
   simpl in *.
   spose (ψ_φ_equiv ((a, b); f)) as X1.

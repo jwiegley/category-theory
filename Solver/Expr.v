@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
-Require Import Coq.micromega.Lia.
+Require Import Coq.omega.Omega.
 
 Require Import Category.Lib.
 Require Import Category.Solver.Env.
@@ -60,4 +60,4 @@ Fixpoint sexpr_size (t : SExpr) : nat :=
   end.
 
 Remark all_sexprs_have_size e : (0 < sexpr_size e)%nat.
-Proof. induction e; simpl; lia. Qed.
+Proof. induction e; simpl; omega. Qed.

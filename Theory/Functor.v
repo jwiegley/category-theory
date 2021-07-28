@@ -27,8 +27,6 @@ Class Functor {C D : Category} := {
     fmap (f ∘ g) ≈ fmap f ∘ fmap g
 }.
 
-Declare Scope functor_scope.
-Declare Scope functor_type_scope.
 Bind Scope functor_scope with Functor.
 Delimit Scope functor_type_scope with functor_type.
 Delimit Scope functor_scope with functor.
@@ -146,7 +144,7 @@ Program Definition Compose
 Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation. intros; rewrite !fmap_comp; reflexivity. Qed.
 
-Hint Unfold Compose : core.
+Hint Unfold Compose.
 
 Notation "F ◯ G" := (Compose F%functor G%functor)
   (at level 40, left associativity) : category_scope.
@@ -222,12 +220,3 @@ Definition FAlgebra `(F : C ⟶ C) (a : C) := F a ~> a.
 Definition FCoalgebra `(F : C ⟶ C) (a : C) := a ~> F a.
 
 Definition FGDialgebra `(F : C ⟶ C) `(G : C ⟶ C) (a : C) := F a ~> G a.
-
-(** Conal's homomorphism-based definition of the catgeory laws. *)
-
-(** jww (2021-06-18): For any function a -> b, if I have an equivalence for
-    type b, I can derive an equivalence for type a. *)
-
-Lemma IdLeftByHomorphism `(F : C ⟶ D) :
-  ∀ {x y} (f : x ~{C}~> y), id ∘[C] f ≈[C] f.
-Abort.

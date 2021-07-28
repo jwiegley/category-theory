@@ -26,8 +26,6 @@ Inductive partial (P : Prop) : Set :=
 
 Notation "[ P ]" := (partial P) : type_scope.
 
-Declare Scope partial_scope.
-
 Notation "'Yes'" := (Proved _ _) : partial_scope.
 Notation "'No'" := (Uncertain _) : partial_scope.
 
@@ -325,8 +323,6 @@ Qed.
  * Computational decision procedure for map membership
  *)
 
-Import ListNotations.
-
 Program Definition formula_forward (t : formula) env (hyp : formula)
         (cont : ∀ env' defs,
             [formula_denote env' (subst_all subst_formula t defs)]) :
@@ -423,7 +419,7 @@ Next Obligation.
   apply map_contains_MapsTo; auto.
 Defined.
 Next Obligation.
-  rewrite formula_size_subst_all_formula; simpl; lia.
+  rewrite formula_size_subst_all_formula; simpl; omega.
 Defined.
 
 Definition formula_tauto : ∀ env t, [formula_denote env t].
