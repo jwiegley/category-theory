@@ -1,4 +1,4 @@
-args@{ packages ? "coqPackages_8_13"
+args@{ packages ? "coqPackages_8_10"
 
 , rev    ? "c74fa74867a3cce6ab8371dfc03289d9cc72a66e"
 , sha256 ? "13bnmpdmh1h6pb7pfzw5w3hm6nzkg9s1kcrwgw1gmdlhivrmnx75"
