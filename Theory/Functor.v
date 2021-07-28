@@ -27,6 +27,8 @@ Class Functor {C D : Category} := {
     fmap (f ∘ g) ≈ fmap f ∘ fmap g
 }.
 
+Declare Scope functor_scope.
+Declare Scope functor_type_scope.
 Bind Scope functor_scope with Functor.
 Delimit Scope functor_type_scope with functor_type.
 Delimit Scope functor_scope with functor.

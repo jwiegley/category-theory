@@ -60,6 +60,11 @@ Class Category := {
     (f ∘ g) ∘ h ≈ f ∘ (g ∘ h)
 }.
 
+Declare Scope category_scope.
+Declare Scope object_scope.
+Declare Scope homset_scope.
+Declare Scope morphism_scope.
+
 Bind Scope category_scope with Category.
 Bind Scope object_scope with obj.
 Bind Scope homset_scope with hom.

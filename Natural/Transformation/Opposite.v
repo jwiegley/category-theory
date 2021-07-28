@@ -23,6 +23,8 @@ Notation "N ^op" := (@Opposite_Transform _ _ _ _ N)
 
 Open Scope transform_scope.
 
+Open Scope transform_scope.
+
 Corollary Opposite_Transform_invol `{F : C ⟶ D} {G : C ⟶ D} `(N : F ⟹ G) :
   (N^op)^op = N.
 Proof. reflexivity. Qed.

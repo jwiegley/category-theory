@@ -120,6 +120,7 @@ Defined.
 
 End Isomorphism.
 
+Declare Scope isomorphism_scope.
 Delimit Scope isomorphism_scope with isomorphism.
 Open Scope isomorphism_scope.
 
