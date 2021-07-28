@@ -138,7 +138,7 @@ Coercion to : Isomorphism >-> hom.
 
 Notation "f '⁻¹'" := (from f) (at level 9, format "f '⁻¹'") : morphism_scope.
 
-Hint Unfold isomorphism_equiv.
+Hint Unfold isomorphism_equiv : core.
 
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).

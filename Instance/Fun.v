@@ -16,7 +16,7 @@ Context {D : Category}.
 Program Definition nat_equiv {F : C ⟶ D} {G : C ⟶ D} : crelation (F ⟹ G) :=
   fun n m => ∀ A, transform[n] A ≈ transform[m] A.
 
-Hint Unfold nat_equiv.
+Hint Unfold nat_equiv : core.
 
 Global Program Definition nat_equiv_equivalence {F : C ⟶ D} {G : C ⟶ D} :
   Equivalence (@nat_equiv F G).
@@ -37,7 +37,7 @@ Global Program Definition nat_id {F : C ⟶ D} : F ⟹ F := {|
   transform := fun X => fmap (@id C X)
 |}.
 
-Hint Unfold nat_id.
+Hint Unfold nat_id : core.
 
 Global Program Definition nat_compose {F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
   (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
@@ -56,7 +56,7 @@ Next Obligation.
   apply nat_compose_obligation_1.
 Qed.
 
-Hint Unfold nat_compose.
+Hint Unfold nat_compose : core.
 
 Global Program Definition nat_compose_respects
        {F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} :
@@ -82,9 +82,9 @@ Notation "[ C , D ]" := (@Fun C D)
 
 Notation "F ∙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
 
-Hint Unfold nat_compose.
-Hint Unfold nat_id.
-Hint Unfold nat_equiv.
+Hint Unfold nat_compose : core.
+Hint Unfold nat_id : core.
+Hint Unfold nat_equiv : core.
 
 Arguments nat_equiv {_ _ _ _} _ _ /.
 

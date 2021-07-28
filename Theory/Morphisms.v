@@ -82,9 +82,9 @@ Proof.
   assumption.
 Qed.
 
-Hint Unfold Bimorphic.
-Hint Unfold SplitEpi.
-Hint Unfold SplitMono.
+Hint Unfold Bimorphic : core.
+Hint Unfold SplitEpi : core.
+Hint Unfold SplitMono : core.
 
 Section Lemmas.
 
@@ -147,9 +147,9 @@ Qed.
 
 End Morphisms.
 
-Hint Unfold Bimorphic.
-Hint Unfold SplitEpi.
-Hint Unfold SplitMono.
+Hint Unfold Bimorphic : core.
+Hint Unfold SplitEpi : core.
+Hint Unfold SplitMono : core.
 
 Definition flip_Section {C : Category} `(f : x ~> y)
            (s : @Section C x y f) : @Retraction C y x section.
