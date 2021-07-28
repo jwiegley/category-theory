@@ -13,7 +13,7 @@
 (** Some of our proofs are by induction on the *size* of
     terms. We'll use Coq's [omega] tactic to easily dispatch
     reasoning about natural numbers. *)
-Require Export Omega.
+Require Export Micromega.Lia.
 
 (** We will use the [atom] type from the metatheory library to
     represent variable names. *)
@@ -455,15 +455,15 @@ Lemma nominal_induction_size :
     P t.
 Proof.
   induction n.
-  intros t SZ; destruct t; intros; simpl in SZ; omega.
+  intros t SZ; destruct t; intros; simpl in SZ; lia.
   intros t SZ P VAR ABS APP; destruct t; simpl in *.
   - auto.
   - apply ABS.
     intros y.
-    apply IHn; eauto; rewrite swap_size_eq; try omega.
+    apply IHn; eauto; rewrite swap_size_eq; try lia.
   - apply APP.
-    apply IHn; eauto; omega.
-    apply IHn; eauto; omega.
+    apply IHn; eauto; lia.
+    apply IHn; eauto; lia.
 Defined.
 
 Definition nominal_induction
@@ -510,17 +510,17 @@ Lemma subst_size : forall n (u : n_exp) (x:atom) (t:n_exp),
 Proof.
   intro n. eapply (lt_wf_ind n). clear n.
   intros n IH u x t SZ.
-  destruct t; simpl in *; destruct n; try omega.
+  destruct t; simpl in *; destruct n; try lia.
   - default_simp.
   - default_simp.
     rewrite <- (swap_size_eq x0 x1).
     rewrite <- (swap_size_eq x0 x1) in SZ.
-    apply IH. omega. omega.
+    apply IH. lia. lia.
   - simpl.
-    rewrite (IH n); try omega.
-    rewrite (IH n); try omega.
-    rewrite (IH (size t1 + size t2)); try omega.
-    rewrite (IH (size t1 + size t2)); try omega.
+    rewrite (IH n); try lia.
+    rewrite (IH n); try lia.
+    rewrite (IH (size t1 + size t2)); try lia.
+    rewrite (IH (size t1 + size t2)); try lia.
     auto.
 Qed.
 
@@ -552,8 +552,8 @@ Proof. (* ADMITTED *)
   rewrite (subst_size (size t1 + size t2)).
   rewrite (subst_size (size t1 + size t2)).
   auto.
-  omega.
-  omega.
+  lia.
+  lia.
 Qed. (* /ADMITTED *)
 
 Lemma subst_abs : forall u x y t1,
@@ -623,7 +623,7 @@ Proof.
 Admitted.
 (*
 Definition impossible {A:Type} (t:n_exp)(pf: size t <= 0) : A.
-destruct t; simpl in pf; omega.
+destruct t; simpl in pf; lia.
 Defined.
 
 Fixpoint nominal_recursion_size {A : Type} L
@@ -768,19 +768,19 @@ Lemma aeq_trans_aux : forall n t2 t1 t3, size t2 <= n -> aeq t1 t2 -> aeq t2 t3 
 Proof.
   induction n;
   intros t2 t1 t3 SZ A1 A2;
-  destruct t2; simpl in *; try omega; intros.
+  destruct t2; simpl in *; try lia; intros.
   - inversion A1. inversion A2. subst. auto.
   - inversion A1; inversion A2; subst.
     + eapply aeq_abs_same; eauto.
-      eapply IHn; eauto; try omega.
+      eapply IHn; eauto; try lia.
     + eapply aeq_abs_diff; eauto.
-      eapply IHn; eauto; try omega.
+      eapply IHn; eauto; try lia.
     + eapply aeq_abs_diff; eauto.
       rewrite <- aeq_fv_nom; eauto.
       assert (aeq (swap x x0 t2) (swap x x0 t6)).
       eapply aeq_equivariance; auto.
       eapply IHn; eauto.
-      rewrite swap_size_eq. omega.
+      rewrite swap_size_eq. lia.
     + destruct (x0 == y0).
       ++ subst. eapply aeq_abs_same.
          assert (aeq (swap x y0 t2) (swap x y0 (swap y0 x t6))).
@@ -788,7 +788,7 @@ Proof.
          rewrite (swap_symmetric _ y0 x) in H.
          rewrite swap_involutive in H.
          eapply IHn; eauto.
-         rewrite swap_size_eq. omega.
+         rewrite swap_size_eq. lia.
       ++ assert (x0 `notin` fv_nom t6).
          { apply (aeq_equivariance y0 x) in H10.
          rewrite swap_involutive in H10.
@@ -801,8 +801,8 @@ Proof.
            pose (K := swap_fresh t6 x0 y0 x H8 H H7 ltac:(auto)). clearbody K.
            admit.
   - inversion A1; inversion A2; subst.
-    eapply aeq_app. eapply IHn; eauto. omega.
-    eapply IHn; eauto. omega.
+    eapply aeq_app. eapply IHn; eauto. lia.
+    eapply IHn; eauto. lia.
 Admitted.
 
 
