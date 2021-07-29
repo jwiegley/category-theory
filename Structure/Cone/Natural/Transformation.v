@@ -7,7 +7,8 @@ Require Export Category.Structure.Cone.
 
 Generalizable All Variables.
 Set Primitive Projections.
-Set Universe Polymorphism.
+(* jww (2021-07-25): Universe undefined with 8.11+ *)
+(* Set Universe Polymorphism. *)
 Unset Transparent Obligations.
 
 (* A natural transformation Δd ⟹ F (where Δd is the Constant functor on d) is

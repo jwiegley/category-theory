@@ -4,7 +4,7 @@
 ##   \VV/  #                                                                 ##
 ##    //   #                                                                 ##
 ###############################################################################
-## GNUMakefile for Coq 8.10.2
+## GNUMakefile for Coq 8.11.2
 
 # For debugging purposes (must stay here, don't move below)
 INITIAL_VARS := $(.VARIABLES)
@@ -76,6 +76,11 @@ endif
 endif
 else
 STDTIME?=command time -f $(TIMEFMT)
+endif
+
+ifneq (,$(COQBIN))
+# add an ending /
+COQBIN:=$(COQBIN)/
 endif
 
 # Coq binaries
@@ -186,7 +191,7 @@ COQDOCLIBS?=$(COQLIBS_NOML)
 # The version of Coq being run and the version of coq_makefile that
 # generated this makefile
 COQ_VERSION:=$(shell $(COQC) --print-version | cut -d " " -f 1)
-COQMAKEFILE_VERSION:=8.10.2
+COQMAKEFILE_VERSION:=8.11.2
 
 COQSRCLIBS?= $(foreach d,$(COQ_SRC_SUBDIRS), -I "$(COQLIB)/$(d)")
 
@@ -226,7 +231,7 @@ COQTOPINSTALL = $(call concat_path,$(DESTDIR),$(COQLIB)/toploop)
 # We here define a bunch of variables about the files being part of the
 # Coq project in order to ease the writing of build target and build rules
 
-VDFILE := .coqdeps
+VDFILE := .Makefile.d
 
 ALLSRCFILES := \
 	$(MLGFILES) \
@@ -246,6 +251,7 @@ strip_dotslash = $(patsubst ./%,%,$(1))
 with_undef = $(if $(filter-out undefined, $(origin $(1))),$($(1)))
 
 VO = vo
+VOS = vos
 
 VOFILES = $(VFILES:.v=.$(VO))
 GLOBFILES = $(VFILES:.v=.glob)
@@ -266,7 +272,7 @@ CMIFILES = \
 	$(CMOFILES:.cmo=.cmi) \
 	$(MLIFILES:.mli=.cmi)
 # the /if/ is because old _CoqProject did not list a .ml(pack|lib) but just
-# a .ml4 file
+# a .mlg file
 CMXSFILES = \
 	$(MLPACKFILES:.mlpack=.cmxs) \
 	$(CMXAFILES:.cmxa=.cmxs) \
@@ -312,7 +318,7 @@ else
 DO_NATDYNLINK =
 endif
 
-ALLDFILES = $(addsuffix .d,$(ALLSRCFILES) $(VDFILE))
+ALLDFILES = $(addsuffix .d,$(ALLSRCFILES)) $(VDFILE)
 
 # Compilation targets #########################################################
 
@@ -383,7 +389,11 @@ optfiles: $(if $(DO_NATDYNLINK),$(CMXSFILES))
 .PHONY: optfiles
 
 # FIXME, see Ralf's bugreport
-quick: $(VOFILES:.vo=.vio)
+# quick is deprecated, now renamed vio
+vio: $(VOFILES:.vo=.vio)
+.PHONY: vio
+quick: vio
+	$(warning "'make quick' is deprecated, use 'make vio' or consider using 'vos' files")
 .PHONY: quick
 
 vio2vo:
@@ -391,8 +401,9 @@ vio2vo:
 		-schedule-vio2vo $(J) $(VOFILES:%.vo=%.vio)
 .PHONY: vio2vo
 
+# quick2vo is undocumented
 quick2vo:
-	$(HIDE)make -j $(J) quick
+	$(HIDE)make -j $(J) vio
 	$(HIDE)VIOFILES=$$(for vofile in $(VOFILES); do \
 	  viofile="$$(echo "$$vofile" | sed "s/\.vo$$/.vio/")"; \
 	  if [ "$$vofile" -ot "$$viofile" -o ! -e "$$vofile" ]; then printf "$$viofile "; fi; \
@@ -407,6 +418,12 @@ checkproofs:
 	$(TIMER) $(COQC) $(COQDEBUG) $(COQFLAGS) $(COQLIBS) \
 		-schedule-vio-checking $(J) $(VOFILES:%.vo=%.vio)
 .PHONY: checkproofs
+
+vos: $(VOFILES:%.vo=%.vos)
+.PHONY: vos
+
+vok: $(VOFILES:%.vo=%.vok)
+.PHONY: vok
 
 validate: $(VOFILES)
 	$(TIMER) $(COQCHK) $(COQCHKFLAGS) $(COQLIBS) $^
@@ -558,6 +575,8 @@ clean::
 	$(HIDE)find . -name .coq-native -type d -empty -delete
 	$(HIDE)rm -f $(VOFILES)
 	$(HIDE)rm -f $(VOFILES:.vo=.vio)
+	$(HIDE)rm -f $(VOFILES:.vo=.vos)
+	$(HIDE)rm -f $(VOFILES:.vo=.vok)
 	$(HIDE)rm -f $(BEAUTYFILES) $(VFILES:=.old)
 	$(HIDE)rm -f all.ps all-gal.ps all.pdf all-gal.pdf all.glob all-mli.tex
 	$(HIDE)rm -f $(VFILES:.v=.glob)
@@ -618,7 +637,7 @@ $(MLLIBFILES:.mllib=.cma): %.cma: | %.mllib
 
 $(MLLIBFILES:.mllib=.cmxa): %.cmxa: | %.mllib
 	$(SHOW)'CAMLOPT -a -o $@'
-	$(HIDE)$(CAMLOPTLINK) $(CAMLDEBUG) $(CAMLFLAGS) $(CAMLPKGS) -a -o $@ $^
+	$(HIDE)$(CAMLOPTLINK) $(CAMLDEBUG) $(CAMLFLAGS) -a -o $@ $^
 
 
 $(MLPACKFILES:.mlpack=.cmxs): %.cmxs: %.cmxa
@@ -663,8 +682,16 @@ $(GLOBFILES): %.glob: %.v
 	$(TIMER) $(COQC) $(COQDEBUG) $(COQFLAGS) $(COQLIBS) $<
 
 $(VFILES:.v=.vio): %.vio: %.v
-	$(SHOW)COQC -quick $<
-	$(HIDE)$(TIMER) $(COQC) -quick $(COQDEBUG) $(COQFLAGS) $(COQLIBS) $<
+	$(SHOW)COQC -vio $<
+	$(HIDE)$(TIMER) $(COQC) -vio $(COQDEBUG) $(COQFLAGS) $(COQLIBS) $<
+
+$(VFILES:.v=.vos): %.vos: %.v
+	$(SHOW)COQC -vos $<
+	$(HIDE)$(TIMER) $(COQC) -vos $(COQDEBUG) $(COQFLAGS) $(COQLIBS) $<
+
+$(VFILES:.v=.vok): %.vok: %.v
+	$(SHOW)COQC -vok $<
+	$(HIDE)$(TIMER) $(COQC) -vok $(COQDEBUG) $(COQFLAGS) $(COQLIBS) $<
 
 $(addsuffix .timing.diff,$(VFILES)): %.timing.diff : %.before-timing %.after-timing
 	$(SHOW)PYTHON TIMING-DIFF $<
@@ -732,9 +759,9 @@ $(addsuffix .d,$(MLPACKFILES)): %.mlpack.d: %.mlpack
 # projects. Note that extra options might be on the command line.
 VDFILE_FLAGS:=$(if _CoqProject,-f _CoqProject,) $(CMDLINE_COQLIBS) $(CMDLINE_VFILES)
 
-$(VDFILE).d: $(VFILES)
+$(VDFILE): $(VFILES)
 	$(SHOW)'COQDEP VFILES'
-	$(HIDE)$(COQDEP) -dyndep var $(VDFILE_FLAGS) $(redir_if_ok)
+	$(HIDE)$(COQDEP) -vos -dyndep var $(VDFILE_FLAGS) $(redir_if_ok)
 
 # Misc ########################################################################
 
