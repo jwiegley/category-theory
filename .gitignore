@@ -2,13 +2,16 @@
 *.glob
 *.v.d
 *.v.tex
+*.vio
 *.vo
 *.vok
 *.vos
-*.vio
 .*.aux
 .coq-native/
 .lia.cache
+.lra.cache
+.nia.cache
+.nra.cache
 /.Makefile.d
 /.coqdeps.d
 /Book.aux
