@@ -65,7 +65,7 @@ Qed.
     objects                Categories
     arrows                 Adjunctions between categories
     identity               Id ⊣ Id
-    composition            F ⊣ G -> G ⊣ H -> F ⊣ H *)
+    composition            F ⊣ U -> F' ⊣ U' -> F ◯ F' ⊣ U' ◯ U *)
 
 Program Definition Adjoints : Category := {|
   obj     := Category;
