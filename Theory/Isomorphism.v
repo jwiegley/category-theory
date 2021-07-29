@@ -25,8 +25,8 @@ Context {C : Category}.
    usually too strong a notion, it does not have its own abstraction here. *)
 
 Class Isomorphism (x y : C) : Type := {
-  to   :> x ~> y;
-  from :  y ~> x;
+  to   : x ~> y;
+  from : y ~> x;
 
   iso_to_from : to ∘ from ≈ id;
   iso_from_to : from ∘ to ≈ id
