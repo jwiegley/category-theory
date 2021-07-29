@@ -5,6 +5,7 @@
 *.vo
 *.vok
 *.vos
+*.vio
 .*.aux
 .coq-native/
 .lia.cache
