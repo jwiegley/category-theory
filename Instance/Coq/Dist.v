@@ -151,7 +151,7 @@ Qed.
 Definition Ensemble_sum_at_key `(xs : Ensemble (A * R)) : Ensemble (A * R) :=
   Ensemble_unionWith Rplus 0%R xs.
 
-Program Instance Ensemble_sum_at_key_Proper :
+Program Instance Ensemble_sum_at_key_Proper A :
   Proper (Same_set (A * R) ==> Same_set (A * R)) Ensemble_sum_at_key.
 Next Obligation.
   repeat intro.
