@@ -83,10 +83,16 @@ Global Program Instance ob_setoid : Setoid C.
 Definition isomorphism_equiv {x y : C} : crelation (x ≅ y) :=
   fun f g => (to f ≈ to g) * (from f ≈ from g).
 
-Local Obligation Tactic := firstorder.
-
 Global Program Instance isomorphism_equiv_equivalence {x y : C} :
   Equivalence (@isomorphism_equiv x y).
+Next Obligation. now firstorder. Qed.
+Next Obligation. now firstorder. Qed.
+Next Obligation.
+  firstorder;
+  (* jww (2021-07-29): These next two lines are not needed for Coq <8.12 *)
+  try now transitivity (to y0);
+  try now transitivity (from y0).
+Qed.
 
 Global Program Instance isomorphism_setoid {x y : C} : Setoid (x ≅ y) := {
   equiv := isomorphism_equiv;
