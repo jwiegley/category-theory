@@ -64,8 +64,8 @@ Record lawvere_equiv := {
   φ := to lawvere_iso;
   ψ := from lawvere_iso;
 
-  η {x} := from (`1 (iso_from_to lawvere_iso) x);
-  μ {x} := from (`1 (iso_to_from lawvere_iso) x);
+  η x := from (`1 (iso_from_to lawvere_iso) x);
+  μ x := from (`1 (iso_to_from lawvere_iso) x);
 
   projF : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ φ;
   projG : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ ψ;
