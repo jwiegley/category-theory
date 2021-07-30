@@ -90,8 +90,8 @@ Next Obligation. now firstorder. Qed.
 Next Obligation.
   firstorder;
   (* jww (2021-07-29): These next two lines are not needed for Coq <8.12 *)
-  try now transitivity (to y0);
-  try now transitivity (from y0).
+  try solve [ now transitivity (to y0)
+            | now transitivity (from y0) ].
 Qed.
 
 Global Program Instance isomorphism_setoid {x y : C} : Setoid (x ≅ y) := {
