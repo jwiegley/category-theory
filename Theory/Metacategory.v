@@ -109,7 +109,7 @@ Lemma identity_composition_between (M : Metacategory) :
     defined f g (pairs M).
 Proof.
   intros.
-  destruct H.
+  destruct H as [c c0].
   pose proof (@triple_composition M f u g f g (c f) (c0 g)) as H3;
   simpl in H3.
   destruct H3.
@@ -125,8 +125,9 @@ Lemma identity_composition_left (M : Metacategory) :
     defined u fg (pairs M).
 Proof.
   intros.
-  destruct H.
+  destruct H as [_ c0].
   apply composite_defined with (h:=fg); auto.
+  now apply c0.
 Qed.
 
 Lemma identity_composition_right (M : Metacategory) :
@@ -137,8 +138,9 @@ Lemma identity_composition_right (M : Metacategory) :
     defined fg u (pairs M).
 Proof.
   intros.
-  destruct H.
+  destruct H as [c _].
   apply composite_defined with (h:=fg); auto.
+  now apply c.
 Qed.
 
 Local Obligation Tactic := intros.
@@ -163,6 +165,8 @@ Next Obligation.                (* id *)
   destruct x as [i [Hil Hir]].
   exists i.
   split; apply composite_defined with (h:=i); auto.
+    now apply Hil.
+  now apply Hir.
 Defined.
 Next Obligation.                (* compose *)
   destruct x as [x x_id];
@@ -183,16 +187,16 @@ Next Obligation.
 Qed.
 Next Obligation.
   unfold FromArrows_obligation_3; simpl.
-  destruct x, y, f, i, i0, p; simpl in *; subst.
-  destruct (defined_composite _ _ _).
+  destruct x, y, f, i as [c c0], i0 as [c1 c2], p; simpl in *; subst.
+  destruct (defined_composite _ _ _) as [x2 c3].
   pose proof (c2 x1).
   unfold composite in c3, H.
   apply (FMapExt.F.MapsTo_fun c3 H).
 Qed.
 Next Obligation.
   unfold FromArrows_obligation_3; simpl.
-  destruct x, y, f, i, i0, p; simpl in *; subst.
-  destruct (defined_composite _ _ _).
+  destruct x, y, f, i as [c c0], i0 as [c1 c2], p; simpl in *; subst.
+  destruct (defined_composite _ _ _) as [x2 c3].
   pose proof (c x1).
   unfold composite in c3, H.
   apply (FMapExt.F.MapsTo_fun c3 H).

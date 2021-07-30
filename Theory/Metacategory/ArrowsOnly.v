@@ -79,7 +79,7 @@ Lemma composition_left {x y z : object}
   composite M (obj_arr z) fg fg.
 Proof.
   intros.
-  destruct z, obj_id0, f, g; simpl in *.
+  destruct z, obj_id0 as [c c0], f, g; simpl in *.
   specialize (c0 _ (composite_defined M H0)); clear H0.
   destruct (composite_correct M c0 H).
   spose (fst (composition_law M c0 H _) e) as X.
@@ -94,7 +94,7 @@ Lemma composition_right {x y z : object}
   composite M fg (obj_arr x) fg.
 Proof.
   intros.
-  destruct x, obj_id0, f, g; simpl in *.
+  destruct x, obj_id0 as [c c0], f, g; simpl in *.
   specialize (c _ (composite_defined M H0)); clear H0.
   destruct (composite_correct M H c).
   spose (fst (composition_law M H c _) e) as X.

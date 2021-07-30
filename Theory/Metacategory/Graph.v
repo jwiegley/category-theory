@@ -292,11 +292,15 @@ Next Obligation.
   unfold composite; simpl.
   repeat destruct f using caseS';
   repeat destruct p using caseS'; cleanup.
-  inversion p.
+  match goal with
+    [ H : t 0 |- _ ] => inversion H
+  end.
 Qed.
 Next Obligation.
   unfold composite; simpl.
   repeat destruct f using caseS';
   repeat destruct p using caseS'; cleanup.
-  inversion p.
+  match goal with
+    [ H : t 0 |- _ ] => inversion H
+  end.
 Qed.
