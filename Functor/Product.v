@@ -18,7 +18,11 @@ Program Instance Product
   fobj := fun x => (F x ⨂ G x)%object;
   fmap := fun _ _ f => fmap[F] f ⨂ fmap[G] f
 }.
-Next Obligation. proper; rewrites; reflexivity. Qed.
+Next Obligation.
+  proper;
+  apply bimap_respects;
+  now apply fmap_respects.
+Qed.
 Next Obligation. normal; reflexivity. Qed.
 
 Notation "F :*: G" := (@Product _ _ _ F%functor G%functor)
