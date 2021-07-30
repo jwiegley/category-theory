@@ -1,0 +1,8 @@
+#!/bin/bash
+
+nix-build --cores 4 . --argstr coqPackages coqPackages_8_10 > log_8_10.txt 2>&1 &
+nix-build --cores 4 . --argstr coqPackages coqPackages_8_11 > log_8_11.txt 2>&1 &
+nix-build --cores 4 . --argstr coqPackages coqPackages_8_12 > log_8_12.txt 2>&1 &
+nix-build --cores 4 . --argstr coqPackages coqPackages_8_13 > log_8_13.txt 2>&1 &
+
+wait
