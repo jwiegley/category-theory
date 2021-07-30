@@ -1,4 +1,4 @@
-args@{ packages ? "coqPackages_8_11"
+args@{ coqPackages ? "coqPackages_8_10"
 
 , rev    ? "c74fa74867a3cce6ab8371dfc03289d9cc72a66e"
 , sha256 ? "13bnmpdmh1h6pb7pfzw5w3hm6nzkg9s1kcrwgw1gmdlhivrmnx75"
@@ -10,7 +10,7 @@ args@{ packages ? "coqPackages_8_11"
   }
 }:
 
-with pkgs.${packages};
+with pkgs.${coqPackages};
 
 pkgs.stdenv.mkDerivation rec {
   name = "coq${coq.coq-version}-category-theory-${version}";
@@ -23,8 +23,11 @@ pkgs.stdenv.mkDerivation rec {
   buildInputs = [ coq coq.ocaml coq.camlp5 coq.findlib equations ];
   enableParallelBuilding = true;
 
-  buildPhase = "make JOBS=$NIX_BUILD_CORES";
-  preBuild = "coq_makefile -f _CoqProject -o Makefile";
+  preBuild = ''
+    export MAKEFLAGS="-j $NIX_BUILD_CORES"
+    coq_makefile -f _CoqProject -o Makefile
+  '';
+
   installFlags = "COQLIB=$(out)/lib/coq/${coq.coq-version}/";
 
   env = pkgs.buildEnv { inherit name; paths = buildInputs; };
