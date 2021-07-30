@@ -15,7 +15,8 @@ Require Export Category.Functor.Applicative.
 
 Generalizable All Variables.
 Set Primitive Projections.
-Set Universe Polymorphism.
+(* jww (2021-07-25): Universe undefined with 8.12+ *)
+(* Set Universe Polymorphism. *)
 Unset Transparent Obligations.
 
 Section Traversable.
