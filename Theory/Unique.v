@@ -1,5 +1,6 @@
 Set Warnings "-notation-overridden".
 Set Warnings "-deprecated-hint-without-locality".
+Set Warnings "-deprecated-ident-entry".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
