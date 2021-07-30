@@ -1,4 +1,6 @@
 Set Warnings "-notation-overridden".
+Set Warnings "-deprecated-hint-without-locality".
+Set Warnings "-fragile-hint-constr".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.

@@ -1,4 +1,5 @@
 Set Warnings "-notation-overridden".
+Set Warnings "-deprecated-hint-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.

@@ -1,4 +1,5 @@
 Set Warnings "-notation-overridden".
+Set Warnings "-deprecated-hint-without-locality".
 
 (** A theory of type-aligned lists, using the Coq-Equations plugin *)
 

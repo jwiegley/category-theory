@@ -1,4 +1,6 @@
 Set Warnings "-notation-overridden".
+Set Warnings "-deprecated-hint-without-locality".
+Set Warnings "-notation-incompatible-format".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.

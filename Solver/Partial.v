@@ -1,4 +1,5 @@
 Set Warnings "-notation-overridden".
+Set Warnings "-deprecated-hint-without-locality".
 
 Generalizable All Variables.
 
