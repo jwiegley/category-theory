@@ -87,7 +87,7 @@ Proof.
 Qed.
 
 Theorem ccc_terminal : ∀ `{Repr a},
-  (λ _ : a, tt) >==> to fobj_one_iso ∘ @one _ _ (repr a).
+  (λ _ : a, tt) >==> one.
 Proof.
   unfold rel; simpl; intros; cat.
 Qed.
