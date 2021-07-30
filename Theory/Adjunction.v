@@ -177,6 +177,8 @@ Proof.
 Qed.
 
 (* If F is a faithful functor, and f is monic, then adj f is monic. *)
+(* jww (2021-07-30):  This definition does not work in Coq 8.13 *)
+(*
 Theorem adj_monic  {x y} (f : F x ~> y) c (g h : c ~> x) :
   Faithful F -> Monic f ->
     ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h -> g ≈ h.
@@ -195,6 +197,7 @@ Proof.
   exact X1.
   exact tt.
 Qed.
+*)
 
 Corollary to_adj_respects {x y} (f g : F x ~{C}~> y) :
   f ≈ g -> ⌊f⌋ ≈ ⌊g⌋.
