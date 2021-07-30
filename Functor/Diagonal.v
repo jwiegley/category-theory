@@ -28,8 +28,6 @@ Program Instance Const {C : Category} (c : C) : 1 ⟶ C := Diagonal 1 c.
 
 Notation "=( c )" := (Const c) (at level 90, format "=( c )") : functor_scope.
 
-Program Instance Transform_Const `(x ~{C}~> y) : =(x) ⟹ =(y).
-
 (* Wikipedia: "In category theory, a branch of mathematics, the diagonal
    functor C → C × C is given by Δ(a) = ⟨a, a⟩, which maps objects as well as
    morphisms. This functor can be employed to give a succinct alternate
@@ -58,6 +56,11 @@ Proof.
   split; intros.
     isomorphism; simpl; intros; try exact (id, id); cat.
   reflexivity.
+Qed.
+
+Instance Transform_Const `(x ~{C}~> y) : =(x) ⟹ =(y).
+Proof.
+  construct; auto; cat_simpl.
 Qed.
 
 (* jww (2017-04-13): TODO
