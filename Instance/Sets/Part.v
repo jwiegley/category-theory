@@ -107,6 +107,7 @@ Next Obligation.
       exact (Some (Datatypes.inr (Datatypes.inl c))).
     exact None.
   - proper.
+    try rename H into X.
     destruct f, g; simpl in *.
     spose (proper_morphism _ _ X) as X1.
     destruct (morphism x0);
@@ -127,6 +128,7 @@ Next Obligation.
   - proper.
     destruct x0, y0; try tauto.
     destruct s, s0; try tauto.
+    try rename H into X.
     destruct p, p0, X; auto.
 Defined.
 Next Obligation.
@@ -141,17 +143,21 @@ Next Obligation.
   - proper.
     destruct x0, y0; try tauto.
     destruct s, s0; try tauto.
+    try rename H into X.
     destruct p, p0, X; auto.
 Defined.
 Next Obligation.
   proper.
+  try rename H into X.
   specialize (X x2).
+  try rename H0 into X0.
   specialize (X0 x2).
   destruct (x0 x2), (x1 x2), (y0 x2), (y1 x2); auto.
 Qed.
 Next Obligation.
   split; intros.
-  - split; intros.
+  - try rename H into X.
+    split; intros.
     + specialize (X x0).
       destruct (h x0), (f x0), (g x0); try tauto;
       destruct s; try tauto;
@@ -162,7 +168,8 @@ Next Obligation.
       destruct s; try tauto;
       destruct s; try tauto.
       destruct p, X; auto.
-  - destruct X.
+  - try rename H into X.
+    destruct X.
     specialize (y0 x0).
     specialize (y1 x0).
     destruct (h x0), (f x0), (g x0); try tauto;

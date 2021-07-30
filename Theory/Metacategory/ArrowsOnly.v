@@ -394,7 +394,7 @@ Program Definition Two_to_Two : Category_from_Metacategory Two ⟶ _2 := {|
 |}.
 Next Obligation.
   proper.
-  destruct x0, y0; simpl in X; subst.
+  destruct x0, y0; simpl in *; subst.
   apply f_equal.
   apply f_equal2;
   apply Eqdep_dec.UIP_dec;
@@ -412,8 +412,11 @@ Next Obligation.
   simpl in *.
   induction f using morphism_Two_rect;
   induction g using morphism_Two_rect;
-  destruct x, y, z, f, f0;
-  simpl in H, H0, H1, H2, H3, H4; subst;
+  repeat match goal with
+  | [ X : object _ |- _ ] => destruct X
+  | [ X : morphism _ _ _ |- _ ] => destruct X
+  | [ H : _ _ _ = _ |- _ ] => simpl in H
+  end; subst;
   (elimtype False; simpl in *; discriminate)
     || (vm_compute; reflexivity).
 Qed.

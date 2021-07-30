@@ -161,9 +161,9 @@ Defined.
 Next Obligation.
   proper; simpl in *.
   - destruct s.
-    now rewrite X.
+    now rewrites.
   - destruct s0.
-    now rewrite H.
+    now rewrites.
 Qed.
 Next Obligation.
   construct.

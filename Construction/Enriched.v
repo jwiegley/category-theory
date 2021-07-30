@@ -119,7 +119,9 @@ Proof.
     + now proper.
     + proper; simpl.
       apply compose_respects;
-      now destruct X0.
+      now match goal with
+        [ H : _ ≈ _ |- _ ] => apply H
+      end.
     + now simpl; intros; cat.
     + now simpl; intros; cat.
     + now simpl; intros; cat.

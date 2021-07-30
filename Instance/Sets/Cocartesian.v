@@ -47,8 +47,8 @@ Next Obligation.
   destruct z; intuition.
 Qed.
 Next Obligation.
-  simplify.
-  - specialize (X (Datatypes.inl x0)); auto.
-  - specialize (X (Datatypes.inr x0)); auto.
-  - destruct x0; auto.
+  simplify; intuition;
+  now match goal with
+    [ H : ∀ _ : _ + _, _ ≈ _ |- _ ] => rewrite H
+  end.
 Qed.
