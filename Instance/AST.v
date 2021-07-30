@@ -1,4 +1,5 @@
 Set Warnings "-notation-overridden".
+Set Warnings "-unexpected-implicit-declaration".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
