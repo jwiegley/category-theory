@@ -528,18 +528,26 @@ Lemma lawvere_to_from {a b} (g : a ~> G b) : φ' E (ψ' E g) ≈ g.
 Proof.
   intros.
   unfold φ', ψ'.
-  unfold lawvere_from.
-  rewrite lawvere_to_functorial.
-  unfold lawvere_to.
-  simpl in *.
-  spose (φ_ψ_equiv ((a, b); g)) as X1.
-  spose (surjective_tripleF (ψ E ((a, b); g))) as X2.
+  pose proof (@lawvere_to_functorial
+                _ _ (`2 (fobj[(lawvere_iso E)⁻¹] ((a, b); g)))
+                a b
+                (fst (to (`1 (projG E) ((a, b); g))))
+                (snd (`1 (projG E) ((a, b); g))⁻¹)) as X.
+  unfold φ' in X; simpl in X.
+  etransitivity.
+    apply X.
+  clear X.
   symmetry.
   etransitivity.
+    spose (φ_ψ_equiv ((a, b); g)) as X1.
     symmetry in X1.
     apply X1.
-  comp_left.
-  comp_right.
+  unfold θ, κ, ψ.
+  apply compose_respects; [|reflexivity].
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  spose (surjective_tripleF (ψ E ((a, b); g))) as X2.
+  unfold ψ in *.
   now rewrite <- X2.
 Qed.
 
@@ -547,18 +555,27 @@ Lemma lawvere_from_to {a b} (f : F a ~> b) : ψ' E (φ' E f) ≈ f.
 Proof.
   intros.
   unfold φ', ψ'.
-  unfold lawvere_to.
-  rewrite <- lawvere_from_functorial.
-  unfold lawvere_from.
-  simpl in *.
-  spose (ψ_φ_equiv ((a, b); f)) as X1.
-  spose (surjective_tripleG (φ E ((a, b); f))) as X2.
+  pose proof (@lawvere_from_functorial
+                _ _ (`2 (fobj[to (lawvere_iso E)] ((a, b); f)))
+                a b
+                (fst (to (`1 (projF E) ((a, b); f))))
+                (snd (`1 (projF E) ((a, b); f))⁻¹)) as X.
+  unfold ψ' in X; simpl in X.
+  etransitivity.
+    symmetry.
+    apply X.
+  clear X.
   symmetry.
   etransitivity.
+    spose (ψ_φ_equiv ((a, b); f)) as X1.
     symmetry in X1.
     apply X1.
-  comp_left.
-  comp_right.
+  unfold θ, κ, ψ.
+  apply compose_respects; [|reflexivity].
+  rewrite <- !comp_assoc.
+  apply compose_respects; [reflexivity|].
+  spose (surjective_tripleG (φ E ((a, b); f))) as X2.
+  unfold φ in *.
   now rewrite <- X2.
 Qed.
 
