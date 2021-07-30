@@ -126,8 +126,8 @@ Lemma identity_composition_left (M : Metacategory) :
 Proof.
   intros.
   destruct H as [_ c0].
-  apply composite_defined with (h:=fg); auto.
-  now apply c0.
+  apply composite_defined with (h:=fg); auto;
+  try solve [ apply c0 ].
 Qed.
 
 Lemma identity_composition_right (M : Metacategory) :
@@ -139,8 +139,8 @@ Lemma identity_composition_right (M : Metacategory) :
 Proof.
   intros.
   destruct H as [c _].
-  apply composite_defined with (h:=fg); auto.
-  now apply c.
+  apply composite_defined with (h:=fg); auto;
+  try solve [ apply c ].
 Qed.
 
 Local Obligation Tactic := intros.
@@ -164,9 +164,9 @@ Qed.
 Next Obligation.                (* id *)
   destruct x as [i [Hil Hir]].
   exists i.
-  split; apply composite_defined with (h:=i); auto.
-    now apply Hil.
-  now apply Hir.
+  split; apply composite_defined with (h:=i); auto;
+  try solve [ apply Hil
+            | apply Hir ].
 Defined.
 Next Obligation.                (* compose *)
   destruct x as [x x_id];
