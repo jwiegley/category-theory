@@ -548,7 +548,13 @@ Proof.
   apply compose_respects; [reflexivity|].
   spose (surjective_tripleF (ψ E ((a, b); g))) as X2.
   unfold ψ in *.
-  now rewrite <- X2.
+  rewrite <- X2.
+  solve [ reflexivity           (* works in >=8.12 *)
+        | simpl;                (* needed for <8.11 *)
+          unfold lawvere_to, θ, κ, ψ;
+          rewrite !comp_assoc;
+          reflexivity
+        ].
 Qed.
 
 Lemma lawvere_from_to {a b} (f : F a ~> b) : ψ' E (φ' E f) ≈ f.
@@ -576,7 +582,13 @@ Proof.
   apply compose_respects; [reflexivity|].
   spose (surjective_tripleG (φ E ((a, b); f))) as X2.
   unfold φ in *.
-  now rewrite <- X2.
+  rewrite <- X2.
+  solve [ reflexivity           (* works in >=8.12 *)
+        | simpl;                (* needed for <8.11 *)
+          unfold lawvere_to, θ, κ, ψ;
+          rewrite !comp_assoc;
+          reflexivity
+        ].
 Qed.
 
 Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
