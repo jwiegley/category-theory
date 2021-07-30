@@ -544,11 +544,11 @@ Proof.
   split; intros.
     rewrite P.fold_Add with (k:=k) (e:=e) (m1:=m) in H4; eauto.
       rewrite Heqf in *.
-      destruct (P k e); firstorder.
+      destruct (P k e); now firstorder.
     constructor.
   rewrite P.fold_Add with (k:=k) (e:=e) (m1:=m); eauto.
     rewrite Heqf in *.
-    destruct (P k e); firstorder.
+    destruct (P k e); now firstorder.
   constructor.
 Qed.
 
