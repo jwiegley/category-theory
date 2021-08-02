@@ -43,7 +43,7 @@ just morphisms in Cᴶ with source (or target) a constant functor.
 *)
 
 Lemma Cone_Natural_Transform `(F : [J, C]) :
-  ∀ N : C, Diagonal J N ⟹ F ↔ { ψ : Cone F | vertex_obj[ψ] = N }.
+  ∀ N : C, Diagonal J N ⟹ F ↔ Cone[N] F.
 Proof.
   split; intros.
   - construct.
@@ -66,21 +66,28 @@ Proof.
       now apply ump_cones.
 Qed.
 
-(** jww (2021-08-02): This should be J, not 1. *)
-Lemma Cone_Comma `(F : [1, C]) :
-  ∀ N : C, Diagonal 1 N ↓ F ↔ { ψ : Cone F | vertex_obj[ψ] = N }.
+Lemma Cone_Comma `(F : [J, C]) : (Diagonal J ↓ =(F)) ↔ Cone F.
 Proof.
   split; simpl.
   - intros [[? ?] f].
     simplify; simpl in *.
-    unshelve refine (exist _ (Build_Cone _ _ _ _ _ _) eq_refl);
+    unshelve refine (Build_Cone _ _ _ _ _ _);
     simpl in *; intros.
-    + destruct x.
-      exact f.
-    + now cat.
-  - intros [X H].
+    + exact o.
+    + now apply f.
+    + destruct f; simpl in *.
+      rewrite <- (id_right (transform y)).
+      now apply naturality.
+  - intros X.
     destruct X.
-    simpl in *; subst.
-    exists (tt, tt).
-    now apply vertex_map.
+    exists (vertex_obj, tt).
+    construct.
+    + now apply vertex_map.
+    + simpl.
+      rewrite id_right.
+      now apply ump_cones.
+    + simpl.
+      rewrite id_right.
+      symmetry.
+      now apply ump_cones.
 Qed.

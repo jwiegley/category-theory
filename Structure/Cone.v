@@ -25,4 +25,7 @@ Notation "vertex_obj[ C ]" := (@vertex_obj _ _ _ C)
 Notation "vertex_map[ C ]" := (@vertex_map _ _ _ C _)
   (at level 9, format "vertex_map[ C ]") : category_scope.
 
+Notation "Cone[ N ] F" := { ψ : Cone F | vertex_obj[ψ] = N }
+  (at level 9, format "Cone[ N ] F") : category_scope.
+
 Definition Cocone `(F : J ⟶ C) := Cone (F^op).
