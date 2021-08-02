@@ -176,28 +176,48 @@ Proof.
   rewrite from_adj_comp_law; cat.
 Qed.
 
+Inductive poly_unit@{u} : Type@{u} := ttt.
+
+Definition eq_equivalence_alt@{t u} {A : Type@{t}} : @Equivalence@{t u} A (@eq A) :=
+  @Build_Equivalence@{t u} A
+                    (@eq A) (@eq_Reflexive A)
+                    (@eq_Symmetric A)
+                    (@eq_Transitive A).
+
+Definition unit_setoid@{t u} : Setoid@{t u} poly_unit@{t} :=
+  {| equiv := @eq poly_unit@{t}
+   ; setoid_equiv := @eq_equivalence_alt@{t u} poly_unit@{t} |}.
+
+Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
+  {| carrier   := poly_unit@{t}
+   ; is_setoid := unit_setoid@{t u} |}.
+
 (* If F is a faithful functor, and f is monic, then adj f is monic. *)
-(* jww (2021-07-30):  This definition does not work in Coq 8.13 *)
-(*
 Theorem adj_monic  {x y} (f : F x ~> y) c (g h : c ~> x) :
   Faithful F -> Monic f ->
     ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h -> g ≈ h.
 Proof.
   intros.
   rewrite <- !to_adj_nat_l in X1.
-  pose proof (monic (Monic:=@iso_to_monic Sets _ _ (@adj H c y))
-                    {| carrier   := Datatypes.unit
-                     ; is_setoid := {| equiv := eq |} |}
-                    {| morphism  := fun _ => f ∘ fmap[F] g |}
-                    {| morphism  := fun _ => f ∘ fmap[F] h |}) as X2;
+  assert
+    (Proper
+       (@equiv _ unit_setoid ==> equiv)
+       (λ _ : unit_setoid_object, f ∘ fmap[F] g)) as XA by proper.
+  assert
+    (Proper
+       (@equiv _ unit_setoid ==> equiv)
+       (λ _ : unit_setoid_object, f ∘ fmap[F] h)) as XB by proper.
+  pose proof
+       (monic (Monic:=@iso_to_monic Sets
+                                    {| is_setoid := homset (fobj[F] c) y |}
+                                    {| is_setoid := homset c (fobj[U] y) |}
+                                    (@adj H c y))
+              unit_setoid_object
+              {| morphism  := λ _ : unit_setoid_object, f ∘ fmap[F] g |}
+              {| morphism  := λ _ : unit_setoid_object, f ∘ fmap[F] h |}) as X2.
   simpl in X2.
-  apply X.
-  apply X0.
-  apply X2; intros.
-  exact X1.
-  exact tt.
+  now apply X, X0, X2.
 Qed.
-*)
 
 Corollary to_adj_respects {x y} (f g : F x ~{C}~> y) :
   f ≈ g -> ⌊f⌋ ≈ ⌊g⌋.
