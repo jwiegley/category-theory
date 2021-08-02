@@ -120,8 +120,6 @@ Instance/Poset.v
 Instance/Cones.v
 Instance/Cones/Limit.v
 Instance/Cones/Comma.v
-Instance/Finite.v
-Instance/Finite/Span.v
 Instance/Fact.v
 Functor/Opposite.v
 Functor/Applicative.v
