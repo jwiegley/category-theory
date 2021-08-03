@@ -120,6 +120,43 @@ Coercion obj : Category >-> Sortclass.
 Hint Rewrite @id_left : categories.
 Hint Rewrite @id_right : categories.
 
+(** [Build_Category'] is a custom constructor that automatically provides the
+    definition of [comp_assoc_sym]. It is intended to be used with the
+    [refine] tactic, such as in the example below. *)
+Definition Build_Category'
+           {obj} hom {homset} id compose
+           {compose_respects}
+           {id_left id_right comp_assoc} :=
+  {| obj := obj;
+
+     hom := hom;
+     homset := homset;
+
+     id := id;
+     compose := compose;
+
+     compose_respects := compose_respects;
+
+     id_left  := id_left;
+     id_right := id_right;
+
+     comp_assoc := comp_assoc;
+     comp_assoc_sym :=
+       fun _ _ _ _ _ _ _ => symmetry (@comp_assoc _ _ _ _ _ _ _);
+  |}.
+
+Example Build_Category'_Coq : Category.
+Proof.
+  unshelve refine (Build_Category' (@Basics.arrow)
+                                   (@Datatypes.id) (@Basics.compose));
+  intros; try reflexivity.
+  - refine {| equiv := fun f g => forall x, f x = g x |}.
+    equivalence.
+    now transitivity (y x0).
+  - proper.
+    now rewrite X, X0.
+Defined.
+
 Open Scope category_scope.
 Open Scope object_scope.
 Open Scope homset_scope.
