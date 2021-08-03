@@ -37,7 +37,7 @@ Unset Transparent Obligations.
 
    "These statements can all be verified by a straightforward application of
    the definitions. Thinking of cones as natural transformations we see that
-   they are just morphisms in Cᴶ with source (or target) a constant functor. *)
+   they are just morphisms in Cᴶ with source (or target) a constant functor." *)
 
 Lemma Cone_Natural_Transform `(F : [J, C]) :
   ∀ N : C, Diagonal J N ⟹ F ↔ Cone[N] F.
