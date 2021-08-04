@@ -31,3 +31,5 @@
 /coqdoc.sty
 /html/
 log_*.txt
+/.Makefile.coq.d
+/build.log
