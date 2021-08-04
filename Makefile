@@ -16,7 +16,11 @@ Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
 
 install: _CoqProject Makefile.coq
-	make -f Makefile.coq COQLIB=$(COQLIB) install
+	if [ "$(COQLIB)" = "" ]; then				\
+		make -f Makefile.coq install;			\
+	else							\
+		make -f Makefile.coq COQLIB=$(COQLIB) install;	\
+	fi
 
 clean: _CoqProject Makefile.coq
 	make -f Makefile.coq clean
