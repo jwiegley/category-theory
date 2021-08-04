@@ -23,10 +23,9 @@ pkgs.stdenv.mkDerivation rec {
   buildInputs = [ coq coq.ocaml coq.camlp5 coq.findlib equations ];
   enableParallelBuilding = true;
 
-  preBuild = ''
-    export MAKEFLAGS="-j $NIX_BUILD_CORES"
-    coq_makefile -f _CoqProject -o Makefile
-  '';
+  buildFlags = [
+    "JOBS=$(NIX_BUILD_CORES)"
+  ];
 
   installFlags = "COQLIB=$(out)/lib/coq/${coq.coq-version}/";
 
