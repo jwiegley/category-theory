@@ -25,14 +25,14 @@ Proof.
       apply adj_from.
     abstract (intros; rewrite (naturality[adj_from]); simpl; cat).
 
-  given (nat : Const Lim ◯ Erase J ⟹ F). {
+  given (nat : Δ(Lim) ◯ Erase J ⟹ F). {
     transform; simpl; intros.
     + apply vertex_map.
     + abstract (cat; apply ump_cones).
     + abstract (cat; symmetry; apply ump_cones).
   }
 
-  pose (to (@adj _ _ _ _ ran_adjoint (Const Lim) F) nat)
+  pose (to (@adj _ _ _ _ ran_adjoint (Δ(Lim)) F) nat)
     as adj_to; simpl in adj_to.
 
   assert (to_from : adj_to () ∘ unique_morphism (ump_limits cone) ≈ id). {
@@ -44,7 +44,7 @@ Proof.
     rewrites.
     unfold adj_to; simpl.
 
-    given (from_ran : Ran (Erase J) F ⟹ Const Lim). {
+    given (from_ran : Ran (Erase J) F ⟹ Δ(Lim)). {
       transform; simpl; intros.
       + destruct x.
         apply (unique_morphism (ump_limits cone)).
@@ -53,7 +53,7 @@ Proof.
     }
 
     spose (@to_adj_nat_l _ _ _ _ ran_adjoint
-                         (Ran (Erase J) F) (Const Lim)
+                         (Ran (Erase J) F) (Δ(Lim))
                          F nat from_ran tt) as X0.
     rewrites.
 
@@ -103,12 +103,12 @@ Proof.
     rewrite comp_assoc.
     srewrite (unique_property (ump_limits cone)).
     srewrite_r (iso_from_to
-                  ((@adj _ _ _ _ ran_adjoint (Const Lim) F)) nat x).
+                  ((@adj _ _ _ _ ran_adjoint (Δ(Lim)) F)) nat x).
     unfold adj_to.
     srewrite_r (@from_adj_nat_l _ _ _ _ ran_adjoint
-                  (Const Lim) (Ran (Erase J) F) F nat_id
-                  (to (@adj _ _ _ _ ran_adjoint (Const Lim) F) nat) x).
+                  (Δ(Lim)) (Ran (Erase J) F) F nat_id
+                  (to (@adj _ _ _ _ ran_adjoint (Δ(Lim)) F) nat) x).
     sapply (@from_adj_respects
-              _ _ _ _ (@ran_adjoint _ _ _ _ H) (Const Lim) F).
+              _ _ _ _ (@ran_adjoint _ _ _ _ H) (Δ(Lim)) F).
     simpl; intros; cat.
 Qed.

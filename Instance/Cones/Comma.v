@@ -3,17 +3,18 @@ Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Instance.Cones.
+Require Import Category.Functor.Diagonal.
+Require Export Category.Instance.One.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Theorem Cones_to_Comma `(F : J ⟶ C) :
-  Cones F ⟶ (Diagonal J ↓ @Const Fun F).
+Theorem Cones_to_Comma `(F : [J, C]) : Cones F ⟶ (Δ ↓ =(F)).
 Proof.
   functor; simpl; intros.
-  - exists (vertex_obj, ()).
+  - exists (vertex_obj[X], ()).
     transform; simpl; intros.
     + apply vertex_map.
     + abstract (rewrite id_right; apply ump_cones).
@@ -24,8 +25,7 @@ Proof.
   - abstract cat.
 Defined.
 
-Theorem Cones_from_Comma `(F : J ⟶ C) :
-  (Diagonal J ↓ @Const Fun F) ⟶ Cones F.
+Theorem Cones_from_Comma `(F : [J, C]) : (Δ ↓ =(F)) ⟶ Cones F.
 Proof.
   functor; simpl; intros.
   - construct; simpl; intros.
@@ -49,8 +49,7 @@ Defined.
   a cone (N, ψ) to a cone (L, φ) is just a morphism N → L such that all the
   "obvious" diagrams commute." *)
 
-Theorem Cones_Comma `(F : J ⟶ C) :
-  Cones F ≅[Cat] (Diagonal J ↓ @Const Fun F).
+Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F)).
 Proof.
   isomorphism; simpl; intros.
   - apply Cones_to_Comma.

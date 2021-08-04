@@ -40,7 +40,7 @@ Unset Transparent Obligations.
    they are just morphisms in Cᴶ with source (or target) a constant functor." *)
 
 Lemma Cone_Natural_Transform `(F : [J, C]) :
-  ∀ N : C, Diagonal J N ⟹ F ↔ Cone[N] F.
+  ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F.
 Proof.
   split; intros.
   - construct.
@@ -63,7 +63,10 @@ Proof.
       now apply ump_cones.
 Qed.
 
-Lemma Cone_Comma `(F : [J, C]) : (Diagonal J ↓ =(F)) ↔ Cone F.
+(** See Instance/Cones/Comma for a similar proof involving the category of
+    cones. *)
+
+Lemma Cone_Comma `(F : [J, C]) : (Δ ↓ Δ(F)) ↔ Cone F.
 Proof.
   split; simpl.
   - intros [[? ?] f].
@@ -77,7 +80,7 @@ Proof.
       now apply naturality.
   - intros X.
     destruct X.
-    exists (vertex_obj, tt).
+    exists (vertex_obj, vertex_obj).
     construct.
     + now apply vertex_map.
     + simpl.

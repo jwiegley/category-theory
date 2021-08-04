@@ -16,7 +16,7 @@ Unset Transparent Obligations.
    the same as a cone over F (whose vertex is d). *)
 
 Theorem Cone_Transform `(F : J ⟶ C) (d : C) :
-  Diagonal J d ⟹ F ↔ { c : Cone F | vertex_obj = d }.
+  Δ[J](d) ⟹ F ↔ { c : Cone F | vertex_obj = d }.
 Proof.
   split; intros.
   - unshelve eexists.

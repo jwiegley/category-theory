@@ -20,14 +20,14 @@ Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
 
 Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.
 
-Notation "Δ( C )" := (@Diagonal_Product C)
-  (at level 90, format "Δ( C )") : functor_scope.
+Notation "Δ[ J ]( c )" := (Diagonal J c) (at level 90, format "Δ[ J ]( c )") : functor_scope.
 
 Require Export Category.Instance.One.
 
-Program Instance Const {C : Category} (c : C) : 1 ⟶ C := Diagonal 1 c.
+Notation "Δ( c )" := (Diagonal _ c) (at level 90, format "Δ( c )") : functor_scope.
+Notation "=( c )" := (Diagonal 1 c) (at level 90, format "=( c )") : functor_scope.
 
-Notation "=( c )" := (Const c) (at level 90, format "=( c )") : functor_scope.
+Definition Δ {C J : Category} := @Diagonal C J.
 
 (* Wikipedia: "In category theory, a branch of mathematics, the diagonal
    functor C → C × C is given by Δ(a) = ⟨a, a⟩, which maps objects as well as
@@ -59,7 +59,7 @@ Proof.
   reflexivity.
 Qed.
 
-Instance Transform_Const `(x ~{C}~> y) : =(x) ⟹ =(y).
+Instance Transform_Const `(x ~{C}~> y) : Δ(x) ⟹ Δ(y).
 Proof.
   construct; auto; cat_simpl.
 Qed.
