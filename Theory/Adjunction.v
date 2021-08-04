@@ -243,9 +243,86 @@ Notation "F ⊣ G" := (@Adjunction _ _ F G) (at level 59) : category_scope.
 Notation "adj[ A ]" := (@adj _ _ _ _ A _ _)
   (at level 9, format "adj[ A ]") : morphism_scope.
 
-(* jww (2017-06-02): TODO *)
 (* Wikipedia: "If the functor F : C ← D has two right adjoints G and G', then
    G and G' are naturally isomorphic. The same is true for left adjoints." *)
+
+Theorem right_adjoint_iso `(F : C ⟶ D) (G G' : D ⟶ C) :
+  F ⊣ G → F ⊣ G' → G ≈ G'.
+Proof.
+  intros.
+  construct.
+  - isomorphism.
+    + apply adj; simpl.
+      apply X; simpl.
+      exact id.
+    + apply adj; simpl.
+      apply X0; simpl.
+      exact id.
+    + simpl.
+      rewrite <- to_adj_nat_l.
+      rewrite <- from_adj_nat_l.
+      rewrite id_left.
+      rewrite to_adj_comp_law.
+      rewrite from_adj_comp_law.
+      reflexivity.
+    + simpl.
+      rewrite <- to_adj_nat_l.
+      rewrite <- from_adj_nat_l.
+      rewrite id_left.
+      rewrite to_adj_comp_law.
+      rewrite from_adj_comp_law.
+      reflexivity.
+  - simpl.
+    rewrite <- to_adj_nat_l.
+    rewrite <- from_adj_nat_l.
+    rewrite id_left.
+    rewrite <- to_adj_nat_l.
+    rewrite <- from_adj_nat_l.
+    rewrite <- to_adj_nat_r.
+    rewrite <- from_adj_nat_r.
+    rewrite id_right.
+    rewrite to_adj_comp_law.
+    rewrite from_adj_comp_law.
+    reflexivity.
+Qed.
+
+Theorem left_adjoint_iso `(G : D ⟶ C) (F F' : C ⟶ D) :
+  F ⊣ G → F' ⊣ G → F ≈ F'.
+Proof.
+  intros.
+  construct.
+  - isomorphism.
+    + apply adj; simpl.
+      apply X0; simpl.
+      exact id.
+    + apply adj; simpl.
+      apply X; simpl.
+      exact id.
+    + simpl.
+      rewrite <- from_adj_nat_r.
+      rewrite <- to_adj_nat_r.
+      rewrite id_right.
+      rewrite from_adj_comp_law.
+      rewrite to_adj_comp_law.
+      reflexivity.
+    + simpl.
+      rewrite <- from_adj_nat_r.
+      rewrite <- to_adj_nat_r.
+      rewrite id_right.
+      rewrite from_adj_comp_law.
+      rewrite to_adj_comp_law.
+      reflexivity.
+  - simpl.
+    rewrite <- from_adj_nat_r.
+    rewrite <- to_adj_nat_r.
+    rewrite id_right.
+    rewrite <- from_adj_nat_l.
+    rewrite <- to_adj_nat_l.
+    rewrite id_left.
+    rewrite from_adj_comp_law.
+    rewrite to_adj_comp_law.
+    reflexivity.
+Qed.
 
 (* jww (2017-06-02): TODO *)
 (* Wikipedia: "The most important property of adjoints is their continuity:
