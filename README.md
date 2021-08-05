@@ -127,7 +127,8 @@ texts on category theory. Some of the key notations are:
  - `f ∘[Cat] g`: composition can specify the intended category, as an aid to
    type inference
  - `f ○ g`: a larger hollow circle is composition of functors
- - `f ⊙ g`: a larger circle with a dot is composition of natural
+ - `f ⊙ g`: a larger circle with a dot is composition of isomorphisms
+ - `f ∙ g`: a solid composition dot is composition of natural
    transformations
  - `f ⊚ g`: a larger circle with a smaller circle is composition of
    adjunctions
