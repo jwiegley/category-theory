@@ -107,13 +107,3 @@ Next Obligation.
 Qed.
 
 Notation "F ⊳ N" := (whisker_left F N) (at level 10).
-
-(* jww (2017-06-02): TODO *)
-(* Wikipedia: "Natural transformations also have a "horizontal composition".
-   If η : F → G is a natural transformation between functors F,G : C → D and ε
-   : J → K is a natural transformation between functors J,K : D → E, then the
-   composition of functors allows a composition of natural transformations εη
-   : JF → KG. This operation is also associative with identity, and the
-   identity coincides with that for vertical composition. The two operations
-   are related by an identity which exchanges vertical composition with
-   horizontal composition." *)

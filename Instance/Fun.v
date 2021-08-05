@@ -64,6 +64,37 @@ Global Program Definition nat_compose_respects
   Proper (equiv ==> equiv ==> equiv) (@nat_compose F G K).
 Proof. proper. Qed.
 
+(* Wikipedia: "Natural transformations also have a "horizontal composition".
+   If η : F → G is a natural transformation between functors F,G : C → D and ε
+   : J → K is a natural transformation between functors J,K : D → E, then the
+   composition of functors allows a composition of natural transformations
+   ε ∘ η : J ◯ F → K ◯ G. This operation is also associative with identity,
+   and the identity coincides with that for vertical composition. The two
+   operations are related by an identity which exchanges vertical composition
+   with horizontal composition." *)
+
+Global Program Definition nat_hcompose {E} {F G : C ⟶ D} {J K : D ⟶ E}
+  (ε : J ⟹ K) (η : F ⟹ G) : J ◯ F ⟹ K ◯ G := {|
+  transform := fun x => transform[ε] (fobj[G] x) ∘ fmap[J] (transform[η] x)
+|}.
+Next Obligation.
+  rewrite <- naturality.
+  rewrite <- comp_assoc.
+  rewrite comp_assoc.
+  rewrite <- !fmap_comp.
+  rewrite !naturality.
+  reflexivity.
+Qed.
+Next Obligation.
+  rewrite <- !naturality.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite !naturality.
+  rewrite <- comp_assoc.
+  rewrite <- fmap_comp.
+  reflexivity.
+Qed.
+
 (* Fun is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
 
