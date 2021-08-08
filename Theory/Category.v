@@ -79,7 +79,9 @@ Arguments dom {_%category _%object _%object} _%morphism.
 Arguments cod {_%category _%object _%object} _%morphism.
 
 Notation "obj[ C ]" := (@obj C%category)
-  (at level 0, format "obj[ C ]") : object_scope.
+  (at level 0, format "obj[ C ]") : type_scope.
+Notation "hom[ C ]" := (@hom C%category)
+  (at level 0, format "hom[ C ]") : type_scope.
 
 Notation "x ~> y" := (@hom _%category x%object y%object)
   (at level 90, right associativity) : homset_scope.
