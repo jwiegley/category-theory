@@ -180,6 +180,10 @@ Next Obligation.
     reflexivity.
 Qed.
 
+Corollary fobj_Compose `(F : D ⟶ E) `(G : C ⟶ D) {x} :
+  fobj[F ◯ G] x = fobj[F] (fobj[G] x).
+Proof. reflexivity. Defined.
+
 Class Full `(F : C ⟶ D) := {
   prefmap {x y} (g : F x ~> F y) : x ~> y;
 
