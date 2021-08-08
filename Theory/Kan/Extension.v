@@ -1,5 +1,6 @@
 Set Warnings "-notation-overridden".
 Set Warnings "-deprecated-hint-without-locality".
+Set Warnings "-unexpected-implicit-declaration".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
@@ -168,9 +169,124 @@ Arguments Lan {_ _} F {_ _}.
 Arguments LocalLeftKan {_ _} F {_} _.
 Arguments LocalLan {_ _} F {_} _ {_}.
 
-(* jww (2017-06-02): TODO *)
-(* A functor F : C → D possesses a left adjoint if and only if the right Kan
-   extension of Id : C → C along F exists and is preserved by F. In this case,
-   a left adjoint is given by Ran F Id and this Kan extension is even
-   preserved by any functor C → E whatsoever, i.e. is an absolute Kan
-   extension. *)
+(** From “All Concepts are Kan Extensions”, by Marina Christina Lehner:
+
+    "A functor preserves a Kan extension when composing then extending is
+    equivalent to extending then composing." *)
+
+Definition preserves_left_Kan `(L : E ⟶ F) :=
+  ∀ {C} (G : C ⟶ E) {D} (K : C ⟶ D)
+    `{@LeftKan _ _ K E} `{@LeftKan _ _ K F}, L ◯ Lan K G ≈ Lan K (L ◯ G).
+
+Definition preserves_right_Kan `(R : E ⟶ F) :=
+  ∀ {C} (G : C ⟶ E) {D} (K : C ⟶ D)
+    `{@RightKan _ _ K E} `{@RightKan _ _ K F}, R ◯ Ran K G ≈ Ran K (R ◯ G).
+
+(** "We show that left adjoints preserve left Kan extensions, while right
+    adjoints will preserve right adjoints [sic]. These connections with
+    adjoints run deeper. We will show an adjoint functor theorem which says
+    the existence of an adjoint is conditional on a functor having and
+    preserving certain Kan extensions." *)
+
+(** jww (2021-08-07): TODO *)
+Theorem left_adjoint_impl `(L : C ⟶ D) :
+  ∀ R : D ⟶ C, L ⊣ R ->
+  ∀ {E} (G : E ⟶ C) (H : E ⟶ D),
+    [[[E,D]]](L ◯ G, H) ≊ [[[E,C]]](G, R ◯ H).
+Proof.
+  intros.
+  simpl.
+  isomorphism; simpl.
+  - construct.
+    + transform.
+      * intros.
+        apply X; simpl.
+        now apply X0.
+      * simpl.
+        rewrite <- to_adj_nat_l.
+        rewrite <- to_adj_nat_r.
+        now srewrite (naturality[X0]).
+      * simpl.
+        rewrite <- to_adj_nat_l.
+        rewrite <- to_adj_nat_r.
+        now srewrite (naturality[X0]).
+    + simpl.
+      proper.
+      apply to_adj_respects.
+      now apply X0.
+  - construct.
+    + transform.
+      * intros.
+        apply X; simpl.
+        now apply X0.
+      * simpl.
+        rewrite <- from_adj_nat_l.
+        rewrite <- from_adj_nat_r.
+        now srewrite (naturality[X0]).
+      * simpl.
+        rewrite <- from_adj_nat_l.
+        rewrite <- from_adj_nat_r.
+        now srewrite (naturality[X0]).
+    + simpl.
+      proper.
+      apply from_adj_respects.
+      now apply X0.
+  - simpl.
+    now apply from_adj_comp_law.
+  - simpl.
+    now apply to_adj_comp_law.
+Qed.
+
+Theorem left_adjoints_preserve `(L : C ⟶ D) :
+  ∀ R : D ⟶ C, L ⊣ R -> preserves_left_Kan L.
+Proof.
+  intros.
+  construct.
+  - isomorphism.
+    + apply X; simpl.
+      rewrite <- fobj_Compose.
+      apply H; simpl.
+      spose (left_adjoint_impl _ _ X G (Lan K (L ◯ G) ◯ K)) as X0.
+      transitivity (R ◯ (Lan K (L ◯ G) ◯ K)).
+        apply (to X0); simpl.
+        apply H0; simpl.
+        exact nat_id.
+      now apply fun_comp_assoc.
+    + rewrite <- fobj_Compose.
+      apply H0; simpl.
+      spose (left_adjoint_impl _ _ X G (L ◯ Lan K G ◯ K)) as X0.
+      apply X0; simpl; clear X0.
+      transitivity (R ◯ L ◯ fobj[Lan _] G ◯ K). {
+        apply H; simpl.
+        transform.
+        - intros.
+          apply unit.
+        - simpl.
+          unfold unit.
+          rewrite <- to_adj_nat_l.
+          rewrite <- to_adj_nat_r.
+          rewrite id_left, id_right.
+          reflexivity.
+        - simpl.
+          unfold unit.
+          rewrite <- to_adj_nat_l.
+          rewrite <- to_adj_nat_r.
+          rewrite id_left, id_right.
+          reflexivity.
+      }
+      pose proof (@fun_comp_assoc_sym _ _ _ _ R L (Lan K G ◯ K)).
+      pose proof (@fun_comp_assoc_sym _ _ _ _ R (L ◯ Lan K G) K).
+      pose proof (@fun_comp_assoc_sym _ _ _ _ (R ◯ L) (Lan K G) K).
+      transitivity ((R ◯ L) ◯ ((fobj[Lan _] G) ◯ K)); auto.
+      transitivity (R ◯ (L ◯ ((fobj[Lan _] G) ◯ K))); auto.
+      transitivity (R ◯ ((L ◯ (fobj[Lan _] G)) ◯ K)).
+        apply whisker_left.
+        apply fun_comp_assoc.
+      exact nat_id.
+    + simpl.
+      admit.
+    + simpl.
+      admit.
+  - simpl.
+    admit.
+Abort.
