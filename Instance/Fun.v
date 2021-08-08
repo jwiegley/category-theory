@@ -3,6 +3,7 @@ Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Natural.Transformation.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -34,34 +35,9 @@ Global Program Instance nat_Setoid {F : C ⟶ D} {G : C ⟶ D} :
   setoid_equiv := nat_equiv_equivalence
 }.
 
-Global Program Definition nat_id {F : C ⟶ D} : F ⟹ F := {|
-  transform := fun X => fmap (@id C X)
-|}.
-
-Hint Unfold nat_id : core.
-
-Global Program Definition nat_compose {F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
-  (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
-  transform := fun X => transform[f] X ∘ transform[g] X
-|}.
-Next Obligation.
-  rewrite comp_assoc.
-  rewrite naturality.
-  rewrite <- comp_assoc.
-  rewrite naturality.
-  rewrite comp_assoc.
-  reflexivity.
-Qed.
-Next Obligation.
-  symmetry.
-  apply nat_compose_obligation_1.
-Qed.
-
-Hint Unfold nat_compose : core.
-
-Global Program Definition nat_compose_respects
-       {F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} :
-  Proper (equiv ==> equiv ==> equiv) (@nat_compose F G K).
+Program Definition nat_compose_respects
+        `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} :
+  Proper (equiv ==> equiv ==> equiv) (@nat_compose C D F G K).
 Proof. proper. Qed.
 
 (* Wikipedia: "Natural transformations also have a "horizontal composition".
@@ -101,8 +77,8 @@ Qed.
 Global Program Definition Fun : Category := {|
   obj     := C ⟶ D;
   hom     := @Transform C D;
-  id      := @nat_id;
-  compose := @nat_compose;
+  id      := @nat_id C D;
+  compose := @nat_compose C D;
 
   compose_respects := @nat_compose_respects
 |}.
@@ -111,6 +87,10 @@ End Fun.
 
 Notation "[ C , D ]" := (@Fun C D)
   (at level 90, right associativity, format "[ C ,  D ]") : category_scope.
+
+Notation "[[[ C , D ]]]( F , G )" := ({| carrier   := @hom (@Fun C D) F G
+                                       ; is_setoid := @homset (@Fun C D) F G |})
+  (at level 90, right associativity, format "[[[ C ,  D ]]]( F , G )") : homset_scope.
 
 Notation "F ∙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
 

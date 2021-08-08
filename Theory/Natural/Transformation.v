@@ -107,3 +107,74 @@ Next Obligation.
 Qed.
 
 Notation "F ⊳ N" := (whisker_left F N) (at level 10).
+
+Global Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
+  transform := fun X => fmap (@id C X)
+|}.
+
+Hint Unfold nat_id : core.
+
+Program Instance Transform_reflexive {C D : Category} :
+  Reflexive (@Transform C D) :=
+  fun _ => nat_id.
+
+Global Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
+  (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
+  transform := fun X => transform[f] X ∘ transform[g] X
+|}.
+Next Obligation.
+  rewrite comp_assoc.
+  rewrite naturality.
+  rewrite <- comp_assoc.
+  rewrite naturality.
+  rewrite comp_assoc.
+  reflexivity.
+Qed.
+Next Obligation.
+  symmetry.
+  apply nat_compose_obligation_1.
+Qed.
+
+Hint Unfold nat_compose : core.
+
+Program Instance Transform_transitive {C E : Category} :
+  Transitive (@Transform C E) :=
+  fun _ _ _ f g => nat_compose g f.
+
+Program Instance Transform_respects {C D : Category} :
+  Proper (@Transform C D --> @Transform C D ==> Basics.arrow) (@Transform C D).
+Next Obligation.
+  proper.
+  unfold Basics.flip in X.
+  transitivity x0; auto.
+  transitivity x; auto.
+Qed.
+
+Program Instance Compose_Transform_respects {C D E : Category} :
+  Proper (@Transform D E ==> @Transform C D ==> @Transform C E) (@Compose C D E).
+Next Obligation.
+  proper.
+  transform; simpl; intros.
+  - destruct X, X0; simpl in *.
+    exact (fmap (transform1 x1) ∘ transform0 (fobj[x0] x1)).
+  - simpl.
+    rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite naturality.
+    rewrite naturality.
+    rewrite naturality.
+    rewrite fmap_comp.
+    cat.
+  - simpl.
+    rewrite comp_assoc.
+    rewrite <- fmap_comp.
+    rewrite naturality.
+    rewrite naturality.
+    rewrite naturality.
+    rewrite fmap_comp.
+    cat.
+Qed.
+
+(** jww (2021-08-07): Get rewriting to work whenever there is a function F ⟶
+    G, or a natural transformation F ⟹ G, treating it as an implication.
+    Likewise F ≅ G should rewrite as if it were an equivalence. *)
