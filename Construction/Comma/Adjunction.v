@@ -185,8 +185,8 @@ Next Obligation.
   construct.
   - exact (fmap[φ E] (to X)).
   - exact (fmap[φ E] (from X)).
-  - exact (iso_to_from (@fmap_iso _ _ (φ E) _ _ X)).
-  - exact (iso_from_to (@fmap_iso _ _ (φ E) _ _ X)).
+  - exact (iso_to_from (@fobj_iso _ _ (φ E) _ _ X)).
+  - exact (iso_from_to (@fobj_iso _ _ (φ E) _ _ X)).
 Qed.
 
 Program Instance from_lawvere_iso_Proper :
@@ -197,8 +197,8 @@ Next Obligation.
   construct.
   - exact (fmap[ψ E] (to X)).
   - exact (fmap[ψ E] (from X)).
-  - exact (iso_to_from (@fmap_iso _ _ (ψ E) _ _ X)).
-  - exact (iso_from_to (@fmap_iso _ _ (ψ E) _ _ X)).
+  - exact (iso_to_from (@fobj_iso _ _ (ψ E) _ _ X)).
+  - exact (iso_from_to (@fobj_iso _ _ (ψ E) _ _ X)).
 Qed.
 
 Program Instance lawvere_to_Proper {a b} :
@@ -349,7 +349,7 @@ Lemma lawvere_iso_from_to {a b} (f : F a ~> b) :
   ψ E (φ E ((a, b); f)) ≅ ((a, b); ψ' E (φ' E f)).
 Proof.
   refine (iso_compose (lawvere_iso_from (φ' E f)) _).
-  apply fmap_iso.
+  apply fobj_iso.
   now apply lawvere_iso_to.
 Defined.
 
@@ -357,7 +357,7 @@ Definition lawvere_iso_to_from {a b} (g : a ~> G b) :
   φ E (ψ E ((a, b); g)) ≅ ((a, b); φ' E (ψ' E g)).
 Proof.
   refine (iso_compose (lawvere_iso_to (ψ' E g)) _).
-  apply fmap_iso.
+  apply fobj_iso.
   now apply lawvere_iso_from.
 Defined.
 

@@ -32,7 +32,7 @@ Global Program Instance Compose_MonoidalFunctor
        `(M : @MonoidalFunctor D E _ _ F)
        `(N : @MonoidalFunctor C D _ _ G) :
   `{@MonoidalFunctor C E _ _ (F ◯ G)} := {
-  pure_iso := iso_compose (fmap_iso F _ _ (@pure_iso _ _ _ _ G _))
+  pure_iso := iso_compose (fobj_iso F _ _ (@pure_iso _ _ _ _ G _))
                           (@pure_iso _ _ _ _ F _);
   ap_functor_iso :=
     {| to   := {| transform := fun p =>
@@ -147,26 +147,26 @@ Next Obligation.
   transitivity (F (I ⨂ G x))%object.
     transitivity (F (G x)).
       apply unit_left.
-    apply fmap_iso.
+    apply fobj_iso.
     symmetry.
     apply unit_left.
-  apply fmap_iso.
+  apply fobj_iso.
   apply pure_iso_left.
 Qed.
 Next Obligation.
   transitivity (F (G x ⨂ I))%object.
     transitivity (F (G x))%object.
       apply unit_right.
-    apply fmap_iso.
+    apply fobj_iso.
     symmetry.
     apply unit_right.
-  apply fmap_iso.
+  apply fobj_iso.
   apply pure_iso_right.
 Qed.
 Next Obligation.
   transitivity (F (G x ⨂ G y ⨂ G z))%object.
     apply ap_iso_assoc.
-  apply fmap_iso.
+  apply fobj_iso.
   transitivity ((G x ⨂ G y) ⨂ G z)%object.
     symmetry.
     apply tensor_assoc.
@@ -189,7 +189,7 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite <- bimap_comp.
   rewrite id_right.
-  unfold fmap_iso; simpl.
+  unfold fobj_iso; simpl.
   rewrite fmap_id.
   reflexivity.
 Qed.
@@ -210,7 +210,7 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite <- bimap_comp.
   rewrite id_right.
-  unfold fmap_iso; simpl.
+  unfold fobj_iso; simpl.
   rewrite fmap_id.
   reflexivity.
 Qed.
@@ -296,26 +296,26 @@ Next Obligation.
   transitivity (F (I ⨂ G x))%object.
     transitivity (F (G x)).
       apply unit_left.
-    apply fmap_iso.
+    apply fobj_iso.
     symmetry.
     apply unit_left.
-  apply fmap_iso.
+  apply fobj_iso.
   apply pure_left.
 Qed.
 Next Obligation.
   transitivity (F (G x ⨂ I))%object.
     transitivity (F (G x)).
       apply unit_right.
-    apply fmap_iso.
+    apply fobj_iso.
     symmetry.
     apply unit_right.
-  apply fmap_iso.
+  apply fobj_iso.
   apply pure_right.
 Qed.
 Next Obligation.
   transitivity (F (G x ⨂ G y ⨂ G z))%object.
     apply ap_assoc.
-  apply fmap_iso.
+  apply fobj_iso.
   transitivity ((G x ⨂ G y) ⨂ G z)%object.
     symmetry.
     apply tensor_assoc.
@@ -338,7 +338,7 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite <- bimap_comp.
   rewrite id_right.
-  unfold fmap_iso; simpl.
+  unfold fobj_iso; simpl.
   rewrite fmap_id.
   reflexivity.
 Qed.
@@ -359,7 +359,7 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite <- bimap_comp.
   rewrite id_right.
-  unfold fmap_iso; simpl.
+  unfold fobj_iso; simpl.
   rewrite fmap_id.
   reflexivity.
 Qed.
