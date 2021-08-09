@@ -23,7 +23,7 @@ Local Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 Program Definition Composition_Monoidal {C : Category} :
   @Monoidal ([C, C]) := {|
   tensor :=
-    {| fobj := fun p => Compose (fst p) (snd p)
+    {| fobj := fun p => fst p ◯ snd p
      ; fmap := fun F G N =>
          {| transform := fun x =>
               fst N (snd G x) ∘ fmap[fst F] (snd N x) |}
