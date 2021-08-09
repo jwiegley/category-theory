@@ -129,21 +129,16 @@ Definition Build_Category'
            {obj} hom {homset} id compose
            {compose_respects}
            {id_left id_right comp_assoc} :=
-  {| obj := obj;
-
-     hom := hom;
-     homset := homset;
-
-     id := id;
-     compose := compose;
-
+  {| obj              := obj;
+     hom              := hom;
+     homset           := homset;
+     id               := id;
+     compose          := compose;
      compose_respects := compose_respects;
-
-     id_left  := id_left;
-     id_right := id_right;
-
-     comp_assoc := comp_assoc;
-     comp_assoc_sym :=
+     id_left          := id_left;
+     id_right         := id_right;
+     comp_assoc       := comp_assoc;
+     comp_assoc_sym   :=
        fun _ _ _ _ _ _ _ => symmetry (@comp_assoc _ _ _ _ _ _ _);
   |}.
 
