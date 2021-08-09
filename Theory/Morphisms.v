@@ -126,21 +126,21 @@ End Lemmas.
 Ltac reassociate_left  := repeat (rewrite <- comp_assoc); cat.
 Ltac reassociate_right := repeat (rewrite comp_assoc); cat.
 
-Definition epi_compose {x y z : C}
-           `(ef : @Epic y z f) `(eg : @Epic x y g) : Epic (f ∘ g).
+Definition epi_compose {x y z : C} {f : y ~> z} {g : x ~> y} :
+  Epic f -> Epic g -> Epic (f ∘ g).
 Proof.
-  autounfold; intros.
-  destruct ef, eg.
+  autounfold; intros X Y.
+  destruct X, Y.
   constructor; intros.
   apply epic0, epic1.
   reassociate_left.
 Qed.
 
-Definition monic_compose {x y z : C}
-           `(ef : @Monic y z f) `(eg : @Monic x y g) : Monic (f ∘ g).
+Definition monic_compose {x y z : C} {f : y ~> z} {g : x ~> y} :
+  Monic f -> Monic g -> Monic (f ∘ g).
 Proof.
-  autounfold; intros.
-  destruct ef, eg.
+  autounfold; intros X Y.
+  destruct X, Y.
   constructor; intros.
   apply monic1, monic0.
   reassociate_right.
