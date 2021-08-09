@@ -112,8 +112,8 @@ Ltac constructive :=
                      | exists iso; intros ]
   end.
 
-Program Instance fmap_iso `(F : C ⟶ D) :
-  Proper (Isomorphism ==> Isomorphism) F.
+Program Instance fobj_iso `(F : C ⟶ D) :
+  Proper (Isomorphism ==> Isomorphism) (fobj[F]).
 Next Obligation.
   proper.
   refine {| to   := fmap[F] (to X)
@@ -125,7 +125,7 @@ Next Obligation.
 Defined.
 
 Instance fobj_respects `(F : C ⟶ D) :
-  Proper (equiv ==> equiv) (@fobj C D F) := @fmap_iso C D F.
+  Proper (equiv ==> equiv) (@fobj C D F) := @fobj_iso C D F.
 
 Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
 
