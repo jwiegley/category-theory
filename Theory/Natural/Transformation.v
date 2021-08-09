@@ -84,10 +84,10 @@ Proof. transform; simpl; intros; cat. Qed.
 
 Program Definition whisker_right {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
         {E : Category} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {|
-  transform := fun x => N (X x);
+  transform := λ x, N (X x);
 
-  naturality     := fun _ _ _ => naturality;
-  naturality_sym := fun _ _ _ => naturality_sym
+  naturality     := λ _ _ _, naturality;
+  naturality_sym := λ _ _ _, naturality_sym
 |}.
 
 Notation "N ⊲ F" := (whisker_right N F) (at level 10).
@@ -95,7 +95,7 @@ Notation "N ⊲ F" := (whisker_right N F) (at level 10).
 Program Definition whisker_left {C D : Category}
         {E : Category} (X : D ⟶ E)
         {F G : C ⟶ D} `(N : F ⟹ G) : X ◯ F ⟹ X ◯ G := {|
-  transform := fun x => fmap[X] (N x)
+  transform := λ x, fmap[X] (N x)
 |}.
 Next Obligation.
   simpl; rewrite <- !fmap_comp;
@@ -108,19 +108,18 @@ Qed.
 
 Notation "F ⊳ N" := (whisker_left F N) (at level 10).
 
-Global Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
-  transform := fun X => fmap (@id C X)
+Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
+  transform := λ X, fmap (@id C X)
 |}.
 
 Hint Unfold nat_id : core.
 
 Program Instance Transform_reflexive {C D : Category} :
-  Reflexive (@Transform C D) :=
-  fun _ => nat_id.
+  Reflexive (@Transform C D) := λ _, nat_id.
 
-Global Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
+Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
   (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
-  transform := fun X => transform[f] X ∘ transform[g] X
+  transform := λ X, transform[f] X ∘ transform[g] X
 |}.
 Next Obligation.
   rewrite comp_assoc.
@@ -137,42 +136,41 @@ Qed.
 
 Hint Unfold nat_compose : core.
 
+(* jww (2021-08-08): Having this here causes the first Qed below to trigger an
+   anamoly. *)
+(* Unset Universe Polymorphism. *)
+
 Program Instance Transform_transitive {C E : Category} :
   Transitive (@Transform C E) :=
-  fun _ _ _ f g => nat_compose g f.
+  λ _ _ _ f g, nat_compose g f.
 
 Program Instance Transform_respects {C D : Category} :
-  Proper (@Transform C D --> @Transform C D ==> Basics.arrow) (@Transform C D).
-Next Obligation.
-  proper.
-  unfold Basics.flip in X.
-  transitivity x0; auto.
-  transitivity x; auto.
-Qed.
+  Proper ((λ F G, G ⟹ F) ==> @Transform C D ==> Basics.arrow) (@Transform C D) :=
+  λ _ _ F _ _ G H, nat_compose G (nat_compose H F).
 
 Program Instance Compose_Transform_respects {C D E : Category} :
-  Proper (@Transform D E ==> @Transform C D ==> @Transform C E) (@Compose C D E).
+  Proper (@Transform D E ==> @Transform C D ==> @Transform C E) (@Compose C D E) :=
+  λ _ F M G _ N,
+    {| transform := λ x, fmap[F] (transform[N] x) ∘ transform[M] (G x) |}.
 Next Obligation.
-  proper.
-  transform; simpl; intros.
-  - destruct X, X0; simpl in *.
-    exact (fmap (transform1 x1) ∘ transform0 (fobj[x0] x1)).
-  - simpl.
-    rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite naturality.
-    rewrite naturality.
-    rewrite naturality.
-    rewrite fmap_comp.
-    cat.
-  - simpl.
-    rewrite comp_assoc.
-    rewrite <- fmap_comp.
-    rewrite naturality.
-    rewrite naturality.
-    rewrite naturality.
-    rewrite fmap_comp.
-    cat.
+  simpl.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite naturality.
+  rewrite naturality.
+  rewrite naturality.
+  rewrite fmap_comp.
+  cat.
+Qed.
+Next Obligation.
+  simpl.
+  rewrite comp_assoc.
+  rewrite <- fmap_comp.
+  rewrite naturality.
+  rewrite naturality.
+  rewrite naturality.
+  rewrite fmap_comp.
+  cat.
 Qed.
 
 (** jww (2021-08-07): Get rewriting to work whenever there is a function F ⟶
