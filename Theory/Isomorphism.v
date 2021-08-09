@@ -71,21 +71,23 @@ Next Obligation.
   apply iso_from_to.
 Defined.
 
-Global Program Instance isomorphism_equivalence : Equivalence Isomorphism := {
+Global Program Instance iso_equivalence : Equivalence Isomorphism := {
   Equivalence_Reflexive  := @iso_id;
   Equivalence_Symmetric  := @iso_sym;
   Equivalence_Transitive := fun _ _ _ g f => iso_compose f g
 }.
 
-Definition ob_equiv : crelation C := fun x y => x ≅ y.
+Definition ob_equiv : crelation C := Isomorphism.
 
-Global Program Instance ob_setoid : Setoid C.
+Global Instance ob_setoid : Setoid C :=
+  {| equiv := Isomorphism
+   ; setoid_equiv := iso_equivalence |}.
 
-Definition isomorphism_equiv {x y : C} : crelation (x ≅ y) :=
+Definition iso_equiv {x y : C} : crelation (x ≅ y) :=
   fun f g => (to f ≈ to g) * (from f ≈ from g).
 
-Global Program Instance isomorphism_equiv_equivalence {x y : C} :
-  Equivalence (@isomorphism_equiv x y).
+Global Program Instance iso_equiv_equivalence {x y : C} :
+  Equivalence (@iso_equiv x y).
 Next Obligation. now firstorder. Qed.
 Next Obligation. now firstorder. Qed.
 Next Obligation.
@@ -95,14 +97,14 @@ Next Obligation.
             | now transitivity (from y0) ].
 Qed.
 
-Global Program Instance isomorphism_setoid {x y : C} : Setoid (x ≅ y) := {
-  equiv := isomorphism_equiv;
-  setoid_equiv := isomorphism_equiv_equivalence
+Global Instance iso_setoid {x y : C} : Setoid (x ≅ y) := {
+  equiv := iso_equiv;
+  setoid_equiv := iso_equiv_equivalence
 }.
 
 Local Obligation Tactic := program_simpl.
 
-Global Program Instance Isomorphism_Proper :
+Global Program Instance Iso_Proper :
   Proper (Isomorphism ==> Isomorphism ==> iffT) Isomorphism.
 Next Obligation.
   proper.
@@ -113,7 +115,8 @@ Next Obligation.
   exact (iso_sym X0).
 Defined.
 
-Global Program Instance Isomorphism_flip_Proper :
+(*
+Global Program Instance Iso_flip_Proper :
   Proper (Isomorphism ==> Isomorphism ==> Basics.flip iffT) Isomorphism.
 Next Obligation.
   unfold Basics.flip.
@@ -124,6 +127,7 @@ Next Obligation.
   refine (iso_compose _ (iso_sym X)).
   exact (iso_compose _ X1).
 Defined.
+*)
 
 Goal forall {F G K} (f : G ≅ K) (g : F ≅ G), F ≅ K.
 Proof.
@@ -153,7 +157,7 @@ Coercion to : Isomorphism >-> hom.
 
 Notation "f '⁻¹'" := (from f) (at level 9, format "f '⁻¹'") : morphism_scope.
 
-Hint Unfold isomorphism_equiv : core.
+Hint Unfold iso_equiv : core.
 
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).

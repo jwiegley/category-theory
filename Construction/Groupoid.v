@@ -16,7 +16,7 @@ Unset Transparent Obligations.
 Program Definition Groupoid (C : Category) : Category := {|
   obj     := @obj C;
   hom     := @Isomorphism C;
-  homset  := @isomorphism_setoid C;
+  homset  := @iso_setoid C;
   id      := @iso_id C;
   compose := @iso_compose C
 |}.
