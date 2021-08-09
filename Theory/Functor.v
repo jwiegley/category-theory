@@ -104,6 +104,30 @@ Next Obligation.
     apply e0.
 Qed.
 
+Lemma fun_equiv_to_fmap {C D : Category} {F G : C ⟶ D} (eqv : F ≈ G) :
+  ∀ (x y : C) (f : x ~> y),
+    to (``eqv y) ∘ fmap[F] f ≈ fmap[G] f ∘ to (``eqv x).
+Proof.
+  intros.
+  rewrite <- id_right.
+  rewrite ((`2 eqv) _ _).
+  rewrite !comp_assoc.
+  rewrite iso_to_from.
+  now cat.
+Qed.
+
+Lemma fun_equiv_fmap_from {C D : Category} {F G : C ⟶ D} (eqv : F ≈ G) :
+  ∀ (x y : C) (f : x ~> y),
+    fmap[F] f ∘ from (``eqv x) ≈ from (``eqv y) ∘ fmap[G] f.
+Proof.
+  intros.
+  rewrite <- id_left.
+  rewrite ((`2 eqv) _ _).
+  rewrite <- !comp_assoc.
+  rewrite iso_to_from.
+  now cat.
+Qed.
+
 Ltac constructive :=
   simpl;
   match goal with
