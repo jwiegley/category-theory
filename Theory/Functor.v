@@ -138,8 +138,7 @@ Arguments Id {C} /.
 
 Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : functor_scope.
 
-Program Definition Compose
-        {C : Category} {D : Category} {E : Category}
+Program Definition Compose {C D E : Category}
         (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
   fobj := fun x => fobj (fobj x);
   fmap := fun _ _ f => fmap (fmap f)
