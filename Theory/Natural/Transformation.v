@@ -108,6 +108,28 @@ Qed.
 
 Notation "F ⊳ N" := (whisker_left F N) (at level 10).
 
+Program Definition nat_equiv `{F : C ⟶ D} {G : C ⟶ D} : crelation (F ⟹ G) :=
+  fun n m => ∀ A, transform[n] A ≈ transform[m] A.
+
+Hint Unfold nat_equiv : core.
+
+Arguments nat_equiv {_ _ _ _} _ _ /.
+
+Program Definition nat_equiv_equivalence `{F : C ⟶ D} {G : C ⟶ D} :
+  Equivalence (@nat_equiv C D F G).
+Proof.
+  equivalence.
+  transitivity (transform[y] A).
+    apply X.
+  apply X0.
+Qed.
+
+Program Instance nat_Setoid `{F : C ⟶ D} {G : C ⟶ D} :
+  Setoid (F ⟹ G) := {
+  equiv := nat_equiv;
+  setoid_equiv := nat_equiv_equivalence
+}.
+
 Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
   transform := λ X, fmap (@id C X)
 |}.
@@ -131,14 +153,17 @@ Next Obligation.
 Qed.
 Next Obligation.
   symmetry.
-  apply nat_compose_obligation_1.
+  now apply nat_compose_obligation_1.
 Qed.
 
 Hint Unfold nat_compose : core.
 
-(* jww (2021-08-08): Having this here causes the first Qed below to trigger an
-   anamoly. *)
-(* Unset Universe Polymorphism. *)
+Notation "F ∙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
+
+Program Definition nat_compose_respects
+        `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} :
+  Proper (equiv ==> equiv ==> equiv) (@nat_compose C D F G K).
+Proof. proper. Qed.
 
 Program Instance Transform_transitive {C E : Category} :
   Transitive (@Transform C E) :=
@@ -148,8 +173,35 @@ Program Instance Transform_respects {C D : Category} :
   Proper ((λ F G, G ⟹ F) ==> @Transform C D ==> Basics.arrow) (@Transform C D) :=
   λ _ _ F _ _ G H, nat_compose G (nat_compose H F).
 
-Program Instance Compose_Transform_respects {C D E : Category} :
-  Proper (@Transform D E ==> @Transform C D ==> @Transform C E) (@Compose C D E) :=
+(* Wikipedia: "Natural transformations also have a "horizontal composition".
+   If η : F → G is a natural transformation between functors F,G : C → D and ε
+   : J → K is a natural transformation between functors J,K : D → E, then the
+   composition of functors allows a composition of natural transformations
+   ε ∘ η : J ◯ F → K ◯ G. This operation is also associative with identity,
+   and the identity coincides with that for vertical composition. The two
+   operations are related by an identity which exchanges vertical composition
+   with horizontal composition." *)
+
+Program Definition nat_hcompose {C D E} {F G : C ⟶ D} {J K : D ⟶ E}
+  (ε : J ⟹ K) (η : F ⟹ G) : J ◯ F ⟹ K ◯ G := {|
+  transform := fun x => transform[ε] (fobj[G] x) ∘ fmap[J] (transform[η] x)
+|}.
+Next Obligation.
+  rewrite <- naturality.
+  rewrite <- comp_assoc.
+  rewrite comp_assoc.
+  rewrite <- !fmap_comp.
+  rewrite !naturality.
+  reflexivity.
+Qed.
+Next Obligation.
+  symmetry.
+  now apply nat_hcompose_obligation_1.
+Qed.
+
+Program Instance Compose_respects_Transform {C D E : Category} :
+  Proper (@Transform D E ==> @Transform C D ==> @Transform C E)
+         (@Compose C D E) :=
   λ _ F M G _ N,
     {| transform := λ x, fmap[F] (transform[N] x) ∘ transform[M] (G x) |}.
 Next Obligation.
@@ -163,16 +215,16 @@ Next Obligation.
   cat.
 Qed.
 Next Obligation.
-  simpl.
-  rewrite comp_assoc.
-  rewrite <- fmap_comp.
-  rewrite naturality.
-  rewrite naturality.
-  rewrite naturality.
-  rewrite fmap_comp.
-  cat.
+  symmetry.
+  now apply Compose_respects_Transform_obligation_1.
 Qed.
 
 (** jww (2021-08-07): Get rewriting to work whenever there is a function F ⟶
     G, or a natural transformation F ⟹ G, treating it as an implication.
     Likewise F ≅ G should rewrite as if it were an equivalence. *)
+
+(* Goal forall `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} *)
+(*             (f : G ⟹ K) (g : F ⟹ G), F ⟹ K. *)
+(* Proof. *)
+(*   intros. *)
+(*   rewrite g. *)

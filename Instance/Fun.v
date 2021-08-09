@@ -15,62 +15,6 @@ Section Fun.
 Context {C : Category}.
 Context {D : Category}.
 
-Program Definition nat_equiv {F : C ⟶ D} {G : C ⟶ D} : crelation (F ⟹ G) :=
-  fun n m => ∀ A, transform[n] A ≈ transform[m] A.
-
-Hint Unfold nat_equiv : core.
-
-Global Program Definition nat_equiv_equivalence {F : C ⟶ D} {G : C ⟶ D} :
-  Equivalence (@nat_equiv F G).
-Proof.
-  equivalence.
-  transitivity (transform[y] A).
-    apply X.
-  apply X0.
-Qed.
-
-Global Program Instance nat_Setoid {F : C ⟶ D} {G : C ⟶ D} :
-  Setoid (F ⟹ G) := {
-  equiv := nat_equiv;
-  setoid_equiv := nat_equiv_equivalence
-}.
-
-Program Definition nat_compose_respects
-        `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} :
-  Proper (equiv ==> equiv ==> equiv) (@nat_compose C D F G K).
-Proof. proper. Qed.
-
-(* Wikipedia: "Natural transformations also have a "horizontal composition".
-   If η : F → G is a natural transformation between functors F,G : C → D and ε
-   : J → K is a natural transformation between functors J,K : D → E, then the
-   composition of functors allows a composition of natural transformations
-   ε ∘ η : J ◯ F → K ◯ G. This operation is also associative with identity,
-   and the identity coincides with that for vertical composition. The two
-   operations are related by an identity which exchanges vertical composition
-   with horizontal composition." *)
-
-Global Program Definition nat_hcompose {E} {F G : C ⟶ D} {J K : D ⟶ E}
-  (ε : J ⟹ K) (η : F ⟹ G) : J ◯ F ⟹ K ◯ G := {|
-  transform := fun x => transform[ε] (fobj[G] x) ∘ fmap[J] (transform[η] x)
-|}.
-Next Obligation.
-  rewrite <- naturality.
-  rewrite <- comp_assoc.
-  rewrite comp_assoc.
-  rewrite <- !fmap_comp.
-  rewrite !naturality.
-  reflexivity.
-Qed.
-Next Obligation.
-  rewrite <- !naturality.
-  rewrite comp_assoc.
-  rewrite <- fmap_comp.
-  rewrite !naturality.
-  rewrite <- comp_assoc.
-  rewrite <- fmap_comp.
-  reflexivity.
-Qed.
-
 (* Fun is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
 
@@ -80,7 +24,7 @@ Global Program Definition Fun : Category := {|
   id      := @nat_id C D;
   compose := @nat_compose C D;
 
-  compose_respects := @nat_compose_respects
+  compose_respects := @nat_compose_respects C D
 |}.
 
 End Fun.
@@ -91,14 +35,6 @@ Notation "[ C , D ]" := (@Fun C D)
 Notation "[[[ C , D ]]]( F , G )" := ({| carrier   := @hom (@Fun C D) F G
                                        ; is_setoid := @homset (@Fun C D) F G |})
   (at level 90, right associativity, format "[[[ C ,  D ]]]( F , G )") : homset_scope.
-
-Notation "F ∙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
-
-Hint Unfold nat_compose : core.
-Hint Unfold nat_id : core.
-Hint Unfold nat_equiv : core.
-
-Arguments nat_equiv {_ _ _ _} _ _ /.
 
 Corollary nat_id_left C D (F G : C ⟶ D) (N : F ⟹ G) :
   nat_id ∙ N ≈[Fun] N.
