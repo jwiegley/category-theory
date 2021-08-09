@@ -82,32 +82,6 @@ Corollary fun_comp_assoc_sym {C D E B : Category}
           {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : (F ◯ G) ◯ H ⟹ F ◯ (G ◯ H).
 Proof. transform; simpl; intros; cat. Qed.
 
-Program Definition whisker_right {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
-        {E : Category} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {|
-  transform := λ x, N (X x);
-
-  naturality     := λ _ _ _, naturality;
-  naturality_sym := λ _ _ _, naturality_sym
-|}.
-
-Notation "N ⊲ F" := (whisker_right N F) (at level 10).
-
-Program Definition whisker_left {C D : Category}
-        {E : Category} (X : D ⟶ E)
-        {F G : C ⟶ D} `(N : F ⟹ G) : X ◯ F ⟹ X ◯ G := {|
-  transform := λ x, fmap[X] (N x)
-|}.
-Next Obligation.
-  simpl; rewrite <- !fmap_comp;
-  apply fmap_respects, naturality.
-Qed.
-Next Obligation.
-  simpl; rewrite <- !fmap_comp;
-  apply fmap_respects, naturality_sym.
-Qed.
-
-Notation "F ⊳ N" := (whisker_left F N) (at level 10).
-
 Program Definition nat_equiv `{F : C ⟶ D} {G : C ⟶ D} : crelation (F ⟹ G) :=
   fun n m => ∀ A, transform[n] A ≈ transform[m] A.
 
@@ -228,3 +202,29 @@ Qed.
 (* Proof. *)
 (*   intros. *)
 (*   rewrite g. *)
+
+Program Definition whisker_right {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
+        {E : Category} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {|
+  transform := λ x, N (X x);
+
+  naturality     := λ _ _ _, naturality;
+  naturality_sym := λ _ _ _, naturality_sym
+|}.
+
+Notation "N ⊲ F" := (whisker_right N F) (at level 10).
+
+Program Definition whisker_left {C D : Category}
+        {E : Category} (X : D ⟶ E)
+        {F G : C ⟶ D} `(N : F ⟹ G) : X ◯ F ⟹ X ◯ G := {|
+  transform := λ x, fmap[X] (N x)
+|}.
+Next Obligation.
+  simpl; rewrite <- !fmap_comp;
+  apply fmap_respects, naturality.
+Qed.
+Next Obligation.
+  simpl; rewrite <- !fmap_comp;
+  apply fmap_respects, naturality_sym.
+Qed.
+
+Notation "F ⊳ N" := (whisker_left F N) (at level 10).
