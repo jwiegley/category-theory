@@ -115,25 +115,12 @@ Next Obligation.
   exact (iso_sym X0).
 Defined.
 
-(*
-Global Program Instance Iso_flip_Proper :
-  Proper (Isomorphism ==> Isomorphism ==> Basics.flip iffT) Isomorphism.
-Next Obligation.
-  unfold Basics.flip.
-  proper.
-    refine (iso_compose _ X).
-    refine (iso_compose _ X1).
-    exact (iso_sym X0).
-  refine (iso_compose _ (iso_sym X)).
-  exact (iso_compose _ X1).
-Defined.
-*)
-
 Goal forall {F G K} (f : G ≅ K) (g : F ≅ G), F ≅ K.
 Proof.
   intros.
   (* jww (2021-08-09): It should be possible to rewrite here with isomorphism
      acting similarly to an equivalence. *)
+  (* now apply (Iso_Proper _ _ g _ K iso_id). *)
   Fail rewrite g.
 Abort.
 
