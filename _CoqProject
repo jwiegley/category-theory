@@ -11,6 +11,7 @@ Lib/MapDecide.v
 Lib/IList.v
 Lib/Same_set.v
 Theory/Category.v
+Theory/Category/Raw.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
 Theory/Metacategory/DecideExample.v
