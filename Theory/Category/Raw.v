@@ -58,9 +58,15 @@ Definition From_RawCategory
      comp_assoc_sym   :=
        fun _ _ _ _ _ _ _ => symmetry (@comp_assoc _ _ _ _ _ _ _) |}.
 
+Open Scope raw_morphism_scope.
+
 Class Denotation {C : RawCategory} {D : Category} := {
   dobj : C -> D;
   denote {x y : C} (f : x ~>⁻ y) : dobj x ~> dobj y;
+
+  h_id (x : C) : @denote x x r_id ≈ id;
+  h_compose (x y z : C) (f : y ~>⁻ z) (g : x ~>⁻ y) :
+    denote (f ∘⁻ g) ≈ denote f ∘ denote g
 }.
 
 Coercion dobj : Denotation >-> Funclass.
@@ -68,39 +74,28 @@ Coercion dobj : Denotation >-> Funclass.
 Notation "C ⟶⁻ D" := (@Denotation C%raw_category D%category)
   (at level 90, right associativity) : type_scope.
 
-Open Scope raw_morphism_scope.
-
-Class Category_Homomorphism `(F : C ⟶⁻ D) := {
-  Hid (x : C) : @denote _ _ _ x x r_id ≈ id;
-  Hcompose (x y z : C) (f : y ~>⁻ z) (g : x ~>⁻ y) :
-    denote (f ∘⁻ g) ≈ denote f ∘ denote g
-}.
-
-Arguments Category_Homomorphism {C D} F.
-
 Program Definition DerivedEquivalence
         (C : RawCategory) (D : Category)
         (F : C ⟶⁻ D) : ∀ X Y, Setoid (X ~>⁻ Y) := fun X Y =>
   {| equiv := fun f g => denote f ≈ denote g
    ; setoid_equiv := _ |}.
 
-Program Definition LawfulCategory
-        `{F : C ⟶⁻ D} `{@Category_Homomorphism _ _ F} : Category :=
+Program Definition LawfulCategory `{F : C ⟶⁻ D} : Category :=
   @From_RawCategory C (DerivedEquivalence C D F) _ _ _ _.
 Next Obligation.
   proper.
-  rewrite !Hcompose.
+  rewrite !h_compose.
   now rewrite X, X0.
 Qed.
 Next Obligation.
-  rewrite Hcompose, Hid.
+  rewrite h_compose, h_id.
   now cat.
 Qed.
 Next Obligation.
-  rewrite Hcompose, Hid.
+  rewrite h_compose, h_id.
   now cat.
 Qed.
 Next Obligation.
-  rewrite !Hcompose.
+  rewrite !h_compose.
   now cat.
 Qed.
