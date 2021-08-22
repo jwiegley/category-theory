@@ -60,6 +60,11 @@ Definition From_RawCategory
 
 Open Scope raw_morphism_scope.
 
+(** A [Denotation] is a Functor from a lawless "category" to a lawful
+    category. This is enough to establish the laws of the source category via
+    the homomorphisms [h_id] and [h_compose], so long as the equivalences of
+    the source category are defined in terms of the [denote] function. See
+    [DerivedEquivalence] below. *)
 Class Denotation {C : RawCategory} {D : Category} := {
   dobj : C -> D;
   denote {x y : C} (f : x ~>⁻ y) : dobj x ~> dobj y;
@@ -75,27 +80,16 @@ Notation "C ⟶⁻ D" := (@Denotation C%raw_category D%category)
   (at level 90, right associativity) : type_scope.
 
 Program Definition DerivedEquivalence
-        (C : RawCategory) (D : Category)
-        (F : C ⟶⁻ D) : ∀ X Y, Setoid (X ~>⁻ Y) := fun X Y =>
+        `(F : C ⟶⁻ D) : ∀ X Y, Setoid (X ~>⁻ Y) := fun X Y =>
   {| equiv := fun f g => denote f ≈ denote g
    ; setoid_equiv := _ |}.
 
+(** Given a lawless "category", a lawful category, and a denotation from the
+    former to the latter, return a re-definition of the source as a lawful
+    category, by way of that denotation. *)
 Program Definition LawfulCategory `{F : C ⟶⁻ D} : Category :=
-  @From_RawCategory C (DerivedEquivalence C D F) _ _ _ _.
-Next Obligation.
-  proper.
-  rewrite !h_compose.
-  now rewrite X, X0.
-Qed.
-Next Obligation.
-  rewrite h_compose, h_id.
-  now cat.
-Qed.
-Next Obligation.
-  rewrite h_compose, h_id.
-  now cat.
-Qed.
-Next Obligation.
-  rewrite !h_compose.
-  now cat.
-Qed.
+  @From_RawCategory C (DerivedEquivalence F) _ _ _ _.
+Next Obligation. proper; now rewrite !h_compose, X, X0. Qed.
+Next Obligation. rewrite h_compose, h_id; now cat. Qed.
+Next Obligation. rewrite h_compose, h_id; now cat. Qed.
+Next Obligation. rewrite !h_compose; now cat. Qed.
