@@ -9,6 +9,7 @@ Lib/FMapExt.v
 Lib/Nomega.v
 Lib/MapDecide.v
 Lib/IList.v
+Lib/TList.v
 Lib/Same_set.v
 Theory/Category.v
 Theory/Category/Raw.v
@@ -29,6 +30,7 @@ Theory/Kan/Extension.v
 Theory/Universal/Arrow.v
 Theory/Sheaf.v
 Theory/Bicategory.v
+Construction/Free.v
 Construction/Enriched.v
 Construction/Product.v
 Construction/Product/Comma.v

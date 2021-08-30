@@ -12,7 +12,7 @@ Require Export Coq.Classes.CRelationClasses.
 Require Import Coq.Classes.CMorphisms.
 
 Require Import Equations.Equations.
-Require Import Equations.EqDec.
+Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 
 Require Import Category.Lib.
@@ -21,7 +21,9 @@ Inductive tlist {A : Type} (B : A -> A -> Type) : A -> A -> Type :=
   | tnil : forall i : A, tlist B i i
   | tcons : forall i j k : A, B i j -> tlist B j k -> tlist B i k.
 
-Derive Signature Subterm for tlist.
+Derive Signature for tlist.
+Derive NoConfusion for tlist.
+Derive Subterm for tlist.
 Next Obligation.
 Admitted.
 
@@ -233,7 +235,7 @@ Next Obligation.
     constructor.
   rewrite tlist_equiv_equation_4.
   unfold tlist_equiv_clause_4.
-  rewrite eq_dec_refl.
+  rewrite EqDec.peq_dec_refl.
   split.
     apply Equivalence_Reflexive.
   apply IHx.
@@ -246,7 +248,7 @@ Next Obligation.
   rewrite tlist_equiv_equation_4 in *.
   destruct (eq_dec j wildcard0); [|contradiction].
   subst.
-  rewrite eq_dec_refl.
+  rewrite EqDec.peq_dec_refl.
   destruct X.
   split.
     now apply Equivalence_Symmetric.
@@ -263,7 +265,7 @@ Next Obligation.
   destruct (eq_dec j wildcard2); [|contradiction].
   destruct (eq_dec wildcard2 wildcard0); [|contradiction].
   subst.
-  rewrite eq_dec_refl.
+  rewrite EqDec.peq_dec_refl.
   destruct X, X0.
   split.
     transitivity y; auto.
@@ -281,7 +283,7 @@ Next Obligation.
   repeat intro.
   simpl in *.
   rewrite tlist_equiv_equation_4.
-  now rewrite eq_dec_refl.
+  now rewrite EqDec.peq_dec_refl.
 Qed.
 
 Global Program Instance tlist_app_respects {i j k} :
@@ -370,6 +372,8 @@ Lemma tlist_rev_app_distr {i j k} (xs : tlist B i j) (ys : tlist B j k) :
 Proof.
   generalize dependent i.
   induction xs; simpl; intros; auto.
+    rewrite tlist_app_tnil_l.
+    rewrite tlist_rev_equation_1.
     now rewrite tlist_app_tnil_r.
   rewrite <- tlist_app_comm_cons; simpl.
   rewrite !tlist_rev_equation_2.
@@ -630,7 +634,7 @@ Example tlist_find_sublist_nat_ex1 :
     = Some (((0, 1, 100) ::: tnil), ((3, 4, 400) ::: tnil)).
 Proof.
   intros; simpl; simpl_eq.
-  now rewrite !eq_dec_refl.
+  now rewrite !EqDec.peq_dec_refl.
 Qed.
 
 Reserved Infix "<+>" (at level 42, right associativity).
