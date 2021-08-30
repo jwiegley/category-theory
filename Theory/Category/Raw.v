@@ -62,9 +62,10 @@ Open Scope raw_morphism_scope.
 
 (** A [Denotation] is a Functor from a lawless "category" to a lawful
     category. This is enough to establish the laws of the source category via
-    the homomorphisms [h_id] and [h_compose], so long as the equivalences of
-    the source category are defined in terms of the [denote] function. See
-    [DerivedEquivalence] below. *)
+    the homomorphisms [h_id] and [h_compose], so long as equivalence of
+    morphisms in the source category is defined in terms of [denote].
+
+    See [DerivedEquivalence] below. *)
 Class Denotation {C : RawCategory} {D : Category} := {
   dobj : C -> D;
   denote {x y : C} (f : x ~>⁻ y) : dobj x ~> dobj y;
