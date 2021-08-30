@@ -13,6 +13,7 @@ Lib/TList.v
 Lib/Same_set.v
 Theory/Category.v
 Theory/Category/Raw.v
+Theory/Category/Semi.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
 Theory/Metacategory/DecideExample.v
