@@ -36,6 +36,14 @@ Program Definition STerms : Category := {|
   id  := fun _ => SIdent;
   compose := fun _ _ _ => SComp
 |}.
+Next Obligation.
+  equivalence.
+  now rewrite H1, H2.
+Qed.
+Next Obligation.
+  simpl.
+  now rewrite H, H0.
+Qed.
 Next Obligation. now rewrite List.app_nil_r. Defined.
 Next Obligation. now rewrite List.app_assoc. Defined.
 Next Obligation. now symmetry; rewrite List.app_assoc. Defined.
@@ -53,6 +61,15 @@ Program Definition Terms : Category := {|
   id  := fun _ => Ident;
   compose := fun _ _ _ => Comp
 |}.
+Next Obligation. equivalence. Qed.
+Next Obligation.
+  simpl.
+  now rewrite X, X0.
+Qed.
+Next Obligation. now cat. Qed.
+Next Obligation. now cat. Qed.
+Next Obligation. now cat. Qed.
+Next Obligation. now cat. Qed.
 
 Import VectorNotations.
 
@@ -60,6 +77,8 @@ Program Instance Denote : Terms ⟶ cat := {
   fobj := nth objs;
   fmap := fun _ _ => termD
 }.
+Next Obligation. reflexivity. Qed.
+Next Obligation. reflexivity. Qed.
 
 (*
 Program Instance Strip : Terms ⟶ STerms := {

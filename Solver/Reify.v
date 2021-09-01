@@ -211,11 +211,6 @@ Program Definition Unused : Category := {|
   id      := fun x => _;
   compose := fun x y z f g => _
 |}.
-Next Obligation.
-  unfold Unused_obligation_1.
-  unfold Unused_obligation_2.
-  now destruct f.
-Defined.
 
 Ltac foldr xs z f :=
   let rec go xs :=
@@ -240,14 +235,17 @@ Import VectorNotations.
 Ltac build_objs cs andThen :=
   foldri1 cs
     ltac:(fun cv =>
-      constr:((Unused : Category,
-               (nil Unused),
-               (inil (B:=dep_arr (nil Unused))))))
+      match cv with
+      | (?c, ?os, ?fs) =>
+        constr:((c,
+                 (Vector.nil c),
+                 (inil (B:=dep_arr (Vector.nil c)))))
+      end)
     ltac:(fun ci cv _k =>
       match cv with
       | (?c, ?os, ?fs) =>
         andThen c fs ltac:(foldr os
-          constr:(nil c)
+          constr:(Vector.nil c)
           ltac:(fun ov os => constr:(ov :: os)))
       end).
 
@@ -273,7 +271,6 @@ Ltac find_vars :=
         pose arrs))
   end.
 
-(*
 Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y) (g : y ~> x),
   g ≈ g -> f ≈ f.
 Proof.
@@ -321,4 +318,3 @@ Proof.
   cat.
   apply comp_assoc.
 Qed.
-*)

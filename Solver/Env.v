@@ -15,6 +15,7 @@ Generalizable All Variables.
 
 Import VectorNotations.
 
+Derive NoConfusion for Fin.t.
 Derive Signature EqDec for Fin.t.
 Next Obligation. now apply Fin_eq_dec. Defined.
 

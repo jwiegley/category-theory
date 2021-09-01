@@ -4,6 +4,7 @@ Set Warnings "-deprecated-hint-without-locality".
 Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
 Require Import Coq.Arith.PeanoNat.
+Require Import Coq.Lists.List.
 
 From Equations Require Import Equations.
 Require Import Equations.Type.EqDec.
@@ -195,6 +196,8 @@ Proof.
     rewrite Heqo2.
     now rewrite Fin_eq_dec_refl.
 Qed.
+
+Import ListNotations.
 
 Fixpoint term_indices `(t : Term tys d c) : list (arr_idx num_arrs) :=
   match t with

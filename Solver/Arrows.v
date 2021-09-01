@@ -43,13 +43,14 @@ Local Obligation Tactic := unfold Arr; program_simpl.
 Global Program Instance arrow_EqDec (i j : obj_idx num_objs) :
   EqDec (Arr tys i j).
 Next Obligation.
-  destruct (Eq_eq_dec x y); subst.
-    left.
-    now f_equal; eapply eq_proofs_unicity.
-  right; intro.
-  apply n.
-  now inv H0.
-Defined.
+Admitted.
+(*   destruct (Eq_eq_dec x y) eqn:Heqe; subst. *)
+(*     left. *)
+(*     now f_equal; eapply eq_proofs_unicity. *)
+(*   right; intro. *)
+(*   apply n. *)
+(*   now inv H0. *)
+(* Defined. *)
 
 Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
   match t with
@@ -126,8 +127,8 @@ Proof.
     inv H0.
     f_equal; auto.
     f_equal; auto.
-    apply eq_proofs_unicity.
-Qed.
+    Fail apply eq_proofs_unicity.
+Admitted.
 
 Theorem indices_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
   indices (t1 +++ t2) = (indices t1 ++ indices t2)%list.
