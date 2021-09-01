@@ -10,6 +10,7 @@ Open Scope lazy_bool_scope.
 Require Import Coq.Classes.CEquivalence.
 Require Export Coq.Classes.CRelationClasses.
 Require Import Coq.Classes.CMorphisms.
+Require Import Coq.Lists.List.
 
 From Equations Require Import Equations.
 Require Import Equations.Type.EqDec.
@@ -21,7 +22,9 @@ Inductive netlist {A : Type} (B : A -> A -> Type) : A -> A -> Type :=
   | tfin : forall i j : A, B i j -> netlist B i j
   | tadd : forall i j k : A, B i j -> netlist B j k -> netlist B i k.
 
-Derive Signature Subterm for netlist.
+Derive Signature for netlist.
+Derive NoConfusion for netlist.
+Derive Subterm for netlist.
 Next Obligation.
 Admitted.
 
@@ -58,6 +61,8 @@ Equations netlist_map {i j A' C} {f : A -> A'}
           (xs : netlist B i j) : netlist C (f i) (f j) :=
   netlist_map g (tfin x) := tfin (g _ _ x);
   netlist_map g (@tadd _ _ _ x xs) := g _ _ x :::: netlist_map g xs.
+
+Import ListNotations.
 
 Equations netlist_mapv {i j C}
           (g : forall i j : A, B i j -> C)
@@ -216,7 +221,7 @@ Next Obligation.
     rewrite netlist_equiv_equation_1.
     reflexivity.
   rewrite netlist_equiv_equation_4.
-  rewrite eq_dec_refl.
+  rewrite EqDec.peq_dec_refl.
   split.
     apply Equivalence_Reflexive.
   apply IHx.
@@ -231,7 +236,7 @@ Next Obligation.
   rewrite netlist_equiv_equation_4 in *.
   destruct (eq_dec j wildcard0); [|contradiction].
   subst.
-  rewrite eq_dec_refl.
+  rewrite EqDec.peq_dec_refl.
   destruct X.
   split.
     now apply Equivalence_Symmetric.
@@ -252,7 +257,7 @@ Next Obligation.
   destruct (eq_dec j wildcard2); [|contradiction].
   destruct (eq_dec wildcard2 wildcard0); [|contradiction].
   subst.
-  rewrite eq_dec_refl.
+  rewrite EqDec.peq_dec_refl.
   destruct X, X0.
   split.
     transitivity y; auto.
@@ -270,7 +275,7 @@ Next Obligation.
   repeat intro.
   simpl in *.
   rewrite netlist_equiv_equation_4.
-  now rewrite eq_dec_refl.
+  now rewrite EqDec.peq_dec_refl.
 Qed.
 
 Global Program Instance netlist_app_respects {i j k} :
@@ -618,7 +623,7 @@ Example netlist_find_sublist_nat_ex1 :
     = Some (inleft (tfin ((0, 1), 100)), inleft (tfin (3, 4, 400))).
 Proof.
   intros; simpl; simpl_eq.
-  now rewrite !eq_dec_refl.
+  now rewrite !EqDec.peq_dec_refl.
 Qed.
 
 Reserved Infix "<+>" (at level 42, right associativity).

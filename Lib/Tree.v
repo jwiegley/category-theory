@@ -6,6 +6,7 @@ Require Import Equations.Type.EqDec.
 
 Require Import Category.Lib.
 Require Import Category.Lib.TList.
+Require Import Coq.Lists.List.
 
 Generalizable All Variables.
 
@@ -39,6 +40,8 @@ Proof.
   induction t; simpl; intros; auto.
   now rewrite IHt2, IHt1.
 Qed.
+
+Import ListNotations.
 
 Lemma preorder_spec t :
   preorder t = preorder_direct t.

@@ -10,7 +10,9 @@ Lib/Nomega.v
 Lib/MapDecide.v
 Lib/IList.v
 Lib/TList.v
+Lib/NETList.v
 Lib/Same_set.v
+Lib/Tree.v
 Theory/Category.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
