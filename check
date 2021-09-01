@@ -7,4 +7,13 @@ nix-build --cores 4 . --argstr coqPackages coqPackages_8_11 > log_8_11.txt 2>&1 
 nix-build --cores 4 . --argstr coqPackages coqPackages_8_12 > log_8_12.txt 2>&1 &
 nix-build --cores 4 . --argstr coqPackages coqPackages_8_13 > log_8_13.txt 2>&1 &
 
+docker run -t coqorg/coq:8.13 bash -c '
+    git clone https://github.com/jwiegley/category-theory;
+    cd category-theory;
+    opam update;
+    opam pin add -n -y -k path coq-category-theory .;
+    opam install -y -v -j 2 coq-category-theory --deps-only;
+    opam install -y -v -j 2 coq-category-theory
+'
+
 wait
