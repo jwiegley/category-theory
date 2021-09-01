@@ -5,7 +5,7 @@ allow representation and manipulation of categorical terms, as well
 realization of those terms in various target categories.
 
 Versions used: [Coq](https://github.com/coq/coq/) 8.10.2, 8.11.2, 8.12.2, 8.13.2.
-Some incomplete parts depend on [Coq-Equations](https://github.com/mattam82/Coq-Equations).
+Some parts depend on [Coq-Equations](https://github.com/mattam82/Coq-Equations) 1.2.4.
 
 ## Usage
 
