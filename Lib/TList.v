@@ -11,7 +11,7 @@ Require Import Coq.Classes.CEquivalence.
 Require Export Coq.Classes.CRelationClasses.
 Require Import Coq.Classes.CMorphisms.
 
-Require Import Equations.Equations.
+From Equations Require Import Equations.
 Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 

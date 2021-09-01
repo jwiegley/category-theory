@@ -5,8 +5,8 @@ Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
 Require Import Coq.Arith.PeanoNat.
 
-Require Import Equations.Equations.
-Require Import Equations.EqDec.
+From Equations Require Import Equations.
+Require Import Equations.Type.EqDec.
 
 Require Import Category.Lib.
 Require Import Category.Lib.Equality.

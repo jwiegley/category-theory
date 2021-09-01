@@ -3,8 +3,8 @@ Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Coq.Vectors.Vector.
 
-Require Import Equations.Equations.
-Require Import Equations.EqDec.
+From Equations Require Import Equations.
+Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 
 Require Import Category.Lib.

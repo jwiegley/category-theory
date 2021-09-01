@@ -1,8 +1,8 @@
 Set Warnings "-notation-overridden".
 Set Warnings "-deprecated-hint-without-locality".
 
-Require Import Equations.Equations.
-Require Import Equations.EqDec.
+From Equations Require Import Equations.
+Require Import Equations.Type.EqDec.
 
 Require Import Category.Lib.
 Require Import Category.Lib.TList.

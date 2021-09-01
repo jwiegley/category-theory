@@ -8,8 +8,8 @@ Require Import Category.Lib.Equality.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 
-Require Import Equations.Equations.
-Require Import Equations.EqDec.
+From Equations Require Import Equations.
+Require Import Equations.Type.EqDec.
 
 Generalizable All Variables.
 
