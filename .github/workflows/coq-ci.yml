@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         image:
-          # - 'coqorg/coq:dev'
+          - 'coqorg/coq:dev'
           - 'coqorg/coq:8.13'
           - 'coqorg/coq:8.12'
           - 'coqorg/coq:8.11'
