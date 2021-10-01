@@ -1,7 +1,7 @@
 args@{ coqPackages ? "coqPackages_8_13"
 
-, rev    ? "c74fa74867a3cce6ab8371dfc03289d9cc72a66e"
-, sha256 ? "13bnmpdmh1h6pb7pfzw5w3hm6nzkg9s1kcrwgw1gmdlhivrmnx75"
+, rev    ? "c71c411d8f9ec5bd746fcd925555cee5b3cdd297"
+, sha256 ? "039aldz9mram45jlicab5sa83ygsj7vmzgqf04bks77f173c6pk2"
 , pkgs   ? import (builtins.fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/${rev}.tar.gz";
     inherit sha256; }) {
