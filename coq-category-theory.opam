@@ -5,7 +5,7 @@ version: "dev"
 homepage: "https://github.com/jwiegley/category-theory"
 dev-repo: "git+https://github.com/jwiegley/category-theory.git"
 bug-reports: "https://github.com/jwiegley/category-theory/issues"
-license: "BSD"
+license: "BSD-3-Clause"
 
 synopsis: "An axiom-free formalization of category theory in Coq"
 description: """
