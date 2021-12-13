@@ -29,7 +29,7 @@ Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D)
 |}.
 
 Notation "N ^op" := (@Opposite_Adjunction _ _ _ _ N)
-  (at level 7, format "N ^op") : adjunction_scope.
+  (at level 7, format "N ^op", left associativity) : adjunction_scope.
 
 Open Scope adjunction_scope.
 

@@ -21,7 +21,7 @@ Definition Opposite_Transform `{F : C ⟶ D} {G : C ⟶ D} `(N : F ⟹ G) :
       @naturality C D F G N y x f).
 
 Notation "N ^op" := (@Opposite_Transform _ _ _ _ N)
-  (at level 7, format "N ^op") : transform_scope.
+  (at level 7, format "N ^op", left associativity) : transform_scope.
 
 Open Scope transform_scope.
 

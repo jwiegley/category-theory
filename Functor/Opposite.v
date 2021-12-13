@@ -20,7 +20,7 @@ Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op :=
       (g : x ~{ C ^op }~> y), @fmap_comp _ _ F _ _ _ g f).
 
 Notation "F ^op" := (@Opposite_Functor _ _ F)
-  (at level 7, format "F ^op") : functor_scope.
+  (at level 7, format "F ^op", left associativity) : functor_scope.
 
 Open Scope functor_scope.
 

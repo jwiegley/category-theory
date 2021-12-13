@@ -10,7 +10,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Reserved Notation "C ^op" (at level 7).
+Reserved Notation "C ^op" (at level 7, left associativity).
 
 Definition Opposite `(C : Category) : Category := {|
   obj     := @obj C;
@@ -30,7 +30,7 @@ Definition Opposite `(C : Category) : Category := {|
 |}.
 
 Notation "C ^op" := (@Opposite C)
-  (at level 7, format "C ^op") : category_scope.
+  (at level 7, format "C ^op", left associativity) : category_scope.
 
 Lemma op_invol {C : Category} : (C^op)^op = C.
 Proof.
