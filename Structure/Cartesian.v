@@ -110,8 +110,10 @@ Corollary fork_inv {x y z : C} (f h : x ~> y) (g i : x ~> z) :
 Proof.
   pose proof (ump_products h i (f △ g)) as HA;
   simplify; intuition.
-  - rewrites; cat.
-  - rewrites; cat.
+  - rewrite exl_fork in a.
+    assumption.
+  - rewrite exr_fork in b.
+    assumption.
   - apply X0; cat.
 Qed.
 
@@ -130,11 +132,45 @@ Ltac unfork :=
   repeat (rewrite <- !fork_comp; cat;
           rewrite <- !comp_assoc; cat).
 
-Local Obligation Tactic := cat_simpl; unfork.
+Ltac fork_simpl :=
+  match goal with
+  | |- _ ∘ _ ∘ _ ≈ _ =>
+    rewrite comp_assoc_sym
+  | |- id{_} ∘ _ ≈ _ =>
+    rewrite id_left
+  | |- _ ∘ id{_} ≈ _ =>
+    rewrite id_right
+  | |- exl ∘ exl △ _ ≈ _ =>
+    apply exl_fork
+  | |- exl ∘ exr △ _ ≈ _ =>
+    apply exl_fork
+  | |- exl ∘ _ △ _ ≈ _ =>
+    rewrite exl_fork
+  | |- exr ∘ _ △ _ ≈ _ =>
+    rewrite exr_fork
+  | |- _ △ _ ∘ _ ≈ _ =>
+    rewrite <- fork_comp
+  | |- (exl △ exr) △ _ ≈ _ =>
+    etransitivity;
+      [apply fork_respects; [apply fork_exl_exr|reflexivity]|]
+  | |- _ △ (exl △ exr) ≈ _ =>
+    etransitivity;
+      [apply fork_respects; [reflexivity|apply fork_exl_exr]|]
+  | |- _ △ _ ≈ _ △ _ => apply fork_respects
+  end.
+
+Local Obligation Tactic := cat_simpl; try unfork.
 
 Definition swap_invol {x y : C} :
   swap ∘ swap ≈ @id C (x × y).
-Proof. unfork. Qed.
+Proof.
+  unfold swap. repeat fork_simpl.
+  etransitivity.
+  { apply fork_respects; fork_simpl.
+    reflexivity.
+  }
+  apply fork_exl_exr.
+Qed.
 
 Hint Rewrite @swap_invol : categories.
 
@@ -145,10 +181,9 @@ Proof.
   rewrite <- id_left.
   rewrite <- (id_left g).
   rewrite <- swap_invol.
-  rewrite <- comp_assoc.
-  rewrites.
-  rewrite comp_assoc.
-  reflexivity.
+  rewrite <- !comp_assoc.
+  apply compose_respects; try reflexivity.
+  assumption.
 Qed.
 
 Definition swap_inj_r {x y z : C} (f g : x × y ~> z) :
@@ -158,10 +193,9 @@ Proof.
   rewrite <- id_right.
   rewrite <- (id_right g).
   rewrite <- swap_invol.
-  rewrite comp_assoc.
-  rewrites.
-  rewrite <- comp_assoc.
-  reflexivity.
+  rewrite !comp_assoc.
+  apply compose_respects; try reflexivity.
+  assumption.
 Qed.
 
 Theorem first_id {x y : C} :
@@ -172,11 +206,27 @@ Hint Rewrite @first_id : categories.
 
 Theorem first_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
   first (z:=w) (f ∘ g) ≈ first f ∘ first g.
-Proof. unfork. Qed.
+Proof.
+  unfold first.
+  symmetry.
+  repeat fork_simpl; [|reflexivity].
+  symmetry.
+  fork_simpl.
+  apply compose_respects; [reflexivity|].
+  symmetry.
+  fork_simpl.
+  reflexivity.
+Qed.
 
 Theorem first_fork {x y z w : C} (f : x ~> y) (g : x ~> z) (h : y ~> w) :
   first h ∘ f △ g ≈ (h ∘ f) △ g.
-Proof. unfork. Qed.
+Proof.
+  unfold first.
+  repeat fork_simpl; [|reflexivity].
+  apply compose_respects; [reflexivity|].
+  repeat fork_simpl.
+  reflexivity.
+Qed.
 
 Theorem second_id {x y : C} :
   second (id[y]) ≈ id[x × y].
@@ -186,11 +236,28 @@ Hint Rewrite @second_id : categories.
 
 Theorem second_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
   second (z:=w) (f ∘ g) ≈ second f ∘ second g.
-Proof. unfork. Qed.
+Proof.
+  unfold second.
+  symmetry.
+  repeat fork_simpl.
+  symmetry.
+  repeat fork_simpl.
+  apply compose_respects; [reflexivity|].
+  symmetry.
+  repeat fork_simpl.
+  reflexivity.
+Qed.
 
 Theorem second_fork {x y z w : C} (f : x ~> y) (g : x ~> z) (h : z ~> w) :
   second h ∘ f △ g ≈ f △ (h ∘ g).
-Proof. unfork. Qed.
+Proof.
+  unfold second.
+  repeat fork_simpl; [reflexivity|].
+  repeat fork_simpl.
+  apply compose_respects; [reflexivity|].
+  repeat fork_simpl.
+  reflexivity.
+Qed.
 
 Corollary exl_first {x y z : C} (f : x ~> y) :
   @exl _ y z ∘ first f ≈ f ∘ exl.
@@ -218,40 +285,105 @@ Hint Rewrite @exr_second : categories.
 
 Theorem swap_first {x y z : C} (f : x ~> y) :
   swap ∘ first (z:=z) f ≈ second f ∘ swap.
-Proof. unfork. Qed.
+Proof.
+  unfold swap, first, second.
+  repeat fork_simpl.
+  symmetry.
+  repeat fork_simpl.
+  - symmetry.
+    fork_simpl.
+    reflexivity.
+  - symmetry. fork_simpl.
+    apply compose_respects; [reflexivity|].
+    symmetry. fork_simpl.
+    reflexivity.
+Qed.
 
 Theorem swap_second {x y z : C} (f : x ~> y) :
   swap ∘ second f ≈ first (z:=z) f ∘ swap.
-Proof. unfork. Qed.
+Proof.
+  unfold swap, first, second.
+  repeat fork_simpl.
+  symmetry.
+  repeat fork_simpl.
+  - symmetry.
+    fork_simpl.
+    apply compose_respects; [reflexivity|].
+    symmetry. fork_simpl.
+  - symmetry. fork_simpl.
+Qed.
 
 Theorem first_second {x y z w : C} (f : x ~> y) (g : z ~> w) :
   first f ∘ second g ≈ second g ∘ first f.
-Proof. unfork. Qed.
+Proof.
+  unfold first, second.
+  repeat fork_simpl.
+  symmetry.
+  repeat fork_simpl.
+  - symmetry.
+    repeat fork_simpl.
+    apply compose_respects; [reflexivity|].
+    repeat fork_simpl.
+  - symmetry.
+    repeat fork_simpl.
+    apply compose_respects; [reflexivity|].
+    symmetry. repeat fork_simpl.
+    reflexivity.
+Qed.
 
 Theorem swap_fork {x y z : C} (f : x ~> y) (g : x ~> z) :
   swap ∘ f △ g ≈ g △ f.
-Proof. unfork. Qed.
+Proof.
+  unfold swap.
+  repeat fork_simpl; reflexivity.
+Qed.
 
 Theorem split_id {x y : C} :
   split (id[x]) (id[y]) ≈ id[x × y].
-Proof. unfork; cat. Qed.
+Proof.
+  unfold split.
+  etransitivity.
+  { apply fork_respects; apply id_left. }
+  apply fork_exl_exr.
+Qed.
 
 Hint Rewrite @split_id : categories.
 
 Theorem split_comp {x y z w v u : C}
         (f : y ~> z) (h : x ~> y) (g : v ~> u) (i : w ~> v) :
   split f g ∘ split h i ≈ split (f ∘ h) (g ∘ i).
-Proof. unfork. Qed.
+Proof.
+  unfold split.
+  repeat fork_simpl; symmetry; fork_simpl.
+  all: apply compose_respects; [reflexivity|].
+  all: symmetry.
+  all: fork_simpl.
+  all: reflexivity.
+Qed.
 
 Theorem split_first {x y z v u : C}
         (f : y ~> z) (h : x ~> y) (g : v ~> u) :
   split f g ∘ first h ≈ split (f ∘ h) g.
-Proof. unfork. Qed.
+Proof.
+  unfold split, first.
+  repeat fork_simpl; symmetry; try fork_simpl.
+  all: apply compose_respects; [reflexivity|].
+  all: symmetry.
+  all: fork_simpl.
+  all: reflexivity.
+Qed.
 
 Theorem first_split {x y z v u : C}
         (f : y ~> z) (h : x ~> y) (g : v ~> u) :
   first f ∘ split h g ≈ split (f ∘ h) g.
-Proof. unfork. Qed.
+Proof.
+  unfold split, first.
+  repeat fork_simpl; [|reflexivity].
+  symmetry; fork_simpl.
+  apply compose_respects; [reflexivity|].
+  symmetry. fork_simpl.
+  reflexivity.
+Qed.
 
 Theorem split_second {x y z v u : C}
         (f : y ~> z) (h : x ~> y) (g : v ~> u) :
@@ -359,3 +491,30 @@ Ltac unfork :=
   unfold swap, split, first, second; simpl;
   repeat (rewrite <- !fork_comp; cat;
           rewrite <- !comp_assoc; cat).
+
+Ltac fork_simpl :=
+  match goal with
+  | |- _ ∘ _ ∘ _ ≈ _ =>
+    rewrite comp_assoc_sym
+  | |- id{_} ∘ _ ≈ _ =>
+    rewrite id_left
+  | |- _ ∘ id{_} ≈ _ =>
+    rewrite id_right
+  | |- exl ∘ exl △ _ ≈ _ =>
+    apply exl_fork
+  | |- exl ∘ exr △ _ ≈ _ =>
+    apply exl_fork
+  | |- exl ∘ _ △ _ ≈ _ =>
+    rewrite exl_fork
+  | |- exr ∘ _ △ _ ≈ _ =>
+    rewrite exr_fork
+  | |- _ △ _ ∘ _ ≈ _ =>
+    rewrite <- fork_comp
+  | |- (exl △ exr) △ _ ≈ _ =>
+    eapply transitivity;
+      [apply fork_respects; [apply fork_exl_exr|reflexivity]|]
+  | |- _ △ (exl △ exr) ≈ _ =>
+    eapply transitivity;
+      [apply fork_respects; [reflexivity|apply fork_exl_exr]|]
+  | |- _ △ _ ≈ _ △ _ => apply fork_respects
+  end.

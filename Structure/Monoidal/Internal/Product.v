@@ -24,33 +24,6 @@ Context `{@Terminal C}.
 
 Local Obligation Tactic := unfold proj_left, proj_right.
 
-Local Ltac fork_simpl :=
-  match goal with
-  | |- _ ∘ _ ∘ _ ≈ _ =>
-    rewrite comp_assoc_sym
-  | |- id{C} ∘ _ ≈ _ =>
-    rewrite id_left
-  | |- _ ∘ id{C} ≈ _ =>
-    rewrite id_right
-  | |- exl ∘ exl △ _ ≈ _ =>
-    apply exl_fork
-  | |- exl ∘ exr △ _ ≈ _ =>
-    apply exl_fork
-  | |- exl ∘ _ △ _ ≈ _ =>
-    rewrite exl_fork
-  | |- exr ∘ _ △ _ ≈ _ =>
-    rewrite exr_fork
-  | |- _ △ _ ∘ _ ≈ _ =>
-    rewrite <- fork_comp
-  | |- (exl △ exr) △ _ ≈ _ =>
-    eapply transitivity;
-      [apply fork_respects; [apply fork_exl_exr|reflexivity]|]
-  | |- _ △ (exl △ exr) ≈ _ =>
-    eapply transitivity;
-      [apply fork_respects; [reflexivity|apply fork_exl_exr]|]
-  | |- _ △ _ ≈ _ △ _ => apply fork_respects
-  end.
-
 Local Ltac solve_fork_split :=
   match goal with
   | |- exr ∘ _ ≈ _ =>
