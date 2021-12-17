@@ -120,8 +120,7 @@ Proof.
   intros.
   (* jww (2021-08-09): It should be possible to rewrite here with isomorphism
      acting similarly to an equivalence. *)
-  (* now apply (Iso_Proper _ _ g _ K iso_id). *)
-  Fail rewrite g.
+(*   rewrite g. *)
 Abort.
 
 End Isomorphism.
