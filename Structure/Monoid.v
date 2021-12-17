@@ -38,8 +38,13 @@ Lemma mappend_assoc_sym :
 Proof.
   rewrite mappend_assoc.
   rewrite <- comp_assoc.
-  rewrite iso_to_from.
-  cat.
+  symmetry.
+  etransitivity.
+  { apply compose_respects.
+    1: reflexivity.
+    apply  iso_to_from.
+  }
+  apply id_right.
 Qed.
 
 End MonoidObject.

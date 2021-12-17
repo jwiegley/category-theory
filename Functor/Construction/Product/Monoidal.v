@@ -28,70 +28,48 @@ Context {G : D ⟶ K}.
 
 Local Obligation Tactic := program_simpl.
 
-Lemma ProductFunctor_Monoidal_ap_functor_iso :
-  MonoidalFunctor F → MonoidalFunctor G
-    → (⨂) ◯ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ≅[[(C ∏ D) ∏ (C ∏ D), J ∏ K]] F ∏⟶ G ◯ (⨂).
-Proof.
-  intros O P.
-  isomorphism.
-
-  transform. all:simpl. {
-    intros [[x z] [y w]]; split.
-      exact (transform[to ap_functor_iso] (x, y)).
-    exact (transform[to ap_functor_iso] (z, w)).
-  }
-
-  all:simpl.
-  all:(try destruct x as [[x1 x2] [y1 y2]],
-                    y as [[z1 z2] [w1 w2]]; simpl).
-
-  split.
-    abstract apply (naturality (to ap_functor_iso) (x1, y1)).
-  abstract apply (naturality (to ap_functor_iso) (x2, y2)).
-
-  all:simpl.
-  all:(try destruct x as [[x1 x2] [y1 y2]],
-                    y as [[z1 z2] [w1 w2]];
-       try destruct f as [[f1a f1b] [f2a f2b]]; simpl).
-
-  split.
-    abstract apply (naturality_sym (to ap_functor_iso)
-                                   (x1, y1) (z1, w1) (f1a, f2a)).
-  abstract apply (naturality_sym (to ap_functor_iso)
-                                 (x2, y2) (z2, w2) (f1b, f2b)).
-
-  all:simpl.
-  transform. all:simpl. {
-    intros [[x z] [y w]]; split.
-      exact (transform[from ap_functor_iso] (x, y)).
-    exact (transform[from ap_functor_iso] (z, w)).
-  }
-
-  all:simpl.
-  all:(try destruct x as [[x1 x2] [y1 y2]],
-                    y as [[z1 z2] [w1 w2]],
-                    f as [[f1a f1b] [f2a f2b]]; simpl).
-
-  split.
-    abstract apply (naturality (from ap_functor_iso)
-                               (x1, y1) (z1, w1) (f1a, f2a)).
-  abstract apply (naturality (from ap_functor_iso)
-                             (x2, y2) (z2, w2) (f1b, f2b)).
-
-  split.
-    abstract apply (naturality_sym (from ap_functor_iso)
-                                   (x1, y1) (z1, w1) (f1a, f2a)).
-  abstract apply (naturality_sym (from ap_functor_iso)
-                                 (x2, y2) (z2, w2) (f1b, f2b)).
-
-  split; simplify.
-    abstract sapply (iso_to_from (ap_functor_iso[O])).
-  abstract sapply (iso_to_from (ap_functor_iso[P])).
-
-  split; simplify.
-    abstract apply (iso_from_to (ap_functor_iso[O]) (A, H3)).
-  abstract apply (iso_from_to (ap_functor_iso[P]) (H5, H4)).
+Program Definition ProductFunctor_Monoidal_ap_functor_iso
+  (O : MonoidalFunctor F) (P : MonoidalFunctor G) :
+    (⨂) ◯ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ≅[[(C ∏ D) ∏ (C ∏ D), J ∏ K]] F ∏⟶ G ◯ (⨂) :=
+  {|
+    to := {| transform := _; naturality := _; naturality_sym := _ |};
+    from := {| transform := _; naturality := _; naturality_sym := _ |};
+    iso_to_from := _;
+    iso_from_to := _;
+  |}.
+Next Obligation.
+  simpl. split;
+    exact (transform[to ap_functor_iso] (_, _)).
 Defined.
+Next Obligation.
+  simpl. split;
+    apply (naturality (to ap_functor_iso) (_, _)).
+Qed.
+Next Obligation.
+  simpl. split;
+    apply (naturality_sym (to ap_functor_iso) (_, _) (_, _) (_, _)).
+Qed.
+Next Obligation.
+  simpl. split; exact (transform[from ap_functor_iso] (_, _)).
+Defined.
+Next Obligation.
+  simpl. split;
+    apply (naturality (from ap_functor_iso) (_, _) (_, _) (_, _)).
+Qed.
+Next Obligation.
+  simpl. split;
+    apply (naturality_sym (from ap_functor_iso) (_, _) (_, _) (_, _)).
+Qed.
+Next Obligation.
+  simpl. split.
+  - sapply (iso_to_from (ap_functor_iso[O])).
+  - sapply (iso_to_from (ap_functor_iso[P])).
+Qed.
+Next Obligation.
+  simpl. split.
+  - apply (iso_from_to (ap_functor_iso[O]) (_, _)).
+  - apply (iso_from_to (ap_functor_iso[P]) (_, _)).
+Qed.
 
 Program Definition ProductFunctor_Monoidal :
   MonoidalFunctor F -> MonoidalFunctor G
@@ -119,74 +97,83 @@ Next Obligation.
 Qed.
 Next Obligation.
   simpl.
-  unfold ProductFunctor_Monoidal_obligation_2.
-  unfold ProductFunctor_Monoidal_obligation_3.
-  intros; split; apply monoidal_unit_left.
+  split; apply monoidal_unit_left.
 Qed.
 Next Obligation.
   simpl.
-  unfold ProductFunctor_Monoidal_obligation_2.
-  unfold ProductFunctor_Monoidal_obligation_3.
-  intros; split; apply monoidal_unit_right.
+  split; apply monoidal_unit_right.
 Qed.
 Next Obligation.
   simpl.
-  unfold ProductFunctor_Monoidal_obligation_2.
-  unfold ProductFunctor_Monoidal_obligation_3.
   intros; split; apply monoidal_assoc.
 Qed.
 
-Lemma ProductFunctor_Monoidal_proj1_ap_functor_iso :
-  MonoidalFunctor F ∏⟶ G
-    → (⨂) ◯ F ∏⟶ F ≅[[(C ∏ C), J]] F ◯ (⨂).
-Proof.
-  intros P.
-
-  isomorphism.
-
-  transform. {
-    intros [x y].
-    exact (fst (transform[to (ap_functor_iso[P])] ((x, I), (y, I)))).
-  }
-
-  all:(try rename x into x0;
-       try rename y into y0;
-       try destruct x0 as [x y],
-                    y0 as [z w],
-                    f as [f g];
-       try destruct A as [x y]; simpl).
-
-  exact (fst (naturality (to (ap_functor_iso[P]))
-                         (x, I, (y, I)) (z, I, (w, I))
-                         ((f, id), (g, id)))).
-
-  exact (fst (naturality_sym (to (ap_functor_iso[P]))
-                             (x, I, (y, I)) (z, I, (w, I))
-                             ((f, id), (g, id)))).
-
-  transform. {
-    intros [x y].
-    exact (fst (transform[from (ap_functor_iso[P])] ((x, I), (y, I)))).
-  }
-
-  all:(try rename x into x0;
-       try rename y into y0;
-       try destruct x0 as [x y],
-                    y0 as [z w],
-                    f as [f g];
-       try destruct A as [x y]; simpl).
-
-  exact (fst (naturality (from (ap_functor_iso[P]))
-                         (x, I, (y, I)) (z, I, (w, I))
-                         ((f, id), (g, id)))).
-
-  exact (fst (naturality_sym (from (ap_functor_iso[P]))
-                             (x, I, (y, I)) (z, I, (w, I))
-                             ((f, id), (g, id)))).
-
-  apply (iso_to_from (ap_functor_iso[P]) (x0, I, (y0, I))).
-  apply (iso_from_to (ap_functor_iso[P]) (x0, I, (y0, I))).
+Program Definition ProductFunctor_Monoidal_proj1_ap_functor_iso
+  (P : MonoidalFunctor F ∏⟶ G) :
+    (⨂) ◯ F ∏⟶ F ≅[[(C ∏ C), J]] F ◯ (⨂) :=
+  {|
+    to := {| transform := _; naturality := _; naturality_sym := _ |};
+    from := {| transform := _; naturality := _; naturality_sym := _ |};
+    iso_to_from := _;
+    iso_from_to := _;
+  |}.
+Next Obligation.
+  exact (fst (transform[to (ap_functor_iso[P])] ((o, I), (o0, I)))).
 Defined.
+Next Obligation.
+  simpl in *.
+  epose proof (@naturality _ _ _ _ (to (ap_functor_iso[P]))).
+  simpl in X.
+  epose proof (X (_, I, (_, I)) (_, I, (_, I))).
+  simpl in X0.
+  clear X.
+  epose proof (X0 ((_, id), (_, id))).
+  simpl in X.
+  apply X.
+Qed.
+Next Obligation.
+  simpl in *.
+  epose proof (@naturality_sym _ _ _ _ (to (ap_functor_iso[P]))).
+  simpl in X.
+  epose proof (X (_, I, (_, I)) (_, I, (_, I))).
+  simpl in X0.
+  clear X.
+  epose proof (X0 ((_, id), (_, id))).
+  simpl in X.
+  apply X.
+Qed.
+Next Obligation.
+  simpl in *.
+  apply (fst (transform[from (ap_functor_iso[P])] ((_, I), (_, I)))).
+Defined.
+Next Obligation.
+  simpl in *.
+  epose proof (@naturality _ _ _ _ (from (ap_functor_iso[P]))).
+  simpl in X.
+  epose proof (X (_, I, (_, I)) (_, I, (_, I))).
+  simpl in X0.
+  clear X.
+  epose proof (X0 ((_, id), (_, id))).
+  simpl in X.
+  apply X.
+Qed.
+Next Obligation.
+  simpl in *.
+  epose proof (@naturality_sym _ _ _ _ (from (ap_functor_iso[P]))).
+  simpl in X.
+  epose proof (X (_, I, (_, I)) (_, I, (_, I))).
+  simpl in X0.
+  clear X.
+  epose proof (X0 ((_, id), (_, id))).
+  simpl in X.
+  apply X.
+Qed.
+Next Obligation.
+  apply (iso_to_from (ap_functor_iso[P]) (_, I, (_, I))).
+Qed.
+Next Obligation.
+  apply (iso_from_to (ap_functor_iso[P]) (_, I, (_, I))).
+Qed.
 
 Program Definition ProductFunctor_Monoidal_proj1 :
   MonoidalFunctor (F ∏⟶ G) -> MonoidalFunctor F := fun P => {|
