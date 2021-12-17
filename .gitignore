@@ -2,6 +2,7 @@
 *.glob
 *.v.d
 *.v.tex
+*.v.timing
 *.vio
 *.vo
 *.vok
