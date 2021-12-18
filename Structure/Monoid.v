@@ -168,12 +168,28 @@ Next Obligation.
   spose (@mappend_assoc _ _ _ X) as HX.
   spose (@mappend_assoc _ _ _ Y) as HY.
   assert ((split mappend[X] mappend[Y] ∘ toggle ∘ exl) △ (id[x × y] ∘ exr)
-            ≈ split (split mappend[X] mappend[Y] ∘ toggle) id[x × y])
-    by (unfork; cat).
+            ≈ split (split mappend[X] mappend[Y] ∘ toggle) id[x × y]).
+  { unfold toggle, split.
+    fork_simpl.
+    2: reflexivity.
+    fork_simpl.
+    fork_simpl.
+    fork_simpl.
+    - reflexivity.
+    - reflexivity.
+  }
   rewrite X0; clear X0.
   assert ((id[x × y] ∘ exl) △ (split mappend[X] mappend[Y] ∘ toggle ∘ exr)
-            ≈ split id[x × y] (split mappend[X] mappend[Y] ∘ toggle))
-    by (unfork; cat).
+            ≈ split id[x × y] (split mappend[X] mappend[Y] ∘ toggle)).
+  { unfold toggle, split.
+    fork_simpl.
+    1: reflexivity.
+    fork_simpl.
+    fork_simpl.
+    fork_simpl.
+    - reflexivity.
+    - reflexivity.
+  }
   rewrite X0; clear X0.
   unfold toggle.
   rewrite !split_fork.
