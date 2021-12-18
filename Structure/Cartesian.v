@@ -64,7 +64,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Global Program Instance parametric_morphism_split {a b c d : C} :
+Global Program Instance split_respects {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@split a b c d).
 Next Obligation.
   proper.

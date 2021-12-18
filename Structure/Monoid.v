@@ -68,44 +68,96 @@ Next Obligation.
   spose (@mempty_left _ _ _ X) as HX.
   spose (@mempty_left _ _ _ Y) as HY.
   assert ((mempty[X] △ mempty[Y] ∘ exl) △ (id[x × y] ∘ exr)
-            ≈ split (mempty[X] △ mempty[Y]) id[x × y])
-    by (unfork; cat).
-  rewrite X0; clear X0.
-  unfold toggle.
-  rewrite <- !comp_assoc.
-  rewrite <- fork_comp.
-  rewrite !split_comp.
-  rewrite exl_fork, exr_fork.
-  rewrite !id_right.
-  rewrite <- (id_right mempty[X]).
-  rewrite <- (id_left exl).
-  rewrite <- (id_right mempty[Y]).
-  rewrite <- (id_left exr).
-  rewrite <- !split_comp.
-  rewrite split_fork.
-  rewrite !comp_assoc.
-  rewrite HX, HY.
-  unfold split; cat.
+            ≈ split (mempty[X] △ mempty[Y]) id[x × y]).
+  { symmetry.
+    unfold split.
+    fork_simpl; reflexivity.
+  }
+  etransitivity.
+  { apply compose_respects; [reflexivity|].
+    eapply X0.
+  }
+  clear X0.
+  transitivity (split mappend[X] mappend[Y] ∘ split mempty[X] exl △ split mempty[Y] exr).
+  { unfold toggle.
+    rewrite comp_assoc_sym.
+    apply compose_respects; [reflexivity|].
+    fork_simpl. apply fork_respects.
+    - rewrite split_comp.
+      apply split_respects.
+      + apply exl_fork.
+      + apply id_right.
+    - rewrite split_comp.
+      apply split_respects.
+      + apply exr_fork.
+      + apply id_right.
+  }
+  transitivity (split mappend[X] mappend[Y]
+  ∘ split (mempty[X] ∘ id{C}) (id{C} ∘ exl) △ split (mempty[Y] ∘ id{C}) (id{C} ∘ exr)).
+  { apply compose_respects; [reflexivity|].
+    apply fork_respects; apply split_respects;
+      try rewrite id_right; try rewrite id_left;
+      reflexivity.
+  }
+  transitivity ((mappend[X] ∘ split mempty[X] id{C} ∘ split id{C} exl)
+  △ (mappend[Y] ∘ split mempty[Y] id{C} ∘ split id{C} exr)).
+  { etransitivity.
+    { apply compose_respects; [reflexivity|].
+      rewrite <- split_comp.
+      reflexivity.
+    }
+    rewrite split_fork.
+    apply fork_respects.
+    - apply comp_assoc.
+    - etransitivity.
+      { apply compose_respects; [reflexivity|].
+        rewrite <- split_comp.
+        reflexivity.
+      }
+      apply comp_assoc.
+  }
+  etransitivity.
+  { apply fork_respects; apply compose_respects;
+      try eassumption; reflexivity.
+  }
+  clear HX HY.
+  unfold split.
+  etransitivity.
+  { apply fork_respects; fork_simpl; reflexivity. }
   now rewrite fork_comp; cat.
 Qed.
 Next Obligation.
   spose (@mempty_right _ _ _ X) as HX.
   spose (@mempty_right _ _ _ Y) as HY.
   assert ((id[x × y] ∘ exl) △ (mempty[X] △ mempty[Y] ∘ exr)
-            ≈ split id[x × y] (mempty[X] △ mempty[Y]))
-    by (unfork; cat).
-  rewrite X0; clear X0.
+            ≈ split id[x × y] (mempty[X] △ mempty[Y])).
+  { symmetry.
+    unfold split.
+    fork_simpl; reflexivity.
+  }
+  etransitivity.
+  { apply compose_respects; [reflexivity|].
+    eapply X0.
+  }
+  clear X0.
   unfold toggle.
-  rewrite <- !comp_assoc.
-  rewrite <- fork_comp.
-  rewrite !split_comp.
-  rewrite exl_fork, exr_fork.
-  rewrite !id_right.
-  rewrite <- (id_right mempty[X]).
-  rewrite <- (id_left exl).
-  rewrite <- (id_right mempty[Y]).
-  rewrite <- (id_left exr).
-  rewrite <- !split_comp.
+  transitivity (split mappend[X] mappend[Y] ∘ split exl mempty[X] △ split exr mempty[Y]).
+  { rewrite comp_assoc_sym.
+    apply compose_respects; [reflexivity|].
+    repeat fork_simpl;
+      rewrite split_comp;
+      apply split_respects; fork_simpl; reflexivity.
+  }
+  transitivity (split mappend[X] mappend[Y]
+                      ∘ split (id{C} ∘ exl) (mempty[X] ∘ id{C}) △ split (id{C} ∘ exr) (mempty[Y] ∘ id{C})).
+  { apply compose_respects; [reflexivity|].
+    fork_simpl; apply split_respects; cat.
+  }
+  etransitivity.
+  { apply compose_respects; [reflexivity|].
+    rewrite <- !split_comp.
+    reflexivity.
+  }
   rewrite split_fork.
   rewrite !comp_assoc.
   rewrite HX, HY.
