@@ -192,27 +192,190 @@ Next Obligation.
   }
   rewrite X0; clear X0.
   unfold toggle.
-  rewrite !split_fork.
+  etransitivity.
+  { apply compose_respects.
+    - apply split_fork.
+    - apply split_respects; [|reflexivity].
+      apply split_fork.
+  }
+  etransitivity.
+  2: {
+    symmetry.
+    apply compose_respects.
+    2: reflexivity.
+    apply compose_respects.
+    - apply split_fork.
+    - apply split_respects; [reflexivity|].
+      apply split_fork.
+  }
   rewrite <- !fork_comp.
-  rewrite <- !comp_assoc.
-  rewrite !split_fork.
-  rewrite !id_left.
-  rewrite !comp_assoc.
-  rewrite !exl_fork.
-  rewrite !exr_fork.
-  rewrite <- !comp_assoc.
-  rewrite !split_comp.
-  rewrite !exl_fork.
-  rewrite !exr_fork.
-  rewrite !id_right.
-  rewrite <- (id_left (exl (x:=x) (y:=y))) at 1.
-  rewrite <- (id_left (exr (x:=x) (y:=y))) at 1.
-  rewrite <- !split_comp.
-  rewrite !comp_assoc.
-  rewrite HX, HY.
-  rewrite !id_left.
-  apply fork_respects; clear;
-  now unfold split; unfork; cat.
+  apply fork_respects.
+  - rewrite <- !comp_assoc.
+    etransitivity.
+    2: {
+      symmetry.
+      apply compose_respects; [reflexivity|].
+      etransitivity.
+      { apply compose_respects; [reflexivity|].
+        rewrite split_fork.
+        rewrite id_left.
+        reflexivity.
+      }
+      rewrite split_fork.
+      apply fork_respects.
+      + apply comp_assoc.
+      + rewrite comp_assoc.
+        rewrite exl_fork.
+        reflexivity.
+    }
+    etransitivity.
+    { apply compose_respects; [reflexivity|].
+      rewrite split_comp.
+      apply split_respects.
+      - apply exl_fork.
+      - apply id_right.
+    }
+    rewrite <- (id_left (exl (x:=x) (y:=y))) at 1.
+    rewrite <- split_comp.
+    rewrite !comp_assoc.
+    rewrite HX.
+    rewrite id_left.
+    clear.
+    unfold split.
+    etransitivity.
+    { fork_simpl. fork_simpl.
+      apply compose_respects; [reflexivity|].
+      fork_simpl. fork_simpl.
+      apply fork_respects.
+      - rewrite comp_assoc.
+        etransitivity.
+        { apply compose_respects; [| reflexivity].
+          fork_simpl.
+          reflexivity.
+        }
+        fork_simpl.
+        etransitivity.
+        { apply compose_respects; [reflexivity|].
+          fork_simpl.
+          reflexivity.
+        }
+        rewrite comp_assoc.
+        apply compose_respects; [|reflexivity].
+        fork_simpl.
+        reflexivity.
+      - fork_simpl.
+        apply compose_respects; [reflexivity|].
+        rewrite comp_assoc.
+        etransitivity.
+        { apply compose_respects.
+          2: reflexivity.
+          fork_simpl.
+          reflexivity.
+        }
+        fork_simpl.
+        apply fork_respects.
+        + fork_simpl.
+          etransitivity.
+          { apply compose_respects; [reflexivity|].
+            fork_simpl.
+            reflexivity.
+          }
+          rewrite comp_assoc.
+          apply compose_respects; [|reflexivity].
+          fork_simpl.
+          reflexivity.
+        + fork_simpl.
+          reflexivity.
+    }
+    apply compose_respects; [reflexivity|].
+    apply fork_respects; [reflexivity|].
+    rewrite <- comp_assoc.
+    apply compose_respects; [reflexivity|].
+    rewrite <- comp_assoc.
+    unfork.
+  - rewrite <- !comp_assoc.
+    etransitivity.
+    2: {
+      symmetry.
+      apply compose_respects; [reflexivity|].
+      etransitivity.
+      { apply compose_respects; [reflexivity|].
+        rewrite split_fork.
+        rewrite id_left.
+        reflexivity.
+      }
+      rewrite split_fork.
+      apply fork_respects.
+      + apply comp_assoc.
+      + rewrite comp_assoc.
+        rewrite exr_fork.
+        reflexivity.
+    }
+    etransitivity.
+    { apply compose_respects; [reflexivity|].
+      rewrite split_comp.
+      apply split_respects.
+      - apply exr_fork.
+      - apply id_right.
+    }
+    rewrite <- (id_left (exr (x:=x) (y:=y))) at 1.
+    rewrite <- split_comp.
+    rewrite !comp_assoc.
+    rewrite HY.
+    rewrite id_left.
+    clear.
+    unfold split.
+    etransitivity.
+    { fork_simpl. fork_simpl.
+      apply compose_respects; [reflexivity|].
+      fork_simpl. fork_simpl.
+      apply fork_respects.
+      - rewrite comp_assoc.
+        etransitivity.
+        { apply compose_respects; [| reflexivity].
+          fork_simpl.
+          reflexivity.
+        }
+        fork_simpl.
+        etransitivity.
+        { apply compose_respects; [reflexivity|].
+          fork_simpl.
+          reflexivity.
+        }
+        rewrite comp_assoc.
+        apply compose_respects; [|reflexivity].
+        fork_simpl.
+        reflexivity.
+      - fork_simpl.
+        apply compose_respects; [reflexivity|].
+        rewrite comp_assoc.
+        etransitivity.
+        { apply compose_respects.
+          2: reflexivity.
+          fork_simpl.
+          reflexivity.
+        }
+        fork_simpl.
+        apply fork_respects.
+        + fork_simpl.
+          etransitivity.
+          { apply compose_respects; [reflexivity|].
+            fork_simpl.
+            reflexivity.
+          }
+          rewrite comp_assoc.
+          apply compose_respects; [|reflexivity].
+          fork_simpl.
+          reflexivity.
+        + fork_simpl.
+          reflexivity.
+    }
+    apply compose_respects; [reflexivity|].
+    apply fork_respects; [reflexivity|].
+    rewrite <- comp_assoc.
+    apply compose_respects; [reflexivity|].
+    rewrite <- comp_assoc.
+    unfork.
 Qed.
 
 Context `{@Closed C _}.
@@ -236,22 +399,29 @@ Global Program Instance Hom_Monoid {x} `(Y : Monoid y) :
 Next Obligation.
   spose (@mempty_left _ _ _ Y) as HY.
   remember ((curry _ ∘ exl) △ (id[y ^ x] ∘ exr)) as h.
-  assert (h ≈ split (curry (mempty[Y] ∘ exl)) id[y ^ x])
-    by (rewrite Heqh; unfork; cat).
+  assert (h ≈ split (curry (mempty[Y] ∘ exl)) id[y ^ x]).
+  { rewrite Heqh.
+    reflexivity.
+  }
   rewrite X; clear X Heqh h.
   rewrite uncurry_exl_fork_exr.
   unfold doppel.
   rewrite split_fork.
   rewrite curry_comp_l.
-  rewrite <- comp_assoc.
-  rewrite <- fork_comp.
-  rewrite <- !comp_assoc.
-  rewrite <- !first_comp.
-  rewrite exl_split.
-  rewrite exr_split.
-  rewrite !eval_first.
-  rewrite !uncurry_comp.
-  rewrite !uncurry_curry.
+  etransitivity.
+  { apply curry_respects.
+    rewrite comp_assoc_sym.
+    apply compose_respects; [reflexivity|].
+    rewrite <- fork_comp.
+    rewrite <- !comp_assoc.
+    rewrite <- !first_comp.
+    rewrite exl_split.
+    rewrite exr_split.
+    rewrite !eval_first.
+    rewrite !uncurry_comp.
+    rewrite !uncurry_curry.
+    reflexivity.
+  }
   rewrite <- !comp_assoc.
   rewrite !exl_first.
   rewrite <- split_fork.
@@ -269,22 +439,29 @@ Qed.
 Next Obligation.
   spose (@mempty_right _ _ _ Y) as HY.
   remember ((id[y ^ x] ∘ exl) △ (curry _ ∘ exr)) as h.
-  assert (h ≈ split id[y ^ x] (curry (mempty[Y] ∘ exl)))
-    by (rewrite Heqh; unfork; cat).
+  assert (h ≈ split id[y ^ x] (curry (mempty[Y] ∘ exl))).
+  { rewrite Heqh.
+    reflexivity.
+  }
   rewrite X; clear X Heqh h.
   rewrite uncurry_exl_fork_exr.
   unfold doppel.
   rewrite split_fork.
   rewrite curry_comp_l.
-  rewrite <- comp_assoc.
-  rewrite <- fork_comp.
-  rewrite <- !comp_assoc.
-  rewrite <- !first_comp.
-  rewrite exl_split.
-  rewrite exr_split.
-  rewrite !eval_first.
-  rewrite !uncurry_comp.
-  rewrite !uncurry_curry.
+  etransitivity.
+  { apply curry_respects.
+    rewrite comp_assoc_sym.
+    apply compose_respects; [reflexivity|].
+    rewrite <- fork_comp.
+    rewrite <- !comp_assoc.
+    rewrite <- !first_comp.
+    rewrite exl_split.
+    rewrite exr_split.
+    rewrite !eval_first.
+    rewrite !uncurry_comp.
+    rewrite !uncurry_curry.
+    reflexivity.
+  }
   rewrite <- !comp_assoc.
   rewrite !exl_first.
   rewrite <- split_fork.
@@ -301,28 +478,119 @@ Next Obligation.
 Qed.
 Next Obligation.
   spose (@mappend_assoc _ _ _ Y) as HY.
-  rewrite uncurry_exl_fork_exr.
+  etransitivity.
+  { apply compose_respects.
+    - apply curry_respects.
+      apply compose_respects; [reflexivity|].
+      apply uncurry_exl_fork_exr.
+    - apply fork_respects.
+      2: reflexivity.
+      apply compose_respects; [|reflexivity].
+      apply curry_respects.
+      apply compose_respects; [reflexivity|].
+      apply uncurry_exl_fork_exr.
+  }
+  etransitivity.
+  2: {
+    symmetry.
+    apply compose_respects; [|reflexivity].
+    apply compose_respects.
+    - apply curry_respects.
+      apply compose_respects; [reflexivity|].
+      apply uncurry_exl_fork_exr.
+    - apply fork_respects.
+      1: reflexivity.
+      apply compose_respects; [|reflexivity].
+      apply curry_respects.
+      apply compose_respects; [reflexivity|].
+      apply uncurry_exl_fork_exr.
+  }
   remember ((curry _ ∘ exl) △ (id[y ^ x] ∘ exr)) as h.
-  assert (h ≈ split (curry (mappend[Y] ∘ split eval eval ∘ doppel)) id[y ^ x])
-    by (rewrite Heqh; unfork; cat).
+  assert (h ≈ split (curry (mappend[Y] ∘ split eval eval ∘ doppel)) id[y ^ x]).
+  { rewrite Heqh.
+    unfold split.
+    apply fork_respects; try reflexivity.
+    apply compose_respects; try reflexivity.
+    apply curry_respects.
+    apply comp_assoc.
+  }
   rewrite X; clear X Heqh h.
   remember ((id[y ^ x] ∘ exl) △ (curry _ ∘ exr)) as h.
-  assert (h ≈ split id[y ^ x] (curry (mappend[Y] ∘ split eval eval ∘ doppel)))
-    by (rewrite Heqh; unfork; cat).
+  assert (h ≈ split id[y ^ x] (curry (mappend[Y] ∘ split eval eval ∘ doppel))).
+  { rewrite Heqh.
+    unfold split.
+    apply fork_respects; try reflexivity.
+    apply compose_respects; try reflexivity.
+    apply curry_respects.
+    apply comp_assoc.
+  }
   rewrite X; clear X Heqh h.
   unfold doppel.
+  etransitivity.
+  { apply compose_respects.
+    - apply curry_respects.
+      apply compose_respects; [reflexivity|].
+      rewrite !split_fork.
+      rewrite !eval_first.
+      reflexivity.
+    - rewrite <- !comp_assoc.
+      reflexivity.
+  }
   rewrite <- !comp_assoc.
   rewrite !split_fork.
   rewrite !eval_first.
   simpl.
-  rewrite split_fork.
-  rewrite !eval_first.
+  etransitivity.
+  { apply compose_respects; [reflexivity|].
+    apply split_respects; [|reflexivity].
+    rewrite split_fork.
+    rewrite !eval_first.
+    reflexivity.
+  }
+  etransitivity.
+  2: {
+    symmetry.
+    apply compose_respects; [reflexivity|].
+    apply fork_respects; [reflexivity|].
+    rewrite split_fork.
+    rewrite !eval_first.
+    reflexivity.
+  }
   unfold split.
   rewrite !id_left.
   rewrite !curry_comp_l.
-  rewrite <- !comp_assoc.
-  rewrite <- !fork_comp.
-  rewrite <- !uncurry_comp.
+  etransitivity.
+  { apply curry_respects.
+    fork_simpl.
+    apply compose_respects; [reflexivity|].
+    fork_simpl.
+    apply fork_respects.
+    - rewrite <- !comp_assoc.
+      rewrite <- !fork_comp.
+      rewrite <- !uncurry_comp.
+      reflexivity.
+    - rewrite <- !comp_assoc.
+      rewrite <- !fork_comp.
+      rewrite <- !uncurry_comp.
+      reflexivity.
+  }
+  etransitivity.
+  2: {
+    symmetry.
+    apply curry_respects.
+    fork_simpl.
+    apply compose_respects; [reflexivity|].
+    fork_simpl.
+    apply fork_respects.
+    - rewrite <- !comp_assoc.
+      rewrite <- !fork_comp.
+      rewrite <- !uncurry_comp.
+      reflexivity.
+    - rewrite <- !comp_assoc.
+      rewrite <- !fork_comp.
+      rewrite <- !uncurry_comp.
+      reflexivity.
+  }
   rewrite exl_fork.
   rewrite exr_fork.
   rewrite !uncurry_curry.
@@ -331,12 +599,52 @@ Next Obligation.
   rewrite comp_assoc.
   rewrite HY; clear HY.
   rewrite id_left.
-  rewrite <- !comp_assoc.
-  rewrite <- !fork_comp.
-  rewrite <- !comp_assoc.
-  rewrite !exl_fork.
-  rewrite !exr_fork.
-  now rewrite uncurry_curry.
+  etransitivity.
+  { apply curry_respects.
+    fork_simpl. fork_simpl.
+    etransitivity.
+    { apply compose_respects; [reflexivity|].
+      fork_simpl.
+      apply fork_respects.
+      - rewrite <- !fork_comp.
+        fork_simpl.
+        fork_simpl.
+        reflexivity.
+      - rewrite <- !fork_comp.
+        fork_simpl.
+        rewrite exr_fork.
+        rewrite <- comp_assoc.
+        rewrite exl_fork.
+        rewrite !exr_fork.
+        reflexivity.
+    }
+    rewrite !exl_fork.
+    reflexivity.
+  }
+  etransitivity.
+  2: {
+    symmetry.
+    apply curry_respects.
+    apply compose_respects; [reflexivity|].
+    apply fork_respects.
+    - rewrite !exl_fork.
+      reflexivity.
+    - apply uncurry_respects.
+      rewrite exr_fork.
+      apply curry_respects.
+      rewrite exl_fork.
+      rewrite exr_fork.
+      reflexivity.
+  }
+  etransitivity.
+  2: {
+    symmetry.
+    apply curry_respects.
+    apply compose_respects; [reflexivity|].
+    apply fork_respects; [reflexivity|].
+    apply uncurry_curry.
+  }
+  reflexivity.
 Qed.
 
 End Monoid.
