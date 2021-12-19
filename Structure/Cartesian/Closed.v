@@ -46,7 +46,7 @@ Arguments eval' {_ _ _} /.
 Definition ump_exponents {x y z} (f : x × y ~> z) :
   eval ∘ first (curry f) ≈ f := @ump_exponents' _ x y z f.
 
-Global Program Instance parametric_morphism_curry (a b c : C) :
+Global Program Instance curry_respects (a b c : C) :
   Proper (equiv ==> equiv) (@curry a b c).
 Next Obligation.
   proper.
@@ -56,7 +56,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-Global Program Instance parametric_morphism_uncurry (a b c : C) :
+Global Program Instance uncurry_respects (a b c : C) :
   Proper (equiv ==> equiv) (@uncurry a b c).
 Next Obligation.
   proper.
