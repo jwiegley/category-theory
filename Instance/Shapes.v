@@ -247,9 +247,8 @@ Program Definition Vectors (a : Type) : Category := {|
   hom     := λ x y, Vector.t a x -> Vector.t a y;
   homset  := λ _ _, {| equiv := fun f g => ∀ x, f x = g x |};
   id      := λ _, id
-  (* jww (2021-12-29): Uncommenting this line results in
+  (* jww (2021-12-29): If this line is uncommented, the next Qed fails with:
      Error: <in exception printer>:<original exception:Anomaly "Uncaught exception Not_found."
-     on the next Qed.
    *)
   (* ; compose := λ x y z f g, λ w, f (g w) *)
 |}.
