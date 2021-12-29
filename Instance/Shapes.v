@@ -136,12 +136,14 @@ Proof.
   now apply append_nil.
 Qed.
 
-Lemma map_respects a b (f g : a -> b) n m (x : t a n) (y : t a m) :
-  (∀ x, f x = g x) -> n = m -> x ~= y -> map f x ~= map g y.
-Proof.
-  intros; subst.
-  induction y; simpl; auto.
-  now apply cons_respects.
+Program Instance map_Proper {a b : Type} :
+  Proper ((λ f g, ∀ x, f x = g x) ==>
+          forall_relation (λ _, (λ x y, x ~= y) ==> (λ x y, x ~= y)))%signature
+         (@map a b).
+Next Obligation.
+  proper; subst.
+  induction y0; simpl; auto.
+  now rewrite H, IHy0.
 Qed.
 
 Lemma map_nil `(f : a -> b) : map f (nil a) = nil b.
@@ -310,28 +312,35 @@ Proof.
     subst.
     apply concat_respects; auto.
     rewrite vec_trie.
-    assert ((λ x1 : t a (size s2), vec (trie x1)) = Datatypes.id). {
-      clear -vec_trie.
-      extensionality w.
-      now rewrite vec_trie.
-    }
-    rewrite H.
-    now rewrite map_id.
+    clear -vec_trie.
+    induction x0; simpl; auto.
+    rewrite IHx0.
+    now rewrite vec_trie.
 Qed.
 
-Theorem trie_vec `(x : Trie a s) : trie (vec x) = x.
-Proof.
-  induction x; simpl; auto.
-  - rewrite splitat_append.
-    now rewrite IHx1, IHx2.
-  - unfold group.
-    destruct (group_dep _ _ _) eqn:Heqe; simpl in *.
-    clear Heqe.
-    apply concat_inj in e; subst.
-Admitted.
+Definition Trie_equiv {s : Shape} {a : Type} (x y : Trie a s) : Type :=
+  vec x ~= vec y.
 
-Lemma vec_respects a s (x y : Trie a s) : x = y -> vec x ~= vec y.
-Proof. intros; subst; reflexivity. Qed.
+Program Instance Trie_Setoid {s : Shape} {a : Type} : Setoid (Trie a s) := {|
+  equiv := Trie_equiv
+|}.
+Next Obligation.
+  unfold Trie_equiv.
+  constructor; repeat intro; intuition.
+  now rewrite H, H0.
+Qed.
+
+Theorem trie_vec `(x : Trie a s) : trie (vec x) ≈ x.
+Proof.
+  simpl.
+  unfold Trie_equiv.
+  now rewrite vec_trie.
+Qed.
+
+Program Instance vec_Proper :
+  Proper (forall_relation (λ _,
+          forall_relation (λ _, equiv ==> (λ x y, x ~= y))))%signature (@vec).
+Next Obligation. proper. Qed.
 
 Fixpoint Trie_map {s : Shape} `(f : a -> b) (x : Trie a s) : Trie b s :=
   match x with
@@ -367,10 +376,10 @@ Proof.
   now apply size_unsize.
 Qed.
 
-Theorem Trie_map_flatten `(f : a -> b) `(t : Trie a s) :
+Fixpoint Trie_map_flatten `(f : a -> b) `(t : Trie a s) :
   vec (Trie_map f t) ~= map f (vec t).
 Proof.
-  induction t; auto.
+  induction t; try (simpl; reflexivity).
   - simpl.
     rewrite map_append.
     now rewrite IHt1, IHt2.
@@ -378,9 +387,10 @@ Proof.
     rewrite map_concat.
     rewrite map_map.
     apply concat_respects; auto.
-    apply map_respects; auto.
-    intros.
-    now rewrite H.
+    clear -Trie_map_flatten.
+    induction (vec t0); simpl; auto.
+    rewrite IHt1.
+    now rewrite Trie_map_flatten.
 Qed.
 
 Definition Trie_case0 {a : Type}
@@ -401,81 +411,12 @@ Fixpoint Trie_fold_right `(f : a → b → b) `(t : Trie a s) (z : b) : b :=
   | Joins _ k xss => Trie_fold_right (Trie_fold_right f ∘ k) xss z
   end.
 
-Definition Trie_fold_right2
-           `(f : a → b → c → c)
-           (z : c)
-           (s : Shape)
-           (v1 : Trie a s)
-           (v2 : Trie b s) : c.
-Proof.
-  induction s; simpl in *.
-  - exact z.
-  - destruct v1 using Trie_case1.
-    destruct v2 using Trie_case1.
-    exact (f x x0 z).
-  - dependent destruction v1.
-    dependent destruction v2.
-    specialize (IHs1 v1_1 v2_1).
-    specialize (IHs2 v1_2 v2_2).
-    admit.
-  - dependent destruction v1.
-    dependent destruction v2.
-    admit.
-Admitted.
-
-Definition
-  Trie_rect2
-  {a b : Type}
-  (P : ∀ s : Shape, Trie a s → Trie b s → Type)
-  (Punit : P Bottom Unit Unit)
-  (Pid : (∀ (a : a) (b : b), P Top (Id a) (Id b)))
-  (Pjoin : (∀ (s1 : Shape) (x1 : Trie a s1) (x2 : Trie b s1)
-              (s2 : Shape) (y1 : Trie a s2) (y2 : Trie b s2),
-               P s1 x1 x2 → P s2 y1 y2
-               → P (Plus s1 s2) (Join x1 y1) (Join x2 y2)))
-  (Pjoins : (∀ (z1 z2 : Type) (s1 : Shape)
-               (xs1 : Trie z1 s1) (xs2 : Trie z2 s1)
-               (s2 : Shape)
-               (k1 : z1 -> Trie a s2)
-               (k2 : z2 -> Trie b s2),
-                Trie_fold_right2 (λ z1 z2 p, p ∧ P s2 (k1 z1) (k2 z2))
-                                 True s1 xs1 xs2
-                → P (Times s1 s2) (Joins z1 k1 xs1) (Joins z2 k2 xs2)))
-  (s : Shape) (v1 : Trie a s) (v2 : Trie b s) : P s v1 v2.
-Proof.
-  induction s; simpl in *.
-  - induction v1 using Trie_case0.
-    induction v2 using Trie_case0.
-    exact Punit.
-  - induction v1 using Trie_case1.
-    induction v2 using Trie_case1.
-    now apply Pid.
-  - dependent induction v1.
-    dependent induction v2.
-    now apply Pjoin.
-  - dependent induction v1.
-    dependent induction v2.
-    apply Pjoins.
-Abort.
-
-Definition Trie_equiv {s : Shape} {a : Type} (x y : Trie a s) : Type :=
-  vec x = vec y.
-
-Program Instance Trie_Setoid {s : Shape} {a : Type} : Setoid (Trie a s) := {|
-  equiv := Trie_equiv
-|}.
-Next Obligation.
-  unfold Trie_equiv.
-  constructor; repeat intro; intuition.
-  now rewrite H, H0.
-Qed.
-
 Program Instance Trie_Functor (s : Shape) : Coq ⟶ Sets := {|
   fobj := λ a,
     {| carrier := Trie a s
-     ; is_setoid := @Trie_Setoid s a |};
+     ; is_setoid := Trie_Setoid |};
   fmap := λ _ _ f,
-    {| morphism := @Trie_map s _ _ f
+    {| morphism := Trie_map f
      ; proper_morphism := _ |}
 |}.
 Next Obligation.
@@ -488,16 +429,13 @@ Next Obligation.
   proper.
   unfold Trie_equiv in *.
   rewrite !Trie_map_flatten.
-  f_equal.
-  extensionality w.
-  now apply H.
+  now apply map_Proper; intuition.
 Qed.
 Next Obligation.
   unfold Trie_equiv in *.
   rewrite Trie_map_flatten.
   induction (vec x0); simpl; auto.
-  f_equal.
-  exact IHt.
+  now apply cons_respects.
 Qed.
 Next Obligation.
   unfold Trie_equiv in *.
@@ -515,26 +453,31 @@ Program Instance Trie_Representable (s : Shape) :
 
 Program Definition Tries (a : Type) : Category := {|
   obj     := Shape;
-  hom     := λ x y, Trie a x -> Trie a y;
-  homset  := λ _ _, {| equiv := fun f g => ∀ x, f x = g x |};
+  hom     := λ x y,
+    (* This is a setoid morphism within a smaller category than Coq. *)
+    ∃ f : Trie a x -> Trie a y, Proper (equiv ==> equiv) f;
+  homset  := λ _ _, {| equiv := fun f g => ∀ x, `1 f x ≈ `1 g x |};
   id      := _;
   compose := _
 |}.
 Next Obligation.
   equivalence;
   unfold Trie_equiv in *; intuition.
-  now rewrite H1, H2.
+  simpl in *.
+  now rewrite X, X0.
 Qed.
 Next Obligation.
   proper.
-  unfold Tries_obligation_3.
-  now rewrite H0, H.
+  unfold Trie_equiv in *.
+  simpl in *.
+  rewrite X; clear X.
+  now apply e1, X0.
 Qed.
 
 Program Definition Vectors (a : Type) : Category := {|
   obj     := nat;
   hom     := λ x y, Vector.t a x -> Vector.t a y;
-  homset  := λ _ _, {| equiv := fun f g => ∀ x, f x = g x |};
+  homset  := λ _ _, {| equiv := fun f g => ∀ x, f x ~= g x |};
   id      := _;
   compose := _
 |}.
@@ -551,28 +494,22 @@ Qed.
 
 Program Definition Cardinality (a : Type) : Tries a ⟶ Vectors a := {|
   fobj := size;
-  fmap := λ _ _ f, vec ∘ f ∘ trie
+  fmap := λ _ _ f, vec ∘ `1 f ∘ trie
 |}.
 Next Obligation.
-  proper.
-  now rewrite H.
-Qed.
-Next Obligation.
-  unfold Tries_obligation_2.
   unfold Vectors_obligation_2.
-  now rewrite vec_trie.
+  now apply vec_trie.
 Qed.
 Next Obligation.
-  unfold Tries_obligation_3.
   unfold Vectors_obligation_3.
-  f_equal.
-  apply JMeq_congr.
-  now rewrite (@trie_vec _ _ (g (trie x0))).
+  unfold Trie_equiv in *.
+  apply X0.
+  now rewrite trie_vec.
 Qed.
 
 Program Definition Canonicity (a : Type) : Vectors a ⟶ Tries a := {|
   fobj := unsize;
-  fmap := λ _ _ f, trie ∘ f ∘ vec
+  fmap := λ _ _ f, (trie ∘ f ∘ vec; _)
 |}.
 Next Obligation. now rewrite size_unsize. Defined.
 Next Obligation. now rewrite size_unsize. Defined.
@@ -580,26 +517,25 @@ Next Obligation.
   proper.
   unfold Canonicity_obligation_1.
   unfold Canonicity_obligation_2.
+  now rewrite X.
+Qed.
+Next Obligation.
+  proper.
+  unfold Trie_equiv in *.
   now rewrite H.
 Qed.
 Next Obligation.
   unfold Canonicity_obligation_1.
   unfold Canonicity_obligation_2.
   unfold Vectors_obligation_2.
-  unfold Tries_obligation_2.
   destruct (size_unsize x); simpl.
   now apply trie_vec.
 Qed.
 Next Obligation.
   unfold Canonicity_obligation_1.
   unfold Canonicity_obligation_2.
-  unfold Vectors_obligation_3.
-  unfold Tries_obligation_3.
+  unfold Trie_equiv in *.
   rewrite !vec_trie.
-  f_equal.
-  f_equal.
-  apply JMeq_congr.
-  f_equal.
   remember (rew [λ H : nat, t a H] eq_ind_r (λ n : nat, n = x) eq_refl (size_unsize x)
              in vec x0) as o.
   clear.
@@ -620,15 +556,20 @@ Program Definition Card_Canon_Adjunction a :
      |}
 |}.
 Next Obligation.
-  apply trie.
-  rewrite size_unsize.
-  apply f.
-  apply vec.
-  exact X.
+  unshelve refine (existT _ _ _).
+  - intros.
+    apply trie.
+    rewrite size_unsize.
+    apply f.
+    apply vec.
+    exact X.
+  - proper.
+    unfold Trie_equiv in *.
+    now rewrite X.
 Defined.
 Next Obligation.
   proper.
-  unfold Card_Canon_Adjunction_obligation_1.
+  unfold Trie_equiv in *.
   now rewrite H.
 Qed.
 Next Obligation.
@@ -641,40 +582,46 @@ Defined.
 Next Obligation.
   proper.
   unfold Card_Canon_Adjunction_obligation_3.
-  now rewrite H.
-Qed.
-Next Obligation.
-  unfold Card_Canon_Adjunction_obligation_1.
-  unfold Card_Canon_Adjunction_obligation_3.
   destruct (size_unsize y); simpl.
-  rewrite trie_vec.
-  now apply trie_vec.
+  now rewrite X.
 Qed.
 Next Obligation.
-  unfold Card_Canon_Adjunction_obligation_1.
-  unfold Card_Canon_Adjunction_obligation_3.
-  rewrite vec_trie.
+  unfold Trie_equiv.
+  rewrite !vec_trie.
+  destruct (size_unsize y); simpl.
+  apply X.
+  apply trie_vec.
+Qed.
+Next Obligation.
+  rewrite !vec_trie.
   assert (∀ x, rew [t a] size_unsize y in rew <- [λ n : nat, t a n] size_unsize y in x = x). {
     clear.
     now destruct (size_unsize y); simpl.
   }
-  rewrite H.
-  now rewrite vec_trie.
+  now rewrite H.
 Qed.
 Next Obligation.
-  unfold Card_Canon_Adjunction_obligation_1.
+  unfold Trie_equiv.
   unfold Vectors_obligation_3.
-  unfold Tries_obligation_3.
-  now rewrite trie_vec.
+  rewrite !vec_trie.
+  assert (∀ x y, x = y ->
+                 rew <- [λ n : nat, t a n] size_unsize z in x =
+                 rew <- [λ n : nat, t a n] size_unsize z in y). {
+    intros.
+    now f_equal.
+  }
+  rewrite (H (f (vec (g (trie (vec x0))))) (f (vec (g x0)))).
+  reflexivity.
+  apply JMeq_congr.
+  apply X.
+  apply trie_vec.
 Qed.
 Next Obligation.
-  unfold Card_Canon_Adjunction_obligation_1.
-  unfold Vectors_obligation_3.
-  unfold Tries_obligation_3.
+  unfold Trie_equiv.
   unfold Canonicity_obligation_1.
   unfold Canonicity_obligation_2.
-  rewrite vec_trie.
-  apply JMeq_congr.
+  unfold Vectors_obligation_3.
+  rewrite !vec_trie.
   assert (∀ x, rew [λ H : nat, t a H] eq_ind_r (λ n : nat, n = y) eq_refl (size_unsize y) in
                rew <- [λ n : nat, t a n] size_unsize y in x = x). {
     clear.
@@ -690,18 +637,19 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  unfold Card_Canon_Adjunction_obligation_3.
-  unfold Tries_obligation_3.
   unfold Vectors_obligation_3.
+  unfold Card_Canon_Adjunction_obligation_3.
+  destruct (size_unsize z); simpl.
+  apply X0.
+  unfold Trie_equiv.
   now rewrite trie_vec.
 Qed.
 Next Obligation.
-  unfold Card_Canon_Adjunction_obligation_3.
-  unfold Tries_obligation_3.
-  unfold Vectors_obligation_3.
   unfold Canonicity_obligation_1.
   unfold Canonicity_obligation_2.
-  rewrite vec_trie.
+  unfold Vectors_obligation_3.
+  unfold Card_Canon_Adjunction_obligation_3.
+  rewrite !vec_trie.
   assert (∀ x, rew [t a] size_unsize z in
                rew [λ H : nat, t a H]
                    eq_ind_r (λ n : nat, z = n) eq_refl (size_unsize z) in x = x). {
@@ -716,3 +664,5 @@ Next Obligation.
   }.
   now rewrite H.
 Qed.
+
+Print Assumptions Card_Canon_Adjunction.
