@@ -12,13 +12,17 @@ Import VectorNotations.
 
 Generalizable All Variables.
 Set Primitive Projections.
-(* jww (2021-12-29): If this is uncommented, the following error occurs:
-   Error: Anomaly "Uncaught exception AcyclicGraph.Make(Point).AlreadyDeclared."
- *)
 (* Set Universe Polymorphism. *)
 (* Unset Transparent Obligations. *)
 
-(* This lemma is missing in Coq 8.11 and earlier. *)
+(* These two lemmas is missing in Coq 8.11 and earlier. *)
+Lemma map_id A: forall n (v : t A n),
+  map (fun x => x) v = v.
+Proof.
+  induction v; simpl; auto.
+  now rewrite IHv.
+Qed.
+
 Lemma map_map A B C: forall (f:A->B) (g:B->C) n (v : t A n),
   map g (map f v) = map (fun x => g (f x)) v.
 Proof.
