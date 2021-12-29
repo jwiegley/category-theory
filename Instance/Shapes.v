@@ -18,6 +18,14 @@ Set Primitive Projections.
 (* Set Universe Polymorphism. *)
 (* Unset Transparent Obligations. *)
 
+(* This lemma is missing in Coq 8.11 and earlier. *)
+Lemma map_map A B C: forall (f:A->B) (g:B->C) n (v : t A n),
+  map g (map f v) = map (fun x => g (f x)) v.
+Proof.
+  induction v; simpl; auto.
+  now rewrite IHv.
+Qed.
+
 Fixpoint concat `(xs : t (t a n) m) : t a (m * n) :=
   match xs with
   | nil _ => nil a
