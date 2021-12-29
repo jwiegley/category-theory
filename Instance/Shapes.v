@@ -1,9 +1,6 @@
 Set Warnings "-notation-overridden".
 Set Warnings "-deprecated-hint-without-locality".
 
-From Equations Require Import Equations.
-Require Import Equations.Type.EqDec.
-
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
 Require Export Category.Instance.Fun.
@@ -15,6 +12,9 @@ Import VectorNotations.
 
 Generalizable All Variables.
 Set Primitive Projections.
+(* jww (2021-12-29): If this is uncommented, the following error occurs:
+   Error: Anomaly "Uncaught exception AcyclicGraph.Make(Point).AlreadyDeclared."
+ *)
 (* Set Universe Polymorphism. *)
 (* Unset Transparent Obligations. *)
 
@@ -35,16 +35,11 @@ Program Fixpoint group_dep {a : Type} (m n : nat) (xs : t a (m * n)) :
       end
   end.
 Next Obligation.
-  destruct (mult_n_O n); simpl.
   now destruct xs using case0.
 Qed.
 Next Obligation.
-  destruct (mult_n_Sm n m'); simpl.
-  destruct (PeanoNat.Nat.add_comm n (n * m')); simpl.
   symmetry in Heq_anonymous.
-  apply append_splitat in Heq_anonymous.
-  rewrite Heq_anonymous.
-  reflexivity.
+  now apply append_splitat.
 Qed.
 
 Definition group {a : Type} (m n : nat) (xs : t a (m * n)) : t (t a n) m :=
@@ -53,20 +48,16 @@ Definition group {a : Type} (m n : nat) (xs : t a (m * n)) : t (t a n) m :=
 Lemma map_append `(f : a -> b) `(xs : t a n) `(ys : t a m) :
   map f (xs ++ ys) = map f xs ++ map f ys.
 Proof.
-  induction xs; simpl.
-  - reflexivity.
-  - now rewrite IHxs.
+  induction xs; simpl; auto.
+  now rewrite IHxs.
 Qed.
 
 Lemma map_concat `(f : a -> b) `(xs : t (t a n) m) :
   map f (concat xs) = concat (map (map f) xs).
 Proof.
-  induction xs; simpl.
-  - now destruct (mult_n_O n).
-  - destruct (mult_n_Sm n n0); simpl.
-    destruct (PeanoNat.Nat.add_comm n (n * n0)); simpl.
-    rewrite <- IHxs.
-    now apply map_append.
+  induction xs; simpl; auto.
+  rewrite <- IHxs.
+  now apply map_append.
 Qed.
 
 (**************************************************************************)
@@ -94,14 +85,6 @@ Fixpoint unsize (n : nat) : Shape :=
 Theorem size_unsize n : size (unsize n) = n.
 Proof. now induction n; simpl; auto. Qed.
 
-Theorem unsize_size : (∀ s, unsize (size s) = s) -> False.
-Proof.
-  intros.
-  specialize (H Top).
-  simpl in H.
-  inversion H.
-Qed.
-
 Program Instance Shape_Setoid : Setoid Shape := {|
   equiv := λ x y, size x = size y
 |}.
@@ -109,14 +92,14 @@ Program Instance Shape_Setoid : Setoid Shape := {|
 (**************************************************************************)
 
 Inductive Trie (a : Type) : Shape -> Type :=
-  | Unit : Trie a Bottom             (* a^0 = 1 *)
-  | Id : a -> Trie a Top             (* a^1 = a *)
-    (* a^(b+c) = a^b * a^c *)
-  | Join {x y} : Trie a x -> Trie a y -> Trie a (Plus x y)
-    (* a^(b*c) = (a^b)^c *)
+  | Unit : Trie a Bottom                      (* a^0 = 1 *)
+  | Id : a -> Trie a Top                      (* a^1 = a *)
+  | Join {x y} :
+    Trie a x -> Trie a y -> Trie a (Plus x y) (* a^(b+c) = a^b * a^c *)
   | Joins {x y} :
     (* This allows us to positively express Trie (Trie a y) x *)
-    forall z, (z -> Trie a y) -> Trie z x -> Trie a (Times x y).
+    ∀ z, (z -> Trie a y) ->
+         Trie z x -> Trie a (Times x y).      (* a^(b*c) = (a^b)^c *)
 
 Arguments Unit {a}.
 Arguments Id {a} _.
@@ -145,15 +128,11 @@ Fixpoint vec_trie `(x : Vector.t a (size s)) : vec (trie x) = x.
 Proof.
   induction s; simpl in *.
   - now induction x using case0.
-  - induction x using caseS'.
-    simpl.
+  - induction x using caseS'; simpl.
     now induction x using case0.
   - destruct (splitat (size s1) x) eqn:Heqe; simpl in *.
-    apply append_splitat in Heqe.
-    rewrite Heqe; clear Heqe.
-    rewrite IHs1.
-    rewrite IHs2.
-    reflexivity.
+    apply append_splitat in Heqe; subst.
+    now rewrite IHs1, IHs2.
   - unfold group.
     destruct (group_dep _ _ _) eqn:Heqe; simpl in *.
     subst.
@@ -165,6 +144,9 @@ Proof.
     now rewrite vec_trie.
 Qed.
 
+(* jww (2021-12-29): If ": Type" is removed, the next Qed fails with:
+   Error: <in exception printer>:<original exception:Anomaly "Uncaught exception Not_found."
+ *)
 Definition Trie_equiv {s : Shape} {a : Type} (x y : Trie a s) : Type :=
   vec x = vec y.
 
@@ -196,12 +178,10 @@ Fixpoint Trie_map {s : Shape} `(f : a -> b) (x : Trie a s) : Trie b s :=
 Fixpoint Trie_map_flatten `(f : a -> b) `(t : Trie a s) :
   vec (Trie_map f t) = map f (vec t).
 Proof.
-  induction t; try (simpl; reflexivity).
-  - simpl.
-    rewrite map_append.
+  induction t; try (simpl; reflexivity); simpl.
+  - rewrite map_append.
     now rewrite IHt1, IHt2.
-  - simpl in *.
-    rewrite map_concat.
+  - rewrite map_concat.
     rewrite map_map.
     f_equal.
     clear -Trie_map_flatten.
