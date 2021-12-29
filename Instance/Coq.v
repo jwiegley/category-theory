@@ -15,25 +15,25 @@ Unset Transparent Obligations.
 
 Program Instance Coq : Category := {
   obj     := Type;
-  hom     := fun A B : Type => A -> B;
-  homset  := fun _ _ => {| equiv := fun f g => forall x, f x = g x |};
-  id      := fun _ x => x;
-  compose := fun _ _ _ g f x => g (f x)
+  hom     := λ A B : Type, A -> B;
+  homset  := λ _ _, {| equiv := λ f g, ∀ x, f x = g x |};
+  id      := λ _ x, x;
+  compose := λ _ _ _ g f x, g (f x)
 }.
 Next Obligation. equivalence; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
 
 Program Instance Coq_Terminal : @Terminal Coq := {
   terminal_obj := unit : Type;
-  one := fun _ a => tt
+  one := λ _ a, tt
 }.
 Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
 
 Program Instance Coq_Cartesian : @Cartesian Coq := {
-  product_obj := fun x y => x * y : Type;
-  fork := fun _ _ _ f g x => (f x, g x);
-  exl  := fun _ _ p => fst p;
-  exr  := fun _ _ p => snd p
+  product_obj := λ x y, x * y : Type;
+  fork := λ _ _ _ f g x, (f x, g x);
+  exl  := λ _ _ p, fst p;
+  exr  := λ _ _ p, snd p
 }.
 Next Obligation. proper; congruence. Qed.
 Next Obligation.
@@ -47,28 +47,28 @@ Qed.
 
 Program Instance Coq_Closed : @Closed Coq _ := {
   exponent_obj := Basics.arrow;
-  exp_iso := fun _ _ _ =>
-    {| to   := {| morphism := fun f a b => f (a, b) |}
-     ; from := {| morphism := fun f p => f (fst p) (snd p) |} |}
+  exp_iso := λ _ _ _,
+    {| to   := {| morphism := λ f a b, f (a, b) |}
+     ; from := {| morphism := λ f p, f (fst p) (snd p) |} |}
 }.
 Next Obligation. proper; extensionality X0; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
 
 Program Instance Coq_Initial : Initial Coq := {
   terminal_obj := False;
-  one := fun _ _ => False_rect _ _
+  one := λ _ _, False_rect _ _
 }.
 Next Obligation. contradiction. Qed.
 
 Program Instance Coq_Cocartesian : @Cocartesian Coq := {
   product_obj := sum;
-  fork := fun _ _ _ f g x =>
+  fork := λ _ _ _ f g x,
             match x with
             | Datatypes.inl v => f v
             | Datatypes.inr v => g v
             end;
-  exl  := fun _ _ p => Datatypes.inl p;
-  exr  := fun _ _ p => Datatypes.inr p
+  exl  := λ _ _ p, Datatypes.inl p;
+  exr  := λ _ _ p, Datatypes.inr p
 }.
 Next Obligation.
   split; intros.
@@ -87,8 +87,8 @@ Proof.
     simpl in *; intros.
     apply HA, HB.
   - intros HA ?? HB.
-    pose (fun (_ : unit) => x0) as const_x.
-    pose (fun (_ : unit) => y0) as const_y.
+    pose (λ (_ : unit), x0) as const_x.
+    pose (λ (_ : unit), y0) as const_y.
     destruct HA.
     specialize (monic unit const_x const_y).
     unfold const_x in monic.
@@ -113,13 +113,13 @@ Proof.
   - intros HA ?.
     destruct HA.
     specialize epic with (z := Prop).
-    specialize epic with (g1 := fun y0 => (exists x0, f x0 = y0)%type).
+    specialize epic with (g1 := λ y0, (exists x0, f x0 = y0)%type).
     simpl in *.
-    specialize epic with (g2 := fun y => True).
+    specialize epic with (g2 := λ y, True).
     erewrite epic.
       constructor.
     intros.
-    Axiom propositional_extensionality : forall P : Prop, P -> P = True.
+    Axiom propositional_extensionality : ∀ P : Prop, P -> P = True.
     apply propositional_extensionality.
     exists x0.
     reflexivity.
@@ -141,7 +141,7 @@ Program Instance optionF : EndoFunctor option :=
 
 Global Program Instance option_Monad : @Monad Coq option_Functor := {
   ret := @Some;
-  join := fun _ x =>
+  join := λ _ x,
     match x with
     | Some (Some x) => Some x
     | _ => None
