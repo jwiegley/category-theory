@@ -3,6 +3,7 @@ Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
+Require Export Category.Structure.BiCCC.
 Require Export Category.Instance.Fun.
 Require Export Category.Instance.Coq.
 Require Export Category.Instance.Sets.
@@ -148,7 +149,6 @@ Proof.
   - unfold group.
     destruct (group_dep _ _ _) eqn:Heqe; simpl in *.
     subst.
-    f_equal.
     rewrite vec_trie.
     clear -vec_trie.
     induction x0; simpl; auto.
@@ -156,9 +156,6 @@ Proof.
     now rewrite vec_trie.
 Qed.
 
-(* jww (2021-12-29): If ": Type" is removed, the next Qed fails with:
-   Error: <in exception printer>:<original exception:Anomaly "Uncaught exception Not_found."
- *)
 Definition Trie_equiv {s : Shape} {a : Type} (x y : Trie a s) : Type :=
   vec x = vec y.
 
@@ -195,7 +192,6 @@ Proof.
     now rewrite IHt1, IHt2.
   - rewrite map_concat.
     rewrite map_map.
-    f_equal.
     clear -Trie_map_flatten.
     induction (vec t0); simpl; auto.
     rewrite IHt1.
@@ -239,7 +235,7 @@ Program Definition Tries (a : Type) : Category := {|
     (* This is a setoid morphism within a smaller category than Coq. *)
     ∃ f : Trie a x -> Trie a y, Proper (equiv ==> equiv) f;
   homset  := λ _ _, {| equiv := fun f g => ∀ x, `1 f x ≈ `1 g x |};
-  id      := _;
+  id      := λ _, (λ x, x; _);
   compose := _
 |}.
 Next Obligation.
@@ -254,24 +250,132 @@ Next Obligation.
   now apply e1, H0.
 Qed.
 
-Program Definition Vectors (a : Type) : Category := {|
-  obj     := nat;
-  hom     := λ x y, Vector.t a x -> Vector.t a y;
-  homset  := λ _ _, {| equiv := fun f g => ∀ x, f x = g x |};
-  id      := λ _, id
-  (* jww (2021-12-29): If this line is uncommented, the next Qed fails with:
-     Error: <in exception printer>:<original exception:Anomaly "Uncaught exception Not_found."
-   *)
-  (* ; compose := λ x y z f g, λ w, f (g w) *)
+Definition Trie_case0
+           {A : Type} (P : Trie A Bottom → Type)
+           (Punit : P Unit) : ∀ v : Trie A Bottom, P v.
+Proof. now dependent induction v. Qed.
+
+Definition Trie_left {a : Type} {X Y : Shape} (v : Trie a (Plus X Y)) : Trie a X.
+Proof. now inversion v; subst. Defined.
+
+Definition Trie_right {a : Type} {X Y : Shape} (v : Trie a (Plus X Y)) : Trie a Y.
+Proof. now inversion v; subst. Defined.
+
+Lemma vec_Trie_left {a : Type} {X Y : Shape} (v : Trie a (Plus X Y)) :
+  vec (Trie_left v) = fst (splitat (size X) (vec v)).
+Proof.
+  dependent induction v; simpl in *.
+  simpl_eq.
+  now rewrite splitat_append.
+Qed.
+
+Lemma vec_Trie_right {a : Type} {X Y : Shape} (v : Trie a (Plus X Y)) :
+  vec (Trie_right v) = snd (splitat (size X) (vec v)).
+Proof.
+  dependent induction v; simpl in *.
+  simpl_eq.
+  now rewrite splitat_append.
+Qed.
+
+Program Definition Tries_Terminal (a : Type) : @Terminal (Tries a) := {|
+  terminal_obj := Bottom;
+  one          := λ _, (λ _, Unit; _)
 |}.
 Next Obligation.
-  equivalence.
-  now rewrite H1, H2.
+  f_equal.
+  remember (f x0) as i.
+  remember (g x0) as j.
+  clear.
+  induction i using Trie_case0.
+  induction j using Trie_case0.
+  reflexivity.
+Qed.
+
+Program Definition Tries_Cartesian (a : Type) : @Cartesian (Tries a) := {|
+  product_obj := Plus;
+  fork        := λ _ _ _ f g, (λ x, Join (`1 f x) (`1 g x); _);
+  exl         := λ _ _, (Trie_left; _);
+  exr         := λ _ _, (Trie_right; _)
+|}.
+Next Obligation.
+  proper.
+  f_equal.
+  - now apply X0.
+  - now apply X.
 Qed.
 Next Obligation.
   proper.
-  unfold Vectors_obligation_2.
+  rewrite !vec_Trie_left.
+  now do 2 f_equal.
+Qed.
+Next Obligation.
+  proper.
+  rewrite !vec_Trie_right.
+  now do 2 f_equal.
+Qed.
+Next Obligation.
+  proper.
+  simpl in *.
+  now rewrite H, H0.
+Qed.
+Next Obligation.
+  split; intros.
+  - split; intros.
+    + now rewrite vec_Trie_left, H, splitat_append.
+    + now rewrite vec_Trie_right, H, splitat_append.
+  - destruct H.
+    specialize (e x0).
+    specialize (e0 x0).
+    rewrite vec_Trie_left in e.
+    rewrite vec_Trie_right in e0.
+    rewrite <- e, <- e0.
+    apply append_splitat.
+    now apply surjective_pairing.
+Qed.
+
+Program Definition Vectors (a : Type) : Category := {|
+  obj     := nat;
+  hom     := λ x y, Vector.t a x -> Vector.t a y;
+  homset  := λ x y, @funext_Setoid _ (Vector.t a) x y (eq_Setoid (t a y));
+  id      := λ _ x, x;
+  compose := λ _ _ _ f g x, f (g x)
+|}.
+Next Obligation.
+  proper.
   now rewrite H0, H.
+Qed.
+
+Program Definition Vectors_Terminal (a : Type) : @Terminal (Vectors a) := {|
+  terminal_obj := 0%nat;
+  one          := λ _ _, nil a
+|}.
+Next Obligation.
+  remember (f x0) as i.
+  remember (g x0) as j.
+  clear.
+  induction i using case0.
+  induction j using case0.
+  reflexivity.
+Qed.
+
+Program Definition Vectors_Cartesian (a : Type) : @Cartesian (Vectors a) := {|
+  product_obj := plus;
+  fork        := λ _ _ _ f g, λ x, f x ++ g x;
+  exl         := λ x _, fst ∘ splitat x;
+  exr         := λ x _, snd ∘ splitat x
+|}.
+Next Obligation.
+  proper.
+  now rewrite H, H0.
+Qed.
+Next Obligation.
+  split; intros.
+  - split; intros;
+    now rewrite H, splitat_append.
+  - destruct H.
+    rewrite <- e, <- e0.
+    apply append_splitat.
+    now apply surjective_pairing.
 Qed.
 
 Program Definition Cardinality (a : Type) : Tries a ⟶ Vectors a := {|
@@ -282,7 +386,6 @@ Next Obligation.
   now rewrite vec_trie.
 Qed.
 Next Obligation.
-  unfold Vectors_obligation_2.
   apply X0; simpl.
   now rewrite trie_vec.
 Qed.
@@ -326,7 +429,6 @@ Next Obligation.
   now apply trie_vec.
 Qed.
 Next Obligation.
-  unfold Vectors_obligation_2.
   rewrite !vec_trie.
   now rewrite sized_resized.
 Qed.
@@ -347,7 +449,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   proper.
-  unfold Card_Canon_Adjunction_obligation_3.
+  simpl in *.
   now rewrite H.
 Qed.
 Next Obligation.
@@ -361,28 +463,23 @@ Next Obligation.
   now rewrite sized_resized.
 Qed.
 Next Obligation.
-  unfold Vectors_obligation_2.
   rewrite !vec_trie.
   do 2 f_equal.
   apply X.
   now apply trie_vec.
 Qed.
 Next Obligation.
-  unfold Vectors_obligation_2.
   rewrite !vec_trie.
   now rewrite sized_resized.
 Qed.
 Next Obligation.
-  unfold Vectors_obligation_2.
   f_equal.
-  apply X0.
-  simpl.
+  apply X0; simpl.
   now rewrite trie_vec.
 Qed.
 Next Obligation.
-  unfold Vectors_obligation_2.
   rewrite !vec_trie.
   now rewrite sized_resized.
 Qed.
 
-Print Assumptions Card_Canon_Adjunction.
+(* Print Assumptions Card_Canon_Adjunction. *)
