@@ -76,3 +76,27 @@ Notation "f --> g" := (respectful (Basics.flip f) g)%signature
 
 Arguments Proper {A}%type R%signature m.
 Arguments respectful {A B}%type (R R')%signature _ _.
+
+Program Definition eq_Setoid (A : Type) := {|
+  equiv := λ f g : A, f = g
+|}.
+Next Obligation.
+  constructor; repeat intro.
+  - reflexivity.
+  - symmetry.
+    now apply H.
+  - now rewrite H, H0.
+Qed.
+
+Program Definition funext_Setoid
+        {T : Type} (t : T -> Type) (a b : T) `{Setoid (t b)} :
+  Setoid (t a -> t b) := {|
+  equiv := λ f g, ∀ x, f x ≈ g x
+|}.
+Next Obligation.
+  constructor; repeat intro.
+  - reflexivity.
+  - symmetry.
+    now apply X.
+  - now rewrite X, X0.
+Qed.
