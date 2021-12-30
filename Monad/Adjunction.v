@@ -3,6 +3,7 @@ Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Monad.
+Require Export Category.Theory.Adjunction.
 Require Export Category.Adjunction.Natural.Transformation.
 
 Generalizable All Variables.
@@ -22,7 +23,43 @@ Context {U : C ⟶ D}.
    not enough information, since one could always just compose [Id] to some
    monad [M], and this would not give an adjoint. *)
 
-Theorem Adjunction_Monad : F ∹ U -> @Monad D (U ◯ F).
+Theorem Adjunction_Monad : F ⊣ U -> @Monad D (U ◯ F).
+Proof.
+  intros.
+  unshelve econstructor; simpl; intros.
+  - apply (to (adj[X])); simpl.
+    exact id.
+  - apply fmap.
+    apply (from (adj[X])); simpl.
+    exact id.
+  - rewrite <- to_adj_nat_r.
+    rewrite <- to_adj_nat_l.
+    cat.
+  - simpl.
+    rewrite <- !fmap_comp.
+    apply fmap_respects.
+    rewrite <- from_adj_nat_r.
+    rewrite <- from_adj_nat_l.
+    cat.
+  - rewrite <- !fmap_comp; simpl.
+    rewrite <- from_adj_nat_l.
+    rewrite id_left.
+    destruct X, adj; simpl in *.
+    rewrite iso_from_to.
+    exact fmap_id.
+  - rewrite <- to_adj_nat_r; simpl.
+    rewrite id_right.
+    destruct X, adj; simpl in *.
+    rewrite iso_to_from.
+    reflexivity.
+  - rewrite <- !fmap_comp; simpl.
+    apply fmap_respects.
+    rewrite <- from_adj_nat_r.
+    rewrite <- from_adj_nat_l.
+    cat.
+Qed.
+
+Theorem Adjunction_Nat_Monad : F ∹ U -> @Monad D (U ◯ F).
 Proof.
   intros.
   unshelve econstructor; simpl; intros.
