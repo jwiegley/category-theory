@@ -125,27 +125,28 @@ Global Program Instance filter_Proper {elt} : forall P,
   Proper (E.eq ==> eq ==> eq) P
     -> Proper (M.Equal (elt:=elt) ==> M.Equal) (@P.filter elt P).
 Obligation 1.
-  relational.
-  unfold P.filter at 1.
-  generalize dependent y.
-  apply P.fold_rec; intros.
-    apply F.Equal_mapsto_iff.
-    split; intros.
-      simplify_maps.
-    simplify_maps.
+relational.
+unfold P.filter at 1.
+generalize dependent y.
+apply P.fold_rec.
++ intros m H0 y H1.
+  apply F.Equal_mapsto_iff.
+  split.
+  - intros; simplify_maps.
+  - intros H2. simplify_maps.
     rewrite <- H1 in H3.
     apply P.elements_Empty in H0.
     apply F.find_mapsto_iff in H3.
     rewrite F.elements_o in H3.
     rewrite H0 in H3.
     inversion H3.
-  specialize (H3 m' (F.Equal_refl _)).
++ intros k e a m' m'' H0 H1 H2 H3 y H4. specialize (H3 m' (F.Equal_refl _)).
   apply add_equal_iff in H2.
   rewrite <- H2 in H4; clear H2 m'' H0.
   destruct (P k e) eqn:Heqe; rewrite H3; clear H3.
-    apply F.Equal_mapsto_iff.
-    split; intros.
-      simplify_maps.
+  - apply F.Equal_mapsto_iff.
+    split.
+    * intros H0. simplify_maps.
         rewrite <- H2.
         simplify_maps.
         intuition.
@@ -156,24 +157,25 @@ Obligation 1.
       intuition.
       rewrite <- H4.
       simplify_maps.
-    simplify_maps.
+    * intros H0. simplify_maps.
     rewrite <- H4 in H2.
     repeat simplify_maps.
     right.
     intuition.
     simplify_maps.
-  apply F.Equal_mapsto_iff.
-  split; intros;
+  - apply F.Equal_mapsto_iff.
+  split; intros H0;
   simplify_maps;
   simplify_maps;
   intuition.
-    rewrite <- H4; clear H4.
+  * rewrite <- H4; clear H4.
     apply F.add_neq_mapsto_iff; auto.
-    unfold not; intros.
-    rewrite <- H0 in H2.
+    unfold not; intros He.
     apply F.not_find_in_iff in H1.
+    rewrite <- He in H2;
     apply F.find_mapsto_iff in H2.
     congruence.
+  *
   rewrite <- H4 in H2; clear H4.
   simplify_maps.
   rewrite H0 in Heqe.

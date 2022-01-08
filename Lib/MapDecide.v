@@ -78,11 +78,11 @@ Next Obligation.
   specialize (H n n); intuition.
 Defined.
 Next Obligation.
-  split; unfold not; intros;
+  split; unfold not; intros ? ? H1;
   destruct H1; discriminate.
 Defined.
 Next Obligation.
-  split; unfold not; intros;
+  split; unfold not; intros ? ? H1;
   destruct H1; discriminate.
 Defined.
 
@@ -350,14 +350,14 @@ Next Obligation.
 Defined.
 Next Obligation.
   simplify_maps.
-  destruct H2.
+  match goal with [ H : _ /\ _ |- _ ] => destruct H end.
   simpl in *.
   pose proof (formula_substitution_eq env t [(x, x'); (y, y'); (f, f')]).
-  simpl in H4.
-  rewrite H4 in H; auto.
+  let Hr := match goal with [ H : _ -> _ = _ |- _ ] => H end in
+  simpl in Hr; rewrite <- Hr; auto.
 Defined.
 Next Obligation.
-  apply H; clear H.
+  match goal with [ H : M.MapsTo _ _ _ -> _ |- _ ] => apply H; clear H end.
   induction m; simpl in *; auto.
   destruct (conflicted x t0) eqn:?;
   destruct (conflicted y t1) eqn:?;

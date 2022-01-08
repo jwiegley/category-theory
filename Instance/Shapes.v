@@ -241,7 +241,7 @@ Program Definition Tries (a : Type) : Category := {|
 Next Obligation.
   equivalence.
   simpl in *.
-  now rewrite H1, H2.
+  now repeat match goal with [ H : context [_ = _] |- _ ] => rewrite H; clear H end.
 Qed.
 Next Obligation.
   proper.
