@@ -60,7 +60,7 @@ Global Program Instance Compose_StrongFunctor (F G : C ⟶ C) :
   strength := fun _ _ => fmap[F] strength ∘ strength
 }.
 Next Obligation.
-  destruct H0, H1; simpl in *.
+  repeat match reverse goal with [ H : StrongFunctor _ |- _ ] => destruct H end; simpl in *.
   rewrite !comp_assoc.
   rewrite <- !fmap_comp.
   rewrite <- !comp_assoc.
@@ -73,14 +73,14 @@ Next Obligation.
   reflexivity.
 Qed.
 Next Obligation.
-  destruct H0, H1; simpl in *.
+  repeat match reverse goal with [ H : StrongFunctor _ |- _ ] => destruct H end; simpl in *.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
   rewrite strength_id_left1.
   apply strength_id_left0.
 Qed.
 Next Obligation.
-  destruct H0, H1; simpl in *.
+  repeat match reverse goal with [ H : StrongFunctor _ |- _ ] => destruct H end; simpl in *.
   rewrite comp_assoc.
   rewrite <- fmap_comp.
   rewrite strength_assoc1.

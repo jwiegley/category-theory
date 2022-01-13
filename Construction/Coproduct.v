@@ -53,7 +53,8 @@ Next Obligation.
   intuition.
 Qed.
 Next Obligation.
-  destruct H, H0, H1; intuition; exact (f ∘ g).
+  repeat match goal with [ H : _ + _ |- _ ] => destruct H end;
+  intuition; exact (f ∘ g).
 Defined.
 Next Obligation.
   proper.
