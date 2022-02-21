@@ -61,3 +61,23 @@ Next Obligation.
 Defined.
 Next Obligation. constructive; simplify; simpl in *; cat. Qed.
 Next Obligation. constructive; simplify; simpl in *; cat. Qed.
+
+Program Definition Slice_Base_Functor `(C : Category) `(f : a ~> b) :
+  @Slice C a ⟶ @Slice C b := {|
+  fobj := λ x, (`1 x; f ∘ `2 x);
+  fmap := λ x y f, (_; _)
+|}.
+Next Obligation.
+  rewrite <- comp_assoc.
+  now rewrite X.
+Qed.
+
+Program Definition Coslice_Base_Functor `(C : Category) `(f : b ~> a) :
+  @Coslice C a ⟶ @Coslice C b := {|
+  fobj := λ x, (`1 x; `2 x ∘ f);
+  fmap := λ x y f, (_; _)
+|}.
+Next Obligation.
+  rewrite comp_assoc.
+  now rewrite X.
+Qed.
