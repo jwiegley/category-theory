@@ -1,7 +1,7 @@
 JOBS = 1
 
 MISSING	 =									\
-	find src \( \( -name . \) -prune \)					\
+	find . \( \( -name foo \) -prune \)					\
 	    -o \( -name '*.v'							\
 		  -print \)						|	\
 		xargs egrep -i -Hn '(abort|admit|undefined|jww)'	|	\
@@ -19,6 +19,9 @@ Makefile.coq: _CoqProject
 
 clean: _CoqProject Makefile.coq
 	make -f Makefile.coq clean
+
+install: _CoqProject Makefile.coq
+	make -f Makefile.coq install
 
 fullclean: clean
 	rm -f Makefile.coq
