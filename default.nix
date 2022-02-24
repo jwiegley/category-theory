@@ -1,7 +1,7 @@
 args@{ coqPackages ? "coqPackages_8_15"
 
-, rev    ? "74b10859829153d5c5d50f7c77b86763759e8654"
-, sha256 ? "0g9gak16a0mx6kwjzpz8fx4rwl9p1jj8f4f4frl12vjhnrssf6zp"
+, rev    ? "9222ae36b208d1c6b55d88e10aa68f969b5b5244"
+, sha256 ? "0dvl990alr4bb64w9b32dhzacvchpsspj8p3zqcgk7q5akvqh1mw"
 , pkgs   ? import (builtins.fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/${rev}.tar.gz";
     inherit sha256; }) {
@@ -20,7 +20,9 @@ pkgs.stdenv.mkDerivation rec {
         then pkgs.coqFilterSource [] ./.
         else ./.;
 
-  buildInputs = [ coq coq.ocaml coq.camlp5 coq.findlib equations ];
+  buildInputs = [
+    coq coq.ocaml coq.camlp5 coq.findlib equations coqhammer pkgs.z3-tptp
+  ];
   enableParallelBuilding = true;
 
   buildFlags = [

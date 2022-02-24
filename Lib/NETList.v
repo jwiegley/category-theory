@@ -171,7 +171,7 @@ Next Obligation.
 Defined.
 Next Obligation.
   simpl_eq; intros.
-  apply n1.
+  apply n.
   inv H1.
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
@@ -179,7 +179,7 @@ Next Obligation.
 Defined.
 Next Obligation.
   simpl_eq; intros.
-  apply n1.
+  apply n.
   inv H1.
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
@@ -234,7 +234,7 @@ Next Obligation.
     now symmetry.
   dependent elimination y as [tadd _ y ys]; auto.
   rewrite netlist_equiv_equation_4 in *.
-  destruct (eq_dec j wildcard0); [|contradiction].
+  destruct (eq_dec j _); [|contradiction].
   subst.
   rewrite EqDec.peq_dec_refl.
   destruct X.
@@ -248,14 +248,14 @@ Next Obligation.
     dependent elimination y as [tfin _]; auto.
     induction z; simpl.
       rewrite netlist_equiv_equation_1 in *.
-      now transitivity wildcard1.
+      now transitivity b0.
     now rewrite netlist_equiv_equation_2.
   dependent elimination y as [tadd _ y ys]; auto.
   simpl; intros.
   dependent elimination z as [tadd _ z zs]; auto.
   rewrite netlist_equiv_equation_4 in *.
-  destruct (eq_dec j wildcard2); [|contradiction].
-  destruct (eq_dec wildcard2 wildcard0); [|contradiction].
+  destruct (eq_dec j _); [|contradiction].
+  destruct (eq_dec _ _); [|contradiction].
   subst.
   rewrite EqDec.peq_dec_refl.
   destruct X, X0.
