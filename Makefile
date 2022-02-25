@@ -24,4 +24,4 @@ install: _CoqProject Makefile.coq
 	make -f Makefile.coq install
 
 fullclean: clean
-	rm -f Makefile.coq
+	rm -f Makefile.coq Makefile.coq.conf .Makefile.d
