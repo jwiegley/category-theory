@@ -153,7 +153,7 @@ Theorem ccc_arity2 :
   p >==> exp_in ∘ p' ->
   (λ x : a, p (f x) (g x)) >==> uncurry p' ∘ f' △ g'.
 Proof.
-Admitted.
+Abort.
 
 Theorem ccc_plus :
   ∀ (f : nat -> nat) (f' : F nat ~> F nat)
@@ -175,7 +175,7 @@ Proof.
   simpl in HA.
   assert (Nat.add = prod_uncurry (λ p : nat * nat, (fst p + snd p)%nat)) by auto.
   rewrites.
-Admitted.
+Abort.
 *)
 
 (* f : A -->[Setoid] R *)

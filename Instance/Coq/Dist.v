@@ -195,13 +195,13 @@ Next Obligation.
   now apply H.
 Qed.
 Next Obligation.
-Admitted.
+Abort.
 Next Obligation.
-Admitted.
+Abort.
 Next Obligation.
-Admitted.
+Abort.
 Next Obligation.
-Admitted.
+Abort.
 *)
 
 (*
