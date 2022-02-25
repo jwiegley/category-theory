@@ -18,7 +18,6 @@ install: [make "install"]
 depends: [
   "coq" {(>= "8.10" & < "8.16~") | (= "dev")}
   "coq-equations" {(>= "1.2" & < "1.4~") | (= "dev")}
-  "coq-hammer" {(>= "1.1" & < "1.4~") | (= "dev")}
 ]
 
 tags: [
