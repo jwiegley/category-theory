@@ -171,7 +171,8 @@ Next Obligation.
 Defined.
 Next Obligation.
   simpl_eq; intros.
-  apply n.
+  intuition eauto.
+  match goal with [ H : _ -> False |- _ ] => apply H end.
   inv H1.
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
@@ -179,7 +180,8 @@ Next Obligation.
 Defined.
 Next Obligation.
   simpl_eq; intros.
-  apply n.
+  intuition eauto.
+  match goal with [ H : _ -> False |- _ ] => apply H end.
   inv H1.
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
