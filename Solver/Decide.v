@@ -84,8 +84,7 @@ Next Obligation. intuition. Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. intuition. Defined.
-Next Obligation.
-Admitted.
+Next Obligation. apply sexpr_Acc. Qed.
 
 Definition sexpr_tauto : forall t, [sexprD t].
 Proof. intros; refine (Reduce (sexpr_backward t)); auto. Defined.

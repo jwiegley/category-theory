@@ -250,7 +250,7 @@ Next Obligation.
     dependent elimination y as [tfin _]; auto.
     induction z; simpl.
       rewrite netlist_equiv_equation_1 in *.
-      now transitivity b0.
+      now etransitivity; eauto.
     now rewrite netlist_equiv_equation_2.
   dependent elimination y as [tadd _ y ys]; auto.
   simpl; intros.
