@@ -77,7 +77,7 @@ Next Obligation.
   now apply term_indices_equiv.
 Defined.
 Next Obligation. simpl; abstract lia. Defined.
-Next Obligation. simpl; abstract lia. Defined.
+Next Obligation. clear Heq_anonymous; abstract lia. Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. simpl; abstract lia. Defined.
 Next Obligation. intuition. Defined.
