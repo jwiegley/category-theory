@@ -136,6 +136,7 @@ Context `{BE : forall i j, EqDec (B i j)}.
 Import EqNotations.
 
 (* Returns true if [xs] is a sublist of [ys] *)
+(*
 Equations tlist_incl
           {j k} (xs : tlist B j k)
           {i l} (ys : tlist B i l) : bool :=
@@ -159,6 +160,7 @@ Equations tlist_incl
           ||| tlist_incl (x ::: xs) ys;
       | _ => tlist_incl (x ::: xs) ys
     }.
+*)
 
 Equations tlist_eq_dec {i j : A} (x y : tlist B i j) : {x = y} + {x ≠ y} :=
   tlist_eq_dec tnil tnil := left eq_refl;
@@ -246,7 +248,7 @@ Next Obligation.
     dependent elimination y as [tnil]; auto.
   dependent elimination y as [tcons _ y ys]; auto.
   rewrite tlist_equiv_equation_4 in *.
-  destruct (eq_dec j wildcard0); [|contradiction].
+  destruct (eq_dec j _); [|contradiction].
   subst.
   rewrite EqDec.peq_dec_refl.
   destruct X.
@@ -262,8 +264,8 @@ Next Obligation.
   simpl; intros.
   dependent elimination z as [tcons _ z zs]; auto.
   rewrite tlist_equiv_equation_4 in *.
-  destruct (eq_dec j wildcard2); [|contradiction].
-  destruct (eq_dec wildcard2 wildcard0); [|contradiction].
+  destruct (eq_dec j _); [|contradiction].
+  destruct (eq_dec _ _); [|contradiction].
   subst.
   rewrite EqDec.peq_dec_refl.
   destruct X, X0.

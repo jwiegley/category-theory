@@ -77,14 +77,14 @@ Next Obligation.
   now apply term_indices_equiv.
 Defined.
 Next Obligation. simpl; abstract lia. Defined.
-Next Obligation. simpl; abstract lia. Defined.
+Next Obligation. clear Heq_anonymous; abstract lia. Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. simpl; abstract lia. Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. intuition. Defined.
-Next Obligation. Admitted.
+Next Obligation. apply sexpr_Acc. Qed.
 
 Definition sexpr_tauto : forall t, [sexprD t].
 Proof. intros; refine (Reduce (sexpr_backward t)); auto. Defined.

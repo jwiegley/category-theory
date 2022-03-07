@@ -38,11 +38,11 @@ Program Definition STerms : Category := {|
 |}.
 Next Obligation.
   equivalence.
-  now rewrite H1, H2.
+  now transitivity (sarrows y).
 Qed.
 Next Obligation.
   simpl.
-  now rewrite H, H0.
+  now f_equal.
 Qed.
 Next Obligation. now rewrite List.app_nil_r. Defined.
 Next Obligation. now rewrite List.app_assoc. Defined.

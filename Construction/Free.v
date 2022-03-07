@@ -26,12 +26,10 @@ Context {C : Category}.
 Program Definition Free : Category := {|
   obj     := C;
   hom     := tlist hom;
-  homset  := fun _ _ =>
-    {| equiv := fun f g => eq f g |};
+  homset  := fun _ _ => {| equiv := eq |};
   id      := fun _ => tnil;
   compose := fun _ _ _ f g => g +++ f
 |}.
-Next Obligation. exact eq_equivalence. Qed.
 Next Obligation. now apply tlist_app_tnil_r. Qed.
 Next Obligation. now apply tlist_app_assoc. Qed.
 Next Obligation. symmetry; now apply tlist_app_assoc. Qed.

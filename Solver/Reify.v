@@ -315,6 +315,5 @@ Proof.
   (* match goal with *)
   (* | [ |- @equiv _ (@homset _ _ _) ?X ?Y ] => idtac *)
   (* end. *)
-  cat.
-  apply comp_assoc.
+  cat; try apply comp_assoc.
 Qed.
