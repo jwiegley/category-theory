@@ -21,12 +21,13 @@ Class Functor {C D : Category} := {
   fobj : C -> D;
   fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y;
 
-  fmap_respects :> ∀ x y, Proper (equiv ==> equiv) (@fmap x y);
+  fmap_respects : ∀ x y, Proper (equiv ==> equiv) (@fmap x y);
 
   fmap_id {x : C} : fmap (@id C x) ≈ id;
   fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :
     fmap (f ∘ g) ≈ fmap f ∘ fmap g
 }.
+#[export] Existing Instance fmap_respects.
 
 Declare Scope functor_scope.
 Declare Scope functor_type_scope.

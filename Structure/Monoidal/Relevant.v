@@ -19,7 +19,7 @@ Section RelevantMonoidal.
 Context {C : Category}.
 
 Class RelevantMonoidal `{@Monoidal C} := {
-  is_symmetric :> SymmetricMonoidal;
+  is_symmetric : SymmetricMonoidal;
 
   diagonal {x} : x ~> x ⨂ x;
   diagonal_natural : natural (@diagonal);
@@ -43,6 +43,7 @@ Class RelevantMonoidal `{@Monoidal C} := {
   diagonal_twist2 {x y} :
     @diagonal (x ⨂ y) ≈ twist2 ∘ diagonal ⨂ diagonal
 }.
+#[export] Existing Instance is_symmetric.
 
 Lemma twist2_natural `{@Monoidal C} `{@RelevantMonoidal _} :
   natural (@twist2 _ _).

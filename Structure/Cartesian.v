@@ -24,12 +24,13 @@ Class Cartesian:= {
   exl  {x y} : x × y ~> x;
   exr  {x y} : x × y ~> y;
 
-  fork_respects :> ∀ x y z,
+  fork_respects : ∀ x y z,
     Proper (equiv ==> equiv ==> equiv) (@fork x y z);
 
   ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) :
     h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
 }.
+#[export] Existing Instance fork_respects.
 
 Infix "×" := product_obj (at level 40, left associativity) : object_scope.
 Infix "△" := fork (at level 28) : morphism_scope.

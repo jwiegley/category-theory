@@ -40,13 +40,13 @@ Class Category := {
 
   uhom := Type : Type;
   hom : obj -> obj -> uhom where "a ~> b" := (hom a b);
-  homset :> ∀ X Y, Setoid (X ~> Y);
+  homset : ∀ X Y, Setoid (X ~> Y);
 
   id {x} : x ~> x;
   compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z
     where "f ∘ g" := (compose f g);
 
-  compose_respects x y z :>
+  compose_respects x y z :
     Proper (equiv ==> equiv ==> equiv) (@compose x y z);
 
   dom {x y} (f: x ~> y) := x;
@@ -60,6 +60,8 @@ Class Category := {
   comp_assoc_sym {x y z w} (f : z ~> w) (g : y ~> z) (h : x ~> y) :
     (f ∘ g) ∘ h ≈ f ∘ (g ∘ h)
 }.
+#[export] Existing Instance homset.
+#[export] Existing Instance compose_respects.
 
 Declare Scope category_scope.
 Declare Scope object_scope.

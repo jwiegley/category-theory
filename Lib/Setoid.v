@@ -43,8 +43,9 @@ Notation "'λ'  x .. y , t" := (fun x => .. (fun y => t) ..)
 
 Class Setoid A := {
   equiv : crelation A;
-  setoid_equiv :> Equivalence equiv
+  setoid_equiv : Equivalence equiv
 }.
+#[export] Existing Instance setoid_equiv.
 
 Notation "f ≈ g" := (equiv f g) (at level 79) : category_theory_scope.
 
