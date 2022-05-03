@@ -21,7 +21,6 @@ Construction/Opposite.v
 Construction/Product.v
 Construction/Product/Comma.v
 Construction/Slice.v
-Construction/Slice/Pullback.v
 Construction/Subcategory.v
 Functor/Applicative.v
 Functor/Bifunctor.v
