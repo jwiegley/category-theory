@@ -1,2 +1,2 @@
-{ version ? "category-theory_8_15" }:
-(import ./default.nix {}).${version}
+args@{ version ? "category-theory_8_15", pkgs ? null }:
+(import ./default.nix args).${version}
