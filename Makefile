@@ -4,7 +4,7 @@ MISSING	 =									\
 	find . \( \( -name foo \) -prune \)					\
 	    -o \( -name '*.v'							\
 		  -print \)						|	\
-		xargs egrep -i -Hn '(abort|admit|undefined|jww)'	|	\
+		xargs egrep -i -Hn '(Fail|abort|admit|undefined|jww)'	|	\
 		      egrep -v 'Definition undefined'			|	\
 		      egrep -v '(old|new|research)/'
 
