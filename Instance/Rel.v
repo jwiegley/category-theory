@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
@@ -58,13 +58,13 @@ Qed.
 Next Obligation. firstorder. Qed.
 Next Obligation. firstorder. Qed.
 
-Program Instance Rel_Initial : @Initial Rel := {
+#[global] Program Instance Rel_Initial : @Initial Rel := {
   terminal_obj := False;
   one := fun _ _ => False_rect _ _
 }.
 
 (*
-Program Instance Rel_Cartesian : @Cartesian Rel := {
+#[global] Program Instance Rel_Cartesian : @Cartesian Rel := {
   product_obj := @Prod Coq _;
   fork := fun _ _ _ f g x y => f x (fst y) ∧ g x (snd y);
   exl  := fun _ _ p x => In _ (Singleton _ (fst p)) x;
@@ -94,7 +94,7 @@ Next Obligation.
       apply H.
 Qed.
 
-Program Instance Rel_Cocartesian : @Cocartesian Rel := {
+#[global] Program Instance Rel_Cocartesian : @Cocartesian Rel := {
   product_obj := or;
   fork := fun _ _ _ f g x =>
             match x with
@@ -113,7 +113,7 @@ Obligation 2.
   apply proof_irrelevance.
 Qed.
 
-Program Instance Rel_Closed : @Closed Rel _ := {
+#[global] Program Instance Rel_Closed : @Closed Rel _ := {
   exponent_obj := Basics.impl;
   exp_iso := fun _ _ _ =>
     {| to   := {| morphism := fun f a b => f (conj a b) |}
@@ -128,7 +128,7 @@ Next Obligation. autounfold in *; apply proof_irrelevance. Qed.
 
 Definition some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat.
 
-Program Instance Relation_Functor : Coq ⟶ Rel := {
+#[global] Program Instance Relation_Functor : Coq ⟶ Rel := {
   fobj := fun x => x;
   fmap := fun x y (f : x ~{Coq}~> y) x y => In _ (Singleton _ (f x)) y
 }.

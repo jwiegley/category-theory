@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -122,7 +122,7 @@ End Bifunctor.
 Notation "bimap[ F ]" := (@bimap _ _ _ F%functor _ _ _ _)
   (at level 9, format "bimap[ F ]") : morphism_scope.
 
-Hint Rewrite @bimap_id_id : categories.
+#[global] Hint Rewrite @bimap_id_id : categories.
 
 Ltac bimap_left :=
   apply bimap_respects; [reflexivity|].

@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.
@@ -11,7 +11,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Instance Cat_Cartesian : @Cartesian Cat := {
+#[global] Program Instance Cat_Cartesian : @Cartesian Cat := {
   product_obj := @Product;
   fork := fun _ _ _ F G =>
             {| fobj := fun x => (F x, G x)

@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
@@ -62,9 +61,9 @@ Notation "fobj[ F ]" := (@fobj _ _ F%functor)
 Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
   (at level 9, format "fmap[ F ]") : morphism_scope.
 
-Hint Rewrite @fmap_id : categories.
+#[global] Hint Rewrite @fmap_id : categories.
 
-Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := {
+#[global] Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := {
   equiv := fun F G =>
     (* Equality of objects in a category is taken to be isomorphism *)
     { iso : ∀ x : C, F x ≅ G x
@@ -136,7 +135,7 @@ Ltac constructive :=
                      | exists iso; intros ]
   end.
 
-Program Instance fobj_iso `(F : C ⟶ D) :
+#[global] Program Instance fobj_iso `(F : C ⟶ D) :
   Proper (Isomorphism ==> Isomorphism) (fobj[F]).
 Next Obligation.
   proper.
@@ -148,7 +147,7 @@ Next Obligation.
   rewrite iso_from_to; cat.
 Defined.
 
-Instance fobj_respects `(F : C ⟶ D) :
+#[global] Instance fobj_respects `(F : C ⟶ D) :
   Proper (equiv ==> equiv) (@fobj C D F) := @fobj_iso C D F.
 
 Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
@@ -170,12 +169,12 @@ Program Definition Compose {C D E : Category}
 Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation. intros; rewrite !fmap_comp; reflexivity. Qed.
 
-Hint Unfold Compose : core.
+#[global] Hint Unfold Compose : core.
 
 Notation "F ◯ G" := (Compose F%functor G%functor)
   (at level 40, left associativity) : category_scope.
 
-Program Instance Compose_respects {C D E : Category} :
+#[global] Program Instance Compose_respects {C D E : Category} :
   Proper (equiv ==> equiv ==> equiv) (@Compose C D E).
 Next Obligation.
   proper.

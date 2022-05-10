@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Import Category.Theory.Natural.Transformation.

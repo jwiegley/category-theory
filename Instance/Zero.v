@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -22,13 +22,13 @@ Program Definition _0 : Category := {|
 
 Notation "0" := _0 : category_scope.
 
-Program Instance From_0 `(C : Category) : _0 ⟶ C.
+#[global] Program Instance From_0 `(C : Category) : _0 ⟶ C.
 Next Obligation. destruct H. Qed.
 Next Obligation. destruct x. Qed.
 Next Obligation. destruct x. Qed.
 Next Obligation. destruct x. Qed.
 
-Program Instance Cat_Initial : @Initial Cat := {
+#[global] Program Instance Cat_Initial : @Initial Cat := {
   terminal_obj := _0;
   one := From_0
 }.

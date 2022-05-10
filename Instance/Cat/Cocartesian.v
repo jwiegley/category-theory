@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cocartesian.
@@ -13,7 +13,7 @@ Unset Transparent Obligations.
 
 (* Another way of reading this is that we're proving Cat^op is Cartesian. *)
 
-Program Instance Cat_Cocartesian : @Cocartesian Cat := {
+#[global] Program Instance Cat_Cocartesian : @Cocartesian Cat := {
   product_obj := @Coproduct;
   fork := fun _ _ _ F G =>
     {| fobj := fun x =>

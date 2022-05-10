@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
@@ -73,7 +73,7 @@ Next Obligation. now cat. Qed.
 
 Import VectorNotations.
 
-Program Instance Denote : Terms ⟶ cat := {
+#[global] Program Instance Denote : Terms ⟶ cat := {
   fobj := nth objs;
   fmap := fun _ _ => termD
 }.
@@ -81,12 +81,12 @@ Next Obligation. reflexivity. Qed.
 Next Obligation. reflexivity. Qed.
 
 (*
-Program Instance Strip : Terms ⟶ STerms := {
+#[global] Program Instance Strip : Terms ⟶ STerms := {
   fobj := Fin_to_pos;
   fmap := fun _ _ => Term_strip
 }.
 
-Program Instance Embed : STerms ⟶ Terms ∐ 1 := {
+#[global] Program Instance Embed : STerms ⟶ Terms ∐ 1 := {
   fobj := fun x =>
     match Pos_to_fin x with
     | None => Datatypes.inr tt

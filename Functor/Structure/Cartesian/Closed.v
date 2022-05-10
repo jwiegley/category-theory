@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -47,13 +46,13 @@ Corollary exp_in_out {x y : C} :
   exp_in ∘ exp_out ≈ @id _ (F (y^x)).
 Proof. apply iso_from_to. Qed.
 
-Hint Rewrite @exp_in_out : functors.
+#[local] Hint Rewrite @exp_in_out : functors.
 
 Corollary exp_out_in {x y : C} :
   exp_out ∘ exp_in ≈ @id _ (F y ^ F x).
 Proof. apply iso_to_from. Qed.
 
-Hint Rewrite @exp_out_in : functors.
+#[local] Hint Rewrite @exp_out_in : functors.
 
 Corollary exp_in_inj {x y z : C} (f g : F x ~> F z ^ F y) :
   exp_in ∘ f ≈ exp_in ∘ g ↔ f ≈ g.
@@ -90,5 +89,5 @@ End ClosedFunctor.
 Arguments exp_in {_ _ _ _ _ _ _ _ _ _ _} /.
 Arguments exp_out {_ _ _ _ _ _ _ _ _ _ _} /.
 
-Hint Rewrite @exp_in_out : functors.
-Hint Rewrite @exp_out_in : functors.
+#[global] Hint Rewrite @exp_in_out : functors.
+#[global] Hint Rewrite @exp_out_in : functors.

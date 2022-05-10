@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Coq.Vectors.Vector.
 
@@ -36,7 +35,7 @@ Class Env := {
   arrs     : ilist (B:=dep_arr objs) tys
 }.
 
-Instance obj_idx_Equality (n : nat) : Equality (obj_idx n) := {
+#[global] Instance obj_idx_Equality (n : nat) : Equality (obj_idx n) := {
   Eq_eqb         := Fin.eqb;
   Eq_eqb_refl    := Fin_eqb_refl n;
 
@@ -46,7 +45,7 @@ Instance obj_idx_Equality (n : nat) : Equality (obj_idx n) := {
   Eq_eq_dec_refl := Fin_eq_dec_refl n
 }.
 
-Instance arr_idx_Equality (n : nat) : Equality (arr_idx n) := {
+#[global] Instance arr_idx_Equality (n : nat) : Equality (arr_idx n) := {
   Eq_eqb         := Fin.eqb;
   Eq_eqb_refl    := Fin_eqb_refl n;
 

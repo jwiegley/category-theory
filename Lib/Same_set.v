@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Coq.Sets.Ensembles.
 Require Import Coq.Sets.Finite_sets.
@@ -11,7 +11,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Instance Same_set_Equivalence {A} : Equivalence (@Same_set A).
+#[global] Program Instance Same_set_Equivalence {A} : Equivalence (@Same_set A).
 Obligation 1.
   intro x.
   constructor; intros y H; exact H.
@@ -35,7 +35,7 @@ Obligation 3.
   exact H3.
 Qed.
 
-Program Instance Same_set_equiv {A} :
+#[global] Program Instance Same_set_equiv {A} :
   Proper (Same_set A ==> Same_set A ==> Basics.impl) (Same_set A).
 Next Obligation.
   repeat intro.
@@ -45,7 +45,7 @@ Next Obligation.
   apply H, H4, H3, H5.
 Qed.
 
-Program Instance Same_set_equiv' {A} :
+#[global] Program Instance Same_set_equiv' {A} :
   Proper (Same_set A ==> Same_set A ==> Basics.flip Basics.impl) (Same_set A).
 Next Obligation.
   repeat intro.
@@ -55,13 +55,13 @@ Next Obligation.
   apply H2, H4, H0, H5.
 Qed.
 
-Program Instance Singleton_Same_set {A} :
+#[global] Program Instance Singleton_Same_set {A} :
   Proper (eq ==> Same_set A) (Singleton A).
 Next Obligation. intros; reflexivity. Qed.
 
-Program Instance In_Same_set {A} : Proper (Same_set A ==> Same_set A) (In A).
+#[global] Program Instance In_Same_set {A} : Proper (Same_set A ==> Same_set A) (In A).
 
-Program Instance In_Same_set_eq {A} : Proper (Same_set A ==> eq ==> Basics.impl) (In A).
+#[global] Program Instance In_Same_set_eq {A} : Proper (Same_set A ==> eq ==> Basics.impl) (In A).
 Next Obligation.
   repeat intro.
   destruct H.
@@ -69,7 +69,7 @@ Next Obligation.
   apply H, H1.
 Qed.
 
-Program Instance In_Same_set_eq' {A} :
+#[global] Program Instance In_Same_set_eq' {A} :
   Proper (Same_set A ==> eq ==> Basics.flip Basics.impl) (In A).
 Next Obligation.
   repeat intro.
@@ -78,7 +78,7 @@ Next Obligation.
   apply H2, H1.
 Qed.
 
-Program Instance In_Same_set_eq'' {A} :
+#[global] Program Instance In_Same_set_eq'' {A} :
   Proper (Same_set A --> eq ==> Basics.impl) (In A).
 Next Obligation.
   repeat intro.
@@ -87,7 +87,7 @@ Next Obligation.
   apply H2, H1.
 Qed.
 
-Program Instance In_Same_set_eq''' {A} :
+#[global] Program Instance In_Same_set_eq''' {A} :
   Proper (Same_set A --> eq ==> Basics.flip Basics.impl) (In A).
 Next Obligation.
   repeat intro.
@@ -96,7 +96,7 @@ Next Obligation.
   apply H, H1.
 Qed.
 
-Program Instance Union_Same_set {A} :
+#[global] Program Instance Union_Same_set {A} :
   Proper (Same_set A ==> Same_set A ==> Same_set A) (Union A).
 Next Obligation.
   repeat intro.
@@ -114,7 +114,7 @@ Next Obligation.
     apply H2, H4.
 Qed.
 
-Program Instance Add_Same_set {A} :
+#[global] Program Instance Add_Same_set {A} :
   Proper (Same_set A ==> eq ==> Same_set A) (Add A).
 Next Obligation.
   repeat intro.
@@ -133,7 +133,7 @@ Next Obligation.
   now right.
 Qed.
 
-Program Instance Setminus_Same_set {A} :
+#[global] Program Instance Setminus_Same_set {A} :
   Proper (Same_set A ==> Same_set A ==> Same_set A) (Setminus A).
 Next Obligation.
   repeat intro.
@@ -152,7 +152,7 @@ Next Obligation.
   apply H0, H3.
 Qed.
 
-Program Instance Subtract_Same_set {A} :
+#[global] Program Instance Subtract_Same_set {A} :
   Proper (Same_set A ==> eq ==> Same_set A) (Subtract A).
 Next Obligation.
   repeat intro.
@@ -165,7 +165,7 @@ Next Obligation.
   split; auto.
 Qed.
 
-Program Instance Included_Same_set {A} :
+#[global] Program Instance Included_Same_set {A} :
   Proper (Same_set A ==> Same_set A ==> Basics.impl) (Included A).
 Next Obligation.
   repeat intro.
@@ -173,14 +173,14 @@ Next Obligation.
   now apply H0, H1, H3.
 Qed.
 
-Program Instance Included_Same_set_subrelation A :
+#[global] Program Instance Included_Same_set_subrelation A :
   subrelation (@Same_set A) (@Included A).
 Next Obligation.
   repeat intro.
   now apply H.
 Qed.
 
-Program Instance Finite_Proper A :
+#[global] Program Instance Finite_Proper A :
   Proper (Same_set A ==> Basics.impl) (Finite A).
 Next Obligation.
   intros ????.
@@ -189,7 +189,7 @@ Next Obligation.
   now apply H.
 Qed.
 
-Program Instance Finite_Proper_flip A :
+#[global] Program Instance Finite_Proper_flip A :
   Proper (Same_set A --> Basics.flip Basics.impl) (Finite A).
 Obligation 1.
   intros ????.

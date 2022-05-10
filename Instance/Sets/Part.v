@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -89,7 +89,7 @@ Require Import Category.Structure.Cartesian.
 Arguments option_setoid A {_}.
 Arguments sum_setoid A B {_ _}.
 
-Program Instance Part_Cartesian : @Cartesian Part := {
+#[global] Program Instance Part_Cartesian : @Cartesian Part := {
   product_obj := fun x y =>
     {| carrier := sum (carrier x) (sum (carrier y) (carrier x * carrier y)) |}
 }.

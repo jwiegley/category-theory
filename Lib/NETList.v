@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 (** A theory of type-aligned lists, using the Coq-Equations plugin *)
 
@@ -640,7 +640,7 @@ Class ISemigroup {A : Type} (B : A -> A -> Type) := {
 
 Infix "<+>" := isappend (at level 42, right associativity).
 
-Instance netlist_ISemigroup {A} {B : A -> A -> Type} : ISemigroup (netlist B) := {
+#[global] Instance netlist_ISemigroup {A} {B : A -> A -> Type} : ISemigroup (netlist B) := {
   isappend := @netlist_app A B;
   isappend_assoc := @netlist_app_assoc A B
 }.

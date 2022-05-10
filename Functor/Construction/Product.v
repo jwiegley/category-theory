@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -14,7 +14,7 @@ Unset Transparent Obligations.
 
 (* ProductFunctor is a mapping between product categories. *)
 
-Program Instance ProductFunctor
+#[global] Program Instance ProductFunctor
         {C : Category} {D : Category} {F : C ⟶ D}
         {J : Category} {K : Category} {G : J ⟶ K} :
   (C ∏ J) ⟶ (D ∏ K) := {

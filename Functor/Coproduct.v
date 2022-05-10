@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -10,7 +10,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Program Instance CoproductFunctor `(C : Category) `{@Cocartesian C} :
+#[global] Program Instance CoproductFunctor `(C : Category) `{@Cocartesian C} :
   C ∐ C ⟶ C := {
   fobj := fun p => sum_rect (λ _, C) (λ a, a) (λ b, b) p;
   fmap := fun x y p =>

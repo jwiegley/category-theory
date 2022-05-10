@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
@@ -83,7 +83,7 @@ Proof.
   reflexivity.
 Qed.
 
-Hint Rewrite @exl_fork : categories.
+#[local] Hint Rewrite @exl_fork : categories.
 
 Corollary exr_fork {x z w : C} (f : x ~> z) (g : x ~> w) :
   exr ∘ f △ g ≈ g.
@@ -93,7 +93,7 @@ Proof.
   reflexivity.
 Qed.
 
-Hint Rewrite @exr_fork : categories.
+#[local] Hint Rewrite @exr_fork : categories.
 
 Corollary fork_exl_exr {x y : C} :
   exl △ exr ≈ @id C (x × y).
@@ -103,7 +103,7 @@ Proof.
   apply ump_products; split; cat.
 Qed.
 
-Hint Rewrite @fork_exl_exr : categories.
+#[local] Hint Rewrite @fork_exl_exr : categories.
 
 Corollary fork_inv {x y z : C} (f h : x ~> y) (g i : x ~> z) :
   f △ g ≈ h △ i ↔ f ≈ h ∧ g ≈ i.
@@ -136,7 +136,7 @@ Definition swap_invol {x y : C} :
   swap ∘ swap ≈ @id C (x × y).
 Proof. unfork. Qed.
 
-Hint Rewrite @swap_invol : categories.
+#[local] Hint Rewrite @swap_invol : categories.
 
 Definition swap_inj_l {x y z : C} (f g : x ~> y × z) :
   swap ∘ f ≈ swap ∘ g -> f ≈ g.
@@ -168,7 +168,7 @@ Theorem first_id {x y : C} :
   first (id[x]) ≈ id[x × y].
 Proof. unfold first; cat. Qed.
 
-Hint Rewrite @first_id : categories.
+#[local] Hint Rewrite @first_id : categories.
 
 Theorem first_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
   first (z:=w) (f ∘ g) ≈ first f ∘ first g.
@@ -182,7 +182,7 @@ Theorem second_id {x y : C} :
   second (id[y]) ≈ id[x × y].
 Proof. unfold second; cat. Qed.
 
-Hint Rewrite @second_id : categories.
+#[local] Hint Rewrite @second_id : categories.
 
 Theorem second_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
   second (z:=w) (f ∘ g) ≈ second f ∘ second g.
@@ -196,25 +196,25 @@ Corollary exl_first {x y z : C} (f : x ~> y) :
   @exl _ y z ∘ first f ≈ f ∘ exl.
 Proof. unfold first; cat. Qed.
 
-Hint Rewrite @exl_first : categories.
+#[local] Hint Rewrite @exl_first : categories.
 
 Corollary exr_first {x y z : C} (f : x ~> y) :
   @exr _ y z ∘ first f ≈ exr.
 Proof. unfold first; cat. Qed.
 
-Hint Rewrite @exr_first : categories.
+#[local] Hint Rewrite @exr_first : categories.
 
 Corollary exl_second {x y z : C} (f : x ~> y) :
   @exl _ z y ∘ second f ≈ exl.
 Proof. unfold second; cat. Qed.
 
-Hint Rewrite @exl_second : categories.
+#[local] Hint Rewrite @exl_second : categories.
 
 Corollary exr_second {x y z : C} (f : x ~> y) :
   @exr _ z y ∘ second f ≈ f ∘ exr.
 Proof. unfold second; cat. Qed.
 
-Hint Rewrite @exr_second : categories.
+#[local] Hint Rewrite @exr_second : categories.
 
 Theorem swap_first {x y z : C} (f : x ~> y) :
   swap ∘ first (z:=z) f ≈ second f ∘ swap.
@@ -236,7 +236,7 @@ Theorem split_id {x y : C} :
   split (id[x]) (id[y]) ≈ id[x × y].
 Proof. unfork; cat. Qed.
 
-Hint Rewrite @split_id : categories.
+#[local] Hint Rewrite @split_id : categories.
 
 Theorem split_comp {x y z w v u : C}
         (f : y ~> z) (h : x ~> y) (g : v ~> u) (i : w ~> v) :
@@ -300,7 +300,7 @@ Next Obligation.
   apply fork_respects; cat.
 Qed.
 
-Hint Rewrite @prod_one_l : isos.
+#[local] Hint Rewrite @prod_one_l : isos.
 
 Global Program Instance prod_one_r  {x : C} :
   x × 1 ≅ x := {
@@ -313,7 +313,7 @@ Next Obligation.
   apply fork_respects; cat.
 Qed.
 
-Hint Rewrite @prod_one_r : isos.
+#[local] Hint Rewrite @prod_one_r : isos.
 
 Global Program Instance prod_comm  {x y : C} :
   x × y ≅ y × x := {
@@ -336,18 +336,17 @@ Definition toggle {x y : C} : (x × y) × (x × y) ~> (x × x) × (y × y) :=
 (*   toggle ∘ (f △ g) △ (h △ i) ≈  *)
 
 End Cartesian.
-
 Infix "×" := (@product_obj _ _) (at level 40, left associativity) : object_scope.
 Notation "x ×[ C ] y" := (@product_obj C _ x y)
   (at level 40, left associativity, only parsing) : object_scope.
 Infix "△" := (@fork _ _ _ _ _) (at level 28) : morphism_scope.
 
-Hint Rewrite @exl_fork : categories.
-Hint Rewrite @exr_fork : categories.
-Hint Rewrite @fork_exl_exr : categories.
-Hint Rewrite @swap_invol : categories.
-Hint Rewrite @prod_one_l : isos.
-Hint Rewrite @prod_one_r : isos.
+#[global] Hint Rewrite @exl_fork : categories.
+#[global] Hint Rewrite @exr_fork : categories.
+#[global] Hint Rewrite @fork_exl_exr : categories.
+#[global] Hint Rewrite @swap_invol : categories.
+#[global] Hint Rewrite @prod_one_l : isos.
+#[global] Hint Rewrite @prod_one_r : isos.
 
 Ltac unfork :=
   unfold swap, split, first, second; simpl;

@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
@@ -98,7 +98,7 @@ Fixpoint unsize (n : nat) : Shape :=
 Theorem size_unsize n : size (unsize n) = n.
 Proof. now induction n; simpl; auto. Qed.
 
-Program Instance Shape_Setoid : Setoid Shape := {|
+#[global] Program Instance Shape_Setoid : Setoid Shape := {|
   equiv := λ x y, size x = size y
 |}.
 
@@ -161,7 +161,7 @@ Definition Trie_equiv {s : Shape} {a : Type} (x y : Trie a s) : Type :=
 
 Arguments Trie_equiv {s a} x y /.
 
-Program Instance Trie_Setoid {s : Shape} {a : Type} : Setoid (Trie a s) := {|
+#[global] Program Instance Trie_Setoid {s : Shape} {a : Type} : Setoid (Trie a s) := {|
   equiv := Trie_equiv
 |}.
 Next Obligation.
@@ -170,7 +170,7 @@ Next Obligation.
   now rewrite H, H0.
 Qed.
 
-Program Instance vec_Proper {a : Type} {s : Shape} :
+#[global] Program Instance vec_Proper {a : Type} {s : Shape} :
   Proper (equiv ==> eq) (@vec a s).
 
 Theorem trie_vec `(x : Trie a s) : trie (vec x) ≈ x.
@@ -198,7 +198,7 @@ Proof.
     now rewrite Trie_map_flatten.
 Qed.
 
-Program Instance Trie_map_Proper {s : Shape} `{f : a -> b} :
+#[global] Program Instance Trie_map_Proper {s : Shape} `{f : a -> b} :
   Proper (equiv ==> equiv) (@Trie_map s a b f).
 Next Obligation.
   proper.
@@ -208,7 +208,7 @@ Qed.
 
 (**************************************************************************)
 
-Program Instance Trie_Functor (s : Shape) : Coq ⟶ Sets := {|
+#[global] Program Instance Trie_Functor (s : Shape) : Coq ⟶ Sets := {|
   fobj := λ a,     {| carrier   := Trie a s
                     ; is_setoid := Trie_Setoid |};
   fmap := λ _ _ f, {| morphism := Trie_map f

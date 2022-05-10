@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 Set Warnings "-notation-incompatible-format".
 
 Require Import Category.Lib.
@@ -47,7 +47,7 @@ Definition unop {C : Category} {x y} (f : x ~{C^op}~> y) : y ~{C}~> x := f.
 
 Require Export Category.Theory.Isomorphism.
 
-Program Instance Isomorphism_Opposite {C : Category} {x y : C}
+#[global] Program Instance Isomorphism_Opposite {C : Category} {x y : C}
        (iso : @Isomorphism C x y) :
   @Isomorphism (C^op) x y := {
   to := from iso;

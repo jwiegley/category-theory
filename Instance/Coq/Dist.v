@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Coq.Reals.Reals.
 Require Import Coq.Sets.Ensembles.
@@ -17,7 +17,7 @@ Unset Transparent Obligations.
 Definition Ensemble_map {A B : Type} (f : A -> B) (x : Ensemble A) :
   Ensemble B := fun b => (exists a : A, x a /\ f a = b)%type.
 
-Program Instance Ensemble_map_Proper {A B} :
+#[global] Program Instance Ensemble_map_Proper {A B} :
   Proper ((eq ==> eq) ==> Same_set A ==> Same_set B) Ensemble_map.
 Next Obligation.
   unfold Ensemble_map.
@@ -49,7 +49,7 @@ Definition Ensemble_choose {A : Type} (x y : Ensemble A) :=
 Definition Ensemble_join {A : Type} (m : Ensemble (Ensemble A)) : Ensemble A :=
   fun a => (exists t : Ensemble A, m t /\ t a)%type.
 
-Program Instance Ensemble_join_Proper {A : Type} :
+#[global] Program Instance Ensemble_join_Proper {A : Type} :
   Proper (Same_set _ ==> Same_set A) Ensemble_join.
 Next Obligation.
   unfold Ensemble_join.
@@ -67,7 +67,7 @@ Qed.
 Definition Ensemble_bind {A B : Type} (f : A -> Ensemble B) (x : Ensemble A) :
   Ensemble B := fun b => (exists a : A, x a /\ In _ (f a) b)%type.
 
-Program Instance Ensemble_bind_Proper {A B : Type} :
+#[global] Program Instance Ensemble_bind_Proper {A B : Type} :
   Proper ((eq ==> Same_set B) ==> Same_set A ==> Same_set B) Ensemble_bind.
 Next Obligation.
   unfold Ensemble_bind.
@@ -89,7 +89,7 @@ Qed.
 Definition Ensemble_distr `(s : Ensemble (A * B)) : A -> Ensemble B :=
   fun a b => s (a, b).
 
-Program Instance Ensemble_distr_Proper {A B : Type} :
+#[global] Program Instance Ensemble_distr_Proper {A B : Type} :
   Proper (Same_set (A * B) ==> eq ==> Same_set B) Ensemble_distr.
 Next Obligation.
   unfold Ensemble_distr.
@@ -107,7 +107,7 @@ Definition Ensemble_unionWith `(f : B -> B -> B) (z : B)
     (forall x : B, (In _ xs (a, x) <-> List.In x l))
       /\ b = List.fold_left f l z)%type.
 
-Program Instance Ensemble_unionWith_Proper `(f : B -> B -> B) (z : B) {A : Type} :
+#[global] Program Instance Ensemble_unionWith_Proper `(f : B -> B -> B) (z : B) {A : Type} :
   Proper (Same_set _ ==> Same_set (A * B)) (Ensemble_unionWith f z).
 Next Obligation.
   unfold Ensemble_unionWith.
@@ -130,7 +130,7 @@ Definition Ensemble_Dist_bind {A B : Type}
   Ensemble_bind (fun '(a, pa) =>
                    Ensemble_map (fun '(b, pb) => (b, pa * pb)%R) (f a)) xs.
 
-Program Instance Ensemble_Dist_bind_Proper {A B : Type} :
+#[global] Program Instance Ensemble_Dist_bind_Proper {A B : Type} :
   Proper (Same_set _ ==> (eq ==> Same_set _) ==> Same_set _)
          (@Ensemble_Dist_bind A B).
 Next Obligation.
@@ -152,7 +152,7 @@ Qed.
 Definition Ensemble_sum_at_key `(xs : Ensemble (A * R)) : Ensemble (A * R) :=
   Ensemble_unionWith Rplus 0%R xs.
 
-Program Instance Ensemble_sum_at_key_Proper A :
+#[global] Program Instance Ensemble_sum_at_key_Proper A :
   Proper (Same_set (A * R) ==> Same_set (A * R)) Ensemble_sum_at_key.
 Next Obligation.
   repeat intro.
@@ -160,7 +160,7 @@ Next Obligation.
   apply Ensemble_unionWith_Proper; auto.
 Qed.
 
-Program Instance real_setoid : Setoid R.
+#[global] Program Instance real_setoid : Setoid R.
 
 (** The category of partial maps, built on the category of setoids. *)
 
@@ -207,7 +207,7 @@ Abort.
 (*
 Require Import Category.Structure.Cartesian.
 
-Program Instance Dist_Cartesian : @Cartesian Dist := {
+#[global] Program Instance Dist_Cartesian : @Cartesian Dist := {
   product_obj := fun x y => _
 }.
 *)

@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
@@ -10,7 +10,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Instance adj_id {C : Category} : Id ⊣ Id := {
+#[global] Program Instance adj_id {C : Category} : Id ⊣ Id := {
   adj := fun _ _ =>
     {| to   := {| morphism := _ |}
      ; from := {| morphism := _ |} |}
@@ -49,7 +49,7 @@ Record adj_morphism {C : Category} {D : Category} := {
   adjunction : free_functor ⊣ forgetful_functor
 }.
 
-Program Instance adj_morphism_setoid {C : Category} {D : Category} :
+#[global] Program Instance adj_morphism_setoid {C : Category} {D : Category} :
   Setoid (@adj_morphism C D) := {
   equiv := fun f g =>
               (free_functor f ≅[Fun] free_functor g) *

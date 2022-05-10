@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.Closed.
@@ -14,7 +14,7 @@ Set Universe Polymorphism.
 Definition pairing {A B : Type} (p : A * B) : p = (fst p, snd p) :=
   match p with (x, y) => eq_refl end.
 
-Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := {
+#[global] Program Instance Cat_Closed : @Closed Cat Cat_Cartesian := {
   exponent_obj := @Fun;         (* the internal hom is a functor category *)
   exp_iso := fun A B C =>
     {| to :=

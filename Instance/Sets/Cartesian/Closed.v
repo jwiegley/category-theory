@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.Closed.
@@ -14,7 +14,7 @@ Unset Transparent Obligations.
 (* This instance must appear in a separate file, because the Closed structure
    makes use of isomorphisms in [Sets]. *)
 
-Program Instance Sets_Closed : @Closed Sets _ := {
+#[global] Program Instance Sets_Closed : @Closed Sets _ := {
   exponent_obj := fun x y =>
     {| carrier := SetoidMorphism x y
      ; is_setoid := @SetoidMorphism_Setoid x y |};

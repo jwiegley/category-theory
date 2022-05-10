@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
@@ -49,20 +49,20 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Instance comma_proj  : Comma ⟶ A ∏ B := {|
+#[global] Program Instance comma_proj  : Comma ⟶ A ∏ B := {|
   fobj := fun x => ``x;
   fmap := fun _ _ f => ``f
 |}.
-Program Instance comma_proj1 : Comma ⟶ A := {|
+#[global] Program Instance comma_proj1 : Comma ⟶ A := {|
   fobj := fun x => fst ``x;
   fmap := fun _ _ f => fst ``f
 |}.
-Program Instance comma_proj2 : Comma ⟶ B := {|
+#[global] Program Instance comma_proj2 : Comma ⟶ B := {|
   fobj := fun x => snd ``x;
   fmap := fun _ _ f => snd ``f
 |}.
 
-Program Instance comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2.
+#[global] Program Instance comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2.
 
 End Comma.
 

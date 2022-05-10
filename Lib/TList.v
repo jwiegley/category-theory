@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 (** A theory of type-aligned lists, using the Coq-Equations plugin *)
 
@@ -608,7 +607,7 @@ Definition nat_equiv (i j : nat) (x y : nat_triple i j) : Type :=
     (_, a), (_, b) => a = b
   end.
 
-Program Instance nat_equivalence {i j} : Equivalence (nat_equiv i j).
+#[global] Program Instance nat_equivalence {i j} : Equivalence (nat_equiv i j).
 Next Obligation.
   repeat intro.
   destruct x; simpl; auto.
@@ -622,7 +621,7 @@ Next Obligation.
   destruct x, y, z; simpl in *; subst; auto.
 Qed.
 
-Program Instance nat_Setoid {i j} : Setoid (nat_triple i j) := {
+#[global] Program Instance nat_Setoid {i j} : Setoid (nat_triple i j) := {
   equiv := nat_equiv i j;
   setoid_equiv := nat_equivalence
 }.
@@ -654,7 +653,7 @@ Class IMonoid {A : Type} (B : A -> A -> Type) := {
 
 Infix "<+>" := imappend (at level 42, right associativity).
 
-Instance tlist_IMonoid {A} {B : A -> A -> Type} : IMonoid (tlist B) := {
+#[global] Instance tlist_IMonoid {A} {B : A -> A -> Type} : IMonoid (tlist B) := {
   imempty := @tnil A B;
   imappend := @tlist_app A B;
   imempty_left := @tlist_app_tnil_l A B;

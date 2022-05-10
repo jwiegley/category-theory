@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
@@ -42,7 +42,7 @@ Proof.
   exact (iso_from_to fobj_prod_iso).
 Qed.
 
-Hint Rewrite @prod_in_out : functors.
+#[local] Hint Rewrite @prod_in_out : functors.
 
 Corollary prod_out_in (x y : C) :
   prod_out ∘ prod_in ≈ @id _ (F x × F y).
@@ -51,7 +51,7 @@ Proof.
   exact (iso_to_from fobj_prod_iso).
 Qed.
 
-Hint Rewrite @prod_out_in : functors.
+#[local] Hint Rewrite @prod_out_in : functors.
 
 Corollary prod_in_inj {x y z : C} (f g : F x ~> F y × F z) :
   prod_in ∘ f ≈ prod_in ∘ g ↔ f ≈ g.
@@ -88,8 +88,8 @@ End CartesianFunctor.
 Arguments prod_in {_ _ _ _ _ _ _ _} /.
 Arguments prod_out {_ _ _ _ _ _ _ _} /.
 
-Hint Rewrite @prod_in_out : functors.
-Hint Rewrite @prod_out_in : functors.
+#[global] Hint Rewrite @prod_in_out : functors.
+#[global] Hint Rewrite @prod_out_in : functors.
 
 Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Opposite.

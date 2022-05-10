@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -43,7 +43,7 @@ Program Definition Sub : Category := {|
 |}.
 
 (* ... and the inclusion D ⟶ C is a functor. *)
-Program Instance Incl : Sub ⟶ C := {
+#[global] Program Instance Incl : Sub ⟶ C := {
   fobj := fun x => `1 x;
   fmap := fun x y f => `1 f
 }.

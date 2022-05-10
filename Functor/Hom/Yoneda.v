@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Import Category.Theory.Natural.Transformation.
@@ -39,7 +39,7 @@ Unset Transparent Obligations.
    easier, which become more difficult when restricted to the fully abstract
    nature of `C`. *)
 
-Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) :
+#[global] Program Instance Yoneda_Lemma `(C : Category) `(F : C^op ⟶ Sets) :
   ∀ A : C, Presheaves [Hom ─,A] F ≅ F A := {
   to   := {| morphism := fun x => transform[x] A id |};
   from := {| morphism := fun y : F A =>
@@ -87,7 +87,7 @@ Next Obligation.
   apply transform; cat.
 Qed.
 
-Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) :
+#[global] Program Instance Covariant_Yoneda_Lemma `(C : Category) `(F : C ⟶ Sets) :
   ∀ A : C, Copresheaves [Hom A,─] F ≅ F A := {
   to   := {| morphism := fun x => transform[x] A id |};
   from := {| morphism := fun y : F A =>
@@ -135,7 +135,7 @@ Next Obligation.
   apply transform; cat.
 Qed.
 
-Program Instance Yoneda_Embedding `(C : Category) :
+#[global] Program Instance Yoneda_Embedding `(C : Category) :
   ∀ A B : C, Presheaves [Hom ─,A] [Hom ─,B] ≊ A ~> B.
 Next Obligation. morphism. Defined.
 Next Obligation.
@@ -157,7 +157,7 @@ Next Obligation.
   apply proper_morphism; cat.
 Qed.
 
-Program Instance Covariant_Yoneda_Embedding `(C : Category) :
+#[global] Program Instance Covariant_Yoneda_Embedding `(C : Category) :
   ∀ A B : C, Copresheaves [Hom B,─] [Hom A,─] ≊ A ~> B.
 Next Obligation. morphism. Defined.
 Next Obligation.

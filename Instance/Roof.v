@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -57,22 +57,22 @@ Proof. exact (RoofHom_inv _ _ f). Qed.
 Lemma RNeg_RZero_absurd : RoofHom RNeg RZero -> False.
 Proof. inversion 1. Qed.
 
-Hint Extern 4 => contradiction RNeg_RZero_absurd : roof_laws.
+#[global] Hint Extern 4 => contradiction RNeg_RZero_absurd : roof_laws.
 
 Lemma RPos_RZero_absurd : RoofHom RPos RZero -> False.
 Proof. inversion 1. Qed.
 
-Hint Extern 4 => contradiction RPos_RZero_absurd : roof_laws.
+#[global] Hint Extern 4 => contradiction RPos_RZero_absurd : roof_laws.
 
 Lemma RNeg_RPos_absurd : RoofHom RNeg RPos -> False.
 Proof. inversion 1. Qed.
 
-Hint Extern 4 => contradiction RNeg_RPos_absurd : roof_laws.
+#[global] Hint Extern 4 => contradiction RNeg_RPos_absurd : roof_laws.
 
 Lemma RPos_RNeg_absurd : RoofHom RPos RNeg -> False.
 Proof. inversion 1. Qed.
 
-Hint Extern 4 => contradiction RPos_RNeg_absurd : roof_laws.
+#[global] Hint Extern 4 => contradiction RPos_RNeg_absurd : roof_laws.
 
 Program Definition Roof : Category := {|
   obj    := RoofObj;

@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.
@@ -16,7 +16,7 @@ Context {D : Category}.
 Context `{@Cartesian C}.
 Context `{@Cartesian D}.
 
-Program Instance Product_Cartesian : @Cartesian (C ∏ D) := {
+#[global] Program Instance Product_Cartesian : @Cartesian (C ∏ D) := {
   product_obj := fun x y => (fst x × fst y, snd x × snd y);
 
   fork := fun _ _ _ f g => (fst f △ fst g, snd f △ snd g);

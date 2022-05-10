@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -11,7 +11,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} :
+#[global] Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} :
   C ∏ C ⟶ C := {
   fobj := fun p => fst p × snd p;
   fmap := fun _ _ p => (fst p ∘ exl) △ (snd p ∘ exr)

@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Export Category.Lib.Setoid.
 Require Export Category.Lib.Tactics.
@@ -213,7 +213,7 @@ Class Equality (A : Type) := {
   Eq_eq_dec_refl x : Eq_eq_dec x x = left (@Eq_eq_refl x)
 }.
 
-Program Instance Pos_Eq : Equality positive := {
+#[global] Program Instance Pos_Eq : Equality positive := {
   Eq_eqb         := Pos.eqb;
   Eq_eqb_refl    := Pos_eqb_refl;
 
@@ -223,7 +223,7 @@ Program Instance Pos_Eq : Equality positive := {
   Eq_eq_dec_refl := Pos_eq_dec_refl
 }.
 
-Program Instance Fin_Eq (n : nat) : Equality (Fin.t n) := {
+#[global] Program Instance Fin_Eq (n : nat) : Equality (Fin.t n) := {
   Eq_eqb         := Fin.eqb;
   Eq_eqb_refl    := Fin_eqb_refl n;
 
@@ -234,7 +234,7 @@ Program Instance Fin_Eq (n : nat) : Equality (Fin.t n) := {
 }.
 
 (*
-Program Instance option_Eq `{Equality A} : Equality (option A) := {
+#[global] Program Instance option_Eq `{Equality A} : Equality (option A) := {
   Eq_eqb         := _;
   Eq_eqb_refl x  := _;
 
@@ -321,7 +321,7 @@ Proof.
   now rewrite H.
 Qed.
 
-Program Instance list_Eq `{Equality A} : Equality (list A) := {
+#[global] Program Instance list_Eq `{Equality A} : Equality (list A) := {
   Eq_eqb         := list_beq Eq_eqb;
   Eq_eqb_refl x  := list_beq_refl Eq_eqb x Eq_eqb_refl;
 
@@ -383,7 +383,7 @@ Proof.
   contradiction.
 Qed.
 
-Program Instance prod_Eq `{Equality A} `{Equality B} : Equality (prod A B) := {
+#[global] Program Instance prod_Eq `{Equality A} `{Equality B} : Equality (prod A B) := {
   Eq_eqb           := prod_eqb Eq_eqb Eq_eqb;
   Eq_eqb_refl      := _;
 

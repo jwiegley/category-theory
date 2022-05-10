@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -17,7 +17,7 @@ Set Transparent Obligations.
     identity              Identity Functor
     composition           Horizontal composition of Functors *)
 
-Program Instance Cat : Category := {
+#[global] Program Instance Cat : Category := {
   obj     := Category;
   hom     := @Functor;
   homset  := @Functor_Setoid;

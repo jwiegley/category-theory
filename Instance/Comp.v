@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.Endo.
@@ -131,7 +131,7 @@ Next Obligation. now rewrite 2 op_commute. Qed.
     algebras of that signature, and as morphisms all homomorphisms between
     them. *)
 
-Program Instance Algs : Category := {
+#[global] Program Instance Algs : Category := {
   obj     := OpAlgebra S;
   hom     := AlgHom;
   homset  := AlgHom_Setoid;
@@ -140,7 +140,7 @@ Program Instance Algs : Category := {
 }.
 Next Obligation. proper. now rewrite H, H0. Qed.
 
-Program Instance Algs_Terminal : @Terminal Algs := {
+#[global] Program Instance Algs_Terminal : @Terminal Algs := {
   terminal_obj := {| carrier := unit : Type; op := fun _ _ => tt |};
   one := fun x : OpAlgebra S => {| map := fun a => tt |}
 }.
@@ -149,7 +149,7 @@ Next Obligation.
   now destruct (map0 x0), (map1 x0).
 Qed.
 
-Program Instance Algs_Cartesian : @Cartesian Algs := {
+#[global] Program Instance Algs_Cartesian : @Cartesian Algs := {
   product_obj := fun x y => {|
     carrier := x * y : Type;
     op := fun o k => (op x o (fun a => fst (k a)),
@@ -170,7 +170,7 @@ Next Obligation.
 Qed.
 
 (*
-Program Instance Algs_Closed : @Closed Algs _ := {
+#[global] Program Instance Algs_Closed : @Closed Algs _ := {
   exponent_obj := fun x y => {|
     carrier := AlgHom x y;
     op := fun o k => {|
@@ -189,7 +189,7 @@ Program Instance Algs_Closed : @Closed Algs _ := {
 
 (** In a category of algebras for some signature S, the free object is always
     initial. *)
-Program Instance Algs_Initial : Initial Algs := {
+#[global] Program Instance Algs_Initial : Initial Algs := {
   (* jww (2020-02-23): Is it right to be using False here? *)
   terminal_obj := Free S False;
   one := fun x : OpAlgebra S => induced_hom S False x (False_rect _)
@@ -197,7 +197,7 @@ Program Instance Algs_Initial : Initial Algs := {
 Next Obligation. now apply from_free_unique. Qed.
 
 (*
-Program Instance Algs_Cocartesian : @Cocartesian Algs := {
+#[global] Program Instance Algs_Cocartesian : @Cocartesian Algs := {
   product_obj := fun x y => {|
     carrier := x + y : Type;
     op := fun o k => _
@@ -446,7 +446,7 @@ Global Program Instance Component_Setoid {req prov : Interface} :
 (** Now we may reason about the category of software components, which are
     simply morphisms between algebras, but not necessarily homomorphic. *)
 
-Program Instance Comp : Category := {
+#[global] Program Instance Comp : Category := {
   obj     := Interface;
   hom     := Component;
   homset  := @Component_Setoid;

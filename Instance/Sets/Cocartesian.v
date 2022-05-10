@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
@@ -12,7 +12,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Program Instance Sets_Cocartesian : @Cocartesian Sets := {
+#[global] Program Instance Sets_Cocartesian : @Cocartesian Sets := {
   product_obj := fun x y =>
     {| carrier := (carrier x + carrier y)%type
      ; is_setoid :=

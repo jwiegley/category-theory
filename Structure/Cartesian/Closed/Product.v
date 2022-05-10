@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.Product.
@@ -18,7 +18,7 @@ Context `{@Cartesian D}.
 Context `{@Closed C _}.
 Context `{@Closed D _}.
 
-Program Instance Product_Closed : @Closed (C ∏ D) Product_Cartesian := {
+#[global] Program Instance Product_Closed : @Closed (C ∏ D) Product_Cartesian := {
   exponent_obj := fun x y => (fst y ^ fst x, snd y ^ snd x);
   exp_iso := fun _ _ _ =>
     {| to   := {| morphism := fun f =>

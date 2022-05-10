@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Adjunction.Natural.Transformation.
@@ -177,7 +177,7 @@ Proof.
   now rewrite iso_from_to; cat.
 Qed.
 
-Program Instance to_lawvere_iso_Proper :
+#[global] Program Instance to_lawvere_iso_Proper :
   Proper (Isomorphism ==> Isomorphism) (φ E).
 Next Obligation.
   proper.
@@ -189,7 +189,7 @@ Next Obligation.
   - exact (iso_from_to (@fobj_iso _ _ (φ E) _ _ X)).
 Qed.
 
-Program Instance from_lawvere_iso_Proper :
+#[global] Program Instance from_lawvere_iso_Proper :
   Proper (Isomorphism ==> Isomorphism) (ψ E).
 Next Obligation.
   proper.
@@ -201,7 +201,7 @@ Next Obligation.
   - exact (iso_from_to (@fobj_iso _ _ (ψ E) _ _ X)).
 Qed.
 
-Program Instance lawvere_to_Proper {a b} :
+#[global] Program Instance lawvere_to_Proper {a b} :
   Proper (equiv ==> equiv) (@φ' E a b).
 Next Obligation.
   proper.
@@ -238,7 +238,7 @@ Next Obligation.
   apply e.
 Qed.
 
-Program Instance lawvere_from_Proper {a b} :
+#[global] Program Instance lawvere_from_Proper {a b} :
   Proper (equiv ==> equiv) (@ψ' E a b).
 Next Obligation.
   proper.
@@ -592,7 +592,7 @@ Proof.
         ].
 Qed.
 
-Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
+#[global] Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
   to   := {| morphism := φ' E; proper_morphism := lawvere_to_Proper |};
   from := {| morphism := ψ' E; proper_morphism := lawvere_from_Proper |};
   iso_to_from := lawvere_to_from;
@@ -770,7 +770,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Program Instance Comma_F_Id_Id_G_Iso (H : F ⊣ G) :
+#[global] Program Instance Comma_F_Id_Id_G_Iso (H : F ⊣ G) :
   (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G) := {
   to   := Comma_Functor_F_Id_Id_G H;
   from := Comma_Functor_Id_G_F_Id H

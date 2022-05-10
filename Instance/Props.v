@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
@@ -28,24 +28,24 @@ Program Definition Props : Category := {|
   compose := fun _ _ _ g f x => g (f x)
 |}.
 
-Program Instance Props_Terminal : @Terminal Props := {
+#[global] Program Instance Props_Terminal : @Terminal Props := {
   terminal_obj := True;
   one := fun _ _ => I
 }.
 
-Program Instance Props_Initial : @Initial Props := {
+#[global] Program Instance Props_Initial : @Initial Props := {
   terminal_obj := False;
   one := fun _ _ => False_rect _ _
 }.
 
-Program Instance Props_Cartesian : @Cartesian Props := {
+#[global] Program Instance Props_Cartesian : @Cartesian Props := {
   product_obj := and;
   fork := fun _ _ _ f g x => conj (f x) (g x);
   exl  := fun _ _ p => proj1 p;
   exr  := fun _ _ p => proj2 p
 }.
 
-Program Instance Props_Cocartesian : @Cocartesian Props := {
+#[global] Program Instance Props_Cocartesian : @Cocartesian Props := {
   product_obj := or;
   fork := fun _ _ _ f g x =>
             match x with
@@ -56,7 +56,7 @@ Program Instance Props_Cocartesian : @Cocartesian Props := {
   exr  := fun _ _ p => or_intror p
 }.
 
-Program Instance Props_Closed : @Closed Props _ := {
+#[global] Program Instance Props_Closed : @Closed Props _ := {
   exponent_obj := Basics.impl;
   exp_iso := fun _ _ _ =>
     {| to   := {| morphism := fun f a b => f (conj a b) |}

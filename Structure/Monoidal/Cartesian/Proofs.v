@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Morphisms.
@@ -208,7 +208,7 @@ Qed.
 
 Local Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 
-Program Instance diagonal_monic {x} :
+#[global] Program Instance diagonal_monic {x} :
   Monic ∆x.
 Next Obligation.
   rewrite <- unit_left_eliminate.

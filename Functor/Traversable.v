@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Functor.Strong.
@@ -30,13 +30,13 @@ Context {F : C ⟶ C}.
 
 Local Obligation Tactic := idtac.
 
-Program Instance Id_Applicative : @Applicative C _ _ _ (Id[C]) := {
+#[global] Program Instance Id_Applicative : @Applicative C _ _ _ (Id[C]) := {
   is_strong := Id_StrongFunctor;
   is_lax_monoidal := @Id_LaxMonoidalFunctor C InternalProduct_Monoidal
                                             C InternalProduct_Monoidal
 }.
 
-Program Instance Compose_Applicative
+#[global] Program Instance Compose_Applicative
         {G : C ⟶ C} `{@Applicative C _ _ _ G}
         {H : C ⟶ C} `{@Applicative C _ _ _ H} :
   @Applicative C _ _ _ (Compose G H) := {
@@ -68,7 +68,7 @@ End Traversable.
 
 Arguments Traversable {_ _ _ _} F.
 
-Program Instance Id_Traversable {C : Category}
+#[global] Program Instance Id_Traversable {C : Category}
         `{@Cartesian C} `{@Terminal C} `{@Closed C _} (x : C) :
   Traversable (@Id C) := {
   sequence := fun _ _ => {| transform := fun _ => id |}
@@ -76,7 +76,7 @@ Program Instance Id_Traversable {C : Category}
 
 Require Import Category.Functor.Diagonal.
 
-Program Instance Diagonal_Traversable {C J : Category}
+#[global] Program Instance Diagonal_Traversable {C J : Category}
         `{@Cartesian C} `{@Terminal C} `{@Closed C _} (x : C) :
   Traversable (Diagonal C x) := {
   sequence := fun G _ => {| transform := fun _ => pure[G] |}

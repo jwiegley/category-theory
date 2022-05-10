@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Monad.
@@ -52,7 +52,7 @@ Next Obligation. destruct H; intuition. Qed.
 Next Obligation. destruct H; intuition. Qed.
 Next Obligation. destruct H; intuition. Qed.
 
-Program Instance IdentityT_MonadTransformer {C : Category} (M : C ⟶ C) `{@Monad C M} :
+#[global] Program Instance IdentityT_MonadTransformer {C : Category} (M : C ⟶ C) `{@Monad C M} :
   @MonadTransformer C M _ (@IdentityT C) (IdentityT_Monad M) := {
   lift := fun _ => id
 }.

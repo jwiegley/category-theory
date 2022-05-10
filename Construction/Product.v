@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
@@ -65,12 +65,12 @@ Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.
 
 Require Import Category.Theory.Functor.
 
-Program Instance Fst {C : Category} {D : Category} : C ∏ D ⟶ C := {
+#[global] Program Instance Fst {C : Category} {D : Category} : C ∏ D ⟶ C := {
   fobj := fst;
   fmap := fun _ _ => fst
 }.
 
-Program Instance Snd {C : Category} {D : Category} : C ∏ D ⟶ D := {
+#[global] Program Instance Snd {C : Category} {D : Category} : C ∏ D ⟶ D := {
   fobj := snd;
   fmap := fun _ _ => snd
 }.

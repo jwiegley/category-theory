@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -85,7 +85,7 @@ Proof. transform; simpl; intros; cat. Qed.
 Program Definition nat_equiv `{F : C ⟶ D} {G : C ⟶ D} : crelation (F ⟹ G) :=
   fun n m => ∀ A, transform[n] A ≈ transform[m] A.
 
-Hint Unfold nat_equiv : core.
+#[global] Hint Unfold nat_equiv : core.
 
 Arguments nat_equiv {_ _ _ _} _ _ /.
 
@@ -98,7 +98,7 @@ Proof.
   apply X0.
 Qed.
 
-Program Instance nat_Setoid `{F : C ⟶ D} {G : C ⟶ D} :
+#[global] Program Instance nat_Setoid `{F : C ⟶ D} {G : C ⟶ D} :
   Setoid (F ⟹ G) := {
   equiv := nat_equiv;
   setoid_equiv := nat_equiv_equivalence
@@ -108,9 +108,9 @@ Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
   transform := λ X, fmap (@id C X)
 |}.
 
-Hint Unfold nat_id : core.
+#[global] Hint Unfold nat_id : core.
 
-Program Instance Transform_reflexive {C D : Category} :
+#[global] Program Instance Transform_reflexive {C D : Category} :
   Reflexive (@Transform C D) := λ _, nat_id.
 
 Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
@@ -130,7 +130,7 @@ Next Obligation.
   now apply nat_compose_obligation_1.
 Qed.
 
-Hint Unfold nat_compose : core.
+#[global] Hint Unfold nat_compose : core.
 
 Notation "F ∙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
 
@@ -139,11 +139,11 @@ Program Definition nat_compose_respects
   Proper (equiv ==> equiv ==> equiv) (@nat_compose C D F G K).
 Proof. proper. Qed.
 
-Program Instance Transform_transitive {C E : Category} :
+#[global] Program Instance Transform_transitive {C E : Category} :
   Transitive (@Transform C E) :=
   λ _ _ _ f g, nat_compose g f.
 
-Program Instance Transform_respects {C D : Category} :
+#[global] Program Instance Transform_respects {C D : Category} :
   Proper ((λ F G, G ⟹ F) ==> @Transform C D ==> Basics.arrow) (@Transform C D) :=
   λ _ _ F _ _ G H, nat_compose G (nat_compose H F).
 
@@ -173,7 +173,7 @@ Next Obligation.
   now apply nat_hcompose_obligation_1.
 Qed.
 
-Program Instance Compose_respects_Transform {C D E : Category} :
+#[global] Program Instance Compose_respects_Transform {C D E : Category} :
   Proper (@Transform D E ==> @Transform C D ==> @Transform C E)
          (@Compose C D E) :=
   λ _ F M G _ N,

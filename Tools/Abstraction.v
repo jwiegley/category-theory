@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -133,7 +133,7 @@ Class NumericalFunctor := {
 
 End NumericalFunctor.
 
-Instance Coq_Numerical : @Numerical Coq Coq_Cartesian := {
+#[global] Instance Coq_Numerical : @Numerical Coq Coq_Cartesian := {
   numerical_obj := nat;
   add := prod_curry Nat.add
 }.

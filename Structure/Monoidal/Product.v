@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Morphisms.
@@ -17,7 +17,7 @@ Unset Transparent Obligations.
 
 Local Obligation Tactic := simpl; intros; simplify; simpl in *.
 
-Program Instance Product_Monoidal `{@Monoidal C} `{@Monoidal D} :
+#[global] Program Instance Product_Monoidal `{@Monoidal C} `{@Monoidal D} :
   @Monoidal (C ∏ D) := {
   tensor :=
     {| fobj := fun p => (fst (fst p) ⨂ fst (snd p),

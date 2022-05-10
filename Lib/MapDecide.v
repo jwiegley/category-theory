@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Coq.NArith.NArith.
 Require Import Coq.FSets.FMaps.
@@ -571,7 +571,7 @@ Ltac reify :=
 
 Ltac solve_map := reify; apply formula_sound; vm_compute; auto.
 
-Program Instance sigT_proper {A : Type} :
+#[global] Program Instance sigT_proper {A : Type} :
   Proper (pointwise_relation A Basics.arrow ==> Basics.arrow) (@sigT A).
 Next Obligation.
   proper.

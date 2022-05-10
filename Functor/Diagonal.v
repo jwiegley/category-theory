@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -10,7 +10,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
+#[global] Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
   fobj := fun x =>
     {| fobj := fun _ => x
      ; fmap := fun _ _ _ => id[x] |};
@@ -18,7 +18,7 @@ Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
     {| transform := fun _ => f |}
 }.
 
-Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.
+#[global] Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.
 
 Notation "Δ[ J ]( c )" := (Diagonal J c) (at level 90, format "Δ[ J ]( c )") : functor_scope.
 
@@ -59,5 +59,5 @@ Proof.
   reflexivity.
 Qed.
 
-Instance Transform_Const `(x ~{C}~> y) : Δ(x) ⟹ Δ(y).
+#[global] Instance Transform_Const `(x ~{C}~> y) : Δ(x) ⟹ Δ(y).
 Proof. construct; auto; cat_simpl. Qed.

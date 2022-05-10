@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.
@@ -91,9 +90,9 @@ Proof.
   apply HA.
 Qed.
 
-Hint Rewrite @curry_uncurry : categories.
-Hint Rewrite @uncurry_curry : categories.
-Hint Rewrite @ump_exponents : categories.
+#[local] Hint Rewrite @curry_uncurry : categories.
+#[local] Hint Rewrite @uncurry_curry : categories.
+#[local] Hint Rewrite @ump_exponents : categories.
 
 Definition flip {x y z : C} `(f : x ~> z ^ y) : y ~> z ^ x :=
   curry (uncurry f ∘ swap).
@@ -109,7 +108,7 @@ Proof.
   rewrite <- comp_assoc; cat.
 Qed.
 
-Hint Rewrite @eval_curry : categories.
+#[local] Hint Rewrite @eval_curry : categories.
 
 Corollary curry_eval {x y : C} :
   curry eval ≈ @id _ (y^x).
@@ -117,7 +116,7 @@ Proof.
   intros; unfold eval; simpl; cat.
 Qed.
 
-Hint Rewrite @curry_eval : categories.
+#[local] Hint Rewrite @curry_eval : categories.
 
 Corollary eval_first {x y z : C} (f : x ~> z^y) :
   eval ∘ first f ≈ uncurry f.
@@ -286,7 +285,7 @@ Next Obligation.
   rewrite fork_comp; cat.
 Qed.
 
-Hint Rewrite @exp_prod_l : isos.
+#[local] Hint Rewrite @exp_prod_l : isos.
 
 Global Program Instance exp_prod_r {x y z : C} :
   (y × z)^x ≅ y^x × z^x := {
@@ -313,7 +312,7 @@ Next Obligation.
   unfold first; cat.
 Qed.
 
-Hint Rewrite @exp_prod_r : isos.
+#[local] Hint Rewrite @exp_prod_r : isos.
 
 Local Obligation Tactic := program_simpl.
 
@@ -390,7 +389,7 @@ Next Obligation.
   cat.
 Qed.
 
-Hint Rewrite @exp_one : isos.
+#[local] Hint Rewrite @exp_one : isos.
 
 Global Program Instance one_exp {x : C} :
   1^x ≅ 1 := {
@@ -406,17 +405,17 @@ Next Obligation.
   apply one_unique.
 Qed.
 
-Hint Rewrite @one_exp : isos.
+#[local] Hint Rewrite @one_exp : isos.
 
 End Closed.
 
 Notation "y ^ x" := (exponent_obj x y) : category_scope.
 
-Hint Rewrite @curry_uncurry : categories.
-Hint Rewrite @uncurry_curry : categories.
-Hint Rewrite @ump_exponents : categories.
-Hint Rewrite @eval_curry : categories.
-Hint Rewrite @curry_eval : categories.
-Hint Rewrite @exp_prod_l : isos.
-Hint Rewrite @exp_prod_r : isos.
-Hint Rewrite @exp_one : isos.
+#[global] Hint Rewrite @curry_uncurry : categories.
+#[global] Hint Rewrite @uncurry_curry : categories.
+#[global] Hint Rewrite @ump_exponents : categories.
+#[global] Hint Rewrite @eval_curry : categories.
+#[global] Hint Rewrite @curry_eval : categories.
+#[global] Hint Rewrite @exp_prod_l : isos.
+#[global] Hint Rewrite @exp_prod_r : isos.
+#[global] Hint Rewrite @exp_one : isos.

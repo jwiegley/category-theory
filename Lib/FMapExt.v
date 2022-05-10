@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import
   Coq.FSets.FMapFacts
@@ -80,7 +80,7 @@ Ltac simplify_maps :=
     unfold not; intro H; destruct H; simplify_maps
   end; simpl; auto.
 
-Hint Extern 5 =>
+#[global] Hint Extern 5 =>
   match goal with
     [ H : M.MapsTo _ _ (M.empty _) |- _ ] =>
       apply F.empty_mapsto_iff in H; contradiction
@@ -627,7 +627,7 @@ Definition optionP {A} (P : relation A) : relation (option A) :=
              | _, _ => False
              end.
 
-Program Instance optionP_Equivalence {A} (P : relation A) :
+#[global] Program Instance optionP_Equivalence {A} (P : relation A) :
   Equivalence P -> Equivalence (optionP P).
 Obligation 1.
   intro x.
@@ -650,7 +650,7 @@ Definition pairP {A B} (P : relation A) (Q : relation B) : relation (A * B) :=
               | (x, y), (x', y') => P x x' /\ Q y y'
               end.
 
-Program Instance pairP_Equivalence {A B} (P : relation A) (Q : relation B) :
+#[global] Program Instance pairP_Equivalence {A B} (P : relation A) (Q : relation B) :
   Equivalence P -> Equivalence Q -> Equivalence (pairP P Q).
 Obligation 1.
   intro x.
@@ -668,7 +668,7 @@ Obligation 3.
   firstorder.
 Qed.
 
-Program Instance take_first_Proper {elt} :
+#[global] Program Instance take_first_Proper {elt} :
   Proper ((E.eq ==> eq ==> eq)
             ==> E.eq
             ==> eq
@@ -708,14 +708,14 @@ Proof.
   contradiction.
 Qed.
 
-Hint Resolve Oeq_neq_sym : core.
+#[global] Hint Resolve Oeq_neq_sym : core.
 
 Lemma Proper_Oeq_negb : forall B f,
   Proper (E.eq ==> eq ==> eq) f ->
   Proper (E.eq ==> eq ==> eq) (fun (k : M.key) (e : B) => negb (f k e)).
 Proof. intros ?????????; f_equal; subst; rewrite H0; reflexivity. Qed.
 
-Hint Resolve Proper_Oeq_negb : core.
+#[global] Hint Resolve Proper_Oeq_negb : core.
 
 Ltac apply_for_all :=
   try match goal with

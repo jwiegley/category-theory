@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 
@@ -119,8 +119,8 @@ Notation "f << A ~~> B >> g" :=
 
 Coercion obj : Category >-> Sortclass.
 
-Hint Rewrite @id_left : categories.
-Hint Rewrite @id_right : categories.
+#[global] Hint Rewrite @id_left : categories.
+#[global] Hint Rewrite @id_right : categories.
 
 (** [Build_Category'] is a custom constructor that automatically provides the
     definition of [comp_assoc_sym]. It is intended to be used with the
@@ -192,7 +192,7 @@ Arguments id_right {_%category _%object _%object} _%morphism.
 Arguments comp_assoc {_%category _%object _%object _%object _%object}
   _%morphism _%morphism _%morphism.
 
-Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := {
+#[global] Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := {
   PreOrder_Reflexive  := fun _ => id;
   PreOrder_Transitive := fun _ _ _ f g => g ∘ f
 }.
@@ -205,11 +205,11 @@ Ltac comp_right :=
   try rewrite !comp_assoc;
   apply compose_respects; [|reflexivity].
 
-Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
+#[global] Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.
-Hint Extern 10 (?X ∘ (?Y ∘ ?Z) ≈ ?W) =>
+#[global] Hint Extern 10 (?X ∘ (?Y ∘ ?Z) ≈ ?W) =>
   rewrite <- comp_assoc; cat : category_laws.
-Hint Extern 10 ((?X ∘ ?Y) ∘ ?Z ≈ ?W) =>
+#[global] Hint Extern 10 ((?X ∘ ?Y) ∘ ?Z ≈ ?W) =>
   rewrite comp_assoc; cat : category_laws.
 
 Ltac rewrites :=

@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -24,12 +24,12 @@ Notation "1" := _1 : category_scope.
 Notation "one[ C ]" := (@one Cat _ C)
   (at level 9, format "one[ C ]") : object_scope.
 
-Program Instance Erase `(C : Category) : C ⟶ 1 := {
+#[global] Program Instance Erase `(C : Category) : C ⟶ 1 := {
   fobj := fun _ => ();
   fmap := fun _ _ _ => id
 }.
 
-Program Instance Cat_Terminal : @Terminal Cat := {
+#[global] Program Instance Cat_Terminal : @Terminal Cat := {
   terminal_obj := _1;
   one := Erase
 }.

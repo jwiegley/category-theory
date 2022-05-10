@@ -1,5 +1,5 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
+
 
 Require Import Category.Lib.
 Require Export Category.Functor.Bifunctor.
@@ -29,7 +29,7 @@ Class Monoid (A : Type) `{Setoid A} := {
   mon_assoc (x y z : A) : mappend (mappend x y) z ≈ mappend x (mappend y z)
 }.
 
-Program Instance Classical_Monoid (A : Type) `{Setoid A} `{Monoid A} :
+#[global] Program Instance Classical_Monoid (A : Type) `{Setoid A} `{Monoid A} :
   @MonoidObject Sets InternalProduct_Monoidal {| carrier := A |} := {
   mempty  := {| morphism := fun _ => mempty |};
   mappend := {| morphism := fun p => mappend (fst p) (snd p) |}
