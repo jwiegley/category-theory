@@ -17,6 +17,7 @@ Set Transparent Obligations.
     identity              Identity Functor
     composition           Horizontal composition of Functors *)
 
+#[global]
 Program Instance Cat : Category := {
   obj     := Category;
   hom     := @Functor;

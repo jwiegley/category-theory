@@ -65,11 +65,13 @@ Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.
 
 Require Import Category.Theory.Functor.
 
+#[global]
 Program Instance Fst {C : Category} {D : Category} : C ∏ D ⟶ C := {
   fobj := fst;
   fmap := fun _ _ => fst
 }.
 
+#[global]
 Program Instance Snd {C : Category} {D : Category} : C ∏ D ⟶ D := {
   fobj := snd;
   fmap := fun _ _ => snd

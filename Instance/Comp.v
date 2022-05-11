@@ -446,6 +446,7 @@ Global Program Instance Component_Setoid {req prov : Interface} :
 (** Now we may reason about the category of software components, which are
     simply morphisms between algebras, but not necessarily homomorphic. *)
 
+#[global]
 Program Instance Comp : Category := {
   obj     := Interface;
   hom     := Component;

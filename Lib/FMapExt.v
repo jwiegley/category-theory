@@ -627,6 +627,7 @@ Definition optionP {A} (P : relation A) : relation (option A) :=
              | _, _ => False
              end.
 
+#[global]
 Program Instance optionP_Equivalence {A} (P : relation A) :
   Equivalence P -> Equivalence (optionP P).
 Obligation 1.
@@ -650,6 +651,7 @@ Definition pairP {A B} (P : relation A) (Q : relation B) : relation (A * B) :=
               | (x, y), (x', y') => P x x' /\ Q y y'
               end.
 
+#[global]
 Program Instance pairP_Equivalence {A B} (P : relation A) (Q : relation B) :
   Equivalence P -> Equivalence Q -> Equivalence (pairP P Q).
 Obligation 1.
@@ -668,6 +670,7 @@ Obligation 3.
   firstorder.
 Qed.
 
+#[global]
 Program Instance take_first_Proper {elt} :
   Proper ((E.eq ==> eq ==> eq)
             ==> E.eq

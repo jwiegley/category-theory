@@ -88,7 +88,9 @@ End CartesianFunctor.
 Arguments prod_in {_ _ _ _ _ _ _ _} /.
 Arguments prod_out {_ _ _ _ _ _ _ _} /.
 
+#[global]
 Hint Rewrite @prod_in_out : functors.
+#[global]
 Hint Rewrite @prod_out_in : functors.
 
 Require Import Category.Construction.Opposite.

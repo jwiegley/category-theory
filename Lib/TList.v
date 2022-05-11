@@ -608,6 +608,7 @@ Definition nat_equiv (i j : nat) (x y : nat_triple i j) : Type :=
     (_, a), (_, b) => a = b
   end.
 
+#[global]
 Program Instance nat_equivalence {i j} : Equivalence (nat_equiv i j).
 Next Obligation.
   repeat intro.
@@ -622,6 +623,7 @@ Next Obligation.
   destruct x, y, z; simpl in *; subst; auto.
 Qed.
 
+#[global]
 Program Instance nat_Setoid {i j} : Setoid (nat_triple i j) := {
   equiv := nat_equiv i j;
   setoid_equiv := nat_equivalence
@@ -654,6 +656,7 @@ Class IMonoid {A : Type} (B : A -> A -> Type) := {
 
 Infix "<+>" := imappend (at level 42, right associativity).
 
+#[global]
 Instance tlist_IMonoid {A} {B : A -> A -> Type} : IMonoid (tlist B) := {
   imempty := @tnil A B;
   imappend := @tlist_app A B;

@@ -98,6 +98,7 @@ Proof.
   apply X0.
 Qed.
 
+#[global]
 Program Instance nat_Setoid `{F : C ⟶ D} {G : C ⟶ D} :
   Setoid (F ⟹ G) := {
   equiv := nat_equiv;
@@ -110,6 +111,7 @@ Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
 
 Hint Unfold nat_id : core.
 
+#[global]
 Program Instance Transform_reflexive {C D : Category} :
   Reflexive (@Transform C D) := λ _, nat_id.
 
@@ -139,10 +141,12 @@ Program Definition nat_compose_respects
   Proper (equiv ==> equiv ==> equiv) (@nat_compose C D F G K).
 Proof. proper. Qed.
 
+#[global]
 Program Instance Transform_transitive {C E : Category} :
   Transitive (@Transform C E) :=
   λ _ _ _ f g, nat_compose g f.
 
+#[global]
 Program Instance Transform_respects {C D : Category} :
   Proper ((λ F G, G ⟹ F) ==> @Transform C D ==> Basics.arrow) (@Transform C D) :=
   λ _ _ F _ _ G H, nat_compose G (nat_compose H F).
@@ -173,6 +177,7 @@ Next Obligation.
   now apply nat_hcompose_obligation_1.
 Qed.
 
+#[global]
 Program Instance Compose_respects_Transform {C D E : Category} :
   Proper (@Transform D E ==> @Transform C D ==> @Transform C E)
          (@Compose C D E) :=

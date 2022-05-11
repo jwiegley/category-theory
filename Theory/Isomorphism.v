@@ -148,6 +148,7 @@ Hint Unfold iso_equiv : core.
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).
 
+#[global]
 Program Instance iso_to_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Monic iso.
 Next Obligation.
@@ -158,6 +159,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
+#[global]
 Program Instance iso_from_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Monic (iso⁻¹).
 Next Obligation.
@@ -168,6 +170,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
+#[global]
 Program Instance iso_to_epic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Epic iso.
 Next Obligation.
@@ -178,6 +181,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
+#[global]
 Program Instance iso_from_epic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Epic (iso⁻¹).
 Next Obligation.
@@ -188,6 +192,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
+#[global]
 Program Instance Monic_Retraction_Iso
         {C : Category} {x y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) :
   x ≅ y := {
@@ -207,6 +212,7 @@ Next Obligation.
   rewrite retract_comp; cat.
 Qed.
 
+#[global]
 Program Instance Epic_Section_Iso
         {C : Category} {x y : C} `(s : @Section _ _ _ f) `(e : @Epic _ _ _ f) :
   x ≅ y := {

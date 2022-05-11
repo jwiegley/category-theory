@@ -11,6 +11,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+#[global]
 Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} :
   C ∏ C ⟶ C := {
   fobj := fun p => fst p × snd p;

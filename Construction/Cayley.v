@@ -218,8 +218,10 @@ End Cayley.
 
 Require Import Category.Functor.Structure.Cartesian.
 
+#[global]
 Program Instance To_Cayley_CartesianFunctor `{@Cartesian C} :
   @CartesianFunctor _ _ To_Cayley _ Cayley_Cartesian.
 
+#[global]
 Program Instance From_Cayley_CartesianFunctor `{@Cartesian C} :
   @CartesianFunctor _ _ From_Cayley Cayley_Cartesian _.

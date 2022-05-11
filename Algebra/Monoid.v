@@ -29,6 +29,7 @@ Class Monoid (A : Type) `{Setoid A} := {
   mon_assoc (x y z : A) : mappend (mappend x y) z ≈ mappend x (mappend y z)
 }.
 
+#[global]
 Program Instance Classical_Monoid (A : Type) `{Setoid A} `{Monoid A} :
   @MonoidObject Sets InternalProduct_Monoidal {| carrier := A |} := {
   mempty  := {| morphism := fun _ => mempty |};

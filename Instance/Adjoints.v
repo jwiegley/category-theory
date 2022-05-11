@@ -10,6 +10,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+#[global]
 Program Instance adj_id {C : Category} : Id ⊣ Id := {
   adj := fun _ _ =>
     {| to   := {| morphism := _ |}
@@ -49,6 +50,7 @@ Record adj_morphism {C : Category} {D : Category} := {
   adjunction : free_functor ⊣ forgetful_functor
 }.
 
+#[global]
 Program Instance adj_morphism_setoid {C : Category} {D : Category} :
   Setoid (@adj_morphism C D) := {
   equiv := fun f g =>
