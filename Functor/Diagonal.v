@@ -10,6 +10,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
+#[global]
 Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
   fobj := fun x =>
     {| fobj := fun _ => x
@@ -18,6 +19,7 @@ Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
     {| transform := fun _ => f |}
 }.
 
+#[global]
 Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.
 
 Notation "Δ[ J ]( c )" := (Diagonal J c) (at level 90, format "Δ[ J ]( c )") : functor_scope.
@@ -59,5 +61,6 @@ Proof.
   reflexivity.
 Qed.
 
+#[global]
 Instance Transform_Const `(x ~{C}~> y) : Δ(x) ⟹ Δ(y).
 Proof. construct; auto; cat_simpl. Qed.

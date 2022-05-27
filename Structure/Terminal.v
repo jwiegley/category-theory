@@ -31,6 +31,7 @@ Corollary one_comp `{@Terminal C} {x y : C} {f : x ~> y} :
   one ∘ f ≈ one.
 Proof. intros; apply one_unique. Qed.
 
+#[global]
 Hint Rewrite @one_comp : categories.
 
 Notation "one[ C ]" := (@one _ _ C)

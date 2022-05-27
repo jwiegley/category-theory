@@ -21,6 +21,7 @@ Ltac reduce :=
 
 Local Obligation Tactic := simpl; intros.
 
+#[global]
 Program Instance Comma_Iso_to_Left {A : Category} {B : Category} {C : Category}
         (x y : A ⟶ C) (iso : x ≅[Fun] y) (z : B ⟶ C) :
   (x ↓ z) ⟶ (y ↓ z).
@@ -41,6 +42,7 @@ Next Obligation. proper. Qed.
 Next Obligation. cat. Qed.
 Next Obligation. cat. Qed.
 
+#[global]
 Program Instance Comma_Iso_from_Left {A : Category} {B : Category} {C : Category}
         (x y : A ⟶ C) (iso : x ≅[Fun] y) (z : B ⟶ C) :
   (y ↓ z) ⟶ (x ↓ z).
@@ -61,6 +63,7 @@ Next Obligation. proper. Qed.
 Next Obligation. cat. Qed.
 Next Obligation. cat. Qed.
 
+#[global]
 Program Instance Comma_Iso_to_Right {A : Category} {B : Category} {C : Category}
         (x y : B ⟶ C) (iso : x ≅[Fun] y) (z : A ⟶ C) :
   (z ↓ x) ⟶ (z ↓ y).
@@ -81,6 +84,7 @@ Next Obligation. proper. Qed.
 Next Obligation. cat. Qed.
 Next Obligation. cat. Qed.
 
+#[global]
 Program Instance Comma_Iso_from_Right {A : Category} {B : Category} {C : Category}
         (x y : B ⟶ C) (iso : x ≅[Fun] y) (z : A ⟶ C) :
   (z ↓ y) ⟶ (z ↓ x).
@@ -101,6 +105,7 @@ Next Obligation. proper. Qed.
 Next Obligation. cat. Qed.
 Next Obligation. cat. Qed.
 
+#[global]
 Program Instance Comma_Iso {A : Category} {B : Category} {C : Category} :
   Proper (@Isomorphism Fun ==> @Isomorphism Fun ==> @Isomorphism Cat)
          (@Comma A B C).

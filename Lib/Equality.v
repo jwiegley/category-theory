@@ -213,6 +213,7 @@ Class Equality (A : Type) := {
   Eq_eq_dec_refl x : Eq_eq_dec x x = left (@Eq_eq_refl x)
 }.
 
+#[global]
 Program Instance Pos_Eq : Equality positive := {
   Eq_eqb         := Pos.eqb;
   Eq_eqb_refl    := Pos_eqb_refl;
@@ -223,6 +224,7 @@ Program Instance Pos_Eq : Equality positive := {
   Eq_eq_dec_refl := Pos_eq_dec_refl
 }.
 
+#[global]
 Program Instance Fin_Eq (n : nat) : Equality (Fin.t n) := {
   Eq_eqb         := Fin.eqb;
   Eq_eqb_refl    := Fin_eqb_refl n;
@@ -321,6 +323,7 @@ Proof.
   now rewrite H.
 Qed.
 
+#[global]
 Program Instance list_Eq `{Equality A} : Equality (list A) := {
   Eq_eqb         := list_beq Eq_eqb;
   Eq_eqb_refl x  := list_beq_refl Eq_eqb x Eq_eqb_refl;
@@ -383,6 +386,7 @@ Proof.
   contradiction.
 Qed.
 
+#[global]
 Program Instance prod_Eq `{Equality A} `{Equality B} : Equality (prod A B) := {
   Eq_eqb           := prod_eqb Eq_eqb Eq_eqb;
   Eq_eqb_refl      := _;

@@ -477,6 +477,7 @@ Defined.
 
 Require Import Category.Instance.Cat.
 
+#[global]
 Program Instance Two_iso_2 : Category_from_Metacategory Two ≅ _2 := {
   to   := Two_to_Two;
   from := Two_from_Two

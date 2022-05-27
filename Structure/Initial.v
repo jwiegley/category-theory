@@ -44,4 +44,5 @@ Corollary zero_comp `{T : @Initial C} {x y : C} {f : x ~> y} :
   f ∘ zero ≈ zero.
 Proof. apply (@one_comp _ T). Qed.
 
+#[global]
 Hint Rewrite @zero_comp : categories.

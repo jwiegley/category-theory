@@ -58,6 +58,7 @@ Qed.
 Next Obligation. firstorder. Qed.
 Next Obligation. firstorder. Qed.
 
+#[global]
 Program Instance Rel_Initial : @Initial Rel := {
   terminal_obj := False;
   one := fun _ _ => False_rect _ _
@@ -128,6 +129,7 @@ Next Obligation. autounfold in *; apply proof_irrelevance. Qed.
 
 Definition some_number : nat ~{Rel}~> nat := fun x y => (x < y)%nat.
 
+#[global]
 Program Instance Relation_Functor : Coq ⟶ Rel := {
   fobj := fun x => x;
   fmap := fun x y (f : x ~{Coq}~> y) x y => In _ (Singleton _ (f x)) y

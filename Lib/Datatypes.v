@@ -113,17 +113,21 @@ Qed.
    are products and sums, so we must show how they interact with constructive
    setoids. *)
 
+#[global]
 Program Instance prod_setoid {A B} `{Setoid A} `{Setoid B} :
   Setoid (A * B) := {
   equiv := fun x y => equiv (fst x) (fst y) * equiv (snd x) (snd y)
 }.
 
+#[global]
 Program Instance pair_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv ==> equiv) (@pair A B).
 
+#[global]
 Program Instance fst_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@fst A B).
 
+#[global]
 Program Instance snd_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@snd A B).
 
@@ -143,6 +147,7 @@ Corollary let_projT2 {A P} (S : @sigT A P) `(f : forall x, P x -> z) :
   (let (x, y) := S in f x y) = f (projT1 S) (projT2 S).
 Proof. destruct S; auto. Qed.
 
+#[global]
 Program Instance sum_setoid {A B} `{Setoid A} `{Setoid B} :
   Setoid (A + B) := {
   equiv := fun x y =>
@@ -163,12 +168,15 @@ Next Obligation.
   equivalence; destruct x, y; try destruct z; intuition.
 Qed.
 
+#[global]
 Program Instance inl_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@inl A B).
 
+#[global]
 Program Instance inr_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@inr A B).
 
+#[global]
 Polymorphic Program Instance option_setoid `{Setoid A} : Setoid (option A) := {
   equiv := fun x y => match x, y with
     | Some x, Some y => x ≈ y
@@ -188,6 +196,7 @@ Next Obligation.
     contradiction.
 Qed.
 
+#[global]
 Program Instance Some_respects {A} `{Setoid A} :
   Proper (equiv ==> equiv) (@Some A).
 
@@ -198,6 +207,7 @@ Fixpoint list_equiv `{Setoid A} (xs ys : list A) : Type :=
   | _, _ => False
   end.
 
+#[global]
 Program Instance list_equivalence `{Setoid A} : Equivalence list_equiv.
 Next Obligation.
   induction x; simpl; simplify; auto.
@@ -214,13 +224,16 @@ Next Obligation.
   - firstorder.
 Qed.
 
+#[global]
 Polymorphic Program Instance list_setoid `{Setoid A} : Setoid (list A) := {
   equiv := list_equiv
 }.
 
+#[global]
 Program Instance cons_respects {A} `{Setoid A} :
   Proper (equiv ==> equiv ==> equiv) (@cons A).
 
+#[global]
 Program Instance app_respects {A} `{Setoid A} :
   Proper (equiv ==> equiv ==> equiv) (@app A).
 Next Obligation.
@@ -293,8 +306,10 @@ Proof.
   induction l2; auto.
 Qed.
 
+#[global]
 Program Instance nat_setoid : Setoid nat.
 
+#[global]
 Program Instance fun_setoid {A : Type} `{Setoid B} : Setoid (A -> B) := {
   equiv := fun f g => ∀ x, f x ≈ g x
 }.

@@ -30,24 +30,28 @@ Coercion is_functor : EndoFunctor >-> Functor.
 Notation "map[ F ]" := (@map _ _ F _ _)
   (at level 9, format "map[ F ]") : morphism_scope.
 
+#[global]
 Program Instance Identity_EndoFunctor {C : Category} :
   EndoFunctor (fun x => x) | 9 := {
   map := fun _ _ f => f;
   is_functor := Id
 }.
 
+#[global]
 Program Instance Functor_EndoFunctor {C : Category} {F : C ⟶ C} :
   EndoFunctor F := {
   map := fun _ _ f => fmap[F] f;
   is_functor := F
 }.
 
+#[global]
 Program Instance Functor_Eta_EndoFunctor {C : Category} {F : C ⟶ C} :
   EndoFunctor (fun x => F x) := {
   map := fun _ _ f => fmap[F] f;
   is_functor := F
 }.
 
+#[global]
 Program Instance Functor_Map_EndoFunctor {C : Category}
         `{G : @EndoFunctor C P} {F : C ⟶ C} :
   EndoFunctor (fun x => F (P x)) := {

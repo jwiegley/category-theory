@@ -81,6 +81,7 @@ Program Fixpoint interp `(c : Hom a b) :
   | Merge f g   => merge (interp f) (interp g)
   end.
 
+#[global]
 Program Instance AST : Category := {
   obj     := Obj;
   hom     := Hom;
@@ -101,11 +102,13 @@ Next Obligation.
   transitivity (interp y); auto.
 Qed.
 
+#[global]
 Program Instance Hom_Terminal : @Terminal AST := {
   terminal_obj := One_;
   one := @One'
 }.
 
+#[global]
 Program Instance Hom_Cartesian : @Cartesian AST := {
   product_obj := Prod_;
   fork := @Fork;
@@ -122,6 +125,7 @@ Next Obligation.
   rewrite fork_comp; cat.
 Qed.
 
+#[global]
 Program Instance Hom_Closed : @Closed AST _ := {
   exponent_obj := Exp_;
   exp_iso := fun x y z =>
@@ -131,11 +135,13 @@ Program Instance Hom_Closed : @Closed AST _ := {
 Next Obligation. proper; rewrite X; reflexivity. Qed.
 Next Obligation. proper; rewrite X; reflexivity. Qed.
 
+#[global]
 Program Instance Hom_Initial : @Initial AST := {
   terminal_obj := Zero_;
   one := @Zero'
 }.
 
+#[global]
 Program Instance Hom_Cocartesian : @Cocartesian AST := {
   product_obj := Coprod_;
   fork := @Merge;
@@ -152,6 +158,7 @@ Next Obligation.
   rewrite merge_comp; cat.
 Qed.
 
+#[global]
 Program Instance interp_proper {x y : Obj}
         {C : Category} {A : @Cartesian C}
         `{@Closed C A} `{@Cocartesian C}

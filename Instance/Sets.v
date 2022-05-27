@@ -22,6 +22,7 @@ Record SetoidMorphism `{Setoid x} `{Setoid y} := {
 Arguments SetoidMorphism {_} _ {_} _.
 Arguments morphism {_ _ _ _ _} _.
 
+#[global]
 Program Instance SetoidMorphism_Setoid {x y : SetoidObject} :
   Setoid (SetoidMorphism x y) := {|
   equiv := fun f g => forall x, @equiv _ y (f x) (g x)
@@ -87,6 +88,7 @@ Require Import Category.Theory.Isomorphism.
 Notation "x ≊ y" := ({| carrier := x |} ≅[Sets] {| carrier := y |})
   (at level 99) : category_scope.
 
+#[global]
 Program Instance isomorphism_to_sets_respects
         `{Setoid x} `{Setoid y}
         (iso : @Isomorphism Sets {| carrier := x |} {| carrier := y |}) :
@@ -98,6 +100,7 @@ Next Obligation.
   rewrite X; reflexivity.
 Qed.
 
+#[global]
 Program Instance isomorphism_from_sets_respects
         `{Setoid x} `{Setoid y}
         (iso : @Isomorphism Sets {| carrier := x |} {| carrier := y |}) :
@@ -114,10 +117,12 @@ Ltac morphism :=
 
 Require Import Category.Structure.Terminal.
 
+#[global]
 Program Instance Unit_Setoid : Setoid (unit : Type) := {
   equiv := fun x y => x = y
 }.
 
+#[global]
 Program Instance Sets_Terminal : @Terminal Sets := {
   terminal_obj := {| carrier := unit : Type |};
   one := fun _ => {| morphism := fun _ => tt |};
@@ -127,8 +132,10 @@ Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
 
 Require Import Category.Structure.Initial.
 
+#[global]
 Program Instance False_Setoid : Setoid False.
 
+#[global]
 Program Instance Sets_Initial : @Initial Sets := {
   terminal_obj := {| carrier := False |};
   one := _
@@ -138,6 +145,7 @@ Next Obligation. contradiction. Qed.
 
 Require Import Category.Structure.Monoidal.
 
+#[global]
 Program Instance Sets_Product_Monoidal : @Monoidal Sets := {
   I      := {| carrier := unit : Type |};
   tensor := {|

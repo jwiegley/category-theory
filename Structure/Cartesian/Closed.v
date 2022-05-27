@@ -412,11 +412,19 @@ End Closed.
 
 Notation "y ^ x" := (exponent_obj x y) : category_scope.
 
+#[global]
 Hint Rewrite @curry_uncurry : categories.
+#[global]
 Hint Rewrite @uncurry_curry : categories.
+#[global]
 Hint Rewrite @ump_exponents : categories.
+#[global]
 Hint Rewrite @eval_curry : categories.
+#[global]
 Hint Rewrite @curry_eval : categories.
+#[global]
 Hint Rewrite @exp_prod_l : isos.
+#[global]
 Hint Rewrite @exp_prod_r : isos.
+#[global]
 Hint Rewrite @exp_one : isos.

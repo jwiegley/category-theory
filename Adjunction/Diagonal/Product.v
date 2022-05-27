@@ -15,6 +15,7 @@ Set Universe Polymorphism.
    on C. *)
 (* jww (2021-08-04): Is it right to use Diagonal_Product here? *)
 
+#[global]
 Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} :
   Diagonal_Product C ⊣ ×(C) := {
   adj := fun _ _ =>

@@ -14,6 +14,7 @@ Unset Transparent Obligations.
 
 (* ProductFunctor is a mapping between product categories. *)
 
+#[global]
 Program Instance ProductFunctor
         {C : Category} {D : Category} {F : C ⟶ D}
         {J : Category} {K : Category} {G : J ⟶ K} :

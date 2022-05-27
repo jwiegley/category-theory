@@ -14,6 +14,7 @@ Unset Transparent Obligations.
 (* This instance must appear in a separate file, because the Closed structure
    makes use of isomorphisms in [Sets]. *)
 
+#[global]
 Program Instance Sets_Closed : @Closed Sets _ := {
   exponent_obj := fun x y =>
     {| carrier := SetoidMorphism x y

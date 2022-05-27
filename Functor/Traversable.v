@@ -68,6 +68,7 @@ End Traversable.
 
 Arguments Traversable {_ _ _ _} F.
 
+#[global]
 Program Instance Id_Traversable {C : Category}
         `{@Cartesian C} `{@Terminal C} `{@Closed C _} (x : C) :
   Traversable (@Id C) := {
@@ -76,6 +77,7 @@ Program Instance Id_Traversable {C : Category}
 
 Require Import Category.Functor.Diagonal.
 
+#[global]
 Program Instance Diagonal_Traversable {C J : Category}
         `{@Cartesian C} `{@Terminal C} `{@Closed C _} (x : C) :
   Traversable (Diagonal C x) := {
