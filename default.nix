@@ -31,15 +31,11 @@ let category-theory = coqPackages:
 
     env = pkgs.buildEnv { inherit name; paths = buildInputs; };
     passthru = {
-      compatibleCoqVersions = v: builtins.elem v [ "8.10" "8.11" "8.12" "8.13" "8.14" "8.15" ];
+      compatibleCoqVersions = v: builtins.elem v [ "8.14" "8.15" ];
     };
   };
 
 in {
-  category-theory_8_10 = category-theory "coqPackages_8_10";
-  category-theory_8_11 = category-theory "coqPackages_8_11";
-  category-theory_8_12 = category-theory "coqPackages_8_12";
-  category-theory_8_13 = category-theory "coqPackages_8_13";
   category-theory_8_14 = category-theory "coqPackages_8_14";
   category-theory_8_15 = category-theory "coqPackages_8_15";
 }
