@@ -25,7 +25,22 @@ Derive Signature for tlist.
 Derive NoConfusion for tlist.
 Derive Subterm for tlist.
 Next Obligation.
-Admitted.
+apply Transitive_Closure.wf_clos_trans.
+intros a.
+destruct a as [[] pr0].
+simpl in pr0.
+induction pr0.
+- (* tnil *)
+  constructor.
+  intros y H.
+  inversion H; subst; clear H.
+- (* tcons *)
+  constructor.
+  intros [[l m] pr1] H.
+  simpl in *.
+  dependent induction H.
+  assumption.
+Defined.
 
 Arguments tnil {A B i}.
 Arguments tcons {A B i} j {k} x xs.

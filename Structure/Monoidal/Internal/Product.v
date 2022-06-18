@@ -109,39 +109,42 @@ Next Obligation.
   intros; simpl.
   repeat fork_simpl.
   symmetry. repeat fork_simpl.
-  - solve_fork_split; [reflexivity|].
+  { solve_fork_split; [reflexivity|].
     symmetry.
     repeat fork_simpl.
     solve_fork_split.
     solve_fork_split.
     reflexivity.
-  - symmetry. repeat fork_simpl.
-    + symmetry. repeat fork_simpl.
-      solve_fork_split; [reflexivity|].
-      symmetry.
-      solve_fork_split.
-      { solve_fork_split.
-        { solve_fork_split. }
-        repeat fork_simpl.
-        solve_fork_split.
-      }
+  }
+  symmetry. repeat fork_simpl.
+  all: symmetry; repeat fork_simpl.
+  { solve_fork_split; [reflexivity|].
+    symmetry.
+    solve_fork_split.
+    { solve_fork_split.
+      { solve_fork_split. }
       repeat fork_simpl.
-      reflexivity.
-    + symmetry. repeat fork_simpl.
-      * symmetry. repeat fork_simpl.
-        solve_fork_split.
-        { solve_fork_split.
-          { solve_fork_split. }
-          repeat fork_simpl.
-          solve_fork_split.
-        }
-        repeat fork_simpl.
-        reflexivity.
-      * symmetry.
-        solve_fork_split.
-        { solve_fork_split. }
-        repeat fork_simpl.
-        reflexivity.
+      solve_fork_split.
+    }
+    repeat fork_simpl.
+    reflexivity.
+  }
+  { symmetry. repeat fork_simpl.
+    solve_fork_split.
+    { solve_fork_split.
+      { solve_fork_split. }
+      repeat fork_simpl.
+      solve_fork_split.
+    }
+    repeat fork_simpl.
+    reflexivity.
+  }
+  { symmetry.
+    solve_fork_split.
+    { solve_fork_split. }
+    repeat fork_simpl.
+    reflexivity.
+  }
 Qed.
 
 Program Definition InternalProduct_SymmetricMonoidal :
