@@ -119,9 +119,9 @@ Qed.
 Fixpoint RenExp {Γ Γ' τ} (r : Ren Γ Γ') (e : Exp Γ' τ) : Exp Γ τ :=
   match e with
   | EUnit         => EUnit
-  (* | Pair x y      => Pair (RenExp r x) (RenExp r y) *)
-  (* | Fst p         => Fst (RenExp r p) *)
-  (* | Snd p         => Snd (RenExp r p) *)
+  | Pair x y      => Pair (RenExp r x) (RenExp r y)
+  | Fst p         => Fst (RenExp r p)
+  | Snd p         => Snd (RenExp r p)
   | VAR v         => VAR (RenVar r v)
   | APP e1 e2     => APP (RenExp r e1) (RenExp r e2)
   | LAM e         => LAM (RenExp (Keep r) e)
@@ -170,5 +170,28 @@ Proof.
 Defined.
 
 Definition wk {Γ τ τ'} : Exp Γ τ → Exp (τ' :: Γ) τ := RenExp skip1.
+
+Equations RenExpandVar {Γ Γ' τ} (v : Var Γ τ) : Var (Γ ++ Γ') τ :=
+  RenExpandVar ZV     := ZV;
+  RenExpandVar (SV v) := SV (RenExpandVar v).
+
+Fixpoint RenExpandExp {Γ Γ' τ} (e : Exp Γ τ) : Exp (Γ ++ Γ') τ :=
+  match e with
+  | EUnit         => EUnit
+  | Pair x y      => Pair (RenExpandExp x) (RenExpandExp y)
+  | Fst p         => Fst (RenExpandExp p)
+  | Snd p         => Snd (RenExpandExp p)
+  | VAR v         => VAR (RenExpandVar v)
+  | APP e1 e2     => APP (RenExpandExp e1) (RenExpandExp e2)
+  | LAM e         => LAM (RenExpandExp e)
+  end.
+
+Definition liftL Γ' `(e : Exp Γ τ) : Exp (Γ ++ Γ') τ := RenExpandExp e.
+
+Fixpoint liftR Γ `(e : Exp Γ' τ) : Exp (Γ ++ Γ') τ :=
+  match Γ with
+  | []      => e
+  | x :: xs => RenExp skip1 (liftR xs e)
+  end.
 
 End Ren.

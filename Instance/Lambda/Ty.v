@@ -10,7 +10,7 @@ Section Ty.
 
 Inductive Ty : Type :=
   | TyUnit : Ty
-  (* | TyPair : Ty → Ty → Ty *)
+  | TyPair : Ty → Ty → Ty
   | TyArrow : Ty → Ty → Ty.
 
 Derive NoConfusion NoConfusionHom Subterm EqDec for Ty.
@@ -22,4 +22,4 @@ Bind Scope Ty_scope with Ty.
 Delimit Scope Ty_scope with ty.
 
 Infix "⟶" := TyArrow (at level 51, right associativity) : Ty_scope.
-(* Infix "×"  := TyPair  (at level 40, left associativity) : Ty_scope. *)
+Infix "×"  := TyPair  (at level 41, right associativity) : Ty_scope.

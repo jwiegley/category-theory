@@ -18,28 +18,50 @@ Open Scope Ty_scope.
    represents a value, i.e., that it does reduce any further. *)
 Inductive ValueP Γ : ∀ {τ}, Exp Γ τ → Prop :=
   | UnitP        : ValueP Γ EUnit
-  (* | PairP {τ1 τ2} {x : Exp Γ τ1} {y : Exp Γ τ2} : *)
-  (*   ValueP Γ x → ValueP Γ y → ValueP Γ (Pair x y) *)
+  | PairP {τ1 τ2} {x : Exp Γ τ1} {y : Exp Γ τ2} :
+    ValueP Γ x → ValueP Γ y → ValueP Γ (Pair x y)
   | LambdaP {dom cod} (e : Exp (dom :: Γ) cod) : ValueP Γ (LAM e).
 
 Derive Signature for ValueP.
 
 #[local] Hint Constructors ValueP : core.
 
-Lemma ValueP_irrelevance {Γ τ} (v : Exp Γ τ) (H1 H2 : ValueP _ v) :
+Fixpoint ValueP_irrelevance {Γ τ} (v : Exp Γ τ) (H1 H2 : ValueP _ v) :
   H1 = H2.
 Proof.
   dependent elimination H1;
-  dependent elimination H2; auto.
+  dependent elimination H2.
+  - reflexivity.
+  - f_equal;
+    now apply ValueP_irrelevance.
+  - f_equal;
+    now apply ValueP_irrelevance.
 Qed.
 
 Lemma ValueP_dec {Γ τ} (e : Exp Γ τ) :
   ValueP Γ e ∨ ¬ ValueP Γ e.
-Proof. induction e; solve [now left|now right]. Qed.
+Proof.
+  induction e; try solve [now left|now right].
+  destruct IHe1, IHe2.
+  - left.
+    now constructor.
+  - right.
+    intro.
+    dependent elimination H1.
+    contradiction.
+  - right.
+    intro.
+    dependent elimination H1.
+    contradiction.
+  - right.
+    intro.
+    dependent elimination H1.
+    contradiction.
+Qed.
 
 End Value.
 
 Arguments ValueP {Γ τ} _.
 Arguments UnitP {Γ}.
-(* Arguments PairP {Γ τ1 τ2 x y} _ _. *)
+Arguments PairP {Γ τ1 τ2 x y} _ _.
 Arguments LambdaP {Γ dom cod} _.

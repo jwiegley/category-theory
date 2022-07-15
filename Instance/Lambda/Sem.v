@@ -18,7 +18,7 @@ Import ListNotations.
 Fixpoint SemTy (τ : Ty) : Type :=
   match τ with
   | TyUnit          => unit
-  (* | TyPair t1 t2    => SemTy t1 * SemTy t2 *)
+  | TyPair t1 t2    => SemTy t1 * SemTy t2
   | TyArrow dom cod => SemTy dom → SemTy cod
   end.
 
@@ -82,9 +82,9 @@ Qed.
 Fixpoint SemExp `(e : Exp Γ τ) : SemEnv Γ → SemTy τ :=
   match e with
   | EUnit         => λ _, tt
-  (* | Pair x y      => λ se, (SemExp x se, SemExp y se) *)
-  (* | Fst p         => λ se, fst (SemExp p se) *)
-  (* | Snd p         => λ se, snd (SemExp p se) *)
+  | Pair x y      => λ se, (SemExp x se, SemExp y se)
+  | Fst p         => λ se, fst (SemExp p se)
+  | Snd p         => λ se, snd (SemExp p se)
   | VAR v         => SemVar v
   | LAM e         => λ se x, SemExp e (x, se)
   | APP e1 e2     => λ se, SemExp e1 se (SemExp e2 se)
@@ -103,6 +103,9 @@ Lemma SemExp_RenSem {Γ Γ' τ} (e : Exp Γ τ) (r : Ren Γ' Γ) (se : SemEnv Γ
 Proof.
   generalize dependent Γ'.
   induction e; simpl; intros; auto.
+  - now rewrite IHe1, IHe2.
+  - now rewrite IHe.
+  - now rewrite IHe.
   - now rewrite SemVar_RenSem.
   - extensionality z.
     fold SemTy in z.
@@ -170,6 +173,9 @@ Lemma SemExp_SubSem {Γ Γ' τ} (e : Exp Γ τ) (s : Sub Γ' Γ) (se : SemEnv Γ
 Proof.
   generalize dependent Γ'.
   induction e; simpl; intros; auto.
+  - now rewrite IHe1, IHe2.
+  - now rewrite IHe.
+  - now rewrite IHe.
   - now rewrite SemVar_SubSem.
   - extensionality z.
     fold SemTy in z.

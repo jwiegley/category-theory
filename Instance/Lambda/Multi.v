@@ -73,15 +73,6 @@ Next Obligation.
   now transitivity x0; eauto.
 Qed.
 
-Ltac simpl_multistep :=
-  intros;
-  match goal with
-  | [ H : _ --->* _ |- _ ] => induction H
-  end;
-  [ now apply multi_refl
-  | eapply multi_step; eauto;
-    now econstructor; eauto ].
-
 #[local] Hint Constructors ValueP Step : core.
 
 #[local] Hint Extern 7 (_ ---> _) => repeat econstructor : core.
@@ -107,6 +98,42 @@ Proof.
     eapply (AppR_LAM (e:=e)) in H.
     + now apply multi_R.
 Qed.
+
+
+Ltac simpl_multistep :=
+  intros;
+  match goal with
+  | [ H : _ --->* _ |- _ ] => induction H
+  end;
+  [ now apply multi_refl
+  | eapply multi_step; eauto;
+    now econstructor; eauto ].
+
+Lemma multistep_Pair1 {Γ τ1 τ2} {e1 e1' : Γ ⊢ τ1} {e2 : Γ ⊢ τ2} :
+  (e1 --->* e1') → Pair e1 e2 --->* Pair e1' e2.
+Proof. now simpl_multistep. Qed.
+
+Lemma multistep_Pair2 {Γ τ1 τ2} {e1 : Γ ⊢ τ1} {e2 e2' : Γ ⊢ τ2} :
+  ValueP e1 → (e2 --->* e2') → Pair e1 e2 --->* Pair e1 e2'.
+Proof. now simpl_multistep. Qed.
+
+Lemma multistep_Pair {Γ τ1 τ2} {e1 e1' : Γ ⊢ τ1} {e2 e2' : Γ ⊢ τ2} :
+  ValueP e1' →
+  (e1 --->* e1') → (e2 --->* e2') → Pair e1 e2 --->* Pair e1' e2'.
+Proof.
+  intros.
+  erewrite multistep_Pair1; eauto.
+  erewrite multistep_Pair2; eauto.
+  now apply multi_refl.
+Qed.
+
+Lemma multistep_Fst1 {Γ τ1 τ2} {p p' : Γ ⊢ (τ1 × τ2)} :
+  (p --->* p') → Fst p --->* Fst p'.
+Proof. now simpl_multistep. Qed.
+
+Lemma multistep_Snd1 {Γ τ1 τ2} {p p' : Γ ⊢ (τ1 × τ2)} :
+  (p --->* p') → Snd p --->* Snd p'.
+Proof. now simpl_multistep. Qed.
 
 End Multi.
 

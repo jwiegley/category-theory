@@ -5,6 +5,7 @@ Require Import
   Category.Instance.Lambda.Exp
   Category.Instance.Lambda.Log
   Category.Instance.Lambda.Value
+  Category.Instance.Lambda.Ren
   Category.Instance.Lambda.Sub
   Category.Instance.Lambda.Sem
   Category.Instance.Lambda.Step
@@ -35,10 +36,26 @@ Equations get_val `(s : ClEnv Γ) `(v : Var Γ τ) : Value τ :=
   get_val (AddCl x _)  ZV     := x;
   get_val (AddCl _ xs) (SV v) := get_val xs v.
 
+Equations combine `(c1 : ClEnv Γ) `(c2 : ClEnv Γ') : ClEnv (Γ ++ Γ') :=
+  combine NoCl         c2 := c2;
+  combine (AddCl c c1) c2 := AddCl c (combine c1 c2).
+
+Fixpoint snoc {a : Type} (x : a) (xs : list a) : list a :=
+  match xs with
+  | [] => [x]
+  | x :: xs => x :: snoc x xs
+  end.
+
 Inductive EvalContext : Ty → Ty → Type :=
   | MT {τ} : EvalContext τ τ
-  | AR {dom cod τ} : Closed dom → EvalContext cod τ → EvalContext (dom ⟶ cod) τ
-  | FN {dom cod τ} : Value (dom ⟶ cod) → EvalContext cod τ → EvalContext dom τ.
+  | AR {dom cod τ} :
+    Closed dom → EvalContext cod τ → EvalContext (dom ⟶ cod) τ
+  | FN {dom cod τ} :
+    Value (dom ⟶ cod) → EvalContext cod τ → EvalContext dom τ
+  | PAIR_FST {τ1 τ2 τ} : Closed τ1 → EvalContext (τ1 × τ2) τ → EvalContext τ2 τ
+  | PAIR_SND {τ1 τ2 τ} : Closed τ2 → EvalContext (τ1 × τ2) τ → EvalContext τ1 τ
+  | FST {τ1 τ2 τ} : EvalContext τ1 τ → EvalContext (τ1 × τ2) τ
+  | SND {τ1 τ2 τ} : EvalContext τ2 τ → EvalContext (τ1 × τ2) τ.
 
 Derive Signature NoConfusion NoConfusionHom Subterm for EvalContext.
 
@@ -50,26 +67,23 @@ Inductive Σ : Ty → Type :=
 
 Derive Signature NoConfusion NoConfusionHom Subterm for Σ.
 
-(*
-Equations VFst `(v : Value (TyPair τ1 τ2)) : Value τ1 :=
-  VFst (VPair x _) := x.
-
-Equations VSnd `(v : Value (TyPair τ1 τ2)) : Value τ2 :=
-  VSnd (VPair _ y) := y.
-*)
-
 Equations step {τ : Ty} (s : Σ τ) : Σ τ :=
   (* Constants *)
   step (MkΣ (Closure EUnit _) (FN f κ)) with f := {
     | Val (LAM e) _ ρ' := MkΣ (Closure e (AddCl (Val EUnit UnitP NoCl) ρ')) κ;
   };
 
-  (* step (MkΣ (Pair x y) ρ (FN f)) := *)
-  (*   MkΣ x ρ (FN (λ v1, MkΣ y ρ (FN (λ v2, f (VPair v1 v2))))); *)
-  (* step (MkΣ (Fst p) ρ κ) := *)
-  (*   MkΣ p ρ (FN (λ p, MkΣ (projT1 (valueToExp (VFst p))) Empty κ)); *)
-  (* step (MkΣ (Snd p) ρ κ) := *)
-  (*   MkΣ p ρ (FN (λ p, MkΣ (projT1 (valueToExp (VSnd p))) Empty κ)); *)
+  step (MkΣ (Closure (Fst p) ρ) κ) := MkΣ (Closure p ρ) (FST κ);
+  step (MkΣ (Closure (Snd p) ρ) κ) := MkΣ (Closure p ρ) (SND κ);
+
+  step (MkΣ (Closure (Pair x y) ρ) (FST κ)) := MkΣ (Closure x ρ) κ;
+  step (MkΣ (Closure (Pair x y) ρ) (SND κ)) := MkΣ (Closure y ρ) κ;
+
+  step (MkΣ (Closure (Pair x y) ρ) κ) :=
+    MkΣ (Closure x ρ) (PAIR_SND (Closure y ρ) κ);
+  step (MkΣ x (PAIR_SND y κ)) := MkΣ y (PAIR_FST x κ);
+  step (MkΣ (Closure y ρ) (PAIR_FST (Closure x ρ') κ)) :=
+    MkΣ (Closure (Pair (liftL _ x) (liftR _ y)) (combine ρ' ρ)) κ;
 
   (* A variable might lookup a lambda, in which case continue evaluating down
      that vein; otherwise, if no continuation, this is as far as we can go. *)

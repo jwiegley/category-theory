@@ -148,29 +148,37 @@ Lemma SubExp_SN {Γ Γ'} (env : Sub Γ' Γ) {τ} (e : Exp Γ τ) :
 Proof.
   generalize dependent env.
   induction e; intros; simpl.
-  (* - split. *)
-  (*   + destruct (SN_halts (IHe1 env H)) as [v1 [P1 [Q1]]]. *)
-  (*     destruct (SN_halts (IHe2 env H)) as [v2 [P2 [Q2]]]. *)
-  (*     exists (Pair v1 v2). *)
-  (*     split. *)
-  (*     * now apply multistep_Pair. *)
-  (*     * now repeat constructor. *)
-  (*   + split. *)
-  (*     * destruct (SN_halts (IHe1 env H)) as [v1 [P1 [Q1]]]. *)
-  (*       destruct (SN_halts (IHe2 env H)) as [v2 [P2 [Q2]]]. *)
-  (*       apply (multistep_preserves_SN' (e':=v1)); auto. *)
-  (*       ** now eapply multistep_FstPair; eauto. *)
-  (*       ** apply (multistep_preserves_SN (e:=SubExp env e1)); *)
-  (*          now intuition. *)
-  (*     * destruct (SN_halts (IHe1 env H)) as [v1 [P1 [Q1]]]. *)
-  (*       destruct (SN_halts (IHe2 env H)) as [v2 [P2 [Q2]]]. *)
-  (*       apply (multistep_preserves_SN' (e':=v2)); auto. *)
-  (*       ** now eapply multistep_SndPair; eauto. *)
-  (*       ** apply (multistep_preserves_SN (e:=SubExp env e2)); *)
-  (*          now intuition. *)
-  (* - now destruct (IHe env H). *)
-  (* - now destruct (IHe env H). *)
   - now eexists; repeat constructor.
+  - split.
+    + destruct (SN_halts (IHe1 env H)) as [v1 [P1 Q1]].
+      destruct (SN_halts (IHe2 env H)) as [v2 [P2 Q2]].
+      exists (Pair v1 v2).
+      split.
+      * now apply multistep_Pair.
+      * now repeat constructor.
+    + split.
+      * destruct (SN_halts (IHe1 env H)) as [v1 [P1 Q1]].
+        destruct (SN_halts (IHe2 env H)) as [v2 [P2 Q2]].
+        apply (multistep_preserves_SN' (e':=v1)); auto.
+        ** rewrite (multistep_Fst1 (p':=Pair v1 v2)).
+           *** now apply multi_R; eauto.
+           *** erewrite multistep_Pair1; eauto.
+               erewrite multistep_Pair2; eauto.
+               now apply multi_refl.
+        ** apply (multistep_preserves_SN (e:=SubExp env e1));
+           now intuition.
+      * destruct (SN_halts (IHe1 env H)) as [v1 [P1 Q1]].
+        destruct (SN_halts (IHe2 env H)) as [v2 [P2 Q2]].
+        apply (multistep_preserves_SN' (e':=v2)); auto.
+        ** rewrite (multistep_Snd1 (p':=Pair v1 v2)).
+           *** now apply multi_R; eauto.
+           *** erewrite multistep_Pair1; eauto.
+               erewrite multistep_Pair2; eauto.
+               now apply multi_refl.
+        ** apply (multistep_preserves_SN (e:=SubExp env e2));
+           now intuition.
+  - now destruct (IHe env H).
+  - now destruct (IHe env H).
   - induction env.
     + now inv v.
     + dependent elimination H.

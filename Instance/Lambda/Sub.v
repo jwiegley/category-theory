@@ -70,9 +70,9 @@ Equations SubVar {Γ Γ' τ} (s : Sub Γ Γ') (v : Var Γ' τ) : Exp Γ τ :=
 Fixpoint SubExp {Γ Γ' τ} (s : Sub Γ Γ') (e : Exp Γ' τ) : Exp Γ τ :=
   match e with
   | EUnit         => EUnit
-  (* | Pair x y      => Pair (SubExp s x) (SubExp s y) *)
-  (* | Fst p         => Fst (SubExp s p) *)
-  (* | Snd p         => Snd (SubExp s p) *)
+  | Pair x y      => Pair (SubExp s x) (SubExp s y)
+  | Fst p         => Fst (SubExp s p)
+  | Snd p         => Snd (SubExp s p)
   | VAR v         => SubVar s v
   | APP e1 e2     => APP (SubExp s e1) (SubExp s e2)
   | LAM e         => LAM (SubExp (Keepₛ s) e)

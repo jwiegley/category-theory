@@ -29,4 +29,21 @@ Definition example1 :
                                     (Value.LambdaP (VAR ZV)) NoCl) NoCl))) MT :=
   eq_refl.
 
+Definition example_pair :
+  run 30 (Pair (APP (LAM (VAR ZV)) EUnit)
+               (APP (LAM (VAR ZV)) EUnit)) =
+    MkΣ (Closure
+           (Pair (APP (LAM (VAR ZV)) EUnit) (APP (LAM (VAR ZV)) EUnit)) NoCl) MT :=
+  eq_refl.
+
+Definition example_fst :
+  run 20 (Fst (Pair (APP (LAM (VAR ZV)) EUnit)
+                    (APP (LAM (VAR ZV)) EUnit))) =
+    MkΣ (Closure EUnit NoCl) MT := eq_refl.
+
+Definition example_snd :
+  run 20 (Snd (Pair (APP (LAM (VAR ZV)) EUnit)
+                    (APP (LAM (VAR ZV)) EUnit))) =
+    MkΣ (Closure EUnit NoCl) MT := eq_refl.
+
 End Example.

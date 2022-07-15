@@ -22,6 +22,7 @@ Variable P : ∀ {τ}, Exp Γ τ → Prop.
     expressions. *)
 Equations ExpP `(e : Exp Γ τ) : Prop :=
   ExpP (τ:=_ ⟶ _) e := P e ∧ (∀ x, ExpP x → ExpP (APP e x));
+  ExpP (τ:=_ × _) e := P e ∧ ExpP (Fst e) ∧ ExpP (Snd e);
   ExpP e := P e.
 
 Inductive SubP : ∀ {Γ'}, Sub Γ Γ' → Prop :=
@@ -41,6 +42,8 @@ Variable R : ∀ {τ}, Exp Γ τ → Exp Γ τ → Prop.
 Equations ExpR {τ} (e1 e2 : Exp Γ τ) : Prop :=
   ExpR (τ:=_ ⟶ _) f1 f2 :=
     R f1 f2 ∧ (∀ x1 x2, ExpR x1 x2 → ExpR (APP f1 x1) (APP f1 x2));
+  ExpR (τ:=_ × _) e1 e2 :=
+    R e1 e2 ∧ ExpR (Fst e1) (Fst e2) ∧ ExpR (Snd e1) (Snd e2);
   ExpR e1 e2 := R e1 e2.
 
 Lemma ExpR_R {τ} {e1 e2 : Γ ⊢ τ} : ExpR e1 e2 → R e1 e2.

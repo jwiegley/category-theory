@@ -130,7 +130,6 @@ Next Obligation.
   now destruct (SemExp f se x0), (SemExp g se x0).
 Qed.
 
-(*
 #[export]
 Program Instance Lambda_Cartesian Γ : @Cartesian (Lambda Γ) := {
   product_obj := TyPair;
@@ -265,6 +264,5 @@ Next Obligation.
   rewrite !RenSem_skip1.
   now setoid_rewrite RenSem_skip1.
 Qed.
-*)
 
 End Lambda.

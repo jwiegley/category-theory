@@ -23,6 +23,10 @@ Proof.
   intros.
   induction H; simpl; auto;
   extensionality se.
+  - now rewrite IHStep.
+  - now rewrite IHStep.
+  - now rewrite IHStep.
+  - now rewrite IHStep.
   - rewrite <- SemExp_SubSem.
     f_equal; simpl.
     simp SubSem.

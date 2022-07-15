@@ -25,7 +25,6 @@ Open Scope Ty_scope.
 Reserved Notation " t '--->' t' " (at level 40).
 
 Inductive Step : ∀ {Γ τ}, Exp Γ τ → Exp Γ τ → Prop :=
-(*
   | ST_Pair1 Γ τ1 τ2 (x x' : Exp Γ τ1) (y : Exp Γ τ2) :
     x ---> x' →
     Pair x y ---> Pair x' y
@@ -49,7 +48,6 @@ Inductive Step : ∀ {Γ τ}, Exp Γ τ → Exp Γ τ → Prop :=
     ValueP v1 →
     ValueP v2 →
     Snd (Pair v1 v2) ---> v2
-*)
 
   | ST_Beta Γ dom cod (e : Exp (dom :: Γ) cod) (v : Exp Γ dom) :
     ValueP v →
@@ -77,6 +75,20 @@ Theorem strong_progress {τ} (e : Exp [] τ) :
 Proof.
   dependent induction e; reduce.
   - now left; constructor.
+  - destruct IHe1 as [V1|[e1' H1']];
+    destruct IHe2 as [V2|[e2' H2']].
+    + now left; constructor.
+    + now right; eauto 6.
+    + now right; eauto 6.
+    + now right; eauto 6.
+  - destruct IHe as [V|[e' H']].
+    + dependent elimination V.
+      * now right; eauto 6.
+    + now right; eauto 6.
+  - destruct IHe as [V|[e' H']].
+    + dependent elimination V.
+      * now right; eauto 6.
+    + now right; eauto 6.
   - now inv v.
   - now left; constructor.
   - right.
@@ -92,16 +104,18 @@ Lemma Value_irreducible {Γ τ} {e e' : Exp Γ τ} :
   ValueP e → ¬ (e ---> e').
 Proof.
   repeat intro.
-  dependent elimination H0;
-  dependent elimination H.
+  dependent induction H0;
+  dependent elimination H;
+  intuition eauto.
 Qed.
 
 Lemma Value_cannot_start {Γ τ} {e e' : Exp Γ τ} :
   (e ---> e') → ¬ ValueP e.
 Proof.
   repeat intro.
-  dependent elimination H0;
-  dependent elimination H.
+  dependent induction H0;
+  dependent elimination H;
+  intuition eauto.
 Qed.
 
 Lemma AppL_LAM {Γ dom cod} {e e' : Exp Γ (dom ⟶ cod)} {x : Exp Γ dom} :
@@ -132,7 +146,7 @@ Lemma value_is_nf {Γ τ} (v : Exp Γ τ) :
   ValueP v → normal_form Step v.
 Proof.
   repeat intro.
-  dependent elimination H0;
+  dependent induction H0;
   now inv H.
 Qed.
 
@@ -141,6 +155,32 @@ Theorem Step_deterministic Γ τ :
 Proof.
   repeat intro.
   induction H0.
+  - inv H.
+    + now f_equal; intuition.
+    + eapply Value_cannot_start in H5; eauto; tauto.
+  - inv H.
+    + eapply Value_cannot_start in H4; eauto; tauto.
+    + now f_equal; intuition.
+  - inv H.
+    + now f_equal; intuition.
+    + inv H0.
+      * eapply Value_cannot_start in H6; eauto; tauto.
+      * eapply Value_cannot_start in H7; eauto; tauto.
+  - inv H.
+    + inv H5.
+      * eapply Value_cannot_start in H3; eauto; tauto.
+      * eapply Value_cannot_start in H1; eauto; tauto.
+    + now f_equal; intuition.
+  - inv H.
+    + now f_equal; intuition.
+    + inv H0.
+      * eapply Value_cannot_start in H6; eauto; tauto.
+      * eapply Value_cannot_start in H7; eauto; tauto.
+  - inv H.
+    + inv H5.
+      * eapply Value_cannot_start in H3; eauto; tauto.
+      * eapply Value_cannot_start in H1; eauto; tauto.
+    + now f_equal; intuition.
   - inv H; auto.
     + now inv H4.
     + eapply Value_cannot_start in H0; eauto; tauto.
@@ -157,50 +197,3 @@ Qed.
 End Step.
 
 Notation " t '--->' t' " := (Step t t') (at level 40).
-
-Section Irr.
-
-Import ListNotations.
-
-Lemma App_Lam_loop_var {Γ τ ty} {v : Exp Γ ty} {v0 : Var (ty :: Γ) τ} :
-  ¬ (SubVar {||v||} v0 = APP (LAM (VAR v0)) v).
-Proof.
-  intro.
-  dependent induction v0;
-  simp SubVar in H.
-  - induction v; inv H.
-    now eapply IHv2; eauto.
-  - rewrite SubVar_idSub in H.
-    now inv H.
-Qed.
-
-Lemma App_Lam_loop {Γ τ ty} {v : Exp Γ ty} {e : Exp (ty :: Γ) τ} :
-  ¬ (SubExp {||v||} e = APP (LAM e) v).
-Proof.
-  intro H0.
-  generalize dependent v.
-  dependent induction e; simpl; intros;
-  try congruence.
-  - now eapply App_Lam_loop_var; eauto.
-  - inv H0.
-    (* impossible *)
-Admitted.
-
-(* A term never reduces to itself. *)
-#[export]
-Program Instance Step_Irreflexive {Γ τ} :
-  Irreflexive (Step (Γ:=Γ) (τ:=τ)).
-Next Obligation.
-  dependent induction H; try tauto.
-  now eapply App_Lam_loop; eauto.
-Qed.
-
-Corollary Step_productive {Γ τ} {x x' : Exp Γ τ} :
-  x ---> x' → x ≠ x'.
-Proof.
-  repeat intro; subst.
-  eapply Step_Irreflexive.
-  exact H.
-Qed.
-
-End Irr.
