@@ -10,7 +10,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Reserved Infix "×" (at level 40, left associativity).
+Reserved Infix "×" (at level 41, right associativity).
 
 Section Cartesian.
 
@@ -31,7 +31,7 @@ Class Cartesian:= {
     h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
 }.
 
-Infix "×" := product_obj (at level 40, left associativity) : object_scope.
+Infix "×" := product_obj (at level 41, right associativity) : object_scope.
 Infix "△" := fork (at level 28) : morphism_scope.
 
 Context `{@Cartesian}.
@@ -337,9 +337,9 @@ Definition toggle {x y : C} : (x × y) × (x × y) ~> (x × x) × (y × y) :=
 
 End Cartesian.
 
-Infix "×" := (@product_obj _ _) (at level 40, left associativity) : object_scope.
+Infix "×" := (@product_obj _ _) (at level 41, right associativity) : object_scope.
 Notation "x ×[ C ] y" := (@product_obj C _ x y)
-  (at level 40, left associativity, only parsing) : object_scope.
+  (at level 41, right associativity, only parsing) : object_scope.
 Infix "△" := (@fork _ _ _ _ _) (at level 28) : morphism_scope.
 
 #[global]

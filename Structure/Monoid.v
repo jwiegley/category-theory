@@ -149,7 +149,7 @@ Qed.
 
 Context `{@Closed C _}.
 
-Definition doppel {x y z : C} : x × y × z ~> x × z × (y × z) :=
+Definition doppel {x y z : C} : (x × y) × z ~> (x × z) × (y × z) :=
   first exl △ first exr.
 
 Lemma uncurry_exl_fork_exr {x y : C} :
