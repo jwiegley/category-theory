@@ -1,5 +1,3 @@
-JOBS = 1
-
 MISSING	 =									\
 	find . \( \( -name foo \) -prune \)					\
 	    -o \( -name '*.v'							\
@@ -12,16 +10,16 @@ all: category-theory
 	-@$(MISSING) || exit 0
 
 category-theory: Makefile.coq $(wildcard *.v)
-	make -f Makefile.coq JOBS=$(JOBS)
+	$(MAKE) -f Makefile.coq
 
 Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
 
 clean: _CoqProject Makefile.coq
-	make -f Makefile.coq clean
+	$(MAKE) -f Makefile.coq clean
 
 install: _CoqProject Makefile.coq
-	make -f Makefile.coq install
+	$(MAKE) -f Makefile.coq install
 
 fullclean: clean
 	rm -f Makefile.coq Makefile.coq.conf .Makefile.d
