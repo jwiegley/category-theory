@@ -213,7 +213,9 @@ Next Obligation.
   unfold wk.
   rewrite <- !SemExp_RenSem.
   repeat setoid_rewrite RenSem_skip1; simpl.
-  now rewrite H2.
+  match goal with
+  | [ H : SemExp _ = SemExp _ |- _ ] => now rewrite H
+  end.
 Qed.
 Next Obligation.
   extensionality se.
@@ -224,7 +226,9 @@ Next Obligation.
   unfold wk.
   rewrite <- !SemExp_RenSem.
   repeat setoid_rewrite RenSem_skip1; simpl.
-  now rewrite H2.
+  match goal with
+  | [ H : SemExp _ = SemExp _ |- _ ] => now rewrite H
+  end.
 Qed.
 Next Obligation.
   extensionality se.
