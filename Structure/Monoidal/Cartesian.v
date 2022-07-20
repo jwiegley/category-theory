@@ -31,8 +31,8 @@ Context {C : Category}.
    augmentations must in fact be cartesian monoidal." *)
 
 Class CartesianMonoidal `{@Monoidal C} := {
-  is_semicartesian :> @SemicartesianMonoidal C _;
-  is_relevance     :> @RelevantMonoidal C _;
+  is_semicartesian : @SemicartesianMonoidal C _;
+  is_relevance     : @RelevantMonoidal C _;
 
   proj_left_diagonal  {x} : proj_left  ∘ diagonal ≈ id[x];
   proj_right_diagonal {x} : proj_right ∘ diagonal ≈ id[x];
@@ -40,5 +40,7 @@ Class CartesianMonoidal `{@Monoidal C} := {
   unit_left_twist  {x} : unit_left  ∘ @twist _ _ _ x I ≈ unit_right;
   unit_right_twist {x} : unit_right ∘ @twist _ _ _ I x ≈ unit_left
 }.
+#[export] Existing Instance is_semicartesian.
+#[export] Existing Instance is_relevance.
 
 End CartesianMonoidal.
