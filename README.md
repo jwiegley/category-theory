@@ -132,8 +132,6 @@ texts on category theory. Some of the key notations are:
    transformations
  - `f ⊚ g`: a larger circle with a smaller circle is composition of
    adjunctions
- - `f \o g`: a backslash-then-o is specifically composition in the `Coq`
-   category; that is, regular functional composition
  - `([C, D])`: A pair of categories in square brackets is another way to give
    the type of a functor, being an object of the category `Fun(C, D)`
  - `F ~{[C, D]}~> G`: An arrow in a functor category is a natural

@@ -15,9 +15,6 @@ Declare Scope category_theory_scope.
 Delimit Scope category_theory_scope with category_theory.
 Open Scope category_theory_scope.
 
-Infix "\o" := Basics.compose
-  (at level 40, left associativity) : category_theory_scope.
-
 Notation "`` x" := (@projT1 _ _ x) (at level 0) : category_theory_scope.
 Notation "( x ; y )" := (existT _ x y) (at level 0) : category_theory_scope.
 
