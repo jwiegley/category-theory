@@ -136,7 +136,7 @@ End NumericalFunctor.
 #[global]
 Instance Coq_Numerical : @Numerical Coq Coq_Cartesian := {
   numerical_obj := nat;
-  add := prod_curry Nat.add
+  add := Datatypes.uncurry Nat.add
 }.
 
 Section Example.
