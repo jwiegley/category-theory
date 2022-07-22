@@ -1,6 +1,6 @@
 opam-version: "2.0"
 maintainer: "johnw@newartisans.com"
-version: "1.0"
+version: "1.0.0"
 
 homepage: "https://github.com/jwiegley/category-theory"
 dev-repo: "git+https://github.com/jwiegley/category-theory.git"
