@@ -300,7 +300,7 @@ Definition composable_pairs_step (n : N) (z : M.t N) : M.t N :=
   N.peano_rect _ z go n.
 
 Definition composable_pairs : N -> M.t N :=
-  N.peano_rect _ (M.empty _) (composable_pairs_step \o N.succ).
+  N.peano_rect _ (M.empty _) (λ n, composable_pairs_step (N.succ n)).
 
 (* The number of composable pairs, for objects N, is the tetrahedral_number *)
 Definition tetrahedral_number (n : N) := (n * (n + 1) * (n + 2)) / 6.

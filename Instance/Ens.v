@@ -20,7 +20,7 @@ Program Definition Ens : Category := {|
     ∃ f : ``A -> ``B, ∀ x : ``A, In _ (projT2 A) x ↔ In _ (projT2 B) (f x);
   homset  := fun P Q => {| equiv := fun f g => forall x, ``f x = ``g x |};
   id      := fun _ => (id; _);
-  compose := fun _ _ _ f g =>  (``f \o ``g; _)
+  compose := fun _ _ _ f g =>  (λ x, ``f (``g x); _)
 |}.
 Next Obligation. equivalence; rewrite H, H0; reflexivity. Qed.
 Next Obligation. firstorder. Qed.
@@ -35,7 +35,7 @@ Program Definition EnsT (T : Type) : Category := {|
     ∃ f : T -> T, ∀ x : T, In _ A x ↔ In _ B (f x);
   homset  := fun P Q => {| equiv := fun f g => forall x, ``f x = ``g x |};
   id      := fun _ => (id; _);
-  compose := fun _ _ _ f g =>  (``f \o ``g; _)
+  compose := fun _ _ _ f g =>  (λ x, ``f (``g x); _)
 |}.
 Next Obligation. equivalence; rewrite H, H0; reflexivity. Qed.
 Next Obligation. firstorder. Qed.

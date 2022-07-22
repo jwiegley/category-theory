@@ -203,7 +203,7 @@ Definition from {a b c} :
     end.
 
 Lemma to_from {a b c} :
-  to \o from = @Datatypes.id (a -> option (b -> option c)).
+  Basics.compose to from = @Datatypes.id (a -> option (b -> option c)).
 Proof.
   extensionality f.
   simpl.
@@ -215,7 +215,7 @@ Proof.
 Abort.
 
 Lemma to_from_impossible {a b c} :
-  to \o from = @Datatypes.id (a -> option (b -> option c))
+  Basics.compose to from = @Datatypes.id (a -> option (b -> option c))
     -> inhabited a -> False.
 Proof.
   intros.
@@ -229,7 +229,7 @@ Proof.
 Qed.
 
 Lemma from_to {a b c} :
-  from \o to = @Datatypes.id (a + (b + (a * b)) -> option c).
+  Basics.compose from to = @Datatypes.id (a + (b + (a * b)) -> option c).
 Proof.
   extensionality f.
   simpl.
@@ -244,7 +244,7 @@ Proof.
 Abort.
 
 Lemma from_to_impossible {a b c} :
-  from \o to = @Datatypes.id (a + (b + (a * b)) -> option c)
+  Basics.compose from to = @Datatypes.id (a + (b + (a * b)) -> option c)
     -> inhabited a ∨ inhabited b -> inhabited c -> False.
 Proof.
   intros.
