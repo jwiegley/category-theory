@@ -20,7 +20,7 @@ let category-theory = coqPackages:
           else ./.;
 
     buildInputs = [
-      coq coq.ocaml coq.camlp5 coq.findlib equations # coqhammer pkgs.z3-tptp
+      coq coq.ocaml coq.camlp5 coq.findlib equations
     ];
     enableParallelBuilding = true;
 
