@@ -1,6 +1,6 @@
 opam-version: "2.0"
 maintainer: "johnw@newartisans.com"
-version: "dev"
+version: "1.0"
 
 homepage: "https://github.com/jwiegley/category-theory"
 dev-repo: "git+https://github.com/jwiegley/category-theory.git"
@@ -16,11 +16,20 @@ practical work.
 build: [make "JOBS=%{jobs}%" ]
 install: [make "install"]
 depends: [
-  "coq" {(>= "8.10" & < "8.16~") | (= "dev")}
+  "coq" {(>= "8.14" & < "8.16~") | (= "dev")}
   "coq-equations" {(>= "1.2" & < "1.4~") | (= "dev")}
 ]
 
+url {
+  src: "https://github.com/jwiegley/category-theory/archive/refs/tags/1.0.0.tar.gz"
+  checksum: "sha256=66243d54a6ff551a9ec762d69e5ff6a09869e7d5ce6504fa3a63350efde03720"
+}
+
 tags: [
+  "keyword: category theory"
+  "category: Mathematics/Category Theory"
+  "date: 2022-07-22"
+  "logpath: Category"
 ]
 authors: [
   "John Wiegley"
