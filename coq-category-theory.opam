@@ -22,7 +22,7 @@ depends: [
 
 url {
   src: "https://github.com/jwiegley/category-theory/archive/refs/tags/1.0.0.tar.gz"
-  checksum: "sha256=66243d54a6ff551a9ec762d69e5ff6a09869e7d5ce6504fa3a63350efde03720"
+  checksum: "sha256=d8a9fce1e20d0bd6e756957bf40c4deee1d83732c6c949a1dc5c290136ced60b"
 }
 
 tags: [
