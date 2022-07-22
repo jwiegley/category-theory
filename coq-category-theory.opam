@@ -1,6 +1,5 @@
 opam-version: "2.0"
 maintainer: "johnw@newartisans.com"
-version: "1.0.0"
 
 homepage: "https://github.com/jwiegley/category-theory"
 dev-repo: "git+https://github.com/jwiegley/category-theory.git"
@@ -16,7 +15,7 @@ practical work.
 build: [make "JOBS=%{jobs}%" ]
 install: [make "install"]
 depends: [
-  "coq" {(>= "8.14" & < "8.16~") | (= "dev")}
+  "coq" {(>= "8.14" & < "8.17~") | (= "dev")}
   "coq-equations" {(>= "1.2" & < "1.4~") | (= "dev")}
 ]
 
