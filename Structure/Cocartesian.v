@@ -49,15 +49,15 @@ Definition cover  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x + z ~{C}~> y + w :=
   (inl ∘ f) ▽ (inr ∘ g).
 
-#[global] Program Instance parametric_morphism_left {a b c : C} :
+#[global] Program Instance left_respects {a b c : C} :
   Proper (equiv ==> equiv) (@left a b c).
-Next Obligation. apply (@parametric_morphism_first _ O). Qed.
+Next Obligation. apply (@first_respects _ O). Qed.
 
-#[global] Program Instance parametric_morphism_right {a b c : C} :
+#[global] Program Instance right_respects {a b c : C} :
   Proper (equiv ==> equiv) (@right a b c).
-Next Obligation. apply (@parametric_morphism_second _ O). Qed.
+Next Obligation. apply (@second_respects _ O). Qed.
 
-#[global] Program Instance parametric_morphism_cover {a b c d : C} :
+#[global] Program Instance cover_respects {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@cover a b c d).
 Next Obligation.
   proper.

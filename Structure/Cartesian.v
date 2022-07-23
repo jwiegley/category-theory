@@ -46,7 +46,7 @@ Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x × z ~> y × w :=
   (f ∘ exl) △ (g ∘ exr).
 
-#[global] Program Instance parametric_morphism_first {a b c : C} :
+#[global] Program Instance first_respects {a b c : C} :
   Proper (equiv ==> equiv) (@first a b c).
 Next Obligation.
   proper.
@@ -55,7 +55,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-#[global] Program Instance parametric_morphism_second {a b c : C} :
+#[global] Program Instance second_respects {a b c : C} :
   Proper (equiv ==> equiv) (@second a b c).
 Next Obligation.
   proper.
@@ -64,7 +64,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-#[global] Program Instance parametric_morphism_split {a b c d : C} :
+#[global] Program Instance split_respects {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@split a b c d).
 Next Obligation.
   proper.
