@@ -24,10 +24,6 @@ let category-theory = coqPackages:
     ];
     enableParallelBuilding = true;
 
-    buildFlags = [
-      "JOBS=$(NIX_BUILD_CORES)"
-    ];
-
     installFlags = "COQLIB=$(out)/lib/coq/${coq.coq-version}/";
 
     env = pkgs.buildEnv { inherit name; paths = buildInputs; };
