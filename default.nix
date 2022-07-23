@@ -33,6 +33,7 @@ let category-theory = coqPackages:
   };
 
 in {
+  inherit category-theory;
   category-theory_8_14 = category-theory "coqPackages_8_14";
   category-theory_8_15 = category-theory "coqPackages_8_15";
 }
