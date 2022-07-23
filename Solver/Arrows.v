@@ -28,7 +28,7 @@ Definition Arrows {a o} (tys : Vector.t (obj_pair o) a)
            (dom cod : obj_idx o) :=
   tlist (Arr tys) cod dom.
 
-Global Instance Fin_EqDec (n : nat) : EqDec (Fin.t n) := {
+#[global] Instance Fin_EqDec (n : nat) : EqDec (Fin.t n) := {
   eq_dec := Fin_eq_dec
 }.
 
@@ -38,9 +38,9 @@ Context `{Env}.
 
 Import EqNotations.
 
-Local Obligation Tactic := unfold Arr; program_simpl.
+#[local] Obligation Tactic := unfold Arr; program_simpl.
 
-Global Program Instance arrow_EqDec (i j : obj_idx num_objs) :
+#[global] Program Instance arrow_EqDec (i j : obj_idx num_objs) :
   EqDec (Arr tys i j).
 Next Obligation.
 Admitted.

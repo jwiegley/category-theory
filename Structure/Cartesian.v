@@ -47,7 +47,7 @@ Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x × z ~> y × w :=
   (f ∘ exl) △ (g ∘ exr).
 
-Global Program Instance parametric_morphism_first {a b c : C} :
+#[global] Program Instance parametric_morphism_first {a b c : C} :
   Proper (equiv ==> equiv) (@first a b c).
 Next Obligation.
   proper.
@@ -56,7 +56,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Global Program Instance parametric_morphism_second {a b c : C} :
+#[global] Program Instance parametric_morphism_second {a b c : C} :
   Proper (equiv ==> equiv) (@second a b c).
 Next Obligation.
   proper.
@@ -65,7 +65,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Global Program Instance parametric_morphism_split {a b c d : C} :
+#[global] Program Instance parametric_morphism_split {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@split a b c d).
 Next Obligation.
   proper.
@@ -131,7 +131,7 @@ Ltac unfork :=
   repeat (rewrite <- !fork_comp; cat;
           rewrite <- !comp_assoc; cat).
 
-Local Obligation Tactic := cat_simpl; unfork.
+#[local] Obligation Tactic := cat_simpl; unfork.
 
 Definition swap_invol {x y : C} :
   swap ∘ swap ≈ @id C (x × y).
@@ -277,7 +277,7 @@ Theorem split_fork {x y z w v : C}
   split f h ∘ g △ i ≈ (f ∘ g) △ (h ∘ i).
 Proof. unfold split; intros; unfork. Qed.
 
-Global Program Instance prod_respects_iso :
+#[global] Program Instance prod_respects_iso :
   Proper (Isomorphism ==> Isomorphism ==> Isomorphism) product_obj.
 Next Obligation.
   proper.
@@ -290,7 +290,7 @@ Defined.
 
 Context `{@Terminal C}.
 
-Global Program Instance prod_one_l  {x : C} :
+#[global] Program Instance prod_one_l  {x : C} :
   1 × x ≅ x := {
   to   := exr;
   from := one △ id
@@ -303,7 +303,7 @@ Qed.
 
 #[local] Hint Rewrite @prod_one_l : isos.
 
-Global Program Instance prod_one_r  {x : C} :
+#[global] Program Instance prod_one_r  {x : C} :
   x × 1 ≅ x := {
   to   := exl;
   from := id △ one
@@ -316,13 +316,13 @@ Qed.
 
 #[local] Hint Rewrite @prod_one_r : isos.
 
-Global Program Instance prod_comm  {x y : C} :
+#[global] Program Instance prod_comm  {x y : C} :
   x × y ≅ y × x := {
   to   := swap;
   from := swap
 }.
 
-Global Program Instance prod_assoc  {x y z : C} :
+#[global] Program Instance prod_assoc  {x y z : C} :
   (x × y) × z ≅ x × (y × z) := {
   to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr);
   from := (exl △ (exl ∘ exr)) △ (exr ∘ exr)

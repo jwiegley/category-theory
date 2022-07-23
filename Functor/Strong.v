@@ -49,13 +49,13 @@ Section Strong.
 Context `{@Monoidal C}.
 Context {F : C ⟶ C}.
 
-Global Program Instance Id_StrongFunctor : StrongFunctor Id[C] := {
+#[global] Program Instance Id_StrongFunctor : StrongFunctor Id[C] := {
   strength := fun _ _ => id
 }.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
-Global Program Instance Compose_StrongFunctor (F G : C ⟶ C) :
+#[global] Program Instance Compose_StrongFunctor (F G : C ⟶ C) :
   StrongFunctor F -> StrongFunctor G -> StrongFunctor (F ◯ G) := {
   strength := fun _ _ => fmap[F] strength ∘ strength
 }.

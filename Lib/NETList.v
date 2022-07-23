@@ -215,7 +215,7 @@ Equations netlist_equiv {i j : A} (x y : netlist B i j) : Type :=
       | right _ => False
     }.
 
-Global Program Instance netlist_equiv_Equivalence {i j} :
+#[global] Program Instance netlist_equiv_Equivalence {i j} :
   Equivalence (@netlist_equiv i j).
 Next Obligation.
   repeat intro.
@@ -266,12 +266,12 @@ Next Obligation.
   eapply IHx; eauto.
 Qed.
 
-Global Program Instance netlist_Setoid {i j} : Setoid (netlist B i j) := {
+#[global] Program Instance netlist_Setoid {i j} : Setoid (netlist B i j) := {
   equiv := netlist_equiv;
   setoid_equiv := netlist_equiv_Equivalence;
 }.
 
-Global Program Instance netlist_cons_respects {i j k} :
+#[global] Program Instance netlist_cons_respects {i j k} :
   Proper (equiv ==> equiv ==> equiv) (@tadd A B i j k).
 Next Obligation.
   repeat intro.
@@ -280,7 +280,7 @@ Next Obligation.
   now rewrite EqDec.peq_dec_refl.
 Qed.
 
-Global Program Instance netlist_app_respects {i j k} :
+#[global] Program Instance netlist_app_respects {i j k} :
   Proper (equiv ==> equiv ==> equiv) (@netlist_app i j k).
 Next Obligation.
   repeat intro.
@@ -303,7 +303,7 @@ Next Obligation.
     exact X0.
 Qed.
 
-Global Program Instance netlist_EqDec {i j} : @EqDec (netlist B i j) := {
+#[global] Program Instance netlist_EqDec {i j} : @EqDec (netlist B i j) := {
   eq_dec := netlist_eq_dec
 }.
 

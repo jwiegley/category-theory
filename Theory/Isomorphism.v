@@ -40,12 +40,12 @@ Arguments iso_from_to {x y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
-Global Program Instance iso_id {x : C} : x ≅ x := {
+#[global] Program Instance iso_id {x : C} : x ≅ x := {
   to   := id;
   from := id
 }.
 
-Global Program Definition iso_sym {x y : C} `(f : x ≅ y) : y ≅ x := {|
+#[global] Program Definition iso_sym {x y : C} `(f : x ≅ y) : y ≅ x := {|
   to   := from f;
   from := to f;
 
@@ -53,7 +53,7 @@ Global Program Definition iso_sym {x y : C} `(f : x ≅ y) : y ≅ x := {|
   iso_from_to := iso_to_from f
 |}.
 
-Global Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) :
+#[global] Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) :
   x ≅ z := {|
   to   := to f ∘ to g;
   from := from g ∘ from f
@@ -71,7 +71,7 @@ Next Obligation.
   apply iso_from_to.
 Defined.
 
-Global Program Instance iso_equivalence : Equivalence Isomorphism := {
+#[global] Program Instance iso_equivalence : Equivalence Isomorphism := {
   Equivalence_Reflexive  := @iso_id;
   Equivalence_Symmetric  := @iso_sym;
   Equivalence_Transitive := fun _ _ _ g f => iso_compose f g
@@ -79,14 +79,14 @@ Global Program Instance iso_equivalence : Equivalence Isomorphism := {
 
 Definition ob_equiv : crelation C := Isomorphism.
 
-Global Instance ob_setoid : Setoid C :=
+#[global] Instance ob_setoid : Setoid C :=
   {| equiv := Isomorphism
    ; setoid_equiv := iso_equivalence |}.
 
 Definition iso_equiv {x y : C} : crelation (x ≅ y) :=
   fun f g => (to f ≈ to g) * (from f ≈ from g).
 
-Global Program Instance iso_equiv_equivalence {x y : C} :
+#[global] Program Instance iso_equiv_equivalence {x y : C} :
   Equivalence (@iso_equiv x y).
 Next Obligation. now firstorder. Qed.
 Next Obligation. now firstorder. Qed.
@@ -97,14 +97,14 @@ Next Obligation.
             | now transitivity (from y0) ].
 Qed.
 
-Global Instance iso_setoid {x y : C} : Setoid (x ≅ y) := {
+#[global] Instance iso_setoid {x y : C} : Setoid (x ≅ y) := {
   equiv := iso_equiv;
   setoid_equiv := iso_equiv_equivalence
 }.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
-Global Program Instance Iso_Proper :
+#[global] Program Instance Iso_Proper :
   Proper (Isomorphism ==> Isomorphism ==> iffT) Isomorphism.
 Next Obligation.
   proper.

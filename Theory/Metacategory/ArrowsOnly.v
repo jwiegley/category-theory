@@ -110,12 +110,12 @@ Definition composition {x y z : object}
    ; mor_dom := composition_right (f:=f) (`2 fg) (mor_dom g)
    ; mor_cod := composition_left  (g:=g) (`2 fg) (mor_cod f) |}.
 
-Global Program Instance morphism_preorder : PreOrder morphism := {
+#[global] Program Instance morphism_preorder : PreOrder morphism := {
   PreOrder_Reflexive  := identity;
   PreOrder_Transitive := fun _ _ _ g f => composition f g
 }.
 
-Global Program Instance morphism_setoid (x y : object) :
+#[global] Program Instance morphism_setoid (x y : object) :
   Setoid (morphism x y) := {
   equiv := fun f g => mor_arr f = mor_arr g
 }.
@@ -284,7 +284,7 @@ Ltac reflect_on_maps :=
           | instantiate (1 := 9%N); vm_compute; reflexivity ]
   end.
 
-Local Open Scope N_scope.
+#[local] Open Scope N_scope.
 
 Definition triangular_number (n : N) := (n * (n + 1)) / 2.
 
@@ -305,7 +305,7 @@ Definition composable_pairs : N -> M.t N :=
 (* The number of composable pairs, for objects N, is the tetrahedral_number *)
 Definition tetrahedral_number (n : N) := (n * (n + 1) * (n + 2)) / 6.
 
-Local Obligation Tactic :=
+#[local] Obligation Tactic :=
   simpl; intros; vm_compute triangular_number in *; reflect_on_maps.
 
 Program Definition Zero  : Metacategory := {| pairs := composable_pairs 0 |}.
@@ -386,7 +386,7 @@ Proof.
   - exact TwoIdY.
 Defined.
 
-Local Obligation Tactic := intros.
+#[local] Obligation Tactic := intros.
 
 Program Definition Two_to_Two : Category_from_Metacategory Two ⟶ _2 := {|
   fobj := Two_2_object;
@@ -421,7 +421,7 @@ Next Obligation.
     || (vm_compute; reflexivity).
 Qed.
 
-Local Obligation Tactic :=
+#[local] Obligation Tactic :=
   program_simpl;
   try solve [ subst; unfold composite; simpl;
               subst; vm_compute; reflexivity ].
@@ -461,7 +461,7 @@ Program Definition _2_Two_morphism (x y : TwoObj) (f : TwoHom x y) :
   end eq_refl.
 Next Obligation. inversion f. Defined.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
 Program Definition Two_from_Two : _2 ⟶ Category_from_Metacategory Two := {|
   fobj := _2_Two_object;
@@ -509,7 +509,7 @@ Next Obligation.
   vm_compute; reflexivity.
 Qed.
 
-Local Obligation Tactic := simpl; intros.
+#[local] Obligation Tactic := simpl; intros.
 
 Lemma composable_pairs_succ n :
   composable_pairs (N.succ n)

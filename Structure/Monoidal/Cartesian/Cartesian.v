@@ -22,7 +22,7 @@ Section CartesianMonoidalCartesian.
 Context `{@Monoidal C}.
 Context `{@CartesianMonoidal C _}.
 
-Global Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
+#[global] Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
   product_obj := fun x y => (x ⨂ y)%object;
   fork := fun x _ _ f g => f ⨂ g ∘ ∆x;
   exl  := fun _ _ => proj_left;

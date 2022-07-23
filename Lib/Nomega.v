@@ -6,7 +6,7 @@ Require Export
   Coq.NArith.NArith
   Coq.micromega.Lia.
 
-Local Open Scope N_scope.
+#[local] Open Scope N_scope.
 
 Corollary sumbool_split : forall P Q : Prop,
   {P} + {~P} -> {Q} + {~Q} -> {P /\ Q} + {~ (P /\ Q)}.

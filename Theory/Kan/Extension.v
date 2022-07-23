@@ -55,7 +55,7 @@ Class LocalRightKan (X : A ⟶ C) := {
    extensions fit together to define a functor which is the global Kan
    extension." *)
 
-Global Program Instance RightKan_to_LocalRightKan {R : RightKan} (X : A ⟶ C) :
+#[global] Program Instance RightKan_to_LocalRightKan {R : RightKan} (X : A ⟶ C) :
   LocalRightKan X := {|
   LocalRan := Ran X;
   ran_transform :=
@@ -113,7 +113,7 @@ Class LocalLeftKan (X : A ⟶ C) := {
     @Unique Fun _ _  (fun δ => ε ≈ δ ⊲ F ∙ lan_transform)
 }.
 
-Global Program Instance LeftKan_to_LocalLeftKan {R : LeftKan} (X : A ⟶ C) :
+#[global] Program Instance LeftKan_to_LocalLeftKan {R : LeftKan} (X : A ⟶ C) :
   LocalLeftKan X := {|
   LocalLan := Lan X;
   lan_transform :=

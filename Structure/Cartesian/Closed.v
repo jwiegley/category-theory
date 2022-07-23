@@ -46,7 +46,7 @@ Arguments eval' {_ _ _} /.
 Definition ump_exponents {x y z} (f : x × y ~> z) :
   eval ∘ first (curry f) ≈ f := @ump_exponents' _ x y z f.
 
-Global Program Instance parametric_morphism_curry (a b c : C) :
+#[global] Program Instance parametric_morphism_curry (a b c : C) :
   Proper (equiv ==> equiv) (@curry a b c).
 Next Obligation.
   proper.
@@ -56,7 +56,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-Global Program Instance parametric_morphism_uncurry (a b c : C) :
+#[global] Program Instance parametric_morphism_uncurry (a b c : C) :
   Proper (equiv ==> equiv) (@uncurry a b c).
 Next Obligation.
   proper.
@@ -187,7 +187,7 @@ Proof.
   apply uncurry_inj; cat.
 Qed.
 
-Global Program Instance exp_respects_iso {x y z : C} :
+#[global] Program Instance exp_respects_iso {x y z : C} :
   Proper (Isomorphism ==> Isomorphism ==> Isomorphism) exponent_obj.
 Next Obligation.
   proper.
@@ -235,7 +235,7 @@ Next Obligation.
     reflexivity.
 Qed.
 
-Global Program Instance exp_prod_l {x y z : C} :
+#[global] Program Instance exp_prod_l {x y z : C} :
   z^(x × y) ≅ (z^y)^x := {
   to   := curry (curry (eval ∘ to prod_assoc));
   from := curry (uncurry eval ∘ from prod_assoc)
@@ -288,7 +288,7 @@ Qed.
 
 #[local] Hint Rewrite @exp_prod_l : isos.
 
-Global Program Instance exp_prod_r {x y z : C} :
+#[global] Program Instance exp_prod_r {x y z : C} :
   (y × z)^x ≅ y^x × z^x := {
   to   := curry (exl ∘ eval) △ curry (exr ∘ eval);
   from := curry (uncurry exl △ uncurry exr)
@@ -315,9 +315,9 @@ Qed.
 
 #[local] Hint Rewrite @exp_prod_r : isos.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
-Global Program Instance exp_swap {x y z : C} :
+#[global] Program Instance exp_swap {x y z : C} :
   (z^y)^x ≅ (z^x)^y := {
   to   := to exp_prod_l
         ∘ to (@exp_respects_iso x y z _ _ (@prod_comm _ _ x y) z z iso_id)
@@ -367,7 +367,7 @@ Qed.
 
 Context `{@Terminal C}.
 
-Global Program Instance exp_one {x : C} :
+#[global] Program Instance exp_one {x : C} :
   x^1 ≅ x := {
   to   := eval ∘ id △ one;
   from := curry exl
@@ -392,7 +392,7 @@ Qed.
 
 #[local] Hint Rewrite @exp_one : isos.
 
-Global Program Instance one_exp {x : C} :
+#[global] Program Instance one_exp {x : C} :
   1^x ≅ 1 := {
   to   := one;
   from := curry one

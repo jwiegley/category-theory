@@ -18,7 +18,7 @@ Context {D : Category}.
 (* Fun is the category whose morphisms are natural transformations between
    Functors from C ⟶ D. *)
 
-Global Program Definition Fun : Category := {|
+#[global] Program Definition Fun : Category := {|
   obj     := C ⟶ D;
   hom     := @Transform C D;
   id      := @nat_id C D;

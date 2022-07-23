@@ -28,7 +28,7 @@ Context `{@Terminal C}.
 Context `{@Closed C _}.
 Context {F : C ⟶ C}.
 
-Local Obligation Tactic := idtac.
+#[local] Obligation Tactic := idtac.
 
 Program Instance Id_Applicative : @Applicative C _ _ _ (Id[C]) := {
   is_strong := Id_StrongFunctor;

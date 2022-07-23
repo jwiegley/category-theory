@@ -13,7 +13,7 @@ Section Kleisli.
 
 Context `{@Monad C M}.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
 Program Definition Kleisli : Category := {|
   obj     := C;

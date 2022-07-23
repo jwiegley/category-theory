@@ -19,7 +19,7 @@ Ltac reduce :=
     end;
   simpl; auto; try split; cat; simpl; cat.
 
-Local Obligation Tactic := simpl; intros.
+#[local] Obligation Tactic := simpl; intros.
 
 #[global]
 Program Instance Comma_Iso_to_Left {A : Category} {B : Category} {C : Category}

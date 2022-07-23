@@ -21,7 +21,7 @@ Context `{@CartesianMonoidal C _}.
 Context {F : C ⟶ C}.
 Context {G : C ⟶ C}.
 
-Local Obligation Tactic := simpl; intros.
+#[local] Obligation Tactic := simpl; intros.
 
 Program Definition Product_Strong :
   StrongFunctor F -> StrongFunctor G -> StrongFunctor (F :*: G) := fun O P => {|

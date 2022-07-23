@@ -33,7 +33,7 @@ Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x :=
 
 Infix "▽" := merge (at level 26) : morphism_scope.
 
-Global Program Instance merge_respects {x y z} :
+#[global] Program Instance merge_respects {x y z} :
   Proper (equiv ==> equiv ==> equiv) (@merge x y z).
 Next Obligation. apply (@fork_respects _ O). Qed.
 
@@ -50,15 +50,15 @@ Definition cover  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x + z ~{C}~> y + w :=
   (inl ∘ f) ▽ (inr ∘ g).
 
-Global Program Instance parametric_morphism_left {a b c : C} :
+#[global] Program Instance parametric_morphism_left {a b c : C} :
   Proper (equiv ==> equiv) (@left a b c).
 Next Obligation. apply (@parametric_morphism_first _ O). Qed.
 
-Global Program Instance parametric_morphism_right {a b c : C} :
+#[global] Program Instance parametric_morphism_right {a b c : C} :
   Proper (equiv ==> equiv) (@right a b c).
 Next Obligation. apply (@parametric_morphism_second _ O). Qed.
 
-Global Program Instance parametric_morphism_cover {a b c d : C} :
+#[global] Program Instance parametric_morphism_cover {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@cover a b c d).
 Next Obligation.
   proper.
@@ -100,7 +100,7 @@ Ltac unmerge :=
   repeat (rewrite <- !merge_comp; cat;
           rewrite <- !comp_assoc; cat).
 
-Local Obligation Tactic := cat_simpl; unmerge.
+#[local] Obligation Tactic := cat_simpl; unmerge.
 
 Theorem left_id {x y : C} :
   left (id[x]) ≈ id[x + y].
@@ -253,7 +253,7 @@ Theorem cover_inr {x y z w : C} (f : x ~> y) (g : z ~> w):
   cover f g ∘ inr ≈ inr ∘ g.
 Proof. unmerge; cat. Qed.
 
-Global Program Instance coprod_respects_iso :
+#[global] Program Instance coprod_respects_iso :
   Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Coprod.
 Next Obligation.
   proper.
@@ -266,7 +266,7 @@ Defined.
 
 Context `{I : @Initial C}.
 
-Global Program Instance coprod_zero_l {x : C} :
+#[global] Program Instance coprod_zero_l {x : C} :
   0 + x ≅ x := {
   to   := zero ▽ id;
   from := inr
@@ -275,7 +275,7 @@ Next Obligation. apply (@prod_one_l _ _ I). Qed.
 
 #[local] Hint Rewrite @coprod_zero_l : isos.
 
-Global Program Instance coprod_zero_r {x : C} :
+#[global] Program Instance coprod_zero_r {x : C} :
   x + 0 ≅ x := {
   to   := id ▽ zero;
   from := inl
@@ -284,13 +284,13 @@ Next Obligation. apply (@prod_one_r _ _ I). Qed.
 
 #[local] Hint Rewrite @coprod_zero_r : isos.
 
-Global Program Instance coprod_comm  {x y : C} :
+#[global] Program Instance coprod_comm  {x y : C} :
   x + y ≅ y + x := {
   to   := paws;
   from := paws
 }.
 
-Global Program Instance coprod_assoc  {x y z : C} :
+#[global] Program Instance coprod_assoc  {x y z : C} :
   (x + y) + z ≅ x + (y + z) := {
   to   := (inl ▽ (inr ∘ inl)) ▽ (inr ∘ inr);
   from := (inl ∘ inl) ▽ ((inl ∘ inr) ▽ inr)

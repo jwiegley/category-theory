@@ -180,28 +180,28 @@ Context `{@Cocartesian C}.
 Context `{@Terminal C}.
 Context `{@Initial C}.
 
-Global Program Instance AST_Functor : AST ⟶ C := {
+#[global] Program Instance AST_Functor : AST ⟶ C := {
   fobj := fun x => denote x;
   fmap := fun _ _ f => interp f
 }.
 
-Global Program Instance Hom_TerminalFunctor : TerminalFunctor := {
+#[global] Program Instance Hom_TerminalFunctor : TerminalFunctor := {
   fobj_one_iso := _
 }.
 
-Global Program Instance Hom_CartesianFunctor : CartesianFunctor := {
+#[global] Program Instance Hom_CartesianFunctor : CartesianFunctor := {
   fobj_prod_iso := _
 }.
 
-Global Program Instance Hom_ClosedFunctor : ClosedFunctor := {
+#[global] Program Instance Hom_ClosedFunctor : ClosedFunctor := {
   fobj_exp_iso := _
 }.
 
-Global Program Instance Hom_InitialFunctor : InitialFunctor AST_Functor := {
+#[global] Program Instance Hom_InitialFunctor : InitialFunctor AST_Functor := {
   fobj_one_iso := _
 }.
 
-Global Program Instance Hom_CocartesianFunctor : CocartesianFunctor AST_Functor := {
+#[global] Program Instance Hom_CocartesianFunctor : CocartesianFunctor AST_Functor := {
   fobj_prod_iso := _
 }.
 

@@ -31,7 +31,7 @@ Corollary bimap_fmap {F : C ∏ D ⟶ E} {x w : C} {y z : D}
   @fmap (C ∏ D) E F (x, y) (w, z) (f, g) = bimap f g.
 Proof. reflexivity. Defined.
 
-Global Program Instance bimap_respects {F : C ∏ D ⟶ E} {x w : C} {y z : D} :
+#[global] Program Instance bimap_respects {F : C ∏ D ⟶ E} {x w : C} {y z : D} :
   Proper (equiv ==> equiv ==> equiv) (@bimap F x w y z).
 Next Obligation.
   proper.
@@ -98,7 +98,7 @@ Proof.
   split; simpl; cat.
 Qed.
 
-Global Program Instance bifunctor_respects {F : C ∏ D ⟶ E} :
+#[global] Program Instance bifunctor_respects {F : C ∏ D ⟶ E} :
   Proper ((fun p q => Isomorphism (fst p) (fst q) ∧
                       Isomorphism (snd p) (snd q))
             ==> Isomorphism) F.

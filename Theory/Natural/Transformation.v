@@ -31,7 +31,7 @@ Class Transform := {
     transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform
 }.
 
-Global Program Instance Transform_Setoid : Setoid Transform.
+#[global] Program Instance Transform_Setoid : Setoid Transform.
 
 End Transform.
 
