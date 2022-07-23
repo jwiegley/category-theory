@@ -103,7 +103,10 @@ Proof.
   rewrite <- id_right.
   symmetry.
   rewrite <- id_right.
-  rewrite <- retract_comp0.
+  transitivity (g2 ∘ (f ∘ retract0));
+    [ now apply compose_respects |];
+  transitivity (g1 ∘ (f ∘ retract0));
+    [| now apply compose_respects ].
   reassociate_right.
 Qed.
 
@@ -116,7 +119,10 @@ Proof.
   rewrite <- id_left.
   symmetry.
   rewrite <- id_left.
-  rewrite <- section_comp0.
+  transitivity ((section0 ∘ f) ∘ g2);
+    [ now apply compose_respects |];
+  transitivity ((section0 ∘ f) ∘ g1);
+    [| now apply compose_respects ].
   reassociate_left.
 Qed.
 
