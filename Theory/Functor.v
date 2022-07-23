@@ -63,8 +63,7 @@ Notation "fobj[ F ]" := (@fobj _ _ F%functor)
 Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
   (at level 9, format "fmap[ F ]") : morphism_scope.
 
-#[global]
-Hint Rewrite @fmap_id : categories.
+#[export] Hint Rewrite @fmap_id : categories.
 
 #[global]
 Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := {
@@ -175,7 +174,7 @@ Program Definition Compose {C D E : Category}
 Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation. intros; rewrite !fmap_comp; reflexivity. Qed.
 
-Hint Unfold Compose : core.
+#[export] Hint Unfold Compose : core.
 
 Notation "F ◯ G" := (Compose F%functor G%functor)
   (at level 40, left associativity) : category_scope.

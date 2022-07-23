@@ -85,7 +85,7 @@ Proof. transform; simpl; intros; cat. Qed.
 Program Definition nat_equiv `{F : C ⟶ D} {G : C ⟶ D} : crelation (F ⟹ G) :=
   fun n m => ∀ A, transform[n] A ≈ transform[m] A.
 
-Hint Unfold nat_equiv : core.
+#[export] Hint Unfold nat_equiv : core.
 
 Arguments nat_equiv {_ _ _ _} _ _ /.
 
@@ -109,7 +109,7 @@ Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
   transform := λ X, fmap (@id C X)
 |}.
 
-Hint Unfold nat_id : core.
+#[export] Hint Unfold nat_id : core.
 
 #[global]
 Program Instance Transform_reflexive {C D : Category} :
@@ -132,7 +132,7 @@ Next Obligation.
   now apply nat_compose_obligation_1.
 Qed.
 
-Hint Unfold nat_compose : core.
+#[export] Hint Unfold nat_compose : core.
 
 Notation "F ∙ G" := (@nat_compose _ _ _ _ _ F G) (at level 40, left associativity).
 

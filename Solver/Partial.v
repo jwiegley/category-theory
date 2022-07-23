@@ -11,10 +11,11 @@ Inductive partial (P : Type) : Type :=
 
 Notation "[ P ]" := (partial P) : type_scope.
 
+Declare Scope partial_scope.
+
 Notation "'Yes'" := (Proved _ _) : partial_scope.
 Notation "'No'" := (Uncertain _) : partial_scope.
 
-Declare Scope partial_scope.
 Local Open Scope partial_scope.
 Delimit Scope partial_scope with partial.
 

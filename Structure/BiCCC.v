@@ -41,7 +41,7 @@ Next Obligation.
   rewrite merge_comp; cat.
 Qed.
 
-Hint Rewrite @prod_coprod_l : isos.
+#[local] Hint Rewrite @prod_coprod_l : isos.
 
 Lemma uncurry_merge {x y z w : C} (f : x ~> y^z) (g : w ~> y^z) :
   uncurry (f ▽ g) ≈ uncurry f ▽ uncurry g ∘ to prod_coprod_l.
@@ -103,7 +103,7 @@ Next Obligation.
   rewrite merge_comp; cat.
 Qed.
 
-Hint Rewrite @prod_coprod_r : isos.
+#[local] Hint Rewrite @prod_coprod_r : isos.
 
 Global Program Instance exp_coprod {x y z : C} :
   x^(y + z) ≅ x^y × x^z := {
@@ -173,7 +173,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Hint Rewrite @exp_coprod : isos.
+#[local] Hint Rewrite @exp_coprod : isos.
 
 Context `{@Initial C}.
 
@@ -184,7 +184,7 @@ Global Program Instance prod_zero_l {x : C} :
 }.
 Next Obligation. apply curry_inj; simpl; cat. Qed.
 
-Hint Rewrite @prod_zero_l : isos.
+#[local] Hint Rewrite @prod_zero_l : isos.
 
 Global Program Instance prod_zero_r {x : C} :
   x × 0 ≅ 0 := {
@@ -193,7 +193,7 @@ Global Program Instance prod_zero_r {x : C} :
 }.
 Next Obligation. apply swap_inj_r, curry_inj; simpl; cat. Qed.
 
-Hint Rewrite @prod_zero_r : isos.
+#[local] Hint Rewrite @prod_zero_r : isos.
 
 Context `{@Terminal C}.
 

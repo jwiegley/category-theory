@@ -80,7 +80,7 @@ Ltac simplify_maps :=
     unfold not; intro H; destruct H; simplify_maps
   end; simpl; auto.
 
-Hint Extern 5 =>
+#[export] Hint Extern 5 =>
   match goal with
     [ H : M.MapsTo _ _ (M.empty _) |- _ ] =>
       apply F.empty_mapsto_iff in H; contradiction
@@ -711,14 +711,14 @@ Proof.
   contradiction.
 Qed.
 
-Hint Resolve Oeq_neq_sym : core.
+#[export] Hint Resolve Oeq_neq_sym : core.
 
 Lemma Proper_Oeq_negb : forall B f,
   Proper (E.eq ==> eq ==> eq) f ->
   Proper (E.eq ==> eq ==> eq) (fun (k : M.key) (e : B) => negb (f k e)).
 Proof. intros ?????????; f_equal; subst; rewrite H0; reflexivity. Qed.
 
-Hint Resolve Proper_Oeq_negb : core.
+#[export] Hint Resolve Proper_Oeq_negb : core.
 
 Ltac apply_for_all :=
   try match goal with

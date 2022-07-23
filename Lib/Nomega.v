@@ -125,9 +125,9 @@ Ltac nsimp := simpl; repeat progress (autorewrite with N; simpl).
 Ltac nsimp_H H :=
   simpl in H; repeat progress (autorewrite with N in H; simpl in H).
 
-Hint Extern 3 (Decidable.decidable (_ = _))  => apply N.eq_decidable.
-Hint Extern 3 (Decidable.decidable (_ < _))  => apply N.lt_decidable.
-Hint Extern 3 (Decidable.decidable (_ <= _)) => apply N.le_decidable.
+#[export] Hint Extern 3 (Decidable.decidable (_ = _))  => apply N.eq_decidable.
+#[export] Hint Extern 3 (Decidable.decidable (_ < _))  => apply N.lt_decidable.
+#[export] Hint Extern 3 (Decidable.decidable (_ <= _)) => apply N.le_decidable.
 
 Lemma not_and_implication : forall (P Q: Prop), ( ~ (P /\ Q) ) <-> (P -> ~ Q).
 Proof. firstorder. Qed.

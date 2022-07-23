@@ -122,8 +122,7 @@ End Bifunctor.
 Notation "bimap[ F ]" := (@bimap _ _ _ F%functor _ _ _ _)
   (at level 9, format "bimap[ F ]") : morphism_scope.
 
-#[global]
-Hint Rewrite @bimap_id_id : categories.
+#[export] Hint Rewrite @bimap_id_id : categories.
 
 Ltac bimap_left :=
   apply bimap_respects; [reflexivity|].

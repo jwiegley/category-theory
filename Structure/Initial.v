@@ -38,11 +38,10 @@ Notation "0" := initial_obj : object_scope.
 Notation "zero[ C ]" := (@zero _ _ C)
   (at level 9, format "zero[ C ]") : morphism_scope.
 
-Hint Resolve @zero_unique : category_laws.
+#[export] Hint Resolve @zero_unique : category_laws.
 
 Corollary zero_comp `{T : @Initial C} {x y : C} {f : x ~> y} :
   f ∘ zero ≈ zero.
 Proof. apply (@one_comp _ T). Qed.
 
-#[global]
-Hint Rewrite @zero_comp : categories.
+#[export] Hint Rewrite @zero_comp : categories.
