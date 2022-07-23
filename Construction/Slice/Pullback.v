@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 Set Warnings "-local-declaration".
 
 Require Import Category.Lib.

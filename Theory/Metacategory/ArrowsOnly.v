@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Coq.NArith.NArith.
 Require Import Coq.FSets.FMaps.

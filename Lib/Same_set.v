@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Coq.Sets.Ensembles.
 Require Import Coq.Sets.Finite_sets.
