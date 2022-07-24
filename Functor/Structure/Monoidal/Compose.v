@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -23,12 +22,12 @@ Context {E : Category}.
 Context `{@Monoidal E}.
 Context {F : D ⟶ E}.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
 (* Any two monoidal functors compose to create a monoidal functor. This is
    composition in the groupoid of categories with monoidal structure. *)
 
-Global Program Instance Compose_MonoidalFunctor
+#[global] Program Instance Compose_MonoidalFunctor
        `(M : @MonoidalFunctor D E _ _ F)
        `(N : @MonoidalFunctor C D _ _ G) :
   `{@MonoidalFunctor C E _ _ (F ◯ G)} := {
@@ -258,7 +257,7 @@ Qed.
    functor. This is composition in the category of categories with monoidal
    structure. *)
 
-Global Program Instance Compose_LaxMonoidalFunctor
+#[global] Program Instance Compose_LaxMonoidalFunctor
        `(M : @LaxMonoidalFunctor D E _ _ F)
        `(N : @LaxMonoidalFunctor C D _ _ G) :
   `{@LaxMonoidalFunctor C E _ _ (F ◯ G)} := {

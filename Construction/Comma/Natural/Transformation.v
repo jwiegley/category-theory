@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Natural.Transformation.
@@ -34,7 +33,7 @@ Program Definition Comma_Functor {C D : Category} {S T : D ⟶ C}
 |}.
 Next Obligation. apply naturality_sym. Qed.
 
-Local Obligation Tactic := simpl; intros.
+#[local] Obligation Tactic := simpl; intros.
 
 Program Definition Comma_Transform {C D : Category} {S T : D ⟶ C}
         (F : D ⟶ (S ↓ T))

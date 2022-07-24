@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import
   Coq.FSets.FMapFacts
@@ -80,13 +79,13 @@ Ltac simplify_maps :=
     unfold not; intro H; destruct H; simplify_maps
   end; simpl; auto.
 
-Hint Extern 5 =>
+#[export] Hint Extern 5 =>
   match goal with
     [ H : M.MapsTo _ _ (M.empty _) |- _ ] =>
       apply F.empty_mapsto_iff in H; contradiction
   end : core.
 
-Global Program Instance MapsTo_Proper {elt} :
+#[global] Program Instance MapsTo_Proper {elt} :
   Proper (E.eq ==> eq ==> M.Equal ==> iff) (@M.MapsTo elt) :=
   (@F.MapsTo_m_Proper elt).
 
@@ -97,7 +96,7 @@ Ltac relational :=
   | [ |- iff _ _ ] => split; intro
   end; subst; auto.
 
-Global Program Instance find_Proper {elt} :
+#[global] Program Instance find_Proper {elt} :
   Proper (E.eq ==> eq ==> M.Equal ==> iff)
          (fun k e m => @M.find elt k m = Some e).
 Obligation 1.
@@ -106,7 +105,7 @@ Obligation 1.
   rewrite H, H1; assumption.
 Qed.
 
-Global Program Instance fold_Proper {elt A} : forall f (eqA : relation A),
+#[global] Program Instance fold_Proper {elt A} : forall f (eqA : relation A),
   Equivalence eqA
     -> Proper (E.eq ==> eq ==> eqA ==> eqA) f
     -> P.transpose_neqkey eqA f
@@ -121,7 +120,7 @@ Proof.
   congruence.
 Qed.
 
-Global Program Instance filter_Proper {elt} : forall P,
+#[global] Program Instance filter_Proper {elt} : forall P,
   Proper (E.eq ==> eq ==> eq) P
     -> Proper (M.Equal (elt:=elt) ==> M.Equal) (@P.filter elt P).
 Obligation 1.
@@ -455,7 +454,7 @@ Proof.
   assumption.
 Qed.
 
-Global Instance add_Proper {elt} :
+#[global] Instance add_Proper {elt} :
   Proper (E.eq ==> eq ==> M.Equal ==> M.Equal) (M.add (elt:=elt)) :=
   (@F.add_m_Proper elt).
 
@@ -496,7 +495,7 @@ Variable elt : Type.
 Variable P : M.key -> elt -> bool.
 Variable P_Proper : Proper (E.eq ==> eq ==> eq) P.
 
-Global Program Instance for_all_Proper :
+#[global] Program Instance for_all_Proper :
   Proper (M.Equal ==> eq) (@P.for_all elt P).
 Obligation 1.
   relational.
@@ -711,14 +710,14 @@ Proof.
   contradiction.
 Qed.
 
-Hint Resolve Oeq_neq_sym : core.
+#[export] Hint Resolve Oeq_neq_sym : core.
 
 Lemma Proper_Oeq_negb : forall B f,
   Proper (E.eq ==> eq ==> eq) f ->
   Proper (E.eq ==> eq ==> eq) (fun (k : M.key) (e : B) => negb (f k e)).
 Proof. intros ?????????; f_equal; subst; rewrite H0; reflexivity. Qed.
 
-Hint Resolve Proper_Oeq_negb : core.
+#[export] Hint Resolve Proper_Oeq_negb : core.
 
 Ltac apply_for_all :=
   try match goal with
@@ -739,7 +738,7 @@ Ltac apply_for_all :=
 Definition keep_keys {elt} (P : M.key -> bool) : M.t elt -> M.t elt :=
   P.filter (fun k _ => P k).
 
-Global Program Instance update_Proper {elt} :
+#[global] Program Instance update_Proper {elt} :
   Proper (M.Equal (elt:=elt) ==> M.Equal (elt:=elt) ==> M.Equal)
          (@P.update elt).
 Obligation 1.

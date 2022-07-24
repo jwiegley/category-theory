@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 Set Warnings "-fragile-hint-constr".
 
 Require Import Category.Lib.
@@ -25,14 +24,13 @@ End Terminal.
 
 Notation "1" := terminal_obj : object_scope.
 
-Hint Resolve @one_unique : category_laws.
+#[export] Hint Resolve @one_unique : category_laws.
 
 Corollary one_comp `{@Terminal C} {x y : C} {f : x ~> y} :
   one ∘ f ≈ one.
 Proof. intros; apply one_unique. Qed.
 
-#[global]
-Hint Rewrite @one_comp : categories.
+#[export] Hint Rewrite @one_comp : categories.
 
 Notation "one[ C ]" := (@one _ _ C)
   (at level 9, format "one[ C ]") : morphism_scope.

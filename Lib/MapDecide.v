@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Coq.NArith.NArith.
 Require Import Coq.FSets.FMaps.
@@ -32,7 +31,7 @@ Declare Scope partial_scope.
 Notation "'Yes'" := (Proved _ _) : partial_scope.
 Notation "'No'" := (Uncertain _) : partial_scope.
 
-Local Open Scope partial_scope.
+#[local] Open Scope partial_scope.
 Delimit Scope partial_scope with partial.
 
 Notation "'Reduce' v" := (if v then Yes else No) (at level 100) : partial_scope.

@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Adjunction.Natural.Transformation.
@@ -56,7 +55,7 @@ Context {G : C ⟶ D}.
 Definition πD := comma_proj1.
 Definition πC := comma_proj2.
 
-Local Notation "⟨πD,πC⟩" := comma_proj (at level 100).
+#[local] Notation "⟨πD,πC⟩" := comma_proj (at level 100).
 
 Record lawvere_equiv := {
   lawvere_iso : F ↓ Id[C] ≅[Cat] Id[D] ↓ G;

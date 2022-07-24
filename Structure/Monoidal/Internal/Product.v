@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Morphisms.
@@ -22,7 +21,7 @@ Context {C : Category}.
 Context `{@Cartesian C}.
 Context `{@Terminal C}.
 
-Local Obligation Tactic :=
+#[local] Obligation Tactic :=
   unfold proj_left, proj_right; simpl;
   cat_simpl; try split; intros; unfork; cat.
 

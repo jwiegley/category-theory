@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.
@@ -33,7 +32,7 @@ Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x :=
 
 Infix "▽" := merge (at level 26) : morphism_scope.
 
-Global Program Instance merge_respects {x y z} :
+#[global] Program Instance merge_respects {x y z} :
   Proper (equiv ==> equiv ==> equiv) (@merge x y z).
 Next Obligation. apply (@fork_respects _ O). Qed.
 
@@ -50,15 +49,15 @@ Definition cover  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x + z ~{C}~> y + w :=
   (inl ∘ f) ▽ (inr ∘ g).
 
-Global Program Instance parametric_morphism_left {a b c : C} :
+#[global] Program Instance parametric_morphism_left {a b c : C} :
   Proper (equiv ==> equiv) (@left a b c).
 Next Obligation. apply (@parametric_morphism_first _ O). Qed.
 
-Global Program Instance parametric_morphism_right {a b c : C} :
+#[global] Program Instance parametric_morphism_right {a b c : C} :
   Proper (equiv ==> equiv) (@right a b c).
 Next Obligation. apply (@parametric_morphism_second _ O). Qed.
 
-Global Program Instance parametric_morphism_cover {a b c d : C} :
+#[global] Program Instance parametric_morphism_cover {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@cover a b c d).
 Next Obligation.
   proper.
@@ -73,19 +72,19 @@ Lemma inl_merge {x z w : C} (f : z ~> x) (g : w ~> x) :
   f ▽ g ∘ inl ≈ f.
 Proof. apply (@exl_fork _ O). Qed.
 
-Hint Rewrite @inl_merge : categories.
+#[local] Hint Rewrite @inl_merge : categories.
 
 Lemma inr_merge {x z w : C} (f : z ~> x) (g : w ~> x) :
   f ▽ g ∘ inr ≈ g.
 Proof. apply (@exr_fork _ O). Qed.
 
-Hint Rewrite @inr_merge : categories.
+#[local] Hint Rewrite @inr_merge : categories.
 
 Corollary merge_inl_inr {x y : C} :
   inl ▽ inr ≈ @id C (x + y).
 Proof. apply (@fork_exl_exr _ O). Qed.
 
-Hint Rewrite @merge_inl_inr : categories.
+#[local] Hint Rewrite @merge_inl_inr : categories.
 
 Corollary merge_inv {x y z : C} (f h : y ~> x) (g i : z ~> x) :
   f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i).
@@ -100,13 +99,13 @@ Ltac unmerge :=
   repeat (rewrite <- !merge_comp; cat;
           rewrite <- !comp_assoc; cat).
 
-Local Obligation Tactic := cat_simpl; unmerge.
+#[local] Obligation Tactic := cat_simpl; unmerge.
 
 Theorem left_id {x y : C} :
   left (id[x]) ≈ id[x + y].
 Proof. unfold left; cat. Qed.
 
-Hint Rewrite @left_id : categories.
+#[local] Hint Rewrite @left_id : categories.
 
 Theorem left_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
   left (z:=w) (f ∘ g) ≈ left f ∘ left g.
@@ -120,7 +119,7 @@ Theorem right_id {x y : C} :
   right (id[y]) ≈ id[x + y].
 Proof. unfold right; cat. Qed.
 
-Hint Rewrite @right_id : categories.
+#[local] Hint Rewrite @right_id : categories.
 
 Theorem right_comp {x y z w : C} (f : y ~> z) (g : x ~> y) :
   right (z:=w) (f ∘ g) ≈ right f ∘ right g.
@@ -134,25 +133,25 @@ Corollary inl_left {x y z : C} (f : x ~> y) :
   left f ∘ @inl x z ≈ inl ∘ f.
 Proof. apply (@exl_first _ O). Qed.
 
-Hint Rewrite @inl_left : categories.
+#[local] Hint Rewrite @inl_left : categories.
 
 Corollary inr_left {x y z : C} (f : x ~> y) :
   left f ∘ @inr x z ≈ inr.
 Proof. apply (@exr_first _ O). Qed.
 
-Hint Rewrite @inr_left : categories.
+#[local] Hint Rewrite @inr_left : categories.
 
 Corollary inl_right {x y z : C} (f : x ~> y) :
   right f ∘ @inl z x ≈ inl.
 Proof. apply (@exl_second _ O). Qed.
 
-Hint Rewrite @inl_right : categories.
+#[local] Hint Rewrite @inl_right : categories.
 
 Corollary inr_right {x y z : C} (f : x ~> y) :
   right f ∘ @inr z x ≈ inr ∘ f.
 Proof. apply (@exr_second _ O). Qed.
 
-Hint Rewrite @inr_right : categories.
+#[local] Hint Rewrite @inr_right : categories.
 
 Theorem paws_left {x y z : C} (f : x ~> y) :
   paws ∘ left (z:=z) f ≈ right f ∘ paws.
@@ -174,13 +173,13 @@ Definition paws_invol {x y : C} :
   paws ∘ paws ≈ @id C (x + y).
 Proof. unfold paws; apply (@swap_invol _ O). Qed.
 
-Hint Rewrite @paws_invol : categories.
+#[local] Hint Rewrite @paws_invol : categories.
 
 Theorem cover_id {x y : C} :
   cover (id[x]) (id[y]) ≈ id[x + y].
 Proof. now unmerge; cat. Qed.
 
-Hint Rewrite @cover_id : categories.
+#[local] Hint Rewrite @cover_id : categories.
 
 Theorem cover_comp {x y z w v u : C}
         (f : y ~> z) (h : x ~> y) (g : v ~> u) (i : w ~> v) :
@@ -253,7 +252,7 @@ Theorem cover_inr {x y z w : C} (f : x ~> y) (g : z ~> w):
   cover f g ∘ inr ≈ inr ∘ g.
 Proof. unmerge; cat. Qed.
 
-Global Program Instance coprod_respects_iso :
+#[global] Program Instance coprod_respects_iso :
   Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Coprod.
 Next Obligation.
   proper.
@@ -266,31 +265,31 @@ Defined.
 
 Context `{I : @Initial C}.
 
-Global Program Instance coprod_zero_l {x : C} :
+#[global] Program Instance coprod_zero_l {x : C} :
   0 + x ≅ x := {
   to   := zero ▽ id;
   from := inr
 }.
 Next Obligation. apply (@prod_one_l _ _ I). Qed.
 
-Hint Rewrite @coprod_zero_l : isos.
+#[local] Hint Rewrite @coprod_zero_l : isos.
 
-Global Program Instance coprod_zero_r {x : C} :
+#[global] Program Instance coprod_zero_r {x : C} :
   x + 0 ≅ x := {
   to   := id ▽ zero;
   from := inl
 }.
 Next Obligation. apply (@prod_one_r _ _ I). Qed.
 
-Hint Rewrite @coprod_zero_r : isos.
+#[local] Hint Rewrite @coprod_zero_r : isos.
 
-Global Program Instance coprod_comm  {x y : C} :
+#[global] Program Instance coprod_comm  {x y : C} :
   x + y ≅ y + x := {
   to   := paws;
   from := paws
 }.
 
-Global Program Instance coprod_assoc  {x y z : C} :
+#[global] Program Instance coprod_assoc  {x y z : C} :
   (x + y) + z ≅ x + (y + z) := {
   to   := (inl ▽ (inr ∘ inl)) ▽ (inr ∘ inr);
   from := (inl ∘ inl) ▽ ((inl ∘ inr) ▽ inr)
@@ -303,16 +302,11 @@ End Cocartesian_.
 Infix "+" := Coprod (at level 50, left associativity) : object_scope.
 Infix "▽" := merge (at level 26) : morphism_scope.
 
-#[global]
-Hint Rewrite @inl_merge : categories.
-#[global]
-Hint Rewrite @inr_merge : categories.
-#[global]
-Hint Rewrite @merge_inl_inr : categories.
-#[global]
-Hint Rewrite @coprod_zero_r : isos.
-#[global]
-Hint Rewrite @coprod_zero_l : isos.
+#[export] Hint Rewrite @inl_merge : categories.
+#[export] Hint Rewrite @inr_merge : categories.
+#[export] Hint Rewrite @merge_inl_inr : categories.
+#[export] Hint Rewrite @coprod_zero_r : isos.
+#[export] Hint Rewrite @coprod_zero_l : isos.
 
 Ltac unmerge :=
   unfold paws, cover, left, right; simpl;

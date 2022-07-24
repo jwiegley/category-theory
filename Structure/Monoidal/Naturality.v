@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Morphisms.
@@ -17,7 +16,7 @@ Section MonoidalNaturality.
 
 Context `{M : @Monoidal C}.
 
-Global Program Definition Tensor_Left {F : C ⟶ C} {y : C} : C ⟶ C := {|
+#[global] Program Definition Tensor_Left {F : C ⟶ C} {y : C} : C ⟶ C := {|
   fobj := fun x => (F x ⨂ y)%object;
   fmap := fun _ _ f => fmap[F] f ⨂[M] id
 |}.
@@ -26,7 +25,7 @@ Next Obligation.
 Defined.
 Next Obligation. normal; reflexivity. Qed.
 
-Global Program Instance Tensor_Left_Map `{@EndoFunctor C P} {y : C} :
+#[global] Program Instance Tensor_Left_Map `{@EndoFunctor C P} {y : C} :
   @EndoFunctor C (fun x => P x ⨂ y)%object := {
   map := fun _ _ f => map f ⨂ id;
   is_functor := @Tensor_Left is_functor _
@@ -44,7 +43,7 @@ Next Obligation.
   normal; reflexivity.
 Qed.
 
-Global Program Instance Tensor_Right {F : C ⟶ C} {x : C} : C ⟶ C := {
+#[global] Program Instance Tensor_Right {F : C ⟶ C} {x : C} : C ⟶ C := {
   fobj := fun y => (x ⨂ F y)%object;
   fmap := fun _ _ f => id ⨂[M] fmap[F] f
 }.
@@ -54,7 +53,7 @@ Next Obligation.
 Qed.
 Next Obligation. normal; reflexivity. Qed.
 
-Global Program Instance Tensor_Right_Map `{@EndoFunctor C P} {x : C} :
+#[global] Program Instance Tensor_Right_Map `{@EndoFunctor C P} {x : C} :
   @EndoFunctor C (fun y => x ⨂ P y)%object := {
   map := fun _ _ f => id ⨂ map f;
   is_functor := @Tensor_Right is_functor _
@@ -72,7 +71,7 @@ Next Obligation.
   normal; reflexivity.
 Qed.
 
-Global Program Definition Tensor_Both `{F : C ⟶ C} : C ⟶ C := {|
+#[global] Program Definition Tensor_Both `{F : C ⟶ C} : C ⟶ C := {|
   fobj := fun x => (F x ⨂ F x)%object;
   fmap := fun _ _ f => fmap[F] f ⨂[M] fmap[F] f
 |}.
@@ -82,7 +81,7 @@ Next Obligation.
 Qed.
 Next Obligation. normal; reflexivity. Qed.
 
-Global Program Instance Tensor_Both_Map `{@EndoFunctor C P} :
+#[global] Program Instance Tensor_Both_Map `{@EndoFunctor C P} :
   @EndoFunctor C (fun x => P x ⨂ P x)%object := {
   map := fun _ _ f => map f ⨂ map f;
   is_functor := @Tensor_Both is_functor

@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 
@@ -121,10 +120,8 @@ Notation "f << A ~~> B >> g" :=
 
 Coercion obj : Category >-> Sortclass.
 
-#[global]
-Hint Rewrite @id_left : categories.
-#[global]
-Hint Rewrite @id_right : categories.
+#[export] Hint Rewrite @id_left : categories.
+#[export] Hint Rewrite @id_right : categories.
 
 (** [Build_Category'] is a custom constructor that automatically provides the
     definition of [comp_assoc_sym]. It is intended to be used with the
@@ -210,11 +207,11 @@ Ltac comp_right :=
   try rewrite !comp_assoc;
   apply compose_respects; [|reflexivity].
 
-Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
+#[export] Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.
-Hint Extern 10 (?X ∘ (?Y ∘ ?Z) ≈ ?W) =>
+#[export] Hint Extern 10 (?X ∘ (?Y ∘ ?Z) ≈ ?W) =>
   rewrite <- comp_assoc; cat : category_laws.
-Hint Extern 10 ((?X ∘ ?Y) ∘ ?Z ≈ ?W) =>
+#[export] Hint Extern 10 ((?X ∘ ?Y) ∘ ?Z ≈ ?W) =>
   rewrite comp_assoc; cat : category_laws.
 
 Ltac rewrites :=

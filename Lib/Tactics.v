@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Export Category.Lib.Setoid.
 
@@ -63,28 +62,28 @@ Ltac cat :=
   auto with category_laws;
   try reflexivity.
 
-Hint Constructors Equivalence : core.
+#[export] Hint Constructors Equivalence : core.
 
-Hint Unfold Reflexive : core.
-Hint Unfold Symmetric : core.
-Hint Unfold Transitive : core.
+#[export] Hint Unfold Reflexive : core.
+#[export] Hint Unfold Symmetric : core.
+#[export] Hint Unfold Transitive : core.
 
-Hint Extern 1 (Reflexive ?X) =>
+#[export] Hint Extern 1 (Reflexive ?X) =>
   unfold Reflexive; auto : core.
-Hint Extern 1 (Symmetric ?X) =>
+#[export] Hint Extern 1 (Symmetric ?X) =>
   unfold Symmetric; intros; auto : core.
-Hint Extern 1 (Transitive ?X) =>
+#[export] Hint Extern 1 (Transitive ?X) =>
   unfold Transitive; intros; auto : core.
-Hint Extern 1 (Equivalence ?X) =>
+#[export] Hint Extern 1 (Equivalence ?X) =>
   apply Build_Equivalence : core.
-Hint Extern 1 (Proper _ _) => unfold Proper; auto : core.
-Hint Extern 8 (respectful _ _ _ _) =>
+#[export] Hint Extern 1 (Proper _ _) => unfold Proper; auto : core.
+#[export] Hint Extern 8 (respectful _ _ _ _) =>
   unfold respectful; auto : core.
 
-Hint Extern 4 (equiv ?A ?A) => reflexivity : category_laws.
-Hint Extern 6 (equiv ?X ?Y) =>
+#[export] Hint Extern 4 (equiv ?A ?A) => reflexivity : category_laws.
+#[export] Hint Extern 6 (equiv ?X ?Y) =>
   apply Equivalence_Symmetric : category_laws.
-Hint Extern 7 (equiv ?X ?Z) =>
+#[export] Hint Extern 7 (equiv ?X ?Z) =>
   match goal with
     [H : equiv ?X ?Y, H' : equiv ?Y ?Z |- equiv ?X ?Z] => transitivity Y
   end : category_laws.
@@ -114,7 +113,7 @@ Ltac cat_simpl :=
     simpl in *; cat];
   simpl in *.
 
-Global Obligation Tactic := cat_simpl.
+#[global] Obligation Tactic := cat_simpl.
 
 Ltac construct := unshelve econstructor; simpl; intros.
 

@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Structure.Bicartesian.
@@ -18,7 +17,7 @@ Context `{@Cartesian C}.
 Context `{@Cocartesian C}.
 Context `{@Closed C _}.
 
-Global Program Instance prod_coprod_l {x y z : C} :
+#[global] Program Instance prod_coprod_l {x y z : C} :
   (* Products distribute over coproducts in every bicartesian closed
      category. *)
   (y + z) × x ≅ y × x + z × x := {
@@ -41,7 +40,7 @@ Next Obligation.
   rewrite merge_comp; cat.
 Qed.
 
-Hint Rewrite @prod_coprod_l : isos.
+#[local] Hint Rewrite @prod_coprod_l : isos.
 
 Lemma uncurry_merge {x y z w : C} (f : x ~> y^z) (g : w ~> y^z) :
   uncurry (f ▽ g) ≈ uncurry f ▽ uncurry g ∘ to prod_coprod_l.
@@ -62,7 +61,7 @@ Proof.
   rewrite iso_to_from; cat.
 Qed.
 
-Global Program Instance prod_coprod_r {x y z : C} :
+#[global] Program Instance prod_coprod_r {x y z : C} :
   (* Products distribute over coproducts in every bicartesian closed
      category. *)
   x × (y + z) ≅ x × y + x × z := {
@@ -103,9 +102,9 @@ Next Obligation.
   rewrite merge_comp; cat.
 Qed.
 
-Hint Rewrite @prod_coprod_r : isos.
+#[local] Hint Rewrite @prod_coprod_r : isos.
 
-Global Program Instance exp_coprod {x y z : C} :
+#[global] Program Instance exp_coprod {x y z : C} :
   x^(y + z) ≅ x^y × x^z := {
   to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
   from := curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r)
@@ -173,31 +172,31 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Hint Rewrite @exp_coprod : isos.
+#[local] Hint Rewrite @exp_coprod : isos.
 
 Context `{@Initial C}.
 
-Global Program Instance prod_zero_l {x : C} :
+#[global] Program Instance prod_zero_l {x : C} :
   0 × x ≅ 0 := {
   to   := uncurry zero;
   from := zero
 }.
 Next Obligation. apply curry_inj; simpl; cat. Qed.
 
-Hint Rewrite @prod_zero_l : isos.
+#[local] Hint Rewrite @prod_zero_l : isos.
 
-Global Program Instance prod_zero_r {x : C} :
+#[global] Program Instance prod_zero_r {x : C} :
   x × 0 ≅ 0 := {
   to   := uncurry zero ∘ swap;
   from := zero
 }.
 Next Obligation. apply swap_inj_r, curry_inj; simpl; cat. Qed.
 
-Hint Rewrite @prod_zero_r : isos.
+#[local] Hint Rewrite @prod_zero_r : isos.
 
 Context `{@Terminal C}.
 
-Global Program Instance exp_zero {x : C} :
+#[global] Program Instance exp_zero {x : C} :
   x^0 ≅ 1 := {
   to   := one;
   from := curry (zero ∘ to prod_zero_r)

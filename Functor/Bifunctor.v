@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -31,7 +30,7 @@ Corollary bimap_fmap {F : C ∏ D ⟶ E} {x w : C} {y z : D}
   @fmap (C ∏ D) E F (x, y) (w, z) (f, g) = bimap f g.
 Proof. reflexivity. Defined.
 
-Global Program Instance bimap_respects {F : C ∏ D ⟶ E} {x w : C} {y z : D} :
+#[global] Program Instance bimap_respects {F : C ∏ D ⟶ E} {x w : C} {y z : D} :
   Proper (equiv ==> equiv ==> equiv) (@bimap F x w y z).
 Next Obligation.
   proper.
@@ -98,7 +97,7 @@ Proof.
   split; simpl; cat.
 Qed.
 
-Global Program Instance bifunctor_respects {F : C ∏ D ⟶ E} :
+#[global] Program Instance bifunctor_respects {F : C ∏ D ⟶ E} :
   Proper ((fun p q => Isomorphism (fst p) (fst q) ∧
                       Isomorphism (snd p) (snd q))
             ==> Isomorphism) F.
@@ -122,8 +121,7 @@ End Bifunctor.
 Notation "bimap[ F ]" := (@bimap _ _ _ F%functor _ _ _ _)
   (at level 9, format "bimap[ F ]") : morphism_scope.
 
-#[global]
-Hint Rewrite @bimap_id_id : categories.
+#[export] Hint Rewrite @bimap_id_id : categories.
 
 Ltac bimap_left :=
   apply bimap_respects; [reflexivity|].

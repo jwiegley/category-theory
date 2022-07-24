@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.Endo.
@@ -146,7 +145,7 @@ Next Obligation. now destruct x0. Qed.
 Program Instance optionF : EndoFunctor option :=
   Functor_EndoFunctor (F:=option_Functor).
 
-Global Program Instance option_Monad : @Monad Coq option_Functor := {
+#[global] Program Instance option_Monad : @Monad Coq option_Functor := {
   ret := @Some;
   join := λ _ x,
     match x with

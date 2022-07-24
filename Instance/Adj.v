@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -11,7 +10,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Local Obligation Tactic := intros.
+#[local] Obligation Tactic := intros.
 
 (* The category Adj(C,D), of adjoint functors between C and D:
 

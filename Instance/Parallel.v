@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -45,7 +44,7 @@ Proof. destruct f; reflexivity. Qed.
 Lemma ParHom_Id_false_absurd : ∀ x, ParHom false x x -> False.
 Proof. inversion 1. Qed.
 
-Local Hint Extern 4 =>
+#[local] Hint Extern 4 =>
   match goal with
     [ H : ParHom false ?X ?X |- _ ] =>
     contradiction (ParHom_Id_false_absurd X H)
@@ -54,13 +53,13 @@ Local Hint Extern 4 =>
 Lemma ParHom_Y_X_absurd : ∀ b, ParHom b ParY ParX -> False.
 Proof. inversion 1. Qed.
 
-Local Hint Extern 4 =>
+#[local] Hint Extern 4 =>
   match goal with
     [ H : ParHom ?B ParY ParX |- _ ] =>
     contradiction (ParHom_Y_X_absurd B H)
   end : parallel_laws.
 
-Local Ltac reduce :=
+#[local] Ltac reduce :=
   repeat match goal with
   | [ H : ParObj |- _ ] => destruct H
   | [ H : bool   |- _ ] => destruct H

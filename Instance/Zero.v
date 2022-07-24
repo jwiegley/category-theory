@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -11,7 +10,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Local Obligation Tactic :=
+#[local] Obligation Tactic :=
   intros; try match goal with [ H : Empty_set |- _ ] => inversion H end.
 
 Program Definition _0 : Category := {|

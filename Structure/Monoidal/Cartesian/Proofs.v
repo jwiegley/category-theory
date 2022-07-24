@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Morphisms.
@@ -206,7 +205,7 @@ Proof.
   normal; reflexivity.
 Qed.
 
-Local Obligation Tactic := intros; simplify; simpl in *; intros; normal.
+#[local] Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 
 Program Instance diagonal_monic {x} :
   Monic ∆x.
@@ -247,7 +246,7 @@ Proof.
   reflexivity.
 Qed.
 
-Global Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
+#[global] Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
   product_obj := fun x y => (x ⨂ y)%object;
   fork := fun x _ _ f g => f ⨂ g ∘ ∆x;
   exl  := fun _ _ => proj_left;

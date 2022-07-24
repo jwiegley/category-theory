@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Monad.
@@ -13,7 +12,7 @@ Section Kleisli.
 
 Context `{@Monad C M}.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
 Program Definition Kleisli : Category := {|
   obj     := C;

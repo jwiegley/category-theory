@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
@@ -30,12 +29,12 @@ Proof. destruct f; reflexivity. Qed.
 Lemma TwoDHom_X_Y_absurd : TwoDHom TwoDX TwoDY -> False.
 Proof. inversion 1. Qed.
 
-Hint Extern 4 => contradiction TwoDHom_X_Y_absurd : two_laws.
+#[export] Hint Extern 4 => contradiction TwoDHom_X_Y_absurd : two_laws.
 
 Lemma TwoDHom_Y_X_absurd : TwoDHom TwoDY TwoDX -> False.
 Proof. inversion 1. Qed.
 
-Hint Extern 4 => contradiction TwoDHom_Y_X_absurd : two_laws.
+#[export] Hint Extern 4 => contradiction TwoDHom_Y_X_absurd : two_laws.
 
 (* The discrete category 2 has two objects and their identity morphisms. *)
 

@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
@@ -41,7 +40,7 @@ Definition setoid_morphism_id {x : SetoidObject} : SetoidMorphism x x := {|
   morphism := Datatypes.id
 |}.
 
-Hint Unfold setoid_morphism_id : core.
+#[export] Hint Unfold setoid_morphism_id : core.
 
 Program Definition setoid_morphism_compose {x y C : SetoidObject}
         (g : SetoidMorphism y C)
@@ -55,7 +54,7 @@ Next Obligation.
   assumption.
 Qed.
 
-Hint Unfold setoid_morphism_compose : core.
+#[export] Hint Unfold setoid_morphism_compose : core.
 
 (* The category of setoids.
 

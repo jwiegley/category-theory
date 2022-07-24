@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Functor.Construction.Product.
@@ -20,7 +19,7 @@ Context `{@CartesianMonoidal C _}.
 Context {F : C ⟶ C}.
 Context {G : C ⟶ C}.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
 Program Definition ProductFunctor_Strong :
   StrongFunctor F -> StrongFunctor G

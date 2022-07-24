@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.Endo.
@@ -59,7 +58,7 @@ Record AlgHom {S : OpSignature} (A : OpAlgebra S) (B : OpAlgebra S) := {
 
 Arguments map {_ _ _} _.
 
-Global Program Instance AlgHom_Setoid
+#[global] Program Instance AlgHom_Setoid
     {S : OpSignature} (A : OpAlgebra S) (B : OpAlgebra S) :
   Setoid (AlgHom A B) := {|
   equiv := fun f g : AlgHom A B => forall x : A, f x = g x
@@ -438,7 +437,7 @@ Record Interface := {
 Definition Component (required provided : Interface) : Type :=
   { f : Interface -> Interface & f required = provided }.
 
-Global Program Instance Component_Setoid {req prov : Interface} :
+#[global] Program Instance Component_Setoid {req prov : Interface} :
   Setoid (Component req prov) := {|
   equiv := fun f g : Component req prov => f = g
 |}.

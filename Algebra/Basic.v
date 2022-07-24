@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.
@@ -27,27 +26,27 @@ Context `{@Terminal C}.
 Context `{@Initial C}.
 Context `{@Cocartesian C}.
 
-Hint Resolve coprod_zero_r : core.
-Hint Resolve coprod_zero_l : core.
-Hint Resolve coprod_comm : core.
-Hint Resolve coprod_assoc : core.
-Hint Resolve prod_zero_r : core.
-Hint Resolve prod_zero_l : core.
-Hint Resolve prod_one_r : core.
-Hint Resolve prod_one_l : core.
-Hint Resolve prod_assoc : core.
-Hint Resolve prod_comm : core.
-Hint Resolve exp_zero : core.
-Hint Resolve exp_one : core.
-Hint Resolve one_exp : core.
-Hint Resolve prod_coprod_l : core.
-Hint Resolve prod_coprod_r : core.
-Hint Resolve exp_swap : core.
-Hint Resolve exp_prod_l : core.
-Hint Resolve exp_prod_r : core.
-Hint Resolve exp_coprod : core.
+#[local] Hint Resolve coprod_zero_r : core.
+#[local] Hint Resolve coprod_zero_l : core.
+#[local] Hint Resolve coprod_comm : core.
+#[local] Hint Resolve coprod_assoc : core.
+#[local] Hint Resolve prod_zero_r : core.
+#[local] Hint Resolve prod_zero_l : core.
+#[local] Hint Resolve prod_one_r : core.
+#[local] Hint Resolve prod_one_l : core.
+#[local] Hint Resolve prod_assoc : core.
+#[local] Hint Resolve prod_comm : core.
+#[local] Hint Resolve exp_zero : core.
+#[local] Hint Resolve exp_one : core.
+#[local] Hint Resolve one_exp : core.
+#[local] Hint Resolve prod_coprod_l : core.
+#[local] Hint Resolve prod_coprod_r : core.
+#[local] Hint Resolve exp_swap : core.
+#[local] Hint Resolve exp_prod_l : core.
+#[local] Hint Resolve exp_prod_r : core.
+#[local] Hint Resolve exp_coprod : core.
 
-Hint Extern 4 => intros x y z; transitivity ((x^z)^y); auto : core.
+#[local] Hint Extern 4 => intros x y z; transitivity ((x^z)^y); auto : core.
 
 Goal ∀ x : C,        x + 0 ≅ x.                          auto. Qed.
 Goal ∀ x : C,        0 + x ≅ x.                          auto. Qed.

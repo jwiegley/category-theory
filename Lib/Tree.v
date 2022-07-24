@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 From Equations Require Import Equations.
 Require Import Equations.Type.EqDec.

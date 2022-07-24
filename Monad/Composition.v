@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Monad.
@@ -20,9 +19,9 @@ Section MonadComposition.
    that M distributes over N according to Monad_Distributive, it can be shown
    that M ◯ N is always a Monad. *)
 
-Local Obligation Tactic := idtac.
+#[local] Obligation Tactic := idtac.
 
-Global Program Instance Monad_Composition `{Monad_Distributive} :
+#[global] Program Instance Monad_Composition `{Monad_Distributive} :
   @Monad _ (M ◯ N) := {
   ret  := fun _ => ret[M] ∘ pure[N];
   join := fun _ => join[M] ∘ fmap[M] prod

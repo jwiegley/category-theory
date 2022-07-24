@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
@@ -83,9 +82,9 @@ Proof.
   assumption.
 Qed.
 
-Hint Unfold Bimorphic : core.
-Hint Unfold SplitEpi : core.
-Hint Unfold SplitMono : core.
+#[local] Hint Unfold Bimorphic : core.
+#[local] Hint Unfold SplitEpi : core.
+#[local] Hint Unfold SplitMono : core.
 
 Section Lemmas.
 
@@ -148,9 +147,9 @@ Qed.
 
 End Morphisms.
 
-Hint Unfold Bimorphic : core.
-Hint Unfold SplitEpi : core.
-Hint Unfold SplitMono : core.
+#[export] Hint Unfold Bimorphic : core.
+#[export] Hint Unfold SplitEpi : core.
+#[export] Hint Unfold SplitMono : core.
 
 Definition flip_Section {C : Category} `(f : x ~> y)
            (s : @Section C x y f) : @Retraction C y x section.

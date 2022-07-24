@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Morphisms.
@@ -15,7 +14,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Local Obligation Tactic := intros; simplify; simpl in *; intros; normal.
+#[local] Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 
 (* This reflects the fact that categories are themselves "monoidoids", or
    monoidal with respect to identity and composition.  *)

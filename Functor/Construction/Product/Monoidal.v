@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Functor.Product.
@@ -26,7 +25,7 @@ Context `{@Monoidal K}.
 Context {F : C ⟶ J}.
 Context {G : D ⟶ K}.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
 Lemma ProductFunctor_Monoidal_ap_functor_iso :
   MonoidalFunctor F → MonoidalFunctor G
@@ -695,7 +694,7 @@ Proof.
     reflexivity.
 Defined.
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
 Program Definition ProductFunctor_fst_LaxMonoidal :
   LaxMonoidalFunctor P

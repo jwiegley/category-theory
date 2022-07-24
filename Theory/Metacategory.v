@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Functor.
@@ -144,9 +143,9 @@ Proof.
   try solve [ apply c ].
 Qed.
 
-Local Obligation Tactic := intros.
+#[local] Obligation Tactic := intros.
 
-Global Program Definition FromArrows (M : Metacategory) : Category := {|
+#[global] Program Definition FromArrows (M : Metacategory) : Category := {|
   (* The objects of the category are given by all the identity arrows of the
      arrows-only metacategory. *)
   obj := ∃ i : arr M, identity M i;
@@ -263,7 +262,7 @@ Ltac check_structure :=
         | unshelve (structure; eexists; structure); exact 0%nat
         | structure ].
 
-Local Obligation Tactic := program_simpl; check_structure.
+#[local] Obligation Tactic := program_simpl; check_structure.
 
 Program Definition ZeroArrows : Metacategory := {|
   pairs := [map]
@@ -412,7 +411,7 @@ Qed.
 (* Definition objects_of (M : Metacategory) : *)
 (*   ∀ P : nat → Type, P 0%nat → (∀ n : nat, P n → P (S n)) → ∀ n : nat, P n *)
 
-Local Obligation Tactic := program_simpl.
+#[local] Obligation Tactic := program_simpl.
 
 (*
 Program Definition FromThree {C : Category} (c : C) : Three ⟶ C := {|

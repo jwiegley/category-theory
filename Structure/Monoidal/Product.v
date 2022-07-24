@@ -1,5 +1,4 @@
 Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-without-locality".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Morphisms.
@@ -15,7 +14,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Local Obligation Tactic := simpl; intros; simplify; simpl in *.
+#[local] Obligation Tactic := simpl; intros; simplify; simpl in *.
 
 #[global]
 Program Instance Product_Monoidal `{@Monoidal C} `{@Monoidal D} :
