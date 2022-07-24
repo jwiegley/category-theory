@@ -53,8 +53,8 @@ Proof.
      following diagram commutes..." *)
   assert (unit_left ∘ id ⨂ unit_left
             << I ⨂ (I ⨂ x) ~~> x >>
-          unit_left ∘ unit_left).
-    rewrite to_unit_left_natural; reflexivity.
+            unit_left ∘ unit_left)
+    by (rewrite to_unit_left_natural; reflexivity).
 
   (* "Since lX is an isomorphism, the first identity follows." *)
   symmetry.
@@ -71,8 +71,8 @@ Proof.
      following diagram commutes..." *)
   assert (unit_right ∘ unit_right ⨂ id
             << (x ⨂ I) ⨂ I ~~> x >>
-          unit_right ∘ unit_right).
-    rewrite to_unit_right_natural; reflexivity.
+          unit_right ∘ unit_right)
+    by (rewrite to_unit_right_natural; reflexivity).
 
   (* "The second one follows similarly from naturality of r." *)
   symmetry.
@@ -93,7 +93,7 @@ Proof.
   pose proof (to_tensor_assoc_natural (id[x]) (@unit_left _ _ y) (id[z])) as X0.
   assert (X1 : ∀ x y z w (f g : (x ⨂ y) ⨂ z ~> w),
              f ≈ g -> f ∘ tensor_assoc⁻¹ ≈ g ∘ tensor_assoc⁻¹).
-    intros; rewrites; reflexivity.
+  { intros; rewrites; reflexivity. }
   apply X1 in X0.
   rewrite <- !comp_assoc in X0.
   rewrite iso_to_from, id_right in X0.
