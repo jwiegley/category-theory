@@ -149,12 +149,16 @@ apply P.fold_rec.
         rewrite <- H2.
         simplify_maps.
         intuition.
-        rewrite <- H4.
+        match goal with
+        | H : M.Equal _ _ |- _ => rewrite <- H
+        end.
         simplify_maps.
       simplify_maps.
       simplify_maps.
       intuition.
-      rewrite <- H4.
+      match goal with
+      | H : M.Equal _ _ |- _ => rewrite <- H
+      end.
       simplify_maps.
     * intros H0. simplify_maps.
     rewrite <- H4 in H2.
@@ -177,7 +181,9 @@ apply P.fold_rec.
   *
   rewrite <- H4 in H2; clear H4.
   simplify_maps.
-  rewrite H0 in Heqe.
+  match goal with
+  | H : E.eq _ _ |- _ => rewrite H in *
+  end.
   congruence.
 Qed.
 
