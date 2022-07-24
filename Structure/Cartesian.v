@@ -79,8 +79,7 @@ Corollary exl_fork {x z w : C} (f : x ~> z) (g : x ~> w) :
   exl ∘ f △ g ≈ f.
 Proof.
   intros.
-  apply (ump_products f g (f △ g)).
-  reflexivity.
+  now apply (ump_products f g (f △ g)).
 Qed.
 
 #[local] Hint Rewrite @exl_fork : categories.
@@ -89,8 +88,7 @@ Corollary exr_fork {x z w : C} (f : x ~> z) (g : x ~> w) :
   exr ∘ f △ g ≈ g.
 Proof.
   intros.
-  apply (ump_products f g (f △ g)).
-  reflexivity.
+  now apply (ump_products f g (f △ g)).
 Qed.
 
 #[local] Hint Rewrite @exr_fork : categories.
@@ -110,8 +108,8 @@ Corollary fork_inv {x y z : C} (f h : x ~> y) (g i : x ~> z) :
 Proof.
   pose proof (ump_products h i (f △ g)) as HA;
   simplify; intuition.
-  - rewrites; cat.
-  - rewrites; cat.
+  - now rewrite exl_fork in a.
+  - now rewrite exr_fork in b.
   - apply X0; cat.
 Qed.
 
@@ -145,10 +143,8 @@ Proof.
   rewrite <- id_left.
   rewrite <- (id_left g).
   rewrite <- swap_invol.
-  rewrite <- comp_assoc.
-  rewrites.
-  rewrite comp_assoc.
-  reflexivity.
+  rewrite <- !comp_assoc.
+  now apply compose_respects.
 Qed.
 
 Definition swap_inj_r {x y z : C} (f g : x × y ~> z) :
@@ -158,10 +154,8 @@ Proof.
   rewrite <- id_right.
   rewrite <- (id_right g).
   rewrite <- swap_invol.
-  rewrite comp_assoc.
-  rewrites.
-  rewrite <- comp_assoc.
-  reflexivity.
+  rewrite !comp_assoc.
+  now apply compose_respects.
 Qed.
 
 Theorem first_id {x y : C} :
@@ -274,7 +268,7 @@ Proof. unfork; cat. Qed.
 Theorem split_fork {x y z w v : C}
           (f : y ~> w) (h : z ~> v) (g : x ~> y) (i : x ~> z):
   split f h ∘ g △ i ≈ (f ∘ g) △ (h ∘ i).
-Proof. unfold split; intros; unfork. Qed.
+Proof. unfork. Qed.
 
 #[global] Program Instance prod_respects_iso :
   Proper (Isomorphism ==> Isomorphism ==> Isomorphism) product_obj.
