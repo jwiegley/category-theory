@@ -13,6 +13,7 @@
 .nia.cache
 .nra.cache
 /.Makefile.d
+/.Makefile.coq.d
 /.coqdeps.d
 /Book.aux
 /Book.bbl
@@ -30,5 +31,4 @@
 /coqdoc.sty
 /html/
 log_*.txt
-/.Makefile.coq.d
 /build.log
