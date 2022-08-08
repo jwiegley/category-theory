@@ -23,3 +23,10 @@ install: _CoqProject Makefile.coq
 
 fullclean: clean
 	rm -f Makefile.coq Makefile.coq.conf .Makefile.d
+
+force _CoqProject Makefile: ;
+
+%: Makefile.coq force
+	@+$(MAKE) -f Makefile.coq $@
+
+.PHONY: all clean force
