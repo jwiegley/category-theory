@@ -93,6 +93,38 @@ Qed.
 
 #[local] Hint Rewrite @exr_fork : categories.
 
+Corollary exl_fork_assoc {x y z w} (f : x ~> z) (g : z ~> w) (h : x ~> y) :
+  g ∘ exl ∘ (f △ h) ≈ g ∘ f.
+Proof.
+  rewrite <- comp_assoc.
+  apply compose_respects; try reflexivity.
+  apply exl_fork.
+Qed.
+
+Corollary exr_fork_assoc {x y z w} (f : x ~> z) (g : y ~> w) (h : x ~> y) :
+  g ∘ exr ∘ (f △ h) ≈ g ∘ h.
+Proof.
+  rewrite <- comp_assoc.
+  apply compose_respects; try reflexivity.
+  apply exr_fork.
+Qed.
+
+Corollary exl_fork_comp {x y z w} (f : x ~> y) (g : x ~> z) (h : w ~> x) :
+  exl ∘ ((f △ g) ∘ h) ≈ f ∘ h.
+Proof.
+  rewrite comp_assoc.
+  rewrite exl_fork.
+  reflexivity.
+Qed.
+
+Corollary exr_fork_comp {x y z w} (f : x ~> y) (g : x ~> z) (h : w ~> x) :
+  exr ∘ ((f △ g) ∘ h) ≈ g ∘ h.
+Proof.
+  rewrite comp_assoc.
+  rewrite exr_fork.
+  reflexivity.
+Qed.
+
 Corollary fork_exl_exr {x y : C} :
   exl △ exr ≈ @id C (x × y).
 Proof.
