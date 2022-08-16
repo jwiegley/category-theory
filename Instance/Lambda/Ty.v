@@ -9,8 +9,8 @@ Set Equations With UIP.
 Section Ty.
 
 Inductive Ty : Type :=
-  | TyUnit : Ty
-  | TyPair : Ty → Ty → Ty
+  | TyUnit  : Ty
+  | TyPair  : Ty → Ty → Ty
   | TyArrow : Ty → Ty → Ty.
 
 Derive NoConfusion NoConfusionHom Subterm EqDec for Ty.

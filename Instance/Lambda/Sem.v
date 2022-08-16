@@ -81,13 +81,13 @@ Qed.
 
 Fixpoint SemExp `(e : Exp Γ τ) : SemEnv Γ → SemTy τ :=
   match e with
-  | EUnit         => λ _, tt
-  | Pair x y      => λ se, (SemExp x se, SemExp y se)
-  | Fst p         => λ se, fst (SemExp p se)
-  | Snd p         => λ se, snd (SemExp p se)
-  | VAR v         => SemVar v
-  | LAM e         => λ se x, SemExp e (x, se)
-  | APP e1 e2     => λ se, SemExp e1 se (SemExp e2 se)
+  | EUnit     => λ _, tt
+  | Pair x y  => λ se, (SemExp x se, SemExp y se)
+  | Fst p     => λ se, fst (SemExp p se)
+  | Snd p     => λ se, snd (SemExp p se)
+  | VAR v     => SemVar v
+  | LAM e     => λ se x, SemExp e (x, se)
+  | APP e1 e2 => λ se, SemExp e1 se (SemExp e2 se)
   end.
 
 Equations SubSem {Γ Γ'} (s : Sub Γ Γ') (se : SemEnv Γ) : SemEnv Γ' :=
