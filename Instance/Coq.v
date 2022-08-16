@@ -13,13 +13,13 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 #[global]
-Program Definition Coq : Category := {|
+Program Instance Coq : Category := {
   obj     := Type;
   hom     := λ A B : Type, A -> B;
   homset  := λ _ _, {| equiv := λ f g, ∀ x, f x = g x |};
   id      := λ _ x, x;
   compose := λ _ _ _ g f x, g (f x)
-|}.
+}.
 Next Obligation. equivalence; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
 

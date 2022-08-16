@@ -80,8 +80,8 @@ Program Fixpoint interp `(c : Hom a b) :
   | Merge f g   => merge (interp f) (interp g)
   end.
 
-#[global]
-Program Definition AST : Category := {|
+#[local]
+Program Instance AST : Category := {
   obj     := Obj;
   hom     := Hom;
   id      := @Id;
@@ -95,7 +95,7 @@ Program Definition AST : Category := {|
                 `{@Terminal C}
                 `{@Initial C},
            interp f ≈ interp g |}
-|}.
+}.
 Next Obligation.
   equivalence.
   transitivity (interp y); auto.
