@@ -17,7 +17,7 @@ Open Scope Ty_scope.
 (* [ValueP] is an inductive proposition that indicates whether an expression
    represents a value, i.e., that it does reduce any further. *)
 Inductive ValueP Γ : ∀ {τ}, Exp Γ τ → Prop :=
-  | UnitP        : ValueP Γ EUnit
+  | UnitP : ValueP Γ EUnit
   | PairP {τ1 τ2} {x : Exp Γ τ1} {y : Exp Γ τ2} :
     ValueP Γ x → ValueP Γ y → ValueP Γ (Pair x y)
   | LambdaP {dom cod} (e : Exp (dom :: Γ) cod) : ValueP Γ (LAM e).

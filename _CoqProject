@@ -84,7 +84,7 @@ Instance/Shapes.v
 Instance/Two.v
 Instance/Two/Discrete.v
 Instance/Zero.v
-Instance/Lambda/ilist.v
+Instance/Lambda/IList.v
 Instance/Lambda/Lib.v
 Instance/Lambda/Ltac.v
 Instance/Lambda/Ty.v
