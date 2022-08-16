@@ -130,19 +130,19 @@ Next Obligation. now rewrite 2 op_commute. Qed.
     algebras of that signature, and as morphisms all homomorphisms between
     them. *)
 
-Program Instance Algs : Category := {
+Program Definition Algs : Category := {|
   obj     := OpAlgebra S;
   hom     := AlgHom;
   homset  := AlgHom_Setoid;
   id      := Alg_id;
   compose := Alg_comp
-}.
+|}.
 Next Obligation. proper. now rewrite H, H0. Qed.
 
-Program Instance Algs_Terminal : @Terminal Algs := {
+Program Definition Algs_Terminal : @Terminal Algs := {|
   terminal_obj := {| carrier := unit : Type; op := fun _ _ => tt |};
   one := fun x : OpAlgebra S => {| map := fun a => tt |}
-}.
+|}.
 Next Obligation.
   destruct f, g; simpl in *.
   now destruct (map0 x0), (map1 x0).
@@ -446,13 +446,13 @@ Definition Component (required provided : Interface) : Type :=
     simply morphisms between algebras, but not necessarily homomorphic. *)
 
 #[global]
-Program Instance Comp : Category := {
+Program Definition Comp : Category := {|
   obj     := Interface;
   hom     := Component;
   homset  := @Component_Setoid;
   id      := fun x => (fun req => req; reflexivity _);
   compose := fun _ _ _ f g => (fun req => `1 f (`1 g req); _)
-}.
+|}.
 Next Obligation.
   destruct f, g; simpl in *.
   now rewrite e0, e.

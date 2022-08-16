@@ -17,7 +17,7 @@ Context {C : Category}.
 
 (* Given any category, the Cayley representation forces all associations to
    the left. *)
-Program Instance Cayley : Category := {
+Program Definition Cayley : Category := {|
   obj     := C;
   hom     := fun x y =>
     { f : ∀ r, (y ~> r) -> (x ~> r)
@@ -26,7 +26,7 @@ Program Instance Cayley : Category := {
   homset  := fun x y => {| equiv := fun f g => ∀ r k, `1 f r k ≈ `1 g r k |};
   id      := fun _ => (fun _ => Datatypes.id; _);
   compose := fun x y z f g  => (fun r k => `1 g r (`1 f r k); _)
-}.
+|}.
 Next Obligation.
   equivalence.
   now rewrite X, X0.

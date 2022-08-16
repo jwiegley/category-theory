@@ -81,7 +81,7 @@ Program Fixpoint interp `(c : Hom a b) :
   end.
 
 #[global]
-Program Instance AST : Category := {
+Program Definition AST : Category := {|
   obj     := Obj;
   hom     := Hom;
   id      := @Id;
@@ -95,7 +95,7 @@ Program Instance AST : Category := {
                 `{@Terminal C}
                 `{@Initial C},
            interp f ≈ interp g |}
-}.
+|}.
 Next Obligation.
   equivalence.
   transitivity (interp y); auto.
