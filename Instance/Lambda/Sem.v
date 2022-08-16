@@ -1,5 +1,5 @@
 Require Import
-  ilist
+  Category.Instance.Lambda.IList
   Category.Instance.Lambda.Lib
   Category.Instance.Lambda.Ty
   Category.Instance.Lambda.Exp
