@@ -67,7 +67,7 @@ avoid repetition when stating the dual of whole structures.
 As a result, the definition of comonads, for example, is reduced to one line:
 
     Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op).
-    
+
 Most dual constructions are similarly defined, with the exception of `Initial`
 and `Cocartesian` structures. Although the core classes are indeed defined in
 terms of their dual construction, an alternate surface syntax and set of

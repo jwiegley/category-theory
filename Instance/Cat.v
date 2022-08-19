@@ -14,7 +14,11 @@ Set Transparent Obligations.
     arrows                Functors
     arrow equivalence     Natural Isomorphisms
     identity              Identity Functor
-    composition           Horizontal composition of Functors *)
+    composition           Horizontal composition of Functors
+
+    isomorphisms          Equivalences of Categories (caused by the definition
+                          of [Functor_Setoid]).
+*)
 
 #[global]
 Program Instance Cat : Category := {

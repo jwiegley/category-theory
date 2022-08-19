@@ -4,7 +4,7 @@ There are at least four ways to specify an adjunction F ⊣ G:
 
 1. A bijective mapping between hom-sets `F a ~> b` and `a ~> U b`, natural in
    `a` and `b`. This is the definition given in `Category.Theory.Adjunction`.
-   
+
 2. A pair of `unit` and `counit` natural transformations, and that they
    compose to the identity functor in certain ways. This is given in
    `Category.Adjunction.Natural.Transformation`.
