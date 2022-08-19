@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Unique.
 Require Export Category.Structure.Wedge.
 
 Generalizable All Variables.

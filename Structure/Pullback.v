@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Category.
-Require Export Category.Theory.Unique.
 
 Generalizable All Variables.
 Set Primitive Projections.
