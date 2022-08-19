@@ -37,9 +37,9 @@ Next Obligation.
   rewrite comp_assoc.
   reflexivity.
 Defined.
-Next Obligation. proper. Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
+Next Obligation. now repeat intro. Qed.
+Next Obligation. now split. Qed.
+Next Obligation. now split. Qed.
 
 #[global]
 Program Instance Comma_Iso_from_Left {A : Category} {B : Category} {C : Category}
@@ -53,14 +53,13 @@ Next Obligation.
   exists ``f; simpl.
   rewrite comp_assoc.
   rewrite <- (`2 f).
-  rewrite <- comp_assoc.
-  rewrite <- naturality.
-  rewrite comp_assoc.
-  reflexivity.
+  do 2 rewrite <- comp_assoc.
+  apply compose_respects; try reflexivity.
+  now rewrite <- naturality.
 Defined.
-Next Obligation. proper. Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
+Next Obligation. now repeat intro. Qed.
+Next Obligation. now split. Qed.
+Next Obligation. now split. Qed.
 
 #[global]
 Program Instance Comma_Iso_to_Right {A : Category} {B : Category} {C : Category}
@@ -79,9 +78,9 @@ Next Obligation.
   rewrite comp_assoc.
   reflexivity.
 Defined.
-Next Obligation. proper. Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
+Next Obligation. now repeat intro. Qed.
+Next Obligation. now split. Qed.
+Next Obligation. now split. Qed.
 
 #[global]
 Program Instance Comma_Iso_from_Right {A : Category} {B : Category} {C : Category}
@@ -100,9 +99,9 @@ Next Obligation.
   rewrite comp_assoc.
   reflexivity.
 Defined.
-Next Obligation. proper. Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
+Next Obligation. now repeat intro. Qed.
+Next Obligation. now split. Qed.
+Next Obligation. now split. Qed.
 
 #[global]
 Program Instance Comma_Iso {A : Category} {B : Category} {C : Category} :
@@ -123,7 +122,14 @@ Next Obligation.
         srewrite (iso_to_from X); cat.
       + clear; simpl; cat.
       + clear; simpl; cat.
-      + clear; simpl; split; cat.
+      + clear; simpl.
+        split.
+        * symmetry.
+          rewrite id_right.
+          apply id_left.
+        * symmetry.
+          rewrite id_right.
+          apply id_left.
     - constructive; simpl.
       + exists (id, id); cat.
         rewrite <- comp_assoc; simpl;
@@ -131,9 +137,12 @@ Next Obligation.
       + exists (id, id); cat.
         rewrite <- comp_assoc; simpl;
         srewrite (iso_from_to X); cat.
-      + clear; simpl; cat.
-      + clear; simpl; cat.
-      + clear; simpl; split; cat.
+      + clear; simpl.
+        split; apply id_left.
+      + clear; simpl.
+        split; apply id_left.
+      + clear; simpl.
+        split; rewrite id_right; symmetry; apply id_left.
   }
   isomorphism; simpl.
   - apply Comma_Iso_to_Right; assumption.
@@ -147,7 +156,8 @@ Next Obligation.
       srewrite (iso_to_from X0); cat.
     + clear; simpl; cat.
     + clear; simpl; cat.
-    + clear; simpl; split; cat.
+    + clear; simpl.
+      split; symmetry; rewrite id_right; apply id_left.
   - constructive; simpl.
     + exists (id, id); cat.
       rewrite comp_assoc; simpl;
@@ -155,7 +165,10 @@ Next Obligation.
     + exists (id, id); cat.
       rewrite comp_assoc; simpl;
       srewrite (iso_from_to X0); cat.
-    + clear; simpl; cat.
-    + clear; simpl; cat.
-    + clear; simpl; split; cat.
+    + clear; simpl.
+      split; apply id_left.
+    + clear; simpl.
+      split; apply id_left.
+    + clear; simpl.
+      split; symmetry; rewrite id_right; apply id_left.
 Qed.
