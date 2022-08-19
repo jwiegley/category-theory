@@ -39,7 +39,7 @@ Next Obligation.
     rewrite (RoofHom_inv _ _ f); cat.
   }
   destruct P, limit_cone; simpl in *.
-  exists (unique_morphism (ump_limits cone)). {
+  exists (unique_obj (ump_limits cone)). {
     split;
     [ pose proof (unique_property (ump_limits cone) RNeg)
     | pose proof (unique_property (ump_limits cone) RPos) ];
