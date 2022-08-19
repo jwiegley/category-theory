@@ -28,6 +28,8 @@ Context {T : B ⟶ C}.
    the notation originally used by Lawvere, which involved the comma
    punctuation mark." *)
 
+#[local] Obligation Tactic := idtac.
+
 Program Definition Comma : Category := {|
   obj     := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p);
   hom     := fun x y =>
@@ -39,7 +41,18 @@ Program Definition Comma : Category := {|
   compose := fun _ _ _ f g => ((fst `1 f ∘ fst `1 g, snd `1 f ∘ snd `1 g); _)
 |}.
 Next Obligation.
-  simpl in *.
+  intros [[]] [[]]; simpl in *; equivalence.
+Qed.
+Next Obligation.
+  intros.
+  simpl.
+  rewrite !fmap_id.
+  rewrite id_left, id_right.
+  reflexivity.
+Qed.
+Next Obligation.
+  intros ? ? ?; simpl.
+  intros [[]] [[]]; simpl in *.
   rewrite !fmap_comp.
   rewrite comp_assoc.
   rewrites.
@@ -47,19 +60,58 @@ Next Obligation.
   rewrites.
   reflexivity.
 Qed.
+Next Obligation.
+  intros ? ? ? ? ? [e0 e1] ? ? [e2 e3].
+  split.
+  - now simpl; rewrite e0, e2.
+  - now simpl; rewrite e1, e3.
+Qed.
+Next Obligation.
+  intros; simpl.
+  split; now rewrite id_left.
+Qed.
+Next Obligation.
+  intros. simpl.
+  split; now rewrite id_right.
+Qed.
+Next Obligation.
+  intros.
+  simpl.
+  split; apply comp_assoc.
+Qed.
+Next Obligation.
+  intros. simpl.
+  split; apply comp_assoc_sym.
+Qed.
 
 Program Instance comma_proj  : Comma ⟶ A ∏ B := {|
   fobj := fun x => ``x;
   fmap := fun _ _ f => ``f
 |}.
+Next Obligation.
+  intros ? ? ? ? [e0 e1].
+  now split.
+Qed.
+Next Obligation. now repeat intro. Qed.
+Next Obligation. now repeat intro. Qed.
+
 Program Instance comma_proj1 : Comma ⟶ A := {|
   fobj := fun x => fst ``x;
   fmap := fun _ _ f => fst ``f
 |}.
+Next Obligation. now intros ? ? ? ? [e0 e1]. Qed.
+Next Obligation. now repeat intro. Qed.
+Next Obligation. now repeat intro. Qed.
+
 Program Instance comma_proj2 : Comma ⟶ B := {|
   fobj := fun x => snd ``x;
   fmap := fun _ _ f => snd ``f
 |}.
+Next Obligation. now intros ? ? ? ? [e0 e1]. Qed.
+Next Obligation. now repeat intro. Qed.
+Next Obligation. now repeat intro. Qed.
+
+#[local] Obligation Tactic := cat_simpl.
 
 Program Instance comma_proj_nat : S ◯ comma_proj1 ⟹ T ◯ comma_proj2.
 
