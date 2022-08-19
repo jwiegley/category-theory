@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Naturality.
 Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Instance.Sets.
 
