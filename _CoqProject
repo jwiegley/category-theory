@@ -69,6 +69,8 @@ Instance/Fact.v
 Instance/Fun.v
 Instance/One.v
 Instance/One/Diagonal.v
+Instance/Par.v
+Instance/ParE.v
 Instance/Parallel.v
 Instance/Poset.v
 Instance/Props.v
