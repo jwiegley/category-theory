@@ -37,7 +37,7 @@ Program Fixpoint sexpr_forward (t : SExpr) (hyp : SExpr)
   end.
 Next Obligation. intuition. Defined.
 
-Program Fixpoint sexpr_backward (t : SExpr) {measure (sexpr_size t)} :
+Program Fixpoint sexpr_backward (t : SExpr) {measure t SExpr_subterm} :
   [sexprD t] :=
   match t with
   | STop => Yes
@@ -75,15 +75,10 @@ Next Obligation.
   apply map_inj in H1; auto; [|apply Fin_to_pos_inj].
   now apply term_indices_equiv.
 Defined.
-Next Obligation. simpl; abstract lia. Defined.
-Next Obligation. clear Heq_anonymous; abstract lia. Defined.
-Next Obligation. intuition. Defined.
-Next Obligation. simpl; abstract lia. Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. intuition. Defined.
-Next Obligation. intuition. Defined.
-Next Obligation. apply sexpr_Acc. Qed.
+Next Obligation. apply well_founded_SExpr_subterm. Defined.
 
 Definition sexpr_tauto : forall t, [sexprD t].
 Proof. intros; refine (Reduce (sexpr_backward t)); auto. Defined.
@@ -116,11 +111,5 @@ Example sample_1 :
     f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
-Abort.
-(*
-  (* Set Ltac Profiling. *)
-  categorical.
-  (* Show Ltac Profile. *)
+  now categorical.
 Qed.
-*)
