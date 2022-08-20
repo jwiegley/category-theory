@@ -10,7 +10,6 @@ Require Export Category.Structure.Cartesian.Closed.
 Require Export Category.Structure.Initial.
 Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Coq.
-Require Export Coq.Sets.Ensembles.
 
 Generalizable All Variables.
 Set Primitive Projections.
