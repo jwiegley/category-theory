@@ -22,6 +22,8 @@ Inductive Term {a o} (tys : Vector.t (obj_pair o) a) :
          (f : Term tys mid cod) (g : Term tys dom mid) :
       Term tys dom cod.
 
+Derive Signature NoConfusion for Term.
+
 Arguments Ident {a o tys dom}.
 Arguments Morph {a o tys} f.
 Arguments Comp {a o tys dom mid cod} f g.
@@ -33,6 +35,8 @@ Inductive STerm : Type :=
   | SIdent : STerm
   | SMorph (a : positive) : STerm
   | SComp (f : STerm) (g : STerm) : STerm.
+
+Derive NoConfusion NoConfusionHom Subterm for STerm.
 
 Fixpoint sterm_size (t : STerm) : nat :=
   match t with
@@ -49,6 +53,8 @@ Inductive SExpr : Type :=
   | SOr    (p q : SExpr)
   | SImpl  (p q : SExpr).
 
+Derive NoConfusion NoConfusionHom Subterm for SExpr.
+
 Fixpoint sexpr_size (t : SExpr) : nat :=
   match t with
   | STop           => 1%nat
@@ -61,26 +67,3 @@ Fixpoint sexpr_size (t : SExpr) : nat :=
 
 Remark all_sexprs_have_size e : (0 < sexpr_size e)%nat.
 Proof. induction e; simpl; lia. Qed.
-
-Lemma sexpr_Acc a : Acc (MR lt sexpr_size) a.
-Proof.
-  unfold MR.
-  constructor; intros.
-  induction a; simpl in *.
-  - constructor; intros; lia.
-  - constructor; intros; lia.
-  - admit.
-  - rewrite plus_n_Sm in H.
-    destruct (Compare_dec.lt_dec (sexpr_size y) (sexpr_size a1)).
-    + apply IHa1; lia.
-    + clear IHa1.
-      apply Compare_dec.not_lt in n.
-      destruct (Compare_dec.lt_dec (sexpr_size y) (sexpr_size a2)).
-      * apply IHa2; lia.
-      * apply Compare_dec.not_lt in n0.
-        clear IHa2.
-        elimtype False.
-        admit.
-  - admit.
-  - admit.
-Admitted.
