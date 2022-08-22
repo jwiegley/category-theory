@@ -2,8 +2,12 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.PArith.PArith.
 
+From Equations Require Import Equations.
+Require Import Equations.Type.EqDec.
+Set Equations With UIP.
+
 Require Import Category.Lib.
-Require Import Category.Lib.Equality.
+Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 
 Generalizable All Variables.
@@ -61,28 +65,28 @@ Ltac desh :=
       try contradiction;
       try discriminate;
       let n := numgoals in guard n < 2
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end = _ |- _ ] =>
-      destruct (Fin_eq_dec n m) eqn:?;
+    | [ H : match eq_dec ?n ?m with _ => _ end = _ |- _ ] =>
+      destruct (eq_dec n m) eqn:?;
       try contradiction;
       try discriminate;
       let n := numgoals in guard n < 2
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end _ = _ |- _ ] =>
-      destruct (Fin_eq_dec n m) eqn:?;
+    | [ H : match eq_dec ?n ?m with _ => _ end _ = _ |- _ ] =>
+      destruct (eq_dec n m) eqn:?;
       try contradiction;
       try discriminate;
       let n := numgoals in guard n < 2
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end     |- _ ] =>
-      destruct (Fin_eq_dec n m) eqn:?;
+    | [ H : match eq_dec ?n ?m with _ => _ end     |- _ ] =>
+      destruct (eq_dec n m) eqn:?;
       try contradiction;
       try discriminate;
       let n := numgoals in guard n < 2
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end _   |- _ ] =>
-      destruct (Fin_eq_dec n m) eqn:?;
+    | [ H : match eq_dec ?n ?m with _ => _ end _   |- _ ] =>
+      destruct (eq_dec n m) eqn:?;
       try contradiction;
       try discriminate;
       let n := numgoals in guard n < 2
-    | [ H : match Fin_eq_dec ?n ?m with _ => _ end _ _ |- _ ] =>
-      destruct (Fin_eq_dec n m) eqn:?;
+    | [ H : match eq_dec ?n ?m with _ => _ end _ _ |- _ ] =>
+      destruct (eq_dec n m) eqn:?;
       try contradiction;
       try discriminate;
       let n := numgoals in guard n < 2
@@ -113,14 +117,12 @@ Ltac desh :=
       let n := numgoals in guard n < 2
     end;
     simpl_eq;
-    try rewrite Fin_eq_dec_refl in *;
-    try rewrite Pos_eq_dec_refl in *;
+    try rewrite EqDec.peq_dec_refl in *;
     repeat lazymatch goal with
     | [ H : Some _ = Some _ |- _ ] => inversion H; subst; try clear H
     | [ H : (?X; _) = (?X; _) |- _ ] =>
       apply Eqdep_dec.inj_pair2_eq_dec in H;
-             [|solve [ apply Fin_eq_dec
-                     | apply Pos.eq_dec ]]; subst
+             [|now apply eq_dec]; subst
     | [ H : ∃ _, _ |- _ ] =>
       let x := fresh "x" in
       let e := fresh "e" in

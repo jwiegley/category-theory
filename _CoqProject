@@ -106,7 +106,6 @@ Instance/Lambda/Example.v
 Instance/Lambda.v
 Lib.v
 Lib/Datatypes.v
-Lib/Equality.v
 Lib/FMapExt.v
 Lib/Foundation.v
 Lib/IList.v

@@ -7,9 +7,9 @@ Require Import Coq.Lists.List.
 
 From Equations Require Import Equations.
 Require Import Equations.Type.EqDec.
+Set Equations With UIP.
 
 Require Import Category.Lib.
-Require Import Category.Lib.Equality.
 Require Import Category.Lib.TList.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
@@ -41,7 +41,7 @@ Fixpoint STerm_embed_work dom (e : STerm) : option (∃ cod, Term tys dom cod) :
   | SMorph a =>
     match Pos_to_fin a with
     | Some f =>
-      match Eq_eq_dec (fst (tys[@f])) dom with
+      match eq_dec (fst (tys[@f])) dom with
       | left H =>
         Some (snd (tys[@f]); rew [fun x => Term _ x _] H in Morph f)
       | _ => None
@@ -62,7 +62,7 @@ Fixpoint STerm_embed_work dom (e : STerm) : option (∃ cod, Term tys dom cod) :
 Definition STerm_embed dom cod (e : STerm) : option (Term tys dom cod) :=
   match STerm_embed_work dom e with
   | Some (y; f) =>
-    match Eq_eq_dec y cod with
+    match eq_dec y cod with
     | Specif.left ecod => Some (rew [fun y => Term tys _ y] ecod in f)
     | _ => None
     end
@@ -84,7 +84,7 @@ Proof.
 Qed.
 
 Lemma Fin_to_pos_spec {p n} {f : Fin.t n} :
-  Pos_to_fin p = Some f -> Fin_to_pos f = p.
+  Pos_to_fin p = Some f → Fin_to_pos f = p.
 Proof.
   generalize dependent n.
   induction p using Pos.peano_rect; simpl; intros; auto.
@@ -111,7 +111,7 @@ Proof.
 Qed.
 
 Lemma Fin_to_pos_inj {n} (x y : Fin.t n) :
-  Fin_to_pos x = Fin_to_pos y -> x = y.
+  Fin_to_pos x = Fin_to_pos y → x = y.
 Proof.
   destruct n.
     inversion x.
@@ -131,13 +131,13 @@ Proof.
   generalize dependent cod.
   generalize dependent dom.
   unfold STerm_embed; induction t; simpl; intros.
-  - now desh.
+  - desh.
   - now rewrite Pos_to_fin_spec; desh.
   - now desh; rewrite Heqo0; desh.
 Qed.
 
 Lemma Term_strip_embed dom cod (e : STerm) t :
-  STerm_embed dom cod e = Some t -> Term_strip t = e.
+  STerm_embed dom cod e = Some t → Term_strip t = e.
 Proof.
   generalize dependent cod.
   generalize dependent dom.
@@ -148,8 +148,8 @@ Proof.
     specialize (IHe1 _ _ t2).
     rewrite Heqo0 in IHe2.
     rewrite Heqo1 in IHe1.
-    rewrite Eq_eq_dec_refl in IHe1.
-    rewrite Eq_eq_dec_refl in IHe2.
+    rewrite EqDec.peq_dec_refl in IHe1.
+    rewrite EqDec.peq_dec_refl in IHe2.
     specialize (IHe2 eq_refl).
     specialize (IHe1 eq_refl).
     now simpl; f_equal.
@@ -163,7 +163,7 @@ Qed.
 
 Lemma STerm_denotes e {dom cod} t :
   STerm_embed dom cod e = Some t
-    -> ∃ f, stermD dom cod e = Some f ∧ termD t = f.
+    → ∃ f, stermD dom cod e = Some f ∧ termD t = f.
 Proof.
   intros.
   apply Term_strip_embed in H0; subst.
@@ -172,12 +172,12 @@ Proof.
   unfold stermD; induction t; simpl; intros; desh.
   - rewrite Pos_to_fin_spec; desh.
   - exists (termD t1 ∘ termD t2).
-    now rewrite Heqo0, Fin_eq_dec_refl; cat.
+    now rewrite Heqo0, EqDec.peq_dec_refl; cat.
 Qed.
 
 Lemma stermD_embeds e {dom cod} (f : objs[@dom] ~> objs[@cod]) :
   stermD dom cod e = Some f
-    -> ∃ t, STerm_embed dom cod e = Some t ∧ termD t = f.
+    → ∃ t, STerm_embed dom cod e = Some t ∧ termD t = f.
 Proof.
   generalize dependent cod.
   generalize dependent dom.
@@ -186,14 +186,14 @@ Proof.
     specialize (IHe2 _ _ h0).
     rewrite Heqo0 in IHe2.
     rewrite Heqo1 in IHe1.
-    rewrite Eq_eq_dec_refl in IHe1.
-    rewrite Eq_eq_dec_refl in IHe2.
+    rewrite EqDec.peq_dec_refl in IHe1.
+    rewrite EqDec.peq_dec_refl in IHe2.
     specialize (IHe1 eq_refl).
     specialize (IHe2 eq_refl).
     desh.
     eexists.
     rewrite Heqo2.
-    now rewrite Fin_eq_dec_refl.
+    now rewrite EqDec.peq_dec_refl.
 Qed.
 
 Import ListNotations.
@@ -223,7 +223,7 @@ Proof.
 Qed.
 
 Theorem term_indices_equiv {d c} (x y : Term tys d c) :
-  term_indices x = term_indices y -> termD x ≈ termD y.
+  term_indices x = term_indices y → termD x ≈ termD y.
 Proof.
   intros.
   rewrite <- term_indices_unarrows in H0.
@@ -246,7 +246,7 @@ Fixpoint sarrows (t : STerm) : list positive :=
 
 Lemma arrows_and_indices f dom cod (t : Term tys dom cod) :
   STerm_embed dom cod f = Some t
-    -> sarrows f = List.map Fin_to_pos (term_indices t).
+    → sarrows f = List.map Fin_to_pos (term_indices t).
 Proof.
   intros.
   apply Term_strip_embed in H0; subst.

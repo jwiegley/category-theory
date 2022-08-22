@@ -7,7 +7,6 @@ Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 
 Require Import Category.Lib.
-Require Import Category.Lib.Equality.
 Require Import Category.Lib.IList.
 Require Import Category.Lib.TList.
 Require Import Category.Theory.Category.
@@ -19,17 +18,16 @@ Generalizable All Variables.
 
 Import VectorNotations.
 
-Definition Arr {a o} (tys : Vector.t (obj_pair o) a)
-           (cod dom : obj_idx o) :=
-  { f : arr_idx a & dom = fst (tys[@f]) & cod = snd (tys[@f]) }.
+Record Arr {a o} (tys : Vector.t (obj_pair o) a)
+  (cod dom : obj_idx o) := {
+  arr : arr_idx a;
+  Hdom : dom = fst (tys[@arr]);
+  Hcod : cod = snd (tys[@arr]);
+}.
 
 Definition Arrows {a o} (tys : Vector.t (obj_pair o) a)
            (dom cod : obj_idx o) :=
   tlist (Arr tys) cod dom.
-
-#[global] Instance Fin_EqDec (n : nat) : EqDec (Fin.t n) := {
-  eq_dec := Fin_eq_dec
-}.
 
 Section Arrows.
 
@@ -37,24 +35,10 @@ Context `{Env}.
 
 Import EqNotations.
 
-#[local] Obligation Tactic := unfold Arr; program_simpl.
-
-#[global] Program Instance arrow_EqDec (i j : obj_idx num_objs) :
-  EqDec (Arr tys i j).
-Next Obligation.
-Admitted.
-(*   destruct (Eq_eq_dec x y) eqn:Heqe; subst. *)
-(*     left. *)
-(*     now f_equal; eapply eq_proofs_unicity. *)
-(*   right; intro. *)
-(*   apply n. *)
-(*   now inv H0. *)
-(* Defined. *)
-
 Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
   match t with
   | Ident    => tnil
-  | Morph a  => existT2 _ _ a eq_refl eq_refl ::: tnil
+  | Morph a  => {| arr := a; Hdom := eq_refl; Hcod := eq_refl |} ::: tnil
   | Comp f g => arrows f +++ arrows g
   end.
 
@@ -63,7 +47,7 @@ Fixpoint arrowsD `(t : Arrows tys d c) : objs[@d] ~> objs[@c] :=
   | tnil => id
   | tcons _ f fs =>
     match f with
-      existT2 _ _ f H1 H2 =>
+      {| arr := f; Hdom := H1; Hcod := H2 |} =>
       rew <- [fun x => _ ~> objs[@x]] H2 in
         helper (ith arrs f)
           ∘ rew [fun x => _ ~> objs[@x]] H1 in arrowsD fs
@@ -73,7 +57,7 @@ Fixpoint arrowsD `(t : Arrows tys d c) : objs[@d] ~> objs[@c] :=
 Fixpoint unarrows `(t : Arrows tys d c) : Term tys d c :=
   match t with
   | tnil => Ident
-  | existT2 _ _ x Hd Hc ::: xs =>
+  | {| arr := x; Hdom := Hd; Hcod := Hc |} ::: xs =>
     Comp (rew <- [fun x => Term _ _ x] Hc in
           rew <- [fun x => Term _ x _] Hd in Morph x) (unarrows xs)
   end.
@@ -110,11 +94,11 @@ Defined.
 Fixpoint indices `(t : Arrows tys d c) : list (arr_idx num_arrs) :=
   match t with
   | tnil => List.nil
-  | existT2 _ _ f _ _ ::: fs => f :: indices fs
+  | {| arr := f; Hdom := _; Hcod := _ |} ::: fs => f :: indices fs
   end.
 
 Theorem indices_impl {d c} (x y : Arrows tys d c) :
-  indices x = indices y -> x = y.
+  indices x = indices y → x = y.
 Proof.
   induction x; dependent elimination y;
   simpl; auto; intros.
@@ -126,8 +110,8 @@ Proof.
     inv H0.
     f_equal; auto.
     f_equal; auto.
-    Fail apply eq_proofs_unicity.
-Admitted.
+    now rewrite UIP_refl.
+Qed.
 
 Theorem indices_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
   indices (t1 +++ t2) = (indices t1 ++ indices t2)%list.
