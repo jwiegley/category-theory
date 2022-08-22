@@ -26,13 +26,6 @@ Corollary helper {f} :
     -> objs[@(fst (tys[@f]))] ~> objs[@(snd (tys[@f]))].
 Proof. destruct (tys[@f]); auto. Defined.
 
-Fixpoint termD {dom cod} (t : Term tys dom cod) : objs[@dom] ~> objs[@cod] :=
-  match t with
-  | Ident => id
-  | Morph f => helper (ith arrs f)
-  | Comp f g => termD f ∘ termD g
-  end.
-
 Import EqNotations.
 
 Program Fixpoint stermD_work dom (e : STerm) :

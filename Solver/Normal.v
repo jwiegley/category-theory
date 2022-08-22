@@ -2,6 +2,8 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
+Require Import Coq.Arith.PeanoNat.
+Require Import Coq.Lists.List.
 
 From Equations Require Import Equations.
 Require Import Equations.Type.EqDec.
@@ -14,13 +16,22 @@ Require Import Category.Solver.Tactics.
 Require Import Category.Solver.Env.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
-Require Import Category.Solver.Reflect.
+Require Import Category.Solver.Reify.
 
 Generalizable All Variables.
 
 Section Normal.
 
 Context `{Env}.
+
+Import ListNotations.
+
+Fixpoint sindices (t : STerm) : list positive :=
+  match t with
+  | SIdent    => List.nil
+  | SMorph a  => [a]
+  | SComp f g => sindices f ++ sindices g
+  end.
 
 Fixpoint unsindices (fs : list positive) : STerm :=
   match fs with
@@ -54,14 +65,14 @@ Proof.
       destruct t2.
         simpl in *.
         desh.
-        exists (fst (nth tys t)).
+        exists (fst (Vector.nth tys t)).
         exists (helper (ith arrs t)).
         exists id.
         split; cat.
         now rewrite EqDec.peq_dec_refl.
       simpl in *.
       desh.
-      exists (fst (nth tys t)).
+      exists (fst (Vector.nth tys t)).
       exists (helper (ith arrs t)).
       exists h.
       split; cat.
@@ -158,9 +169,6 @@ Proof.
     now rewrite x1, IHt1, IHt2.
 Qed.
 
-Import VectorNotations.
-Import EqNotations.
-
 Fixpoint sexprAD (e : SExpr) : Type :=
   match e with
   | STop    => True
@@ -199,13 +207,9 @@ Qed.
 
 End Normal.
 
-Require Import Category.Solver.Reify.
-
 (* * This is a much easier theorem to apply, so it speeds things up a lot! *)
-Theorem sexprAD_sound' (env : Env) (e : SExpr) : sexprAD e -> sexprD e.
-Proof.
-  apply sexprAD_sound.
-Qed.
+Corollary sexprAD_sound' (env : Env) (e : SExpr) : sexprAD e -> sexprD e.
+Proof. apply sexprAD_sound. Qed.
 
 Ltac normalize := reify_terms_and_then
   ltac:(fun env g =>
