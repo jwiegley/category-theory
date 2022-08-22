@@ -35,6 +35,17 @@ Fixpoint Term_strip {dom cod} (e : Term tys dom cod) : STerm :=
   | Comp f g => SComp (Term_strip f) (Term_strip g)
   end.
 
+Lemma Term_strip_rel {dom cod} s (t : Term tys dom cod) :
+  Term_strip t = s
+    ↔ TermRel tys s t.
+Proof.
+  split; intros.
+  - subst.
+    induction t; constructor; intuition.
+  - induction X; simpl; auto.
+    now rewrite IHX1, IHX2.
+Qed.
+
 Fixpoint STerm_embed_work dom (e : STerm) : option (∃ cod, Term tys dom cod) :=
   match e with
   | SIdent => Some (dom; Ident)
@@ -125,34 +136,85 @@ Proof.
     apply IHx; auto.
 Qed.
 
-Lemma STerm_embed_strip {dom cod} (t : Term tys dom cod) :
-  STerm_embed dom cod (Term_strip t) = Some t.
+Lemma STerm_embed_rel {dom cod} (e : STerm) f :
+  STerm_embed dom cod e = Some f
+    ↔ TermRel tys e f.
 Proof.
-  generalize dependent cod.
-  generalize dependent dom.
-  unfold STerm_embed; induction t; simpl; intros.
-  - desh.
-  - now rewrite Pos_to_fin_spec; desh.
-  - now desh; rewrite Heqo0; desh.
+  unfold STerm_embed.
+  split; intros.
+  - generalize dependent cod.
+    generalize dependent dom.
+    induction e; simpl; intros.
+    + destruct (eq_dec dom cod); subst; inv H0.
+      constructor.
+    + destruct (Pos_to_fin a) eqn:Heqe; inv H0.
+      destruct (eq_dec _ dom); inv H2.
+      destruct (eq_dec _ cod); inv H1.
+      simpl.
+      apply Fin_to_pos_spec in Heqe.
+      rewrite <- Heqe.
+      constructor.
+    + destruct (STerm_embed_work dom e2) eqn:Heqe1; inv H0.
+      destruct s.
+      destruct (STerm_embed_work x e1) eqn:Heqe2; inv H2.
+      destruct s.
+      destruct (eq_dec x0 cod); inv H1.
+      constructor.
+      * apply IHe1.
+        rewrite Heqe2, EqDec.peq_dec_refl.
+        reflexivity.
+      * apply IHe2.
+        rewrite Heqe1, EqDec.peq_dec_refl.
+        reflexivity.
+  - induction X; simpl.
+    + rewrite EqDec.peq_dec_refl.
+      reflexivity.
+    + rewrite Pos_to_fin_spec, !EqDec.peq_dec_refl.
+      reflexivity.
+    + destruct (STerm_embed_work dom sg) eqn:Heqg; inv IHX2.
+      destruct s.
+      destruct (eq_dec x mid); inv H1; subst.
+      destruct (STerm_embed_work mid sf) eqn:Heqf; inv IHX1.
+      destruct s.
+      destruct (eq_dec x cod); inv H1; subst.
+      reflexivity.
 Qed.
 
-Lemma Term_strip_embed dom cod (e : STerm) t :
+Corollary STerm_embed_strip {dom cod} (t : Term tys dom cod) :
+  STerm_embed dom cod (Term_strip t) = Some t.
+Proof.
+  apply STerm_embed_rel.
+  now apply Term_strip_rel.
+Qed.
+
+Corollary Term_strip_embed dom cod (e : STerm) t :
   STerm_embed dom cod e = Some t → Term_strip t = e.
 Proof.
-  generalize dependent cod.
-  generalize dependent dom.
-  unfold STerm_embed; induction e; simpl; intros; desh.
-  - simpl; f_equal.
-    now apply Fin_to_pos_spec in Heqo0.
-  - specialize (IHe2 _ _ t1).
-    specialize (IHe1 _ _ t2).
-    rewrite Heqo0 in IHe2.
-    rewrite Heqo1 in IHe1.
-    rewrite EqDec.peq_dec_refl in IHe1.
-    rewrite EqDec.peq_dec_refl in IHe2.
-    specialize (IHe2 eq_refl).
-    specialize (IHe1 eq_refl).
-    now simpl; f_equal.
+  intros.
+  apply Term_strip_rel.
+  now apply STerm_embed_rel.
+Qed.
+
+Lemma stermD_rel {dom cod} (e : STerm) t :
+  TermRel tys e t
+    → ∃ f, stermD dom cod e = Some f ∧ f = termD t.
+Proof.
+  unfold stermD.
+  intros.
+  induction X; simpl.
+  - rewrite EqDec.peq_dec_refl.
+    simpl.
+    now eexists.
+  - rewrite Pos_to_fin_spec, !EqDec.peq_dec_refl.
+    now eexists.
+  - destruct IHX1, IHX2.
+    destruct (stermD_work dom sg) eqn:Heqg; inv p0; inv H0.
+    destruct s.
+    destruct (eq_dec x0 mid); inv H2; subst.
+    destruct (stermD_work mid sf) eqn:Heqf; inv p; inv H0.
+    destruct s.
+    destruct (eq_dec x cod); inv H3; subst.
+    now eexists.
 Qed.
 
 (** This is the key connecting theorem between the richly-typed and
@@ -163,16 +225,11 @@ Qed.
 
 Lemma STerm_denotes e {dom cod} t :
   STerm_embed dom cod e = Some t
-    → ∃ f, stermD dom cod e = Some f ∧ termD t = f.
+    → ∃ f, stermD dom cod e = Some f ∧ f = termD t.
 Proof.
   intros.
-  apply Term_strip_embed in H0; subst.
-  generalize dependent cod.
-  generalize dependent dom.
-  unfold stermD; induction t; simpl; intros; desh.
-  - rewrite Pos_to_fin_spec; desh.
-  - exists (termD t1 ∘ termD t2).
-    now rewrite Heqo0, EqDec.peq_dec_refl; cat.
+  apply STerm_embed_rel in H0.
+  now apply stermD_rel in H0.
 Qed.
 
 Lemma stermD_embeds e {dom cod} (f : objs[@dom] ~> objs[@cod]) :
@@ -237,19 +294,19 @@ Proof.
   now rewrite H0.
 Qed.
 
-Fixpoint sarrows (t : STerm) : list positive :=
+Fixpoint sindices (t : STerm) : list positive :=
   match t with
   | SIdent    => List.nil
   | SMorph a  => [a]
-  | SComp f g => sarrows f ++ sarrows g
+  | SComp f g => sindices f ++ sindices g
   end.
 
 Lemma arrows_and_indices f dom cod (t : Term tys dom cod) :
-  STerm_embed dom cod f = Some t
-    → sarrows f = List.map Fin_to_pos (term_indices t).
+  TermRel tys f t
+    → sindices f = List.map Fin_to_pos (term_indices t).
 Proof.
   intros.
-  apply Term_strip_embed in H0; subst.
+  apply Term_strip_rel in X; subst.
   induction t; simpl; auto.
   now rewrite IHt1, IHt2, List.map_app.
 Qed.

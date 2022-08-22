@@ -61,7 +61,7 @@ Program Fixpoint sexpr_backward (t : SExpr) {measure t SExpr_subterm} :
     sexpr_forward q p (sexpr_backward q)
   end.
 Next Obligation.
-  destruct (list_eqdec _ (sarrows f) (sarrows g)) eqn:?;
+  destruct (list_eqdec _ (sindices f) (sindices g)) eqn:?;
     [|apply Uncertain].
   destruct (Pos_to_fin _); [|apply Uncertain].
   destruct (Pos_to_fin _); [|apply Uncertain].
@@ -71,8 +71,8 @@ Next Obligation.
   destruct (stermD_embeds _ _ Heqo) eqn:?, p.
   destruct (stermD_embeds _ _ Heqo0) eqn:?, p.
   subst.
-  pose proof (arrows_and_indices _ _ _ _ e0).
-  pose proof (arrows_and_indices _ _ _ _ e2).
+  pose proof (arrows_and_indices _ _ _ _ (fst (STerm_embed_rel _ _) e0)).
+  pose proof (arrows_and_indices _ _ _ _ (fst (STerm_embed_rel _ _) e2)).
   rewrite e in H0.
   rewrite H0 in H1.
   apply map_inj in H1; auto; [|apply Fin_to_pos_inj].

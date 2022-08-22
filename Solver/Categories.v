@@ -34,7 +34,7 @@ Program Definition STerms : Category := {|
   obj := positive;
   hom := λ _ _, STerm;
   homset := λ _ _,
-    {| equiv := λ f g, sarrows f = sarrows g |};
+    {| equiv := λ f g, sindices f = sindices g |};
   id  := λ _, SIdent;
   compose := λ _ _ _, SComp
 |}.
