@@ -7,6 +7,7 @@ Set Equations With UIP.
 Require Import Category.Lib.
 Require Import Category.Lib.IListVec.
 Require Import Category.Theory.Category.
+Require Import Category.Structure.Cartesian.
 
 Generalizable All Variables.
 Set Transparent Obligations.
@@ -33,7 +34,12 @@ Class Env := {
 Inductive STerm : Set :=
   | SIdent : STerm
   | SMorph (a : positive) : STerm
-  | SComp (f : STerm) (g : STerm) : STerm.
+  | SComp (f : STerm) (g : STerm) : STerm
+
+  (* Cartesian structure *)
+  | SFork (f : STerm) (g : STerm) : STerm
+  | SExl : STerm
+  | SExr : STerm.
 
 Derive NoConfusion NoConfusionHom Subterm EqDec for positive STerm.
 
