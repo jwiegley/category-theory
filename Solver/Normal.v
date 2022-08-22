@@ -22,24 +22,24 @@ Section Normal.
 
 Context `{Env}.
 
-Fixpoint unsarrows (fs : list positive) : STerm :=
+Fixpoint unsindices (fs : list positive) : STerm :=
   match fs with
   | List.nil => SIdent
   | List.cons f List.nil => SMorph f
-  | List.cons f fs => SComp (SMorph f) (unsarrows fs)
+  | List.cons f fs => SComp (SMorph f) (unsindices fs)
   end.
 
-Lemma sarrows_unsarrows (f : list positive) : sarrows (unsarrows f) = f.
+Lemma sindices_unsindices (f : list positive) : sindices (unsindices f) = f.
 Proof.
   induction f; simpl; auto; simpl.
   destruct f; auto; simpl in *.
   now rewrite IHf.
 Qed.
 
-Lemma unsarrows_app d c (t1 t2 : list positive) f :
-  stermD_work d (unsarrows (t1 ++ t2)) = Some (c; f)
-    -> ∃ m g h, f ≈ g ∘ h ∧ stermD_work m (unsarrows t1) = Some (c; g)
-                          ∧ stermD_work d (unsarrows t2) = Some (m; h).
+Lemma unsindices_app d c (t1 t2 : list positive) f :
+  stermD_work d (unsindices (t1 ++ t2)) = Some (c; f)
+    -> ∃ m g h, f ≈ g ∘ h ∧ stermD_work m (unsindices t1) = Some (c; g)
+                          ∧ stermD_work d (unsindices t2) = Some (m; h).
 Proof.
   generalize dependent c.
   generalize dependent d.
@@ -78,8 +78,8 @@ Proof.
     split; auto.
 Qed.
 
-Theorem unsarrows_sarrows d c (t : STerm) f :
-  stermD d c (unsarrows (sarrows t)) = Some f
+Theorem unsindices_sindices d c (t : STerm) f :
+  stermD d c (unsindices (sindices t)) = Some f
     -> stermD d c t ≈ Some f.
 Proof.
   generalize dependent c.
@@ -88,7 +88,7 @@ Proof.
   - now desh.
   - now desh; cat.
   - desh.
-    pose proof (unsarrows_app _ _ _ _ _ Heqo); desh.
+    pose proof (unsindices_app _ _ _ _ _ Heqo); desh.
     specialize (IHt2 _ _ x1).
     rewrite e in IHt2; clear e.
     specialize (IHt1 _ _ x0).
@@ -103,11 +103,11 @@ Proof.
     now rewrite IHt1, IHt2, <- x2.
 Qed.
 
-Lemma unsarrows_app_r d m c (t1 t2 : list positive) g h :
-     stermD_work m (unsarrows t1) = Some (c; g)
-  -> stermD_work d (unsarrows t2) = Some (m; h)
+Lemma unsindices_app_r d m c (t1 t2 : list positive) g h :
+     stermD_work m (unsindices t1) = Some (c; g)
+  -> stermD_work d (unsindices t2) = Some (m; h)
   -> ∃ f, f ≈ g ∘ h ∧
-          stermD_work d (unsarrows (t1 ++ t2)) = Some (c; f).
+          stermD_work d (unsindices (t1 ++ t2)) = Some (c; f).
 Proof.
   generalize dependent c.
   generalize dependent d.
@@ -133,9 +133,9 @@ Proof.
     now rewrite EqDec.peq_dec_refl.
 Qed.
 
-Theorem unsarrows_sarrows_r d c (t : STerm) f :
+Theorem unsindices_sindices_r d c (t : STerm) f :
   stermD d c t = Some f
-    -> stermD d c (unsarrows (sarrows t)) ≈ Some f.
+    -> stermD d c (unsindices (sindices t)) ≈ Some f.
 Proof.
   generalize dependent c.
   generalize dependent d.
@@ -152,7 +152,7 @@ Proof.
     specialize (IHt1 eq_refl).
     specialize (IHt2 eq_refl).
     simpl in *; desh.
-    pose proof (unsarrows_app_r _ _ _ _ _ _ _ Heqo2 Heqo0); desh.
+    pose proof (unsindices_app_r _ _ _ _ _ _ _ Heqo2 Heqo0); desh.
     rewrite e0.
     rewrite EqDec.peq_dec_refl.
     now rewrite x1, IHt1, IHt2.
@@ -168,8 +168,8 @@ Fixpoint sexprAD (e : SExpr) : Type :=
   | SEquiv x y f g =>
     match Pos_to_fin x, Pos_to_fin y with
     | Some d, Some c =>
-      match stermD d c (unsarrows (sarrows f)),
-            stermD d c (unsarrows (sarrows g)) with
+      match stermD d c (unsindices (sindices f)),
+            stermD d c (unsindices (sindices g)) with
       | Some f, Some g => f ≈ g
       | _, _ => False
       end
@@ -186,13 +186,13 @@ Proof.
   - destruct (Pos_to_fin _); [|contradiction].
     destruct (Pos_to_fin _); [|contradiction].
     desh.
-    apply unsarrows_sarrows in Heqo.
-    apply unsarrows_sarrows in Heqo0.
+    apply unsindices_sindices in Heqo.
+    apply unsindices_sindices in Heqo0.
     simpl in *; desh.
     now rewrite Heqo, Heqo0, <- X.
   - desh.
-    apply unsarrows_sarrows_r in Heqo1.
-    apply unsarrows_sarrows_r in Heqo2.
+    apply unsindices_sindices_r in Heqo1.
+    apply unsindices_sindices_r in Heqo2.
     simpl in *; desh.
     now rewrite Heqo1, Heqo2, X.
 Qed.
