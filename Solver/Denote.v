@@ -10,7 +10,6 @@ Set Equations With UIP.
 Require Import Category.Lib.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
-Require Import Category.Solver.Env.
 Require Import Category.Solver.Expr.
 
 Generalizable All Variables.
@@ -27,6 +26,20 @@ Corollary helper {f} :
 Proof. destruct (tys[@f]); auto. Defined.
 
 Import EqNotations.
+
+Definition Pos_to_fin {n} (p : positive) : option (Fin.t n).
+Proof.
+  generalize dependent n.
+  induction p using Pos.peano_rect; intros.
+    destruct n.
+      exact None.
+    exact (Some Fin.F1).
+  destruct n.
+    exact None.
+  destruct (IHp n).
+    exact (Some (Fin.FS t)).
+  exact None.
+Defined.
 
 Program Fixpoint stermD_work dom (e : STerm) :
   option (∃  cod, objs[@dom] ~> objs[@cod]) :=

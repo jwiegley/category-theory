@@ -9,7 +9,6 @@ Set Equations With UIP.
 Require Import Category.Lib.
 Require Import Category.Lib.TList.
 Require Import Category.Theory.Category.
-Require Import Category.Solver.Env.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 Require Import Category.Solver.Partial.

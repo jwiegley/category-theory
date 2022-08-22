@@ -13,7 +13,6 @@ Require Import Category.Lib.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 Require Import Category.Solver.Tactics.
-Require Import Category.Solver.Env.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 Require Import Category.Solver.Reify.

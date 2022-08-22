@@ -132,7 +132,6 @@ Natural/Transformation/Strong.v
 Solver/Categories.v
 Solver/Decide.v
 Solver/Denote.v
-Solver/Env.v
 Solver/Expr.v
 Solver/Normal.v
 Solver/Partial.v
