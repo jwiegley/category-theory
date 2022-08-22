@@ -7,6 +7,7 @@ Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 
 Require Import Category.Lib.
+Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 
 Generalizable All Variables.

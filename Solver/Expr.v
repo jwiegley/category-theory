@@ -15,14 +15,44 @@ Generalizable All Variables.
 
 Import VectorNotations.
 
+(** Transform a 0-based [Fin.t] into a 1-based [positive]. *)
+Fixpoint Fin_to_pos {n} (f : Fin.t n) : positive :=
+  match f with
+  | Fin.F1 => 1%positive
+  | Fin.FS x => Pos.succ (Fin_to_pos x)
+  end.
+
+Definition Pos_to_fin {n} (p : positive) : option (Fin.t n).
+Proof.
+  generalize dependent n.
+  induction p using Pos.peano_rect; intros.
+    destruct n.
+      exact None.
+    exact (Some Fin.F1).
+  destruct n.
+    exact None.
+  destruct (IHp n).
+    exact (Some (Fin.FS t)).
+  exact None.
+Defined.
+
+(** Weakly-typed terms, only correct in certain environments. *)
+
+Inductive STerm : Set :=
+  | SIdent : STerm
+  | SMorph (a : positive) : STerm
+  | SComp (f : STerm) (g : STerm) : STerm.
+
+Derive NoConfusion NoConfusionHom Subterm EqDec for positive STerm.
+
 (** Richly-typed terms, always correct by construction, and isomorphic to the
     denoted terms. *)
 
 Inductive Term {a o} (tys : Vector.t (obj_pair o) a) :
-  obj_idx o -> obj_idx o -> Type :=
-  | Ident : ∀ dom, Term tys dom dom
+  obj_idx o → obj_idx o → Type :=
+  | Ident {dom} : Term tys dom dom
   | Morph (f : arr_idx a) : Term tys (fst (tys[@f])) (snd (tys[@f]))
-  | Comp (dom mid cod : obj_idx o)
+  | Comp {dom mid cod : obj_idx o}
          (f : Term tys mid cod) (g : Term tys dom mid) :
       Term tys dom cod.
 
@@ -32,24 +62,7 @@ Arguments Ident {a o tys dom}.
 Arguments Morph {a o tys} f.
 Arguments Comp {a o tys dom mid cod} f g.
 
-(** Weakly-typed terms, only correct in certain environments, but if that
-    holds, then isomorphic to the denoted terms. *)
-
-Inductive STerm : Type :=
-  | SIdent : STerm
-  | SMorph (a : positive) : STerm
-  | SComp (f : STerm) (g : STerm) : STerm.
-
-Derive NoConfusion NoConfusionHom Subterm for STerm.
-
-Fixpoint sterm_size (t : STerm) : nat :=
-  match t with
-  | SIdent    => 1%nat
-  | SMorph _  => 1%nat
-  | SComp f g => 1%nat + sterm_size f + sterm_size g
-  end.
-
-Inductive SExpr : Type :=
+Inductive SExpr : Set :=
   | STop
   | SBottom
   | SEquiv (x y : positive) (f g : STerm)
@@ -58,16 +71,3 @@ Inductive SExpr : Type :=
   | SImpl  (p q : SExpr).
 
 Derive NoConfusion NoConfusionHom Subterm for SExpr.
-
-Fixpoint sexpr_size (t : SExpr) : nat :=
-  match t with
-  | STop           => 1%nat
-  | SBottom        => 1%nat
-  | SEquiv _ _ f g => 1%nat + sterm_size f + sterm_size g
-  | SAnd p q       => 1%nat + sexpr_size p + sexpr_size q
-  | SOr p q        => 1%nat + sexpr_size p + sexpr_size q
-  | SImpl p q      => 1%nat + sexpr_size p + sexpr_size q
-  end.
-
-Remark all_sexprs_have_size e : (0 < sexpr_size e)%nat.
-Proof. induction e; simpl; lia. Qed.

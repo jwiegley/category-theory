@@ -15,7 +15,6 @@ Generalizable All Variables.
 Import VectorNotations.
 
 Derive Signature NoConfusion NoConfusionHom EqDec Subterm for Fin.t.
-Derive NoConfusion NoConfusionHom EqDec Subterm for BinNums.positive.
 
 Definition obj_idx (n : nat) : Type := Fin.t n.
 Definition arr_idx (n : nat) : Type := Fin.t n.

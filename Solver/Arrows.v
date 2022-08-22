@@ -18,9 +18,12 @@ Generalizable All Variables.
 
 Import VectorNotations.
 
-Definition Arr {a o} (tys : Vector.t (obj_pair o) a)
-           (cod dom : obj_idx o) :=
-  { f : arr_idx a & dom = fst (tys[@f]) & cod = snd (tys[@f]) }.
+Record Arr {a o} (tys : Vector.t (obj_pair o) a)
+  (cod dom : obj_idx o) := {
+  arr : arr_idx a;
+  Hdom : dom = fst (tys[@arr]);
+  Hcod : cod = snd (tys[@arr]);
+}.
 
 Definition Arrows {a o} (tys : Vector.t (obj_pair o) a)
            (dom cod : obj_idx o) :=
@@ -32,12 +35,10 @@ Context `{Env}.
 
 Import EqNotations.
 
-#[local] Obligation Tactic := unfold Arr; program_simpl.
-
 Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
   match t with
   | Ident    => tnil
-  | Morph a  => existT2 _ _ a eq_refl eq_refl ::: tnil
+  | Morph a  => {| arr := a; Hdom := eq_refl; Hcod := eq_refl |} ::: tnil
   | Comp f g => arrows f +++ arrows g
   end.
 
@@ -46,7 +47,7 @@ Fixpoint arrowsD `(t : Arrows tys d c) : objs[@d] ~> objs[@c] :=
   | tnil => id
   | tcons _ f fs =>
     match f with
-      existT2 _ _ f H1 H2 =>
+      {| arr := f; Hdom := H1; Hcod := H2 |} =>
       rew <- [fun x => _ ~> objs[@x]] H2 in
         helper (ith arrs f)
           ∘ rew [fun x => _ ~> objs[@x]] H1 in arrowsD fs
@@ -56,7 +57,7 @@ Fixpoint arrowsD `(t : Arrows tys d c) : objs[@d] ~> objs[@c] :=
 Fixpoint unarrows `(t : Arrows tys d c) : Term tys d c :=
   match t with
   | tnil => Ident
-  | existT2 _ _ x Hd Hc ::: xs =>
+  | {| arr := x; Hdom := Hd; Hcod := Hc |} ::: xs =>
     Comp (rew <- [fun x => Term _ _ x] Hc in
           rew <- [fun x => Term _ x _] Hd in Morph x) (unarrows xs)
   end.
@@ -93,7 +94,7 @@ Defined.
 Fixpoint indices `(t : Arrows tys d c) : list (arr_idx num_arrs) :=
   match t with
   | tnil => List.nil
-  | existT2 _ _ f _ _ ::: fs => f :: indices fs
+  | {| arr := f; Hdom := _; Hcod := _ |} ::: fs => f :: indices fs
   end.
 
 Theorem indices_impl {d c} (x y : Arrows tys d c) :
