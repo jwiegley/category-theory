@@ -3,18 +3,11 @@ Set Warnings "-notation-overridden".
 Require Import Coq.PArith.PArith.
 Require Import Coq.Vectors.Vector.
 
-From Equations Require Import Equations.
-Require Import Equations.Type.EqDec.
-Set Equations With UIP.
-
 Require Import Category.Lib.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
-Require Import Category.Solver.Env.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
-
-Generalizable All Variables.
 
 (** Lists in Ltac *)
 
@@ -214,7 +207,6 @@ Program Definition Unused : Category := {|
   id      := fun x => _;
   compose := fun x y z f g => _
 |}.
-Next Obligation. now destruct f. Qed.
 
 Ltac foldr xs z f :=
   let rec go xs :=

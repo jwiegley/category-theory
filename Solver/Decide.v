@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Coq.PArith.PArith.
-Require Import Coq.micromega.Lia.
 
 From Equations Require Import Equations.
 Require Import Equations.Type.EqDec.
@@ -10,12 +9,11 @@ Set Equations With UIP.
 Require Import Category.Lib.
 Require Import Category.Lib.TList.
 Require Import Category.Theory.Category.
-Require Import Category.Solver.Env.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 Require Import Category.Solver.Partial.
-Require Import Category.Solver.Reflect.
 Require Import Category.Solver.Reify.
+Require Import Category.Solver.Normal.
 
 Generalizable All Variables.
 
@@ -68,15 +66,11 @@ Next Obligation.
   destruct (stermD _ _ f) eqn:?; [|apply Uncertain].
   destruct (stermD _ _ g) eqn:?; [|apply Uncertain].
   apply Proved.
-  destruct (stermD_embeds _ _ Heqo) eqn:?, p.
-  destruct (stermD_embeds _ _ Heqo0) eqn:?, p.
-  subst.
-  pose proof (arrows_and_indices _ _ _ _ (fst (STerm_embed_rel _ _) e0)).
-  pose proof (arrows_and_indices _ _ _ _ (fst (STerm_embed_rel _ _) e2)).
-  rewrite e in H0.
-  rewrite H0 in H1.
-  apply map_inj in H1; auto; [|apply Fin_to_pos_inj].
-  now apply term_indices_equiv.
+  apply unsindices_sindices_r in Heqo.
+  apply unsindices_sindices_r in Heqo0.
+  rewrite e in Heqo.
+  rewrite Heqo in Heqo0.
+  now simpl in Heqo0.
 Defined.
 Next Obligation. intuition. Defined.
 Next Obligation. intuition. Defined.
@@ -93,8 +87,6 @@ Lemma sexpr_sound t :
 Proof. unfold sexpr_tauto; destruct t, (sexpr_backward _); tauto. Qed.
 
 End Decide.
-
-Require Import Category.Solver.Reify.
 
 Ltac categorical := reify_terms_and_then
   ltac:(fun env g =>

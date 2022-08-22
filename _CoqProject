@@ -129,15 +129,12 @@ Natural/Transformation/Applicative.v
 Natural/Transformation/Monoidal.v
 Natural/Transformation/Opposite.v
 Natural/Transformation/Strong.v
-Solver/Arrows.v
 Solver/Categories.v
 Solver/Decide.v
 Solver/Denote.v
-Solver/Env.v
 Solver/Expr.v
 Solver/Normal.v
 Solver/Partial.v
-Solver/Reflect.v
 Solver/Reify.v
 Solver/Tactics.v
 Structure/BiCCC.v
