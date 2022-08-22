@@ -250,63 +250,61 @@ Lemma ProductFunctor_Monoidal_proj2_ap_functor_iso :
     → (⨂) ◯ G ∏⟶ G ≅[[(D ∏ D), K]] G ◯ (⨂).
 Proof.
   intros P.
-
   isomorphism.
+  - transform. {
+      intros [x y].
+      exact (snd (transform[to (ap_functor_iso[P])] ((I, x), (I, y)))).
+    }
 
-  transform. {
-    intros [x y].
-    exact (snd (transform[to (ap_functor_iso[P])] ((I, x), (I, y)))).
-  }
+    all:(try rename x into x0;
+         try rename y into y0;
+         try destruct x0 as [x y],
+                      y0 as [z w],
+                      f as [f g];
+         try destruct A as [x y]; simpl).
 
-  all:(try rename x into x0;
-       try rename y into y0;
-       try destruct x0 as [x y],
-                    y0 as [z w],
-                    f as [f g];
-       try destruct A as [x y]; simpl).
+    exact (snd (naturality (to (ap_functor_iso[P]))
+                           (I, x, (I, y)) (I, z, (I, w))
+                           ((id, f), (id, g)))).
 
-  exact (snd (naturality (to (ap_functor_iso[P]))
-                         (I, x, (I, y)) (I, z, (I, w))
-                         ((id, f), (id, g)))).
+    exact (snd (naturality_sym (to (ap_functor_iso[P]))
+                               (I, x, (I, y)) (I, z, (I, w))
+                               ((id, f), (id, g)))).
+  - transform. {
+      intros [x y].
+      exact (snd (transform[from (ap_functor_iso[P])] ((I, x), (I, y)))).
+    }
 
-  exact (snd (naturality_sym (to (ap_functor_iso[P]))
-                             (I, x, (I, y)) (I, z, (I, w))
-                             ((id, f), (id, g)))).
+    all:(try rename x into x0;
+         try rename y into y0;
+         try destruct x0 as [x y],
+                      y0 as [z w],
+                      f as [f g];
+         try destruct A as [x y]; simpl).
 
-  transform. {
-    intros [x y].
-    exact (snd (transform[from (ap_functor_iso[P])] ((I, x), (I, y)))).
-  }
+    exact (snd (naturality (from (ap_functor_iso[P]))
+                           (I, x, (I, y)) (I, z, (I, w))
+                           ((id, f), (id, g)))).
 
-  all:(try rename x into x0;
-       try rename y into y0;
-       try destruct x0 as [x y],
-                    y0 as [z w],
-                    f as [f g];
-       try destruct A as [x y]; simpl).
-
-  exact (snd (naturality (from (ap_functor_iso[P]))
-                         (I, x, (I, y)) (I, z, (I, w))
-                         ((id, f), (id, g)))).
-
-  exact (snd (naturality_sym (from (ap_functor_iso[P]))
-                             (I, x, (I, y)) (I, z, (I, w))
-                             ((id, f), (id, g)))).
-
-  apply (iso_to_from (ap_functor_iso[P]) (I, x0, (I, y0))).
-  apply (iso_from_to (ap_functor_iso[P]) (I, x0, (I, y0))).
+    exact (snd (naturality_sym (from (ap_functor_iso[P]))
+                               (I, x, (I, y)) (I, z, (I, w))
+                               ((id, f), (id, g)))).
+  - destruct x; simpl.
+    apply (iso_to_from (ap_functor_iso[P]) (I, o, (I, o0))).
+  - destruct x; simpl.
+    apply (iso_from_to (ap_functor_iso[P]) (I, o, (I, o0))).
 Defined.
 
 Program Definition ProductFunctor_Monoidal_proj2 :
   MonoidalFunctor (F ∏⟶ G) -> MonoidalFunctor G := fun P => {|
-  pure_iso := _;
-  ap_functor_iso := ProductFunctor_Monoidal_proj2_ap_functor_iso P;
-  pure_iso_left  := _;
-  pure_iso_right := _;
-  ap_iso_assoc := _;
-  monoidal_unit_left := _;
+  pure_iso            := _;
+  ap_functor_iso      := ProductFunctor_Monoidal_proj2_ap_functor_iso P;
+  pure_iso_left       := _;
+  pure_iso_right      := _;
+  ap_iso_assoc        := _;
+  monoidal_unit_left  := _;
   monoidal_unit_right := _;
-  monoidal_assoc := _
+  monoidal_assoc      := _
 |}.
 Next Obligation.
   isomorphism.
@@ -385,28 +383,28 @@ Proof.
                     f as [[f1a f1b] [f2a f2b]];
        try destruct A as [[x z] [y w]]; simpl).
 
-  split.
-    abstract apply (naturality ap_functor_nat (x1, y1)).
-  abstract apply (naturality ap_functor_nat (x2, y2)).
+  - split.
+      abstract apply (naturality ap_functor_nat (x1, y1)).
+    abstract apply (naturality ap_functor_nat (x2, y2)).
 
-  split.
+  - split.
+      abstract apply (naturality_sym ap_functor_nat
+                                     (x1, y1) (z1, w1) (f1a, f2a)).
     abstract apply (naturality_sym ap_functor_nat
-                                   (x1, y1) (z1, w1) (f1a, f2a)).
-  abstract apply (naturality_sym ap_functor_nat
-                                 (x2, y2) (z2, w2) (f1b, f2b)).
+                                   (x2, y2) (z2, w2) (f1b, f2b)).
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal :
   LaxMonoidalFunctor F -> LaxMonoidalFunctor G
     -> LaxMonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
-  lax_pure := _;
-  ap_functor_nat := ProductFunctor_LaxMonoidal_ap_functor_nat _ _;
-  pure_left  := _;
-  pure_right := _;
-  ap_assoc := _;
-  lax_monoidal_unit_left := _;
+  lax_pure                := _;
+  ap_functor_nat          := ProductFunctor_LaxMonoidal_ap_functor_nat _ _;
+  pure_left               := _;
+  pure_right              := _;
+  ap_assoc                := _;
+  lax_monoidal_unit_left  := _;
   lax_monoidal_unit_right := _;
-  lax_monoidal_assoc := _
+  lax_monoidal_assoc      := _
 |}.
 Next Obligation.
   unshelve esplit; apply lax_pure.
@@ -442,25 +440,25 @@ Proof.
                     f as [f g];
        try destruct A as [x y]; simpl).
 
-  exact (fst (naturality (ap_functor_nat[P])
-                         (x, I, (y, I)) (z, I, (w, I))
-                         ((f, id), (g, id)))).
+  - exact (fst (naturality (ap_functor_nat[P])
+                           (x, I, (y, I)) (z, I, (w, I))
+                           ((f, id), (g, id)))).
 
-  exact (fst (naturality_sym (ap_functor_nat[P])
-                             (x, I, (y, I)) (z, I, (w, I))
-                             ((f, id), (g, id)))).
+  - exact (fst (naturality_sym (ap_functor_nat[P])
+                               (x, I, (y, I)) (z, I, (w, I))
+                               ((f, id), (g, id)))).
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal_proj1 :
   LaxMonoidalFunctor (F ∏⟶ G) -> LaxMonoidalFunctor F := fun P => {|
-  lax_pure := _;
-  ap_functor_nat := ProductFunctor_LaxMonoidal_proj1_ap_functor_nat P;
-  pure_left  := _;
-  pure_right := _;
-  ap_assoc := _;
-  lax_monoidal_unit_left := _;
+  lax_pure                := _;
+  ap_functor_nat          := ProductFunctor_LaxMonoidal_proj1_ap_functor_nat P;
+  pure_left               := _;
+  pure_right              := _;
+  ap_assoc                := _;
+  lax_monoidal_unit_left  := _;
   lax_monoidal_unit_right := _;
-  lax_monoidal_assoc := _
+  lax_monoidal_assoc      := _
 |}.
 Next Obligation.
   apply (fst (@lax_pure _ _ _ _ _ P)).
@@ -536,25 +534,25 @@ Proof.
                     f as [f g];
        try destruct A as [x y]; simpl).
 
-  exact (snd (naturality (ap_functor_nat[P])
-                         (I, x, (I, y)) (I, z, (I, w))
-                         ((id, f), (id, g)))).
+  - exact (snd (naturality (ap_functor_nat[P])
+                           (I, x, (I, y)) (I, z, (I, w))
+                           ((id, f), (id, g)))).
 
-  exact (snd (naturality_sym (ap_functor_nat[P])
-                             (I, x, (I, y)) (I, z, (I, w))
-                             ((id, f), (id, g)))).
+  - exact (snd (naturality_sym (ap_functor_nat[P])
+                               (I, x, (I, y)) (I, z, (I, w))
+                               ((id, f), (id, g)))).
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal_proj2 :
   LaxMonoidalFunctor (F ∏⟶ G) -> LaxMonoidalFunctor G := fun P => {|
-  lax_pure := _;
-  ap_functor_nat := ProductFunctor_LaxMonoidal_proj2_ap_functor_nat P;
-  pure_left  := _;
-  pure_right := _;
-  ap_assoc := _;
-  lax_monoidal_unit_left := _;
+  lax_pure                := _;
+  ap_functor_nat          := ProductFunctor_LaxMonoidal_proj2_ap_functor_nat P;
+  pure_left               := _;
+  pure_right              := _;
+  ap_assoc                := _;
+  lax_monoidal_unit_left  := _;
   lax_monoidal_unit_right := _;
-  lax_monoidal_assoc := _
+  lax_monoidal_assoc      := _
 |}.
 Next Obligation.
   apply (snd (@lax_pure _ _ _ _ _ P)).
