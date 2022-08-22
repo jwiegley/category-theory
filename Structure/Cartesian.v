@@ -15,7 +15,7 @@ Section Cartesian.
 
 Context `{C : Category}.
 
-Class Cartesian:= {
+Class Cartesian := {
   product_obj : obj -> obj -> obj
     where "x × y" := (product_obj x y);
 
