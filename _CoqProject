@@ -129,7 +129,6 @@ Natural/Transformation/Applicative.v
 Natural/Transformation/Monoidal.v
 Natural/Transformation/Opposite.v
 Natural/Transformation/Strong.v
-Solver/Categories.v
 Solver/Decide.v
 Solver/Denote.v
 Solver/Expr.v
