@@ -87,7 +87,7 @@ Next Obligation.
   bust h; bust g; bust f.
 Qed.
 
-Program Instance ParE_Terminal : @Terminal ParE := {
+#[export] Program Instance ParE_Terminal : @Terminal ParE := {
   terminal_obj := False;
   one := λ _ _, Datatypes.inl mempty
 }.
@@ -95,7 +95,7 @@ Next Obligation.
   destruct (f x0), (g x0); try contradiction; auto.
 Qed.
 
-Program Instance Par_Cartesian : @Cartesian ParE := {
+#[export] Program Instance Par_Cartesian : @Cartesian ParE := {
   product_obj := λ x y, (x * y) + x + y;
   fork := λ _ _ _ f g x,
       match f x, g x with
@@ -148,13 +148,13 @@ Qed.
 (* Par is not cartesian closed, but it is monoidal closed by taking the smash
    product as the tensor. *)
 
-Program Instance Par_Initial : Initial ParE := {
+#[export] Program Instance Par_Initial : Initial ParE := {
   terminal_obj := False;
   one := λ _ _, False_rect _ _
 }.
 Next Obligation. contradiction. Qed.
 
-Program Instance Par_Cocartesian : @Cocartesian ParE := {
+#[export] Program Instance Par_Cocartesian : @Cocartesian ParE := {
   product_obj := sum;
   fork := λ _ _ _ f g x,
             match x with

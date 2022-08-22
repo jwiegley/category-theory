@@ -62,50 +62,32 @@ Lemma whisker_right_dist A B C (F G H : A ⟶ B) (J : B ⟶ C)
       (η : F ⟹ G) (θ : G ⟹ H) : (J ⊳ θ) ∙ (J ⊳ η) ≈ J ⊳ (θ ∙ η).
 Proof. simpl; intros; cat. now rewrite fmap_comp. Qed.
 
-Lemma nat_λ {A B} (F : A ⟶ B) : F ◯ Id ≅[Fun] F.
+Definition nat_λ {A B} (F : A ⟶ B) : F ◯ Id ≅[Fun] F.
 Proof.
-  construct; simpl.
-  - construct.
-    + exact id.
-    + abstract cat.
-    + abstract cat.
-  - construct.
-    + exact id.
-    + abstract cat.
-    + abstract cat.
-  - abstract cat.
-  - abstract cat.
+  construct.
+  - apply fun_id_right.
+  - apply fun_id_right_sym.
+  - apply fun_id_right_and_sym.
+  - apply fun_id_right_sym_and.
 Defined.
 
-Lemma nat_ρ {A B} (F : A ⟶ B) : Id ◯ F ≅[Fun] F.
+Definition nat_ρ {A B} (F : A ⟶ B) : Id ◯ F ≅[Fun] F.
 Proof.
-  construct; simpl.
-  - construct.
-    + exact id.
-    + abstract cat.
-    + abstract cat.
-  - construct.
-    + exact id.
-    + abstract cat.
-    + abstract cat.
-  - abstract cat.
-  - abstract cat.
+  construct.
+  - apply fun_id_left.
+  - apply fun_id_left_sym.
+  - apply fun_id_left_and_sym.
+  - apply fun_id_left_sym_and.
 Defined.
 
-Lemma nat_α {A B C D} (F : A ⟶ B) (G : B ⟶ C) (H : C ⟶ D) :
+Definition nat_α {A B C D} (F : A ⟶ B) (G : B ⟶ C) (H : C ⟶ D) :
   H ◯ (G ◯ F) ≅[Fun] (H ◯ G) ◯ F.
 Proof.
-  construct; simpl.
-  - construct.
-    + exact id.
-    + abstract cat.
-    + abstract cat.
-  - construct.
-    + exact id.
-    + abstract cat.
-    + abstract cat.
-  - abstract cat.
-  - abstract cat.
+  construct.
+  - apply fun_comp_assoc.
+  - apply fun_comp_assoc_sym.
+  - apply fun_comp_assoc_and_sym.
+  - apply fun_comp_assoc_sym_and.
 Defined.
 
 Lemma whisker_left_right A B C (F G : A ⟶ B) (H J : B ⟶ C)
@@ -147,7 +129,7 @@ Class WellPointed `{@Pointed C F} := {
 }.
 
 Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :
-  F ≅[Fun] G ↔ F ≈ G.
+  F ≅[Fun] G  ↔  F ≈ G.
 Proof.
   split; intros; simpl.
     given (iso : ∀ x : C, F x ≅ G x). {

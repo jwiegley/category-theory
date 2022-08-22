@@ -72,7 +72,8 @@ Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := {
      condition is hard to work with in the type-system since it needs lots of
      equality proofs. *)
   equiv := fun F G =>
-    (* Equality of objects in a category is taken to be isomorphism *)
+    (* Equality of objects in a category is taken to be a natural
+       isomorphism *)
     { iso : ∀ x : C, F x ≅ G x
     & ∀ (x y : C) (f : x ~> y),
         fmap[F] f ≈ from (iso y) ∘ fmap[G] f ∘ to (iso x) }
@@ -215,6 +216,22 @@ Qed.
 Corollary fobj_Compose `(F : D ⟶ E) `(G : C ⟶ D) {x} :
   fobj[F ◯ G] x = fobj[F] (fobj[G] x).
 Proof. reflexivity. Defined.
+
+Lemma fun_equiv_id_right {A B} (F : A ⟶ B) : F ◯ Id ≈ F.
+Proof. construct; cat. Qed.
+
+Arguments fun_equiv_id_right {A B} F.
+
+Lemma fun_equiv_id_left {A B} (F : A ⟶ B) : Id ◯ F ≈ F.
+Proof. construct; cat. Qed.
+
+Arguments fun_equiv_id_left {A B} F.
+
+Lemma fun_equiv_comp_assoc {A B C D} (F : C ⟶ D) (G : B ⟶ C) (H : A ⟶ B)  :
+  F ◯ (G ◯ H) ≈ (F ◯ G) ◯ H.
+Proof. construct; cat. Qed.
+
+Arguments fun_equiv_comp_assoc {A B C D} F G H.
 
 Class Full `(F : C ⟶ D) := {
   prefmap {x y} (g : F x ~> F y) : x ~> y;

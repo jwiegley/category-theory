@@ -30,8 +30,7 @@ Class Transform := {
 }.
 
 #[global] Program Instance Transform_Setoid : Setoid Transform :=
-  {| equiv N0 N1 :=
-       forall x, (@transform N0 x) ≈ (@transform N1 x); |}.
+  {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x); |}.
 Next Obligation.
   equivalence.
   transitivity (@transform y x0); auto.
@@ -67,57 +66,58 @@ Ltac transform :=
   unshelve (refine {| transform := _ |}; simpl; intros).
 
 Corollary fun_id_left {C D : Category} {F : C ⟶ D} : Id ◯ F ⟹ F.
-Proof. transform; simpl; intros; cat. Qed.
+Proof. transform; simpl; intros; cat. Defined.
 
 Corollary fun_id_left_sym {C D : Category} {F : C ⟶ D} : F ⟹ Id ◯ F.
-Proof. transform; simpl; intros; cat. Qed.
+Proof. transform; simpl; intros; cat. Defined.
+
+Lemma fun_id_left_and_sym `(F : C ⟶ D) (x : C) :
+  fun_id_left x ∘ fun_id_left_sym x ≈ fmap[F] id.
+Proof. simpl; cat. Qed.
+
+Lemma fun_id_left_sym_and `(F : C ⟶ D) (x : C) :
+  fun_id_left_sym x ∘ fun_id_left x ≈ fmap[F] id.
+Proof. simpl; cat. Qed.
 
 Corollary fun_id_right {C D : Category} {F : C ⟶ D} : F ◯ Id ⟹ F.
-Proof. transform; simpl; intros; cat. Qed.
+Proof. transform; simpl; intros; cat. Defined.
 
 Corollary fun_id_right_sym {C D : Category} {F : C ⟶ D} : F ⟹ F ◯ Id.
-Proof. transform; simpl; intros; cat. Qed.
+Proof. transform; simpl; intros; cat. Defined.
+
+Lemma fun_id_right_and_sym `(F : C ⟶ D) (x : C) :
+  fun_id_right x ∘ fun_id_right_sym x ≈ fmap[F] id.
+Proof. simpl; cat. Qed.
+
+Lemma fun_id_right_sym_and `(F : C ⟶ D) (x : C) :
+  fun_id_right_sym x ∘ fun_id_right x ≈ fmap[F] id.
+Proof. simpl; cat. Qed.
 
 Corollary fun_comp_assoc {C D E B : Category}
-      {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : F ◯ (G ◯ H) ⟹ (F ◯ G) ◯ H.
-Proof. transform; simpl; intros; cat. Qed.
+  {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : F ◯ (G ◯ H) ⟹ (F ◯ G) ◯ H.
+Proof. transform; simpl; intros; cat. Defined.
 
 Corollary fun_comp_assoc_sym {C D E B : Category}
-          {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : (F ◯ G) ◯ H ⟹ F ◯ (G ◯ H).
-Proof. transform; simpl; intros; cat. Qed.
+  {F : E ⟶ B} {G : D ⟶ E} {H : C ⟶ D} : (F ◯ G) ◯ H ⟹ F ◯ (G ◯ H).
+Proof. transform; simpl; intros; cat. Defined.
 
-Program Definition nat_equiv `{F : C ⟶ D} {G : C ⟶ D} : crelation (F ⟹ G) :=
-  fun n m => ∀ A, transform[n] A ≈ transform[m] A.
+Lemma fun_comp_assoc_and_sym `(F : A ⟶ B) `(G : B ⟶ C) `(H : C ⟶ D) (x : A) :
+  fun_comp_assoc x ∘ fun_comp_assoc_sym x ≈ fmap[H] (fmap[G] (fmap[F] id)).
+Proof. simpl; cat. Qed.
 
-#[export] Hint Unfold nat_equiv : core.
-
-Arguments nat_equiv {_ _ _ _} _ _ /.
-
-Program Definition nat_equiv_equivalence `{F : C ⟶ D} {G : C ⟶ D} :
-  Equivalence (@nat_equiv C D F G).
-Proof.
-  equivalence.
-  transitivity (transform[y] A).
-    apply X.
-  apply X0.
-Qed.
+Lemma fun_comp_assoc_sym_and `(F : A ⟶ B) `(G : B ⟶ C) `(H : C ⟶ D) (x : A) :
+  fun_comp_assoc_sym x ∘ fun_comp_assoc x ≈ fmap[H] (fmap[G] (fmap[F] id)).
+Proof. simpl; cat. Qed.
 
 #[global]
 Program Instance nat_Setoid `{F : C ⟶ D} {G : C ⟶ D} :
-  Setoid (F ⟹ G) := {
-  equiv := nat_equiv;
-  setoid_equiv := nat_equiv_equivalence
-}.
+  Setoid (F ⟹ G) := Transform_Setoid.
 
 Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
   transform := λ X, fmap (@id C X)
 |}.
 
 #[export] Hint Unfold nat_id : core.
-
-#[global]
-Program Instance Transform_reflexive {C D : Category} :
-  Reflexive (@Transform C D) := λ _, nat_id.
 
 Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
   (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
@@ -146,9 +146,14 @@ Program Definition nat_compose_respects
 Proof. proper. Qed.
 
 #[global]
-Program Instance Transform_transitive {C E : Category} :
-  Transitive (@Transform C E) :=
-  λ _ _ _ f g, nat_compose g f.
+Program Instance Transform_PreOrder {C E : Category} :
+  PreOrder (@Transform C E).
+Next Obligation.
+  exact (λ _, nat_id).
+Defined.
+Next Obligation.
+  exact (λ _ _ _ f g, nat_compose g f).
+Defined.
 
 #[global]
 Program Instance Transform_respects {C D : Category} :
