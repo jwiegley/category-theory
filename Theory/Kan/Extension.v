@@ -70,7 +70,7 @@ Next Obligation.
   - intros.
     spose (@from_adj_nat_l _ _ _ _ ran_adjoint) as X0.
     rewrite <- X0; clear X0.
-    spose (@iso_from_to _ _ _ (@adj _ _ _ _ ran_adjoint M X) μ A0) as X0.
+    spose (@iso_from_to _ _ _ (@adj _ _ _ _ ran_adjoint M X) μ x) as X0.
     unfold nat_compose; simpl in *.
     rewrites.
     sapply (proper_morphism (@from _ _ _ (@adj _ _ _ _ ran_adjoint M X))).
@@ -78,7 +78,7 @@ Next Obligation.
   - intros.
     assert (μ ≈ (adj[ran_adjoint])⁻¹ v). {
       intro.
-      specialize (X0 A0).
+      specialize (X0 x).
       rewrite X0; clear X0.
       srewrite_r (@from_adj_nat_l _ _ _ _ ran_adjoint).
       destruct (adj[ran_adjoint]); simpl in *.
@@ -128,7 +128,7 @@ Next Obligation.
   - intros.
     spose (@to_adj_nat_r _ _ _ _ lan_adjoint) as X0.
     rewrite <- X0; clear X0.
-    spose (@iso_to_from _ _ _ (@adj _ _ _ _ lan_adjoint X M) ε A0) as X0.
+    spose (@iso_to_from _ _ _ (@adj _ _ _ _ lan_adjoint X M) ε x) as X0.
     unfold nat_compose; simpl in *.
     rewrites.
     sapply (proper_morphism (@to _ _ _ (@adj _ _ _ _ lan_adjoint X M))).
@@ -136,7 +136,7 @@ Next Obligation.
   - intros.
     assert (ε ≈ (to adj[lan_adjoint]) v). {
       intro.
-      specialize (X0 A0).
+      specialize (X0 x).
       rewrite X0; clear X0.
       srewrite_r (@to_adj_nat_r _ _ _ _ lan_adjoint).
       destruct (to adj[lan_adjoint]); simpl in *.

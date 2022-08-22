@@ -52,7 +52,7 @@ Next Obligation. now destruct (f x0); simpl. Qed.
 Next Obligation. now destruct (h x0); simpl. Qed.
 Next Obligation. now destruct (h x0); simpl. Qed.
 
-Program Instance Par_Terminal : @Terminal Par := {
+#[export] Program Instance Par_Terminal : @Terminal Par := {
   terminal_obj := False;
   one := λ _ a, None
 }.
@@ -60,7 +60,7 @@ Next Obligation.
   destruct (f x0), (g x0); try contradiction; auto.
 Qed.
 
-Program Instance Par_Cartesian : @Cartesian Par := {
+#[export] Program Instance Par_Cartesian : @Cartesian Par := {
   product_obj := λ x y, (x * y) + x + y;
   fork := λ _ _ _ f g x,
       match f x, g x with
@@ -108,13 +108,13 @@ Qed.
 (* Par is not cartesian closed, but it is monoidal closed by taking the smash
    product as the tensor. *)
 
-Program Instance Par_Initial : Initial Par := {
+#[export] Program Instance Par_Initial : Initial Par := {
   terminal_obj := False;
   one := λ _ _, False_rect _ _
 }.
 Next Obligation. contradiction. Qed.
 
-Program Instance Par_Cocartesian : @Cocartesian Par := {
+#[export] Program Instance Par_Cocartesian : @Cocartesian Par := {
   product_obj := sum;
   fork := λ _ _ _ f g x,
             match x with
