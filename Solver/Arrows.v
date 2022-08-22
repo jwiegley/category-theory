@@ -7,7 +7,6 @@ Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 
 Require Import Category.Lib.
-Require Import Category.Lib.Equality.
 Require Import Category.Lib.IList.
 Require Import Category.Lib.TList.
 Require Import Category.Theory.Category.
@@ -27,10 +26,6 @@ Definition Arrows {a o} (tys : Vector.t (obj_pair o) a)
            (dom cod : obj_idx o) :=
   tlist (Arr tys) cod dom.
 
-#[global] Instance Fin_EqDec (n : nat) : EqDec (Fin.t n) := {
-  eq_dec := Fin_eq_dec
-}.
-
 Section Arrows.
 
 Context `{Env}.
@@ -38,18 +33,6 @@ Context `{Env}.
 Import EqNotations.
 
 #[local] Obligation Tactic := unfold Arr; program_simpl.
-
-#[global] Program Instance arrow_EqDec (i j : obj_idx num_objs) :
-  EqDec (Arr tys i j).
-Next Obligation.
-Admitted.
-(*   destruct (Eq_eq_dec x y) eqn:Heqe; subst. *)
-(*     left. *)
-(*     now f_equal; eapply eq_proofs_unicity. *)
-(*   right; intro. *)
-(*   apply n. *)
-(*   now inv H0. *)
-(* Defined. *)
 
 Fixpoint arrows `(t : Term tys d c) : Arrows tys d c :=
   match t with
@@ -114,7 +97,7 @@ Fixpoint indices `(t : Arrows tys d c) : list (arr_idx num_arrs) :=
   end.
 
 Theorem indices_impl {d c} (x y : Arrows tys d c) :
-  indices x = indices y -> x = y.
+  indices x = indices y → x = y.
 Proof.
   induction x; dependent elimination y;
   simpl; auto; intros.
@@ -126,8 +109,8 @@ Proof.
     inv H0.
     f_equal; auto.
     f_equal; auto.
-    Fail apply eq_proofs_unicity.
-Admitted.
+    now rewrite UIP_refl.
+Qed.
 
 Theorem indices_app d m c (t1 : Arrows tys m c) (t2 : Arrows tys d m) :
   indices (t1 +++ t2) = (indices t1 ++ indices t2)%list.

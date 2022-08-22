@@ -3,8 +3,11 @@ Set Warnings "-notation-overridden".
 Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
 
+From Equations Require Import Equations.
+Require Import Equations.Type.EqDec.
+Set Equations With UIP.
+
 Require Import Category.Lib.
-Require Import Category.Lib.Equality.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 Require Import Category.Solver.Env.
@@ -60,7 +63,7 @@ Program Fixpoint stermD_work dom (e : STerm) :
   | SMorph a =>
     match Pos_to_fin a with
     | Some f =>
-      match Eq_eq_dec (fst (tys[@f])) dom with
+      match eq_dec (fst (tys[@f])) dom with
       | left H =>
         Some (snd (tys[@f]);
               rew [fun x => objs[@x] ~> _] H in helper (ith arrs f))
@@ -83,7 +86,7 @@ Definition stermD dom cod (e : STerm) :
   option (objs[@dom] ~> objs[@cod]) :=
   match stermD_work dom e with
   | Some (y; f) =>
-    match Eq_eq_dec y cod with
+    match eq_dec y cod with
     | Specif.left ecod =>
       Some (rew [fun y => objs[@dom] ~> objs[@y]] ecod in f)
     | _ => None
@@ -106,7 +109,7 @@ Program Fixpoint sexprD (e : SExpr) : Type :=
     end
   | SAnd p q       => sexprD p ∧ sexprD q
   | SOr p q        => sexprD p + sexprD q
-  | SImpl p q      => sexprD p -> sexprD q
+  | SImpl p q      => sexprD p → sexprD q
   end.
 
 End Denote.

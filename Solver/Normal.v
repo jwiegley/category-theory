@@ -3,8 +3,11 @@ Set Warnings "-notation-overridden".
 Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
 
+From Equations Require Import Equations.
+Require Import Equations.Type.EqDec.
+Set Equations With UIP.
+
 Require Import Category.Lib.
-Require Import Category.Lib.Equality.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 Require Import Category.Solver.Tactics.
@@ -55,20 +58,20 @@ Proof.
         exists (helper (ith arrs t)).
         exists id.
         split; cat.
-        now rewrite Fin_eq_dec_refl.
+        now rewrite EqDec.peq_dec_refl.
       simpl in *.
       desh.
       exists (fst (nth tys t)).
       exists (helper (ith arrs t)).
       exists h.
       split; cat.
-      now rewrite Fin_eq_dec_refl.
+      now rewrite EqDec.peq_dec_refl.
     simpl in *; desh.
     specialize (IHt1 t2 _ _ _ Heqo).
     desh.
     exists x, (helper (ith arrs t) ∘ x0), x1.
     rewrite x3.
-    rewrite Fin_eq_dec_refl.
+    rewrite EqDec.peq_dec_refl.
     split.
       now rewrite x2; cat.
     rewrite e.
@@ -90,13 +93,13 @@ Proof.
     rewrite e in IHt2; clear e.
     specialize (IHt1 _ _ x0).
     rewrite x3 in IHt1; clear x3.
-    rewrite Eq_eq_dec_refl in IHt1.
-    rewrite Eq_eq_dec_refl in IHt2.
+    rewrite EqDec.peq_dec_refl in IHt1.
+    rewrite EqDec.peq_dec_refl in IHt2.
     specialize (IHt1 eq_refl).
     specialize (IHt2 eq_refl).
     simpl in *; desh.
     rewrite Heqo3.
-    rewrite Fin_eq_dec_refl.
+    rewrite EqDec.peq_dec_refl.
     now rewrite IHt1, IHt2, <- x2.
 Qed.
 
@@ -119,7 +122,7 @@ Proof.
       exists (helper (ith arrs t) ∘ h).
       split; cat.
       rewrite H1.
-      now rewrite Fin_eq_dec_refl.
+      now rewrite EqDec.peq_dec_refl.
     desh.
     specialize (IHt1 t2 _ _ _ _ eq_refl H1).
     desh.
@@ -127,7 +130,7 @@ Proof.
     split.
       now rewrite x0; cat.
     rewrite e0.
-    now rewrite Fin_eq_dec_refl.
+    now rewrite EqDec.peq_dec_refl.
 Qed.
 
 Theorem unsarrows_sarrows_r d c (t : STerm) f :
@@ -144,14 +147,14 @@ Proof.
     rewrite Heqo0 in IHt2; clear Heqo0.
     specialize (IHt1 _ _ h1).
     rewrite Heqo1 in IHt1; clear Heqo1.
-    rewrite Eq_eq_dec_refl in IHt1.
-    rewrite Eq_eq_dec_refl in IHt2.
+    rewrite EqDec.peq_dec_refl in IHt1.
+    rewrite EqDec.peq_dec_refl in IHt2.
     specialize (IHt1 eq_refl).
     specialize (IHt2 eq_refl).
     simpl in *; desh.
     pose proof (unsarrows_app_r _ _ _ _ _ _ _ Heqo2 Heqo0); desh.
     rewrite e0.
-    rewrite Fin_eq_dec_refl.
+    rewrite EqDec.peq_dec_refl.
     now rewrite x1, IHt1, IHt2.
 Qed.
 

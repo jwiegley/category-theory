@@ -4,6 +4,10 @@ Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
 Require Import Coq.micromega.Lia.
 
+From Equations Require Import Equations.
+Require Import Equations.Type.EqDec.
+Set Equations With UIP.
+
 Require Import Category.Lib.
 Require Import Category.Solver.Env.
 

@@ -3,8 +3,11 @@ Set Warnings "-notation-overridden".
 Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
 
+From Equations Require Import Equations.
+Require Import Equations.Type.EqDec.
+Set Equations With UIP.
+
 Require Import Category.Lib.
-Require Import Category.Lib.Equality.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -29,20 +32,12 @@ Section Categories.
 
 Program Definition STerms : Category := {|
   obj := positive;
-  hom := fun _ _ => STerm;
-  homset := fun _ _ =>
-    {| equiv := fun f g => sarrows f = sarrows g |};
-  id  := fun _ => SIdent;
-  compose := fun _ _ _ => SComp
+  hom := λ _ _, STerm;
+  homset := λ _ _,
+    {| equiv := λ f g, sarrows f = sarrows g |};
+  id  := λ _, SIdent;
+  compose := λ _ _ _, SComp
 |}.
-Next Obligation.
-  equivalence.
-  now transitivity (sarrows y).
-Qed.
-Next Obligation.
-  simpl.
-  now f_equal.
-Qed.
 Next Obligation. now rewrite List.app_nil_r. Defined.
 Next Obligation. now rewrite List.app_assoc. Defined.
 Next Obligation. now symmetry; rewrite List.app_assoc. Defined.
@@ -55,43 +50,30 @@ Context `{Env}.
 Program Definition Terms : Category := {|
   obj := obj_idx num_objs;
   hom := Term tys;
-  homset := fun _ _ =>
-    {| equiv := fun f g => termD f ≈ termD g |};
-  id  := fun _ => Ident;
-  compose := fun _ _ _ => Comp
+  homset := λ _ _,
+    {| equiv := λ f g, termD f ≈ termD g |};
+  id  := λ _, Ident;
+  compose := λ _ _ _, Comp
 |}.
-Next Obligation. equivalence. Qed.
-Next Obligation.
-  simpl.
-  now rewrite X, X0.
-Qed.
-Next Obligation. now cat. Qed.
-Next Obligation. now cat. Qed.
-Next Obligation. now cat. Qed.
-Next Obligation. now cat. Qed.
-
-Import VectorNotations.
 
 Program Instance Denote : Terms ⟶ cat := {
   fobj := nth objs;
-  fmap := fun _ _ => termD
+  fmap := λ _ _, termD
 }.
-Next Obligation. reflexivity. Qed.
-Next Obligation. reflexivity. Qed.
 
 (*
 Program Instance Strip : Terms ⟶ STerms := {
   fobj := Fin_to_pos;
-  fmap := fun _ _ => Term_strip
+  fmap := λ _ _, Term_strip
 }.
 
 Program Instance Embed : STerms ⟶ Terms ∐ 1 := {
-  fobj := fun x =>
+  fobj := λ x,
     match Pos_to_fin x with
     | None => Datatypes.inr tt
     | Some x => Datatypes.inl x
     end;
-  fmap := fun x y f =>
+  fmap := λ x y f,
     match Pos_to_fin x, Pos_to_fin y with
     | Some x, Some y =>
       match STerm_embed x y f with
