@@ -67,8 +67,7 @@ Fixpoint stermD_work dom (e : STerm) :
     end
   end.
 
-Definition stermD dom cod (e : STerm) :
-  option (objs[@dom] ~> objs[@cod]) :=
+Definition stermD dom cod (e : STerm) : option (objs[@dom] ~> objs[@cod]) :=
   match stermD_work dom e with
   | Some (y; f) =>
     match eq_dec y cod with

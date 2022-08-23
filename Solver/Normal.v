@@ -27,7 +27,7 @@ Import ListNotations.
 
 Fixpoint sindices (t : STerm) : list positive :=
   match t with
-  | SIdent    => List.nil
+  | SIdent    => []
   | SMorph a  => [a]
   | SComp f g => sindices f ++ sindices g
   end.
@@ -48,7 +48,7 @@ Qed.
 
 Lemma unsindices_app d c (t1 t2 : list positive) f :
   stermD_work d (unsindices (t1 ++ t2)) = Some (c; f)
-    -> ∃ m g h, f ≈ g ∘ h ∧ stermD_work m (unsindices t1) = Some (c; g)
+    → ∃ m g h, f ≈ g ∘ h ∧ stermD_work m (unsindices t1) = Some (c; g)
                           ∧ stermD_work d (unsindices t2) = Some (m; h).
 Proof.
   generalize dependent c.
@@ -90,7 +90,7 @@ Qed.
 
 Theorem unsindices_sindices d c (t : STerm) f :
   stermD d c (unsindices (sindices t)) = Some f
-    -> stermD d c t ≈ Some f.
+    → stermD d c t ≈ Some f.
 Proof.
   generalize dependent c.
   generalize dependent d.
@@ -115,8 +115,8 @@ Qed.
 
 Lemma unsindices_app_r d m c (t1 t2 : list positive) g h :
      stermD_work m (unsindices t1) = Some (c; g)
-  -> stermD_work d (unsindices t2) = Some (m; h)
-  -> ∃ f, f ≈ g ∘ h ∧
+  → stermD_work d (unsindices t2) = Some (m; h)
+  → ∃ f, f ≈ g ∘ h ∧
           stermD_work d (unsindices (t1 ++ t2)) = Some (c; f).
 Proof.
   generalize dependent c.
@@ -145,7 +145,7 @@ Qed.
 
 Theorem unsindices_sindices_r d c (t : STerm) f :
   stermD d c t = Some f
-    -> stermD d c (unsindices (sindices t)) ≈ Some f.
+    → stermD d c (unsindices (sindices t)) ≈ Some f.
 Proof.
   generalize dependent c.
   generalize dependent d.
@@ -184,7 +184,7 @@ Fixpoint sexprAD (e : SExpr) : Type :=
     end
   | SAnd p q  => sexprAD p ∧ sexprAD q
   | SOr p q   => sexprAD p + sexprAD q
-  | SImpl p q => sexprAD p -> sexprAD q
+  | SImpl p q => sexprAD p → sexprAD q
   end.
 
 Theorem sexprAD_sound (e : SExpr) : sexprAD e ↔ sexprD e.
@@ -207,7 +207,7 @@ Qed.
 End Normal.
 
 (* * This is a much easier theorem to apply, so it speeds things up a lot! *)
-Corollary sexprAD_sound' (env : Env) (e : SExpr) : sexprAD e -> sexprD e.
+Corollary sexprAD_sound' (env : Env) (e : SExpr) : sexprAD e → sexprD e.
 Proof. apply sexprAD_sound. Qed.
 
 Ltac normalize := reify_terms_and_then
