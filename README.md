@@ -123,13 +123,15 @@ texts on category theory. Some of the key notations are:
  - `C ⟶ D`: a long right arrow between categories is a functor
  - `F ⟹ G`: a long right double arrow between functors is a natural
    transformation
- - `f ∘ g`: a small centered circle is composition of morphisms
+ - `f ∘ g`: a small centered circle is composition of morphisms, or horizontal
+   composition generally
  - `f ∘[Cat] g`: composition can specify the intended category, as an aid to
    type inference
+   composition generally
  - `f ○ g`: a larger hollow circle is composition of functors
  - `f ⊙ g`: a larger circle with a dot is composition of isomorphisms
  - `f ∙ g`: a solid composition dot is composition of natural
-   transformations
+   transformations, or vertical composition generally
  - `f ⊚ g`: a larger circle with a smaller circle is composition of
    adjunctions
  - `([C, D])`: A pair of categories in square brackets is another way to give
