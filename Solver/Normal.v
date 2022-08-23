@@ -32,45 +32,12 @@ Fixpoint sindices (t : STerm) : list positive :=
   | SComp f g => sindices f ++ sindices g
   end.
 
-Corollary sindices_ident :
-  sindices SIdent = [].
-Proof. reflexivity. Qed.
-
-Corollary sindices_comp (t1 t2 : STerm) :
-  sindices (SComp t1 t2) = sindices t1 ++ sindices t2.
-Proof. reflexivity. Qed.
-
-Corollary sindices_id_left (t : STerm) :
-  sindices (SComp SIdent t) = sindices t.
-Proof. reflexivity. Qed.
-
-Lemma sindices_id_right (t : STerm) :
-  sindices (SComp t SIdent) = sindices t.
-Proof.
-  rewrite sindices_comp, sindices_ident.
-  apply app_nil_r.
-Qed.
-
-Lemma sindices_comp_assoc (t1 t2 t3 : STerm) :
-  sindices (SComp (SComp t1 t2) t3) = sindices (SComp t1 (SComp t2 t3)).
-Proof.
-  rewrite !sindices_comp.
-  now rewrite app_assoc.
-Qed.
-
 Fixpoint unsindices (fs : list positive) : STerm :=
   match fs with
   | List.nil => SIdent
   | List.cons f List.nil => SMorph f
   | List.cons f fs => SComp (SMorph f) (unsindices fs)
   end.
-
-Lemma sindices_unsindices (f : list positive) : sindices (unsindices f) = f.
-Proof.
-  induction f; simpl; auto; simpl.
-  destruct f; auto; simpl in *.
-  now rewrite IHf.
-Qed.
 
 Lemma unsindices_app d c (t1 t2 : list positive) f :
   stermD_work d (unsindices (t1 ++ t2)) = Some (c; f)
@@ -209,10 +176,8 @@ Proof.
   induction t1; intros;
   simpl norm_assoc_aux;
   try reflexivity.
-  rewrite IHt1_1.
-  rewrite !sindices_comp.
-  rewrite IHt1_2.
-  rewrite sindices_comp.
+  rewrite IHt1_1; simpl.
+  rewrite IHt1_2; simpl.
   now rewrite app_assoc.
 Qed.
 
@@ -227,8 +192,7 @@ Theorem norm_assoc_sound (t : STerm) :
 Proof.
   induction t; intros; try reflexivity.
   simpl.
-  rewrite norm_assoc_aux_sound.
-  rewrite sindices_comp.
+  rewrite norm_assoc_aux_sound; simpl.
   now rewrite IHt2.
 Qed.
 
@@ -264,6 +228,8 @@ Fixpoint norm_aux t1 t2 : STerm :=
   | SComp t t' => norm_aux t (norm_aux t' t2)
   end.
 
+(** Normalization *)
+
 Definition norm t := norm_id (norm_assoc t).
 
 Example norm_1 :
@@ -287,17 +253,6 @@ Proof.
   unfold norm.
   rewrite norm_id_sound.
   rewrite norm_assoc_sound.
-  reflexivity.
-Qed.
-
-Theorem norm_impl (t1 t2 : STerm) :
-  norm t1 = norm t2 →
-  sindices t1 = sindices t2.
-Proof.
-  intros.
-  rewrite <- (norm_sound t1).
-  rewrite <- (norm_sound t2).
-  rewrite H0.
   reflexivity.
 Qed.
 
