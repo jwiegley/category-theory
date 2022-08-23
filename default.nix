@@ -21,6 +21,7 @@ let category-theory = coqPackages:
 
     buildInputs = [
       coq coq.ocaml coq.camlp5 coq.findlib equations
+      dpdgraph
     ];
     enableParallelBuilding = true;
 
