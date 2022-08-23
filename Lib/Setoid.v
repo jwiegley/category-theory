@@ -85,9 +85,10 @@ Program Definition eq_Setoid (A : Type) : Setoid A := {|
   setoid_equiv := eq_equivalence
 |}.
 
-Program Definition funext_Setoid
+#[export]
+Program Instance funext_Setoid
         {T : Type} (t : T -> Type) (a b : T) `{Setoid (t b)} :
-  Setoid (t a -> t b) := {|
+  Setoid (t a -> t b) | 9 := {|
   equiv := λ f g, ∀ x, f x ≈ g x
 |}.
 Next Obligation.
@@ -97,6 +98,11 @@ Next Obligation.
     now apply X.
   - now rewrite X, X0.
 Qed.
+
+#[export]
+Program Instance Fin_Setoid {n} : Setoid (Fin.t n) := {|
+  equiv := eq
+|}.
 
 Class Unique `{S : Setoid A} (P : A -> Type) := {
   unique_obj : A;
