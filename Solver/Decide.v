@@ -59,7 +59,7 @@ Program Fixpoint sexpr_backward (t : SExpr) {measure t SExpr_subterm} :
     sexpr_forward q p (sexpr_backward q)
   end.
 Next Obligation.
-  destruct (list_eqdec _ (sindices f) (sindices g)) eqn:?;
+  destruct (list_eqdec _ (sindices (norm f)) (sindices (norm g))) eqn:?;
     [|apply Uncertain].
   destruct (Pos_to_fin _); [|apply Uncertain].
   destruct (Pos_to_fin _); [|apply Uncertain].
@@ -68,7 +68,9 @@ Next Obligation.
   apply Proved.
   apply unsindices_sindices_r in Heqo.
   apply unsindices_sindices_r in Heqo0.
-  rewrite e in Heqo.
+  pose proof e as e'.
+  rewrite !norm_sound in e'.
+  rewrite e' in Heqo.
   rewrite Heqo in Heqo0.
   now simpl in Heqo0.
 Defined.
