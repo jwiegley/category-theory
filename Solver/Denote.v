@@ -67,8 +67,7 @@ Fixpoint stermD_work dom (e : STerm) :
     end
   end.
 
-Definition stermD dom cod (e : STerm) :
-  option (objs[@dom] ~> objs[@cod]) :=
+Definition stermD dom cod (e : STerm) : option (objs[@dom] ~> objs[@cod]) :=
   match stermD_work dom e with
   | Some (y; f) =>
     match eq_dec y cod with
@@ -78,60 +77,6 @@ Definition stermD dom cod (e : STerm) :
     end
   | _ => None
   end.
-
-Theorem stermD_SIdent {x} :
-  stermD x x SIdent ≈ Some id[objs[@x]].
-Proof.
-  unfold stermD; simpl.
-  rewrite EqDec.peq_dec_refl.
-  reflexivity.
-Qed.
-
-Theorem stermD_not_SIdent {d c} :
-  d ≠ c → stermD d c SIdent ≈ None.
-Proof.
-  unfold stermD; simpl; intros.
-  destruct (eq_dec d c); subst; auto.
-Qed.
-
-Definition option_comp {a b c : cat}
-  (f : option (b ~> c)) (g : option (a ~> b)) : option (a ~> c).
-Proof.
-  destruct f, g.
-    exact (Some (h ∘ h0)).
-  all:exact None.
-Defined.
-
-#[export] Program Instance option_comp_respects {a b c : cat} :
-  Proper (equiv ==> equiv ==> equiv) (@option_comp a b c).
-Next Obligation.
-  repeat intro.
-  destruct x, y, x0, y0; simpl in *; auto.
-  now rewrite X, X0.
-Qed.
-
-Theorem stermD_SComp {d c} f g :
-  ∃ m, stermD d c (SComp f g) ≈ option_comp (stermD m c f) (stermD d m g).
-Proof.
-  unfold stermD; simpl.
-  destruct (stermD_work d g) eqn:Heqg.
-  - destruct s.
-    destruct (stermD_work x f) eqn:Heqf.
-    + destruct s.
-      exists x.
-      rewrite Heqf.
-      rewrite !EqDec.peq_dec_refl; simpl.
-      destruct (eq_dec _ c); subst; simpl; auto.
-      reflexivity.
-    + exists x.
-      rewrite Heqf; simpl.
-      rewrite !EqDec.peq_dec_refl; simpl; auto.
-  - exists d.
-    destruct (stermD_work d f) eqn:Heqf.
-    + destruct s.
-      destruct (eq_dec x c); subst; simpl; auto.
-    + simpl; auto.
-Qed.
 
 Program Fixpoint sexprD (e : SExpr) : Type :=
   match e with
