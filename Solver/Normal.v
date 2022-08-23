@@ -161,101 +161,6 @@ Proof.
     now rewrite x1, IHt1, IHt2.
 Qed.
 
-(* Normalization step: Associate composition to the right *)
-
-Fixpoint norm_assoc_aux t1 t2 : STerm :=
-  match t1 with
-  | SComp t t' => norm_assoc_aux t (norm_assoc_aux t' t2)
-  | _ => SComp t1 t2
-  end.
-
-Theorem norm_assoc_aux_sound (t1 t2 : STerm) :
-  sindices (norm_assoc_aux t1 t2) = sindices (SComp t1 t2).
-Proof.
-  generalize dependent t2.
-  induction t1; intros;
-  simpl norm_assoc_aux;
-  try reflexivity.
-  rewrite IHt1_1; simpl.
-  rewrite IHt1_2; simpl.
-  now rewrite app_assoc.
-Qed.
-
-Fixpoint norm_assoc t : STerm :=
-  match t with
-  | SComp t1 t2 => norm_assoc_aux t1 (norm_assoc t2)
-  | _ => t
-  end.
-
-Theorem norm_assoc_sound (t : STerm) :
-  sindices (norm_assoc t) = sindices t.
-Proof.
-  induction t; intros; try reflexivity.
-  simpl.
-  rewrite norm_assoc_aux_sound; simpl.
-  now rewrite IHt2.
-Qed.
-
-(* Normalization step: Remove composed identities *)
-
-Fixpoint norm_id t : STerm :=
-  match t with
-  | SComp f g =>
-      match norm_id f, norm_id g with
-      | SIdent, SIdent => SIdent
-      | SIdent, g' => g'
-      | f', SIdent => f'
-      | f', g' => SComp f' g'
-      end
-  | _ => t
-  end.
-
-Theorem norm_id_sound (t : STerm) :
-  sindices (norm_id t) = sindices t.
-Proof.
-  induction t; simpl; intros;
-    try reflexivity.
-  rewrite <- IHt1, <- IHt2.
-  destruct (norm_id t1), (norm_id t2); auto.
-  simpl sindices.
-  now rewrite app_nil_r.
-Qed.
-
-Fixpoint norm_aux t1 t2 : STerm :=
-  match t1 with
-  | SIdent => t2
-  | SMorph x => SComp (SMorph x) t2
-  | SComp t t' => norm_aux t (norm_aux t' t2)
-  end.
-
-(** Normalization *)
-
-Definition norm t := norm_id (norm_assoc t).
-
-Example norm_1 :
-  norm (SComp
-          (SComp
-             (SComp
-                (SComp
-                   (SComp SIdent (SMorph 1%positive))
-                   (SComp (SMorph 2%positive) SIdent))
-                SIdent)
-             (SMorph 3%positive))
-          (SComp
-             SIdent
-             SIdent))
-    = SComp (SMorph 1) (SComp (SMorph 2) (SMorph 3)).
-Proof. reflexivity. Qed.
-
-Theorem norm_sound (t : STerm) :
-  sindices (norm t) = sindices t.
-Proof.
-  unfold norm.
-  rewrite norm_id_sound.
-  rewrite norm_assoc_sound.
-  reflexivity.
-Qed.
-
 Fixpoint sexprAD (e : SExpr) : Type :=
   match e with
   | STop    => True
@@ -263,8 +168,8 @@ Fixpoint sexprAD (e : SExpr) : Type :=
   | SEquiv x y f g =>
     match Pos_to_fin x, Pos_to_fin y with
     | Some d, Some c =>
-      match stermD d c (unsindices (sindices (norm f))),
-            stermD d c (unsindices (sindices (norm g))) with
+      match stermD d c (unsindices (sindices f)),
+            stermD d c (unsindices (sindices g)) with
       | Some f, Some g => f ≈ g
       | _, _ => False
       end
@@ -281,14 +186,11 @@ Proof.
   - destruct (Pos_to_fin _); [|contradiction].
     destruct (Pos_to_fin _); [|contradiction].
     desh.
-    rewrite norm_sound in Heqo.
-    rewrite norm_sound in Heqo0.
     apply unsindices_sindices in Heqo.
     apply unsindices_sindices in Heqo0.
     simpl in *; desh.
     now rewrite Heqo, Heqo0, <- X.
   - desh.
-    rewrite !norm_sound.
     apply unsindices_sindices_r in Heqo1.
     apply unsindices_sindices_r in Heqo2.
     simpl in *; desh.
