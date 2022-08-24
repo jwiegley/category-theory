@@ -160,6 +160,7 @@ Structure/Monoidal/Braided.v
 Structure/Monoidal/Cartesian.v
 Structure/Monoidal/Cartesian/Cartesian.v
 Structure/Monoidal/Cartesian/Proofs.v
+Structure/Monoidal/Closed.v
 Structure/Monoidal/Composition.v
 Structure/Monoidal/Internal/Product.v
 Structure/Monoidal/Naturality.v
