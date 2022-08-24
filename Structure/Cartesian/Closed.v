@@ -20,8 +20,8 @@ Class Closed := {
 
   exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;
 
-  curry'   {x y z} := to (@exp_iso x y z);
-  uncurry' {x y z} := from (@exp_iso x y z);
+  curry'   {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z);
+  uncurry' {x y z} : x ~> z^y → x × y ~> z := from (@exp_iso x y z);
 
   eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id;
 
@@ -68,26 +68,13 @@ Qed.
 Corollary curry_uncurry {x y z} (f : x ~> z^y) :
   curry (uncurry f) ≈ f.
 Proof.
-  replace (curry (uncurry f)) with ((curry ∘ uncurry) f) by auto.
-  unfold curry, uncurry; simpl.
-  pose proof (iso_to_from (@exp_iso _ x y z)) as HA.
-  unfold equiv in HA; simpl in HA.
-  autounfold in HA.
-  unfold equiv in HA; simpl in HA.
-  apply HA.
+  sapply (iso_to_from (@exp_iso _ x y z)).
 Qed.
 
 Corollary uncurry_curry {x y z} (f : x × y ~> z) :
   uncurry (curry f) ≈ f.
 Proof.
-  replace (uncurry (curry f)) with ((uncurry ∘ curry) f) by auto.
-  unfold curry, uncurry; simpl.
-  pose proof (iso_from_to (@exp_iso _ x y z)) as HA.
-  simpl in HA.
-  unfold equiv in HA; simpl in HA.
-  autounfold in HA.
-  unfold equiv in HA; simpl in HA.
-  apply HA.
+  sapply (iso_from_to (@exp_iso _ x y z)).
 Qed.
 
 #[local] Hint Rewrite @curry_uncurry : categories.
