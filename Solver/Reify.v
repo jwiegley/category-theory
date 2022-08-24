@@ -9,6 +9,8 @@ Require Import Category.Theory.Category.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 
+Generalizable All Variables.
+
 (** Lists in Ltac *)
 
 Ltac addToList x xs :=
@@ -298,6 +300,52 @@ Ltac reify := reify_terms_and_then ltac:(fun env g => pose env; pose g).
 
 Ltac reify_and_change :=
   reify_terms_and_then ltac:(fun env g => change (@sexprD env g)).
+
+Section Reify.
+
+Context `{Env}.
+
+Class Reify `(f : x ~{cat}~> y) (t : STerm) (l : list positive).
+
+#[export]
+Instance binRf `(f : y ~{cat}~> z) `(g : x ~{cat}~> y) t1 t2 l
+   {_ : Reify f t1 l} {_ : Reify g t2 l} :
+   Reify (f ∘ g) (SComp t1 t2) l | 1 := {}.
+
+Class Nth (i : positive) (l : list positive) (f : ∃ x y, x ~{cat}~> y).
+
+Instance nth0 e l : Nth 1 (e :: l) e | 0 := {}.
+
+Instance nthS i e l e'
+   {_ : Nth i l e} : Nth (Pos.succ i) (e' :: l) e | 2 := {}.
+
+Instance varRf e i l
+  {_ : Nth i l e} : Reify e (SMorph i) l | 100.
+
+Class Closed (l : list positive).
+
+Program Instance closed0 : Closed nil.
+
+Program Instance closed1 a l {_ : Closed l} : Closed (a :: l).
+
+Definition reify_trigger `(f : x ~{cat}~> y) {expr : STerm} {lvar : list positive}
+ {_ : Reify f expr lvar} `{Closed lvar} := (lvar, expr).
+
+Ltac reify_step :=
+  match goal with |- ?u ≈ ?v =>
+    match type of u with
+    | ?x ~{?c}~> ?y =>
+      match eval red in (reify_trigger u) with
+      | (?as1, ?t1) =>
+        match eval red in (reify_trigger v) with
+        | (?as2, ?t2) =>
+          change (stermD x y t1 = stermD x y t2)
+        end
+      end
+    end
+  end.
+
+End Reify.
 
 Example sample_0 :
   ∀ (C : Category) (x y z w : C)
