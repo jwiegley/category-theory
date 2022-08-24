@@ -2,9 +2,9 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.NArith.NArith.
 Require Import Coq.FSets.FMaps.
+Require Import Coq.micromega.Lia.
 
 Require Import Category.Lib.
-Require Import Category.Lib.Nomega.
 Require Import Category.Lib.FMapExt.
 Require Import Category.Lib.MapDecide.
 Require Import Category.Theory.Functor.
@@ -227,7 +227,7 @@ Ltac destruct_maps :=
     inversion H
   | [ H : M.find (?X, ?Y) (M.add _ _ _) = Some ?F |- _ ] =>
     apply find_add_inv in H;
-    (destruct H as [[? [? ?]]|]; [subst; try nomega|])
+    (destruct H as [[? [? ?]]|]; [subst; try lia|])
   | [ |- ∃ v, M.find _ _ = Some v ] =>
     vm_compute; eexists; reflexivity
 
@@ -318,7 +318,7 @@ Ltac elimobj X :=
   unfold composite in X; simpl in X;
   clear -X;
   vm_compute triangular_number in *;
-  destruct_maps; nomega.
+  destruct_maps; lia.
 
 Lemma peano_rect' : ∀ P : N → Type, P 0%N → (∀ n : N, P (N.succ n)) → ∀ n : N, P n.
 Proof.
@@ -431,14 +431,18 @@ Program Definition _2_Two_object (x : TwoObj) : object Two :=
   | TwoY => {| obj_arr := 2%N; obj_def := _; obj_id  := _ |}
   end.
 Next Obligation.
-  unfold is_identity, defined, composite;
+  unfold is_identity, defined, composite.
   simpl; split; intros; destruct H; subst;
   rewrite e; destruct_maps.
+  unfold triangular_number in e0.
+  rewrite N.div_same in e0; lia.
 Defined.
 Next Obligation.
   unfold is_identity, defined, composite;
   simpl; split; intros; destruct H; subst;
   rewrite e; destruct_maps.
+  unfold triangular_number in e.
+  rewrite N.div_same in e; lia.
 Defined.
 
 Program Definition _2_Two_morphism (x y : TwoObj) (f : TwoHom x y) :

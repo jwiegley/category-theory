@@ -2,9 +2,9 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.NArith.NArith.
 Require Import Coq.FSets.FMaps.
+Require Import Coq.micromega.Lia.
 
 Require Import Category.Lib.
-Require Import Category.Lib.Nomega.
 Require Import Category.Lib.FMapExt.
 
 Generalizable All Variables.

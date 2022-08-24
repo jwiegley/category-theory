@@ -16,13 +16,11 @@ Set Equations With UIP.
 
 Require Import Category.Lib.
 
-Inductive tlist {A : Type} (B : A -> A -> Type) : A -> A -> Type :=
-  | tnil : forall i : A, tlist B i i
-  | tcons : forall i j k : A, B i j -> tlist B j k -> tlist B i k.
+Inductive tlist {A : Type} (B : A → A → Type) : A → A → Type :=
+  | tnil : ∀ i : A, tlist B i i
+  | tcons : ∀ i j k : A, B i j → tlist B j k → tlist B i k.
 
-Derive Signature for tlist.
-Derive NoConfusion for tlist.
-Derive Subterm for tlist.
+Derive Signature NoConfusion Subterm for tlist.
 Next Obligation.
   apply Transitive_Closure.wf_clos_trans.
   intros a.
@@ -49,37 +47,13 @@ Notation "x ::: xs" := (tcons _ x xs) (at level 60, right associativity).
 Section TList.
 
 Context {A : Type}.
-Context {B : A -> A -> Type}.
+Context {B : A → A → Type}.
 
 Fixpoint tlist_length {i j} (xs : tlist B i j) : nat :=
   match xs with
   | tnil => 0
   | tcons x _ xs => 1 + tlist_length xs
   end.
-
-(*
-The Fixpoint version does not work, as might be expected, but fails with
-this rather confusing error:
-
-  Error: Illegal application:
-  The term "@eq" of type "forall A : Type, A -> A -> Prop"
-  cannot be applied to the terms
-   "A" : "Type"
-   "k'" : "A"
-   "ys0" : "tlist B j'0 k'"
-  The 3rd term has type "tlist B j'0 k'" which should be coercible to "A".
-
-Function also fails, but due to the missing rewrites that are needed to
-align the values properly after matching has discovered the equalities.
-
-Program Fixpoint tlist_app {i j k} (xs : tlist B i j) (ys : tlist B j k) :
-  tlist B i k :=
-  match xs, ys with
-  | tnil, ys => ys
-  | xs, tnil => xs
-  | tcons _ x xs, ys => x ::: @tlist_app _ _ _ xs ys
-  end.
-*)
 
 Equations tlist_app {i j k} (xs : tlist B i j) (ys : tlist B j k) :
   tlist B i k :=
@@ -94,14 +68,14 @@ Equations tlist_uncons {i j} (xs : tlist B i j) :
   tlist_uncons tnil := None;
   tlist_uncons (@tcons _ _ _ _ _ x xs) := Some (_; (x, xs)).
 
-Equations tlist_map {i j A' C} {f : A -> A'}
-          (g : forall i j : A, B i j -> C (f i) (f j))
+Equations tlist_map {i j A' C} {f : A → A'}
+          (g : ∀ i j : A, B i j → C (f i) (f j))
           (xs : tlist B i j) : tlist C (f i) (f j) :=
   tlist_map _ tnil := tnil;
   tlist_map g (@tcons _ _ _ _ _ x xs) := g _ _ x ::: tlist_map g xs.
 
 Equations tlist_mapv {i j C}
-          (g : forall i j : A, B i j -> C)
+          (g : ∀ i j : A, B i j → C)
           (xs : tlist B i j) : list C :=
   tlist_mapv _ tnil := nil;
   tlist_mapv g (@tcons _ _ _ _ _ x xs) := g _ _ x :: tlist_mapv g xs.
@@ -132,7 +106,7 @@ Equations tlist_last {i j} (xs : tlist B i j) :
     | @tcons _ _ _ _ _ y ys => tlist_last ys
   }.
 
-Equations tlist_rev (flip : forall x y : A, B x y -> B y x)
+Equations tlist_rev (flip : ∀ x y : A, B x y → B y x)
           {i j} (xs : tlist B i j) : tlist B j i :=
   tlist_rev flip tnil := tnil;
   tlist_rev flip (@tcons _ _ _ _ _ x xs) :=
@@ -145,36 +119,9 @@ Fixpoint tlist_concat {i j} (xs : tlist (tlist B) i j) : tlist B i j :=
   end.
 
 Context `{AE : EqDec A}.
-Context `{BE : forall i j, EqDec (B i j)}.
+Context `{BE : ∀ i j, EqDec (B i j)}.
 
 Import EqNotations.
-
-(* Returns true if [xs] is a sublist of [ys] *)
-(*
-Equations tlist_incl
-          {j k} (xs : tlist B j k)
-          {i l} (ys : tlist B i l) : bool :=
-  tlist_incl (@tnil _ _ j) (@tnil _ _ i)
-    with eq_dec j i := {
-      | left _ => true;
-      | right _ => false
-    };
-  tlist_incl (@tnil _ _ j) (@tcons _ _ i _ _ y ys)
-    with eq_dec j i := {
-      | left _ => true;
-      | right _ => tlist_incl tnil ys
-    };
-  tlist_incl _ tnil := false;
-  tlist_incl (@tcons _ _ j m _ x xs) (@tcons _ _ i o _ y ys)
-    with (eq_dec j i, eq_dec m o) := {
-      | pair (left H1) (left H2) =>
-        (eq_dec x (rew <- [fun y => B _ y] H2 in
-                   rew <- [fun x => B x _] H1 in y)
-           &&& tlist_incl xs ys)
-          ||| tlist_incl (x ::: xs) ys;
-      | _ => tlist_incl (x ::: xs) ys
-    }.
-*)
 
 Equations tlist_eq_dec {i j : A} (x y : tlist B i j) : {x = y} + {x ≠ y} :=
   tlist_eq_dec tnil tnil := left eq_refl;
@@ -208,6 +155,10 @@ Next Obligation.
   assumption.
 Defined.
 
+#[global] Program Instance tlist_EqDec {i j} : @EqDec (tlist B i j) := {
+  eq_dec := tlist_eq_dec
+}.
+
 Lemma tlist_app_tnil_l {i j} (xs : tlist B i j) :
   tnil +++ xs = xs.
 Proof. now destruct xs. Qed.
@@ -229,7 +180,7 @@ Proof.
   now rewrite <- !tlist_app_comm_cons, IHxs.
 Qed.
 
-Context `{forall i j, Setoid (B i j)}.
+Context `{∀ i j, Setoid (B i j)}.
 
 Equations tlist_equiv {i j : A} (x y : tlist B i j) : Type :=
   tlist_equiv tnil tnil := True;
@@ -323,10 +274,6 @@ Next Obligation.
     exact X0.
 Qed.
 
-#[global] Program Instance tlist_EqDec {i j} : @EqDec (tlist B i j) := {
-  eq_dec := tlist_eq_dec
-}.
-
 End TList.
 
 Notation "xs +++ ys" := (tlist_app xs ys) (at level 60, right associativity).
@@ -334,7 +281,7 @@ Notation "xs +++ ys" := (tlist_app xs ys) (at level 60, right associativity).
 Section TListProofs.
 
 Context {A : Type}.
-Context {B : A -> A -> Type}.
+Context {B : A → A → Type}.
 
 Lemma tlist_app_tnil_r {i j} (xs : tlist B i j) :
   xs +++ tnil = xs.
@@ -357,7 +304,7 @@ Proof. reflexivity. Qed.
 
 End TListProofs.
 
-Lemma tlist_concat_app {A : Type} {B : A -> A -> Type} {i j k}
+Lemma tlist_concat_app {A : Type} {B : A → A → Type} {i j k}
       (xs : tlist (tlist B) i j) (ys : tlist (tlist B) j k) :
   tlist_concat (xs +++ ys) = tlist_concat xs +++ tlist_concat ys.
 Proof.
@@ -370,9 +317,9 @@ Qed.
 Section TListProofsRev.
 
 Context {A : Type}.
-Context {B : A -> A -> Type}.
+Context {B : A → A → Type}.
 
-Variables flip : forall x y : A, B x y -> B y x.
+Variables flip : ∀ x y : A, B x y → B y x.
 
 Lemma tlist_rev_unit {i j k} (xs : tlist B i j) (x : B j k) :
   tlist_rev flip (xs +++ x ::: tnil) = flip _ _ x ::: tlist_rev flip xs.
@@ -397,7 +344,7 @@ Proof.
   now rewrite <- tlist_app_assoc.
 Qed.
 
-Hypothesis flip_involutive : forall (i j : A) (x : B i j),
+Hypothesis flip_involutive : ∀ (i j : A) (x : B i j),
   flip _ _ (flip _ _ x) = x.
 
 Lemma tlist_rev_involutive {i j} (xs : tlist B i j) :
@@ -424,257 +371,3 @@ Proof.
 Qed.
 
 End TListProofsRev.
-
-Section TListProofsInj.
-
-(* Dependending on the choice of A, this can be either
-      Eqdep.EqdepTheory.inj_pair2  (incurs axiom)
-   or Eqdep_dec.inj_pair2_eq_dec   (when A is decidable)
-*)
-Hypothesis inj_pair2 :
-  forall (U : Type) (P : U -> Type) (p : U) (x y : P p),
-    (p; x) = (p; y) -> x = y.
-
-Context {A : Type}.
-Context {B : A -> A -> Type}.
-
-Lemma tlist_cons_uncons
-      {i m j} (xs : tlist B i j) (y : B i m) ys :
-  tlist_uncons xs = Some (_; (y, ys)) -> xs = y ::: ys.
-Proof.
-  destruct xs; simpl; intros.
-    inversion H.
-  inversion H; subst; clear H.
-  apply inj_pair2 in H2; auto.
-  apply inj_pair2 in H3; auto.
-  now rewrite H2, H3.
-Qed.
-
-End TListProofsInj.
-
-Section Sublist.
-
-Context {A : Type}.
-Context {B : A -> A -> Type}.
-
-Context `{EqDec A}.
-Context `{forall i j, EqDec (B i j)}.
-
-Import EqNotations.
-
-Fixpoint tlist_find_sublist
-         {j k} (xs : tlist B j k)
-         {i l} (ys : tlist B i l) : option (tlist B i j * tlist B k l) :=
-  match xs, ys with
-  | @tnil _ _ j, @tnil _ _ i =>
-    match eq_dec j i with
-    | left H => Some (rew [fun x => tlist B x _] H in tnil,
-                      rew [fun x => tlist B _ x] H in tnil)
-    | _ => None
-    end
-  | @tnil _ _ j, @tcons _ _ k n l y ys =>
-    match eq_dec j k with
-    | left H =>
-      Some (rew [fun x => tlist B x _] H in tnil,
-            rew <- [fun x => tlist B x _] H in (y ::: ys))
-    | _ =>
-      match tlist_find_sublist tnil ys with
-      | None => None
-      | Some (ys, zs) => Some (y ::: ys, zs)
-      end
-    end
-  | _, tnil => None
-  | @tcons _ _ j m k x xs, @tcons _ _ i o l y ys =>
-    match eq_dec j i, eq_dec m o with
-    | left H1, left H2 =>
-      match eq_dec x (rew <- [fun x => B x _] H1 in
-                      rew <- [fun x => B _ x] H2 in y) with
-      | left _ =>
-        match tlist_find_sublist xs ys with
-        | Some (bs, cs) =>
-          match tlist_eq_dec bs (rew <- [fun a => tlist B _ a] H2 in tnil) with
-          | left _ =>
-            Some (rew [fun a => tlist B a _] H1 in tnil, cs)
-          | _ =>
-            match tlist_find_sublist (x ::: xs) ys with
-            | None => None
-            | Some (pair ys zs) =>
-              Some (y ::: ys, zs)
-            end
-          end
-        | _ =>
-          match tlist_find_sublist (x ::: xs) ys with
-          | None => None
-          | Some (pair ys zs) =>
-            Some (y ::: ys, zs)
-          end
-        end
-      | _ =>
-        match tlist_find_sublist (x ::: xs) ys with
-        | None => None
-        | Some (pair ys zs) =>
-          Some (y ::: ys, zs)
-        end
-      end
-    | _, _ =>
-      match tlist_find_sublist (x ::: xs) ys with
-      | None => None
-      | Some (pair ys zs) =>
-        Some (y ::: ys, zs)
-      end
-    end
-  end.
-
-End Sublist.
-
-Section SublistProofsInj.
-
-(* Dependending on the choice of A, this can be either
-      Eqdep.EqdepTheory.inj_pair2  (incurs axiom)
-   or Eqdep_dec.inj_pair2_eq_dec   (when A is decidable)
-*)
-Hypothesis inj_pair2 :
-  forall (U : Type) (P : U -> Type) (p : U) (x y : P p),
-    (p; x) = (p; y) -> x = y.
-
-Context {A : Type}.
-Context {B : A -> A -> Type}.
-
-Context `{EqDec A}.
-Context `{forall i j, EqDec (B i j)}.
-
-Import EqNotations.
-
-Open Scope signature_scope.
-
-Ltac cleanup H IHf Heqo :=
-  inversion H; subst; clear H;
-  specialize (IHf _ _ _ _ _ Heqo); subst;
-  now rewrite <- !tlist_app_comm_cons.
-
-Lemma tlist_find_sublist_app
-      {j k} (g : tlist B j k)
-      {i l} (f : tlist B i l) {pre post} :
-  tlist_find_sublist g f = Some (pre, post)
-      -> f = pre +++ g +++ post.
-Proof.
-  intros.
-  generalize dependent k.
-  generalize dependent j.
-  induction f; intros; simpl in H1.
-  - destruct g.
-      destruct (eq_dec i0 i); [|discriminate].
-      inversion H1; now subst.
-    discriminate.
-  - destruct g.
-      destruct (eq_dec i0 i); subst.
-        inversion H1; now subst.
-      destruct (tlist_find_sublist _ _) eqn:?; [|discriminate].
-      destruct p.
-      now cleanup H1 IHf Heqo.
-    destruct (eq_dec i0 i); subst. {
-      destruct (eq_dec j0 j); subst. {
-        destruct (eq_dec _ _). {
-          rewrite e.
-          destruct (tlist_find_sublist g f) eqn:?. {
-            destruct p.
-            destruct (tlist_eq_dec _ _).
-              now cleanup H1 IHf Heqo.
-            clear Heqo.
-            destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
-            destruct p.
-            now cleanup H1 IHf Heqo.
-          }
-          destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
-          destruct p.
-          now cleanup H1 IHf Heqo0.
-        }
-        destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
-        destruct p.
-        now cleanup H1 IHf Heqo.
-      }
-      destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
-      destruct p.
-      now cleanup H1 IHf Heqo.
-    }
-    destruct (tlist_find_sublist (_ ::: g) f) eqn:?; [|discriminate].
-    destruct p.
-    now cleanup H1 IHf Heqo.
-Qed.
-
-End SublistProofsInj.
-
-Definition nat_triple (i j : nat) : Type := ((nat * nat) * nat)%type.
-
-Open Scope nat_scope.
-
-Definition my_list : tlist nat_triple 0 4 :=
-  tcons 1 ((0, 1), 100)
-        (tcons 2 ((1, 2), 200)
-               (tcons 3 ((2, 3), 300)
-                      (tcons 4 ((3, 4), 400)
-                             tnil))).
-
-Require Import Coq.Arith.EqNat.
-
-Definition nat_equiv (i j : nat) (x y : nat_triple i j) : Type :=
-  match x, y with
-    (_, a), (_, b) => a = b
-  end.
-
-#[global]
-Program Instance nat_equivalence {i j} : Equivalence (nat_equiv i j).
-Next Obligation.
-  repeat intro.
-  destruct x; simpl; auto.
-Qed.
-Next Obligation.
-  repeat intro.
-  destruct x, y; simpl; auto.
-Qed.
-Next Obligation.
-  repeat intro.
-  destruct x, y, z; simpl in *; subst; auto.
-Qed.
-
-#[global]
-Program Instance nat_Setoid {i j} : Setoid (nat_triple i j) := {
-  equiv := nat_equiv i j;
-  setoid_equiv := nat_equivalence
-}.
-
-Example tlist_find_sublist_nat_ex1 :
-  ∀ H : ∀ i j : nat, EqDec (nat_triple i j),
-  @tlist_find_sublist
-    nat nat_triple PeanoNat.Nat.eq_dec _
-    1 3 (tcons 2 ((1, 2), 200) (tcons 3 ((2, 3), 300) tnil))
-    0 4 my_list
-    = Some (((0, 1, 100) ::: tnil), ((3, 4, 400) ::: tnil)).
-Proof.
-  intros; simpl; simpl_eq.
-  now rewrite !EqDec.peq_dec_refl.
-Qed.
-
-Reserved Infix "<+>" (at level 42, right associativity).
-
-Class IMonoid {A : Type} (B : A -> A -> Type) := {
-  imempty {i : A} : B i i;
-  imappend {i j k : A} : B i j -> B j k -> B i k
-    where "x <+> y" := (imappend x y);
-
-  imempty_left {i j} {x : B i j} : imempty <+> x = x;
-  imempty_right {i j} {x : B i j} : x <+> imempty = x;
-  imappend_assoc {i j k l} {x : B i j} {y : B j k} {z : B k l} :
-    (x <+> y) <+> z = x <+> (y <+> z)
-}.
-
-Infix "<+>" := imappend (at level 42, right associativity).
-
-#[global]
-Instance tlist_IMonoid {A} {B : A -> A -> Type} : IMonoid (tlist B) := {
-  imempty := @tnil A B;
-  imappend := @tlist_app A B;
-  imempty_left := @tlist_app_tnil_l A B;
-  imempty_right := @tlist_app_tnil_r A B;
-  imappend_assoc := @tlist_app_assoc A B
-}.

@@ -4,7 +4,6 @@ Require Import Coq.PArith.PArith.
 Require Import Coq.NArith.NArith.
 
 Require Import Category.Lib.
-Require Import Category.Lib.Nomega.
 Require Import Category.Lib.MapDecide.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Metacategory.ArrowsOnly.
@@ -83,7 +82,7 @@ Example problem100 : ∀ f g h fg gh fgh : N,
   M.find (elt:=N) (f,  gh) big = Some fgh.
 Proof.
   simpl; vm_compute triangular_number; intros.
-  (* destruct_maps; try nomega. (* takes 2501s *) *)
+  (* destruct_maps; try nomega. *)
   (* Undo. *)
   map_decide.                (* takes 2.445s *)
 Qed.

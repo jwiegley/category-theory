@@ -62,7 +62,6 @@ Instance/Cones/Comma.v
 Instance/Cones/Limit.v
 Instance/Coq.v
 Instance/Coq/Applicative.v
-Instance/Coq/Dist.v
 Instance/Coq/Monad.v
 Instance/Ens.v
 Instance/Fact.v
@@ -111,12 +110,9 @@ Lib/Foundation.v
 Lib/IList.v
 Lib/MapDecide.v
 Lib/NETList.v
-Lib/Nomega.v
-Lib/Same_set.v
 Lib/Setoid.v
 Lib/TList.v
 Lib/Tactics.v
-Lib/Tree.v
 Monad/Adjunction.v
 Monad/Algebra.v
 Monad/Composition.v

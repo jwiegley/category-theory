@@ -17,15 +17,11 @@ Set Equations With UIP.
 
 Require Import Category.Lib.
 
-Inductive netlist {A : Type} (B : A -> A -> Type) : A -> A -> Type :=
-  | tfin : forall i j : A, B i j -> netlist B i j
-  | tadd : forall i j k : A, B i j -> netlist B j k -> netlist B i k.
+Inductive netlist {A : Type} (B : A → A → Type) : A → A → Type :=
+  | tfin : ∀ i j : A, B i j → netlist B i j
+  | tadd : ∀ i j k : A, B i j → netlist B j k → netlist B i k.
 
-Derive Signature for netlist.
-Derive NoConfusion for netlist.
-Derive Subterm for netlist.
-Next Obligation.
-Admitted.
+Derive Signature NoConfusion NoConfusionHom Subterm for netlist.
 
 Arguments tfin {A B i j} x.
 Arguments tadd {A B i} j {k} x xs.
@@ -35,7 +31,7 @@ Notation "x :::: xs" := (tadd _ x xs) (at level 60, right associativity).
 Section Netlist.
 
 Context {A : Type}.
-Context {B : A -> A -> Type}.
+Context {B : A → A → Type}.
 
 Fixpoint netlist_length {i j} (xs : netlist B i j) : nat :=
   match xs with
@@ -55,8 +51,8 @@ Equations netlist_uncons {i j} (xs : netlist B i j) :
   netlist_uncons (tfin x) := existT2 _ _ _ x None;
   netlist_uncons (@tadd _ _ _ x xs) := existT2 _ _ _ x (Some xs).
 
-Equations netlist_map {i j A' C} {f : A -> A'}
-          (g : forall i j : A, B i j -> C (f i) (f j))
+Equations netlist_map {i j A' C} {f : A → A'}
+          (g : ∀ i j : A, B i j → C (f i) (f j))
           (xs : netlist B i j) : netlist C (f i) (f j) :=
   netlist_map g (tfin x) := tfin (g _ _ x);
   netlist_map g (@tadd _ _ _ x xs) := g _ _ x :::: netlist_map g xs.
@@ -64,7 +60,7 @@ Equations netlist_map {i j A' C} {f : A -> A'}
 Import ListNotations.
 
 Equations netlist_mapv {i j C}
-          (g : forall i j : A, B i j -> C)
+          (g : ∀ i j : A, B i j → C)
           (xs : netlist B i j) : list C :=
   netlist_mapv g (tfin x) := [g _ _ x];
   netlist_mapv g (@tadd _ _ _ x xs) := g _ _ x :: netlist_mapv g xs.
@@ -92,7 +88,7 @@ Equations netlist_last {i j} (xs : netlist B i j) :
   netlist_last (tfin x) := (_; x);
   netlist_last (@tadd _ _ _ _ xs) := netlist_last xs.
 
-Equations netlist_rev (flip : forall x y : A, B x y -> B y x)
+Equations netlist_rev (flip : ∀ x y : A, B x y → B y x)
           {i j} (xs : netlist B i j) : netlist B j i :=
   netlist_rev flip (tfin x) := tfin (flip _ _ x);
   netlist_rev flip (@tadd _ _ _ x xs) :=
@@ -103,7 +99,7 @@ Equations netlist_concat {i j} (xs : netlist (netlist B) i j) : netlist B i j :=
   netlist_concat (@tadd _ _ _ x xs) := x ++++ netlist_concat xs.
 
 Context `{EqDec A}.
-Context `{forall i j, EqDec (B i j)}.
+Context `{∀ i j, EqDec (B i j)}.
 
 Import EqNotations.
 
@@ -171,7 +167,7 @@ Defined.
 Next Obligation.
   simpl_eq; intros.
   intuition eauto.
-  match goal with [ H : _ -> False |- _ ] => apply H end.
+  match goal with [ H : _ → False |- _ ] => apply H end.
   inv H1.
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
@@ -180,7 +176,7 @@ Defined.
 Next Obligation.
   simpl_eq; intros.
   intuition eauto.
-  match goal with [ H : _ -> False |- _ ] => apply H end.
+  match goal with [ H : _ → False |- _ ] => apply H end.
   inv H1.
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
   apply Eqdep_dec.inj_pair2_eq_dec in H3; [|apply eq_dec].
@@ -200,7 +196,7 @@ Proof.
   now rewrite <- !netlist_app_comm_cons, IHxs.
 Qed.
 
-Context `{forall i j, Setoid (B i j)}.
+Context `{∀ i j, Setoid (B i j)}.
 
 Equations netlist_equiv {i j : A} (x y : netlist B i j) : Type :=
   netlist_equiv (@tfin _ _ x) (@tfin _ _ y) := x ≈ y;
@@ -313,7 +309,7 @@ Notation "xs ++++ ys" := (netlist_app xs ys) (at level 60, right associativity).
 Section NetlistProofs.
 
 Context {A : Type}.
-Context {B : A -> A -> Type}.
+Context {B : A → A → Type}.
 
 Lemma netlist_app_length {i j k} (xs : netlist B i j) (ys : netlist B j k) :
   netlist_length (xs ++++ ys) = (netlist_length xs + netlist_length ys)%nat.
@@ -329,7 +325,7 @@ Proof. reflexivity. Qed.
 
 End NetlistProofs.
 
-Lemma netlist_concat_app {A : Type} {B : A -> A -> Type} {i j k}
+Lemma netlist_concat_app {A : Type} {B : A → A → Type} {i j k}
       (xs : netlist (netlist B) i j) (ys : netlist (netlist B) j k) :
   netlist_concat (xs ++++ ys) = netlist_concat xs ++++ netlist_concat ys.
 Proof.
@@ -343,9 +339,9 @@ Qed.
 Section NetlistProofsRev.
 
 Context {A : Type}.
-Context {B : A -> A -> Type}.
+Context {B : A → A → Type}.
 
-Variables flip : forall x y : A, B x y -> B y x.
+Variables flip : ∀ x y : A, B x y → B y x.
 
 Lemma netlist_rev_unit {i j k} (xs : netlist B i j) (x : B j k) :
   netlist_rev flip (xs ++++ tfin x) = flip _ _ x :::: netlist_rev flip xs.
@@ -367,7 +363,7 @@ Proof.
   now rewrite <- netlist_app_assoc.
 Qed.
 
-Hypothesis flip_involutive : forall (i j : A) (x : B i j),
+Hypothesis flip_involutive : ∀ (i j : A) (x : B i j),
   flip _ _ (flip _ _ x) = x.
 
 Lemma netlist_rev_involutive {i j} (xs : netlist B i j) :
@@ -401,15 +397,15 @@ Section NetlistProofsInj.
    or Eqdep_dec.inj_pair2_eq_dec   (when A is decidable)
 *)
 Hypothesis inj_pair2 :
-  forall (U : Type) (P : U -> Type) (p : U) (x y : P p),
-    (p; x) = (p; y) -> x = y.
+  ∀ (U : Type) (P : U → Type) (p : U) (x y : P p),
+    (p; x) = (p; y) → x = y.
 
 Context {A : Type}.
-Context {B : A -> A -> Type}.
+Context {B : A → A → Type}.
 
 Lemma netlist_cons_uncons
       {i m j} (xs : netlist B i j) (y : B i m) ys :
-  netlist_uncons xs = existT2 _ _ _ y (Some ys) -> xs = y :::: ys.
+  netlist_uncons xs = existT2 _ _ _ y (Some ys) → xs = y :::: ys.
 Proof.
   destruct xs; simpl; intros.
     inversion H.
@@ -424,10 +420,10 @@ End NetlistProofsInj.
 Section Sublist.
 
 Context {A : Type}.
-Context {B : A -> A -> Type}.
+Context {B : A → A → Type}.
 
 Context `{EqDec A}.
-Context `{forall i j, EqDec (B i j)}.
+Context `{∀ i j, EqDec (B i j)}.
 
 Import EqNotations.
 
@@ -510,10 +506,10 @@ End Sublist.
 Section SublistProofsInj.
 
 Context {A : Type}.
-Context {B : A -> A -> Type}.
+Context {B : A → A → Type}.
 
 Context `{EqDec A}.
-Context `{forall i j, EqDec (B i j)}.
+Context `{∀ i j, EqDec (B i j)}.
 
 Import EqNotations.
 
@@ -529,7 +525,7 @@ Lemma netlist_find_sublist_app
       {j k} (g : netlist B j k)
       {i l} (f : netlist B i l) {pre post} :
   netlist_find_sublist g f = Some (pre, post)
-      -> match pre, post with
+      → match pre, post with
          | inright H1, inright H2  =>
            f = rew <- [fun x => netlist B x _] H1 in
                rew [fun x => netlist B _ x] H2 in g
@@ -629,8 +625,8 @@ Qed.
 
 Reserved Infix "<+>" (at level 42, right associativity).
 
-Class ISemigroup {A : Type} (B : A -> A -> Type) := {
-  isappend {i j k : A} : B i j -> B j k -> B i k
+Class ISemigroup {A : Type} (B : A → A → Type) := {
+  isappend {i j k : A} : B i j → B j k → B i k
     where "x <+> y" := (isappend x y);
 
   isappend_assoc {i j k l} {x : B i j} {y : B j k} {z : B k l} :
@@ -640,7 +636,7 @@ Class ISemigroup {A : Type} (B : A -> A -> Type) := {
 Infix "<+>" := isappend (at level 42, right associativity).
 
 #[global]
-Instance netlist_ISemigroup {A} {B : A -> A -> Type} : ISemigroup (netlist B) := {
+Instance netlist_ISemigroup {A} {B : A → A → Type} : ISemigroup (netlist B) := {
   isappend := @netlist_app A B;
   isappend_assoc := @netlist_app_assoc A B
 }.
