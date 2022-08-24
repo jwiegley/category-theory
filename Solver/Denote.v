@@ -41,21 +41,23 @@ Proof.
   exact None.
 Defined.
 
+Definition pos_obj (f : positive) dom : option (∃ cod, objs[@dom] ~> objs[@cod]) :=
+  match Pos_to_fin f with
+  | Some f =>
+    match eq_dec (fst (tys[@f])) dom with
+    | left H =>
+      Some (snd (tys[@f]);
+            rew [fun x => objs[@x] ~> _] H in helper (ith arrs f))
+    | _ => None
+    end
+  | _ => None
+  end.
+
 Fixpoint stermD_work dom (e : STerm) :
   option (∃ cod, objs[@dom] ~> objs[@cod]) :=
   match e with
   | SIdent => Some (dom; @id _ (objs[@dom]))
-  | SMorph a =>
-    match Pos_to_fin a with
-    | Some f =>
-      match eq_dec (fst (tys[@f])) dom with
-      | left H =>
-        Some (snd (tys[@f]);
-              rew [fun x => objs[@x] ~> _] H in helper (ith arrs f))
-      | _ => None
-      end
-    | _ => None
-    end
+  | SMorph a => pos_obj a dom
   | SComp f g =>
     match stermD_work dom g with
     | Some (mid; g) =>
