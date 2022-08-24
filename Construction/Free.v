@@ -3,7 +3,6 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Import Category.Lib.TList.
 Require Export Category.Theory.Functor.
-Require Export Category.Instance.Cat.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -31,11 +30,9 @@ Program Definition Free : Category := {|
 |}.
 Next Obligation. now apply tlist_app_tnil_r. Qed.
 Next Obligation. now apply tlist_app_assoc. Qed.
-Next Obligation. symmetry; now apply tlist_app_assoc. Qed.
+Next Obligation. now symmetry; apply tlist_app_assoc. Qed.
 
-End Free.
-
-Definition composition {C : Category} {x y : C} : tlist hom x y -> x ~{C}~> y.
+Definition composition {x y : C} : tlist hom x y -> x ~{C}~> y.
 Proof.
   intros.
   induction X.
@@ -43,11 +40,11 @@ Proof.
   exact (compose IHX b).
 Defined.
 
-Definition composition_tnil {C : Category} {x : C} : composition tnil ≈ id[x].
+Definition composition_tnil {x : C} : composition tnil ≈ id[x].
 Proof. now cat. Qed.
 
-Definition composition_tapp {C : Category} {x y z : C}
-           (g : tlist hom y z) (f : tlist hom x y) :
+Definition composition_tapp {x y z : C}
+  (g : tlist hom y z) (f : tlist hom x y) :
   composition (f +++ g) ≈ composition g ∘ composition f.
 Proof.
   induction f; simpl.
@@ -59,9 +56,11 @@ Proof.
   now cat.
 Qed.
 
-Program Definition FreeFunctor : Free ⟶ Cat := {|
+Program Definition FreeFunctor : Free ⟶ C := {|
   fobj := fun x => x;
   fmap := fun _ _ f => composition f;
   fmap_id := fun _ => composition_tnil;
   fmap_comp := fun _ _ _ => composition_tapp
 |}.
+
+End Free.
