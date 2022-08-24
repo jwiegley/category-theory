@@ -231,7 +231,6 @@ Proof.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
   (* Set Ltac Profiling. *)
   normalize.
-  Fail normalize.               (* https://github.com/coq/coq/issues/16399 *)
   (* Show Ltac Profile. *)
   intros; cat.
 Qed.
