@@ -131,7 +131,6 @@ Solver/Expr.v
 Solver/Normal.v
 Solver/Partial.v
 Solver/Reify.v
-Solver/Tactics.v
 Structure/BiCCC.v
 Structure/Bicartesian.v
 Structure/Cartesian.v

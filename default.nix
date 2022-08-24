@@ -1,6 +1,6 @@
 args@{
-  rev    ? "8f73de28e63988da02426ebb17209e3ae07f103b"
-, sha256 ? "1mvq8wxdns802b1gvjvalbvdsp3xjgm370bimdd93mwpspz0250p"
+  rev    ? "963d27a0767422be9b8686a8493dcade6acee992"
+, sha256 ? "0mvq8wxdns802b1gvjvalbvdsp3xjgm370bimdd93mwpspz0250p"
 
 , pkgs   ? import (builtins.fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/${rev}.tar.gz";
@@ -29,7 +29,7 @@ let category-theory = coqPackages:
 
     env = pkgs.buildEnv { inherit name; paths = buildInputs; };
     passthru = {
-      compatibleCoqVersions = v: builtins.elem v [ "8.14" "8.15" ];
+      compatibleCoqVersions = v: builtins.elem v [ "8.14" "8.15" "8.16" ];
     };
   };
 
@@ -37,4 +37,5 @@ in {
   inherit category-theory;
   category-theory_8_14 = category-theory "coqPackages_8_14";
   category-theory_8_15 = category-theory "coqPackages_8_15";
+  category-theory_8_16 = category-theory "coqPackages_8_16";
 }
