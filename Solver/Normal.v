@@ -18,11 +18,20 @@ Context `{Env}.
 
 Import ListNotations.
 
-Fixpoint sindices (t : STerm) : list positive :=
+Inductive Arrow : Set :=
+  | Arr : positive → Arrow
+  | Fork : list Arrow → list Arrow → Arrow
+  | Exl : Arrow
+  | Exr : Arrow.
+
+Fixpoint sindices (t : STerm) : list Arrow :=
   match t with
   | SIdent    => []
   | SMorph a  => [a]
   | SComp f g => sindices f ++ sindices g
+  | SFork f g => [Fork (sindices f) (sindices g)]
+  | SExl => [Exl]
+  | SExr => [Exr]
   end.
 
 Fixpoint unsindices (fs : list positive) : STerm :=

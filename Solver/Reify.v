@@ -235,7 +235,7 @@ Ltac build_objs cs andThen :=
       | (?c, ?os, ?fs) =>
         constr:((c,
                  (Vector.nil c),
-                 (inil (B:=dep_arr (Vector.nil c)))))
+                 (inil (B:=arrD (Vector.nil c)))))
       end)
     ltac:(fun ci cv _k =>
       match cv with
@@ -247,13 +247,13 @@ Ltac build_objs cs andThen :=
 
 Ltac build_arrs c cs fs objs andThen :=
   andThen ltac:(foldr fs
-    constr:(inil (B:=dep_arr objs))
+    constr:(inil (B:=arrD objs))
     ltac:(fun f fs =>
             lazymatch type of f with
             | ?x ~{?c}~> ?y =>
               let xn := lookupObj c cs x in
               let yn := lookupObj c cs y in
-              constr:(icons (B:=dep_arr objs) (xn, yn) f fs)
+              constr:(icons (B:=arrD objs) (xn, yn) f fs)
             end)).
 
 Ltac find_vars :=

@@ -19,8 +19,8 @@ Context `{Env}.
 Import VectorNotations.
 
 Definition helper {f} :
-  (let '(dom, cod) := tys[@f] in objs[@dom] ~> objs[@cod])
-    → objs[@(fst (tys[@f]))] ~> objs[@(snd (tys[@f]))].
+  (let '(dom, cod) := tys[@f] in objD dom ~> objD cod)
+    → objD (fst (tys[@f])) ~> objD (snd (tys[@f])).
 Proof. destruct (tys[@f]); auto. Defined.
 
 Import EqNotations.
@@ -51,11 +51,36 @@ Definition pos_obj (f : positive) dom : option (∃ cod, objs[@dom] ~> objs[@cod
   | _ => None
   end.
 
+Fixpoint sobjD (x : SObj) : option (Obj num_objs) :=
+  match x with
+  | SOb x =>
+    match Pos_to_fin x with
+    | Some x' => Some (Ob x')
+    | None => None
+    end
+  | SPair x y =>
+      match sobjD x, sobjD y with
+      | Some x', Some y' => Some (Pair x' y')
+      | _, _ => None
+      end
+  end.
+
 Fixpoint stermD_work dom (e : STerm) :
-  option (∃ cod, objs[@dom] ~> objs[@cod]) :=
+  option (∃ cod, objD dom ~> objD cod) :=
   match e with
-  | SIdent => Some (dom; @id _ (objs[@dom]))
+  | SIdent => Some (dom; id)
   | SMorph a => pos_obj a dom
+  | SFork f g => Some (dom; id)
+  | SExl =>
+      match dom with
+      | Pair x y => Some (x; exl)
+      | _ => None
+      end
+  | SExr =>
+      match dom with
+      | Pair x y => Some (y; exr)
+      | _ => None
+      end
   | SComp f g =>
     match stermD_work dom g with
     | Some (mid; g) =>
@@ -67,23 +92,23 @@ Fixpoint stermD_work dom (e : STerm) :
     end
   end.
 
-Definition stermD dom cod (e : STerm) : option (objs[@dom] ~> objs[@cod]) :=
+Definition stermD dom cod (e : STerm) : option (objD dom ~> objD cod) :=
   match stermD_work dom e with
   | Some (y; f) =>
     match eq_dec y cod with
     | left ecod =>
-      Some (rew [fun y => objs[@dom] ~> objs[@y]] ecod in f)
+      Some (rew [fun y => objD dom ~> objD y] ecod in f)
     | _ => None
     end
   | _ => None
   end.
 
-Program Fixpoint sexprD (e : SExpr) : Type :=
+Fixpoint sexprD (e : SExpr) : Type :=
   match e with
   | STop           => True
   | SBottom        => False
   | SEquiv x y f g =>
-    match Pos_to_fin x, Pos_to_fin y with
+    match sobjD x, sobjD y with
     | Some d, Some c =>
       match stermD d c f, stermD d c g with
       | Some f, Some g => f ≈ g
