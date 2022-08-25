@@ -18,7 +18,7 @@ Unset Transparent Obligations.
 
 Class Monoid (A : Type) `{Setoid A} := {
   mempty : A;
-  mappend : A -> A -> A;
+  mappend : A → A → A;
 
   mappend_respects : Proper (equiv ==> equiv ==> equiv) mappend;
 

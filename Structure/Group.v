@@ -16,7 +16,7 @@ Context `{@Monoidal C}.
 Context `{@CartesianMonoidal C _}.
 
 Class GroupObject (grp : C) := {
-  is_monoid :> MonoidObject grp;
+  groupobject_is_monoid :> MonoidObject grp;
   inverse : grp ~> grp;
 
   (* g⁻¹ ⨂ g ≈ I *)

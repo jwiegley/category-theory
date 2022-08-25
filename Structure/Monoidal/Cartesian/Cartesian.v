@@ -27,8 +27,12 @@ Context `{@CartesianMonoidal C _}.
   exl  := fun _ _ => proj_left;
   exr  := fun _ _ => proj_right
 |}.
-Next Obligation. apply is_relevance. Defined.
-Next Obligation. proper; rewrites; reflexivity. Qed.
+Next Obligation.
+  apply cartesian_is_relevant.
+Defined.
+Next Obligation.
+  proper; rewrites; reflexivity.
+Qed.
 Next Obligation.
   split; intros.
     split.

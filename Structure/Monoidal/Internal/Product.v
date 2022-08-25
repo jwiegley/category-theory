@@ -184,9 +184,9 @@ Proof.
   unfork. cat.
 Qed.
 
-Program Definition InternalProduct_SymmetricMonoidal :
-  @SymmetricMonoidal C InternalProduct_Monoidal := {|
-  twist := fun x y =>
+Program Definition InternalProduct_BraidedMonoidal :
+  @BraidedMonoidal C InternalProduct_Monoidal := {|
+  braid := fun x y =>
     {| to   := @swap C _ x y
      ; from := @swap C _ y x
      ; iso_to_from := swap_invol
@@ -240,11 +240,6 @@ Qed.
 Next Obligation.
   (* now solveit. Undo. *)
   intros. simpl.
-  apply swap_invol.
-Qed.
-Next Obligation.
-  (* now solveit. Undo. *)
-  intros. simpl.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
   symmetry.
@@ -288,17 +283,23 @@ Next Obligation.
     apply exr_fork.
 Qed.
 
+Definition InternalProduct_SymmetricMonoidal :
+  @SymmetricMonoidal C InternalProduct_Monoidal := {|
+  symmetric_is_braided := InternalProduct_BraidedMonoidal;
+  braid_invol := @swap_invol _ _
+|}.
+
 Program Definition InternalProduct_CartesianMonoidal :
   @CartesianMonoidal C InternalProduct_Monoidal := {|
-  is_semicartesian := {| eliminate := fun _ => one |};
-  is_relevance := {| diagonal  := fun _ => id △ id |}
+  cartesian_is_semicartesian := {| eliminate := fun _ => one |};
+  cartesian_is_relevant := {| diagonal  := fun _ => id △ id |}
 |}.
 Next Obligation.
   (* now solveit. Undo. *)
   cat_simpl.
 Qed.
 Next Obligation.
-  apply InternalProduct_SymmetricMonoidal.
+  exact InternalProduct_SymmetricMonoidal.
 Defined.
 Next Obligation.
   cat_simpl.

@@ -22,8 +22,8 @@ Context {G : C ⟶ C}.
 #[local] Obligation Tactic := program_simpl.
 
 Program Definition ProductFunctor_Strong :
-  StrongFunctor F -> StrongFunctor G
-    -> StrongFunctor (F ∏⟶ G) := fun O P => {|
+  StrongFunctor F → StrongFunctor G
+    → StrongFunctor (F ∏⟶ G) := fun O P => {|
   strength := fun _ _ => (strength, strength);
   strength_id_left := _;
   strength_assoc := _
@@ -33,7 +33,7 @@ Next Obligation. split; apply strength_id_left. Qed.
 Next Obligation. split; apply strength_assoc. Qed.
 
 Program Definition ProductFunctor_Strong_proj1 :
-  StrongFunctor (F ∏⟶ G) -> StrongFunctor F := fun P => {|
+  StrongFunctor (F ∏⟶ G) → StrongFunctor F := fun P => {|
   strength := fun x y => fst (@strength _ _ _ P (x, I) (y, I));
   strength_id_left := _;
   strength_assoc := _
@@ -73,7 +73,7 @@ Next Obligation.
 Qed.
 
 Program Definition ProductFunctor_Strong_proj2 :
-  StrongFunctor (F ∏⟶ G) -> StrongFunctor G := fun P => {|
+  StrongFunctor (F ∏⟶ G) → StrongFunctor G := fun P => {|
   strength := fun x y => snd (@strength _ _ _ P (I, x) (I, y));
   strength_id_left := _;
   strength_assoc := _

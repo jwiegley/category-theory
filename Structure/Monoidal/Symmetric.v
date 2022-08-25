@@ -6,6 +6,7 @@ Require Export Category.Theory.Isomorphism.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Naturality.
+Require Export Category.Structure.Monoidal.Braided.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -17,47 +18,41 @@ Section SymmetricMonoidal.
 Context `{@Monoidal C}.
 
 Class SymmetricMonoidal := {
-  twist {x y} : x ⨂ y ≅ y ⨂ x;
-  twist_natural : natural (@twist);
-
-  twist_invol {x y} : twist ∘ twist ≈ id[x ⨂ y];
-
-  hexagon_identity {x y z} :
-    tensor_assoc ∘ twist ∘ tensor_assoc
-      << (x ⨂ y) ⨂ z ~~> y ⨂ (z ⨂ x) >>
-    id ⨂ twist ∘ tensor_assoc ∘ twist ⨂ id
+  symmetric_is_braided : BraidedMonoidal;
+  braid_invol {x y} : braid ∘ braid ≈ id[x ⨂ y];
 }.
+#[export] Existing Instance symmetric_is_braided.
 
 Corollary hexagon_rotated `{SymmetricMonoidal} {x y z} :
-  tensor_assoc ∘ twist ⨂ id ∘ tensor_assoc ⁻¹
+  tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc ⁻¹
     << x ⨂ (y ⨂ z) ~~> y ⨂ (x ⨂ z) >>
-  id ⨂ twist ∘ tensor_assoc ∘ twist.
+  id ⨂ braid ∘ tensor_assoc ∘ braid.
 Proof.
-  rewrite <- (id_right (id ⨂ twist ∘ tensor_assoc ∘ twist)).
+  rewrite <- (id_right (id ⨂ braid ∘ tensor_assoc ∘ braid)).
   rewrite <- (iso_to_from tensor_assoc).
-  rewrite comp_assoc; rewrite <- (comp_assoc _ tensor_assoc twist); rewrite <- (comp_assoc _ (tensor_assoc ∘ twist) _).
+  rewrite comp_assoc; rewrite <- (comp_assoc _ tensor_assoc braid); rewrite <- (comp_assoc _ (tensor_assoc ∘ braid) _).
   rewrite hexagon_identity.
   rewrite !comp_assoc.
   rewrite <- bimap_comp; rewrite id_left.
-  rewrite twist_invol.
+  rewrite braid_invol.
   cat.
 Qed.
 
-Corollary bimap_twist `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
-  g ⨂ f ∘ twist ≈ twist ∘ f ⨂ g.
+Corollary bimap_braid `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
+  g ⨂ f ∘ braid ≈ braid ∘ f ⨂ g.
 Proof.
-  spose (fst twist_natural _ _ f _ _ g) as X.
+  spose (fst braid_natural _ _ f _ _ g) as X.
   normal.
   apply X.
 Qed.
 
-Corollary twist_bimap_twist `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
-  twist ∘ g ⨂ f ∘ twist ≈ f ⨂ g.
+Corollary braid_bimap_braid `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
+  braid ∘ g ⨂ f ∘ braid ≈ f ⨂ g.
 Proof.
   rewrite <- comp_assoc.
-  rewrite bimap_twist.
+  rewrite bimap_braid.
   rewrite comp_assoc.
-  rewrite twist_invol.
+  rewrite braid_invol.
   cat.
 Qed.
 

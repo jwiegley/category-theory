@@ -20,7 +20,7 @@ Unset Transparent Obligations.
 Program Definition Props : Category := {|
   obj     := Prop;
   hom     := Basics.impl;
-  (* By proof irrelevance, two statement P -> Q of the same type are taken to
+  (* By proof irrelevance, two statement P → Q of the same type are taken to
      always be the same implication. *)
   homset  := fun P Q => {| equiv := fun f g => True |};
   id      := fun _ x => x;

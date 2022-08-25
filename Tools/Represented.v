@@ -13,7 +13,7 @@ Set Universe Polymorphism.
    equivalent construction. *)
 Class Repr (A : Type) := {
   repr : Obj;
-  convert : A -> (1 ~> repr)
+  convert : A → (1 ~> repr)
 }.
 
 Arguments Repr A : clear implicits.

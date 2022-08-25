@@ -15,7 +15,7 @@ Unset Transparent Obligations.
 #[global]
 Program Instance Coq : Category := {
   obj     := Type;
-  hom     := λ A B : Type, A -> B;
+  hom     := λ A B : Type, A → B;
   homset  := λ _ _, {| equiv := λ f g, ∀ x, f x = g x |};
   id      := λ _ x, x;
   compose := λ _ _ _ g f x, g (f x)
@@ -124,7 +124,7 @@ Proof.
     erewrite epic.
       constructor.
     intros.
-    Axiom propositional_extensionality : ∀ P : Prop, P -> P = True.
+    Axiom propositional_extensionality : ∀ P : Prop, P → P = True.
     apply propositional_extensionality.
     exists x0.
     reflexivity.

@@ -8,6 +8,8 @@ Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Monoidal.Semicartesian.
 Require Export Category.Structure.Monoidal.Relevant.
+Require Export Category.Structure.Monoidal.Braided.
+Require Export Category.Structure.Monoidal.Symmetric.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -17,6 +19,7 @@ Unset Transparent Obligations.
 Section CartesianMonoidal.
 
 Context {C : Category}.
+Context `{@Monoidal C}.
 
 (* Wikipedia: "Cartesian monoidal categories have a number of special and
    important properties, such as the existence of diagonal maps (Δ) x : x → x
@@ -29,17 +32,17 @@ Context {C : Category}.
    monoidal category equipped with suitably well-behaved diagonals and
    augmentations must in fact be cartesian monoidal." *)
 
-Class CartesianMonoidal `{@Monoidal C} := {
-  is_semicartesian : @SemicartesianMonoidal C _;
-  is_relevance     : @RelevantMonoidal C _;
+Class CartesianMonoidal := {
+  cartesian_is_semicartesian : SemicartesianMonoidal;
+  cartesian_is_relevant      : RelevantMonoidal;
 
   proj_left_diagonal  {x} : proj_left  ∘ diagonal ≈ id[x];
   proj_right_diagonal {x} : proj_right ∘ diagonal ≈ id[x];
 
-  unit_left_twist  {x} : unit_left  ∘ @twist _ _ _ x I ≈ unit_right;
-  unit_right_twist {x} : unit_right ∘ @twist _ _ _ I x ≈ unit_left
+  unit_left_braid  {x} : unit_left  ∘ @braid _ _ _ x I ≈ unit_right;
+  unit_right_braid {x} : unit_right ∘ @braid _ _ _ I x ≈ unit_left
 }.
-#[export] Existing Instance is_semicartesian.
-#[export] Existing Instance is_relevance.
+#[export] Existing Instance cartesian_is_semicartesian.
+#[export] Existing Instance cartesian_is_relevant.
 
 End CartesianMonoidal.

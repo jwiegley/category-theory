@@ -132,7 +132,7 @@ Ltac reassociate_left  := repeat (rewrite <- comp_assoc); cat.
 Ltac reassociate_right := repeat (rewrite comp_assoc); cat.
 
 Definition epi_compose {x y z : C} {f : y ~> z} {g : x ~> y} :
-  Epic f -> Epic g -> Epic (f ∘ g).
+  Epic f → Epic g → Epic (f ∘ g).
 Proof.
   autounfold; intros X Y.
   destruct X, Y.
@@ -142,7 +142,7 @@ Proof.
 Qed.
 
 Definition monic_compose {x y z : C} {f : y ~> z} {g : x ~> y} :
-  Monic f -> Monic g -> Monic (f ∘ g).
+  Monic f → Monic g → Monic (f ∘ g).
 Proof.
   autounfold; intros X Y.
   destruct X, Y.

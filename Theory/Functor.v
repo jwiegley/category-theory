@@ -17,7 +17,7 @@ Unset Transparent Obligations.
    structural properties and laws. *)
 
 Class Functor {C D : Category} := {
-  fobj : C -> D;
+  fobj : C → D;
   fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y;
 
   fmap_respects : ∀ x y, Proper (equiv ==> equiv) (@fmap x y);
@@ -246,12 +246,12 @@ Class Full `(F : C ⟶ D) := {
 }.
 
 Class Faithful `(F : C ⟶ D) := {
-  fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g -> f ≈ g
+  fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g
 }.
 
 (* Properties that follow from the above. *)
 Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} :
-  ∀ x y, F x ≅ F y -> x ≅ y.
+  ∀ x y, F x ≅ F y → x ≅ y.
 Proof.
   intros.
   construct.

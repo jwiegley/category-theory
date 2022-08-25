@@ -30,17 +30,18 @@ Context {F : C ⟶ C}.
 #[local] Obligation Tactic := idtac.
 
 Program Instance Id_Applicative : @Applicative C _ _ _ (Id[C]) := {
-  is_strong := Id_StrongFunctor;
-  is_lax_monoidal := @Id_LaxMonoidalFunctor C InternalProduct_Monoidal
-                                            C InternalProduct_Monoidal
+  applicative_is_strong := Id_StrongFunctor;
+  applicative_is_lax_monoidal :=
+      @Id_LaxMonoidalFunctor C InternalProduct_Monoidal
+                             C InternalProduct_Monoidal
 }.
 
 Program Instance Compose_Applicative
         {G : C ⟶ C} `{@Applicative C _ _ _ G}
         {H : C ⟶ C} `{@Applicative C _ _ _ H} :
   @Applicative C _ _ _ (Compose G H) := {
-  is_strong := Compose_StrongFunctor G H _ _;
-  is_lax_monoidal :=
+  applicative_is_strong := Compose_StrongFunctor G H _ _;
+  applicative_is_lax_monoidal :=
     (* Order of arguments here is reversed *)
     @Compose_LaxMonoidalFunctor C InternalProduct_Monoidal
                                 C InternalProduct_Monoidal H

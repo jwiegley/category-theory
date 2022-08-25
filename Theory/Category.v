@@ -38,7 +38,7 @@ Class Category := {
   obj : Type;
 
   uhom := Type : Type;
-  hom : obj -> obj -> uhom where "a ~> b" := (hom a b);
+  hom : obj → obj → uhom where "a ~> b" := (hom a b);
   homset : ∀ X Y, Setoid (X ~> Y);
 
   id {x} : x ~> x;
@@ -148,7 +148,7 @@ Proof.
   unshelve refine (Build_Category' (@Basics.arrow)
                                    (@Datatypes.id) (@Basics.compose));
   intros; try reflexivity.
-  - refine {| equiv := fun f g => forall x, f x = g x |}.
+  - refine {| equiv := fun f g => ∀ x, f x = g x |}.
     equivalence.
     now transitivity (y x0).
   - proper.
@@ -160,7 +160,7 @@ Open Scope object_scope.
 Open Scope homset_scope.
 Open Scope morphism_scope.
 
-Program Definition Morphism_equality {ob : Type} {hom : ob -> ob -> Type}
+Program Definition Morphism_equality {ob : Type} {hom : ob → ob → Type}
         (x y : ob) : Setoid (hom x y) := {|
   equiv := eq
 |}.

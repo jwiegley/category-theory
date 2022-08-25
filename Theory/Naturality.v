@@ -42,7 +42,7 @@ Require Import Category.Functor.Constant.
 Program Instance ConstMap {C : Category} {B : C} :
   EndoFunctor (λ _, B) | 9 := {
   map := fun _ _ _ => id;
-  is_functor := Constant _ B
+  endo_is_functor := Constant _ B
 }.
 *)
 
@@ -102,18 +102,18 @@ Qed.
 
 #[global]
 Program Instance ArityOne {C : Category}
-        (P : C -> C) {F : @EndoFunctor C P}
-        (Q : C -> C) {G : @EndoFunctor C Q} :
+        (P : C → C) {F : @EndoFunctor C P}
+        (Q : C → C) {G : @EndoFunctor C Q} :
   @Naturality (∀ A, P A ~> Q A) := {
   natural := fun f => ∀ x y (g : x ~> y), @map _ _ G _ _ g ∘ f x ≈ f y ∘ @map _ _ F _ _ g
 }.
 
 #[global]
 Program Instance ArityTwo {C : Category}
-        (P : C -> C -> C)
+        (P : C → C → C)
             {FA : ∀ B, @EndoFunctor C (fun A => P A B)}
             {FB : ∀ A, @EndoFunctor C (fun B => P A B)}
-        (Q : C -> C -> C)
+        (Q : C → C → C)
             {GA : ∀ B, @EndoFunctor C (fun A => Q A B)}
             {GB : ∀ A, @EndoFunctor C (fun B => Q A B)} :
   @Naturality (∀ A B, P A B ~> Q A B) := {
@@ -124,11 +124,11 @@ Program Instance ArityTwo {C : Category}
 
 #[global]
 Program Instance ArityThree {C : Category}
-        (P : C -> C -> C -> C)
+        (P : C → C → C → C)
             {FA : ∀ B D : C, @EndoFunctor C (fun A => P A B D)}
             {FB : ∀ A D : C, @EndoFunctor C (fun B => P A B D)}
             {FC : ∀ A B : C, @EndoFunctor C (fun D => P A B D)}
-        (Q : C -> C -> C -> C)
+        (Q : C → C → C → C)
             {GA : ∀ B D : C, @EndoFunctor C (fun A => Q A B D)}
             {GB : ∀ A D : C, @EndoFunctor C (fun B => Q A B D)}
             {GC : ∀ A B : C, @EndoFunctor C (fun D => Q A B D)} :
@@ -148,12 +148,12 @@ Program Instance ArityThree {C : Category}
 
 #[global]
 Program Instance ArityFour {C : Category}
-        (P : C -> C -> C -> C -> C)
+        (P : C → C → C → C → C)
             {FA : ∀ B D E : C, @EndoFunctor C (fun A => P A B D E)}
             {FB : ∀ A D E : C, @EndoFunctor C (fun B => P A B D E)}
             {FC : ∀ A B E : C, @EndoFunctor C (fun D => P A B D E)}
             {FD : ∀ A B D : C, @EndoFunctor C (fun E => P A B D E)}
-        (Q : C -> C -> C -> C -> C)
+        (Q : C → C → C → C → C)
             {GA : ∀ B D E : C, @EndoFunctor C (fun A => Q A B D E)}
             {GB : ∀ A D E : C, @EndoFunctor C (fun B => Q A B D E)}
             {GC : ∀ A B E : C, @EndoFunctor C (fun D => Q A B D E)}
@@ -178,13 +178,13 @@ Program Instance ArityFour {C : Category}
 
 #[global]
 Program Instance ArityFive {C : Category}
-        (P : C -> C -> C -> C -> C -> C)
+        (P : C → C → C → C → C → C)
             {FA : ∀ B D E F : C, @EndoFunctor C (fun A => P A B D E F)}
             {FB : ∀ A D E F : C, @EndoFunctor C (fun B => P A B D E F)}
             {FC : ∀ A B E F : C, @EndoFunctor C (fun D => P A B D E F)}
             {FD : ∀ A B D F : C, @EndoFunctor C (fun E => P A B D E F)}
             {FE : ∀ A B D E : C, @EndoFunctor C (fun F => P A B D E F)}
-        (Q : C -> C -> C -> C -> C -> C)
+        (Q : C → C → C → C → C → C)
             {GA : ∀ B D E F : C, @EndoFunctor C (fun A => Q A B D E F)}
             {GB : ∀ A D E F : C, @EndoFunctor C (fun B => Q A B D E F)}
             {GC : ∀ A B E F : C, @EndoFunctor C (fun D => Q A B D E F)}
@@ -212,8 +212,8 @@ Program Instance ArityFive {C : Category}
 
 #[global]
 Program Instance Transform_ArityOne {C : Category}
-        (P : C -> C) `{@EndoFunctor C P}
-        (Q : C -> C) `{@EndoFunctor C Q} :
+        (P : C → C) `{@EndoFunctor C P}
+        (Q : C → C) `{@EndoFunctor C Q} :
   @Naturality (∀ A, P A ≅ Q A) := {
   natural := fun f => natural (fun A => to (f A)) *
                       natural (fun A => from (f A))
@@ -221,10 +221,10 @@ Program Instance Transform_ArityOne {C : Category}
 
 #[global]
 Program Instance Transform_ArityTwo {C : Category}
-        (P : C -> C -> C)
+        (P : C → C → C)
             `{∀ B, @EndoFunctor C (fun A => P A B)}
             `{∀ A, @EndoFunctor C (fun B => P A B)}
-        (Q : C -> C -> C)
+        (Q : C → C → C)
             `{∀ B, @EndoFunctor C (fun A => Q A B)}
             `{∀ A, @EndoFunctor C (fun B => Q A B)} :
   @Naturality (∀ A B, P A B ≅ Q A B) := {
@@ -234,11 +234,11 @@ Program Instance Transform_ArityTwo {C : Category}
 
 #[global]
 Program Instance Transform_ArityThree {C : Category}
-        (P : C -> C -> C -> C)
+        (P : C → C → C → C)
             `{∀ B D : C, @EndoFunctor C (fun A => P A B D)}
             `{∀ A D : C, @EndoFunctor C (fun B => P A B D)}
             `{∀ A B : C, @EndoFunctor C (fun D => P A B D)}
-        (Q : C -> C -> C -> C)
+        (Q : C → C → C → C)
             `{∀ B D : C, @EndoFunctor C (fun A => Q A B D)}
             `{∀ A D : C, @EndoFunctor C (fun B => Q A B D)}
             `{∀ A B : C, @EndoFunctor C (fun D => Q A B D)} :
@@ -249,12 +249,12 @@ Program Instance Transform_ArityThree {C : Category}
 
 #[global]
 Program Instance Transform_ArityFour {C : Category}
-        (P : C -> C -> C -> C -> C)
+        (P : C → C → C → C → C)
             `{∀ B D E : C, @EndoFunctor C (fun A => P A B D E)}
             `{∀ A D E : C, @EndoFunctor C (fun B => P A B D E)}
             `{∀ A B E : C, @EndoFunctor C (fun D => P A B D E)}
             `{∀ A B D : C, @EndoFunctor C (fun E => P A B D E)}
-        (Q : C -> C -> C -> C -> C)
+        (Q : C → C → C → C → C)
             `{∀ B D E : C, @EndoFunctor C (fun A => Q A B D E)}
             `{∀ A D E : C, @EndoFunctor C (fun B => Q A B D E)}
             `{∀ A B E : C, @EndoFunctor C (fun D => Q A B D E)}
@@ -267,13 +267,13 @@ Program Instance Transform_ArityFour {C : Category}
 
 #[global]
 Program Instance Transform_ArityFive {C : Category}
-        (P : C -> C -> C -> C -> C -> C)
+        (P : C → C → C → C → C → C)
             `{∀ B D E F : C, @EndoFunctor C (fun A => P A B D E F)}
             `{∀ A D E F : C, @EndoFunctor C (fun B => P A B D E F)}
             `{∀ A B E F : C, @EndoFunctor C (fun D => P A B D E F)}
             `{∀ A B D F : C, @EndoFunctor C (fun E => P A B D E F)}
             `{∀ A B D E : C, @EndoFunctor C (fun F => P A B D E F)}
-        (Q : C -> C -> C -> C -> C -> C)
+        (Q : C → C → C → C → C → C)
             `{∀ B D E F : C, @EndoFunctor C (fun A => Q A B D E F)}
             `{∀ A D E F : C, @EndoFunctor C (fun B => Q A B D E F)}
             `{∀ A B E F : C, @EndoFunctor C (fun D => Q A B D E F)}

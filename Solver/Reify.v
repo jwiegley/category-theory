@@ -136,7 +136,7 @@ Ltac allVars cs e :=
   lazymatch e with
   | @id ?c ?o => let cs := addToCatList c cs in addToObjList c cs o
   | ?f ∘ ?g   => let cs := allVars cs f in allVars cs g
-  | ?P -> ?Q  => let cs := allVars cs P in allVars cs Q
+  | ?P → ?Q  => let cs := allVars cs P in allVars cs Q
   | ?X ≈ ?Y   => let cs := allVars cs X in allVars cs Y
   | ?f => lazymatch type of f with
     | ?x ~{?c}~> ?y =>
@@ -192,7 +192,7 @@ Ltac reifyExpr env cs t :=
     let p := reifyExpr env cs P in
     let q := reifyExpr env cs Q in
     constr:(@SOr p q)
-  | ?P -> ?Q =>
+  | ?P → ?Q =>
     let p := reifyExpr env cs P in
     let q := reifyExpr env cs Q in
     constr:(@SImpl p q)
@@ -268,7 +268,7 @@ Ltac find_vars :=
   end.
 
 Example sample_1 : ∀ (C : Category) (x y : C) (f : x ~> y) (g : y ~> x),
-  g ≈ g -> f ≈ f.
+  g ≈ g → f ≈ f.
 Proof.
   intros.
   find_vars.

@@ -13,14 +13,14 @@ Unset Transparent Obligations.
 
 Import ListNotations.
 
-Definition rev_list_rect (A : Type) (P : list A -> Type) (H : P [])
-           (H0 : ∀ (a : A) (l : list A), P (rev l) -> P (rev (a :: l)))
+Definition rev_list_rect (A : Type) (P : list A → Type) (H : P [])
+           (H0 : ∀ (a : A) (l : list A), P (rev l) → P (rev (a :: l)))
            (l : list A) : P (rev l) :=
   list_rect (λ l0 : list A, P (rev l0)) H
             (λ (a : A) (l0 : list A) (IHl : P (rev l0)), H0 a l0 IHl) l.
 
-Definition rev_rect (A : Type) (P : list A -> Type)
-           (H : P []) (H0 : ∀ (x : A) (l : list A), P l -> P (l ++ [x]))
+Definition rev_rect (A : Type) (P : list A → Type)
+           (H : P []) (H0 : ∀ (x : A) (l : list A), P l → P (l ++ [x]))
            (l : list A) : P l :=
   (λ E : rev (rev l) = l,
      eq_rect (rev (rev l)) (λ l0 : list A, P l0)
@@ -86,7 +86,7 @@ Proof.
 Qed.
 
 Lemma last_Forall A (x y : A) l P :
-  last l x = y -> Forall P l -> P x -> P y.
+  last l x = y → Forall P l → P x → P y.
 Proof.
   generalize dependent x.
   destruct l using rev_ind; simpl; intros.
@@ -97,9 +97,9 @@ Proof.
   now inversion H0.
 Qed.
 
-Lemma map_inj {A B : Type} (f : A -> B)
-      (f_inj : forall x y, f x = f y -> x = y) xs ys :
-  List.map f xs = List.map f ys -> xs = ys.
+Lemma map_inj {A B : Type} (f : A → B)
+      (f_inj : ∀ x y, f x = f y → x = y) xs ys :
+  List.map f xs = List.map f ys → xs = ys.
 Proof.
   generalize dependent ys.
   induction xs, ys; simpl; intros; auto; try inv H.
@@ -130,19 +130,19 @@ Program Instance fst_respects {A B} `{Setoid A} `{Setoid B} :
 Program Instance snd_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@snd A B).
 
-Corollary let_fst {x y} (A : x * y) `(f : x -> z) :
+Corollary let_fst {x y} (A : x * y) `(f : x → z) :
   (let (x, _) := A in f x) = f (fst A).
 Proof. destruct A; auto. Qed.
 
-Corollary let_snd {x y} (A : x * y) `(f : y -> z) :
+Corollary let_snd {x y} (A : x * y) `(f : y → z) :
   (let (_, y) := A in f y) = f (snd A).
 Proof. destruct A; auto. Qed.
 
-Corollary let_projT1 {A P} (S : @sigT A P) `(f : A -> z) :
+Corollary let_projT1 {A P} (S : @sigT A P) `(f : A → z) :
   (let (x, _) := S in f x) = f (projT1 S).
 Proof. destruct S; auto. Qed.
 
-Corollary let_projT2 {A P} (S : @sigT A P) `(f : forall x, P x -> z) :
+Corollary let_projT2 {A P} (S : @sigT A P) `(f : ∀ x, P x → z) :
   (let (x, y) := S in f x y) = f (projT1 S) (projT2 S).
 Proof. destruct S; auto. Qed.
 
@@ -258,21 +258,21 @@ Qed.
 Section Symmetric_Product2.
 
 Variable A : Type.
-Variable leA : A -> A -> Prop.
+Variable leA : A → A → Prop.
 
-Inductive symprod2 : A * A -> A * A -> Prop :=
+Inductive symprod2 : A * A → A * A → Prop :=
   | left_sym2 :
-    forall x x':A, leA x x' -> forall y:A, symprod2 (x, y) (x', y)
+    ∀ x x':A, leA x x' → ∀ y:A, symprod2 (x, y) (x', y)
   | right_sym2 :
-    forall y y':A, leA y y' -> forall x:A, symprod2 (x, y) (x, y')
+    ∀ y y':A, leA y y' → ∀ x:A, symprod2 (x, y) (x, y')
   | both_sym2 :
-    forall (x x':A) (y y':A),
+    ∀ (x x':A) (y y':A),
       leA x x' ->
       leA y y' ->
       symprod2 (x, y) (x', y').
 
 Lemma Acc_symprod2 :
-  forall x:A, Acc leA x -> forall y:A, Acc leA y -> Acc symprod2 (x, y).
+  ∀ x:A, Acc leA x → ∀ y:A, Acc leA y → Acc symprod2 (x, y).
 Proof.
   induction 1 as [x _ IHAcc]; intros y H2.
   induction H2 as [x1 H3 IHAcc1].
@@ -283,7 +283,7 @@ Proof.
 Defined.
 
 Lemma wf_symprod2 :
-  well_founded leA -> well_founded symprod2.
+  well_founded leA → well_founded symprod2.
 Proof.
   red.
   destruct a.
@@ -292,12 +292,12 @@ Defined.
 
 End Symmetric_Product2.
 
-Lemma list_rect2 : ∀ (A : Type) (P : list A -> list A -> Type),
+Lemma list_rect2 : ∀ (A : Type) (P : list A → list A → Type),
   P [] [] ->
-  (∀ (a : A) (l1 : list A), P l1 [] -> P (a :: l1) []) ->
-  (∀ (b : A) (l2 : list A), P [] l2 -> P [] (b :: l2)) ->
-  (∀ (a b : A) (l1 l2 : list A), P l1 l2 -> P (a :: l1) (b :: l2))
-    -> ∀ l1 l2 : list A, P l1 l2.
+  (∀ (a : A) (l1 : list A), P l1 [] → P (a :: l1) []) ->
+  (∀ (b : A) (l2 : list A), P [] l2 → P [] (b :: l2)) ->
+  (∀ (a b : A) (l1 l2 : list A), P l1 l2 → P (a :: l1) (b :: l2))
+    → ∀ l1 l2 : list A, P l1 l2.
 Proof.
   intros.
   generalize dependent l2.
@@ -309,7 +309,7 @@ Qed.
 Program Instance nat_setoid : Setoid nat.
 
 #[global]
-Program Instance fun_setoid {A : Type} `{Setoid B} : Setoid (A -> B) := {
+Program Instance fun_setoid {A : Type} `{Setoid B} : Setoid (A → B) := {
   equiv := fun f g => ∀ x, f x ≈ g x
 }.
 Next Obligation.

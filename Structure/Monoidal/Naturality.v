@@ -28,7 +28,7 @@ Next Obligation. normal; reflexivity. Qed.
 #[global] Program Instance Tensor_Left_Map `{@EndoFunctor C P} {y : C} :
   @EndoFunctor C (fun x => P x ⨂ y)%object := {
   map := fun _ _ f => map f ⨂ id;
-  is_functor := @Tensor_Left is_functor _
+  endo_is_functor := @Tensor_Left endo_is_functor _
 }.
 Next Obligation.
   unfold Tensor_Left_Map_obligation_1.
@@ -56,7 +56,7 @@ Next Obligation. normal; reflexivity. Qed.
 #[global] Program Instance Tensor_Right_Map `{@EndoFunctor C P} {x : C} :
   @EndoFunctor C (fun y => x ⨂ P y)%object := {
   map := fun _ _ f => id ⨂ map f;
-  is_functor := @Tensor_Right is_functor _
+  endo_is_functor := @Tensor_Right endo_is_functor _
 }.
 Next Obligation.
   unfold Tensor_Left_Map_obligation_1.
@@ -84,7 +84,7 @@ Next Obligation. normal; reflexivity. Qed.
 #[global] Program Instance Tensor_Both_Map `{@EndoFunctor C P} :
   @EndoFunctor C (fun x => P x ⨂ P x)%object := {
   map := fun _ _ f => map f ⨂ map f;
-  is_functor := @Tensor_Both is_functor
+  endo_is_functor := @Tensor_Both endo_is_functor
 }.
 Next Obligation.
   apply bifunctor_respects; simpl; split;

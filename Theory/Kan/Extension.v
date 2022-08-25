@@ -236,7 +236,7 @@ Proof.
 Qed.
 
 Theorem left_adjoints_preserve `(L : C ⟶ D) :
-  ∀ R : D ⟶ C, L ⊣ R -> preserves_left_Kan L.
+  ∀ R : D ⟶ C, L ⊣ R → preserves_left_Kan L.
 Proof.
   intros.
   construct.

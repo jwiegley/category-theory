@@ -15,7 +15,7 @@ Context {C : Category}.
 Context `{@Cartesian C}.
 
 Class Closed := {
-  exponent_obj : obj -> obj -> obj    (* internal homs *)
+  exponent_obj : obj → obj → obj    (* internal homs *)
     where "y ^ x" := (exponent_obj x y);
 
   exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;
@@ -112,7 +112,7 @@ Proof.
 Qed.
 
 Corollary curry_inj {x y z : C} (f g : x × y ~> z) :
-  curry f ≈ curry g -> f ≈ g.
+  curry f ≈ curry g → f ≈ g.
 Proof.
   intros.
   rewrite <- (uncurry_curry f).
@@ -121,7 +121,7 @@ Proof.
 Qed.
 
 Corollary uncurry_inj {x y z : C} (f g : x ~> z^y) :
-  uncurry f ≈ uncurry g -> f ≈ g.
+  uncurry f ≈ uncurry g → f ≈ g.
 Proof.
   intros.
   rewrite <- (curry_uncurry f).

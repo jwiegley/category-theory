@@ -32,7 +32,7 @@ Next Obligation. now apply tlist_app_tnil_r. Qed.
 Next Obligation. now apply tlist_app_assoc. Qed.
 Next Obligation. now symmetry; apply tlist_app_assoc. Qed.
 
-Definition composition {x y : C} : tlist hom x y -> x ~{C}~> y.
+Definition composition {x y : C} : tlist hom x y → x ~{C}~> y.
 Proof.
   intros.
   induction X.

@@ -117,9 +117,9 @@ Qed.
                   = I
 
    Then use the lemma above. *)
-Lemma mappend_inverse : mappend ∘ inverse[grp] ⨂ inverse[grp] ≈ inverse[grp] ∘ mappend ∘ twist.
+Lemma mappend_inverse : mappend ∘ inverse[grp] ⨂ inverse[grp] ≈ inverse[grp] ∘ mappend ∘ braid.
 Proof.
-  rewrite <- (comp_assoc inverse[grp] mappend twist).
+  rewrite <- (comp_assoc inverse[grp] mappend braid).
   apply left_inverse_unique.
   (* (y⁻¹x⁻¹)(xy) = ... *)
   rewrite bimap_comp.
@@ -138,15 +138,15 @@ Proof.
   rewrite <- to_tensor_assoc_natural.
   rewrite !comp_assoc; rewrite <- (comp_assoc mappend _ _).
   rewrite <- bimap_comp; rewrite id_left.
-  rewrite diagonal_twist2.
+  rewrite diagonal_braid2.
   rewrite !comp_assoc; rewrite <- (comp_assoc _ tensor_assoc (tensor_assoc ⁻¹)).
   rewrite iso_to_from; rewrite id_right.
   rewrite <- (comp_assoc _ (inverse[grp] ⨂ _) _).
   rewrite <- bimap_comp; rewrite id_right.
   rewrite hexagon_rotated.
-  rewrite !comp_assoc; rewrite <- (comp_assoc _ (inverse[grp] ⨂ twist) _).
+  rewrite !comp_assoc; rewrite <- (comp_assoc _ (inverse[grp] ⨂ braid) _).
   rewrite <- bimap_comp; rewrite id_right.
-  rewrite twist_invol.
+  rewrite braid_invol.
   rewrite <- bimap_id_id.
   rewrite <- (comp_assoc _ (tensor_assoc ⁻¹) _).
   rewrite <- from_tensor_assoc_natural.
@@ -158,8 +158,8 @@ Proof.
   rewrite <- to_tensor_assoc_natural.
   rewrite !comp_assoc; rewrite <- (comp_assoc mappend (inverse[grp] ⨂ _) _).
   rewrite <- bimap_comp; rewrite id_right.
-  rewrite <- (comp_assoc _ twist _).
-  rewrite <- bimap_twist.
+  rewrite <- (comp_assoc _ braid _).
+  rewrite <- bimap_braid.
   rewrite !comp_assoc; rewrite <- (comp_assoc _ ((inverse[grp] ⨂ id) ⨂ id) _).
   rewrite <- bimap_comp; rewrite id_left.
   rewrite <- (comp_assoc _ (mappend ⨂ id) _).
@@ -171,10 +171,10 @@ Proof.
   rewrite !comp_assoc.
   (* ... = y⁻¹y *)
   rewrite mempty_left.
-  rewrite <- (comp_assoc _ (eliminate ⨂ id) twist).
-  rewrite bimap_twist.
+  rewrite <- (comp_assoc _ (eliminate ⨂ id) braid).
+  rewrite bimap_braid.
   rewrite comp_assoc.
-  rewrite unit_left_twist.
+  rewrite unit_left_braid.
   rewrite <- (id_left inverse[grp]).
   rewrite bimap_comp.
   rewrite comp_assoc; rewrite <- (comp_assoc _ _ tensor_assoc).

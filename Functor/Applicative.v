@@ -32,13 +32,15 @@ Context `{@Closed C _}.
 Context {F : C ⟶ C}.
 
 Class Applicative := {
-  in_monoidal := @InternalProduct_Monoidal C _ _;
-  is_strong :> @StrongFunctor C in_monoidal F;
-  is_lax_monoidal :> LaxMonoidalFunctor F;
+  applicative_is_monoidal := @InternalProduct_Monoidal C _ _;
+  applicative_is_strong : @StrongFunctor C applicative_is_monoidal F;
+  applicative_is_lax_monoidal : LaxMonoidalFunctor F;
 
   ap {x y} : F (x ≈> y) ⨂ F x ~> F y :=
-    fmap[F] eval ∘ @lax_ap _ _ in_monoidal _ F _ (x ≈> y) x
+    fmap[F] eval ∘ @lax_ap _ _ applicative_is_monoidal _ F _ (x ≈> y) x
 }.
+#[export] Existing Instance applicative_is_strong.
+#[export] Existing Instance applicative_is_lax_monoidal.
 
 End ApplicativeFunctor.
 

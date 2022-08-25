@@ -19,13 +19,13 @@ Unset Transparent Obligations.
 
 Inductive ParObj : Type := ParX | ParY.
 
-Inductive ParHom : bool -> ParObj -> ParObj -> Type :=
+Inductive ParHom : bool → ParObj → ParObj → Type :=
   | ParIdX : ParHom true ParX ParX
   | ParIdY : ParHom true ParY ParY
   | ParOne : ParHom true ParX ParY
   | ParTwo : ParHom false ParX ParY.
 
-Definition ParHom_inv_t : forall b x y, ParHom b x y -> Prop.
+Definition ParHom_inv_t : ∀ b x y, ParHom b x y → Prop.
 Proof.
   intros [] [] [] f.
   exact (f = ParIdX).
@@ -41,7 +41,7 @@ Defined.
 Corollary ParHom_inv b x y f : ParHom_inv_t b x y f.
 Proof. destruct f; reflexivity. Qed.
 
-Lemma ParHom_Id_false_absurd : ∀ x, ParHom false x x -> False.
+Lemma ParHom_Id_false_absurd : ∀ x, ParHom false x x → False.
 Proof. inversion 1. Qed.
 
 #[local] Hint Extern 4 =>
@@ -50,7 +50,7 @@ Proof. inversion 1. Qed.
     contradiction (ParHom_Id_false_absurd X H)
   end : parallel_laws.
 
-Lemma ParHom_Y_X_absurd : ∀ b, ParHom b ParY ParX -> False.
+Lemma ParHom_Y_X_absurd : ∀ b, ParHom b ParY ParX → False.
 Proof. inversion 1. Qed.
 
 #[local] Hint Extern 4 =>

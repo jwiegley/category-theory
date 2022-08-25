@@ -10,11 +10,11 @@ Unset Transparent Obligations.
 
 Inductive TwoDObj : Type := TwoDX | TwoDY.
 
-Inductive TwoDHom : TwoDObj -> TwoDObj -> Type :=
+Inductive TwoDHom : TwoDObj → TwoDObj → Type :=
   | TwoDIdX : TwoDHom TwoDX TwoDX
   | TwoDIdY : TwoDHom TwoDY TwoDY.
 
-Definition TwoDHom_inv_t : forall x y, TwoDHom x y -> Prop.
+Definition TwoDHom_inv_t : ∀ x y, TwoDHom x y → Prop.
 Proof.
   intros [] [] f.
   exact (f = TwoDIdX).
@@ -26,12 +26,12 @@ Defined.
 Corollary TwoDHom_inv x y f : TwoDHom_inv_t x y f.
 Proof. destruct f; reflexivity. Qed.
 
-Lemma TwoDHom_X_Y_absurd : TwoDHom TwoDX TwoDY -> False.
+Lemma TwoDHom_X_Y_absurd : TwoDHom TwoDX TwoDY → False.
 Proof. inversion 1. Qed.
 
 #[export] Hint Extern 4 => contradiction TwoDHom_X_Y_absurd : two_laws.
 
-Lemma TwoDHom_Y_X_absurd : TwoDHom TwoDY TwoDX -> False.
+Lemma TwoDHom_Y_X_absurd : TwoDHom TwoDY TwoDX → False.
 Proof. inversion 1. Qed.
 
 #[export] Hint Extern 4 => contradiction TwoDHom_Y_X_absurd : two_laws.

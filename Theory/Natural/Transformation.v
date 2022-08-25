@@ -211,7 +211,7 @@ Qed.
     G, or a natural transformation F ⟹ G, treating it as an implication.
     Likewise F ≅ G should rewrite as if it were an equivalence. *)
 
-(* Goal forall `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} *)
+(* Goal ∀ `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} *)
 (*             (f : G ⟹ K) (g : F ⟹ G), F ⟹ K. *)
 (* Proof. *)
 (*   intros. *)

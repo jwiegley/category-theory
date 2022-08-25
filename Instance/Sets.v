@@ -14,7 +14,7 @@ Record SetoidObject := {
 }.
 
 Record SetoidMorphism `{Setoid x} `{Setoid y} := {
-  morphism :> x -> y;
+  morphism :> x → y;
   proper_morphism :> Proper (equiv ==> equiv) morphism
 }.
 
@@ -24,7 +24,7 @@ Arguments morphism {_ _ _ _ _} _.
 #[global]
 Program Instance SetoidMorphism_Setoid {x y : SetoidObject} :
   Setoid (SetoidMorphism x y) := {|
-  equiv := fun f g => forall x, @equiv _ y (f x) (g x)
+  equiv := fun f g => ∀ x, @equiv _ y (f x) (g x)
 |}.
 Next Obligation.
   constructor; repeat intro.

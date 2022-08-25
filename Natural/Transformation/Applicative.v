@@ -15,8 +15,8 @@ Class Applicative_Transform {C : Category}
       `{@Cartesian C} `{@Terminal C} `{@Closed C _}
       {F : C ⟶ C} `{@Applicative _ _ _ _ F}
       {G : C ⟶ C} `{@Applicative _ _ _ _ G} (N : F ⟹ G) := {
-  is_strong_transformation :>
+  applicative_transform_is_strong_transformation :>
     @Strong_Transform C InternalProduct_Monoidal _ _ _ _ N;
-  is_lax_monoidal_transformation :>
+  applicative_transform_is_lax_monoidal_transformation :>
     @LaxMonoidal_Transform C InternalProduct_Monoidal _ _ _ _ N
 }.

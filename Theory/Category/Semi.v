@@ -12,7 +12,7 @@ Class Semigroupoid := {
   semi_obj : Type;
 
   semi_uhom := Type : Type;
-  semi_hom : semi_obj -> semi_obj -> semi_uhom;
+  semi_hom : semi_obj → semi_obj → semi_uhom;
   semi_homset :> ∀ X Y, Setoid (semi_hom X Y);
 
   semi_compose {x y z} (f: semi_hom y z) (g : semi_hom x y) : semi_hom x z;

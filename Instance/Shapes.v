@@ -16,14 +16,14 @@ Set Primitive Projections.
 (* Unset Transparent Obligations. *)
 
 (* These two lemmas is missing in Coq 8.11 and earlier. *)
-Lemma map_id A: forall n (v : t A n),
+Lemma map_id A: ∀ n (v : t A n),
   map (fun x => x) v = v.
 Proof.
   induction v; simpl; auto.
   now rewrite IHv.
 Qed.
 
-Lemma map_map A B C: forall (f:A->B) (g:B->C) n (v : t A n),
+Lemma map_map A B C: ∀ (f:A->B) (g:B->C) n (v : t A n),
   map g (map f v) = map (fun x => g (f x)) v.
 Proof.
   induction v; simpl; auto.
@@ -57,14 +57,14 @@ Qed.
 Definition group {a : Type} (m n : nat) (xs : t a (m * n)) : t (t a n) m :=
   `1 (group_dep m n xs).
 
-Lemma map_append `(f : a -> b) `(xs : t a n) `(ys : t a m) :
+Lemma map_append `(f : a → b) `(xs : t a n) `(ys : t a m) :
   map f (xs ++ ys) = map f xs ++ map f ys.
 Proof.
   induction xs; simpl; auto.
   now rewrite IHxs.
 Qed.
 
-Lemma map_concat `(f : a -> b) `(xs : t (t a n) m) :
+Lemma map_concat `(f : a → b) `(xs : t (t a n) m) :
   map f (concat xs) = concat (map (map f) xs).
 Proof.
   induction xs; simpl; auto.
@@ -104,15 +104,15 @@ Program Instance Shape_Setoid : Setoid Shape := {|
 
 (**************************************************************************)
 
-Inductive Trie (a : Type) : Shape -> Type :=
+Inductive Trie (a : Type) : Shape → Type :=
   | Unit : Trie a Bottom                      (* a^0 = 1 *)
-  | Id : a -> Trie a Top                      (* a^1 = a *)
+  | Id : a → Trie a Top                      (* a^1 = a *)
   | Join {x y} :
-    Trie a x -> Trie a y -> Trie a (Plus x y) (* a^(b+c) = a^b * a^c *)
+    Trie a x → Trie a y → Trie a (Plus x y) (* a^(b+c) = a^b * a^c *)
   | Joins {x y} :
     (* This allows us to positively express Trie (Trie a y) x *)
-    ∀ z, (z -> Trie a y) ->
-         Trie z x -> Trie a (Times x y).      (* a^(b*c) = (a^b)^c *)
+    ∀ z, (z → Trie a y) ->
+         Trie z x → Trie a (Times x y).      (* a^(b*c) = (a^b)^c *)
 
 Arguments Unit {a}.
 Arguments Id {a} _.
@@ -178,7 +178,7 @@ Program Instance vec_Proper {a : Type} {s : Shape} :
 Theorem trie_vec `(x : Trie a s) : trie (vec x) ≈ x.
 Proof. now simpl; rewrite vec_trie. Qed.
 
-Fixpoint Trie_map {s : Shape} `(f : a -> b) (x : Trie a s) : Trie b s :=
+Fixpoint Trie_map {s : Shape} `(f : a → b) (x : Trie a s) : Trie b s :=
   match x with
   | Unit => Unit
   | Id x => Id (f x)
@@ -186,7 +186,7 @@ Fixpoint Trie_map {s : Shape} `(f : a -> b) (x : Trie a s) : Trie b s :=
   | Joins z k xs => Joins z (Trie_map f ∘ k) xs
   end.
 
-Fixpoint Trie_map_flatten `(f : a -> b) `(t : Trie a s) :
+Fixpoint Trie_map_flatten `(f : a → b) `(t : Trie a s) :
   vec (Trie_map f t) = map f (vec t).
 Proof.
   induction t; try (simpl; reflexivity); simpl.
@@ -201,7 +201,7 @@ Proof.
 Qed.
 
 #[global]
-Program Instance Trie_map_Proper {s : Shape} `{f : a -> b} :
+Program Instance Trie_map_Proper {s : Shape} `{f : a → b} :
   Proper (equiv ==> equiv) (@Trie_map s a b f).
 Next Obligation.
   proper.
@@ -237,7 +237,7 @@ Program Definition Tries (a : Type) : Category := {|
   obj     := Shape;
   hom     := λ x y,
     (* This is a setoid morphism within a smaller category than Coq. *)
-    ∃ f : Trie a x -> Trie a y, Proper (equiv ==> equiv) f;
+    ∃ f : Trie a x → Trie a y, Proper (equiv ==> equiv) f;
   homset  := λ _ _, {| equiv := fun f g => ∀ x, `1 f x ≈ `1 g x |};
   id      := λ _, (λ x, x; _);
   compose := _
@@ -339,7 +339,7 @@ Qed.
 
 Program Definition Vectors (a : Type) : Category := {|
   obj     := nat;
-  hom     := λ x y, Vector.t a x -> Vector.t a y;
+  hom     := λ x y, Vector.t a x → Vector.t a y;
   homset  := λ x y, @funext_Setoid _ (Vector.t a) x y (eq_Setoid (t a y));
   id      := λ _ x, x;
   compose := λ _ _ _ f g x, f (g x)

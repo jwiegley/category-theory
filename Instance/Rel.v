@@ -23,11 +23,11 @@ Program Definition Rel : Category := {|
   (* i.e. each object is an element of [Type] *)
   obj     := @obj Coq;
   (* each morphism (from [A : Type] to [B : Type]) is of type
-     [A -> B -> Prop]. So a heterogenous relation. *)
+     [A → B → Prop]. So a heterogenous relation. *)
   hom     := fun A B => A ~> Ensemble B;
   (* morphisms are equal, if they are (provably) equivalent *)
   homset  := fun P Q =>
-               {| equiv := fun f g => forall x y, f x y ↔ g x y |};
+               {| equiv := fun f g => ∀ x y, f x y ↔ g x y |};
   (* the identity morphism is (equivalent to) the relation
      [fun x y => x = y] *)
   id      := Singleton;

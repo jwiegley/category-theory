@@ -75,9 +75,9 @@ Qed.
 Lemma proj_left_id_diagonal {x y} :
   proj_left ⨂ id ∘ ∆(x ⨂ y) ≈ tensor_assoc ∘ ∆x ⨂ id.
 Proof.
-  rewrite diagonal_twist2.
+  rewrite diagonal_braid2.
   remember (_ ∘ _ ∘ tensor_assoc) as p.
-  spose (@twist2_natural _ _ _ x _ id x _ id y _ eliminate y _ id) as X0.
+  spose (@braid2_natural _ _ _ x _ id x _ id y _ eliminate y _ id) as X0.
   rewrite !bimap_id_id in X0.
   rewrite !id_left, !id_right in X0.
   unfold proj_left.
@@ -85,7 +85,7 @@ Proof.
   rewrite bimap_comp_id_right.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc ((_ ⨂ _) ⨂ _)).
-  unfold twist2 in X0.
+  unfold braid2 in X0.
   rewrite Heqp; clear Heqp p.
   rewrite X0; clear X0.
   normal.
@@ -97,7 +97,8 @@ Proof.
   normal.
   rewrite <- triangle_identity_left.
   normal.
-  rewrite unit_left_twist.
+  Set Printing Implicit.
+  rewrite unit_left_braid.
   rewrite triangle_identity.
   rewrite <- !comp_assoc.
   rewrite iso_to_from.
@@ -110,14 +111,14 @@ Qed.
 
 Lemma proj_right_id_diagonal {x y} :
   proj_right ⨂ id ∘ ∆(x ⨂ y)
-    ≈ tensor_assoc ∘ twist ⨂ id ∘ tensor_assoc⁻¹ ∘ id[x] ⨂ ∆y.
+    ≈ tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc⁻¹ ∘ id[x] ⨂ ∆y.
 Proof.
-  rewrite diagonal_twist2.
+  rewrite diagonal_braid2.
   remember (_ ∘ _ ∘ tensor_assoc) as p.
-  spose (@twist2_natural _ _ _ x _ eliminate x _ id y _ id y _ id) as X0.
+  spose (@braid2_natural _ _ _ x _ eliminate x _ id y _ id y _ id) as X0.
   rewrite !bimap_id_id in X0.
   rewrite !id_right in X0.
-  unfold twist2 in X0.
+  unfold braid2 in X0.
   unfold proj_right.
   normal.
   rewrite bimap_comp_id_right.
@@ -143,7 +144,7 @@ Proof.
 Qed.
 
 Corollary proj_right_left_diagonal {x y} :
-  proj_right ⨂ proj_left ∘ ∆(x ⨂ y) ≈ twist.
+  proj_right ⨂ proj_left ∘ ∆(x ⨂ y) ≈ braid.
 Proof.
   rewrite <- bimap_id_left_right.
   rewrite <- comp_assoc.
@@ -224,8 +225,8 @@ Next Obligation.
   reflexivity.
 Qed.
 
-Corollary proj_left_twist {x y} :
-  proj_left ∘ twist ≈ @proj_right _ _ _ x y.
+Corollary proj_left_braid {x y} :
+  proj_left ∘ braid ≈ @proj_right _ _ _ x y.
 Proof.
   unfold proj_left, proj_right.
   rewrite <- proj_right_left_diagonal.
@@ -235,8 +236,8 @@ Proof.
   reflexivity.
 Qed.
 
-Corollary proj_right_twist {x y} :
-  proj_right ∘ twist ≈ @proj_left _ _ _ x y.
+Corollary proj_right_braid {x y} :
+  proj_right ∘ braid ≈ @proj_left _ _ _ x y.
 Proof.
   unfold proj_left, proj_right.
   rewrite <- proj_right_left_diagonal.
@@ -252,8 +253,12 @@ Qed.
   exl  := fun _ _ => proj_left;
   exr  := fun _ _ => proj_right
 |}.
-Next Obligation. apply is_relevance. Defined.
-Next Obligation. proper; rewrites; reflexivity. Qed.
+Next Obligation.
+  apply cartesian_is_relevant.
+Defined.
+Next Obligation.
+  proper; rewrites; reflexivity.
+Qed.
 Next Obligation.
   - rewrites.
     rewrite comp_assoc.

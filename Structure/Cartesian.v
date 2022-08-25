@@ -16,12 +16,13 @@ Section Cartesian.
 Context `{C : Category}.
 
 Class Cartesian := {
-  product_obj : obj -> obj -> obj
+  product_obj : obj → obj → obj
     where "x × y" := (product_obj x y);
 
   fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z;
-  exl  {x y} : x × y ~> x;
-  exr  {x y} : x × y ~> y;
+
+  exl {x y} : x × y ~> x;
+  exr {x y} : x × y ~> y;
 
   fork_respects : ∀ x y z,
     Proper (equiv ==> equiv ==> equiv) (@fork x y z);
@@ -169,7 +170,7 @@ Proof. unfork. Qed.
 #[local] Hint Rewrite @swap_invol : categories.
 
 Definition swap_inj_l {x y z : C} (f g : x ~> y × z) :
-  swap ∘ f ≈ swap ∘ g -> f ≈ g.
+  swap ∘ f ≈ swap ∘ g → f ≈ g.
 Proof.
   intro HA.
   rewrite <- id_left.
@@ -180,7 +181,7 @@ Proof.
 Qed.
 
 Definition swap_inj_r {x y z : C} (f g : x × y ~> z) :
-  f ∘ swap ≈ g ∘ swap -> f ≈ g.
+  f ∘ swap ≈ g ∘ swap → f ≈ g.
 Proof.
   intro HA.
   rewrite <- id_right.
