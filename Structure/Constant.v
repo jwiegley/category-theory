@@ -12,7 +12,7 @@ Unset Transparent Obligations.
    able to host foreign values of a given Coq type. *)
 
 Class Constant `{@Terminal C} (A : Type) := {
-  constant_obj : A -> C;
+  constant_obj : A → C;
   constant (x : A) : 1 ~> constant_obj x
 }.
 

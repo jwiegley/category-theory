@@ -14,17 +14,17 @@ Unset Transparent Obligations.
    However, since only one such functor can match a given pattern, this is why
    it is termed canonical. *)
 
-Class EndoFunctor {C : Category} (F : C -> C) : Type := {
+Class EndoFunctor {C : Category} (F : C → C) : Type := {
   map {x y} (f : x ~> y) : F x ~> F y;
 
-  is_functor : C ⟶ C;
+  endo_is_functor : C ⟶ C;
 
-  fobj_related {x} : F x ≅ is_functor x;
+  fobj_related {x} : F x ≅ endo_is_functor x;
   fmap_related {x y} (f : x ~> y) :
-    map f ≈ from fobj_related ∘ fmap[is_functor] f ∘ to fobj_related
+    map f ≈ from fobj_related ∘ fmap[endo_is_functor] f ∘ to fobj_related
 }.
 
-Coercion is_functor : EndoFunctor >-> Functor.
+Coercion endo_is_functor : EndoFunctor >-> Functor.
 
 Notation "map[ F ]" := (@map _ _ F _ _)
   (at level 9, format "map[ F ]") : morphism_scope.
@@ -33,21 +33,21 @@ Notation "map[ F ]" := (@map _ _ F _ _)
 Program Instance Identity_EndoFunctor {C : Category} :
   EndoFunctor (fun x => x) | 9 := {
   map := fun _ _ f => f;
-  is_functor := Id
+  endo_is_functor := Id
 }.
 
 #[global]
 Program Instance Functor_EndoFunctor {C : Category} {F : C ⟶ C} :
   EndoFunctor F := {
   map := fun _ _ f => fmap[F] f;
-  is_functor := F
+  endo_is_functor := F
 }.
 
 #[global]
 Program Instance Functor_Eta_EndoFunctor {C : Category} {F : C ⟶ C} :
   EndoFunctor (fun x => F x) := {
   map := fun _ _ f => fmap[F] f;
-  is_functor := F
+  endo_is_functor := F
 }.
 
 #[global]
@@ -55,7 +55,7 @@ Program Instance Functor_Map_EndoFunctor {C : Category}
         `{G : @EndoFunctor C P} {F : C ⟶ C} :
   EndoFunctor (fun x => F (P x)) := {
   map := fun _ _ f => fmap[F] (map f);
-  is_functor := F ◯ G
+  endo_is_functor := F ◯ G
 }.
 Next Obligation.
   destruct G; simpl.

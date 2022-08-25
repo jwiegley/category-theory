@@ -79,7 +79,7 @@ Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := {
   pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd;
 
   ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2
-    -> ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2
+    → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2
 }.
 
 Coercion pullback_ob {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z)

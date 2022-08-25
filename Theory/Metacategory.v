@@ -69,7 +69,7 @@ Record Metacategory := {
      g∙f are defined." *)
   triple_composition (k g f kg gf : arr) :
     composite k g kg ->
-    composite g f gf -> (exists kgf : arr, composite kg f kgf)%type;
+    composite g f gf → (exists kgf : arr, composite kg f kgf)%type;
 
   (* Third axiom: *)
 
@@ -82,11 +82,11 @@ Record Metacategory := {
 }.
 
 Definition composite_defined (M : Metacategory) (f g h : arr M) :
-  composite M f g h -> defined f g (pairs M) := fun H =>
+  composite M f g h → defined f g (pairs M) := fun H =>
   proj2 (@in_mapsto_iff _ _ _) (ex_intro _ h H).
 
 Program Definition defined_composite (M : Metacategory) (f g : arr M) :
-  defined f g (pairs M) -> ∃ h : arr M, composite M f g h.
+  defined f g (pairs M) → ∃ h : arr M, composite M f g h.
 Proof.
   intro H.
   unfold defined in H.
@@ -98,7 +98,7 @@ Proof.
 Defined.
 
 Lemma identity_morphism (M : Metacategory) (i : arr M) :
-  identity M i -> composite M i i i.
+  identity M i → composite M i i i.
 Proof. intro H; apply H. Qed.
 
 Lemma identity_composition_between (M : Metacategory) :
@@ -322,9 +322,9 @@ Lemma length_elements_filter {elt} (m : M.t elt) k v (P : M.key * elt → bool) 
 Proof.
 Abort.
 
-Theorem elements_rect {elt} (P : list (M.key * elt) -> Type) :
-  (∀ m1 m2, M.Equal m1 m2 -> P (M.elements m1) -> P (M.elements m2))
-  -> ∀ m k v, P ((k, v) :: M.elements m) -> P (M.elements (M.add k v m)).
+Theorem elements_rect {elt} (P : list (M.key * elt) → Type) :
+  (∀ m1 m2, M.Equal m1 m2 → P (M.elements m1) → P (M.elements m2))
+  → ∀ m k v, P ((k, v) :: M.elements m) → P (M.elements (M.add k v m)).
 Proof.
 Abort.
 

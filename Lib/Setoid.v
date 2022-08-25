@@ -1,5 +1,6 @@
 Set Warnings "-notation-overridden".
 
+Require Import Coq.Unicode.Utf8.
 Require Export Category.Lib.Foundation.
 Require Export Coq.Classes.CEquivalence.
 Require Export Coq.Classes.CRelationClasses.
@@ -10,7 +11,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Notation "∀  x .. y , P" := (forall x, .. (forall y, P) ..)
+Notation "∀  x .. y , P" := (∀ x, .. (∀ y, P) ..)
   (at level 200, x binder, y binder, right associativity) :
   category_theory_scope.
 
@@ -23,7 +24,7 @@ Notation "∃  x .. y , P" := (exists x, .. (exists y, P) ..)
   (at level 200, x binder, y binder, right associativity) :
   category_theory_scope.
 
-Notation "x → y" := (x -> y)
+Notation "x → y" := (x → y)
   (at level 99, y at level 200, right associativity): category_theory_scope.
 Notation "x ↔ y" := (iffT x y)
   (at level 95, no associativity) : category_theory_scope.
@@ -87,8 +88,8 @@ Program Definition eq_Setoid (A : Type) : Setoid A := {|
 
 #[export]
 Program Instance funext_Setoid
-        {T : Type} (t : T -> Type) (a b : T) `{Setoid (t b)} :
-  Setoid (t a -> t b) | 9 := {|
+        {T : Type} (t : T → Type) (a b : T) `{Setoid (t b)} :
+  Setoid (t a → t b) | 9 := {|
   equiv := λ f g, ∀ x, f x ≈ g x
 |}.
 Next Obligation.
@@ -104,10 +105,10 @@ Program Instance Fin_Setoid {n} : Setoid (Fin.t n) := {|
   equiv := eq
 |}.
 
-Class Unique `{S : Setoid A} (P : A -> Type) := {
+Class Unique `{S : Setoid A} (P : A → Type) := {
   unique_obj : A;
   unique_property : P unique_obj;
-  uniqueness      : ∀ v : A, P v -> unique_obj ≈ v;
+  uniqueness      : ∀ v : A, P v → unique_obj ≈ v;
 }.
 
 Arguments unique_obj {_ _ _} _.

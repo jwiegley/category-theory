@@ -16,8 +16,8 @@ Unset Transparent Obligations.
 Program Definition Ens : Category := {|
   obj     := ∃ T : Type, Ensemble T;
   hom     := fun A B =>
-    ∃ f : ``A -> ``B, ∀ x : ``A, In _ (projT2 A) x ↔ In _ (projT2 B) (f x);
-  homset  := fun P Q => {| equiv := fun f g => forall x, ``f x = ``g x |};
+    ∃ f : ``A → ``B, ∀ x : ``A, In _ (projT2 A) x ↔ In _ (projT2 B) (f x);
+  homset  := fun P Q => {| equiv := fun f g => ∀ x, ``f x = ``g x |};
   id      := fun _ => (id; _);
   compose := fun _ _ _ f g =>  (λ x, ``f (``g x); _)
 |}.
@@ -31,8 +31,8 @@ Next Obligation. proper; rewrite H, H0; reflexivity. Qed.
 Program Definition EnsT (T : Type) : Category := {|
   obj     := Ensemble T;
   hom     := fun A B =>
-    ∃ f : T -> T, ∀ x : T, In _ A x ↔ In _ B (f x);
-  homset  := fun P Q => {| equiv := fun f g => forall x, ``f x = ``g x |};
+    ∃ f : T → T, ∀ x : T, In _ A x ↔ In _ B (f x);
+  homset  := fun P Q => {| equiv := fun f g => ∀ x, ``f x = ``g x |};
   id      := fun _ => (id; _);
   compose := fun _ _ _ f g =>  (λ x, ``f (``g x); _)
 |}.

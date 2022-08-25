@@ -13,10 +13,10 @@ Unset Transparent Obligations.
 
 Inductive Obj : Type :=
   | One_    : Obj
-  | Prod_   : Obj -> Obj -> Obj
-  | Exp_    : Obj -> Obj -> Obj
+  | Prod_   : Obj → Obj → Obj
+  | Exp_    : Obj → Obj → Obj
   | Zero_   : Obj
-  | Coprod_ : Obj -> Obj -> Obj.
+  | Coprod_ : Obj → Obj → Obj.
 
 Fixpoint denote `(o : Obj) :
   ∀ {C : Category}
@@ -34,24 +34,24 @@ Fixpoint denote `(o : Obj) :
   end.
 
 (* jww (2017-06-21): This describes the morphisms of a magmoid. *)
-Inductive Hom : Obj -> Obj -> Type :=
+Inductive Hom : Obj → Obj → Type :=
   | Id      : ∀ {a}, Hom a a
-  | Compose : ∀ {a b c}, Hom b c -> Hom a b -> Hom a c
+  | Compose : ∀ {a b c}, Hom b c → Hom a b → Hom a c
 
   | One'    : ∀ {a}, Hom a One_
 
   | Exl     : ∀ {a b}, Hom (Prod_ a b) a
   | Exr     : ∀ {a b}, Hom (Prod_ a b) b
-  | Fork    : ∀ {a c d}, Hom a c -> Hom a d -> Hom a (Prod_ c d)
+  | Fork    : ∀ {a c d}, Hom a c → Hom a d → Hom a (Prod_ c d)
 
-  | Curry   : ∀ {a b c}, Hom (Prod_ a b) c -> Hom a (Exp_ b c)
-  | Uncurry : ∀ {a b c}, Hom a (Exp_ b c) -> Hom (Prod_ a b) c
+  | Curry   : ∀ {a b c}, Hom (Prod_ a b) c → Hom a (Exp_ b c)
+  | Uncurry : ∀ {a b c}, Hom a (Exp_ b c) → Hom (Prod_ a b) c
 
   | Zero'   : ∀ {a}, Hom Zero_ a
 
   | Inl     : ∀ {a b}, Hom a (Coprod_ a b)
   | Inr     : ∀ {a b}, Hom b (Coprod_ a b)
-  | Merge   : ∀ {a c d}, Hom c a -> Hom d a -> Hom (Coprod_ c d) a.
+  | Merge   : ∀ {a c d}, Hom c a → Hom d a → Hom (Coprod_ c d) a.
 
 Program Fixpoint interp `(c : Hom a b) :
   ∀ {C : Category}
@@ -88,7 +88,7 @@ Program Instance AST : Category := {
   compose := @Compose;
   homset  := fun _ _ =>
     {| equiv := fun f g =>
-         forall {C : Category}
+         ∀ {C : Category}
                 {A : @Cartesian C}
                 `{@Closed C A}
                 `{@Cocartesian C}

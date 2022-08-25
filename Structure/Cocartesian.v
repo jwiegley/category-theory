@@ -23,7 +23,7 @@ Section Cocartesian_.
 
 Context `{O : @Cocartesian C}.
 
-Definition Coprod : C -> C -> C := @product_obj _ O.
+Definition Coprod : C → C → C := @product_obj _ O.
 
 Infix "+" := Coprod (at level 50, left associativity) : object_scope.
 

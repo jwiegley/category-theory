@@ -183,13 +183,13 @@ Require Import Category.Instance.Sets.
 (** This is an invalid definition, since there are three ways we could produce
     an [option c], but no way to decide which. *)
 Definition to {a b c} :
-  (a + (b + (a * b)) -> option c) -> (a -> option (b -> option c)) :=
+  (a + (b + (a * b)) → option c) → (a → option (b → option c)) :=
   fun f a => Some (fun b => f (inr (inr (a, b)))).
 
 (** Meanwhile, there is only one scenario that yields an [option c] here,
     leaving us unable to use the information at hand for the other two. *)
 Definition from {a b c} :
-  (a -> option (b -> option c)) -> (a + (b + (a * b)) -> option c) :=
+  (a → option (b → option c)) → (a + (b + (a * b)) → option c) :=
   fun f x =>
     match x with
     | inl _            => None
@@ -202,7 +202,7 @@ Definition from {a b c} :
     end.
 
 Lemma to_from {a b c} :
-  Basics.compose to from = @Datatypes.id (a -> option (b -> option c)).
+  Basics.compose to from = @Datatypes.id (a → option (b → option c)).
 Proof.
   extensionality f.
   simpl.
@@ -214,8 +214,8 @@ Proof.
 Abort.
 
 Lemma to_from_impossible {a b c} :
-  Basics.compose to from = @Datatypes.id (a -> option (b -> option c))
-    -> inhabited a -> False.
+  Basics.compose to from = @Datatypes.id (a → option (b → option c))
+    → inhabited a → False.
 Proof.
   intros.
   pose proof (equal_f H).
@@ -228,7 +228,7 @@ Proof.
 Qed.
 
 Lemma from_to {a b c} :
-  Basics.compose from to = @Datatypes.id (a + (b + (a * b)) -> option c).
+  Basics.compose from to = @Datatypes.id (a + (b + (a * b)) → option c).
 Proof.
   extensionality f.
   simpl.
@@ -243,8 +243,8 @@ Proof.
 Abort.
 
 Lemma from_to_impossible {a b c} :
-  Basics.compose from to = @Datatypes.id (a + (b + (a * b)) -> option c)
-    -> inhabited a ∨ inhabited b -> inhabited c -> False.
+  Basics.compose from to = @Datatypes.id (a + (b + (a * b)) → option c)
+    → inhabited a ∨ inhabited b → inhabited c → False.
 Proof.
   intros.
   pose proof (equal_f H).

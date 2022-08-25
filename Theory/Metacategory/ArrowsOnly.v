@@ -31,7 +31,7 @@ Record Metacategory := {
      composition of those edges. *)
   composite_correct {f g h fg gh : arrow} :
     composite f g fg ->
-    composite g h gh -> ∃ fgh, composite fg h fgh;
+    composite g h gh → ∃ fgh, composite fg h fgh;
 
   composition_law {f g h fg gh : arrow} :
     composite f g fg ->
@@ -39,11 +39,11 @@ Record Metacategory := {
     ∀ fgh, composite fg h fgh ↔ composite f gh fgh;
 
   is_identity (u : arrow) :=
-    (∀ f, defined f u -> composite f u f) ∧
-    (∀ g, defined u g -> composite u g g);
+    (∀ f, defined f u → composite f u f) ∧
+    (∀ g, defined u g → composite u g g);
 
   identity_law (x y f : arrow) : composite x y f ->
-    ∃ u u', is_identity u -> is_identity u' ->
+    ∃ u u', is_identity u → is_identity u' ->
       composite f u f ∧ composite u' f f
 }.
 
@@ -298,7 +298,7 @@ Definition composable_pairs_step (n : N) (z : M.t N) : M.t N :=
       N.peano_rect _ rest k (n - i) in
   N.peano_rect _ z go n.
 
-Definition composable_pairs : N -> M.t N :=
+Definition composable_pairs : N → M.t N :=
   N.peano_rect _ (M.empty _) (λ n, composable_pairs_step (N.succ n)).
 
 (* The number of composable pairs, for objects N, is the tetrahedral_number *)
@@ -348,9 +348,9 @@ Ltac reflect_on_pairs X Y F D C :=
 Require Import Category.Instance.Two.
 
 Monomorphic Lemma object_Two_rect :
-  ∀ (P : object Two -> Type),
-  (∀ x, obj_arr Two x = 0%N -> P x) ->
-  (∀ x, obj_arr Two x = 2%N -> P x) ->
+  ∀ (P : object Two → Type),
+  (∀ x, obj_arr Two x = 0%N → P x) ->
+  (∀ x, obj_arr Two x = 2%N → P x) ->
   ∀ (x : object Two), P x.
 Proof.
   intros; destruct x.
@@ -365,10 +365,10 @@ Proof.
 Defined.
 
 Monomorphic Lemma morphism_Two_rect :
-  ∀ {x y : object Two} (P : morphism Two x y -> Type),
-  (∀ f, obj_arr Two x = 0%N -> obj_arr Two y = 0%N -> mor_arr Two f = 0%N -> P f) ->
-  (∀ f, obj_arr Two x = 0%N -> obj_arr Two y = 2%N -> mor_arr Two f = 1%N -> P f) ->
-  (∀ f, obj_arr Two x = 2%N -> obj_arr Two y = 2%N -> mor_arr Two f = 2%N -> P f) ->
+  ∀ {x y : object Two} (P : morphism Two x y → Type),
+  (∀ f, obj_arr Two x = 0%N → obj_arr Two y = 0%N → mor_arr Two f = 0%N → P f) ->
+  (∀ f, obj_arr Two x = 0%N → obj_arr Two y = 2%N → mor_arr Two f = 1%N → P f) ->
+  (∀ f, obj_arr Two x = 2%N → obj_arr Two y = 2%N → mor_arr Two f = 2%N → P f) ->
   ∀ (f : morphism Two x y), P f.
 Proof.
   intros; destruct x, y, f.
@@ -448,16 +448,16 @@ Defined.
 Program Definition _2_Two_morphism (x y : TwoObj) (f : TwoHom x y) :
   morphism Two (_2_Two_object x) (_2_Two_object y) :=
   match x as x' in TwoObj
-  return x = x' -> morphism Two (_2_Two_object x) (_2_Two_object y) with
+  return x = x' → morphism Two (_2_Two_object x) (_2_Two_object y) with
   | TwoX => fun _ =>
     match y as y' in TwoObj
-    return y = y' -> morphism Two (_2_Two_object x) (_2_Two_object y) with
+    return y = y' → morphism Two (_2_Two_object x) (_2_Two_object y) with
     | TwoX => fun _ => {| mor_arr := 0%N; mor_dom := _; mor_cod := _ |}
     | TwoY => fun _ => {| mor_arr := 1%N; mor_dom := _; mor_cod := _ |}
     end eq_refl
   | TwoY => fun _ =>
     match y as y' in TwoObj
-    return y = y' -> morphism Two (_2_Two_object x) (_2_Two_object y) with
+    return y = y' → morphism Two (_2_Two_object x) (_2_Two_object y) with
     | TwoY => fun _ => {| mor_arr := 2%N; mor_dom := _; mor_cod := _ |}
     | TwoX => fun _ => !
     end eq_refl
@@ -536,7 +536,7 @@ Abort.
 
 Lemma composable_pairs_step_find n f g fg :
   M.find (f, g) (composable_pairs_step (N.succ n) (composable_pairs n)) = Some fg
-    -> M.find (f, g) (composable_pairs n) = Some fg ∨
+    → M.find (f, g) (composable_pairs n) = Some fg ∨
        M.find (f, g) (composable_pairs_step (N.succ n) (M.empty _)) = Some fg.
 Proof.
   generalize dependent fg.

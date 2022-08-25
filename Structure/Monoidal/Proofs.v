@@ -18,7 +18,7 @@ Section MonoidalProofs.
 Context `{M : @Monoidal C}.
 
 Lemma tensor_id_left_inj {x y} (f g : x ~> y) :
-  id[I] ⨂ f ≈ id[I] ⨂ g -> f ≈ g.
+  id[I] ⨂ f ≈ id[I] ⨂ g → f ≈ g.
 Proof.
   intros.
   rewrite <- id_right; symmetry;
@@ -30,7 +30,7 @@ Proof.
 Qed.
 
 Lemma tensor_id_right_inj {x y} (f g : x ~> y) :
-  f ⨂ id[I] ≈ g ⨂ id[I] -> f ≈ g.
+  f ⨂ id[I] ≈ g ⨂ id[I] → f ≈ g.
 Proof.
   intros.
   rewrite <- id_right; symmetry;
@@ -92,7 +92,7 @@ Proof.
   (* "Consequently, the lower right triangle commutes as well." *)
   pose proof (to_tensor_assoc_natural (id[x]) (@unit_left _ _ y) (id[z])) as X0.
   assert (X1 : ∀ x y z w (f g : (x ⨂ y) ⨂ z ~> w),
-             f ≈ g -> f ∘ tensor_assoc⁻¹ ≈ g ∘ tensor_assoc⁻¹).
+             f ≈ g → f ∘ tensor_assoc⁻¹ ≈ g ∘ tensor_assoc⁻¹).
   { intros; rewrites; reflexivity. }
   apply X1 in X0.
   rewrite <- !comp_assoc in X0.
@@ -115,10 +115,10 @@ Proof.
 
   assert (X2 : ∀ (f g : (x ⨂ I ⨂ y) ⨂ z ~{ C }~> x ⨂ y ⨂ z),
              f ∘ tensor_assoc ⨂ id ≈ g ∘ tensor_assoc ⨂ id
-             -> f ≈ g).
+             → f ≈ g).
     intros.
     assert (X3 : ∀ x y z w v (f g : ((x ⨂ y) ⨂ z) ⨂ v ~> w),
-               f ≈ g -> f ∘ (tensor_assoc⁻¹ ⨂ id[v]) ≈
+               f ≈ g → f ∘ (tensor_assoc⁻¹ ⨂ id[v]) ≈
                         g ∘ (tensor_assoc⁻¹ ⨂ id[v])).
       intros; rewrites; reflexivity.
     apply X3 in X.
@@ -187,7 +187,7 @@ Proof.
   pose proof (from_tensor_assoc_natural
                 (id[x]) (@unit_right _ _ y) (id[z])) as X0.
   assert (X1 : ∀ x y z w (f g : x ⨂ (y ⨂ z) ~> w),
-             f ≈ g -> f ∘ tensor_assoc ≈ g ∘ tensor_assoc).
+             f ≈ g → f ∘ tensor_assoc ≈ g ∘ tensor_assoc).
     intros; rewrites; reflexivity.
   apply X1 in X0.
   rewrite <- !comp_assoc in X0.
@@ -210,10 +210,10 @@ Proof.
 
   assert (X2 : ∀ (f g : x ⨂ ((y ⨂ I) ⨂ z) ~{ C }~> (x ⨂ y) ⨂ z),
              f ∘ id ⨂ tensor_assoc⁻¹ ≈ g ∘ id ⨂ tensor_assoc⁻¹
-             -> f ≈ g).
+             → f ≈ g).
     intros.
     assert (X3 : ∀ x y z w v (f g : x ⨂ (y ⨂ (z ⨂ v)) ~> w),
-               f ≈ g -> f ∘ (id[x] ⨂ tensor_assoc) ≈
+               f ≈ g → f ∘ (id[x] ⨂ tensor_assoc) ≈
                         g ∘ (id[x] ⨂ tensor_assoc)).
       intros; rewrites; reflexivity.
     apply X3 in X.

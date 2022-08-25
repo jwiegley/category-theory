@@ -10,12 +10,12 @@ Unset Transparent Obligations.
 
 Inductive TwoObj : Type := TwoX | TwoY.
 
-Inductive TwoHom : TwoObj -> TwoObj -> Type :=
+Inductive TwoHom : TwoObj → TwoObj → Type :=
   | TwoIdX : TwoHom TwoX TwoX
   | TwoIdY : TwoHom TwoY TwoY
   | TwoXY  : TwoHom TwoX TwoY.
 
-Definition TwoHom_inv_t : forall x y, TwoHom x y -> Prop.
+Definition TwoHom_inv_t : ∀ x y, TwoHom x y → Prop.
 Proof.
   intros [] [] f.
   exact (f = TwoIdX).
@@ -27,7 +27,7 @@ Defined.
 Corollary TwoHom_inv x y f : TwoHom_inv_t x y f.
 Proof. destruct f; reflexivity. Qed.
 
-Lemma TwoHom_Y_X_absurd : TwoHom TwoY TwoX -> False.
+Lemma TwoHom_Y_X_absurd : TwoHom TwoY TwoX → False.
 Proof. inversion 1. Qed.
 
 #[export] Hint Extern 4 => contradiction TwoHom_Y_X_absurd : two_laws.

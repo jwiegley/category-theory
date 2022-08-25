@@ -68,8 +68,8 @@ Defined.
 
 (*
 Program Definition ProductFunctor_Traversable :
-  Traversable F -> Traversable G
-    -> Traversable (F :*: G) := fun O P => {|
+  Traversable F → Traversable G
+    → Traversable (F :*: G) := fun O P => {|
   sequence := ProductFunctor_Traversable_ap_functor_nat _ _;
   sequence_naturality  := _;
   sequence_Id  := _;

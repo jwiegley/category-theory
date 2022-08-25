@@ -106,7 +106,7 @@ Class Bicategory := {
   bi0cell : Type;
 
   bi1uhom := Type : Type;
-  bi1cell : bi0cell -> bi0cell -> bi1uhom
+  bi1cell : bi0cell → bi0cell → bi1uhom
     where "a ~~> b" := (bi1cell a b);
 
   bi2uhom := Type : Type;

@@ -15,16 +15,16 @@ Context (C : Category).
 Record Subcategory := {
   (* Given a category C, a subcategory D consists of a subcollection of the
      collection of objects of C *)
-  sobj : C -> Type;
+  sobj : C → Type;
   (* and a subcollection of the collection of morphisms of D such that: *)
   (* If the morphism f : x → y is in D, then so are x and y. *)
-  shom {x y : C} : sobj x -> sobj y -> (x ~> y) -> Type;
+  shom {x y : C} : sobj x → sobj y → (x ~> y) → Type;
 
   (* If f : x → y and g : y → z are in D, then so is the composite
      g ∘ f : x → z. *)
   scomp {x y z : C} (ox : sobj x) (oy : sobj y) (oz : sobj z)
         {f : y ~> z} {g : x ~> y} :
-    shom oy oz f -> shom ox oy g -> shom ox oz (f ∘ g);
+    shom oy oz f → shom ox oy g → shom ox oz (f ∘ g);
 
   (* If x is in D then so is the identity morphism 1ₓ. *)
   sid {x : C} (ox : sobj x) : shom ox ox (@id C x)
@@ -57,7 +57,7 @@ Definition Full : Type :=
 
 (* ... (that is, the inclusion functor D ⟶ C is full) *)
 
-Lemma Full_Implies_Full_Functor : Full -> Functor.Full Incl.
+Lemma Full_Implies_Full_Functor : Full → Functor.Full Incl.
 Proof.
   unfold Full; intros.
   construct.

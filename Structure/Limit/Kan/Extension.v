@@ -57,7 +57,7 @@ Proof.
     rewrites.
 
     assert (∀ f g, f ≈ g
-              -> to (@adj _ _ _ _ ran_adjoint (Ran (Erase J) F) F) f
+              → to (@adj _ _ _ _ ran_adjoint (Ran (Erase J) F) F) f
                ≈ to (@adj _ _ _ _ ran_adjoint (Ran (Erase J) F) F) g).
       intros; rewrites; reflexivity.
     simpl in X.
@@ -84,7 +84,7 @@ Proof.
               (∀ x, vertex_map[Lim] ∘ f ≈ @vertex_map _ _ _ Lim x) ->
               (∀ x, vertex_map[Lim] ∘ g ≈ @vertex_map _ _ _ Lim x) ->
               f ∘ unique_obj (ump_limits cone) ≈
-              g ∘ unique_obj (ump_limits cone) -> f ≈ g) as HA.
+              g ∘ unique_obj (ump_limits cone) → f ≈ g) as HA.
       intros; clear adj_to to_from nat.
       rewrite <- (uniqueness (ump_limits Lim) _ X).
       rewrite <- (uniqueness (ump_limits Lim) _ X0).

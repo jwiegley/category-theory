@@ -22,7 +22,7 @@ Context {U : C ⟶ D}.
    not enough information, since one could always just compose [Id] to some
    monad [M], and this would not give an adjoint. *)
 
-Theorem Adjunction_Monad : F ⊣ U -> @Monad D (U ◯ F).
+Theorem Adjunction_Monad : F ⊣ U → @Monad D (U ◯ F).
 Proof.
   intros.
   unshelve econstructor; simpl; intros.
@@ -58,7 +58,7 @@ Proof.
     cat.
 Qed.
 
-Theorem Adjunction_Nat_Monad : F ∹ U -> @Monad D (U ◯ F).
+Theorem Adjunction_Nat_Monad : F ∹ U → @Monad D (U ◯ F).
 Proof.
   intros.
   unshelve econstructor; simpl; intros.

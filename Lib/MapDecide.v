@@ -10,7 +10,7 @@ Require Import Category.Lib.FMapExt.
 Generalizable All Variables.
 Set Transparent Obligations.
 
-(* For the time being, this module is fixed to maps from [N * N -> N]. *)
+(* For the time being, this module is fixed to maps from [N * N → N]. *)
 
 Module PO := PairOrderedType N_as_OT N_as_OT.
 Module M  := FMapList.Make(PO).
@@ -21,7 +21,7 @@ Module Import FMapExt := FMapExt PO M.
  *)
 
 Inductive partial (P : Prop) : Set :=
-| Proved : P -> partial P
+| Proved : P → partial P
 | Uncertain : partial P.
 
 Notation "[ P ]" := (partial P) : type_scope.
@@ -43,12 +43,12 @@ Notation "x && y" := (if x then Reduce y else No) : partial_scope.
  *)
 
 Record environment := {
-  vars : positive -> N
+  vars : positive → N
 }.
 
 Inductive term :=
-  | Var   : positive -> term
-  | Value : N -> term.
+  | Var   : positive → term
+  | Value : N → term.
 
 Definition term_beq (x y : term) : bool :=
   match x, y with
@@ -57,7 +57,7 @@ Definition term_beq (x y : term) : bool :=
   | _, _ => false
   end.
 
-Lemma term_beq_sound x y : term_beq x y = true -> x = y.
+Lemma term_beq_sound x y : term_beq x y = true → x = y.
 Proof.
   induction x, y; simpl; intros; intuition.
   - apply Pos.eqb_eq in H; subst; reflexivity.
@@ -85,8 +85,8 @@ Next Obligation.
   destruct H1; discriminate.
 Defined.
 
-Definition subst_all {A} (f : A -> term -> term -> A) :
-  A -> list (term * term) -> A :=
+Definition subst_all {A} (f : A → term → term → A) :
+  A → list (term * term) → A :=
   fold_right (fun '(v, v') rest => f rest v v').
 
 Definition subst_term (x v v' : term) : term :=
@@ -100,7 +100,7 @@ Definition term_denote env (x : term) : N :=
 
 Inductive map_expr : Set :=
   | Empty : map_expr
-  | Add   : term -> term -> term -> map_expr -> map_expr.
+  | Add   : term → term → term → map_expr → map_expr.
 
 Fixpoint subst_map_expr (t : map_expr) (v v' : term) : map_expr :=
   match t with
@@ -122,8 +122,8 @@ Fixpoint map_expr_denote env (m : map_expr) : M.t N :=
 Inductive formula :=
   | Top    : formula
   | Bottom : formula
-  | Maps   : term -> term -> term -> map_expr -> formula
-  | Impl   : formula -> formula -> formula.
+  | Maps   : term → term → term → map_expr → formula
+  | Impl   : formula → formula → formula.
 
 Fixpoint subst_formula (t : formula) (v v' : term) : formula :=
   match t with
@@ -144,7 +144,7 @@ Fixpoint formula_denote env (t : formula) : Prop :=
   | Maps x y f m =>
     M.MapsTo (term_denote env x, term_denote env y)
              (term_denote env f) (map_expr_denote env m)
-  | Impl p q => formula_denote env p -> formula_denote env q
+  | Impl p q => formula_denote env p → formula_denote env q
   end.
 
 (**************************************************************************
@@ -216,7 +216,7 @@ Fixpoint substitutions (xs : list (term * term)) : list (term * term) :=
 
 Lemma term_denote_subst_term env v v' t :
   term_denote env v = term_denote env v'
-    -> term_denote env (subst_term t v v') = term_denote env t.
+    → term_denote env (subst_term t v v') = term_denote env t.
 Proof.
   unfold subst_term; intros.
   destruct term_beq eqn:?; auto.
@@ -226,8 +226,8 @@ Qed.
 
 Lemma term_denote_substitution {env t0 t1 t2 t3} :
   substitution t0 t1 = Some (t2, t3)
-    -> term_denote env t0 = term_denote env t1
-    -> term_denote env t2 = term_denote env t3.
+    → term_denote env t0 = term_denote env t1
+    → term_denote env t2 = term_denote env t3.
 Proof.
   intros.
   destruct t0, t1; simpl in H;
@@ -250,7 +250,7 @@ Qed.
 
 Lemma map_expr_denote_subst_map_expr env v v' m :
   term_denote env v = term_denote env v'
-    -> map_expr_denote env (subst_map_expr m v v') = map_expr_denote env m.
+    → map_expr_denote env (subst_map_expr m v v') = map_expr_denote env m.
 Proof.
   induction m; simpl; auto; intros.
   rewrite IHm; auto.
@@ -259,7 +259,7 @@ Qed.
 
 Lemma map_expr_substitution_eq env t xs :
   Forall (fun p => term_denote env (fst p) = term_denote env (snd p)) xs
-    -> map_expr_denote env (subst_all subst_map_expr t (substitutions xs)) =
+    → map_expr_denote env (subst_all subst_map_expr t (substitutions xs)) =
        map_expr_denote env t.
 Proof.
   induction xs as [|[] ?]; simpl; intros; auto.
@@ -272,7 +272,7 @@ Qed.
 
 Lemma formula_denote_subst_formula env v v' t :
   term_denote env v = term_denote env v'
-    -> formula_denote env (subst_formula t v v') = formula_denote env t.
+    → formula_denote env (subst_formula t v v') = formula_denote env t.
 Proof.
   induction t; simpl; auto; intros.
     rewrite map_expr_denote_subst_map_expr,
@@ -282,7 +282,7 @@ Qed.
 
 Lemma formula_substitution_eq env t xs :
   Forall (fun p => term_denote env (fst p) = term_denote env (snd p)) xs
-    -> formula_denote env (subst_all subst_formula t (substitutions xs)) =
+    → formula_denote env (subst_all subst_formula t (substitutions xs)) =
        formula_denote env t.
 Proof.
   induction xs as [|[] ?]; simpl; intros; auto.
@@ -314,7 +314,7 @@ Fixpoint remove_conflicts (x y f : term) (m : map_expr) : map_expr :=
 
 Lemma terms_not_conflicted env x y :
   term_denote env x = term_denote env y
-    -> conflicted y x = false.
+    → conflicted y x = false.
 Proof.
   destruct x, y; simpl; auto.
   intros; subst.
@@ -330,13 +330,13 @@ Import ListNotations.
 Program Definition formula_forward (t : formula) env (hyp : formula)
         (cont : ∀ env' defs,
             [formula_denote env' (subst_all subst_formula t defs)]) :
-  [formula_denote env hyp -> formula_denote env t] :=
+  [formula_denote env hyp → formula_denote env t] :=
   match hyp with
   | Top => Reduce (cont env [])
   | Bottom => Yes
   | Maps x y f m =>
     let fix go n : [formula_denote env (Maps x y f n)
-                    -> formula_denote env t] :=
+                    → formula_denote env t] :=
         match n with
         | Empty => Yes
         | Add x' y' f' m' =>
@@ -352,11 +352,11 @@ Next Obligation.
   match goal with [ H : _ /\ _ |- _ ] => destruct H end.
   simpl in *.
   pose proof (formula_substitution_eq env t [(x, x'); (y, y'); (f, f')]).
-  let Hr := match goal with [ H : _ -> _ = _ |- _ ] => H end in
+  let Hr := match goal with [ H : _ → _ = _ |- _ ] => H end in
   simpl in Hr; rewrite <- Hr; auto.
 Defined.
 Next Obligation.
-  match goal with [ H : M.MapsTo _ _ _ -> _ |- _ ] => apply H; clear H end.
+  match goal with [ H : M.MapsTo _ _ _ → _ |- _ ] => apply H; clear H end.
   induction m; simpl in *; auto.
   destruct (conflicted x t0) eqn:?;
   destruct (conflicted y t1) eqn:?;
@@ -384,7 +384,7 @@ Fixpoint map_contains env (x y : N) (m : map_expr) : option term :=
 
 Lemma map_contains_MapsTo env x y f m :
   Some f = map_contains env x y m
-    -> M.MapsTo (x, y) (term_denote env f) (map_expr_denote env m).
+    → M.MapsTo (x, y) (term_denote env f) (map_expr_denote env m).
 Proof.
   induction m; simpl; intros.
     discriminate.
@@ -432,7 +432,7 @@ Proof.
 Defined.
 
 Lemma formula_sound env t :
-  (if formula_tauto env t then True else False) -> formula_denote env t.
+  (if formula_tauto env t then True else False) → formula_denote env t.
 Proof.
   unfold formula_tauto; destruct t, (formula_backward _ env); tauto.
 Qed.
@@ -490,7 +490,7 @@ Ltac allVars xs e :=
   | M.In (?X, ?Y) _ =>
     let xs := allVar xs X in
     allVar xs Y
-  | ?P -> ?Q =>
+  | ?P → ?Q =>
     let xs := allVars xs P in
     allVars xs Q
   | _ => xs
@@ -531,7 +531,7 @@ Ltac reifyTerm env t :=
     let f := reifyValue env F in
     let m := reifyMapTerm env M in
     constr:(Maps x y f m)
-  | ?P -> ?Q =>
+  | ?P → ?Q =>
     let p := reifyTerm env P in
     let q := reifyTerm env Q in
     constr:(Impl p q)

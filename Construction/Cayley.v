@@ -20,7 +20,7 @@ Context {C : Category}.
 Program Instance Cayley : Category := {
   obj     := C;
   hom     := fun x y =>
-    { f : ∀ r, (y ~> r) -> (x ~> r)
+    { f : ∀ r, (y ~> r) → (x ~> r)
     & Proper (forall_relation (fun r => (equiv ==> equiv)%signature)) f ∧
       ∀ r k, f r k ≈ k ∘ f _ id[y] };
   homset  := fun x y => {| equiv := fun f g => ∀ r k, `1 f r k ≈ `1 g r k |};
@@ -79,7 +79,7 @@ Context `{Cayley}.
    Cayley yields them left-associated. *)
 
 Lemma Cayley_Right (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) :
-  (forall a b (k : a ~{C}~> b), id[b] ∘ k = k) ->
+  (∀ a b (k : a ~{C}~> b), id[b] ∘ k = k) ->
     f ∘ g ∘ h = fmap[From_Cayley]
                   (fmap[To_Cayley] f ∘ (fmap[To_Cayley] g
                                           ∘ fmap[To_Cayley] h)).
@@ -91,7 +91,7 @@ Proof.
 Qed.
 
 Lemma Cayley_Left (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) :
-  (forall a b (k : a ~{C}~> b), id[b] ∘ k = k) ->
+  (∀ a b (k : a ~{C}~> b), id[b] ∘ k = k) ->
     f ∘ g ∘ h = fmap[From_Cayley]
                   (((fmap[To_Cayley] f ∘ fmap[To_Cayley] g)
                       ∘ fmap[To_Cayley] h)).

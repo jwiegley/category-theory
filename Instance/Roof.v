@@ -23,14 +23,14 @@ Unset Transparent Obligations.
 
 Inductive RoofObj : Type := RNeg | RZero | RPos.
 
-Inductive RoofHom : RoofObj -> RoofObj -> Type :=
+Inductive RoofHom : RoofObj → RoofObj → Type :=
   | IdNeg   : RoofHom RNeg  RNeg
   | ZeroNeg : RoofHom RZero RNeg
   | IdZero  : RoofHom RZero RZero
   | ZeroPos : RoofHom RZero RPos
   | IdPos   : RoofHom RPos  RPos.
 
-Definition RoofHom_inv_t : forall x y, RoofHom x y -> Prop.
+Definition RoofHom_inv_t : ∀ x y, RoofHom x y → Prop.
 Proof.
   intros [] [] f.
   exact (f = IdNeg).
@@ -53,22 +53,22 @@ Proof. exact (RoofHom_inv _ _ f). Qed.
 Lemma RZero_RPos_id (f : RoofHom RZero RPos) : f = ZeroPos.
 Proof. exact (RoofHom_inv _ _ f). Qed.
 
-Lemma RNeg_RZero_absurd : RoofHom RNeg RZero -> False.
+Lemma RNeg_RZero_absurd : RoofHom RNeg RZero → False.
 Proof. inversion 1. Qed.
 
 #[export] Hint Extern 4 => contradiction RNeg_RZero_absurd : roof_laws.
 
-Lemma RPos_RZero_absurd : RoofHom RPos RZero -> False.
+Lemma RPos_RZero_absurd : RoofHom RPos RZero → False.
 Proof. inversion 1. Qed.
 
 #[export] Hint Extern 4 => contradiction RPos_RZero_absurd : roof_laws.
 
-Lemma RNeg_RPos_absurd : RoofHom RNeg RPos -> False.
+Lemma RNeg_RPos_absurd : RoofHom RNeg RPos → False.
 Proof. inversion 1. Qed.
 
 #[export] Hint Extern 4 => contradiction RNeg_RPos_absurd : roof_laws.
 
-Lemma RPos_RNeg_absurd : RoofHom RPos RNeg -> False.
+Lemma RPos_RNeg_absurd : RoofHom RPos RNeg → False.
 Proof. inversion 1. Qed.
 
 #[export] Hint Extern 4 => contradiction RPos_RNeg_absurd : roof_laws.

@@ -1,6 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import
+  Coq.Unicode.Utf8
   Coq.FSets.FMapFacts
   Coq.Structures.DecidableTypeEx.
 
@@ -105,14 +106,14 @@ Obligation 1.
   rewrite H, H1; assumption.
 Qed.
 
-#[global] Program Instance fold_Proper {elt A} : forall f (eqA : relation A),
+#[global] Program Instance fold_Proper {elt A} : ∀ f (eqA : relation A),
   Equivalence eqA
-    -> Proper (E.eq ==> eq ==> eqA ==> eqA) f
-    -> P.transpose_neqkey eqA f
-    -> Proper (M.Equal (elt:=elt) ==> eqA ==> eqA) (@M.fold elt A f).
+    → Proper (E.eq ==> eq ==> eqA ==> eqA) f
+    → P.transpose_neqkey eqA f
+    → Proper (M.Equal (elt:=elt) ==> eqA ==> eqA) (@M.fold elt A f).
 Obligation 1. relational; eapply P.fold_Equal2; eauto. Qed.
 
-Lemma add_equal_iff : forall elt k (e : elt) m1 m2,
+Lemma add_equal_iff : ∀ elt k (e : elt) m1 m2,
   P.Add k e m1 m2 <-> M.Equal (M.add k e m1) m2.
 Proof.
   split; intros; intro addr;
@@ -120,9 +121,9 @@ Proof.
   congruence.
 Qed.
 
-#[global] Program Instance filter_Proper {elt} : forall P,
+#[global] Program Instance filter_Proper {elt} : ∀ P,
   Proper (E.eq ==> eq ==> eq) P
-    -> Proper (M.Equal (elt:=elt) ==> M.Equal) (@P.filter elt P).
+    → Proper (M.Equal (elt:=elt) ==> M.Equal) (@P.filter elt P).
 Obligation 1.
 relational.
 unfold P.filter at 1.
@@ -187,8 +188,8 @@ apply P.fold_rec.
   congruence.
 Qed.
 
-Lemma filter_Empty : forall elt (m : M.t elt) P,
-  M.Empty (elt:=elt) m -> M.Empty (elt:=elt) (P.filter P m).
+Lemma filter_Empty : ∀ elt (m : M.t elt) P,
+  M.Empty (elt:=elt) m → M.Empty (elt:=elt) (P.filter P m).
 Proof.
   intros.
   unfold P.filter.
@@ -204,10 +205,10 @@ Proof.
   discriminate.
 Qed.
 
-Lemma filter_empty : forall elt f m,
+Lemma filter_empty : ∀ elt f m,
   Proper (E.eq ==> eq ==> eq) f
-    -> M.Empty (elt:=elt) m
-    -> M.Equal (P.filter f m) m.
+    → M.Empty (elt:=elt) m
+    → M.Equal (P.filter f m) m.
 Proof.
   intros.
   apply F.Equal_mapsto_iff; split; intros.
@@ -215,9 +216,9 @@ Proof.
   simplify_maps.
 Qed.
 
-Lemma filter_idempotent : forall elt (m : M.t elt) P,
+Lemma filter_idempotent : ∀ elt (m : M.t elt) P,
   Proper (E.eq ==> eq ==> eq) P
-    -> M.Equal (P.filter P (P.filter P m)) (P.filter P m).
+    → M.Equal (P.filter P (P.filter P m)) (P.filter P m).
 Proof.
   intros.
   unfold P.filter.
@@ -236,12 +237,12 @@ Proof.
   exact H2.
 Qed.
 
-Lemma filter_add_true : forall elt k (e : elt) m m' P,
+Lemma filter_add_true : ∀ elt k (e : elt) m m' P,
   Proper (E.eq ==> eq ==> eq) P
-    -> ~ M.In (elt:=elt) k m
-    -> M.Equal (P.filter P (M.add k e m)) m'
-    -> P k e = true
-    -> M.Equal (M.add k e (P.filter P m)) m'.
+    → ~ M.In (elt:=elt) k m
+    → M.Equal (P.filter P (M.add k e m)) m'
+    → P k e = true
+    → M.Equal (M.add k e (P.filter P m)) m'.
 Proof.
   intros.
   rewrite <- H1; clear H1.
@@ -260,12 +261,12 @@ Proof.
   simplify_maps.
 Qed.
 
-Lemma filter_add_true_r : forall elt k (e : elt) m m' P,
+Lemma filter_add_true_r : ∀ elt k (e : elt) m m' P,
   Proper (E.eq ==> eq ==> eq) P
-    -> ~ M.In (elt:=elt) k m
-    -> M.Equal (M.add k e (P.filter P m)) m'
-    -> P k e = true
-    -> M.Equal (P.filter P (M.add k e m)) m'.
+    → ~ M.In (elt:=elt) k m
+    → M.Equal (M.add k e (P.filter P m)) m'
+    → P k e = true
+    → M.Equal (P.filter P (M.add k e m)) m'.
 Proof.
   intros.
   rewrite <- H1; clear H1.
@@ -286,7 +287,7 @@ Proof.
   intuition.
 Qed.
 
-Lemma in_mapsto_iff : forall elt k (m : M.t elt),
+Lemma in_mapsto_iff : ∀ elt k (m : M.t elt),
   M.In (elt:=elt) k m <-> exists e, M.MapsTo (elt:=elt) k e m.
 Proof.
   split; intros.
@@ -305,7 +306,7 @@ Proof.
   reflexivity.
 Qed.
 
-Lemma in_mapsto_iffT : forall elt k (m : M.t elt),
+Lemma in_mapsto_iffT : ∀ elt k (m : M.t elt),
   CRelationClasses.iffT (M.In (elt:=elt) k m)
                         { e : elt & M.MapsTo (elt:=elt) k e m }.
 Proof.
@@ -325,7 +326,7 @@ Proof.
   reflexivity.
 Defined.
 
-Lemma add_mapsto_iffT : forall elt m x y (e e' : elt),
+Lemma add_mapsto_iffT : ∀ elt m x y (e e' : elt),
   CRelationClasses.iffT
     (M.MapsTo y e' (M.add x e m))
     ((E.eq x y * (e=e'))%type + ((~E.eq x y) * M.MapsTo y e' m)).
@@ -357,8 +358,8 @@ Proof.
   assumption.
 Defined.
 
-Lemma not_in_mapsto_iff : forall elt k (m : M.t elt),
-  ~ M.In (elt:=elt) k m <-> forall e, ~ M.MapsTo (elt:=elt) k e m.
+Lemma not_in_mapsto_iff : ∀ elt k (m : M.t elt),
+  ~ M.In (elt:=elt) k m <-> ∀ e, ~ M.MapsTo (elt:=elt) k e m.
 Proof.
   split; intros; unfold not; intros.
     apply H.
@@ -369,8 +370,8 @@ Proof.
   apply (H x); assumption.
 Qed.
 
-Lemma mapsto_dec : forall elt k e (m : M.t elt),
-  (forall x y : elt, {x = y} + {x <> y}) ->
+Lemma mapsto_dec : ∀ elt k e (m : M.t elt),
+  (∀ x y : elt, {x = y} + {x <> y}) ->
   { M.MapsTo k e m } + { ~ M.MapsTo k e m }.
 Proof.
   intros.
@@ -387,12 +388,12 @@ Proof.
   assumption.
 Qed.
 
-Lemma filter_add_false : forall elt k (e : elt) m m' P,
+Lemma filter_add_false : ∀ elt k (e : elt) m m' P,
   Proper (E.eq ==> eq ==> eq) P
-    -> ~ M.In (elt:=elt) k m
-    -> M.Equal (P.filter P (M.add k e m)) m'
-    -> P k e = false
-    -> M.Equal (P.filter P m) m'.
+    → ~ M.In (elt:=elt) k m
+    → M.Equal (P.filter P (M.add k e m)) m'
+    → P k e = false
+    → M.Equal (P.filter P m) m'.
 Proof.
   intros.
   rewrite <- H1; clear H1.
@@ -412,12 +413,12 @@ Proof.
   simplify_maps.
 Qed.
 
-Lemma filter_add_false_r : forall elt k (e : elt) m m' P,
+Lemma filter_add_false_r : ∀ elt k (e : elt) m m' P,
   Proper (E.eq ==> eq ==> eq) P
-    -> ~ M.In (elt:=elt) k m
-    -> M.Equal (P.filter P m) m'
-    -> P k e = false
-    -> M.Equal (P.filter P (M.add k e m)) m'.
+    → ~ M.In (elt:=elt) k m
+    → M.Equal (P.filter P m) m'
+    → P k e = false
+    → M.Equal (P.filter P (M.add k e m)) m'.
 Proof.
   intros.
   rewrite <- H1; clear H1.
@@ -441,8 +442,8 @@ Proof.
   assumption.
 Qed.
 
-Lemma filter_not_in : forall elt k (m : M.t elt) P,
-  ~ M.In (elt:=elt) k m -> ~ M.In (elt:=elt) k (P.filter P m).
+Lemma filter_not_in : ∀ elt k (m : M.t elt) P,
+  ~ M.In (elt:=elt) k m → ~ M.In (elt:=elt) k (P.filter P m).
 Proof.
   intros.
   unfold P.filter.
@@ -465,7 +466,7 @@ Qed.
   (@F.add_m_Proper elt).
 
 (* Adding to an FMap overwrites the previous entry. *)
-Lemma remove_add : forall elt k (e : elt) m,
+Lemma remove_add : ∀ elt k (e : elt) m,
   M.Equal (M.add k e (M.remove k m)) (M.add k e m).
 Proof.
   intros.
@@ -482,8 +483,8 @@ Lemma add_associative {elt}
       (k : M.key) (e : elt)
       (k0 : M.key) (e0 : elt)
       (z : M.t elt) :
-  (E.eq k k0 -> e = e0)
-    -> M.Equal (M.add k e (M.add k0 e0 z)) (M.add k0 e0 (M.add k e z)).
+  (E.eq k k0 → e = e0)
+    → M.Equal (M.add k e (M.add k0 e0 z)) (M.add k0 e0 (M.add k e z)).
 Proof.
   intros H addr.
   rewrite !F.add_o.
@@ -498,7 +499,7 @@ Qed.
 Section for_all.
 
 Variable elt : Type.
-Variable P : M.key -> elt -> bool.
+Variable P : M.key → elt → bool.
 Variable P_Proper : Proper (E.eq ==> eq ==> eq) P.
 
 #[global] Program Instance for_all_Proper :
@@ -532,9 +533,9 @@ Proof.
   contradiction.
 Qed.
 
-Lemma for_all_add_true : forall (m : M.t elt) k e,
+Lemma for_all_add_true : ∀ (m : M.t elt) k e,
   ~ M.In k m
-    -> (P.for_all P (M.add k e m) = true
+    → (P.for_all P (M.add k e m) = true
           <-> P.for_all P m = true /\ P k e = true).
 Proof.
   unfold P.for_all.
@@ -562,9 +563,9 @@ Proof.
   constructor.
 Qed.
 
-Lemma for_all_remove : forall (m : M.t elt) (k : M.key),
+Lemma for_all_remove : ∀ (m : M.t elt) (k : M.key),
   P.for_all P m = true
-    -> P.for_all P (M.remove k m) = true.
+    → P.for_all P (M.remove k m) = true.
 Proof.
   intros.
   apply P.for_all_iff; trivial; intros.
@@ -575,9 +576,9 @@ Proof.
   - tauto.
 Qed.
 
-Lemma for_all_remove_inv : forall (m : M.t elt) (k : M.key),
+Lemma for_all_remove_inv : ∀ (m : M.t elt) (k : M.key),
   P.for_all P (M.remove k m) = true
-    -> ~ M.In k m -> P.for_all P m = true.
+    → ~ M.In k m → P.for_all P m = true.
 Proof.
   intros.
   apply P.for_all_iff; trivial; intros.
@@ -594,20 +595,20 @@ Proof.
     assumption.
 Qed.
 
-Lemma for_all_remove_inv_2 : forall (m : M.t elt) (k : M.key),
+Lemma for_all_remove_inv_2 : ∀ (m : M.t elt) (k : M.key),
   P.for_all P (M.remove k m) = true
-    -> forall k' e, M.MapsTo k' e m -> ~ E.eq k' k -> P k' e = true.
+    → ∀ k' e, M.MapsTo k' e m → ~ E.eq k' k → P k' e = true.
 Proof.
   intros.
   eapply P.for_all_iff; eauto.
   simplify_maps.
 Qed.
 
-Lemma for_all_impl : forall (P' : M.key -> elt -> bool) m,
+Lemma for_all_impl : ∀ (P' : M.key → elt → bool) m,
   P.for_all P m = true
-    -> Proper (E.eq ==> eq ==> eq) P'
-    -> (forall k e, P k e = true -> P' k e = true)
-    -> P.for_all P' m = true.
+    → Proper (E.eq ==> eq ==> eq) P'
+    → (∀ k e, P k e = true → P' k e = true)
+    → P.for_all P' m = true.
 Proof.
   intros.
   apply P.for_all_iff; trivial; intros.
@@ -618,7 +619,7 @@ End for_all.
 
 Import ListNotations.
 
-Definition take_first {elt} (f : M.key -> elt -> bool) (k : M.key) (e : elt)
+Definition take_first {elt} (f : M.key → elt → bool) (k : M.key) (e : elt)
            (x0 : option (M.key * elt)) :=
   match x0 with
   | Some _ => x0
@@ -634,7 +635,7 @@ Definition optionP {A} (P : relation A) : relation (option A) :=
 
 #[global]
 Program Instance optionP_Equivalence {A} (P : relation A) :
-  Equivalence P -> Equivalence (optionP P).
+  Equivalence P → Equivalence (optionP P).
 Obligation 1.
   intro x.
   destruct x; simpl; trivial.
@@ -658,7 +659,7 @@ Definition pairP {A B} (P : relation A) (Q : relation B) : relation (A * B) :=
 
 #[global]
 Program Instance pairP_Equivalence {A B} (P : relation A) (Q : relation B) :
-  Equivalence P -> Equivalence Q -> Equivalence (pairP P Q).
+  Equivalence P → Equivalence Q → Equivalence (pairP P Q).
 Obligation 1.
   intro x.
   destruct x; simpl.
@@ -696,7 +697,7 @@ Obligation 1.
 Qed.
 
 Corollary take_first_None
-          {elt} (f : M.key -> elt -> bool) (k : M.key) (e : elt) x :
+          {elt} (f : M.key → elt → bool) (k : M.key) (e : elt) x :
   take_first f k e (Some x) = Some x.
 Proof. reflexivity. Qed.
 
@@ -704,11 +705,11 @@ Definition singleton {elt} (k : M.key) (e : elt) : M.t elt :=
   M.add k e (M.empty _).
 Arguments singleton {elt} k e /.
 
-Corollary MapsTo_singleton : forall k elt (e : elt),
+Corollary MapsTo_singleton : ∀ k elt (e : elt),
   M.MapsTo k e (singleton k e).
 Proof. unfold singleton; intros; simplify_maps. Qed.
 
-Lemma Oeq_neq_sym : forall x y, ~ E.eq x y -> ~ E.eq y x.
+Lemma Oeq_neq_sym : ∀ x y, ~ E.eq x y → ~ E.eq y x.
 Proof.
   intros.
   unfold not; intros.
@@ -718,7 +719,7 @@ Qed.
 
 #[export] Hint Resolve Oeq_neq_sym : core.
 
-Lemma Proper_Oeq_negb : forall B f,
+Lemma Proper_Oeq_negb : ∀ B f,
   Proper (E.eq ==> eq ==> eq) f ->
   Proper (E.eq ==> eq ==> eq) (fun (k : M.key) (e : B) => negb (f k e)).
 Proof. intros ?????????; f_equal; subst; rewrite H0; reflexivity. Qed.
@@ -741,7 +742,7 @@ Ltac apply_for_all :=
       simpl in H | ]
   end.
 
-Definition keep_keys {elt} (P : M.key -> bool) : M.t elt -> M.t elt :=
+Definition keep_keys {elt} (P : M.key → bool) : M.t elt → M.t elt :=
   P.filter (fun k _ => P k).
 
 #[global] Program Instance update_Proper {elt} :
@@ -776,11 +777,11 @@ Obligation 1.
   assumption.
 Qed.
 
-Lemma update_empty_l : forall elt (m : M.t elt),
+Lemma update_empty_l : ∀ elt (m : M.t elt),
   M.Equal (P.update (M.empty _) m) m.
 Proof. intros; apply F.Equal_mapsto_iff; split; intros; simplify_maps. Qed.
 
-Lemma update_empty_r : forall elt (m : M.t elt),
+Lemma update_empty_r : ∀ elt (m : M.t elt),
   M.Equal (P.update m (M.empty _)) m.
 Proof.
   intros.
@@ -792,8 +793,8 @@ Proof.
   assumption.
 Qed.
 
-Lemma update_find_l : forall k elt (m1 m2 : M.t elt),
-  ~ M.In k m2 -> M.find k (P.update m1 m2) = M.find k m1.
+Lemma update_find_l : ∀ k elt (m1 m2 : M.t elt),
+  ~ M.In k m2 → M.find k (P.update m1 m2) = M.find k m1.
 Proof.
   intros.
   unfold P.update.
@@ -806,8 +807,8 @@ Proof.
   rewrite !F.add_neq_o; trivial.
 Qed.
 
-Lemma update_find_r : forall k elt (m1 m2 : M.t elt),
-  ~ M.In k m1 -> M.find k (P.update m1 m2) = M.find k m2.
+Lemma update_find_r : ∀ k elt (m1 m2 : M.t elt),
+  ~ M.In k m1 → M.find k (P.update m1 m2) = M.find k m2.
 Proof.
   intros.
   unfold P.update.
@@ -820,7 +821,7 @@ Proof.
     rewrite !F.add_neq_o; trivial.
 Qed.
 
-Lemma update_add : forall k elt e (m1 m2 : M.t elt),
+Lemma update_add : ∀ k elt e (m1 m2 : M.t elt),
   M.Equal (P.update m1 (M.add k e m2)) (M.add k e (P.update m1 m2)).
 Proof.
   intros.

@@ -120,7 +120,7 @@ End Comma.
 Notation "S ↓ T" := (@Comma _ _ _ S T) (at level 90) : category_scope.
 
 Theorem comma_proj_mor_iso A B C (S : A ⟶ C) (T : B ⟶ C) (x y : S ↓ T) :
-  x ≅ y -> `1 x ≅[A ∏ B] `1 y.
+  x ≅ y → `1 x ≅[A ∏ B] `1 y.
 Proof.
   destruct 1; simpl.
   isomorphism.

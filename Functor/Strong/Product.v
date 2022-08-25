@@ -23,7 +23,7 @@ Context {G : C ⟶ C}.
 #[local] Obligation Tactic := simpl; intros.
 
 Program Definition Product_Strong :
-  StrongFunctor F -> StrongFunctor G -> StrongFunctor (F :*: G) := fun O P => {|
+  StrongFunctor F → StrongFunctor G → StrongFunctor (F :*: G) := fun O P => {|
   strength := fun x y =>
     (strength ∘ id ⨂ proj_left) ⨂ (strength ∘ id ⨂ proj_right)
       ∘ ∆(x ⨂ F y ⨂ G y);

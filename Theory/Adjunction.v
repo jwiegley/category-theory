@@ -192,8 +192,8 @@ Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
 
 (* If F is a faithful functor, and f is monic, then adj f is monic. *)
 Theorem adj_monic  {x y} (f : F x ~> y) c (g h : c ~> x) :
-  Faithful F -> Monic f ->
-    ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h -> g ≈ h.
+  Faithful F → Monic f ->
+    ⌊f⌋ ∘ g ≈ ⌊f⌋ ∘ h → g ≈ h.
 Proof.
   intros.
   rewrite <- !to_adj_nat_l in X1.
@@ -218,11 +218,11 @@ Proof.
 Qed.
 
 Corollary to_adj_respects {x y} (f g : F x ~{C}~> y) :
-  f ≈ g -> ⌊f⌋ ≈ ⌊g⌋.
+  f ≈ g → ⌊f⌋ ≈ ⌊g⌋.
 Proof. intros; now rewrites. Qed.
 
 Corollary from_adj_respects {x y} (f g : x ~{D}~> U y) :
-  f ≈ g -> ⌈f⌉ ≈ ⌈g⌉.
+  f ≈ g → ⌈f⌉ ≈ ⌈g⌉.
 Proof. intros; now rewrites. Qed.
 
 End Adjunction.

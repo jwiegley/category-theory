@@ -71,8 +71,8 @@ Next Obligation.
 Qed.
 
 Program Definition ProductFunctor_Monoidal :
-  MonoidalFunctor F -> MonoidalFunctor G
-    -> MonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
+  MonoidalFunctor F → MonoidalFunctor G
+    → MonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
   pure_iso := _;
   ap_functor_iso := ProductFunctor_Monoidal_ap_functor_iso _ _;
   pure_iso_left  := _;
@@ -175,7 +175,7 @@ Next Obligation.
 Qed.
 
 Program Definition ProductFunctor_Monoidal_proj1 :
-  MonoidalFunctor (F ∏⟶ G) -> MonoidalFunctor F := fun P => {|
+  MonoidalFunctor (F ∏⟶ G) → MonoidalFunctor F := fun P => {|
   pure_iso := _;
   ap_functor_iso := ProductFunctor_Monoidal_proj1_ap_functor_iso P;
   pure_iso_left  := _;
@@ -296,7 +296,7 @@ Proof.
 Defined.
 
 Program Definition ProductFunctor_Monoidal_proj2 :
-  MonoidalFunctor (F ∏⟶ G) -> MonoidalFunctor G := fun P => {|
+  MonoidalFunctor (F ∏⟶ G) → MonoidalFunctor G := fun P => {|
   pure_iso            := _;
   ap_functor_iso      := ProductFunctor_Monoidal_proj2_ap_functor_iso P;
   pure_iso_left       := _;
@@ -395,8 +395,8 @@ Proof.
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal :
-  LaxMonoidalFunctor F -> LaxMonoidalFunctor G
-    -> LaxMonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
+  LaxMonoidalFunctor F → LaxMonoidalFunctor G
+    → LaxMonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
   lax_pure                := _;
   ap_functor_nat          := ProductFunctor_LaxMonoidal_ap_functor_nat _ _;
   pure_left               := _;
@@ -450,7 +450,7 @@ Proof.
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal_proj1 :
-  LaxMonoidalFunctor (F ∏⟶ G) -> LaxMonoidalFunctor F := fun P => {|
+  LaxMonoidalFunctor (F ∏⟶ G) → LaxMonoidalFunctor F := fun P => {|
   lax_pure                := _;
   ap_functor_nat          := ProductFunctor_LaxMonoidal_proj1_ap_functor_nat P;
   pure_left               := _;
@@ -544,7 +544,7 @@ Proof.
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal_proj2 :
-  LaxMonoidalFunctor (F ∏⟶ G) -> LaxMonoidalFunctor G := fun P => {|
+  LaxMonoidalFunctor (F ∏⟶ G) → LaxMonoidalFunctor G := fun P => {|
   lax_pure                := _;
   ap_functor_nat          := ProductFunctor_LaxMonoidal_proj2_ap_functor_nat P;
   pure_left               := _;
@@ -683,7 +683,7 @@ Defined.
 
 Program Definition ProductFunctor_fst_LaxMonoidal :
   LaxMonoidalFunctor P
-    -> LaxMonoidalFunctor (ProductFunctor_fst P) := fun L => {|
+    → LaxMonoidalFunctor (ProductFunctor_fst P) := fun L => {|
   lax_pure := _;
   ap_functor_nat := ProductFunctor_fst_LaxMonoidal_ap_functor_nat L;
   pure_left  := _;
@@ -911,7 +911,7 @@ Defined.
 
 Program Definition ProductFunctor_snd_LaxMonoidal :
   LaxMonoidalFunctor P
-    -> LaxMonoidalFunctor (ProductFunctor_snd P) := fun L => {|
+    → LaxMonoidalFunctor (ProductFunctor_snd P) := fun L => {|
   lax_pure := _;
   ap_functor_nat := ProductFunctor_snd_LaxMonoidal_ap_functor_nat L;
   pure_left  := _;
@@ -1084,7 +1084,7 @@ Qed.
 
 Corollary ProductFunctor_proj_LaxMonoidal :
   LaxMonoidalFunctor P
-    -> LaxMonoidalFunctor ((ProductFunctor_fst P) ∏⟶ (ProductFunctor_snd P)).
+    → LaxMonoidalFunctor ((ProductFunctor_fst P) ∏⟶ (ProductFunctor_snd P)).
 Proof.
   intros L.
   exact (ProductFunctor_LaxMonoidal (ProductFunctor_fst_LaxMonoidal L)

@@ -17,19 +17,19 @@ Context `{F : Coq ⟶ Coq}.
 Reserved Notation "f <*> g" (at level 29, left associativity).
 
 Class Applicative := {
-  pure : forall {a : Type}, a -> F a;
-  ap   : forall {a b : Type}, F (a -> b) -> F a -> F b
+  pure : ∀ {a : Type}, a → F a;
+  ap   : ∀ {a b : Type}, F (a → b) → F a → F b
     where "F <*> g" := (ap F g);
 
-  ap_id : forall a : Type, ap (pure (@id Coq a)) = id;
-  ap_comp : forall (a b c : Type) (v : F (a -> b)) (u : F (b -> c)) (w : F a),
+  ap_id : ∀ a : Type, ap (pure (@id Coq a)) = id;
+  ap_comp : ∀ (a b c : Type) (v : F (a → b)) (u : F (b → c)) (w : F a),
     pure (fun F g x => F (g x)) <*> u <*> v <*> w = u <*> (v <*> w);
-  ap_homo : forall (a b : Type) (x : a) (F : a -> b),
+  ap_homo : ∀ (a b : Type) (x : a) (F : a → b),
     pure F <*> pure x = pure (F x);
-  ap_interchange : forall (a b : Type) (y : a) (u : F (a -> b)),
+  ap_interchange : ∀ (a b : Type) (y : a) (u : F (a → b)),
     u <*> pure y = pure (fun F => F y) <*> u;
 
-  ap_fmap : forall (a b : Type) (f : a -> b),
+  ap_fmap : ∀ (a b : Type) (f : a → b),
     ap (pure f) = @fmap _ _ F _ _ f
 }.
 
@@ -57,7 +57,7 @@ Notation "[| F x y .. z |]" := (.. (F <$> x <*> y) .. <*> z)
      x at level 9, y at level 9, z at level 9, only parsing).
 
 Definition liftA2 `{Applicative} {A B C : Type}
-  (f : A -> B -> C) (x : F A) (y : F B) : F C := ap (fmap[F] f x) y.
+  (f : A → B → C) (x : F A) (y : F B) : F C := ap (fmap[F] f x) y.
 
 Infix "*>" := (liftA2 (const id)) (at level 29, left associativity).
 Infix "<*" := (liftA2 const) (at level 29, left associativity).

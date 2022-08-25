@@ -14,7 +14,7 @@ Unset Transparent Obligations.
 
 (* Bifunctors can be curried:
 
-  C × D ⟶ E --> C ⟶ [D, E] ~~~ (C, D) -> E --> C -> D -> E
+  C × D ⟶ E --> C ⟶ [D, E] ~~~ (C, D) → E --> C → D → E
 
   Where ~~~ should be read as "Morally equivalent to".
 

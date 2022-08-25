@@ -38,7 +38,7 @@ Reserved Infix "⟿" (at level 90, right associativity).
 Class Enriched (K : Category) `{@Monoidal K} := {
   eobj : Type;
 
-  ehom : eobj -> eobj -> K where "a ⟿ b" := (ehom a b);
+  ehom : eobj → eobj → K where "a ⟿ b" := (ehom a b);
 
   eid {x} : I ~{K}~> (x ⟿ x);
   ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z);
@@ -61,7 +61,7 @@ Coercion eobj : Enriched >-> Sortclass.
 Class EnrichedFunctor
       (K : Category) `{@Monoidal K}
       (C : Enriched K) (D : Enriched K) := {
-  efobj : C -> D;
+  efobj : C → D;
   efmap {x y} : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y);
 
   efmap_id : ∀ x,

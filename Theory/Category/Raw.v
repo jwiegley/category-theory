@@ -15,7 +15,7 @@ Class RawCategory := {
   r_obj : Type;
 
   r_uhom := Type : Type;
-  r_hom : r_obj -> r_obj -> r_uhom where "a ~>⁻ b" := (r_hom a b);
+  r_hom : r_obj → r_obj → r_uhom where "a ~>⁻ b" := (r_hom a b);
 
   r_id {x} : r_hom x x;
   r_compose {x y z} (f: r_hom y z) (g : r_hom x y) : r_hom x z
@@ -66,7 +66,7 @@ Open Scope raw_morphism_scope.
 
     See [DerivedEquivalence] below. *)
 Class Denotation {C : RawCategory} {D : Category} := {
-  dobj : C -> D;
+  dobj : C → D;
   denote {x y : C} (f : x ~>⁻ y) : dobj x ~> dobj y;
 
   h_id (x : C) : @denote x x r_id ≈ id;

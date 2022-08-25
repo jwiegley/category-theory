@@ -16,9 +16,10 @@ Unset Transparent Obligations.
 Section RelevantMonoidal.
 
 Context {C : Category}.
+Context `{@Monoidal C}.
 
-Class RelevantMonoidal `{@Monoidal C} := {
-  is_symmetric : SymmetricMonoidal;
+Class RelevantMonoidal := {
+  relevant_is_symmetric : SymmetricMonoidal;
 
   diagonal {x} : x ~> x ⨂ x;
   diagonal_natural : natural (@diagonal);
@@ -31,23 +32,24 @@ Class RelevantMonoidal `{@Monoidal C} := {
   diagonal_tensor_assoc {x} :
    id ⨂ diagonal ∘ diagonal ≈ tensor_assoc ∘ diagonal ⨂ id ∘ @diagonal x;
 
-  twist_diagonal {x} :
-    twist ∘ diagonal ≈ @diagonal x;
+  braid_diagonal {x} :
+    braid ∘ diagonal ≈ @diagonal x;
 
-  twist2 {x y z w} : (x ⨂ y) ⨂ (z ⨂ w) ~> (x ⨂ z) ⨂ (y ⨂ w) :=
+  braid2 {x y z w} : (x ⨂ y) ⨂ (z ⨂ w) ~> (x ⨂ z) ⨂ (y ⨂ w) :=
     tensor_assoc⁻¹
-      ∘ id ⨂ (tensor_assoc ∘ twist ⨂ id ∘ tensor_assoc⁻¹)
+      ∘ id ⨂ (tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc⁻¹)
       ∘ tensor_assoc;
 
-  diagonal_twist2 {x y} :
-    @diagonal (x ⨂ y) ≈ twist2 ∘ diagonal ⨂ diagonal
+  diagonal_braid2 {x y} :
+    @diagonal (x ⨂ y) ≈ braid2 ∘ diagonal ⨂ diagonal
 }.
-#[export] Existing Instance is_symmetric.
+#[export] Existing Instance relevant_is_symmetric.
 
-Lemma twist2_natural `{@Monoidal C} `{@RelevantMonoidal _} :
-  natural (@twist2 _ _).
+Context `{RelevantMonoidal}.
+
+Lemma braid2_natural : natural (@braid2 _).
 Proof.
-  unfold twist2; simpl; intros; normal.
+  unfold braid2; simpl; intros; normal.
   rewrite from_tensor_assoc_natural.
   rewrite <- !comp_assoc.
   rewrite <- to_tensor_assoc_natural.
@@ -63,7 +65,7 @@ Proof.
   comp_right.
   normal.
   bimap_right.
-  spose (fst twist_natural _ _ h _ _ i) as X.
+  spose (fst braid_natural _ _ h _ _ i) as X.
   normal; assumption.
 Qed.
 

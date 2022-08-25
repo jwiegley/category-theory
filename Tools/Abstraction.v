@@ -18,11 +18,11 @@ Unset Transparent Obligations.
 Section Abstraction.
 
 Definition rel `{Repr a} `{Repr b}
-           (lam : a -> b) (ccc : repr a ~{AST}~> repr b) : Type :=
+           (lam : a → b) (ccc : repr a ~{AST}~> repr b) : Type :=
   ∀ x : a, convert (lam x) ≈ ccc ∘ convert x.
 
 Definition rel2 `{Repr a} `{Repr b} `{Repr c}
-           (lam : a -> b -> c) (ccc : repr a ~{AST}~> repr c ^ repr b) : Type :=
+           (lam : a → b → c) (ccc : repr a ~{AST}~> repr c ^ repr b) : Type :=
   ∀ (x : a) (y : b), convert (lam x y) ≈ uncurry ccc ∘ convert (x, y).
 
 Infix ">==>" := rel (at level 99) : category_scope.
@@ -40,8 +40,8 @@ Proof. reflexivity. Qed.
 
 Theorem ccc_apply :
   ∀ `{Repr a} `{Repr b} `{Repr c}
-    (U : a -> b -> c) (U' : repr a ~{AST}~> repr c ^ repr b)
-    (V : a -> b) (V' : repr a ~{AST}~> repr b),
+    (U : a → b → c) (U' : repr a ~{AST}~> repr c ^ repr b)
+    (V : a → b) (V' : repr a ~{AST}~> repr b),
   U >===> U' ->
   V >==> V' ->
     (λ x, U x (V x)) >==> eval ∘ U' △ V'.
@@ -60,8 +60,8 @@ Qed.
 
 Theorem ccc_apply_pair :
   ∀ `{Repr a} `{Repr b} `{Repr c}
-    (U : a * b -> c) (U' : repr a × repr b ~{AST}~> repr c)
-    (V : a -> b) (V' : repr a ~{AST}~> repr b),
+    (U : a * b → c) (U' : repr a × repr b ~{AST}~> repr c)
+    (V : a → b) (V' : repr a ~{AST}~> repr b),
   U >==> U' ->
   V >==> V' ->
     (λ x, U (x, V x)) >==> U' ∘ id △ V'.
@@ -77,7 +77,7 @@ Qed.
 
 Theorem ccc_curry :
   ∀ `{Repr a} `{Repr b} `{Repr c}
-    (U : a * b -> c) (U' : repr a × repr b ~> repr c),
+    (U : a * b → c) (U' : repr a × repr b ~> repr c),
     U >==> U' ->
       (λ x, λ y, U (x, y)) >===> curry U'.
 Proof.
@@ -145,9 +145,9 @@ Infix ">==>" := rel (at level 99) : category_scope.
 (*
 Theorem ccc_arity2 :
   ∀ (a b c : Type)
-    (f : a -> b) (f' : F a ~> F b)
-    (g : a -> b) (g' : F a ~> F b)
-    (p : b -> b -> c) (p' : F b ~> F c ^ F b),
+    (f : a → b) (f' : F a ~> F b)
+    (g : a → b) (g' : F a ~> F b)
+    (p : b → b → c) (p' : F b ~> F c ^ F b),
   f >==> f' ->
   g >==> g' ->
   p >==> exp_in ∘ p' ->
@@ -156,8 +156,8 @@ Proof.
 Abort.
 
 Theorem ccc_plus :
-  ∀ (f : nat -> nat) (f' : F nat ~> F nat)
-    (g : nat -> nat) (g' : F nat ~> F nat),
+  ∀ (f : nat → nat) (f' : F nat ~> F nat)
+    (g : nat → nat) (g' : F nat ~> F nat),
   f >==> f' ->
   g >==> g' ->
   (λ x : nat, (f x + g x)%nat)

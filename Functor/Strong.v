@@ -55,7 +55,7 @@ Context {F : C ⟶ C}.
 #[local] Obligation Tactic := program_simpl.
 
 #[global] Program Instance Compose_StrongFunctor (F G : C ⟶ C) :
-  StrongFunctor F -> StrongFunctor G -> StrongFunctor (F ◯ G) := {
+  StrongFunctor F → StrongFunctor G → StrongFunctor (F ◯ G) := {
   strength := fun _ _ => fmap[F] strength ∘ strength
 }.
 Next Obligation.

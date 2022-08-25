@@ -129,7 +129,6 @@ Solver/Decide.v
 Solver/Denote.v
 Solver/Expr.v
 Solver/Normal.v
-Solver/Partial.v
 Solver/Reify.v
 Structure/BiCCC.v
 Structure/Bicartesian.v
@@ -168,6 +167,7 @@ Structure/Monoidal/Product.v
 Structure/Monoidal/Proofs.v
 Structure/Monoidal/Relevant.v
 Structure/Monoidal/Semicartesian.v
+Structure/Monoidal/Semicartesian/Terminal.v
 Structure/Monoidal/Semicartesian/Proofs.v
 Structure/Monoidal/Semicocartesian.v
 Structure/Monoidal/Symmetric.v
