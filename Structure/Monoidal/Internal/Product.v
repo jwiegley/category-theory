@@ -6,6 +6,7 @@ Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Import Category.Functor.Product.Internal.
+Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Symmetric.
 Require Export Category.Structure.Monoidal.Cartesian.
@@ -45,7 +46,7 @@ Next Obligation.
   intros.
   simpl.
   rewrite <- !fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   - rewrite id_left.
     rewrite exl_fork.
     cat.
@@ -63,7 +64,7 @@ Next Obligation.
   (* now solveit. Undo. *)
   intros. simpl.
   rewrite <- !fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   - rewrite exl_fork_assoc.
     cat.
   - cat.
@@ -75,7 +76,7 @@ Next Obligation.
   symmetry.
   rewrite <- fork_comp.
   rewrite !exl_fork_assoc.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   { rewrite exl_fork_comp.
     apply comp_assoc_sym.
   }
@@ -83,7 +84,7 @@ Next Obligation.
   symmetry.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   - rewrite exr_fork_assoc.
     rewrite !exl_fork_assoc.
     rewrite !exr_fork_comp.
@@ -96,7 +97,7 @@ Next Obligation.
   (* now solveit. Undo. *)
   intros. simpl.
   do 5 rewrite <- fork_comp.
-  repeat apply fork_respects.
+  repeat apply Cartesian.fork_respects.
   - rewrite !exl_fork_assoc.
     symmetry.
     apply exl_fork.
@@ -112,7 +113,7 @@ Next Obligation.
   (* now solveit. Undo. *)
   intros. simpl.
   rewrite <- fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   - rewrite id_left.
     symmetry.
     apply exl_fork.
@@ -127,7 +128,7 @@ Next Obligation.
   rewrite <- fork_comp.
   symmetry.
   rewrite <- fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   { rewrite id_left.
     rewrite exl_fork_assoc.
     rewrite exl_fork.
@@ -139,7 +140,7 @@ Next Obligation.
   do 3 rewrite <- fork_comp.
   rewrite exl_fork_assoc.
   rewrite exl_fork_assoc.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   { symmetry.
     etransitivity.
     { rewrite <- comp_assoc.
@@ -153,7 +154,7 @@ Next Obligation.
   rewrite exr_fork.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   { rewrite exl_fork_assoc.
     symmetry.
     etransitivity.
@@ -199,7 +200,7 @@ Next Obligation.
     rewrite <- fork_comp.
     rewrite swap_fork.
     rewrite <- fork_comp.
-    apply fork_respects.
+    apply Cartesian.fork_respects.
     + rewrite <- comp_assoc.
       rewrite <- comp_assoc.
       rewrite <- comp_assoc.
@@ -220,7 +221,7 @@ Next Obligation.
     rewrite <- fork_comp.
     rewrite swap_fork.
     rewrite <- fork_comp.
-    apply fork_respects.
+    apply Cartesian.fork_respects.
     + rewrite id_left.
       rewrite exl_fork.
       rewrite id_left.
@@ -245,7 +246,7 @@ Next Obligation.
   symmetry.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   { rewrite exl_fork_assoc.
     rewrite id_left.
     rewrite exl_fork_assoc.
@@ -263,7 +264,7 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   - rewrite exr_fork.
     rewrite id_left.
     rewrite swap_fork.
@@ -292,7 +293,7 @@ Definition InternalProduct_SymmetricMonoidal :
 Program Definition InternalProduct_CartesianMonoidal :
   @CartesianMonoidal C InternalProduct_Monoidal := {|
   cartesian_is_semicartesian := {| eliminate := fun _ => one |};
-  cartesian_is_relevant := {| diagonal  := fun _ => id △ id |}
+  cartesian_is_relevant := {| diagonal  := fun _ => Cartesian.fork id id |}
 |}.
 Next Obligation.
   (* now solveit. Undo. *)
@@ -305,14 +306,14 @@ Next Obligation.
   cat_simpl.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   - rewrite exl_fork_assoc.
     cat.
   - rewrite exr_fork_assoc.
     cat.
 Qed.
 Next Obligation.
-  cat_simpl. apply fork_respects; try reflexivity.
+  cat_simpl. apply Cartesian.fork_respects; try reflexivity.
   apply one_unique.
 Qed.
 Next Obligation.
@@ -324,13 +325,13 @@ Next Obligation.
   rewrite <- fork_comp.
   rewrite !exl_fork_assoc.
   rewrite !exl_fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   { cat. }
   rewrite exr_fork_assoc.
   rewrite id_right.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   - rewrite exl_fork_assoc.
     rewrite exr_fork_comp.
     cat_simpl.
@@ -347,7 +348,7 @@ Next Obligation.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
-  apply fork_respects.
+  apply Cartesian.fork_respects.
   - rewrite <- fork_comp.
     rewrite exl_fork.
     rewrite id_left.
@@ -358,7 +359,7 @@ Next Obligation.
     rewrite exl_fork_comp.
     rewrite id_left.
     rewrite <- fork_exl_exr.
-    apply fork_respects; try reflexivity.
+    apply Cartesian.fork_respects; try reflexivity.
     rewrite exr_fork_assoc.
     rewrite comp_assoc.
     rewrite comp_assoc.
@@ -388,7 +389,7 @@ Next Obligation.
     rewrite <- fork_comp.
     rewrite <- fork_comp.
     rewrite <- fork_exl_exr.
-    apply fork_respects.
+    apply Cartesian.fork_respects.
     + rewrite exr_fork_assoc.
       rewrite exl_fork.
       rewrite exl_fork_assoc.
