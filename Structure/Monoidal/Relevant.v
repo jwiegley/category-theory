@@ -69,7 +69,24 @@ Proof.
   normal; assumption.
 Qed.
 
+Notation "∆ x" := (@diagonal _ x)
+  (at level 9, format "∆ x") : morphism_scope.
+
+Definition fork {x y z} (f : x ~> y) (g : x ~> z) :
+  x ~> y ⨂ z := f ⨂ g ∘ ∆x.
+
+#[global] Program Instance fork_respects {x y z : C} :
+  Proper (equiv ==> equiv ==> equiv) (@fork x y z).
+Next Obligation.
+  proper.
+  unfold fork.
+  rewrites.
+  reflexivity.
+Qed.
+
 End RelevantMonoidal.
 
 Notation "∆ x" := (@diagonal _ _ _ x)
   (at level 9, format "∆ x") : morphism_scope.
+
+Infix "△" := fork (at level 28) : morphism_scope.
