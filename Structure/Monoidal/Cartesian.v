@@ -6,10 +6,10 @@ Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Monoidal.Semicartesian.
 Require Export Category.Structure.Monoidal.Relevant.
 Require Export Category.Structure.Monoidal.Braided.
 Require Export Category.Structure.Monoidal.Symmetric.
+Require Export Category.Structure.Monoidal.Semicartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -44,5 +44,44 @@ Class CartesianMonoidal := {
 }.
 #[export] Existing Instance cartesian_is_semicartesian.
 #[export] Existing Instance cartesian_is_relevant.
+
+Context `{CartesianMonoidal}.
+
+Definition first  {x y z : C} (f : x ~> y) : x ⨂ z ~> y ⨂ z :=
+  (f ∘ proj_left) △ proj_right.
+
+Definition second  {x y z : C} (f : x ~> y) : z ⨂ x ~> z ⨂ y :=
+  proj_left △ (f ∘ proj_right).
+
+Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
+  x ⨂ z ~> y ⨂ w :=
+  (f ∘ proj_left) △ (g ∘ proj_right).
+
+#[global] Program Instance first_respects {a b c : C} :
+  Proper (equiv ==> equiv) (@first a b c).
+Next Obligation.
+  proper.
+  unfold first.
+  rewrites.
+  reflexivity.
+Qed.
+
+#[global] Program Instance second_respects {a b c : C} :
+  Proper (equiv ==> equiv) (@second a b c).
+Next Obligation.
+  proper.
+  unfold second.
+  rewrites.
+  reflexivity.
+Qed.
+
+#[global] Program Instance split_respects {a b c d : C} :
+  Proper (equiv ==> equiv ==> equiv) (@split a b c d).
+Next Obligation.
+  proper.
+  unfold split.
+  rewrites.
+  reflexivity.
+Qed.
 
 End CartesianMonoidal.

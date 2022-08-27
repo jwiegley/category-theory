@@ -23,17 +23,12 @@ Context `{@CartesianMonoidal C _}.
 
 #[global] Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
   product_obj := fun x y => (x ⨂ y)%object;
-  fork := fun x _ _ f g => f ⨂ g ∘ ∆x;
+  Cartesian.fork := @fork _ _ _;
   exl  := fun _ _ => proj_left;
   exr  := fun _ _ => proj_right
 |}.
 Next Obligation.
-  apply cartesian_is_relevant.
-Defined.
-Next Obligation.
-  proper; rewrites; reflexivity.
-Qed.
-Next Obligation.
+  unfold fork.
   split; intros.
     split.
       rewrites.

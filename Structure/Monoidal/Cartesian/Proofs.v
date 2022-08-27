@@ -247,35 +247,4 @@ Proof.
   reflexivity.
 Qed.
 
-#[global] Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
-  product_obj := fun x y => (x ⨂ y)%object;
-  fork := fun x _ _ f g => f ⨂ g ∘ ∆x;
-  exl  := fun _ _ => proj_left;
-  exr  := fun _ _ => proj_right
-|}.
-Next Obligation.
-  apply cartesian_is_relevant.
-Defined.
-Next Obligation.
-  proper; rewrites; reflexivity.
-Qed.
-Next Obligation.
-  - rewrites.
-    rewrite comp_assoc.
-    rewrite proj_left_natural.
-    rewrite <- comp_assoc.
-    rewrite proj_left_diagonal; cat.
-  - rewrites.
-    rewrite comp_assoc.
-    rewrite proj_right_natural.
-    rewrite <- comp_assoc.
-    rewrite proj_right_diagonal; cat.
-  - rewrites.
-    rewrite bimap_comp.
-    rewrite <- !comp_assoc.
-    srewrite diagonal_natural.
-    rewrite comp_assoc.
-    rewrite proj_left_right_diagonal; cat.
-Qed.
-
 End CartesianMonoidal.
