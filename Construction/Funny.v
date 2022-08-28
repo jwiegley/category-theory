@@ -52,9 +52,7 @@ Defined.
    Mark Weber *)
 Program Definition Funny (A B : Category) : Category := {|
   obj := A ∏ B;
-  hom := λ '(a₁,b₁) '(a₂, b₂),
-    ∃ (α : a₁ ~{A}~> a₂) (β : b₁ ~{B}~> b₂),
-      bimap α id ∘ bimap id β ≈ bimap id β ∘ bimap α id;
+  hom := λ '(a₁,b₁) '(a₂, b₂), a₁ ~{A}~> a₂ ∧ b₁ ~{B}~> b₂
   homset := λ '(_, _) '(_, _), {|
     equiv := λ '(α₁; (β₁; _)) '(α₂; (β₂; _)), α₁ ≈ α₂ ∧ β₁ ≈ β₂
   |};
