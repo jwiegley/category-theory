@@ -55,6 +55,12 @@ Definition Product (C D : Category) : Category := {|
 
 Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.
 
+Corollary bimap_with_id_commutes {C D : Category} (x y : C ∏ D)
+  (f : fst x ~{C}~> fst y) (g : snd x ~{D}~> snd y) :
+  ((f, id[snd y]) : @hom (C ∏ D) (fst x, snd y) (fst y, snd y)) ∘ (id[fst x], g) ≈
+  ((id[fst y], g) : @hom (C ∏ D) (fst y, snd x) (fst y, snd y)) ∘ (f, id[snd x]).
+Proof. simpl; cat. Qed.
+
 Require Import Category.Theory.Functor.
 
 #[export]
