@@ -18,6 +18,58 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Set Transparent Obligations.
 
+(* This definition is taken from "Free Products of Higher Operad Algebras" by
+   Mark Weber *)
+Program Definition Funny (A B : Category) : Category := {|
+  obj := A ∏ B;
+  hom := λ '(a₁, b₁) '(a₂, b₂),
+    (∀ b, (a₁, b) ~{A ∏ B}~> (a₂, b)) ∧
+    (∀ a, (a, b₁) ~{A ∏ B}~> (a, b₂));
+  homset := λ '(_, _) '(_, _), {|
+    equiv := λ '(α₁, β₁) '(α₂, β₂), (∀ b, α₁ b ≈ α₂ b) ∧ (∀ a, β₁ a ≈ β₂ a)
+  |};
+  id := λ '(_, _), (λ _, id, λ _, id);
+  compose := λ '(_, _) '(_, _) '(_, _) '(fα, fβ) '(gα, gβ),
+    (λ _, fα _ ∘ gα _, λ _, fβ _ ∘ gβ _)
+|}.
+Next Obligation.
+  equivalence.
+  - now rewrite (fst (X _)), (fst (X0 _)).
+  - now rewrite (snd (X _)), (snd (X0 _)).
+  - now rewrite (fst (H3 _)), (fst (H1 _)).
+  - now rewrite (snd (H3 _)), (snd (H1 _)).
+Defined.
+Next Obligation.
+  destruct x, y, x0, y0, X, X0; simpl in *.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
+
+Notation "C □ D" := (Funny C D)
+  (at level 8, right associativity) : category_scope.
+
+Program Definition functor_left {C D : Category} : C □ D ⟶ C ∏ D := {|
+  fobj := λ p, p
+|}.
+Next Obligation. firstorder. Defined.
+Next Obligation.
+  destruct x, y; simpl; simpl_eq.
+  destruct X.
+  pose proof (p3 o0).
+  pose proof (p4 o).
+  destruct (p o0), (p1 o0).
+  destruct (p0 o), (p2 o).
+  simpl in *.
+  intuition.
+Qed.
+Next Obligation. cat. Qed.
+
 Definition left_inclusion {C D : Category} :
   C ₀ ∏ D ₀ ⟶ C ∏ D ₀.
 Proof.
@@ -47,30 +99,6 @@ Proof.
   - destruct x, y, z, f as [? d], g as [? d1]; simpl in *.
     destruct d, d1; cat.
 Defined.
-
-(* This definition is taken from "Free Products of Higher Operad Algebras" by
-   Mark Weber *)
-Program Definition Funny (A B : Category) : Category := {|
-  obj := A ∏ B;
-  hom := λ '(a₁,b₁) '(a₂, b₂), a₁ ~{A}~> a₂ ∧ b₁ ~{B}~> b₂
-  homset := λ '(_, _) '(_, _), {|
-    equiv := λ '(α₁; (β₁; _)) '(α₂; (β₂; _)), α₁ ≈ α₂ ∧ β₁ ≈ β₂
-  |};
-  id := λ '(_, _), (id; (id; _));
-  compose := λ '(_, _) '(_, _) '(_, _) '(fα; (fβ; _)) '(gα; (gβ; _)),
-    (fα ∘ gα; (fβ ∘ gβ; _))
-|}.
-Next Obligation. equivalence. Defined.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
-Next Obligation. cat. Qed.
-
-Notation "C □ D" := (Funny C D)
-  (at level 8, right associativity) : category_scope.
 
 Program Definition FunnyCategory {C D : Category} :
   @Pushout Cat (C ∏ D ₀) (C ₀ ∏ D) (C ₀ ∏ D ₀)
