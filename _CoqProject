@@ -12,6 +12,7 @@ Construction/Comma/Adjunction.v
 Construction/Comma/Isomorphism.v
 Construction/Comma/Natural/Transformation.v
 Construction/Coproduct.v
+Construction/Discrete.v
 Construction/Enriched.v
 Construction/Free.v
 Construction/Groupoid.v
@@ -142,7 +143,6 @@ Structure/Cone.v
 Structure/Cone/Const.v
 Structure/Cone/Natural/Transformation.v
 Structure/Constant.v
-Structure/Discrete.v
 Structure/Distributive.v
 Structure/End.v
 Structure/Equalizer.v
