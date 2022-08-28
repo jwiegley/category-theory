@@ -1,6 +1,6 @@
 args@{
-  rev    ? "963d27a0767422be9b8686a8493dcade6acee992"
-, sha256 ? "0mvq8wxdns802b1gvjvalbvdsp3xjgm370bimdd93mwpspz0250p"
+  rev    ? "eb569cf5cc4ff90eb78896c04ee1fd377acc7e1b"
+, sha256 ? "1mvq8wxdns802b1gvjvalbvdsp3xjgm370bimdd93mwpspz0250p"
 
 , pkgs   ? import (builtins.fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/${rev}.tar.gz";
@@ -21,6 +21,7 @@ let category-theory = coqPackages:
 
     buildInputs = [
       coq coq.ocaml coq.camlp5 coq.findlib equations
+    ] ++ pkgs.lib.optionals (coqPackages != "8.16") [
       dpdgraph
     ];
     enableParallelBuilding = true;
