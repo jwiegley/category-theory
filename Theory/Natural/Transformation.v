@@ -15,12 +15,18 @@ Context {D : Category}.
 Context {F : C ⟶ D}.
 Context {G : C ⟶ D}.
 
+(* An unnatural transformation is simply a transform between functors. *)
+Definition UTransform {x} := F x ~> G x.
+
 (* If a functor may be transformed, one must show how to transform mapped
    objects and that the mapping of morphisms is natural (i.e., transforming
-   before or after introduces no change in the effect of such mappings). *)
+   before or after introduces no change in the effect of such mappings).
+
+   ncatlab: "... a natural transformation is an unnatural transformation that
+   satisfies an extra property, namely naturality". *)
 
 Class Transform := {
-  transform {x} : F x ~> G x;
+  transform {x} : @UTransform x;
 
   naturality {x y} (f : x ~> y) :
     fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f;
@@ -38,6 +44,7 @@ Qed.
 
 End Transform.
 
+Arguments UTransform {C D} F G {x}.
 Arguments transform {_ _ _ _} _ _.
 Arguments naturality
   {_ _ _ _ _ _ _ _}, {_ _ _ _} _ {_ _ _}, {_ _ _ _} _ _ _ _.
