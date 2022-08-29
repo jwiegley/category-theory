@@ -105,8 +105,8 @@ Proof.
   destruct (iso_from_to (lawvere_iso E)), (projG E), (projF E).
   simpl in *.
   destruct X; split.
-    rewrite <- e2; cat.
-  rewrite <- e3; cat.
+  - rewrite <- e2; cat.
+  - rewrite <- e3; cat.
 Qed.
 
 Lemma μ_κ_θ : ∀ x, `1 (μ E x) ≈ κ E (ψ E x) ∘ θ E x.
@@ -119,8 +119,8 @@ Proof.
   destruct (iso_to_from (lawvere_iso E)), (projG E), (projF E).
   simpl in *.
   destruct X; split.
-    rewrite <- e2; cat.
-  rewrite <- e3; cat.
+  - rewrite <- e2; cat.
+  - rewrite <- e3; cat.
 Qed.
 
 Theorem ψ_φ_equiv :
@@ -535,13 +535,13 @@ Proof.
                 (snd (`1 (projG E) ((a, b); g))⁻¹)) as X.
   unfold φ' in X; simpl in X.
   etransitivity.
-    apply X.
+    now apply X.
   clear X.
   symmetry.
   etransitivity.
     spose (φ_ψ_equiv ((a, b); g)) as X1.
     symmetry in X1.
-    apply X1.
+    now apply X1.
   unfold θ, κ, ψ.
   apply compose_respects; [|reflexivity].
   rewrite <- !comp_assoc.
@@ -569,13 +569,13 @@ Proof.
   unfold ψ' in X; simpl in X.
   etransitivity.
     symmetry.
-    apply X.
+    now apply X.
   clear X.
   symmetry.
   etransitivity.
     spose (ψ_φ_equiv ((a, b); f)) as X1.
     symmetry in X1.
-    apply X1.
+    now apply X1.
   unfold θ, κ, ψ.
   apply compose_respects; [|reflexivity].
   rewrite <- !comp_assoc.
@@ -668,9 +668,10 @@ Lemma Left_Functoriality
         ∘ fst f.
 Proof.
   Opaque Left_Functor.
-  given (ff : (Left_Functor x) ~{ F ↓ Id[C] }~> (Left_Functor y)).
+  given (ff : (Left_Functor x) ~{ F ↓ Id[C] }~> (Left_Functor y)). {
     exists (fst f, fmap[F] (fst f)).
     abstract (simpl; rewrite id_left, id_right; reflexivity).
+  }
   destruct (`2 (projF E) (Left_Functor x) (Left_Functor y) ff).
   simpl in *.
   rewrite e0.
@@ -705,9 +706,10 @@ Lemma Right_Functoriality
       ∘ fmap[F] (fmap[G] (snd f)).
 Proof.
   Opaque Right_Functor.
-  given (ff : (Right_Functor x) ~{ Id[D] ↓ G }~> (Right_Functor y)).
+  given (ff : (Right_Functor x) ~{ Id[D] ↓ G }~> (Right_Functor y)). {
     exists (fmap[G] (snd f), snd f).
     abstract (simpl; rewrite id_left, id_right; reflexivity).
+  }
   destruct (`2 (projG E) (Right_Functor x) (Right_Functor y) ff).
   simpl in *.
   symmetry.
