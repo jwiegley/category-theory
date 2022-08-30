@@ -276,3 +276,29 @@ Definition FAlgebra `(F : C ⟶ C) (a : C) := F a ~> a.
 Definition FCoalgebra `(F : C ⟶ C) (a : C) := a ~> F a.
 
 Definition FGDialgebra `(F : C ⟶ C) `(G : C ⟶ C) (a : C) := F a ~> G a.
+
+Section FunctorParts.
+
+Context {C D : Category}.
+
+(* [FunctorParts] allows the object mapping to be stated explicitly, but not
+   the morphisms mapping. *)
+Record FunctorParts (p_fobj : C → D) : Type := {
+  p_fmap {x y : C} (f : x ~> y) : p_fobj x ~> p_fobj y;
+
+  p_fmap_respects {x y : C} : Proper (equiv ==> equiv) (@p_fmap x y);
+
+  p_fmap_id {x : C} : p_fmap (@id C x) ≈ id;
+  p_fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :
+    p_fmap (f ∘ g) ≈ p_fmap f ∘ p_fmap g;
+}.
+
+Definition FunctorFromParts `(P : FunctorParts p_fobj) : C ⟶ D := {|
+  fobj          := λ x, p_fobj x;
+  fmap          := @p_fmap p_fobj P;
+  fmap_respects := @p_fmap_respects p_fobj P;
+  fmap_id       := @p_fmap_id p_fobj P;
+  fmap_comp     := @p_fmap_comp p_fobj P;
+|}.
+
+End FunctorParts.
