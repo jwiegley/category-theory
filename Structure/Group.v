@@ -16,7 +16,7 @@ Context `{@Monoidal C}.
 Context `{@CartesianMonoidal C _}.
 
 Class GroupObject (grp : C) := {
-  groupobject_is_monoid :> MonoidObject grp;
+  groupobject_is_monoid : MonoidObject grp;
   inverse : grp ~> grp;
 
   (* g⁻¹ ⨂ g ≈ I *)
@@ -25,6 +25,7 @@ Class GroupObject (grp : C) := {
   (* g ⨂ g⁻¹ ≈ I *)
   right_inverse : mappend ∘ id ⨂ inverse ∘ ∆ grp ≈ mempty ∘ eliminate;
 }.
+#[export] Existing Instance groupobject_is_monoid.
 
 End GroupObject.
 
