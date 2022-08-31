@@ -115,7 +115,7 @@ Class Bicategory := {
 
   bi1id {x : bi0cell} : x ~~> x;
 
-  bi2homset {x y : bi0cell} :> ∀ X Y : bi1cell x y, Setoid (@bi2cell x y X Y);
+  bi2homset {x y : bi0cell} : ∀ X Y : bi1cell x y, Setoid (@bi2cell x y X Y);
 
   bi2id {x y : bi0cell} {a : bi1cell x y} : a ~~~> a;
 
@@ -123,7 +123,7 @@ Class Bicategory := {
            (f : b ~~~> c) (g : a ~~~> b) : a ~~~> c
     where "f ∘∘ g" := (vcompose f g);
 
-  vcompose_respects x y a b c :>
+  vcompose_respects x y a b c :
     Proper (equiv ==> equiv ==> equiv) (@vcompose x y a b c);
 
   bi2id_left  {x y : bi0cell} {a b : bi1cell x y} (f : a ~~~> b) : bi2id ∘∘ f ≈ f;
@@ -162,3 +162,5 @@ Class Bicategory := {
   (* jww (2018-06-16): Some more coherence axioms, similar to those needed for
      monoidal categories, are moreover required to hold. *)
 }.
+#[export] Existing Instance bi2homset.
+#[export] Existing Instance vcompose_respects.
