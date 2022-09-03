@@ -64,19 +64,18 @@ Qed.
 
 End SymmetricMonoidal.
 
-Program Definition balanced_twist_id_is_symmetric `{B : @BalancedMonoidal C} :
-  (∀ x, to twist ≈ to (@iso_id _ x)) →
-  (∀ x, from twist ≈ from (@iso_id _ x)) →
-  @SymmetricMonoidal C := λ _ _, {|
+Program Definition balanced_twist_id_is_symmetric `{B : @BalancedMonoidal C}
+  (to_twist : ∀ x, to twist ≈ to (@iso_id _ x)) :
+  @SymmetricMonoidal C := {|
   symmetric_is_balanced := B;
 |}.
 Next Obligation.
   pose proof (@balanced_to_commutes _ _ x y).
-  rewrite <- e.
+  rewrite <- to_twist.
   rewrite <- X; clear X.
   comp_left.
   rewrite <- id_left at 1.
   comp_right.
-  rewrite !e.
+  rewrite !to_twist.
   now rewrite bimap_id_id.
 Qed.
