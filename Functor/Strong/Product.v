@@ -14,9 +14,7 @@ Unset Transparent Obligations.
 
 Section ProductStrong.
 
-Context {C : Category}.
-Context `{@Monoidal C}.
-Context `{@CartesianMonoidal C _}.
+Context `{@CartesianMonoidal C}.
 Context {F : C ⟶ C}.
 Context {G : C ⟶ C}.
 

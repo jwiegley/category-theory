@@ -1,9 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Morphisms.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Naturality.
 
@@ -14,9 +11,11 @@ Unset Transparent Obligations.
 
 Section BraidedMonoidal.
 
-Context `{@Monoidal C}.
+Context {C : Category}.
 
 Class BraidedMonoidal := {
+  braided_is_monoidal : @Monoidal C;
+
   braid {x y} : x ⨂ y ≅ y ⨂ x;
   braid_natural : natural (@braid);
 
@@ -30,6 +29,7 @@ Class BraidedMonoidal := {
       << (x ⨂ y) ⨂ z ~~> y ⨂ (z ⨂ x) >>
     id ⨂ from braid ∘ tensor_assoc ∘ from braid ⨂ id
 }.
+#[export] Existing Instance braided_is_monoidal.
 
 Context `{BraidedMonoidal}.
 
@@ -57,7 +57,7 @@ Proof.
   rewrite iso_from_to, id_left.
   rewrite (@comp_assoc _ _ _ _ _ _ tensor_assoc⁻¹).
   rewrite iso_to_from, id_left.
-  destruct H0.
+  destruct H.
   destruct braid_natural0.
   simpl in *.
   specialize (n a _ id _ _ (braid0 b c)).

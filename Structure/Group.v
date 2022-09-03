@@ -11,9 +11,7 @@ Unset Transparent Obligations.
 
 Section GroupObject.
 
-Context {C : Category}.
-Context `{@Monoidal C}.
-Context `{@CartesianMonoidal C _}.
+Context `{@CartesianMonoidal C}.
 
 Class GroupObject (grp : C) := {
   groupobject_is_monoid : MonoidObject grp;
@@ -29,5 +27,5 @@ Class GroupObject (grp : C) := {
 
 End GroupObject.
 
-Notation "'inverse' [ G ]" := (@inverse _ _ _ G _)
+Notation "'inverse' [ G ]" := (@inverse _ _ G _)
   (at level 9, format "inverse [ G ]") : category_scope.

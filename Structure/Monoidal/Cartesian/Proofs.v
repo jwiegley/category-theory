@@ -1,15 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Morphisms.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
-Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Monoidal.Proofs.
-Require Export Category.Structure.Monoidal.Semicartesian.
 Require Export Category.Structure.Monoidal.Semicartesian.Proofs.
-Require Export Category.Structure.Monoidal.Relevance.
 Require Export Category.Structure.Monoidal.Cartesian.
 
 Generalizable All Variables.
@@ -19,8 +13,7 @@ Unset Transparent Obligations.
 
 Section CartesianMonoidal.
 
-Context `{@Monoidal C}.
-Context `{@CartesianMonoidal C _}.
+Context `{@CartesianMonoidal C}.
 
 Corollary unit_left_eliminate {x y} (f : x ~> y) :
   unit_left ∘ eliminate ⨂ f ∘ ∆x ≈ f.
@@ -77,7 +70,7 @@ Lemma proj_left_id_diagonal {x y} :
 Proof.
   rewrite diagonal_braid2.
   remember (_ ∘ _ ∘ tensor_assoc) as p.
-  spose (@braid2_natural _ _ _ x _ id x _ id y _ eliminate y _ id) as X0.
+  spose (@braid2_natural _ _ x _ id x _ id y _ eliminate y _ id) as X0.
   rewrite !bimap_id_id in X0.
   rewrite !id_left, !id_right in X0.
   unfold proj_left.
@@ -97,7 +90,6 @@ Proof.
   normal.
   rewrite <- triangle_identity_left.
   normal.
-  Set Printing Implicit.
   rewrite unit_left_braid.
   rewrite triangle_identity.
   rewrite <- !comp_assoc.
@@ -115,7 +107,7 @@ Lemma proj_right_id_diagonal {x y} :
 Proof.
   rewrite diagonal_braid2.
   remember (_ ∘ _ ∘ tensor_assoc) as p.
-  spose (@braid2_natural _ _ _ x _ eliminate x _ id y _ id y _ id) as X0.
+  spose (@braid2_natural _ _ x _ eliminate x _ id y _ id y _ id) as X0.
   rewrite !bimap_id_id in X0.
   rewrite !id_right in X0.
   unfold braid2 in X0.

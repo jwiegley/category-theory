@@ -1,11 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Morphisms.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
-Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Symmetric.
 
 Generalizable All Variables.
@@ -16,10 +12,9 @@ Unset Transparent Obligations.
 Section RelevanceMonoidal.
 
 Context {C : Category}.
-Context `{@Monoidal C}.
 
 Class RelevanceMonoidal := {
-  relevance_is_symmetric : SymmetricMonoidal;
+  relevance_is_symmetric : @SymmetricMonoidal C;
 
   diagonal {x} : x ~> x ⨂ x;
   diagonal_natural : natural (@diagonal);
@@ -86,7 +81,7 @@ Qed.
 
 End RelevanceMonoidal.
 
-Notation "∆ x" := (@diagonal _ _ _ x)
+Notation "∆ x" := (@diagonal _ _ x)
   (at level 9, format "∆ x") : morphism_scope.
 
 Infix "△" := fork (at level 28) : morphism_scope.

@@ -156,6 +156,7 @@ Structure/Limit/Kan/Extension.v
 Structure/Limit/Universal/Arrow.v
 Structure/Monoid.v
 Structure/Monoidal.v
+Structure/Monoidal/Balanced.v
 Structure/Monoidal/Braided.v
 Structure/Monoidal/Cartesian.v
 Structure/Monoidal/Cartesian/Cartesian.v

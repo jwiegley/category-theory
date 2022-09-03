@@ -1,12 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Morphisms.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Functor.Bifunctor.
-Require Export Category.Structure.Monoidal.
-Require Export Category.Structure.Monoidal.Naturality.
-Require Export Category.Structure.Monoidal.Braided.
+Require Export Category.Structure.Monoidal.Balanced.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -15,16 +10,17 @@ Unset Transparent Obligations.
 
 Section SymmetricMonoidal.
 
-Context `{@Monoidal C}.
+Context {C : Category}.
 
 Class SymmetricMonoidal := {
-  symmetric_is_braided : BraidedMonoidal;
+  symmetric_is_balanced : @BalancedMonoidal C;
+
   braid_invol {x y} : braid ∘ braid ≈ id[x ⨂ y];
 }.
-#[export] Existing Instance symmetric_is_braided.
+#[export] Existing Instance symmetric_is_balanced.
 
 Corollary braid_symmetry `{SymmetricMonoidal} {x y} :
-  to (@braid _ _ _ x y) ≈ from (@braid _ _ _ y x).
+  to (@braid _ _ x y) ≈ from (@braid _ _ y x).
 Proof.
   rewrite <- id_right.
   rewrite <- (@iso_to_from _ _ _ braid).
@@ -33,7 +29,7 @@ Proof.
   now rewrite id_left.
 Qed.
 
-Corollary hexagon_rotated `{SymmetricMonoidal} {x y z} :
+Lemma hexagon_rotated `{SymmetricMonoidal} {x y z} :
   tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc ⁻¹
     << x ⨂ (y ⨂ z) ~~> y ⨂ (x ⨂ z) >>
   id ⨂ braid ∘ tensor_assoc ∘ braid.
@@ -48,7 +44,7 @@ Proof.
   cat.
 Qed.
 
-Corollary bimap_braid `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
+Lemma bimap_braid `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
   g ⨂ f ∘ braid ≈ braid ∘ f ⨂ g.
 Proof.
   spose (fst braid_natural _ _ f _ _ g) as X.
@@ -56,7 +52,7 @@ Proof.
   apply X.
 Qed.
 
-Corollary braid_bimap_braid `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
+Lemma braid_bimap_braid `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
   braid ∘ g ⨂ f ∘ braid ≈ f ⨂ g.
 Proof.
   rewrite <- comp_assoc.
@@ -67,3 +63,20 @@ Proof.
 Qed.
 
 End SymmetricMonoidal.
+
+Program Definition balanced_twist_id_is_symmetric `{B : @BalancedMonoidal C} :
+  (∀ x, to twist ≈ to (@iso_id _ x)) →
+  (∀ x, from twist ≈ from (@iso_id _ x)) →
+  @SymmetricMonoidal C := λ _ _, {|
+  symmetric_is_balanced := B;
+|}.
+Next Obligation.
+  pose proof (@balanced_to_commutes _ _ x y).
+  rewrite <- e.
+  rewrite <- X; clear X.
+  comp_left.
+  rewrite <- id_left at 1.
+  comp_right.
+  rewrite !e.
+  now rewrite bimap_id_id.
+Qed.
