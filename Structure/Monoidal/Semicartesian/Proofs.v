@@ -1,11 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Morphisms.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
-Require Export Category.Functor.Bifunctor.
-Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Proofs.
 Require Export Category.Structure.Monoidal.Semicartesian.
 

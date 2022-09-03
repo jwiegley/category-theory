@@ -11,9 +11,7 @@ Unset Transparent Obligations.
 
 Section CartesianMonoid.
 
-Context {C : Category}.
-Context `{@Monoidal C}.
-Context `{@CartesianMonoidal C _}.
+Context `{@CartesianMonoidal C}.
 Context (mon : C).
 Context `{@MonoidObject C _ grp}.
 
@@ -37,11 +35,9 @@ End CartesianMonoid.
 
 Section GroupProofs.
 
-Context {C : Category}.
-Context `{@Monoidal C}.
-Context `{@CartesianMonoidal C _}.
+Context `{@CartesianMonoidal C}.
 Context (grp : C).
-Context `{@GroupObject C _ _ grp}.
+Context `{@GroupObject C _ grp}.
 
 (* This proof is analogous to the following
    proof that y = x⁻¹ for an

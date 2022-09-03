@@ -1,14 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Morphisms.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Monoidal.Relevant.
-Require Export Category.Structure.Monoidal.Braided.
-Require Export Category.Structure.Monoidal.Symmetric.
+Require Export Category.Structure.Monoidal.Relevance.
 Require Export Category.Structure.Monoidal.Semicartesian.
 
 Generalizable All Variables.
@@ -19,7 +14,6 @@ Unset Transparent Obligations.
 Section CartesianMonoidal.
 
 Context {C : Category}.
-Context `{@Monoidal C}.
 
 (* Wikipedia: "Cartesian monoidal categories have a number of special and
    important properties, such as the existence of diagonal maps (Δ) x : x → x
@@ -33,17 +27,17 @@ Context `{@Monoidal C}.
    augmentations must in fact be cartesian monoidal." *)
 
 Class CartesianMonoidal := {
-  cartesian_is_semicartesian : SemicartesianMonoidal;
-  cartesian_is_relevant      : RelevantMonoidal;
+  cartesian_is_relevance     : @RelevanceMonoidal C;
+  cartesian_is_semicartesian : @SemicartesianMonoidal C _;
 
   proj_left_diagonal  {x} : proj_left  ∘ diagonal ≈ id[x];
   proj_right_diagonal {x} : proj_right ∘ diagonal ≈ id[x];
 
-  unit_left_braid  {x} : unit_left  ∘ @braid _ _ _ x I ≈ unit_right;
-  unit_right_braid {x} : unit_right ∘ @braid _ _ _ I x ≈ unit_left
+  unit_left_braid  {x} : unit_left  ∘ @braid _ _ x I ≈ unit_right;
+  unit_right_braid {x} : unit_right ∘ @braid _ _ I x ≈ unit_left
 }.
 #[export] Existing Instance cartesian_is_semicartesian.
-#[export] Existing Instance cartesian_is_relevant.
+#[export] Existing Instance cartesian_is_relevance.
 
 Context `{CartesianMonoidal}.
 

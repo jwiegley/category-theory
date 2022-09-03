@@ -125,6 +125,7 @@ Natural/Transformation/Applicative.v
 Natural/Transformation/Monoidal.v
 Natural/Transformation/Opposite.v
 Natural/Transformation/Strong.v
+Solver.v
 Solver/Decide.v
 Solver/Denote.v
 Solver/Expr.v
@@ -155,6 +156,7 @@ Structure/Limit/Kan/Extension.v
 Structure/Limit/Universal/Arrow.v
 Structure/Monoid.v
 Structure/Monoidal.v
+Structure/Monoidal/Balanced.v
 Structure/Monoidal/Braided.v
 Structure/Monoidal/Cartesian.v
 Structure/Monoidal/Cartesian/Cartesian.v
@@ -165,12 +167,13 @@ Structure/Monoidal/Internal/Product.v
 Structure/Monoidal/Naturality.v
 Structure/Monoidal/Product.v
 Structure/Monoidal/Proofs.v
-Structure/Monoidal/Relevant.v
+Structure/Monoidal/Relevance.v
 Structure/Monoidal/Semicartesian.v
 Structure/Monoidal/Semicartesian/Proofs.v
 Structure/Monoidal/Semicartesian/Terminal.v
 Structure/Monoidal/Semicocartesian.v
 Structure/Monoidal/Symmetric.v
+Structure/Monoidal/Traced.v
 Structure/Pullback.v
 Structure/Pullback/Limit.v
 Structure/Span.v

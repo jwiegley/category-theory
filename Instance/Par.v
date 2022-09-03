@@ -141,7 +141,7 @@ Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 
-#[export] Program Instance Par_BraidedMonoidal : @BraidedMonoidal Par _ := {
+#[export] Program Instance Par_BraidedMonoidal : @BraidedMonoidal Par := {
   braid := λ _ _, {|
     to   := λ p,
       match p with
@@ -163,11 +163,17 @@ Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
-
-#[export] Program Instance Par_SymmetricMonoidal : @SymmetricMonoidal Par _.
 Next Obligation. solveit. Defined.
 
-#[export] Program Instance Par_RelevantMonoidal : @RelevantMonoidal Par _ := {
+#[export] Program Instance Par_BalancedMonoidal : @BalancedMonoidal Par.
+Next Obligation. solveit. Defined.
+Next Obligation. solveit. Defined.
+Next Obligation. solveit. Defined.
+
+#[export] Program Instance Par_SymmetricMonoidal : @SymmetricMonoidal Par.
+Next Obligation. solveit. Defined.
+
+#[export] Program Instance Par_RelevanceMonoidal : @RelevanceMonoidal Par := {
   diagonal := λ _ x, Some (Datatypes.inl (Datatypes.inl (x, x)))
 }.
 Next Obligation. solveit. Defined.
@@ -183,7 +189,7 @@ Next Obligation.
   destruct (g x0); try tauto.
 Defined.
 
-#[export] Program Instance Par_CartesianMonoidal : @CartesianMonoidal Par _.
+#[export] Program Instance Par_CartesianMonoidal : @CartesianMonoidal Par.
 Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 
@@ -191,7 +197,7 @@ Next Obligation. solveit. Defined.
   @SemicartesianMonoidal_Terminal _ Par_Monoidal Par_SemicartesianMonoidal.
 
 #[export] Program Instance Par_Cartesian : @Cartesian Par :=
-  @CartesianMonoidal_Cartesian _ Par_Monoidal Par_CartesianMonoidal.
+  @CartesianMonoidal_Cartesian _ Par_CartesianMonoidal.
 
 (* Par is not cartesian closed, but it is monoidal closed by taking the smash
    product as the tensor. *)
@@ -221,7 +227,7 @@ Qed.
 
 Open Scope object_scope.
 
-#[export] Program Instance Par_ClosedMonoidal : @ClosedMonoidal Par Par_Monoidal := {
+#[export] Program Instance Par_ClosedMonoidal : @ClosedMonoidal Par := {
   exponent_obj := λ A B, A ~{Par}~> B;
   exp_iso := λ x y z, {|
     to   := {|

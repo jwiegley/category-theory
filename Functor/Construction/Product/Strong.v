@@ -13,9 +13,7 @@ Unset Transparent Obligations.
 
 Section ProductFunctorStrong.
 
-Context {C : Category}.
-Context `{@Monoidal C}.
-Context `{@CartesianMonoidal C _}.
+Context `{@CartesianMonoidal C}.
 Context {F : C ⟶ C}.
 Context {G : C ⟶ C}.
 
@@ -46,7 +44,7 @@ Next Obligation.
   exact (fst (@strength_id_left _ _ _ P (x, I))).
 Qed.
 Next Obligation.
-  pose proof (@unit_left C H I) as X0.
+  pose proof (@unit_left C _ I) as X0.
   pose proof (fst (@strength_natural _ _ _ P
                      (x, I) (x, I) (id[x], id[I])
                      (y ⨂ z, I)%object (y ⨂ z, I ⨂ I)%object
@@ -86,7 +84,7 @@ Next Obligation.
   exact (snd (@strength_id_left _ _ _ P (I, x))).
 Qed.
 Next Obligation.
-  pose proof (@unit_left C H I) as X0.
+  pose proof (@unit_left C _ I) as X0.
   pose proof (snd (@strength_natural _ _ _ P
                      (I, x) (I, x) (id[I], id[x])
                      (I, y ⨂ z)%object (I ⨂ I, y ⨂ z)%object

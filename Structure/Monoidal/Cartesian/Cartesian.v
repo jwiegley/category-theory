@@ -1,13 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Morphisms.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Monoidal.Semicartesian.
-Require Export Category.Structure.Monoidal.Relevant.
 Require Export Category.Structure.Monoidal.Cartesian.
 Require Export Category.Structure.Monoidal.Cartesian.Proofs.
 
@@ -18,12 +13,11 @@ Unset Transparent Obligations.
 
 Section CartesianMonoidalCartesian.
 
-Context `{@Monoidal C}.
-Context `{@CartesianMonoidal C _}.
+Context `{@CartesianMonoidal C}.
 
 #[global] Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
   product_obj := fun x y => (x ⨂ y)%object;
-  Cartesian.fork := @fork _ _ _;
+  Cartesian.fork := @fork _ _;
   exl  := fun _ _ => proj_left;
   exr  := fun _ _ => proj_right
 |}.

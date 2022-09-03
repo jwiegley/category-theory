@@ -3,7 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Cartesian.
-Require Export Category.Instance.Sets.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -13,7 +13,6 @@ Set Universe Polymorphism.
 Section Closed.
 
 Context {C : Category}.
-Context `{@Monoidal C}.
 
 (* Wikipedia (https://en.wikipedia.org/wiki/Closed_monoidal_category):
 
@@ -36,6 +35,8 @@ such that
 Reserved Infix "⇒" (at level 30, right associativity).
 
 Class ClosedMonoidal := {
+  closed_is_cartesian : @CartesianMonoidal C;
+
   exponent_obj : obj → obj → obj    (* internal homs *)
     where "x ⇒ y" := (exponent_obj x y);
 
@@ -49,6 +50,7 @@ Class ClosedMonoidal := {
   ump_exponents' {x y z} (f : x ⨂ y ~> z) :
     ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id)
 }.
+#[export] Existing Instance closed_is_cartesian.
 
 Notation "x ⇒ y" := (exponent_obj x y)
   (at level 30, right associativity) : object_scope.
@@ -62,6 +64,8 @@ Arguments uncurry' {_ _ _ _} /.
 
 Definition eval {x y} : (x ⇒ y) ⨂ x ~> y := uncurry id.
 Arguments eval' {_ _ _} /.
+
+Remove Hints Sets_Product_Monoidal : typeclass_instances.
 
 Definition ump_exponents {x y z} (f : x ⨂ y ~> z) :
   ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) := @ump_exponents' _ x y z f.
@@ -102,7 +106,7 @@ Qed.
 #[local] Hint Rewrite @uncurry_curry : categories.
 #[local] Hint Rewrite @ump_exponents : categories.
 
-Definition flip `{@BraidedMonoidal _ _} {x y z : C} `(f : x ~> y ⇒ z) :
+Definition flip `{@BraidedMonoidal C} {x y z : C} `(f : x ~> y ⇒ z) :
   y ~> x ⇒ z := curry (uncurry f ∘ braid).
 
 Corollary curry_eval {x y : C} :

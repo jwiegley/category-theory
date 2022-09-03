@@ -1,14 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Morphisms.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Import Category.Functor.Product.Internal.
 Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Monoidal.
-Require Export Category.Structure.Monoidal.Symmetric.
 Require Export Category.Structure.Monoidal.Cartesian.
 
 Generalizable All Variables.
@@ -19,7 +14,7 @@ Unset Transparent Obligations.
 Section InternalProduct.
 
 Context {C : Category}.
-Context `{@Cartesian C}.
+Context `{CA : @Cartesian C}.
 Context `{@Terminal C}.
 
 #[local] Ltac solveit :=
@@ -185,8 +180,8 @@ Proof.
   unfork. cat.
 Qed.
 
-Program Definition InternalProduct_BraidedMonoidal :
-  @BraidedMonoidal C InternalProduct_Monoidal := {|
+Program Definition InternalProduct_BraidedMonoidal : @BraidedMonoidal C := {|
+  braided_is_monoidal := InternalProduct_Monoidal;
   braid := fun x y =>
     {| to   := @swap C _ x y
      ; from := @swap C _ y x
@@ -283,25 +278,78 @@ Next Obligation.
     symmetry.
     apply exr_fork.
 Qed.
+Next Obligation.
+  (* now solveit. Undo. *)
+  intros. simpl.
+  rewrite <- fork_comp.
+  rewrite <- fork_comp.
+  symmetry.
+  rewrite <- fork_comp.
+  rewrite <- fork_comp.
+  apply Cartesian.fork_respects.
+  { rewrite exl_fork_assoc.
+    rewrite id_left.
+    rewrite exl_fork_assoc.
+    symmetry.
+    rewrite <- comp_assoc.
+    rewrite swap_fork.
+    rewrite exl_fork_assoc.
+    rewrite exl_fork.
+    unfold swap.
+    rewrite exl_fork_comp.
+    reflexivity.
+  }
+  rewrite exr_fork_assoc.
+  rewrite swap_fork.
+  rewrite <- comp_assoc.
+  rewrite <- fork_comp.
+  rewrite <- fork_comp.
+  apply Cartesian.fork_respects.
+  - rewrite exr_fork.
+    rewrite id_left.
+    rewrite swap_fork.
+    rewrite exl_fork_assoc.
+    rewrite exr_fork.
+    reflexivity.
+  - rewrite exl_fork_assoc.
+    rewrite comp_assoc.
+    rewrite exr_swap.
+    etransitivity.
+    2: {
+      apply compose_respects; [reflexivity|].
+      symmetry.
+      apply swap_fork.
+    }
+    symmetry.
+    apply exr_fork.
+Qed.
 
-Definition InternalProduct_SymmetricMonoidal :
-  @SymmetricMonoidal C InternalProduct_Monoidal := {|
-  symmetric_is_braided := InternalProduct_BraidedMonoidal;
+Program Definition InternalProduct_BalancedMonoidal : @BalancedMonoidal C := {|
+  balanced_is_braided := InternalProduct_BraidedMonoidal;
+  twist := fun x =>
+    {| to   := id
+     ; from := id
+     ; iso_to_from := _
+     ; iso_from_to := _
+    |}
+|}.
+Next Obligation. intros; cat. Defined.
+Next Obligation. intros; cat. Defined.
+Next Obligation. simpl; split; intros; cat. Defined.
+Next Obligation. now simpl. Defined.
+Next Obligation. now simpl. Defined.
+Next Obligation. intros; simpl; cat. Qed.
+Next Obligation. intros; simpl; cat. Qed.
+
+Definition InternalProduct_SymmetricMonoidal : @SymmetricMonoidal C := {|
+  symmetric_is_balanced := InternalProduct_BalancedMonoidal;
   braid_invol := @swap_invol _ _
 |}.
 
-Program Definition InternalProduct_CartesianMonoidal :
-  @CartesianMonoidal C InternalProduct_Monoidal := {|
-  cartesian_is_semicartesian := {| eliminate := fun _ => one |};
-  cartesian_is_relevant := {| diagonal  := fun _ => Cartesian.fork id id |}
+Program Definition InternalProduct_RelevanceMonoidal : @RelevanceMonoidal C := {|
+  relevance_is_symmetric := InternalProduct_SymmetricMonoidal;
+  diagonal  := fun o => Cartesian.fork id id
 |}.
-Next Obligation.
-  (* now solveit. Undo. *)
-  cat_simpl.
-Qed.
-Next Obligation.
-  exact InternalProduct_SymmetricMonoidal.
-Defined.
 Next Obligation.
   cat_simpl.
   rewrite <- fork_comp.
@@ -402,6 +450,20 @@ Next Obligation.
       rewrite exr_fork_comp.
       cat_simpl.
 Qed.
+
+Program Definition InternalProduct_SemicartesianMonoidal :
+  @SemicartesianMonoidal C InternalProduct_Monoidal := {|
+  eliminate := fun o => one[o]
+|}.
+Next Obligation.
+  intros.
+  apply one_unique.
+Qed.
+
+Program Definition InternalProduct_CartesianMonoidal : @CartesianMonoidal C := {|
+  cartesian_is_relevance     := InternalProduct_RelevanceMonoidal;
+  cartesian_is_semicartesian := InternalProduct_SemicartesianMonoidal;
+|}.
 Next Obligation.
   (* now solveit. Undo. *)
   intros. simpl.
