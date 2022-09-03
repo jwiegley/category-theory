@@ -9,7 +9,7 @@ Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Monoidal.Proofs.
 Require Export Category.Structure.Monoidal.Semicartesian.
 Require Export Category.Structure.Monoidal.Semicartesian.Proofs.
-Require Export Category.Structure.Monoidal.Relevant.
+Require Export Category.Structure.Monoidal.Relevance.
 Require Export Category.Structure.Monoidal.Cartesian.
 
 Generalizable All Variables.

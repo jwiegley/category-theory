@@ -13,19 +13,19 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-Section RelevantMonoidal.
+Section RelevanceMonoidal.
 
 Context {C : Category}.
 Context `{@Monoidal C}.
 
-Class RelevantMonoidal := {
-  relevant_is_symmetric : SymmetricMonoidal;
+Class RelevanceMonoidal := {
+  relevance_is_symmetric : SymmetricMonoidal;
 
   diagonal {x} : x ~> x ⨂ x;
   diagonal_natural : natural (@diagonal);
 
   (* These properties are given by Kosta Došen and Zoran Petrić in their 2007
-     publication, "Relevant Categories and Partial Functions". *)
+     publication, "Relevance Categories and Partial Functions". *)
 
   diagonal_unit : @diagonal I ≈ unit_left⁻¹;
 
@@ -43,9 +43,9 @@ Class RelevantMonoidal := {
   diagonal_braid2 {x y} :
     @diagonal (x ⨂ y) ≈ braid2 ∘ diagonal ⨂ diagonal
 }.
-#[export] Existing Instance relevant_is_symmetric.
+#[export] Existing Instance relevance_is_symmetric.
 
-Context `{RelevantMonoidal}.
+Context `{RelevanceMonoidal}.
 
 Lemma braid2_natural : natural (@braid2 _).
 Proof.
@@ -84,7 +84,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-End RelevantMonoidal.
+End RelevanceMonoidal.
 
 Notation "∆ x" := (@diagonal _ _ _ x)
   (at level 9, format "∆ x") : morphism_scope.

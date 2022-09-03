@@ -167,7 +167,7 @@ Next Obligation. solveit. Defined.
 #[export] Program Instance Par_SymmetricMonoidal : @SymmetricMonoidal Par _.
 Next Obligation. solveit. Defined.
 
-#[export] Program Instance Par_RelevantMonoidal : @RelevantMonoidal Par _ := {
+#[export] Program Instance Par_RelevanceMonoidal : @RelevanceMonoidal Par _ := {
   diagonal := λ _ x, Some (Datatypes.inl (Datatypes.inl (x, x)))
 }.
 Next Obligation. solveit. Defined.

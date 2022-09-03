@@ -7,7 +7,7 @@ Require Export Category.Theory.Functor.
 Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Monoidal.Semicartesian.
-Require Export Category.Structure.Monoidal.Relevant.
+Require Export Category.Structure.Monoidal.Relevance.
 Require Export Category.Structure.Monoidal.Cartesian.
 Require Export Category.Structure.Monoidal.Cartesian.Proofs.
 
