@@ -23,6 +23,16 @@ Class SymmetricMonoidal := {
 }.
 #[export] Existing Instance symmetric_is_braided.
 
+Corollary braid_symmetry `{SymmetricMonoidal} {x y} :
+  to (@braid _ _ _ x y) ≈ from (@braid _ _ _ y x).
+Proof.
+  rewrite <- id_right.
+  rewrite <- (@iso_to_from _ _ _ braid).
+  rewrite comp_assoc.
+  rewrite braid_invol.
+  now rewrite id_left.
+Qed.
+
 Corollary hexagon_rotated `{SymmetricMonoidal} {x y z} :
   tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc ⁻¹
     << x ⨂ (y ⨂ z) ~~> y ⨂ (x ⨂ z) >>
