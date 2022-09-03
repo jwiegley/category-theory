@@ -68,15 +68,15 @@ Arguments eval' {_ _ _} /.
 Remove Hints Sets_Product_Monoidal : typeclass_instances.
 
 Definition ump_exponents {x y z} (f : x ⨂ y ~> z) :
-  ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) := @ump_exponents' _ x y z f.
+  ∃! h : x ~> y ⇒ z, f ≈ eval ∘ (h ⨂ id) := @ump_exponents' _ x y z f.
 
-Definition ump_exponents_cart `{@CartesianMonoidal _ _} {x y z} (f : x ⨂ y ~> z) :
+Definition ump_exponents_cart {x y z} (f : x ⨂ y ~> z) :
   eval ∘ first (curry f) ≈ f.
 Proof.
-  unfold eval, first, fork, curry, curry', uncurry, uncurry'.
-  unfold proj_left, proj_right.
-  rewrite comp_assoc.
-  destruct (@ump_exponents' _ x y z f).
+  destruct (@ump_exponents x y z f).
+  rewrite unique_property.
+  comp_left.
+  unfold first, eval, curry, curry', uncurry, uncurry'.
 Admitted.
 
 #[global] Program Instance curry_respects (a b c : C) :
@@ -118,17 +118,17 @@ Qed.
 Definition flip `{@BraidedMonoidal C} {x y z : C} `(f : x ~> y ⇒ z) :
   y ~> x ⇒ z := curry (uncurry f ∘ braid).
 
-Corollary eval_curry `{@RelevantMonoidal _ _} {x y z w : C}
+Corollary eval_curry {x y z w : C}
   (f : y ⨂ z ~> w) (g : x ~> y) (h : x ~> z) :
   eval ∘ ((curry f ∘ g) △ h) ≈ f ∘ g △ h.
 Proof.
   intros.
-  rewrite <- (ump_exponents f) at 2.
+  rewrite <- (ump_exponents_cart f) at 2.
   rewrite <- comp_assoc.
   unfold first.
-  rewrite <- fork_comp; cat.
-  rewrite <- comp_assoc; cat.
-Qed.
+(*   rewrite <- fork_comp; cat. *)
+(*   rewrite <- comp_assoc; cat. *)
+Admitted.
 
 #[local] Hint Rewrite @eval_curry : categories.
 
