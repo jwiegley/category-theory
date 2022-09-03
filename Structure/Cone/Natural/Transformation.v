@@ -7,7 +7,7 @@ Require Export Category.Structure.Cone.
 
 Generalizable All Variables.
 Set Primitive Projections.
-(* jww (2021-07-25): Universe undefined with 8.11+ *)
+(* jww (2022-09-03): Anamoly in 8.12+ *)
 (* Set Universe Polymorphism. *)
 Unset Transparent Obligations.
 

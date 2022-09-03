@@ -7,8 +7,7 @@ Require Export Category.Structure.BiCCC.
 
 Generalizable All Variables.
 Set Primitive Projections.
-(* jww (2021-07-25): Universe undefined with 8.12+ *)
-(* Set Universe Polymorphism. *)
+Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Inductive Obj : Type :=
