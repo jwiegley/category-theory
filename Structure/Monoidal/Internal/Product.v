@@ -283,6 +283,51 @@ Next Obligation.
     symmetry.
     apply exr_fork.
 Qed.
+Next Obligation.
+  (* now solveit. Undo. *)
+  intros. simpl.
+  rewrite <- fork_comp.
+  rewrite <- fork_comp.
+  symmetry.
+  rewrite <- fork_comp.
+  rewrite <- fork_comp.
+  apply Cartesian.fork_respects.
+  { rewrite exl_fork_assoc.
+    rewrite id_left.
+    rewrite exl_fork_assoc.
+    symmetry.
+    rewrite <- comp_assoc.
+    rewrite swap_fork.
+    rewrite exl_fork_assoc.
+    rewrite exl_fork.
+    unfold swap.
+    rewrite exl_fork_comp.
+    reflexivity.
+  }
+  rewrite exr_fork_assoc.
+  rewrite swap_fork.
+  rewrite <- comp_assoc.
+  rewrite <- fork_comp.
+  rewrite <- fork_comp.
+  apply Cartesian.fork_respects.
+  - rewrite exr_fork.
+    rewrite id_left.
+    rewrite swap_fork.
+    rewrite exl_fork_assoc.
+    rewrite exr_fork.
+    reflexivity.
+  - rewrite exl_fork_assoc.
+    rewrite comp_assoc.
+    rewrite exr_swap.
+    etransitivity.
+    2: {
+      apply compose_respects; [reflexivity|].
+      symmetry.
+      apply swap_fork.
+    }
+    symmetry.
+    apply exr_fork.
+Qed.
 
 Definition InternalProduct_SymmetricMonoidal :
   @SymmetricMonoidal C InternalProduct_Monoidal := {|
@@ -293,7 +338,7 @@ Definition InternalProduct_SymmetricMonoidal :
 Program Definition InternalProduct_CartesianMonoidal :
   @CartesianMonoidal C InternalProduct_Monoidal := {|
   cartesian_is_semicartesian := {| eliminate := fun _ => one |};
-  cartesian_is_relevant := {| diagonal  := fun _ => Cartesian.fork id id |}
+  cartesian_is_relevance := {| diagonal  := fun _ => Cartesian.fork id id |}
 |}.
 Next Obligation.
   (* now solveit. Undo. *)

@@ -20,10 +20,15 @@ Class BraidedMonoidal := {
   braid {x y} : x ⨂ y ≅ y ⨂ x;
   braid_natural : natural (@braid);
 
-  hexagon_identity {x y z} :
-    tensor_assoc ∘ braid ∘ tensor_assoc
+  hexagon_to_identity {x y z} :
+    tensor_assoc ∘ to braid ∘ tensor_assoc
       << (x ⨂ y) ⨂ z ~~> y ⨂ (z ⨂ x) >>
-    id ⨂ braid ∘ tensor_assoc ∘ braid ⨂ id
+    id ⨂ to braid ∘ tensor_assoc ∘ to braid ⨂ id;
+
+  hexagon_from_identity {x y z} :
+    tensor_assoc ∘ from braid ∘ tensor_assoc
+      << (x ⨂ y) ⨂ z ~~> y ⨂ (z ⨂ x) >>
+    id ⨂ from braid ∘ tensor_assoc ∘ from braid ⨂ id
 }.
 
 End BraidedMonoidal.

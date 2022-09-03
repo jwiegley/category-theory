@@ -41,7 +41,7 @@ Proof.
   rewrite <- (id_right (id ⨂ braid ∘ tensor_assoc ∘ braid)).
   rewrite <- (iso_to_from tensor_assoc).
   rewrite comp_assoc; rewrite <- (comp_assoc _ tensor_assoc braid); rewrite <- (comp_assoc _ (tensor_assoc ∘ braid) _).
-  rewrite hexagon_identity.
+  rewrite hexagon_to_identity.
   rewrite !comp_assoc.
   rewrite <- bimap_comp; rewrite id_left.
   rewrite braid_invol.
