@@ -1,12 +1,11 @@
-Require Import
-  Category.Instance.Lambda.Lib
-  Category.Instance.Lambda.Ltac
-  Category.Instance.Lambda.Ty
-  Category.Instance.Lambda.Exp
-  Category.Instance.Lambda.Log
-  Category.Instance.Lambda.Sub
-  Category.Instance.Lambda.Sem
-  Category.Instance.Lambda.Step.
+Require Import Category.Instance.Lambda.Lib.
+Require Import Category.Instance.Lambda.Ltac.
+Require Import Category.Instance.Lambda.Ty.
+Require Import Category.Instance.Lambda.Exp.
+Require Import Category.Instance.Lambda.Log.
+Require Import Category.Instance.Lambda.Sub.
+Require Import Category.Instance.Lambda.Sem.
+Require Import Category.Instance.Lambda.Step.
 
 From Equations Require Import Equations.
 Set Equations With UIP.

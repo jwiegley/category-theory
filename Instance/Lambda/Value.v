@@ -1,7 +1,6 @@
-Require Import
-  Category.Instance.Lambda.Lib
-  Category.Instance.Lambda.Ty
-  Category.Instance.Lambda.Exp.
+Require Import Category.Instance.Lambda.Lib.
+Require Import Category.Instance.Lambda.Ty.
+Require Import Category.Instance.Lambda.Exp.
 
 From Equations Require Import Equations.
 Set Equations With UIP.

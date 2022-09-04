@@ -1,9 +1,8 @@
 Set Warnings "-notation-overridden".
 
-Require Import
-  Coq.Unicode.Utf8
-  Coq.FSets.FMapFacts
-  Coq.Structures.DecidableTypeEx.
+Require Import Coq.Unicode.Utf8.
+Require Import Coq.FSets.FMapFacts.
+Require Import Coq.Structures.DecidableTypeEx.
 
 Module FMapExt (E : DecidableType) (M : WSfun E).
 

@@ -1,15 +1,14 @@
-Require Export
-  Coq.Classes.Morphisms
-  Coq.Classes.RelationClasses
-  Coq.Lists.List
-  Coq.Logic.Classical
-  Coq.Logic.ProofIrrelevance
-  Coq.Program.Equality
-  Coq.Program.Program
-  Coq.Relations.Relation_Definitions
-  Coq.Sets.Ensembles
-  Coq.Sets.Finite_sets
-  Coq.Sets.Finite_sets_facts
-  Coq.Sets.Powerset_facts
-  Coq.Strings.String
-  Coq.Unicode.Utf8.
+Require Export Coq.Classes.Morphisms.
+Require Export Coq.Classes.RelationClasses.
+Require Export Coq.Lists.List.
+Require Export Coq.Logic.Classical.
+Require Export Coq.Logic.ProofIrrelevance.
+Require Export Coq.Program.Equality.
+Require Export Coq.Program.Program.
+Require Export Coq.Relations.Relation_Definitions.
+Require Export Coq.Sets.Ensembles.
+Require Export Coq.Sets.Finite_sets.
+Require Export Coq.Sets.Finite_sets_facts.
+Require Export Coq.Sets.Powerset_facts.
+Require Export Coq.Strings.String.
+Require Export Coq.Unicode.Utf8.

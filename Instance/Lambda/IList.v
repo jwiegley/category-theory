@@ -1,6 +1,5 @@
-Require Import
-  Coq.Unicode.Utf8
-  Coq.Lists.List.
+Require Import Coq.Unicode.Utf8.
+Require Import Coq.Lists.List.
 
 From Equations Require Import Equations.
 Set Equations With UIP.
