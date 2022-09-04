@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Cone.
 Require Export Category.Structure.Limit.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Instance.Two.Discrete.
@@ -26,8 +25,7 @@ Program Definition Pick_Two {C : Category} (a b : C) :
     end
 |}.
 Next Obligation.
-  destruct x, y; auto with two_laws;
-  intuition; discriminate.
+  destruct x, y; auto with two_laws.
 Qed.
 Next Obligation.
   destruct x, y; auto with two_laws;
@@ -38,8 +36,7 @@ Next Obligation.
   intuition; discriminate.
 Qed.
 Next Obligation.
-  destruct x; auto with two_laws;
-  intuition; discriminate.
+  destruct x; auto with two_laws; cat.
 Qed.
 Next Obligation.
   destruct x, y, z; auto with two_laws; cat.
