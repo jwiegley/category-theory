@@ -20,8 +20,8 @@ Proof.
       given (cone : Cone (Pick_Two y z)). {
         unshelve (refine {| vertex_obj := x |}); intros.
         - destruct x0; simpl; auto.
-        - destruct x0, y0;
-          dependent destruction f0; simpl; cat.
+        - destruct x0, y0; cat;
+          pose proof (TwoDHom_inv _ _ f0) as H; inv H.
       }
       destruct (@ump_limits _ _ _ (X (Pick_Two y z)) cone).
       apply unique_obj.
@@ -62,7 +62,7 @@ Proof.
         ** apply exr.
       * simpl.
         destruct x, y;
-        dependent destruction f.
+        pose proof (TwoDHom_inv _ _ f) as H; inv H.
         ** now rewrite fmap_id, id_left.
         ** now rewrite fmap_id, id_left.
     + unshelve eexists.
