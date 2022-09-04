@@ -9,6 +9,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
+(* A limit is a terminal object in the category of cones. *)
 Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} :
   Limit F := {|
   limit_cone := @terminal_obj _ T;
