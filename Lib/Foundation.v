@@ -1,8 +1,7 @@
 Set Warnings "-notation-overridden".
 
-Require Export
-  Coq.Init.Datatypes
-  Coq.Program.Program.
+Require Export Coq.Init.Datatypes.
+Require Export Coq.Program.Program.
 
 Generalizable All Variables.
 Set Primitive Projections.
