@@ -84,3 +84,35 @@ Qed.
 Next Obligation.
   destruct x, y, z, w; auto with two_laws; intuition.
 Qed.
+
+Program Definition Pick_Two {C : Category} (a b : C) :
+  Two_Discrete ⟶ C := {|
+  fobj := λ x,
+    match x with
+    | TwoDX => a
+    | TwoDY => b
+    end;
+  fmap := λ x y _,
+    match x, y with
+    | TwoDX, TwoDX => id
+    | TwoDY, TwoDY => id
+    | _,    _      => !
+    end
+|}.
+Next Obligation.
+  destruct x, y; auto with two_laws.
+Qed.
+Next Obligation.
+  destruct x, y; auto with two_laws;
+  intuition; discriminate.
+Qed.
+Next Obligation.
+  destruct x, y; auto with two_laws;
+  intuition; discriminate.
+Qed.
+Next Obligation.
+  destruct x; auto with two_laws; cat.
+Qed.
+Next Obligation.
+  destruct x, y, z; auto with two_laws; cat.
+Qed.

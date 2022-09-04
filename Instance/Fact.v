@@ -35,12 +35,3 @@ Program Definition Fact `(f : x ~{C}~> y) : Category := {|
 Program Definition Fact_Proj `(f : x ~{C}~> y) : Fact f ⟶ C := {|
   fobj := fun x => `1 x
 |}.
-
-Require Import Category.Construction.Slice.
-Require Import Category.Instance.Cat.
-
-Notation "C ̸ c" := (@Slice C c) (at level 90) : category_scope.
-
-(* Lemma Fact_Slice_Iso `(f : x ~{C}~> y) : *)
-(*   Fact f        ≅[Cat] (f / (C / y)) ∧ *)
-(*   (f / (C / y)) ≅[Cat] ((x / C) / f). *)
