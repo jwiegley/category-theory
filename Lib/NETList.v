@@ -3,12 +3,6 @@ Set Warnings "-notation-overridden".
 (** A theory of type-aligned lists, using the Coq-Equations plugin *)
 
 Require Import Coq.Bool.Bool.
-
-Open Scope lazy_bool_scope.
-
-Require Import Coq.Classes.CEquivalence.
-Require Export Coq.Classes.CRelationClasses.
-Require Import Coq.Classes.CMorphisms.
 Require Import Coq.Lists.List.
 
 From Equations Require Import Equations.
@@ -16,6 +10,8 @@ Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 
 Require Import Category.Lib.
+
+Open Scope lazy_bool_scope.
 
 Inductive netlist {A : Type} (B : A → A → Type) : A → A → Type :=
   | tfin : ∀ i j : A, B i j → netlist B i j
