@@ -2,8 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Coq.Unicode.Utf8.
 Require Export Category.Lib.Foundation.
-Require Export Coq.Classes.CEquivalence.
-Require Export Coq.Classes.CRelationClasses.
 Require Export Coq.Classes.CMorphisms.
 
 Generalizable All Variables.

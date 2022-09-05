@@ -1,9 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Structure.Monoidal.
-Require Export Category.Functor.Bifunctor.
 Require Export Category.Functor.Strong.
 Require Export Category.Functor.Structure.Monoidal.
 

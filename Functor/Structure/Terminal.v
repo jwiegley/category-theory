@@ -3,6 +3,7 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Export Category.Structure.Terminal.
+Require Import Category.Functor.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -24,8 +25,6 @@ Class TerminalFunctor := {
 End TerminalFunctor.
 
 Require Import Category.Construction.Opposite.
-Require Import Category.Functor.Opposite.
-Require Import Category.Structure.Initial.
 
 Notation "'InitialFunctor' F" := (@TerminalFunctor _ _ (F^op) _ _)
   (at level 9) : category_theory_scope.

@@ -1,9 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.
 Require Import Category.Functor.Opposite.
-Require Import Category.Natural.Transformation.Opposite.
 Require Export Category.Adjunction.Natural.Transformation.
 
 Generalizable All Variables.

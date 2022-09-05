@@ -4,7 +4,6 @@ Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
 Require Export Category.Functor.Diagonal.
 Require Export Category.Functor.Product.Internal.
-Require Export Category.Structure.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.

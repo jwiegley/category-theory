@@ -4,7 +4,6 @@ Require Import Category.Lib.
 Require Export Category.Theory.Monad.
 Require Export Category.Structure.Monoid.
 Require Export Category.Structure.Monoidal.Composition.
-Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.

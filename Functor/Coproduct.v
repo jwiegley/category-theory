@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Functor.
-Require Export Category.Structure.Cocartesian.
 Require Export Category.Construction.Coproduct.
 
 Generalizable All Variables.

@@ -2,8 +2,8 @@ Set Warnings "-notation-overridden".
 Set Warnings "-unexpected-implicit-declaration".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
 Require Export Category.Structure.BiCCC.
+Require Export Functor.Structure.Terminal.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -165,9 +165,8 @@ Program Instance interp_proper {x y : Obj}
                      @equiv _ (@homset C _ _))
          (fun f => @interp x y f C A _ _ _ _).
 
-Require Export Category.Functor.Structure.Terminal.
-Require Export Category.Functor.Structure.Cartesian.
-Require Export Category.Functor.Structure.Cartesian.Closed.
+Require Import Category.Functor.Structure.Terminal.
+Require Import Category.Functor.Structure.Cartesian.Closed.
 
 Section AST.
 

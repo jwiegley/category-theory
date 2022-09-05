@@ -2,14 +2,12 @@ Set Warnings "-notation-overridden".
 Set Warnings "-deprecated-hint-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Adjunction.
 Require Export Category.Adjunction.Natural.Transformation.
 Require Export Category.Functor.Hom.
 Require Export Category.Functor.Construction.Product.
 Require Export Category.Functor.Opposite.
 Require Export Category.Instance.Fun.
-Require Export Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.

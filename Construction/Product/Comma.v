@@ -1,11 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.
 Require Export Category.Construction.Comma.
-Require Export Category.Construction.Product.
-Require Export Category.Structure.Terminal.
-Require Export Category.Instance.Cat.
 Require Export Category.Instance.One.
 
 Generalizable All Variables.

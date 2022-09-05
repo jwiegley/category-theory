@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Monoidal.
 Require Export Category.Structure.Monoidal.Cartesian.
 Require Import Category.Instance.Sets.
 

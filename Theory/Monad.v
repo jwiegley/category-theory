@@ -47,7 +47,6 @@ Notation "m >>= f" := (bind f m) (at level 42, right associativity) : morphism_s
 Notation "f >> g" := (f >>= fun _ => g)%morphism
   (at level 81, right associativity) : morphism_scope.
 
-Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Opposite.
 
 Definition Comonad `{M : C ⟶ C} := @Monad (C^op) (M^op).

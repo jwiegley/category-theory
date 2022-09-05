@@ -1,8 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
 Require Export Category.Theory.Functor.Endo.
 
 Generalizable All Variables.

@@ -1,14 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Structure.BiCCC.
-Require Export Category.Functor.Structure.Cartesian.
-Require Export Category.Functor.Structure.Cartesian.Closed.
-Require Export Category.Functor.Structure.Terminal.
-Require Export Category.Instance.Coq.
-Require Export Category.Instance.AST.
 Require Export Category.Tools.Represented.
+Require Export Category.Functor.Structure.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -131,6 +125,8 @@ Class NumericalFunctor := {
 }.
 
 End NumericalFunctor.
+
+Require Import Category.Instance.Coq.
 
 #[global]
 Instance Coq_Numerical : @Numerical Coq Coq_Cartesian := {

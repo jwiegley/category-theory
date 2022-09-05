@@ -2,15 +2,11 @@ Set Warnings "-cannot-remove-as-expected".
 
 Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ltac.
-Require Import Category.Instance.Lambda.Ty.
 Require Import Category.Instance.Lambda.Exp.
 Require Import Category.Instance.Lambda.Value.
-Require Import Category.Instance.Lambda.Ren.
 Require Import Category.Instance.Lambda.Sub.
 Require Import Category.Instance.Lambda.Log.
-Require Import Category.Instance.Lambda.Sem.
 Require Import Category.Instance.Lambda.Multi.
-Require Import Category.Instance.Lambda.Sound.
 Require Import Category.Instance.Lambda.Step.
 
 From Equations Require Import Equations.

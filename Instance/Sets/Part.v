@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
@@ -178,11 +177,10 @@ Next Obligation.
     destruct p; simpl in *; auto.
 Qed.
 
-Require Import Category.Instance.Sets.
+
 
 (** This is an invalid definition, since there are three ways we could produce
-    an [option c], but no way to decide which. *)
-Definition to {a b c} :
+    an [option c], but no way to decide which. *)Definition to {a b c} :
   (a + (b + (a * b)) → option c) → (a → option (b → option c)) :=
   fun f a => Some (fun b => f (inr (inr (a, b)))).
 

@@ -1,17 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
-Require Export Category.Theory.Functor.
-Require Export Category.Theory.Natural.Transformation.
-Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Cocartesian.
-Require Export Category.Structure.Monoidal.Semicartesian.Terminal.
-Require Export Category.Structure.Monoidal.Cartesian.
 Require Export Category.Structure.Monoidal.Cartesian.Cartesian.
 Require Export Category.Structure.Monoidal.Closed.
-Require Export Category.Structure.Initial.
-Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Coq.
 
 Generalizable All Variables.

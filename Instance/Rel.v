@@ -1,14 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
-Require Export Category.Theory.Functor.
-Require Export Category.Theory.Natural.Transformation.
-Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Cocartesian.
-Require Export Category.Structure.Cartesian.Closed.
-Require Export Category.Structure.Initial.
-Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Coq.
 Require Export Coq.Sets.Ensembles.
 

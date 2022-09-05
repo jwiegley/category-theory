@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Bicartesian.
 Require Export Category.Structure.Cartesian.Closed.
 Require Export Category.Structure.Distributive.
 

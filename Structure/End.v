@@ -20,6 +20,4 @@ Arguments end_wedge {_%category _%category} F%functor {_}.
 
 Coercion wedge_obj `(F : C^op ∏ C ⟶ D) (E : End F) := @end_wedge _ _ _ E.
 
-Require Import Category.Functor.Opposite.
-
 Definition Coend `(F : C^op ∏ C ⟶ D) := @End (C^op) (D^op) (F^op).

@@ -8,7 +8,6 @@ Require Import
   Category.Instance.Lambda.Sem.
 
 Require Import Category.Lib.
-Require Import Category.Theory.Category.
 Require Import Category.Structure.BiCCC.
 
 From Equations Require Import Equations.

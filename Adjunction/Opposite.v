@@ -3,8 +3,6 @@ Set Warnings "-deprecated-hint-notation-overridden".
 Set Warnings "-notation-incompatible-format".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Theory.Adjunction.
 Require Import Category.Functor.Opposite.
 

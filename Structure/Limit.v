@@ -30,6 +30,4 @@ Class Limit `(F : J ⟶ C) := {
 
 Coercion limit_cone : Limit >-> Cone.
 
-Require Import Category.Functor.Opposite.
-
 Definition Colimit `(F : J ⟶ C) := Limit (F^op).

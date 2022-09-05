@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
 Require Export Category.Theory.Morphisms.
 
 Generalizable All Variables.

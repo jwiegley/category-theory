@@ -3,7 +3,6 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.
 Require Export Category.Structure.Initial.
-Require Export Category.Construction.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.

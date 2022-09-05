@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
 Require Export Category.Functor.Hom.
 Require Export Category.Instance.Sets.
 

@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 Set Warnings "-fragile-hint-constr".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
 Require Export Category.Structure.Terminal.
 Require Export Category.Construction.Opposite.
 

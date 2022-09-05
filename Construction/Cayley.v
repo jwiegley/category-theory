@@ -4,7 +4,6 @@ Require Import Category.Lib.
 Require Export Category.Theory.Functor.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Functor.Hom.Yoneda.
-Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.

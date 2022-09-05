@@ -1,9 +1,7 @@
 Set Warnings "-notation-overridden".
 
-Require Export Category.Lib.Setoid.
 Require Export Category.Lib.Tactics.
 
-Require Import Coq.NArith.NArith.
 Require Import Coq.Lists.List.
 
 Generalizable All Variables.

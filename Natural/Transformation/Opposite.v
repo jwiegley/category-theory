@@ -3,7 +3,6 @@ Set Warnings "-notation-incompatible-format".
 
 Require Import Category.Lib.
 Require Export Category.Theory.Natural.Transformation.
-Require Export Category.Construction.Opposite.
 Require Export Category.Functor.Opposite.
 
 Generalizable All Variables.

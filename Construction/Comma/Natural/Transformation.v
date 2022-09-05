@@ -1,10 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Natural.Transformation.
 Require Export Category.Construction.Comma.
 Require Export Category.Instance.Cat.
-Require Export Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.

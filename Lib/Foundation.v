@@ -1,6 +1,5 @@
 Set Warnings "-notation-overridden".
 
-Require Export Coq.Init.Datatypes.
 Require Export Coq.Program.Program.
 
 Generalizable All Variables.

@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Structure.Cartesian.Closed.
-Require Export Category.Instance.Sets.
 Require Export Category.Instance.Sets.Cartesian.
 
 Generalizable All Variables.

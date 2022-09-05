@@ -1,9 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Monoidal.Cartesian.
+Require Export Category.Structure.Monoidal.Semicartesian.Proofs.
 Require Export Category.Structure.Monoidal.Cartesian.Proofs.
 
 Generalizable All Variables.

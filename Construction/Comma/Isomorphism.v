@@ -1,8 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
 Require Export Category.Construction.Comma.
 Require Import Category.Instance.Fun.
 Require Import Category.Instance.Cat.

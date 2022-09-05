@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Export Category.Structure.Limit.
+Require Export Category.Structure.Terminal.
 Require Export Category.Instance.Cones.
 
 Generalizable All Variables.

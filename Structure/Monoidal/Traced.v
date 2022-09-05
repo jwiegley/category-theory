@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Functor.Bifunctor.
 Require Export Category.Structure.Monoidal.Symmetric.
 
 Generalizable All Variables.

@@ -4,7 +4,6 @@ Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
 
 From Equations Require Import Equations.
-Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 
 Require Import Category.Lib.

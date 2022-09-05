@@ -1,11 +1,9 @@
 Set Warnings "-notation-overridden".
 
-Require Import Coq.PArith.PArith.
 Require Import Coq.NArith.NArith.
 
 Require Import Category.Lib.
 Require Import Category.Lib.MapDecide.
-Require Import Category.Theory.Functor.
 Require Import Category.Theory.Metacategory.ArrowsOnly.
 
 Generalizable All Variables.

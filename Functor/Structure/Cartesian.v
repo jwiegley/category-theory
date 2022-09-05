@@ -1,8 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.
+Require Export Category.Functor.Opposite.
 Require Export Category.Structure.Cartesian.
 
 Generalizable All Variables.
@@ -91,8 +91,6 @@ Arguments prod_out {_ _ _ _ _ _ _ _} /.
 #[export] Hint Rewrite @prod_out_in : functors.
 
 Require Import Category.Construction.Opposite.
-Require Import Category.Functor.Opposite.
-Require Import Category.Structure.Cocartesian.
 
 Notation "'CocartesianFunctor' F" := (@CartesianFunctor _ _ (F^op) _ _)
   (at level 9) : category_theory_scope.

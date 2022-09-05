@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Monoidal.Cartesian.
 Require Export Category.Structure.Monoid.
 
 Generalizable All Variables.

@@ -4,7 +4,6 @@ Set Warnings "-unexpected-implicit-declaration".
 Require Import Category.Lib.
 Require Export Category.Theory.Adjunction.
 Require Export Category.Instance.Fun.
-Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 Set Primitive Projections.

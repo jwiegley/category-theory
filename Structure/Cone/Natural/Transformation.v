@@ -1,7 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Functor.Diagonal.
 Require Export Category.Structure.Cone.
 
