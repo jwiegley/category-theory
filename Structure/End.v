@@ -1,7 +1,11 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Wedge.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Structure.Wedge.
+Require Import Category.Construction.Product.
+Require Import Category.Construction.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.

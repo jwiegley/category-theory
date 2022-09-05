@@ -1,11 +1,18 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Theory.Adjunction.
 Require Import Category.Theory.Kan.Extension.
 Require Import Category.Structure.Cone.
 Require Import Category.Structure.Limit.
 Require Import Category.Functor.Diagonal.
 Require Import Category.Instance.Fun.
+Require Import Category.Instance.One.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.

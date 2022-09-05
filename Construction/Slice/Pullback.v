@@ -2,6 +2,7 @@ Set Warnings "-notation-overridden".
 Set Warnings "-local-declaration".
 
 Require Import Category.Lib.
+Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Construction.Slice.
 Require Import Category.Structure.Cartesian.

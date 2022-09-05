@@ -1,14 +1,22 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Functor.Product.
-Require Export Category.Functor.Strong.
-Require Export Category.Functor.Strong.Product.
-Require Export Category.Structure.Monoidal.
-Require Export Category.Functor.Structure.Monoidal.
-Require Export Category.Functor.Traversable.
-Require Export Category.Functor.Applicative.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Functor.Bifunctor.
+Require Import Category.Functor.Product.
+Require Import Category.Functor.Strong.
+Require Import Category.Functor.Strong.Product.
+Require Import Category.Structure.Terminal.
+Require Import Category.Structure.Cartesian.
+Require Import Category.Structure.Cartesian.Closed.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Internal.Product.
+Require Import Category.Functor.Structure.Monoidal.
+Require Import Category.Functor.Traversable.
+Require Import Category.Functor.Applicative.
 
 Generalizable All Variables.
 Set Primitive Projections.

@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 Set Warnings "-fragile-hint-constr".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
+Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 Set Primitive Projections.

@@ -1,12 +1,18 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.
-Require Export Category.Structure.BiCCC.
-Require Export Category.Instance.Fun.
-Require Export Category.Instance.Coq.
-Require Export Category.Instance.Sets.
-Require Export Coq.Vectors.Vector.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Adjunction.
+Require Import Category.Structure.Terminal.
+Require Import Category.Structure.Cartesian.
+Require Import Category.Structure.BiCCC.
+Require Import Category.Instance.Fun.
+Require Import Category.Instance.Coq.
+Require Import Category.Instance.Sets.
+
+Require Import Coq.Vectors.Vector.
 
 Import VectorNotations.
 

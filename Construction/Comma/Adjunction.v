@@ -1,12 +1,18 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Adjunction.Natural.Transformation.
-Require Export Category.Adjunction.Natural.Transformation.Universal.
-Require Export Category.Construction.Comma.
-Require Export Category.Construction.Product.
-Require Export Category.Instance.Cat.
-Require Export Category.Instance.Fun.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Theory.Adjunction.
+Require Import Category.Adjunction.Natural.Transformation.
+Require Import Category.Adjunction.Natural.Transformation.Universal.
+Require Import Category.Construction.Comma.
+Require Import Category.Construction.Product.
+Require Import Category.Instance.Cat.
+Require Import Category.Instance.Fun.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.

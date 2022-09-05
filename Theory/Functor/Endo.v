@@ -1,8 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Functor.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 Set Primitive Projections.

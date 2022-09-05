@@ -1,10 +1,10 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Universal.Arrow.
-Require Export Category.Structure.Cone.
-Require Export Category.Structure.Limit.
-Require Export Category.Functor.Diagonal.
+Require Import Category.Theory.Universal.Arrow.
+Require Import Category.Structure.Cone.
+Require Import Category.Structure.Limit.
+Require Import Category.Functor.Diagonal.
 
 Generalizable All Variables.
 Set Primitive Projections.

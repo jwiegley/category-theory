@@ -1,9 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
-Require Export Category.Instance.Coq.
-Require Export Coq.Sets.Ensembles.
+Require Import Category.Theory.Category.
+Require Import Category.Instance.Coq.
+Require Import Coq.Sets.Ensembles.
 
 Generalizable All Variables.
 Set Primitive Projections.

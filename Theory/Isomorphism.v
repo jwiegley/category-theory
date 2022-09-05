@@ -1,8 +1,8 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
-Require Export Category.Theory.Morphisms.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Morphisms.
 
 Generalizable All Variables.
 Set Primitive Projections.

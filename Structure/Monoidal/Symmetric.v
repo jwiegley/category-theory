@@ -1,7 +1,13 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Monoidal.Balanced.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Functor.Bifunctor.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Braided.
+Require Import Category.Structure.Monoidal.Balanced.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -19,7 +25,9 @@ Class SymmetricMonoidal := {
 }.
 #[export] Existing Instance symmetric_is_balanced.
 
-Corollary braid_symmetry `{SymmetricMonoidal} {x y} :
+Context `{SymmetricMonoidal}.
+
+Corollary braid_symmetry {x y} :
   to (@braid _ _ x y) ≈ from (@braid _ _ y x).
 Proof.
   rewrite <- id_right.
@@ -29,7 +37,7 @@ Proof.
   now rewrite id_left.
 Qed.
 
-Lemma hexagon_rotated `{SymmetricMonoidal} {x y z} :
+Lemma hexagon_rotated {x y z} :
   tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc ⁻¹
     << x ⨂ (y ⨂ z) ~~> y ⨂ (x ⨂ z) >>
   id ⨂ braid ∘ tensor_assoc ∘ braid.
@@ -44,7 +52,7 @@ Proof.
   cat.
 Qed.
 
-Lemma bimap_braid `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
+Lemma bimap_braid {x y z w} (f : x ~> z) (g : y ~> w) :
   g ⨂ f ∘ braid ≈ braid ∘ f ⨂ g.
 Proof.
   spose (fst braid_natural _ _ f _ _ g) as X.
@@ -52,7 +60,7 @@ Proof.
   apply X.
 Qed.
 
-Lemma braid_bimap_braid `{SymmetricMonoidal} {x y z w} (f : x ~> z) (g : y ~> w) :
+Lemma braid_bimap_braid {x y z w} (f : x ~> z) (g : y ~> w) :
   braid ∘ g ⨂ f ∘ braid ≈ f ⨂ g.
 Proof.
   rewrite <- comp_assoc.

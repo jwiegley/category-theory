@@ -1,9 +1,14 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.BiCCC.
-Require Export Category.Instance.Coq.
-Require Export Category.Instance.AST.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Structure.Terminal.
+Require Import Category.Structure.Cartesian.
+Require Import Category.Structure.Cocartesian.
+Require Import Category.Structure.BiCCC.
+Require Import Category.Instance.Coq.
+Require Import Category.Instance.AST.
 
 Generalizable All Variables.
 Set Primitive Projections.

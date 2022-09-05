@@ -1,9 +1,12 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Structure.Bicartesian.
-Require Export Category.Structure.Initial.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Structure.Cartesian.
+Require Import Category.Structure.Cocartesian.
+Require Import Category.Structure.Bicartesian.
+Require Import Category.Structure.Initial.
 
 Generalizable All Variables.
 Set Primitive Projections.

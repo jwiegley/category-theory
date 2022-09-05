@@ -1,8 +1,14 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Functor.Bifunctor.
-Require Export Category.Structure.Monoidal.Symmetric.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Functor.Bifunctor.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Braided.
+Require Import Category.Structure.Monoidal.Balanced.
+Require Import Category.Structure.Monoidal.Symmetric.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -37,7 +43,5 @@ Class TracedMonoidal := {
   yanking {x} : trace braid ≈ id[x];
 }.
 #[export] Existing Instance traced_is_symmetric.
-
-Context `{TracedMonoidal}.
 
 End TracedMonoidal.

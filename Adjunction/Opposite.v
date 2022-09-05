@@ -3,9 +3,11 @@ Set Warnings "-deprecated-hint-notation-overridden".
 Set Warnings "-notation-incompatible-format".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Isomorphism.
-Require Export Category.Theory.Natural.Transformation.
-Require Export Category.Theory.Adjunction.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Theory.Adjunction.
 Require Import Category.Functor.Opposite.
 
 Generalizable All Variables.
