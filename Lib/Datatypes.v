@@ -1,8 +1,8 @@
 Set Warnings "-notation-overridden".
 
-Require Export Category.Lib.Tactics.
-
 Require Import Coq.Lists.List.
+
+Require Export Category.Lib.Tactics.
 
 Generalizable All Variables.
 Set Primitive Projections.

@@ -1,8 +1,8 @@
 Set Warnings "-notation-overridden".
 
-Require Export Category.Lib.Setoid.
-
 Require Import Coq.Bool.Bool.
+
+Require Export Category.Lib.Setoid.
 
 Generalizable All Variables.
 Set Primitive Projections.

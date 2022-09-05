@@ -1,7 +1,7 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.BiCCC.
+Require Import Category.Structure.BiCCC.
 
 Generalizable All Variables.
 Set Primitive Projections.

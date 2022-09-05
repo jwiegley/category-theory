@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Instance.Sets.Cartesian.
-Require Export Category.Structure.Monoid.
+Require Import Category.Structure.Monoid.
 
 Generalizable All Variables.
 Set Primitive Projections.
