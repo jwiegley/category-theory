@@ -95,7 +95,6 @@ Proof.
   reflexivity.
 Qed.
 
-#[global]
 Ltac monad_laws :=
   repeat (match goal with
     | [ |- context[join (fmap join _)] ] =>

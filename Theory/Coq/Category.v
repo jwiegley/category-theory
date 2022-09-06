@@ -23,15 +23,21 @@ Generalizable All Variables.
    library it is assumed that computational results are the main interest, and
    so some axioms are considered justified to relieve the proof burden. *)
 
-#[global]
-Program Instance Coq : Category := {
-  obj     := Type;
-  hom     := λ x y, x → y;
-  homset  := λ _ _, eq_Setoid _;
-  id      := λ _ x, x;
-  compose := λ _ _ _ f g x, f (g x)
+#[export]
+Instance Coq : Category := {
+  obj            := Type;
+  hom            := λ x y, x → y;
+  homset         := λ _ _, eq_Setoid _;
+  id             := λ _ x, x;
+  compose        := λ _ _ _ f g x, f (g x);
+  id_left        := λ _ _ _, eq_refl;
+  id_right       := λ _ _ _, eq_refl;
+  comp_assoc     := λ _ _ _ _ _ _ _, eq_refl;
+  comp_assoc_sym := λ _ _ _ _ _ _ _, eq_refl;
 }.
 
+Arguments obj {Category}%category_scope : simpl never.
+Arguments hom {Category}%category_scope (_ _)%object_scope : simpl never.
 Arguments id {Category}%category_scope {x}%object_scope : simpl never.
 Arguments compose {Category}%category_scope {x y z}%object_scope
   (f g)%homset_scope : simpl never.

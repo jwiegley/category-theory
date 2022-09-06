@@ -36,13 +36,6 @@ Notation "fmap[ M N ]" := (@fmap (λ X, M (N X)) _ _ _)
 Notation "fmap[ M N O ]" := (@fmap (λ X, M (N (O X))) _ _ _)
   (at level 9, format "fmap[ M  N  O ]") : morphism_scope.
 
-Ltac erew F :=
-  let H := fresh "H" in unshelve epose proof F as H; eauto;
-  cbn in H; unshelve erewrite H; eauto; clear H.
-Ltac erew_r F :=
-  let H := fresh "H" in unshelve epose proof F as H; eauto;
-  cbn in H; unshelve erewrite <- H; eauto; clear H.
-
 (* "Coq functors" are endofunctors on the category Coq. *)
 Program Definition Coq_Functor `{IsFunctor F} : Coq ⟶ Coq := {|
   Theory.Functor.fobj := F;
@@ -56,7 +49,7 @@ Next Obligation.
 Qed.
 
 (* Coq endofunctors always compose to form another endofunctor. *)
-#[global]
+#[export]
 Instance Compose_Functor `{Functor F} `{Functor G} : Functor (F ∘ G) := {
   fmap := λ _ _, fmap[F] ∘ fmap[G]
 }.
@@ -65,7 +58,6 @@ Corollary compose_fmap  `{Functor F} `{Functor G} {x y} (f : x ~> y) :
   fmap[F ∘ G] f = fmap[F] (fmap[G] f).
 Proof. reflexivity. Qed.
 
-#[global]
 Ltac functor_laws :=
   repeat match goal with
     | [ |- context[fmap[?F] (λ x, x)] ] =>
@@ -80,6 +72,6 @@ Ltac functor_laws :=
 
 #[local] Obligation Tactic := intros; functor_laws; intuition eauto; cat.
 
-#[global]
+#[export]
 Program Instance Compose_IsFunctor `{IsFunctor F} `{IsFunctor G} :
   IsFunctor (F ∘ G).
