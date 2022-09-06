@@ -2,9 +2,9 @@ Set Warnings "-notation-overridden".
 Set Warnings "-fragile-hint-constr".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
-Require Export Category.Structure.Terminal.
-Require Export Category.Construction.Opposite.
+Require Import Category.Theory.Category.
+Require Import Category.Structure.Terminal.
+Require Import Category.Construction.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.

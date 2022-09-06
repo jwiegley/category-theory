@@ -2,7 +2,7 @@ Set Warnings "-notation-overridden".
 Set Warnings "-notation-incompatible-format".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
+Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -44,7 +44,7 @@ Definition unop {C : Category} {x y} (f : x ~{C^op}~> y) : y ~{C}~> x := f.
 (* If two objects are isomorphic in C, then they are also isomorphic in C^op,
    just the conversion arrows are flipped. *)
 
-Require Export Category.Theory.Isomorphism.
+Require Import Category.Theory.Isomorphism.
 
 #[global]
 Program Instance Isomorphism_Opposite {C : Category} {x y : C}

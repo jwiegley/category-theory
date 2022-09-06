@@ -1,8 +1,10 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Natural.Transformation.
-Require Export Category.Functor.Product.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Construction.Product.
 Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Fun.
 Require Import Category.Instance.Sets.

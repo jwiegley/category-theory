@@ -1,9 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Structure.Cocartesian.
-Require Export Category.Construction.Coproduct.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Construction.Coproduct.
 
 Generalizable All Variables.
 Set Primitive Projections.

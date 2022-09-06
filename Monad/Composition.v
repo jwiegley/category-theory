@@ -1,9 +1,11 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Monad.
-Require Export Category.Functor.Structure.Monoidal.Pure.
-Require Export Category.Monad.Distributive.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Monad.
+Require Import Category.Functor.Structure.Monoidal.Pure.
+Require Import Category.Monad.Distributive.
 
 Generalizable All Variables.
 Set Primitive Projections.

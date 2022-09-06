@@ -1,13 +1,15 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Functor.Bifunctor.
-Require Export Category.Functor.Hom.
-Require Export Category.Structure.Monoidal.
-Require Export Category.Structure.Monoidal.Naturality.
-Require Export Category.Construction.Product.
-Require Export Category.Functor.Construction.Product.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Naturality.
+Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Functor.Bifunctor.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Naturality.
+Require Import Category.Functor.Construction.Product.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -40,8 +42,6 @@ Class RightStrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
     rstrength ∘ bimap rstrength id ∘ from (@tensor_assoc _ _ (F x) y z)
       ≈ fmap[F] (from (@tensor_assoc _ _ x y z)) ∘ rstrength
 }.
-
-Require Import Category.Functor.Product.
 
 Section Strong.
 

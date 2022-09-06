@@ -1,6 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Theory.Sheaf.
 Require Import Category.Construction.Opposite.

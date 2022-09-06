@@ -145,7 +145,7 @@ Qed.
 
    In other words, a presheaf on the category 0⟹1 is a graph. *)
 
-Require Import Category.Functor.Opposite.
+Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Sets.
 
 Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {|

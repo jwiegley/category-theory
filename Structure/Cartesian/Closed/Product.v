@@ -1,8 +1,13 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Cartesian.Product.
-Require Export Category.Structure.Cartesian.Closed.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Structure.Cartesian.
+Require Import Category.Structure.Cartesian.Closed.
+Require Import Category.Structure.Cartesian.Product.
+Require Import Category.Construction.Product.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.

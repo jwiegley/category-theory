@@ -1,10 +1,13 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Adjunction.
-Require Export Category.Functor.Diagonal.
-Require Export Category.Functor.Product.Internal.
-Require Export Category.Structure.Cartesian.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Adjunction.
+Require Import Category.Functor.Diagonal.
+Require Import Category.Functor.Product.Internal.
+Require Import Category.Structure.Cartesian.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.

@@ -1,12 +1,7 @@
 Require Import Category.Instance.Lambda.Lib.
-Require Import Category.Instance.Lambda.Ty.
 Require Import Category.Instance.Lambda.Exp.
-Require Import Category.Instance.Lambda.Sub.
-Require Import Category.Instance.Lambda.Sem.
-Require Import Category.Instance.Lambda.Norm.
 Require Import Category.Instance.Lambda.Eval.
 
-From Equations Require Import Equations.
 Set Equations With UIP.
 
 Generalizable All Variables.

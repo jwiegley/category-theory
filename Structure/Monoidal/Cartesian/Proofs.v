@@ -1,10 +1,19 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Monoidal.Proofs.
-Require Export Category.Structure.Monoidal.Semicartesian.Proofs.
-Require Export Category.Structure.Monoidal.Cartesian.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Morphisms.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Functor.Bifunctor.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Proofs.
+Require Import Category.Structure.Monoidal.Braided.
+Require Import Category.Structure.Monoidal.Balanced.
+Require Import Category.Structure.Monoidal.Symmetric.
+Require Import Category.Structure.Monoidal.Semicartesian.
+Require Import Category.Structure.Monoidal.Relevance.
+Require Import Category.Structure.Monoidal.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.

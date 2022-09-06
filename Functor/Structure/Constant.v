@@ -1,9 +1,10 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Structure.Terminal.
-Require Export Category.Structure.Constant.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Structure.Terminal.
+Require Import Category.Structure.Constant.
 
 Generalizable All Variables.
 Set Primitive Projections.

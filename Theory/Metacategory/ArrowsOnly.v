@@ -1,12 +1,12 @@
 Set Warnings "-notation-overridden".
 
 Require Import Coq.NArith.NArith.
-Require Import Coq.FSets.FMaps.
 Require Import Coq.micromega.Lia.
 
 Require Import Category.Lib.
-Require Import Category.Lib.FMapExt.
 Require Import Category.Lib.MapDecide.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 
 Generalizable All Variables.

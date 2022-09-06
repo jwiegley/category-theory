@@ -2,8 +2,9 @@ Set Warnings "-notation-overridden".
 Set Warnings "-notation-incompatible-format".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Construction.Opposite.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Construction.Opposite.
 
 Generalizable All Variables.
 Set Primitive Projections.

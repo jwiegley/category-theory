@@ -154,7 +154,6 @@ Structure/Initial.v
 Structure/Limit.v
 Structure/Limit/Cartesian.v
 Structure/Limit/Kan/Extension.v
-Structure/Limit/Universal/Arrow.v
 Structure/Limit/Terminal.v
 Structure/Monoid.v
 Structure/Monoidal.v

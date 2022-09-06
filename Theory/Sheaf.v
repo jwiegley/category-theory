@@ -1,7 +1,9 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Functor.Opposite.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Fun.
 
 Generalizable All Variables.

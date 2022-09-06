@@ -1,11 +1,10 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.Endo.
-Require Export Category.Theory.Monad.
-Require Export Category.Theory.Morphisms.
-Require Export Category.Structure.BiCCC.
-Require Export Category.Structure.Constant.
+Require Import Category.Theory.Category.
+Require Import Category.Structure.Terminal.
+Require Import Category.Structure.Initial.
+Require Import Category.Structure.Cartesian.
 
 Generalizable All Variables.
 Set Primitive Projections.

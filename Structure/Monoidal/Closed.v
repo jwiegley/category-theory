@@ -1,8 +1,15 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Monoidal.
-Require Export Category.Structure.Monoidal.Cartesian.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Braided.
+Require Import Category.Structure.Monoidal.Balanced.
+Require Import Category.Structure.Monoidal.Symmetric.
+Require Import Category.Structure.Monoidal.Relevance.
+Require Import Category.Structure.Monoidal.Cartesian.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.

@@ -1,19 +1,10 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Category.
-Require Export Category.Theory.Functor.
-Require Export Category.Theory.Natural.Transformation.
-Require Export Category.Structure.Cartesian.
-Require Export Category.Structure.Cocartesian.
-Require Export Category.Structure.Cartesian.Closed.
-Require Export Category.Structure.Initial.
-Require Export Category.Structure.Terminal.
-Require Export Category.Instance.Coq.
-Require Export Category.Instance.Proset.
+Require Import Category.Theory.Category.
+Require Import Category.Instance.Proset.
 
 Require Import Coq.Classes.Equivalence.
-Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Relations.Relation_Definitions.
 
 Generalizable All Variables.

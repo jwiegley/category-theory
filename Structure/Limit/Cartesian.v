@@ -1,9 +1,12 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Structure.Limit.
-Require Export Category.Structure.Cartesian.
-Require Export Category.Instance.Two.Discrete.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Structure.Limit.
+Require Import Category.Structure.Cartesian.
+Require Import Category.Structure.Cone.
+Require Import Category.Instance.Two.Discrete.
 
 Generalizable All Variables.
 Set Primitive Projections.

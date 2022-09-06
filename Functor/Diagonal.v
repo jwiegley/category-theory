@@ -1,9 +1,12 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Export Category.Theory.Functor.
-Require Export Category.Construction.Product.
-Require Export Category.Instance.Fun.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Construction.Product.
+Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.
@@ -23,7 +26,7 @@ Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.
 
 Notation "Δ[ J ]( c )" := (Diagonal J c) (at level 90, format "Δ[ J ]( c )") : functor_scope.
 
-Require Export Category.Instance.One.
+Require Import Category.Instance.One.
 
 Notation "Δ( c )" := (Diagonal _ c) (at level 90, format "Δ( c )") : functor_scope.
 Notation "=( c )" := (Diagonal 1 c) (at level 90, format "=( c )") : functor_scope.
@@ -45,7 +48,7 @@ Definition Δ {C J : Category} := @Diagonal C J.
   is a discrete category with two objects, the diagonal functor C → C × C is
   recovered." *)
 
-Require Export Category.Instance.Two.Discrete.
+Require Import Category.Instance.Two.Discrete.
 
 Theorem Diagonal_Product_Two (C : Category) :
   (∀ x, Diagonal_Product C x ≅ (Diagonal Two_Discrete x TwoDX,
