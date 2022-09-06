@@ -1,6 +1,3 @@
-Set Warnings "-notation-overridden".
-Set Warnings "-unexpected-implicit-declaration".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -11,9 +8,6 @@ Require Import Category.Instance.Fun.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section KanExtension.
 
@@ -177,12 +171,12 @@ Arguments LocalLan {_ _} F {_} _ {_}.
     equivalent to extending then composing." *)
 
 Definition preserves_left_Kan `(L : E ⟶ F) :=
-  ∀ {C} (G : C ⟶ E) {D} (K : C ⟶ D)
-    `{@LeftKan _ _ K E} `{@LeftKan _ _ K F}, L ◯ Lan K G ≈ Lan K (L ◯ G).
+  ∀ C D (G : C ⟶ E) (K : C ⟶ D)
+    `(!LeftKan K E) `(!LeftKan K F), L ◯ Lan K G ≈ Lan K (L ◯ G).
 
 Definition preserves_right_Kan `(R : E ⟶ F) :=
-  ∀ {C} (G : C ⟶ E) {D} (K : C ⟶ D)
-    `{@RightKan _ _ K E} `{@RightKan _ _ K F}, R ◯ Ran K G ≈ Ran K (R ◯ G).
+  ∀ C D (G : C ⟶ E) (K : C ⟶ D)
+    `(!RightKan K E) `(!RightKan K F), R ◯ Ran K G ≈ Ran K (R ◯ G).
 
 (** "We show that left adjoints preserve left Kan extensions, while right
     adjoints will preserve right adjoints [sic]. These connections with
@@ -247,19 +241,19 @@ Proof.
   - isomorphism.
     + apply X; simpl.
       rewrite <- fobj_Compose.
-      apply H; simpl.
+      apply LeftKan0; simpl.
       spose (left_adjoint_impl _ _ X G (Lan K (L ◯ G) ◯ K)) as X0.
       transitivity (R ◯ (Lan K (L ◯ G) ◯ K)).
         apply (to X0); simpl.
-        apply H0; simpl.
+        apply LeftKan1; simpl.
         exact nat_id.
       now apply fun_comp_assoc.
     + rewrite <- fobj_Compose.
-      apply H0; simpl.
+      apply LeftKan1; simpl.
       spose (left_adjoint_impl _ _ X G (L ◯ Lan K G ◯ K)) as X0.
       apply X0; simpl; clear X0.
       transitivity (R ◯ L ◯ fobj[Lan _] G ◯ K). {
-        apply H; simpl.
+        apply LeftKan0; simpl.
         transform.
         - intros.
           apply unit.

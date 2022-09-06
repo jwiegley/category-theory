@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Structure.Monoidal.Internal.Product.
@@ -8,9 +6,6 @@ Require Import Category.Instance.Sets.
 Require Import Category.Instance.Sets.Cartesian.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* ncatlab: "Classical monoids are of course just monoids in Set with the
    cartesian product." *)

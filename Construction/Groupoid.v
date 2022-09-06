@@ -1,13 +1,8 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* A Groupoid is a category where all morphisms are isomorphisms, and morphism
    equivalence is equivalence of isomorphisms. *)

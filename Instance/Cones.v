@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -7,8 +5,6 @@ Require Import Category.Functor.Opposite.
 Require Import Category.Structure.Cone.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
 
 Program Definition Cones `(F : J ⟶ C) : Category := {|
   obj     := Cone F;

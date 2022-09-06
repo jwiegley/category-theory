@@ -1,13 +1,8 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Morphisms.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section Isomorphism.
 

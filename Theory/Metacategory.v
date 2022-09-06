@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
@@ -9,9 +7,6 @@ Require Import Category.Lib.FMapExt.
 Require Import Coq.Arith.PeanoNat.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* This module defines an "arrows-only" metacategory, and shows that such a
    metacategory is sufficient to define a category. The axioms defined by Mac

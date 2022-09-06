@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Structure.Cartesian.Closed.
@@ -7,9 +5,6 @@ Require Import Category.Instance.Sets.
 Require Import Category.Instance.Sets.Cartesian.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* This instance must appear in a separate file, because the Closed structure
    makes use of isomorphisms in [Sets]. *)

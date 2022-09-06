@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
@@ -7,9 +5,6 @@ Require Import Category.Functor.Opposite.
 Require Import Category.Adjunction.Natural.Transformation.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Program Definition Opposite_Adjunction_Transform
         `(F : D ⟶ C) `(U : C ⟶ D) (A : F ∹ U) :

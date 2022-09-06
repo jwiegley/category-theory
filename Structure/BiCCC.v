@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -11,9 +9,6 @@ Require Import Category.Structure.Cocartesian.
 Require Import Category.Structure.Distributive.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section BiCCC.
 
@@ -186,7 +181,11 @@ Context `{@Initial C}.
   to   := uncurry zero;
   from := zero
 }.
-Next Obligation. apply curry_inj; simpl; cat. Qed.
+Next Obligation. apply zero_unique. Qed.
+Next Obligation.
+  apply curry_inj; simpl; cat.
+  apply zero_unique.
+Qed.
 
 #[local] Hint Rewrite @prod_zero_l : isos.
 
@@ -195,7 +194,11 @@ Next Obligation. apply curry_inj; simpl; cat. Qed.
   to   := uncurry zero ∘ swap;
   from := zero
 }.
-Next Obligation. apply swap_inj_r, curry_inj; simpl; cat. Qed.
+Next Obligation. apply zero_unique. Qed.
+Next Obligation.
+  apply swap_inj_r, curry_inj; simpl; cat.
+  apply zero_unique.
+Qed.
 
 #[local] Hint Rewrite @prod_zero_r : isos.
 
@@ -206,10 +209,12 @@ Context `{@Terminal C}.
   to   := one;
   from := curry (zero ∘ to prod_zero_r)
 }.
+Next Obligation. apply one_unique. Qed.
 Next Obligation.
   apply uncurry_inj.
   apply swap_inj_r.
   apply curry_inj; simpl; cat.
+  apply zero_unique.
 Qed.
 
 End BiCCC.

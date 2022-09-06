@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -11,9 +9,6 @@ Require Import Category.Structure.Cartesian.Closed.
 Require Import Category.Structure.BiCCC.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* This file repeats results from elsewhere, to show a direct correspondence
    between categorical constructions, and basic high-school algebra. *)

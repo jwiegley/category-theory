@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -13,9 +11,6 @@ Require Import Category.Structure.Monoidal.Naturality.
 Require Import Category.Functor.Construction.Product.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Class StrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
   strength {x y} : x ⨂ F y ~> F (x ⨂ y);

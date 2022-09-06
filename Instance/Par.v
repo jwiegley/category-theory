@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -21,9 +19,6 @@ Require Import Category.Instance.Sets.
 Require Import Category.Instance.Coq.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Definition option_bind {A B : Type}
            (f : A → option B) (o : option A) : option B :=

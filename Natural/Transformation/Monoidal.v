@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -8,9 +6,6 @@ Require Import Category.Functor.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Class LaxMonoidal_Transform {C : Category} `{@Monoidal C}
       {F : C ⟶ C} `{@LaxMonoidalFunctor _ _ _ _ F}

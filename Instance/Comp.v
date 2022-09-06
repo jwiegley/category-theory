@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Structure.Terminal.
@@ -7,9 +5,6 @@ Require Import Category.Structure.Initial.
 Require Import Category.Structure.Cartesian.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (*** Most of what follows in this file was written by Andrej Bauer:
 

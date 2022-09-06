@@ -1,13 +1,8 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Instance.Sets.
 Require Import Category.Structure.Cocartesian.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 #[export]
 Program Instance Sets_Cocartesian : @Cocartesian Sets := {

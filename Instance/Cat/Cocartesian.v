@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Functor.
 Require Import Category.Structure.Cocartesian.
@@ -7,9 +5,6 @@ Require Import Category.Construction.Coproduct.
 Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* Another way of reading this is that we're proving Cat^op is Cartesian. *)
 

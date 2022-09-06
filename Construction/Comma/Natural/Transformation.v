@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -9,9 +7,6 @@ Require Import Category.Construction.Comma.
 Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* Wikipedia: "If the domains of S, T are equal, then the diagram which
    defines morphisms in S↓T with α=β, α′=β′, g=h is identical to the diagram

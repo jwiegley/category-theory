@@ -1,13 +1,10 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Construction.Coproduct.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
+Set Transparent Obligations.
 
 #[export]
 Program Instance CoproductFunctor `(C : Category) `{@Cocartesian C} :

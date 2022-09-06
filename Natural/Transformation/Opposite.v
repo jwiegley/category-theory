@@ -1,6 +1,3 @@
-Set Warnings "-notation-overridden".
-Set Warnings "-notation-incompatible-format".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -9,9 +6,6 @@ Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Opposite.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Definition Opposite_Transform `{F : C ⟶ D} {G : C ⟶ D} `(N : F ⟹ G) :
   G^op ⟹ F^op :=

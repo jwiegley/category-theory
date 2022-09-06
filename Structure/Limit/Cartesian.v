@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -9,9 +7,6 @@ Require Import Category.Structure.Cone.
 Require Import Category.Instance.Two.Discrete.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Theorem Cartesian_Limit (C : Category) :
   (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C.

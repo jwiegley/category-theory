@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -9,8 +7,7 @@ Require Import Category.Functor.Diagonal.
 Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
+Set Transparent Obligations.
 
 Program Definition Slice `(C : Category) `(c : C) : Category := {|
   obj     := ∃ a : C, a ~> c;

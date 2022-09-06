@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Coq.PArith.PArith.
 Require Import Coq.Vectors.Vector.
 
@@ -8,6 +6,8 @@ Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
+
+Set Transparent Obligations.
 
 (** Lists in Ltac *)
 

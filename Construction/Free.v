@@ -1,13 +1,9 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Lib.TList.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
 
 Section Free.
 

@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -14,9 +12,6 @@ Require Import Category.Functor.Structure.Monoidal.
 Require Import Category.Functor.Structure.Monoidal.Pure.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* An "applicative" functor is a strong lax monoidal functor in a cartesian
    closed category with terminal objects, whose monoidal structure is given by

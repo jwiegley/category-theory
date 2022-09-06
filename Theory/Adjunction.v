@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Morphisms.
@@ -8,9 +6,6 @@ Require Import Category.Theory.Functor.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* Adjunctions relate two functors that map between the same two categories
   (though in opposite directions), in a manner that is weaker than isomorphism

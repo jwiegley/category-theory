@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -10,9 +8,6 @@ Require Import Category.Construction.Comma.
 Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* Wikipedia: "At first glance cones seem to be slightly abnormal
    constructions in category theory. They are maps from an object to a functor

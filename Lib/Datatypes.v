@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Coq.Lists.List.
 
 Require Export Category.Lib.Tactics.

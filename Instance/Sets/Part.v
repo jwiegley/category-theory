@@ -1,13 +1,8 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (** The category of partial maps, built on the category of setoids. *)
 
@@ -83,7 +78,6 @@ Qed.
 
 Require Import Category.Structure.Cartesian.
 
-(* Set Transparent Obligations. *)
 
 Arguments option_setoid A {_}.
 Arguments sum_setoid A B {_ _}.

@@ -1,11 +1,8 @@
-Set Warnings "-notation-overridden".
-
-Require Import
-  Category.Instance.Lambda.Lib
-  Category.Instance.Lambda.Ty
-  Category.Instance.Lambda.Exp
-  Category.Instance.Lambda.Ren
-  Category.Instance.Lambda.Sem.
+Require Import Category.Instance.Lambda.Lib.
+Require Import Category.Instance.Lambda.Ty.
+Require Import Category.Instance.Lambda.Exp.
+Require Import Category.Instance.Lambda.Ren.
+Require Import Category.Instance.Lambda.Sem.
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
@@ -19,9 +16,6 @@ From Equations Require Import Equations.
 Set Equations With UIP.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section Lambda.
 

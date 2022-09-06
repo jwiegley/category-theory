@@ -1,14 +1,9 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Structure.Terminal.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Reserved Infix "×" (at level 41, right associativity).
 
@@ -326,6 +321,7 @@ Next Obligation.
   rewrite <- fork_comp.
   rewrite <- fork_exl_exr.
   apply fork_respects; cat.
+  apply one_unique.
 Qed.
 
 #[local] Hint Rewrite @prod_one_l : isos.
@@ -339,6 +335,7 @@ Next Obligation.
   rewrite <- fork_comp; cat.
   rewrite <- fork_exl_exr.
   apply fork_respects; cat.
+  apply one_unique.
 Qed.
 
 #[local] Hint Rewrite @prod_one_r : isos.

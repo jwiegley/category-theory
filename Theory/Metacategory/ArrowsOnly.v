@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Coq.NArith.NArith.
 Require Import Coq.micromega.Lia.
 
@@ -10,8 +8,7 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
+Set Transparent Obligations.
 
 (* An arrows-only meta-category defines identity arrows as those which, when
    composed to the left or right of another arrow, result in that same arrow.

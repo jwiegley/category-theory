@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -10,9 +8,6 @@ Require Import Category.Structure.Monoidal.
 Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 #[local] Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 

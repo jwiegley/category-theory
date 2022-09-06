@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -17,9 +15,8 @@ Require Import Coq.Vectors.Vector.
 Import VectorNotations.
 
 Generalizable All Variables.
-Set Primitive Projections.
-(* Set Universe Polymorphism. *)
-(* Unset Transparent Obligations. *)
+Unset Universe Polymorphism.
+Set Transparent Obligations.
 
 (* These two lemmas is missing in Coq 8.11 and earlier. *)
 Lemma map_id A: ∀ n (v : t A n),
@@ -45,7 +42,7 @@ Fixpoint concat `(xs : t (t a n) m) : t a (m * n) :=
 Program Fixpoint group_dep {a : Type} (m n : nat) (xs : t a (m * n)) :
   ∃ xss : t (t a n) m, xs = concat xss :=
   match m with
-  | O => (nil _; _)
+  | O => (Vector.nil (t a n); _)
   | S m' =>
       match splitat n xs with
       | (ys, zs) => let (zss, H) := group_dep m' n zs
@@ -397,7 +394,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   apply X0; simpl.
-  now rewrite trie_vec.
+  now rewrite vec_trie.
 Qed.
 
 Definition sized `(x : t a (size (unsize n))) : t a n.
@@ -436,7 +433,7 @@ Next Obligation.
 Qed.
 Next Obligation.
   rewrite resized_sized.
-  now apply trie_vec.
+  now apply vec_trie.
 Qed.
 Next Obligation.
   rewrite !vec_trie.

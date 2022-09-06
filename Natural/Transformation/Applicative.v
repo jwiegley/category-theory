@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -13,9 +11,6 @@ Require Import Category.Natural.Transformation.Strong.
 Require Import Category.Natural.Transformation.Monoidal.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Class Applicative_Transform {C : Category}
       `{@Cartesian C} `{@Terminal C} `{@Closed C _}

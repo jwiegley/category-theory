@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -8,9 +6,6 @@ Require Import Category.Structure.Monoidal.
 Require Import Category.Functor.Strong.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Class Strong_Transform {C : Category} `{@Monoidal C}
       {F : C ⟶ C} `{@StrongFunctor _ _ F}

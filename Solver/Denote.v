@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
 

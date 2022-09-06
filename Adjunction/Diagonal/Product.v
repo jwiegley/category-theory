@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -10,8 +8,6 @@ Require Import Category.Structure.Cartesian.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
 
 (* The diagonal functor on C is left adjoint to the internal product functor
    on C. *)

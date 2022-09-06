@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Coq.NArith.NArith.
 
 Require Import Category.Lib.
@@ -7,8 +5,6 @@ Require Import Category.Lib.MapDecide.
 Require Import Category.Theory.Metacategory.ArrowsOnly.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
 
 Open Scope N_scope.
 

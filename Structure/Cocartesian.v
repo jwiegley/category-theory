@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -8,9 +6,6 @@ Require Import Category.Structure.Initial.
 Require Import Category.Construction.Opposite.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* To be cocartesian is just to be cartesian in the opposite category; but to
    avoid confusion, we'd like a set of notations specific to categories with

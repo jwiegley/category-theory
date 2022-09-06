@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -15,14 +13,11 @@ Require Import Category.Structure.Monoidal.Semicartesian.
 Require Import Category.Structure.Monoidal.Cartesian.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section InternalProduct.
 
 Context {C : Category}.
-Context `{CA : @Cartesian C}.
+Context `{@Cartesian C}.
 Context `{@Terminal C}.
 
 #[local] Ltac solveit :=
@@ -53,6 +48,7 @@ Next Obligation.
   - rewrite id_left.
     rewrite exl_fork.
     cat.
+    apply one_unique.
   - rewrite id_left.
     rewrite exr_fork_assoc.
     apply id_right.
@@ -71,6 +67,7 @@ Next Obligation.
   - rewrite exl_fork_assoc.
     cat.
   - cat.
+    apply one_unique.
 Qed.
 Next Obligation.
   (* now solveit. Undo. *)

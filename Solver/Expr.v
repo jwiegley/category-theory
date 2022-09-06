@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Coq.Vectors.Vector.
 Require Import Coq.PArith.PArith.
 
@@ -11,6 +9,7 @@ Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 
 Generalizable All Variables.
+Set Transparent Obligations.
 
 Import VectorNotations.
 

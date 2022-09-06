@@ -1,14 +1,9 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Opposite.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Class Cone `(F : J ⟶ C) := {
   vertex_obj : C;
