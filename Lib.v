@@ -6,6 +6,6 @@
 #[export]Set Default Proof Using "Type".
 (* #[export] Set Default Goal Selector "!". *)
 #[export] Unset Transparent Obligations.
-(* #[export] Unset Intuition Negation Unfolding. *)
+#[export] Unset Intuition Negation Unfolding.
 
 Require Export Category.Lib.Datatypes.
