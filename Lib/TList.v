@@ -345,7 +345,7 @@ Hypothesis flip_involutive : ∀ (i j : A) (x : B i j),
 
 Lemma tlist_rev_involutive {i j} (xs : tlist B i j) :
   tlist_rev flip (tlist_rev flip xs) = xs.
-Proof.
+Proof using A B flip flip_involutive.
   induction xs; simpl; auto.
   rewrite tlist_rev_equation_2.
   rewrite tlist_rev_app_distr.
