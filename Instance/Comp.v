@@ -88,7 +88,7 @@ Section FreeAlg.
     end.
 
   Definition induced_hom : AlgHom Free A.
-  Proof.
+  Proof using A S X h.
     exists induced_map.
     intros o arg.
     reflexivity.

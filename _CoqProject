@@ -200,5 +200,9 @@ Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
+Theory/Coq/Category.v
+Theory/Coq/Functor.v
+Theory/Coq/Applicative.v
+Theory/Coq/Monad.v
 Tools/Abstraction.v
 Tools/Represented.v

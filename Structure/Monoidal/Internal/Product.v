@@ -24,8 +24,6 @@ Context `{@Terminal C}.
   unfold proj_left, proj_right;
   try split; intros; unfork; cat.
 
-#[local] Obligation Tactic := idtac.
-
 (* Every cartesian category with terminal objects gives rise to a monoidal
    category taking the terminal object as unit, and the tensor as product. *)
 
@@ -34,13 +32,6 @@ Program Definition InternalProduct_Monoidal : @Monoidal C := {|
   I := 1
 |}.
 Next Obligation.
-  (* now solveit. Undo. *)
-  intros.
-  symmetry.
-  apply exr_fork.
-Qed.
-Next Obligation.
-  (* now solveit. Undo. *)
   intros.
   simpl.
   rewrite <- !fork_comp.
@@ -54,13 +45,6 @@ Next Obligation.
     apply id_right.
 Qed.
 Next Obligation.
-  (* now solveit. Undo. *)
-  intros. simpl.
-  symmetry.
-  apply exl_fork.
-Qed.
-Next Obligation.
-  (* now solveit. Undo. *)
   intros. simpl.
   rewrite <- !fork_comp.
   apply Cartesian.fork_respects.
@@ -70,7 +54,7 @@ Next Obligation.
     apply one_unique.
 Qed.
 Next Obligation.
-  (* now solveit. Undo. *)
+  (* Time Succeed solve [solveit]. *)
   intros. simpl.
   rewrite <- fork_comp.
   symmetry.
@@ -94,7 +78,7 @@ Next Obligation.
     apply exr_fork.
 Qed.
 Next Obligation.
-  (* now solveit. Undo. *)
+  (* Time Succeed solve [solveit]. *)
   intros. simpl.
   do 5 rewrite <- fork_comp.
   repeat apply Cartesian.fork_respects.
@@ -110,7 +94,7 @@ Next Obligation.
     apply comp_assoc.
 Qed.
 Next Obligation.
-  (* now solveit. Undo. *)
+  (* Time Succeed solve [solveit]. *)
   intros. simpl.
   rewrite <- fork_comp.
   apply Cartesian.fork_respects.
@@ -122,7 +106,7 @@ Next Obligation.
     symmetry. apply exr_fork.
 Qed.
 Next Obligation.
-  (* now solveit. Undo. *)
+  (* Time Succeed solve [solveit]. *)
   intros. simpl.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
@@ -173,17 +157,11 @@ Qed.
 
 Lemma exl_swap {x y z w} :
   (@exl x y z w) ∘ swap ≈ exr.
-Proof.
-  (* now solveit. Undo. *)
-  unfork. cat.
-Qed.
+Proof. solveit. Qed.
 
 Lemma exr_swap {x y z w} :
   (@exr x y z w) ∘ swap ≈ exl.
-Proof.
-  (* now solveit. Undo. *)
-  unfork. cat.
-Qed.
+Proof. solveit. Qed.
 
 Program Definition InternalProduct_BraidedMonoidal : @BraidedMonoidal C := {|
   braided_is_monoidal := InternalProduct_Monoidal;
@@ -239,7 +217,7 @@ Next Obligation.
       apply exr_swap.
 Qed.
 Next Obligation.
-  (* now solveit. Undo. *)
+  (* Time Succeed solve [solveit]. *)
   intros. simpl.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
@@ -284,7 +262,7 @@ Next Obligation.
     apply exr_fork.
 Qed.
 Next Obligation.
-  (* now solveit. Undo. *)
+  (* Time Succeed solve [solveit]. *)
   intros. simpl.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
@@ -338,13 +316,6 @@ Program Definition InternalProduct_BalancedMonoidal : @BalancedMonoidal C := {|
      ; iso_from_to := _
     |}
 |}.
-Next Obligation. intros; cat. Defined.
-Next Obligation. intros; cat. Defined.
-Next Obligation. simpl; split; intros; cat. Defined.
-Next Obligation. now simpl. Defined.
-Next Obligation. now simpl. Defined.
-Next Obligation. intros; simpl; cat. Qed.
-Next Obligation. intros; simpl; cat. Qed.
 
 Definition InternalProduct_SymmetricMonoidal : @SymmetricMonoidal C := {|
   symmetric_is_balanced := InternalProduct_BalancedMonoidal;
@@ -370,7 +341,7 @@ Next Obligation.
   apply one_unique.
 Qed.
 Next Obligation.
-  (* now solveit. Undo. *)
+  (* Time Succeed solve [solveit]. *)
   simpl. intros.
   rewrite <- fork_comp.
   symmetry.
@@ -465,33 +436,11 @@ Next Obligation.
   apply one_unique.
 Qed.
 
+#[local] Obligation Tactic := program_simpl; solveit.
+
 Program Definition InternalProduct_CartesianMonoidal : @CartesianMonoidal C := {|
   cartesian_is_relevance     := InternalProduct_RelevanceMonoidal;
   cartesian_is_semicartesian := InternalProduct_SemicartesianMonoidal;
 |}.
-Next Obligation.
-  (* now solveit. Undo. *)
-  intros. simpl.
-  unfold proj_left.
-  simpl.
-  rewrite exl_fork.
-  rewrite exl_fork_assoc.
-  cat_simpl.
-Qed.
-Next Obligation.
-  (* now solveit. Undo. *)
-  intros. unfold proj_right. simpl.
-  rewrite exr_fork.
-  rewrite exr_fork_assoc.
-  cat_simpl.
-Qed.
-Next Obligation.
-  intros. simpl.
-  apply exr_swap.
-Qed.
-Next Obligation.
-  intros. simpl.
-  apply exl_swap.
-Qed.
 
 End InternalProduct.

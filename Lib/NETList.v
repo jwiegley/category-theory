@@ -363,7 +363,7 @@ Hypothesis flip_involutive : ∀ (i j : A) (x : B i j),
 
 Lemma netlist_rev_involutive {i j} (xs : netlist B i j) :
   netlist_rev flip (netlist_rev flip xs) = xs.
-Proof.
+Proof using A B flip flip_involutive.
   induction xs; simpl; auto.
     rewrite !netlist_rev_equation_1.
     now rewrite flip_involutive.
@@ -401,7 +401,7 @@ Context {B : A → A → Type}.
 Lemma netlist_cons_uncons
       {i m j} (xs : netlist B i j) (y : B i m) ys :
   netlist_uncons xs = existT2 _ _ _ y (Some ys) → xs = y :::: ys.
-Proof.
+Proof using A B inj_pair2.
   destruct xs; simpl; intros.
     inversion H.
   inversion H; subst; clear H.
