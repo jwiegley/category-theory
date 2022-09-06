@@ -93,46 +93,46 @@ Next Obligation.
   apply compose_respects; [|reflexivity].
   normal.
   apply bimap_respects.
-    apply compose_respects; [|reflexivity].
+  - apply compose_respects; [|reflexivity].
     apply bimap_respects; [reflexivity|].
     rewrite !eliminate_comp.
     rewrite unit_right_eliminate.
     reflexivity.
-  rewrite !bimap_comp.
-  rewrite !bimap_comp_id_left.
-  rewrite !bimap_comp_id_right.
-  rewrite !comp_assoc.
-  rewrite !triangle_identity.
-  rewrite <- !comp_assoc.
-  rewrite from_tensor_assoc_natural.
-  rewrite (comp_assoc tensor_assoc (tensor_assoc⁻¹)).
-  rewrite iso_to_from, id_left.
-  rewrite <- bimap_comp, id_left.
-  rewrite <- to_tensor_assoc_natural.
-  pose proof (@to_tensor_assoc_natural _ _ x _ y _ (F z ⨂ G z) _
-                id id (unit_left ∘ eliminate ⨂ id[G z])) as X0.
-  rewrite bimap_id_id in X0.
-  rewrites.
-  rewrite !comp_assoc.
-  apply compose_respects; [|reflexivity].
-  rewrite <- (comp_assoc _ tensor_assoc).
-  rewrite <- to_tensor_assoc_natural.
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc tensor_assoc (tensor_assoc⁻¹)).
-  rewrite iso_to_from, id_left.
-  rewrite to_tensor_assoc_natural.
-  rewrite (comp_assoc _ tensor_assoc).
-  rewrite <- triangle_identity.
-  normal.
-  rewrite !eliminate_comp.
-  rewrite unit_left_eliminate.
-  rewrite (bimap_comp_id_right unit_right).
-  rewrite <- !comp_assoc.
-  rewrite from_tensor_assoc_natural.
-  rewrite (comp_assoc _ (tensor_assoc⁻¹)).
-  rewrite <- inverse_triangle_identity.
-  normal.
-  reflexivity.
+  - rewrite !bimap_comp.
+    rewrite !bimap_comp_id_left.
+    rewrite !bimap_comp_id_right.
+    rewrite !comp_assoc.
+    rewrite !triangle_identity.
+    rewrite <- !comp_assoc.
+    rewrite from_tensor_assoc_natural.
+    rewrite (comp_assoc tensor_assoc (tensor_assoc⁻¹)).
+    rewrite iso_to_from, id_left.
+    rewrite <- bimap_comp, id_left.
+    rewrite <- to_tensor_assoc_natural.
+    pose proof (@to_tensor_assoc_natural _ _ x _ y _ (F z ⨂ G z) _
+                  id id (unit_left ∘ eliminate ⨂ id[G z])) as X0.
+    rewrite bimap_id_id in X0.
+    rewrites.
+    rewrite !comp_assoc.
+    apply compose_respects; [|reflexivity].
+    rewrite <- (comp_assoc _ tensor_assoc).
+    rewrite <- to_tensor_assoc_natural.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc tensor_assoc (tensor_assoc⁻¹)).
+    rewrite iso_to_from, id_left.
+    rewrite to_tensor_assoc_natural.
+    rewrite (comp_assoc _ tensor_assoc).
+    rewrite <- triangle_identity.
+    normal.
+    rewrite !eliminate_comp.
+    rewrite unit_left_eliminate.
+    rewrite (bimap_comp_id_right unit_right).
+    rewrite <- !comp_assoc.
+    rewrite from_tensor_assoc_natural.
+    rewrite (comp_assoc _ (tensor_assoc⁻¹)).
+    rewrite <- inverse_triangle_identity.
+    normal.
+    reflexivity.
 Qed.
 
 End ProductStrong.

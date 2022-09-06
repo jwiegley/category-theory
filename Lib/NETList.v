@@ -210,50 +210,50 @@ Equations netlist_equiv {i j : A} (x y : netlist B i j) : Type :=
 Next Obligation.
   repeat intro.
   induction x; simpl.
-    rewrite netlist_equiv_equation_1.
+  - rewrite netlist_equiv_equation_1.
     reflexivity.
-  rewrite netlist_equiv_equation_4.
-  rewrite EqDec.peq_dec_refl.
-  split.
-    apply Equivalence_Reflexive.
-  apply IHx.
+  - rewrite netlist_equiv_equation_4.
+    rewrite EqDec.peq_dec_refl.
+    split.
+    + apply Equivalence_Reflexive.
+    + apply IHx.
 Qed.
 Next Obligation.
   repeat intro.
   induction x; simpl.
-    dependent elimination y as [tfin _]; auto.
+  - dependent elimination y as [tfin _]; auto.
     rewrite netlist_equiv_equation_1 in *.
     now symmetry.
-  dependent elimination y as [tadd _ y ys]; auto.
-  rewrite netlist_equiv_equation_4 in *.
-  destruct (eq_dec j _); [|contradiction].
-  subst.
-  rewrite EqDec.peq_dec_refl.
-  destruct X.
-  split.
-    now apply Equivalence_Symmetric.
-  apply IHx, n.
+  - dependent elimination y as [tadd _ y ys]; auto.
+    rewrite netlist_equiv_equation_4 in *.
+    destruct (eq_dec j _); [|contradiction].
+    subst.
+    rewrite EqDec.peq_dec_refl.
+    destruct X.
+    split.
+    + now apply Equivalence_Symmetric.
+    + apply IHx, n.
 Qed.
 Next Obligation.
   repeat intro.
   induction x; simpl.
-    dependent elimination y as [tfin _]; auto.
+  - dependent elimination y as [tfin _]; auto.
     induction z; simpl.
-      rewrite netlist_equiv_equation_1 in *.
+    + rewrite netlist_equiv_equation_1 in *.
       now etransitivity; eauto.
-    now rewrite netlist_equiv_equation_2.
-  dependent elimination y as [tadd _ y ys]; auto.
-  simpl; intros.
-  dependent elimination z as [tadd _ z zs]; auto.
-  rewrite netlist_equiv_equation_4 in *.
-  destruct (eq_dec j _); [|contradiction].
-  destruct (eq_dec _ _); [|contradiction].
-  subst.
-  rewrite EqDec.peq_dec_refl.
-  destruct X, X0.
-  split.
-    transitivity y; auto.
-  eapply IHx; eauto.
+    + now rewrite netlist_equiv_equation_2.
+  - dependent elimination y as [tadd _ y ys]; auto.
+    simpl; intros.
+    dependent elimination z as [tadd _ z zs]; auto.
+    rewrite netlist_equiv_equation_4 in *.
+    destruct (eq_dec j _); [|contradiction].
+    destruct (eq_dec _ _); [|contradiction].
+    subst.
+    rewrite EqDec.peq_dec_refl.
+    destruct X, X0.
+    split.
+    + transitivity y; auto.
+    + eapply IHx; eauto.
 Qed.
 
 #[export] Program Instance netlist_Setoid {i j} : Setoid (netlist B i j) := {
@@ -289,8 +289,8 @@ Next Obligation.
     destruct X.
     split; auto.
     apply IHx.
-      exact n0.
-    exact X0.
+    + exact n0.
+    + exact X0.
 Qed.
 
 #[export] Program Instance netlist_EqDec {i j} : @EqDec (netlist B i j) := {
@@ -365,13 +365,13 @@ Lemma netlist_rev_involutive {i j} (xs : netlist B i j) :
   netlist_rev flip (netlist_rev flip xs) = xs.
 Proof using A B flip flip_involutive.
   induction xs; simpl; auto.
-    rewrite !netlist_rev_equation_1.
+  - rewrite !netlist_rev_equation_1.
     now rewrite flip_involutive.
-  rewrite netlist_rev_equation_2.
-  rewrite netlist_rev_app_distr.
-  rewrite IHxs.
-  rewrite netlist_rev_equation_1.
-  now rewrite flip_involutive.
+  - rewrite netlist_rev_equation_2.
+    rewrite netlist_rev_app_distr.
+    rewrite IHxs.
+    rewrite netlist_rev_equation_1.
+    now rewrite flip_involutive.
 Qed.
 
 Lemma netlist_rev_length {i j} (xs : netlist B i j) :
@@ -403,11 +403,11 @@ Lemma netlist_cons_uncons
   netlist_uncons xs = existT2 _ _ _ y (Some ys) → xs = y :::: ys.
 Proof using A B inj_pair2.
   destruct xs; simpl; intros.
-    inversion H.
-  inversion H; subst; clear H.
-  apply inj_pair2 in H2; auto.
-  apply inj_pair2 in H3; auto.
-  now rewrite H2, H3.
+  - inversion H.
+  - inversion H; subst; clear H.
+    apply inj_pair2 in H2; auto.
+    apply inj_pair2 in H3; auto.
+    now rewrite H2, H3.
 Qed.
 
 End NetlistProofsInj.
@@ -537,44 +537,49 @@ Proof.
   generalize dependent j.
   induction f; intros; simpl in H1.
   - destruct g.
-      destruct (eq_dec i i0); [|discriminate]; subst.
+    + destruct (eq_dec i i0); [|discriminate]; subst.
       destruct (eq_dec j0 j); [|discriminate]; subst.
       destruct (eq_dec b0 _); [|discriminate]; subst.
       inversion H1; now subst.
-    discriminate.
+    + discriminate.
   - destruct g.
-      destruct (eq_dec i i0); subst.
-        destruct (eq_dec j0 j); subst.
-          destruct (eq_dec b0 _); [|discriminate]; subst.
-          inversion H1; now subst.
-        destruct (netlist_find_sublist _ _) eqn:?; [|discriminate].
+    + destruct (eq_dec i i0); subst.
+      * destruct (eq_dec j0 j); subst.
+        ** destruct (eq_dec b0 _); [|discriminate]; subst.
+           inversion H1; now subst.
+        ** destruct (netlist_find_sublist _ _) eqn:?; [|discriminate].
+           destruct p.
+           destruct s; subst;
+           now cleanup H1 post IHf Heqo.
+      * destruct (netlist_find_sublist _ _) eqn:?; [|discriminate].
         destruct p.
         destruct s; subst;
         now cleanup H1 post IHf Heqo.
-      destruct (netlist_find_sublist _ _) eqn:?; [|discriminate].
-      destruct p.
-      destruct s; subst;
-      now cleanup H1 post IHf Heqo.
-    destruct (eq_dec i i0); subst. {
-      destruct (eq_dec j0 j); subst. {
-        destruct (eq_dec b0 _). {
-          subst.
-          destruct (netlist_find_sublist g f) eqn:?. {
-            destruct p.
-            destruct s; subst.
-              simpl_eq.
-              destruct (netlist_find_sublist (_ :::: g) f) eqn:?; [|discriminate].
+    + destruct (eq_dec i i0); subst. {
+        destruct (eq_dec j0 j); subst. {
+          destruct (eq_dec b0 _). {
+            subst.
+            destruct (netlist_find_sublist g f) eqn:?. {
               destruct p.
-              destruct s; subst;
-              now cleanup H1 post IHf Heqo0.
-            cleanup H1 post IHf Heqo; auto;
-            simpl_eq;
-            now dependent elimination e.
+              destruct s; subst.
+              - simpl_eq.
+                destruct (netlist_find_sublist (_ :::: g) f) eqn:?; [|discriminate].
+                destruct p.
+                destruct s; subst;
+                now cleanup H1 post IHf Heqo0.
+              - cleanup H1 post IHf Heqo; auto;
+                simpl_eq;
+                now dependent elimination e.
+            }
+            destruct (netlist_find_sublist (_ :::: g) f) eqn:?; [|discriminate].
+            destruct p.
+            destruct s; subst;
+            now cleanup H1 post IHf Heqo0; auto.
           }
           destruct (netlist_find_sublist (_ :::: g) f) eqn:?; [|discriminate].
           destruct p.
           destruct s; subst;
-          now cleanup H1 post IHf Heqo0; auto.
+          now cleanup H1 post IHf Heqo; auto.
         }
         destruct (netlist_find_sublist (_ :::: g) f) eqn:?; [|discriminate].
         destruct p.
@@ -585,11 +590,6 @@ Proof.
       destruct p.
       destruct s; subst;
       now cleanup H1 post IHf Heqo; auto.
-    }
-    destruct (netlist_find_sublist (_ :::: g) f) eqn:?; [|discriminate].
-    destruct p.
-    destruct s; subst;
-    now cleanup H1 post IHf Heqo; auto.
 Qed.
 
 End SublistProofsInj.

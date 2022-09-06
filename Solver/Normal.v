@@ -79,20 +79,20 @@ Proof.
   - eexists _, _, f.
     now split; cat.
   - destruct t1; simpl in *; desh.
-      destruct t2; simpl in *.
-        exists _, f, id.
+    + destruct t2; simpl in *.
+      * exists _, f, id.
         split; cat.
-      desh.
-      exists _, h0, h.
-      split; cat.
-    desh.
-    specialize (IHt1 t2 _ _ _ Heqo); desh.
-    exists _, (h0 ∘ x1), x2.
-    rewrite x4.
-    split.
-      now rewrite x3; cat.
-    rewrite Heqo0, e.
-    split; auto.
+      * desh.
+        exists _, h0, h.
+        split; cat.
+    + desh.
+      specialize (IHt1 t2 _ _ _ Heqo); desh.
+      exists _, (h0 ∘ x1), x2.
+      rewrite x4.
+      split.
+      * now rewrite x3; cat.
+      * rewrite Heqo0, e.
+        split; auto.
 Qed.
 
 Theorem unsindices_sindices {d c} {t : STerm} {f} :
@@ -126,15 +126,15 @@ Proof.
   generalize dependent t2.
   unfold stermD; induction t1; simpl; intros; desh.
   destruct t1; simpl in *; desh.
-    destruct t2; simpl in *; desh.
+  - destruct t2; simpl in *; desh.
     exists (g ∘ h).
     split; cat.
     now rewrite H1, H0.
-  specialize (IHt1 t2 _ _ _ _ eq_refl H1); desh.
-  exists (h1 ∘ x0).
-  split.
-    now rewrite x1; cat.
-  now rewrite e0, Heqo0.
+  - specialize (IHt1 t2 _ _ _ _ eq_refl H1); desh.
+    exists (h1 ∘ x0).
+    split.
+    + now rewrite x1; cat.
+    + now rewrite e0, Heqo0.
 Qed.
 
 Theorem unsindices_sindices_r {d c} {t : STerm} {f} :

@@ -158,10 +158,10 @@ Next Obligation. contradiction. Qed.
 }.
 Next Obligation.
   proper.
-  specialize (X a).
-  bust x0; bust y0.
-  specialize (X0 b).
-  bust x1; bust y1.
+  - specialize (X a).
+    bust x0; bust y0.
+  - specialize (X0 b).
+    bust x1; bust y1.
 Qed.
 Next Obligation.
   split; intros.

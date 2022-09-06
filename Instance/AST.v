@@ -121,11 +121,11 @@ Program Instance Hom_Cartesian : @Cartesian AST := {
 Next Obligation. proper; rewrite X, X0; reflexivity. Qed.
 Next Obligation.
   split; intros HA.
-    split; intros; rewrite HA; cat.
-  intros.
-  destruct HA as [? ?].
-  rewrite <- e, <- e0.
-  rewrite fork_comp; cat.
+  - split; intros; rewrite HA; cat.
+  - intros.
+    destruct HA as [? ?].
+    rewrite <- e, <- e0.
+    rewrite fork_comp; cat.
 Qed.
 
 #[export]
@@ -155,11 +155,11 @@ Program Instance Hom_Cocartesian : @Cocartesian AST := {
 Next Obligation. proper; rewrite X, X0; reflexivity. Qed.
 Next Obligation.
   split; intros HA.
-    split; intros; rewrite HA; cat.
-  intros.
-  destruct HA as [? ?].
-  rewrite <- e, <- e0.
-  rewrite merge_comp; cat.
+  - split; intros; rewrite HA; cat.
+  - intros.
+    destruct HA as [? ?].
+    rewrite <- e, <- e0.
+    rewrite merge_comp; cat.
 Qed.
 
 #[export]

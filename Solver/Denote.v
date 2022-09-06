@@ -28,14 +28,14 @@ Definition Pos_to_fin {n} (p : positive) : option (Fin.t n).
 Proof.
   generalize dependent n.
   induction p using Pos.peano_rect; intros.
-    destruct n.
-      exact None.
-    exact (Some Fin.F1).
-  destruct n.
-    exact None.
-  destruct (IHp n).
-    exact (Some (Fin.FS t)).
-  exact None.
+  - destruct n.
+    + exact None.
+    + exact (Some Fin.F1).
+  - destruct n.
+    + exact None.
+    + destruct (IHp n).
+      * exact (Some (Fin.FS t)).
+      * exact None.
 Defined.
 
 Definition pos_obj (f : positive) dom : option (∃ cod, objs[@dom] ~> objs[@cod]) :=

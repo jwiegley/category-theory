@@ -25,16 +25,16 @@ Next Obligation.
   rewrite curry_comp.
   rewrite <- comp_assoc.
   apply compose_respects.
+  - reflexivity.
+  - symmetry.
+    rewrite curry_comp_l.
+    rewrite <- !comp_assoc.
+    rewrite <- first_second.
+    rewrite !comp_assoc.
+    rewrite ump_exponents.
+    rewrite <- !comp_assoc.
+    rewrite <- second_comp.
     reflexivity.
-  symmetry.
-  rewrite curry_comp_l.
-  rewrite <- !comp_assoc.
-  rewrite <- first_second.
-  rewrite !comp_assoc.
-  rewrite ump_exponents.
-  rewrite <- !comp_assoc.
-  rewrite <- second_comp.
-  reflexivity.
 Qed.
 
 Notation "a ≈> b":= (InternalHomFunctor _ (a, b))

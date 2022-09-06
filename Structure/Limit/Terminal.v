@@ -16,15 +16,15 @@ Proof.
     + exact (vertex_obj[X]).
     + given (cone : Cone F). {
         unshelve (refine {| vertex_obj := x |}); intros.
-          inversion x0.
-        inversion x0.
+        - inversion x0.
+        - inversion x0.
       }
       destruct (@ump_limits _ _ _ X cone).
       apply unique_obj.
     + given (cone : Cone F). {
         unshelve (refine {| vertex_obj := x |}); intros.
-          inversion x0.
-        inversion x0.
+        - inversion x0.
+        - inversion x0.
       }
       destruct (@ump_limits _ _ _ X cone).
       pose proof (uniqueness f).

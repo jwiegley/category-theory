@@ -101,11 +101,11 @@ Qed.
   Proper (Isomorphism ==> Isomorphism ==> iffT) Isomorphism.
 Next Obligation.
   proper.
-    refine (iso_compose _ (iso_sym X)).
+  - refine (iso_compose _ (iso_sym X)).
     exact (iso_compose _ X1).
-  refine (iso_compose _ X).
-  refine (iso_compose _ X1).
-  exact (iso_sym X0).
+  - refine (iso_compose _ X).
+    refine (iso_compose _ X1).
+    exact (iso_sym X0).
 Defined.
 
 Goal ∀ {F G K} (f : G ≅ K) (g : F ≅ G), F ≅ K.

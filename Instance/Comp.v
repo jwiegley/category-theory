@@ -100,11 +100,11 @@ Section FreeAlg.
   Proof.
     intros eq_gen t.
     induction t.
-      now apply eq_gen.
-    rewrite 2 op_commute.
-    f_equal.
-    extensionality x.           (* jww (2020-02-23): How to remove this axiom? *)
-    now apply H.
+    - now apply eq_gen.
+    - rewrite 2 op_commute.
+      f_equal.
+      extensionality x.           (* jww (2020-02-23): How to remove this axiom? *)
+      now apply H.
   Qed.
 End FreeAlg.
 
@@ -343,8 +343,8 @@ Proof.
       repeat (unfold one', mul', inv';
               rewrite op_commute; f_equal; apply functional_extensionality;
               intros []; try reflexivity)).
-    reflexivity.
-    reflexivity.
+    + reflexivity.
+    + reflexivity.
 Defined.
 
 (* And finally, we can define what a group is. *)

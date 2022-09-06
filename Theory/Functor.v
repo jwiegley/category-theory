@@ -145,10 +145,10 @@ Next Obligation.
   proper.
   refine {| to   := fmap[F] (to X)
           ; from := fmap (from X) |}.
-    rewrite <- fmap_comp.
+  - rewrite <- fmap_comp.
     rewrite iso_to_from; cat.
-  rewrite <- fmap_comp.
-  rewrite iso_from_to; cat.
+  - rewrite <- fmap_comp.
+    rewrite iso_from_to; cat.
 Defined.
 
 #[export]

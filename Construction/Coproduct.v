@@ -33,12 +33,12 @@ Program Definition Coproduct : Category := {|
 |}.
 Next Obligation.
   destruct x.
-    destruct y.
-      exact (f ≈ g).
-    contradiction.
-  destruct y.
-    contradiction.
-  exact (f ≈ g).
+  - destruct y.
+    + exact (f ≈ g).
+    + contradiction.
+  - destruct y.
+    + contradiction.
+    + exact (f ≈ g).
 Defined.
 Next Obligation.
   equivalence;

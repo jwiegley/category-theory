@@ -28,15 +28,15 @@ Next Obligation.
   rename y into B.
   rename z into C.
   proper.
-  isomorphism; simpl; split.
-  - apply x2.
-  - apply x1.
-  - apply (from (x2 _)).
-  - apply (from (x1 _)).
-  - apply iso_to_from.
-  - apply iso_to_from.
-  - apply iso_from_to.
-  - apply iso_from_to.
+  - isomorphism; simpl; split.
+    + apply x2.
+    + apply x1.
+    + apply (from (x2 _)).
+    + apply (from (x1 _)).
+    + apply iso_to_from.
+    + apply iso_to_from.
+    + apply iso_from_to.
+    + apply iso_from_to.
   - apply e0.
   - apply e.
 Qed.

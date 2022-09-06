@@ -28,8 +28,8 @@ Next Obligation.
   - symmetry.
     apply X.
   - transitivity (y0 x1).
-      apply X.
-    apply X0.
+    + apply X.
+    + apply X0.
 Qed.
 
 Definition setoid_morphism_id {x : SetoidObject} : SetoidMorphism x x := {|

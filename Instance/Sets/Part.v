@@ -21,18 +21,18 @@ Defined.
 Next Obligation.
   construct.
   - destruct (g X) as [b|].
-      exact (f b).
-    exact None.
+    + exact (f b).
+    + exact None.
   - proper.
     destruct f, g; simpl.
     spose (proper_morphism0 _ _ X) as X1.
     destruct (morphism0 x0); auto;
     destruct (morphism0 y0); auto.
-      spose (proper_morphism _ _ X1) as X2.
+    + spose (proper_morphism _ _ X1) as X2.
       destruct (morphism c); auto;
       destruct (morphism c0); auto.
-      contradiction.
-    contradiction.
+    + contradiction.
+    + contradiction.
 Defined.
 Next Obligation.
   proper.
@@ -43,11 +43,11 @@ Next Obligation.
     destruct (y1 x2); auto;
     destruct y0; simpl in *;
     spose (proper_morphism _ _ X0) as X1.
-      destruct (morphism c); auto;
+    + destruct (morphism c); auto;
       destruct (morphism c1); try tauto.
       now transitivity c2.
-    destruct (morphism c); auto;
-    destruct (morphism c0); tauto.
+    + destruct (morphism c); auto;
+      destruct (morphism c0); tauto.
   - destruct (y1 x2); auto.
     contradiction.
 Qed.
@@ -94,12 +94,12 @@ Defined.
 Next Obligation.
   construct.
   - destruct (f H) as [b|].
-      destruct (g H) as [c|].
-        exact (Some (Datatypes.inr (Datatypes.inr (b, c)))).
-      exact (Some (Datatypes.inl b)).
-    destruct (g H) as [c|].
-      exact (Some (Datatypes.inr (Datatypes.inl c))).
-    exact None.
+    + destruct (g H) as [c|].
+      * exact (Some (Datatypes.inr (Datatypes.inr (b, c)))).
+      * exact (Some (Datatypes.inl b)).
+    + destruct (g H) as [c|].
+      * exact (Some (Datatypes.inr (Datatypes.inl c))).
+      * exact None.
   - proper.
     try rename H into X.
     destruct f, g; simpl in *.
@@ -114,11 +114,11 @@ Next Obligation.
   unfold Part_Cartesian_obligation_1.
   construct.
   - destruct H.
-      exact (Some c).
-    destruct s.
-      exact None.
-    destruct p.
-    exact (Some c).
+    + exact (Some c).
+    + destruct s.
+      * exact None.
+      * destruct p.
+        exact (Some c).
   - proper.
     destruct x0, y0; try tauto.
     destruct s, s0; try tauto.
@@ -129,11 +129,11 @@ Next Obligation.
   unfold Part_Cartesian_obligation_1.
   construct.
   - destruct H.
-      exact None.
-    destruct s.
-      exact (Some c).
-    destruct p.
-    exact (Some c0).
+    + exact None.
+    + destruct s.
+      * exact (Some c).
+      * destruct p.
+        exact (Some c0).
   - proper.
     destruct x0, y0; try tauto.
     destruct s, s0; try tauto.
@@ -201,7 +201,7 @@ Proof.
   extensionality x.
   unfold to, from.
   destruct (f x).
-    f_equal.
+  - f_equal.
     (** Stuck proving False. *)
 Abort.
 
@@ -228,10 +228,10 @@ Proof.
   unfold to, from.
   destruct x; simpl.
     (** Stuck proving a fact we can't determine. *)
-    admit.
-  destruct s; simpl.
-    admit.
-  destruct p; auto.
+  - admit.
+  - destruct s; simpl.
+    + admit.
+    + destruct p; auto.
 Abort.
 
 Lemma from_to_impossible {a b c} :
@@ -245,8 +245,8 @@ Proof.
   simpl in H1.
   unfold to, from in H1.
   destruct H0, i.
-    specialize (H1 (inl X0)).
+  - specialize (H1 (inl X0)).
     discriminate.
-  specialize (H1 (inr (inl X0))).
-  discriminate.
+  - specialize (H1 (inr (inl X0))).
+    discriminate.
 Qed.

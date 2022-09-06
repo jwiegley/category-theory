@@ -38,17 +38,17 @@ Next Obligation.
 Qed.
 Next Obligation.
   split; intros.
-    destruct H as [? [? H2]].
+  - destruct H as [? [? H2]].
     destruct H2; assumption.
-  exists y0.
-  intuition.
+  - exists y0.
+    intuition.
 Qed.
 Next Obligation.
   split; intros.
-    destruct H as [? [H1 ?]].
+  - destruct H as [? [H1 ?]].
     destruct H1; assumption.
-  exists x0.
-  intuition.
+  - exists x0.
+    intuition.
 Qed.
 Next Obligation. firstorder. Qed.
 Next Obligation. firstorder. Qed.

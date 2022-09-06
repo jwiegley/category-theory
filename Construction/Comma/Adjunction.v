@@ -206,8 +206,9 @@ Program Instance lawvere_to_Proper {a b} :
 Next Obligation.
   proper.
   unfold φ', lawvere_to.
-  given (ff : ((a, b); x) ~{ F ↓ Id[C] }~> ((a, b); y)).
+  given (ff : ((a, b); x) ~{ F ↓ Id[C] }~> ((a, b); y)). {
     now refine ((id, id); _); abstract cat.
+  }
   spose (`2 (projF E) ((a, b); x) ((a, b); y) ff) as H0.
   destruct H0 as [H1 H2].
   symmetry.
@@ -244,8 +245,9 @@ Next Obligation.
   proper.
   unfold ψ', lawvere_from.
   spose (θ E) as H.
-  given (ff : ((a, b); x) ~{ Id[D] ↓ G }~> ((a, b); y)).
+  given (ff : ((a, b); x) ~{ Id[D] ↓ G }~> ((a, b); y)). {
     now refine ((id, id); _); abstract cat.
+  }
   spose (`2 (projG E) ((a, b); x) ((a, b); y) ff) as H0.
   destruct H0 as [H1 H2].
   rewrite <- id_left.
@@ -377,9 +379,9 @@ Lemma lawvere_to_functorial {a b} (f : F a ~{C}~> b)
 Proof.
   (* φ'(j ∘ f ∘ Fi) = φ'(j ∘ f) ∘ i *)
 
-  given (Fi : ((a', b'); j ∘ f ∘ fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b'); j ∘ f)).
+  given (Fi : ((a', b'); j ∘ f ∘ fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b'); j ∘ f)). {
     now refine ((i, id); _); abstract cat.
-
+  }
   spose (`2 (to (lawvere_iso_to (j ∘ f))
                 ∘ fmap[φ E] Fi
                 ∘ from (lawvere_iso_to (j ∘ f ∘ fmap[F] i)))) as H.
@@ -393,8 +395,9 @@ Proof.
 
   (*                = G(j ∘ f) ∘ φ'(Fi) *)
 
-  given (Fi : ((a', F a); fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b'); j ∘ f)).
+  given (Fi : ((a', F a); fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b'); j ∘ f)). {
     now refine ((i, j ∘ f); _); abstract cat.
+  }
   spose (`2 (to (lawvere_iso_to (j ∘ f))
                 ∘ fmap[φ E] Fi
                 ∘ from (lawvere_iso_to (fmap[F] i)))) as H.
@@ -411,8 +414,9 @@ Proof.
 
   (*                = Gj ∘ φ'(f) ∘ i *)
 
-  given (Fi : ((a', F a); fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b); f)).
+  given (Fi : ((a', F a); fmap[F] i) ~{ F ↓ Id[C] }~> ((a, b); f)). {
     now refine ((i, f); _); abstract cat.
+  }
   spose (`2 (to (lawvere_iso_to f)
                 ∘ fmap[φ E] Fi
                 ∘ from (lawvere_iso_to (fmap[F] i)))) as H.
@@ -431,8 +435,9 @@ Lemma lawvere_from_functorial {a b} (g : a ~{D}~> G b)
 Proof.
   (* ψ'(Gj ∘ g ∘ i) = j ∘ ψ'(g ∘ i) *)
 
-  given (Gj : ((a', b); g ∘ i) ~{ Id[D] ↓ G }~> ((a', b'); fmap[G] j ∘ g ∘ i)).
+  given (Gj : ((a', b); g ∘ i) ~{ Id[D] ↓ G }~> ((a', b'); fmap[G] j ∘ g ∘ i)). {
     now refine ((id, j); _); simpl; abstract cat.
+  }
   spose (`2 (to (lawvere_iso_from (fmap[G] j ∘ g ∘ i))
                 ∘ fmap[ψ E] Gj
                 ∘ from (lawvere_iso_from (g ∘ i)))) as H.
@@ -446,8 +451,9 @@ Proof.
 
   (*                = ψ'(Gj) ∘ F(g ∘ i) *)
 
-  given (Gj : ((a', b); g ∘ i) ~{ Id[D] ↓ G }~> ((G b, b'); fmap[G] j)).
+  given (Gj : ((a', b); g ∘ i) ~{ Id[D] ↓ G }~> ((G b, b'); fmap[G] j)). {
     now refine ((g ∘ i, j); _); simpl; abstract cat.
+  }
   spose (`2 (to (lawvere_iso_from (fmap[G] j))
                 ∘ fmap[ψ E] Gj
                 ∘ from (lawvere_iso_from (g ∘ i)))) as H.
@@ -464,8 +470,9 @@ Proof.
 
   (*                = Gj ∘ ψ'(f) ∘ i *)
 
-  given (Gj : ((a, b); g) ~{ Id[D] ↓ G }~> ((G b, b'); fmap[G] j)).
+  given (Gj : ((a, b); g) ~{ Id[D] ↓ G }~> ((G b, b'); fmap[G] j)). {
     now refine ((g, j); _); simpl; abstract cat.
+  }
   spose (`2 (to (lawvere_iso_from (fmap[G] j))
                 ∘ fmap[ψ E] Gj
                 ∘ from (lawvere_iso_from (g)))) as H.
@@ -536,26 +543,26 @@ Proof.
                 (snd (`1 (projG E) ((a, b); g))⁻¹)) as X.
   unfold φ' in X; simpl in X.
   etransitivity.
-    now apply X.
-  clear X.
-  symmetry.
-  etransitivity.
-    spose (φ_ψ_equiv ((a, b); g)) as X1.
-    symmetry in X1.
-    now apply X1.
-  unfold θ, κ, ψ.
-  apply compose_respects; [|reflexivity].
-  rewrite <- !comp_assoc.
-  apply compose_respects; [reflexivity|].
-  spose (surjective_tripleF (ψ E ((a, b); g))) as X2.
-  unfold ψ in *.
-  rewrite <- X2.
-  solve [ reflexivity           (* works in >=8.12 *)
-        | simpl;                (* needed for <8.11 *)
-          unfold lawvere_to, θ, κ, ψ;
-          rewrite !comp_assoc;
-          reflexivity
-        ].
+  - now apply X.
+  - clear X.
+    symmetry.
+    etransitivity.
+    + spose (φ_ψ_equiv ((a, b); g)) as X1.
+      symmetry in X1.
+      now apply X1.
+    + unfold θ, κ, ψ.
+      apply compose_respects; [|reflexivity].
+      rewrite <- !comp_assoc.
+      apply compose_respects; [reflexivity|].
+      spose (surjective_tripleF (ψ E ((a, b); g))) as X2.
+      unfold ψ in *.
+      rewrite <- X2.
+      solve [ reflexivity           (* works in >=8.12 *)
+            | simpl;                (* needed for <8.11 *)
+              unfold lawvere_to, θ, κ, ψ;
+              rewrite !comp_assoc;
+              reflexivity
+            ].
 Qed.
 
 Lemma lawvere_from_to {a b} (f : F a ~> b) : ψ' E (φ' E f) ≈ f.
@@ -569,27 +576,27 @@ Proof.
                 (snd (`1 (projF E) ((a, b); f))⁻¹)) as X.
   unfold ψ' in X; simpl in X.
   etransitivity.
-    symmetry.
+  - symmetry.
     now apply X.
-  clear X.
-  symmetry.
-  etransitivity.
-    spose (ψ_φ_equiv ((a, b); f)) as X1.
-    symmetry in X1.
-    now apply X1.
-  unfold θ, κ, ψ.
-  apply compose_respects; [|reflexivity].
-  rewrite <- !comp_assoc.
-  apply compose_respects; [reflexivity|].
-  spose (surjective_tripleG (φ E ((a, b); f))) as X2.
-  unfold φ in *.
-  rewrite <- X2.
-  solve [ reflexivity           (* works in >=8.12 *)
-        | simpl;                (* needed for <8.11 *)
-          unfold lawvere_to, θ, κ, ψ;
-          rewrite !comp_assoc;
-          reflexivity
-        ].
+  - clear X.
+    symmetry.
+    etransitivity.
+    + spose (ψ_φ_equiv ((a, b); f)) as X1.
+      symmetry in X1.
+      now apply X1.
+    + unfold θ, κ, ψ.
+      apply compose_respects; [|reflexivity].
+      rewrite <- !comp_assoc.
+      apply compose_respects; [reflexivity|].
+      spose (surjective_tripleG (φ E ((a, b); f))) as X2.
+      unfold φ in *.
+      rewrite <- X2.
+      solve [ reflexivity           (* works in >=8.12 *)
+            | simpl;                (* needed for <8.11 *)
+              unfold lawvere_to, θ, κ, ψ;
+              rewrite !comp_assoc;
+              reflexivity
+            ].
 Qed.
 
 Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {

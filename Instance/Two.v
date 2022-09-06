@@ -14,10 +14,10 @@ Inductive TwoHom : TwoObj → TwoObj → Type :=
 Definition TwoHom_inv_t : ∀ x y, TwoHom x y → Prop.
 Proof.
   intros [] [] f.
-  exact (f = TwoIdX).
-  exact (f = TwoXY).
-  exact False.          (* Unused, any Prop is ok here *)
-  exact (f = TwoIdY).
+  - exact (f = TwoIdX).
+  - exact (f = TwoXY).
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact (f = TwoIdY).
 Defined.
 
 Corollary TwoHom_inv x y f : TwoHom_inv_t x y f.
@@ -97,9 +97,9 @@ Next Obligation.
 Defined.
 Next Obligation.
   construct; auto.
-  destruct x, y; simpl in *; auto with two_laws.
-  proper.
-  destruct x, y; simpl in *; auto with two_laws.
+  - destruct x, y; simpl in *; auto with two_laws.
+  - proper.
+    destruct x, y; simpl in *; auto with two_laws.
 Qed.
 Next Obligation.
   destruct x; simpl in *; auto with two_laws.

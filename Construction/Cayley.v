@@ -30,22 +30,22 @@ Next Obligation.
 Qed.
 Next Obligation.
   split.
-    proper.
-  intros; cat.
+  - proper.
+  - intros; cat.
 Qed.
 Next Obligation.
   split.
-    proper.
+  - proper.
     apply p.
     apply p0.
     apply X.
-  intros.
-  symmetry.
-  rewrite e.
-  rewrite comp_assoc.
-  rewrite <- e0.
-  rewrite <- e.
-  reflexivity.
+  - intros.
+    symmetry.
+    rewrite e.
+    rewrite comp_assoc.
+    rewrite <- e0.
+    rewrite <- e.
+    reflexivity.
 Qed.
 Next Obligation.
   proper.
@@ -157,35 +157,35 @@ Defined.
 Next Obligation.
   exists (fun r h => h ∘ x0 △ x1).
   split.
-    proper.
-  intros; cat.
+  - proper.
+  - intros; cat.
 Defined.
 Next Obligation.
   destruct x0; simpl in *.
   exists (fun r h => transform r h).
   split.
-    proper.
+  - proper.
     now apply proper_morphism.
-  intros.
-  rewrite naturality.
-  apply proper_morphism; cat.
+  - intros.
+    rewrite naturality.
+    apply proper_morphism; cat.
 Defined.
 Next Obligation.
   destruct x0; simpl in *.
   exists (fun r h => transform r h).
   split.
-    proper.
+  - proper.
     now apply proper_morphism.
-  intros.
-  rewrite naturality.
-  apply proper_morphism; cat.
+  - intros.
+    rewrite naturality.
+    apply proper_morphism; cat.
 Defined.
 Next Obligation.
   proper; simpl in *.
   comp_left.
   apply fork_respects.
-    apply X.
-  apply X0.
+  - apply X.
+  - apply X0.
 Qed.
 Next Obligation.
   proper; simpl in *.

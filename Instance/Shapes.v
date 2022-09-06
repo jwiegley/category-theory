@@ -416,8 +416,9 @@ Proof.
   unfold sized, resized.
   Import EqNotations.
   assert (∀ x, rew [t a] size_unsize n in
-               rew <- [t a] size_unsize n in x = x).
+               rew <- [t a] size_unsize n in x = x). {
     now destruct (size_unsize n); simpl.
+  }
   now rewrite H.
 Qed.
 

@@ -23,14 +23,14 @@ Inductive ParHom : bool → ParObj → ParObj → Type :=
 Definition ParHom_inv_t : ∀ b x y, ParHom b x y → Prop.
 Proof.
   intros [] [] [] f.
-  exact (f = ParIdX).
-  exact (f = ParOne).
-  exact False.          (* Unused, any Prop is ok here *)
-  exact (f = ParIdY).
-  exact False.          (* Unused, any Prop is ok here *)
-  exact (f = ParTwo).
-  exact False.          (* Unused, any Prop is ok here *)
-  exact False.          (* Unused, any Prop is ok here *)
+  - exact (f = ParIdX).
+  - exact (f = ParOne).
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact (f = ParIdY).
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact (f = ParTwo).
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact False.          (* Unused, any Prop is ok here *)
 Defined.
 
 Corollary ParHom_inv b x y f : ParHom_inv_t b x y f.
@@ -161,20 +161,20 @@ Program Definition Presheaf_Graph : Parallel^op ⟶ Sets := {|
 |}.
 Next Obligation.
   construct.
-  exact eq.
-  exact eq_equivalence.
+  - exact eq.
+  - exact eq_equivalence.
 Defined.
 Next Obligation.
   construct.
-  exact eq.
-  exact eq_equivalence.
+  - exact eq.
+  - exact eq_equivalence.
 Defined.
 Next Obligation.
   proper.
   simpl in H; subst.
   destruct x, y; simpl; auto.
-  - elimtype False.
-    now apply ParHom_Y_X_absurd in e.
+  elimtype False.
+  now apply ParHom_Y_X_absurd in e.
 Qed.
 Next Obligation.
   destruct x; simpl; auto.

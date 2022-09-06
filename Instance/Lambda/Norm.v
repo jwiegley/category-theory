@@ -186,10 +186,10 @@ Proof.
     + intros.
       destruct (SN_halts H0) as [v [P Q]].
       apply (multistep_preserves_SN' (e':=SubExp (Push v env) e)); auto.
-      eapply multi_trans; eauto.
-      * now eapply multistep_AppR; eauto.
-      * apply multi_R; auto.
-        now rewrite SubExp_Push; eauto 6.
+      * eapply multi_trans; eauto.
+        ** now eapply multistep_AppR; eauto.
+        ** apply multi_R; auto.
+           now rewrite SubExp_Push; eauto 6.
       * apply IHe.
         constructor; auto.
         now eapply multistep_preserves_SN; eauto.
@@ -200,9 +200,9 @@ Theorem Exp_SN {τ} (e : Exp [] τ) : SN e.
 Proof.
   intros.
   replace e with (SubExp (Γ:=[]) NoSub e).
-    apply SubExp_SN.
+  - apply SubExp_SN.
     now constructor.
-  now rewrite NoSub_idSub, SubExp_idSub.
+  - now rewrite NoSub_idSub, SubExp_idSub.
 Qed.
 
 Corollary strong_normalization {τ} (e : Exp [] τ) : e ⇓.

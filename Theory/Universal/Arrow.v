@@ -32,12 +32,12 @@ Proof.
   simpl in *.
   rewrite id_right in e.
   exists h1.
-    assumption.
-  intros.
-  rewrite <- id_right in e.
-  rewrite <- id_right in X.
-  exact (snd (@zero_unique _ arrow_initial ((tt, d); h)
-                           ((tt, h1); e) ((tt, v); X))).
+  - assumption.
+  - intros.
+    rewrite <- id_right in e.
+    rewrite <- id_right in X.
+    exact (snd (@zero_unique _ arrow_initial ((tt, d); h)
+                             ((tt, h1); e) ((tt, v); X))).
 Qed.
 
 End UniversalArrow.

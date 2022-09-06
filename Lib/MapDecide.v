@@ -70,8 +70,8 @@ Program Definition term_eq_dec (x y : term) : {x = y} + {x ≠ y} :=
 Next Obligation.
   intuition; subst.
   destruct y.
-    specialize (H0 p p); intuition.
-  specialize (H n n); intuition.
+  - specialize (H0 p p); intuition.
+  - specialize (H n n); intuition.
 Defined.
 Next Obligation.
   split; unfold not; intros ? ? H1;
@@ -272,9 +272,9 @@ Lemma formula_denote_subst_formula env v v' t :
     → formula_denote env (subst_formula t v v') = formula_denote env t.
 Proof.
   induction t; simpl; auto; intros.
-    rewrite map_expr_denote_subst_map_expr,
+  - rewrite map_expr_denote_subst_map_expr,
             !term_denote_subst_term; auto.
-  rewrite IHt1, IHt2; auto.
+  - rewrite IHt1, IHt2; auto.
 Qed.
 
 Lemma formula_substitution_eq env t xs :
@@ -384,22 +384,22 @@ Lemma map_contains_MapsTo env x y f m :
     → M.MapsTo (x, y) (term_denote env f) (map_expr_denote env m).
 Proof.
   induction m; simpl; intros.
-    discriminate.
-  simplify_maps.
-  destruct ((x =? term_denote env t)%N &&
-            (y =? term_denote env t0)%N)%bool eqn:?.
-    inversion_clear H.
-    clear IHm.
-    apply andb_true_iff in Heqb.
-    destruct Heqb.
-    apply N.eqb_eq in H.
-    apply N.eqb_eq in H0.
-    intuition.
-  right.
-  apply andb_false_iff in Heqb.
-  destruct Heqb;
-  apply N.eqb_neq in H0;
-  intuition.
+  - discriminate.
+  - simplify_maps.
+    destruct ((x =? term_denote env t)%N &&
+              (y =? term_denote env t0)%N)%bool eqn:?.
+    + inversion_clear H.
+      clear IHm.
+      apply andb_true_iff in Heqb.
+      destruct Heqb.
+      apply N.eqb_eq in H.
+      apply N.eqb_eq in H0.
+      intuition.
+    + right.
+      apply andb_false_iff in Heqb.
+      destruct Heqb;
+      apply N.eqb_neq in H0;
+      intuition.
 Qed.
 
 Program Fixpoint formula_backward (t : formula) env {measure (formula_size t)} :

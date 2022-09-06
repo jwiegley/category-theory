@@ -33,8 +33,8 @@ Definition composition {x y : C} : tlist hom x y → x ~{C}~> y.
 Proof.
   intros.
   induction X.
-    exact id.
-  exact (compose IHX b).
+  - exact id.
+  - exact (compose IHX b).
 Defined.
 
 Definition composition_tnil {x : C} : composition tnil ≈ id[x].
@@ -45,12 +45,12 @@ Definition composition_tapp {x y z : C}
   composition (f +++ g) ≈ composition g ∘ composition f.
 Proof.
   induction f; simpl.
-    rewrite tlist_app_tnil_l.
+  - rewrite tlist_app_tnil_l.
     now cat.
-  rewrite <- tlist_app_comm_cons.
-  simpl.
-  rewrite IHf.
-  now cat.
+  - rewrite <- tlist_app_comm_cons.
+    simpl.
+    rewrite IHf.
+    now cat.
 Qed.
 
 Program Definition FreeFunctor : Free ⟶ C := {|

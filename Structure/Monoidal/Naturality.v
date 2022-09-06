@@ -31,8 +31,8 @@ Next Obligation. normal; reflexivity. Qed.
 Next Obligation.
   unfold Tensor_Left_Map_obligation_1.
   apply bifunctor_respects; simpl; split.
-    apply fobj_related.
-  reflexivity.
+  - apply fobj_related.
+  - reflexivity.
 Defined.
 Next Obligation.
   unfold Tensor_Left_Map_obligation_1;
@@ -59,8 +59,8 @@ Next Obligation. normal; reflexivity. Qed.
 Next Obligation.
   unfold Tensor_Left_Map_obligation_1.
   apply bifunctor_respects; simpl; split.
-    reflexivity.
-  apply fobj_related.
+  - reflexivity.
+  - apply fobj_related.
 Defined.
 Next Obligation.
   unfold Tensor_Left_Map_obligation_1;

@@ -58,8 +58,8 @@ Program Instance adj_morphism_setoid {C : Category} {D : Category} :
 }.
 Next Obligation.
   equivalence.
-    transitivity (free_functor y); assumption.
-  transitivity (forgetful_functor y); assumption.
+  - transitivity (free_functor y); assumption.
+  - transitivity (forgetful_functor y); assumption.
 Qed.
 
 (* The category of Adjoints:

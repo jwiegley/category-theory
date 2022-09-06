@@ -33,11 +33,11 @@ Qed.
 Next Obligation.
   given (cone : Cone F). {
     unshelve (refine {| vertex_obj := Q |}); intros.
-      destruct x; auto.
+    - destruct x; auto.
       exact (unop (fmap[F] ZeroPos) ∘ q2).
-    simpl;
-    destruct x, y; auto with roof_laws; simpl in f;
-    rewrite (RoofHom_inv _ _ f); cat.
+    - simpl;
+      destruct x, y; auto with roof_laws; simpl in f;
+      rewrite (RoofHom_inv _ _ f); cat.
   }
   destruct P, limit_cone; simpl in *.
   exists (unique_obj (ump_limits cone)). {
@@ -74,19 +74,20 @@ Next Obligation.
 Qed.
 Next Obligation.
   destruct P, N; simpl in *.
-  assert (eqv : f ∘ vertex_map RNeg ≈ g ∘ vertex_map RPos).
+  assert (eqv : f ∘ vertex_map RNeg ≈ g ∘ vertex_map RPos). {
     rewrite (ump_cones RNeg RZero ZeroNeg).
     rewrite (ump_cones RPos RZero ZeroPos).
     reflexivity.
+  }
   unfold Pullback_from_Universal_obligation_1; simpl.
   destruct (ump_pullbacks vertex_obj (vertex_map RNeg) (vertex_map RPos) eqv).
   construct; simplify; auto.
-    destruct x0; auto.
+  - destruct x0; auto.
     rewrite <- comp_assoc.
     rewrite unique_property.
     apply (ump_cones RNeg RZero ZeroNeg).
-  apply uniqueness.
-  split.
-    apply (X RNeg).
-  apply (X RPos).
+  - apply uniqueness.
+    split.
+    + apply (X RNeg).
+    + apply (X RPos).
 Defined.
