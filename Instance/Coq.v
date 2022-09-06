@@ -81,9 +81,9 @@ Program Instance Coq_Cocartesian : @Cocartesian Coq := {
 }.
 Next Obligation.
   split; intros.
-    split; intros;
+  - split; intros;
     rewrite H; reflexivity.
-  destruct x0; firstorder.
+  - destruct x0; firstorder.
 Qed.
 
 Lemma injectivity_is_monic `(f : x ~> y) :
@@ -103,8 +103,8 @@ Proof.
     unfold const_x in monic.
     unfold const_y in monic.
     eapply monic; eauto.
-    simpl; intuition.
-    exact tt.
+    + simpl; intuition.
+    + exact tt.
 Qed.
 
 Lemma surjectivity_is_epic `(f : x ~> y) :
@@ -126,12 +126,12 @@ Proof.
     simpl in *.
     specialize epic with (g2 := λ y, True).
     erewrite epic.
-      constructor.
-    intros.
-    Axiom propositional_extensionality : ∀ P : Prop, P → P = True.
-    apply propositional_extensionality.
-    exists x0.
-    reflexivity.
+    + constructor.
+    + intros.
+      Axiom propositional_extensionality : ∀ P : Prop, P → P = True.
+      apply propositional_extensionality.
+      exists x0.
+      reflexivity.
 Qed.
 
 Program Definition option_Functor : Coq ⟶ Coq := {|

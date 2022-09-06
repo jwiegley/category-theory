@@ -59,8 +59,8 @@ Theorem Diagonal_Product_Two (C : Category) :
           transform[fmap[Diagonal Two_Discrete] f] TwoDY)).
 Proof.
   split; intros.
-    isomorphism; simpl; intros; try exact (id, id); cat.
-  reflexivity.
+  - isomorphism; simpl; intros; try exact (id, id); cat.
+  - reflexivity.
 Qed.
 
 #[export]

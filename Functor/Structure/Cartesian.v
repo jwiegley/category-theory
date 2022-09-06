@@ -53,30 +53,30 @@ Corollary prod_in_inj {x y z : C} (f g : F x ~> F y × F z) :
   prod_in ∘ f ≈ prod_in ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hprod.
-    rewrite <- id_left.
+  - rewrite <- id_left.
     rewrite <- prod_out_in.
     rewrite <- comp_assoc.
     rewrite Hprod.
     rewrite comp_assoc.
     autorewrite with functors; cat.
-  subst.
-  rewrite Hprod.
-  reflexivity.
+  - subst.
+    rewrite Hprod.
+    reflexivity.
 Qed.
 
 Corollary prod_out_inj {x y z : C} (f g : F x ~> F (y × z)) :
   prod_out ∘ f ≈ prod_out ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hprod.
-    rewrite <- id_left.
+  - rewrite <- id_left.
     rewrite <- prod_in_out.
     rewrite <- comp_assoc.
     rewrite Hprod.
     rewrite comp_assoc.
     autorewrite with functors; cat.
-  subst.
-  rewrite Hprod.
-  reflexivity.
+  - subst.
+    rewrite Hprod.
+    reflexivity.
 Qed.
 
 End CartesianFunctor.

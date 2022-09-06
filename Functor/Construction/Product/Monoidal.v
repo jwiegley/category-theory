@@ -190,31 +190,31 @@ Program Definition ProductFunctor_Monoidal_proj1 :
 |}.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@pure_iso _ _ _ _ _ P))).
-  apply (fst (from (@pure_iso _ _ _ _ _ P))).
-  apply (fst (iso_to_from (@pure_iso _ _ _ _ _ P))).
-  apply (fst (iso_from_to (@pure_iso _ _ _ _ _ P))).
+  - apply (fst (to (@pure_iso _ _ _ _ _ P))).
+  - apply (fst (from (@pure_iso _ _ _ _ _ P))).
+  - apply (fst (iso_to_from (@pure_iso _ _ _ _ _ P))).
+  - apply (fst (iso_from_to (@pure_iso _ _ _ _ _ P))).
 Defined.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@pure_iso_left _ _ _ _ _ P (x, I)))).
-  apply (fst (from (@pure_iso_left _ _ _ _ _ P (x, I)))).
-  apply (fst (iso_to_from (@pure_iso_left _ _ _ _ _ P (x, I)))).
-  apply (fst (iso_from_to (@pure_iso_left _ _ _ _ _ P (x, I)))).
+  - apply (fst (to (@pure_iso_left _ _ _ _ _ P (x, I)))).
+  - apply (fst (from (@pure_iso_left _ _ _ _ _ P (x, I)))).
+  - apply (fst (iso_to_from (@pure_iso_left _ _ _ _ _ P (x, I)))).
+  - apply (fst (iso_from_to (@pure_iso_left _ _ _ _ _ P (x, I)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@pure_iso_right _ _ _ _ _ P (x, I)))).
-  apply (fst (from (@pure_iso_right _ _ _ _ _ P (x, I)))).
-  apply (fst (iso_to_from (@pure_iso_right _ _ _ _ _ P (x, I)))).
-  apply (fst (iso_from_to (@pure_iso_right _ _ _ _ _ P (x, I)))).
+  - apply (fst (to (@pure_iso_right _ _ _ _ _ P (x, I)))).
+  - apply (fst (from (@pure_iso_right _ _ _ _ _ P (x, I)))).
+  - apply (fst (iso_to_from (@pure_iso_right _ _ _ _ _ P (x, I)))).
+  - apply (fst (iso_from_to (@pure_iso_right _ _ _ _ _ P (x, I)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
-  apply (fst (from (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
-  apply (fst (iso_to_from (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
-  apply (fst (iso_from_to (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  - apply (fst (to (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  - apply (fst (from (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  - apply (fst (iso_to_from (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  - apply (fst (iso_from_to (@ap_iso_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
 Qed.
 Next Obligation.
   apply (fst (@monoidal_unit_left _ _ _ _ _ P (x, I))).
@@ -266,13 +266,13 @@ Proof.
                       f as [f g];
          try destruct A as [x y]; simpl).
 
-    exact (snd (naturality (to (ap_functor_iso[P]))
-                           (I, x, (I, y)) (I, z, (I, w))
-                           ((id, f), (id, g)))).
+    + exact (snd (naturality (to (ap_functor_iso[P]))
+                             (I, x, (I, y)) (I, z, (I, w))
+                             ((id, f), (id, g)))).
 
-    exact (snd (naturality_sym (to (ap_functor_iso[P]))
-                               (I, x, (I, y)) (I, z, (I, w))
-                               ((id, f), (id, g)))).
+    + exact (snd (naturality_sym (to (ap_functor_iso[P]))
+                                 (I, x, (I, y)) (I, z, (I, w))
+                                 ((id, f), (id, g)))).
   - transform. {
       intros [x y].
       exact (snd (transform[from (ap_functor_iso[P])] ((I, x), (I, y)))).
@@ -285,13 +285,13 @@ Proof.
                       f as [f g];
          try destruct A as [x y]; simpl).
 
-    exact (snd (naturality (from (ap_functor_iso[P]))
-                           (I, x, (I, y)) (I, z, (I, w))
-                           ((id, f), (id, g)))).
+    + exact (snd (naturality (from (ap_functor_iso[P]))
+                             (I, x, (I, y)) (I, z, (I, w))
+                             ((id, f), (id, g)))).
 
-    exact (snd (naturality_sym (from (ap_functor_iso[P]))
-                               (I, x, (I, y)) (I, z, (I, w))
-                               ((id, f), (id, g)))).
+    + exact (snd (naturality_sym (from (ap_functor_iso[P]))
+                                 (I, x, (I, y)) (I, z, (I, w))
+                                 ((id, f), (id, g)))).
   - destruct x; simpl.
     apply (iso_to_from (ap_functor_iso[P]) (I, o, (I, o0))).
   - destruct x; simpl.
@@ -311,31 +311,31 @@ Program Definition ProductFunctor_Monoidal_proj2 :
 |}.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@pure_iso _ _ _ _ _ P))).
-  apply (snd (from (@pure_iso _ _ _ _ _ P))).
-  apply (snd (iso_to_from (@pure_iso _ _ _ _ _ P))).
-  apply (snd (iso_from_to (@pure_iso _ _ _ _ _ P))).
+  - apply (snd (to (@pure_iso _ _ _ _ _ P))).
+  - apply (snd (from (@pure_iso _ _ _ _ _ P))).
+  - apply (snd (iso_to_from (@pure_iso _ _ _ _ _ P))).
+  - apply (snd (iso_from_to (@pure_iso _ _ _ _ _ P))).
 Defined.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@pure_iso_left _ _ _ _ _ P (I, x)))).
-  apply (snd (from (@pure_iso_left _ _ _ _ _ P (I, x)))).
-  apply (snd (iso_to_from (@pure_iso_left _ _ _ _ _ P (I, x)))).
-  apply (snd (iso_from_to (@pure_iso_left _ _ _ _ _ P (I, x)))).
+  - apply (snd (to (@pure_iso_left _ _ _ _ _ P (I, x)))).
+  - apply (snd (from (@pure_iso_left _ _ _ _ _ P (I, x)))).
+  - apply (snd (iso_to_from (@pure_iso_left _ _ _ _ _ P (I, x)))).
+  - apply (snd (iso_from_to (@pure_iso_left _ _ _ _ _ P (I, x)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@pure_iso_right _ _ _ _ _ P (I, x)))).
-  apply (snd (from (@pure_iso_right _ _ _ _ _ P (I, x)))).
-  apply (snd (iso_to_from (@pure_iso_right _ _ _ _ _ P (I, x)))).
-  apply (snd (iso_from_to (@pure_iso_right _ _ _ _ _ P (I, x)))).
+  - apply (snd (to (@pure_iso_right _ _ _ _ _ P (I, x)))).
+  - apply (snd (from (@pure_iso_right _ _ _ _ _ P (I, x)))).
+  - apply (snd (iso_to_from (@pure_iso_right _ _ _ _ _ P (I, x)))).
+  - apply (snd (iso_from_to (@pure_iso_right _ _ _ _ _ P (I, x)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
-  apply (snd (from (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
-  apply (snd (iso_to_from (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
-  apply (snd (iso_from_to (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  - apply (snd (to (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  - apply (snd (from (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  - apply (snd (iso_to_from (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  - apply (snd (iso_from_to (@ap_iso_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
 Qed.
 Next Obligation.
   apply (snd (@monoidal_unit_left _ _ _ _ _ P (I, x))).
@@ -387,14 +387,14 @@ Proof.
        try destruct A as [[x z] [y w]]; simpl).
 
   - split.
-      abstract apply (naturality ap_functor_nat (x1, y1)).
-    abstract apply (naturality ap_functor_nat (x2, y2)).
+    + abstract apply (naturality ap_functor_nat (x1, y1)).
+    + abstract apply (naturality ap_functor_nat (x2, y2)).
 
   - split.
-      abstract apply (naturality_sym ap_functor_nat
+    + abstract apply (naturality_sym ap_functor_nat
                                      (x1, y1) (z1, w1) (f1a, f2a)).
-    abstract apply (naturality_sym ap_functor_nat
-                                   (x2, y2) (z2, w2) (f1b, f2b)).
+    + abstract apply (naturality_sym ap_functor_nat
+                                     (x2, y2) (z2, w2) (f1b, f2b)).
 Defined.
 
 Program Definition ProductFunctor_LaxMonoidal :
@@ -468,24 +468,24 @@ Next Obligation.
 Defined.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@pure_left _ _ _ _ _ P (x, I)))).
-  apply (fst (from (@pure_left _ _ _ _ _ P (x, I)))).
-  apply (fst (iso_to_from (@pure_left _ _ _ _ _ P (x, I)))).
-  apply (fst (iso_from_to (@pure_left _ _ _ _ _ P (x, I)))).
+  - apply (fst (to (@pure_left _ _ _ _ _ P (x, I)))).
+  - apply (fst (from (@pure_left _ _ _ _ _ P (x, I)))).
+  - apply (fst (iso_to_from (@pure_left _ _ _ _ _ P (x, I)))).
+  - apply (fst (iso_from_to (@pure_left _ _ _ _ _ P (x, I)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@pure_right _ _ _ _ _ P (x, I)))).
-  apply (fst (from (@pure_right _ _ _ _ _ P (x, I)))).
-  apply (fst (iso_to_from (@pure_right _ _ _ _ _ P (x, I)))).
-  apply (fst (iso_from_to (@pure_right _ _ _ _ _ P (x, I)))).
+  - apply (fst (to (@pure_right _ _ _ _ _ P (x, I)))).
+  - apply (fst (from (@pure_right _ _ _ _ _ P (x, I)))).
+  - apply (fst (iso_to_from (@pure_right _ _ _ _ _ P (x, I)))).
+  - apply (fst (iso_from_to (@pure_right _ _ _ _ _ P (x, I)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (fst (to (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
-  apply (fst (from (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
-  apply (fst (iso_to_from (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
-  apply (fst (iso_from_to (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  - apply (fst (to (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  - apply (fst (from (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  - apply (fst (iso_to_from (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
+  - apply (fst (iso_from_to (@ap_assoc _ _ _ _ _ P (x, I) (y, I) (z, I)))).
 Qed.
 Next Obligation.
   apply (fst (@lax_monoidal_unit_left _ _ _ _ _ P (x, I))).
@@ -562,24 +562,24 @@ Next Obligation.
 Defined.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@pure_left _ _ _ _ _ P (I, x)))).
-  apply (snd (from (@pure_left _ _ _ _ _ P (I, x)))).
-  apply (snd (iso_to_from (@pure_left _ _ _ _ _ P (I, x)))).
-  apply (snd (iso_from_to (@pure_left _ _ _ _ _ P (I, x)))).
+  - apply (snd (to (@pure_left _ _ _ _ _ P (I, x)))).
+  - apply (snd (from (@pure_left _ _ _ _ _ P (I, x)))).
+  - apply (snd (iso_to_from (@pure_left _ _ _ _ _ P (I, x)))).
+  - apply (snd (iso_from_to (@pure_left _ _ _ _ _ P (I, x)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@pure_right _ _ _ _ _ P (I, x)))).
-  apply (snd (from (@pure_right _ _ _ _ _ P (I, x)))).
-  apply (snd (iso_to_from (@pure_right _ _ _ _ _ P (I, x)))).
-  apply (snd (iso_from_to (@pure_right _ _ _ _ _ P (I, x)))).
+  - apply (snd (to (@pure_right _ _ _ _ _ P (I, x)))).
+  - apply (snd (from (@pure_right _ _ _ _ _ P (I, x)))).
+  - apply (snd (iso_to_from (@pure_right _ _ _ _ _ P (I, x)))).
+  - apply (snd (iso_from_to (@pure_right _ _ _ _ _ P (I, x)))).
 Qed.
 Next Obligation.
   isomorphism.
-  apply (snd (to (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
-  apply (snd (from (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
-  apply (snd (iso_to_from (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
-  apply (snd (iso_from_to (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  - apply (snd (to (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  - apply (snd (from (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  - apply (snd (iso_to_from (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
+  - apply (snd (iso_from_to (@ap_assoc _ _ _ _ _ P (I, x) (I, y) (I, z)))).
 Qed.
 Next Obligation.
   apply (snd (@lax_monoidal_unit_left _ _ _ _ _ P (I, x))).
@@ -635,8 +635,8 @@ Lemma ProductFunctor_fst_LaxMonoidal_ap_functor_nat :
 Proof.
   intro L.
   transform; simpl.
-  intros [x y]; simpl.
-  - exact (fst (bimap id (to unit_left) ∘ transform[@ap_functor_nat _ _ _ _ _ L]
+  - intros [x y]; simpl.
+    exact (fst (bimap id (to unit_left) ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((x, I), (y, I)))).
   - simpl in *.
     destruct x as [x1 x2];
@@ -704,76 +704,76 @@ Next Obligation.
   simplify; simpl in *;
   simplify; simpl in *.
   transitivity (fst (P (I ⨂ x, I ⨂ I)%object)).
-    isomorphism; auto.
-  isomorphism.
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.to unit_left))).
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.from unit_left))).
-  - rewrite fst_comp.
-    rewrite <- bimap_comp.
-    rewrite Isomorphism.iso_to_from.
-    rewrite id_left.
-    rewrite bimap_id_id.
-    reflexivity.
-  - rewrite fst_comp.
-    rewrite <- bimap_comp.
-    rewrite Isomorphism.iso_from_to.
-    rewrite id_left.
-    rewrite bimap_id_id.
-    reflexivity.
+  - isomorphism; auto.
+  - isomorphism.
+    + exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.to unit_left))).
+    + exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.from unit_left))).
+    + rewrite fst_comp.
+      rewrite <- bimap_comp.
+      rewrite Isomorphism.iso_to_from.
+      rewrite id_left.
+      rewrite bimap_id_id.
+      reflexivity.
+    + rewrite fst_comp.
+      rewrite <- bimap_comp.
+      rewrite Isomorphism.iso_from_to.
+      rewrite id_left.
+      rewrite bimap_id_id.
+      reflexivity.
 Defined.
 Next Obligation.
   destruct (@pure_right _ _ _ _ _ L (x, I));
   simplify; simpl in *;
   simplify; simpl in *.
   transitivity (fst (P (x ⨂ I, I ⨂ I)%object)).
-    isomorphism; auto.
-  isomorphism.
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.to unit_left))).
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.from unit_left))).
-  - rewrite fst_comp.
-    rewrite <- bimap_comp.
-    rewrite Isomorphism.iso_to_from.
-    rewrite id_left.
-    rewrite bimap_id_id.
-    reflexivity.
-  - rewrite fst_comp.
-    rewrite <- bimap_comp.
-    rewrite Isomorphism.iso_from_to.
-    rewrite id_left.
-    rewrite bimap_id_id.
-    reflexivity.
+  - isomorphism; auto.
+  - isomorphism.
+    + exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.to unit_left))).
+    + exact (fst (@bimap _ _ _ P _ _ _ _ id (Isomorphism.from unit_left))).
+    + rewrite fst_comp.
+      rewrite <- bimap_comp.
+      rewrite Isomorphism.iso_to_from.
+      rewrite id_left.
+      rewrite bimap_id_id.
+      reflexivity.
+    + rewrite fst_comp.
+      rewrite <- bimap_comp.
+      rewrite Isomorphism.iso_from_to.
+      rewrite id_left.
+      rewrite bimap_id_id.
+      reflexivity.
 Defined.
 Next Obligation.
   destruct (@ap_assoc _ _ _ _ _ L (x, I) (y, I) (z, I));
   simplify; simpl in *;
   simplify; simpl in *.
   transitivity (fst (P (x ⨂ y ⨂ z, I ⨂ I ⨂ I)%object)).
-    isomorphism; auto.
-  isomorphism.
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id
-                       (Isomorphism.to unit_left ∘
-                        Isomorphism.to unit_left))).
-  - exact (fst (@bimap _ _ _ P _ _ _ _ id
-                       (Isomorphism.from unit_left ∘
-                        Isomorphism.from unit_left))).
-  - rewrite fst_comp.
-    rewrite <- bimap_comp.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (Isomorphism.from _)).
-    rewrite Isomorphism.iso_to_from.
-    rewrite !id_left.
-    rewrite Isomorphism.iso_to_from.
-    rewrite bimap_id_id.
-    reflexivity.
-  - rewrite fst_comp.
-    rewrite <- bimap_comp.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (Isomorphism.to _)).
-    rewrite Isomorphism.iso_from_to.
-    rewrite !id_left.
-    rewrite Isomorphism.iso_from_to.
-    rewrite bimap_id_id.
-    reflexivity.
+  - isomorphism; auto.
+  - isomorphism.
+    + exact (fst (@bimap _ _ _ P _ _ _ _ id
+                         (Isomorphism.to unit_left ∘
+                          Isomorphism.to unit_left))).
+    + exact (fst (@bimap _ _ _ P _ _ _ _ id
+                         (Isomorphism.from unit_left ∘
+                          Isomorphism.from unit_left))).
+    + rewrite fst_comp.
+      rewrite <- bimap_comp.
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc _ (Isomorphism.from _)).
+      rewrite Isomorphism.iso_to_from.
+      rewrite !id_left.
+      rewrite Isomorphism.iso_to_from.
+      rewrite bimap_id_id.
+      reflexivity.
+    + rewrite fst_comp.
+      rewrite <- bimap_comp.
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc _ (Isomorphism.to _)).
+      rewrite Isomorphism.iso_from_to.
+      rewrite !id_left.
+      rewrite Isomorphism.iso_from_to.
+      rewrite bimap_id_id.
+      reflexivity.
 Defined.
 Next Obligation.
   unfold ProductFunctor_fst_LaxMonoidal_obligation_1.
@@ -808,9 +808,10 @@ Next Obligation.
     (fst (to (Product.Product_Monoidal_obligation_8
                 D H0 K H2 (P (x, @I J H1)) (P (y, @I J H1)) (P (z, @I J H1))))
        = @to D _ _ (@tensor_assoc D H0 (fst (P (x, @I J H1)))
-                                  (fst (P (y, @I J H1))) (fst (P (z, @I J H1))))).
+                                  (fst (P (y, @I J H1))) (fst (P (z, @I J H1))))). {
     destruct (P (x, I)), (P (y, I)), (P (z, I)).
     reflexivity.
+  }
   srewrite H3; clear H3.
   spose (fst (naturality (@ap_functor_nat _ _ _ _ _ L)
                          (x, I, (y ⨂ z, I ⨂ I))%object
@@ -865,8 +866,8 @@ Lemma ProductFunctor_snd_LaxMonoidal_ap_functor_nat :
 Proof.
   intro L.
   transform; simpl.
-  intros [x y]; simpl.
-  - exact (snd (bimap (to unit_left) id ∘ transform[@ap_functor_nat _ _ _ _ _ L]
+  - intros [x y]; simpl.
+    exact (snd (bimap (to unit_left) id ∘ transform[@ap_functor_nat _ _ _ _ _ L]
                       ((I, x), (I, y)))).
   - simpl in *.
     destruct x as [x1 x2];
@@ -932,76 +933,76 @@ Next Obligation.
   simplify; simpl in *;
   simplify; simpl in *.
   transitivity (snd (P (I ⨂ I, I ⨂ x)%object)).
-    isomorphism; auto.
-  isomorphism.
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.to unit_left) id)).
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.from unit_left) id)).
-  - rewrite snd_comp.
-    rewrite <- bimap_comp.
-    rewrite Isomorphism.iso_to_from.
-    rewrite id_left.
-    rewrite bimap_id_id.
-    reflexivity.
-  - rewrite snd_comp.
-    rewrite <- bimap_comp.
-    rewrite Isomorphism.iso_from_to.
-    rewrite id_left.
-    rewrite bimap_id_id.
-    reflexivity.
+  - isomorphism; auto.
+  - isomorphism.
+    + exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.to unit_left) id)).
+    + exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.from unit_left) id)).
+    + rewrite snd_comp.
+      rewrite <- bimap_comp.
+      rewrite Isomorphism.iso_to_from.
+      rewrite id_left.
+      rewrite bimap_id_id.
+      reflexivity.
+    + rewrite snd_comp.
+      rewrite <- bimap_comp.
+      rewrite Isomorphism.iso_from_to.
+      rewrite id_left.
+      rewrite bimap_id_id.
+      reflexivity.
 Defined.
 Next Obligation.
   destruct (@pure_right _ _ _ _ _ L (I, x));
   simplify; simpl in *;
   simplify; simpl in *.
   transitivity (snd (P (I ⨂ I, x ⨂ I)%object)).
-    isomorphism; auto.
-  isomorphism.
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.to unit_left) id)).
-  - exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.from unit_left) id)).
-  - rewrite snd_comp.
-    rewrite <- bimap_comp.
-    rewrite Isomorphism.iso_to_from.
-    rewrite id_left.
-    rewrite bimap_id_id.
-    reflexivity.
-  - rewrite snd_comp.
-    rewrite <- bimap_comp.
-    rewrite Isomorphism.iso_from_to.
-    rewrite id_left.
-    rewrite bimap_id_id.
-    reflexivity.
+  - isomorphism; auto.
+  - isomorphism.
+    + exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.to unit_left) id)).
+    + exact (snd (@bimap _ _ _ P _ _ _ _ (Isomorphism.from unit_left) id)).
+    + rewrite snd_comp.
+      rewrite <- bimap_comp.
+      rewrite Isomorphism.iso_to_from.
+      rewrite id_left.
+      rewrite bimap_id_id.
+      reflexivity.
+    + rewrite snd_comp.
+      rewrite <- bimap_comp.
+      rewrite Isomorphism.iso_from_to.
+      rewrite id_left.
+      rewrite bimap_id_id.
+      reflexivity.
 Defined.
 Next Obligation.
   destruct (@ap_assoc _ _ _ _ _ L (I, x) (I, y) (I, z));
   simplify; simpl in *;
   simplify; simpl in *.
   transitivity (snd (P (I ⨂ I ⨂ I, x ⨂ y ⨂ z)%object)).
-    isomorphism; auto.
-  isomorphism.
-  - exact (snd (@bimap _ _ _ P _ _ _ _
-                       (Isomorphism.to unit_left ∘
-                        Isomorphism.to unit_left) id)).
-  - exact (snd (@bimap _ _ _ P _ _ _ _
-                       (Isomorphism.from unit_left ∘
-                        Isomorphism.from unit_left) id)).
-  - rewrite snd_comp.
-    rewrite <- bimap_comp.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (Isomorphism.from _)).
-    rewrite Isomorphism.iso_to_from.
-    rewrite !id_left.
-    rewrite Isomorphism.iso_to_from.
-    rewrite bimap_id_id.
-    reflexivity.
-  - rewrite snd_comp.
-    rewrite <- bimap_comp.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc _ (Isomorphism.to _)).
-    rewrite Isomorphism.iso_from_to.
-    rewrite !id_left.
-    rewrite Isomorphism.iso_from_to.
-    rewrite bimap_id_id.
-    reflexivity.
+  - isomorphism; auto.
+  - isomorphism.
+    + exact (snd (@bimap _ _ _ P _ _ _ _
+                         (Isomorphism.to unit_left ∘
+                          Isomorphism.to unit_left) id)).
+    + exact (snd (@bimap _ _ _ P _ _ _ _
+                         (Isomorphism.from unit_left ∘
+                          Isomorphism.from unit_left) id)).
+    + rewrite snd_comp.
+      rewrite <- bimap_comp.
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc _ (Isomorphism.from _)).
+      rewrite Isomorphism.iso_to_from.
+      rewrite !id_left.
+      rewrite Isomorphism.iso_to_from.
+      rewrite bimap_id_id.
+      reflexivity.
+    + rewrite snd_comp.
+      rewrite <- bimap_comp.
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc _ (Isomorphism.to _)).
+      rewrite Isomorphism.iso_from_to.
+      rewrite !id_left.
+      rewrite Isomorphism.iso_from_to.
+      rewrite bimap_id_id.
+      reflexivity.
 Defined.
 Next Obligation.
   unfold ProductFunctor_snd_LaxMonoidal_obligation_1.
@@ -1036,9 +1037,10 @@ Next Obligation.
     (snd (to (Product.Product_Monoidal_obligation_8
                 D H0 K H2 (P (@I C H, x)) (P (@I C H, y)) (P (@I C H, z))))
        = @to K _ _ (@tensor_assoc K H2 (snd (P (@I C H, x)))
-                                  (snd (P (@I C H, y))) (snd (P (@I C H, z))))).
+                                  (snd (P (@I C H, y))) (snd (P (@I C H, z))))). {
     destruct (P (I, x)), (P (I, y)), (P (I, z)).
     reflexivity.
+  }
   srewrite H3; clear H3.
   intros.
   spose (snd (naturality (@ap_functor_nat _ _ _ _ _ L)

@@ -13,10 +13,10 @@ Inductive TwoDHom : TwoDObj → TwoDObj → Type :=
 Definition TwoDHom_inv_t : ∀ x y, TwoDHom x y → Prop.
 Proof.
   intros [] [] f.
-  exact (f = TwoDIdX).
-  exact False.          (* Unused, any Prop is ok here *)
-  exact False.          (* Unused, any Prop is ok here *)
-  exact (f = TwoDIdY).
+  - exact (f = TwoDIdX).
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact (f = TwoDIdY).
 Defined.
 
 Corollary TwoDHom_inv x y f : TwoDHom_inv_t x y f.

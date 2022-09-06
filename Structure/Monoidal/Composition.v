@@ -48,11 +48,11 @@ Next Obligation. rewrite !fmap_id; cat. Qed.
 Next Obligation.
   rewrite <- !comp_assoc.
   apply compose_respects.
+  - reflexivity.
+  - rewrite <- !naturality.
+    rewrite fmap_comp.
+    rewrite comp_assoc.
     reflexivity.
-  rewrite <- !naturality.
-  rewrite fmap_comp.
-  rewrite comp_assoc.
-  reflexivity.
 Qed.
 Next Obligation.
   isomorphism; simpl.
@@ -93,5 +93,9 @@ Next Obligation.
   rewrite fmap_comp.
   reflexivity.
 Qed.
-Next Obligation. normal; reflexivity. Qed.
-Next Obligation. normal; rewrite !fmap_id; reflexivity. Qed.
+Next Obligation.
+  normal; reflexivity.
+Qed.
+Next Obligation.
+  normal; rewrite !fmap_id; reflexivity.
+Qed.

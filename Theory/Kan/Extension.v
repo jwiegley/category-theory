@@ -244,10 +244,10 @@ Proof.
       apply LeftKan0; simpl.
       spose (left_adjoint_impl _ _ X G (Lan K (L ◯ G) ◯ K)) as X0.
       transitivity (R ◯ (Lan K (L ◯ G) ◯ K)).
-        apply (to X0); simpl.
+      * apply (to X0); simpl.
         apply LeftKan1; simpl.
         exact nat_id.
-      now apply fun_comp_assoc.
+      * now apply fun_comp_assoc.
     + rewrite <- fobj_Compose.
       apply LeftKan1; simpl.
       spose (left_adjoint_impl _ _ X G (L ◯ Lan K G ◯ K)) as X0.
@@ -276,9 +276,9 @@ Proof.
       transitivity ((R ◯ L) ◯ ((fobj[Lan _] G) ◯ K)); auto.
       transitivity (R ◯ (L ◯ ((fobj[Lan _] G) ◯ K))); auto.
       transitivity (R ◯ ((L ◯ (fobj[Lan _] G)) ◯ K)).
-        apply whisker_left.
+      * apply whisker_left.
         apply fun_comp_assoc.
-      exact nat_id.
+      * exact nat_id.
     + simpl.
       admit.
     + simpl.

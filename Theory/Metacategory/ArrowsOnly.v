@@ -206,16 +206,16 @@ Lemma find_add_inv : ∀ f g (fg : N) x y z m,
 Proof.
   intros.
   destruct (N.eq_dec x f).
-    destruct (N.eq_dec y g).
-      destruct (N.eq_dec z fg).
-        subst; left; intuition.
-      contradiction n.
-      rewrite F.add_eq_o in H.
-        inversion_clear H.
-        reflexivity.
-      simpl; intuition.
-    rewrite F.add_neq_o in H; intuition.
-  rewrite F.add_neq_o in H; intuition.
+  - destruct (N.eq_dec y g).
+    + destruct (N.eq_dec z fg).
+      * subst; left; intuition.
+      * contradiction n.
+        rewrite F.add_eq_o in H.
+        ** inversion_clear H.
+           reflexivity.
+        ** simpl; intuition.
+    + rewrite F.add_neq_o in H; intuition.
+  - rewrite F.add_neq_o in H; intuition.
 Defined.
 
 Ltac destruct_maps :=
@@ -321,8 +321,8 @@ Lemma peano_rect' : ∀ P : N → Type, P 0%N → (∀ n : N, P (N.succ n)) → 
 Proof.
   intros.
   induction n using N.peano_rect.
-    apply X.
-  apply X0.
+  - apply X.
+  - apply X0.
 Defined.
 
 Ltac reflect_on_pairs X Y F D C :=
@@ -484,29 +484,27 @@ Program Instance Two_iso_2 : Category_from_Metacategory Two ≅ _2 := {
 }.
 Next Obligation.
   unshelve eexists; intros.
-    induction x; reflexivity.
-  induction f; reflexivity.
+  - induction x; reflexivity.
+  - induction f; reflexivity.
 Qed.
 Next Obligation.
   unshelve eexists; intros.
-    induction x using object_Two_rect;
+  - induction x using object_Two_rect;
     destruct x; simpl in H; subst.
-    { isomorphism; simpl.
-      - construct; [exact 0%N|..]; auto.
-      - construct; [exact 0%N|..]; auto.
-      - reflexivity.
-      - reflexivity.
-    }
-    { isomorphism; simpl.
-      - construct; [exact 2%N|..]; auto.
-      - construct; [exact 2%N|..]; auto.
-      - reflexivity.
-      - reflexivity.
-    }
-  induction f using morphism_Two_rect;
-  destruct x, y, f;
-  simpl in H, H0, H1; subst;
-  vm_compute; reflexivity.
+    + isomorphism; simpl.
+      * construct; [exact 0%N|..]; auto.
+      * construct; [exact 0%N|..]; auto.
+      * reflexivity.
+      * reflexivity.
+    + isomorphism; simpl.
+      * construct; [exact 2%N|..]; auto.
+      * construct; [exact 2%N|..]; auto.
+      * reflexivity.
+      * reflexivity.
+  - induction f using morphism_Two_rect;
+    destruct x, y, f;
+    simpl in H, H0, H1; subst;
+    vm_compute; reflexivity.
 Qed.
 
 #[local] Obligation Tactic := simpl; intros.
@@ -526,9 +524,9 @@ Proof.
   intros.
   generalize dependent m.
   induction n using N.peano_rect; intros.
-    apply P.Disjoint_alt; intros.
+  - apply P.Disjoint_alt; intros.
     inversion H1.
-  rewrite composable_pairs_succ in H.
+  - rewrite composable_pairs_succ in H.
 Abort.
 
 Lemma composable_pairs_step_find n f g fg :
@@ -540,8 +538,8 @@ Proof.
   generalize dependent g.
   generalize dependent f.
   induction n using N.peano_rect; intros.
-    right; auto.
-  rewrite composable_pairs_succ in *.
+  - right; auto.
+  - rewrite composable_pairs_succ in *.
 Abort.
 
 (*

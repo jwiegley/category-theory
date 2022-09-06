@@ -56,30 +56,30 @@ Corollary exp_in_inj {x y z : C} (f g : F x ~> F z ^ F y) :
   exp_in ∘ f ≈ exp_in ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hexp.
-    rewrite <- id_left.
+  - rewrite <- id_left.
     rewrite <- exp_out_in.
     rewrite <- comp_assoc.
     rewrite Hexp.
     rewrite comp_assoc.
     autorewrite with functors; cat.
-  subst.
-  rewrite Hexp.
-  reflexivity.
+  - subst.
+    rewrite Hexp.
+    reflexivity.
 Qed.
 
 Corollary exp_out_inj {x y z : C} (f g : F x ~> F (z^y)) :
   exp_out ∘ f ≈ exp_out ∘ g ↔ f ≈ g.
 Proof.
   split; intros Hexp.
-    rewrite <- id_left.
+  - rewrite <- id_left.
     rewrite <- exp_in_out.
     rewrite <- comp_assoc.
     rewrite Hexp.
     rewrite comp_assoc.
     autorewrite with functors; cat.
-  subst.
-  rewrite Hexp.
-  reflexivity.
+  - subst.
+    rewrite Hexp.
+    reflexivity.
 Qed.
 
 End ClosedFunctor.

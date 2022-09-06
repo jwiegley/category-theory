@@ -60,11 +60,11 @@ Corollary adj_univ `(f : F x ~> y) (g : x ~> U y) :
   f ≈ ⌈g⌉ ↔ ⌊f⌋ ≈ g.
 Proof.
   split; intros.
-    rewrite X.
+  - rewrite X.
     sapply (@iso_to_from Sets _ _ (@adj _ x y)).
-  rewrite <- X.
-  symmetry.
-  sapply (@iso_from_to Sets _ _ (@adj _ x y)).
+  - rewrite <- X.
+    symmetry.
+    sapply (@iso_from_to Sets _ _ (@adj _ x y)).
 Qed.
 
 Corollary to_adj_comp_law {x y} (f : F x ~> y) :
@@ -114,15 +114,15 @@ Corollary adj_univ_impl {x y} (f : F x ~> y) (g : x ~> U y) :
 Proof.
   unfold counit.
   split; intros.
-    rewrite X; clear X.
+  - rewrite X; clear X.
     rewrite <- from_adj_nat_l.
     rewrite id_left.
     apply from_adj_comp_law.
-  rewrite <- X; clear X.
-  rewrite <- from_adj_nat_l.
-  rewrite id_left.
-  symmetry.
-  apply to_adj_comp_law.
+  - rewrite <- X; clear X.
+    rewrite <- from_adj_nat_l.
+    rewrite id_left.
+    symmetry.
+    apply to_adj_comp_law.
 Qed.
 
 Corollary to_adj_unit {x y} (f : F x ~> y) :

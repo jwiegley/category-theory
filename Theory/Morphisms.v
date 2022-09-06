@@ -21,8 +21,8 @@ Lemma flip_invol {x y} (f h : x ~> y) (g : y ~> y) `{@Involutive _ g} :
   f ≈ g ∘ h ↔ g ∘ f ≈ h.
 Proof.
   split; intros.
-  rewrite X, comp_assoc, invol; cat.
-  rewrite <- X, comp_assoc, invol; cat.
+  - rewrite X, comp_assoc, invol; cat.
+  - rewrite <- X, comp_assoc, invol; cat.
 Qed.
 
 Class Section `(f : x ~> y) := {

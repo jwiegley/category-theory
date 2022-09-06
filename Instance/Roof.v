@@ -27,15 +27,15 @@ Inductive RoofHom : RoofObj → RoofObj → Type :=
 Definition RoofHom_inv_t : ∀ x y, RoofHom x y → Prop.
 Proof.
   intros [] [] f.
-  exact (f = IdNeg).
-  exact False.          (* Unused, any Prop is ok here *)
-  exact False.          (* Unused, any Prop is ok here *)
-  exact (f = ZeroNeg).
-  exact (f = IdZero).
-  exact (f = ZeroPos).
-  exact False.          (* Unused, any Prop is ok here *)
-  exact False.          (* Unused, any Prop is ok here *)
-  exact (f = IdPos).
+  - exact (f = IdNeg).
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact (f = ZeroNeg).
+  - exact (f = IdZero).
+  - exact (f = ZeroPos).
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact False.          (* Unused, any Prop is ok here *)
+  - exact (f = IdPos).
 Defined.
 
 Corollary RoofHom_inv x y f : RoofHom_inv_t x y f.

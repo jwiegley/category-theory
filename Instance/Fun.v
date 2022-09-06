@@ -130,7 +130,7 @@ Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :
   F ≅[Fun] G  ↔  F ≈ G.
 Proof.
   split; intros; simpl.
-    given (iso : ∀ x : C, F x ≅ G x). {
+  - given (iso : ∀ x : C, F x ≅ G x). {
       intros; isomorphism; simpl; intros.
       - apply X.
       - apply (X⁻¹).
@@ -143,34 +143,34 @@ Proof.
        rewrite (naturality[to X]);
        rewrite comp_assoc;
        srewrite (iso_from_to X); cat).
-  destruct X.
-  isomorphism; simpl; intros.
-  - transform; simpl; intros.
-    + apply x.
+  - destruct X.
+    isomorphism; simpl; intros.
+    + transform; simpl; intros.
+      * apply x.
+      * abstract
+          (rewrite e; simpl;
+           rewrite !comp_assoc;
+           rewrite iso_to_from; cat).
+      * abstract
+          (rewrite e; simpl;
+           rewrite !comp_assoc;
+           rewrite iso_to_from; cat).
+    + transform; simpl; intros.
+      * apply x.
+      * abstract
+          (rewrite e; simpl;
+           rewrite <- !comp_assoc;
+           rewrite iso_to_from; cat).
+      * abstract
+          (rewrite e; simpl;
+           rewrite <- !comp_assoc;
+           rewrite iso_to_from; cat).
     + abstract
-        (rewrite e; simpl;
-         rewrite !comp_assoc;
-         rewrite iso_to_from; cat).
+        (rewrite fmap_id;
+         apply iso_to_from).
     + abstract
-        (rewrite e; simpl;
-         rewrite !comp_assoc;
-         rewrite iso_to_from; cat).
-  - transform; simpl; intros.
-    + apply x.
-    + abstract
-        (rewrite e; simpl;
-         rewrite <- !comp_assoc;
-         rewrite iso_to_from; cat).
-    + abstract
-        (rewrite e; simpl;
-         rewrite <- !comp_assoc;
-         rewrite iso_to_from; cat).
-  - abstract
-      (rewrite fmap_id;
-       apply iso_to_from).
-  - abstract
-      (rewrite fmap_id;
-       apply iso_from_to).
+        (rewrite fmap_id;
+         apply iso_from_to).
 Defined.
 
 Definition iso_equiv {C D : Category} {f g : C ⟶ D} :

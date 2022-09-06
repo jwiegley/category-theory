@@ -86,10 +86,10 @@ Proof.
   intro H.
   unfold defined in H.
   destruct (M.find (f, g) (pairs M)) eqn:Heqe.
-    exists n.
+  - exists n.
     apply (M.find_2 Heqe).
-  apply F.in_find_iff in H.
-  contradiction.
+  - apply F.in_find_iff in H.
+    contradiction.
 Defined.
 
 Lemma identity_morphism (M : Metacategory) (i : arr M) :
@@ -172,8 +172,8 @@ Next Obligation.                (* compose *)
   pose proof (identity_composition_between M f g y y_id fl gr).
   destruct (defined_composite _ _ _ H) as [fg Hfg].
   exists fg; split.
-    eapply identity_composition_right; eauto.
-  eapply identity_composition_left; eauto.
+  - eapply identity_composition_right; eauto.
+  - eapply identity_composition_left; eauto.
 Defined.
 Next Obligation.
   proper.
@@ -305,10 +305,10 @@ Lemma elements_filter {elt} (m : M.t elt) (P : M.key → elt → bool) :
 Proof.
   unfold P.filter.
   apply P.fold_rec; intros.
-    rewrite (proj1 (P.elements_Empty m0) H); simpl.
+  - rewrite (proj1 (P.elements_Empty m0) H); simpl.
     apply P.elements_empty.
-  destruct (P k e) eqn:Heqe.
-  apply add_equal_iff in H1.
+  - destruct (P k e) eqn:Heqe.
+    + apply add_equal_iff in H1.
 Abort.
 
 Lemma length_elements_filter {elt} (m : M.t elt) k v (P : M.key * elt → bool) :
@@ -338,54 +338,57 @@ Proof.
              if (let '(dom, cod) := k in
                  λ v : nat, (dom =? v)%nat && (cod =? v)%nat) e
              then k +=> e m
-             else m)).
+             else m)). {
     intros ??????.
     destruct k, k'.
-    assert (n ≠ n1 \/ n0 ≠ n2).
+    assert (n ≠ n1 \/ n0 ≠ n2). {
       destruct (Nat.eq_dec n n1); subst.
-        right; congruence.
-      left; assumption.
+      - right; congruence.
+      - left; assumption.
+    }
     destruct ((n =? e)%nat && (n0 =? e)%nat) eqn:Heqe.
-      apply andb_true_iff in Heqe.
+    - apply andb_true_iff in Heqe.
       destruct Heqe.
       apply Nat.eqb_eq in H1.
       apply Nat.eqb_eq in H2.
       subst.
       destruct ((n1 =? e')%nat && (n2 =? e')%nat) eqn:Heqe2.
-        apply andb_true_iff in Heqe2.
+      * apply andb_true_iff in Heqe2.
         destruct Heqe2.
         apply Nat.eqb_eq in H1.
         apply Nat.eqb_eq in H2.
         subst.
         apply add_associative.
         intros; congruence.
-      reflexivity.
-    destruct ((n1 =? e')%nat && (n2 =? e')%nat) eqn:Heqe2.
-      apply andb_true_iff in Heqe2.
-      destruct Heqe2.
-      apply Nat.eqb_eq in H1.
-      apply Nat.eqb_eq in H2.
-      subst.
-      reflexivity.
-    reflexivity.
+      * reflexivity.
+    - destruct ((n1 =? e')%nat && (n2 =? e')%nat) eqn:Heqe2.
+      * apply andb_true_iff in Heqe2.
+        destruct Heqe2.
+        apply Nat.eqb_eq in H1.
+        apply Nat.eqb_eq in H2.
+        subst.
+        reflexivity.
+      * reflexivity.
+  }
 
   assert (Proper (eq ==> eq ==> M.Equal ==> M.Equal)
                  (λ (k : M.key) (e : nat) (m : M.t nat),
                   if (let '(dom, cod) := k in
                       λ v : nat, (dom =? v)%nat && (cod =? v)%nat) e
                   then k +=> e m
-                  else m)).
+                  else m)). {
     intros ?????????.
     destruct x, y; subst.
     inversion H0; clear H0; subst.
     destruct ((n1 =? y0)%nat && (n2 =? y0)%nat) eqn:Heqe.
-      apply andb_true_iff in Heqe.
+    - apply andb_true_iff in Heqe.
       destruct Heqe.
       apply Nat.eqb_eq in H0.
       apply Nat.eqb_eq in H1.
       subst.
       rewrite H2; reflexivity.
-    assumption.
+    - assumption.
+  }
 
   unfold cardinality; simpl.
   unfold P.filter; simpl.

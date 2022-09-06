@@ -109,17 +109,19 @@ Proof.
 
   assert (X2 : ∀ (f g : (x ⨂ I ⨂ y) ⨂ z ~{ C }~> x ⨂ y ⨂ z),
              f ∘ tensor_assoc ⨂ id ≈ g ∘ tensor_assoc ⨂ id
-             → f ≈ g).
+             → f ≈ g). {
     intros.
     assert (X3 : ∀ x y z w v (f g : ((x ⨂ y) ⨂ z) ⨂ v ~> w),
                f ≈ g → f ∘ (tensor_assoc⁻¹ ⨂ id[v]) ≈
-                        g ∘ (tensor_assoc⁻¹ ⨂ id[v])).
+                        g ∘ (tensor_assoc⁻¹ ⨂ id[v])). {
       intros; rewrites; reflexivity.
+    }
     apply X3 in X.
     normal.
     rewrite !iso_to_from in X.
     rewrite !bimap_id_id, !id_right in X.
     assumption.
+  }
   apply X2 in X0; clear X2.
   rewrites.
 
@@ -181,8 +183,9 @@ Proof.
   pose proof (from_tensor_assoc_natural
                 (id[x]) (@unit_right _ _ y) (id[z])) as X0.
   assert (X1 : ∀ x y z w (f g : x ⨂ (y ⨂ z) ~> w),
-             f ≈ g → f ∘ tensor_assoc ≈ g ∘ tensor_assoc).
+             f ≈ g → f ∘ tensor_assoc ≈ g ∘ tensor_assoc). {
     intros; rewrites; reflexivity.
+  }
   apply X1 in X0.
   rewrite <- !comp_assoc in X0.
   rewrite iso_from_to, id_right in X0.
@@ -204,17 +207,19 @@ Proof.
 
   assert (X2 : ∀ (f g : x ⨂ ((y ⨂ I) ⨂ z) ~{ C }~> (x ⨂ y) ⨂ z),
              f ∘ id ⨂ tensor_assoc⁻¹ ≈ g ∘ id ⨂ tensor_assoc⁻¹
-             → f ≈ g).
+             → f ≈ g). {
     intros.
     assert (X3 : ∀ x y z w v (f g : x ⨂ (y ⨂ (z ⨂ v)) ~> w),
                f ≈ g → f ∘ (id[x] ⨂ tensor_assoc) ≈
-                        g ∘ (id[x] ⨂ tensor_assoc)).
+                        g ∘ (id[x] ⨂ tensor_assoc)). {
       intros; rewrites; reflexivity.
+    }
     apply X3 in X.
     normal.
     rewrite !iso_from_to in X.
     rewrite !bimap_id_id, !id_right in X.
     assumption.
+  }
   apply X2 in X0; clear X2.
   rewrites.
 

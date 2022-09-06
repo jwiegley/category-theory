@@ -371,9 +371,9 @@ Next Obligation.
   rewrite <- fork_comp.
   rewrite id_left.
   cut (@one _ _ (x^1) ∘ exl ≈ exr).
-    intros; rewrites; cat.
-  cat.
-  apply one_unique.
+  - intros; rewrites; cat.
+  - cat.
+    apply one_unique.
 Qed.
 
 #[local] Hint Rewrite @exp_one : isos.

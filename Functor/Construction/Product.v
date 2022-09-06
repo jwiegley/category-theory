@@ -40,10 +40,10 @@ Next Obligation.
 Defined.
 Next Obligation.
   proper; simpl; simplify; simpl in *.
-    rewrite !let_snd.
+  - rewrite !let_snd.
     rewrites; reflexivity.
-  rewrite !let_fst.
-  rewrites; reflexivity.
+  - rewrite !let_fst.
+    rewrites; reflexivity.
 Qed.
 Next Obligation.
   rewrite !let_fst, !let_snd; cat.

@@ -30,23 +30,23 @@ Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
 Next Obligation.
   unfold fork.
   split; intros.
-    split.
-      rewrites.
+  - split.
+    + rewrites.
       rewrite comp_assoc.
       rewrite proj_left_natural.
       rewrite <- comp_assoc.
       rewrite proj_left_diagonal; cat.
-    rewrites.
+    + rewrites.
+      rewrite comp_assoc.
+      rewrite proj_right_natural.
+      rewrite <- comp_assoc.
+      rewrite proj_right_diagonal; cat.
+  - rewrite <- (fst X), <- (snd X).
+    rewrite bimap_comp.
+    rewrite <- !comp_assoc.
+    srewrite diagonal_natural.
     rewrite comp_assoc.
-    rewrite proj_right_natural.
-    rewrite <- comp_assoc.
-    rewrite proj_right_diagonal; cat.
-  rewrite <- (fst X), <- (snd X).
-  rewrite bimap_comp.
-  rewrite <- !comp_assoc.
-  srewrite diagonal_natural.
-  rewrite comp_assoc.
-  rewrite proj_left_right_diagonal; cat.
+    rewrite proj_left_right_diagonal; cat.
 Qed.
 
 End CartesianMonoidalCartesian.

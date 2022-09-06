@@ -195,44 +195,44 @@ Equations tlist_equiv {i j : A} (x y : tlist B i j) : Type :=
 Next Obligation.
   repeat intro.
   induction x; simpl.
-    constructor.
-  rewrite tlist_equiv_equation_4.
-  unfold tlist_equiv_clause_4.
-  rewrite EqDec.peq_dec_refl.
-  split.
-    apply Equivalence_Reflexive.
-  apply IHx.
+  - constructor.
+  - rewrite tlist_equiv_equation_4.
+    unfold tlist_equiv_clause_4.
+    rewrite EqDec.peq_dec_refl.
+    split.
+    + apply Equivalence_Reflexive.
+    + apply IHx.
 Qed.
 Next Obligation.
   repeat intro.
   induction x; simpl.
-    dependent elimination y as [tnil]; auto.
-  dependent elimination y as [tcons _ y ys]; auto.
-  rewrite tlist_equiv_equation_4 in *.
-  destruct (eq_dec j _); [|contradiction].
-  subst.
-  rewrite EqDec.peq_dec_refl.
-  destruct X.
-  split.
-    now apply Equivalence_Symmetric.
-  apply IHx, t.
+  - dependent elimination y as [tnil]; auto.
+  - dependent elimination y as [tcons _ y ys]; auto.
+    rewrite tlist_equiv_equation_4 in *.
+    destruct (eq_dec j _); [|contradiction].
+    subst.
+    rewrite EqDec.peq_dec_refl.
+    destruct X.
+    split.
+    + now apply Equivalence_Symmetric.
+    + apply IHx, t.
 Qed.
 Next Obligation.
   repeat intro.
   induction x; simpl.
-    dependent elimination y as [tnil]; auto.
-  dependent elimination y as [tcons _ y ys]; auto.
-  simpl; intros.
-  dependent elimination z as [tcons _ z zs]; auto.
-  rewrite tlist_equiv_equation_4 in *.
-  destruct (eq_dec j _); [|contradiction].
-  destruct (eq_dec _ _); [|contradiction].
-  subst.
-  rewrite EqDec.peq_dec_refl.
-  destruct X, X0.
-  split.
-    transitivity y; auto.
-  eapply IHx; eauto.
+  - dependent elimination y as [tnil]; auto.
+  - dependent elimination y as [tcons _ y ys]; auto.
+    simpl; intros.
+    dependent elimination z as [tcons _ z zs]; auto.
+    rewrite tlist_equiv_equation_4 in *.
+    destruct (eq_dec j _); [|contradiction].
+    destruct (eq_dec _ _); [|contradiction].
+    subst.
+    rewrite EqDec.peq_dec_refl.
+    destruct X, X0.
+    split.
+    + transitivity y; auto.
+    + eapply IHx; eauto.
 Qed.
 
 #[export] Program Instance tlist_Setoid {i j} : Setoid (tlist B i j) := {
@@ -266,8 +266,8 @@ Next Obligation.
     destruct X.
     split; auto.
     apply IHx.
-      exact t0.
-    exact X0.
+    + exact t0.
+    + exact X0.
 Qed.
 
 End TList.
@@ -331,13 +331,13 @@ Lemma tlist_rev_app_distr {i j k} (xs : tlist B i j) (ys : tlist B j k) :
 Proof.
   generalize dependent i.
   induction xs; simpl; intros; auto.
-    rewrite tlist_app_tnil_l.
+  - rewrite tlist_app_tnil_l.
     rewrite tlist_rev_equation_1.
     now rewrite tlist_app_tnil_r.
-  rewrite <- tlist_app_comm_cons; simpl.
-  rewrite !tlist_rev_equation_2.
-  rewrite IHxs.
-  now rewrite <- tlist_app_assoc.
+  - rewrite <- tlist_app_comm_cons; simpl.
+    rewrite !tlist_rev_equation_2.
+    rewrite IHxs.
+    now rewrite <- tlist_app_assoc.
 Qed.
 
 Hypothesis flip_involutive : ∀ (i j : A) (x : B i j),

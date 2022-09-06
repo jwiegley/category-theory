@@ -134,11 +134,12 @@ Next Obligation.
 Qed.
 Next Obligation.
   remember (_ △ _) as p.
-  enough (∀ {w : C} (f g : w ~> x^(y + z)), p ∘ f ≈ p ∘ g → f ≈ g) as HA.
+  enough (∀ {w : C} (f g : w ~> x^(y + z)), p ∘ f ≈ p ∘ g → f ≈ g) as HA. {
     apply HA.
     rewrite comp_assoc.
     rewrite Heqp.
     rewrite exp_coprod_obligation_1; cat.
+  }
   intros ??? e.
   rewrite Heqp in e.
   rewrite <- !fork_comp in e.
@@ -158,8 +159,9 @@ Next Obligation.
   rewrite <- !eval_first.
   enough (∀ {w : C} (f g : w × (y + z) ~> x),
              f ∘ second inl ≈ g ∘ second inl ->
-             f ∘ second inr ≈ g ∘ second inr → f ≈ g) as HC.
+             f ∘ second inr ≈ g ∘ second inr → f ≈ g) as HC. {
     exact (HC _ _ _ HA HB).
+  }
   intros ? h i HD HE.
   unfold second in HD, HE.
   rewrite <- id_right.

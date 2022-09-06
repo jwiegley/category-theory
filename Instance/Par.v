@@ -221,9 +221,9 @@ Next Obligation. contradiction. Qed.
 }.
 Next Obligation.
   split; intros.
-    split; intros;
+  - split; intros;
     rewrite H; reflexivity.
-  destruct x0; firstorder.
+  - destruct x0; firstorder.
 Qed.
 
 Open Scope object_scope.

@@ -119,7 +119,7 @@ Next Obligation.
   pose proof (@fmap_respects _ _ (@tensor D H0) (G o, G o0) (G o, G o0)
                              (fmap[G] (id[o]), fmap[G] (id[o0]))).
   simpl in X; rewrite X.
-    pose proof (@fmap_id _ _ (@tensor D H0)) as X0.
+  - pose proof (@fmap_id _ _ (@tensor D H0)) as X0.
     simpl in X0; rewrite X0.
     rewrite !fmap_id.
     rewrite id_left.
@@ -132,44 +132,44 @@ Next Obligation.
     rewrite <- (@fmap_id _ _ G o).
     rewrite <- (@fmap_id _ _ G o0).
     rewrite X1.
-      pose proof (@fmap_id _ _ (@tensor E H1)) as X2.
+    + pose proof (@fmap_id _ _ (@tensor E H1)) as X2.
       simpl in X2; rewrite X2.
       pose proof (@fmap_respects _ _ (@tensor E H1)) as X3.
       reflexivity.
-    simpl; split;
-    rewrite fmap_id;
+    + simpl; split;
+      rewrite fmap_id;
+      apply fmap_id.
+  - simpl; split;
     apply fmap_id.
-  simpl; split;
-  apply fmap_id.
 Qed.
 Next Obligation.
   transitivity (F (I ⨂ G x))%object.
-    transitivity (F (G x)).
+  - transitivity (F (G x)).
+    + apply unit_left.
+    + apply fobj_iso.
+      symmetry.
       apply unit_left.
-    apply fobj_iso.
-    symmetry.
-    apply unit_left.
-  apply fobj_iso.
-  apply pure_iso_left.
+  - apply fobj_iso.
+    apply pure_iso_left.
 Qed.
 Next Obligation.
   transitivity (F (G x ⨂ I))%object.
-    transitivity (F (G x))%object.
+  - transitivity (F (G x))%object.
+    + apply unit_right.
+    + apply fobj_iso.
+      symmetry.
       apply unit_right.
-    apply fobj_iso.
-    symmetry.
-    apply unit_right.
-  apply fobj_iso.
-  apply pure_iso_right.
+  - apply fobj_iso.
+    apply pure_iso_right.
 Qed.
 Next Obligation.
   transitivity (F (G x ⨂ G y ⨂ G z))%object.
-    apply ap_iso_assoc.
-  apply fobj_iso.
-  transitivity ((G x ⨂ G y) ⨂ G z)%object.
-    symmetry.
-    apply tensor_assoc.
-  apply ap_iso_assoc.
+  - apply ap_iso_assoc.
+  - apply fobj_iso.
+    transitivity ((G x ⨂ G y) ⨂ G z)%object.
+    + symmetry.
+      apply tensor_assoc.
+    + apply ap_iso_assoc.
 Qed.
 Next Obligation.
   rewrite monoidal_unit_left.
@@ -293,32 +293,32 @@ Next Obligation.
 Qed.
 Next Obligation.
   transitivity (F (I ⨂ G x))%object.
-    transitivity (F (G x)).
+  - transitivity (F (G x)).
+    + apply unit_left.
+    + apply fobj_iso.
+      symmetry.
       apply unit_left.
-    apply fobj_iso.
-    symmetry.
-    apply unit_left.
-  apply fobj_iso.
-  apply pure_left.
+  - apply fobj_iso.
+    apply pure_left.
 Qed.
 Next Obligation.
   transitivity (F (G x ⨂ I))%object.
-    transitivity (F (G x)).
+  - transitivity (F (G x)).
+    + apply unit_right.
+    + apply fobj_iso.
+      symmetry.
       apply unit_right.
-    apply fobj_iso.
-    symmetry.
-    apply unit_right.
-  apply fobj_iso.
-  apply pure_right.
+  - apply fobj_iso.
+    apply pure_right.
 Qed.
 Next Obligation.
   transitivity (F (G x ⨂ G y ⨂ G z))%object.
-    apply ap_assoc.
-  apply fobj_iso.
-  transitivity ((G x ⨂ G y) ⨂ G z)%object.
-    symmetry.
-    apply tensor_assoc.
-  apply ap_assoc.
+  - apply ap_assoc.
+  - apply fobj_iso.
+    transitivity ((G x ⨂ G y) ⨂ G z)%object.
+    + symmetry.
+      apply tensor_assoc.
+    + apply ap_assoc.
 Qed.
 Next Obligation.
   rewrite lax_monoidal_unit_left.

@@ -64,9 +64,9 @@ Corollary join_fmap_join_x `{IsMonad m} {a x} :
   join (fmap (join (a:=a)) x) = join (join x).
 Proof.
   replace (join[m] (join[m] x)) with ((join[m] ∘ join[m]) x).
-    rewrite <- join_fmap_join.
+  - rewrite <- join_fmap_join.
     reflexivity.
-  reflexivity.
+  - reflexivity.
 Qed.
 
 Corollary join_fmap_pure_x `{IsMonad m} {a x} :
@@ -90,9 +90,9 @@ Corollary join_fmap_fmap_x `{IsMonad m} `{f : a -> b} {x} :
 Proof.
   intros.
   replace (fmap[m] f (join[m] x)) with ((fmap[m] f ∘ join[m]) x).
-    rewrite <- join_fmap_fmap.
+  - rewrite <- join_fmap_fmap.
     reflexivity.
-  reflexivity.
+  - reflexivity.
 Qed.
 
 Ltac monad_laws :=
