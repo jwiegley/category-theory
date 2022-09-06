@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Monad.
@@ -8,9 +6,6 @@ Require Import Category.Theory.Coq.Functor.
 Require Import Category.Theory.Coq.Applicative.
 
 Generalizable All Variables.
-Set Primitive Projections.
-(* Set Universe Polymorphism. *)
-Unset Transparent Obligations.
 
 (* This [Monad] class makes the somewhat controversial choice of choosing
    [join] as the fundamental defining operation of a monad, rather than
@@ -138,6 +133,7 @@ Instance Compose_Monad `{Monad_Distributes M N} : Monad (M ∘ N) := {
 (* #[local] Obligation Tactic := program_simpl; monad_laws; intuition eauto; cat. *)
 #[local] Obligation Tactic := intros.
 
+(*
 #[export]
 Program Instance Compose_MonadLaws `{IsMonad_Distributes M N} :
   IsMonad (M ∘ N).
@@ -197,3 +193,4 @@ Next Obligation.
   rewrite <- fmap_comp.
   reflexivity.
 Qed.
+*)

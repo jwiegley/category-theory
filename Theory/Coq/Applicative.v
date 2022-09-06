@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Functor.Applicative.
@@ -7,9 +5,6 @@ Require Import Category.Theory.Coq.Category.
 Require Import Category.Theory.Coq.Functor.
 
 Generalizable All Variables.
-Set Primitive Projections.
-(* Set Universe Polymorphism. *)
-Unset Transparent Obligations.
 
 Reserved Notation "f <*> g" (at level 29, left associativity).
 

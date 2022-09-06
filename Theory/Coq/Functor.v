@@ -1,14 +1,9 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Coq.Category.
 
 Generalizable All Variables.
-Set Primitive Projections.
-(* Set Universe Polymorphism. *)
-Unset Transparent Obligations.
 
 Class Functor (F : Coq → Coq) :=
   fmap : ∀ {x y : Coq} (f : x ~> y), F x ~> F y.
@@ -24,12 +19,6 @@ Definition IsFunctor_Functor {F H} :
   @IsFunctor F H → Functor F := λ _, H.
 
 Coercion IsFunctor_Functor : IsFunctor >-> Functor.
-
-Corollary fmap_comp_x `{IsFunctor F} `(f : y ~> z) `(g : x ~> y) {a} :
-  fmap (λ x, f (g x)) a = fmap f (fmap g a).
-Proof.
-  now srewrite @fmap_comp.
-Qed.
 
 Infix "<$>" := fmap
   (at level 29, left associativity, only parsing) : morphism_scope.

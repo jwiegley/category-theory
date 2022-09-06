@@ -1,12 +1,7 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* [Coq] represents the category of Coq types and functions.
 
@@ -36,6 +31,10 @@ Program Instance Coq : Category := {
   id      := λ _ x, x;
   compose := λ _ _ _ f g x, f (g x)
 }.
+
+Arguments id {Category}%category_scope {x}%object_scope : simpl never.
+Arguments compose {Category}%category_scope {x y z}%object_scope
+  (f g)%homset_scope : simpl never.
 
 Notation "f $ x" := (f x) (at level 60, right associativity, only parsing).
 Notation "$ x" := (λ f, f x) (at level 60).
