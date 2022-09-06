@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -8,9 +6,7 @@ Require Import Category.Structure.Cartesian.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
+Set Transparent Obligations.
 
 Section Closed.
 
@@ -377,6 +373,7 @@ Next Obligation.
   cut (@one _ _ (x^1) ∘ exl ≈ exr).
     intros; rewrites; cat.
   cat.
+  apply one_unique.
 Qed.
 
 #[local] Hint Rewrite @exp_one : isos.

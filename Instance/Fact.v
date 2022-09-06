@@ -1,13 +1,8 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* The factorization category (also called the interval category) Fact(f) of a
    morphism f in a category C is a way of organizing its binary factorizations

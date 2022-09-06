@@ -1,12 +1,7 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* This is the category of three objects and two arrows, from the first object
    to the other two (as well as the three identity morphisms):

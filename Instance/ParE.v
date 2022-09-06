@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Structure.Cartesian.
@@ -10,9 +8,6 @@ Require Import Category.Instance.Coq.
 Require Import Category.Algebra.Monoid.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section ParE.
 

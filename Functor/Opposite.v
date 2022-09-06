@@ -1,15 +1,9 @@
-Set Warnings "-notation-overridden".
-Set Warnings "-notation-incompatible-format".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Construction.Opposite.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Definition Opposite_Functor `(F : C ⟶ D) : C^op ⟶ D^op :=
   @Build_Functor (C^op) (D^op) F

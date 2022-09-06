@@ -1,14 +1,9 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Instance.Coq.
 Require Import Coq.Sets.Ensembles.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* The category whose objects are Ensembles on some type, and whose morphisms
    are injective mappings. *)

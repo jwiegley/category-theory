@@ -1,5 +1,3 @@
-Set Warnings "-cannot-remove-as-expected".
-
 Require Import Category.Instance.Lambda.Lib.
 
 From Equations Require Import Equations.

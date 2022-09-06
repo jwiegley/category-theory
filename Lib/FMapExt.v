@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Coq.Unicode.Utf8.
 Require Import Coq.FSets.FMapFacts.
 

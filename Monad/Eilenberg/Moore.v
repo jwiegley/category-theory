@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -7,9 +5,6 @@ Require Import Category.Theory.Monad.
 Require Import Category.Monad.Algebra.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Program Definition EilenbergMoore `(T : C ⟶ C) `{@Monad C T} : Category := {|
   obj     := ∃ a : C, TAlgebra T a;

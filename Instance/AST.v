@@ -1,6 +1,3 @@
-Set Warnings "-notation-overridden".
-Set Warnings "-unexpected-implicit-declaration".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -14,9 +11,8 @@ Require Import Category.Structure.BiCCC.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
+
+#[local] Obligation Tactic := cat_simpl.
 
 Inductive Obj : Type :=
   | One_    : Obj
@@ -95,12 +91,12 @@ Program Instance AST : Category := {
   compose := @Compose;
   homset  := fun _ _ =>
     {| equiv := fun f g =>
-         ∀ {C : Category}
-                {A : @Cartesian C}
-                `{@Closed C A}
-                `{@Cocartesian C}
-                `{@Terminal C}
-                `{@Initial C},
+         ∀ (C : Category)
+                (A : @Cartesian C)
+                `(@Closed C A)
+                `(@Cocartesian C)
+                `(@Terminal C)
+                `(@Initial C),
            interp f ≈ interp g |}
 }.
 Next Obligation.
@@ -113,6 +109,7 @@ Program Instance Hom_Terminal : @Terminal AST := {
   terminal_obj := One_;
   one := @One'
 }.
+Next Obligation. apply one_unique. Qed.
 
 #[export]
 Program Instance Hom_Cartesian : @Cartesian AST := {
@@ -146,6 +143,7 @@ Program Instance Hom_Initial : @Initial AST := {
   terminal_obj := Zero_;
   one := @Zero'
 }.
+Next Obligation. apply zero_unique. Qed.
 
 #[export]
 Program Instance Hom_Cocartesian : @Cocartesian AST := {
@@ -187,28 +185,28 @@ Context `{@Terminal C}.
 Context `{@Initial C}.
 
 #[export] Program Instance AST_Functor : AST ⟶ C := {
-  fobj := fun x => denote x;
-  fmap := fun _ _ f => interp f
+  fobj := λ x, denote x;
+  fmap := λ _ _ f, interp f
 }.
 
-#[export] Program Instance Hom_TerminalFunctor : TerminalFunctor := {
+Program Definition Hom_TerminalFunctor : TerminalFunctor := {|
   fobj_one_iso := _
-}.
+|}.
 
-#[export] Program Instance Hom_CartesianFunctor : CartesianFunctor := {
+#[local] Program Instance Hom_CartesianFunctor : CartesianFunctor := {
   fobj_prod_iso := _
 }.
 
-#[export] Program Instance Hom_ClosedFunctor : ClosedFunctor := {
+Program Definition Hom_ClosedFunctor : ClosedFunctor := {|
   fobj_exp_iso := _
-}.
+|}.
 
-#[export] Program Instance Hom_InitialFunctor : InitialFunctor AST_Functor := {
+Program Definition Hom_InitialFunctor : InitialFunctor AST_Functor := {|
   fobj_one_iso := _
-}.
+|}.
 
-#[export] Program Instance Hom_CocartesianFunctor : CocartesianFunctor AST_Functor := {
+Program Definition Hom_CocartesianFunctor : CocartesianFunctor AST_Functor := {|
   fobj_prod_iso := _
-}.
+|}.
 
 End AST.

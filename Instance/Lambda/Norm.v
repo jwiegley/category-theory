@@ -1,5 +1,3 @@
-Set Warnings "-cannot-remove-as-expected".
-
 Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ltac.
 Require Import Category.Instance.Lambda.Ty.

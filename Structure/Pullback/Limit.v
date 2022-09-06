@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -12,9 +10,6 @@ Require Import Category.Functor.Opposite.
 Require Import Category.Instance.Roof.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Definition Pullback_Limit {C : Category} (F : Cospan C) := Limit F.
 Arguments Pullback_Limit {_%category} F%functor /.

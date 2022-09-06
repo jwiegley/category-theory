@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -7,9 +5,6 @@ Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* A C-valued presheaf on some category U.
   C is often taken to be Sets. *)

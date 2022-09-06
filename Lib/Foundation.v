@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Export Coq.Program.Program.
 Require Export Coq.Classes.CMorphisms.
 

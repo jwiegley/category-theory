@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Functor.
 Require Import Category.Structure.Terminal.
@@ -7,9 +5,6 @@ Require Import Category.Structure.Limit.
 Require Import Category.Instance.Cones.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* A limit is a terminal object in the category of cones. *)
 Program Definition Limit_Cones `(F : J ⟶ C) `{T : @Terminal (Cones F)} :

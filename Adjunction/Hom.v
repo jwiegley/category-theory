@@ -1,6 +1,3 @@
-Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -17,9 +14,6 @@ Require Import Category.Instance.Fun.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section AdjunctionHom.
 

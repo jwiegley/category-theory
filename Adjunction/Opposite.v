@@ -1,7 +1,3 @@
-Set Warnings "-notation-overridden".
-Set Warnings "-deprecated-hint-notation-overridden".
-Set Warnings "-notation-incompatible-format".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -10,9 +6,6 @@ Require Import Category.Theory.Adjunction.
 Require Import Category.Functor.Opposite.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Program Definition Opposite_Adjunction `(F : D ⟶ C) `(U : C ⟶ D)
         (A : F ⊣ U) :

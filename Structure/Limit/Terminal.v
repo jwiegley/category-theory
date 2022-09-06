@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -9,9 +7,6 @@ Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Zero.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Theorem Terminal_Limit (C : Category) (F : 0 ⟶ C) :
   Limit F ↔ @Terminal C.

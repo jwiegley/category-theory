@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Export Category.Theory.Category.
 Require Export Category.Theory.Isomorphism.
 Require Export Category.Theory.Functor.

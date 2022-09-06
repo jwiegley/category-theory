@@ -1,14 +1,9 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Structure.Cone.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* Wikipedia: "Let F : J ⟶ C be a diagram of shape J in a category C. A cone
    to F is an object N of C together with a family ψX : N ⟶ F(X) of morphisms

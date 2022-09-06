@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Export Category.Lib.Foundation.
 
 Generalizable All Variables.

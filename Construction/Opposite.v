@@ -1,15 +1,7 @@
-Set Warnings "-notation-overridden".
-Set Warnings "-notation-incompatible-format".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
-
-Reserved Notation "C ^op" (at level 7, left associativity).
 
 Definition Opposite `(C : Category) : Category := {|
   obj     := @obj C;

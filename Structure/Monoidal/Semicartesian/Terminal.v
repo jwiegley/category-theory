@@ -1,14 +1,9 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Semicartesian.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section SemicartesianMonoidalTerminal.
 

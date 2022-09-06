@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -7,9 +5,6 @@ Require Import Category.Structure.Cartesian.
 Require Import Category.Construction.Product.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 #[export]
 Program Instance InternalProductFunctor `(C : Category) `{@Cartesian C} :

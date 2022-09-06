@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -8,8 +6,7 @@ Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Construction.Product.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
+Set Transparent Obligations.
 
 Section Comma.
 

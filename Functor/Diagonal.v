@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -9,8 +7,6 @@ Require Import Category.Construction.Product.
 Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
 
 #[export]
 Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
@@ -21,8 +17,12 @@ Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
     {| transform := fun _ => f |}
 }.
 
+Set Transparent Obligations.
+
 #[export]
 Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.
+
+Unset Transparent Obligations.
 
 Notation "Δ[ J ]( c )" := (Diagonal J c) (at level 90, format "Δ[ J ]( c )") : functor_scope.
 

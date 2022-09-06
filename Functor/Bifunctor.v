@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -7,9 +5,6 @@ Require Import Category.Theory.Functor.
 Require Import Category.Construction.Product.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* A bifunctor is any functor from a product category to another category; so
    we don't need to formalize it separately here, but there are certain helper

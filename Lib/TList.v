@@ -1,17 +1,16 @@
-Set Warnings "-notation-overridden".
-
 (** A theory of type-aligned lists, using the Coq-Equations plugin *)
 
 Require Import Coq.Bool.Bool.
-
-Open Scope lazy_bool_scope.
-
 Require Export Coq.Classes.CRelationClasses.
 
 From Equations Require Import Equations.
 Set Equations With UIP.
 
 Require Import Category.Lib.
+
+Open Scope lazy_bool_scope.
+
+Set Transparent Obligations.
 
 Inductive tlist {A : Type} (B : A → A → Type) : A → A → Type :=
   | tnil : ∀ i : A, tlist B i i

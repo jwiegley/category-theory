@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 From Equations Require Import Equations.
 Set Equations With UIP.
 

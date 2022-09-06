@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -16,9 +14,6 @@ Require Import Category.Instance.AST.
 Require Import Category.Tools.Represented.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 Section Abstraction.
 
@@ -95,6 +90,7 @@ Theorem ccc_terminal : ∀ `{Repr a},
   (λ _ : a, tt) >==> one.
 Proof.
   unfold rel; simpl; intros; cat.
+  apply one_unique.
 Qed.
 
 Lemma distribute_forall : ∀ a {X} P, (a → ∀ (x : X), P x) → (∀ x, a → P x).

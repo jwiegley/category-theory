@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -9,9 +7,6 @@ Require Import Category.Construction.Product.
 Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 #[export]
 Program Instance Cat_Cartesian : @Cartesian Cat := {

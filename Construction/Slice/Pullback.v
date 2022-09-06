@@ -1,6 +1,3 @@
-Set Warnings "-notation-overridden".
-Set Warnings "-local-declaration".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
@@ -8,13 +5,13 @@ Require Import Category.Construction.Slice.
 Require Import Category.Structure.Pullback.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
 
-Module SliceFunctors.
+Section SliceFunctors.
 
 Context `{C : Category}.
 Context `{A : @Cartesian C}.
+
+Set Transparent Obligations.
 
 Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {|
   fobj := λ '(o; h), (o; f ∘ h);

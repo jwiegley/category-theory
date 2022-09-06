@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
@@ -8,9 +6,6 @@ Require Import Category.Functor.Hom.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* Wikipedia: "Let C be a locally small category and let Set be the category
    of sets. For each object A of C let Hom(A,–) be the hom functor that maps

@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Instance.Proset.
@@ -8,9 +6,6 @@ Require Import Coq.Classes.Equivalence.
 Require Import Coq.Relations.Relation_Definitions.
 
 Generalizable All Variables.
-Set Primitive Projections.
-Set Universe Polymorphism.
-Unset Transparent Obligations.
 
 (* Any partially-ordered set forms a category (directly from its preorder,
    since it simply adds asymmetry). See also [Pos], the category of

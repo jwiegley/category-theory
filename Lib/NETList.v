@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 (** A theory of type-aligned lists, using the Coq-Equations plugin *)
 
 Require Import Coq.Bool.Bool.
@@ -9,6 +7,8 @@ From Equations Require Import Equations.
 Set Equations With UIP.
 
 Require Import Category.Lib.
+
+Set Transparent Obligations.
 
 Open Scope lazy_bool_scope.
 
@@ -278,7 +278,7 @@ Next Obligation.
   induction x; intros; dependent elimination y.
   - rewrite !netlist_app_equation_1.
     rewrite netlist_equiv_equation_1 in X.
-    now f_equiv.
+    now rewrite X, X0.
   - contradiction.
   - contradiction.
   - rewrite <- !netlist_app_comm_cons.

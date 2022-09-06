@@ -1,5 +1,3 @@
-Set Warnings "-notation-overridden".
-
 Require Import Coq.Bool.Bool.
 
 Require Export Category.Lib.Setoid.
