@@ -56,7 +56,7 @@ Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x ⨂ z ~> y ⨂ w :=
   (f ∘ proj_left) △ (g ∘ proj_right).
 
-#[global] Program Instance first_respects {a b c : C} :
+#[export] Program Instance first_respects {a b c : C} :
   Proper (equiv ==> equiv) (@first a b c).
 Next Obligation.
   proper.
@@ -65,7 +65,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-#[global] Program Instance second_respects {a b c : C} :
+#[export] Program Instance second_respects {a b c : C} :
   Proper (equiv ==> equiv) (@second a b c).
 Next Obligation.
   proper.
@@ -74,7 +74,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-#[global] Program Instance split_respects {a b c d : C} :
+#[export] Program Instance split_respects {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@split a b c d).
 Next Obligation.
   proper.

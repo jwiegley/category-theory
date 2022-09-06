@@ -4,9 +4,11 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
+Require Import Category.Theory.Functor.Endo.
 Require Import Category.Theory.Naturality.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Naturality.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Balanced.
 Require Import Category.Structure.Monoidal.Symmetric.
@@ -77,7 +79,7 @@ Notation "∆ x" := (@diagonal _ x)
 Definition fork {x y z} (f : x ~> y) (g : x ~> z) :
   x ~> y ⨂ z := f ⨂ g ∘ ∆x.
 
-#[global] Program Instance fork_respects {x y z : C} :
+#[export] Program Instance fork_respects {x y z : C} :
   Proper (equiv ==> equiv ==> equiv) (@fork x y z).
 Next Obligation.
   proper.

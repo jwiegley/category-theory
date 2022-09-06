@@ -13,7 +13,7 @@ Unset Transparent Obligations.
 
 (* Another way of reading this is that we're proving Cat^op is Cartesian. *)
 
-#[global]
+#[export]
 Program Instance Cat_Cocartesian : @Cocartesian Cat := {
   product_obj := @Coproduct;
   fork := fun _ _ _ F G =>

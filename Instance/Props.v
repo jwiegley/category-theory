@@ -27,19 +27,19 @@ Program Definition Props : Category := {|
   compose := fun _ _ _ g f x => g (f x)
 |}.
 
-#[global]
+#[export]
 Program Instance Props_Terminal : @Terminal Props := {
   terminal_obj := True;
   one := fun _ _ => I
 }.
 
-#[global]
+#[export]
 Program Instance Props_Initial : @Initial Props := {
   terminal_obj := False;
   one := fun _ _ => False_rect _ _
 }.
 
-#[global]
+#[export]
 Program Instance Props_Cartesian : @Cartesian Props := {
   product_obj := and;
   fork := fun _ _ _ f g x => conj (f x) (g x);
@@ -47,7 +47,7 @@ Program Instance Props_Cartesian : @Cartesian Props := {
   exr  := fun _ _ p => proj2 p
 }.
 
-#[global]
+#[export]
 Program Instance Props_Cocartesian : @Cocartesian Props := {
   product_obj := or;
   fork := fun _ _ _ f g x =>
@@ -59,7 +59,7 @@ Program Instance Props_Cocartesian : @Cocartesian Props := {
   exr  := fun _ _ p => or_intror p
 }.
 
-#[global]
+#[export]
 Program Instance Props_Closed : @Closed Props _ := {
   exponent_obj := Basics.impl;
   exp_iso := fun _ _ _ =>

@@ -9,7 +9,7 @@ Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
-#[global]
+#[export]
 Program Instance CoproductFunctor `(C : Category) `{@Cocartesian C} :
   C ∐ C ⟶ C := {
   fobj := fun p => sum_rect (λ _, C) (λ a, a) (λ b, b) p;

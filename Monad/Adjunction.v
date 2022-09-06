@@ -8,6 +8,7 @@ Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Theory.Monad.
 Require Import Category.Theory.Adjunction.
 Require Import Category.Adjunction.Natural.Transformation.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 Set Primitive Projections.

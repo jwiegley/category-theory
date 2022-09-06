@@ -570,7 +570,7 @@ Ltac reify :=
 
 Ltac solve_map := reify; apply formula_sound; vm_compute; auto.
 
-#[global]
+#[export]
 Program Instance sigT_proper {A : Type} :
   Proper (pointwise_relation A Basics.arrow ==> Basics.arrow) (@sigT A).
 Next Obligation.

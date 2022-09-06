@@ -6,6 +6,7 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.Endo.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Naturality.
 Require Import Category.Structure.Monoidal.Proofs.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Balanced.
@@ -105,7 +106,8 @@ Proof.
   rewrite !comp_assoc; rewrite <- 2!(comp_assoc _ inverse[grp] f).
   rewrite bimap_comp.
   rewrite <- (comp_assoc _ _ ∆X).
-  assert ((inverse[grp] ∘ f) ⨂ (inverse[grp] ∘ f) ≈ map (inverse[grp] ∘ f)) as R by reflexivity; rewrite R; clear R.
+  assert ((inverse[grp] ∘ f) ⨂ (inverse[grp] ∘ f) ≈ map (inverse[grp] ∘ f)) as R
+    by reflexivity; rewrite R; clear R.
   rewrite <- (comp_assoc _ _ ∆X).
   rewrite (diagonal_natural _ _ (inverse[grp] ∘ f)).
   simpl.

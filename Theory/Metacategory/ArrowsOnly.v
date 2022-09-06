@@ -109,12 +109,12 @@ Definition composition {x y z : object}
    ; mor_dom := composition_right (f:=f) (`2 fg) (mor_dom g)
    ; mor_cod := composition_left  (g:=g) (`2 fg) (mor_cod f) |}.
 
-#[global] Program Instance morphism_preorder : PreOrder morphism := {
+#[export] Program Instance morphism_preorder : PreOrder morphism := {
   PreOrder_Reflexive  := identity;
   PreOrder_Transitive := fun _ _ _ g f => composition f g
 }.
 
-#[global] Program Instance morphism_setoid (x y : object) :
+#[export] Program Instance morphism_setoid (x y : object) :
   Setoid (morphism x y) := {
   equiv := fun f g => mor_arr f = mor_arr g
 }.
@@ -480,7 +480,7 @@ Defined.
 
 Require Import Category.Instance.Cat.
 
-#[global]
+#[export]
 Program Instance Two_iso_2 : Category_from_Metacategory Two ≅ _2 := {
   to   := Two_to_Two;
   from := Two_from_Two

@@ -77,7 +77,7 @@ Remove Hints Sets_Product_Monoidal : typeclass_instances.
 Definition ump_exponents {x y z} (f : x ⨂ y ~> z) :
   ∃! h : x ~> y ⇒ z, f ≈ eval' ∘ (h ⨂ id) := @ump_exponents' _ x y z f.
 
-#[global] Program Instance curry_respects (a b c : C) :
+#[export] Program Instance curry_respects (a b c : C) :
   Proper (equiv ==> equiv) (@curry a b c).
 Next Obligation.
   proper.
@@ -87,7 +87,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-#[global] Program Instance uncurry_respects (a b c : C) :
+#[export] Program Instance uncurry_respects (a b c : C) :
   Proper (equiv ==> equiv) (@uncurry a b c).
 Next Obligation.
   proper.

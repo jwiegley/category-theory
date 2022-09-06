@@ -15,7 +15,7 @@ Section SemicartesianMonoidalTerminal.
 Context `{@Monoidal C}.
 Context `{@SemicartesianMonoidal C _}.
 
-#[global] Program Definition SemicartesianMonoidal_Terminal : @Terminal C := {|
+Program Definition SemicartesianMonoidal_Terminal : @Terminal C := {|
   terminal_obj := I;
   one := @eliminate _ _ _;
   one_unique := @unit_terminal _ _ _

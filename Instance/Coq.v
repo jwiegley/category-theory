@@ -21,7 +21,7 @@ Set Primitive Projections.
 Set Universe Polymorphism.
 Unset Transparent Obligations.
 
-#[global]
+#[export]
 Program Instance Coq : Category := {
   obj     := Type;
   hom     := λ A B : Type, A → B;
@@ -32,14 +32,14 @@ Program Instance Coq : Category := {
 Next Obligation. equivalence; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
 
-#[global]
+#[export]
 Program Instance Coq_Terminal : @Terminal Coq := {
   terminal_obj := unit : Type;
   one := λ _ a, tt
 }.
 Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
 
-#[global]
+#[export]
 Program Instance Coq_Cartesian : @Cartesian Coq := {
   product_obj := λ x y, x * y : Type;
   fork := λ _ _ _ f g x, (f x, g x);
@@ -56,7 +56,7 @@ Next Obligation.
     rewrite <- surjective_pairing; reflexivity.
 Qed.
 
-#[global]
+#[export]
 Program Instance Coq_Closed : @Closed Coq _ := {
   exponent_obj := Basics.arrow;
   exp_iso := λ _ _ _,
@@ -66,14 +66,14 @@ Program Instance Coq_Closed : @Closed Coq _ := {
 Next Obligation. proper; extensionality X0; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
 
-#[global]
+#[export]
 Program Instance Coq_Initial : Initial Coq := {
   terminal_obj := False;
   one := λ _ _, False_rect _ _
 }.
 Next Obligation. contradiction. Qed.
 
-#[global]
+#[export]
 Program Instance Coq_Cocartesian : @Cocartesian Coq := {
   product_obj := sum;
   fork := λ _ _ _ f g x,
@@ -150,11 +150,11 @@ Qed.
 Next Obligation. now destruct x0. Qed.
 Next Obligation. now destruct x0. Qed.
 
-#[global]
+#[export]
 Program Instance optionF : EndoFunctor option :=
   Functor_EndoFunctor (F:=option_Functor).
 
-#[global] Program Instance option_Monad : @Monad Coq option_Functor := {
+#[export] Program Instance option_Monad : @Monad Coq option_Functor := {
   ret := @Some;
   join := λ _ x,
     match x with
@@ -195,6 +195,6 @@ Next Obligation.
   now rewrite IHx0.
 Qed.
 
-#[global]
+#[export]
 Program Instance listF : EndoFunctor list :=
   Functor_EndoFunctor (F:=list_Functor).

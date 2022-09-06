@@ -12,8 +12,8 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Class Naturality (A : Type) : Type := {
-    natural (f : A) : Type
-  }.
+  natural (f : A) : Type
+}.
 
 Arguments natural {A _} _ /.
 
@@ -23,19 +23,19 @@ Ltac prove_naturality H tac :=
   split; simpl;
   intros; tac; intuition.
 
-#[global]
-  Program Instance Identity_Naturality {C : Category} :
+#[export]
+Program Instance Identity_Naturality {C : Category} :
   Naturality (∀ A, A ~> A) := {
-    natural := fun f => ∀ x y (g : x ~> y), g ∘ f x ≈ f y ∘ g
-  }.
+  natural := fun f => ∀ x y (g : x ~> y), g ∘ f x ≈ f y ∘ g
+}.
 
-#[global]
-  Program Instance Functor_Naturality
+#[export]
+Program Instance Functor_Naturality
   {C : Category} {D : Category} (F G : C ⟶ D) :
   Naturality (∀ A, F A ~> G A) := {
-    natural := fun f =>
-                 ∀ x y (g : x ~{C}~> y), fmap[G] g ∘ f x ≈ f y ∘ fmap[F] g
-  }.
+  natural := fun f =>
+               ∀ x y (g : x ~{C}~> y), fmap[G] g ∘ f x ≈ f y ∘ fmap[F] g
+}.
 
 (*
 Require Import Category.Functor.Constant.
@@ -101,7 +101,7 @@ Next Obligation.
 Qed.
  *)
 
-#[global]
+#[export]
 Program Instance ArityOne {C : Category}
   (P : C → C) {F : @EndoFunctor C P}
   (Q : C → C) {G : @EndoFunctor C Q} :
@@ -109,7 +109,7 @@ Program Instance ArityOne {C : Category}
   natural := fun f => ∀ x y (g : x ~> y), @map _ _ G _ _ g ∘ f x ≈ f y ∘ @map _ _ F _ _ g
 }.
 
-#[global]
+#[export]
 Program Instance ArityTwo {C : Category}
   (P : C → C → C)
   {FA : ∀ B, @EndoFunctor C (fun A => P A B)}
@@ -123,7 +123,7 @@ Program Instance ArityTwo {C : Category}
                    ≈ f y w ∘ @map _ _ (FB _) _ _ h ∘ @map _ _ (FA _) _ _ g
 }.
 
-#[global]
+#[export]
 Program Instance ArityThree {C : Category}
   (P : C → C → C → C)
   {FA : ∀ B D : C, @EndoFunctor C (fun A => P A B D)}
@@ -147,7 +147,7 @@ Program Instance ArityThree {C : Category}
                    ∘ @map _ _ (FA _ _) _ _ g
 }.
 
-#[global]
+#[export]
 Program Instance ArityFour {C : Category}
   (P : C → C → C → C → C)
   {FA : ∀ B D E : C, @EndoFunctor C (fun A => P A B D E)}
@@ -176,7 +176,7 @@ Program Instance ArityFour {C : Category}
                    ∘ @map _ _ (FA _ _ _) _ _ g
 }.
 
-#[global]
+#[export]
 Program Instance ArityFive {C : Category}
   (P : C → C → C → C → C → C)
   {FA : ∀ B D E F : C, @EndoFunctor C (fun A => P A B D E F)}
@@ -210,7 +210,7 @@ Program Instance ArityFive {C : Category}
                    ∘ @map _ _ (FA _ _ _ _) _ _ g
 }.
 
-#[global]
+#[export]
 Program Instance Transform_ArityOne {C : Category}
   (P : C → C) `{@EndoFunctor C P}
   (Q : C → C) `{@EndoFunctor C Q} :
@@ -219,7 +219,7 @@ Program Instance Transform_ArityOne {C : Category}
                         natural (fun A => from (f A))
 }.
 
-#[global]
+#[export]
 Program Instance Transform_ArityTwo {C : Category}
   (P : C → C → C)
   `{∀ B, @EndoFunctor C (fun A => P A B)}
@@ -232,7 +232,7 @@ Program Instance Transform_ArityTwo {C : Category}
                         natural (fun A B => from (f A B))
 }.
 
-#[global]
+#[export]
 Program Instance Transform_ArityThree {C : Category}
   (P : C → C → C → C)
   `{∀ B D : C, @EndoFunctor C (fun A => P A B D)}
@@ -247,7 +247,7 @@ Program Instance Transform_ArityThree {C : Category}
                         natural (fun A B D => from (f A B D))
 }.
 
-#[global]
+#[export]
 Program Instance Transform_ArityFour {C : Category}
   (P : C → C → C → C → C)
   `{∀ B D E : C, @EndoFunctor C (fun A => P A B D E)}
@@ -264,7 +264,7 @@ Program Instance Transform_ArityFour {C : Category}
                         natural (fun A B D E => from (f A B D E))
 }.
 
-#[global]
+#[export]
 Program Instance Transform_ArityFive {C : Category}
   (P : C → C → C → C → C → C)
   `{∀ B D E F : C, @EndoFunctor C (fun A => P A B D E F)}

@@ -24,13 +24,13 @@ Notation "1" := _1 : category_scope.
 Notation "one[ C ]" := (@one Cat _ C)
   (at level 9, format "one[ C ]") : object_scope.
 
-#[global]
+#[export]
 Program Instance Erase `(C : Category) : C ⟶ 1 := {
   fobj := fun _ => ();
   fmap := fun _ _ _ => id
 }.
 
-#[global]
+#[export]
 Program Instance Cat_Terminal : @Terminal Cat := {
   terminal_obj := _1;
   one := Erase

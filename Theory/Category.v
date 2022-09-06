@@ -193,7 +193,7 @@ Arguments id_right {_%category _%object _%object} _%morphism.
 Arguments comp_assoc {_%category _%object _%object _%object _%object}
   _%morphism _%morphism _%morphism.
 
-#[global]
+#[export]
 Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := {
   PreOrder_Reflexive  := fun _ => id;
   PreOrder_Transitive := fun _ _ _ f g => g ∘ f

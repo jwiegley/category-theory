@@ -51,7 +51,7 @@ Next Obligation. destruct H; intuition. Qed.
 Next Obligation. destruct H; intuition. Qed.
 Next Obligation. destruct H; intuition. Qed.
 
-#[global]
+#[export]
 Program Instance IdentityT_MonadTransformer {C : Category} (M : C ⟶ C) `{@Monad C M} :
   @MonadTransformer C M _ (@IdentityT C) (IdentityT_Monad M) := {
   lift := fun _ => id

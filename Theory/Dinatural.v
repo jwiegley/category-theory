@@ -34,7 +34,7 @@ Class Dinatural := {
         ≈ fmap[G] (id ⋆⋆⋆ f) ∘ ditransform ∘ fmap[F] (op f ⋆⋆⋆ id)
 }.
 
-#[global] Program Instance Dinatural_Setoid : Setoid Dinatural.
+#[export] Program Instance Dinatural_Setoid : Setoid Dinatural.
 
 End Dinatural.
 

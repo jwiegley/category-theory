@@ -22,14 +22,14 @@ Program Definition _0 : Category := {|
 
 Notation "0" := _0 : category_scope.
 
-#[global]
+#[export]
 Program Instance From_0 `(C : Category) : 0 ⟶ C.
 Next Obligation. destruct H. Defined.
 Next Obligation. destruct x. Defined.
 Next Obligation. destruct x. Qed.
 Next Obligation. destruct x. Qed.
 
-#[global]
+#[export]
 Program Instance Cat_Initial : @Initial Cat := {
   terminal_obj := _0;
   one := From_0

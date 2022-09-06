@@ -4,6 +4,7 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
+Require Import Category.Theory.Functor.Endo.
 Require Import Category.Theory.Naturality.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Functor.Bifunctor.
@@ -48,13 +49,13 @@ Section Strong.
 Context `{@Monoidal C}.
 Context {F : C ⟶ C}.
 
-#[global] Program Instance Id_StrongFunctor : StrongFunctor Id[C] := {
+#[export] Program Instance Id_StrongFunctor : StrongFunctor Id[C] := {
   strength := fun _ _ => id
 }.
 
 #[local] Obligation Tactic := program_simpl.
 
-#[global] Program Instance Compose_StrongFunctor (F G : C ⟶ C) :
+#[export] Program Instance Compose_StrongFunctor (F G : C ⟶ C) :
   StrongFunctor F → StrongFunctor G → StrongFunctor (F ◯ G) := {
   strength := fun _ _ => fmap[F] strength ∘ strength
 }.
