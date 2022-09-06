@@ -18,8 +18,8 @@ Module Import FMapExt := FMapExt PO M.
  *)
 
 Inductive partial (P : Prop) : Set :=
-| Proved : P → partial P
-| Uncertain : partial P.
+| Proved : P → partial
+| Uncertain : partial.
 
 Notation "[ P ]" := (partial P) : type_scope.
 

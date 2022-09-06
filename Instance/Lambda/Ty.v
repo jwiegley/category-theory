@@ -1,7 +1,10 @@
+Require Import Category.Lib.
 Require Import Category.Instance.Lambda.Lib.
 
 From Equations Require Import Equations.
 Set Equations With UIP.
+
+Set Transparent Obligations.
 
 Section Ty.
 

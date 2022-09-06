@@ -1,3 +1,4 @@
+Require Import Category.Lib.
 Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Exp.
 Require Import Category.Instance.Lambda.Eval.

@@ -1,3 +1,4 @@
+Require Import Category.Lib.
 Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ltac.
 Require Import Category.Instance.Lambda.Ty.
@@ -18,9 +19,8 @@ Generalizable All Variables.
 Import ListNotations.
 
 Inductive multi `(R : relation X) : relation X :=
-  | multi_refl (x : X) : multi R x x
-  | multi_step (x y z : X) :
-      R x y → multi R y z → multi R x z.
+  | multi_refl (x : X) : multi x x
+  | multi_step (x y z : X) : R x y → multi y z → multi x z.
 
 Derive Signature for multi.
 

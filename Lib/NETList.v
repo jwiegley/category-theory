@@ -13,8 +13,8 @@ Set Transparent Obligations.
 Open Scope lazy_bool_scope.
 
 Inductive netlist {A : Type} (B : A → A → Type) : A → A → Type :=
-  | tfin : ∀ i j : A, B i j → netlist B i j
-  | tadd : ∀ i j k : A, B i j → netlist B j k → netlist B i k.
+  | tfin : ∀ i j : A, B i j → netlist i j
+  | tadd : ∀ i j k : A, B i j → netlist j k → netlist i k.
 
 Derive Signature NoConfusion NoConfusionHom Subterm for netlist.
 

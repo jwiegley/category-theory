@@ -1,3 +1,4 @@
+Require Import Category.Lib.
 Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Exp.
 Require Import Category.Instance.Lambda.Value.
@@ -8,13 +9,15 @@ Set Equations With UIP.
 
 Generalizable All Variables.
 
+Set Transparent Obligations.
+
 Section Sub.
 
 Import ListNotations.
 
 Inductive Sub (Γ : Env) : Env → Type :=
-  | NoSub : Sub Γ []
-  | Push {Γ' τ} : Exp Γ τ → Sub Γ Γ' → Sub Γ (τ :: Γ').
+  | NoSub : Sub []
+  | Push {Γ' τ} : Exp Γ τ → Sub Γ' → Sub (τ :: Γ').
 
 Arguments NoSub {Γ}.
 Arguments Push {Γ Γ' τ} _ _.

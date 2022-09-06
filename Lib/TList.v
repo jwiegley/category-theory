@@ -13,8 +13,8 @@ Open Scope lazy_bool_scope.
 Set Transparent Obligations.
 
 Inductive tlist {A : Type} (B : A → A → Type) : A → A → Type :=
-  | tnil : ∀ i : A, tlist B i i
-  | tcons : ∀ i j k : A, B i j → tlist B j k → tlist B i k.
+  | tnil : ∀ i : A, tlist i i
+  | tcons : ∀ i j k : A, B i j → tlist j k → tlist i k.
 
 Derive Signature NoConfusion Subterm for tlist.
 Next Obligation.
