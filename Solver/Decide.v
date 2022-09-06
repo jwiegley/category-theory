@@ -17,8 +17,8 @@ Context `{Env}.
 (** This code is from Certified Programming with Dependent Types (CPDT). *)
 
 Inductive partial (P : Type) : Type :=
-| Proved : P → partial P
-| Uncertain : partial P.
+| Proved : P → partial
+| Uncertain : partial.
 
 Notation "[ P ]" := (partial P) : type_scope.
 

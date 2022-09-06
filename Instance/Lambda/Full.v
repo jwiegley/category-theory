@@ -1,3 +1,4 @@
+Require Import Category.Lib.
 Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ltac.
 Require Import Category.Instance.Lambda.Ty.
@@ -10,6 +11,8 @@ Set Equations With UIP.
 
 Generalizable All Variables.
 
+Set Transparent Obligations.
+
 (** Evaluation contexts *)
 
 Section Full.
@@ -21,18 +24,18 @@ Open Scope Ty_scope.
 (* A context defines a hole which, after substitution, yields an expression of
    the index type. *)
 Inductive Frame Γ : Ty → Ty → Type :=
-  | F_PairL {τ1 τ2}  : Exp Γ τ2 → Frame Γ τ1 (τ1 × τ2)
-  | F_PairR {τ1 τ2}  : Exp Γ τ1 → Frame Γ τ2 (τ1 × τ2)
-  | F_Fst {τ1 τ2}    : Frame Γ (τ1 × τ2) τ1
-  | F_Snd {τ1 τ2}    : Frame Γ (τ1 × τ2) τ2
-  | F_AppL {dom cod} : Exp Γ dom → Frame Γ (dom ⟶ cod) cod
-  | F_AppR {dom cod} : Exp Γ (dom ⟶ cod) → Frame Γ dom cod.
+  | F_PairL {τ1 τ2}  : Exp Γ τ2 → Frame τ1 (τ1 × τ2)
+  | F_PairR {τ1 τ2}  : Exp Γ τ1 → Frame τ2 (τ1 × τ2)
+  | F_Fst {τ1 τ2}    : Frame (τ1 × τ2) τ1
+  | F_Snd {τ1 τ2}    : Frame (τ1 × τ2) τ2
+  | F_AppL {dom cod} : Exp Γ dom → Frame (dom ⟶ cod) cod
+  | F_AppR {dom cod} : Exp Γ (dom ⟶ cod) → Frame dom cod.
 
 Derive Signature NoConfusion Subterm for Frame.
 
 Inductive Ctxt Γ : Ty → Ty → Type :=
-  | C_Nil {τ}         : Ctxt Γ τ τ
-  | C_Cons {τ τ' τ''} : Frame Γ τ' τ → Ctxt Γ τ'' τ' → Ctxt Γ τ'' τ.
+  | C_Nil {τ}         : Ctxt τ τ
+  | C_Cons {τ τ' τ''} : Frame Γ τ' τ → Ctxt τ'' τ' → Ctxt τ'' τ.
 
 Derive Signature NoConfusion NoConfusionHom Subterm for Ctxt.
 
@@ -79,35 +82,35 @@ Derive Signature for Redex.
 Unset Elimination Schemes.
 
 Inductive Plug {Γ τ'} (e : Exp Γ τ') : ∀ {τ}, Ctxt Γ τ' τ → Exp Γ τ → Prop :=
-  | Plug_Hole : Plug e (C_Nil _) e
+  | Plug_Hole : Plug (C_Nil _) e
 
   | Plug_PairL {τ1 τ2} {C : Ctxt Γ τ' τ1} {e' : Exp Γ τ1} {e2 : Exp Γ τ2} :
-    Plug e C e' →
-    Plug e (C_Cons _ (F_PairL _ e2) C) (Pair e' e2)
+    Plug C e' →
+    Plug (C_Cons _ (F_PairL _ e2) C) (Pair e' e2)
 
   | Plug_PairR {τ1 τ2} {C : Ctxt Γ τ' τ2} {e1 : Exp Γ τ1} {e' : Exp Γ τ2} :
     ValueP e1 →
-    Plug e C e' →
-    Plug e (C_Cons _ (F_PairR _ e1) C) (Pair e1 e')
+    Plug C e' →
+    Plug (C_Cons _ (F_PairR _ e1) C) (Pair e1 e')
 
   | Plug_Fst {τ1 τ2} {C : Ctxt Γ τ' (τ1 × τ2)} {e' : Exp Γ (τ1 × τ2)} :
-    Plug e C e' →
-    Plug e (C_Cons _ (F_Fst _) C) (Fst e')
+    Plug C e' →
+    Plug (C_Cons _ (F_Fst _) C) (Fst e')
 
   | Plug_Snd {τ1 τ2} {C : Ctxt Γ τ' (τ1 × τ2)} {e' : Exp Γ (τ1 × τ2)} :
-    Plug e C e' →
-    Plug e (C_Cons _ (F_Snd _) C) (Snd e')
+    Plug C e' →
+    Plug (C_Cons _ (F_Snd _) C) (Snd e')
 
   | Plug_AppL {dom cod} {C : Ctxt Γ τ' (dom ⟶ cod)}
               {e' : Exp Γ (dom ⟶ cod)} {e2 : Exp Γ dom} :
-    Plug e C e' →
-    Plug e (C_Cons _ (F_AppL _ e2) C) (APP e' e2)
+    Plug C e' →
+    Plug (C_Cons _ (F_AppL _ e2) C) (APP e' e2)
 
   | Plug_AppR {dom cod} {C : Ctxt Γ τ' dom}
               {e' : Exp Γ dom} {e1 : Exp Γ (dom ⟶ cod)} :
     ValueP e1 →
-    Plug e C e' →
-    Plug e (C_Cons _ (F_AppR _ e1) C) (APP e1 e').
+    Plug C e' →
+    Plug (C_Cons _ (F_AppR _ e1) C) (APP e1 e').
 
 Derive Signature for Plug.
 
@@ -143,16 +146,14 @@ Theorem Plug_id_left {Γ τ τ'} {C : Ctxt Γ τ' τ} {x : Exp Γ τ'} {y : Exp 
   Plug_comp Plug_id P ~= P.
 *)
 
-Reserved Notation " t '--->' t' " (at level 40).
-
 Inductive Step {Γ τ} : Exp Γ τ → Exp Γ τ → Prop :=
   | StepRule {τ'} {C : Ctxt Γ τ' τ} {e1 e2 : Exp Γ τ'} {e1' e2' : Exp Γ τ} :
     Plug e1 C e1' →
     Plug e2 C e2' →
     Redex e1 e2 →
-    e1' ---> e2'
+    Step e1' e2'.
 
-  where " t '--->' t' " := (Step t t').
+Notation " t '--->' t' " := (Step t t') (at level 40).
 
 Derive Signature for Step.
 

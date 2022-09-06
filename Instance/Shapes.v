@@ -107,6 +107,8 @@ Program Instance Shape_Setoid : Setoid Shape := {|
 
 (**************************************************************************)
 
+Unset Uniform Inductive Parameters.
+
 Inductive Trie (a : Type) : Shape → Type :=
   | Unit : Trie a Bottom                      (* a^0 = 1 *)
   | Id : a → Trie a Top                      (* a^1 = a *)

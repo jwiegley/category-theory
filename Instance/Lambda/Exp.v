@@ -1,3 +1,4 @@
+Require Import Category.Lib.
 Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ty.
 
@@ -5,6 +6,9 @@ From Equations Require Import Equations.
 Set Equations With UIP.
 
 Generalizable All Variables.
+
+Set Transparent Obligations.
+Unset Uniform Inductive Parameters.
 
 Section Exp.
 

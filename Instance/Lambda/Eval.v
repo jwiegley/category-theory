@@ -1,3 +1,4 @@
+Require Import Category.Lib.
 Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ty.
 Require Import Category.Instance.Lambda.Exp.
@@ -8,6 +9,8 @@ From Equations Require Import Equations.
 Set Equations With UIP.
 
 Generalizable All Variables.
+
+Set Transparent Obligations.
 
 Section Eval.
 
