@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Functor.
 
 Require Import Coq.Structures.DecidableTypeEx.
 Require Import Coq.FSets.FMapFacts.

@@ -2,12 +2,9 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Morphisms.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Naturality.
 Require Import Category.Functor.Bifunctor.
-Require Import Category.Construction.Product.
 Require Import Category.Structure.Monoidal.
 
 Generalizable All Variables.

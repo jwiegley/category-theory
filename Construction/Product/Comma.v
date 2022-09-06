@@ -5,10 +5,8 @@ Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
-Require Import Category.Theory.Adjunction.
 Require Import Category.Construction.Comma.
 Require Import Category.Construction.Product.
-Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Cat.
 Require Import Category.Instance.One.
 

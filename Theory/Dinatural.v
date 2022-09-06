@@ -3,10 +3,8 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
-Require Import Category.Structure.Terminal.
 Require Import Category.Construction.Opposite.
 Require Import Category.Construction.Product.
-Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.

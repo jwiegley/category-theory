@@ -2,17 +2,13 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Functor.Product.
-Require Import Category.Functor.Strong.
-Require Import Category.Functor.Strong.Product.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cartesian.Closed.
-Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Internal.Product.
 Require Import Category.Functor.Structure.Monoidal.
 Require Import Category.Functor.Traversable.

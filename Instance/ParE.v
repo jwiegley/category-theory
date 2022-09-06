@@ -2,11 +2,8 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Functor.
-Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cocartesian.
-Require Import Category.Structure.Cartesian.Closed.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Coq.

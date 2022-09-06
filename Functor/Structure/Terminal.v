@@ -4,6 +4,7 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
+Require Import Category.Functor.Opposite.
 Require Import Category.Structure.Terminal.
 
 Generalizable All Variables.
@@ -26,8 +27,6 @@ Class TerminalFunctor := {
 End TerminalFunctor.
 
 Require Import Category.Construction.Opposite.
-Require Import Category.Functor.Opposite.
-Require Import Category.Structure.Initial.
 
 Notation "'InitialFunctor' F" := (@TerminalFunctor _ _ (F^op) _ _)
   (at level 9) : category_theory_scope.

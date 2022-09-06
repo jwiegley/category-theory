@@ -5,7 +5,6 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Construction.Slice.
-Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Pullback.
 
 Generalizable All Variables.

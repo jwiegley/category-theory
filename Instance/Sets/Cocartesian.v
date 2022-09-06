@@ -1,8 +1,6 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
-Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Instance.Sets.
 Require Import Category.Structure.Cocartesian.
 

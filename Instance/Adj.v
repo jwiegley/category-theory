@@ -5,7 +5,6 @@ Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Theory.Adjunction.
-Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.

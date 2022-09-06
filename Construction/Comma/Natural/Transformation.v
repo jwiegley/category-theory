@@ -7,7 +7,6 @@ Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Construction.Comma.
 Require Import Category.Instance.Cat.
-Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.

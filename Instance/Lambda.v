@@ -13,7 +13,6 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cartesian.Closed.
-Require Import Category.Structure.BiCCC.
 Require Import Category.Instance.Sets.
 
 From Equations Require Import Equations.

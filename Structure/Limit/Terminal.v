@@ -3,11 +3,9 @@ Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Universal.Arrow.
 Require Import Category.Structure.Cone.
 Require Import Category.Structure.Limit.
 Require Import Category.Structure.Terminal.
-Require Import Category.Functor.Diagonal.
 Require Import Category.Instance.Zero.
 
 Generalizable All Variables.

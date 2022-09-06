@@ -11,7 +11,6 @@ Require Import Category.Construction.Comma.
 Require Import Category.Instance.Cones.
 Require Import Category.Instance.Fun.
 Require Import Category.Instance.Cat.
-Require Import Category.Instance.One.
 
 Generalizable All Variables.
 Set Primitive Projections.

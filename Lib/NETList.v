@@ -6,7 +6,6 @@ Require Import Coq.Bool.Bool.
 Require Import Coq.Lists.List.
 
 From Equations Require Import Equations.
-Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 
 Require Import Category.Lib.
@@ -604,8 +603,6 @@ Definition my_list : netlist nat_triple 0 4 :=
         (tadd 2 ((1, 2), 200)
                (tadd 3 ((2, 3), 300)
                       (tfin ((3, 4), 400)))).
-
-Require Import Coq.Arith.EqNat.
 
 Example netlist_find_sublist_nat_ex1 :
   ∀ H : ∀ i j : nat, EqDec (nat_triple i j),

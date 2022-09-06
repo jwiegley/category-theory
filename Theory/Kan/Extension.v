@@ -8,7 +8,6 @@ Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Theory.Adjunction.
 Require Import Category.Instance.Fun.
-Require Import Category.Instance.Cat.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.

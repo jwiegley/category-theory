@@ -6,7 +6,6 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Functor.Bifunctor.
-Require Import Category.Construction.Product.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Instance.Fun.
 

@@ -4,8 +4,6 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Monad.
-Require Import Category.Functor.Structure.Monoidal.
-Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
 Set Primitive Projections.

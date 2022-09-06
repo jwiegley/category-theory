@@ -2,7 +2,6 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Functor.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
@@ -178,8 +177,6 @@ Next Obligation.
     destruct s; try tauto;
     destruct p; simpl in *; auto.
 Qed.
-
-Require Import Category.Instance.Sets.
 
 (** This is an invalid definition, since there are three ways we could produce
     an [option c], but no way to decide which. *)

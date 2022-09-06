@@ -7,7 +7,6 @@ Require Import Category.Theory.Functor.
 Require Import Category.Functor.Diagonal.
 Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Cat.
-Require Import Category.Instance.One.
 
 Generalizable All Variables.
 Set Primitive Projections.

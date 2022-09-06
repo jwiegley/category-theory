@@ -6,12 +6,9 @@ Require Import Coq.Bool.Bool.
 
 Open Scope lazy_bool_scope.
 
-Require Import Coq.Classes.CEquivalence.
 Require Export Coq.Classes.CRelationClasses.
-Require Import Coq.Classes.CMorphisms.
 
 From Equations Require Import Equations.
-Require Import Equations.Type.EqDec.
 Set Equations With UIP.
 
 Require Import Category.Lib.

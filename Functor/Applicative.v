@@ -2,9 +2,7 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Functor.Strong.
 Require Import Category.Functor.Hom.Internal.
 Require Import Category.Structure.Terminal.
