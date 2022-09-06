@@ -30,7 +30,7 @@ Context {F : D ⟶ E}.
 (* Any two monoidal functors compose to create a monoidal functor. This is
    composition in the groupoid of categories with monoidal structure. *)
 
-#[global] Program Instance Compose_MonoidalFunctor
+#[export] Program Instance Compose_MonoidalFunctor
        `(M : @MonoidalFunctor D E _ _ F)
        `(N : @MonoidalFunctor C D _ _ G) :
   `{@MonoidalFunctor C E _ _ (F ◯ G)} := {
@@ -260,7 +260,7 @@ Qed.
    functor. This is composition in the category of categories with monoidal
    structure. *)
 
-#[global] Program Instance Compose_LaxMonoidalFunctor
+#[export] Program Instance Compose_LaxMonoidalFunctor
        `(M : @LaxMonoidalFunctor D E _ _ F)
        `(N : @LaxMonoidalFunctor C D _ _ G) :
   `{@LaxMonoidalFunctor C E _ _ (F ◯ G)} := {

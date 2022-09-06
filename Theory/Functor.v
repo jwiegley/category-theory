@@ -64,7 +64,7 @@ Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
 
 #[export] Hint Rewrite @fmap_id : categories.
 
-#[global]
+#[export]
 Program Instance Functor_Setoid {C D : Category} : Setoid (C ⟶ D) := {
   (* Note that it doesn't make much sense (with our definition of [Category])
      to ask that [∀ x : C, F x = G x] and
@@ -143,7 +143,7 @@ Ltac constructive :=
                      | exists iso; intros ]
   end.
 
-#[global]
+#[export]
 Program Instance fobj_iso `(F : C ⟶ D) :
   Proper (Isomorphism ==> Isomorphism) (fobj[F]).
 Next Obligation.
@@ -156,7 +156,7 @@ Next Obligation.
   rewrite iso_from_to; cat.
 Defined.
 
-#[global]
+#[export]
 Instance fobj_respects `(F : C ⟶ D) :
   Proper (equiv ==> equiv) (@fobj C D F) := @fobj_iso C D F.
 
@@ -184,7 +184,7 @@ Next Obligation. intros; rewrite !fmap_comp; reflexivity. Qed.
 Notation "F ◯ G" := (Compose F%functor G%functor)
   (at level 40, left associativity) : category_scope.
 
-#[global]
+#[export]
 Program Instance Compose_respects {C D E : Category} :
   Proper (equiv ==> equiv ==> equiv) (@Compose C D E).
 Next Obligation.

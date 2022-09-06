@@ -46,7 +46,7 @@ Definition unop {C : Category} {x y} (f : x ~{C^op}~> y) : y ~{C}~> x := f.
 
 Require Import Category.Theory.Isomorphism.
 
-#[global]
+#[export]
 Program Instance Isomorphism_Opposite {C : Category} {x y : C}
        (iso : @Isomorphism C x y) :
   @Isomorphism (C^op) x y := {

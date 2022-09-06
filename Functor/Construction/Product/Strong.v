@@ -9,10 +9,11 @@ Require Import Category.Functor.Strong.
 Require Import Category.Functor.Construction.Product.
 Require Import Category.Functor.Construction.Product.Monoidal.
 Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Product.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Balanced.
-Require Import Category.Structure.Monoidal.Relevance.
 Require Import Category.Structure.Monoidal.Symmetric.
+Require Import Category.Structure.Monoidal.Relevance.
 Require Import Category.Structure.Monoidal.Cartesian.
 
 Generalizable All Variables.
@@ -26,12 +27,9 @@ Context `{@CartesianMonoidal C}.
 Context {F : C ⟶ C}.
 Context {G : C ⟶ C}.
 
-#[local] Obligation Tactic := program_simpl.
-
-Program Definition ProductFunctor_Strong :
-  StrongFunctor F → StrongFunctor G
-    → StrongFunctor (F ∏⟶ G) := fun O P => {|
-  strength := fun _ _ => (strength, strength);
+Program Definition ProductFunctor_Strong
+  `{!StrongFunctor F} `{!StrongFunctor G} : StrongFunctor (F ∏⟶ G) := {|
+  strength := fun _ _ => (strength[F], strength[G]);
   strength_id_left := _;
   strength_assoc := _
 |}.

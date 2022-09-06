@@ -23,7 +23,7 @@ Section MonadComposition.
 
 #[local] Obligation Tactic := idtac.
 
-#[global] Program Instance Monad_Composition `{Monad_Distributive} :
+#[export] Program Instance Monad_Composition `{Monad_Distributive} :
   @Monad _ (M ◯ N) := {
   ret  := fun _ => ret[M] ∘ pure[N];
   join := fun _ => join[M] ∘ fmap[M] prod

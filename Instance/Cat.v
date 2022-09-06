@@ -22,7 +22,7 @@ Set Transparent Obligations.
                           of [Functor_Setoid]).
 *)
 
-#[global]
+#[export]
 Instance Cat : Category := {
   obj     := Category;
   hom     := @Functor;
@@ -45,7 +45,7 @@ Record Isomorphism_FullyFaithful `(iso : C ≅ D) := {
   from_faithful : Faithful (from iso)
 }.
 
-#[global]
+#[export]
 Instance Cat_Iso_to_Faithful `(iso : C ≅ D) : Faithful (to iso).
 Proof.
   construct.
@@ -83,7 +83,7 @@ Proof.
   now apply (@fmap_respects D C iso⁻¹).
 Qed.
 
-#[global]
+#[export]
 Instance Cat_Iso_from_Faithful `(iso : C ≅ D) : Faithful (from iso).
 Proof.
   apply (Cat_Iso_to_Faithful (iso_sym iso)).

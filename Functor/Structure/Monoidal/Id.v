@@ -28,7 +28,7 @@ Context {F : D ⟶ E}.
 
 #[local] Obligation Tactic := program_simpl.
 
-#[global] Program Instance Id_MonoidalFunctor :
+#[export] Program Instance Id_MonoidalFunctor :
   @MonoidalFunctor C C _ _ Id[C] := {
   pure_iso := iso_id;
   ap_functor_iso := {| to   := {| transform := fun _ => _ |}
@@ -55,7 +55,7 @@ Next Obligation. rewrite bimap_id_id; cat. Qed.
 Next Obligation. rewrite bimap_id_id; cat. Qed.
 Next Obligation. rewrite !bimap_id_id; cat. Qed.
 
-#[global] Program Instance Id_LaxMonoidalFunctor :
+#[export] Program Instance Id_LaxMonoidalFunctor :
   @LaxMonoidalFunctor C C _ _ Id[C] := {
   lax_pure := id;
   ap_functor_nat := {| transform := fun _ => _ |}

@@ -205,7 +205,7 @@ Equations netlist_equiv {i j : A} (x y : netlist B i j) : Type :=
       | right _ => False
     }.
 
-#[global] Program Instance netlist_equiv_Equivalence {i j} :
+#[export] Program Instance netlist_equiv_Equivalence {i j} :
   Equivalence (@netlist_equiv i j).
 Next Obligation.
   repeat intro.
@@ -256,12 +256,12 @@ Next Obligation.
   eapply IHx; eauto.
 Qed.
 
-#[global] Program Instance netlist_Setoid {i j} : Setoid (netlist B i j) := {
+#[export] Program Instance netlist_Setoid {i j} : Setoid (netlist B i j) := {
   equiv := netlist_equiv;
   setoid_equiv := netlist_equiv_Equivalence;
 }.
 
-#[global] Program Instance netlist_cons_respects {i j k} :
+#[export] Program Instance netlist_cons_respects {i j k} :
   Proper (equiv ==> equiv ==> equiv) (@tadd A B i j k).
 Next Obligation.
   repeat intro.
@@ -270,7 +270,7 @@ Next Obligation.
   now rewrite EqDec.peq_dec_refl.
 Qed.
 
-#[global] Program Instance netlist_app_respects {i j k} :
+#[export] Program Instance netlist_app_respects {i j k} :
   Proper (equiv ==> equiv ==> equiv) (@netlist_app i j k).
 Next Obligation.
   repeat intro.
@@ -293,7 +293,7 @@ Next Obligation.
     exact X0.
 Qed.
 
-#[global] Program Instance netlist_EqDec {i j} : @EqDec (netlist B i j) := {
+#[export] Program Instance netlist_EqDec {i j} : @EqDec (netlist B i j) := {
   eq_dec := netlist_eq_dec
 }.
 
@@ -628,7 +628,7 @@ Class ISemigroup {A : Type} (B : A → A → Type) := {
 
 Infix "<+>" := isappend (at level 42, right associativity).
 
-#[global]
+#[export]
 Instance netlist_ISemigroup {A} {B : A → A → Type} : ISemigroup (netlist B) := {
   isappend := @netlist_app A B;
   isappend_assoc := @netlist_app_assoc A B

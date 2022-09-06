@@ -30,7 +30,7 @@ Class Transform := {
     transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform
 }.
 
-#[global] Program Instance Transform_Setoid : Setoid Transform :=
+#[export] Program Instance Transform_Setoid : Setoid Transform :=
   {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x); |}.
 Next Obligation.
   equivalence.
@@ -110,7 +110,7 @@ Lemma fun_comp_assoc_sym_and `(F : A ⟶ B) `(G : B ⟶ C) `(H : C ⟶ D) (x : A
   fun_comp_assoc_sym x ∘ fun_comp_assoc x ≈ fmap[H] (fmap[G] (fmap[F] id)).
 Proof. simpl; cat. Qed.
 
-#[global]
+#[export]
 Program Instance nat_Setoid `{F : C ⟶ D} {G : C ⟶ D} :
   Setoid (F ⟹ G) := Transform_Setoid.
 
@@ -146,7 +146,7 @@ Program Definition nat_compose_respects
   Proper (equiv ==> equiv ==> equiv) (@nat_compose C D F G K).
 Proof. proper. Qed.
 
-#[global]
+#[export]
 Program Instance Transform_PreOrder {C E : Category} :
   PreOrder (@Transform C E).
 Next Obligation.
@@ -156,7 +156,7 @@ Next Obligation.
   exact (λ _ _ _ f g, nat_compose g f).
 Defined.
 
-#[global]
+#[export]
 Program Instance Transform_respects {C D : Category} :
   Proper ((λ F G, G ⟹ F) ==> @Transform C D ==> Basics.arrow) (@Transform C D) :=
   λ _ _ F _ _ G H, nat_compose G (nat_compose H F).
@@ -187,7 +187,7 @@ Next Obligation.
   now apply nat_hcompose_obligation_1.
 Qed.
 
-#[global]
+#[export]
 Program Instance Compose_respects_Transform {C D E : Category} :
   Proper (@Transform D E ==> @Transform C D ==> @Transform C E)
          (@Compose C D E) :=

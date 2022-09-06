@@ -13,7 +13,7 @@ Unset Transparent Obligations.
 
 (* A product of functors over some object in a monoidal category. *)
 
-#[global]
+#[export]
 Program Instance Product
         {C : Category} {D : Category} `{@Monoidal D}
         {F : C ⟶ D} {G : C ⟶ D} : C ⟶ D := {

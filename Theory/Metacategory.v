@@ -145,7 +145,7 @@ Qed.
 
 #[local] Obligation Tactic := intros.
 
-#[global] Program Definition FromArrows (M : Metacategory) : Category := {|
+Program Definition FromArrows (M : Metacategory) : Category := {|
   (* The objects of the category are given by all the identity arrows of the
      arrows-only metacategory. *)
   obj := ∃ i : arr M, identity M i;

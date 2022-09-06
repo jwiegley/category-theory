@@ -22,7 +22,7 @@ Ltac reduce :=
 
 #[local] Obligation Tactic := simpl; intros.
 
-#[global]
+#[export]
 Program Instance Comma_Iso_to_Left {A : Category} {B : Category} {C : Category}
         (x y : A ⟶ C) (iso : x ≅[Fun] y) (z : B ⟶ C) :
   (x ↓ z) ⟶ (y ↓ z).
@@ -43,7 +43,7 @@ Next Obligation. now repeat intro. Qed.
 Next Obligation. now split. Qed.
 Next Obligation. now split. Qed.
 
-#[global]
+#[export]
 Program Instance Comma_Iso_from_Left {A : Category} {B : Category} {C : Category}
         (x y : A ⟶ C) (iso : x ≅[Fun] y) (z : B ⟶ C) :
   (y ↓ z) ⟶ (x ↓ z).
@@ -63,7 +63,7 @@ Next Obligation. now repeat intro. Qed.
 Next Obligation. now split. Qed.
 Next Obligation. now split. Qed.
 
-#[global]
+#[export]
 Program Instance Comma_Iso_to_Right {A : Category} {B : Category} {C : Category}
         (x y : B ⟶ C) (iso : x ≅[Fun] y) (z : A ⟶ C) :
   (z ↓ x) ⟶ (z ↓ y).
@@ -84,7 +84,7 @@ Next Obligation. now repeat intro. Qed.
 Next Obligation. now split. Qed.
 Next Obligation. now split. Qed.
 
-#[global]
+#[export]
 Program Instance Comma_Iso_from_Right {A : Category} {B : Category} {C : Category}
         (x y : B ⟶ C) (iso : x ≅[Fun] y) (z : A ⟶ C) :
   (z ↓ y) ⟶ (z ↓ x).
@@ -105,7 +105,7 @@ Next Obligation. now repeat intro. Qed.
 Next Obligation. now split. Qed.
 Next Obligation. now split. Qed.
 
-#[global]
+#[export]
 Program Instance Comma_Iso {A : Category} {B : Category} {C : Category} :
   Proper (@Isomorphism Fun ==> @Isomorphism Fun ==> @Isomorphism Cat)
          (@Comma A B C).

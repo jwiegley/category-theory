@@ -48,7 +48,7 @@ Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x × z ~> y × w :=
   (f ∘ exl) △ (g ∘ exr).
 
-#[global] Program Instance first_respects {a b c : C} :
+#[export] Program Instance first_respects {a b c : C} :
   Proper (equiv ==> equiv) (@first a b c).
 Next Obligation.
   proper.
@@ -57,7 +57,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-#[global] Program Instance second_respects {a b c : C} :
+#[export] Program Instance second_respects {a b c : C} :
   Proper (equiv ==> equiv) (@second a b c).
 Next Obligation.
   proper.
@@ -66,7 +66,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
-#[global] Program Instance split_respects {a b c d : C} :
+#[export] Program Instance split_respects {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@split a b c d).
 Next Obligation.
   proper.
@@ -304,7 +304,7 @@ Theorem split_fork {x y z w v : C}
   split f h ∘ g △ i ≈ (f ∘ g) △ (h ∘ i).
 Proof. unfork. Qed.
 
-#[global] Program Instance prod_respects_iso :
+#[export] Program Instance prod_respects_iso :
   Proper (Isomorphism ==> Isomorphism ==> Isomorphism) product_obj.
 Next Obligation.
   proper.
@@ -317,7 +317,7 @@ Defined.
 
 Context `{@Terminal C}.
 
-#[global] Program Instance prod_one_l  {x : C} :
+#[export] Program Instance prod_one_l  {x : C} :
   1 × x ≅ x := {
   to   := exr;
   from := one △ id
@@ -330,7 +330,7 @@ Qed.
 
 #[local] Hint Rewrite @prod_one_l : isos.
 
-#[global] Program Instance prod_one_r  {x : C} :
+#[export] Program Instance prod_one_r  {x : C} :
   x × 1 ≅ x := {
   to   := exl;
   from := id △ one
@@ -343,13 +343,13 @@ Qed.
 
 #[local] Hint Rewrite @prod_one_r : isos.
 
-#[global] Program Instance prod_comm  {x y : C} :
+#[export] Program Instance prod_comm  {x y : C} :
   x × y ≅ y × x := {
   to   := swap;
   from := swap
 }.
 
-#[global] Program Instance prod_assoc  {x y z : C} :
+#[export] Program Instance prod_assoc  {x y z : C} :
   (x × y) × z ≅ x × (y × z) := {
   to   := (exl ∘ exl) △ ((exr ∘ exl) △ exr);
   from := (exl △ (exl ∘ exr)) △ (exr ∘ exr)

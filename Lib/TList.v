@@ -152,7 +152,7 @@ Next Obligation.
   assumption.
 Defined.
 
-#[global] Program Instance tlist_EqDec {i j} : @EqDec (tlist B i j) := {
+#[export] Program Instance tlist_EqDec {i j} : @EqDec (tlist B i j) := {
   eq_dec := tlist_eq_dec
 }.
 
@@ -191,7 +191,7 @@ Equations tlist_equiv {i j : A} (x y : tlist B i j) : Type :=
       | right _ => False
     }.
 
-#[global] Program Instance tlist_equiv_Equivalence {i j} :
+#[export] Program Instance tlist_equiv_Equivalence {i j} :
   Equivalence (@tlist_equiv i j).
 Next Obligation.
   repeat intro.
@@ -236,12 +236,12 @@ Next Obligation.
   eapply IHx; eauto.
 Qed.
 
-#[global] Program Instance tlist_Setoid {i j} : Setoid (tlist B i j) := {
+#[export] Program Instance tlist_Setoid {i j} : Setoid (tlist B i j) := {
   equiv := tlist_equiv;
   setoid_equiv := tlist_equiv_Equivalence;
 }.
 
-#[global] Program Instance tlist_cons_respects {i j k} :
+#[export] Program Instance tlist_cons_respects {i j k} :
   Proper (equiv ==> equiv ==> equiv) (@tcons A B i j k).
 Next Obligation.
   repeat intro.
@@ -250,7 +250,7 @@ Next Obligation.
   now rewrite EqDec.peq_dec_refl.
 Qed.
 
-#[global] Program Instance tlist_app_respects {i j k} :
+#[export] Program Instance tlist_app_respects {i j k} :
   Proper (equiv ==> equiv ==> equiv) (@tlist_app i j k).
 Next Obligation.
   repeat intro.

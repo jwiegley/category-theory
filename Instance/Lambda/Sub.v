@@ -16,8 +16,8 @@ Inductive Sub (Γ : Env) : Env → Type :=
   | NoSub : Sub Γ []
   | Push {Γ' τ} : Exp Γ τ → Sub Γ Γ' → Sub Γ (τ :: Γ').
 
-#[global] Arguments NoSub {Γ}.
-#[global] Arguments Push {Γ Γ' τ} _ _.
+Arguments NoSub {Γ}.
+Arguments Push {Γ Γ' τ} _ _.
 
 Derive Signature NoConfusion EqDec for Sub.
 
@@ -376,5 +376,8 @@ Proof.
 Defined.
 
 End Sub.
+
+Arguments NoSub {Γ}.
+Arguments Push {Γ Γ' τ} _ _.
 
 Notation "{|| e ; .. ; f ||}" := (Push e .. (Push f idSub) ..).

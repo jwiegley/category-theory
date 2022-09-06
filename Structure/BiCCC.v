@@ -22,7 +22,7 @@ Context `{@Cartesian C}.
 Context `{@Cocartesian C}.
 Context `{@Closed C _}.
 
-#[global] Program Instance prod_coprod_l {x y z : C} :
+#[export] Program Instance prod_coprod_l {x y z : C} :
   (* Products distribute over coproducts in every bicartesian closed
      category. *)
   (y + z) × x ≅ y × x + z × x := {
@@ -66,7 +66,7 @@ Proof.
   rewrite iso_to_from; cat.
 Qed.
 
-#[global] Program Instance prod_coprod_r {x y z : C} :
+#[export] Program Instance prod_coprod_r {x y z : C} :
   (* Products distribute over coproducts in every bicartesian closed
      category. *)
   x × (y + z) ≅ x × y + x × z := {
@@ -109,7 +109,7 @@ Qed.
 
 #[local] Hint Rewrite @prod_coprod_r : isos.
 
-#[global] Program Instance exp_coprod {x y z : C} :
+#[export] Program Instance exp_coprod {x y z : C} :
   x^(y + z) ≅ x^y × x^z := {
   to   := curry (eval ∘ second inl) △ curry (eval ∘ second inr);
   from := curry (uncurry exl ▽ uncurry exr ∘ to prod_coprod_r)
@@ -181,7 +181,7 @@ Qed.
 
 Context `{@Initial C}.
 
-#[global] Program Instance prod_zero_l {x : C} :
+#[export] Program Instance prod_zero_l {x : C} :
   0 × x ≅ 0 := {
   to   := uncurry zero;
   from := zero
@@ -190,7 +190,7 @@ Next Obligation. apply curry_inj; simpl; cat. Qed.
 
 #[local] Hint Rewrite @prod_zero_l : isos.
 
-#[global] Program Instance prod_zero_r {x : C} :
+#[export] Program Instance prod_zero_r {x : C} :
   x × 0 ≅ 0 := {
   to   := uncurry zero ∘ swap;
   from := zero
@@ -201,7 +201,7 @@ Next Obligation. apply swap_inj_r, curry_inj; simpl; cat. Qed.
 
 Context `{@Terminal C}.
 
-#[global] Program Instance exp_zero {x : C} :
+#[export] Program Instance exp_zero {x : C} :
   x^0 ≅ 1 := {
   to   := one;
   from := curry (zero ∘ to prod_zero_r)
@@ -214,7 +214,7 @@ Qed.
 
 End BiCCC.
 
-#[global]
+#[export]
 Program Instance BiCCC_Distributive {C : Category}
         `{@Cartesian C} `{@Cocartesian C} `{@Closed C _} `{@Initial C} :
   @Distributive C _ _ _.

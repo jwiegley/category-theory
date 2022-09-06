@@ -103,7 +103,7 @@ Fixpoint unsize (n : nat) : Shape :=
 Theorem size_unsize n : size (unsize n) = n.
 Proof. now induction n; simpl; auto. Qed.
 
-#[global]
+#[export]
 Program Instance Shape_Setoid : Setoid Shape := {|
   equiv := λ x y, size x = size y
 |}.
@@ -167,7 +167,7 @@ Definition Trie_equiv {s : Shape} {a : Type} (x y : Trie a s) : Type :=
 
 Arguments Trie_equiv {s a} x y /.
 
-#[global]
+#[export]
 Program Instance Trie_Setoid {s : Shape} {a : Type} : Setoid (Trie a s) := {|
   equiv := Trie_equiv
 |}.
@@ -177,7 +177,7 @@ Next Obligation.
   now rewrite H, H0.
 Qed.
 
-#[global]
+#[export]
 Program Instance vec_Proper {a : Type} {s : Shape} :
   Proper (equiv ==> eq) (@vec a s).
 
@@ -206,7 +206,7 @@ Proof.
     now rewrite Trie_map_flatten.
 Qed.
 
-#[global]
+#[export]
 Program Instance Trie_map_Proper {s : Shape} `{f : a → b} :
   Proper (equiv ==> equiv) (@Trie_map s a b f).
 Next Obligation.
@@ -217,7 +217,7 @@ Qed.
 
 (**************************************************************************)
 
-#[global]
+#[export]
 Program Instance Trie_Functor (s : Shape) : Coq ⟶ Sets := {|
   fobj := λ a,     {| carrier   := Trie a s
                     ; is_setoid := Trie_Setoid |};

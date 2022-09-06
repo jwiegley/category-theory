@@ -34,7 +34,7 @@ Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x :=
 
 Infix "▽" := merge (at level 26) : morphism_scope.
 
-#[global] Program Instance merge_respects {x y z} :
+#[export] Program Instance merge_respects {x y z} :
   Proper (equiv ==> equiv ==> equiv) (@merge x y z).
 Next Obligation. apply (@fork_respects _ O). Qed.
 
@@ -51,15 +51,15 @@ Definition cover  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x + z ~{C}~> y + w :=
   (inl ∘ f) ▽ (inr ∘ g).
 
-#[global] Program Instance left_respects {a b c : C} :
+#[export] Program Instance left_respects {a b c : C} :
   Proper (equiv ==> equiv) (@left a b c).
 Next Obligation. apply (@first_respects _ O). Qed.
 
-#[global] Program Instance right_respects {a b c : C} :
+#[export] Program Instance right_respects {a b c : C} :
   Proper (equiv ==> equiv) (@right a b c).
 Next Obligation. apply (@second_respects _ O). Qed.
 
-#[global] Program Instance cover_respects {a b c d : C} :
+#[export] Program Instance cover_respects {a b c d : C} :
   Proper (equiv ==> equiv ==> equiv) (@cover a b c d).
 Next Obligation.
   proper.
@@ -254,7 +254,7 @@ Theorem cover_inr {x y z w : C} (f : x ~> y) (g : z ~> w):
   cover f g ∘ inr ≈ inr ∘ g.
 Proof. unmerge; cat. Qed.
 
-#[global] Program Instance coprod_respects_iso :
+#[export] Program Instance coprod_respects_iso :
   Proper (Isomorphism ==> Isomorphism ==> Isomorphism) Coprod.
 Next Obligation.
   proper.
@@ -267,7 +267,7 @@ Defined.
 
 Context `{I : @Initial C}.
 
-#[global] Program Instance coprod_zero_l {x : C} :
+#[export] Program Instance coprod_zero_l {x : C} :
   0 + x ≅ x := {
   to   := zero ▽ id;
   from := inr
@@ -276,7 +276,7 @@ Next Obligation. apply (@prod_one_l _ _ I). Qed.
 
 #[local] Hint Rewrite @coprod_zero_l : isos.
 
-#[global] Program Instance coprod_zero_r {x : C} :
+#[export] Program Instance coprod_zero_r {x : C} :
   x + 0 ≅ x := {
   to   := id ▽ zero;
   from := inl
@@ -285,13 +285,13 @@ Next Obligation. apply (@prod_one_r _ _ I). Qed.
 
 #[local] Hint Rewrite @coprod_zero_r : isos.
 
-#[global] Program Instance coprod_comm  {x y : C} :
+#[export] Program Instance coprod_comm  {x y : C} :
   x + y ≅ y + x := {
   to   := paws;
   from := paws
 }.
 
-#[global] Program Instance coprod_assoc  {x y z : C} :
+#[export] Program Instance coprod_assoc  {x y z : C} :
   (x + y) + z ≅ x + (y + z) := {
   to   := (inl ▽ (inr ∘ inl)) ▽ (inr ∘ inr);
   from := (inl ∘ inl) ▽ ((inl ∘ inr) ▽ inr)

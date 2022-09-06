@@ -39,12 +39,12 @@ Arguments iso_from_to {x y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
-#[global] Program Instance iso_id {x : C} : x ≅ x := {
+#[export] Program Instance iso_id {x : C} : x ≅ x := {
   to   := id;
   from := id
 }.
 
-#[global] Program Definition iso_sym {x y : C} `(f : x ≅ y) : y ≅ x := {|
+Program Definition iso_sym {x y : C} `(f : x ≅ y) : y ≅ x := {|
   to   := from f;
   from := to f;
 
@@ -52,7 +52,7 @@ Infix "≅" := Isomorphism (at level 91) : category_scope.
   iso_from_to := iso_to_from f
 |}.
 
-#[global] Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) :
+Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) :
   x ≅ z := {|
   to   := to f ∘ to g;
   from := from g ∘ from f
@@ -70,7 +70,7 @@ Next Obligation.
   apply iso_from_to.
 Defined.
 
-#[global] Program Instance iso_equivalence : Equivalence Isomorphism := {
+#[export] Program Instance iso_equivalence : Equivalence Isomorphism := {
   Equivalence_Reflexive  := @iso_id;
   Equivalence_Symmetric  := @iso_sym;
   Equivalence_Transitive := fun _ _ _ g f => iso_compose f g
@@ -78,14 +78,14 @@ Defined.
 
 Definition ob_equiv : crelation C := Isomorphism.
 
-#[global] Instance ob_setoid : Setoid C :=
+#[export] Instance ob_setoid : Setoid C :=
   {| equiv := Isomorphism
    ; setoid_equiv := iso_equivalence |}.
 
 Definition iso_equiv {x y : C} : crelation (x ≅ y) :=
   fun f g => (to f ≈ to g) * (from f ≈ from g).
 
-#[global] Program Instance iso_equiv_equivalence {x y : C} :
+#[export] Program Instance iso_equiv_equivalence {x y : C} :
   Equivalence (@iso_equiv x y).
 Next Obligation. now firstorder. Qed.
 Next Obligation. now firstorder. Qed.
@@ -95,14 +95,14 @@ Next Obligation.
             | now transitivity (from y0) ].
 Qed.
 
-#[global] Instance iso_setoid {x y : C} : Setoid (x ≅ y) := {
+#[export] Instance iso_setoid {x y : C} : Setoid (x ≅ y) := {
   equiv := iso_equiv;
   setoid_equiv := iso_equiv_equivalence
 }.
 
 #[local] Obligation Tactic := program_simpl.
 
-#[global] Program Instance Iso_Proper :
+#[export] Program Instance Iso_Proper :
   Proper (Isomorphism ==> Isomorphism ==> iffT) Isomorphism.
 Next Obligation.
   proper.
@@ -146,7 +146,7 @@ Notation "f '⁻¹'" := (from f) (at level 9, format "f '⁻¹'") : morphism_sco
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).
 
-#[global]
+#[export]
 Program Instance iso_to_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Monic iso.
 Next Obligation.
@@ -157,7 +157,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-#[global]
+#[export]
 Program Instance iso_from_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Monic (iso⁻¹).
 Next Obligation.
@@ -168,7 +168,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-#[global]
+#[export]
 Program Instance iso_to_epic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Epic iso.
 Next Obligation.
@@ -179,7 +179,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-#[global]
+#[export]
 Program Instance iso_from_epic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Epic (iso⁻¹).
 Next Obligation.
@@ -190,7 +190,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-#[global]
+#[export]
 Program Instance Monic_Retraction_Iso
         {C : Category} {x y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) :
   x ≅ y := {
@@ -210,7 +210,7 @@ Next Obligation.
   rewrite retract_comp; cat.
 Qed.
 
-#[global]
+#[export]
 Program Instance Epic_Section_Iso
         {C : Category} {x y : C} `(s : @Section _ _ _ f) `(e : @Epic _ _ _ f) :
   x ≅ y := {

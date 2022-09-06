@@ -87,7 +87,7 @@ Program Fixpoint interp `(c : Hom a b) :
   | Merge f g   => merge (interp f) (interp g)
   end.
 
-#[global]
+#[export]
 Program Instance AST : Category := {
   obj     := Obj;
   hom     := Hom;
@@ -108,13 +108,13 @@ Next Obligation.
   transitivity (interp y); auto.
 Qed.
 
-#[global]
+#[export]
 Program Instance Hom_Terminal : @Terminal AST := {
   terminal_obj := One_;
   one := @One'
 }.
 
-#[global]
+#[export]
 Program Instance Hom_Cartesian : @Cartesian AST := {
   product_obj := Prod_;
   fork := @Fork;
@@ -131,7 +131,7 @@ Next Obligation.
   rewrite fork_comp; cat.
 Qed.
 
-#[global]
+#[export]
 Program Instance Hom_Closed : @Closed AST _ := {
   exponent_obj := Exp_;
   exp_iso := fun x y z =>
@@ -141,13 +141,13 @@ Program Instance Hom_Closed : @Closed AST _ := {
 Next Obligation. proper; rewrite X; reflexivity. Qed.
 Next Obligation. proper; rewrite X; reflexivity. Qed.
 
-#[global]
+#[export]
 Program Instance Hom_Initial : @Initial AST := {
   terminal_obj := Zero_;
   one := @Zero'
 }.
 
-#[global]
+#[export]
 Program Instance Hom_Cocartesian : @Cocartesian AST := {
   product_obj := Coprod_;
   fork := @Merge;
@@ -164,7 +164,7 @@ Next Obligation.
   rewrite merge_comp; cat.
 Qed.
 
-#[global]
+#[export]
 Program Instance interp_proper {x y : Obj}
         {C : Category} {A : @Cartesian C}
         `{@Closed C A} `{@Cocartesian C}
@@ -186,28 +186,28 @@ Context `{@Cocartesian C}.
 Context `{@Terminal C}.
 Context `{@Initial C}.
 
-#[global] Program Instance AST_Functor : AST ⟶ C := {
+#[export] Program Instance AST_Functor : AST ⟶ C := {
   fobj := fun x => denote x;
   fmap := fun _ _ f => interp f
 }.
 
-#[global] Program Instance Hom_TerminalFunctor : TerminalFunctor := {
+#[export] Program Instance Hom_TerminalFunctor : TerminalFunctor := {
   fobj_one_iso := _
 }.
 
-#[global] Program Instance Hom_CartesianFunctor : CartesianFunctor := {
+#[export] Program Instance Hom_CartesianFunctor : CartesianFunctor := {
   fobj_prod_iso := _
 }.
 
-#[global] Program Instance Hom_ClosedFunctor : ClosedFunctor := {
+#[export] Program Instance Hom_ClosedFunctor : ClosedFunctor := {
   fobj_exp_iso := _
 }.
 
-#[global] Program Instance Hom_InitialFunctor : InitialFunctor AST_Functor := {
+#[export] Program Instance Hom_InitialFunctor : InitialFunctor AST_Functor := {
   fobj_one_iso := _
 }.
 
-#[global] Program Instance Hom_CocartesianFunctor : CocartesianFunctor AST_Functor := {
+#[export] Program Instance Hom_CocartesianFunctor : CocartesianFunctor AST_Functor := {
   fobj_prod_iso := _
 }.
 

@@ -57,7 +57,7 @@ Record AlgHom {S : OpSignature} (A : OpAlgebra S) (B : OpAlgebra S) := {
 
 Arguments map {_ _ _} _.
 
-#[global] Program Instance AlgHom_Setoid
+#[export] Program Instance AlgHom_Setoid
     {S : OpSignature} (A : OpAlgebra S) (B : OpAlgebra S) :
   Setoid (AlgHom A B) := {|
   equiv := fun f g : AlgHom A B => ∀ x : A, f x = g x
@@ -436,7 +436,7 @@ Record Interface := {
 Definition Component (required provided : Interface) : Type :=
   { f : Interface → Interface & f required = provided }.
 
-#[global] Program Instance Component_Setoid {req prov : Interface} :
+#[export] Program Instance Component_Setoid {req prov : Interface} :
   Setoid (Component req prov) := {|
   equiv := fun f g : Component req prov => f = g
 |}.
@@ -444,7 +444,7 @@ Definition Component (required provided : Interface) : Type :=
 (** Now we may reason about the category of software components, which are
     simply morphisms between algebras, but not necessarily homomorphic. *)
 
-#[global]
+#[export]
 Program Instance Comp : Category := {
   obj     := Interface;
   hom     := Component;

@@ -48,7 +48,7 @@ Arguments eval' {_ _ _} /.
 Definition ump_exponents {x y z} (f : x × y ~> z) :
   eval ∘ first (curry f) ≈ f := @ump_exponents' _ x y z f.
 
-#[global] Program Instance curry_respects (a b c : C) :
+#[export] Program Instance curry_respects (a b c : C) :
   Proper (equiv ==> equiv) (@curry a b c).
 Next Obligation.
   proper.
@@ -58,7 +58,7 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
-#[global] Program Instance uncurry_respects (a b c : C) :
+#[export] Program Instance uncurry_respects (a b c : C) :
   Proper (equiv ==> equiv) (@uncurry a b c).
 Next Obligation.
   proper.
@@ -176,7 +176,7 @@ Proof.
   apply uncurry_inj; cat.
 Qed.
 
-#[global] Program Instance exp_respects_iso {x y z : C} :
+#[export] Program Instance exp_respects_iso {x y z : C} :
   Proper (Isomorphism ==> Isomorphism ==> Isomorphism) exponent_obj.
 Next Obligation.
   proper.
@@ -224,7 +224,7 @@ Next Obligation.
     reflexivity.
 Qed.
 
-#[global] Program Instance exp_prod_l {x y z : C} :
+#[export] Program Instance exp_prod_l {x y z : C} :
   z^(x × y) ≅ (z^y)^x := {
   to   := curry (curry (eval ∘ to prod_assoc));
   from := curry (uncurry eval ∘ from prod_assoc)
@@ -277,7 +277,7 @@ Qed.
 
 #[local] Hint Rewrite @exp_prod_l : isos.
 
-#[global] Program Instance exp_prod_r {x y z : C} :
+#[export] Program Instance exp_prod_r {x y z : C} :
   (y × z)^x ≅ y^x × z^x := {
   to   := curry (exl ∘ eval) △ curry (exr ∘ eval);
   from := curry (uncurry exl △ uncurry exr)
@@ -306,7 +306,7 @@ Qed.
 
 #[local] Obligation Tactic := program_simpl.
 
-#[global] Program Instance exp_swap {x y z : C} :
+#[export] Program Instance exp_swap {x y z : C} :
   (z^y)^x ≅ (z^x)^y := {
   to   := to exp_prod_l
         ∘ to (@exp_respects_iso x y z _ _ (@prod_comm _ _ x y) z z iso_id)
@@ -356,7 +356,7 @@ Qed.
 
 Context `{@Terminal C}.
 
-#[global] Program Instance exp_one {x : C} :
+#[export] Program Instance exp_one {x : C} :
   x^1 ≅ x := {
   to   := eval ∘ id △ one;
   from := curry exl
@@ -381,7 +381,7 @@ Qed.
 
 #[local] Hint Rewrite @exp_one : isos.
 
-#[global] Program Instance one_exp {x : C} :
+#[export] Program Instance one_exp {x : C} :
   1^x ≅ 1 := {
   to   := one;
   from := curry one
