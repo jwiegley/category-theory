@@ -6,10 +6,10 @@ Require Import Category.Theory.Coq.Category.
 
 Generalizable All Variables.
 
-Class Functor@{u1 u2 u3 u4} (F : Coq@{u1 u2 u3 u4} → Coq@{u1 u2 u3 u4}) :=
+Class Functor (F : Coq → Coq) :=
   fmap : ∀ {x y : Coq} (f : x ~> y), F x ~> F y.
 
-Class IsFunctor@{u1 u2 u3 u4} (F : Coq → Coq) `{Functor@{u1 u2 u3 u4} F} := {
+Class IsFunctor (F : Coq → Coq) `{Functor F} := {
   fmap_id {x} :
     fmap id[x] = id;
   fmap_comp {x y z} {f : y ~> z} {g : x ~> y} :
@@ -40,8 +40,7 @@ Notation "fmap[ M N O ]" := (@fmap (λ X, M (N (O X))) _ _ _)
 Set Transparent Obligations.
 
 (* "Coq functors" are endofunctors on the category Coq. *)
-Program Definition Coq_Functor@{u1 u2 u3 u4}
-  `{H : Functor@{u1 u2 u3 u4} F} `{@IsFunctor@{u1 u2 u3 u4} F H} : Coq ⟶ Coq := {|
+Program Definition Coq_Functor `{H : Functor F} `{@IsFunctor F H} : Coq ⟶ Coq := {|
   Theory.Functor.fobj := F;
   Theory.Functor.fmap := @fmap F _;
 |}.

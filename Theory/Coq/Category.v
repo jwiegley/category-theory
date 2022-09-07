@@ -83,8 +83,7 @@ Next Obligation.
 Qed.
 
 #[export]
-Program Instance Coq_Cartesian@{u1 u2 u3 u4 u5 u6} :
-  @Cartesian@{u1 u2 u3 u4 u5 u6} Coq@{u1 u2 u3 u4} := {
+Program Instance Coq_Cartesian : @Cartesian Coq := {
   product_obj := λ x y, x * y;
   fork := λ _ _ _ f g x, (f x, g x);
   exl  := λ _ _ p, fst p;
@@ -101,12 +100,11 @@ Next Obligation.
 Qed.
 
 #[export]
-Program Instance Coq_Monoidal@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10} : @Monoidal Coq :=
-  @CC_Monoidal@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10} Coq Coq_Cartesian Coq_Terminal.
+Program Instance Coq_Monoidal : @Monoidal Coq :=
+  @CC_Monoidal Coq Coq_Cartesian Coq_Terminal.
 
 #[export]
-Program Instance Coq_Closed@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12} :
-  @Closed@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12} Coq Coq_Cartesian@{u1 u2 u3 u4 u5 u6} := {
+Program Instance Coq_Closed : @Closed Coq Coq_Cartesian := {
   exponent_obj := λ x y, x → y;
   exp_iso := λ _ _ _, {|
     to   := {| morphism := λ f a b, f (a, b) |};
@@ -121,8 +119,8 @@ Next Obligation.
 Qed.
 
 #[export]
-Program Instance Coq_ClosedMonoidal@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12 u13 u14 u15 u16 u17 u18 u19} : @ClosedMonoidal Coq :=
-  @CCC_ClosedMonoidal@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12 u13 u14 u15 u16 u17 u18 u19} Coq Coq_Cartesian Coq_Terminal Coq_Closed.
+Program Instance Coq_ClosedMonoidal : @ClosedMonoidal Coq :=
+  @CCC_ClosedMonoidal Coq Coq_Cartesian Coq_Terminal Coq_Closed.
 
 #[export]
 Program Instance Coq_Initial : Initial Coq := {
