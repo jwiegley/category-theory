@@ -7,6 +7,7 @@ Set Universe Polymorphism.
 Unset Transparent Obligations.
 
 Close Scope nat_scope.
+
 Declare Scope category_theory_scope.
 Delimit Scope category_theory_scope with category_theory.
 Open Scope category_theory_scope.

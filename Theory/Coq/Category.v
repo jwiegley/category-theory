@@ -12,6 +12,9 @@ Require Import Category.Structure.Cartesian.Closed.
 Require Import Category.Structure.Cocartesian.
 Require Import Category.Structure.BiCCC.
 Require Import Category.Structure.Constant.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Closed.
+Require Import Category.Structure.Monoidal.Internal.Product.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
@@ -36,17 +39,28 @@ Generalizable All Variables.
    library it is assumed that computational results are the main interest, and
    so some axioms are considered justified to relieve the proof burden. *)
 
+Definition compose_respects' {x y z} :
+  Proper (@equiv _ (eq_Setoid (y → z)) ==>
+          @equiv _ (eq_Setoid (x → y)) ==>
+          @equiv _ (eq_Setoid (x → z)))
+    (λ (f : y → z) (g : x → y) x, f (g x)).
+Proof.
+  proper.
+  now rewrite X, X0.
+Qed.
+
 #[export]
 Instance Coq : Category := {
-  obj            := Type;
-  hom            := λ x y, x → y;
-  homset         := λ _ _, eq_Setoid _;
-  id             := λ _ x, x;
-  compose        := λ _ _ _ f g x, f (g x);
-  id_left        := λ _ _ _, eq_refl;
-  id_right       := λ _ _ _, eq_refl;
-  comp_assoc     := λ _ _ _ _ _ _ _, eq_refl;
-  comp_assoc_sym := λ _ _ _ _ _ _ _, eq_refl;
+  obj              := Type;
+  hom              := λ x y, x → y;
+  homset           := λ x y, eq_Setoid (x → y);
+  id               := λ _ x, x;
+  compose          := λ _ _ _ f g x, f (g x);
+  compose_respects := λ _ _ _, compose_respects';
+  id_left          := λ _ _ _, eq_refl;
+  id_right         := λ _ _ _, eq_refl;
+  comp_assoc       := λ _ _ _ _ _ _ _, eq_refl;
+  comp_assoc_sym   := λ _ _ _ _ _ _ _, eq_refl;
 }.
 
 Arguments obj {Category}%category_scope : simpl never.
@@ -69,23 +83,34 @@ Next Obligation.
 Qed.
 
 #[export]
-Program Instance Coq_Cartesian : @Cartesian Coq := {
-  product_obj := λ x y, x * y : Type;
+Program Instance Coq_Cartesian@{u1 u2 u3 u4 u5 u6} :
+  @Cartesian@{u1 u2 u3 u4 u5 u6} Coq@{u1 u2 u3 u4} := {
+  product_obj := λ x y, x * y;
   fork := λ _ _ _ f g x, (f x, g x);
   exl  := λ _ _ p, fst p;
   exr  := λ _ _ p, snd p
 }.
 Next Obligation.
-  proper; extensionality x0; subst; simpl; cbv; auto.
-  destruct (h x0); reflexivity.
+  split; intros.
+  - split; rewrite H; clear H; cbv; auto.
+  - simplify.
+    rewrite <- H, <- H0; clear H H0.
+    cbv.
+    extensionality x0.
+    destruct (h x0); reflexivity.
 Qed.
 
 #[export]
-Program Instance Coq_Closed : @Closed Coq _ := {
-  exponent_obj := Basics.arrow;
+Program Instance Coq_Monoidal@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10} : @Monoidal Coq :=
+  @CC_Monoidal@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10} Coq Coq_Cartesian Coq_Terminal.
+
+#[export]
+Program Instance Coq_Closed@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12} :
+  @Closed@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12} Coq Coq_Cartesian@{u1 u2 u3 u4 u5 u6} := {
+  exponent_obj := λ x y, x → y;
   exp_iso := λ _ _ _, {|
     to   := {| morphism := λ f a b, f (a, b) |};
-    from := {| morphism := λ f p, f (fst p) (snd p) |}
+    from := {| morphism := λ f '(x, y), f x y |}
   |}
 }.
 Next Obligation.
@@ -96,8 +121,12 @@ Next Obligation.
 Qed.
 
 #[export]
+Program Instance Coq_ClosedMonoidal@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12 u13 u14 u15 u16 u17 u18 u19} : @ClosedMonoidal Coq :=
+  @CCC_ClosedMonoidal@{u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12 u13 u14 u15 u16 u17 u18 u19} Coq Coq_Cartesian Coq_Terminal Coq_Closed.
+
+#[export]
 Program Instance Coq_Initial : Initial Coq := {
-  terminal_obj := False;
+  terminal_obj := False : Type;
   one := λ _ _, False_rect _ _
 }.
 Next Obligation.

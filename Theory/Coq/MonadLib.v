@@ -8,9 +8,6 @@ Require Import Category.Theory.Coq.Functor.
 Require Import Category.Theory.Coq.Applicative.
 
 Generalizable All Variables.
-Set Primitive Projections.
-(* Set Universe Polymorphism. *)
-Unset Transparent Obligations.
 
 Class Monad (F : Coq → Coq) `{Applicative F} :=
   join : ∀ {a}, F (F a) ~> F a.

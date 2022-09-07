@@ -25,10 +25,20 @@ Notation "f --> g" := (respectful (Basics.flip f) g)%signature
 Arguments Proper {A}%type R%signature m.
 Arguments respectful {A B}%type (R R')%signature _ _.
 
-Program Definition eq_Setoid (A : Type) : Setoid A := {|
-  equiv := λ f g : A, f = g;
-  setoid_equiv := eq_equivalence
-|}.
+Definition eq_equivalence@{t u} {A : Type@{t}} : @Equivalence@{t u} A (@eq A) :=
+  @Build_Equivalence@{t u} A
+    (@eq A) (@eq_Reflexive A)
+    (@eq_Symmetric A)
+    (@eq_Transitive A).
+
+Inductive poly_unit@{u} : Type@{u} := ttt.
+
+Definition unit_setoid@{t u} : Setoid@{t u} poly_unit@{t} :=
+  {| equiv := @eq poly_unit@{t}
+   ; setoid_equiv := @eq_equivalence@{t u} poly_unit@{t} |}.
+
+Definition eq_Setoid@{u} (A : Type@{u}) : Setoid@{u u} A :=
+  Build_Setoid@{u _} A (λ f g, eq f g) eq_equivalence@{u u}.
 
 #[export]
 Program Instance funext_Setoid

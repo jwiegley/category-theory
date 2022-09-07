@@ -1,6 +1,19 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
+Require Import Category.Theory.Functor.
+Require Import Category.Functor.Strong.
+Require Import Category.Functor.Hom.Internal.
 Require Import Category.Functor.Applicative.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Braided.
+Require Import Category.Structure.Monoidal.Balanced.
+Require Import Category.Structure.Monoidal.Symmetric.
+Require Import Category.Structure.Monoidal.Relevance.
+Require Import Category.Structure.Monoidal.Cartesian.
+Require Import Category.Structure.Monoidal.Closed.
+Require Import Category.Structure.Monoidal.Internal.Product.
+Require Import Category.Functor.Structure.Monoidal.
+Require Import Category.Functor.Structure.Monoidal.Pure.
 Require Import Category.Theory.Coq.Category.
 Require Import Category.Theory.Coq.Functor.
 
@@ -35,7 +48,8 @@ Notation "x <**> f" := (ap f x)
 Notation "x <**[ M ]> f" := (@ap M _ _ _ f x)
   (at level 29, left associativity, only parsing) : morphism_scope.
 
-Definition liftA2 `{Applicative F} `(f : a → b → c) (x : F a) (y : F b) : F c :=
+Definition liftA2 `{Applicative F} {a b c : Coq}
+  (f : a → b → c) (x : F a) (y : F b) : F c :=
   ap (fmap f x) y.
 
 Infix "*>" := (liftA2 (const id))
@@ -50,7 +64,7 @@ Class IsApplicative (F : Coq → Coq) `{@Applicative F H} `{@IsFunctor F H} := {
     pure compose <*> u <*> v <*> w = u <*> (v <*> w);
   ap_homo {a b} {f : a ~> b} :
     ap (pure f) ∘ pure = pure ∘ f;
-  ap_interchange {a b} {y : a} {u : F (a ~> b)} :
+  ap_interchange {a b : Coq} {y : a} {u : F (a ~> b)} :
     u <*> pure y = pure ($ y) <*> u;
   ap_fmap {a b} :
     ap ∘ pure = fmap (x:=a) (y:=b)
@@ -82,20 +96,93 @@ Proof.
   eapply equal_f in H3; eauto.
 Qed.
 
-Lemma fmap_pure `{IsApplicative F} {a b} (f : a → b) :
+Lemma fmap_pure `{IsApplicative F} {a b : Coq} (f : a → b) :
   fmap f ∘ pure = pure ∘ f.
 Proof.
   rewrite <- ap_fmap.
   apply ap_homo.
 Qed.
 
-Lemma fmap_pure_x `{IsApplicative F} {a b} (f : a → b) {x} :
+Lemma fmap_pure_x `{IsApplicative F} {a b : Coq} (f : a → b) {x} :
   fmap f (pure x) = pure (f x).
 Proof.
   rewrite <- ap_fmap.
   cbv.
   apply ap_homo_x.
 Qed.
+
+(* "Coq applicative functors" are strong lax monoidal functors in the category
+   Coq. *)
+Program Definition Coq_Applicative `{IsApplicative F} :
+  Functor.Applicative.Applicative (C:=Coq) (F:=Coq_Functor) := {|
+  applicative_is_strong := Coq_StrongFunctor (F:=F);
+  applicative_is_lax_monoidal := {|
+    lax_pure       := pure;
+    ap_functor_nat := _;
+    pure_left      := _;
+    pure_right     := _;
+  |};
+|}.
+Next Obligation.
+  construct.
+  - intros [x0 y0].
+    exact (liftA2 pair x0 y0).
+  - simpl.
+    rewrite !uncomp.
+    extensionality x0.
+    destruct x0.
+    simpl.
+    unfold liftA2.
+    rewrite <- !fmap_comp_x.
+    destruct x, y, f; simpl in *.
+    rewrite <- !ap_fmap.
+    rewrite !uncomp.
+    rewrite <- !ap_assoc.
+    f_equal.
+    clear f1.
+    rewrite !ap_assoc.
+    admit.
+  - simpl.
+    rewrite !uncomp.
+    extensionality x0.
+    destruct x0.
+    simpl.
+    admit.
+Admitted.
+Next Obligation.
+  construct.
+  - intros [x0 y0].
+    exact (fmap (λ y, (tt, y)) y0).
+  - intros y0.
+    split.
+    + exact tt.
+    + exact (fmap (λ '(_, y), y) y0).
+  - simpl.
+    rewrite !uncomp.
+    extensionality x0.
+    rewrite <- fmap_comp_x.
+    rewrite uncomp.
+    admit.
+  - simpl.
+    rewrite !uncomp.
+    extensionality x0.
+    simplify.
+    rewrite <- fmap_comp_x.
+    rewrite uncomp.
+    now rewrite fmap_id.
+Admitted.
+Next Obligation. Admitted.
+Next Obligation. Admitted.
+Next Obligation.
+  rewrite !uncomp.
+  extensionality x0.
+  simplify.
+  simpl.
+Admitted.
+Next Obligation.
+Admitted.
+Next Obligation.
+Admitted.
 
 #[export]
 Instance Compose_Applicative `{Applicative F} `{Applicative G} :

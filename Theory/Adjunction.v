@@ -171,18 +171,6 @@ Proof.
   rewrite from_adj_comp_law; cat.
 Qed.
 
-Inductive poly_unit@{u} : Type@{u} := ttt.
-
-Definition eq_equivalence_alt@{t u} {A : Type@{t}} : @Equivalence@{t u} A (@eq A) :=
-  @Build_Equivalence@{t u} A
-                    (@eq A) (@eq_Reflexive A)
-                    (@eq_Symmetric A)
-                    (@eq_Transitive A).
-
-Definition unit_setoid@{t u} : Setoid@{t u} poly_unit@{t} :=
-  {| equiv := @eq poly_unit@{t}
-   ; setoid_equiv := @eq_equivalence_alt@{t u} poly_unit@{t} |}.
-
 Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
   {| carrier   := poly_unit@{t}
    ; is_setoid := unit_setoid@{t u} |}.

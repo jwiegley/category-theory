@@ -17,7 +17,7 @@ Generalizable All Variables.
 Class Monad (m : Coq → Coq) `{Applicative m} :=
   join : ∀ {a}, m (m a) ~> m a.
 
-Definition bind `{Monad m} {X Y : Type} (f : (X -> m Y)) : m X -> m Y :=
+Definition bind `{Monad m} {X Y : Coq} (f : (X -> m Y)) : m X -> m Y :=
   join ∘ fmap f.
 
 Notation "'ret'" := pure (only parsing).
@@ -56,7 +56,7 @@ Class IsMonad (m : Coq → Coq) `{@Monad m H A} `{@IsApplicative m H A IS} := {
     join ∘ fmap (pure (a:=a)) = id;
   join_pure {a} :
     join ∘ pure = id[m a];
-  join_fmap_fmap {a b} (f : a -> b) :
+  join_fmap_fmap {a b : Coq} (f : a -> b) :
     join ∘ fmap (fmap f) = fmap f ∘ join
 }.
 
@@ -85,7 +85,7 @@ Proof.
   eapply equal_f in H3; eauto.
 Qed.
 
-Corollary join_fmap_fmap_x `{IsMonad m} `{f : a -> b} {x} :
+Corollary join_fmap_fmap_x `{IsMonad m} {a b : Coq} {f : a -> b} {x} :
   join (fmap (fmap f) x) = fmap f (join x).
 Proof.
   intros.
@@ -115,11 +115,13 @@ Arguments prod M {_ _ _} N {_ _ Monad_Distributes} x _.
 *)
 Class IsMonad_Distributes `{@IsMonad M MF MA MM MIF MIA} `{@IsApplicative N NF NA NIF}
   `{@Monad_Distributes M MF MA MM N NF NA} := {
-  prod_fmap_fmap : forall A B (f : A -> B),
+  prod_fmap_fmap {A B : Coq} {f : A -> B} :
     prod M N B ∘ fmap[N] (fmap[M ∘ N] f) = fmap[M ∘ N] f ∘ prod M N A;
-  prod_pure : forall A, prod M N A ∘ pure[N] = id;
-  prod_fmap_pure : forall A, prod M N A ∘ fmap[N] (pure[M ∘ N]) = pure[M];
-  prod_fmap_join_fmap_prod : forall A,
+  prod_pure {A} :
+    prod M N A ∘ pure[N] = id;
+  prod_fmap_pure {A} :
+    prod M N A ∘ fmap[N] (pure[M ∘ N]) = pure[M];
+  prod_fmap_join_fmap_prod {A} :
     prod M N A ∘ fmap[N] (join[M] ∘ fmap[M] (prod M N A))
       = join[M] ∘ fmap[M] (prod M N A) ∘ prod M N (M (N A))
 }.
