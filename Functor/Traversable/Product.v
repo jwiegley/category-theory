@@ -4,9 +4,14 @@ Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Functor.Product.
-Require Import Category.Structure.Terminal.
-Require Import Category.Structure.Cartesian.
-Require Import Category.Structure.Cartesian.Closed.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Braided.
+Require Import Category.Structure.Monoidal.Balanced.
+Require Import Category.Structure.Monoidal.Symmetric.
+Require Import Category.Structure.Monoidal.Relevance.
+Require Import Category.Structure.Monoidal.Semicartesian.
+Require Import Category.Structure.Monoidal.Cartesian.
+Require Import Category.Structure.Monoidal.Closed.
 Require Import Category.Structure.Monoidal.Internal.Product.
 Require Import Category.Functor.Structure.Monoidal.
 Require Import Category.Functor.Traversable.
@@ -17,17 +22,15 @@ Generalizable All Variables.
 Section ProductTraversable.
 
 Context {C : Category}.
-Context `{@Cartesian C}.
-Context `{@Terminal C}.
-Context `{@Closed C _}.
+Context `{@ClosedMonoidal C}.
 Context {F : C ⟶ C}.
 Context {G : C ⟶ C}.
 
-Existing Instance InternalProduct_Monoidal.
+Existing Instance CC_Monoidal.
 
 Lemma ProductFunctor_Traversable_ap_functor_nat :
   Traversable F → Traversable G
-    → ∀ H : C ⟶ C, @Applicative _ _ _ _ H
+    → ∀ H : C ⟶ C, @Applicative _ _ H
     → (F :*: G) ◯ H ⟹ H ◯ (F :*: G).
 Proof.
   intros O P ??.
@@ -35,32 +38,36 @@ Proof.
   transform.
   - simpl.
     intro x.
-      exact (lax_ap[H2] ∘ bimap (transform[@sequence _ _ _ _ _ O H2 _] x)
-                                (transform[@sequence _ _ _ _ _ P H2 _] x)).
+    exact (lax_ap[H0] ∘ bimap (transform[@sequence _ _ _ O _ X] x)
+                              (transform[@sequence _ _ _ P _ X] x)).
   - unfold lax_ap.
-    spose (naturality[@ap_functor_nat _ _ _ _ H2 _]
+    spose (naturality[@ap_functor_nat _ _ _ _ H0 _]
                      (F x, G x) (F y, G y)
                      (fmap[F] f, fmap[G] f)) as X2.
     rewrite comp_assoc.
     rewrites.
     rewrite <- !comp_assoc.
-    pose proof (naturality[@sequence _ _ _ _ _ O H2 _]) as X3; simpl in *.
-    pose proof (naturality[@sequence _ _ _ _ _ P H2 _]) as X4; simpl in *.
-    unfork.
+    pose proof (naturality[@sequence _ _ _ O _ X]) as X3; simpl in *.
+    pose proof (naturality[@sequence _ _ _ P _ X]) as X4; simpl in *.
     rewrite !comp_assoc.
+    comp_left.
+    rewrite bimap_fmap.
+    rewrite <- !bimap_comp.
     rewrite X3, X4.
     reflexivity.
   - unfold lax_ap.
-    spose (naturality[@ap_functor_nat _ _ _ _ H2 _]
+    spose (naturality[@ap_functor_nat _ _ _ _ H0 _]
                      (F x, G x) (F y, G y)
                      (fmap[F] f, fmap[G] f)) as X2.
     rewrite comp_assoc.
     rewrites.
     rewrite <- !comp_assoc.
-    pose proof (naturality[@sequence _ _ _ _ _ O H2 _]) as X3; simpl in *.
-    pose proof (naturality[@sequence _ _ _ _ _ P H2 _]) as X4; simpl in *.
-    unfork.
+    pose proof (naturality[@sequence _ _ _ O _ X]) as X3; simpl in *.
+    pose proof (naturality[@sequence _ _ _ P _ X]) as X4; simpl in *.
     rewrite !comp_assoc.
+    comp_left.
+    rewrite bimap_fmap.
+    rewrite <- !bimap_comp.
     rewrite X3, X4.
     reflexivity.
 Defined.

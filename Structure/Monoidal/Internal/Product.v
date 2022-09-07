@@ -1,9 +1,12 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
 Require Import Category.Functor.Product.Internal.
+Require Import Category.Functor.Hom.Internal.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Cartesian.
+Require Import Category.Structure.Cartesian.Closed.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Balanced.
@@ -11,6 +14,8 @@ Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Relevance.
 Require Import Category.Structure.Monoidal.Semicartesian.
 Require Import Category.Structure.Monoidal.Cartesian.
+Require Import Category.Structure.Monoidal.Closed.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
@@ -27,7 +32,7 @@ Context `{@Terminal C}.
 (* Every cartesian category with terminal objects gives rise to a monoidal
    category taking the terminal object as unit, and the tensor as product. *)
 
-Program Definition InternalProduct_Monoidal : @Monoidal C := {|
+Program Definition CC_Monoidal : @Monoidal C := {|
   tensor := InternalProductFunctor C;
   I := 1
 |}.
@@ -163,8 +168,8 @@ Lemma exr_swap {x y z w} :
   (@exr x y z w) ∘ swap ≈ exl.
 Proof. solveit. Qed.
 
-Program Definition InternalProduct_BraidedMonoidal : @BraidedMonoidal C := {|
-  braided_is_monoidal := InternalProduct_Monoidal;
+Program Definition CC_BraidedMonoidal : @BraidedMonoidal C := {|
+  braided_is_monoidal := CC_Monoidal;
   braid := fun x y =>
     {| to   := @swap C _ x y
      ; from := @swap C _ y x
@@ -307,8 +312,8 @@ Next Obligation.
     apply exr_fork.
 Qed.
 
-Program Definition InternalProduct_BalancedMonoidal : @BalancedMonoidal C := {|
-  balanced_is_braided := InternalProduct_BraidedMonoidal;
+Program Definition CC_BalancedMonoidal : @BalancedMonoidal C := {|
+  balanced_is_braided := CC_BraidedMonoidal;
   twist := fun x =>
     {| to   := id
      ; from := id
@@ -317,13 +322,13 @@ Program Definition InternalProduct_BalancedMonoidal : @BalancedMonoidal C := {|
     |}
 |}.
 
-Definition InternalProduct_SymmetricMonoidal : @SymmetricMonoidal C := {|
-  symmetric_is_balanced := InternalProduct_BalancedMonoidal;
+Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {|
+  symmetric_is_balanced := CC_BalancedMonoidal;
   braid_invol := @swap_invol _ _
 |}.
 
-Program Definition InternalProduct_RelevanceMonoidal : @RelevanceMonoidal C := {|
-  relevance_is_symmetric := InternalProduct_SymmetricMonoidal;
+Program Definition CC_RelevanceMonoidal : @RelevanceMonoidal C := {|
+  relevance_is_symmetric := CC_SymmetricMonoidal;
   diagonal  := fun o => Cartesian.fork id id
 |}.
 Next Obligation.
@@ -427,8 +432,8 @@ Next Obligation.
       cat_simpl.
 Qed.
 
-Program Definition InternalProduct_SemicartesianMonoidal :
-  @SemicartesianMonoidal C InternalProduct_Monoidal := {|
+Program Definition CC_SemicartesianMonoidal :
+  @SemicartesianMonoidal C CC_Monoidal := {|
   eliminate := fun o => one[o]
 |}.
 Next Obligation.
@@ -436,11 +441,30 @@ Next Obligation.
   apply one_unique.
 Qed.
 
-#[local] Obligation Tactic := program_simpl; solveit.
+#[local] Obligation Tactic := program_simpl; solveit; auto.
 
-Program Definition InternalProduct_CartesianMonoidal : @CartesianMonoidal C := {|
-  cartesian_is_relevance     := InternalProduct_RelevanceMonoidal;
-  cartesian_is_semicartesian := InternalProduct_SemicartesianMonoidal;
+Program Definition CC_CartesianMonoidal : @CartesianMonoidal C := {|
+  cartesian_is_relevance     := CC_RelevanceMonoidal;
+  cartesian_is_semicartesian := CC_SemicartesianMonoidal;
 |}.
+
+Context `{CL : @Closed C _}.
+
+Program Definition CCC_ClosedMonoidal : @ClosedMonoidal C := {|
+  closed_is_cartesian := CC_CartesianMonoidal;
+  exponent_obj := λ x y, @fobj _ _ (@InternalHomFunctor C _ CL) (x, y);
+  exp_iso := @Cartesian.Closed.exp_iso C _ _;
+|}.
+Next Obligation.
+  exists (to (@Cartesian.Closed.exp_iso C _ _ x y z) f).
+  - cat.
+  - intros.
+    rewrite X; clear X.
+    rewrite id_left.
+    pose proof (@Cartesian.Closed.eval_first C _ _ _ _ _ v).
+    cbv in X.
+    rewrite X.
+    sapply (iso_to_from (@Cartesian.Closed.exp_iso C _ _ x y z)).
+Qed.
 
 End InternalProduct.

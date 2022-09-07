@@ -56,10 +56,10 @@ Context `{@Terminal C}.
 
 (** A Monoid object in C defined in terms of the internal product is a monoid
     in the usual sense (i.e., mappend reducing two objects to one). *)
-Definition Monoid := @MonoidObject C InternalProduct_Monoidal.
+Definition Monoid := @MonoidObject C CC_Monoidal.
 
 #[export] Program Instance Product_Monoid `(X : Monoid x) `(Y : Monoid y) :
-  @MonoidObject C InternalProduct_Monoidal (x × y) := {|
+  @MonoidObject C CC_Monoidal (x × y) := {|
   mempty  := @mempty _ _ _ X △ @mempty _ _ _ Y;
   mappend := split (@mappend _ _ _ X) (@mappend _ _ _ Y) ∘ toggle
 |}.
@@ -160,7 +160,7 @@ Proof.
 Qed.
 
 #[export] Program Instance Hom_Monoid {x} `(Y : Monoid y) :
-  @MonoidObject C InternalProduct_Monoidal (y ^ x) := {
+  @MonoidObject C CC_Monoidal (y ^ x) := {
   mempty  := curry (@mempty _ _ _ Y ∘ exl);
   mappend := curry (@mappend _ _ _ Y ∘ uncurry exl △ uncurry exr)
 }.
