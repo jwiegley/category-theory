@@ -64,7 +64,6 @@ Context {J : @Applicative F}.
 
 (* Every Applicative endofunctor on Coq is a strong lax monoidal functor. *)
 
-(* This definition has universe problems. *)
 (* Program Definition Coq_Product_Monoidal : @Monoidal Coq := *)
 (*   @Product_Monoidal Coq Coq_Cartesian Coq_Terminal. *)
 
