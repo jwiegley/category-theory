@@ -1,6 +1,5 @@
 (** A theory of type-aligned lists, using the Coq-Equations plugin *)
 
-Require Import Coq.Bool.Bool.
 Require Export Coq.Classes.CRelationClasses.
 
 From Equations Require Import Equations.
