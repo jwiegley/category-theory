@@ -51,13 +51,13 @@ Corollary compose_fmap  `{Functor F} `{Functor G} {x y} (f : x → y) :
 Proof. reflexivity. Qed.
 
 #[export]
-Instance prod_Functor {x} : Functor (prod x) := {|
+Instance prod_Functor x : Functor (prod x) := {|
   fmap := λ _ _ f '(x, y), (x, f y);
   fmap_const := λ _ _ y '(x, _), (x, y);
 |}.
 
 #[export]
-Instance arrow_Functor {x} : Functor (arrow x) := {|
+Instance arrow_Functor x : Functor (arrow x) := {|
   fmap := λ _ _ f x r, f (x r);
   fmap_const := λ _ _ y _ _, y;
 |}.

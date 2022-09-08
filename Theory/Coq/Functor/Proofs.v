@@ -33,3 +33,49 @@ Program Definition Identity_IsFunctor' : IsFunctor Identity_Functor :=
 Definition Compose_IsFunctor `{HF : EndoFunctor F} `{HG : EndoFunctor G} :
   IsFunctor (@Compose_Functor _ HF _ HG) :=
   ToAFunctor (Compose (FromAFunctor HF) (FromAFunctor HG)).
+
+Program Definition prod_Functor {x} : IsFunctor (prod_Functor x) := {|
+  a_fmap := prod_Functor x;
+|}.
+Next Obligation.
+  proper.
+  now rewrite H.
+Qed.
+
+Program Definition arrow_Functor {x} : IsFunctor (arrow_Functor x) := {|
+  a_fmap := arrow_Functor x;
+|}.
+Next Obligation.
+  proper.
+  extensionality r.
+  now rewrite H.
+Qed.
+
+Program Definition option_Functor : IsFunctor option_Functor := {|
+  a_fmap := option_Functor;
+|}.
+Next Obligation.
+  proper.
+  destruct x1; simpl; auto.
+  now rewrite H.
+Qed.
+Next Obligation.
+  now destruct x0.
+Qed.
+Next Obligation.
+  now destruct x0.
+Qed.
+
+Program Definition list_Functor : IsFunctor list_Functor := {|
+  a_fmap := list_Functor;
+|}.
+Next Obligation.
+  proper.
+  induction x1; simpl; congruence.
+Qed.
+Next Obligation.
+  induction x0; simpl; congruence.
+Qed.
+Next Obligation.
+  induction x0; simpl; congruence.
+Qed.
