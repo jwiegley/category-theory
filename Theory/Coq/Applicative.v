@@ -1,24 +1,24 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Coq.Functor.
+Require Import Category.Theory.Coq.Semigroup.
+Require Import Category.Theory.Coq.Monoid.
 
 Generalizable All Variables.
 
 Class Applicative `{Functor F} := {
-  pure {a} : a → F a;
-  ap {a b} : F (a → b) → F a → F b;
+  pure {x} : x → F x;
+  ap {x y} : F (x → y) → F x → F y;
 }.
 
 Arguments Applicative F {_}.
 
-Definition liftA2 `{Applicative F} {a b c}
-  (f : a → b → c) (x : F a) (y : F b) : F c :=
-  ap (fmap f x) y.
+Definition liftA2 `{Applicative F} {x y z}
+  (f : x → y → z) (a : F x) (b : F y) : F z :=
+  ap (fmap f a) b.
 
 Class Alternative `{Applicative F} := {
   empty  {x} : F x;
   choose {x} : F x → F x → F x;
-  some   {x} : F x → list (F x);
-  many   {x} : F x → list (F x);
 }.
 
 Arguments Alternative F {_ _}.
@@ -82,20 +82,39 @@ Instance Compose_Alternative `{Alternative F} `{Alternative G} :
   Alternative (F ∘ G) := {
   empty  := λ x, @empty F _ _ _ (G x);
   choose := λ x, @choose F _ _ _ (G x);
-  some   := λ x, @some F _ _ _ (G x);
-  many   := λ x, @many F _ _ _ (G x);
 }.
 
-(*
+#[export]
+Instance prod_Applicative x `{Monoid x} : Applicative (prod x) := {|
+  pure := λ _ y, (mempty, y);
+  ap := λ _ _ '(xf, f) '(xx, x), (xf ⊗ xx, f x);
+|}.
+
+#[export]
+Instance arrow_Applicative x : Applicative (arrow x) := {|
+  pure := λ _ x _, x;
+  ap := λ _ _ f x r, f r (x r);
+|}.
+
 Require Import Coq.Lists.List.
 
 Import ListNotations.
 
+Fixpoint zipWith `(f : a → b → c) (xs : list a) (ys : list b) : list c :=
+  match xs, ys with
+  | [], _ => []
+  | _, [] => []
+  | x :: xs', y :: ys' => f x y :: zipWith f xs' ys'
+  end.
+
+#[export]
+Instance list_Applicative : Applicative list := {|
+  pure := λ _ x, [x];
+  ap := λ _ _ f x, zipWith id f x;
+|}.
+
 #[export]
 Program Instance list_Alternative : Alternative list := {
-    empty := fun _ => [];
-    choose := app;
-    some := app;
-    many := app;
+  empty := λ _, [];
+  choose := List.app;
 }.
-*)

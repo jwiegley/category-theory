@@ -15,7 +15,6 @@ Definition EndoFunctor := @AFunctor Coq Coq.
 Program Definition EndoFunctor_Functor `(H : EndoFunctor F) :
   Coq.Functor.Functor F := {|
   Coq.Functor.fmap := λ _ _ f, fmap[H] f;
-  Coq.Functor.fmap_const := λ _ _ x y, fmap[H] (const x) y;
 |}.
 
 Coercion EndoFunctor_Functor : EndoFunctor >-> Coq.Functor.Functor.
@@ -51,8 +50,9 @@ Next Obligation.
   now rewrite H.
 Qed.
 
-Program Definition option_Functor : IsFunctor option_Functor := {|
-  a_fmap := option_Functor;
+(* jww (2022-09-07): TODO
+Program Definition Maybe_Functor : IsFunctor Maybe_Functor := {|
+  a_fmap := Maybe_Functor;
 |}.
 Next Obligation.
   proper.
@@ -65,6 +65,7 @@ Qed.
 Next Obligation.
   now destruct x0.
 Qed.
+*)
 
 Program Definition list_Functor : IsFunctor list_Functor := {|
   a_fmap := list_Functor;
