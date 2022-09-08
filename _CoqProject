@@ -203,6 +203,7 @@ Theory/Coq.v
 Theory/Coq/Applicative.v
 Theory/Coq/Applicative/Proofs.v
 Theory/Coq/Either.v
+Theory/Coq/Either/Proofs.v
 Theory/Coq/Foldable.v
 Theory/Coq/Functor.v
 Theory/Coq/Functor/Proofs.v
