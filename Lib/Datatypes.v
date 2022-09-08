@@ -111,7 +111,7 @@ Qed.
 #[global]
 Program Instance prod_setoid {A B} `{Setoid A} `{Setoid B} :
   Setoid (A * B) := {
-  equiv := fun x y => equiv (fst x) (fst y) * equiv (snd x) (snd y)
+  equiv := fun x y => (fst x ≈ fst y) * (snd x ≈ snd y)
 }.
 
 #[global]

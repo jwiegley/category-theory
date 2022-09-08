@@ -2,7 +2,6 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Strong.
-Require Import Category.Functor.Hom.Internal.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Balanced.
@@ -10,7 +9,6 @@ Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Relevance.
 Require Import Category.Structure.Monoidal.Cartesian.
 Require Import Category.Structure.Monoidal.Closed.
-Require Import Category.Structure.Monoidal.Internal.Product.
 Require Import Category.Functor.Structure.Monoidal.
 Require Import Category.Functor.Structure.Monoidal.Pure.
 

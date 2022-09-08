@@ -1,0 +1,13 @@
+Require Import Category.Lib.
+Require Export Category.Theory.Coq.Applicative.
+Require Export Category.Theory.Coq.Either.
+Require Export Category.Theory.Coq.Foldable.
+Require Export Category.Theory.Coq.Functor.
+Require Export Category.Theory.Coq.List.
+Require Export Category.Theory.Coq.Map.
+Require Export Category.Theory.Coq.Maybe.
+Require Export Category.Theory.Coq.Monad.
+Require Export Category.Theory.Coq.Monoid.
+Require Export Category.Theory.Coq.Semigroup.
+Require Export Category.Theory.Coq.Traversable.
+Require Export Category.Theory.Coq.Tuple.

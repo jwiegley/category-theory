@@ -175,8 +175,8 @@ Proof.
                now apply multi_refl.
         ** apply (multistep_preserves_SN (e:=SubExp env e2));
            now intuition.
-  - now destruct (IHe env H).
-  - now destruct (IHe env H).
+  - now apply IHe.
+  - now apply IHe.
   - induction env.
     + now inv v.
     + dependent elimination H.

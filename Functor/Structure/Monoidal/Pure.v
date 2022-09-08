@@ -2,7 +2,6 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Functor.Endo.
 Require Import Category.Theory.Naturality.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Functor.Bifunctor.

@@ -2,9 +2,9 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Functor.Endo.
 Require Import Category.Theory.Monad.
 Require Import Category.Theory.Morphisms.
+Require Import Category.Functor.Strong.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Cartesian.
@@ -12,6 +12,9 @@ Require Import Category.Structure.Cartesian.Closed.
 Require Import Category.Structure.Cocartesian.
 Require Import Category.Structure.BiCCC.
 Require Import Category.Structure.Constant.
+Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Closed.
+Require Import Category.Structure.Monoidal.Internal.Product.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
@@ -52,6 +55,10 @@ Next Obligation.
 Qed.
 
 #[export]
+Program Instance Coq_Monoidal : @Monoidal Coq :=
+  @CC_Monoidal Coq Coq_Cartesian Coq_Terminal.
+
+#[export]
 Program Instance Coq_Closed : @Closed Coq _ := {
   exponent_obj := Basics.arrow;
   exp_iso := λ _ _ _,
@@ -60,6 +67,10 @@ Program Instance Coq_Closed : @Closed Coq _ := {
 }.
 Next Obligation. proper; extensionality X0; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
+
+#[export]
+Program Instance Coq_ClosedMonoidal : @ClosedMonoidal Coq :=
+  @CCC_ClosedMonoidal Coq Coq_Cartesian Coq_Terminal Coq_Closed.
 
 #[export]
 Program Instance Coq_Initial : Initial Coq := {
@@ -134,62 +145,21 @@ Proof.
       reflexivity.
 Qed.
 
-Program Definition option_Functor : Coq ⟶ Coq := {|
-  fmap := option_map
-|}.
-Next Obligation.
-  proper.
-  destruct x1; simpl; auto.
-  now rewrite H.
-Qed.
-Next Obligation. now destruct x0. Qed.
-Next Obligation. now destruct x0. Qed.
+(** All endofunctors in Coq have strength *)
 
 #[export]
-Program Instance optionF : EndoFunctor option :=
-  Functor_EndoFunctor (F:=option_Functor).
-
-#[export] Program Instance option_Monad : @Monad Coq option_Functor := {
-  ret := @Some;
-  join := λ _ x,
-    match x with
-    | Some (Some x) => Some x
-    | _ => None
-    end
-}.
-Next Obligation.
-  destruct x0; simpl; auto.
-  destruct o; auto.
-  destruct o; auto.
-Qed.
-Next Obligation.
-  destruct x0; simpl; auto.
-Qed.
-Next Obligation.
-  destruct x0; simpl; auto.
-Qed.
-Next Obligation.
-  destruct x0; simpl; auto.
-  destruct o; auto.
-Qed.
-
-Program Definition list_Functor : Coq ⟶ Coq := {|
-  fmap := List.map
+Program Instance Coq_StrongFunctor (F : Coq ⟶ Coq) : StrongFunctor F := {|
+  strength := λ _ _ p, fmap[F] (λ y, (fst p, y)) (snd p)
 |}.
 Next Obligation.
-  proper.
-  induction x1; simpl; auto.
-  now rewrite H, IHx1.
+  repeat srewrite_r (@fmap_comp _ _ F).
+  f_equal.
 Qed.
 Next Obligation.
-  induction x0; simpl; auto.
-  now rewrite IHx0.
+  repeat srewrite_r (@fmap_comp _ _ F).
+  now srewrite (@fmap_id _ _ F).
 Qed.
 Next Obligation.
-  induction x0; simpl; auto.
-  now rewrite IHx0.
+  repeat srewrite_r (@fmap_comp _ _ F).
+  f_equal.
 Qed.
-
-#[export]
-Program Instance listF : EndoFunctor list :=
-  Functor_EndoFunctor (F:=list_Functor).
