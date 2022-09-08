@@ -58,16 +58,16 @@ Notation "A ;; B" := (A >>= (λ _, B))
 End MonadNotations.
 
 Class Monad_Distributes `{Monad M} `{Applicative N} :=
-  prod : ∀ {x}, N (M (N x)) → M (N x).
+  mprod : ∀ {x}, N (M (N x)) → M (N x).
 
-Arguments prod M {_ _ _} N {_ _ Monad_Distributes x} _.
+Arguments mprod M {_ _ _} N {_ _ Monad_Distributes x} _.
 
 Import MonadNotations.
 
 #[export]
 Instance Compose_Monad `{Monad_Distributes M N} : Monad (M ∘ N) := {
-  (* join := λ x, join[M] ∘ fmap[M] (prod M N x) *)
-  bind := λ x y m f, m >>=[M] (prod M N ∘ fmap[N] f)
+  (* join := λ x, join[M] ∘ fmap[M] (mprod M N x) *)
+  bind := λ x y m f, m >>=[M] (mprod M N ∘ fmap[N] f)
 }.
 
 Definition when `{Monad m} `(b : bool) (x : m unit) : m unit :=

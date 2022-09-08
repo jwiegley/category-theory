@@ -15,12 +15,54 @@ Generalizable All Variables.
 Import ListNotations.
 Import MonadNotations.
 
+#[export]
+Instance list_Functor : Functor list := {|
+  fmap := λ _ _ f, List.map f;
+|}.
+
+Require Import Coq.Lists.List.
+
+Import ListNotations.
+
+Fixpoint zipWith `(f : a → b → c) (xs : list a) (ys : list b) : list c :=
+  match xs, ys with
+  | [], _ => []
+  | _, [] => []
+  | x :: xs', y :: ys' => f x y :: zipWith f xs' ys'
+  end.
+
+#[export]
+Instance list_Applicative : Applicative list := {|
+  pure := λ _ x, [x];
+  ap := λ _ _ f x, zipWith id f x;
+|}.
+
+#[export]
+Program Instance list_Alternative : Alternative list := {
+  empty := λ _, [];
+  choose := List.app;
+}.
+
+Fixpoint flatten `(xs : list (list A)) : list A :=
+  match xs with
+  | nil => nil
+  | cons x xs' => app x (flatten xs')
+  end.
+
 Fixpoint mapM `{Applicative m} {A B : Type} (f : A → m B) (l : list A) :
   m (list B) :=
   match l with
   | nil => pure nil
   | cons x xs => liftA2 (@cons _) (f x) (mapM f xs)
   end.
+
+Definition concatMapM `{Applicative m} {A B : Type}
+  (f : A → m (list B)) (l : list A) : m (list B) :=
+  fmap flatten (mapM f l).
+
+#[export]
+Instance list_Monad : Monad list :=
+  λ _ _ x f, flatten (map f x).
 
 Definition forM `{Applicative m} {A B : Type} (l : list A) (f : A → m B) :
   m (list B) := mapM f l.
@@ -58,16 +100,6 @@ Definition foldrM `{Monad m} {A B : Type}
 Definition forFoldrM `{Monad m} {A B : Type}
   (s : A) (l : list B) (f : B → A → m A) : m A := foldrM f s l.
 
-Fixpoint flatten `(xs : list (list A)) : list A :=
-  match xs with
-  | nil => nil
-  | cons x xs' => app x (flatten xs')
-  end.
-
-Definition concatMapM `{Applicative m} {A B : Type}
-  (f : A → m (list B)) (l : list A) : m (list B) :=
-  fmap flatten (mapM f l).
-
 Fixpoint replicateM_ `{Monad m} (n : nat) (x : m unit) : m unit :=
   match n with
   | O => pure tt
@@ -88,6 +120,8 @@ Fixpoint insertM `{Monad m} {A : Type} (P : A → A → m bool)
 Arguments insertM {m H _ _ A} P z l : simpl never.
 
 Definition concat {A} : list (list A) → list A := flatten.
+Definition concatMap {A B} (f : A → list B) : list A → list B :=
+  flatten ∘ map f.
 
 Fixpoint lookup `{EqDec a} {b} (dflt : b) (v : list (a * b)) (x : a) : b :=
   match v with

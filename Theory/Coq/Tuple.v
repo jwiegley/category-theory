@@ -4,8 +4,12 @@ Require Import Category.Lib.
 Require Import Category.Theory.Coq.Functor.
 Require Import Category.Theory.Coq.Applicative.
 Require Import Category.Theory.Coq.Monad.
+Require Import Category.Theory.Coq.Semigroup.
+Require Import Category.Theory.Coq.Monoid.
 
 Generalizable All Variables.
+
+Notation Tuple := prod (only parsing).
 
 Definition tuple_swap_a_bc_to_ab_c {A B C} (x : A * (B * C)) : A * B * C :=
   match x with (a, (b, c)) => ((a, b), c) end.
@@ -50,3 +54,15 @@ Qed.
 
 Definition prod_map {A B C : Type} (f : A -> B) (x : C * A) : C * B :=
   match x with (a, b) => (a, f b) end.
+
+#[export]
+Instance Tuple_Functor x : Functor (Tuple x) := {|
+  fmap := λ _ _, prod_map
+|}.
+
+#[export]
+Instance prod_Applicative x `{Monoid x} : Applicative (Tuple x) := {|
+  pure := λ _ y, (mempty, y);
+  ap := λ _ _ '(xf, f) '(xx, x), (xf ⊗ xx, f x);
+|}.
+

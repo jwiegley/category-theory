@@ -74,20 +74,8 @@ Corollary compose_fmap  `{Functor F} `{Functor G} {x y} (f : x → y) :
 Proof. reflexivity. Qed.
 
 #[export]
-Instance prod_Functor x : Functor (prod x) := {|
-  fmap := λ _ _ f '(x, y), (x, f y);
-|}.
-
-#[export]
 Instance arrow_Functor x : Functor (arrow x) := {|
   fmap := λ _ _ f x r, f (x r);
-|}.
-
-Require Import Coq.Lists.List.
-
-#[export]
-Instance list_Functor : Functor list := {|
-  fmap := λ _ _ f, List.map f;
 |}.
 
 Definition Yoneda (F : Type → Type) (x : Type) :=

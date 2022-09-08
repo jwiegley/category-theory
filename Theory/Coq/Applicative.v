@@ -1,7 +1,5 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Coq.Functor.
-Require Import Category.Theory.Coq.Semigroup.
-Require Import Category.Theory.Coq.Monoid.
 
 Generalizable All Variables.
 
@@ -85,36 +83,7 @@ Instance Compose_Alternative `{Alternative F} `{Alternative G} :
 }.
 
 #[export]
-Instance prod_Applicative x `{Monoid x} : Applicative (prod x) := {|
-  pure := λ _ y, (mempty, y);
-  ap := λ _ _ '(xf, f) '(xx, x), (xf ⊗ xx, f x);
-|}.
-
-#[export]
 Instance arrow_Applicative x : Applicative (arrow x) := {|
   pure := λ _ x _, x;
   ap := λ _ _ f x r, f r (x r);
 |}.
-
-Require Import Coq.Lists.List.
-
-Import ListNotations.
-
-Fixpoint zipWith `(f : a → b → c) (xs : list a) (ys : list b) : list c :=
-  match xs, ys with
-  | [], _ => []
-  | _, [] => []
-  | x :: xs', y :: ys' => f x y :: zipWith f xs' ys'
-  end.
-
-#[export]
-Instance list_Applicative : Applicative list := {|
-  pure := λ _ x, [x];
-  ap := λ _ _ f x, zipWith id f x;
-|}.
-
-#[export]
-Program Instance list_Alternative : Alternative list := {
-  empty := λ _, [];
-  choose := List.app;
-}.
