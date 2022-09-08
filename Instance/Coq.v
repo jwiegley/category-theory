@@ -149,7 +149,7 @@ Qed.
 
 #[export]
 Program Instance Coq_StrongFunctor (F : Coq ⟶ Coq) : StrongFunctor F := {|
-  strength := λ _ _ '(x, y), fmap (λ y, (x, y)) y
+  strength := λ _ _ p, fmap (λ y, (fst p, y)) (snd p)
 |}.
 Next Obligation.
   repeat srewrite_r (@fmap_comp _ _ F).
