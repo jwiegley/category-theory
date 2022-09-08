@@ -199,10 +199,12 @@ Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
+Theory/Coq.v
 Theory/Coq/Applicative.v
 Theory/Coq/Applicative/Proofs.v
 Theory/Coq/Either.v
 Theory/Coq/Foldable.v
+Theory/Coq/Functor.v
 Theory/Coq/Functor/Proofs.v
 Theory/Coq/List.v
 Theory/Coq/List/Proofs.v
