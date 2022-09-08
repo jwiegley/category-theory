@@ -213,6 +213,5 @@ Theory/Coq/Monoid.v
 Theory/Coq/Semigroup.v
 Theory/Coq/Traversable.v
 Theory/Coq/Tuple.v
-Theory/Coq/Vector.v
 Tools/Abstraction.v
 Tools/Represented.v
