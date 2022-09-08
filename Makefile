@@ -7,13 +7,15 @@ MISSING	 =									\
 		      egrep -v '(old|new|research)/'
 
 all: category-theory
-	-@$(MISSING) || exit 0
 
 category-theory: Makefile.coq $(wildcard *.v)
 	$(MAKE) -f Makefile.coq
 
 Makefile.coq: _CoqProject
 	coq_makefile -f $< -o $@
+
+todo:
+	-@$(MISSING) || exit 0
 
 clean: _CoqProject Makefile.coq
 	$(MAKE) -f Makefile.coq clean
