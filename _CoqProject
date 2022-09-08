@@ -188,7 +188,6 @@ Theory/Category/Raw.v
 Theory/Category/Semi.v
 Theory/Dinatural.v
 Theory/Functor.v
-Theory/Functor/Endo.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
 Theory/Metacategory.v
@@ -200,9 +199,11 @@ Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
-Theory/Coq/Category.v
 Theory/Coq/Functor.v
+Theory/Coq/Functor/Proofs.v
 Theory/Coq/Applicative.v
+Theory/Coq/Applicative/Proofs.v
 Theory/Coq/Monad.v
+Theory/Coq/Monad/Proofs.v
 Tools/Abstraction.v
 Tools/Represented.v

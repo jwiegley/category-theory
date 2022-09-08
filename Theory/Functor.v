@@ -272,28 +272,45 @@ Definition FCoalgebra `(F : C ⟶ C) (a : C) := a ~> F a.
 
 Definition FGDialgebra `(F : C ⟶ C) `(G : C ⟶ C) (a : C) := F a ~> G a.
 
-Section FunctorParts.
+Section AFunctor.
 
 Context {C D : Category}.
 
-(* [FunctorParts] allows the object mapping to be stated explicitly, but not
-   the morphisms mapping. *)
-Record FunctorParts (p_fobj : C → D) : Type := {
-  p_fmap {x y : C} (f : x ~> y) : p_fobj x ~> p_fobj y;
+(* [AFunctor] allows the object mapping to be stated explicitly. *)
+Class AFunctor (F : C → D) : Type := {
+  a_fmap {x y : C} (f : x ~> y) : F x ~> F y;
 
-  p_fmap_respects {x y : C} : Proper (equiv ==> equiv) (@p_fmap x y);
+  a_fmap_respects {x y : C} : Proper (equiv ==> equiv) (@a_fmap x y);
 
-  p_fmap_id {x : C} : p_fmap (@id C x) ≈ id;
-  p_fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :
-    p_fmap (f ∘ g) ≈ p_fmap f ∘ p_fmap g;
+  a_fmap_id {x : C} : a_fmap (@id C x) ≈ id;
+  a_fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :
+    a_fmap (f ∘ g) ≈ a_fmap f ∘ a_fmap g;
 }.
+#[export] Existing Instance a_fmap_respects.
 
-Definition FunctorFromParts `(P : FunctorParts p_fobj) : C ⟶ D := {|
-  fobj          := λ x, p_fobj x;
-  fmap          := @p_fmap p_fobj P;
-  fmap_respects := @p_fmap_respects p_fobj P;
-  fmap_id       := @p_fmap_id p_fobj P;
-  fmap_comp     := @p_fmap_comp p_fobj P;
+Definition FromAFunctor `(AFunctor F) : C ⟶ D := {|
+  fobj          := λ x, F x;
+  fmap          := @a_fmap F _;
+  fmap_respects := @a_fmap_respects F _;
+  fmap_id       := @a_fmap_id F _;
+  fmap_comp     := @a_fmap_comp F _;
 |}.
 
-End FunctorParts.
+Coercion FromAFunctor : AFunctor >-> Functor.
+
+Definition ToAFunctor (F : C ⟶ D) : AFunctor F := {|
+  a_fmap          := @fmap _ _ F;
+  a_fmap_respects := @fmap_respects _ _ F;
+  a_fmap_id       := @fmap_id _ _ F;
+  a_fmap_comp     := @fmap_comp _ _ F;
+|}.
+
+Corollary FromAFunctor_ToAFunctor {F} :
+  FromAFunctor (ToAFunctor F) = F.
+Proof. reflexivity. Qed.
+
+Corollary ToAFunctor_FromAFunctor `{H : AFunctor F} :
+  ToAFunctor (FromAFunctor H) = H.
+Proof. reflexivity. Qed.
+
+End AFunctor.
