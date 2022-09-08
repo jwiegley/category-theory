@@ -179,7 +179,7 @@ Definition Maybe_append `{Semigroup a} (x y : Maybe a) : Maybe a :=
   | Just x, Just y => Just (x ⊗ y)
   end.
 
-#[global]
+#[export]
 Program Instance Semigroup_Maybe `{Semigroup a} : Semigroup (Maybe a) := {
   mappend := Maybe_append
 }.
