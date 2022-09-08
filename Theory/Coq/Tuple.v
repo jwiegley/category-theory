@@ -3,7 +3,6 @@ Require Import Coq.Lists.List.
 Require Import Category.Lib.
 Require Import Category.Theory.Coq.Functor.
 Require Import Category.Theory.Coq.Applicative.
-Require Import Category.Theory.Coq.Monad.
 Require Import Category.Theory.Coq.Semigroup.
 Require Import Category.Theory.Coq.Monoid.
 

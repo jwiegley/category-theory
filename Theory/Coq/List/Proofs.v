@@ -2,11 +2,7 @@ Require Import Category.Lib.
 Require Import Category.Theory.Coq.Functor.
 Require Import Category.Theory.Coq.Functor.Proofs.
 Require Import Category.Theory.Coq.List.
-Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Functor.Strong.
-Require Import Category.Instance.Coq.
 
 Generalizable All Variables.
 

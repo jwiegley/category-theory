@@ -6,7 +6,6 @@ Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Theory.Sheaf.
 Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Hom.
-Require Import Category.Instance.Fun.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.

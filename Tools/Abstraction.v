@@ -5,10 +5,7 @@ Require Import Category.Theory.Functor.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cartesian.Closed.
-Require Import Category.Structure.BiCCC.
 Require Import Category.Functor.Structure.Cartesian.
-Require Import Category.Functor.Structure.Cartesian.Closed.
-Require Import Category.Functor.Structure.Terminal.
 Require Import Category.Instance.Coq.
 Require Import Category.Instance.AST.
 Require Import Category.Tools.Represented.

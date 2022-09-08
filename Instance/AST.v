@@ -7,7 +7,6 @@ Require Import Category.Structure.Initial.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cartesian.Closed.
 Require Import Category.Structure.Cocartesian.
-Require Import Category.Structure.BiCCC.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.

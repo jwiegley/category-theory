@@ -26,6 +26,13 @@ install: _CoqProject Makefile.coq
 fullclean: clean
 	rm -f Makefile.coq Makefile.coq.conf .Makefile.d
 
+COQ_TOOLS = $(HOME)/src/coq-tools
+
+minimize-requires:
+	parallel -j1 --progress -- \
+	    $(COQ_TOOLS)/minimize-requires.py -i -R . Category {} ::: \
+	    $$(find . -name '*.v')
+
 force _CoqProject Makefile: ;
 
 %: Makefile.coq force

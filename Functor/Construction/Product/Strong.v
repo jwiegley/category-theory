@@ -5,7 +5,6 @@ Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Functor.Strong.
 Require Import Category.Functor.Construction.Product.
-Require Import Category.Functor.Construction.Product.Monoidal.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Product.
 Require Import Category.Structure.Monoidal.Braided.
