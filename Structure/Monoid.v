@@ -8,6 +8,7 @@ Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Internal.Product.
 Require Import Category.Structure.Cartesian.Closed.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
@@ -54,8 +55,11 @@ Context {C : Category}.
 Context `{@Cartesian C}.
 Context `{@Terminal C}.
 
-(** A Monoid object in C defined in terms of the internal product is a monoid
-    in the usual sense (i.e., mappend reducing two objects to one). *)
+(* A Monoid object in C defined in terms of the internal product is a monoid
+   in the usual sense (i.e., mappend reducing two objects to one).
+
+   ncatlab: "Classical monoids are of course just monoids in Set with the
+   cartesian product." *)
 Definition Monoid := @MonoidObject C CC_Monoidal.
 
 #[export] Program Instance Product_Monoid `(X : Monoid x) `(Y : Monoid y) :

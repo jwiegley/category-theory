@@ -52,6 +52,10 @@ Qed.
 
 #[export] Hint Unfold setoid_morphism_compose : core.
 
+Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
+  {| carrier   := poly_unit@{t}
+   ; is_setoid := unit_setoid@{t u} |}.
+
 (* The category of setoids.
 
        objects: setoids

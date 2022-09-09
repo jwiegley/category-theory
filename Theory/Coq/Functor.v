@@ -2,14 +2,18 @@ Require Import Category.Lib.
 
 Generalizable All Variables.
 
-Class Functor (F : Type → Type) := {
-  fmap : ∀ {x y}, (x → y) → F x → F y;
+Class Functor@{d c} {F : Type@{d} → Type@{c}} := {
+  fmap : ∀ {x y : Type@{d}}, (x → y) → F x → F y;
 }.
+
+Arguments Functor : clear implicits.
 
 Coercion fmap : Functor >-> Funclass.
 
-Class Contravariant (F : Type → Type) :=
-  contramap : ∀ {x y}, (x → y) → F y → F x.
+Class Contravariant@{d c} {F : Type@{d} → Type@{c}} :=
+  contramap : ∀ {x y : Type@{d}}, (x → y) → F y → F x.
+
+Arguments Contravariant : clear implicits.
 
 Coercion contramap : Contravariant >-> Funclass.
 
@@ -78,8 +82,8 @@ Instance arrow_Functor x : Functor (arrow x) := {|
   fmap := λ _ _ f x r, f (x r);
 |}.
 
-Definition Yoneda (F : Type → Type) (x : Type) :=
-  ∀ r, (x → r) → F r.
+Definition Yoneda@{d c u} (F : Type@{d} → Type@{c}) (x : Type@{u}) :=
+  ∀ r : Type@{u}, (x → r) → F r.
 
 #[export]
 Instance Yoneda_Functor (F : Type → Type) : Functor (Yoneda F) := {

@@ -13,12 +13,6 @@ Require Import Category.Functor.Structure.Monoidal.Pure.
 Require Import Category.Natural.Transformation.Monoidal.
 Require Import Category.Natural.Transformation.Applicative.
 Require Import Category.Natural.Transformation.Strong.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Balanced.
-Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Relevance.
-Require Import Category.Structure.Monoidal.Cartesian.
 Require Import Category.Structure.Monoidal.Closed.
 Require Import Category.Structure.Monoidal.Internal.Product.
 Require Import Category.Functor.Applicative.
@@ -90,7 +84,7 @@ Next Obligation.
   apply compose_respects; [reflexivity|].
   rewrite !comp_assoc.
   apply compose_respects; [|reflexivity].
-  rewrite lax_pure_transform.
+  rewrite (lax_pure_transform[N]).
   rewrite <- strength_transform; simpl.
   rewrite <- !comp_assoc; cat.
   apply compose_respects; [reflexivity|].

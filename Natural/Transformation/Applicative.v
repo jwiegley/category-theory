@@ -1,11 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Functor.Applicative.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Balanced.
-Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Relevance.
-Require Import Category.Structure.Monoidal.Cartesian.
 Require Import Category.Structure.Monoidal.Closed.
 Require Import Category.Natural.Transformation.Strong.
 Require Import Category.Natural.Transformation.Monoidal.
@@ -22,3 +17,8 @@ Class Applicative_Transform `{@ClosedMonoidal C}
 }.
 #[export] Existing Instance applicative_transform_is_strong_transformation.
 #[export] Existing Instance applicative_transform_is_lax_monoidal_transformation.
+
+Coercion applicative_transform_is_strong_transformation :
+  Applicative_Transform >-> Strong_Transform.
+Coercion applicative_transform_is_lax_monoidal_transformation :
+  Applicative_Transform >-> LaxMonoidal_Transform.

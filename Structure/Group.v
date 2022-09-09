@@ -1,11 +1,5 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Balanced.
-Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Relevance.
-Require Import Category.Structure.Monoidal.Semicartesian.
 Require Import Category.Structure.Monoidal.Cartesian.
 Require Import Category.Structure.Monoid.
 
@@ -26,6 +20,8 @@ Class GroupObject (grp : C) := {
   right_inverse : mappend ∘ id ⨂ inverse ∘ ∆ grp ≈ mempty ∘ eliminate;
 }.
 #[export] Existing Instance groupobject_is_monoid.
+
+Coercion groupobject_is_monoid : GroupObject >-> MonoidObject.
 
 End GroupObject.
 

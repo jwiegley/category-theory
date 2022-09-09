@@ -5,12 +5,7 @@ Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Functor.Strong.
 Require Import Category.Functor.Construction.Product.
-Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Product.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Balanced.
-Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Relevance.
 Require Import Category.Structure.Monoidal.Cartesian.
 
 Generalizable All Variables.

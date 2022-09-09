@@ -3,8 +3,7 @@ Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Naturality.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
+Require Export Category.Structure.Monoidal.Braided.
 
 Generalizable All Variables.
 
@@ -32,5 +31,7 @@ Class BalancedMonoidal := {
     twist⁻¹;
 }.
 #[export] Existing Instance balanced_is_braided.
+
+Coercion balanced_is_braided : BalancedMonoidal >-> BraidedMonoidal.
 
 End BalancedMonoidal.

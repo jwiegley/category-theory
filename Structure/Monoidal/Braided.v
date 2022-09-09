@@ -4,8 +4,8 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Naturality.
 Require Import Category.Functor.Bifunctor.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Naturality.
+Require Export Category.Structure.Monoidal.
+Require Export Category.Structure.Monoidal.Naturality.
 
 Generalizable All Variables.
 
@@ -30,6 +30,8 @@ Class BraidedMonoidal := {
     id ⨂ from braid ∘ tensor_assoc ∘ from braid ⨂ id
 }.
 #[export] Existing Instance braided_is_monoidal.
+
+Coercion braided_is_monoidal : BraidedMonoidal >-> Monoidal.
 
 Context `{BraidedMonoidal}.
 

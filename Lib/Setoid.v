@@ -11,6 +11,8 @@ Class Setoid A := {
 }.
 #[export] Existing Instance setoid_equiv.
 
+Coercion setoid_equiv : Setoid >-> Equivalence.
+
 Notation "f ≈ g" := (equiv f g) (at level 79) : category_theory_scope.
 
 Delimit Scope signature_scope with signature.

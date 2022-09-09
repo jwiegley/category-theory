@@ -3,9 +3,9 @@ Require Import Category.Theory.Coq.Functor.
 
 Generalizable All Variables.
 
-Class Applicative `{Functor F} := {
-  pure {x} : x → F x;
-  ap {x y} : F (x → y) → F x → F y;
+Class Applicative@{d c} {F : Type@{d} → Type@{c}} `{Functor F} := {
+  pure {x : Type@{d}} : x → F x;
+  ap {x y : Type @{d}} : F (x → y) → F x → F y;
 }.
 
 Arguments Applicative F {_}.
@@ -14,9 +14,9 @@ Definition liftA2 `{Applicative F} {x y z}
   (f : x → y → z) (a : F x) (b : F y) : F z :=
   ap (fmap f a) b.
 
-Class Alternative `{Applicative F} := {
-  empty  {x} : F x;
-  choose {x} : F x → F x → F x;
+Class Alternative@{d c} {F : Type@{d} → Type@{c}} `{Applicative F} := {
+  empty  {x : Type@{d}} : F x;
+  choose {x : Type@{d}} : F x → F x → F x;
 }.
 
 Arguments Alternative F {_ _}.

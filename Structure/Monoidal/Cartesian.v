@@ -2,12 +2,8 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Balanced.
-Require Import Category.Structure.Monoidal.Relevance.
-Require Import Category.Structure.Monoidal.Semicartesian.
-Require Import Category.Structure.Monoidal.Symmetric.
+Require Export Category.Structure.Monoidal.Relevance.
+Require Export Category.Structure.Monoidal.Semicartesian.
 
 Generalizable All Variables.
 
@@ -38,6 +34,9 @@ Class CartesianMonoidal := {
 }.
 #[export] Existing Instance cartesian_is_semicartesian.
 #[export] Existing Instance cartesian_is_relevance.
+
+Coercion cartesian_is_relevance : CartesianMonoidal >-> RelevanceMonoidal.
+Coercion cartesian_is_semicartesian : CartesianMonoidal >-> SemicartesianMonoidal.
 
 Context `{CartesianMonoidal}.
 

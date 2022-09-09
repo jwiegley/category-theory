@@ -5,7 +5,8 @@ Require Import Category.Structure.Cocartesian.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Coq.
-Require Import Category.Algebra.Monoid.
+Require Import Category.Theory.Coq.Semigroup.
+Require Import Category.Theory.Coq.Monoid.
 
 Generalizable All Variables.
 
@@ -98,7 +99,7 @@ Qed.
         | Datatypes.inl _, Datatypes.inr b =>
             Datatypes.inr (Datatypes.inr b)
         | Datatypes.inl e, Datatypes.inl e' =>
-            Datatypes.inl (mappend e e')
+            Datatypes.inl (e ⊗ e')
       end;
   exl  := λ _ _ p,
       match p with
