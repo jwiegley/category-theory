@@ -2,10 +2,7 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Balanced.
-Require Import Category.Structure.Monoidal.Symmetric.
+Require Export Category.Structure.Monoidal.Symmetric.
 
 Generalizable All Variables.
 
@@ -37,5 +34,7 @@ Class TracedMonoidal := {
   yanking {x} : trace braid ≈ id[x];
 }.
 #[export] Existing Instance traced_is_symmetric.
+
+Coercion traced_is_symmetric : TracedMonoidal >-> SymmetricMonoidal.
 
 End TracedMonoidal.

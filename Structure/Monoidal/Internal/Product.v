@@ -7,13 +7,6 @@ Require Import Category.Functor.Hom.Internal.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cartesian.Closed.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Balanced.
-Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Relevance.
-Require Import Category.Structure.Monoidal.Semicartesian.
-Require Import Category.Structure.Monoidal.Cartesian.
 Require Import Category.Structure.Monoidal.Closed.
 Require Import Category.Instance.Sets.
 

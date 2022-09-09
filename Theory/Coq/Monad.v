@@ -4,8 +4,8 @@ Require Import Category.Theory.Coq.Applicative.
 
 Generalizable All Variables.
 
-Class Monad `{Applicative F} :=
-  bind : ∀ {x y}, F x → (x → F y) → F y.
+Class Monad@{d c} {F : Type@{d} → Type@{c}} `{Applicative F} :=
+  bind : ∀ {x y : Type@{d}}, F x → (x → F y) → F y.
 
 Arguments Monad F {_ _}.
 

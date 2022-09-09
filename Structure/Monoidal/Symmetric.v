@@ -3,9 +3,7 @@ Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Balanced.
+Require Export Category.Structure.Monoidal.Balanced.
 
 Generalizable All Variables.
 
@@ -19,6 +17,8 @@ Class SymmetricMonoidal := {
   braid_invol {x y} : braid ∘ braid ≈ id[x ⨂ y];
 }.
 #[export] Existing Instance symmetric_is_balanced.
+
+Coercion symmetric_is_balanced : SymmetricMonoidal >-> BalancedMonoidal.
 
 Context `{SymmetricMonoidal}.
 
@@ -39,7 +39,9 @@ Lemma hexagon_rotated {x y z} :
 Proof.
   rewrite <- (id_right (id ⨂ braid ∘ tensor_assoc ∘ braid)).
   rewrite <- (iso_to_from tensor_assoc).
-  rewrite comp_assoc; rewrite <- (comp_assoc _ tensor_assoc braid); rewrite <- (comp_assoc _ (tensor_assoc ∘ braid) _).
+  rewrite comp_assoc;
+  rewrite <- (comp_assoc _ tensor_assoc braid);
+  rewrite <- (comp_assoc _ (tensor_assoc ∘ braid) _).
   rewrite hexagon_to_identity.
   rewrite !comp_assoc.
   rewrite <- bimap_comp; rewrite id_left.

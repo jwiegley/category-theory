@@ -171,10 +171,6 @@ Proof.
   rewrite from_adj_comp_law; cat.
 Qed.
 
-Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
-  {| carrier   := poly_unit@{t}
-   ; is_setoid := unit_setoid@{t u} |}.
-
 (* If F is a faithful functor, and f is monic, then adj f is monic. *)
 Theorem adj_monic  {x y} (f : F x ~> y) c (g h : c ~> x) :
   Faithful F → Monic f ->

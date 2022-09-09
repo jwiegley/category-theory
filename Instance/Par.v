@@ -4,15 +4,8 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cocartesian.
-Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Balanced.
-Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Relevance.
-Require Import Category.Structure.Monoidal.Semicartesian.
-Require Import Category.Structure.Monoidal.Cartesian.
-Require Import Category.Structure.Monoidal.Cartesian.Cartesian.
 Require Import Category.Structure.Monoidal.Closed.
+Require Import Category.Structure.Monoidal.Cartesian.Cartesian.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Sets.

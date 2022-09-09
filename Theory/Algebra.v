@@ -16,8 +16,8 @@ Generalizable All Variables.
 Section BasicAlgebra.
 
 Context {C : Category}.
-Context `{A : @Cartesian C}.
-Context `{@Closed C A}.
+Context `{@Cartesian C}.
+Context `{@Closed C _}.
 Context `{@Terminal C}.
 Context `{@Initial C}.
 Context `{@Cocartesian C}.

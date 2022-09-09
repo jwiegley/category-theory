@@ -5,8 +5,6 @@ Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
 Adjunction/Opposite.v
-Algebra/Basic.v
-Algebra/Monoid.v
 Construction/Arrow.v
 Construction/Cayley.v
 Construction/Comma.v
@@ -181,6 +179,7 @@ Structure/Span.v
 Structure/Terminal.v
 Structure/Wedge.v
 Theory.v
+Theory/Algebra.v
 Theory/Adjunction.v
 Theory/Bicategory.v
 Theory/Category.v
