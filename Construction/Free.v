@@ -53,6 +53,8 @@ Proof.
     now cat.
 Qed.
 
+#[local] Obligation Tactic := cat_simpl; try reflexivity.
+
 Program Definition FreeFunctor : Free ⟶ C := {|
   fobj := fun x => x;
   fmap := fun _ _ f => composition f;

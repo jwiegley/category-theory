@@ -29,19 +29,21 @@ Reserved Infix "∘" (at level 40, left associativity).
   Categories (as distinct from Category/~) are identified by [homset :=
   Morphism_equality]. *)
 
-Class Category := {
-  obj : Type;
+Class Category@{o h p} := {
+  obj : Type@{o};
 
-  uhom := Type : Type;
+  uhom := Type@{h} : Type@{h+1};
   hom : obj → obj → uhom where "a ~> b" := (hom a b);
-  homset : ∀ X Y, Setoid (X ~> Y);
+  homset : ∀ X Y, Setoid@{h p} (X ~> Y);
 
   id {x} : x ~> x;
   compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z
     where "f ∘ g" := (compose f g);
 
   compose_respects {x y z} :
-    Proper (equiv ==> equiv ==> equiv) (@compose x y z);
+    Proper@{h p} (respectful@{h p h p h p} equiv
+                    (respectful@{h p h p h p} equiv equiv))
+      (@compose x y z);
 
   dom {x y} (f : x ~> y) := x;
   cod {x y} (f : x ~> y) := y;
