@@ -278,7 +278,7 @@ Proof.
   apply FunctionalElimination_compress;
   repeat intro; auto.
   simpl in *.
-  rewrite <- H1.
+  rewrite <- X.
   rewrite lookup_delete.
   now destruct (eq_dec k0 i').
 Qed.

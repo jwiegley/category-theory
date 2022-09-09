@@ -52,35 +52,31 @@ Notation "contramap[ M N O ]" := (@contramap (λ X, M (N (O X))) _ _ _)
 End FunctorNotations.
 
 #[export]
-Instance Identity_Functor : Functor id | 9 := {|
+Instance Identity_Functor : Functor id | 9 := {
   fmap := λ _ _, id;
-|}.
+}.
+
+#[export]
+Instance arrow_Functor x : Functor (arrow x) := {
+  fmap := λ _ _ f x r, f (x r);
+}.
 
 Inductive Const (c a : Type) := | mkConst : c → Const.
 
 Arguments mkConst {c a} _.
 
 #[export]
-Instance Const_Functor {x : Type} : Functor (Const x) := {|
+Instance Const_Functor {x : Type} : Functor (Const x) := {
   fmap := λ _ _ _ '(mkConst x), mkConst x;
-|}.
+}.
 
 Import FunctorNotations.
 
 (* Coq endofunctors always compose to form another endofunctor. *)
 #[export]
-Instance Compose_Functor `{Functor F} `{Functor G} : Functor (F ∘ G) := {|
+Instance Compose_Functor `{Functor F} `{Functor G} : Functor (F ∘ G) := {
   fmap := λ _ _, fmap[F] ∘ fmap[G];
-|}.
-
-Corollary compose_fmap  `{Functor F} `{Functor G} {x y} (f : x → y) :
-  fmap[F ∘ G] f = fmap[F] (fmap[G] f).
-Proof. reflexivity. Qed.
-
-#[export]
-Instance arrow_Functor x : Functor (arrow x) := {|
-  fmap := λ _ _ f x r, f (x r);
-|}.
+}.
 
 Definition Yoneda@{d c u} (F : Type@{d} → Type@{c}) (x : Type@{u}) :=
   ∀ r : Type@{u}, (x → r) → F r.

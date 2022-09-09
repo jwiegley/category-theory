@@ -1,6 +1,5 @@
 Require Import Category.Lib.
-Require Import Category.Theory.Coq.Functor.
-Require Import Category.Theory.Coq.Applicative.
+Require Export Category.Theory.Coq.Applicative.
 
 Generalizable All Variables.
 
@@ -14,9 +13,15 @@ Definition join `{Monad F} {x} (m : F (F x)) : F x := bind m id.
 Definition kleisli_compose `{Monad m} `(f : a → m b) `(g : b → m c) :
   a → m c := λ x, bind (f x) g.
 
+Definition when `{Monad m} `(b : bool) (x : m unit) : m unit :=
+  if b then x else pure tt.
+
+Definition unless `{Monad m} `(b : bool) (x : m unit) : m unit :=
+  if negb b then x else pure tt.
+
 Module MonadNotations.
 
-Include ApplicativeNotations.
+Export ApplicativeNotations.
 
 Notation "'ret'" := pure (only parsing).
 
@@ -57,10 +62,21 @@ Notation "A ;; B" := (A >>= (λ _, B))
 
 End MonadNotations.
 
-Class Monad_Distributes `{Monad M} `{Applicative N} :=
+#[export]
+Instance Identity_Monad : Monad id | 9 := {
+  bind := λ _ _ m f, f m;
+}.
+
+#[export]
+Instance arrow_Monad x : Monad (arrow x) := {
+  bind := λ _ _ m f r, f (m r) r
+}.
+
+Class Monad_Distributes `{Monad M} `{Monad N} :=
   mprod : ∀ {x}, N (M (N x)) → M (N x).
 
-Arguments mprod M {_ _ _} N {_ _ Monad_Distributes x} _.
+Arguments Monad_Distributes M {_ _ _} N {_ _ _}.
+Arguments mprod M {_ _ _} N {_ _ _ _ x} _.
 
 Import MonadNotations.
 
@@ -70,8 +86,7 @@ Instance Compose_Monad `{Monad_Distributes M N} : Monad (M ∘ N) := {
   bind := λ x y m f, m >>=[M] (mprod M N ∘ fmap[N] f)
 }.
 
-Definition when `{Monad m} `(b : bool) (x : m unit) : m unit :=
-  if b then x else ret tt.
-
-Definition unless `{Monad m} `(b : bool) (x : m unit) : m unit :=
-  if negb b then x else ret tt.
+#[export]
+Instance Yoneda_Monad `{Monad F} : Monad (Yoneda F) := {
+  bind := λ _ _ m f, λ r k, join (m _ (λ h, f h _ k))
+}.

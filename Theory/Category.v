@@ -40,7 +40,7 @@ Class Category := {
   compose {x y z} (f: y ~> z) (g : x ~> y) : x ~> z
     where "f ∘ g" := (compose f g);
 
-  compose_respects x y z :
+  compose_respects {x y z} :
     Proper (equiv ==> equiv ==> equiv) (@compose x y z);
 
   dom {x y} (f: x ~> y) := x;

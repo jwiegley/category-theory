@@ -1,9 +1,9 @@
 Require Import Category.Lib.
-Require Import Category.Theory.Coq.Functor.
-Require Import Category.Theory.Coq.Applicative.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Monad.
 Require Import Category.Instance.Coq.
+Require Export Category.Theory.Coq.Applicative.Proofs.
+Require Export Category.Theory.Coq.Monad.
 
 Generalizable All Variables.
 

@@ -3,6 +3,7 @@ Require Import Coq.Lists.List.
 Require Import Category.Lib.
 Require Import Category.Theory.Coq.Functor.
 Require Import Category.Theory.Coq.Applicative.
+Require Import Category.Theory.Coq.Monad.
 Require Import Category.Theory.Coq.Semigroup.
 Require Import Category.Theory.Coq.Monoid.
 
@@ -34,34 +35,21 @@ Definition curry `(f : a -> b -> c) (x : (a * b)) : c :=
 Definition uncurry {X Y Z} (f : X -> Y -> Z) (xy : X * Y) : Z :=
   match xy with (x, y) => f x y end.
 
-Theorem uncurry_works : forall {X Y Z} (x : X) (y : Y) (f : X -> Y -> Z),
-  uncurry f (x, y) = f x y.
-Proof. reflexivity. Qed.
-
-Lemma fst_snd : forall a b (z : a * b),
-  (let '(x, y) := z in (x, y)) = (fst z, snd z).
-Proof. intros ? ? [?]; auto. Qed.
-
-Lemma unsplit : forall a b (xs : list (a * b)),
-  map (fun x => (fst x, snd x)) xs = xs.
-Proof.
-  intros.
-  induction xs as [|x xs IHxs]; auto; simpl.
-  rewrite IHxs.
-  destruct x; auto.
-Qed.
-
 Definition prod_map {A B C : Type} (f : A -> B) (x : C * A) : C * B :=
   match x with (a, b) => (a, f b) end.
 
 #[export]
-Instance Tuple_Functor x : Functor (Tuple x) := {|
+Instance Tuple_Functor x : Functor (Tuple x) := {
   fmap := λ _ _, prod_map
-|}.
+}.
 
 #[export]
-Instance prod_Applicative x `{Monoid x} : Applicative (Tuple x) := {|
+Instance Tuple_Applicative x `{Monoid x} : Applicative (Tuple x) := {
   pure := λ _ y, (mempty, y);
   ap := λ _ _ '(xf, f) '(xx, x), (xf ⊗ xx, f x);
-|}.
+}.
 
+#[export]
+Instance Tuple_Monad x `{Monoid x} : Monad (Tuple x) := {
+  bind := λ _ _ '(xm, m) f, let '(xx, x) := f m in (xm ⊗ xx, x)
+}.

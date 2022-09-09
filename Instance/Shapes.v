@@ -16,6 +16,7 @@ Import VectorNotations.
 
 Generalizable All Variables.
 Unset Universe Polymorphism.
+Set Universe Minimization ToSet.
 Set Transparent Obligations.
 
 (* These two lemmas is missing in Coq 8.11 and earlier. *)
@@ -491,5 +492,3 @@ Next Obligation.
   rewrite !vec_trie.
   now rewrite sized_resized.
 Qed.
-
-(* Print Assumptions Card_Canon_Adjunction. *)

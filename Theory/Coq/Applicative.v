@@ -1,5 +1,7 @@
 Require Import Category.Lib.
-Require Import Category.Theory.Coq.Functor.
+Require Export Category.Theory.Coq.Functor.
+Require Import Category.Theory.Coq.Semigroup.
+Require Import Category.Theory.Coq.Monoid.
 
 Generalizable All Variables.
 
@@ -23,7 +25,7 @@ Arguments Alternative F {_ _}.
 
 Module ApplicativeNotations.
 
-Include FunctorNotations.
+Export FunctorNotations.
 
 Notation "pure[ M ]" := (@pure M _ _)
   (at level 9, format "pure[ M ]").
@@ -56,23 +58,29 @@ End ApplicativeNotations.
 Import ApplicativeNotations.
 
 #[export]
+Instance Identity_Applicative : Applicative id | 9 := {
+  pure := λ _, id;
+  ap := λ _ _ f x, f x;
+}.
+
+#[export]
+Instance arrow_Applicative x : Applicative (arrow x) := {
+  pure := λ _ x _, x;
+  ap := λ _ _ f x r, f r (x r);
+}.
+
+#[export]
+Instance Const_Applicative `{Monoid x} : Applicative (Const x) := {
+  pure := λ _ _, mkConst mempty;
+  ap := λ _ _ '(mkConst x) '(mkConst y), mkConst (x ⊗ y);
+}.
+
+#[export]
 Instance Compose_Applicative `{Applicative F} `{Applicative G} :
   Applicative (F ∘ G)  := {
   pure := λ _, pure[F] ∘ pure;
   ap   := λ _ _, ap[F] ∘ fmap ap
 }.
-
-Corollary compose_ap  `{Applicative F} `{Applicative G} {x y} :
-  ap[F ∘ G] = ap[F] ∘ fmap[F] (@ap G _ _ x y).
-Proof. reflexivity. Qed.
-
-Corollary ap_comp `{Applicative F} `{f : a → F (b → c)} {x} :
-  (ap[F] ∘ f) x = ap (f x).
-Proof. reflexivity. Qed.
-
-Corollary pure_comp `{Applicative F} `{f : a → b} {x} :
-  (pure[F] ∘ f) x = pure (f x).
-Proof. reflexivity. Qed.
 
 (* jww (2022-09-07): This needs work *)
 #[export]
@@ -83,7 +91,7 @@ Instance Compose_Alternative `{Alternative F} `{Alternative G} :
 }.
 
 #[export]
-Instance arrow_Applicative x : Applicative (arrow x) := {|
-  pure := λ _ x _, x;
-  ap := λ _ _ f x r, f r (x r);
-|}.
+Instance Yoneda_Applicative `{Applicative F} : Applicative (Yoneda F) := {
+  pure := λ _ x, λ r k, pure (k x);
+  ap := λ _ _ f x, λ r k, f _ (λ h, k ∘ h) <*> x _ id
+}.
