@@ -62,7 +62,10 @@ Proof. unfold kleisli_compose; cat. Qed.
 
 Corollary monad_comp_assoc `(f : z ~> M w) `(g : y ~> M z) `(h : x ~> M y) :
   f <=< (g <=< h) ≈ (f <=< g) <=< h.
-Proof. unfold kleisli_compose; cat. Qed.
+Proof.
+  unfold kleisli_compose; cat.
+  now rewrite comp_assoc.
+Qed.
 
 End Kleisli.
 

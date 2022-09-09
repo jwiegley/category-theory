@@ -43,8 +43,8 @@ Class Category := {
   compose_respects {x y z} :
     Proper (equiv ==> equiv ==> equiv) (@compose x y z);
 
-  dom {x y} (f: x ~> y) := x;
-  cod {x y} (f: x ~> y) := y;
+  dom {x y} (f : x ~> y) := x;
+  cod {x y} (f : x ~> y) := y;
 
   id_left  {x y} (f : x ~> y) : id ∘ f ≈ f;
   id_right {x y} (f : x ~> y) : f ∘ id ≈ f;
@@ -168,7 +168,7 @@ Context {C : Category}.
 Corollary dom_id {x : C} : dom (@id C x) = x.
 Proof. auto. Qed.
 
-Corollary cod_id {x : C} : dom (@id C x) = x.
+Corollary cod_id {x : C} : cod (@id C x) = x.
 Proof. auto. Qed.
 
 Corollary dom_comp {x y z : C} (g : y ~> z) (f : x ~> y) :
@@ -205,9 +205,7 @@ Ltac comp_right :=
 #[export] Hint Extern 10 (?X ∘ ?Y ≈ ?Z ∘ ?Q) =>
   apply compose_respects; auto : category_laws.
 #[export] Hint Extern 10 (?X ∘ (?Y ∘ ?Z) ≈ ?W) =>
-  rewrite <- comp_assoc; cat : category_laws.
-#[export] Hint Extern 10 ((?X ∘ ?Y) ∘ ?Z ≈ ?W) =>
-  rewrite comp_assoc; cat : category_laws.
+  apply comp_assoc : category_laws.
 
 Ltac rewrites :=
   repeat match goal with
