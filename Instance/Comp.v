@@ -123,13 +123,13 @@ Next Obligation. now rewrite 2 op_commute. Qed.
     algebras of that signature, and as morphisms all homomorphisms between
     them. *)
 
-Program Instance Algs : Category := {
+Program Definition Algs : Category := {|
   obj     := OpAlgebra S;
   hom     := AlgHom;
   homset  := AlgHom_Setoid;
   id      := Alg_id;
   compose := Alg_comp
-}.
+|}.
 Next Obligation. proper. now rewrite H, H0. Qed.
 
 Program Instance Algs_Terminal : @Terminal Algs := {
@@ -191,7 +191,7 @@ Next Obligation. now apply from_free_unique. Qed.
 (*
 Program Instance Algs_Cocartesian : @Cocartesian Algs := {
   product_obj := fun x y => {|
-    carrier := x + y : Type;
+    carrier := x + y;
     op := fun o k => _
   |};
   fork := _;
@@ -430,46 +430,73 @@ Record Interface := {
 Definition Component (required provided : Interface) : Type :=
   { f : Interface → Interface & f required = provided }.
 
+#[local] Ltac decompose :=
+  repeat match goal with
+           | [ H : Component _ _ |- _ ] => destruct H
+         end; subst; simpl.
+
 #[export] Program Instance Component_Setoid {req prov : Interface} :
   Setoid (Component req prov) := {|
-  equiv := fun f g : Component req prov => f = g
+  equiv := fun '(f; _) '(g; _) => f = g
 |}.
+Next Obligation.
+  equivalence; now decompose.
+Qed.
+
+Definition component_id {i} : Component i i := (fun req => req; eq_refl).
+
+Import EqNotations.
+
+Definition component_compose {i j k} :
+  Component j k → Component i j → Component i k :=
+  λ '(f; Hf) '(g; Hg), (λ req, f (g req); rew <- [λ x, f x = _] Hg in Hf).
+
+Monomorphic Lemma component_compose_respects {i j k} :
+  Proper (equiv ==> equiv ==> equiv) (@component_compose i j k).
+Proof.
+  proper; decompose.
+  now rewrite X0, X.
+Qed.
+
+Monomorphic Lemma component_id_left {i j} (f : Component i j) :
+  component_compose component_id f ≈ f.
+Proof.
+  now decompose.
+Qed.
+
+Monomorphic Lemma component_id_right {i j} (f : Component i j) :
+  component_compose f component_id ≈ f.
+Proof.
+  now decompose.
+Qed.
+
+Monomorphic Lemma component_compose_assoc {i j k l}
+  (f : Component k l) (g : Component j k) (h : Component i j) :
+  component_compose f (component_compose g h) ≈
+    component_compose (component_compose f g) h.
+Proof.
+  now decompose.
+Qed.
 
 (** Now we may reason about the category of software components, which are
     simply morphisms between algebras, but not necessarily homomorphic. *)
 
-#[export]
-Program Instance Comp : Category := {
+#[local] Obligation Tactic := cat_simpl; decompose; auto.
+
+Definition Comp : Category := {|
   obj     := Interface;
   hom     := Component;
   homset  := @Component_Setoid;
-  id      := fun x => (fun req => req; reflexivity _);
-  compose := fun _ _ _ f g => (fun req => `1 f (`1 g req); _)
-}.
-Next Obligation.
-  destruct f, g; simpl in *.
-  now rewrite e0, e.
-Defined.
-Next Obligation.
-  destruct f; simpl in *.
-  f_equal.
-  simpl_eq.
-  now destruct e.
-Defined.
-Next Obligation.
-  destruct f; simpl in *.
-  simpl_eq; simpl.
-  now destruct e.
-Defined.
-Next Obligation.
-  destruct f, g, h; simpl in *.
-  simpl_eq; simpl.
-  now destruct e, e0, e1.
-Defined.
-Next Obligation.
-  destruct f, g, h; simpl in *.
-  simpl_eq; simpl.
-  now destruct e, e0, e1.
-Defined.
+  id      := @component_id;
+  compose := @component_compose;
+
+  compose_respects := @component_compose_respects;
+
+  id_left := @component_id_left;
+  id_right := @component_id_right;
+  comp_assoc := @component_compose_assoc;
+  comp_assoc_sym := λ i j k l f g h,
+    symmetry (@component_compose_assoc _ _ _ _ _ _ _);
+|}.
 
 End UniversalAlgebra.

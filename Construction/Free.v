@@ -59,5 +59,8 @@ Program Definition FreeFunctor : Free ⟶ C := {|
   fmap_id := fun _ => composition_tnil;
   fmap_comp := fun _ _ _ => composition_tapp
 |}.
+Next Obligation.
+  reflexivity.
+Qed.
 
 End Free.
