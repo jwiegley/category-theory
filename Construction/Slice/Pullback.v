@@ -11,7 +11,7 @@ Section SliceFunctors.
 Context `{C : Category}.
 Context `{A : @Cartesian C}.
 
-Set Transparent Obligations.
+#[local] Set Transparent Obligations.
 
 Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {|
   fobj := λ '(o; h), (o; f ∘ h);

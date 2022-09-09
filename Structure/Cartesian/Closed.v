@@ -6,7 +6,6 @@ Require Import Category.Structure.Cartesian.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Transparent Obligations.
 
 Section Closed.
 

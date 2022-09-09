@@ -7,13 +7,14 @@ Require Import Category.Construction.Product.
 Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
-Set Transparent Obligations.
 
 Section Closed.
 
 Context {C : Category}.
 Context {D : Category}.
 Context {E : Category}.
+
+#[local] Set Transparent Obligations.
 
 Program Definition Curry (F : C^op ∏ D ⟶ E) : C^op ⟶ [D, E] := {|
   fobj := fun x => {|

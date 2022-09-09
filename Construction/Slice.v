@@ -7,7 +7,6 @@ Require Import Category.Functor.Diagonal.
 Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
-Set Transparent Obligations.
 
 Program Definition Slice `(C : Category) `(c : C) : Category := {|
   obj     := ∃ a : C, a ~> c;
@@ -22,6 +21,8 @@ Notation "C  ̸ c" := (@Slice C c) (at level 90) : category_scope.
 
 (* Although the encoding of Slice above is more convenient, theoretically it's
    the comma category (Id[C] ↓ Δ(c)). *)
+
+#[local] Set Transparent Obligations.
 
 #[export]
 Program Instance Comma_Slice `(C : Category) `(c : C) :

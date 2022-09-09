@@ -17,12 +17,14 @@ Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
     {| transform := fun _ => f |}
 }.
 
-Set Transparent Obligations.
+Section Diagonal_Product.
+
+#[local] Set Transparent Obligations.
 
 #[export]
 Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.
 
-Unset Transparent Obligations.
+End Diagonal_Product.
 
 Notation "Δ[ J ]( c )" := (Diagonal J c) (at level 90, format "Δ[ J ]( c )") : functor_scope.
 
