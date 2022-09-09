@@ -1,38 +1,13 @@
 Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
+Require Export Category.Theory.Category.
 Require Export Category.Theory.Functor.
 
 Generalizable All Variables.
 Set Primitive Projections.
 Set Universe Polymorphism.
 Set Transparent Obligations.
-
-Section FunctorParts.
-
-Context {C D : Category}.
-
-(* [FunctorParts] allows the object mapping to be stated explicitly, but not
-   the morphisms mapping. *)
-Record FunctorParts (p_fobj : C → D) : Type := {
-  p_fmap {x y : C} (f : x ~> y) : p_fobj x ~> p_fobj y;
-
-  p_fmap_respects {x y : C} : Proper (equiv ==> equiv) (@p_fmap x y);
-
-  p_fmap_id {x : C} : p_fmap (@id C x) ≈ id;
-  p_fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :
-    p_fmap (f ∘ g) ≈ p_fmap f ∘ p_fmap g;
-}.
-
-Definition FunctorFromParts `(P : FunctorParts p_fobj) : C ⟶ D := {|
-  fobj          := λ x, p_fobj x;
-  fmap          := @p_fmap p_fobj P;
-  fmap_respects := @p_fmap_respects p_fobj P;
-  fmap_id       := @p_fmap_id p_fobj P;
-  fmap_comp     := @p_fmap_comp p_fobj P;
-|}.
-
-End FunctorParts.
 
 Section Binoidal.
 
@@ -50,12 +25,12 @@ Class Binoidal := {
   (* The binoidal tensor is functorial in each argument separately, whereas
      monoidal categories, whose tensor is a functor from C ∏ C ⟶ C, is
      functorial in both arguments jointly. *)
-  left_functor y' : FunctorParts (λ x, x ⊗ y');
-  inj_left (y' : C) : C ⟶ C := FunctorFromParts (left_functor y')
+  left_functor y' : AFunctor (λ x, x ⊗ y');
+  inj_left (y' : C) : C ⟶ C := FromAFunctor (left_functor y')
     where "x ⋊ y" := (inj_left x y);
 
-  right_functor x' : FunctorParts (λ y, x' ⊗ y);
-  inj_right (x' : C) : C ⟶ C := FunctorFromParts (right_functor x')
+  right_functor x' : AFunctor (λ y, x' ⊗ y);
+  inj_right (x' : C) : C ⟶ C := FromAFunctor (right_functor x')
     where "x ⋉ y" := (inj_right x y);
 }.
 
