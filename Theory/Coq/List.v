@@ -112,7 +112,7 @@ Fixpoint insertM `{Monad m} {A : Type} (P : A → A → m bool)
   match l with
   | nil => pure (cons z nil)
   | cons x xs =>
-    b <- P x z ;
+    b <- P x z ;;
     if (b : bool)
     then cons x <$> insertM P z xs
     else pure (cons z (cons x xs))
