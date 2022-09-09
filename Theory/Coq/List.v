@@ -62,6 +62,7 @@ Definition concatMapM `{Applicative m} {A B : Type}
 
 #[export]
 Instance list_Monad : Monad list := {
+  ret := λ _ x, [x];
   bind := λ _ _ x f, flatten (map f x)
 }.
 
@@ -118,7 +119,7 @@ Fixpoint insertM `{Monad m} {A : Type} (P : A → A → m bool)
     else pure (cons z (cons x xs))
   end.
 
-Arguments insertM {m H _ _ A} P z l : simpl never.
+Arguments insertM {m H A} P z l : simpl never.
 
 Definition concat {A} : list (list A) → list A := flatten.
 Definition concatMap {A B} (f : A → list B) : list A → list B :=

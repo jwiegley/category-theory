@@ -5,23 +5,23 @@ Require Import Category.Theory.Coq.Monoid.
 
 Generalizable All Variables.
 
-Class Applicative@{d c} {F : Type@{d} → Type@{c}} `{Functor F} := {
+Class Applicative@{d c} {F : Type@{d} → Type@{c}} := {
   pure {x : Type@{d}} : x → F x;
   ap {x y : Type @{d}} : F (x → y) → F x → F y;
 }.
 
-Arguments Applicative F {_}.
+Arguments Applicative : clear implicits.
 
 Definition liftA2 `{Applicative F} {x y z}
   (f : x → y → z) (a : F x) (b : F y) : F z :=
-  ap (fmap f a) b.
+  ap (ap (pure f) a) b.
 
-Class Alternative@{d c} {F : Type@{d} → Type@{c}} `{Applicative F} := {
+Class Alternative@{d c} {F : Type@{d} → Type@{c}} := {
   empty  {x : Type@{d}} : F x;
   choose {x : Type@{d}} : F x → F x → F x;
 }.
 
-Arguments Alternative F {_ _}.
+Arguments Alternative : clear implicits.
 
 Module ApplicativeNotations.
 
@@ -79,15 +79,15 @@ Instance Const_Applicative `{Monoid x} : Applicative (Const x) := {
 Instance Compose_Applicative `{Applicative F} `{Applicative G} :
   Applicative (F ∘ G)  := {
   pure := λ _, pure[F] ∘ pure;
-  ap   := λ _ _, ap[F] ∘ fmap ap
+  ap   := λ _ _, ap[F] ∘ ap[F] (pure ap[G])
 }.
 
 (* jww (2022-09-07): This needs work *)
 #[export]
 Instance Compose_Alternative `{Alternative F} `{Alternative G} :
   Alternative (F ∘ G) := {
-  empty  := λ x, @empty F _ _ _ (G x);
-  choose := λ x, @choose F _ _ _ (G x);
+  empty  := λ x, @empty F _ (G x);
+  choose := λ x, @choose F _ (G x);
 }.
 
 #[export]
@@ -95,3 +95,15 @@ Instance Yoneda_Applicative `{Applicative F} : Applicative (Yoneda F) := {
   pure := λ _ x, λ r k, pure (k x);
   ap := λ _ _ f x, λ r k, f _ (λ h, k ∘ h) <*> x _ id
 }.
+
+Section Instances.
+
+Universe d c.
+Context (F : Type@{d} -> Type@{c}).
+Context `{Applicative F}.
+
+#[export]  Instance Functor_Applicative@{} : Functor F | 9 := {
+  fmap := λ _ _ f x, ap (pure f) x
+}.
+
+End Instances.

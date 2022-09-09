@@ -3,10 +3,12 @@ Require Export Category.Theory.Coq.Applicative.
 
 Generalizable All Variables.
 
-Class Monad@{d c} {F : Type@{d} → Type@{c}} `{Applicative F} :=
-  bind : ∀ {x y : Type@{d}}, F x → (x → F y) → F y.
+Class Monad@{d c} {F : Type@{d} → Type@{c}} := {
+  ret : ∀ {x : Type@{d}}, x → F x;
+  bind : ∀ {x y : Type@{d}}, F x → (x → F y) → F y;
+}.
 
-Arguments Monad F {_ _}.
+Arguments Monad : clear implicits.
 
 Section Monad.
 
@@ -20,7 +22,7 @@ Definition kleisli_compose {x y z : Type@{d}} `(f : x → F y) `(g : y → F z) 
   x → F z := λ x, bind (f x) g.
 
 Definition liftM {x y : Type@{d}} (f : x → y) : F x → F y :=
-  λ x, bind x (λ x, pure (f x)).
+  λ x, bind x (λ x, ret (f x)).
 
 Definition liftM2 {x y z : Type@{d}} (f : x → y → z) : F x → F y → F z :=
   Eval cbv beta iota zeta delta [ liftM ] in
@@ -35,10 +37,10 @@ Definition apM {x y : Type@{d}} (fM : F (x → y)) (aM : F x) : F y :=
   bind fM (λ f, liftM f aM).
 
 Definition when (b : bool) (x : F unit) : F unit :=
-  if b then x else pure tt.
+  if b then x else ret tt.
 
 Definition unless (b : bool) (x : F unit) : F unit :=
-  if negb b then x else pure tt.
+  if negb b then x else ret tt.
 
 End Monad.
 
@@ -50,21 +52,22 @@ Declare Scope monad_scope.
 Delimit Scope monad_scope with monad.
 Bind Scope monad_scope with Monad.
 
-Notation "'ret'" := pure (only parsing) : monad_scope.
+Notation "ret[ M ]" := (@ret M _ _) (at level 9) : monad_scope.
+Notation "ret[ M N ]" := (@ret (M ∘ N) _ _) (at level 9) : monad_scope.
 
-Notation "bind[ M ]" := (@bind M _ _ _ _ _) (at level 9) : monad_scope.
-Notation "bind[ M N ]" := (@bind (M ∘ N) _ _ _ _ _) (at level 9) : monad_scope.
+Notation "bind[ M ]" := (@bind M _ _ _) (at level 9) : monad_scope.
+Notation "bind[ M N ]" := (@bind (M ∘ N) _ _ _) (at level 9) : monad_scope.
 
 Notation "join[ M ]" := (@join M _ _ _ _) (at level 9) : monad_scope.
-Notation "join[ M N ]" := (@join (M ∘ N) _ _ _ _) (at level 9) : monad_scope.
+Notation "join[ M N ]" := (@join (M ∘ N) _ _) (at level 9) : monad_scope.
 
 Notation "m >>= f" := (bind m f)
   (at level 42, right associativity) : monad_scope.
-Notation "m >>=[ M ] f" := (@bind M _ _ _ _ _ m f)
+Notation "m >>=[ M ] f" := (@bind M _ _ _ m f)
   (at level 42, right associativity, only parsing) : monad_scope.
 Notation "f =<< m" := (bind m f)
   (at level 42, right associativity) : monad_scope.
-Notation "f =<<[ M ] m" := (@bind M _ _ _ _ _ m f)
+Notation "f =<<[ M ] m" := (@bind M _ _ _ m f)
   (at level 42, right associativity, only parsing) : monad_scope.
 Notation "a >> b" := (a >>= λ _, b)%monad
   (at level 81, right associativity) : monad_scope.
@@ -76,9 +79,9 @@ Infix ">=>" := kleisli_compose
 Notation "f <=< g" :=
   (kleisli_compose g f) (at level 42, right associativity) : monad_scope.
 
-Notation "f >=[ m ]=> g" := (@kleisli_compose _ m _ _ f _ g)
+Notation "f >=[ M ]=> g" := (@kleisli_compose M _ _ _ _ _ f _ g)
   (at level 42, right associativity) : monad_scope.
-Notation "f <=[ m ]=< g" := (@kleisli_compose _ m _ _ g _ f)
+Notation "f <=[ M ]=< g" := (@kleisli_compose M _ _ _ _ _ g _ f)
   (at level 42, right associativity) : monad_scope.
 
 Notation "x <- A ;; B" := (A >>= (λ x, B))%monad
@@ -97,12 +100,14 @@ End MonadNotations.
 
 #[export]
 Instance Identity_Monad : Monad id | 9 := {
+  ret := λ _ x, x;
   bind := λ _ _ m f, f m;
 }.
 
 #[export]
 Instance arrow_Monad x : Monad (arrow x) := {
-  bind := λ _ _ m f r, f (m r) r
+  ret := λ _ x _, x;
+  bind := λ _ _ m f r, f (m r) r;
 }.
 
 Class Monad_Distributes (M N : Type → Type) :=
@@ -117,10 +122,29 @@ Open Scope monad_scope.
 #[export]
 Instance Compose_Monad `{Monad M} `{Applicative N}
   `{@Monad_Distributes M N} : Monad (M ∘ N) := {
-  bind := λ _ _ m f, m >>=[M] (mprod M N ∘ fmap[N] f)
+  ret := λ _ x, ret[M] (pure[N] x);
+  bind := λ _ _ m f, m >>=[M] (mprod M N ∘ ap (pure f));
 }.
 
 #[export]
 Instance Yoneda_Monad `{Monad F} : Monad (Yoneda F) := {
-  bind := λ _ _ m f, λ r k, join (m _ (λ h, f h _ k))
+  ret := λ _ x, λ r k, ret (k x);
+  bind := λ _ _ m f, λ r k, join (m _ (λ h, f h _ k));
 }.
+
+Section Instances.
+
+Universe d c.
+Context (F : Type@{d} -> Type@{c}).
+Context `{Monad F}.
+
+#[export]  Instance Functor_Monad@{} : Functor F | 9 := {
+  fmap := @liftM _ _
+}.
+
+#[export] Instance Applicative_Monad@{} : Applicative F | 9 := {
+  pure := @ret _ _;
+  ap := @apM _ _;
+}.
+
+End Instances.

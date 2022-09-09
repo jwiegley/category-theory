@@ -5,6 +5,7 @@ Require Import Category.Theory.Functor.
 Require Import Category.Functor.Applicative.
 Require Import Category.Monad.Distributive.
 Require Import Category.Monad.Compose.
+Require Import Category.Functor.Structure.Monoidal.Pure.
 Require Import Category.Instance.Coq.
 Require Export Category.Theory.Coq.Applicative.Proofs.
 Require Export Category.Theory.Coq.Monad.
@@ -15,15 +16,17 @@ Definition EndoMonad_Monad
   `(H : EndoFunctor F)
   `(A : @Functor.Applicative.Applicative _ _ (FromAFunctor H))
   `(M : @Theory.Monad.Monad _ (FromAFunctor H)) :
-  Monad F (H:=H) (H0:=EndoApplicative_Applicative H A) :=
-  λ x y m f,
+  Monad F := {|
+  ret := @Pure.pure _ _ (FromAFunctor H) _ A;
+  bind := λ x y m f,
     @Theory.Monad.join _ _ M y
-      (@Theory.Functor.fmap _ _ (FromAFunctor H) x (F y) f m).
+      (@Theory.Functor.fmap _ _ (FromAFunctor H) x (F y) f m);
+|}.
 
 Definition IsMonad
   `(H : EndoFunctor F)
   `(A : @Functor.Applicative.Applicative _ _ (FromAFunctor H))
-  `(@Monad F H (EndoApplicative_Applicative H A)) : Type :=
+  `(Monad F) : Type :=
   Theory.Monad.Monad (ToAFunctor H).
 
 Theorem Identity_IsMonad :
@@ -64,8 +67,8 @@ Theorem Compose_IsMonad :
     (Compose_IsFunctor HF HG)
     (Compose_IsApplicative HF AF HG AG)
     (@Compose_Monad
-       _ _ _ (EndoMonad_Monad HF AF MF)
-       _ _ (EndoApplicative_Applicative HG AG)
+       _ (EndoMonad_Monad HF AF MF)
+       _ (EndoApplicative_Applicative HG AG)
        EndoMonad_Distributes).
 Proof.
   exact (@Monad_Compose _ _ _ _ _ _ _ D).
