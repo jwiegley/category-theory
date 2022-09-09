@@ -4,14 +4,14 @@ Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 
-Record SetoidObject := {
-  carrier :> Type;
-  is_setoid :> Setoid carrier
+Record SetoidObject@{o p} := {
+  carrier :> Type@{o};
+  is_setoid :> Setoid@{o p} carrier
 }.
 
-Record SetoidMorphism `{Setoid x} `{Setoid y} := {
+Record SetoidMorphism@{o h p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
   morphism :> x → y;
-  proper_morphism :> Proper (equiv ==> equiv) morphism
+  proper_morphism :> Proper@{h p} (respectful@{h p h p h p} equiv equiv) morphism
 }.
 
 Arguments SetoidMorphism {_} _ {_} _.
@@ -117,14 +117,14 @@ Ltac morphism :=
 Require Import Category.Structure.Terminal.
 
 #[export]
-Program Instance Unit_Setoid : Setoid (unit : Type) := {
+Program Instance Unit_Setoid : Setoid poly_unit := {
   equiv := fun x y => x = y
 }.
 
 #[export]
 Program Instance Sets_Terminal : @Terminal Sets := {
-  terminal_obj := {| carrier := unit : Type |};
-  one := fun _ => {| morphism := fun _ => tt |};
+  terminal_obj := {| carrier := poly_unit |};
+  one := fun _ => {| morphism := fun _ => ttt |};
   one_unique := fun x f g => _
 }.
 Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
@@ -146,7 +146,7 @@ Require Import Category.Structure.Monoidal.
 
 #[export]
 Program Instance Sets_Product_Monoidal : @Monoidal Sets := {
-  I      := {| carrier := unit : Type |};
+  I      := {| carrier := poly_unit |};
   tensor := {|
     fobj := fun p =>
       {| carrier := carrier (fst p) * carrier (snd p)
@@ -161,7 +161,7 @@ Next Obligation.
   construct.
   - repeat intro.
     destruct s, s0.
-    exact (fst X ≈ fst X0 ∧ snd X ≈ snd X0).
+    exact (fst H ≈ fst H0 ∧ snd H ≈ snd H0).
   - simpl.
     equivalence.
 Defined.
@@ -175,33 +175,33 @@ Qed.
 Next Obligation.
   construct.
   - construct.
-    + now destruct X.
+    + now destruct H.
     + proper.
   - construct.
-    + split; [ exact tt | assumption ].
+    + split; [ exact ttt | assumption ].
     + proper.
   - simpl.
     reflexivity.
   - simpl.
     destruct x0.
     simpl.
-    destruct u.
+    destruct p.
     split; reflexivity.
 Defined.
 Next Obligation.
   construct.
   - construct.
-    + now destruct X.
+    + now destruct H.
     + proper.
   - construct.
-    + split; [ assumption | exact tt ].
+    + split; [ assumption | exact ttt ].
     + proper.
   - simpl.
     reflexivity.
   - simpl.
     destruct x0.
     simpl.
-    destruct u.
+    destruct p.
     split; reflexivity.
 Defined.
 Next Obligation.

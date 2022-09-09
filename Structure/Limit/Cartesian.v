@@ -34,21 +34,21 @@ Proof.
     + proper.
       apply uniqueness; simpl; intros.
       destruct x2; simpl.
-      * rewrite X0.
+      * rewrite H.
         destruct (ump_limits _).
         apply (unique_property TwoDX).
-      * rewrite X1.
+      * rewrite H0.
         destruct (ump_limits _).
         apply (unique_property TwoDY).
     + simpl.
       destruct (ump_limits _); simpl in *.
       split; intros.
       * split.
-        ** rewrite X0.
+        ** rewrite H.
            apply (unique_property TwoDX).
-        ** rewrite X0.
+        ** rewrite H.
            apply (unique_property TwoDY).
-      * destruct X0.
+      * destruct H.
         symmetry.
         apply uniqueness; intros.
         destruct x0; auto.
@@ -73,7 +73,7 @@ Proof.
         ** now rewrite exr_fork.
       * intros.
         simpl in *.
-        rewrite <- !X0.
+        rewrite <- !H.
         rewrite fork_comp.
         rewrite fork_exl_exr.
         cat.

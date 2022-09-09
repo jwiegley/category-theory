@@ -78,7 +78,7 @@ Proof.
       {| obj     := eobj
        ; hom     := @ehom _ _ X
        ; homset  := @ehom _ _ X
-       ; id      := fun x => @eid _ _ X x tt
+       ; id      := fun x => @eid _ _ X x ttt
        ; compose := fun x y z f g => @ecompose _ _ X x y z (f, g) |}.
     + intros.
       proper.
@@ -90,11 +90,11 @@ Proof.
     + intros.
       destruct X.
       simpl in *.
-      now sapply (eid_left0 x y (tt, f)).
+      now sapply (eid_left0 x y (ttt, f)).
     + intros.
       destruct X.
       simpl in *.
-      now sapply (eid_right0 x y (f, tt)).
+      now sapply (eid_right0 x y (f, ttt)).
     + intros.
       destruct X.
       simpl in *.

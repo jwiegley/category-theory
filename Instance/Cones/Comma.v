@@ -15,12 +15,12 @@ Generalizable All Variables.
 Theorem Cones_to_Comma `(F : [J, C]) : Cones F ⟶ (Δ ↓ =(F)).
 Proof.
   functor; simpl; intros.
-  - exists (vertex_obj[X], ()).
+  - exists (vertex_obj[X], ttt).
     transform; simpl; intros.
     + apply vertex_map.
     + abstract (rewrite id_right; apply ump_cones).
     + abstract (rewrite id_right; symmetry; apply ump_cones).
-  - exists (`1 f, ()); abstract (simpl; intros; cat).
+  - exists (`1 f, ttt); abstract (simpl; intros; cat).
   - abstract proper.
   - abstract cat.
   - abstract cat.
@@ -56,8 +56,8 @@ Proof.
   - apply Cones_to_Comma.
   - apply Cones_from_Comma.
   - constructive.
-    + exists (id, ()); abstract cat.
-    + exists (id, ()); abstract cat.
+    + exists (id, ttt); abstract cat.
+    + exists (id, ttt); abstract cat.
     + abstract (simpl; cat).
     + abstract (simpl; cat).
     + abstract (simpl; cat).

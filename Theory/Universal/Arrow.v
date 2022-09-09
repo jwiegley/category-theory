@@ -28,7 +28,7 @@ Corollary ump_universal_arrows `(c ⟿ F) `(h : c ~> F d) :
   ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow.
 Proof.
   unfold arrow_obj, arrow; simpl.
-  destruct (@zero _ arrow_initial ((tt, d); h)), x.
+  destruct (@zero _ arrow_initial ((ttt, d); h)), x.
   simpl in *.
   rewrite id_right in e.
   exists h1.
@@ -36,8 +36,8 @@ Proof.
   - intros.
     rewrite <- id_right in e.
     rewrite <- id_right in X.
-    exact (snd (@zero_unique _ arrow_initial ((tt, d); h)
-                             ((tt, h1); e) ((tt, v); X))).
+    exact (snd (@zero_unique _ arrow_initial ((ttt, d); h)
+                             ((ttt, h1); e) ((ttt, v); X))).
 Qed.
 
 End UniversalArrow.

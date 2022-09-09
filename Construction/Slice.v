@@ -31,12 +31,28 @@ Program Instance Comma_Slice `(C : Category) `(c : C) :
   from := {| fobj := _; fmap := _ |}
 }.
 Next Obligation.
-  destruct u1, u0; simpl.
+  destruct p, p0; simpl.
   exists h.
   rewrites; cat.
 Defined.
-Next Obligation. constructive; simplify; simpl in *; cat. Qed.
-Next Obligation. constructive; simplify; simpl in *; cat. Qed.
+Next Obligation.
+  proper; simpl.
+  now destruct H0, H1, p; simpl.
+Qed.
+Next Obligation.
+  now destruct p.
+Qed.
+Next Obligation.
+  now destruct p, p0, p1, p2.
+Qed.
+Next Obligation.
+  constructive; simplify; simpl in *; cat.
+  - destruct H, H0; simpl; cat.
+  - destruct H, H0; cat.
+Qed.
+Next Obligation.
+  constructive; simplify; simpl in *; cat.
+Qed.
 
 Program Definition Coslice `(C : Category) `(c : C) : Category := {|
   obj     := ∃ a : C, c ~> a;
@@ -56,9 +72,25 @@ Program Instance Comma_Coslice `(C : Category) `(c : C) :
   from := {| fobj := _; fmap := _ |}
 }.
 Next Obligation.
-  destruct u1, u0.
-  exists h; simpl.
+  destruct p, p0; simpl.
+  exists h.
   rewrites; cat.
 Defined.
-Next Obligation. constructive; simplify; simpl in *; cat. Qed.
-Next Obligation. constructive; simplify; simpl in *; cat. Qed.
+Next Obligation.
+  proper; simpl.
+  now destruct x0, x1, p; simpl.
+Qed.
+Next Obligation.
+  now destruct p.
+Qed.
+Next Obligation.
+  now destruct p, p0, p1, p2.
+Qed.
+Next Obligation.
+  constructive; simplify; simpl in *; cat.
+  - destruct x0, x1; simpl; cat.
+  - destruct x0, x1; simpl; cat.
+Qed.
+Next Obligation.
+  constructive; simplify; simpl in *; cat.
+Qed.
