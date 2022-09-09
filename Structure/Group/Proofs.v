@@ -67,7 +67,7 @@ Proof.
   rewrite !comp_assoc.
   (* ... = y(xx⁻¹) *)
   rewrite <- right_inverse.
-  assert (mappend ∘ id ⨂ inverse[grp] ∘ ∆grp ∘ f ≈ mappend ∘ (id ⨂ inverse[grp] ∘ ∆grp ∘ f)) as R by cat;
+  assert (mappend ∘ id ⨂ inverse[grp] ∘ ∆grp ∘ f ≈ mappend ∘ (id ⨂ inverse[grp] ∘ ∆grp ∘ f)) as R  by (rewrite comp_assoc; cat);
     rewrite R; clear R.
   rewrite bimap_comp.
   rewrite !comp_assoc.

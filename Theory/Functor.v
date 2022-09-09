@@ -174,7 +174,7 @@ Program Definition Compose {C D E : Category}
 Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation. intros; rewrite !fmap_comp; reflexivity. Qed.
 
-#[export] Hint Unfold Compose : core.
+#[export] Hint Unfold Compose : categories.
 
 Notation "F ◯ G" := (Compose F%functor G%functor)
   (at level 40, left associativity) : category_scope.

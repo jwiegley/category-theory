@@ -29,6 +29,7 @@ Program Definition Hom `(C : Category) : C^op ∏ C ⟶ Sets := {|
   fmap := fun x y (f : x ~{C^op ∏ C}~> y) =>
             {| morphism := fun g => snd f ∘ g ∘ fst f |}
 |}.
+Next Obligation. now rewrite !comp_assoc. Qed.
 
 Program Definition Curried_Hom `(C : Category) : C^op ⟶ [C, Sets] := {|
   fobj := fun x => {|
@@ -77,7 +78,7 @@ Program Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := {|
 Next Obligation.
   simpl; intros.
   symmetry.
-  apply comp_assoc.
+  now rewrite !comp_assoc.
 Qed.
 
 Notation "[Hom ─ , A ]" := (@Curried_CoHom _ A) : functor_scope.
