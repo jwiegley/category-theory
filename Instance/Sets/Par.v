@@ -93,11 +93,11 @@ Next Obligation.
 Defined.
 Next Obligation.
   construct.
-  - destruct (f H) as [b|].
-    + destruct (g H) as [c|].
+  - destruct (f X) as [b|].
+    + destruct (g X) as [c|].
       * exact (Some (Datatypes.inr (Datatypes.inr (b, c)))).
       * exact (Some (Datatypes.inl b)).
-    + destruct (g H) as [c|].
+    + destruct (g X) as [c|].
       * exact (Some (Datatypes.inr (Datatypes.inl c))).
       * exact None.
   - proper.
@@ -113,7 +113,7 @@ Defined.
 Next Obligation.
   unfold Part_Cartesian_obligation_1.
   construct.
-  - destruct H.
+  - destruct X.
     + exact (Some c).
     + destruct s.
       * exact None.
@@ -128,7 +128,7 @@ Defined.
 Next Obligation.
   unfold Part_Cartesian_obligation_1.
   construct.
-  - destruct H.
+  - destruct X.
     + exact None.
     + destruct s.
       * exact (Some c).

@@ -35,10 +35,8 @@ Definition Product (C D : Category) : Category := {|
   compose := fun _ _ _ f g => (fst f ∘ fst g, snd f ∘ snd g);
 
   compose_respects := fun x y z f g fg h i hi =>
-    (compose_respects (fst x) (fst y) (fst z)
-                      (fst f) (fst g) (fst fg) (fst h) (fst i) (fst hi),
-     compose_respects (snd x) (snd y) (snd z)
-                      (snd f) (snd g) (snd fg) (snd h) (snd i) (snd hi));
+    (compose_respects (fst f) (fst g) (fst fg) (fst h) (fst i) (fst hi),
+     compose_respects (snd f) (snd g) (snd fg) (snd h) (snd i) (snd hi));
 
   id_left  := fun x y f =>
     (@id_left C (fst x) (fst y) (fst f),

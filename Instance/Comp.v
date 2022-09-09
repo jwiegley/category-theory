@@ -6,10 +6,9 @@ Require Import Category.Structure.Cartesian.
 
 Generalizable All Variables.
 
-(*** Most of what follows in this file was written by Andrej Bauer:
+(** Most of what follows in this file was written by Andrej Bauer:
 
-     https://gist.github.com/andrejbauer/3cc438ab38646516e5e9278fdb22022c
-*)
+    https://gist.github.com/andrejbauer/3cc438ab38646516e5e9278fdb22022c *)
 
 Module UniversalAlgebra.
 
@@ -134,7 +133,7 @@ Program Instance Algs : Category := {
 Next Obligation. proper. now rewrite H, H0. Qed.
 
 Program Instance Algs_Terminal : @Terminal Algs := {
-  terminal_obj := {| carrier := unit : Type; op := fun _ _ => tt |};
+  terminal_obj := {| carrier := unit; op := fun _ _ => tt |};
   one := fun x : OpAlgebra S => {| map := fun a => tt |}
 }.
 Next Obligation.
@@ -144,7 +143,7 @@ Qed.
 
 Program Instance Algs_Cartesian : @Cartesian Algs := {
   product_obj := fun x y => {|
-    carrier := x * y : Type;
+    carrier := x * y;
     op := fun o k => (op x o (fun a => fst (k a)),
                       op y o (fun a => snd (k a)))
   |};

@@ -6,7 +6,6 @@ Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Construction.Product.
 
 Generalizable All Variables.
-Set Transparent Obligations.
 
 Section Comma.
 
@@ -26,6 +25,7 @@ Context {T : B ⟶ C}.
    the notation originally used by Lawvere, which involved the comma
    punctuation mark." *)
 
+#[local] Set Transparent Obligations.
 #[local] Obligation Tactic := idtac.
 
 Program Definition Comma : Category := {|

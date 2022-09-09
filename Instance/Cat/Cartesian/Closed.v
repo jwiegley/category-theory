@@ -11,7 +11,8 @@ Require Import Category.Instance.Cat.Cartesian.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
-Set Transparent Obligations.
+
+#[local] Set Transparent Obligations.
 
 Definition pairing {A B : Type} (p : A * B) : p = (fst p, snd p) :=
   match p with (x, y) => eq_refl end.

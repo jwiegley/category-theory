@@ -8,7 +8,6 @@ Require Import Category.Structure.Monoidal.
 Require Import Category.Functor.Structure.Monoidal.
 
 Generalizable All Variables.
-Set Transparent Obligations.
 
 Section MonoidalFunctors.
 
@@ -22,6 +21,7 @@ Context {E : Category}.
 Context `{@Monoidal E}.
 Context {F : D ⟶ E}.
 
+#[local] Set Transparent Obligations.
 #[local] Obligation Tactic := program_simpl.
 
 (* Any two monoidal functors compose to create a monoidal functor. This is

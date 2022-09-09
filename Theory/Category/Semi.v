@@ -31,7 +31,7 @@ Definition to_Semigroupoid (C : Category) : Semigroupoid := {|
   semi_hom              := hom;
   semi_homset           := homset;
   semi_compose          := @compose C;
-  semi_compose_respects := compose_respects;
+  semi_compose_respects := @compose_respects C;
   semi_comp_assoc       := @comp_assoc C;
   semi_comp_assoc_sym   := @comp_assoc_sym C;
 |}.

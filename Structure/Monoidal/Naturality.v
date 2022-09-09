@@ -6,7 +6,6 @@ Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
 
 Generalizable All Variables.
-Set Transparent Obligations.
 
 Section MonoidalNaturality.
 
