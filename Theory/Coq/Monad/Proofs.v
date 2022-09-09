@@ -1,83 +1,74 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Monad.
+Require Import Category.Theory.Functor.
+Require Import Category.Functor.Applicative.
+Require Import Category.Monad.Distributive.
+Require Import Category.Monad.Compose.
 Require Import Category.Instance.Coq.
 Require Export Category.Theory.Coq.Applicative.Proofs.
 Require Export Category.Theory.Coq.Monad.
 
 Generalizable All Variables.
 
-(* jww (2022-09-07): TODO
-Class IsMonad_Distributes `{@IsMonad M MF MA MM MIF MIA} `{@IsApplicative N NF NA NIF}
-  `{@Monad_Distributes M MF MA MM N NF NA} := {
-  prod_fmap_fmap {A B : Coq} {f : A -> B} :
-    prod M N B ∘ fmap[N] (fmap[M ∘ N] f) = fmap[M ∘ N] f ∘ prod M N A;
-  prod_pure {A} :
-    prod M N A ∘ pure[N] = id;
-  prod_fmap_pure {A} :
-    prod M N A ∘ fmap[N] (pure[M ∘ N]) = pure[M];
-  prod_fmap_join_fmap_prod {A} :
-    prod M N A ∘ fmap[N] (join[M] ∘ fmap[M] (prod M N A))
-      = join[M] ∘ fmap[M] (prod M N A) ∘ prod M N (M (N A))
-}.
+Definition EndoMonad_Monad
+  `(H : EndoFunctor F)
+  `(A : @Functor.Applicative.Applicative _ _ (FromAFunctor H))
+  `(M : @Theory.Monad.Monad _ (FromAFunctor H)) :
+  Monad F (H:=H) (H0:=EndoApplicative_Applicative H A) :=
+  λ x y m f,
+    @Theory.Monad.join _ _ M y
+      (@Theory.Functor.fmap _ _ (FromAFunctor H) x (F y) f m).
 
-#[export]
-Program Instance Compose_MonadLaws `{IsMonad_Distributes M N} :
-  IsMonad (M ∘ N).
-Next Obligation.
-  unfold fmap, Compose_Functor.
-  unfold join, Compose_Monad.
-  rewrite comp_assoc.
-  rewrite <- comp_assoc with (f := join[M]).
-  rewrite <- comp_assoc with (f := join[M]).
-  rewrite comp_assoc with (f := fmap[M] (prod M N a)).
-  rewrite <- join_fmap_fmap.
-  rewrite <- comp_assoc.
-  rewrite comp_assoc with (f := join[M]).
-  rewrite comp_assoc with (f := join[M]).
-  rewrite <- join_fmap_join.
-  repeat (rewrite <- comp_assoc).
-  repeat (rewrite fmap_comp).
-  repeat (rewrite comp_assoc).
-  rewrite <- prod_fmap_join_fmap_prod.
-  reflexivity.
+Definition IsMonad
+  `(H : EndoFunctor F)
+  `(A : @Functor.Applicative.Applicative _ _ (FromAFunctor H))
+  `(@Monad F H (EndoApplicative_Applicative H A)) : Type :=
+  Theory.Monad.Monad (ToAFunctor H).
+
+Theorem Identity_IsMonad :
+  IsMonad Identity_IsFunctor Identity_IsApplicative Identity_Monad.
+Proof.
+  construct; auto.
 Qed.
-Next Obligation.
-  intros.
-  rewrite <- join_fmap_pure.
-  repeat (rewrite <- comp_assoc).
-  repeat (rewrite fmap_comp).
-  repeat f_equal.
-  pose proof (@prod_fmap_pure M N _ _ _ _ _ a).
-  simpl in H3.
-  rewrite H3.
-  reflexivity.
+
+Theorem arrow_IsMonad {x} :
+  IsMonad arrow_IsFunctor arrow_IsApplicative (arrow_Monad x).
+Proof.
+  unfold arrow_Monad, arrow.
+  construct; auto.
 Qed.
-Next Obligation.
-  intros.
-  rewrite <- prod_pure.
-  rewrite <- comp_id_left.
-  rewrite <- (@join_pure M _ _ (N a)).
-  rewrite <- comp_assoc.
-  rewrite <- comp_assoc.
-  f_equal.
-  rewrite comp_assoc.
-  rewrite comp_assoc.
-  f_equal.
-  rewrite <- fmap_pure.
-  reflexivity.
+
+Section Compose_Monad.
+
+(* If we have a monad [M] composed with an applicative [N], and we know that
+   they distribute as in [N (M (N a)) ~> M (N a)], then the composition is
+   also a monad. *)
+
+Context `(HF : EndoFunctor F).
+Context `(AF : @Functor.Applicative.Applicative _ _ (FromAFunctor HF)).
+Context `(MF : @Theory.Monad.Monad _ (FromAFunctor HF)).
+Context `(HG : EndoFunctor G).
+Context `(AG : @Functor.Applicative.Applicative _ _ (FromAFunctor HG)).
+
+(* This is the essential condition, as explained by Mark P. Jones and Luc
+   Duponcheel in their article "Composing monads", Research Report
+   YALEU/DCS/RR-1004, December 1993. *)
+Context `{D : @Monad_Distributive _ _ (FromAFunctor HF) _ (FromAFunctor HG) _ AG}.
+
+Definition EndoMonad_Distributes : Monad_Distributes F G :=
+  @Monad.Distributive.mprod _ _ (FromAFunctor HF) _ (FromAFunctor HG) _ AG _.
+
+Theorem Compose_IsMonad :
+  IsMonad
+    (Compose_IsFunctor HF HG)
+    (Compose_IsApplicative HF AF HG AG)
+    (@Compose_Monad
+       _ _ _ (EndoMonad_Monad HF AF MF)
+       _ _ (EndoApplicative_Applicative HG AG)
+       EndoMonad_Distributes).
+Proof.
+  exact (@Monad_Compose _ _ _ _ _ _ _ D).
 Qed.
-Next Obligation.
-  intros.
-  unfold comp at 2.
-  rewrite comp_assoc.
-  rewrite <- join_fmap_fmap.
-  rewrite <- comp_assoc.
-  rewrite fmap_comp.
-  pose proof (@prod_fmap_fmap M N _ _ _ _ _ a).
-  simpl in H3.
-  rewrite <- H3.
-  rewrite <- fmap_comp.
-  reflexivity.
-Qed.
-*)
+
+End Compose_Monad.

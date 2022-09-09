@@ -22,15 +22,17 @@ Context `{@StrongFunctor C _ N}.
 Context `{@LaxMonoidalFunctor C C _ _ N}.
 
 Class Monad_Distributive := {
-  prod {A} : N (M (N A)) ~> M (N A);
+  mprod {A} : N (M (N A)) ~> M (N A);
 
-  prod_fmap_fmap {A B} (f : A ~> B) :
-    @prod B ∘ fmap[N] (fmap[M ◯ N] f) ≈ fmap[M ◯ N] f ∘ @prod A;
-  prod_pure {A} : @prod A ∘ pure[N] ≈ id;
-  prod_fmap_pure {A} : @prod A ∘ fmap[N] (ret[M] ∘ pure[N]) ≈ ret[M];
-  prod_fmap_join_fmap_prod {A} :
-    @prod A ∘ fmap[N] (join[M] ∘ fmap[M] (@prod A))
-      ≈ join[M] ∘ fmap[M] (@prod A) ∘ @prod (M (N A))
+  mprod_fmap_fmap {A B} (f : A ~> B) :
+    @mprod B ∘ fmap[N] (fmap[M ◯ N] f) ≈ fmap[M ◯ N] f ∘ @mprod A;
+  mprod_pure {A} : @mprod A ∘ pure[N] ≈ id;
+  mprod_fmap_pure {A} : @mprod A ∘ fmap[N] (ret[M] ∘ pure[N]) ≈ ret[M];
+  mprod_fmap_join_fmap_mprod {A} :
+    @mprod A ∘ fmap[N] (join[M] ∘ fmap[M] (@mprod A))
+      ≈ join[M] ∘ fmap[M] (@mprod A) ∘ @mprod (M (N A))
 }.
 
 End MonadDistributive.
+
+Arguments Monad_Distributive {C _} M {_} N {_ _}.

@@ -10,7 +10,7 @@ Definition EndoFunctor := @AFunctor Coq Coq.
 
 (** Every lawful endofunctor on Coq is trivially an instance of
     [Category.Theory.Coq.Functor.Functor]. *)
-Program Definition EndoFunctor_Functor (F : Type → Type)
+Definition EndoFunctor_Functor (F : Type → Type)
   `(H : EndoFunctor F) : Functor F := {|
   fmap := λ _ _ f, fmap[H] f;
 |}.
@@ -23,7 +23,7 @@ Import FunctorNotations.
 
 (* We can define this instance by appealing to the general [Id] functor. All
    that is required is for the object and function mappings to coincide. *)
-Program Definition Identity_IsFunctor : IsFunctor Identity_Functor :=
+Definition Identity_IsFunctor : IsFunctor Identity_Functor :=
   ToAFunctor Id.
 
 Program Definition arrow_IsFunctor {x} : IsFunctor (arrow_Functor x) := {|

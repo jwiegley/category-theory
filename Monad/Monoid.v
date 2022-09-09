@@ -4,7 +4,7 @@ Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Theory.Monad.
 Require Import Category.Structure.Monoid.
-Require Import Category.Structure.Monoidal.Composition.
+Require Import Category.Structure.Monoidal.Compose.
 Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
@@ -20,7 +20,7 @@ Context {M : C ⟶ C}.
 Definition Endofunctors `(C : Category) := ([C, C]).
 
 Theorem Monoid_Monad :
-  @MonoidObject (Endofunctors C) Composition_Monoidal M ↔ Monad.
+  @MonoidObject (Endofunctors C) Compose_Monoidal M ↔ Monad M.
 Proof.
   split; intros m.
   - refine {| join := transform[mappend[m]]

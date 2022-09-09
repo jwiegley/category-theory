@@ -105,20 +105,19 @@ Instance arrow_Monad x : Monad (arrow x) := {
   bind := λ _ _ m f r, f (m r) r
 }.
 
-Class Monad_Distributes `{Monad M} `{Monad N} :=
+Class Monad_Distributes (M N : Type → Type) :=
   mprod : ∀ {x}, N (M (N x)) → M (N x).
 
-Arguments Monad_Distributes M {_ _ _} N {_ _ _}.
-Arguments mprod M {_ _ _} N {_ _ _ _ x} _.
+Arguments mprod M N {_ x} _.
 
 Import MonadNotations.
 
 Open Scope monad_scope.
 
 #[export]
-Instance Compose_Monad `{Monad_Distributes M N} : Monad (M ∘ N) := {
-  (* join := λ x, join[M] ∘ fmap[M] (mprod M N x) *)
-  bind := λ x y m f, m >>=[M] (mprod M N ∘ fmap[N] f)
+Instance Compose_Monad `{Monad M} `{Applicative N}
+  `{@Monad_Distributes M N} : Monad (M ∘ N) := {
+  bind := λ _ _ m f, m >>=[M] (mprod M N ∘ fmap[N] f)
 }.
 
 #[export]

@@ -28,12 +28,14 @@ Corollary pure_comp `{Applicative F} `{f : a → b} {x} :
   (pure[F] ∘ f)%prg x = pure (f x).
 Proof. reflexivity. Qed.
 
-Program Definition EndoApplicative_Applicative
+Definition EndoApplicative_Applicative
   `(H : EndoFunctor F)
   `(A : @Functor.Applicative.Applicative _ _ (FromAFunctor H)) :
   Applicative F (H:=H) := {|
-  pure := λ _ x,     @Pure.pure _ _ (FromAFunctor H) _ A _ x;
-  ap   := λ _ _ f x, @Functor.Applicative.ap _ _ (FromAFunctor H) A _ _ (f, x)
+  pure := λ _ x,
+    @Pure.pure _ _ (FromAFunctor H) _ A _ x;
+  ap   := λ _ _ f x,
+    @Functor.Applicative.ap _ _ (FromAFunctor H) A _ _ (f, x)
 |}.
 
 Definition IsApplicative `(H : EndoFunctor F) `(@Applicative F H) : Type :=

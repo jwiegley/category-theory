@@ -14,7 +14,7 @@ Generalizable All Variables.
 (* This reflects the fact that categories are themselves "monoidoids", or
    monoidal with respect to identity and composition.  *)
 
-Program Definition Composition_Monoidal {C : Category} :
+Program Definition Compose_Monoidal {C : Category} :
   @Monoidal ([C, C]) := {|
   tensor :=
     {| fobj := fun p => fst p ◯ snd p
