@@ -25,6 +25,8 @@ Class Monad := {
 
 End Monad.
 
+Arguments Monad {C} M.
+
 Notation "ret[ M ]" := (@ret _ M _ _)
   (at level 9, format "ret[ M ]") : category_scope.
 Notation "join[ M ]" := (@join _ M _ _)

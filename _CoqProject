@@ -113,7 +113,7 @@ Lib/TList.v
 Lib/Tactics.v
 Monad/Adjunction.v
 Monad/Algebra.v
-Monad/Composition.v
+Monad/Compose.v
 Monad/Distributive.v
 Monad/Eilenberg/Moore.v
 Monad/Kleisli.v
@@ -161,7 +161,7 @@ Structure/Monoidal/Cartesian.v
 Structure/Monoidal/Cartesian/Cartesian.v
 Structure/Monoidal/Cartesian/Proofs.v
 Structure/Monoidal/Closed.v
-Structure/Monoidal/Composition.v
+Structure/Monoidal/Compose.v
 Structure/Monoidal/Internal/Product.v
 Structure/Monoidal/Naturality.v
 Structure/Monoidal/Product.v
