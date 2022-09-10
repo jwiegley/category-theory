@@ -18,7 +18,7 @@ Program Instance Cayley : Category := {
   obj     := C;
   hom     := fun x y =>
     { f : ∀ r, (y ~> r) → (x ~> r)
-    & Proper (forall_relation (fun r => (equiv ==> equiv)%signature)) f ∧
+    & Proper (forall_relation (fun _ => respectful equiv equiv)) f ∧
       ∀ r k, f r k ≈ k ∘ f _ id[y] };
   homset  := fun x y => {| equiv := fun f g => ∀ r k, `1 f r k ≈ `1 g r k |};
   id      := fun _ => (fun _ => Datatypes.id; _);
