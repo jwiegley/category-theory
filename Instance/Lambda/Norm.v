@@ -1,5 +1,4 @@
 Require Import Category.Lib.
-Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ltac.
 Require Import Category.Instance.Lambda.Ty.
 Require Import Category.Instance.Lambda.Exp.
@@ -19,21 +18,19 @@ Generalizable All Variables.
 
 Section Norm.
 
-Import ListNotations.
-
 #[local] Hint Constructors ValueP Step : core.
 
 #[local] Hint Extern 7 (_ ---> _) => repeat econstructor : core.
 
-Definition normalizing `(R : relation X) : Prop :=
+Definition normalizing `(R : crelation X) : Type :=
   ∀ t, ∃ t', multi R t t' ∧ normal_form R t'.
 
-Definition halts {Γ τ} (e : Exp Γ τ) : Prop :=
+Definition halts {Γ τ} (e : Exp Γ τ) : Type :=
   ∃ e', e --->* e' ∧ ValueP e'.
 
 Notation " e '⇓' " := (halts e) (at level 11).
 
-Definition normal_form_of {Γ τ} (e e' : Exp Γ τ) : Prop :=
+Definition normal_form_of {Γ τ} (e e' : Exp Γ τ) : Type :=
   (e --->* e' ∧ normal_form Step e').
 
 Ltac normality :=
@@ -87,7 +84,7 @@ Proof.
     + destruct H1.
       * apply value_is_nf in H2.
         now edestruct H2; eauto.
-      * rewrite (Step_deterministic _ _ _ _ _ H H0).
+      * rewrite (Step_deterministic _ _ _ _ _ H s).
         now intuition eauto.
   - intros [e'0 [H1 H2]].
     + exists e'0.
@@ -95,10 +92,10 @@ Proof.
       now eapply multi_step; eauto.
 Qed.
 
-Definition SN {Γ τ} : Γ ⊢ τ → Prop := ExpP (@halts Γ).
+Definition SN {Γ τ} : Γ ⊢ τ → Type := ExpP (@halts Γ).
 Arguments SN {Γ τ} _ /.
 
-Definition SN_Sub {Γ Γ'} : Sub Γ' Γ → Prop := SubP (@halts Γ').
+Definition SN_Sub {Γ Γ'} : Sub Γ' Γ → Type := SubP (@halts Γ').
 Arguments SN_Sub {Γ Γ'} /.
 
 Definition SN_halts {Γ τ} {e : Γ ⊢ τ} : SN e → halts e := ExpP_P _.
@@ -110,15 +107,15 @@ Proof.
   induction τ; simpl in *;
   pose proof H as H2;
   apply step_preserves_halting in H2;
-  intuition eauto.
+  firstorder.
 Qed.
 
 Lemma multistep_preserves_SN {Γ τ} {e e' : Γ ⊢ τ} :
   (e --->* e') → SN e → SN e'.
 Proof.
   intros.
-  induction H; auto.
-  apply IHmulti.
+  induction X; auto.
+  apply IHX.
   now eapply step_preserves_SN; eauto.
 Qed.
 
@@ -129,14 +126,14 @@ Proof.
   induction τ; simpl in *;
   pose proof H as H2;
   apply step_preserves_halting in H2;
-  intuition eauto.
+  firstorder.
 Qed.
 
 Lemma multistep_preserves_SN' {Γ τ} {e e' : Γ ⊢ τ} :
   (e --->* e') → SN e' → SN e.
 Proof.
   intros.
-  induction H; auto.
+  induction X; auto.
   now eapply step_preserves_SN'; eauto.
 Qed.
 
@@ -148,15 +145,15 @@ Proof.
   induction e; intros; simpl.
   - now eexists; repeat constructor.
   - split.
-    + destruct (SN_halts (IHe1 env H)) as [v1 [P1 Q1]].
-      destruct (SN_halts (IHe2 env H)) as [v2 [P2 Q2]].
+    + destruct (SN_halts (IHe1 env X)) as [v1 [P1 Q1]].
+      destruct (SN_halts (IHe2 env X)) as [v2 [P2 Q2]].
       exists (Pair v1 v2).
       split.
       * now apply multistep_Pair.
       * now repeat constructor.
     + split.
-      * destruct (SN_halts (IHe1 env H)) as [v1 [P1 Q1]].
-        destruct (SN_halts (IHe2 env H)) as [v2 [P2 Q2]].
+      * destruct (SN_halts (IHe1 env X)) as [v1 [P1 Q1]].
+        destruct (SN_halts (IHe2 env X)) as [v2 [P2 Q2]].
         apply (multistep_preserves_SN' (e':=v1)); auto.
         ** rewrite (multistep_Fst1 (p':=Pair v1 v2)).
            *** now apply multi_R; eauto.
@@ -165,8 +162,8 @@ Proof.
                now apply multi_refl.
         ** apply (multistep_preserves_SN (e:=SubExp env e1));
            now intuition.
-      * destruct (SN_halts (IHe1 env H)) as [v1 [P1 Q1]].
-        destruct (SN_halts (IHe2 env H)) as [v2 [P2 Q2]].
+      * destruct (SN_halts (IHe1 env X)) as [v1 [P1 Q1]].
+        destruct (SN_halts (IHe2 env X)) as [v2 [P2 Q2]].
         apply (multistep_preserves_SN' (e':=v2)); auto.
         ** rewrite (multistep_Snd1 (p':=Pair v1 v2)).
            *** now apply multi_R; eauto.
@@ -179,12 +176,12 @@ Proof.
   - now apply IHe.
   - induction env.
     + now inv v.
-    + dependent elimination H.
+    + dependent elimination X.
       now dependent elimination v; simpl in *; simp SubVar.
   - split.
     + now eexists; repeat constructor.
     + intros.
-      destruct (SN_halts H0) as [v [P Q]].
+      destruct (SN_halts X0) as [v [P Q]].
       apply (multistep_preserves_SN' (e':=SubExp (Push v env) e)); auto.
       * eapply multi_trans; eauto.
         ** now eapply multistep_AppR; eauto.
@@ -196,18 +193,18 @@ Proof.
   - now apply IHe1, IHe2.
 Qed.
 
-Theorem Exp_SN {τ} (e : Exp [] τ) : SN e.
+Theorem Exp_SN {τ} (e : Exp nil τ) : SN e.
 Proof.
   intros.
-  replace e with (SubExp (Γ:=[]) NoSub e).
+  replace e with (SubExp (Γ:=nil) NoSub e).
   - apply SubExp_SN.
     now constructor.
   - now rewrite NoSub_idSub, SubExp_idSub.
 Qed.
 
-Corollary strong_normalization {τ} (e : Exp [] τ) : e ⇓.
+Corollary strong_normalization {τ} (e : Exp nil τ) : e ⇓.
 Proof.
-  pose proof (Exp_SN e) as H.
+  pose proof (Exp_SN e) as X.
   now apply SN_halts.
 Qed.
 

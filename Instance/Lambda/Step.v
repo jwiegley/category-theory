@@ -1,5 +1,6 @@
+Require Import Coq.Lists.List.
+
 Require Import Category.Lib.
-Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ltac.
 Require Import Category.Instance.Lambda.Ty.
 Require Import Category.Instance.Lambda.Exp.
@@ -24,7 +25,7 @@ Open Scope Ty_scope.
 
 Reserved Notation " t '--->' t' " (at level 40).
 
-Inductive Step : ∀ {Γ τ}, Exp Γ τ → Exp Γ τ → Prop :=
+Inductive Step : ∀ {Γ τ}, Exp Γ τ → Exp Γ τ → Type :=
   | ST_Pair1 Γ τ1 τ2 (x x' : Exp Γ τ1) (y : Exp Γ τ2) :
     x ---> x' →
     Pair x y ---> Pair x' y
@@ -134,12 +135,12 @@ Proof.
   dependent induction H; now eauto 6.
 Qed.
 
-(* Definition normal_form `(R : relation X) (t : X) : Prop := *)
+(* Definition normal_form `(R : crelation X) (t : X) : Type := *)
 (*   ¬ ∃ t', R t t'. *)
-Definition normal_form `(R : relation X) (t : X) : Prop :=
+Definition normal_form `(R : crelation X) (t : X) : Type :=
   ∀ t', ¬ R t t'.
 
-Definition deterministic `(R : relation X) : Prop :=
+Definition deterministic `(R : crelation X) : Type :=
   ∀ x y1 y2 : X, R x y1 → R x y2 → y1 = y2.
 
 Lemma value_is_nf {Γ τ} (v : Exp Γ τ) :
@@ -159,7 +160,7 @@ Proof.
     + now f_equal; intuition.
     + eapply Value_cannot_start in H5; eauto; tauto.
   - inv H.
-    + eapply Value_cannot_start in H4; eauto; tauto.
+    + eapply Value_cannot_start in H3; eauto; tauto.
     + now f_equal; intuition.
   - inv H.
     + now f_equal; intuition.
@@ -167,9 +168,9 @@ Proof.
       * eapply Value_cannot_start in H6; eauto; tauto.
       * eapply Value_cannot_start in H7; eauto; tauto.
   - inv H.
-    + inv H5.
-      * eapply Value_cannot_start in H3; eauto; tauto.
+    + inv H3.
       * eapply Value_cannot_start in H1; eauto; tauto.
+      * eapply Value_cannot_start in H7; eauto; tauto.
     + now f_equal; intuition.
   - inv H.
     + now f_equal; intuition.
@@ -177,20 +178,20 @@ Proof.
       * eapply Value_cannot_start in H6; eauto; tauto.
       * eapply Value_cannot_start in H7; eauto; tauto.
   - inv H.
-    + inv H5.
-      * eapply Value_cannot_start in H3; eauto; tauto.
+    + inv H3.
       * eapply Value_cannot_start in H1; eauto; tauto.
+      * eapply Value_cannot_start in H7; eauto; tauto.
     + now f_equal; intuition.
   - inv H; auto.
-    + now inv H4.
-    + eapply Value_cannot_start in H0; eauto; tauto.
+    + now inv H3.
+    + eapply Value_cannot_start in H7; eauto; tauto.
   - inv H.
     + now inv H0.
     + now f_equal; intuition.
     + now inv H0.
   - inv H.
-    + eapply Value_cannot_start in H5; eauto; tauto.
     + eapply Value_cannot_start in H0; eauto; tauto.
+    + eapply Value_cannot_start in H4; eauto; tauto.
     + now f_equal; intuition.
 Qed.
 

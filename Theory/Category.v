@@ -20,12 +20,6 @@ Reserved Infix "∘" (at level 40, left associativity).
   other category using only equality, with a functor from that category to
   this.
 
-  Note that the reason we do not split this into a more fundamental Category,
-  and then define a subclass QuotientCategory from it, is that Coq's type
-  theory does not allow us to define the underlying category of certain
-  quotient categories (for example, that of propositional relations) without
-  invoking the axioms of extensionality and/or proof irrelevance.
-
   Categories (as distinct from Category/~) are identified by [homset :=
   Morphism_equality]. *)
 

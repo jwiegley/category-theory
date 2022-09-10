@@ -1,5 +1,4 @@
 Require Import Category.Lib.
-Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Exp.
 Require Import Category.Instance.Lambda.Eval.
 
@@ -8,8 +7,6 @@ Set Equations With UIP.
 Generalizable All Variables.
 
 Section Example.
-
-Import ListNotations.
 
 Open Scope Ty_scope.
 

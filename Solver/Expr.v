@@ -5,7 +5,7 @@ From Equations Require Import Equations.
 Set Equations With UIP.
 
 Require Import Category.Lib.
-Require Import Category.Lib.IList.
+Require Import Category.Lib.IListVec.
 Require Import Category.Theory.Category.
 
 Generalizable All Variables.

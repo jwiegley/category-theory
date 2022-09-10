@@ -1,5 +1,3 @@
-#[export] Set Warnings "-notation-overridden".
-
 #[export] Set Primitive Projections.
 #[export] Set Universe Polymorphism.
 #[export] Set Uniform Inductive Parameters.

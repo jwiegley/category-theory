@@ -71,8 +71,6 @@ Instance/Lambda/Eval.v
 Instance/Lambda/Example.v
 Instance/Lambda/Exp.v
 Instance/Lambda/Full.v
-Instance/Lambda/IList.v
-Instance/Lambda/Lib.v
 Instance/Lambda/Log.v
 Instance/Lambda/Ltac.v
 Instance/Lambda/Multi.v
@@ -106,6 +104,7 @@ Lib/Datatypes.v
 Lib/FMapExt.v
 Lib/Foundation.v
 Lib/IList.v
+Lib/IListVec.v
 Lib/MapDecide.v
 Lib/NETList.v
 Lib/Setoid.v

@@ -2,6 +2,8 @@ Require Import Coq.NArith.NArith.
 Require Import Coq.FSets.FMaps.
 Require Import Coq.micromega.Lia.
 
+(* Override ++> notation with the crelation-based version. *)
+#[local] Set Warnings "-notation-overridden".
 Require Import Category.Lib.
 Require Import Category.Lib.FMapExt.
 

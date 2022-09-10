@@ -8,30 +8,6 @@ Generalizable All Variables.
 
 Reserved Infix "⟿" (at level 90, right associativity).
 
-(* The objects of a category are all of some `Type`.
-
-  Morphisms, or arrows, are also of type `Type`, but always in a universe
-  above objects. All of the library has `Universe Polymorphism` enabled,
-  allowing categories whose objects are categories, etc.
-
-  The morphisms identified by `A ~> B` form a hom-set, except that in this
-  library it is a hom-setoid, requiring the meaning of (computationally
-  relevant) equivalence between morphisms to be given. This makes it a
-  quotient category C/R over the equivalence relation R, but since this is
-  almost always needed (since equality is very restrictive in Coq's type
-  theory), we call it a [Category] here, and assume the existence of some
-  other category using only equality, with a functor from that category to
-  this.
-
-  Note that the reason we do not split this into a more fundamental Category,
-  and then define a subclass QuotientCategory from it, is that Coq's type
-  theory does not allow us to define the underlying category of certain
-  quotient categories (for example, that of propositional relations) without
-  invoking the axioms of extensionality and/or proof irrelevance.
-
-  Categories (as distinct from Category/~) are identified by [homset :=
-  Morphism_equality]. *)
-
 Class Enriched (K : Category) `{@Monoidal K} := {
   eobj : Type;
 

@@ -1,5 +1,6 @@
+Require Import Coq.Lists.List.
+
 Require Import Category.Lib.
-Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ty.
 
 From Equations Require Import Equations.

@@ -1,5 +1,4 @@
 Require Import Category.Lib.
-Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ltac.
 Require Import Category.Instance.Lambda.Ty.
 Require Import Category.Instance.Lambda.Exp.
@@ -15,14 +14,11 @@ Section Sound.
 
 Generalizable All Variables.
 
-Import ListNotations.
-
-Theorem soundness {Γ τ} {e : Exp Γ τ} {v} :
-  e ---> v → SemExp e = SemExp v.
+Theorem soundness {Γ τ} {e : Exp Γ τ} {v} {se} :
+  e ---> v → SemExp e se = SemExp v se.
 Proof.
   intros.
-  induction H; simpl; auto;
-  extensionality se.
+  induction H; simpl; auto.
   - now rewrite IHStep.
   - now rewrite IHStep.
   - now rewrite IHStep.
