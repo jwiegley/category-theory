@@ -11,22 +11,20 @@ Generalizable All Variables.
    `CartesianFunctor` that maps products to products and preserves all its
    structural properties and laws. *)
 
-Class Functor@{o1 h1 o2 h2 p}
-  {C : Category@{o1 h1 p}} {D : Category@{o2 h2 p}} := {
+Class Functor@{o1 h1 p1 o2 h2 p2}
+  {C : Category@{o1 h1 p1}} {D : Category@{o2 h2 p2}} := {
   fobj : C → D;
   fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y;
 
   fmap_respects : ∀ x y,
-    Proper (respectful equiv@{h1 p} equiv@{h2 p}) (@fmap x y);
+    Proper@{h2 p2} (respectful@{h1 p1 h2 p2 h2 p2}
+                      equiv@{h1 p1} equiv@{h2 p2}) (@fmap x y);
 
   fmap_id {x : C} : fmap (@id C x) ≈ id;
   fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :
     fmap (f ∘ g) ≈ fmap f ∘ fmap g
 }.
 #[export] Existing Instance fmap_respects.
-
-Set Printing Universes.
-Print Category.
 
 Declare Scope functor_scope.
 Declare Scope functor_type_scope.

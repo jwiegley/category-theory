@@ -4,23 +4,29 @@ Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 
-Record SetoidObject@{o p} := {
+Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := {
   carrier :> Type@{o};
   is_setoid :> Setoid@{o p} carrier
 }.
 
-Record SetoidMorphism@{o h p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
+Record SetoidMorphism@{o p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
   morphism :> x → y;
-  proper_morphism :> Proper@{h p} (respectful@{h p h p h p} equiv equiv) morphism
+  proper_morphism :> Proper@{o p} (respectful@{o p o p o p} equiv equiv) morphism
 }.
 
 Arguments SetoidMorphism {_} _ {_} _.
 Arguments morphism {_ _ _ _ _} _.
 
+Definition SetoidMorphism_equiv@{o h p1 p2} {x y : SetoidObject@{o p1}} :
+  crelation@{h p2} (SetoidMorphism@{o p1} x y) :=
+  fun f g => ∀ x, @equiv@{o p1} _ y (f x) (g x).
+
+Arguments SetoidMorphism_equiv {x y} _ _ /.
+
 #[export]
-Program Instance SetoidMorphism_Setoid {x y : SetoidObject} :
-  Setoid (SetoidMorphism x y) := {|
-  equiv := fun f g => ∀ x, @equiv _ y (f x) (g x)
+Program Instance SetoidMorphism_Setoid@{o h p1 p2} {x y : SetoidObject@{o p1}} :
+  Setoid@{h p2} (SetoidMorphism@{o p1} x y) := {|
+  equiv := SetoidMorphism_equiv@{o h p1 p2};
 |}.
 Next Obligation.
   constructor; repeat intro.
@@ -32,15 +38,16 @@ Next Obligation.
     + apply X0.
 Qed.
 
-Definition setoid_morphism_id {x : SetoidObject} : SetoidMorphism x x := {|
+Definition setoid_morphism_id@{o p} {x : SetoidObject@{o p}} :
+  SetoidMorphism@{o p} x x := {|
   morphism := Datatypes.id
 |}.
 
 #[export] Hint Unfold setoid_morphism_id : core.
 
-Program Definition setoid_morphism_compose {x y C : SetoidObject}
-        (g : SetoidMorphism y C)
-        (f : SetoidMorphism x y) : SetoidMorphism x C := {|
+Program Definition setoid_morphism_compose@{o p} {x y z : SetoidObject@{o p}}
+        (g : SetoidMorphism@{o p} y z)
+        (f : SetoidMorphism@{o p} x y) : SetoidMorphism@{o p} x z := {|
   morphism := Basics.compose g f
 |}.
 Next Obligation.
@@ -51,6 +58,17 @@ Next Obligation.
 Qed.
 
 #[export] Hint Unfold setoid_morphism_compose : core.
+
+Program Definition setoid_morphism_compose_respects@{o h p}
+  {x y z : SetoidObject@{o p}} :
+  Proper@{h p} (equiv@{h p} ==> equiv@{h p} ==> equiv@{h p})
+    (@setoid_morphism_compose x y z).
+Proof.
+  unfold Proper, respectful.
+  simpl; intros.
+  rewrite X.
+  apply proper_morphism, X0.
+Qed.
 
 Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
   {| carrier   := poly_unit@{t}
@@ -63,19 +81,15 @@ Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
       identity: typical identity of sets
    composition: composition of set maps, preserving equivalence
  *)
-Program Definition Sets : Category := {|
-  obj     := SetoidObject;
-  hom     := fun x y => SetoidMorphism x y;
-  homset  := @SetoidMorphism_Setoid;
-  id      := @setoid_morphism_id;
-  compose := @setoid_morphism_compose
+Program Definition Sets@{o so h sh p sp} : Category@{so sh sp} := {|
+  obj     := SetoidObject@{o p} : Type@{so};
+  hom     := λ x y, SetoidMorphism@{o p} x y : Type@{sh};
+  homset  := @SetoidMorphism_Setoid@{o h p sp};
+  id      := @setoid_morphism_id@{o p};
+  compose := @setoid_morphism_compose@{o p};
+
+  compose_respects := @setoid_morphism_compose_respects@{o h p}
 |}.
-Next Obligation.
-  proper.
-  unfold equiv in *; simpl in *; intros.
-  rewrite X.
-  apply proper_morphism, X0.
-Qed.
 
 Require Import Category.Theory.Isomorphism.
 

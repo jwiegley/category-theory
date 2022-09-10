@@ -40,6 +40,10 @@ Next Obligation.
   destruct z; intuition.
 Qed.
 Next Obligation.
+  proper.
+  destruct x2; intuition.
+Qed.
+Next Obligation.
   simplify; intuition;
   now match goal with
     [ H : ∀ _ : _ + _, _ ≈ _ |- _ ] => rewrite H
