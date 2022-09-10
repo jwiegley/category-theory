@@ -266,13 +266,9 @@ Proof.
     constructor.
 Qed.
 
-Inductive Surjective@{o p u} {A B : SetoidObject@{o p}}
-  (h : SetoidMorphism@{o p} A B) (b : B) : Type@{u} :=
-  | surj (a : A) : h a ≈ b → Surjective.
-
-Lemma surjectivity_is_epic {A B : SetoidObject}
+Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets}~> B) :
-  (∀ b, ∃ a, h a ≈ b)%type ↔ Epic h.
+  (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h.
 Proof.
   split.
   - intros HA.
@@ -297,7 +293,6 @@ Proof.
       |}.
       equivalence.
     }
-Abort.
 (*
     given (f : B ~{Sets}~> C). {
       refine {|
@@ -318,6 +313,5 @@ Abort.
     }
     intro.
     unfold f, g; simpl.
-Qed.
 *)
-
+Abort.
