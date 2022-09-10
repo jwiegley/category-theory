@@ -65,7 +65,8 @@ Definition Maybe_bind {X Y} (m : Maybe X) (f : X → Maybe Y) : Maybe Y :=
 
 #[export]
 Instance Maybe_Monad : Monad Maybe := {
-  bind := @Maybe_bind
+  ret := @Just;
+  bind := @Maybe_bind;
 }.
 
 Definition isJust {a} (x : Maybe a) := if x then true else false.
@@ -103,7 +104,7 @@ Program Instance Monoid_option `{Monoid a} : Monoid (Maybe a) := {
 
 #[export]
 Instance Maybe_Traversable : Traversable Maybe := {
-  sequence := λ _ _ _ _ x,
+  sequence := λ _ _ _ x,
     match x with
     | Nothing => pure Nothing
     | Just x  => fmap Just x

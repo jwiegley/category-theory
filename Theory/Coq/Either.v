@@ -67,5 +67,6 @@ Instance Either_Applicative {E} : Applicative (Either E) := {
 
 #[export]
 Instance Either_Monad {E} : Monad (Either E) := {
-  bind := @Either_bind E
+  ret := @Right E;
+  bind := @Either_bind E;
 }.

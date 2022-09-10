@@ -51,5 +51,6 @@ Instance Tuple_Applicative x `{Monoid x} : Applicative (Tuple x) := {
 
 #[export]
 Instance Tuple_Monad x `{Monoid x} : Monad (Tuple x) := {
+  ret := λ _ y, (mempty, y);
   bind := λ _ _ '(xm, m) f, let '(xx, x) := f m in (xm ⊗ xx, x)
 }.

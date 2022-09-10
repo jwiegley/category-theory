@@ -17,7 +17,7 @@ Generalizable All Variables.
 Import ApplicativeNotations.
 
 Corollary compose_ap  `{Applicative F} `{Applicative G} {x y} :
-  ap[F ∘ G]%prg = (ap[F] ∘ fmap[F] (@ap G _ _ x y))%prg.
+  ap[F ∘ G]%prg = (ap[F] ∘ fmap[F] (@ap G _ x y))%prg.
 Proof. reflexivity. Qed.
 
 Corollary ap_comp `{Applicative F} `{f : a → F (b → c)} {x} :
@@ -31,14 +31,14 @@ Proof. reflexivity. Qed.
 Definition EndoApplicative_Applicative
   `(H : EndoFunctor F)
   `(A : @Functor.Applicative.Applicative _ _ (FromAFunctor H)) :
-  Applicative F (H:=H) := {|
+  Applicative F := {|
   pure := λ _ x,
     @Pure.pure _ _ (FromAFunctor H) _ A _ x;
   ap   := λ _ _ f x,
     @Functor.Applicative.ap _ _ (FromAFunctor H) A _ _ (f, x)
 |}.
 
-Definition IsApplicative `(H : EndoFunctor F) `(@Applicative F H) : Type :=
+Definition IsApplicative `(H : EndoFunctor F) `(Applicative F) : Type :=
   Functor.Applicative.Applicative (ToAFunctor H).
 
 Theorem Identity_IsApplicative :
@@ -94,8 +94,8 @@ Theorem Compose_IsApplicative
   `(AG : @Functor.Applicative.Applicative _ _ (FromAFunctor HG)) :
   IsApplicative (Compose_IsFunctor HF HG)
     (@Compose_Applicative
-       F HF (EndoApplicative_Applicative HF AF)
-       G HG (EndoApplicative_Applicative HG AG)).
+       F (EndoApplicative_Applicative HF AF)
+       G (EndoApplicative_Applicative HG AG)).
 Proof.
   construct.
   - apply (@Compose_LaxMonoidalFunctor _ _ _ _ _ _ _ _ AF AG).
