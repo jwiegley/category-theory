@@ -190,12 +190,12 @@ Next Obligation.
   rewrite <- !SemExp_RenSem.
   repeat setoid_rewrite RenSem_skip1; simpl.
   rewrite !SemExp_wk.
-  apply H2.
+  eauto.
 Qed.
 Next Obligation.
   proper.
   rewrite !SemExp_wk; simpl.
-  now rewrite H2.
+  congruence.
 Qed.
 Next Obligation.
   extensionality z.
