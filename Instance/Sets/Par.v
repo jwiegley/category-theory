@@ -85,12 +85,8 @@ Arguments sum_setoid A B {_ _}.
 #[export]
 Program Instance Part_Cartesian : @Cartesian Part := {
   product_obj := fun x y =>
-    {| carrier := sum (carrier x) (sum (carrier y) (carrier x * carrier y)) |}
+    {| carrier := x + (y + (x * y)) |}
 }.
-Next Obligation.
-  destruct x, y.
-  proper.
-Defined.
 Next Obligation.
   construct.
   - destruct (f X) as [b|].
@@ -202,7 +198,7 @@ Proof.
   unfold to, from.
   destruct (f x).
   - f_equal.
-    (** Stuck proving False. *)
+  - (** Stuck proving False. *)
 Abort.
 
 Lemma to_from_impossible {a b c} :
@@ -227,8 +223,8 @@ Proof.
   extensionality x.
   unfold to, from.
   destruct x; simpl.
-    (** Stuck proving a fact we can't determine. *)
-  - admit.
+  - (** Stuck proving a fact we can't determine. *)
+    admit.
   - destruct s; simpl.
     + admit.
     + destruct p; auto.

@@ -15,16 +15,16 @@ Context {A : Type}.
 Context `{L : HostExprs A}.
 Context {Γ : Env}.
 
-Variable P : ∀ {τ}, Exp Γ τ → Prop.
+Variable P : ∀ {τ}, Exp Γ τ → Type.
 
 (** [ExpP] is a logical predicate that permits type-directed induction on
     expressions. *)
-Equations ExpP `(e : Exp Γ τ) : Prop :=
+Equations ExpP `(e : Exp Γ τ) : Type :=
   ExpP (τ:=_ ⟶ _) e := P e ∧ (∀ x, ExpP x → ExpP (APP e x));
   ExpP (τ:=_ × _) e := P e ∧ ExpP (Fst e) ∧ ExpP (Snd e);
   ExpP e := P e.
 
-Inductive SubP : ∀ {Γ'}, Sub Γ Γ' → Prop :=
+Inductive SubP : ∀ {Γ'}, Sub Γ Γ' → Type :=
   | NoSubP : SubP (NoSub (Γ:=Γ))
   | PushP {Γ' τ} (e : Exp Γ τ) (s : Sub Γ Γ') :
     ExpP e → SubP s → SubP (Push e s).
@@ -32,13 +32,13 @@ Inductive SubP : ∀ {Γ'}, Sub Γ Γ' → Prop :=
 Derive Signature for SubP.
 
 Lemma ExpP_P {τ} {e : Γ ⊢ τ} : ExpP e → P e.
-Proof. intros; induction τ; simpl in *; simp ExpP in H; now reduce. Qed.
+Proof. intros; induction τ; simpl in *; simp ExpP in X; now reduce. Qed.
 
-Variable R : ∀ {τ}, Exp Γ τ → Exp Γ τ → Prop.
+Variable R : ∀ {τ}, Exp Γ τ → Exp Γ τ → Type.
 
 (** [ExpR] is a logical predicate that permits type-directed induction on
     expressions. *)
-Equations ExpR {τ} (e1 e2 : Exp Γ τ) : Prop :=
+Equations ExpR {τ} (e1 e2 : Exp Γ τ) : Type :=
   ExpR (τ:=_ ⟶ _) f1 f2 :=
     R f1 f2 ∧ (∀ x1 x2, ExpR x1 x2 → ExpR (APP f1 x1) (APP f1 x2));
   ExpR (τ:=_ × _) e1 e2 :=
@@ -46,9 +46,9 @@ Equations ExpR {τ} (e1 e2 : Exp Γ τ) : Prop :=
   ExpR e1 e2 := R e1 e2.
 
 Lemma ExpR_R {τ} {e1 e2 : Γ ⊢ τ} : ExpR e1 e2 → R e1 e2.
-Proof. intros; induction τ; simpl in *; simp ExpR in H; now reduce. Qed.
+Proof. intros; induction τ; simpl in *; simp ExpR in X; now reduce. Qed.
 
-Inductive SubR : ∀ {Γ'}, Sub Γ Γ' → Prop :=
+Inductive SubR : ∀ {Γ'}, Sub Γ Γ' → Type :=
   | NoSubR : SubR (NoSub (Γ:=Γ))
   | PushR {Γ' τ} (e e' : Exp Γ τ) (s : Sub Γ Γ') :
     ExpR e e' → SubR s → SubR (Push e s).

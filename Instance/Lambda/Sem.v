@@ -1,6 +1,5 @@
 Require Import Category.Lib.
-Require Import Category.Instance.Lambda.IList.
-Require Import Category.Instance.Lambda.Lib.
+Require Import Category.Lib.IList.
 Require Import Category.Instance.Lambda.Ty.
 Require Import Category.Instance.Lambda.Exp.
 Require Import Category.Instance.Lambda.Ren.
@@ -12,8 +11,6 @@ Set Equations With UIP.
 Generalizable All Variables.
 
 Section Sem.
-
-Import ListNotations.
 
 Fixpoint SemTy (τ : Ty) : Type :=
   match τ with
@@ -35,7 +32,7 @@ Equations RenSem {Γ Γ'} (r : Ren Γ Γ') (se : SemEnv Γ) : SemEnv Γ' :=
   RenSem (Drop r) (_, se) := RenSem r se;
   RenSem (Keep r) (e, se) := (e, RenSem r se).
 
-Lemma RenSem_inil (r : Ren [] []) :
+Lemma RenSem_inil (r : Ren nil nil) :
   RenSem r () = ().
 Proof. now dependent destruction r. Qed.
 
@@ -94,7 +91,7 @@ Equations SubSem {Γ Γ'} (s : Sub Γ Γ') (se : SemEnv Γ) : SemEnv Γ' :=
   SubSem NoSub      _  := tt;
   SubSem (Push t σ) se := (SemExp t se, SubSem σ se).
 
-Lemma SubSem_inil (s : Sub [] []) :
+Lemma SubSem_inil (s : Sub nil nil) :
   SubSem s () = ().
 Proof. now dependent elimination s. Qed.
 

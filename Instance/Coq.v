@@ -3,7 +3,6 @@ Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Monad.
-Require Import Category.Theory.Morphisms.
 Require Import Category.Functor.Strong.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Initial.
@@ -95,54 +94,6 @@ Next Obligation.
   - split; intros;
     rewrite H; reflexivity.
   - destruct x0; firstorder.
-Qed.
-
-Lemma injectivity_is_monic `(f : x ~> y) :
-  (∀ x y, f x = f y → x = y) ↔ Monic f.
-Proof.
-  split.
-  - intros HA.
-    constructor.
-    autounfold in *; intros ??? HB.
-    simpl in *; intros.
-    apply HA, HB.
-  - intros HA ?? HB.
-    pose (λ (_ : unit), x0) as const_x.
-    pose (λ (_ : unit), y0) as const_y.
-    destruct HA.
-    specialize (monic unit const_x const_y).
-    unfold const_x in monic.
-    unfold const_y in monic.
-    eapply monic; eauto.
-    + simpl; intuition.
-    + exact tt.
-Qed.
-
-Lemma surjectivity_is_epic `(f : x ~> y) :
-  (∀ y, exists x, f x = y)%type ↔ Epic f.
-Proof.
-  split.
-  - intros HA.
-    constructor.
-    autounfold in *; intros ??? HB.
-    simpl in *; intros.
-    specialize (HA x0).
-    destruct HA as [? HA].
-    rewrite <- HA.
-    apply HB.
-  - intros HA ?.
-    destruct HA.
-    specialize epic with (z := Prop).
-    specialize epic with (g1 := λ y0, (exists x0, f x0 = y0)%type).
-    simpl in *.
-    specialize epic with (g2 := λ y, True).
-    erewrite epic.
-    + constructor.
-    + intros.
-      Axiom propositional_extensionality : ∀ P : Prop, P → P = True.
-      apply propositional_extensionality.
-      exists x0.
-      reflexivity.
 Qed.
 
 (** All endofunctors in Coq have strength *)

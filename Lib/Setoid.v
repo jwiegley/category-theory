@@ -15,18 +15,6 @@ Coercion setoid_equiv : Setoid >-> Equivalence.
 
 Notation "f ≈ g" := (equiv f g) (at level 79) : category_theory_scope.
 
-Delimit Scope signature_scope with signature.
-
-Notation "f ++> g" := (respectful f g)%signature
-  (right associativity, at level 55) : signature_scope.
-Notation "f ==> g" := (respectful f g)%signature
-  (right associativity, at level 55) : signature_scope.
-Notation "f --> g" := (respectful (Basics.flip f) g)%signature
-  (right associativity, at level 55) : signature_scope.
-
-Arguments Proper {A}%type R%signature m.
-Arguments respectful {A B}%type (R R')%signature _ _.
-
 Definition eq_equivalence@{t u} {A : Type@{t}} : @Equivalence@{t u} A (@eq A) :=
   @Build_Equivalence@{t u} A
     (@eq A) (@eq_Reflexive A)

@@ -84,5 +84,3 @@ End RelevanceMonoidal.
 
 Notation "∆ x" := (@diagonal _ _ x)
   (at level 9, format "∆ x") : morphism_scope.
-
-Infix "△" := fork (at level 28) : morphism_scope.

@@ -41,14 +41,14 @@ Coercion cartesian_is_semicartesian : CartesianMonoidal >-> SemicartesianMonoida
 Context `{CartesianMonoidal}.
 
 Definition first  {x y z : C} (f : x ~> y) : x ⨂ z ~> y ⨂ z :=
-  (f ∘ proj_left) △ proj_right.
+  fork (f ∘ proj_left) proj_right.
 
 Definition second  {x y z : C} (f : x ~> y) : z ⨂ x ~> z ⨂ y :=
-  proj_left △ (f ∘ proj_right).
+  fork proj_left (f ∘ proj_right).
 
 Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
   x ⨂ z ~> y ⨂ w :=
-  (f ∘ proj_left) △ (g ∘ proj_right).
+  fork (f ∘ proj_left) (g ∘ proj_right).
 
 #[export] Program Instance first_respects {a b c : C} :
   Proper (equiv ==> equiv) (@first a b c).

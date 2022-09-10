@@ -142,9 +142,8 @@ Next Obligation.
   - intros.
     transform; simpl.
     + intros.
-      morphism.
-      * intros.
-        exact (X ∘ X0).
+      construct.
+      * exact (X ∘ X0).
       * proper.
     + simpl; cat.
     + simpl; cat.
@@ -165,9 +164,8 @@ Next Obligation.
   - intros.
     transform; simpl.
     + intros.
-      morphism.
-      * intros.
-        exact (X0 ∘ X).
+      construct.
+      * exact (X0 ∘ X).
       * proper.
     + simpl; cat.
     + simpl; cat.

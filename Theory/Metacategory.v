@@ -1,10 +1,12 @@
-Require Import Category.Lib.
-Require Import Category.Theory.Category.
-
 Require Import Coq.Structures.DecidableTypeEx.
 Require Import Coq.FSets.FMapFacts.
 Require Import Category.Lib.FMapExt.
 Require Import Coq.Arith.PeanoNat.
+
+(* Override ++> notation with the crelation-based version. *)
+#[local] Set Warnings "-notation-overridden".
+Require Import Category.Lib.
+Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 

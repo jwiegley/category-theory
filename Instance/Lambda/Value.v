@@ -1,5 +1,6 @@
+Require Import Coq.Lists.List.
+
 Require Import Category.Lib.
-Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Exp.
 
 From Equations Require Import Equations.
@@ -15,7 +16,7 @@ Open Scope Ty_scope.
 
 (* [ValueP] is an inductive proposition that indicates whether an expression
    represents a value, i.e., that it does reduce any further. *)
-Inductive ValueP Γ : ∀ {τ}, Exp Γ τ → Prop :=
+Inductive ValueP Γ : ∀ {τ}, Exp Γ τ → Type :=
   | UnitP : ValueP EUnit
   | PairP {τ1 τ2} {x : Exp Γ τ1} {y : Exp Γ τ2} :
     ValueP x → ValueP y → ValueP (Pair x y)
@@ -46,15 +47,15 @@ Proof.
     now constructor.
   - right.
     intro.
-    dependent elimination H1.
+    dependent elimination H.
     contradiction.
   - right.
     intro.
-    dependent elimination H1.
+    dependent elimination H.
     contradiction.
   - right.
     intro.
-    dependent elimination H1.
+    dependent elimination H.
     contradiction.
 Qed.
 

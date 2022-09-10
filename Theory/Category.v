@@ -20,16 +20,10 @@ Reserved Infix "∘" (at level 40, left associativity).
   other category using only equality, with a functor from that category to
   this.
 
-  Note that the reason we do not split this into a more fundamental Category,
-  and then define a subclass QuotientCategory from it, is that Coq's type
-  theory does not allow us to define the underlying category of certain
-  quotient categories (for example, that of propositional relations) without
-  invoking the axioms of extensionality and/or proof irrelevance.
-
   Categories (as distinct from Category/~) are identified by [homset :=
   Morphism_equality]. *)
 
-Class Category@{o h p} := {
+Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := {
   obj : Type@{o};
 
   uhom := Type@{h} : Type@{h+1};
@@ -157,8 +151,9 @@ Open Scope object_scope.
 Open Scope homset_scope.
 Open Scope morphism_scope.
 
-Program Definition Morphism_equality {ob : Type} {hom : ob → ob → Type}
-        (x y : ob) : Setoid (hom x y) := {|
+Program Definition Morphism_equality@{o h p}
+  {ob : Type@{o}} {hom : ob → ob → Type@{h}}
+  (x y : ob) : Setoid@{h p} (hom x y) := {|
   equiv := eq
 |}.
 Arguments Morphism_equality {_ _} _ _ /.

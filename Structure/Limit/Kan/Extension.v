@@ -14,14 +14,14 @@ Require Import Category.Instance.Sets.
 Generalizable All Variables.
 
 Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} :
-  Lim ≅ Ran (Erase J) F ().
+  Lim ≅ Ran (Erase J) F ttt.
 Proof.
   given (cone : Cone F). {
     pose (from ((@adj _ _ _ _ ran_adjoint
                       (Ran (Erase J) F) F)) nat_id) as adj_from;
     simpl in adj_from.
 
-    unshelve (refine {| vertex_obj := Ran (Erase J) F tt |}).
+    unshelve (refine {| vertex_obj := Ran (Erase J) F ttt |}).
     - apply adj_from.
     - abstract (intros; rewrite (naturality[adj_from]); simpl; cat).
   }
@@ -36,11 +36,11 @@ Proof.
   pose (to (@adj _ _ _ _ ran_adjoint (Δ(Lim)) F) nat)
     as adj_to; simpl in adj_to.
 
-  assert (to_from : adj_to () ∘ unique_obj (ump_limits cone) ≈ id). {
+  assert (to_from : adj_to ttt ∘ unique_obj (ump_limits cone) ≈ id). {
     simpl.
     spose (iso_to_from
              ((@adj _ _ _ _ ran_adjoint
-                    (Ran (Erase J) F) F)) nat_id tt) as X.
+                    (Ran (Erase J) F) F)) nat_id ttt) as X.
     rewrite fmap_id in X.
     rewrites.
     unfold adj_to; simpl.
@@ -49,13 +49,15 @@ Proof.
       transform; simpl; intros.
       - destruct x.
         apply (unique_obj (ump_limits cone)).
-      - abstract cat.
-      - abstract cat.
+      - destruct x, y, f; simpl.
+        abstract cat.
+      - destruct x, y, f; simpl.
+        abstract cat.
     }
 
     spose (@to_adj_nat_l _ _ _ _ ran_adjoint
                          (Ran (Erase J) F) (Δ(Lim))
-                         F nat from_ran tt) as X0.
+                         F nat from_ran ttt) as X0.
     rewrites.
 
     assert (∀ f g, f ≈ g
@@ -68,7 +70,7 @@ Proof.
     - rewrite <- X0.
       apply X; simpl.
       apply (unique_property (ump_limits cone)).
-    - intros; reflexivity.
+    - simpl; reflexivity.
   }
 
   isomorphism; simpl.
@@ -77,7 +79,7 @@ Proof.
   - apply to_from.
   - simpl in *.
     (* Since half of the isomorphism has already been proven in [to_from], it
-       is sufficient to show that either [(adj nat) ()] is monic, or
+       is sufficient to show that either [(adj nat) ttt] is monic, or
        [unique_morphism (ump_limits cone)] is epic. I've chosen the latter due
        to Emily Riehl's statement in "Category Theory in Context" (p. 76):
        "... Proposition 3.1.7 implies that the only automorphism of [a limit

@@ -13,7 +13,7 @@ Generalizable All Variables.
 
 #[local] Obligation Tactic := cat_simpl.
 
-Inductive Obj : Type :=
+Inductive Obj : Set :=
   | One_    : Obj
   | Prod_   : Obj → Obj → Obj
   | Exp_    : Obj → Obj → Obj
@@ -35,8 +35,7 @@ Fixpoint denote `(o : Obj) :
   | Coprod_ x y => denote x + denote y
   end.
 
-(* jww (2017-06-21): This describes the morphisms of a magmoid. *)
-Inductive Hom : Obj → Obj → Type :=
+Inductive Hom : Obj → Obj → Set :=
   | Id      : ∀ {a}, Hom a a
   | Compose : ∀ {a b c}, Hom b c → Hom a b → Hom a c
 
@@ -169,43 +168,3 @@ Program Instance interp_proper {x y : Obj}
   Proper (@equiv _ (@homset AST x y) ==>
                      @equiv _ (@homset C _ _))
          (fun f => @interp x y f C A _ _ _ _).
-
-Require Import Category.Functor.Structure.Terminal.
-Require Import Category.Functor.Structure.Cartesian.
-Require Import Category.Functor.Structure.Cartesian.Closed.
-
-Section AST.
-
-Context {C : Category}.
-Context {A : @Cartesian C}.
-Context `{@Closed C A}.
-Context `{@Cocartesian C}.
-Context `{@Terminal C}.
-Context `{@Initial C}.
-
-#[export] Program Instance AST_Functor : AST ⟶ C := {
-  fobj := λ x, denote x;
-  fmap := λ _ _ f, interp f
-}.
-
-Program Definition Hom_TerminalFunctor : TerminalFunctor := {|
-  fobj_one_iso := _
-|}.
-
-#[local] Program Instance Hom_CartesianFunctor : CartesianFunctor := {
-  fobj_prod_iso := _
-}.
-
-Program Definition Hom_ClosedFunctor : ClosedFunctor := {|
-  fobj_exp_iso := _
-|}.
-
-Program Definition Hom_InitialFunctor : InitialFunctor AST_Functor := {|
-  fobj_one_iso := _
-|}.
-
-Program Definition Hom_CocartesianFunctor : CocartesianFunctor AST_Functor := {|
-  fobj_prod_iso := _
-|}.
-
-End AST.

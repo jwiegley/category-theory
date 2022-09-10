@@ -6,13 +6,19 @@ Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 
-Program Definition _1 : Category := {|
-  obj     := unit;
-  hom     := fun _ _ => unit;
-  homset  := Morphism_equality;
-  id      := fun _ => tt;
-  compose := fun _ _ _ _ _ => tt
+Program Definition _1@{o h p} : Category@{o h p} := {|
+  obj     := poly_unit@{o};
+  hom     := fun _ _ => poly_unit@{h};
+  homset  := Morphism_equality@{o h p};
+  id      := fun _ => ttt;
+  compose := fun _ _ _ _ _ => ttt
 |}.
+Next Obligation.
+  now destruct f.
+Qed.
+Next Obligation.
+  now destruct f.
+Qed.
 
 Notation "1" := _1 : category_scope.
 
@@ -21,7 +27,7 @@ Notation "one[ C ]" := (@one Cat _ C)
 
 #[export]
 Program Instance Erase `(C : Category) : C ⟶ 1 := {
-  fobj := fun _ => ();
+  fobj := fun _ => ttt;
   fmap := fun _ _ _ => id
 }.
 
@@ -31,6 +37,6 @@ Program Instance Cat_Terminal : @Terminal Cat := {
   one := Erase
 }.
 Next Obligation.
-  constructive; auto; try exact tt.
+  constructive; auto; try exact ttt.
   destruct (fmap[f] f0); auto.
 Qed.

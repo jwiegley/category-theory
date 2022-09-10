@@ -6,7 +6,8 @@ Generalizable All Variables.
 
 Section Isomorphism.
 
-Context {C : Category}.
+Universes o h p.
+Context {C : Category@{o h p}}.
 
 (* This defines what it means for two objects in a category to be
    "isomorphic". This requires both witnesses to the isomoprhism, and proof

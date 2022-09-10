@@ -1,5 +1,6 @@
+Require Import Coq.Lists.List.
+
 Require Import Category.Lib.
-Require Import Category.Instance.Lambda.Lib.
 Require Import Category.Instance.Lambda.Ltac.
 Require Import Category.Instance.Lambda.Ty.
 Require Import Category.Instance.Lambda.Exp.
@@ -64,7 +65,7 @@ Theorem Ctxt_comp_assoc {Γ τ τ' τ'' τ'''}
   Ctxt_comp C (Ctxt_comp C' C'') = Ctxt_comp (Ctxt_comp C C') C''.
 Proof. induction C; simpl; auto; now f_equal. Qed.
 
-Inductive Redex {Γ} : ∀ {τ}, Exp Γ τ → Exp Γ τ → Prop :=
+Inductive Redex {Γ} : ∀ {τ}, Exp Γ τ → Exp Γ τ → Type :=
   | R_Beta {dom cod} (e : Exp (dom :: Γ) cod) v :
     ValueP v →
     Redex (APP (LAM e) v) (SubExp {|| v ||} e)
@@ -81,7 +82,7 @@ Derive Signature for Redex.
 
 Unset Elimination Schemes.
 
-Inductive Plug {Γ τ'} (e : Exp Γ τ') : ∀ {τ}, Ctxt Γ τ' τ → Exp Γ τ → Prop :=
+Inductive Plug {Γ τ'} (e : Exp Γ τ') : ∀ {τ}, Ctxt Γ τ' τ → Exp Γ τ → Type :=
   | Plug_Hole : Plug (C_Nil _) e
 
   | Plug_PairL {τ1 τ2} {C : Ctxt Γ τ' τ1} {e' : Exp Γ τ1} {e2 : Exp Γ τ2} :
@@ -116,7 +117,7 @@ Derive Signature for Plug.
 
 Set Elimination Schemes.
 
-Scheme Plug_ind := Induction for Plug Sort Prop.
+Scheme Plug_ind := Induction for Plug Sort Type.
 
 (* [Plug] forms a category with objects = expressions and morphisms = plugs
    over existential contexts. *)
@@ -146,7 +147,7 @@ Theorem Plug_id_left {Γ τ τ'} {C : Ctxt Γ τ' τ} {x : Exp Γ τ'} {y : Exp 
   Plug_comp Plug_id P ~= P.
 *)
 
-Inductive Step {Γ τ} : Exp Γ τ → Exp Γ τ → Prop :=
+Inductive Step {Γ τ} : Exp Γ τ → Exp Γ τ → Type :=
   | StepRule {τ'} {C : Ctxt Γ τ' τ} {e1 e2 : Exp Γ τ'} {e1' e2' : Exp Γ τ} :
     Plug e1 C e1' →
     Plug e2 C e2' →
@@ -263,10 +264,10 @@ Proof.
   dependent induction H; now eauto 6.
 Qed.
 
-Definition normal_form `(R : relation X) (t : X) : Prop :=
+Definition normal_form `(R : crelation X) (t : X) : Type :=
   ∀ t', ¬ R t t'.
 
-Definition deterministic `(R : relation X) : Prop :=
+Definition deterministic `(R : crelation X) : Type :=
   ∀ x y1 y2 : X, R x y1 → R x y2 → y1 = y2.
 
 (*

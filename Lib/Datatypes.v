@@ -172,7 +172,7 @@ Program Instance inr_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@inr A B).
 
 #[global]
-Polymorphic Program Instance option_setoid `{Setoid A} : Setoid (option A) := {
+Program Instance option_setoid `{Setoid A} : Setoid (option A) := {
   equiv := fun x y => match x, y with
     | Some x, Some y => x ≈ y
     | None, None => True
@@ -220,7 +220,7 @@ Next Obligation.
 Qed.
 
 #[global]
-Polymorphic Program Instance list_setoid `{Setoid A} : Setoid (list A) := {
+Program Instance list_setoid `{Setoid A} : Setoid (list A) := {
   equiv := list_equiv
 }.
 
@@ -240,7 +240,7 @@ Next Obligation.
   - simplify; auto.
 Qed.
 
-Lemma length_remove A (A_eq_dec : ∀ x y : A, x = y ∨ x ≠ y) x xs :
+Lemma length_remove A (A_eq_dec : ∀ x y : A, { x = y } + { x ≠ y }) x xs :
   (length (remove A_eq_dec x xs) <= length xs)%nat.
 Proof.
   induction xs; auto.

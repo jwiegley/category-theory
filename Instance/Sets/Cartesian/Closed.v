@@ -35,7 +35,7 @@ Qed.
 Next Obligation.
   proper; simpl in *.
   destruct f; simpl in *.
-  unfold Proper, respectful in proper_morphism.
+  unfold Proper, respectful, SetoidMorphism_equiv in proper_morphism.
   rewrite (proper_morphism _ _ X).
   destruct (morphism y).
   apply proper_morphism0; assumption.

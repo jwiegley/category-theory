@@ -736,19 +736,109 @@ Proof.
       * assumption.
 Qed.
 
+#[export]
+Program Instance Permutation_Equivalence {A} : Equivalence (@Permutation A).
+Next Obligation. now apply (@Permutation_sym A). Qed.
+Next Obligation. now eapply (@Permutation_trans A); eauto. Qed.
+
+#[export]
+Program Instance Permutation_insert_mor {A} :
+  Proper ((@eq A ==> @eq A ==> @eq bool)
+            ==> @eq A
+            ==> @Permutation A
+            ==> @Permutation A) (@insert A).
+Next Obligation.
+  generalize dependent y.
+  generalize dependent x.
+  induction H; subst;
+  unfold insert; simpl; intros; fold @insert.
+  - constructor; trivial.
+  - rewrite (X _ _ eq_refl _ _ eq_refl).
+    destruct (y x x0); simpl.
+    + constructor.
+      apply IHPermutation; trivial.
+    + constructor; constructor.
+      exact H.
+  - rewrite !(X _ _ eq_refl _ _ eq_refl).
+    destruct (y0 y x0);
+    destruct (y0 x x0); simpl.
+    + rewrite perm_swap.
+      constructor.
+      constructor.
+      induction l; simpl;
+      unfold insert; simpl; intros; fold @insert.
+      * constructor; constructor.
+      * rewrite (X _ _ eq_refl _ _ eq_refl).
+        destruct (y0 a x0); simpl.
+        ** constructor.
+           exact IHl.
+        ** reflexivity.
+    + rewrite perm_swap.
+      constructor.
+      rewrite perm_swap.
+      reflexivity.
+    + symmetry.
+      rewrite perm_swap.
+      constructor.
+      rewrite perm_swap.
+      reflexivity.
+    + constructor.
+      rewrite perm_swap.
+      reflexivity.
+  - rewrite IHPermutation1.
+    + apply IHPermutation2.
+      apply X.
+    + reflexivity.
+Qed.
+
+#[export]
+Program Instance Permutation_Forall_mor {A} :
+  Proper ((@eq A ==> @eq Prop)
+            ==> @Permutation A
+            ==> iff) (@Forall A).
+Next Obligation.
+  split; intros.
+  - apply Forall_impl with (P:=x).
+    + intros z H1.
+      rewrite (X z z eq_refl) in H1.
+      assumption.
+    + induction H; simpl; trivial.
+      * constructor.
+        ** inversion H0; subst; trivial.
+        ** apply IHPermutation.
+          inversion H0; trivial.
+      * inversion H0; subst.
+        inversion H3; subst.
+        intuition.
+      * intuition.
+  - apply List.Forall_impl with (P:=y).
+    + intros z H2.
+      rewrite (X z z eq_refl).
+      assumption.
+    + induction H; simpl; trivial.
+      * constructor.
+        ** inversion H0; subst; trivial.
+        ** apply IHPermutation.
+           inversion H0; trivial.
+      * inversion H0; subst.
+        inversion H3; subst.
+        intuition.
+      * intuition.
+Qed.
+
 Lemma Permutation_insert : forall A (a : A) R xs ys,
   Permutation xs ys → Permutation (insert R a xs) (a :: ys).
 Proof.
   intros.
-  rewrite H; clear H.
-  induction ys; intros; simpl.
+  rewrite <- H; clear H.
+  induction xs; intros; simpl.
   - constructor; trivial.
   - unfold insert.
     destruct (R a0 a) eqn:Heqe;
     fold@insert.
     + rewrite perm_swap.
       constructor.
-      exact IHys.
+      exact IHxs.
     + reflexivity.
 Qed.
 
