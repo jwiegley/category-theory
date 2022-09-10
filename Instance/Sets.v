@@ -17,16 +17,16 @@ Record SetoidMorphism@{o p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
 Arguments SetoidMorphism {_} _ {_} _.
 Arguments morphism {_ _ _ _ _} _.
 
-Definition SetoidMorphism_equiv@{o h p1 p2} {x y : SetoidObject@{o p1}} :
-  crelation@{h p2} (SetoidMorphism@{o p1} x y) :=
-  fun f g => ∀ x, @equiv@{o p1} _ y (f x) (g x).
+Definition SetoidMorphism_equiv@{o h p} {x y : SetoidObject@{o p}} :
+  crelation@{h p} (SetoidMorphism@{o p} x y) :=
+  fun f g => ∀ x, @equiv@{o p} _ y (f x) (g x).
 
 Arguments SetoidMorphism_equiv {x y} _ _ /.
 
 #[export]
-Program Instance SetoidMorphism_Setoid@{o h p1 p2} {x y : SetoidObject@{o p1}} :
-  Setoid@{h p2} (SetoidMorphism@{o p1} x y) := {|
-  equiv := SetoidMorphism_equiv@{o h p1 p2};
+Program Instance SetoidMorphism_Setoid@{o h p} {x y : SetoidObject@{o p}} :
+  Setoid@{h p} (SetoidMorphism@{o p} x y) := {|
+  equiv := SetoidMorphism_equiv@{o h p};
 |}.
 Next Obligation.
   constructor; repeat intro.
@@ -81,10 +81,10 @@ Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
       identity: typical identity of sets
    composition: composition of set maps, preserving equivalence
  *)
-Program Definition Sets@{o so h sh p sp} : Category@{so sh sp} := {|
+Program Definition Sets@{o h so sh p} : Category@{so sh p} := {|
   obj     := SetoidObject@{o p} : Type@{so};
   hom     := λ x y, SetoidMorphism@{o p} x y : Type@{sh};
-  homset  := @SetoidMorphism_Setoid@{o h p sp};
+  homset  := @SetoidMorphism_Setoid@{o h p};
   id      := @setoid_morphism_id@{o p};
   compose := @setoid_morphism_compose@{o p};
 

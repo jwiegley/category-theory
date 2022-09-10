@@ -29,7 +29,7 @@ Reserved Infix "∘" (at level 40, left associativity).
   Categories (as distinct from Category/~) are identified by [homset :=
   Morphism_equality]. *)
 
-Class Category@{o h p} := {
+Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := {
   obj : Type@{o};
 
   uhom := Type@{h} : Type@{h+1};
