@@ -173,6 +173,7 @@ Structure/Monoidal/Semicartesian/Terminal.v
 Structure/Monoidal/Semicocartesian.v
 Structure/Monoidal/Symmetric.v
 Structure/Monoidal/Traced.v
+Structure/Premonoidal.v
 Structure/Pullback.v
 Structure/Pullback/Limit.v
 Structure/Span.v
