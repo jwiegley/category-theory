@@ -102,12 +102,13 @@ Proof.
   pose proof (σ E).
   destruct X as [X _].
   specialize (X x); simpl in X.
-  unfold equiv_iso, η, κ, θ, φ in *; simpl in *.
+  unfold equiv_iso, η, κ, θ, φ in *.
   destruct (iso_from_to (lawvere_iso E)), (projG E), (projF E).
-  simpl in *.
   destruct X; split.
-  - rewrite <- e2; cat.
-  - rewrite <- e3; cat.
+  - simpl in e2 |- *.
+    rewrite <- e2; cat.
+  - simpl in e3 |- *.
+    rewrite <- e3; cat.
 Qed.
 
 Lemma μ_κ_θ : ∀ x, `1 (μ E x) ≈ κ E (ψ E x) ∘ θ E x.
@@ -116,12 +117,13 @@ Proof.
   pose proof (σ E).
   destruct X as [_ X].
   specialize (X x); simpl in X.
-  unfold equiv_iso, μ, κ, θ, ψ in *; simpl in *.
+  unfold equiv_iso, μ, κ, θ, ψ in *.
   destruct (iso_to_from (lawvere_iso E)), (projG E), (projF E).
-  simpl in *.
   destruct X; split.
-  - rewrite <- e2; cat.
-  - rewrite <- e3; cat.
+  - simpl in e2 |- *.
+    rewrite <- e2; cat.
+  - simpl in e3 |- *.
+    rewrite <- e3; cat.
 Qed.
 
 Theorem ψ_φ_equiv :
@@ -132,7 +134,7 @@ Theorem ψ_φ_equiv :
          ∘ fmap[F] (fst (to (κ E x)))
          ≈ `2 x.
 Proof.
-  intros [[a b] f]; simpl in f; simpl.
+  intros [[a b] f]; simpl in f |- *.
   rewrite (snd_comp _ _ _ (κ E ((a, b); f))⁻¹ (θ E (φ E _))⁻¹).
   rewrite <- !comp_assoc.
   rewrite <- fmap_comp.
@@ -140,11 +142,11 @@ Proof.
   rewrite <- η_θ_κ.
   rewrite (`2 (η E ((a, b); f))).
   rewrite η_θ_κ.
-  rewrite !comp_assoc.
+  rewrite comp_assoc.
   rewrite (snd_comp _ _ _
              ((κ E _)⁻¹ ∘ (θ E (φ E _))⁻¹)
              (θ E (φ E _) ∘ κ E ((a, b); f))).
-  rewrite <- !comp_assoc.
+  rewrite <- comp_assoc.
   rewrite (comp_assoc (θ E (φ E ((a, b); f)))⁻¹ _).
   rewrite iso_from_to, id_left.
   now rewrite iso_from_to; cat.
@@ -158,7 +160,7 @@ Theorem φ_ψ_equiv :
          ∘ fst (to (θ E x))
          ≈ `2 x.
 Proof.
-  intros [[a b] f]; simpl in f; simpl.
+  intros [[a b] f]; simpl in f |- *.
   rewrite <- fmap_comp.
   rewrite (snd_comp _ _ _ (θ E ((a, b); f))⁻¹ (κ E (ψ E _))⁻¹).
   rewrite <- !comp_assoc.
@@ -166,12 +168,12 @@ Proof.
   rewrite <- μ_κ_θ.
   rewrite (`2 (μ E ((a, b); f))).
   rewrite μ_κ_θ.
-  rewrite !comp_assoc.
+  rewrite comp_assoc.
   rewrite <- fmap_comp.
   rewrite (snd_comp _ _ _
              ((θ E _)⁻¹ ∘ (κ E (ψ E _))⁻¹)
              (κ E (ψ E _) ∘ θ E ((a, b); f))).
-  rewrite <- !comp_assoc.
+  rewrite <- comp_assoc.
   rewrite (comp_assoc (κ E (ψ E ((a, b); f)))⁻¹ _).
   rewrite iso_from_to, id_left.
   now rewrite iso_from_to; cat.
@@ -181,7 +183,6 @@ Program Instance to_lawvere_iso_Proper :
   Proper (Isomorphism ==> Isomorphism) (φ E).
 Next Obligation.
   proper.
-  simpl in *.
   construct.
   - exact (fmap[φ E] (to X)).
   - exact (fmap[φ E] (from X)).
@@ -193,7 +194,6 @@ Program Instance from_lawvere_iso_Proper :
   Proper (Isomorphism ==> Isomorphism) (ψ E).
 Next Obligation.
   proper.
-  simpl in *.
   construct.
   - exact (fmap[ψ E] (to X)).
   - exact (fmap[ψ E] (from X)).
@@ -213,28 +213,28 @@ Next Obligation.
   destruct H0 as [H1 H2].
   symmetry.
   rewrite <- id_right.
-  rewrite H1.
+  rewrite H1; clear H1.
   comp_right.
   rewrite <- !comp_assoc.
   rewrite (comp_assoc (fst _) _).
   spose (iso_to_from (κ E ((a, b); y))) as H0.
   destruct H0 as [H3 _].
-  unfold κ in *.
-  rewrite H3.
+  unfold κ in H3.
+  rewrite H3; clear H3.
   rewrite id_left.
   symmetry.
   rewrite <- (id_left (snd _)).
-  rewrite H2.
+  rewrite H2; clear H2.
   rewrite !fmap_comp.
   comp_left.
   rewrite (comp_assoc (fmap (snd (to (κ E ((a, b); x)))))).
   rewrite <- fmap_comp.
   spose (iso_to_from (κ E ((a, b); x))) as H0.
   destruct H0 as [_ H4].
-  rewrite H4.
+  rewrite H4; clear H4.
   rewrite fmap_id, id_left.
   remember (fmap[to (lawvere_iso E)] _) as o.
-  destruct o; simpl in *.
+  destruct o.
   symmetry.
   apply e.
 Qed.
@@ -251,26 +251,26 @@ Next Obligation.
   spose (`2 (projG E) ((a, b); x) ((a, b); y) ff) as H0.
   destruct H0 as [H1 H2].
   rewrite <- id_left.
-  rewrite H2.
+  rewrite H2; clear H2.
   comp_left.
   rewrite (comp_assoc (snd (to (θ E ((a, b); x)))) (snd _)).
   spose (iso_to_from (θ E ((a, b); x))) as H0.
   destruct H0 as [_ H3].
-  rewrite H3.
+  rewrite H3; clear H3.
   rewrite id_left.
   symmetry.
   rewrite <- (id_right (fst _)).
-  rewrite H1.
+  rewrite H1; clear H1.
   rewrite comp_assoc.
   spose (iso_to_from (θ E ((a, b); y))) as H0.
   destruct H0 as [H4 _].
   rewrite comp_assoc.
-  rewrite H4.
+  rewrite H4; clear H4.
   rewrite !fmap_comp.
   comp_right.
   rewrite fmap_id, id_right.
   remember (fmap[from (lawvere_iso E)] _) as o.
-  destruct o; simpl in *.
+  destruct o.
   apply e.
 Qed.
 
@@ -353,7 +353,7 @@ Proof.
   refine (iso_compose (lawvere_iso_from (φ' E f)) _).
   apply fobj_iso.
   now apply lawvere_iso_to.
-Defined.
+Qed.
 
 Definition lawvere_iso_to_from {a b} (g : a ~> G b) :
   φ E (ψ E ((a, b); g)) ≅ ((a, b); φ' E (ψ' E g)).
@@ -361,7 +361,7 @@ Proof.
   refine (iso_compose (lawvere_iso_to (ψ' E g)) _).
   apply fobj_iso.
   now apply lawvere_iso_from.
-Defined.
+Qed.
 
 Definition lawvere_to_from_iso {a b} (g : a ~> G b) :
   ((a, b); φ' E (ψ' E g)) ≅[Id[D] ↓ G] ((a, b); g) :=
@@ -471,7 +471,7 @@ Proof.
   (*                = Gj ∘ ψ'(f) ∘ i *)
 
   given (Gj : ((a, b); g) ~{ Id[D] ↓ G }~> ((G b, b'); fmap[G] j)). {
-    now refine ((g, j); _); simpl; abstract cat.
+    now refine ((g, j); _); abstract cat.
   }
   spose (`2 (to (lawvere_iso_from (fmap[G] j))
                 ∘ fmap[ψ E] Gj
@@ -485,22 +485,18 @@ Proof.
 Qed.
 
 Lemma surjective_tripleF (p : obj[F ↓ Id[C]]) :
-  existT _ (fst `1 p, snd `1 p) (`2 p) = p.
+  ((fst `1 p, snd `1 p); `2 p) = p.
 Proof.
-  destruct p; simpl.
-  simpl_eq.
-  destruct x; simpl.
-  reflexivity.
-Defined.
+  destruct p; simpl; simpl_eq.
+  destruct x; reflexivity.
+Qed.
 
 Lemma surjective_tripleG (p : obj[Id[D] ↓ G]) :
-  existT _ (fst `1 p, snd `1 p) (`2 p) = p.
+  ((fst `1 p, snd `1 p); `2 p) = p.
 Proof.
-  destruct p; simpl.
-  simpl_eq.
-  destruct x; simpl.
-  reflexivity.
-Defined.
+  destruct p; simpl_eq.
+  destruct x; reflexivity.
+Qed.
 
 Lemma expand_φ_ψ {a b} (g : a ~> G b) :
   φ E (ψ E ((a, b); g))
@@ -509,7 +505,7 @@ Lemma expand_φ_ψ {a b} (g : a ~> G b) :
     ((fst `1 ((lawvere_iso E)⁻¹ ((a, b); g)),
       snd `1 ((lawvere_iso E)⁻¹ ((a, b); g)));
        `2 ((lawvere_iso E)⁻¹ ((a, b); g))).
-Proof. now rewrite surjective_tripleF. Defined.
+Proof. now rewrite surjective_tripleF. Qed.
 
 Lemma expand_ψ_φ {a b} (f : F a ~> b) :
   ψ E (φ E ((a, b); f))
@@ -518,7 +514,7 @@ Lemma expand_ψ_φ {a b} (f : F a ~> b) :
     ((fst `1 (φ E ((a, b); f)),
       snd `1 (φ E ((a, b); f)));
        `2 (φ E ((a, b); f))).
-Proof. now rewrite surjective_tripleG. Defined.
+Proof. now rewrite surjective_tripleG. Qed.
 
 (** Given that:
 
@@ -541,7 +537,6 @@ Proof.
                 a b
                 (fst (to (`1 (projG E) ((a, b); g))))
                 (snd (`1 (projG E) ((a, b); g))⁻¹)) as X.
-  unfold φ' in X; simpl in X.
   etransitivity.
   - now apply X.
   - clear X.
@@ -550,12 +545,12 @@ Proof.
     + spose (φ_ψ_equiv ((a, b); g)) as X1.
       symmetry in X1.
       now apply X1.
-    + unfold θ, κ, ψ.
-      apply compose_respects; [|reflexivity].
+    + apply compose_respects; [|reflexivity].
       rewrite <- !comp_assoc.
       apply compose_respects; [reflexivity|].
       spose (surjective_tripleF (ψ E ((a, b); g))) as X2.
       unfold ψ in *.
+      simpl.
       rewrite <- X2.
       solve [ reflexivity           (* works in >=8.12 *)
             | simpl;                (* needed for <8.11 *)
@@ -574,7 +569,6 @@ Proof.
                 a b
                 (fst (to (`1 (projF E) ((a, b); f))))
                 (snd (`1 (projF E) ((a, b); f))⁻¹)) as X.
-  unfold ψ' in X; simpl in X.
   etransitivity.
   - symmetry.
     now apply X.
@@ -590,6 +584,7 @@ Proof.
       apply compose_respects; [reflexivity|].
       spose (surjective_tripleG (φ E ((a, b); f))) as X2.
       unfold φ in *.
+      simpl.
       rewrite <- X2.
       solve [ reflexivity           (* works in >=8.12 *)
             | simpl;                (* needed for <8.11 *)
@@ -681,8 +676,7 @@ Proof.
     abstract (simpl; rewrite id_left, id_right; reflexivity).
   }
   destruct (`2 (projF E) (Left_Functor x) (Left_Functor y) ff).
-  simpl in *.
-  rewrite e0.
+  srewrite e0.
   do 2 rewrite fmap_comp.
   comp_left.
   rewrite (comp_assoc (fmap[G] (snd (to (κ E (Left_Functor x)))))).
@@ -696,7 +690,7 @@ Proof.
   rewrite !comp_assoc.
   rewrite <- X.
   comp_left.
-  rewrite e at 1.
+  srewrite e.
   comp_right.
   rewrite (fst (iso_to_from (κ E (Left_Functor y)))).
   rewrite id_left.
@@ -719,16 +713,15 @@ Proof.
     abstract (simpl; rewrite id_left, id_right; reflexivity).
   }
   destruct (`2 (projG E) (Right_Functor x) (Right_Functor y) ff).
-  simpl in *.
   symmetry.
-  rewrite e.
+  srewrite e.
   rewrite <- comp_assoc.
   rewrite <- fmap_comp.
   rewrite !comp_assoc.
   rewrite (fst (iso_to_from (θ E (Right_Functor y)))).
   rewrite id_left.
   symmetry.
-  rewrite e0 at 1.
+  srewrite e0.
   comp_left.
   rewrite (comp_assoc (snd (to (θ E (Right_Functor x))))).
   rewrite (snd (iso_to_from (θ E (Right_Functor x)))).
@@ -785,7 +778,7 @@ Program Instance Comma_F_Id_Id_G_Iso (H : F ⊣ G) :
   from := Comma_Functor_Id_G_F_Id H
 }.
 Next Obligation.
-  constructive; simpl.
+  constructive.
   - exists (id, id).
     abstract
       (destruct x as [[x y] f]; cat;
@@ -799,7 +792,7 @@ Next Obligation.
   - abstract (clear; simpl; split; cat).
 Defined.
 Next Obligation.
-  constructive; simpl.
+  constructive.
   - exists (id, id).
     abstract
       (destruct x as [[x y] f]; cat;
@@ -820,9 +813,9 @@ Theorem Adjunction_Comma `{F : D ⟶ C} `{G : C ⟶ D} :
 Proof.
   split; intros H. {
     unshelve refine {| lawvere_iso := Comma_F_Id_Id_G_Iso H |}.
-    - simpl; unshelve eexists; intros; split;
+    - unshelve eexists; intros; split;
       destruct f; simpl; cat.
-    - simpl; unshelve eexists; intros; split;
+    - unshelve eexists; intros; split;
       destruct f; simpl; cat.
     - unfold whisker_equiv.
       split; intros; simpl; intros; cat.
