@@ -16,7 +16,7 @@ Import VectorNotations.
 
 Derive Signature NoConfusion NoConfusionHom EqDec Subterm for Fin.t.
 
-Definition obj_idx (n : nat) : Set := Fin.t n.
+Definition obj_idx (n : nat) : Set := Fin.t (S n).
 
 Inductive Obj (n : nat) : Set :=
   | Ob : obj_idx n → Obj n
@@ -29,25 +29,37 @@ Arguments Pair {_} _ _.
 
 Definition obj_pair (n : nat) : Set := Obj n * Obj n.
 
+Fixpoint objD {C: Category} `{@Cartesian C} {n}
+  (x : Obj n) (objs : Vector.t C (S n)) :=
+  match x with
+  | Ob n => objs[@n]
+  | Pair x y => objD x objs × objD y objs
+  end.
+
+Definition arrD {C: Category} `{@Cartesian C} {n}
+  (objs : Vector.t C (S n)) '(dom, cod) :=
+  objD dom objs ~> objD cod objs.
+
 Class Env := {
   cat      : Category;
   cart     :> @Cartesian cat;
   num_objs : nat;
-  objs     : Vector.t cat num_objs;
+  (* Note that we one extra object here (doubling the last), just for the
+     convenience of always knowing by the type that there must be one more
+     than [num_objs] available. This saves us from having to maintain
+     [num_objs] as the "size minus one". *)
+  objs     : Vector.t cat (S num_objs);
   num_arrs : nat;
-  tys      : Vector.t (obj_pair num_objs) num_arrs;
+  tys      : Vector.t (obj_pair num_objs) (S num_arrs);
 
-  objD (x : Obj num_objs) :=
-    let fix go x :=
-      match x with
-      | Ob x => objs[@x]
-      | Pair x y => go x × go y
-      end in go x;
-
-  arrD '(dom, cod) := objD dom ~> objD cod;
-
-  arrs : ilist (B:=arrD) tys
+  arrs : ilist (B:=arrD objs) tys
 }.
+
+Inductive SObj : Set :=
+  | SOb : positive → SObj
+  | SPair : SObj → SObj → SObj.
+
+Derive NoConfusion NoConfusionHom Subterm EqDec for positive SObj.
 
 Inductive STerm : Set :=
   | SIdent : STerm
@@ -59,13 +71,7 @@ Inductive STerm : Set :=
   | SExl : STerm
   | SExr : STerm.
 
-Derive NoConfusion NoConfusionHom Subterm EqDec for positive STerm.
-
-Inductive SObj : Set :=
-  | SOb : positive → SObj
-  | SPair : SObj → SObj → SObj.
-
-Derive NoConfusion NoConfusionHom Subterm EqDec for SObj.
+Derive NoConfusion NoConfusionHom Subterm EqDec for STerm.
 
 Inductive SExpr : Set :=
   | STop

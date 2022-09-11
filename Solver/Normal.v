@@ -1,16 +1,11 @@
 Require Import Coq.PArith.PArith.
 Require Import Coq.Lists.List.
 
-From Equations Require Import Equations.
-Set Equations With UIP.
-
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 Require Import Category.Solver.Reify.
-
-Generalizable All Variables.
 
 Section Normal.
 
@@ -27,30 +22,28 @@ Inductive Arrow : Set :=
 Fixpoint sindices (t : STerm) : list Arrow :=
   match t with
   | SIdent    => []
-  | SMorph a  => [a]
+  | SMorph a  => [Arr a]
   | SComp f g => sindices f ++ sindices g
   | SFork f g => [Fork (sindices f) (sindices g)]
-  | SExl => [Exl]
-  | SExr => [Exr]
+  | SExl      => [Exl]
+  | SExr      => [Exr]
   end.
 
 Fixpoint unsindices (fs : list positive) : STerm :=
   match fs with
-  | List.nil => SIdent
+  | List.nil             => SIdent
   | List.cons f List.nil => SMorph f
-  | List.cons f fs => SComp (SMorph f) (unsindices fs)
+  | List.cons f fs       => SComp (SMorph f) (unsindices fs)
   end.
 
 Ltac matches :=
   lazymatch goal with
-  | [ H : context[match Pos_to_fin ?n with _ => _ end] |- _ ] =>
-    destruct (Pos_to_fin n) eqn:?
   | [ H : context[match pos_obj ?f ?dom with _ => _ end] |- _ ] =>
     destruct (pos_obj f dom) as [[? ?]|] eqn:?
-  | [ H : context[match @stermD_work ?h ?n ?s with _ => _ end] |- _ ] =>
-    destruct (@stermD_work h n s) as [[? ?]|] eqn:?
-  | [ H : context[match eq_dec ?n ?m with _ => _ end] |- _ ] =>
-    destruct (eq_dec n m); subst
+  | [ H : context[match @stermD_work ?n ?s with _ => _ end] |- _ ] =>
+    destruct (@stermD_work n s) as [[? ?]|] eqn:?
+  | [ H : context[match Classes.eq_dec ?n ?m with _ => _ end] |- _ ] =>
+    destruct (Classes.eq_dec n m); subst
   end;
   try contradiction;
   try discriminate;
@@ -63,7 +56,8 @@ Ltac desh :=
   repeat lazymatch goal with
   | [ H : Some _ = Some _ |- _ ] => inversion H; subst; try clear H
   | [ H : (?X; _) = (?X; _) |- _ ] =>
-    apply Eqdep_dec.inj_pair2_eq_dec in H; [|now apply eq_dec]; subst
+    apply Eqdep_dec.inj_pair2_eq_dec in H;
+      [|now apply Classes.eq_dec]; subst
   | [ H : ∃ _, _ |- _ ] =>
     let x := fresh "x" in
     let e := fresh "e" in destruct H as [x e]
@@ -75,7 +69,7 @@ Ltac desh :=
 Lemma unsindices_app {d c} {t1 t2 : list positive} {f} :
   stermD_work d (unsindices (t1 ++ t2)) = Some (c; f)
     → ∃ m g h, f ≈ g ∘ h ∧ stermD_work m (unsindices t1) = Some (c; g)
-                        ∧ stermD_work d (unsindices t2) = Some (m; h).
+                         ∧ stermD_work d (unsindices t2) = Some (m; h).
 Proof.
   generalize dependent c.
   generalize dependent d.
@@ -167,13 +161,11 @@ Fixpoint sexprAD (e : SExpr) : Type :=
   | STop    => True
   | SBottom => False
   | SEquiv x y f g =>
-    match Pos_to_fin x, Pos_to_fin y with
-    | Some d, Some c =>
-      match stermD d c (unsindices (sindices f)),
-            stermD d c (unsindices (sindices g)) with
-      | Some f, Some g => f ≈ g
-      | _, _ => False
-      end
+    let d := Pos_to_fin num_objs x in
+    let c := Pos_to_fin num_objs y in
+    match stermD d c (unsindices (sindices f)),
+          stermD d c (unsindices (sindices g)) with
+    | Some f, Some g => f ≈ g
     | _, _ => False
     end
   | SAnd p q  => sexprAD p ∧ sexprAD q
@@ -184,9 +176,7 @@ Fixpoint sexprAD (e : SExpr) : Type :=
 Theorem sexprAD_sound (e : SExpr) : sexprAD e ↔ sexprD e.
 Proof.
   induction e; split; simpl in *; intuition.
-  - destruct (Pos_to_fin _); [|tauto].
-    destruct (Pos_to_fin _); [|tauto].
-    destruct (stermD _ _ _) eqn:?; [|tauto].
+  - destruct (stermD _ _ _) eqn:?; [|tauto].
     destruct (stermD _ _ (_ (_ g))) eqn:?; [|tauto].
     apply unsindices_sindices in Heqo.
     apply unsindices_sindices in Heqo0.
@@ -197,12 +187,12 @@ Proof.
   - desh.
     destruct (stermD _ _ f) eqn:?; [|tauto].
     destruct (stermD _ _ g) eqn:?; [|tauto].
-    apply unsindices_sindices_r in Heqo1.
-    apply unsindices_sindices_r in Heqo2.
+    apply unsindices_sindices_r in Heqo.
+    apply unsindices_sindices_r in Heqo0.
     simpl in *.
     destruct (stermD _ _ _) eqn:?; [|tauto].
     destruct (stermD _ _ (_ (_ g))) eqn:?; [|tauto].
-    now rewrite Heqo1, Heqo2, X.
+    now rewrite Heqo, Heqo0, X.
 Qed.
 
 End Normal.
@@ -211,24 +201,24 @@ End Normal.
 Corollary sexprAD_sound' (env : Env) (e : SExpr) : sexprAD e → sexprD e.
 Proof. apply sexprAD_sound. Qed.
 
-Ltac normalize := reify_terms_and_then
-  ltac:(fun env g =>
-          change (@sexprD env g);
-          simple apply sexprAD_sound';
-          vm_compute).
+Ltac normalize :=
+  reify_and_change;
+  simple apply sexprAD_sound';
+  vm_compute.
 
-Example sample_2 :
-  ∀ (C : Category) (x y z w : C) (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z),
-    g ∘ id ∘ id ∘ id ∘ h ≈ i ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
-    g ∘ h ≈ i ->
-    f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
+Example ex_normalize
+  (C : Category) (x y z w : C)
+  (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z) :
+  g ∘ id ∘ id ∘ id ∘ h ≈ i ->
+  g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+  g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+  g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+  g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+  g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+  g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+  g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
+  g ∘ h ≈ i ->
+  f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
