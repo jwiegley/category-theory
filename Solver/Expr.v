@@ -19,8 +19,8 @@ Derive Signature NoConfusion NoConfusionHom EqDec Subterm for Fin.t.
 Definition obj_idx (n : nat) : Set := Fin.t (S n).
 
 Inductive Obj (n : nat) : Set :=
-  | Ob : obj_idx n → Obj n
-  | Pair : Obj n → Obj n → Obj n.
+  | Ob : obj_idx n → Obj
+  | Pair : Obj → Obj → Obj.
 
 Derive NoConfusion NoConfusionHom Subterm EqDec for Obj.
 

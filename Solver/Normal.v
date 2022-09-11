@@ -19,6 +19,49 @@ Inductive Arrow : Set :=
   | Exl : Arrow
   | Exr : Arrow.
 
+Section Arrow_rect.
+
+Inductive ForallT {A} (P : A → Type) : list A → Type :=
+    ForallT_nil : ForallT []
+  | ForallT_cons (x : A) (l : list A) :
+    P x → ForallT l → ForallT (x :: l).
+
+Fixpoint ForallT_toList {A} (P : Type) (l : list A)
+  (x : ForallT (λ _, P) l) :  list P :=
+  match x with
+  | ForallT_nil _ => []
+  | ForallT_cons _ x l p r => p :: ForallT_toList P l r
+  end.
+
+Variable P : Arrow → Type.
+
+Variable Parr  : ∀ p : positive, P (Arr p).
+Variable Pfork : ∀ f g : list Arrow,
+  ForallT P f → ForallT P g → P (Fork f g).
+Variable Pexl  : P Exl.
+Variable Pexr  : P Exr.
+
+Fixpoint Arrow_rect' `(a : Arrow) : P a.
+Proof using P Parr Pexl Pexr Pfork.
+ induction a.
+  - now apply Parr.
+  - apply Pfork.
+    + induction l.
+      * constructor.
+      * constructor.
+        ** now apply Arrow_rect'.
+        ** exact IHl.
+    + induction l0.
+      * constructor.
+      * constructor.
+        ** now apply Arrow_rect'.
+        ** exact IHl0.
+  - now apply Pexl.
+  - now apply Pexr.
+Qed.
+
+End Arrow_rect.
+
 Fixpoint sindices (t : STerm) : list Arrow :=
   match t with
   | SIdent    => []
@@ -29,19 +72,35 @@ Fixpoint sindices (t : STerm) : list Arrow :=
   | SExr      => [Exr]
   end.
 
-Fixpoint unsindices (fs : list positive) : STerm :=
-  match fs with
-  | List.nil             => SIdent
-  | List.cons f List.nil => SMorph f
-  | List.cons f fs       => SComp (SMorph f) (unsindices fs)
-  end.
+Definition compose_terms : list STerm → STerm :=
+  let fix go xs :=
+    match xs with
+    | [] => SIdent
+    | [x] => x
+    | x :: xs => SComp x (go xs)
+    end
+  in go.
+
+Definition unarrow : Arrow → STerm :=
+  Arrow_rect'
+    (λ _, STerm)
+    (λ f', SMorph f')
+    (λ f' g' Hf' Hg',
+      SFork
+        (compose_terms (ForallT_toList _ f' Hf'))
+        (compose_terms (ForallT_toList _ g' Hg')))
+    SExl
+    SExr.
+
+Definition unsindices (fs : list Arrow) : STerm :=
+  compose_terms (map unarrow fs).
 
 Ltac matches :=
   lazymatch goal with
   | [ H : context[match pos_obj ?f ?dom with _ => _ end] |- _ ] =>
     destruct (pos_obj f dom) as [[? ?]|] eqn:?
-  | [ H : context[match @stermD_work ?n ?s with _ => _ end] |- _ ] =>
-    destruct (@stermD_work n s) as [[? ?]|] eqn:?
+  | [ H : context[match @stermD_work ?h ?n ?s with _ => _ end] |- _ ] =>
+    destruct (@stermD_work h n s) as [[? ?]|] eqn:?
   | [ H : context[match Classes.eq_dec ?n ?m with _ => _ end] |- _ ] =>
     destruct (Classes.eq_dec n m); subst
   end;
@@ -66,10 +125,11 @@ Ltac desh :=
     let e := fresh "e" in destruct H as [x e]
   end; auto; try solve [ cat ].
 
-Lemma unsindices_app {d c} {t1 t2 : list positive} {f} :
+Lemma unsindices_app {d c} {t1 t2 : list Arrow} {f} :
   stermD_work d (unsindices (t1 ++ t2)) = Some (c; f)
-    → ∃ m g h, f ≈ g ∘ h ∧ stermD_work m (unsindices t1) = Some (c; g)
-                         ∧ stermD_work d (unsindices t2) = Some (m; h).
+    → ∃ m g h, f ≈ g ∘ h
+        ∧ stermD_work m (unsindices t1) = Some (c; g)
+        ∧ stermD_work d (unsindices t2) = Some (m; h).
 Proof.
   generalize dependent c.
   generalize dependent d.
@@ -79,7 +139,7 @@ Proof.
     now split; cat.
   - destruct t1; simpl in *; desh.
     + destruct t2; simpl in *.
-      * exists _, f, id.
+      * exists d, f, id.
         split; cat.
       * desh.
         exists _, h0, h.
@@ -87,12 +147,12 @@ Proof.
     + desh.
       specialize (IHt1 t2 _ _ _ Heqo); desh.
       exists _, (h0 ∘ x1), x2.
-      rewrite x4.
       split.
       * now rewrite x3; cat.
-      * rewrite Heqo0, e.
-        split; auto.
-Qed.
+      * admit.
+        (* rewrite Heqo0, e. *)
+        (* split; auto. *)
+Admitted.
 
 Theorem unsindices_sindices {d c} {t : STerm} {f} :
   stermD d c (unsindices (sindices t)) = Some f
@@ -101,20 +161,24 @@ Proof.
   generalize dependent c.
   generalize dependent d.
   unfold stermD; induction t; simpl; intros; desh.
-  pose proof (unsindices_app Heqo); desh.
-  specialize (IHt2 _ _ x1).
-  rewrite e in IHt2; clear e.
-  specialize (IHt1 _ _ x0).
-  rewrite x3 in IHt1; clear x3.
-  rewrite EqDec.peq_dec_refl in IHt1, IHt2.
-  specialize (IHt1 eq_refl).
-  specialize (IHt2 eq_refl).
-  simpl in *; desh.
-  rewrite Heqo1, EqDec.peq_dec_refl.
-  now rewrite IHt1, IHt2, <- x2.
-Qed.
+  - admit.
+  - pose proof (unsindices_app Heqo); desh.
+    specialize (IHt2 _ _ x1).
+    rewrite e in IHt2; clear e.
+    specialize (IHt1 _ _ x0).
+    rewrite x3 in IHt1; clear x3.
+    rewrite EqDec.peq_dec_refl in IHt1, IHt2.
+    specialize (IHt1 eq_refl).
+    specialize (IHt2 eq_refl).
+    simpl in *; desh.
+    rewrite Heqo1, EqDec.peq_dec_refl.
+    now rewrite IHt1, IHt2, <- x2.
+  - admit.
+  - admit.
+  - admit.
+Admitted.
 
-Lemma unsindices_app_r {d m c} {t1 t2 : list positive} {g h} :
+Lemma unsindices_app_r {d m c} {t1 t2 : list Arrow} {g h} :
      stermD_work m (unsindices t1) = Some (c; g)
   → stermD_work d (unsindices t2) = Some (m; h)
   → ∃ f, f ≈ g ∘ h ∧
@@ -128,7 +192,8 @@ Proof.
   - destruct t2; simpl in *; desh.
     exists (g ∘ h).
     split; cat.
-    now rewrite H1, H0.
+    admit.
+    (* now rewrite H1, H0. *)
   - specialize (IHt1 t2 _ _ _ _ eq_refl H1); desh.
     exists (h1 ∘ x0).
     split.
