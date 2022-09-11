@@ -130,6 +130,7 @@ Solver/Normal.v
 Solver/Reify.v
 Structure/BiCCC.v
 Structure/Bicartesian.v
+Structure/Binoidal.v
 Structure/Cartesian.v
 Structure/Cartesian/Closed.v
 Structure/Cartesian/Closed/Product.v
