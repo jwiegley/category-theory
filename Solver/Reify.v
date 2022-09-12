@@ -1,14 +1,17 @@
-Require Import Coq.PArith.PArith.
-Require Import Coq.Vectors.Vector.
+Require Import Coq.Lists.List.
 
 Require Import Category.Lib.
-Require Import Category.Lib.IListVec.
+Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 
 Set Transparent Obligations.
+
+Import ListNotations.
+
+Open Scope nat_scope.
 
 (** Lists in Ltac *)
 
@@ -23,35 +26,35 @@ Ltac addToList x xs :=
 
 Example test_addToList : True.
 Proof.
-  let xs1 := addToList 1%nat tt in
-  let xs2 := addToList 2%nat xs1 in
-  let xs3 := addToList 3%nat xs2 in
-  let xs4 := addToList 2%nat xs3 in
+  let xs1 := addToList 1 tt in
+  let xs2 := addToList 2 xs1 in
+  let xs3 := addToList 3 xs2 in
+  let xs4 := addToList 2 xs3 in
   (pose xs1 as l1;
    pose xs2 as l2;
    pose xs3 as l3;
    pose xs4 as l4).
-  assert (l1 = (1%nat, ())) by auto.
-  assert (l2 = (2%nat, (1%nat, ()))) by auto.
-  assert (l3 = (3%nat, (2%nat, (1%nat, ())))) by auto.
-  assert (l4 = (3%nat, (2%nat, (1%nat, ())))) by auto.
+  assert (l1 = (1, ())) by auto.
+  assert (l2 = (2, (1, ()))) by auto.
+  assert (l3 = (3, (2, (1, ())))) by auto.
+  assert (l4 = (3, (2, (1, ())))) by auto.
   exact I.
 Qed.
 
 Ltac listSize xs :=
   lazymatch xs with
-  | tt => constr:(0%nat)
+  | tt => constr:(0)
   | (_, ?xs') =>
     let n := listSize xs' in
-    constr:((S n)%nat)
+    constr:((S n))
   end.
 
 Example test_listSize : True.
 Proof.
-  let xs1 := addToList 1%nat tt in
-  let xs2 := addToList 2%nat xs1 in
-  let xs3 := addToList 3%nat xs2 in
-  let xs4 := addToList 2%nat xs3 in
+  let xs1 := addToList 1 tt in
+  let xs2 := addToList 2 xs1 in
+  let xs3 := addToList 3 xs2 in
+  let xs4 := addToList 2 xs3 in
   let ls0  := listSize tt in
   let ls1  := listSize xs1 in
   let ls2  := listSize xs2 in
@@ -62,81 +65,42 @@ Proof.
    pose ls2 as s2;
    pose ls3 as s3;
    pose ls4 as s4).
-  assert (s0 = 0%nat) by auto.
-  assert (s1 = 1%nat) by auto.
-  assert (s2 = 2%nat) by auto.
-  assert (s3 = 3%nat) by auto.
-  assert (s4 = 3%nat) by auto.
+  assert (s0 = 0) by auto.
+  assert (s1 = 1) by auto.
+  assert (s2 = 2) by auto.
+  assert (s3 = 3) by auto.
+  assert (s4 = 3) by auto.
   exact I.
 Qed.
 
 Ltac lookup x xs :=
   lazymatch xs with
-  | (x, _) => constr:(1%positive)
+  | (x, _) => constr:(0)
   | (_, ?xs') =>
     let xn := lookup x xs' in
-    constr:(Pos.succ xn)
+    constr:(S xn)
   end.
 
 Example test_lookup : True.
 Proof.
   Fail (
-    let xs1 := addToList 1%nat tt in
-    let lk1 := lookup 2%nat xs1 in
+    let xs1 := addToList 1 tt in
+    let lk1 := lookup 2 xs1 in
     pose lk1
   ).
-  let xs1 := addToList 1%nat tt in
-  let xs2 := addToList 2%nat xs1 in
-  let xs3 := addToList 3%nat xs2 in
-  let xs4 := addToList 4%nat xs3 in
-  let lk2 := lookup 2%nat xs4 in
-  let lk3 := lookup 3%nat xs4 in
-  let lk4 := lookup 4%nat xs4 in
+  let xs1 := addToList 1 tt in
+  let xs2 := addToList 2 xs1 in
+  let xs3 := addToList 3 xs2 in
+  let xs4 := addToList 4 xs3 in
+  let lk2 := lookup 2 xs4 in
+  let lk3 := lookup 3 xs4 in
+  let lk4 := lookup 4 xs4 in
   (pose lk2 as f2;
    pose lk3 as f3;
    pose lk4 as f4).
-  assert (f2 = Pos.succ (Pos.succ 1)) by auto.
-  assert (f3 = Pos.succ 1) by auto.
-  assert (f4 = 1%positive) by auto.
-  exact I.
-Qed.
-
-Ltac lookupFin n x xs :=
-  lazymatch n with
-  | S ?n' =>
-    lazymatch xs with
-    | (x, _) => constr:(@Fin.F1 n')
-    | (_, ?xs') =>
-      let xn := lookupFin n' x xs' in
-      constr:(Fin.FS xn)
-    end
-  end.
-
-Example test_lookupFin : True.
-Proof.
-  Fail (
-    let xs1 := addToList 1%nat tt in
-    let ls1  := listSize xs1 in
-    let lk1 := lookupFin ls1 2%nat xs1 in
-    (pose lk1)
-  ).
-  let xs1 := addToList 1%nat tt in
-  let xs2 := addToList 2%nat xs1 in
-  let xs3 := addToList 3%nat xs2 in
-  let xs4 := addToList 4%nat xs3 in
-  let ls1  := listSize xs1 in
-  let ls2  := listSize xs2 in
-  let ls3  := listSize xs3 in
-  let ls4  := listSize xs4 in
-  let lk2 := lookupFin ls2 2%nat xs2 in
-  let lk3 := lookupFin ls3 2%nat xs3 in
-  let lk4 := lookupFin ls4 2%nat xs4 in
-  (pose lk2 as f2;
-   pose lk3 as f3;
-   pose lk4 as f4).
-  assert (f2 = Fin.F1) by auto.
-  assert (f3 = Fin.FS Fin.F1) by auto.
-  assert (f4 = Fin.FS (Fin.FS Fin.F1)) by auto.
+  assert (f2 = 2) by auto.
+  assert (f3 = 1) by auto.
+  assert (f4 = 0) by auto.
   exact I.
 Qed.
 
@@ -167,10 +131,10 @@ Qed.
 
 Ltac lookupCat c cs :=
   lazymatch cs with
-  | ((c, _, _), _) => constr:(1%positive)
+  | ((c, _, _), _) => constr:(0)
   | (_, ?cs') =>
     let cn := lookupCat c cs' in
-    constr:(Pos.succ cn)
+    constr:(S cn)
   end.
 
 Example test_lookupCat (C D E : Category) : True.
@@ -189,9 +153,9 @@ Proof.
   (pose lk1 as f1;
    pose lk2 as f2;
    pose lk3 as f3).
-  assert (f1 = Pos.succ (Pos.succ 1)) by auto.
-  assert (f2 = Pos.succ 1) by auto.
-  assert (f3 = 1%positive) by auto.
+  assert (f1 = 2) by auto.
+  assert (f2 = 1) by auto.
+  assert (f3 = 0) by auto.
   exact I.
 Qed.
 
@@ -235,11 +199,11 @@ Example test_updateCat (C D E : Category) : True.
 Proof.
   let cs1 := addToCatList C tt in
   let lk1 := updateCat C cs1 ltac:(fun os fs =>
-               let os' := addToList 1%nat os in
-               let fs' := addToList 3%nat fs in
+               let os' := addToList 1 os in
+               let fs' := addToList 3 fs in
                constr:((os', fs'))) in
   (pose lk1 as f1).
-  assert (f1 = (C, (1%nat, ()), (3%nat, ()), ())) by auto.
+  assert (f1 = (C, (1, ()), (3, ()), ())) by auto.
   exact I.
 Qed.
 
@@ -252,9 +216,9 @@ Ltac addToObjList c cs o :=
 Example test_addToObjList (C D E : Category) : True.
 Proof.
   let cs1 := addToCatList C tt in
-  let lk1 := addToObjList C cs1 1%nat in
+  let lk1 := addToObjList C cs1 1 in
   (pose lk1 as f1).
-  assert (f1 = ((C, (1%nat, ()), tt), ())) by auto.
+  assert (f1 = ((C, (1, ()), tt), ())) by auto.
   exact I.
 Qed.
 
@@ -267,86 +231,45 @@ Ltac addToArrList c cs f :=
 Example test_addToArrList (C D E : Category) : True.
 Proof.
   let cs1 := addToCatList C tt in
-  let lk1 := addToArrList C cs1 1%nat in
+  let lk1 := addToArrList C cs1 1 in
   (pose lk1 as f1).
-  assert (f1 = ((C, tt, (1%nat, ())), ())) by auto.
-  exact I.
-Qed.
-
-Ltac lookupObjPos c cs o :=
-  let res := catLists c cs in
-  match res with
-  | (?os, _) => lookup o os
-  end.
-
-Example test_lookupObjPos (C D E : Category) : True.
-Proof.
-  let cs1 := addToCatList C tt in
-  let cs2 := addToObjList C cs1 123%nat in
-  let cs3 := addToObjList C cs2 456%nat in
-  let cs4 := addToObjList C cs3 789%nat in
-  let lk1 := lookupObjPos C cs4 456%nat in
-  (pose lk1 as f1).
-  assert (f1 = Pos.succ 1) by auto.
+  assert (f1 = ((C, tt, (1, ())), ())) by auto.
   exact I.
 Qed.
 
 Ltac lookupObj c cs o :=
   let res := catLists c cs in
   match res with
-  | (?os, _) =>
-    let n := listSize os in
-    lookupFin (S n) o os
+  | (?os, _) => lookup o os
   end.
 
 Example test_lookupObj (C D E : Category) : True.
 Proof.
   let cs1 := addToCatList C tt in
-  let cs2 := addToObjList C cs1 123%nat in
-  let cs3 := addToObjList C cs2 456%nat in
-  let cs4 := addToObjList C cs3 789%nat in
-  let lk1 := lookupObj C cs4 456%nat in
+  let cs2 := addToObjList C cs1 123 in
+  let cs3 := addToObjList C cs2 456 in
+  let cs4 := addToObjList C cs3 789 in
+  let lk1 := lookupObj C cs4 456 in
   (pose lk1 as f1).
-  assert (f1 = Fin.FS Fin.F1) by auto.
-  exact I.
-Qed.
-
-Ltac lookupArrPos c cs f :=
-  let res := catLists c cs in
-  match res with
-  | (_, ?fs) =>
-    lookup f fs
-  end.
-
-Example test_lookupArrPos (C D E : Category) : True.
-Proof.
-  let cs1 := addToCatList C tt in
-  let cs2 := addToArrList C cs1 123%nat in
-  let cs3 := addToArrList C cs2 456%nat in
-  let cs4 := addToArrList C cs3 789%nat in
-  let lk1 := lookupArrPos C cs4 456%nat in
-  (pose lk1 as f1).
-  assert (f1 = Pos.succ 1) by auto.
+  assert (f1 = 1) by auto.
   exact I.
 Qed.
 
 Ltac lookupArr c cs f :=
   let res := catLists c cs in
   match res with
-  | (_, ?fs) =>
-    let n := listSize fs in
-    lookupFin (S n) f fs
+  | (_, ?fs) => lookup f fs
   end.
 
 Example test_lookupArr (C D E : Category) : True.
 Proof.
   let cs1 := addToCatList C tt in
-  let cs2 := addToArrList C cs1 123%nat in
-  let cs3 := addToArrList C cs2 456%nat in
-  let cs4 := addToArrList C cs3 789%nat in
-  let lk1 := lookupArr C cs4 456%nat in
+  let cs2 := addToArrList C cs1 123 in
+  let cs3 := addToArrList C cs2 456 in
+  let cs4 := addToArrList C cs3 789 in
+  let lk1 := lookupArr C cs4 456 in
   (pose lk1 as f1).
-  assert (f1 = Fin.FS Fin.F1) by auto.
+  assert (f1 = 1) by auto.
   exact I.
 Qed.
 
@@ -475,12 +398,12 @@ Ltac reifyObj cs o :=
   | ?x × ?y =>
     let xo := reifyObj cs x in
     let yo := reifyObj cs y in
-    constr:(@SPair xo yo)
+    constr:(@Pair xo yo)
   | ?x =>
     lazymatch type of x with
     | @obj ?c =>
-      let o := lookupObjPos c cs x in
-      constr:(@SOb o)
+      let o := lookupObj c cs x in
+      constr:(@Ob o)
     end
   end.
 
@@ -496,7 +419,7 @@ Proof.
   pose v as pv;
   pose o as po.
   assert (pv = (C, (z, (y, ())), (f, ()), ())) as Hv by auto.
-  assert (po = SOb (Pos.succ 1)) as Ho by auto.
+  assert (po = Ob 1) as Ho by auto.
   clear pv po Hv Ho.
 
   let v := allVars tt constr:(k) in
@@ -504,7 +427,7 @@ Proof.
   pose v as pv;
   pose o as po.
   assert (pv = (C, (w, (z, (y, ()))), (k, ()), ())) as Hv by auto.
-  assert (po = SPair (SOb (Pos.succ (Pos.succ 1))) (SOb (Pos.succ 1))) as Ho by auto.
+  assert (po = Pair (Ob 2) (Ob 1)) as Ho by auto.
   clear pv po Hv Ho.
 
   exact I.
@@ -512,22 +435,22 @@ Qed.
 
 Ltac reifyTerm cs t :=
   lazymatch t with
-  | @id _ _ => constr:(@SIdent)
+  | @id _ _ => constr:(@Ident)
   | @compose _ _ _ _ ?f ?g =>
     let ft := reifyTerm cs f in
     let gt := reifyTerm cs g in
-    constr:(@SComp ft gt)
-  | @exl _ _ _ _ => constr:(@SExl)
-  | @exr _ _ _ _ => constr:(@SExr)
+    constr:(@Comp ft gt)
+  | @exl _ _ _ _ => constr:(@Exl)
+  | @exr _ _ _ _ => constr:(@Exr)
   | ?f △ ?g =>
     let ft := reifyTerm cs f in
     let gt := reifyTerm cs g in
-    constr:(@SFork ft gt)
+    constr:(@Fork ft gt)
   | ?f =>
     lazymatch type of f with
     | ?x ~{?c}~> ?y =>
-      let fn := lookupArrPos c cs f in
-      constr:(@SMorph fn)
+      let fn := lookupArr c cs f in
+      constr:(@Morph fn)
     end
   end.
 
@@ -542,7 +465,7 @@ Example test_reifyTerm
 Proof.
   let t := reifyTerm tt constr:(id[x]) in
   pose t as pt.
-  assert (pt = SIdent) as H0 by auto.
+  assert (pt = Ident) as H0 by auto.
   clear pt H0.
 
   let v := allVars tt constr:(f) in
@@ -550,7 +473,7 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (z, (y, ())), (f, ()), ())) as Hv by auto.
-  assert (pt = SMorph 1) as Ht by auto.
+  assert (pt = Morph 0) as Ht by auto.
   clear pv pt Hv Ht.
 
   let v := allVars tt constr:(f ∘ g) in
@@ -558,7 +481,7 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (x, (z, (y, ()))), (g, (f, ())), ())) as Hv by auto.
-  assert (pt = SComp (SMorph (Pos.succ 1)) (SMorph 1)) as Ht by auto.
+  assert (pt = Comp (Morph 1) (Morph 0)) as Ht by auto.
   clear pv pt Hv Ht.
 
   let v := allVars tt constr:(f ∘ id) in
@@ -566,7 +489,7 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (z, (y, ())), (f, ()), ())) as Hv by auto.
-  assert (pt = SComp (SMorph 1) SIdent) as Ht by auto.
+  assert (pt = Comp (Morph 0) Ident) as Ht by auto.
   clear pv pt Hv Ht.
 
   let v := allVars tt constr:(id ∘ f) in
@@ -574,7 +497,7 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (y, (z, ())), (f, ()), ())) as Hv by auto.
-  assert (pt = SComp SIdent (SMorph 1)) as Ht by auto.
+  assert (pt = Comp Ident (Morph 0)) as Ht by auto.
   clear pv pt Hv Ht.
 
   let v := allVars tt constr:(exl ∘ h) in
@@ -582,7 +505,7 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (x, (z, (y, ()))), (h, ()), ())) as Hv by auto.
-  assert (pt = SComp SExl (SMorph 1)) as Ht by auto.
+  assert (pt = Comp Exl (Morph 0)) as Ht by auto.
   clear pv pt Hv Ht.
 
   let v := allVars tt constr:(exr ∘ h) in
@@ -590,7 +513,7 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (x, (z, (y, ()))), (h, ()), ())) as Hv by auto.
-  assert (pt = SComp SExr (SMorph 1)) as Ht by auto.
+  assert (pt = Comp Exr (Morph 0)) as Ht by auto.
   clear pv pt Hv Ht.
 
   let v := allVars tt constr:(k ∘ h) in
@@ -598,7 +521,7 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (x, (w, (z, (y, ())))), (h, (k, ())), ())) as Hv by auto.
-  assert (pt = SComp (SMorph (Pos.succ 1)) (SMorph 1)) as Ht by auto.
+  assert (pt = Comp (Morph 1) (Morph 0)) as Ht by auto.
   clear pv pt Hv Ht.
 
   let v := allVars tt constr:(f △ f') in
@@ -606,7 +529,7 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (z, (y, ())), (f', (f, ())), ())) as Hv by auto.
-  assert (pt = SFork (SMorph (Pos.succ 1)) (SMorph 1)) as Ht by auto.
+  assert (pt = Fork (Morph 1) (Morph 0)) as Ht by auto.
   clear pv pt Hv Ht.
 
   exact I.
@@ -614,8 +537,8 @@ Qed.
 
 Ltac reifyExpr cs t :=
   lazymatch t with
-  | True => constr:(@STop)
-  | False => constr:(@SBottom)
+  | True  => constr:(@Top)
+  | False => constr:(@Bottom)
   | ?F ≈ ?G =>
     let f := reifyTerm cs F in
     let g := reifyTerm cs G in
@@ -623,20 +546,20 @@ Ltac reifyExpr cs t :=
     | ?x ~{?c}~> ?y =>
       let xn := reifyObj cs x in
       let yn := reifyObj cs y in
-      constr:(@SEquiv xn yn f g)
+      constr:(@Equiv xn yn f g)
     end
   | ?P ∧ ?Q =>
     let p := reifyExpr cs P in
     let q := reifyExpr cs Q in
-    constr:(@SAnd p q)
+    constr:(@And p q)
   | ?P ∨ ?Q =>
     let p := reifyExpr cs P in
     let q := reifyExpr cs Q in
-    constr:(@SOr p q)
+    constr:(@Or p q)
   | ?P → ?Q =>
     let p := reifyExpr cs P in
     let q := reifyExpr cs Q in
-    constr:(@SImpl p q)
+    constr:(@Impl p q)
   end.
 
 Example test_reifyExpr
@@ -648,12 +571,12 @@ Example test_reifyExpr
 Proof.
   let t := reifyExpr tt constr:(True) in
   pose t as pt.
-  assert (pt = STop) as H0 by auto.
+  assert (pt = Top) as H0 by auto.
   clear pt H0.
 
   let t := reifyExpr tt constr:(False) in
   pose t as pt.
-  assert (pt = SBottom) as H0 by auto.
+  assert (pt = Bottom) as H0 by auto.
   clear pt H0.
 
   let v := allVars tt constr:(f ≈ f ∘ id) in
@@ -661,23 +584,23 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (z, (y, ())), (f, ()), ())) as Hv by auto.
-  assert (pt = SEquiv (SOb (Pos.succ 1)) (SOb 1) (SMorph 1) (SComp (SMorph 1) SIdent))
+  assert (pt = Equiv (Ob 1) (Ob 0) (Morph 0) (Comp (Morph 0) Ident))
     as Ht by auto.
   clear pv pt Hv Ht.
 
   let t := reifyExpr tt constr:(True ∧ True) in
   pose t as pt.
-  assert (pt = SAnd STop STop) as H0 by auto.
+  assert (pt = And Top Top) as H0 by auto.
   clear pt H0.
 
   let t := reifyExpr tt constr:(True ∨ True) in
   pose t as pt.
-  assert (pt = SOr STop STop) as H0 by auto.
+  assert (pt = Or Top Top) as H0 by auto.
   clear pt H0.
 
   let t := reifyExpr tt constr:(True → True) in
   pose t as pt.
-  assert (pt = SImpl STop STop) as H0 by auto.
+  assert (pt = Impl Top Top) as H0 by auto.
   clear pt H0.
 
   exact I.
@@ -685,82 +608,64 @@ Qed.
 
 (** Build environment *)
 
-(* This [foldr1] is not like what you're used to. The type is roughly:
-
-     foldr1 {A B} : NonEmpty A → (A → B) → (A → B → B) → B
-
-   It's really more a foldr on non-empty lists that takes a function over the
-   last element as its base case. Very special purpose for this code. *)
-
-Ltac foldr1 xs z f :=
+Ltac foldr xs z f :=
   let rec go xs :=
     lazymatch xs with
-    | (?x, tt) =>
-      let z' := z x in f x z'
+    | tt => z
     | (?x, ?xs') =>
-      let rest := go xs' in
-      let x'   := f x rest in constr:(x')
+      let rest := go xs' in f x rest
     end in go xs.
 
-(* [foldri1] behaves much like [foldr1], but it increments a [positive]
-   counter as it goes and passes this index to both function arguments.
+Ltac toList A xs :=
+  foldr xs (@nil A) ltac:(fun x xs => constr:(x :: xs)).
 
-     foldri1 {A B} :
-       NonEmpty A → (positive → A → B) → (positive → A → B → B) → B
+Example test_toList
+  (C : Category)
+  (x y z : C)
+  (f : y ~> z) :
+  True.
+Proof.
+  let v := toList C tt in
+  pose v as pv.
+  assert (pv = []) as H0 by auto.
+  clear pv H0.
 
-   jww (2022-09-11): At the moment this function isn't needed, but when this
-   code move to support multiple categories in a single expression (such as
-   involving functors), it will be needed. *)
+  let v := toList C (y, ()) in
+  pose v as pv.
+  assert (pv = [y]) as H0 by auto.
+  clear pv H0.
 
-Ltac foldri1 xs z f :=
-  let rec go n xs :=
-    lazymatch xs with
-    | (?x, tt) =>
-      let z' := z n x in f n x z'
-    | (?x, ?xs') =>
-      let rest := go (Pos.succ n) xs' in
-      let x'   := f n x rest in constr:(x')
-    end in go 1%positive xs.
+  let v := toList C (z, (y, ())) in
+  pose v as pv.
+  assert (pv = [z; y]) as H0 by auto.
+  clear pv H0.
 
-Import VectorNotations.
+  exact I.
+Qed.
 
 Ltac build_objs cs andThen :=
-  foldri1 cs
-    ltac:(fun _ci cv =>
+  foldr cs
+    tt
+    (* jww (2022-09-11): Right now we only use the first category *)
+    ltac:(fun cv _cvs =>
       match cv with
-      | (?c, ?os, ?fs) =>
-        andThen c ltac:(
-          foldr1 os
-            ltac:(fun ov => constr:(ov :: Vector.nil c))
-            ltac:(fun ov os => constr:(ov :: os))) fs
-      end)
-    ltac:(fun _ci cv _k =>
-      (* jww (2022-09-11): Right now we only use the first category *)
-      match cv with
-      | (?c, ?os, ?fs) =>
-        andThen c ltac:(
-          foldr1 os
-            ltac:(fun ov => constr:(ov :: Vector.nil c))
-            ltac:(fun ov os => constr:(ov :: os))) fs
+      | (?c, (?o, ?os), ?fs) =>
+        match type of o with
+        | @obj ?C =>
+          andThen c o ltac:(toList C (o, os)) fs
+        end
       end).
 
-Ltac build_arrs c cs fs objs andThen :=
+Ltac build_arrs c cs fs def_obj objs andThen :=
   andThen ltac:(
-    foldr1 fs
-      ltac:(fun f =>
-        lazymatch type of f with
-        | ?x ~{?c}~> ?y =>
-          let xn := reifyObj cs x in
-          let yn := reifyObj cs y in
-          constr:(icons (B:=arrD objs) (sobjD xn, sobjD yn) f
-                    (inil (B:=arrD objs)))
-        end)
+    foldr fs
+      (inil (B:=arrD' def_obj objs))
       ltac:(fun f fs =>
         lazymatch type of f with
         | ?x ~{?c}~> ?y =>
           let xn := reifyObj cs x in
           let yn := reifyObj cs y in
-          constr:(icons (B:=arrD objs) (sobjD xn, sobjD yn) f fs)
+          constr:(icons (B:=arrD' def_obj objs) (xn, yn) f fs)
         end)).
 
 Ltac find_vars :=
@@ -768,9 +673,9 @@ Ltac find_vars :=
   | [ |- ?G ] =>
     let cs := allVars tt G in
     pose cs;
-    build_objs cs ltac:(fun c objs fs =>
+    build_objs cs ltac:(fun c def_obj objs fs =>
       pose objs;
-      build_arrs c cs fs objs ltac:(fun arrs =>
+      build_arrs c cs fs def_obj objs ltac:(fun arrs =>
         pose arrs))
   end.
 
@@ -790,23 +695,25 @@ Ltac reify_terms_and_then tacGoal :=
   | [ |- ?G ] =>
     let cs := allVars tt G in
     let g  := reifyExpr cs G in
-    build_objs cs ltac:(fun c objs fs =>
-      build_arrs c cs fs objs ltac:(fun arrs =>
-        let env :=
+    build_objs cs ltac:(fun c def_obj objs fs =>
+      build_arrs c cs fs def_obj objs ltac:(fun arrs =>
+        let objects :=
             constr:({|
-              cat      := c;
-              num_objs := ltac:(vm_compute (S (vec_size objs)));
-              objs     := objs;
-              num_arrs := ltac:(vm_compute (S (vec_size (vec_of arrs))));
-              tys      := ltac:(vm_compute (vec_of arrs));
-              arrs     := arrs |}) in
-        tacGoal env g))
+              cat     := c;
+              def_obj := def_obj;
+              objs    := objs |}) in
+        let arrows :=
+            constr:({|
+              has_objects := objects;
+              tys  := ltac:(vm_compute arrs);
+              arrs := arrs |}) in
+        tacGoal arrows g))
   end.
 
 Ltac reify := reify_terms_and_then ltac:(fun env g => pose env; pose g).
 
 Ltac reify_and_change :=
-  reify_terms_and_then ltac:(fun env g => change (@sexprD env g)).
+  reify_terms_and_then ltac:(fun env g => change (@exprD env g)).
 
 Example ex_reify_and_change
   (C : Category) `{@Cartesian C} (x y z w : C)

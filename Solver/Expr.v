@@ -1,84 +1,73 @@
-Require Import Coq.Vectors.Vector.
-Require Import Coq.PArith.PArith.
+Require Import Coq.Lists.List.
 
 From Equations Require Import Equations.
 Set Equations With UIP.
 
 Require Import Category.Lib.
-Require Import Category.Lib.IListVec.
+Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 Require Import Category.Structure.Cartesian.
 
 Generalizable All Variables.
 Set Transparent Obligations.
 
-Import VectorNotations.
-
-Derive Signature NoConfusion NoConfusionHom EqDec Subterm for Fin.t.
-
-Definition obj_idx (n : nat) : Set := Fin.t (S n).
-
-Inductive Obj (n : nat) : Set :=
-  | Ob : obj_idx n → Obj
+Inductive Obj : Set :=
+  | Ob : nat → Obj
   | Pair : Obj → Obj → Obj.
 
 Derive NoConfusion NoConfusionHom Subterm EqDec for Obj.
 
-Arguments Ob {_} _.
-Arguments Pair {_} _ _.
-
-Definition obj_pair (n : nat) : Set := Obj n * Obj n.
-
-Fixpoint objD {C: Category} `{@Cartesian C} {n}
-  (x : Obj n) (objs : Vector.t C (S n)) :=
+Fixpoint objD' {C: Category} `{@Cartesian C}
+  (d : C) (objs : list C) (x : Obj) :=
   match x with
-  | Ob n => objs[@n]
-  | Pair x y => objD x objs × objD y objs
+  | Ob n => nth n objs d
+  | Pair x y => objD' d objs x × objD' d objs y
   end.
 
-Definition arrD {C: Category} `{@Cartesian C} {n}
-  (objs : Vector.t C (S n)) '(dom, cod) :=
-  objD dom objs ~> objD cod objs.
+Definition arrD' {C: Category} `{@Cartesian C}
+  (d : C) (objs : list C) '(dom, cod) :=
+  objD' d objs dom ~> objD' d objs cod.
 
-Class Env := {
-  cat      : Category;
-  cart     :> @Cartesian cat;
-  num_objs : nat;
+Class Objects := {
+  cat     : Category;
+  cart    : @Cartesian cat;
   (* Note that we one extra object here (doubling the last), just for the
      convenience of always knowing by the type that there must be one more
      than [num_objs] available. This saves us from having to maintain
      [num_objs] as the "size minus one". *)
-  objs     : Vector.t cat (S num_objs);
-  num_arrs : nat;
-  tys      : Vector.t (obj_pair num_objs) (S num_arrs);
-
-  arrs : ilist (B:=arrD objs) tys
+  def_obj : cat;
+  objs    : list cat;
+  objD   := objD' def_obj objs;
 }.
+#[export] Existing Instance cart.
 
-Inductive SObj : Set :=
-  | SOb : positive → SObj
-  | SPair : SObj → SObj → SObj.
+Class Arrows := {
+  has_objects : Objects;
 
-Derive NoConfusion NoConfusionHom Subterm EqDec for positive SObj.
+  arrD  := arrD' def_obj objs;
+  tys    : list (Obj * Obj);
+  arrs   : ilist (B:=arrD) tys;
+}.
+#[export] Existing Instance has_objects.
 
-Inductive STerm : Set :=
-  | SIdent : STerm
-  | SMorph (a : positive) : STerm
-  | SComp (f g : STerm) : STerm
+Inductive Term : Set :=
+  | Ident : Term
+  | Morph (a : nat) : Term
+  | Comp (f g : Term) : Term
 
   (* Cartesian structure *)
-  | SFork (f g : STerm) : STerm
-  | SExl : STerm
-  | SExr : STerm.
+  | Fork (f g : Term) : Term
+  | Exl : Term
+  | Exr : Term.
 
-Derive NoConfusion NoConfusionHom Subterm EqDec for STerm.
+Derive NoConfusion NoConfusionHom Subterm EqDec for Term.
 
-Inductive SExpr : Set :=
-  | STop
-  | SBottom
-  | SEquiv (x y : SObj) (f g : STerm)
-  | SAnd   (p q : SExpr)
-  | SOr    (p q : SExpr)
-  | SImpl  (p q : SExpr).
+Inductive Expr : Set :=
+  | Top
+  | Bottom
+  | Equiv (x y : Obj) (f g : Term)
+  | And   (p q : Expr)
+  | Or    (p q : Expr)
+  | Impl  (p q : Expr).
 
-Derive NoConfusion NoConfusionHom Subterm for SExpr.
+Derive NoConfusion NoConfusionHom Subterm for Expr.
