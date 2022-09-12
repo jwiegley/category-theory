@@ -113,6 +113,20 @@ Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 
+Program Instance Morphism_EqDec : EqDec Morphism := {
+  eq_dec := morphism_eq_dec
+}.
+
+Program Instance Composition_EqDec : EqDec Composition := {
+  eq_dec := composition_eq_dec
+}.
+
+Program Instance Arrow_EqDec : EqDec Arrow := {
+  eq_dec := arrow_eq_dec
+}.
+
+Derive NoConfusion NoConfusionHom Subterm for Morphism Composition Arrow.
+
 Fixpoint append (f g : Composition) : Composition :=
   match f, g with
   | Single f, gs      => Composed f gs
@@ -136,17 +150,6 @@ Fixpoint to_morphism (t : Term) : Morphism :=
   | Exr      => Morphisms (Single ArrExr)
   end.
 
-Fixpoint to_morphism_f (k : Morphism → Morphism) (t : Term) : Morphism :=
-  match t with
-  | Ident    => k Identity
-  | Morph a  => k (Morphisms (Single (Arr a)))
-  | Comp f g => k (combine (to_morphism_f k f) (to_morphism_f k g))
-  | Fork f g =>
-    k (Morphisms (Single (ArrFork (to_morphism_f k f) (to_morphism_f k g))))
-  | Exl      => k (Morphisms (Single ArrExl))
-  | Exr      => k (Morphisms (Single ArrExr))
-  end.
-
 Fixpoint from_morphism (f : Morphism) : Term :=
   match f with
   | Identity => Ident
@@ -167,36 +170,6 @@ with from_arrow (a : Arrow) : Term :=
   | ArrExr => Exr
   end.
 
-Definition norm_cartesian (c : Morphism) : Morphism :=
-  match c with
-  | Morphisms (Composed ArrExl (Single (ArrFork f g))) => f
-  | Morphisms (Composed ArrExl (Composed (ArrFork f g) h)) =>
-      combine f (Morphisms h)
-
-  | Morphisms (Composed ArrExr (Single (ArrFork f g))) => g
-  | Morphisms (Composed ArrExr (Composed (ArrFork f g) h)) =>
-      combine g (Morphisms h)
-
-  | Morphisms
-      (Single
-         (ArrFork
-            (Morphisms (Single ArrExl))
-            (Morphisms (Single ArrExr)))) => Identity
-  | Morphisms
-      (Composed
-         (ArrFork
-            (Morphisms (Single ArrExl))
-            (Morphisms (Single ArrExr))) h) => Morphisms h
-
-  | f => f
-  end.
-
-(* id ∘ ((exl ∘ (id ∘ exl) △ exr) ∘ (1 ∘ 2 △ 3)) ≈ 1 ∘ 2 *)
-Compute to_morphism_f norm_cartesian
-  (Comp Ident
-     (Comp (Comp Exl (Fork (Comp Ident Exl) Exr))
-        (Fork (Comp (Morph 1) (Morph 2)) (Morph 3)))).
-
 Ltac matches :=
   match goal with
   | [ H : context[match lookup_arr ?f ?dom with _ => _ end] |- _ ] =>
@@ -204,7 +177,7 @@ Ltac matches :=
   | [ H : context[match @termD_work ?h ?n ?s with _ => _ end] |- _ ] =>
     destruct (@termD_work h n s) as [[? ?]|] eqn:?
   | [ H : context[match Classes.eq_dec ?n ?m with _ => _ end] |- _ ] =>
-    destruct (Classes.eq_dec n m); subst
+    destruct (eq_dec n m); subst
   end;
   try contradiction;
   try discriminate;
@@ -213,12 +186,13 @@ Ltac matches :=
 Ltac desh :=
   repeat matches;
   simpl_eq;
-  try rewrite EqDec.peq_dec_refl in *;
+  try rewrite peq_dec_refl in *;
   repeat lazymatch goal with
-  | [ H : Some _ = Some _ |- _ ] => inversion H; subst; try clear H
+  | [ H : Some _ = Some _ |- _ ] =>
+    inversion H; subst; try clear H
   | [ H : (?X; _) = (?X; _) |- _ ] =>
     apply Eqdep_dec.inj_pair2_eq_dec in H;
-      [|now apply Classes.eq_dec]; subst
+      [|now apply eq_dec]; subst
   | [ H : ∃ _, _ |- _ ] =>
     let x := fresh "x" in
     let e := fresh "e" in destruct H as [x e]
@@ -291,45 +265,6 @@ Proof.
   - destruct d; [discriminate|]; desh.
 Qed.
 
-Theorem from_morphism_to_morphism_f {d c} {t : Term} {f k} :
-  k Identity = Identity →
-  (∀ f, k (Morphisms (Single (Arr f))) = Morphisms (Single (Arr f))) →
-  k (Morphisms (Single ArrExl)) = Morphisms (Single ArrExl) →
-  k (Morphisms (Single ArrExr)) = Morphisms (Single ArrExr) →
-  (∀ t1 t2, t1 = Morphisms (Single ArrExl) → t2 = Morphisms (Single ArrExr) → k (Morphisms (Single (ArrFork t1 t2))) = Identity) →
-  (∀ t1 t2, t1 ≠ Morphisms (Single ArrExl) ∨ t2 ≠ Morphisms (Single ArrExr) → k (Morphisms (Single (ArrFork t1 t2))) = Morphisms (Single (ArrFork t1 t2))) →
-  termD d c (from_morphism (to_morphism_f k t)) = Some f
-    → termD d c t ≈ Some f.
-Proof.
-  generalize dependent c.
-  generalize dependent d.
-  unfold termD; induction t; simpl; intros; desh.
-  - rewrite H0 in Heqo; simpl in *; desh.
-    now rewrite peq_dec_refl.
-  - rewrite H1 in Heqo.
-    simpl in Heqo.
-    rewrite Heqo; desh.
-  - admit.
-  - destruct
-      (to_morphism_f k t1) eqn:Ht1,
-      (to_morphism_f k t2) eqn:Ht2;
-    intuition.
-    + rewrite H5 in Heqo.
-      * simpl in Heqo.
-        desh.
-        admit.
-      * left; intro; discriminate.
-    + admit.
-    + admit.
-    + admit.
-  - rewrite H2 in Heqo.
-    simpl in Heqo.
-    rewrite Heqo; desh.
-  - rewrite H3 in Heqo.
-    simpl in Heqo.
-    rewrite Heqo; desh.
-Admitted.
-
 Lemma from_morphism_app_r {d m c} {t1 t2 : Morphism} {g h} :
     termD_work m (from_morphism t1) = Some (c; g)
   → termD_work d (from_morphism t2) = Some (m; h)
@@ -389,6 +324,127 @@ Proof.
   - destruct d; [discriminate|]; desh.
   - destruct d; [discriminate|]; desh.
 Qed.
+
+Section Norm.
+
+Variable k : Composition → Morphism.
+
+(* This normalization procedure encodes all of the recursive places at which
+   lawful normalization can take place. For example, no normalization may ever
+   substitute identity for another morphism (identity is always the most fully
+   normal it can be), nor can it exchange exl or exr for substitutes. It may
+   exchange individual morphisms, however, if there are rewrite rules to be
+   applied, such as [f ≈ g ∘ h]. *)
+
+Fixpoint norm_morphism (f : Morphism) : Morphism :=
+  match f with
+  | Identity => Identity
+  | Morphisms fs => norm_composition fs
+  end
+
+with norm_composition (fs : Composition) : Morphism :=
+  match fs with
+  | Single f => norm_arrow f
+  | Composed f gs =>
+      match combine (norm_arrow f) (norm_composition gs) with
+      | Identity => Identity
+      | Morphisms fs' => k fs'
+      end
+  end
+
+with norm_arrow (a : Arrow) : Morphism :=
+  match a with
+  | Arr f       => k (Single (Arr f))
+  | ArrFork f g => k (Single (ArrFork (norm_morphism f) (norm_morphism g)))
+  | ArrExl      => Morphisms (Single ArrExl)
+  | ArrExr      => Morphisms (Single ArrExr)
+  end.
+
+End Norm.
+
+Definition norm_identity : Composition → Morphism := Morphisms.
+
+Definition norm_compose (f g : Composition → Morphism) :
+  Composition → Morphism := λ c,
+  match g c with
+  | Identity => Identity
+  | Morphisms c' => f c'
+  end.
+
+Lemma norm_identity_left {f c} :
+  norm_compose norm_identity f c = f c.
+Proof.
+  unfold norm_compose, norm_identity.
+  induction (f c); auto.
+Qed.
+
+Lemma norm_identity_right {f c} :
+  norm_compose f norm_identity c = f c.
+Proof.
+  unfold norm_compose, norm_identity.
+  induction (f c); auto.
+Qed.
+
+Lemma norm_compose_assoc {f g h c} :
+  norm_compose f (norm_compose g h) c = norm_compose (norm_compose f g) h c.
+Proof.
+  unfold norm_compose.
+  induction (h c); auto.
+Qed.
+
+(* Normalization functions form a category. *)
+
+Program Definition Norm : Category := {|
+  obj        := unit;
+  hom        := λ _ _, Composition → Morphism;
+  homset     := λ _ _, {| equiv f g := ∀ c, f c = g c |};
+  id         := λ _, norm_identity;
+  compose    := λ _ _ _, norm_compose;
+  id_left    := λ _ _, @norm_identity_left;
+  id_right   := λ _ _, @norm_identity_right;
+  comp_assoc := λ _ _ _ _, @norm_compose_assoc;
+
+  comp_assoc_sym :=
+    λ _ _ _ _ f g h, symmetry (@norm_compose_assoc f g h);
+|}.
+Next Obligation. equivalence; congruence. Qed.
+Next Obligation.
+  proper.
+  f_equal.
+  - extensionality c'.
+    apply H0.
+  - extensionality c'.
+    apply H1.
+Qed.
+
+Definition norm_cartesian (c : Composition) : Morphism :=
+  match c with
+  | Composed ArrExl (Single (ArrFork f g)) => f
+  | Composed ArrExl (Composed (ArrFork f g) h) =>
+      combine f (Morphisms h)
+
+  | Composed ArrExr (Single (ArrFork f g)) => g
+  | Composed ArrExr (Composed (ArrFork f g) h) =>
+      combine g (Morphisms h)
+
+  | Single
+      (ArrFork
+         (Morphisms (Single ArrExl))
+         (Morphisms (Single ArrExr))) => Identity
+  | Composed
+      (ArrFork
+         (Morphisms (Single ArrExl))
+         (Morphisms (Single ArrExr))) h => Morphisms h
+
+  | f => Morphisms f
+  end.
+
+(* id ∘ ((exl ∘ (id ∘ exl) △ exr) ∘ (1 ∘ 2 △ 3)) ≈ 1 ∘ 2 *)
+Compute norm_morphism norm_cartesian
+  (to_morphism
+     (Comp Ident
+        (Comp (Comp Exl (Fork (Comp Ident Exl) Exr))
+           (Fork (Comp (Morph 1) (Morph 2)) (Morph 3))))).
 
 Fixpoint exprAD (e : Expr) : Type :=
   match e with
