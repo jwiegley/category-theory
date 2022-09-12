@@ -28,15 +28,15 @@ with Composition : Set :=
 
 with Arrow : Set :=
   | Arr     (n : nat)
-  | ArrFork (f g : Morphism)
   | ArrExl
-  | ArrExr.
+  | ArrExr
+  | ArrFork (f g : Morphism).
 
 Ltac breakit :=
   lazymatch goal with
-  | [ H : Morphism |- _ ] => destruct H
+  | [ H : Morphism    |- _ ] => destruct H
   | [ H : Composition |- _ ] => destruct H
-  | [ H : Arrow |- _ ] => destruct H
+  | [ H : Arrow       |- _ ] => destruct H
   end.
 
 Ltac solveit :=
@@ -80,6 +80,8 @@ with arrow_eq_dec (f g : Arrow) : {f = g} + {f ≠ g} :=
     | left  _ => in_left
     | right _ => in_right
     end
+  | ArrExl, ArrExl => left eq_refl
+  | ArrExr, ArrExr => left eq_refl
   | ArrFork f g, ArrFork h k =>
     match morphism_eq_dec f h with
     | left  _ =>
@@ -89,8 +91,6 @@ with arrow_eq_dec (f g : Arrow) : {f = g} + {f ≠ g} :=
       end
     | right _ => in_right
     end
-  | ArrExl, ArrExl => left eq_refl
-  | ArrExr, ArrExr => left eq_refl
   | _, _ => in_right
   end.
 Next Obligation. solveit. Defined.
@@ -113,14 +113,17 @@ Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 
+#[export]
 Program Instance Morphism_EqDec : EqDec Morphism := {
   eq_dec := morphism_eq_dec
 }.
 
+#[export]
 Program Instance Composition_EqDec : EqDec Composition := {
   eq_dec := composition_eq_dec
 }.
 
+#[export]
 Program Instance Arrow_EqDec : EqDec Arrow := {
   eq_dec := arrow_eq_dec
 }.
@@ -132,6 +135,13 @@ Fixpoint append (f g : Composition) : Composition :=
   | Single f, gs      => Composed f gs
   | Composed f fs, gs => Composed f (append fs gs)
   end.
+
+Lemma append_assoc {f g h} :
+  append f (append g h) = append (append f g) h.
+Proof.
+  induction f; simpl; auto.
+  now rewrite IHf.
+Qed.
 
 Definition combine (f g : Morphism) : Morphism :=
   match f, g with
@@ -149,6 +159,8 @@ Fixpoint to_morphism (t : Term) : Morphism :=
   | Exl      => Morphisms (Single ArrExl)
   | Exr      => Morphisms (Single ArrExr)
   end.
+
+Coercion to_morphism : Term >-> Morphism.
 
 Fixpoint from_morphism (f : Morphism) : Term :=
   match f with
@@ -417,6 +429,8 @@ Next Obligation.
     apply H1.
 Qed.
 
+Section Cartesian.
+
 Definition norm_cartesian (c : Composition) : Morphism :=
   match c with
   | Composed ArrExl (Single (ArrFork f g)) => f
@@ -436,15 +450,116 @@ Definition norm_cartesian (c : Composition) : Morphism :=
          (Morphisms (Single ArrExl))
          (Morphisms (Single ArrExr))) h => Morphisms h
 
+  | Single
+      (ArrFork
+         (Morphisms (Composed f fs))
+         (Morphisms (Composed g gs))) =>
+    Morphisms
+      (Composed
+         (ArrFork
+            (Morphisms (Single f))
+            (Morphisms (Single g)))
+         (Single (ArrFork
+                    (Morphisms fs)
+                    (Morphisms gs))))
+
+  | Composed
+      (ArrFork
+         (Morphisms (Composed f fs))
+         (Morphisms (Composed g gs))) h =>
+    Morphisms
+      (Composed
+         (ArrFork
+            (Morphisms (Single f))
+            (Morphisms (Single g)))
+         (Composed (ArrFork
+                      (Morphisms fs)
+                      (Morphisms gs)) h))
+
   | f => Morphisms f
   end.
 
-(* id ∘ ((exl ∘ (id ∘ exl) △ exr) ∘ (1 ∘ 2 △ 3)) ≈ 1 ∘ 2 *)
+(* Normalization gives us a way to define the category of reifed terms. *)
+
+#[local]
+Program Instance Terms : Category := {
+  obj        := Obj;
+  hom        := λ _ _, Term;
+  homset     := λ _ _,
+    {| equiv f g := to_morphism f = to_morphism g |};
+  id         := λ _, Ident;
+  compose    := λ _ _ _, Comp;
+}.
+Next Obligation.
+  unfold combine.
+  induction (to_morphism f); auto.
+Qed.
+Next Obligation.
+  unfold combine.
+  induction (to_morphism g); auto.
+  - induction (to_morphism f); auto.
+  - induction (to_morphism f); auto.
+    induction (to_morphism h); auto.
+    now rewrite append_assoc.
+Qed.
+Next Obligation.
+  symmetry.
+  unshelve eapply Terms_obligation_5; eauto.
+Qed.
+
+#[local]
+Axiom yet_to_be_proven : ∀ f g,
+  norm_morphism norm_cartesian f = norm_morphism norm_cartesian g →
+  f = g.
+
+(* Establishing that this is a cartesian category verifies that the
+   normalization function is sufficiently powerful. *)
+
+Program Instance Terms_Cartesian : @Cartesian Terms := {
+  product_obj := Pair;
+  fork := λ _ _ _, Fork;
+  exl := λ _ _, Exl;
+  exr := λ _ _, Exr;
+}.
+Next Obligation.
+  split; intro.
+  - induction (to_morphism h); auto.
+    + discriminate.
+    + split.
+      * inv H0.
+        apply yet_to_be_proven.
+        admit.
+      * inv H0.
+        apply yet_to_be_proven.
+        admit.
+  - induction (to_morphism h); auto.
+    + destruct H0.
+      rewrite <- e, <- e0.
+      apply yet_to_be_proven.
+      reflexivity.
+    + destruct H0.
+      rewrite <- e, <- e0.
+      clear e e0.
+      apply yet_to_be_proven.
+      destruct c; simpl.
+      * induction f0.
+        ** cbv.
+           admit.
+        ** admit.
+        ** cbv.
+           admit.
+        ** cbv.
+           admit.
+      * admit.
+Admitted.
+
+#[local] Coercion Morph : nat >-> Term.
+
 Compute norm_morphism norm_cartesian
-  (to_morphism
-     (Comp Ident
-        (Comp (Comp Exl (Fork (Comp Ident Exl) Exr))
-           (Fork (Comp (Morph 1) (Morph 2)) (Morph 3))))).
+  (id ∘ ((exl ∘ ((id ∘ exl) △ exr)) ∘ ((1 ∘ 2) △ 3))).
+  (* ==> 1 ∘ 2 *)
+
+End Cartesian.
 
 Fixpoint exprAD (e : Expr) : Type :=
   match e with
