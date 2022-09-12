@@ -20,7 +20,7 @@ Set Transparent Obligations.
 
 Inductive Morphism : Set :=
   | Identity
-  | Several (c : Composition)
+  | Morphisms (c : Composition)
 
 with Composition : Set :=
   | Single   (f : Arrow)
@@ -46,7 +46,7 @@ Ltac solveit :=
 Program Fixpoint morphism_eq_dec (f g : Morphism) : {f = g} + {f ≠ g} :=
   match f, g with
   | Identity, Identity => left eq_refl
-  | Several fs, Several gs =>
+  | Morphisms fs, Morphisms gs =>
     match composition_eq_dec fs gs with
     | left  _ => in_left
     | right _ => in_right
@@ -123,23 +123,34 @@ Definition combine (f g : Morphism) : Morphism :=
   match f, g with
   | Identity, g => g
   | f, Identity => f
-  | Several fs, Several gs => Several (append fs gs)
+  | Morphisms fs, Morphisms gs => Morphisms (append fs gs)
   end.
 
 Fixpoint to_morphism (t : Term) : Morphism :=
   match t with
   | Ident    => Identity
-  | Morph a  => Several (Single (Arr a))
+  | Morph a  => Morphisms (Single (Arr a))
   | Comp f g => combine (to_morphism f) (to_morphism g)
-  | Fork f g => Several (Single (ArrFork (to_morphism f) (to_morphism g)))
-  | Exl      => Several (Single ArrExl)
-  | Exr      => Several (Single ArrExr)
+  | Fork f g => Morphisms (Single (ArrFork (to_morphism f) (to_morphism g)))
+  | Exl      => Morphisms (Single ArrExl)
+  | Exr      => Morphisms (Single ArrExr)
+  end.
+
+Fixpoint to_morphism_f (k : Morphism → Morphism) (t : Term) : Morphism :=
+  match t with
+  | Ident    => k Identity
+  | Morph a  => k (Morphisms (Single (Arr a)))
+  | Comp f g => k (combine (to_morphism_f k f) (to_morphism_f k g))
+  | Fork f g =>
+    k (Morphisms (Single (ArrFork (to_morphism_f k f) (to_morphism_f k g))))
+  | Exl      => k (Morphisms (Single ArrExl))
+  | Exr      => k (Morphisms (Single ArrExr))
   end.
 
 Fixpoint from_morphism (f : Morphism) : Term :=
   match f with
   | Identity => Ident
-  | Several fs => from_composition fs
+  | Morphisms fs => from_composition fs
   end
 
 with from_composition (fs : Composition) : Term :=
@@ -155,6 +166,36 @@ with from_arrow (a : Arrow) : Term :=
   | ArrExl => Exl
   | ArrExr => Exr
   end.
+
+Definition norm_cartesian (c : Morphism) : Morphism :=
+  match c with
+  | Morphisms (Composed ArrExl (Single (ArrFork f g))) => f
+  | Morphisms (Composed ArrExl (Composed (ArrFork f g) h)) =>
+      combine f (Morphisms h)
+
+  | Morphisms (Composed ArrExr (Single (ArrFork f g))) => g
+  | Morphisms (Composed ArrExr (Composed (ArrFork f g) h)) =>
+      combine g (Morphisms h)
+
+  | Morphisms
+      (Single
+         (ArrFork
+            (Morphisms (Single ArrExl))
+            (Morphisms (Single ArrExr)))) => Identity
+  | Morphisms
+      (Composed
+         (ArrFork
+            (Morphisms (Single ArrExl))
+            (Morphisms (Single ArrExr))) h) => Morphisms h
+
+  | f => f
+  end.
+
+(* id ∘ ((exl ∘ (id ∘ exl) △ exr) ∘ (1 ∘ 2 △ 3)) ≈ 1 ∘ 2 *)
+Compute to_morphism_f norm_cartesian
+  (Comp Ident
+     (Comp (Comp Exl (Fork (Comp Ident Exl) Exr))
+        (Fork (Comp (Morph 1) (Morph 2)) (Morph 3)))).
 
 Ltac matches :=
   match goal with
@@ -249,6 +290,45 @@ Proof.
   - destruct d; [discriminate|]; desh.
   - destruct d; [discriminate|]; desh.
 Qed.
+
+Theorem from_morphism_to_morphism_f {d c} {t : Term} {f k} :
+  k Identity = Identity →
+  (∀ f, k (Morphisms (Single (Arr f))) = Morphisms (Single (Arr f))) →
+  k (Morphisms (Single ArrExl)) = Morphisms (Single ArrExl) →
+  k (Morphisms (Single ArrExr)) = Morphisms (Single ArrExr) →
+  (∀ t1 t2, t1 = Morphisms (Single ArrExl) → t2 = Morphisms (Single ArrExr) → k (Morphisms (Single (ArrFork t1 t2))) = Identity) →
+  (∀ t1 t2, t1 ≠ Morphisms (Single ArrExl) ∨ t2 ≠ Morphisms (Single ArrExr) → k (Morphisms (Single (ArrFork t1 t2))) = Morphisms (Single (ArrFork t1 t2))) →
+  termD d c (from_morphism (to_morphism_f k t)) = Some f
+    → termD d c t ≈ Some f.
+Proof.
+  generalize dependent c.
+  generalize dependent d.
+  unfold termD; induction t; simpl; intros; desh.
+  - rewrite H0 in Heqo; simpl in *; desh.
+    now rewrite peq_dec_refl.
+  - rewrite H1 in Heqo.
+    simpl in Heqo.
+    rewrite Heqo; desh.
+  - admit.
+  - destruct
+      (to_morphism_f k t1) eqn:Ht1,
+      (to_morphism_f k t2) eqn:Ht2;
+    intuition.
+    + rewrite H5 in Heqo.
+      * simpl in Heqo.
+        desh.
+        admit.
+      * left; intro; discriminate.
+    + admit.
+    + admit.
+    + admit.
+  - rewrite H2 in Heqo.
+    simpl in Heqo.
+    rewrite Heqo; desh.
+  - rewrite H3 in Heqo.
+    simpl in Heqo.
+    rewrite Heqo; desh.
+Admitted.
 
 Lemma from_morphism_app_r {d m c} {t1 t2 : Morphism} {g h} :
     termD_work m (from_morphism t1) = Some (c; g)
@@ -388,7 +468,8 @@ Example ex_normalize_cartesian
   f ∘ (id ∘ exl ∘ (id ∘ g ∘ h) △ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
+  Fail reflexivity.
   normalize.
-  intros; cat.
+  Fail reflexivity.             (* would work with norm_cartesian *)
+  cat.
 Qed.
