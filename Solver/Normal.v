@@ -571,9 +571,13 @@ Admitted.
 
 #[local] Coercion Morph : nat >-> Term.
 
-Compute norm_morphism norm_cartesian
-  (id ∘ ((exl ∘ ((id ∘ exl) △ exr)) ∘ ((1 ∘ 2) △ 3))).
-  (* ==> 1 ∘ 2 *)
+Example ex_norm_cartesian {x y z w} :
+  from_morphism
+    (norm_morphism norm_cartesian
+       (id ∘ ((exl ∘ ((id ∘ exl) △ exr))
+                ∘ (((1 : y ~> z) ∘ (2 : x ~> y)) △ (3 : x ~> w)))))
+       ≈ (1 : y ~> z) ∘ (2 : x ~> y).
+Proof. reflexivity. Qed.
 
 End Cartesian.
 
