@@ -39,8 +39,24 @@ Ltac breakit :=
   | [ H : Arrow       |- _ ] => destruct H
   end.
 
+Ltac substituted :=
+  match goal with
+  | [ n : nat, H : ∀ _ _ : nat, _ |- _ ] =>
+    specialize (H n n); intuition
+  | [ f : Morphism, g : Morphism, H : ∀ _ _ _ _ : Morphism, _ |- _ ] =>
+    specialize (H f g f g); intuition
+  | [ f : Arrow, g : Composition,
+      H : ∀ (_ : Arrow) (_ : Composition)
+            (_ : Arrow) (_ : Composition), _ |- _ ] =>
+    specialize (H f g f g); intuition
+  | [ f : Arrow, H : ∀ _ _ : Arrow, _ |- _ ] =>
+    specialize (H f f); intuition
+  | [ f : Composition, H : ∀ _ _ : Composition, _ |- _ ] =>
+    specialize (H f f); intuition
+  end.
+
 Ltac solveit :=
-  solve [ intros; subst; breakit; intuition
+  solve [ intros; subst; breakit; intuition; substituted
         | split; intros; breakit; intuition; discriminate ].
 
 Program Fixpoint morphism_eq_dec (f g : Morphism) : {f = g} + {f ≠ g} :=
