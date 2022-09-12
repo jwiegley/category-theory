@@ -1,48 +1,73 @@
-Require Import Coq.Vectors.Vector.
-Require Import Coq.PArith.PArith.
+Require Import Coq.Lists.List.
 
 From Equations Require Import Equations.
 Set Equations With UIP.
 
 Require Import Category.Lib.
-Require Import Category.Lib.IListVec.
+Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
+Require Import Category.Structure.Cartesian.
 
 Generalizable All Variables.
 Set Transparent Obligations.
 
-Import VectorNotations.
+Inductive Obj : Set :=
+  | Ob : nat → Obj
+  | Pair : Obj → Obj → Obj.
 
-Derive Signature NoConfusion NoConfusionHom EqDec Subterm for Fin.t.
+Derive NoConfusion NoConfusionHom Subterm EqDec for Obj.
 
-Definition obj_idx (n : nat) : Type := Fin.t n.
-Definition obj_pair (n : nat) := obj_idx n * obj_idx n.
+Fixpoint objD' {C: Category} `{@Cartesian C}
+  (d : C) (objs : list C) (x : Obj) :=
+  match x with
+  | Ob n => nth n objs d
+  | Pair x y => objD' d objs x × objD' d objs y
+  end.
 
-Definition dep_arr {C: Category} {n} (objs : Vector.t C n) '(dom, cod) :=
-  objs[@dom] ~> objs[@cod].
+Definition arrD' {C: Category} `{@Cartesian C}
+  (d : C) (objs : list C) '(dom, cod) :=
+  objD' d objs dom ~> objD' d objs cod.
 
-Class Env := {
-  cat      : Category;
-  num_objs : nat;
-  objs     : Vector.t cat num_objs;
-  num_arrs : nat;
-  tys      : Vector.t (obj_pair num_objs) num_arrs;
-  arrs     : ilist (B:=dep_arr objs) tys
+Class Objects := {
+  cat     : Category;
+  cart    : @Cartesian cat;
+  (* Note that we one extra object here (doubling the last), just for the
+     convenience of always knowing by the type that there must be one more
+     than [num_objs] available. This saves us from having to maintain
+     [num_objs] as the "size minus one". *)
+  def_obj : cat;
+  objs    : list cat;
+  objD   := objD' def_obj objs;
 }.
+#[export] Existing Instance cart.
 
-Inductive STerm : Set :=
-  | SIdent : STerm
-  | SMorph (a : positive) : STerm
-  | SComp (f : STerm) (g : STerm) : STerm.
+Class Arrows := {
+  has_objects : Objects;
 
-Derive NoConfusion NoConfusionHom Subterm EqDec for positive STerm.
+  arrD  := arrD' def_obj objs;
+  tys    : list (Obj * Obj);
+  arrs   : ilist (B:=arrD) tys;
+}.
+#[export] Existing Instance has_objects.
 
-Inductive SExpr : Set :=
-  | STop
-  | SBottom
-  | SEquiv (x y : positive) (f g : STerm)
-  | SAnd   (p q : SExpr)
-  | SOr    (p q : SExpr)
-  | SImpl  (p q : SExpr).
+Inductive Term : Set :=
+  | Ident : Term
+  | Morph (a : nat) : Term
+  | Comp (f g : Term) : Term
 
-Derive NoConfusion NoConfusionHom Subterm for SExpr.
+  (* Cartesian structure *)
+  | Fork (f g : Term) : Term
+  | Exl : Term
+  | Exr : Term.
+
+Derive NoConfusion NoConfusionHom Subterm EqDec for Term.
+
+Inductive Expr : Set :=
+  | Top
+  | Bottom
+  | Equiv (x y : Obj) (f g : Term)
+  | And   (p q : Expr)
+  | Or    (p q : Expr)
+  | Impl  (p q : Expr).
+
+Derive NoConfusion NoConfusionHom Subterm for Expr.

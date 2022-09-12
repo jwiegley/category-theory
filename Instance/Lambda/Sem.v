@@ -19,7 +19,7 @@ Fixpoint SemTy (τ : Ty) : Type :=
   | TyArrow dom cod => SemTy dom → SemTy cod
   end.
 
-Definition SemEnv Γ : Type := ilist SemTy Γ.
+Definition SemEnv Γ : Type := ilist (B:=SemTy) Γ.
 
 Fixpoint SemVar `(v : Var Γ τ) : SemEnv Γ → SemTy τ :=
   match v with

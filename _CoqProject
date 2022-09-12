@@ -104,7 +104,6 @@ Lib/Datatypes.v
 Lib/FMapExt.v
 Lib/Foundation.v
 Lib/IList.v
-Lib/IListVec.v
 Lib/MapDecide.v
 Lib/NETList.v
 Lib/Setoid.v
