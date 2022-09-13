@@ -1,3 +1,6 @@
+From Equations Require Import Equations.
+Set Equations With UIP.
+
 Require Import Category.Lib.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
@@ -28,8 +31,8 @@ Inductive partial (P : Type) : Type :=
 #[local] Notation "x && y" := (if x then Reduce y else No).
 
 Program Fixpoint expr_forward (t : Expr) (hyp : Expr)
-        (cont : partial (exprD t)) :
-  partial (exprD hyp → exprD t) :=
+        (cont : partial (exprSD t)) :
+  partial (exprSD hyp → exprSD t) :=
   match hyp with
   | Top           => Reduce cont
   | Bottom        => Yes
@@ -39,52 +42,88 @@ Program Fixpoint expr_forward (t : Expr) (hyp : Expr)
   | Impl _ _      => Reduce cont
   end.
 Next Obligation. tauto. Defined.
+Next Obligation. intuition. Defined.
 
 #[local] Obligation Tactic := cat_simpl; intuition.
 
-Program Fixpoint expr_backward (t : Expr) {measure t Expr_subterm} :
-  partial (exprD t) :=
+Program Fixpoint expr_backward (t : Expr) :
+  partial (exprSD t) :=
   match t with
   | Top           => Yes
   | Bottom        => No
-  | Equiv x y f g => _
+  | Equiv x y f g => Reduce (eq_dec (to_morphism f) (to_morphism g))
   | And p q       => expr_backward p && expr_backward q
   | Or p q        => expr_backward p || expr_backward q
   | Impl p q      => expr_forward q p (expr_backward q)
   end.
-Next Obligation.
-  destruct (morphism_eq_dec (to_morphism f) (to_morphism g)) eqn:?;
-    [|apply Uncertain].
-  destruct (termD _ _ f) eqn:?; [|apply Uncertain].
-  destruct (termD _ _ g) eqn:?; [|apply Uncertain].
-  apply Proved.
-  apply from_morphism_to_morphism_r in Heqo.
-  apply from_morphism_to_morphism_r in Heqo0.
-  rewrite e in Heqo.
-  rewrite Heqo in Heqo0.
-  now simpl in Heqo0.
-Defined.
-Next Obligation.
-  apply well_founded_Expr_subterm.
-Defined.
 
-Definition expr_tauto t : partial (exprD t).
+Definition expr_tauto t : partial (exprSD t).
 Proof.
   intros; refine (Reduce (expr_backward t)); auto.
 Defined.
 
-Lemma expr_sound t :
-  (if expr_tauto t then True else False) → exprD t.
+#[export]
+Program Instance Term_Setoid : Setoid Term := {
+  equiv f g := ∀ d c,
+    if expr_tauto (Equiv d c f g) then True else False
+}.
+Next Obligation.
+  unfold expr_tauto.
+  construct; repeat intro; simpl.
+  - now rewrite peq_dec_refl.
+  - destruct (eq_dec _ _).
+    + destruct (eq_dec _ _); auto.
+    + destruct (eq_dec _ _); auto.
+  - destruct (eq_dec _ _).
+    + destruct (eq_dec _ _); auto.
+      * destruct (eq_dec _ _); auto.
+        rewrite e, e0 in n.
+        tauto.
+      * destruct (eq_dec _ _); auto.
+    + destruct (eq_dec _ _); auto.
+      * destruct (eq_dec _ _); auto.
+      * destruct (eq_dec _ _); auto.
+Qed.
+
+#[export]
+Program Instance Comp_respects :
+  Proper (equiv ==> equiv ==> equiv) Comp.
+Next Obligation.
+  proper.
+  unfold expr_tauto in *.
+  simpl in *.
+  repeat destruct (eq_dec _ _); auto.
+  rewrite e, e0 in n.
+  contradiction.
+Qed.
+
+Lemma expr_sound {d c f g h} :
+  termD d c f = Some h → f ≈ g → exprD (Equiv d c f g).
 Proof.
-  unfold expr_tauto; destruct t, (expr_backward _); tauto.
+  intros.
+  simple apply exprAD_sound'.
+  specialize (X d c).
+  revert X.
+  unfold expr_tauto.
+  destruct (expr_backward _); intuition.
+  simple eapply exprSD_enough; eauto.
 Qed.
 
 End Decide.
 
+Ltac categorify := reify_terms_and_then
+  ltac:(fun env g =>
+          change (@exprD _ env g);
+          simple eapply expr_sound;
+            [now vm_compute|eauto];
+          clear).
+
 Ltac categorical := reify_terms_and_then
   ltac:(fun env g =>
           change (@exprD _ env g);
-          simple apply expr_sound;
+          simple eapply expr_sound;
+            [now vm_compute|eauto];
+          clear;
           now vm_compute).
 
 Example ex_categorical (C : Category) (x y z w : C)
@@ -101,10 +140,13 @@ Example ex_categorical (C : Category) (x y z w : C)
   f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  reify_and_change.
-  simple apply expr_sound.
-  Set Printing Implicit.
-
+  Succeed categorical.
   normalize.
-  now categorical.
+  categorify.
+  assert (Comp (Morph 2) (Comp (Morph 1) (Morph 0)) ≈
+            Comp (Comp (Morph 2) (Morph 1)) (Morph 0)). {
+    now vm_compute.
+  }
+  rewrite X.
+  now vm_compute.
 Qed.

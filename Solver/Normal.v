@@ -454,31 +454,25 @@ Qed.
 
 Fixpoint exprSD (e : Expr) : Type :=
   match e with
-  | Top    => True
-  | Bottom => False
+  | Top           => True
+  | Bottom        => False
   | Equiv d c f g => (f : d ~> c) ≈ g
-  | And p q  => exprSD p ∧ exprSD q
-  | Or p q   => exprSD p + exprSD q
-  | Impl p q => exprSD p → exprSD q
+  | And p q       => exprSD p ∧ exprSD q
+  | Or p q        => exprSD p + exprSD q
+  | Impl p q      => exprSD p → exprSD q
   end.
 
-Theorem exprSD_enough (e : Expr) : exprSD e ↔ exprAD e.
+Theorem exprSD_enough {d c f g h} :
+  termD d c f = Some h →
+  exprSD (Equiv d c f g) → exprAD (Equiv d c f g).
 Proof.
-  induction e; split; simpl in *; intuition.
-  - rewrite H0.
-    destruct (termD _ _ _) eqn:?.
-    + reflexivity.
-    + admit.
-  - destruct (termD _ _ (_ (_ f))) eqn:?; [|tauto].
-    destruct (termD _ _ (_ (_ g))) eqn:?; [|tauto].
-    apply from_morphism_to_morphism in Heqo.
-    apply from_morphism_to_morphism in Heqo0.
-    rewrite X in Heqo; clear X.
-    rewrite <- Heqo in Heqo0.
-    simpl in *.
-    destruct (termD _ _ _) eqn:?; [|tauto].
-    destruct (termD _ _ (_ (_ g))) eqn:?; [|tauto].
-    now rewrite Heqo, Heqo0, X.
+  simpl; intros.
+  rewrite H1.
+  apply from_morphism_to_morphism_r in H0.
+  rewrite H1 in H0.
+  destruct (termD _ _ _) eqn:?.
+  + reflexivity.
+  + tauto.
 Qed.
 
 End Normal.
@@ -511,6 +505,13 @@ Proof.
   repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
   (* Set Ltac Profiling. *)
   normalize.
+  intros.
+  clear.
+  reify_and_change.
+  clear.                        (* no effect *)
+  simple apply exprAD_sound'.
+  simple eapply exprSD_enough; [now vm_compute|].
+  clear.                        (* context is empty! *)
+  reflexivity.
   (* Show Ltac Profile. *)
-  intros; cat.
 Qed.
