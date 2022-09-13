@@ -531,7 +531,9 @@ Proof.
   reify_and_change.
   clear.                        (* no effect *)
 *)
-  structure.
+(*
+  structure.                    (* only works on Coq 8.16 *)
+*)
   reflexivity.
   (* Show Ltac Profile. *)
 Qed.
