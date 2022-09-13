@@ -140,13 +140,13 @@ Example ex_categorical (C : Category) (x y z w : C)
   f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  Succeed categorical.
+  (* categorical. *)
   normalize.
-  categorify.
-  assert (Comp (Morph 2) (Comp (Morph 1) (Morph 0)) ≈
-            Comp (Comp (Morph 2) (Morph 1)) (Morph 0)). {
-    now vm_compute.
-  }
-  rewrite X.
+  (* categorify. *)
+  (* assert (Comp (Morph 2) (Comp (Morph 1) (Morph 0)) ≈ *)
+  (*           Comp (Comp (Morph 2) (Morph 1)) (Morph 0)). { *)
+  (*   now vm_compute. *)
+  (* } *)
+  (* rewrite X. *)
   now vm_compute.
 Qed.
