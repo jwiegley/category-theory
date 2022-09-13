@@ -22,16 +22,6 @@ Coercion symmetric_is_balanced : SymmetricMonoidal >-> BalancedMonoidal.
 
 Context `{SymmetricMonoidal}.
 
-Corollary braid_symmetry {x y} :
-  to (@braid _ _ x y) ≈ from (@braid _ _ y x).
-Proof.
-  rewrite <- id_right.
-  rewrite <- (@iso_to_from _ _ _ braid).
-  rewrite comp_assoc.
-  rewrite braid_invol.
-  now rewrite id_left.
-Qed.
-
 Lemma hexagon_rotated {x y z} :
   tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc ⁻¹
     << x ⨂ (y ⨂ z) ~~> y ⨂ (x ⨂ z) >>
@@ -42,7 +32,7 @@ Proof.
   rewrite comp_assoc;
   rewrite <- (comp_assoc _ tensor_assoc braid);
   rewrite <- (comp_assoc _ (tensor_assoc ∘ braid) _).
-  rewrite hexagon_to_identity.
+  rewrite hexagon_identity.
   rewrite !comp_assoc.
   rewrite <- bimap_comp; rewrite id_left.
   rewrite braid_invol.
@@ -52,7 +42,7 @@ Qed.
 Lemma bimap_braid {x y z w} (f : x ~> z) (g : y ~> w) :
   g ⨂ f ∘ braid ≈ braid ∘ f ⨂ g.
 Proof.
-  spose (fst braid_natural _ _ f _ _ g) as X.
+  spose (braid_natural _ _ f _ _ g) as X.
   normal.
   apply X.
 Qed.

@@ -154,69 +154,42 @@ Next Obligation.
 Qed.
 
 Lemma exl_swap {x y z w} :
-  (@exl x y z w) ∘ swap ≈ exr.
+  @exl x y z w ∘ swap ≈ exr.
 Proof. solveit. Qed.
 
 Lemma exr_swap {x y z w} :
-  (@exr x y z w) ∘ swap ≈ exl.
+  @exr x y z w ∘ swap ≈ exl.
 Proof. solveit. Qed.
 
 Program Definition CC_BraidedMonoidal : @BraidedMonoidal C := {|
   braided_is_monoidal := CC_Monoidal;
-  braid := fun x y =>
-    {| to   := @swap C _ x y
-     ; from := @swap C _ y x
-     ; iso_to_from := swap_invol
-     ; iso_from_to := swap_invol
-    |}
+  braid := @swap C _
 |}.
 Next Obligation.
-  simpl; split; intros.
-  - rewrite <- fork_comp.
-    rewrite <- fork_comp.
-    rewrite swap_fork.
-    rewrite <- fork_comp.
-    apply Cartesian.fork_respects.
-    + rewrite <- comp_assoc.
-      rewrite <- comp_assoc.
-      rewrite <- comp_assoc.
-      apply compose_respects; try reflexivity.
-      rewrite exl_fork_comp.
-      rewrite exr_fork.
-      rewrite !id_left.
-      apply exl_swap.
-    + rewrite id_left.
-      rewrite id_left.
-      rewrite id_left.
-      rewrite exr_fork.
-      rewrite exl_fork.
-      rewrite <- comp_assoc.
-      apply compose_respects; try reflexivity.
-      apply exr_swap.
-  - rewrite <- fork_comp.
-    rewrite <- fork_comp.
-    rewrite swap_fork.
-    rewrite <- fork_comp.
-    apply Cartesian.fork_respects.
-    + rewrite id_left.
-      rewrite exl_fork.
-      rewrite id_left.
-      rewrite exr_fork.
-      rewrite <- comp_assoc.
-      apply compose_respects; try reflexivity.
-      apply exl_swap.
-    + rewrite <- comp_assoc.
-      rewrite <- comp_assoc.
-      rewrite <- comp_assoc.
-      apply compose_respects; try reflexivity.
-      rewrite exr_fork_comp.
-      rewrite exl_fork.
-      rewrite !id_left.
-      apply exr_swap.
+  rewrite <- fork_comp.
+  rewrite <- fork_comp.
+  rewrite swap_fork.
+  rewrite <- fork_comp.
+  apply Cartesian.fork_respects.
+  - rewrite <- comp_assoc.
+    rewrite <- comp_assoc.
+    rewrite <- comp_assoc.
+    apply compose_respects; try reflexivity.
+    rewrite exl_fork_comp.
+    rewrite exr_fork.
+    rewrite !id_left.
+    apply exl_swap.
+  - rewrite id_left.
+    rewrite id_left.
+    rewrite id_left.
+    rewrite exr_fork.
+    rewrite exl_fork.
+    rewrite <- comp_assoc.
+    apply compose_respects; try reflexivity.
+    apply exr_swap.
 Qed.
 Next Obligation.
   (* Time Succeed solve [solveit]. *)
-  intros. simpl.
   rewrite <- fork_comp.
   rewrite <- fork_comp.
   symmetry.
@@ -270,39 +243,36 @@ Next Obligation.
   apply Cartesian.fork_respects.
   { rewrite exl_fork_assoc.
     rewrite id_left.
-    rewrite exl_fork_assoc.
-    symmetry.
+    rewrite swap_fork.
     rewrite <- comp_assoc.
     rewrite swap_fork.
-    rewrite exl_fork_assoc.
+    symmetry.
+    rewrite <- fork_comp.
+    rewrite exl_fork.
+    rewrite <- comp_assoc.
+    rewrite exr_fork.
+    rewrite exl_fork.
+    rewrite <- fork_comp.
+    rewrite <- comp_assoc.
+    rewrite exr_fork.
     rewrite exl_fork.
     unfold swap.
     rewrite exl_fork_comp.
     reflexivity.
   }
   rewrite exr_fork_assoc.
-  rewrite swap_fork.
+  rewrite !id_left.
   rewrite <- comp_assoc.
-  rewrite <- fork_comp.
-  rewrite <- fork_comp.
-  apply Cartesian.fork_respects.
-  - rewrite exr_fork.
-    rewrite id_left.
-    rewrite swap_fork.
-    rewrite exl_fork_assoc.
-    rewrite exr_fork.
-    reflexivity.
-  - rewrite exl_fork_assoc.
-    rewrite comp_assoc.
-    rewrite exr_swap.
-    etransitivity.
-    2: {
-      apply compose_respects; [reflexivity|].
-      symmetry.
-      apply swap_fork.
-    }
-    symmetry.
-    apply exr_fork.
+  rewrite exr_fork.
+  unfold swap.
+  rewrite comp_assoc.
+  rewrite exr_fork.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc exr (exr △ exl)).
+  rewrite exr_fork.
+  rewrite exl_fork.
+  rewrite exr_fork.
+  reflexivity.
 Qed.
 
 Program Definition CC_BalancedMonoidal : @BalancedMonoidal C := {|
