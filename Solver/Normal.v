@@ -13,10 +13,6 @@ Section Normal.
 
 Context `{Arrows}.
 
-Import ListNotations.
-
-Set Transparent Obligations.
-
 Inductive Morphism : Set :=
   | Identity
   | Morphisms (c : Composition)
@@ -114,8 +110,6 @@ Program Instance Composition_EqDec : EqDec Composition := {
 Program Instance Arrow_EqDec : EqDec Arrow := {
   eq_dec := arrow_eq_dec
 }.
-
-Derive NoConfusion NoConfusionHom Subterm for Morphism Composition Arrow.
 
 Fixpoint append (f g : Composition) : Composition :=
   match f, g with
@@ -296,110 +290,6 @@ Proof.
     now rewrite x1, IHt1, IHt2.
 Qed.
 
-Theorem from_to_morphism {d c} {t : Term} {f} :
-  termD d c t ≈ Some f
-    ↔ termD d c (from_morphism (to_morphism t)) ≈ Some f.
-Proof.
-  split; intros.
-  - simpl in X.
-    destruct (termD d c _) eqn:?; [|tauto].
-    apply from_morphism_to_morphism_r in Heqo.
-    now rewrite Heqo, X.
-  - simpl in X.
-    destruct (termD d c _) eqn:?; [|tauto].
-    apply from_morphism_to_morphism in Heqo.
-    now rewrite Heqo, X.
-Qed.
-
-Section Norm.
-
-Variable k : Composition → Morphism.
-
-(* This normalization procedure encodes all of the recursive places at which
-   lawful normalization can take place. For example, no normalization may ever
-   substitute identity for another morphism (identity is always the most fully
-   normal it can be), nor can it exchange exl or exr for substitutes. It may
-   exchange individual morphisms, however, if there are rewrite rules to be
-   applied, such as [f ≈ g ∘ h]. *)
-
-Definition norm_arrow (a : Arrow) : Morphism :=
-  match a with
-  | Arr f => k (Single (Arr f))
-  end.
-
-Fixpoint norm_composition (fs : Composition) : Morphism :=
-  match fs with
-  | Single f => norm_arrow f
-  | Composed f gs =>
-      match combine (norm_arrow f) (norm_composition gs) with
-      | Identity => Identity
-      | Morphisms fs' => k fs'
-      end
-  end.
-
-Definition norm_morphism (f : Morphism) : Morphism :=
-  match f with
-  | Identity => Identity
-  | Morphisms fs => norm_composition fs
-  end.
-
-End Norm.
-
-Definition norm_identity : Composition → Morphism := Morphisms.
-
-Definition norm_compose (f g : Composition → Morphism) :
-  Composition → Morphism := λ c,
-  match g c with
-  | Identity => Identity
-  | Morphisms c' => f c'
-  end.
-
-Lemma norm_identity_left {f c} :
-  norm_compose norm_identity f c = f c.
-Proof.
-  unfold norm_compose, norm_identity.
-  induction (f c); auto.
-Qed.
-
-Lemma norm_identity_right {f c} :
-  norm_compose f norm_identity c = f c.
-Proof.
-  unfold norm_compose, norm_identity.
-  induction (f c); auto.
-Qed.
-
-Lemma norm_compose_assoc {f g h c} :
-  norm_compose f (norm_compose g h) c = norm_compose (norm_compose f g) h c.
-Proof.
-  unfold norm_compose.
-  induction (h c); auto.
-Qed.
-
-(* Normalization functions form a category. *)
-
-Program Definition Norm : Category := {|
-  obj        := unit;
-  hom        := λ _ _, Composition → Morphism;
-  homset     := λ _ _, {| equiv f g := ∀ c, f c = g c |};
-  id         := λ _, norm_identity;
-  compose    := λ _ _ _, norm_compose;
-  id_left    := λ _ _, @norm_identity_left;
-  id_right   := λ _ _, @norm_identity_right;
-  comp_assoc := λ _ _ _ _, @norm_compose_assoc;
-
-  comp_assoc_sym :=
-    λ _ _ _ _ f g h, symmetry (@norm_compose_assoc f g h);
-|}.
-Next Obligation. equivalence; congruence. Qed.
-Next Obligation.
-  proper.
-  f_equal.
-  - extensionality c'.
-    apply H0.
-  - extensionality c'.
-    apply H1.
-Qed.
-
 (* Normalization gives us a way to define the category of reifed terms. *)
 
 #[local]
@@ -427,8 +317,6 @@ Next Obligation.
   symmetry.
   unshelve eapply Terms_obligation_5; eauto.
 Qed.
-
-#[local] Coercion Morph : nat >-> Term.
 
 Fixpoint exprAD (e : Expr) : Type :=
   match e with

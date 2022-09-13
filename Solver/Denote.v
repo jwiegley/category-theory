@@ -8,9 +8,6 @@ Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
 Require Import Category.Solver.Expr.
 
-Generalizable All Variables.
-Set Transparent Obligations.
-
 Section Denote.
 
 Context `{Arrows}.
@@ -81,41 +78,3 @@ Fixpoint exprD (e : Expr) : Type :=
   end.
 
 End Denote.
-
-Module DenoteExamples.
-
-Import ListNotations.
-
-Section DenoteExamples.
-
-Context (C : Category).
-Variables x y z w : C.
-Variable f : z ~> w.
-Variable g : y ~> z.
-Variable h : x ~> y.
-Variable i : x ~> z.
-
-Open Scope nat_scope.
-
-#[local] Instance sample_objects : Objects C := {|
-  def_obj := y;
-  objs    := [w; x; z; y; y];
-|}.
-
-#[local] Instance sample_arrows : Arrows C := {|
-  arrs :=
-    icons (2, 0) f
-      (icons (1, 2) i
-         (icons (1, 3) h
-            (icons (3, 2) g
-               (icons (3, 2) g
-                  inil))))
-|}.
-
-Example termD_SIdent_Some :
-  termD 0 0 Ident = Some id.
-Proof. reflexivity. Qed.
-
-End DenoteExamples.
-
-End DenoteExamples.

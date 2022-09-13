@@ -4,15 +4,12 @@ Set Equations With UIP.
 Require Import Category.Lib.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Functor.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 Require Import Category.Solver.Reify.
 Require Import Category.Solver.Normal.
 
 Section Decide.
-
-#[local] Set Transparent Obligations.
 
 Context `{Arrows}.
 
@@ -140,13 +137,13 @@ Example ex_categorical (C : Category) (x y z w : C)
   f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  (* categorical. *)
-  normalize.
+  categorical.
+  (* normalize. *)
   (* categorify. *)
   (* assert (Comp (Morph 2) (Comp (Morph 1) (Morph 0)) ≈ *)
   (*           Comp (Comp (Morph 2) (Morph 1)) (Morph 0)). { *)
   (*   now vm_compute. *)
   (* } *)
   (* rewrite X. *)
-  now vm_compute.
+  (* now vm_compute. *)
 Qed.

@@ -6,8 +6,6 @@ Require Import Category.Theory.Category.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 
-Set Transparent Obligations.
-
 Import ListNotations.
 
 Open Scope nat_scope.
@@ -578,8 +576,6 @@ Proof.
   find_vars.
   reflexivity.
 Qed.
-
-Definition vec_size {A n} (l : Vector.t A n) : nat := n.
 
 Ltac reify_terms_and_then tacGoal :=
   match goal with
