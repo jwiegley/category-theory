@@ -1,5 +1,4 @@
 Require Import Coq.Lists.List.
-(* Require Import Coq.Arith.Arith. *)
 
 From Equations Require Import Equations.
 Set Equations With UIP.
@@ -7,7 +6,6 @@ Set Equations With UIP.
 Require Import Category.Lib.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
-Require Import Category.Structure.Cartesian.
 Require Import Category.Solver.Expr.
 
 Generalizable All Variables.
@@ -22,19 +20,19 @@ Import ListNotations.
 Open Scope nat_scope.
 
 Definition helper {f} :
-  (let '(dom, cod) := nth f tys (Ob 0, Ob 0)
+  (let '(dom, cod) := nth f tys (0, 0)
    in objD dom ~> objD cod)
-    → objD (fst (nth f tys (Ob 0, Ob 0))) ~>
-      objD (snd (nth f tys (Ob 0, Ob 0))).
-Proof. destruct (nth f tys (Ob 0, Ob 0)); auto. Defined.
+    → objD (fst (nth f tys (0, 0))) ~>
+      objD (snd (nth f tys (0, 0))).
+Proof. destruct (nth f tys (0, 0)); auto. Defined.
 
 Import EqNotations.
 
 Program Definition lookup_arr (f : nat) dom :
   option (∃ cod, objD dom ~> objD cod) :=
-  match eq_dec (fst (nth f tys (Ob 0, Ob 0))) dom with
+  match eq_dec (fst (nth f tys (0, 0))) dom with
   | left H =>
-      Some (snd (nth f tys (Ob 0, Ob 0));
+      Some (snd (nth f tys (0, 0));
             rew [fun x => objD x ~> _] H in
               helper (ith f arrs _))
   | _ => None
@@ -45,25 +43,6 @@ Fixpoint termD_work dom (e : Term) :
   match e with
   | Ident => Some (dom; id)
   | Morph a => lookup_arr a dom
-  | Fork f g =>
-    match termD_work dom f with
-    | Some (fcod; f) =>
-      match termD_work dom g with
-      | Some (gcod; g) => Some (Pair fcod gcod; f △ g)
-      | _ => None
-      end
-    | _ => None
-    end
-  | Exl =>
-      match dom with
-      | Pair x y => Some (x; exl)
-      | _ => None
-      end
-  | Exr =>
-      match dom with
-      | Pair x y => Some (y; exr)
-      | _ => None
-      end
   | Comp f g =>
     match termD_work dom g with
     | Some (mid; g) =>
@@ -110,43 +89,31 @@ Import ListNotations.
 Section DenoteExamples.
 
 Context (C : Category).
-Context `{H : @Cartesian C}.
 Variables x y z w : C.
 Variable f : z ~> w.
 Variable g : y ~> z.
 Variable h : x ~> y.
 Variable i : x ~> z.
 
-#[local] Instance sample_objects : Objects := {|
+Open Scope nat_scope.
+
+#[local] Instance sample_objects : Objects C := {|
   def_obj := y;
   objs    := [w; x; z; y; y];
 |}.
 
-#[local] Instance sample_arrows : Arrows := {|
+#[local] Instance sample_arrows : Arrows C := {|
   arrs :=
-    icons ((Ob 2), (Ob 0)) f
-      (icons ((Ob 1), (Ob 2)) i
-         (icons ((Ob 1), (Ob 3)) h
-            (icons ((Ob 3), (Ob 2)) g
-               (icons ((Ob 3), (Ob 2)) g
+    icons (2, 0) f
+      (icons (1, 2) i
+         (icons (1, 3) h
+            (icons (3, 2) g
+               (icons (3, 2) g
                   inil))))
 |}.
 
 Example termD_SIdent_Some :
-  termD (Ob 0) (Ob 0) Ident = Some id.
-Proof. reflexivity. Qed.
-
-Example termD_SExl_Some :
-  termD ((Pair (Ob 0) (Ob 1))) (Ob 0) Exl = Some exl.
-Proof. reflexivity. Qed.
-
-Example termD_SExr_Some :
-  termD (Pair (Ob 0) (Ob 1)) (Ob 1) Exr = Some exr.
-Proof. reflexivity. Qed.
-
-Example termD_SFork_Some :
-  termD (Ob 1) (Pair (Ob 3) (Ob 2)) (Fork (Morph 2) (Morph 1))
-    = Some (h △ i).
+  termD 0 0 Ident = Some id.
 Proof. reflexivity. Qed.
 
 End DenoteExamples.

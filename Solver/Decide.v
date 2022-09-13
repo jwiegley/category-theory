@@ -1,14 +1,15 @@
 Require Import Category.Lib.
+Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
-Require Import Category.Structure.Cartesian.
+Require Import Category.Theory.Functor.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 Require Import Category.Solver.Reify.
 Require Import Category.Solver.Normal.
 
-Generalizable All Variables.
-
 Section Decide.
+
+#[local] Set Transparent Obligations.
 
 Context `{Arrows}.
 
@@ -18,31 +19,23 @@ Inductive partial (P : Type) : Type :=
 | Proved : P → partial
 | Uncertain : partial.
 
-Notation "[ P ]" := (partial P) : type_scope.
+#[local] Notation "'Yes'" := (Proved _ _).
+#[local] Notation "'No'" := (Uncertain _).
 
-Declare Scope partial_scope.
-
-Notation "'Yes'" := (Proved _ _) : partial_scope.
-Notation "'No'" := (Uncertain _) : partial_scope.
-
-Open Scope partial_scope.
-Delimit Scope partial_scope with partial.
-
-Notation "'Reduce' v" := (if v then Yes else No) (at level 100) : partial_scope.
-Notation "x || y" := (if x then Yes else Reduce y) : partial_scope.
-Notation "x && y" := (if x then Reduce y else No) : partial_scope.
+#[local] Notation "'Reduce' v" := (if v then Yes else No)
+  (at level 100).
+#[local] Notation "x || y" := (if x then Yes else Reduce y).
+#[local] Notation "x && y" := (if x then Reduce y else No).
 
 Program Fixpoint expr_forward (t : Expr) (hyp : Expr)
-        (cont : [exprD t]) :
-  [exprD hyp → exprD t] :=
+        (cont : partial (exprD t)) :
+  partial (exprD hyp → exprD t) :=
   match hyp with
   | Top           => Reduce cont
   | Bottom        => Yes
   | Equiv x y f g => Reduce cont
   | And p q       => Reduce cont
-  | Or p q        => if expr_forward t p cont
-                     then Reduce (expr_forward t q cont)
-                     else No
+  | Or p q        => expr_forward t p cont && expr_forward t q cont
   | Impl _ _      => Reduce cont
   end.
 Next Obligation. tauto. Defined.
@@ -50,7 +43,7 @@ Next Obligation. tauto. Defined.
 #[local] Obligation Tactic := cat_simpl; intuition.
 
 Program Fixpoint expr_backward (t : Expr) {measure t Expr_subterm} :
-  [exprD t] :=
+  partial (exprD t) :=
   match t with
   | Top           => Yes
   | Bottom        => No
@@ -71,24 +64,30 @@ Next Obligation.
   rewrite Heqo in Heqo0.
   now simpl in Heqo0.
 Defined.
-Next Obligation. apply well_founded_Expr_subterm. Defined.
+Next Obligation.
+  apply well_founded_Expr_subterm.
+Defined.
 
-Definition expr_tauto : ∀ t, [exprD t].
-Proof. intros; refine (Reduce (expr_backward t)); auto. Defined.
+Definition expr_tauto t : partial (exprD t).
+Proof.
+  intros; refine (Reduce (expr_backward t)); auto.
+Defined.
 
 Lemma expr_sound t :
   (if expr_tauto t then True else False) → exprD t.
-Proof. unfold expr_tauto; destruct t, (expr_backward _); tauto. Qed.
+Proof.
+  unfold expr_tauto; destruct t, (expr_backward _); tauto.
+Qed.
 
 End Decide.
 
 Ltac categorical := reify_terms_and_then
   ltac:(fun env g =>
-          change (@exprD env g);
-          apply expr_sound;
+          change (@exprD _ env g);
+          simple apply expr_sound;
           now vm_compute).
 
-Example ex_categorical (C : Category) `{@Cartesian C} (x y z w : C)
+Example ex_categorical (C : Category) (x y z w : C)
   (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z) :
   g ∘ id ∘ id ∘ id ∘ h ≈ i ->
   g ∘ id ∘ id ∘ id ∘ h ≈ g ∘ h ->
@@ -102,5 +101,10 @@ Example ex_categorical (C : Category) `{@Cartesian C} (x y z w : C)
   f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
+  reify_and_change.
+  simple apply expr_sound.
+  Set Printing Implicit.
+
+  normalize.
   now categorical.
 Qed.

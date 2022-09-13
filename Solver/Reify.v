@@ -3,7 +3,6 @@ Require Import Coq.Lists.List.
 Require Import Category.Lib.
 Require Import Category.Lib.IList.
 Require Import Category.Theory.Category.
-Require Import Category.Structure.Cartesian.
 Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 
@@ -277,14 +276,10 @@ Qed.
 
 Ltac allObjs c cs o :=
   lazymatch o with
-  | ?x × ?y => let cs := allObjs c cs x in allObjs c cs y
-  | ?x      => addToObjList c cs x
+  | ?x => addToObjList c cs x
   end.
 
-Example test_allObjs
-  (C : Category) `{@Cartesian C}
-  (x y z w : C) :
-  True.
+Example test_allObjs (C : Category) (x y z w : C) : True.
 Proof.
   let cs := addToCatList C tt in
   let v := allObjs C cs constr:(x) in
@@ -292,35 +287,15 @@ Proof.
   assert (p = (C, (x, ()), (), ())) as H0 by auto.
   clear p H0.
 
-  let cs := addToCatList C tt in
-  let v := allObjs C cs constr:(x × y) in
-  pose v as p.
-  assert (p = (C, (y, (x, ())), (), ())) as H0 by auto.
-  clear p H0.
-
-  let cs := addToCatList C tt in
-  let v := allObjs C cs constr:((x × y) × (z × w)) in
-  pose v as p.
-  assert (p = (C, (w, (z, (y, (x, ())))), (), ())) as H0 by auto.
-  clear p H0.
-
   exact I.
 Qed.
 
 Ltac allVars cs e :=
   lazymatch e with
-  | @id ?c ?o       => let cs := addToCatList c cs in
-                       addToObjList c cs o
-  | @exl ?c _ ?x ?y => let cs := addToCatList c cs in
-                       let cs := addToObjList c cs x in
-                       addToObjList c cs y
-  | @exr ?c _ ?x ?y => let cs := addToCatList c cs in
-                       let cs := addToObjList c cs x in
-                       addToObjList c cs y
+  | @id ?c ?o => let cs := addToCatList c cs in addToObjList c cs o
 
   | ?f ∘ ?g => let cs := allVars cs f in allVars cs g
   | ?X ≈ ?Y => let cs := allVars cs X in allVars cs Y
-  | ?f △ ?g => let cs := allVars cs f in allVars cs g
   | ?P → ?Q => let cs := allVars cs P in allVars cs Q
   | ?f      =>
 
@@ -334,13 +309,10 @@ Ltac allVars cs e :=
   end.
 
 Example test_allVars
-  (C : Category) `{@Cartesian C}
-  (x y z w : C)
+  (C : Category)
+  (x y z : C)
   (f f' : y ~> z)
-  (g g' : x ~> y)
-  (k : y × z ~> w)
-  (h : x ~> y × z) :
-  True.
+  (g g' : x ~> y) : True.
 Proof.
   let v := allVars tt constr:(id[x]) in
   pose v as p.
@@ -368,26 +340,6 @@ Proof.
   assert (p = (C, (z, (y, ())), (f, ()), ())) as H0 by auto.
   clear p H0.
 
-  let v := allVars tt constr:(exl ∘ h) in
-  pose v as p.
-  assert (p = (C, (x, (z, (y, ()))), (h, ()), ())) as H0 by auto.
-  clear p H0.
-
-  let v := allVars tt constr:(exr ∘ h) in
-  pose v as p.
-  assert (p = (C, (x, (z, (y, ()))), (h, ()), ())) as H0 by auto.
-  clear p H0.
-
-  let v := allVars tt constr:(k ∘ h) in
-  pose v as p.
-  assert (p = (C, (x, (w, (z, (y, ())))), (h, (k, ())), ())) as H0 by auto.
-  clear p H0.
-
-  let v := allVars tt constr:(f △ f') in
-  pose v as p.
-  assert (p = (C, (z, (y, ())), (f', (f, ())), ())) as H0 by auto.
-  clear p H0.
-
   exact I.
 Qed.
 
@@ -395,39 +347,21 @@ Qed.
 
 Ltac reifyObj cs o :=
   lazymatch o with
-  | ?x × ?y =>
-    let xo := reifyObj cs x in
-    let yo := reifyObj cs y in
-    constr:(@Pair xo yo)
   | ?x =>
     lazymatch type of x with
     | @obj ?c =>
-      let o := lookupObj c cs x in
-      constr:(@Ob o)
+      lookupObj c cs x
     end
   end.
 
-Example test_reifyObj
-  (C : Category) `{@Cartesian C}
-  (x y z w : C)
-  (f : y ~> z)
-  (k : y × z ~> w) :
-  True.
+Example test_reifyObj (C : Category) (y z : C) (f : y ~> z) : True.
 Proof.
   let v := allVars tt constr:(f) in
   let o := reifyObj v constr:(y) in
   pose v as pv;
   pose o as po.
   assert (pv = (C, (z, (y, ())), (f, ()), ())) as Hv by auto.
-  assert (po = Ob 1) as Ho by auto.
-  clear pv po Hv Ho.
-
-  let v := allVars tt constr:(k) in
-  let o := reifyObj v constr:(y × z) in
-  pose v as pv;
-  pose o as po.
-  assert (pv = (C, (w, (z, (y, ()))), (k, ()), ())) as Hv by auto.
-  assert (po = Pair (Ob 2) (Ob 1)) as Ho by auto.
+  assert (po = 1) as Ho by auto.
   clear pv po Hv Ho.
 
   exact I.
@@ -440,12 +374,6 @@ Ltac reifyTerm cs t :=
     let ft := reifyTerm cs f in
     let gt := reifyTerm cs g in
     constr:(@Comp ft gt)
-  | @exl _ _ _ _ => constr:(@Exl)
-  | @exr _ _ _ _ => constr:(@Exr)
-  | ?f △ ?g =>
-    let ft := reifyTerm cs f in
-    let gt := reifyTerm cs g in
-    constr:(@Fork ft gt)
   | ?f =>
     lazymatch type of f with
     | ?x ~{?c}~> ?y =>
@@ -455,13 +383,10 @@ Ltac reifyTerm cs t :=
   end.
 
 Example test_reifyTerm
-  (C : Category) `{@Cartesian C}
-  (x y z w : C)
+  (C : Category)
+  (x y z : C)
   (f f' : y ~> z)
-  (g : x ~> y)
-  (k : y × z ~> w)
-  (h : x ~> y × z) :
-  True.
+  (g : x ~> y) : True.
 Proof.
   let t := reifyTerm tt constr:(id[x]) in
   pose t as pt.
@@ -500,38 +425,6 @@ Proof.
   assert (pt = Comp Ident (Morph 0)) as Ht by auto.
   clear pv pt Hv Ht.
 
-  let v := allVars tt constr:(exl ∘ h) in
-  let t := reifyTerm v constr:(exl ∘ h) in
-  pose v as pv;
-  pose t as pt.
-  assert (pv = (C, (x, (z, (y, ()))), (h, ()), ())) as Hv by auto.
-  assert (pt = Comp Exl (Morph 0)) as Ht by auto.
-  clear pv pt Hv Ht.
-
-  let v := allVars tt constr:(exr ∘ h) in
-  let t := reifyTerm v constr:(exr ∘ h) in
-  pose v as pv;
-  pose t as pt.
-  assert (pv = (C, (x, (z, (y, ()))), (h, ()), ())) as Hv by auto.
-  assert (pt = Comp Exr (Morph 0)) as Ht by auto.
-  clear pv pt Hv Ht.
-
-  let v := allVars tt constr:(k ∘ h) in
-  let t := reifyTerm v constr:(k ∘ h) in
-  pose v as pv;
-  pose t as pt.
-  assert (pv = (C, (x, (w, (z, (y, ())))), (h, (k, ())), ())) as Hv by auto.
-  assert (pt = Comp (Morph 1) (Morph 0)) as Ht by auto.
-  clear pv pt Hv Ht.
-
-  let v := allVars tt constr:(f △ f') in
-  let t := reifyTerm v constr:(f △ f') in
-  pose v as pv;
-  pose t as pt.
-  assert (pv = (C, (z, (y, ())), (f', (f, ())), ())) as Hv by auto.
-  assert (pt = Fork (Morph 1) (Morph 0)) as Ht by auto.
-  clear pv pt Hv Ht.
-
   exact I.
 Qed.
 
@@ -566,8 +459,7 @@ Example test_reifyExpr
   (C : Category)
   (x y z : C)
   (f : y ~> z)
-  (g : x ~> y) :
-  True.
+  (g : x ~> y) : True.
 Proof.
   let t := reifyExpr tt constr:(True) in
   pose t as pt.
@@ -584,7 +476,7 @@ Proof.
   pose v as pv;
   pose t as pt.
   assert (pv = (C, (z, (y, ())), (f, ()), ())) as Hv by auto.
-  assert (pt = Equiv (Ob 1) (Ob 0) (Morph 0) (Comp (Morph 0) Ident))
+  assert (pt = Equiv 1 0 (Morph 0) (Comp (Morph 0) Ident))
     as Ht by auto.
   clear pv pt Hv Ht.
 
@@ -679,8 +571,7 @@ Ltac find_vars :=
         pose arrs))
   end.
 
-Example ex_find_vars (C : Category) `{@Cartesian C}
-  (x y : C) (f : x ~> y) (g : y ~> x) :
+Example ex_find_vars (C : Category) (x y : C) (f : x ~> y) (g : y ~> x) :
   g ≈ g → f ≈ f.
 Proof.
   intros.
@@ -699,7 +590,6 @@ Ltac reify_terms_and_then tacGoal :=
       build_arrs c cs fs def_obj objs ltac:(fun arrs =>
         let objects :=
             constr:({|
-              cat     := c;
               def_obj := def_obj;
               objs    := objs |}) in
         let arrows :=
@@ -713,10 +603,10 @@ Ltac reify_terms_and_then tacGoal :=
 Ltac reify := reify_terms_and_then ltac:(fun env g => pose env; pose g).
 
 Ltac reify_and_change :=
-  reify_terms_and_then ltac:(fun env g => change (@exprD env g)).
+  reify_terms_and_then ltac:(fun env g => change (@exprD _ env g)).
 
 Example ex_reify_and_change
-  (C : Category) `{@Cartesian C} (x y z w : C)
+  (C : Category) (x y z w : C)
   (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z) :
   g ∘ h ≈ i ->
   f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
@@ -724,23 +614,5 @@ Proof.
   intros.
   reify_and_change.
   vm_compute.
-  (* match goal with *)
-  (* | [ |- @equiv _ (@homset _ _ _) ?X ?Y ] => idtac *)
-  (* end. *)
-  cat; try apply comp_assoc.
-Qed.
-
-Example ex_reify_and_change_cartesian
-  (C : Category) `{@Cartesian C} (x y z w : C)
-  (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z) :
-  g ∘ h ≈ i ->
-  f ∘ (id ∘ exl ∘ (id ∘ g ∘ h) △ h) ≈ (f ∘ g) ∘ h.
-Proof.
-  intros.
-  reify_and_change.
-  vm_compute.
-  (* match goal with *)
-  (* | [ |- @equiv _ (@homset _ _ _) ?X ?Y ] => idtac *)
-  (* end. *)
-  cat; try apply comp_assoc.
+  cat.
 Qed.
