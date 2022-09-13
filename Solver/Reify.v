@@ -614,5 +614,5 @@ Proof.
   intros.
   reify_and_change.
   vm_compute.
-  cat.
+  cat; try apply comp_assoc.
 Qed.
