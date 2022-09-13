@@ -85,3 +85,13 @@ Equations isplit `(xs : ilist (l ++ l')) : ilist l * ilist l'  :=
   }.
 
 End ilist.
+
+Equations imap `(f : A → C) `(k : ∀ (a : A), B a → D (f a))
+  `(xs : @ilist A B l) : @ilist C D (map f l) :=
+  imap f k (l:=[]) tt := tt;
+  imap f k (l:=j :: js) (x, xs) := (k j x, imap f k xs).
+
+Equations imap' `(k : ∀ (a : A), B a → C a)
+  `(xs : @ilist A B l) : @ilist A C l :=
+  imap' k (l:=[]) tt := tt;
+  imap' k (l:=j :: js) (x, xs) := (k j x, imap' k xs).
