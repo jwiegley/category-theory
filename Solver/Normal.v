@@ -296,6 +296,21 @@ Proof.
     now rewrite x1, IHt1, IHt2.
 Qed.
 
+Theorem from_to_morphism {d c} {t : Term} {f} :
+  termD d c t ≈ Some f
+    ↔ termD d c (from_morphism (to_morphism t)) ≈ Some f.
+Proof.
+  split; intros.
+  - simpl in X.
+    destruct (termD d c _) eqn:?; [|tauto].
+    apply from_morphism_to_morphism_r in Heqo.
+    now rewrite Heqo, X.
+  - simpl in X.
+    destruct (termD d c _) eqn:?; [|tauto].
+    apply from_morphism_to_morphism in Heqo.
+    now rewrite Heqo, X.
+Qed.
+
 Section Norm.
 
 Variable k : Composition → Morphism.
@@ -487,6 +502,13 @@ Ltac normalize :=
   simple apply exprAD_sound';
   vm_compute.
 
+Ltac structure :=
+  reify_and_change;
+  simple apply exprAD_sound';
+  simple eapply exprSD_enough;
+    [now vm_compute|];
+  clear.
+
 Example ex_normalize
   (C : Category) (x y z w : C)
   (f : z ~> w) (g : y ~> z) (h : x ~> y) (i : x ~> z) :
@@ -502,16 +524,14 @@ Example ex_normalize
   f ∘ (id ∘ g ∘ h) ≈ (f ∘ g) ∘ h.
 Proof.
   intros.
-  repeat match goal with | [ H : _ ≈ _ |- _ ] => revert H end.
   (* Set Ltac Profiling. *)
   normalize.
-  intros.
   clear.
+(*
   reify_and_change.
   clear.                        (* no effect *)
-  simple apply exprAD_sound'.
-  simple eapply exprSD_enough; [now vm_compute|].
-  clear.                        (* context is empty! *)
+*)
+  structure.
   reflexivity.
   (* Show Ltac Profile. *)
 Qed.
