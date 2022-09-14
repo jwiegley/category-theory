@@ -28,7 +28,7 @@ Class Arrows (cat : Category) := {
 Inductive Term : Set :=
   | Ident
   | Morph (a : nat)
-  | Comp (f g : Term).
+  | Comp  (f g : Term).
 
 Inductive Expr : Set :=
   | Top

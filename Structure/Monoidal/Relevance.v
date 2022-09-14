@@ -61,7 +61,7 @@ Proof.
   comp_right.
   normal.
   bimap_right.
-  spose (fst braid_natural _ _ h _ _ i) as X.
+  spose (braid_natural _ _ h _ _ i) as X.
   normal; assumption.
 Qed.
 

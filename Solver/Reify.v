@@ -534,17 +534,15 @@ Proof.
 Qed.
 
 Ltac build_objs cs andThen :=
-  foldr cs
-    tt
-    (* jww (2022-09-11): Right now we only use the first category *)
-    ltac:(fun cv _cvs =>
-      match cv with
-      | (?c, (?o, ?os), ?fs) =>
-        match type of o with
-        | @obj ?C =>
-          andThen c o ltac:(toList C (o, os)) fs
-        end
-      end).
+  match cs with
+  | ((?c, (?o, ?os), ?fs), tt) =>
+    match type of o with
+    | @obj ?C =>
+        andThen c o ltac:(toList C (o, os)) fs
+    end
+  | _ =>
+    fail "Solver only works with a single category"
+  end.
 
 Ltac build_arrs c cs fs def_obj objs andThen :=
   andThen ltac:(

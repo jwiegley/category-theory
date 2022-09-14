@@ -1,7 +1,7 @@
 MISSING	 =									\
 	find . \( \( -name foo \) -prune \)					\
 	    -o \( -name '*.v'							\
-		  -print \)						|	\
+	       \) -print						|	\
 		xargs egrep -i -Hn '(Fail|abort|admit|undefined|jww)'	|	\
 		      egrep -v 'Definition undefined'			|	\
 		      egrep -v '(old|new|research)/'
@@ -17,19 +17,23 @@ Makefile.coq: _CoqProject
 todo:
 	-@$(MISSING) || exit 0
 
-clean: _CoqProject Makefile.coq
+clean: Makefile.coq
 	$(MAKE) -f Makefile.coq clean
 
-install: _CoqProject Makefile.coq
+fullclean: clean
+	rm -f Makefile.coq Makefile.coq.conf .Makefile.coq.d
+
+install: Makefile.coq
 	$(MAKE) -f Makefile.coq install
 
-fullclean: clean
-	rm -f Makefile.coq Makefile.coq.conf .Makefile.d
-
+PARALLEL = parallel
 COQ_TOOLS = $(HOME)/src/coq-tools
 
 minimize-requires:
-	parallel -j1 --progress -- \
+	@if [ ! -f $(COQ_TOOLS)/minimize-requires.py ]; then \
+	    echo "Need https://github.com/JasonGross/coq-tools"; \
+	fi
+	@$(PARALLEL) -j1 --progress -- \
 	    $(COQ_TOOLS)/minimize-requires.py -i -R . Category {} ::: \
 	    $$(find . -name '*.v')
 

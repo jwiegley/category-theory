@@ -16,18 +16,18 @@ Context {C : Category}.
 Class BraidedMonoidal := {
   braided_is_monoidal : @Monoidal C;
 
-  braid {x y} : x ⨂ y ≅ y ⨂ x;
+  braid {x y} : x ⨂ y ~> y ⨂ x;
   braid_natural : natural (@braid);
 
-  hexagon_to_identity {x y z} :
-    tensor_assoc ∘ to braid ∘ tensor_assoc
+  hexagon_identity {x y z} :
+    tensor_assoc ∘ braid ∘ tensor_assoc
       << (x ⨂ y) ⨂ z ~~> y ⨂ (z ⨂ x) >>
-    id ⨂ to braid ∘ tensor_assoc ∘ to braid ⨂ id;
+    id ⨂ braid ∘ tensor_assoc ∘ braid ⨂ id;
 
-  hexagon_from_identity {x y z} :
-    tensor_assoc ∘ from braid ∘ tensor_assoc
-      << (x ⨂ y) ⨂ z ~~> y ⨂ (z ⨂ x) >>
-    id ⨂ from braid ∘ tensor_assoc ∘ from braid ⨂ id
+  hexagon_identity_sym {x y z} :
+    tensor_assoc⁻¹ ∘ braid ∘ tensor_assoc⁻¹
+      << x ⨂ (y ⨂ z) ~~> (z ⨂ x) ⨂ y >>
+    braid ⨂ id ∘ tensor_assoc⁻¹ ∘ id ⨂ braid;
 }.
 #[export] Existing Instance braided_is_monoidal.
 
@@ -46,26 +46,23 @@ Proof.
   rewrite <- !comp_assoc.
   rewrite (@comp_assoc _ _ _ _ _ (id ⨂ braid)).
   rewrite (@comp_assoc _ _ _ _ _ _ (braid ⨂ id)).
-  rewrite <- hexagon_to_identity.
+  rewrite <- hexagon_identity.
   rewrite <- !comp_assoc.
   rewrite (@comp_assoc _ _ _ _ _ tensor_assoc⁻¹ tensor_assoc).
   rewrite iso_from_to, id_left.
   rewrite iso_to_from, id_right.
   rewrite (@comp_assoc _ _ _ _ _ (id ⨂ braid)).
   rewrite (@comp_assoc _ _ _ _ _ _ (braid ⨂ id)).
-  rewrite <- hexagon_to_identity.
+  rewrite <- hexagon_identity.
   rewrite <- !comp_assoc.
   rewrite (@comp_assoc _ _ _ _ _ tensor_assoc⁻¹ tensor_assoc).
   rewrite iso_from_to, id_left.
   rewrite (@comp_assoc _ _ _ _ _ _ tensor_assoc⁻¹).
   rewrite iso_to_from, id_left.
-  destruct H.
-  destruct braid_natural0.
-  simpl in *.
-  specialize (n a _ id _ _ (braid0 b c)).
-  rewrite bimap_id_id in n.
-  rewrite id_right in n.
-  rewrite n.
+  spose (braid_natural a _ id _ _ (@braid _ b c)) as X.
+  rewrite bimap_id_id in X.
+  rewrite id_right in X.
+  rewrite X.
   rewrite bimap_id_id.
   rewrite id_right.
   reflexivity.

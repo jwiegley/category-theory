@@ -26,7 +26,7 @@ Class BalancedMonoidal := {
     twist;
 
   balanced_from_commutes {x y} :
-    braid⁻¹ ∘ twist⁻¹ ⨂ twist⁻¹ ∘ braid⁻¹
+    braid ∘ twist⁻¹ ⨂ twist⁻¹ ∘ braid
       << x ⨂ y ~~> x ⨂ y >>
     twist⁻¹;
 }.

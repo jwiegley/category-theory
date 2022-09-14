@@ -136,25 +136,14 @@ Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 
 #[export] Program Instance Par_BraidedMonoidal : @BraidedMonoidal Par := {
-  braid := λ _ _, {|
-    to   := λ p,
-      match p with
-      | Datatypes.inl (Datatypes.inl (x, y)) =>
-          Some (Datatypes.inl (Datatypes.inl (y, x)))
-      | Datatypes.inl (Datatypes.inr x) => Some (Datatypes.inr x)
-      | Datatypes.inr y => Some (Datatypes.inl (Datatypes.inr y))
-      end;
-    from := λ p,
-      match p with
-      | Datatypes.inl (Datatypes.inl (y, x)) =>
-          Some (Datatypes.inl (Datatypes.inl (x, y)))
-      | Datatypes.inl (Datatypes.inr y) => Some (Datatypes.inr y)
-      | Datatypes.inr x => Some (Datatypes.inl (Datatypes.inr x))
-      end;
-  |}
+  braid := λ _ _ p,
+    match p with
+    | Datatypes.inl (Datatypes.inl (x, y)) =>
+        Some (Datatypes.inl (Datatypes.inl (y, x)))
+    | Datatypes.inl (Datatypes.inr x) => Some (Datatypes.inr x)
+    | Datatypes.inr y => Some (Datatypes.inl (Datatypes.inr y))
+    end
 }.
-Next Obligation. solveit. Defined.
-Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
 Next Obligation. solveit. Defined.
