@@ -6,8 +6,9 @@ Generalizable All Variables.
 
 Section Transform.
 
-Context {C : Category}.
-Context {D : Category}.
+Universes o1 h1 p1 o2 h2 p2.
+Context {C : Category@{o1 h1 p2}}.
+Context {D : Category@{o2 h2 p2}}.
 Context {F : C ⟶ D}.
 Context {G : C ⟶ D}.
 
