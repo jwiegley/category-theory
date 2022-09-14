@@ -11,9 +11,9 @@ Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := {
 }.
 #[export] Existing Instance is_setoid.
 
-Record SetoidMorphism@{o p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
+Record SetoidMorphism@{o h p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
   morphism :> x → y;
-  proper_morphism :> Proper@{o p} (respectful@{o p o p o p} equiv equiv) morphism
+  proper_morphism :> Proper@{h p} (respectful@{h p h p h p} equiv equiv) morphism
 }.
 #[export] Existing Instance proper_morphism.
 
@@ -21,14 +21,14 @@ Arguments SetoidMorphism {_} _ {_} _.
 Arguments morphism {_ _ _ _ _} _.
 
 Definition SetoidMorphism_equiv@{o h p} {x y : SetoidObject@{o p}} :
-  crelation@{h p} (SetoidMorphism@{o p} x y) :=
+  crelation@{h p} (SetoidMorphism@{o h p} x y) :=
   fun f g => ∀ x, @equiv@{o p} _ y (f x) (g x).
 
 Arguments SetoidMorphism_equiv {x y} _ _ /.
 
 #[export]
 Program Instance SetoidMorphism_Setoid@{o h p} {x y : SetoidObject@{o p}} :
-  Setoid@{h p} (SetoidMorphism@{o p} x y) := {|
+  Setoid@{h p} (SetoidMorphism@{o h p} x y) := {|
   equiv := SetoidMorphism_equiv@{o h p};
 |}.
 Next Obligation.
@@ -41,16 +41,16 @@ Next Obligation.
     + apply X0.
 Qed.
 
-Definition setoid_morphism_id@{o p} {x : SetoidObject@{o p}} :
-  SetoidMorphism@{o p} x x := {|
+Definition setoid_morphism_id@{o h p} {x : SetoidObject@{o p}} :
+  SetoidMorphism@{o h p} x x := {|
   morphism := Datatypes.id
 |}.
 
 #[export] Hint Unfold setoid_morphism_id : core.
 
-Program Definition setoid_morphism_compose@{o p} {x y z : SetoidObject@{o p}}
-        (g : SetoidMorphism@{o p} y z)
-        (f : SetoidMorphism@{o p} x y) : SetoidMorphism@{o p} x z := {|
+Program Definition setoid_morphism_compose@{o h p} {x y z : SetoidObject@{o p}}
+        (g : SetoidMorphism@{o h p} y z)
+        (f : SetoidMorphism@{o h p} x y) : SetoidMorphism@{o h p} x z := {|
   morphism := Basics.compose g f
 |}.
 
@@ -67,10 +67,6 @@ Proof.
   apply proper_morphism, X0.
 Qed.
 
-Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
-  {| carrier   := poly_unit@{t}
-   ; is_setoid := unit_setoid@{t u} |}.
-
 (* The category of setoids.
 
        objects: setoids
@@ -80,10 +76,10 @@ Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
  *)
 Program Definition Sets@{o h so sh p} : Category@{so sh p} := {|
   obj     := SetoidObject@{o p} : Type@{so};
-  hom     := λ x y, SetoidMorphism@{o p} x y : Type@{sh};
+  hom     := λ x y, SetoidMorphism@{o h p} x y : Type@{sh};
   homset  := @SetoidMorphism_Setoid@{o h p};
-  id      := @setoid_morphism_id@{o p};
-  compose := @setoid_morphism_compose@{o p};
+  id      := @setoid_morphism_id@{o h p};
+  compose := @setoid_morphism_compose@{o h p};
 
   compose_respects := @setoid_morphism_compose_respects@{o h p}
 |}.
@@ -236,6 +232,10 @@ Next Obligation.
   - simpl.
     simplify; simpl; cat.
 Defined.
+
+Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
+  {| carrier   := poly_unit@{t}
+   ; is_setoid := unit_setoid@{t u} |}.
 
 Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) :
   (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f.
