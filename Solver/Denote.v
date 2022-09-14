@@ -16,12 +16,12 @@ Import ListNotations.
 
 Open Scope nat_scope.
 
-Definition helper {f} :
-  (let '(dom, cod) := nth f tys (0, 0)
-   in objD dom ~> objD cod)
-    → objD (fst (nth f tys (0, 0))) ~>
-      objD (snd (nth f tys (0, 0))).
-Proof. destruct (nth f tys (0, 0)); auto. Defined.
+Definition helper {p} :
+  (let '(dom, cod) := p in objD dom ~> objD cod)
+    → objD (fst p) ~> objD (snd p).
+Proof.
+  now destruct p.
+Defined.
 
 Import EqNotations.
 
@@ -56,8 +56,8 @@ Definition termD dom cod (e : Term) :
   match termD_work dom e with
   | Some (y; f) =>
     match eq_dec y cod with
-    | left ecod =>
-      Some (rew [fun y => objD dom ~> objD y] ecod in f)
+    | left H =>
+      Some (rew [fun y => objD dom ~> objD y] H in f)
     | _ => None
     end
   | _ => None

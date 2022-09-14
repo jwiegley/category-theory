@@ -59,12 +59,10 @@ Proof.
   rewrite iso_from_to, id_left.
   rewrite (@comp_assoc _ _ _ _ _ _ tensor_assoc⁻¹).
   rewrite iso_to_from, id_left.
-  destruct H.
-  simpl in *.
-  specialize (braid_natural0 a _ id _ _ (braid0 b c)).
-  rewrite bimap_id_id in braid_natural0.
-  rewrite id_right in braid_natural0.
-  rewrite braid_natural0.
+  spose (braid_natural a _ id _ _ (@braid _ b c)) as X.
+  rewrite bimap_id_id in X.
+  rewrite id_right in X.
+  rewrite X.
   rewrite bimap_id_id.
   rewrite id_right.
   reflexivity.

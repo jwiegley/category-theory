@@ -277,7 +277,7 @@ Qed.
 
 Program Definition CC_BalancedMonoidal : @BalancedMonoidal C := {|
   balanced_is_braided := CC_BraidedMonoidal;
-  twist := fun x =>
+  twist := fun _ =>
     {| to   := id
      ; from := id
      ; iso_to_from := _
@@ -286,13 +286,13 @@ Program Definition CC_BalancedMonoidal : @BalancedMonoidal C := {|
 |}.
 
 Definition CC_SymmetricMonoidal : @SymmetricMonoidal C := {|
-  symmetric_is_balanced := CC_BalancedMonoidal;
+  symmetric_is_braided := CC_BraidedMonoidal;
   braid_invol := @swap_invol _ _
 |}.
 
 Program Definition CC_RelevanceMonoidal : @RelevanceMonoidal C := {|
   relevance_is_symmetric := CC_SymmetricMonoidal;
-  diagonal  := fun o => Cartesian.fork id id
+  diagonal  := fun _ => Cartesian.fork id id
 |}.
 Next Obligation.
   cat_simpl.
