@@ -27,18 +27,24 @@ Generalizable All Variables.
 
 Section Adjunction.
 
-Context {C : Category}.
-Context {D : Category}.
+Universes o1 h1 p1 o2 h2 p2.
+Context {C : Category@{o1 h1 p2}}.
+Context {D : Category@{o2 h2 p2}}.
 Context {F : D ⟶ C}.
 Context {U : C ⟶ D}.
 
 Reserved Notation "⌊ f ⌋".
 Reserved Notation "⌈ f ⌉".
 
-Class Adjunction := {
-  adj {x y} : F x ~{C}~> y ≊ x ~{D}~> U y
-     where "⌊ f ⌋" := (to   adj f)
-       and "⌈ f ⌉" := (from adj f);
+(* o3 h3 p3 are universes larger than either C or D. *)
+Class Adjunction@{o3 h3 p3 so sh sp} := {
+  (* adj {x y} : F x ~{C}~> y ≊ x ~{D}~> U y *)
+  adj {x y} :
+    @Isomorphism@{so sh p3} Sets@{o3 h3 so sh p3}
+      {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |}
+      {| carrier := @hom D x (U y); is_setoid := @homset D x (U y) |}
+    where "⌊ f ⌋" := (to   adj f)
+      and "⌈ f ⌉" := (from adj f);
 
   to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) :
     ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g;
