@@ -51,6 +51,93 @@ This library is broken up into several major areas:
     with the same name occur often, with the parent directory establishing
     intent.
 
+### Programming sub-library
+
+Within `Theory.Coq` there is now a sub-library that continues work started in
+the [coq-haskell](https://github.com/jwiegley/coq-haskell/) library. This
+sub-library is specifically aimed at "applied category theory" for programmers
+in the category of Coq types and functions. The aim is to mimic the utility of
+Haskell's monad hierarchy -- but for Coq users, similar to what ext-lib
+achieves. I've also adjusted a few of my notations to more closely match
+ext-lib.
+
+Where this library differs, and what is considered the main contribution of
+this work, is that laws are not defined for these structures in the
+sub-library. Rather, the programmer establishs that her Monad is lawful by
+proving that a mapping exists from that definition into the general definition
+of monads (found in `Theory.Monad`) specialized to the category Coq. In this
+way the rest of the category-theory library is leveraged to discharge these
+proof obligations, while keeping the programmatic side as simple as possible.
+
+For example, it is trivial to define the composition of two Applicatives. What
+is not so trivial is proving that this is truly an Applicative, based on that
+simple definition. While this proof was done in coq-haskell, it requires a bit
+of Ltac magic to keep the size down:
+
+```
+Program Instance Compose_ApplicativeLaws
+  `{ApplicativeLaws F} `{ApplicativeLaws G} : ApplicativeLaws (F \o G).
+Obligation 2. (* ap_composition *)
+  (* Discharge w *)
+  rewrite <- ap_comp; f_equal.
+  (* Discharge v *)
+  rewrite <- !ap_fmap, <- ap_comp.
+  symmetry.
+  rewrite <- ap_comp; f_equal.
+  (* Discharge u *)
+  apply_applicative_laws.
+  f_equal.
+  extensionality y.
+  extensionality x.
+  extensionality x0.
+  rewrite <- ap_comp, ap_fmap.
+  reflexivity.
+Qed.
+```
+
+What's ill-gotten about this proof is that it's confined to the very specific
+case of Coq applicative endo-functors. However, there is a more general truth,
+which is that any two lax monoidal functors in any monoidal category also
+compose. So why not appeal to that proof to establish that our programmatic
+applicative in Coq is lawful by construction?
+
+This is what the new sub-library does. Since the more general proof is already
+completed (and is too large to paste here), one may appeal to it directly to
+establish the desired fact:
+
+```
+(* The composition of two applicatives is itself applicative. We establish
+   this by appeal to the general proofs that:
+
+   1. every Coq functor has strength;
+   2. (also, but not needed: any two strong functors compose to a strong
+      functor; if it is a Coq functor it is known to have strength); and
+   3. any two lax monoidal functors compose to a lax monoidal functor. *)
+
+Theorem Compose_IsApplicative
+  `(HF : EndoFunctor F)
+  `(AF : @Functor.Applicative.Applicative _ _ (FromAFunctor HF))
+  `(HG : EndoFunctor G)
+  `(AG : @Functor.Applicative.Applicative _ _ (FromAFunctor HG)) :
+  IsApplicative (Compose_IsFunctor HF HG)
+    (@Compose_Applicative
+       F HF (EndoApplicative_Applicative HF AF)
+       G HG (EndoApplicative_Applicative HG AG)).
+Proof.
+  construct.
+  - apply (@Compose_LaxMonoidalFunctor _ _ _ _ _ _ _ _ AF AG).
+  - apply Coq_StrongFunctor.
+Qed.
+```
+
+This proof pulls in several instances to establish that the category Coq is
+cartesian, closed, and thus closed monoidal, etc.
+
+The hope is this will become a happy marriage of simple, useful computational
+constructions for Coq programmers, with relevant proof results from what
+category theory tells us about these structures in general, such as the above
+fact concerning composition of monoidal functors.
+
 ## Duality
 
 The core theory is defined in such a way that "the dual of the dual" is
@@ -158,7 +245,9 @@ texts on category theory. Some of the key notations are:
    slash is not considered an operator
  - Coslice categories use `c ̸co C`, to avoid ambiguity
 
-## The Computational Solver
+## Future directions
+
+### Computational Solver
 
 There are some equivalences in category-theory that are very easily expressed
 and proven, but slow to establish in Coq using only symbolic term rewriting.
@@ -191,8 +280,6 @@ that solvable, well-typed, terms always give correct solutions. In this way,
 we transfer the problem to a domain without types, only indices, solve the
 structural problem there, and then bring the solution back to the domain of
 full types by way of the soundness proof.
-
-## Future directions
 
 ### Compiling to categories
 

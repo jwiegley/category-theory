@@ -100,9 +100,6 @@ Ltac cat_simpl :=
   try solve [
     repeat match goal with
     | [ |- Equivalence _ ] => equivalence
-    | [ |- Equivalence _ ] => equivalence
-    | [ |- Proper _ _ ] => proper
-    | [ |- respectful _ _ _ _ ] => proper
     | [ |- Proper _ _ ] => proper
     | [ |- respectful _ _ _ _ ] => proper
     end;
