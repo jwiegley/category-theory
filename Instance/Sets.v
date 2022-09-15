@@ -11,25 +11,28 @@ Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := {
 }.
 #[export] Existing Instance is_setoid.
 
-Record SetoidMorphism@{o h p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
-  morphism :> x → y;
-  proper_morphism :> Proper@{h p} (respectful@{h p h p h p} equiv equiv) morphism
+Record SetoidMorphism@{o h op hp} `{Setoid@{o op} x} `{Setoid@{o op} y} := {
+  morphism :> x → y : Type@{h};
+  proper_morphism :>
+    Proper@{o op} (respectful@{o op o op o op} equiv equiv) morphism
 }.
 #[export] Existing Instance proper_morphism.
 
 Arguments SetoidMorphism {_} _ {_} _.
+Arguments Build_SetoidMorphism {_} _ {_} _ _ _.
 Arguments morphism {_ _ _ _ _} _.
 
-Definition SetoidMorphism_equiv@{o h p} {x y : SetoidObject@{o p}} :
-  crelation@{h p} (SetoidMorphism@{o h p} x y) :=
-  fun f g => ∀ x, @equiv@{o p} _ y (f x) (g x).
+Definition SetoidMorphism_equiv@{o h op hp} {x y : SetoidObject@{o op}} :
+  crelation@{h hp} (SetoidMorphism@{o h op hp} x y) :=
+  fun f g => ∀ x, @equiv@{o op} _ y (f x) (g x).
 
 Arguments SetoidMorphism_equiv {x y} _ _ /.
 
 #[export]
-Program Instance SetoidMorphism_Setoid@{o h p} {x y : SetoidObject@{o p}} :
-  Setoid@{h p} (SetoidMorphism@{o h p} x y) := {|
-  equiv := SetoidMorphism_equiv@{o h p};
+Program Instance SetoidMorphism_Setoid@{o h op hp so sh sp}
+  {x y : SetoidObject@{o op} : Type@{so}} :
+  Setoid@{sh sp} (SetoidMorphism@{o h op hp} x y) := {|
+  equiv := SetoidMorphism_equiv@{o h op hp};
 |}.
 Next Obligation.
   constructor; repeat intro.
@@ -41,24 +44,25 @@ Next Obligation.
     + apply X0.
 Qed.
 
-Definition setoid_morphism_id@{o h p} {x : SetoidObject@{o p}} :
-  SetoidMorphism@{o h p} x x := {|
+Definition setoid_morphism_id@{o h op hp} {x : SetoidObject@{o op}} :
+  SetoidMorphism@{o h op hp} x x := {|
   morphism := Datatypes.id
 |}.
 
 #[export] Hint Unfold setoid_morphism_id : core.
 
-Program Definition setoid_morphism_compose@{o h p} {x y z : SetoidObject@{o p}}
-        (g : SetoidMorphism@{o h p} y z)
-        (f : SetoidMorphism@{o h p} x y) : SetoidMorphism@{o h p} x z := {|
+Program Definition setoid_morphism_compose@{o h op hp}
+  {x y z : SetoidObject@{o op}}
+  (g : SetoidMorphism@{o h op hp} y z)
+  (f : SetoidMorphism@{o h op hp} x y) : SetoidMorphism@{o h op hp} x z := {|
   morphism := Basics.compose g f
 |}.
 
 #[export] Hint Unfold setoid_morphism_compose : core.
 
-Program Definition setoid_morphism_compose_respects@{o h p}
-  {x y z : SetoidObject@{o p}} :
-  Proper@{h p} (equiv@{h p} ==> equiv@{h p} ==> equiv@{h p})
+Program Definition setoid_morphism_compose_respects@{o op so sh sp}
+  {x y z : SetoidObject@{o op} : Type@{so}} :
+  Proper@{sh sp} (equiv@{sh sp} ==> equiv@{sh sp} ==> equiv@{sh sp})
     (@setoid_morphism_compose x y z).
 Proof.
   unfold Proper, respectful.
@@ -74,14 +78,14 @@ Qed.
       identity: typical identity of sets
    composition: composition of set maps, preserving equivalence
  *)
-Program Definition Sets@{o h so sh p} : Category@{so sh p} := {|
-  obj     := SetoidObject@{o p} : Type@{so};
-  hom     := λ x y, SetoidMorphism@{o h p} x y : Type@{sh};
-  homset  := @SetoidMorphism_Setoid@{o h p};
-  id      := @setoid_morphism_id@{o h p};
-  compose := @setoid_morphism_compose@{o h p};
+Program Definition Sets@{o h op hp so sh sp} : Category@{so sh sp} := {|
+  obj     := SetoidObject@{o op} : Type@{so};
+  hom     := λ x y, SetoidMorphism@{o h op hp} x y : Type@{sh};
+  homset  := @SetoidMorphism_Setoid@{o h op hp so sh sp};
+  id      := @setoid_morphism_id@{o h op hp};
+  compose := @setoid_morphism_compose@{o h op hp};
 
-  compose_respects := @setoid_morphism_compose_respects@{o h p}
+  compose_respects := @setoid_morphism_compose_respects@{o op so sh sp}
 |}.
 
 Require Import Category.Theory.Isomorphism.
@@ -266,9 +270,15 @@ Proof.
     constructor.
 Qed.
 
-Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}}
-  (h : A ~{Sets}~> B) :
-  (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h.
+Inductive Surjective@{o h op hp sh} {A B : SetoidObject@{o op}}
+  (h : SetoidMorphism@{o h op hp} A B) (b : B) : Type@{o} :=
+  | obv : Surjective
+  | surj (a : A) : h a ≈ b → Surjective.
+
+Lemma surjectivity_is_epic@{o h op hp so sh sp}
+  {A B : SetoidObject@{o op}}
+  (h : A ~{Sets@{o h op hp so sh sp}}~> B) :
+  (∀ b : B, ∃ a : A, h a ≈ b)%type ↔ Epic@{sh sp} h.
 Proof.
   split.
   - intros HA.
@@ -284,7 +294,7 @@ Proof.
        In the category of sets epimorphisms are surjective - Constructive Proof?
        URL (version: 2014-08-18): https://mathoverflow.net/q/178786 *)
     intros [epic] ?.
-    given (C : SetoidObject). {
+    given (C : SetoidObject@{o op}). {
       refine {|
         carrier := Type;
         is_setoid := {|
