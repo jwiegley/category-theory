@@ -33,7 +33,7 @@ Inductive Term : Set :=
 Inductive Expr : Set :=
   | Top
   | Bottom
-  | Equiv (x y : Obj) (f g : Term)
   | And   (p q : Expr)
   | Or    (p q : Expr)
-  | Impl  (p q : Expr).
+  | Impl  (p q : Expr)
+  | Equiv (x y : Obj) (f g : Term).

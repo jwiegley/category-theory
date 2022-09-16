@@ -74,6 +74,24 @@ Proof.
       exact (snd il).
 Defined.
 
+Definition ith_exact `{EqDec A} (n : nat) (a : A)
+  {As : list A} (il : ilist As) : option (B a).
+Proof.
+  generalize dependent As.
+  induction n; intros.
+  - destruct As; simpl.
+    + exact None.
+    + simpl in il.
+      destruct (eq_dec a a0); subst.
+      * exact (Some (fst il)).
+      * exact None.
+  - destruct As; simpl.
+    + exact None.
+    + simpl in il.
+      destruct il.
+      exact (IHn As i).
+Defined.
+
 Equations iapp `(xs : ilist l) `(ys : ilist l') : ilist (l ++ l') :=
   iapp (l:=[]) tt ys := ys;
   iapp (x, xs) ys := (x, iapp xs ys).
