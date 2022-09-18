@@ -102,6 +102,7 @@ Instance/Zero.v
 Instance/Simplex/AugmentedSimplexCategory.v
 Instance/Simplex/NaturalNumberArithmetic.v
 Instance/Simplex/MonoidalStructure.v
+Instance/Simplex/FaceAndDegeneracyMaps.v
 Lib.v
 Lib/Datatypes.v
 Lib/FMapExt.v
