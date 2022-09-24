@@ -67,9 +67,13 @@ Global Hint Rewrite ffunE : monoidal.
    line of code, once auto has exhausted all other options (all hints with cost < 100) it
    shelves the goal, thus *succeeding*; ergo all previous changes it made to the goal
    remain in place.
-
+   
    This is convenient in situations where you expect auto to make unambiguous progress
-   toward the goal even if it does not completely solve it.  *)
+   toward the goal even if it does not completely solve it. 
+
+   Be warned that this command essentially *disables backtracking*, as the only commands that 
+   ever fail are the ones that fail immediately or fail at the maximum depth of the proof tree.
+ *)
 Global Hint Extern 100 => shelve : monoidal.
 
 Ltac always_simplify := do !

@@ -9,7 +9,8 @@ Global Create HintDb arith discriminated.
 Global Hint Resolve leq_trans : arith. 
 Global Hint Resolve ltn_ord : arith.
 Global Hint Resolve leq_addr : arith.
-Global Hint Resolve ltnW : arith.
+(* This can cause infinite looping so it's better not to add it? *)
+(* Global Hint Resolve ltnW : arith. *)
 Global Hint Resolve leq_addr : arith.
 Global Hint Resolve leq_addl : arith.
 
@@ -24,6 +25,7 @@ Proof.
   intros n m k ineq.
   apply (@leq_trans k n (m + k)); auto with arith.
 Qed.
+
 
 Global Hint Resolve nltm_nltmk : arith.
 Global Hint Resolve nltk_nltmk : arith.
