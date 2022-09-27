@@ -201,26 +201,6 @@ Open Scope category_scope.
 
 Module MonoidalStructure.
   Local Notation I := 0.
-  (* Check ordinal_sum_morphisms. *)
-  (* Check @Sub _ _ (monotonic_fn _ _). *)
-  
-  (* Program Definition tensor : Δ ∏ Δ ⟶ Δ := *)
-  (*   {| *)
-  (*     fobj := fun nm => let (n, m) := nm in n + m; *)
-  (*     fmap := fun nn' =>  *)
-  (*             fun mm' =>  *)
-  (*             fun fg => let (f, g) := fg in *)
-  (*                       (@Sub ('I_(mm'.1 + mm'.2)^(nn'.1 + nn'.2)) *)
-  (*                          monotonic (monotonic_fn _ _) (ordinal_sum_morphisms f g) _); *)
-  (*     fmap_respects := fun nn' mm' _ _ => _ ; *)
-  (*     fmap_id := fun _ => val_inj _ ; *)
-  (*     fmap_comp := fun _ _ _ _ _ => val_inj _; *)
-  (*   |}. *)
-  (* Next Obligation. exact: sum_of_monotonics. Qed. *)
-  (* Next Obligation. *)
-  (*   do 2! match goal with [ H : eq _ _ |- _ ] => destruct H end; reflexivity. *)
-  (* Qed. *)
-  (* Next Obligation. *)
   Definition tensor : Δ ∏ Δ ⟶ Δ.
     unshelve eapply (Build_Functor).
     { exact [fun nm : Δ ∏ Δ => let (n, m) := nm in n + m]. }

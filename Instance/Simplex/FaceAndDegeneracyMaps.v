@@ -16,46 +16,6 @@ Require Import mathcomp.ssreflect.tuple.
 
 Open Scope nat_scope.
 
-(* This file defines the coface and codegeneracy maps of the simplex category Δ
-   (including the proofs that they are monotonic)
-   and proves that the simplicial identities hold. 
-
-   Letting [n] denote the n-th finite ordinal {0,... n-1},
-   and letting i ∈ [n+1],
-   the i-th coface map δ_i : [n] -> [n+1] 
-   is the unique monotonic injection
-   whose image does not contain i; that is, 
-   δ_i(x) = x if x < i, else δ_i(x) = x+1 if x >= i. 
-
-   We define δ_i in terms of the lift and bump functions from the 
-   ssreflect fintype library.
-
-   Again, letting i ∈ [n+1],
-   the i-th codegeneracy map σ_i : [n+2] -> [n+1], (denoted σ_i), is
-   the unique monotonic surjection such that the preimage of i contains two elements;
-   that is, σ_i(x) = x if  x <= i; else, σ_i(x) = x-1 if x > i.
-
-   These functions satisfy the following equations, called the simplicial identities:
-   
-   δ_j ∘ δ_i = δ_i ∘ δ_(j-1)   ;  i < j
-   σ_j ∘ σ_i = σ_i ∘ σ_(j+1)   ;  i <= j
-   σ_j ∘ δ_i = δ_i ∘ σ_(j-1)   ;  i < j
-   σ_j ∘ δ_j = id = σ_j ∘ δ_(j+1)
-   σ_j ∘ δ_i = δ_(i-1) ; i > j+1
-
-   which we prove in this file. 
-   References for this material include "Simplicial Objects in Algebraic Topology"
-   by Peter May, or "Simplicial Homotopy Theory" by Goerss and Jardine.
-
-   The above five equations are taken from page 1 of May's book, except
-   that in his book they occur dualized, i.e., they are meant to be interpreted
-   in the opposite category to our simplex category.
-
-   TODO : Prove that the coface and codegeneracy maps generate Δ, 
-   and moreover that they freely generate the category subject to the simplicial 
-   identities.
-*)
-
 (*
   Section: 
    Setting up arithmetic hints and automation
@@ -185,9 +145,6 @@ Local Create HintDb simplex discriminated.
 Local Hint Extern 0 => simplex_simpl : simplex.
 Local Hint Extern 5 => (fail_if_unchanged ltac:(simpl)) : simplex.
 
-
-Ltac push := match goal with [ H : _ |- _ ] => revert H end.
-
 (* Definitions of the face and degeneracy maps *)
 
 Proposition δ_monotonic : forall (n : nat) (i : 'I_(n.+1)),
@@ -255,7 +212,6 @@ Proof.
 Qed.
 
 Definition ord_predn {n : nat} (i : 'I_(n.+2)) : 'I_(n.+1) := Sub (predn i) (predn_subproof n i).
-
 
 Definition ord_upcast {n : nat} (i : 'I_n) : 'I_n.+1.
 Proof.
@@ -435,3 +391,5 @@ Proof.
   simplex_simpl.
   exact: δi_σj_i_gt_addnj1_nat.
 Qed.
+
+(* Factoring *)

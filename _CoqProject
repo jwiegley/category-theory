@@ -99,8 +99,8 @@ Instance/Shapes.v
 Instance/Two.v
 Instance/Two/Discrete.v
 Instance/Zero.v
-Instance/Simplex/AugmentedSimplexCategory.v
 Instance/Simplex/NaturalNumberArithmetic.v
+Instance/Simplex/AugmentedSimplexCategory.v
 Instance/Simplex/MonoidalStructure.v
 Instance/Simplex/FaceAndDegeneracyMaps.v
 Lib.v
