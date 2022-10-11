@@ -1,5 +1,3 @@
-Require Import Coq.Lists.List.
-
 From Equations Require Import Equations.
 Set Equations With UIP.
 
@@ -12,26 +10,13 @@ Section Denote.
 
 Context `{Arrows}.
 
-Import ListNotations.
-
 Open Scope nat_scope.
 
-Definition helper {p} :
-  (let '(dom, cod) := p in objD dom ~> objD cod)
-    → objD (fst p) ~> objD (snd p).
-Proof.
-  now destruct p.
-Defined.
-
-Import EqNotations.
-
-Program Definition lookup_arr (f : nat) dom :
+Definition lookup_arr (f : nat) dom :
   option (∃ cod, objD dom ~> objD cod) :=
-  match eq_dec (fst (nth f tys (0, 0))) dom with
-  | left H =>
-      Some (snd (nth f tys (0, 0));
-            rew [fun x => objD x ~> _] H in
-              helper (ith f arrs _))
+  let cod := snd (List.nth f tys (0, 0)) in
+  match ith_exact f (dom, cod) arrs with
+  | Some f => Some (cod; f)
   | _ => None
   end.
 
@@ -51,13 +36,14 @@ Fixpoint termD_work dom (e : Term) :
     end
   end.
 
+Import EqNotations.
+
 Definition termD dom cod (e : Term) :
   option (objD dom ~> objD cod) :=
   match termD_work dom e with
   | Some (y; f) =>
     match eq_dec y cod with
-    | left H =>
-      Some (rew [fun y => objD dom ~> objD y] H in f)
+    | left H => Some (rew [fun y => _ ~> objD y] H in f)
     | _ => None
     end
   | _ => None
@@ -65,16 +51,17 @@ Definition termD dom cod (e : Term) :
 
 Fixpoint exprD (e : Expr) : Type :=
   match e with
-  | Top           => True
-  | Bottom        => False
+  | Top      => True
+  | Bottom   => False
+  | And p q  => exprD p ∧ exprD q
+  | Or p q   => exprD p + exprD q
+  | Impl p q => exprD p → exprD q
+
   | Equiv d c f g =>
     match termD d c f, termD d c g with
     | Some f, Some g => f ≈ g
     | _, _ => False
     end
-  | And p q       => exprD p ∧ exprD q
-  | Or p q        => exprD p + exprD q
-  | Impl p q      => exprD p → exprD q
   end.
 
 End Denote.

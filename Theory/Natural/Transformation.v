@@ -26,7 +26,8 @@ Class Transform := {
     transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform
 }.
 
-#[export] Program Instance Transform_Setoid : Setoid Transform :=
+#[export]
+Program Instance Transform_Setoid : Setoid Transform :=
   {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x); |}.
 Next Obligation.
   equivalence.
@@ -106,10 +107,6 @@ Lemma fun_comp_assoc_sym_and `(F : A ⟶ B) `(G : B ⟶ C) `(H : C ⟶ D) (x : A
   fun_comp_assoc_sym x ∘ fun_comp_assoc x ≈ fmap[H] (fmap[G] (fmap[F] id)).
 Proof. simpl; cat. Qed.
 
-#[export]
-Program Instance nat_Setoid `{F : C ⟶ D} {G : C ⟶ D} :
-  Setoid (F ⟹ G) := Transform_Setoid.
-
 Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
   transform := λ X, fmap (@id C X)
 |}.
@@ -154,7 +151,7 @@ Defined.
 
 #[export]
 Program Instance Transform_respects {C D : Category} :
-  Proper ((λ F G, G ⟹ F) ==> @Transform C D ==> Basics.arrow) (@Transform C D) :=
+  Proper ((λ F G, G ⟹ F) ==> @Transform C D ==> arrow) (@Transform C D) :=
   λ _ _ F _ _ G H, nat_compose G (nat_compose H F).
 
 (* Wikipedia: "Natural transformations also have a "horizontal composition".
@@ -203,16 +200,6 @@ Next Obligation.
   symmetry.
   now apply Compose_respects_Transform_obligation_1.
 Qed.
-
-(** jww (2021-08-07): Get rewriting to work whenever there is a function F ⟶
-    G, or a natural transformation F ⟹ G, treating it as an implication.
-    Likewise F ≅ G should rewrite as if it were an equivalence. *)
-
-(* Goal ∀ `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D} *)
-(*             (f : G ⟹ K) (g : F ⟹ G), F ⟹ K. *)
-(* Proof. *)
-(*   intros. *)
-(*   rewrite g. *)
 
 Program Definition whisker_right {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
         {E : Category} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {|
