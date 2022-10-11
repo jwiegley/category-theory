@@ -30,6 +30,20 @@ Definition ordinal_sum_morphisms {n n' m m' : nat}
             | inr b => @rshift m m' (g b)
             end).
 
+Ltac destruct_ord :=
+  match goal with
+  | [ H : 'I_?X |- _] => let ov := fresh "ordval" in
+                         let ob := fresh "ordbd" in
+                         destruct H as [ov ob]
+  | [ |- is_true ?X <= ?Y ] => set (ord1 := X : Ordinal _);
+                                 let ov := fresh "ordval" in
+                                 let ob := fresh "ordbd" in
+                                 destruct ord1 as [ov ob]
+                                                                                  
+  end.
+
+Hint Extern 7 => destruct_ord : arith.
+                                  
 Proposition sum_of_monotonics {n n' m m' : nat}
   (f : @monotonic_fn n m) (g: @monotonic_fn n' m') :
   monotonic (ordinal_sum_morphisms f g).
@@ -42,8 +56,11 @@ Proof.
   { apply/monotonicP; [ exact fm | ].
     (* We have ineq: i <= j, and i = i0 & j = j0 as natural numbers, so i0 <= j0. *)
     by rewrite -[nat_of_ord i0]/(nat_of_ord (lshift n' i0))
-     -[nat_of_ord j0]/(nat_of_ord (lshift n' j0)) -eqi -eqj. } 
-  { by auto with arith. } 
+     -[nat_of_ord j0]/(nat_of_ord (lshift n' j0)) -eqi -eqj. }  
+  { apply (@leq_trans m).
+    { set z := f i0. destruct z. auto with arith. }
+    { auto with arith. }
+  } 
   { (* Inconsistent hypotheses, we have ineq : i <= j but also j < i, contradiction. *)
     assert (j < i) as z.  {
       rewrite eqj eqi /= [j0 < n + i0]/(S j0 <= n + i0).
@@ -318,3 +335,4 @@ Module MonoidalStructure.
     } 
 Defined.
 End MonoidalStructure.
+

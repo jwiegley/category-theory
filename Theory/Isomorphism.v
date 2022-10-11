@@ -10,15 +10,17 @@ Universes o h p.
 Context {C : Category@{o h p}}.
 
 (* This defines what it means for two objects in a category to be
-   "isomorphic". This requires both witnesses to the isomoprhism, and proof
+   "isomorphic". This requires both witnesses to the isomorphism, and proof
    their compositions are equivalent to identity in both directions. Since
    this is a computationally relevant definition, having an isomorphism allows
    for conversion of objects within definitions.
 
-   An isomorphism in Cat is the same as an equivalence of categories. In order
+   An isomorphism in Cat is stronger than an equivalence of categories. In order
    to get actual isomorphism between categories, the compositions F ○ G and G
    ○ F need to be equal, rather than equivalent, to identity. Since this is
-   usually too strong a notion, it does not have its own abstraction here. *)
+   usually too strong a notion, it does not have its own abstraction here. 
+
+*)
 
 Class Isomorphism (x y : C) : Type := {
   to   : x ~> y;
@@ -34,6 +36,13 @@ Arguments iso_to_from {x y} _.
 Arguments iso_from_to {x y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
+
+Class isIsomorphism {x y : C} (f : x ~> y ) : Type := {
+    two_sided_inverse : y ~> x;
+    isLeftInverse : two_sided_inverse ∘ f ≈ id;
+    isRightInverse : f ∘ two_sided_inverse ≈ id
+}.
+
 
 #[export] Program Instance iso_id {x : C} : x ≅ x := {
   to   := id;
@@ -114,7 +123,7 @@ Proof.
   intros.
   (* jww (2021-08-09): It should be possible to rewrite here with isomorphism
      acting similarly to an equivalence. *)
-(*   rewrite g. *)
+  (* rewrite g. *)
 Abort.
 
 End Isomorphism.

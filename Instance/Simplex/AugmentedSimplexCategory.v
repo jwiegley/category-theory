@@ -16,7 +16,8 @@ Require Import mathcomp.ssreflect.tuple.
 
 Require Import Coq.Logic.FinFun.
 
-
+From Hammer Require Import Hammer.
+From Hammer Require Import Tactics.
 Set Primitive Projections.
 Set Universe Polymorphism.
 
@@ -27,7 +28,7 @@ Notation "''I_' n" := (ordinal n).
 (* First, we define the
    category whose objects are "standard finite sets" [n] = { 0, ... n-1} and
    whose morphisms are all functions between them. *)
-Module stdfinset.
+Section stdfinset.
 Program Definition stdfinset : Category :=
   {|
     obj     := nat;
@@ -286,6 +287,76 @@ Qed.
 Definition hitstwice {n m : nat} (f : 'I_(m.+1)^n) (i : 'I_m.+1) :=
   [exists x : 'I_n, exists y : 'I_n, (x < y) && (f x == i) && (f y == i) ].
 
+Proposition nltm_not_injective {n m : nat} (f : 'I_(m.+1)^n) (p : m.+1 < n): ~~ (injectiveb f).
+    simpl. apply (rwP negP); intro H; revert p. apply (rwP negP).
+    rewrite -ltnNge ltnS. rewrite -(card_ord m.+1) -(card_ord n).
+    apply (leq_card f); by apply/injectiveP.
+Qed.
+
+(* TODO - come back to this proof later and see if it can be edited shorter. The main
+   sources of bureaucratic overhead in these proofs are boolean reflection stuff and
+   reducing arguments about ordinals in 'I_n to arguments about natural numbers *)
+Proposition not_injective_hitstwice {n m : nat} (f : 'I_(m.+1)^n) :
+  (injectiveb f) <-> (hitstwice f =1 xpred0).
+Proof.
+  unfold injectiveb, dinjectiveb.
+  split.
+  { intro H. move/uniqPn : H => H.
+    specialize H with ord0. intro y. unfold hitstwice.
+    apply negbTE; apply/existsPn; intro x1; apply/existsPn; intro x2.
+    apply/negP; intro k. contradiction H.
+    exists x1, x2. move/andP in k; destruct k as [conj fx2eqy].
+    move/andP in conj; destruct conj as [x1_lt_x2 fx1eqy].
+    split; [ done
+           | rewrite size_map size_enum_ord; by destruct x2
+           | simpl
+      ].
+    rewrite (nth_map x1 ord0); [ | rewrite size_enum_ord; by destruct x1].
+    rewrite (nth_map x2 ord0); [ | rewrite size_enum_ord; by destruct x2].
+    do 2! rewrite nth_ord_enum.
+    apply (rwP eqP) in fx1eqy, fx2eqy. rewrite fx1eqy fx2eqy; done.
+  }
+  {
+    intro H. unfold injectiveb, dinjectiveb. apply/(uniqPn ord0).
+    intro K. destruct K as [i [j [lt bd eq]]].
+    rewrite size_map size_enum_ord in bd. set j' := Ordinal bd.
+    assert (ibd : i < n) by  (apply (@leq_ltn_trans j); [ exact : ltnW |]; done).
+    set i' := Ordinal ibd.
+    pose Mp := H (f i'); unfold hitstwice in Mp; simpl in Mp.
+    refine (Bool.eq_true_false_abs _ _ Mp).
+    apply/existsP; exists i'.
+    apply/existsP; exists j'.
+    rewrite lt eq_refl; simpl.
+    rewrite (@nth_map _ i' _ ord0 f) in eq; [ | rewrite size_enum_ord; exact: ibd].
+    rewrite (@nth_map _ j' _ ord0 f) in eq;  [ | rewrite size_enum_ord; done].
+    simpl in eq.
+    change i with (nat_of_ord i') in eq.
+    change j with (nat_of_ord j') in eq.
+    rewrite (@nth_ord_enum n i' i') in eq.
+    rewrite (@nth_ord_enum n j' j') in eq.
+    apply/eqP; by symmetry.
+  }
+Qed.
+
+Definition not_injective_hitstwice_val {n m : nat} (f : 'I_(m.+1)^n)
+ : 'I_m.+1.
+Proof.
+  set z := [ pick i | hitstwice f i].
+  destruct (@pickP _ (hitstwice f)) as [x | e].
+  { exact [ arg min_(i < x | hitstwice f i ) (nat_of_ord i) ]. }
+  { exact ord0. }
+Defined.
+    
+Proposition not_injective_hitstwice_spec {n m : nat} (f : 'I_(m.+1)^n) (p : ~~ (injectiveb f)) :
+  hitstwice f (not_injective_hitstwice_val f).
+Proof.
+  unfold not_injective_hitstwice_val.
+  destruct (@pickP _ (hitstwice f)) as [x ht | e].
+  { pose z := (@arg_minnP _ x (hitstwice f) (@nat_of_ord m.+1) ht);
+    set k := [ arg min_ (i < x | _ ) i] in z *; destruct z as [? hty ?]; exact: hty. }
+  { apply not_injective_hitstwice in e; rewrite e in p; discriminate. }
+Qed.
+
 Definition degeneracy_factoring_map {n m : nat} (f : 'I_(m.+1)^n) (i : 'I_m.+1)
   (p : hitstwice f i) : 'I_(m.+2)^n.
 Proof.
@@ -314,11 +385,121 @@ Proof.
   { by symmetry; apply: bumpK. }
 Qed.
 
+Proposition surjective_card {n m : nat} (f : 'I_m^n) (p : surjective f) : m <= n.
+Proof.
+  rewrite -(card_ord n).
+  cut (m = #|image f 'I_n|); [ intro RW; rewrite RW ; exact: leq_image_card |].
+  rewrite -{1}(size_enum_ord m); symmetry; apply eq_cardT.
+  intro x; unfold surjective in p; move/(rwP forallP):p => p; specialize p with x; by rewrite p.
+Qed.
+
+(* Ltac destruct_eq := *)
+(*   match goal with *)
+(*   | [ H : ?x = ?y |- _ ] => destruct H *)
+(*   end. *)
+
+(* Local Hint Extern 4 => destruct_eq : arith. *)
+
+Lemma σ_i_eq_i { n : nat } (i : 'I_n.+1 ) (x : 'I_n.+2) :
+  ( σ i x == i ) = ( x == (ord_upcast i)) || (x == (lift (ord_upcast i) i)).
+Proof.
+  unfold σ; rewrite ffunE.
+  unfold lift, ord_upcast; destruct x as [xval xbd], i as [ival ibd].
+  do ! ( rewrite -(@inj_eq _ _ val); [ | exact: val_inj ]; simpl).
+     unfold bump; rewrite leqnn.
+     exact: σ_i_eq_i_nat.
+Qed.
+
+Lemma injective_neq (A B : Type) (f : A -> B) (p : injective f) (x y : A) : x ≠ y -> (f x) ≠ f y.
+Proof.
+  intros neq fs; apply neq. by apply p in fs.
+Qed.
+
+Lemma ord_neq_nat_neq (n : nat) (x y : 'I_n) : x ≠ y -> nat_of_ord x ≠ nat_of_ord y.
+Proof.
+  apply injective_neq; exact: val_inj.
+Qed.
+
+(* Reduce hypotheses/goals on ordinal arithmetic to goals on natural_number arithmetic *)
+Ltac ord_to_arith :=
+match goal with
+| [ |- context[ @eq_op (Finite.eqType (exp_finIndexType _)) ?X ?Y ]] =>
+    rewrite - (inj_eq val_inj X Y)
+| [ H : is_true (@eq_op (ordinal_eqType _ ) ?X ?Y) |- _ ] =>
+    rewrite -(@inj_eq _ _ val val_inj) in H
+| [ H : not (@eq (Equality.sort (Finite.eqType (ordinal_finType _))) _ _ ) |- _]
+    => apply ord_neq_nat_neq in H
+end.
+
+Local Hint Extern 1 => ord_to_arith : arith.
+
+(* This proof is unpleasantly long, but at least it seems stepwise simple enough to follow. *)
+(* I hope it can be shortened. *)
+Proposition factoring_preserves_surjectivity {n m : nat} (f : 'I_(m.+1)^n)  (i : 'I_m.+1)
+  (p : hitstwice f i) ( issurj : surjective f ) : surjective (degeneracy_factoring_map f i p).
+Proof.
+  unfold surjective; apply (rwP forallP); intro y; apply (rwP imageP).
+  unfold degeneracy_factoring_map.
+  set k := existsPS _ _ _; destruct k as [x1 k].
+  (* Proof summary:
+    In the following commments let g := degeneracy_factoring_map f i. *)
+  (* The assumption "hitstwice" gives us x1 and x2, x1 < x2, such that f x1 = f x2 = i. *)
+  (* g is defined by :  g x = if (x == x1) then i else (bump i (f x)). *)
+  (* Let y ∈ [n+2]. Then we argue the surjectivity of g as follows : 
+     - if y = i, then g x1 = y; done.
+     - else, if y = i+1, then g x2 = y, because x2 ≠ x1 (x1 < x2),
+                                  so g x2 = bump i (f x2) = i + 1.
+     - else, y ≠ i and y ≠ i+1. Use surjectivity of f to choose x such that 
+       f x = unbump i y; then g x = bump i (unbump i y) = y (because x ≠ x1). *)
+  (* By cases on whether y = i. *)
+  destruct (eq_comparable y (ord_upcast i)) as [y_eq_i | y_neq_i].
+  { exists x1; [ done |];
+    rewrite ffunE eq_refl y_eq_i; apply val_inj; destruct i; done. }
+  { set z := (degeneracy_factoring_map_subproof _ _ _ _ _ _); clearbody z.
+    apply (rwP existsP) in k; destruct k as [x2 cong1].
+      apply (rwP andP) in cong1; destruct cong1 as [cong2 fx2eqi].
+      apply (rwP andP) in cong2; destruct cong2 as [x1ltx2 fx1eqi].
+    destruct (eq_comparable y (lift (ord_upcast i) i)) as [y_eq_si | y_neq_si].
+    { exists x2; [ done |]; rewrite ffunE. 
+      resolve_boolean.
+      rewrite y_eq_si; apply val_inj; simpl.
+      do ! ord_to_arith; apply (rwP eqP) in fx2eqi; rewrite fx2eqi;
+         destruct i; done.
+    }
+    { apply (rwP (surjectiveP f)) in issurj.
+      destruct (issurj (σ i y)) as [x fx_eq_y].
+      exists x; [ done |]; rewrite ffunE.
+      assert (H: (x == x1) = false ). {
+           Set Printing All.
+        (* x1 ≠ x because f x1 = i but f x ≠ i. 
+           In turn f x ≠ i because f x = unbump i y and 
+           y is neither i nor i+1, so unbump i y ≠ i. *)
+          apply (introF eqP); intro c.
+          apply (f_equal f) in c.
+          rewrite c in fx_eq_y.
+          apply (rwP eqP) in fx1eqi. rewrite fx1eqi in fx_eq_y.
+          symmetry in fx_eq_y.
+          apply (rwP eqP) in fx_eq_y. rewrite σ_i_eq_i in fx_eq_y.
+          by rewrite (introF eqP y_neq_i) in fx_eq_y;
+          rewrite (introF eqP y_neq_si ) in fx_eq_y.
+      } rewrite H; apply val_inj; 
+        rewrite fx_eq_y; unfold σ; rewrite ffunE; simpl.
+      rewrite unbumpKcond.
+      set s := ( _ == _ ); assert (RW : s = false). {
+        unfold s. ord_to_arith.
+        apply (introF eqP). 
+        destruct i;
+          apply ord_neq_nat_neq in y_neq_i; simpl in y_neq_i.
+        done.
+      } by rewrite RW.
+    }
+  } 
+Qed.      
+
 Definition not_surjective_cd_nonzero {n : nat} (f : 'I_0^n) : surjective f.
 Proof.
   apply (rwP (surjectiveP f)); intros [yval ybd]; discriminate.
 Qed.
-
 
 End stdfinset.
 
@@ -327,7 +508,7 @@ End stdfinset.
 
 (* If R is a transitive relation, then for any list xs, 
    (forall i j, i < i -> R xs[i] xs[j]) iff (forall i,  R (xs[i]) (xs[i+1]). *)
-Open Scope nat_scope.
+Open Scope nat_scope. 
 Proposition pairmap_trans_pairwise (A : Type) (R : rel A) (tr : transitive R) (xs : seq A) :
   pairwise R xs = if xs is x :: xs then
                     foldr andb true (pairmap R x xs) else true.

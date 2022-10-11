@@ -2,7 +2,6 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Instance.Simplex.AugmentedSimplexCategory.
 Require Import Category.Instance.Simplex.NaturalNumberArithmetic.
-Require Import Category.Instance.Simplex.MonoidalStructure.
 
 Require Import ssreflect.
 Require Import ssrfun.
@@ -285,9 +284,9 @@ Proposition σi_σj_nat :
     }
   } 
   {
-    ltnNge_in_H; rewrite ltnS in i_ge_x.
-    assert (z : j < x = false) by eauto with arith; rewrite z; clear z.
-    assert (z : j.+1 < x = false) by eauto 6 using leq_trans with arith; rewrite z; clear z.
+    ltnNge_in_H; rewrite ltnS in i_ge_x. 
+    assert (z : j < x = false) by auto with arith; rewrite z; clear z.
+    assert (z : j.+1 < x = false) by auto 8 with arith; rewrite z; clear z.
     arith_simpl.
     assert (z : i < x = false) by auto with arith; rewrite z; arith_simpl.
     reflexivity.
@@ -313,10 +312,10 @@ Proof.
     }
   }
   {  
-    assert (z : (j < x) = false) by eauto with arith; rewrite z.
-    assert (z': (j.+1 < x) = false) by (eauto 7 with arith); rewrite z'; clear z'.
+    assert (z : (j < x) = false) by auto with arith; rewrite z.
+    assert (z': (j.+1 < x) = false) by (auto 7 with arith); rewrite z'; clear z'.
     arith_simpl;
-    assert (z'' : i <= x = false) by eauto with arith; rewrite z''.
+    assert (z'' : i <= x = false) by auto with arith; rewrite z''.
     done.
   }
 Qed.
