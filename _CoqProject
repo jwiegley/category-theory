@@ -21,6 +21,7 @@ Construction/Product/Comma.v
 Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Subcategory.v
+Construction/Free/Quiver.v
 Functor/Applicative.v
 Functor/Bifunctor.v
 Functor/Construction/Product.v
@@ -54,6 +55,7 @@ Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cartesian/Closed.v
 Instance/Cat/Cocartesian.v
+Instance/StrictCat.v
 Instance/Comp.v
 Instance/Cones.v
 Instance/Cones/Comma.v
