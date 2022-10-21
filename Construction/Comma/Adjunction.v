@@ -140,20 +140,6 @@ Proof.
     reflexivity.
 Qed.
 
-(* traverse_thunk accepts an Ltac2 function f : A -> B and a thunk l : 1 -> A.  It tries
-   to apply f to the result of computing l. If this is successful the computation
-   terminates; else it passes control to an error-handling function.
-   (Here,the function l will be the same but the value returned by l may be different.)
- *)
-Ltac2 rec traverse_thunk f l :=
-  match Control.case l with
-  | Init.Val pair => let (val, c_p) := pair in
-                match Control.case (fun () => f val) with
-                | Init.Val pair => ()
-                | Init.Err e => traverse_thunk f (fun () => (c_p e))
-                end
-  | Init.Err e =>  ()
-  end.
 (* Intended usage : To select a subterm of the goal, 
    supply a SetPattern (an ordinary "pattern" with only holes but no metavariables) or
    a SetInPattern (a pattern with one metavariable ?z, ?z will be the thing which is 
@@ -166,7 +152,12 @@ Ltac2 only_in_goal := { Std.on_hyps := Init.Some [] ; Std.on_concl := Std.AllOcc
    and the function will capture and "set" all the subterms caught by the patterns;
    then execute the tactical; 
    then clear the subterms in the reverse order they were established. *)
-
+Ltac2 progress_in_goal tac :=
+  let old_goal := Control.goal() in
+  ( tac() ;
+    if Constr.equal old_goal (Control.goal()) then
+      Control.zero (Init.Tactic_failure
+                      (Init.Some (Message.of_string "No change in goal"))) else () ).
 Ltac2 rec hide pattern_list tac := 
   match pattern_list with
   | [] => tac ()
@@ -184,109 +175,87 @@ Ltac2 rec hide pattern_list tac :=
           Std.clear (h :: [])
       | SetInPattern p =>
           let subterm_stream := (fun () => Pattern.matches_subterm p (Control.goal ())) in
-          traverse_thunk
-            (fun l => let (_ , list_pairs) := l in
-                      let rec hidepairs lp :=
-                        (match lp with
-                        | [] => hide tail tac
-                        | occ_head :: occ_tail  =>
-                            let (_ , subterm) := occ_head in
-                            if (Constr.is_var subterm)
-                            then (Control.zero Init.Not_found)
-                            else
-                              (Message.print (Message.of_constr subterm);
-                               let h := Fresh.in_goal @tempvar in
-                               (set ($h := ($subterm));
-                                hide tail tac;
-                                Std.unfold
+          let rec traverse_thunk subtermlist :=
+            match Control.case subtermlist with
+            | Init.Val pair => let (subtermlist', c_p) := pair in
+               let (_ , list_pairs) := subtermlist' in
+                 match list_pairs with
+                 | [] => Control.throw (
+                             (Init.Tactic_failure (Init.Some (Message.of_string
+                              "Patterns are required to have at least one metavariable."))))
+                 | occ_head :: occ_tail  => let (_ , subterm) := occ_head in
+                   if (Constr.is_var subterm) then
+                     traverse_thunk
+                         (fun () => c_p
+                                    (Init.Tactic_failure (Init.Some (Message.of_string
+                                     "Variable, skipping this pattern match."))))
+                   else (
+                   let h := Fresh.in_goal @tempvar in (
+                   let try_set :=
+                    (fun () => progress_in_goal
+                                 (fun () => Std.set Init.false
+                                              (fun () => (Init.Some h, subterm))
+                                              only_in_goal)) in (
+                   match Control.case try_set with
+                   | Init.Val _ => hide tail tac;
+                                  Std.unfold
                                   ((Std.VarRef h, Std.AllOccurrences) :: []) only_in_goal;
-                                Std.clear (h :: [])))
-                        end) in hidepairs list_pairs) subterm_stream
+                                  Std.clear (h :: [])
+                   | Init.Err e =>
+                       traverse_thunk
+                         (fun () => c_p
+                                    (Init.Tactic_failure (Init.Some (Message.of_string
+                                     "set failed to modify the goal."))))
+                   end)))
+                 end
+            | Init.Err e => ()
+            end in traverse_thunk subterm_stream
       end
   end.
 
+(** hide1 accepts a pattern p which is expected to have a single metavariable, i.e.
+      pat:(compose _ _ ?z).
+
+      subterm_stream is a thunk of type context * ((ident * constr) list), where the
+      constr "term" is the subterm matched by ?z.
+      
+      If "term" is not a variable, we "set (H := term)", where H is a fresh variable name.
+      If "term" is a variable, or if "set H := term" fails to progress, we raise an
+      exception to the thunk subterm_stream, which responds by returning the next subterm
+      of the goal matching the p. We repeat this recursively until we either successfully
+      set a variable in the goal or exhaust all subterms.
+ *)
+
 Ltac2 hide1 p :=
-  (* subterm_stream is a thunk of type context * ((ident * constr) list) *)
   let subterm_stream := fun () => Pattern.matches_subterm p (Control.goal ()) in
   let rec traverse_thunk' thunk :=
   match Control.case thunk with
   | Init.Val pair => 
-      let (a , c_p ) := pair in
+      let (a , c_p ) := pair in (* c_p - exception hander in 
+                                    continuation-passing style *)
       let ( ctx , id_constr_list) := a in
       match id_constr_list with
-      | [] => Control.zero Init.No_value (* The list shouldn't be empty, if you put in a
+      | [] =>
+          Control.zero Init.No_value (* The list shouldn't be empty, if you put in a
                                        pattern with 1 quantifier you should get a
                                        list with one element. *)
-      | x :: xs => let (ident, term) := x in
-                   if Constr.is_var term then
-                     (Message.print (Message.concat
-                                      (Message.of_string "Variable identified: ")
-                                      (Message.of_constr term));
-                     traverse_thunk' (fun () => c_p Init.Not_found))
-                    else
-                    ( Message.print (Message.concat
-                                      (Message.of_string "Nontrivial subterm identified: ")
-                                      (Message.of_constr term));
-                    let h := Fresh.in_goal @tempvar in
-                    match Control.case
-                    (fun () => (progress (Std.set 
-                                 Init.false
-                                 (fun () => (Init.Some h, term)) only_in_goal))) with
-                    | Init.Val pair => let (a, _) := pair in a
-                    | Init.Err e =>
-                        Message.print (Message.of_string "...but set failed.");
-                        traverse_thunk' (fun () => c_p e) 
-                    end)
+      | x :: xs =>
+          let (ident, term) := x in
+          (if Constr.is_var term then
+             traverse_thunk' (fun () => c_p Init.Not_found)
+          else
+              let h := Fresh.in_goal @tempvar in
+              let try_set := (fun () => progress_in_goal
+                                     (fun () =>
+                                        Std.set Init.false
+                                          (fun () => (Init.Some h, term)) only_in_goal)) in
+              match Control.case try_set with
+              | Init.Val pair => let (a, _) := pair in a
+              | Init.Err e => traverse_thunk' (fun () => c_p e) 
+              end)
       end  
   | Init.Err e => fail
   end in traverse_thunk' subterm_stream.
-
-
-Ltac2 hide1 p :=
-  (* subterm_stream is a thunk of type context * ((ident * constr) list) *)
-  let subterm_stream := fun () => Pattern.matches_subterm p (Control.goal ()) in
-  let rec traverse_thunk' thunk :=
-  match Control.case thunk with
-  | Init.Val pair => 
-      let (a , c_p ) := pair in
-      let ( ctx , id_constr_list) := a in
-      match id_constr_list with
-      | [] => Control.zero Init.No_value (* The list shouldn't be empty, if you put in a
-                                       pattern with 1 quantifier you should get a
-                                       list with one element. *)
-      | x :: xs => let (ident, term) := x in
-                   if Constr.is_var term then
-                     traverse_thunk' (fun () => c_p Init.Not_found)
-                   else
-                     Message.print (Message.concat
-                                      (Message.of_string "Subterm identified: ")
-                                      (Message.of_constr term));
-                   let abc := Pattern.instantiate ctx open_constr:(_) in
-                   Message.print (Message.concat
-                                      (Message.of_string "Pattern identified: ")
-                                      (Message.of_constr abc));
-                     let h := Fresh.in_goal @tempvar in
-                     (Std.set Init.false (fun () => (Init.Some h, term)) only_in_goal)
-      end  
-  | Init.Err e => fail
-  end in traverse_thunk' subterm_stream.
-
-(* Ltac2 hide1 p := *)
-(*  let subterm_stream := fun () => Pattern.matches_subterm p (Control.goal ()) in *)
-(*   traverse_thunk *)
-(*     (fun l => let (_ , list_pairs) := l in *)
-(*               let rec hidepairs lp := *)
-(*                 (match lp with *)
-(*                  | [] => () *)
-(*                  | occ_head :: occ_tail  => *)
-(*                      let (_ , subterm) := occ_head in *)
-(*                      if (Constr.is_var subterm) *)
-(*                      then (Control.zero Init.Not_found) *)
-(*                      else *)
-(*                        (Message.print (Message.of_constr subterm); *)
-(*                         let h := Fresh.in_goal @tempvar in *)
-(*                         set ($h := ($subterm))) *)
-(*                  end) in hidepairs list_pairs) subterm_stream. *)
 
 Theorem ψ_φ_equiv :
   ∀ x, snd (from (κ E x))
@@ -321,9 +290,7 @@ Proof.
       unfold j3; clear j3;
       unfold j2; clear j2;
       unfold j1; clear j1  *)
-  (* This call takes about 0.05 secs. *)
-  ltac2:(hide (
-      SetPattern (fun () => '(snd _)) ::
+  time(ltac2:(hide (  
       SetPattern (fun () => '(snd _)) ::
       SetPattern (fun () => '(`2 _)) ::
       SetPattern (fun () => '(fmap[F] _)) ::
@@ -331,21 +298,87 @@ Proof.
       SetInPattern pat:(@compose _ ?z) ::
       SetInPattern pat:(@compose _ ?z) ::
       SetInPattern pat:(@compose _ ?z) ::                            
-                         []) (fun () => ltac1:(rewrite <- ! comp_assoc))).
+                         []) (fun () => ltac1:(rewrite <- ! comp_assoc)))).
 
   (* Tactic call ran for 0.069 secs (0.069u,0.s) (success) *)
-  set (fst _);
-       set (fst _);
-       set (fst _);
-       set (y2 := fst _);
-       set (y3 := fst _);
-       assert (M := fmap_comp y2 y3); revert M;
-       set (snd _);
-       set (snd _);
-       set (`2 _);
-       intro H; rewrite <- H;
-       unfold y6, y5, y4, y3, y2, y1, y0, y;
-       clear y y0 y1 y2 y3 y4 y5 y6 H.
+
+
+  (* I am trying to workshop a design pattern for doing this kind of 
+     thing efficiently. This is what I have come up with so far. *)
+  (* First, get the equation you are rewriting with in the context. *)
+  match goal with
+  | |- context[ fmap[F] ?f1' ∘ fmap[F] ?g1' ] =>
+      set(f1 := f1'); set (g1 := g1');
+      assert (M := fmap_comp f1 g1); symmetry in M
+  end.
+  (* Then, we make sure that LHS of the equation M is bound to the 
+     same variable as the term we want to rewrite. This ensures that no 
+     simplifications we make to the goal will prevent the rewrite from succeeding
+     because it can no longer identify the terms we wanted to rewrite.
+
+     The "context" operator in the goal helps us in the event that "set" is unable to 
+     capture both the LHS of M and the term to be rewritten. 
+     "set" does not perform any unification afaik, so we have to unify them
+     explicitly with "change."
+ *)
+  match goal with 
+  | [h : ?a ≈ ?b |- context[(`2 _) ∘ ?c ]] => set (j1 := a) in *; change c with j1; revert h
+  end.
+  (* Now we can focus on simplifying the goal. *)
+  (* The idea is to think through the Proper hints and replace by a variable any
+     dependency which is only a parameter to the Proper hint and serves no role in the
+     resolution algorithm.  
+     Here is a (not comprehensive) list of examples of type
+     information which usually plays no role in the Proper typeclass resolution.
+     
+     1. in the rule p ≈ q => fst A B p, A and B are irrelevant to the pattern match, and
+     if A and B are complicated we can replace them both by variables to improve the
+     performance of the typeclass resolution.
+     2. in the rules f ≈ f' -> @compose A B C f g ≈ @compose A B C f' g and
+                     g ≈ g' -> @compose A B C f g ≈ @compose A B C f' g,
+                A, B, C are irrelevant to the pattern match.
+     3. in functor composition,  F ≈ F' -> @Compose C D E F G ≈ @Compose C D E F' G,
+                the categories are parameters and can be opaqued.
+     4. In general the details of the equivalences _themselves_ cannot be opaqued, i.e.,
+        if one has p : equiv A S f g where S is a setoid structure on A, opaquing
+        S would probably make little difference to the runtime because the resolution
+        algorithm would have to unfold it anyway to see what the equivalence relation is.
+        *However*, if the type A = A(p,q) is parametric in some p, q 
+        and the setoid structure is also parametric in p, q, it might be possible to 
+        opaque the parameters p, q. Example, in the hint  
+        fmap_respects c d : forall f, g : hom c d, f ≈ g -> F f ≈ F g,
+        it would be possible to opaque the arguments c and d without the typeclass
+        resolution algorithm getting held up by this.
+        Thus we can safely call 
+        ltac2:(hide1 pat:(@homset ?A)) - opaque the category
+        ltac2:(hide1 pat:(@homset _ ?A)) - opaque the domain
+        ltac2:(hide1 pat:(@homset _ _ ?A)) - opaque the codomain.
+     5. Another example of 4, by the definition of prod_setoid, if f ≈ f' and g ≈ g'
+        then (f, f') ≈ (g, g'). 
+        But the types of f,g and f' g' need not be fed to the typeclass resolution algorithm
+        concretely, just the setoid structures. The type of f and g can be opaqued, i.e.,
+        ltac2:(hide1 pat:(@prod_setoid ?A))
+        ltac2:(hide1 pat:(@prod_setoid _ ?B))
+     6. In fmap, the domain and codomain of the source morphism can be opaqued. 
+     7. As a general rule if all objects are fixed, and the computation is only on
+        morphisms, then we can opaque the objects. Thus
+        ltac2:(hide1 pat:(@hom _ ?c)) 
+        ltac2:(hide1 pat:(@hom _ _ ?d)) 
+     A possible future direction might be to assemble a list of such parameters which are 
+     unlikely to play a role in typeclass resolution and write an automated script that
+     "opaques" all terms in the goal which seem irrelevant to the rewrite.
+   *)
+  time(ltac2:(hide(
+      SetPattern(fun () => '(fmap[F] _)) ::
+      SetPattern(fun () => '(snd _)) ::  
+      SetPattern(fun () => '(snd _)) ::  
+      SetPattern(fun () => '(`2 _))   ::
+      SetInPattern pat:(@compose _ ?a) ::
+      SetInPattern pat:(@compose _ _ ?a) ::
+      SetInPattern pat:(@homset _ _ ?a) ::
+                         []) (fun () => ltac1:(intro M; rewrite M; clear M)))).
+  (* 0.049 secs *)
+  unfold f1, g1, j1; clear f1 g1 j1.
 
   (* 0.15 secs *)
   set (j1 := θ E (fobj[φ E] ((a,b);f))); set (j2 := κ E ((a, b); f));
@@ -354,200 +387,186 @@ Proof.
 
   (* Original tactic call ran for 0.846 secs (0.848u,0.s) (success) *)
   (*    rewrite <- η_θ_κ. *)
-  assert (M := η_θ_κ ((a, b); f)). 
-  (*   snd ((κ E ((a, b); f))⁻¹ ∘ (θ E (fobj[φ E] ((a, b); f)))⁻¹)
-  ∘ (`2 (fobj[ψ E] (fobj[φ E] ((a, b); f))) ∘ fmap[F] (fst `1 (η E ((a, b); f)))) ≈ f *)
-  revert M.
 
-  set (κ E ((a, b); f)).
-  set (θ E _).
-  set (`1 _).
-  set (`1 _).
-  set (`2 _).
-  set (`1 _).
-  set (snd _).
-  set (snd _).
-  set (snd _).
-  ltac2:(hide1 pat:(@compose _ ?z)).
-  ltac2:(hide1 pat:(@compose _ ?z)).
-  set (@prod_setoid _ _ _ _ ).
-  ltac2:(hide1 pat:(@fst _ ?z)).
-  (* Unexpected behavior. *)
-  Set Printing All.
-(*   forall
-    _ : @equiv _ s y2
-          (@compose (Product D C) tempvar1
-             (@fobj _ _ (@comma_proj D C D (@Id D) G)
-                (@fobj _ _ (φ E)
-                   (@existT (prod (@obj D) tempvar2)
-                      (fun p : @obj (Product D C) =>
-                       @hom C (@fobj _ _ F (@fst (@obj D) tempvar2 p))
-                         (@fobj _ _ (@Id C) (@snd (@obj D) tempvar2 p)))
-                      (@pair (@obj D) tempvar2 a b) f)))
-             (@fobj _ _
-                (@Compose (@Comma D C D (@Id D) G) (@Comma D C C F (@Id C)) 
-                   (Product D C) (@comma_proj D C C F (@Id C)) (@from _ _ _ (lawvere_iso E))) *)
-  ltac2:(hide1 pat:(@fst _ ?z)).  
-  Print Setoid.
-(* Pattern identified: 
-(forall
-  _ : @equiv (prod (@hom D (?y y) (@fst (@obj D) (@obj C) y0)) (@hom C y3 y4)) s
-                             y2
-                             (@compose (Product D C) tempvar1 *)
-  
-  ltac2:(hide1 pat:(@fst _ ?z)). 
-  
-
-  
-  time(ltac2:(hide (
-      SetPattern (fun () => '(κ E ((a, b); f))) ::
-      SetPattern (fun () => '(θ E (fobj[φ E] ((a, b); f)))) ::
-      SetPattern (fun () => '(`1 _)) ::
-      SetPattern (fun () => '(`1 _)) ::      
-      SetPattern (fun () => '(`2 _)) :: 
-      SetPattern (fun () => '(`1 _)) ::            
-      SetPattern (fun () => '(snd _)) ::
-      SetPattern (fun () => '(snd _)) ::
-      SetPattern (fun () => '(snd _)) ::
-      SetInPattern pat:(@compose _ ?z) ::
-      SetInPattern pat:(@compose _ ?z) ::
-      SetInPattern pat:(@fst _ _ ?z) ::
-      SetInPattern pat:(@fst ?z) ::
-      SetInPattern pat:(@fst _ _ ?z) ::
-      SetInPattern pat:(@fst _ _ ?z) ::                                       
-      []) (fun () => ltac1:(intro M; rewrite <- M; clear M)))).
-  (* New call ran for .19 seconds *)
-
-  (* time(rewrite (`2 (η E ((a, b); f)))). *)
-  (* Tactic call ran for 0.675 secs (0.675u,0.s) (success) *)
-  time(  assert (M := (`2 (η E ((a, b); f)))); simpl in M; revert M; 
-    ltac2:(hide (
-       SetPattern (fun () => '(snd _)) ::
-       SetPattern (fun () => '(snd _)) ::
-       SetPattern (fun () => '(snd _)) ::
-       SetPattern (fun () => '(fst _)) ::       
-       SetPattern (fun () => '(fst _)) ::       
-      []) (fun () => ltac1:(intro M; rewrite  M; clear M)))).
-
-  assert (M := η_θ_κ ((a, b); f));
-  set ( p1 := `1 (η E ((a, b); _))) in *.
-  (* Pattern matching did not grab the term we want to replace, 
-     so we have to use unification *)
+  (* Another instance of this technique / pattern. *)
+  assert (M := η_θ_κ ((a, b); f)).
   match goal with
-  | [ |- _ ∘ (snd ?j ∘ _) ≈ f ] => set (p2 := j)
-  end; change p2 with p1; clear p2;
-  revert M;  
+  | [ h : ?a ≈ ?b |- context[ fst ?c ] ] =>
+      set (j1 := a) in *; set (j2 := b) in * ; change c with j2; revert M
+  end.
   time(ltac2:(hide(
-             SetPattern (fun () => '(snd _)) ::
-             SetPattern (fun () => '(snd _)) ::
-             SetPattern (fun () => '(snd _)) ::
-             SetPattern (fun () => '(θ _ _)) ::
-             SetPattern (fun () => '(_ ∘ _)) ::             
-             SetPattern (fun () => '(_ ∘ _)) ::
-             SetPattern (fun () => '(fst _)) ::
-             SetInPattern pat:(@compose _ ?a) ::
-             SetInPattern pat:(@equiv ?a) ::
-             SetInPattern pat:(@equiv ?a) ::
-             SetInPattern pat:(@equiv ?a) ::
-             SetInPattern pat:(@snd _ ?a) ::
-             SetInPattern pat:(@snd _ ?a) ::
-             SetInPattern pat:(@equiv ?a) ::
-             SetInPattern pat:(@equiv _ ?a) ::
-             SetInPattern pat:(@equiv _ ?a) ::
-             SetInPattern pat:(@snd ?a) ::
-                                []) (fun () => ltac1:(intro M; rewrite M; clear M)))).
-  clear p1.
-  (* set (snd _). *)
-  (* set (snd _). *)
-  (* set (snd _). *)
-  (* set (θ _ _ ). *)
-  (* set (_ ∘ _). *)
-  (* set (_ ∘ _). *)
-  (* set (fst _). *)
-  (* ltac2:(hide1 pat:(@compose _ ?a)). *)
-  (* ltac2:(hide1 pat:(@equiv ?a)). *)
-  (* ltac2:(hide1 pat:(@equiv ?a)). *)
-  (* ltac2:(hide1 pat:(@equiv ?a)). *)
-  (* ltac2:(hide1 pat:(@snd _ ?a)). *)
-  (* ltac2:(hide1 pat:(@snd _ ?a)). *)
-  (* ltac2:(hide1 pat:(@equiv ?a)). *)
-  (* ltac2:(hide1 pat:(@equiv _ ?a)). *)
-  (* ltac2:(hide1 pat:(@equiv _ ?a)). *)
-  (* ltac2:(hide1 pat:(@snd ?a)). *)
-  (* set (fst _). *)
-  (* Set Printing All. *)
-  (* time(intro M; rewrite M; clear M). *)
+     SetInPattern pat:( _ -> ?a ∘ _ ≈ f) ::
+     SetPattern (fun () => '(`2 _)) ::
+     SetInPattern pat:(@hom _ ?a) ::
+     SetInPattern pat:(@hom _ ?a) ::
+     SetInPattern pat:(@hom _ ?a) ::
+     SetInPattern pat:(@hom _ ?a) ::
+     SetInPattern pat:(@hom _ ?a) ::
+     SetInPattern pat:(@hom _ _ ?a) ::
+     SetInPattern pat:(@hom _ _ ?a) ::
+     SetInPattern pat:(@hom _ _ ?a) ::                                
+     SetInPattern pat:(@hom _ _ ?a) ::
+     SetInPattern pat:(@compose _ _ ?a) :: 
+     SetInPattern pat:(@compose _ _ ?a) :: 
+     SetInPattern pat:(@prod_setoid _ ?a) :: 
+     SetInPattern pat:(@prod_setoid _ _ ?a) ::
+     []) (fun () => intro M; rewrite <- M; clear M))).
+  (* It is clear that this process could be more automated,
+     for example by giving an option to repeating "hide" for each
+     pattern application until it fails and new variables cannot be introduced. *)
+  unfold j1, j2; clear j1 j2.
 
-  (* rewrite M. *)
-  
-  (* set ( p2 := `1 (η E ((a, b); f))). *)
-  
-  (* set ( p:= `1 (η _ _)). *)
-  
-  (* match goal with *)
-  (* |  *)
-  (* rewrite M. *)
- 
-  
-  (* time(intro M; rewrite M; clear M).   *)
-  (* set (κ _ _). *)
-  (* set (θ _ _). *)
-  
-  (* set (from _ ∘ from _). *)
-  (* set (@fobj _ _). *)
-  
-  
+  (* We will repeat this for each rewrite step in the proof. *)
 
-  (* time(  ltac2:(hide ( *)
-  (*      SetPattern (fun () => '(κ _ _)) :: *)
-  (*      SetPattern (fun () => '(θ _ _)) :: *)
-  (*      SetPattern (fun () => '(from _ ∘ _)) :: *)
-  (*      SetPattern (fun () => '(@fobj _ _)) ::        *)
+  time(assert (M := (`2 (η E ((a, b); f)))); simpl in M;
+    match goal with
+  | [h : ?a ≈ ?b |- context[(snd _) ∘ ?c ≈ f] ] =>
+      set (j1 := a) in *; set (j2 := b) in *; change c with j1
+  end;
+  ltac2:(hide (
+     SetInPattern pat:(?a ∘ _) ::
+     SetInPattern pat:(@compose _ ?a) ::
+     SetInPattern pat:(@compose _ _ ?a) ::
+                        []) (fun () => ltac1:(rewrite  M; clear M)));
+  unfold j1, j2; clear).
 
-  (*      []) (fun () => ltac1:(intro M; rewrite M; clear M)))).   *)
   
-  (* time(  ltac2:(hide ( *)
-  (*      SetPattern (fun () => '(κ _ _)) :: *)
-  (*      SetPattern (fun () => '(θ _ _)) :: *)
-  (*      SetPattern (fun () => '(from _ ∘ _)) :: *)
-  (*      SetPattern (fun () => '(@fobj _ _)) ::        *)
+ assert (M := η_θ_κ ((a, b); f));
+  match goal with
+  | [ h : ?a ≈ ?b |- _ ∘ (snd ?c ∘ _) ≈ f ] =>
+      set (j1 := a) in *; set (j2 := b) in *; change c with j1; revert M
+  end;
+    ltac2:(hide(
+     SetInPattern pat:( _ → ?a ∘ _ ≈ _) ::
+     SetInPattern pat:(@compose _ ?a) ::
+     SetInPattern pat:(@compose _ ?a) ::
+     SetInPattern pat:(@compose _ _ ?a) ::
+     SetInPattern pat:(@compose _ _ ?a) ::
+     SetInPattern pat:(@compose _ _ _ ?a) ::
+     SetInPattern pat:(@snd ?a) ::
+     SetInPattern pat:(@snd ?a) ::
+     SetInPattern pat:(@snd _ ?b) ::
+     SetInPattern pat:(@snd _ ?b) ::
+     SetInPattern pat:(@hom _ ?b) ::
+     SetInPattern pat:(@hom _ _ ?b) ::
+     SetInPattern pat:(@prod_setoid ?a) ::
+     SetInPattern pat:(@prod_setoid _ ?b) ::
+     []) (fun () => ltac1:(intro M; rewrite M; clear M)));
+  unfold j1, j2; clear j1 j2. 
 
-  (*      []) (fun () => ltac1:(rewrite (η_θ_κ ((a, b); f)))))). *)
-  
-  (* (* set (κ _ _); *) *)
-  (* (* set (θ _ _). *) *)
-  (* (* set (from _ ∘ _ ). *) *)
-  (* (* set (snd h). *) *)
-  (* (* set (@fobj _ _ ). *) *)
-  (* (* set (snd h). *) *)
-
-  time(ltac2:(hide(
+   time(ltac2:(hide(
            SetPattern (fun () => '(snd _)) ::
            SetPattern (fun () => '(snd _)) ::
            SetPattern (fun () => '(snd _)) ::
            SetInPattern pat:(@compose _ ?a) ::
-           [] ) (fun () => ltac1:(rewrite comp_assoc)))).
-  (*********** *)
-  change (snd ((κ E _)⁻¹ ∘ (θ E (φ E _))⁻¹) ∘ snd _) with
+             [] ) (fun () => ltac1:(rewrite comp_assoc)))).
+
+   change (snd ((κ E _)⁻¹ ∘ (θ E (φ E _))⁻¹) ∘ snd _) with
     (snd ( (κ E ((a, b); f))⁻¹ ∘ (θ E (fobj[φ E] ((a, b); f)))⁻¹ ∘
              (θ E (fobj[φ E] ((a, b); f)) ∘ κ E ((a, b); f)))).
-  (* time(rewrite <- comp_assoc). *)
-  (* 0.26 secs *)
-  ltac2:(hide1 pat:(@snd ?a)).
-  ltac2:(hide1 pat:(@compose _ ?a)).
-  
-  set(somecat := _ : Category).
-  
-  time(rewrite <- comp_assoc).
-  
-
-(*********)
 
 
-  rewrite (comp_assoc (θ E (φ E ((a, b); f)))⁻¹ _).
-  rewrite iso_from_to, id_left.
-  now rewrite iso_from_to; cat.
+   match goal with
+   | [ |- context[?f1' ∘ ?f2' ∘ ?f3'] ] =>
+       set (f1 := f1'); set (f2 := f2'); set (f3 := f3');
+       assert (M := comp_assoc f1 f2 f3); revert M;
+       set (j2 := f1 ∘ f2 ∘ f3) in *
+   end;
+   ltac2:(hide(
+      SetInPattern pat:(@snd _ ?a) ::   
+      SetInPattern pat:(@snd _ ?a) ::   
+      SetInPattern pat:(@compose ?a) :: 
+      SetInPattern pat:(@compose _ ?a) :: 
+      SetInPattern pat:(@compose _ _ ?a) ::
+      SetInPattern pat:(@compose _ _ ?a) ::
+                         []) (fun () => ltac1:(intro M; rewrite <- M; clear M)));
+   unfold j2, f3, f2, f1; clear.
 
+   match goal with
+   | [ |- context[_ ∘ (?f1' ∘ (?f2' ∘ ?f3'))] ] =>
+       set (f1 := f1'); set (f2 := f2'); set (f3 := f3')
+   end; 
+   assert (M := comp_assoc f1 f2 f3);
+   set (j1 := f1 ∘ (f2 ∘ f3)) in *;
+   match goal with
+   | [ h : ?a ≈ ?b |- snd (_ ∘ ?x) ∘ f ≈ f ] =>  change x with j1
+   end;
+   revert M;
+     ltac2:(hide(
+          SetPattern (fun () => '(from _)) ::
+          SetInPattern pat:(@snd ?a) ::
+          SetInPattern pat:(@snd ?a) ::
+          SetInPattern pat:(@snd _ ?b) ::
+          SetInPattern pat:(@snd _ ?b) ::
+          SetInPattern pat:(@compose ?c) ::
+          SetInPattern pat:(@compose _ ?c) ::
+          SetInPattern pat:(@compose _ ?c) ::
+          SetInPattern pat:(@compose _ ?c) ::
+          SetInPattern pat:(@compose _ _ ?c) ::
+          SetInPattern pat:(@compose _ _ ?c) ::
+                             []) (fun () => ltac1:(intro M; rewrite M; clear M)));
+          unfold f1, f2, f3, j1; clear.
+
+  match goal with
+  | [ |- context[from ?f1' ∘ to ?f1'] ] => set (f1 := f1')
+  end.
+  assert (M := iso_from_to f1).
+  match goal with
+  | [ h : ?a ≈ ?b |- _ ] =>  set (j1 := a) in *
+  end.
+  revert M.
+
+  ltac2:(hide(
+     SetInPattern pat:(snd (?a ∘ _)  ∘ _) ::
+     SetInPattern pat:(snd (_ ∘ (_ ∘ ?b))) ::
+     SetInPattern pat:(@compose ?a) ::
+     SetInPattern pat:(@compose _ ?a) ::
+     SetInPattern pat:(@compose _ ?a) ::
+     SetInPattern pat:(@compose _ _ ?a) ::
+     SetInPattern pat:(@compose _ _ ?a) ::
+     SetInPattern pat:(@snd ?a) ::
+     SetInPattern pat:(@snd ?a) ::
+     SetInPattern pat:(@snd _ ?a) ::
+     []) (fun () => ltac1:(intro M; rewrite M; clear M)));
+    unfold j1, f1; clear j1 f1.
+
+  match goal with
+  | [ |- context[ id ∘ ?f1' ] ] =>
+      assert (M := id_left f1'); set (f1 := f1') in *; set (j1 := id ∘ f1) in *
+  end;
+  match goal with
+  | [ |- snd (_ ∘ ?a) ∘ _ ≈ _ ] => change a with j1
+  end;
+  revert M;
+    ltac2:(hide(
+     SetInPattern pat:(@snd ?a) ::
+     SetInPattern pat:(@snd ?a) ::
+     SetInPattern pat:(@snd _ ?a) ::
+     SetInPattern pat:(@compose ?a) ::
+     SetInPattern pat:(@compose _ ?a) ::
+     SetInPattern pat:(@compose _ ?a) ::
+     SetInPattern pat:(@compose _ _ ?a) ::
+     []) (fun () => ltac1:(intro M; rewrite M; clear M)));
+     unfold j1, f1; clear j1 f1.
+
+  match goal with
+  | [ |- context[from ?f1' ∘ to ?f1'] ] => set (f1 := f1')
+  end.
+  assert (M := iso_from_to f1).
+  match goal with
+  | [ h : ?a ≈ ?b |- _ ] =>  set (j1 := a) in *
+  end.
+  revert M.
+  ltac2:(hide(
+     SetInPattern pat:(@snd ?a) ::
+     SetInPattern pat:(@snd ?a) ::
+     SetInPattern pat:(@snd _ ?a) ::
+     SetInPattern pat:(@snd _ ?a) ::
+     SetInPattern pat:(@compose _ ?a) ::
+     []) (fun () => ltac1:(intro M; rewrite M; clear M)));
+     unfold j1, f1; clear j1 f1.
+  simpl.
+  exact (id_left f).
 Qed.
 
 Theorem φ_ψ_equiv :
