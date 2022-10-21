@@ -145,19 +145,57 @@ Qed.
    a SetInPattern (a pattern with one metavariable ?z, ?z will be the thing which is 
    selected.
  *)
-Ltac2 Type pattern_type := [ SetPattern (Init.unit -> Init.constr)
-                           | SetInPattern (Init.pattern) ].
+Ltac2 Type pattern_type := [ SetPattern_ntimes ( (Init.unit -> Init.constr) * Init.int )
+                           | SetPatternRepeat (Init.unit -> Init.constr)
+                           | SetInPattern_ntimes (Init.pattern * Init.int)
+                           | SetInPatternRepeat (Init.pattern) ].
 Ltac2 only_in_goal := { Std.on_hyps := Init.Some [] ; Std.on_concl := Std.AllOccurrences }.
-(* Feed this function a list of patterns and a (thunked) tactical,
-   and the function will capture and "set" all the subterms caught by the patterns;
-   then execute the tactical; 
-   then clear the subterms in the reverse order they were established. *)
+
+(* progress_in_goal is like progress, but it only succeeds 
+   if there is a change on the RHS of the sequent; 
+   whereas "progress" succeeds if there is a change 
+   in either the goals or hypotheses. *)
+
 Ltac2 progress_in_goal tac :=
   let old_goal := Control.goal() in
   ( tac() ;
     if Constr.equal old_goal (Control.goal()) then
       Control.zero (Init.Tactic_failure
                       (Init.Some (Message.of_string "No change in goal"))) else () ).
+
+(* strictset accepts an identifier and a thunked term. It tries to "set identifier := term."
+   If the goal is unchanged, it raises an exception. *)
+Ltac2 strictset ident term :=
+  progress_in_goal 
+  (fun () => Std.set Init.false (fun () => (Init.Some ident, term() ))
+          { Std.on_hyps := Init.Some [] ; Std.on_concl := Std.AllOccurrences }).
+
+Ltac2 rec hide_SetPattern_ntimes thunk n :=
+  if (Int.lt n 0) then Control.zero (Control.throw(
+      Init.Tactic_failure (Init.Some (Message.of_string "Pattern asked to repeat < 0 times"))))
+  else if (Int.equal n 0) then []
+  else let h := Fresh.in_goal @tmpvar in 
+       (strictset h thunk); h :: (hide_SetPattern_ntimes thunk (Int.sub n 1)).
+                               
+(* This function should accept as input a pattern list. 
+   It should go through them one by one and "set" each item in the list. 
+   It should return a list of identifiers corresponding to the terms that 
+   were successfully set.
+ *)
+Ltac2 hide_draft1 pattern_list :=
+  match pattern_list with
+  | [] => []
+  | hhead :: ttail =>
+      match head with
+      | SetPattern_ntimes tthunk nat =>
+          if (n < 0) then
+            
+          else if (n = 0) then []
+          else 
+      end
+  end
+  
+
 Ltac2 rec hide pattern_list tac := 
   match pattern_list with
   | [] => tac ()
