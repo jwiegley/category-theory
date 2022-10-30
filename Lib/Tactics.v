@@ -56,7 +56,7 @@ Ltac simplify :=
 
 Ltac cat :=
   simplify;
-  rewrite with categories;
+  autorewrite with categories;
   auto with category_laws;
   try reflexivity.
 
