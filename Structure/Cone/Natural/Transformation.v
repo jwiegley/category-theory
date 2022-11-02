@@ -12,18 +12,17 @@ Generalizable All Variables.
 
 Monomorphic Theorem Cone_Transform `(F : J ⟶ C) (d : C) :
   Δ[J](d) ⟹ F ↔ { c : Cone F | vertex_obj = d }.
-Proof.
+Proof. 
   split; intros.
   - unshelve eexists.
-    + unshelve econstructor; intros.
-      * exact d.
+    + unshelve econstructor; intros; [ exact d | unshelve econstructor ].
       * apply X.
-      * simpl.
-        rewrite (naturality[X]); cat.
+      * abstract(simpl; intros;
+        rewrite (naturality[X]); cat).
     + reflexivity.
   - transform; simpl; intros;
     destruct X; subst.
     + apply x0.
-    + cat; apply ump_cones.
-    + cat; symmetry; apply ump_cones.
-Qed.
+    + cat; apply cone_coherence.
+    + cat; symmetry; apply cone_coherence.
+Defined.
