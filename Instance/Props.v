@@ -37,25 +37,21 @@ Program Instance Props_Initial : @Initial Props := {
 #[export]
 Program Instance Props_Cartesian : @Cartesian Props := {
   product_obj := and;
-  isCartesianProduct _ _ := {|
-    fork := fun _ f g x => conj (f x) (g x);
-    exl  := fun p => proj1 p;
-    exr  := fun p => proj2 p
-  |}
+  fork := fun _ _ _ f g x => conj (f x) (g x);
+  exl  := fun _ _ p => proj1 p;
+  exr  := fun _ _ p => proj2 p
 }.
 
 #[export]
 Program Instance Props_Cocartesian : @Cocartesian Props := {
   product_obj := or;
-  isCartesianProduct _ _ := {|
-  fork := fun _ f g x =>
+  fork := fun _ _ _ f g x =>
             match x with
             | or_introl v => f v
             | or_intror v => g v
             end;
-  exl  := fun p => or_introl p;
-  exr  := fun p => or_intror p
-  |}
+  exl  := fun _ _ p => or_introl p;
+  exr  := fun _ _ p => or_intror p
 }.
 
 #[export]

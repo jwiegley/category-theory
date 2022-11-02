@@ -1,6 +1,5 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Functor.
-Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cocartesian.
 Require Import Category.Construction.Coproduct.
 Require Import Category.Instance.Cat.
@@ -8,13 +7,12 @@ Require Import Category.Instance.Cat.
 Generalizable All Variables.
 
 (* Another way of reading this is that we're proving Cat^op is Cartesian. *)
-Local Open Scope morphism_scope.
+
 #[export]
 Program Instance Cat_Cocartesian : @Cocartesian Cat := {
   product_obj := @Coproduct;
-  isCartesianProduct C D := {|
-   fork := fun _ F G =>
-     {| fobj := fun x =>
+  fork := fun _ _ _ F G =>
+    {| fobj := fun x =>
                  match x with
                  | Datatypes.inl x => F x
                  | Datatypes.inr x => G x
@@ -32,14 +30,13 @@ Program Instance Cat_Cocartesian : @Cocartesian Cat := {
                    | Datatypes.inr y => _
                    end
                  end |};
-  exl := 
+  exl := fun _ _ =>
             {| fobj := Datatypes.inl
              ; fmap := fun _ _ => _ |};
-  exr := 
+  exr := fun _ _ =>
             {| fobj := Datatypes.inr
-             ; fmap := fun _ _ => _ |};     
-   |}
-}.                                                         
+             ; fmap := fun _ _ => _ |};
+}.
 Next Obligation. exact (fmap f). Defined.
 Next Obligation. exact (fmap f). Defined.
 Next Obligation.
@@ -55,10 +52,16 @@ Next Obligation.
   apply fmap_comp.
 Qed.
 Next Obligation.
+  rename x into A.
+  rename y into B.
+  rename z into C.
   proper.
   destruct x3, y1; simpl; auto; tauto.
 Qed.
 Next Obligation.
+  rename x into A.
+  rename y into B.
+  rename z into C.
   split; intros; simplify.
   - apply (e (Datatypes.inl x0) (Datatypes.inl y)).
   - apply (e (Datatypes.inr x0) (Datatypes.inr y)).

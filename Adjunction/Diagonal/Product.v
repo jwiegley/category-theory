@@ -13,24 +13,15 @@ Generalizable All Variables.
    on C. *)
 (* jww (2021-08-04): Is it right to use Diagonal_Product here? *)
 
-
 #[export]
 Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} :
   Diagonal_Product C ⊣ ×(C) := {
   adj := fun _ _ =>
     {| to   := {| morphism := fun f => fst f △ snd f |}
      ; from := {| morphism := fun f => (exl ∘ f, exr ∘ f) |} |}
-  }.
-(* #[local] Set Transparent Obligations. *)
-Next Obligation. typeclasses eauto. Defined.
-Next Obligation. 
-  revert H o o0 o1; intros C_isCartesian x y z. 
-  intros [f1 f2] [g1 g2] [eq1 eq2]; simpl in *.
-  rewrite eq1, eq2.
-  reflexivity. Qed.
-Next Obligation.
-  symmetry. 
-  rewrite ump_products; split;  reflexivity. Qed.
+}.
+Next Obligation. proper; apply fork_respects; auto. Qed.
+Next Obligation. rewrite fork_comp; cat. Qed.
 Next Obligation. unfork. Qed.
 Next Obligation. unfork. Qed.
 Next Obligation. split; unfork. Qed.

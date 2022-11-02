@@ -139,11 +139,10 @@ Qed.
 #[export]
 Program Instance Lambda_Cartesian Γ : @Cartesian (Lambda Γ) := {
   product_obj := TyPair;
-  isCartesianProduct _ _ := {|
-  fork := λ _ f g,
+  fork := λ _ _ _ f g,
     LAM (Pair (APP (wk f) (VAR ZV)) (APP (wk g) (VAR ZV)));
-  exl  := LAM (Fst (VAR ZV));
-  exr  := LAM (Snd (VAR ZV)); |}
+  exl  := λ _ _, LAM (Fst (VAR ZV));
+  exr  := λ _ _, LAM (Snd (VAR ZV));
 }.
 Next Obligation.
   proper.

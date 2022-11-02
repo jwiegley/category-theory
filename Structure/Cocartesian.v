@@ -23,18 +23,18 @@ Context `{O : @Cocartesian C}.
 Definition Coprod : C → C → C := @product_obj _ O.
 
 Infix "+" := Coprod (at level 50, left associativity) : object_scope.
-Check @fork.
+
 Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x :=
-  @fork C^op _ _ _  _ _ f g.
+  @fork _ O _ _ _ f g.
 
 Infix "▽" := merge (at level 26) : morphism_scope.
 
 #[export] Program Instance merge_respects {x y z} :
   Proper (equiv ==> equiv ==> equiv) (@merge x y z).
-Next Obligation. apply (@fork_respects C^op _ ). Qed.
+Next Obligation. apply (@fork_respects _ O). Qed.
 
-Definition inl {x y : C} : x ~{C}~> x + y := @exl C^op _ _ _ _.
-Definition inr {x y : C} : y ~{C}~> x + y := @exr C^op _ _ _ _.
+Definition inl {x y : C} : x ~{C}~> x + y := @exl _ O _ _.
+Definition inr {x y : C} : y ~{C}~> x + y := @exr _ O _ _.
 
 Definition left  {x y z : C} (f : x ~> y) : x + z ~{C}~> y + z :=
   (inl ∘ f) ▽ inr.

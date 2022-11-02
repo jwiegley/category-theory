@@ -147,11 +147,9 @@ Program Instance Algs_Cartesian : @Cartesian Algs := {
     op := fun o k => (op x o (fun a => fst (k a)),
                       op y o (fun a => snd (k a)))
   |};
-  isCartesianProduct _ _ := {|    
-  fork := fun _ f g => {| map := fun x => (f x, g x) |};
-  exl  :=  {| map := fst |};
-  exr  :=  {| map := snd |}
-   |}
+  fork := fun _ _ _ f g => {| map := fun x => (f x, g x) |};
+  exl  := fun _ _ => {| map := fst |};
+  exr  := fun _ _ => {| map := snd |}
 }.
 Next Obligation. now rewrite 2 op_commute. Qed.
 Next Obligation. proper. now rewrite H, H0. Qed.
