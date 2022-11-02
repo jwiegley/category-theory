@@ -109,6 +109,7 @@ Lib/NETList.v
 Lib/Setoid.v
 Lib/TList.v
 Lib/Tactics.v
+Lib/Tactics2.v
 Monad/Adjunction.v
 Monad/Algebra.v
 Monad/Compose.v
@@ -173,6 +174,7 @@ Structure/Monoidal/Semicartesian/Terminal.v
 Structure/Monoidal/Semicocartesian.v
 Structure/Monoidal/Symmetric.v
 Structure/Monoidal/Traced.v
+Structure/UniversalProperty.v
 Structure/Pullback.v
 Structure/Pullback/Limit.v
 Structure/Span.v

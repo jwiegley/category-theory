@@ -88,9 +88,11 @@ Next Obligation.
   destruct (f x0), (g x0); try contradiction; auto.
 Qed.
 
+
 #[export] Program Instance Par_Cartesian : @Cartesian ParE := {
   product_obj := λ x y, (x * y) + x + y;
-  fork := λ _ _ _ f g x,
+  isCartesianProduct _ _ := {|
+  fork := λ _ f g x,
       match f x, g x with
         | Datatypes.inr a, Datatypes.inr b =>
             Datatypes.inr (Datatypes.inl (Datatypes.inl (a, b)))
@@ -101,37 +103,65 @@ Qed.
         | Datatypes.inl e, Datatypes.inl e' =>
             Datatypes.inl (e ⊗ e')
       end;
-  exl  := λ _ _ p,
+  exl  := λ p,
       match p with
       | Datatypes.inl (Datatypes.inl (a, _)) => Datatypes.inr a
       | Datatypes.inl (Datatypes.inr a) => Datatypes.inr a
       | _ => Datatypes.inl mempty
       end;
-  exr  := λ _ _ p,
+  exr  := λ p,
       match p with
       | Datatypes.inl (Datatypes.inl (_, b)) => Datatypes.inr b
       | Datatypes.inr b => Datatypes.inr b
       | _ => Datatypes.inl mempty
+      end; |}
+}.
+
+#[export] Program Instance Par_Cartesian : @Cartesian ParE := {
+  product_obj := λ x y, (x * y) + x + y;
+  isCartesianProduct _ _ := {| 
+  fork := λ _ f g x,
+      match f x, g x with
+        | Datatypes.inr a, Datatypes.inr b =>
+            Datatypes.inr (Datatypes.inl (Datatypes.inl (a, b)))
+        | Datatypes.inr a, Datatypes.inl _ =>
+            Datatypes.inr (Datatypes.inl (Datatypes.inr a))
+        | Datatypes.inl _, Datatypes.inr b =>
+            Datatypes.inr (Datatypes.inr b)
+        | Datatypes.inl e, Datatypes.inl e' =>
+            Datatypes.inl (e ⊗ e')
       end;
+  exl  := λ p,
+      match p with
+      | Datatypes.inl (Datatypes.inl (a, _)) => Datatypes.inr a
+      | Datatypes.inl (Datatypes.inr a) => Datatypes.inr a
+      | _ => Datatypes.inl mempty
+      end;
+  exr  := λ p,
+      match p with
+      | Datatypes.inl (Datatypes.inl (_, b)) => Datatypes.inr b
+      | Datatypes.inr b => Datatypes.inr b
+      | _ => Datatypes.inl mempty
+      end; |}
 }.
 Next Obligation. proper; congruence. Qed.
 Next Obligation. proper; congruence. Qed.
-Next Obligation.
+Next Obligation. 
   proper.
-  specialize (X x2).
-  specialize (X0 x2).
-  bust x0; bust x1; bust y0; bust y1.
+  specialize (X x1).
+  specialize (X0 x1).
+  bust x0; bust y0; bust x; bust y.
 Qed.
 Next Obligation.
   unfold sum_bind.
-  repeat split; intros.
-  - specialize (X x0).
+  repeat split; intros. 
+  - specialize (X x).
     bust h; bust f; bust g.
-  - specialize (X x0).
+  - specialize (X x).
     bust h; bust f; bust g.
   - destruct X.
-    specialize (y0 x0).
-    specialize (y1 x0).
+    specialize (y x).
+    specialize (y0 x).
     bust h; bust f; bust g;
     destruct s; subst; auto; try tauto;
     destruct s; subst; auto; try tauto;
@@ -149,29 +179,29 @@ Next Obligation. contradiction. Qed.
 
 #[export] Program Instance Par_Cocartesian : @Cocartesian ParE := {
   product_obj := sum;
-  fork := λ _ _ _ f g x,
+  isCartesianProduct _ _ := {|
+  fork := λ _ f g x,
             match x with
             | Datatypes.inl v => f v
             | Datatypes.inr v => g v
             end;
-  exl  := λ _ _ p, Datatypes.inr (Datatypes.inl p);
-  exr  := λ _ _ p, Datatypes.inr (Datatypes.inr p)
+  exl  := λ p, Datatypes.inr (Datatypes.inl p);
+  exr  := λ p, Datatypes.inr (Datatypes.inr p)
+  |}
 }.
 Next Obligation.
-  proper.
-  - specialize (X a).
-    bust x0; bust y0.
-  - specialize (X0 b).
-    bust x1; bust y1.
+  proper. 
+  - specialize (X a0). bust x; bust y.
+  - specialize (X0 b). bust x0; bust y0.
 Qed.
 Next Obligation.
   split; intros.
-  - split; intros.
-    + specialize (X (Datatypes.inl x0)).
+  - split; intros. 
+    + specialize (X (Datatypes.inl x)).
       bust h.
-    + specialize (X (Datatypes.inr x0)).
+    + specialize (X (Datatypes.inr x)).
       bust h.
-  - destruct x0; firstorder.
+  - destruct x; firstorder.
 Qed.
 
 End ParE.

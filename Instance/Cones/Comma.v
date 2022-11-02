@@ -17,9 +17,9 @@ Proof.
   functor; simpl; intros.
   - exists (vertex_obj[X], ttt).
     transform; simpl; intros.
-    + apply vertex_map.
-    + abstract (rewrite id_right; apply ump_cones).
-    + abstract (rewrite id_right; symmetry; apply ump_cones).
+    + apply @vertex_map. exact (@coneFrom _ _ _ X). 
+    + abstract (rewrite id_right; apply cone_coherence).
+    + abstract (rewrite id_right; symmetry; apply cone_coherence).
   - exists (`1 f, ttt); abstract (simpl; intros; cat).
   - abstract proper.
   - abstract cat.
@@ -31,8 +31,7 @@ Proof.
   functor; simpl; intros.
   - construct; simpl; intros.
     + exact (fst ``X).
-    + exact (transform[`2 X] _).
-    + abstract (rewrite (naturality[`2 X]); cat).
+    + exists (transform[`2 X]). abstract (intros; rewrite (naturality[`2 X]); cat).
   - destruct f; simpl in *.
     exists (fst x0); abstract (intros; rewrite e; cat).
   - abstract proper.

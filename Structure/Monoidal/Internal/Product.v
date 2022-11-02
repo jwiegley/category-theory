@@ -153,12 +153,12 @@ Next Obligation.
   apply id_left.
 Qed.
 
-Lemma exl_swap {x y z w} :
-  @exl x y z w ∘ swap ≈ exr.
+Lemma exl_swap {x y : C} :
+  @exl C x y _ _ ∘ swap ≈ exr.
 Proof. solveit. Qed.
 
-Lemma exr_swap {x y z w} :
-  @exr x y z w ∘ swap ≈ exl.
+Lemma exr_swap {x y : C} :
+  @exr C x y _ _ ∘ swap ≈ exl.
 Proof. solveit. Qed.
 
 Program Definition CC_BraidedMonoidal : @BraidedMonoidal C := {|
@@ -431,3 +431,4 @@ Next Obligation.
 Qed.
 
 End InternalProduct.
+
