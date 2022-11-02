@@ -5,7 +5,7 @@ Require Import Category.Instance.Sets.
 Generalizable All Variables.
 
 (** The category of partial maps, built on the category of setoids. *)
- 
+
 Program Definition Part : Category := {|
   obj := Sets;
   hom := fun x y =>
@@ -13,26 +13,26 @@ Program Definition Part : Category := {|
   homset := fun x y =>
     @SetoidMorphism_Setoid x {| is_setoid := @option_setoid _ (is_setoid y) |}
 |}.
-Next Obligation. 
+Next Obligation.
   construct.
   - exact (Some X).
-  - abstract(proper).
+  - proper.
 Defined.
-Next Obligation. 
+Next Obligation.
   construct.
   - destruct (g X) as [b|].
     + exact (f b).
     + exact None.
-  - abstract(proper;
-    destruct f, g; simpl;
-    spose (proper_morphism0 _ _ X) as X1;
+  - proper.
+    destruct f, g; simpl.
+    spose (proper_morphism0 _ _ X) as X1.
     destruct (morphism0 x0); auto;
-      destruct (morphism0 y0); auto;
-      [ spose (proper_morphism _ _ X1) as X2;
-        destruct (morphism c); auto;
-        destruct (morphism c0); auto
-      | contradiction
-      | contradiction ]).
+    destruct (morphism0 y0); auto.
+    + spose (proper_morphism _ _ X1) as X2.
+      destruct (morphism c); auto;
+      destruct (morphism c0); auto.
+    + contradiction.
+    + contradiction.
 Defined.
 Next Obligation.
   proper.
@@ -86,69 +86,87 @@ Arguments sum_setoid A B {_ _}.
 Program Instance Part_Cartesian : @Cartesian Part := {
   product_obj := fun x y =>
     {| carrier := x + (y + (x * y)) |}
-  }.
+}.
 Next Obligation.
   construct.
-  - construct.
-    + destruct X as [| s]; [ | destruct s].
-      * exact (Some c).
-      * exact (None).
-      * exact (Some (fst p)).
-    + abstract(proper;
-      destruct x0, y0; simpl in *; [ assumption
-                                   | now apply False_rect
-                                   | now apply False_rect | ];
-      destruct s, s0; [ trivial
-                      | now apply False_rect
-                      | now apply False_rect | now destruct X ]).
-  - construct.
-    + destruct X as [| s]; [ | destruct s].
-      * exact None.
-      * exact (Some c).
-      * exact (Some (snd p)).
-    + abstract(proper;
-      destruct x0, y0; [ trivial
-                       | now apply False_rect
-                       |  now apply False_rect |];
-      destruct s, s0; [ trivial
-                      | now apply False_rect
-                      | now apply False_rect |];
-      now destruct X).
-  - construct.
-    + destruct (f X) as [b|]; destruct (g X) as [c |].
+  - destruct (f X) as [b|].
+    + destruct (g X) as [c|].
       * exact (Some (Datatypes.inr (Datatypes.inr (b, c)))).
       * exact (Some (Datatypes.inl b)).
+    + destruct (g X) as [c|].
       * exact (Some (Datatypes.inr (Datatypes.inl c))).
       * exact None.
-    + abstract(proper;
-      try rename H into X;
-    destruct f, g; simpl in *;
-    spose (proper_morphism _ _ X) as X1;
+  - proper.
+    try rename H into X.
+    destruct f, g; simpl in *.
+    spose (proper_morphism _ _ X) as X1.
     destruct (morphism x0);
     destruct (morphism y0); try tauto;
     spose (proper_morphism0 _ _ X) as X2;
     destruct (morphism0 x0);
-      destruct (morphism0 y0); try tauto).
-  - abstract(proper;
-    spose (X0 x2) as X1;
-    spose (X x2) as X2;
-    set (j := x0 x2) in *; 
-    set (j1 := (x1 x2)) in *;
-    set (j2 := (y0 x2)) in *;
-    set (j3 := (y1 x2)) in *;
-    destruct j, j1, j2, j3; try trivial;
-      split; now assumption).
-  - abstract(destruct f as [ffun fproper], g as [gfun gproper], h as [hfun hproper];
-    cbn in *;
-    split; intro M; [ split |]; intro x0;
-    try(match goal with
-    | [ H : ?A ∧ ?B |- _]  => destruct H as [M M']
-        end); 
-      specialize M with x0; try(specialize M' with x0);
-      destruct (hfun x0), (ffun x0), (gfun x0);
-      do 2 (try(destruct s); try(now apply False_rect); trivial);
-    first [ destruct M | split]; trivial).
+    destruct (morphism0 y0); try tauto.
 Defined.
+Next Obligation.
+  unfold Part_Cartesian_obligation_1.
+  construct.
+  - destruct X.
+    + exact (Some c).
+    + destruct s.
+      * exact None.
+      * destruct p.
+        exact (Some c).
+  - proper.
+    destruct x0, y0; try tauto.
+    destruct s, s0; try tauto.
+    try rename H into X.
+    destruct p, p0, X; auto.
+Defined.
+Next Obligation.
+  unfold Part_Cartesian_obligation_1.
+  construct.
+  - destruct X.
+    + exact None.
+    + destruct s.
+      * exact (Some c).
+      * destruct p.
+        exact (Some c0).
+  - proper.
+    destruct x0, y0; try tauto.
+    destruct s, s0; try tauto.
+    try rename H into X.
+    destruct p, p0, X; auto.
+Defined.
+Next Obligation.
+  proper.
+  try rename H into X.
+  specialize (X x2).
+  try rename H0 into X0.
+  specialize (X0 x2).
+  destruct (x0 x2), (x1 x2), (y0 x2), (y1 x2); auto.
+Qed.
+Next Obligation.
+  split; intros.
+  - try rename H into X.
+    split; intros.
+    + specialize (X x0).
+      destruct (h x0), (f x0), (g x0); try tauto;
+      destruct s; try tauto;
+      destruct s; try tauto.
+      destruct p, X; auto.
+    + specialize (X x0).
+      destruct (h x0), (f x0), (g x0); try tauto;
+      destruct s; try tauto;
+      destruct s; try tauto.
+      destruct p, X; auto.
+  - try rename H into X.
+    destruct X.
+    specialize (y0 x0).
+    specialize (y1 x0).
+    destruct (h x0), (f x0), (g x0); try tauto;
+    destruct s; try tauto;
+    destruct s; try tauto;
+    destruct p; simpl in *; auto.
+Qed.
 
 (** This is an invalid definition, since there are three ways we could produce
     an [option c], but no way to decide which. *)

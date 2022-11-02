@@ -109,19 +109,14 @@ Program Instance Hom_Terminal : @Terminal AST := {
 }.
 Next Obligation. apply one_unique. Qed.
 
-
-Print Cartesian.
-Print isCartesianProduct.
 #[export]
 Program Instance Hom_Cartesian : @Cartesian AST := {
   product_obj := Prod_;
-    isCartesianProduct := fun x y => {|
-      exl := @Exl x y;
-      exr := @Exr x y;
-      fork := fun _ f g => Fork f g                                           
-  |}
-  }.
-Next Obligation. proper. rewrite X, X0; reflexivity. Qed.
+  fork := @Fork;
+  exl  := @Exl;
+  exr  := @Exr
+}.
+Next Obligation. proper; rewrite X, X0; reflexivity. Qed.
 Next Obligation.
   split; intros HA.
   - split; intros; rewrite HA; cat.
@@ -151,11 +146,9 @@ Next Obligation. apply zero_unique. Qed.
 #[export]
 Program Instance Hom_Cocartesian : @Cocartesian AST := {
   product_obj := Coprod_;
-  isCartesianProduct := fun x y => {|
-        fork := fun _ f g => @Merge _ _ _ f g;
-        exl  := @Inl x y;
-        exr  := @Inr x y
-       |}
+  fork := @Merge;
+  exl  := @Inl;
+  exr  := @Inr
 }.
 Next Obligation. proper; rewrite X, X0; reflexivity. Qed.
 Next Obligation.

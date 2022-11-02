@@ -39,11 +39,9 @@ Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
 #[export]
 Program Instance Coq_Cartesian : @Cartesian Coq := {
   product_obj := λ x y, x * y : Type;
-  isCartesianProduct a b := {|
-    Cartesian.fork := λ _ f g x, (f x, g x);
-    exl  := λ p, fst p;
-    exr  := λ p, snd p
-  |}
+  fork := λ _ _ _ f g x, (f x, g x);
+  exl  := λ _ _ p, fst p;
+  exr  := λ _ _ p, snd p
 }.
 Next Obligation. proper; congruence. Qed.
 Next Obligation.
@@ -83,21 +81,19 @@ Next Obligation. contradiction. Qed.
 #[export]
 Program Instance Coq_Cocartesian : @Cocartesian Coq := {
   product_obj := sum;
-  isCartesianProduct _ _ := {|
-  Cartesian.fork := λ _ f g x,
+  fork := λ _ _ _ f g x,
             match x with
             | Datatypes.inl v => f v
             | Datatypes.inr v => g v
             end;
-  exl  := λ p, Datatypes.inl p;
-  exr  := λ p, Datatypes.inr p
-  |}
+  exl  := λ _ _ p, Datatypes.inl p;
+  exr  := λ _ _ p, Datatypes.inr p
 }.
 Next Obligation.
   split; intros.
   - split; intros;
     rewrite H; reflexivity.
-  - destruct x; firstorder.
+  - destruct x0; firstorder.
 Qed.
 
 (** All endofunctors in Coq have strength *)

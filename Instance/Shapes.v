@@ -303,17 +303,21 @@ Qed.
 
 Program Definition Tries_Cartesian (a : Type) : @Cartesian (Tries a) := {|
   product_obj := Plus;
-  isCartesianProduct _ _ := {|
-  Cartesian.fork := λ _ f g, (λ x, Join (`1 f x) (`1 g x); _);
-  Cartesian.exl  := (Trie_left; _);
-  Cartesian.exr  := (Trie_right; _)
-   |}
+  fork        := λ _ _ _ f g, (λ x, Join (`1 f x) (`1 g x); _);
+  exl         := λ _ _, (Trie_left; _);
+  exr         := λ _ _, (Trie_right; _)
 |}.
+Next Obligation.
+  proper.
+  f_equal.
+  - now apply X0.
+  - now apply X.
+Qed.
 Next Obligation.
   proper.
   rewrite !vec_Trie_left.
   now do 2 f_equal.
-Qed. 
+Qed.
 Next Obligation.
   proper.
   rewrite !vec_Trie_right.
@@ -322,11 +326,7 @@ Qed.
 Next Obligation.
   proper.
   simpl in *.
-  now rewrite (X0 _ _ X1), (X _ _ X1).
-Qed.
-Next Obligation.
-  proper. cbn in *.
-  now rewrite H0, H.
+  now rewrite H, H0.
 Qed.
 Next Obligation.
   split; intros.
@@ -334,8 +334,8 @@ Next Obligation.
     + now rewrite vec_Trie_left, H, splitat_append.
     + now rewrite vec_Trie_right, H, splitat_append.
   - destruct H.
-    specialize (e x).
-    specialize (e0 x).
+    specialize (e x0).
+    specialize (e0 x0).
     rewrite vec_Trie_left in e.
     rewrite vec_Trie_right in e0.
     rewrite <- e, <- e0.
@@ -370,11 +370,9 @@ Qed.
 
 Program Definition Vectors_Cartesian (a : Type) : @Cartesian (Vectors a) := {|
   product_obj := plus;
-  isCartesianProduct _ _ := {|
-    fork        := λ _ f g, λ x, f x ++ g x;
-    exl         := fst ∘ (splitat _ );
-    exr         := snd ∘ (splitat _ )
-  |}
+  fork        := λ _ _ _ f g, λ x, f x ++ g x;
+  exl         := λ x _, fst ∘ splitat x;
+  exr         := λ x _, snd ∘ splitat x
 |}.
 Next Obligation.
   proper.

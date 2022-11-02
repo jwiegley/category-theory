@@ -67,16 +67,16 @@ Ltac cat :=
 #[export] Hint Unfold Transitive : core.
 
 #[export] Hint Extern 1 (Reflexive ?X) =>
-  unfold Reflexive : core.
+  unfold Reflexive; auto : core.
 #[export] Hint Extern 1 (Symmetric ?X) =>
-  unfold Symmetric : core.
+  unfold Symmetric; intros; auto : core.
 #[export] Hint Extern 1 (Transitive ?X) =>
-  unfold Transitive : core.
+  unfold Transitive; intros; auto : core.
 #[export] Hint Extern 1 (Equivalence ?X) =>
   apply Build_Equivalence : core.
-#[export] Hint Extern 1 (Proper _ _) => unfold Proper : core.
+#[export] Hint Extern 1 (Proper _ _) => unfold Proper; auto : core.
 #[export] Hint Extern 8 (respectful _ _ _ _) =>
-  unfold respectful : core.
+  unfold respectful; auto : core.
 
 #[export] Hint Extern 4 (equiv ?A ?A) => reflexivity : category_laws.
 #[export] Hint Extern 6 (equiv ?X ?Y) =>

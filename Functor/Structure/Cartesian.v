@@ -19,8 +19,8 @@ Class CartesianFunctor := {
   prod_in  := fun x y => from (@fobj_prod_iso x y);
   prod_out := fun x y => to   (@fobj_prod_iso x y);
 
-  fmap_exl {x y : C} : fmap (@exl C x y _ _) ≈ exl ∘ prod_out _ _;
-  fmap_exr {x y : C} : fmap (@exr C x y _ _) ≈ exr ∘ prod_out _ _;
+  fmap_exl {x y : C} : fmap (@exl C _ x y) ≈ exl ∘ prod_out _ _;
+  fmap_exr {x y : C} : fmap (@exr C _ x y) ≈ exr ∘ prod_out _ _;
 
   fmap_fork {x y z : C} (f : x ~> y) (g : x ~> z) :
     fmap (f △ g) ≈ prod_in _ _ ∘ fmap f △ fmap g

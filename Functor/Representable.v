@@ -31,4 +31,3 @@ Class Representable `(F : C ⟶ Sets) := {
 
 Coercion Representable_to_obj `(F : C ⟶ Sets) (R : Representable F) : C :=
   @repr_obj _ _ R.
-
