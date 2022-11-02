@@ -57,7 +57,7 @@ Next Obligation.
   rewrite cone_coherence.
   reflexivity.
 Qed.
-Print ConeFrom.
+
 Program Definition Pullback_from_Universal {C : Category}
         {x y z : C} (f : x ~> z) (g : y ~> z) (P : Pullback f g) :
   Pullback_Limit (@ASpan (C^op) _ _ _ f g)^op := {|
