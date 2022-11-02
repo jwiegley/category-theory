@@ -5,7 +5,7 @@ Require Import Category.Functor.Opposite.
 Require Import Category.Structure.Cone.
 
 Generalizable All Variables.
-Check @vertex_map.
+
 Program Definition Cones `(F : J ⟶ C) : Category := {|
   obj     := Cone F;
   hom     := fun N L => { u : vertex_obj[N] ~> vertex_obj[L]

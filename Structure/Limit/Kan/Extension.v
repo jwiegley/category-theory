@@ -10,6 +10,7 @@ Require Import Category.Structure.Limit.
 Require Import Category.Functor.Diagonal.
 Require Import Category.Instance.One.
 Require Import Category.Instance.Sets.
+Require Import Category.Structure.Cone.Const.
 
 Generalizable All Variables.
 
@@ -18,21 +19,19 @@ Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J)
 Proof.
   given (cone : Cone F). {
     pose (from ((@adj _ _ _ _ ran_adjoint
-                      (Ran (Erase J) F) F)) nat_id) as adj_from;
-    simpl in adj_from.
-
-    unshelve (refine {| vertex_obj := Ran (Erase J) F ttt |}).
+                   (Ran (Erase J) F) F)) nat_id) as adj_from.
+    simpl carrier in adj_from.
+    unshelve (refine {| vertex_obj := Ran (Erase J) F ttt |});
+      [ assumption | unshelve econstructor ].
     - apply adj_from.
     - abstract (intros; rewrite (naturality[adj_from]); simpl; cat).
   }
-
   given (nat : Δ(Lim) ◯ Erase J ⟹ F). {
-    transform; simpl; intros.
-    + apply vertex_map.
-    + abstract (cat; apply ump_cones).
-    + abstract (cat; symmetry; apply ump_cones).
+    transform; simpl.
+    + exact vertex_map.
+    + abstract(rewrite id_right; apply cone_coherence).
+    + abstract(rewrite id_right; symmetry; apply cone_coherence).
   }
-
   pose (to (@adj _ _ _ _ ran_adjoint (Δ(Lim)) F) nat)
     as adj_to; simpl in adj_to.
 
@@ -85,9 +84,10 @@ Proof.
        "... Proposition 3.1.7 implies that the only automorphism of [a limit
        object] l that commutes with the specified limit cone λ is the
        identity." *)
+
     assert (∀ (f g : Lim ~{ C }~> Lim),
-              (∀ x, vertex_map[Lim] ∘ f ≈ @vertex_map _ _ _ Lim x) ->
-              (∀ x, vertex_map[Lim] ∘ g ≈ @vertex_map _ _ _ Lim x) ->
+              (∀ x, vertex_map[Lim] ∘ f ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ Lim) x) ->
+              (∀ x, vertex_map[Lim] ∘ g ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ Lim) x) ->
               f ∘ unique_obj (ump_limits cone) ≈
               g ∘ unique_obj (ump_limits cone) → f ≈ g) as HA. {
       intros; clear adj_to to_from nat.

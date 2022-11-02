@@ -29,6 +29,7 @@ Class Cone `(F : J ⟶ C) := {
 }.
 
 Coercion vertex_obj : Cone >-> obj.
+#[export] Existing Instance coneFrom.
 
 Notation "vertex_obj[ C ]" := (@vertex_obj _ _ _ C)
   (at level 9, format "vertex_obj[ C ]") : category_scope.
