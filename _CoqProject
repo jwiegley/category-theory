@@ -109,6 +109,7 @@ Lib/NETList.v
 Lib/Setoid.v
 Lib/TList.v
 Lib/Tactics.v
+Lib/Tactics2.v
 Monad/Adjunction.v
 Monad/Algebra.v
 Monad/Compose.v

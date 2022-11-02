@@ -15,17 +15,18 @@ Proof.
   - construct.
     + exact (vertex_obj[X (Pick_Two X0 X1)]).
     + simpl.
-      given (cone : Cone (Pick_Two y z)). {
+      given (cone : Cone (Pick_Two y z)). { 
         unshelve (refine {| vertex_obj := x |}); intros.
+        unshelve econstructor.
         - destruct x0; simpl; auto.
-        - destruct x0, y0; cat;
+        - intros. destruct x0, y0; cat;
           pose proof (TwoDHom_inv _ _ f0) as H; inv H.
       }
       destruct (@ump_limits _ _ _ (X (Pick_Two y z)) cone).
       apply unique_obj.
     + simpl.
       destruct (X (Pick_Two x y)).
-      destruct limit_cone.
+      destruct limit_cone. 
       apply (vertex_map TwoDX).
     + simpl.
       destruct (X (Pick_Two x y)).
