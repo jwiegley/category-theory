@@ -25,27 +25,7 @@ Class Cartesian := {
 
   ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) :
     h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
-  }.
-
-Class IsCartesianProduct (x y z : C) := {
-  fork' {a} (f : a ~> x) (g : a ~> y) : a ~> z;
-
-  exl'  : z ~> x;
-  exr'  : z ~> y;
-
-  fork'_respects : ∀ a,
-    Proper (equiv ==> equiv ==> equiv) (@fork' a);
-
-  ump_product {a} (f : a ~> x) (g : a ~> y) (h : a ~> z) :
-    h ≈ fork' f g ↔ (exl' ∘ h ≈ f) * (exr' ∘ h ≈ g)
-  }.
-
-Program Instance CartesianProductStructuresEquiv (x y z : C) :
-  Setoid (IsCartesianProduct x y z) :=
-  ({|
-             equiv := fun p q => (@exl' _ _ _ p) ≈ (@exl' _ _ _ q) ∧
-                                 (@exr' _ _ _ p) ≈ (@exr' _ _ _ q) |}).
-
+}.
 #[export] Existing Instance fork_respects.
 
 Infix "×" := product_obj (at level 41, right associativity) : object_scope.
