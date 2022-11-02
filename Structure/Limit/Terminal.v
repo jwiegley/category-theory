@@ -15,14 +15,14 @@ Proof.
   - construct.
     + exact (vertex_obj[X]).
     + given (cone : Cone F). {
-        unshelve (refine {| vertex_obj := x |}); intros.
+        unshelve (refine {| vertex_obj := x |}); unshelve econstructor; intros.
         - inversion x0.
         - inversion x0.
       }
       destruct (@ump_limits _ _ _ X cone).
       apply unique_obj.
     + given (cone : Cone F). {
-        unshelve (refine {| vertex_obj := x |}); intros.
+        unshelve (refine {| vertex_obj := x |}); unshelve econstructor; intros.
         - inversion x0.
         - inversion x0.
       }
@@ -34,7 +34,7 @@ Proof.
       * intro x0; inversion x0.
       * intro x0; inversion x0.
   - construct.
-    + construct.
+    + construct; [ | unshelve econstructor ].
       * exact terminal_obj.
       * inversion x.
       * inversion x.
