@@ -192,15 +192,17 @@ Next Obligation. solveit. Defined.
 Next Obligation. contradiction. Qed.
 
 #[export] Program Instance Par_Cocartesian : @Cocartesian Par := {
-  product_obj := sum;
-  fork := λ _ _ _ f g x,
+    product_obj := sum;
+    isCartesianProduct x y := {|
+        Cartesian.fork := λ _ f g x,
             match x with
             | Datatypes.inl v => f v
             | Datatypes.inr v => g v
             end;
-  exl  := λ _ _ p, Some (Datatypes.inl p);
-  exr  := λ _ _ p, Some (Datatypes.inr p)
-}.
+        exl  := λ p, Some (Datatypes.inl p);
+        exr  := λ p, Some (Datatypes.inr p)
+     |}
+ }.
 Next Obligation.
   split; intros.
   - split; intros;

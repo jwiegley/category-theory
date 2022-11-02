@@ -22,12 +22,14 @@ Context `{@CartesianMonoidal C}.
 
 Program Definition CartesianMonoidal_Cartesian : @Cartesian C := {|
   product_obj := fun x y => (x ⨂ y)%object;
-  Cartesian.fork := @fork _ _;
-  exl  := fun _ _ => proj_left;
-  exr  := fun _ _ => proj_right
-|}.
+  isCartesianProduct x y := {|
+     Cartesian.fork := _ ;
+     Cartesian.exl := proj_left; 
+     Cartesian.exr := proj_right
+   |}
+ |}.
 Next Obligation.
-  unfold fork.
+ unfold fork.
   split; intros.
   - split.
     + rewrites.

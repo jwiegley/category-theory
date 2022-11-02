@@ -11,22 +11,50 @@ Section Cartesian.
 
 Context `{C : Category}.
 
+Class IsCartesianProduct (x y z : C) := {
+    exl : z ~> x;
+    exr : z ~> y;
+    fork {a} (f : a ~> x) (g : a ~> y) : a ~> z;
+    fork_respects : ∀ a,
+      Proper (equiv ==> equiv ==> equiv) (@fork a);    
+    ump_products {a} (f : a ~> x) (g : a ~> y) (h : a ~> z) :
+    h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
+  }.
+
+#[refine]
+Instance CartesianProductStructureEquiv x y z : Setoid (IsCartesianProduct x y z) :=
+  Build_Setoid _
+    (fun p q => (@exl _ _ _ p ≈ @exl _ _ _ q) * (@exr _ _ _ p ≈ @exr _ _ _ q))
+    (Build_Equivalence
+      _ _ _ _ ).
+Proof.
+  all: try(typeclasses eauto).
+  + abstract(intro; split; reflexivity).
+  + abstract(cat_simpl).
+  + abstract(cat_simpl).
+Defined.
+
+Arguments fork {x y z _ a}.
 Class Cartesian := {
   product_obj : obj → obj → obj
     where "x × y" := (product_obj x y);
 
-  fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z;
+  isCartesianProduct {x y} : IsCartesianProduct x y (x × y)
+  
+  (* fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z; *)
 
-  exl {x y} : x × y ~> x;
-  exr {x y} : x × y ~> y;
+  (* exl {x y} : x × y ~> x; *)
+  (* exr {x y} : x × y ~> y; *)
 
-  fork_respects : ∀ x y z,
-    Proper (equiv ==> equiv ==> equiv) (@fork x y z);
+  (* fork_respects : ∀ x y z, *)
+  (*   Proper (equiv ==> equiv ==> equiv) (@fork x y z); *)
 
-  ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) :
-    h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
+  (* ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) : *)
+  (*   h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g) *)
 }.
+
 #[export] Existing Instance fork_respects.
+#[export] Existing Instance isCartesianProduct.
 
 Infix "×" := product_obj (at level 41, right associativity) : object_scope.
 Infix "△" := fork (at level 28) : morphism_scope.
@@ -216,25 +244,25 @@ Theorem second_fork {x y z w : C} (f : x ~> y) (g : x ~> z) (h : z ~> w) :
 Proof. unfork. Qed.
 
 Corollary exl_first {x y z : C} (f : x ~> y) :
-  @exl _ y z ∘ first f ≈ f ∘ exl.
+  @exl y z _ _  ∘ first f ≈ f ∘ exl.
 Proof. unfold first; cat. Qed.
 
 #[local] Hint Rewrite @exl_first : categories.
 
 Corollary exr_first {x y z : C} (f : x ~> y) :
-  @exr _ y z ∘ first f ≈ exr.
+  @exr y z _ _ ∘ first f ≈ exr.
 Proof. unfold first; cat. Qed.
 
 #[local] Hint Rewrite @exr_first : categories.
 
 Corollary exl_second {x y z : C} (f : x ~> y) :
-  @exl _ z y ∘ second f ≈ exl.
+  @exl z y _ _ ∘ second f ≈ exl.
 Proof. unfold second; cat. Qed.
 
 #[local] Hint Rewrite @exl_second : categories.
 
 Corollary exr_second {x y z : C} (f : x ~> y) :
-  @exr _ z y ∘ second f ≈ f ∘ exr.
+  @exr z y _ _ ∘ second f ≈ f ∘ exr.
 Proof. unfold second; cat. Qed.
 
 #[local] Hint Rewrite @exr_second : categories.
@@ -365,7 +393,8 @@ End Cartesian.
 Infix "×" := (@product_obj _ _) (at level 41, right associativity) : object_scope.
 Notation "x ×[ C ] y" := (@product_obj C _ x y)
   (at level 41, right associativity, only parsing) : object_scope.
-Infix "△" := (@fork _ _ _ _ _) (at level 28) : morphism_scope.
+
+Infix "△" := (@fork _ _ _ _ _ _) (at level 28) : morphism_scope.
 
 #[export] Hint Rewrite @exl_fork : categories.
 #[export] Hint Rewrite @exr_fork : categories.

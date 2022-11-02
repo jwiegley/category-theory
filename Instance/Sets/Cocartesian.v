@@ -24,24 +24,30 @@ Program Instance Sets_Cocartesian : @Cocartesian Sets := {
               end
           ; setoid_equiv := _
           |} |};
-  fork := fun _ _ _ f g =>
+  isCartesianProduct _ _ := {|
+  Cartesian.fork := fun _ f g =>
     {| morphism := fun x =>
          match x with
          | Datatypes.inl x => f x
          | Datatypes.inr x => g x
          end |};
-  exl := fun _ _ => {| morphism := Datatypes.inl |};
-  exr := fun _ _ => {| morphism := Datatypes.inr |}
+  Cartesian.exl :=  {| morphism := Datatypes.inl |};
+  Cartesian.exr :=  {| morphism := Datatypes.inr |}
+  |}
 }.
 Next Obligation.
-  proper.
-  destruct f, g; intuition.
-  destruct y, x; intuition;
-  destruct z; intuition.
+  proper. equivalence.
+  + destruct x0, y0; first [assumption | symmetry; assumption].
+  + destruct x0, y0, z; eauto; first [(apply (Equivalence_Transitive _ c0) ; auto) |
+                                       now apply False_rect ].
 Qed.
 Next Obligation.
   proper.
-  destruct x2; intuition.
+  destruct x, y; intuition; now apply proper_morphism.
+Qed.
+Next Obligation.
+  proper.
+  destruct x1; intuition.
 Qed.
 Next Obligation.
   simplify; intuition;
