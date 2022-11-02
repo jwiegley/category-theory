@@ -110,6 +110,7 @@ Lib/NETList.v
 Lib/Setoid.v
 Lib/TList.v
 Lib/Tactics.v
+Lib/Tactics2.v
 Monad/Adjunction.v
 Monad/Algebra.v
 Monad/Compose.v
@@ -180,6 +181,8 @@ Structure/Span.v
 Structure/Terminal.v
 Structure/UniversalProperty.v
 Structure/UniversalProperty/Cartesian.v
+Structure/UniversalProperty/Limit.v
+Structure/UniversalProperty/Universal/Arrow.v
 Structure/Wedge.v
 Theory.v
 Theory/Adjunction.v

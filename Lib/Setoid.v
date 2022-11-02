@@ -61,3 +61,11 @@ Arguments uniqueness {_ _ _} _.
 
 Notation "∃! x .. y , P" := (Unique (fun x => .. (Unique (fun y => P)) ..))
   (at level 200, x binder, y binder, right associativity) : category_theory_scope.
+
+Local Set Warnings "-not-a-class".
+Class injective {A : Type} `{Setoid A} {B : Type} `{Setoid B} (f : A -> B) :=
+  { inj {x y} :> f x ≈ f y -> x ≈ y }.
+
+Class surjective {A : Type} {B : Type} `{Setoid B} (f : A -> B) :=
+  { surj {y} :> { x & f x ≈ y} }.
+Local Set Warnings "not-a-class".

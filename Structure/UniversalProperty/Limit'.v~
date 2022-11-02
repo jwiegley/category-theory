@@ -74,7 +74,9 @@ Section LimitUniversalProperty.
     apply uniqueness.
     intro. simpl. symmetry. trivial.
   Qed.
-
+  Check @equiv _ (homset _ _) _ _.
+  Check @IsALimit.
+  Check @homset.
   Ltac apply_cone_equiv_to_morphism_equiv :=
     match goal with
     | [ H : @IsALimit _ _ _ ?b |- @equiv _ (@homset _ _ ?b) _ _ ] =>
@@ -126,28 +128,29 @@ Section LimitUniversalProperty.
                    _ _(id_left (X_from_transform vertex_obj[N] coneFrom)));
       intro j;
                now rewrite (iso_to_from N (@coneFrom _ _ _ N) j), id_right).
-    - abstract(destruct X as [[X_to_transform X_to_nat ?]
-                       [X_from_transform X_from_nat ?] ? ?];
-                simpl in *;
-               set (k:= X_from_nat _ _ v (X_to_transform c id{C}));
-               symmetry in k; rewrite iso_from_to, 2 id_left in k;
-               rewrite <- k;
-               apply (proper_morphism (X_from_transform vertex_obj[N]));
-               simpl; intro j; symmetry; apply X0).
-    - abstract(simpl; intros a b eq;
-               destruct a, b as [to1 from1 tofrom1 fromto1];
-               destruct eq as [eql eqr]; simpl in *;
-               apply eql).
-    - abstract(intros a f j; destruct x, to; simpl in *;
-      rewrite naturality; revert j;
-      change _ with (transform a (id{C} ∘ f) ≈ transform a f);
-      now rewrite id_left). 
-    - abstract(now unfold  ump_limit_construct).
-    - abstract(auto with cat limit).
-  Defined.
-
-End LimitUniversalProperty.
-      
-      
-      
-      
+    - simpl in *. 
+      destruct X as [[X_to_transform X_to_nat ?]
+                       [X_from_transform X_from_nat ?] ? ?].
+      simpl in *.
+      set (k:= X_from_nat _ _ v (X_to_transform c id{C})).
+      symmetry in k; rewrite iso_from_to, 2 id_left in k.
+      rewrite <- k.
+      apply (proper_morphism (X_from_transform vertex_obj[N])).
+      simpl. intro j.
+      symmetry.
+      apply X0.
+    - simpl. intros a b eq.
+      destruct a, b as [to1 from1 tofrom1 fromto1]; destruct eq as [eql eqr]. simpl in *.
+      apply eql.
+    - simpl. intros a f.
+      intro j.
+      destruct x.
+      simpl.
+      destruct to.
+      simpl in *.
+      rewrite naturality.
+      revert j.
+      change _ with (transform a (id{C} ∘ f) ≈ transform a f).
+      now rewrite id_left. 
+    - simpl. intros. simpl.
+      Abort.

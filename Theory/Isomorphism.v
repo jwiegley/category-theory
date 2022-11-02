@@ -35,6 +35,21 @@ Arguments iso_from_to {x y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
+Class IsIsomorphism {x y : C} (f : x ~> y) := {
+    two_sided_inverse : y ~> x;
+    is_right_inverse : f ∘ two_sided_inverse ≈ id;
+    is_left_inverse : two_sided_inverse ∘ f ≈ id                        
+  }.
+
+#[export]
+Instance IsIsoToIso {x y : C} (f : x ~> y) ( _ : IsIsomorphism f) : Isomorphism x y :=
+  {|
+    to := f;
+    from := two_sided_inverse;
+    iso_to_from := is_right_inverse;
+    iso_from_to := is_left_inverse
+  |}.
+
 #[export] Program Instance iso_id {x : C} : x ≅ x := {
   to   := id;
   from := id
@@ -114,8 +129,9 @@ Proof.
   intros.
   (* jww (2021-08-09): It should be possible to rewrite here with isomorphism
      acting similarly to an equivalence. *)
-(*   rewrite g. *)
-Abort.
+  rewrite g.
+  exact f.
+Qed.
 
 End Isomorphism.
 
@@ -193,6 +209,30 @@ Proof.
   intros f g [fg_toeq fg_fromeq]; destruct f as [ffrom fto ? ?], g as [gfrom gto ? ?];
     simpl in *.
   unfold iso_equiv; split; assumption.
+Qed.
+
+#[export]
+Instance iso_compose_proper {C : Category} {x y z : C} :
+  Proper ((@iso_equiv C y z) ==> @iso_equiv C x y ==> (@iso_equiv C x z)) iso_compose.
+Proof.
+  intros f1 f2 eqf g1 g2 eqg.
+  apply to_equiv_implies_iso_equiv.
+  destruct f1 as [f1to ? ? ?], f2 as [f2to ? ? ?], eqf as [eqfto _], eqg as [eqgto _].
+  simpl in *.
+  rewrite eqfto, eqgto.
+  reflexivity.
+Qed.
+
+Proposition iso_sym_left_inverse {C : Category} {x y : C} (f : x ≅ y) :
+  iso_compose (iso_sym f) f ≈ iso_id.
+Proof.
+  apply to_equiv_implies_iso_equiv, iso_from_to.
+Qed.
+
+Proposition iso_sym_right_inverse {C : Category} {x y : C} (f : x ≅ y) :
+  iso_compose f (iso_sym f) ≈ iso_id.
+Proof.
+  apply to_equiv_implies_iso_equiv, iso_to_from.
 Qed.
 
 Proposition from_equiv_implies_iso_equiv {C : Category} {x y} (f g : x ≅ y) :
