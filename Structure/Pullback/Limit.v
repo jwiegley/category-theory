@@ -21,18 +21,18 @@ Program Definition Pullback_to_Universal {C : Category}
         (F : Cospan C) (P : Pullback_Limit F) :
   Pullback (unop (fmap[F] ZeroNeg)) (unop (fmap[F] ZeroPos)) := {|
   Pull := P;
-  pullback_fst := vertex_map;
-  pullback_snd := vertex_map
+  pullback_fst := (vertex_map _);
+  pullback_snd := (vertex_map _)
 |}.
 Next Obligation.
-  pose proof (@ump_cones _ _ _ P).
+  pose proof (@cone_coherence _ (@vertex_obj  _ _ _ (limit_cone)) _ F (coneFrom)).
   unfold unop.
   rewrite !X.
   reflexivity.
 Qed.
 Next Obligation.
   given (cone : Cone F). {
-    unshelve (refine {| vertex_obj := Q |}); intros.
+    unshelve (refine {| vertex_obj := Q |}); unshelve econstructor; intros.
     - destruct x; auto.
       exact (unop (fmap[F] ZeroPos) ∘ q2).
     - simpl;
@@ -54,29 +54,30 @@ Next Obligation.
   rewrites.
   rewrite comp_assoc.
   unfold unop.
-  rewrite ump_cones.
+  rewrite cone_coherence.
   reflexivity.
 Qed.
 
 Program Definition Pullback_from_Universal {C : Category}
         {x y z : C} (f : x ~> z) (g : y ~> z) (P : Pullback f g) :
   Pullback_Limit (@ASpan (C^op) _ _ _ f g)^op := {|
-  limit_cone := {| vertex_obj := P |}
+  limit_cone := {| vertex_obj := P ; coneFrom := {| vertex_map := _; cone_coherence := _ |} |}
 |}.
 Next Obligation.
   destruct x0;
-  destruct P; simpl in *; auto.
+    destruct P; simpl in *; auto.
   exact (f ∘ pullback_fst).
 Defined.
 Next Obligation.
   destruct x0, y0;
   destruct P; simpl in *; auto with roof_laws; cat.
 Qed.
-Next Obligation.
-  destruct P, N; simpl in *.
-  assert (eqv : f ∘ vertex_map RNeg ≈ g ∘ vertex_map RPos). {
-    rewrite (ump_cones RNeg RZero ZeroNeg).
-    rewrite (ump_cones RPos RZero ZeroPos).
+Next Obligation. 
+  destruct P, N, coneFrom; simpl in *.
+  assert (eqv : f ∘ (vertex_map RNeg) ≈
+                  g ∘ (vertex_map RPos)). {
+    rewrite (cone_coherence RNeg RZero ZeroNeg).
+    rewrite (cone_coherence RPos RZero ZeroPos).
     reflexivity.
   }
   unfold Pullback_from_Universal_obligation_1; simpl.
@@ -85,7 +86,7 @@ Next Obligation.
   - destruct x0; auto.
     rewrite <- comp_assoc.
     rewrite unique_property.
-    apply (ump_cones RNeg RZero ZeroNeg).
+    apply (cone_coherence RNeg RZero ZeroNeg).
   - apply uniqueness.
     split.
     + apply (X RNeg).

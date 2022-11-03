@@ -40,25 +40,16 @@ Lemma Cone_Natural_Transform `(F : [J, C]) :
   ∀ N : C, Δ[J](N) ⟹ F ↔ Cone[N] F.
 Proof.
   split; intros.
+  - construct; [ exact (X x) |].
+    abstract(pose proof (naturality[X] _ _ f) as nat;
+        simpl in nat;
+        rewrite id_right in nat;
+             now apply nat).
   - construct.
-    + construct.
-      * exact N.
-      * now apply X.
-      * pose proof (naturality[X] _ _ f) as nat.
-        simpl in nat.
-        rewrite id_right in nat.
-        now apply nat.
-    + reflexivity.
-  - destruct X as [X H], X.
-    transform; intros;
-    simpl in *; subst; simpl_eq.
-    + now apply vertex_map.
-    + rewrite id_right.
-      now apply ump_cones.
-    + rewrite id_right.
-      symmetry.
-      now apply ump_cones.
-Qed.
+    + now apply X.
+    + abstract(simpl; rewrite id_right; apply cone_coherence).
+    + abstract(simpl; rewrite id_right; symmetry; apply cone_coherence).
+Defined.
 
 (** See Instance/Cones/Comma for a similar proof involving the category of
     cones. *)
@@ -68,23 +59,21 @@ Proof.
   split; simpl.
   - intros [[? ?] f].
     simplify; simpl in *.
-    unshelve refine (Build_Cone _ _ _ _ _ _);
-    simpl in *; intros.
-    + exact o.
+    unshelve econstructor; [ exact o | unshelve econstructor ].
     + now apply f.
-    + destruct f; simpl in *.
-      rewrite <- (id_right (transform y)).
-      now apply naturality.
+    + abstract(destruct f; simpl in *; intros x y f;
+      rewrite <- (id_right (transform y));
+      now apply naturality).
   - intros X.
     destruct X.
     exists (vertex_obj, vertex_obj).
     construct.
     + now apply vertex_map.
-    + simpl.
-      rewrite id_right.
-      now apply ump_cones.
-    + simpl.
-      rewrite id_right.
-      symmetry.
-      now apply ump_cones.
-Qed.
+    + abstract(simpl;
+               rewrite id_right;
+               now apply cone_coherence).
+    + abstract(simpl;
+               rewrite id_right;
+               symmetry;
+               now apply cone_coherence).
+Defined.
