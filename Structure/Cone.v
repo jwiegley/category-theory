@@ -7,14 +7,14 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
-Class ConeFrom `(c : obj[C]) `(F : J ⟶ C) := {
+Class ACone `(c : obj[C]) `(F : J ⟶ C) := {
     vertex_map (x : J) : c ~{C}~> F x;
     cone_coherence {x y : J} (f : x ~{J}~> y) :
     fmap[F] f ∘ vertex_map x ≈ vertex_map y
   }.
 
-#[export] Program Instance ConeFromEquiv {C J: Category}
-  c (F : C ⟶ J) : Setoid (ConeFrom c F) :=
+#[export] Program Instance AConeEquiv {C J: Category}
+  c (F : C ⟶ J) : Setoid (ACone c F) :=
   {| equiv := fun cone1 cone2 =>
                 forall j, @vertex_map _ _ _ _ cone1 j ≈ @vertex_map _ _ _ _ cone2 j |}.
 Next Obligation.
@@ -25,7 +25,7 @@ Qed.
 
 Class Cone `(F : J ⟶ C) := {
   vertex_obj : C;
-  coneFrom : ConeFrom vertex_obj F
+  coneFrom : ACone vertex_obj F
 }.
 
 Coercion vertex_obj : Cone >-> obj.
@@ -36,7 +36,7 @@ Notation "vertex_obj[ C ]" := (@vertex_obj _ _ _ C)
 Notation "vertex_map[ L ]" := (@vertex_map _ _ _ _ (@coneFrom _ _ _ L) _)
   (at level 9, format "vertex_map[ L ]") : category_scope.
 
-Notation "Cone[ N ] F" := (ConeFrom N F)(* . { ψ : Cone F | vertex_obj[ψ] = N } *)
+Notation "Cone[ N ] F" := (ACone N F)(* . { ψ : Cone F | vertex_obj[ψ] = N } *)
   (at level 9, format "Cone[ N ] F") : category_scope.
 
 Definition Cocone `(F : J ⟶ C) := Cone (F^op).
@@ -46,11 +46,11 @@ Instance ConePresheaf `(F : J ⟶ C) : C^op ⟶ Sets.
 Proof.
   unshelve eapply Build_Functor.
   - change obj[C^op] with obj[C]. 
-    exact (fun c => {| carrier := Cone[c]F ; is_setoid := ConeFromEquiv _ _ |}).
+    exact (fun c => {| carrier := Cone[c]F ; is_setoid := AConeEquiv _ _ |}).
   - change obj[C^op] with obj[C] in *; intros c c'.
     intro f; simpl in f.
     unshelve eapply Build_SetoidMorphism.
-    + simpl; intro λ1. unshelve eapply Build_ConeFrom.
+    + simpl; intro λ1. unshelve eapply Build_ACone.
       * exact (fun x => compose (@vertex_map _ _ _ _ λ1 x) f).
       * abstract(simpl; intros x y g; now rewrite comp_assoc, (cone_coherence g)).
     + abstract(simpl; intros a b t j; specialize t with j; cbn;
