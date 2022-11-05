@@ -209,12 +209,23 @@ Section CartesianProductUniversalProperty.
       - exact (snd (to_eq z id{C})).
     Qed.
     Let from := Build_SetoidMorphism _ _ _ _ _ from_is_proper.
-
+    Canonical Sets.
     (* This proves that a Cartesian product structure is _logically_ equivalent
        to the object representing a certain functor, but we need to construct the isomorphism. *)
-    Let tofrom_id := next_field (@Build_Isomorphism Sets _ _ to from).
-    (* tofrom_id := to ∘ from ≈ id{Sets} : Type *)
-    Print tofrom_id.
+    (* Let tofrom_id := next_field (@Build_Isomorphism Sets _ _ to from). *)
+    Proposition tofrom_id : @compose Sets _ _ _ to from ≈ id{Sets}.
+    Proof.
+      unfold to, from, representable_to_cartesian_prod_struct, Build_to,
+        cartesian_prod_struct_to_representable.
+      clear from.
+      intro T. simpl.
+      Locate iso_equiv.
+      unfold iso_equiv.
+      clear master_iso_from_underlying.
+      clear representable_to_prod_proper.
+        clear to from. representable_to_cartesian_prod_struct. 
+      clear prod_is_univ_property.
+    
     
 
     

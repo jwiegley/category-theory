@@ -187,6 +187,7 @@ Proof.
   rewrite fromto_eqf, eq, fromto_eqg; reflexivity.
 Qed.
 
+#[export]
 Instance iso_sym_proper {C: Category} {x y : C} : Proper (equiv ==> equiv) (@iso_sym C x y).
 Proof.
   intros f g [fg_toeq fg_fromeq]; destruct f as [ffrom fto ? ?], g as [gfrom gto ? ?];
