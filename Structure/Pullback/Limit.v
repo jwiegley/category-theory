@@ -25,10 +25,8 @@ Program Definition Pullback_to_Universal {C : Category}
   pullback_snd := (vertex_map _)
 |}.
 Next Obligation.
-  pose proof (@cone_coherence _ (@vertex_obj  _ _ _ (limit_cone)) _ F (coneFrom)).
   unfold unop.
-  rewrite !X.
-  reflexivity.
+  now rewrite 2 cone_coherence.
 Qed.
 Next Obligation.
   given (cone : Cone F). {

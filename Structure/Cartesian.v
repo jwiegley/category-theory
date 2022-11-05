@@ -378,3 +378,29 @@ Ltac unfork :=
   unfold swap, split, first, second; simpl;
   repeat (rewrite <- !fork_comp; cat;
           rewrite <- !comp_assoc; cat).
+
+Section ACartesian.
+  Proposition exl'_fork {C : Category} {w x y z: C} {H : IsCartesianProduct x y z}
+    (f : w ~> x) (g : w ~> y) :
+    exl' ∘ fork' f g ≈ f.
+  Proof.
+    intros. now apply (ump_product f g ).
+  Qed.
+
+  Proposition exr'_fork {C : Category} {w x y z: C} {H : IsCartesianProduct x y z}
+    (f : w ~> x) (g : w ~> y) :
+    exr' ∘ fork' f g ≈ g.
+  Proof.
+    intros. now apply (ump_product f g).
+  Qed.
+
+  Proposition fork'_natural (C: Category) (v w x y z: C) (H: IsCartesianProduct x y z)
+    (f : v ~> w) (a : w ~> x) (b : w ~> y) :
+    fork' a b ∘ f ≈ fork' (a ∘ f) (b ∘ f).
+  Proof.
+    apply ump_product; split; rewrite comp_assoc.
+    - now rewrite exl'_fork.
+    - now rewrite exr'_fork.
+  Qed.
+
+End ACartesian.

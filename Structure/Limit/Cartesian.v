@@ -28,11 +28,12 @@ Proof.
       destruct (X (Pick_Two x y)).
       destruct limit_cone.
       simpl. change x with (fobj[Pick_Two x y] TwoDX).
-      apply (@vertex_map _ _ Two_Discrete (Pick_Two x y) _ TwoDX).
+      apply vertex_map.
     + simpl.
       destruct (X (Pick_Two x y)).
       destruct limit_cone.
-      apply (@vertex_map _ _ Two_Discrete (Pick_Two x y) _ TwoDY).
+      simpl. change y with (fobj[Pick_Two x y] TwoDY).
+      apply vertex_map.
     + proper.
       apply uniqueness; simpl; intros.
       destruct x2; simpl.

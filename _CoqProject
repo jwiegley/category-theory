@@ -66,6 +66,7 @@ Instance/Coq/ParE.v
 Instance/Ens.v
 Instance/Fact.v
 Instance/Fun.v
+Instance/Fun/Cartesian.v
 Instance/Lambda.v
 Instance/Lambda/Eval.v
 Instance/Lambda/Example.v

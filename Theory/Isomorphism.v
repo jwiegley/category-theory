@@ -94,7 +94,7 @@ Qed.
 #[export] Instance iso_setoid {x y : C} : Setoid (x ≅ y) := {
   equiv := iso_equiv;
   setoid_equiv := iso_equiv_equivalence
-}.
+  }.
 
 #[local] Obligation Tactic := program_simpl.
 
@@ -173,6 +173,39 @@ Next Obligation.
   rewrite <- !(iso_to_from iso).
   rewrite !comp_assoc.
   rewrites; reflexivity.
+Qed.
+
+Proposition to_equiv_implies_iso_equiv {C : Category} {x y} (f g : x ≅ y) :
+  to f ≈ to g -> f ≈ g.
+Proof.
+  intro eq. split; [ assumption | ].
+  assert (m := iso_to_epic f).
+  destruct f as [tof fromf tofrom_eqf fromto_eqf], 
+      g as [tog fromg tofrom_eqg fromto_eqg].
+  simpl in *.
+  destruct m as [epic]. apply epic.
+  rewrite fromto_eqf, eq, fromto_eqg; reflexivity.
+Qed.
+
+Instance iso_sym_proper {C: Category} {x y : C} : Proper (equiv ==> equiv) (@iso_sym C x y).
+Proof.
+  intros f g [fg_toeq fg_fromeq]; destruct f as [ffrom fto ? ?], g as [gfrom gto ? ?];
+    simpl in *.
+  unfold iso_equiv; split; assumption.
+Qed.
+
+Proposition from_equiv_implies_iso_equiv {C : Category} {x y} (f g : x ≅ y) :
+  from f ≈ from g -> f ≈ g.
+Proof.
+  set (f1 := iso_sym f).
+  set (g1 := iso_sym g).
+  change f with (iso_sym (iso_sym f)).
+  change g with (iso_sym (iso_sym g)).
+  change (iso_sym f) with f1.
+  change (iso_sym g) with g1.
+  clearbody f1 g1. clear f g.
+  simpl. intro eq; apply to_equiv_implies_iso_equiv in eq.
+  now apply iso_sym_proper.
 Qed.
 
 #[export]

@@ -133,7 +133,7 @@ Section CartesianProductUniversalProperty.
 
     Let prod_to_representable_proper :=
           next_field (Build_to cartesian_prod_struct_to_representable).
-    Proposition is_proper : prod_to_representable_proper.
+    Proposition to_is_proper : prod_to_representable_proper.
     Proof.
       unfold prod_to_representable_proper, cartesian_prod_struct_to_representable.
       clear prod_to_representable_proper.
@@ -146,7 +146,7 @@ Section CartesianProductUniversalProperty.
         * rewrite <- eq2; apply exr'_fork.
     Qed.
 
-    Let to := Build_to cartesian_prod_struct_to_representable is_proper.
+    Let to := Build_to cartesian_prod_struct_to_representable to_is_proper.
     Let master_iso_from := Eval hnf in (next_field (Build_Iso to)).
     Let Build_from := Eval hnf in ltac:(let A := (eval hnf in master_iso_from) in
                            match A with
@@ -158,20 +158,66 @@ Section CartesianProductUniversalProperty.
     Proof.
       unfold master_iso_from_underlying; clear master_iso_from_underlying.
       clear Build_from master_iso_from to prod_to_representable_proper
-                       master_iso_to_underlying Build_to master_iso_to Build_Iso master_iso.
-      intros [[to_trans to_nat ?] [from_trans from_nat ?] c d]; simpl in c, d.
+        master_iso_to_underlying Build_to master_iso_to Build_Iso master_iso
+        prod_is_univ_property.
+      
+      intros [[to_trans to_nat ?] [from_trans from_nat ?] c d]. 
+              simpl in c, d.
       simpl. (* set (j := trans z (@id _ z)). simpl in j; destruct j as [ll rr]. *)
       unshelve econstructor.
-      + exact (fun a f g => from_trans a (f, g)).
-      + exact (fst (to_trans z (@id _ z))).
-      + exact (snd (to_trans z (@id _ z))).
-      + intro a. repeat(intro). now apply (proper_morphism (from_trans a)).
-      + intros a f g h; split; clear naturality_sym naturality_sym0; simpl in to_nat, from_nat. 
-        * intro m; split.
-           - simpl. rewrite m. 
-
+      - exact (fun a f g => from_trans a (f, g)).
+      - exact (fst (to_trans z (@id _ z))).
+      - exact (snd (to_trans z (@id _ z))).
+      - abstract(intro a; repeat(intro); now apply (proper_morphism (from_trans a))).
+      - intros a f g h; split; clear naturality_sym naturality_sym0; simpl in to_nat, from_nat. 
+        + abstract(
+            intro m; split; rewrite m; specialize c with a (f,g); destruct c as [feq geq];
+            simpl in feq, geq; rewrite id_right in feq; rewrite id_right in geq;
+            destruct (to_nat z a (from_trans a (f, g)) id{C}) as [fst_eq snd_eq];
+            symmetry; [ rewrite <- feq at 1 | rewrite <- geq at 1] ; symmetry;
+            rewrite id_left in fst_eq; rewrite id_left in snd_eq;
+            [ now apply fst_eq | now apply snd_eq ]).
+        + abstract(intros [t s];
+          rewrite <- id_right; symmetry; rewrite <- (d a h);
+          destruct (to_nat z a h id{C}) as [fst_eq snd_eq];
+          apply (proper_morphism (from_trans a)); split; simpl; symmetry;
+            rewrite <- (id_left h); [ now rewrite <- fst_eq | now rewrite <- snd_eq ]).
+    Defined.
+    Let representable_to_prod_proper :=
+          next_field (Build_from representable_to_cartesian_prod_struct).
+    Print representable_to_prod_proper.
+    (* Proper (equiv ==> equiv) representable_to_cartesian_prod_struct *)
+    Proposition from_is_proper : representable_to_prod_proper.
+    Proof.
+      unfold representable_to_prod_proper; clear representable_to_prod_proper.
+      unfold representable_to_cartesian_prod_struct.
+      clear master_iso_from_underlying
+        Build_from
+        master_iso_from
+        to
+        prod_to_representable_proper
+        master_iso_to_underlying
+        Build_Iso
+        Build_to
+        master_iso_to
+        master_iso
+        prod_is_univ_property.
       
-  
+      intros a b eq; simpl; split; simpl in eq; unfold iso_equiv in eq;
+        destruct eq as [to_eq from_eq]; simpl in to_eq.
+      - exact (fst (to_eq z id{C})).
+      - exact (snd (to_eq z id{C})).
+    Qed.
+    Let from := Build_SetoidMorphism _ _ _ _ _ from_is_proper.
+
+    (* This proves that a Cartesian product structure is _logically_ equivalent
+       to the object representing a certain functor, but we need to construct the isomorphism. *)
+    Let tofrom_id := next_field (@Build_Isomorphism Sets _ _ to from).
+    (* tofrom_id := to ∘ from ≈ id{Sets} : Type *)
+    Print tofrom_id.
+    
+
+    
 (* Maybe easier for limits ?*)
 Section LimitUniversalProperty.
   (* Context (C : Category). *)

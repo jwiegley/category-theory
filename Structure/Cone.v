@@ -23,7 +23,10 @@ Next Obligation.
   exact (Equivalence_Transitive _ _ _ X X0).
 Qed.  
 
-Class Cone `(F : J ⟶ C) := {
+Class Cone@{u0 u1 u2 u3 u4 u5}
+  {J : Category@{u0 u1 u2}}
+  {C : Category@{u3 u4 u5}}
+  (F : J ⟶ C) := {
   vertex_obj : C;
   coneFrom : ACone vertex_obj F
 }.
