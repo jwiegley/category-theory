@@ -62,23 +62,9 @@ Program Definition CoHom `(C : Category) : C ∏ C^op ⟶ Sets := {|
   fmap := fun x y (f : x ~{C ∏ C^op}~> y) =>
     {| morphism := fun g => snd f ∘ g ∘ fst f |}
 |}.
+Next Obligation. now rewrite <- ! comp_assoc. Qed.
 
-Program Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := {|
-  fobj := fun x => {|
-    fobj := fun y => {| carrier := @hom (C^op) x y
-                      ; is_setoid := @homset (C^op) x y |};
-    fmap := fun y z (f : y ~{C^op}~> z) =>
-              {| morphism := fun (g : x ~{C^op}~> y) =>
-                               (f ∘ g) : x ~{C^op}~> z |}
-  |};
-  fmap := fun x y (f : x ~{C}~> y) => {|
-    transform := fun _ => {| morphism := fun g => g ∘ op f |}
-  |}
-|}.
-Next Obligation.
-  simpl; intros.
-  symmetry.
-  now rewrite !comp_assoc.
-Qed.
+Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] :=
+  Curried_Hom C^op.
 
 Notation "[Hom ─ , A ]" := (@Curried_CoHom _ A) : functor_scope.
