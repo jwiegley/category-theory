@@ -4,6 +4,7 @@ Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Construction.Opposite.
 Require Import Category.Theory.Functor.
+Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Functor.Hom.
 Require Import Category.Instance.Sets.
 Require Import Category.Instance.Sets.Cartesian.
@@ -69,6 +70,14 @@ Section ACartesianProduct.
   Qed.
 End ACartesianProduct.
 
+Lemma preyoneda {C : Category} {c d: C} {P : C^op ⟶ Sets} (τ : [Hom ─ , c] ⟹ P) :
+  forall f : d ~> c,
+    transform τ d f ≈ fmap[P] f (transform τ c id{C}).
+Proof.
+  intro f. rewrite <- (id_left f) at 1.
+  exact (symmetry (naturality τ _ d f) id{C}).
+Qed.
+
 Section CartesianProductUniversalProperty.
   Context (C : Category).
   Context (x y : C).
@@ -103,7 +112,7 @@ Section CartesianProductUniversalProperty.
                            end).
     Let master_iso_to_underlying := next_field Build_to.
     Proposition cartesian_prod_struct_to_representable : master_iso_to_underlying.
-    Proof.
+    Proof using Type.
       clear prod_is_univ_property Build_Iso Build_to master_iso master_iso_to.
       unfold master_iso_to_underlying; clear master_iso_to_underlying.
       intro A; simpl in A.
@@ -134,7 +143,7 @@ Section CartesianProductUniversalProperty.
     Let prod_to_representable_proper :=
           next_field (Build_to cartesian_prod_struct_to_representable).
     Proposition to_is_proper : prod_to_representable_proper.
-    Proof.
+    Proof using Type.
       unfold prod_to_representable_proper, cartesian_prod_struct_to_representable.
       clear prod_to_representable_proper.
       clear prod_is_univ_property Build_Iso Build_to master_iso master_iso_to
@@ -155,7 +164,7 @@ Section CartesianProductUniversalProperty.
                            end).
     Let master_iso_from_underlying := next_field Build_from.
     Proposition representable_to_cartesian_prod_struct : master_iso_from_underlying.
-    Proof.
+    Proof using Type.
       unfold master_iso_from_underlying; clear master_iso_from_underlying.
       clear Build_from master_iso_from to prod_to_representable_proper
         master_iso_to_underlying Build_to master_iso_to Build_Iso master_iso
@@ -183,12 +192,13 @@ Section CartesianProductUniversalProperty.
           apply (proper_morphism (from_trans a)); split; simpl; symmetry;
             rewrite <- (id_left h); [ now rewrite <- fst_eq | now rewrite <- snd_eq ]).
     Defined.
+
     Let representable_to_prod_proper :=
           next_field (Build_from representable_to_cartesian_prod_struct).
     Print representable_to_prod_proper.
     (* Proper (equiv ==> equiv) representable_to_cartesian_prod_struct *)
     Proposition from_is_proper : representable_to_prod_proper.
-    Proof.
+    Proof using Type.
       unfold representable_to_prod_proper; clear representable_to_prod_proper.
       unfold representable_to_cartesian_prod_struct.
       clear master_iso_from_underlying
@@ -213,21 +223,43 @@ Section CartesianProductUniversalProperty.
     (* This proves that a Cartesian product structure is _logically_ equivalent
        to the object representing a certain functor, but we need to construct the isomorphism. *)
     (* Let tofrom_id := next_field (@Build_Isomorphism Sets _ _ to from). *)
+    Check @transform.
+    Arguments transform {C D F G}.
+    
     Proposition tofrom_id : @compose Sets _ _ _ to from ≈ id{Sets}.
     Proof.
       unfold to, from, representable_to_cartesian_prod_struct, Build_to,
         cartesian_prod_struct_to_representable.
       clear from.
       intro T. simpl.
-      Locate iso_equiv.
-      unfold iso_equiv.
-      clear master_iso_from_underlying.
-      clear representable_to_prod_proper.
-        clear to from. representable_to_cartesian_prod_struct. 
-      clear prod_is_univ_property.
-    
-    
+      apply to_equiv_implies_iso_equiv; simpl.
+      intros c x1.
+      clear representable_to_prod_proper
+        master_iso_from_underlying
+        Build_from
+        master_iso_from
+        to
+        prod_to_representable_proper
+        master_iso_to_underlying
+        Build_to
+        master_iso_to
+        Build_Iso
+        master_iso
+        prod_is_univ_property.
+      split; destruct T as [Tto Tfrom T_tofromiso T_fromtoiso]; simpl;
+        rewrite (preyoneda _ x1);
+        set (X := fobj[Curried_CoHom C] x); set (Y := fobj[Curried_CoHom C] y).
+      - set (l := (@exl (@Fun.Fun C^op Sets) _ X Y)).
+        change (fst (fmap[X × Y] x1 (Tto z id{C}))) with
+          ((transform l _ ∘ (fmap[X × Y] x1)) (Tto z id{C})).
+        now rewrite <- (naturality l _ c x1 (Tto z id{C})).
+      - set (r := (@exr (@Fun.Fun C^op Sets) _ X Y)).
+        change (snd (fmap[X × Y] x1 (Tto z id{C}))) with
+          ((transform r _ ∘ (fmap[X × Y] x1)) (Tto z id{C})).
+        now rewrite <- (naturality r _ c x1 (Tto z id{C})).
+    Qed.
 
+    
     
 (* Maybe easier for limits ?*)
 Section LimitUniversalProperty.
