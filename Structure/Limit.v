@@ -31,6 +31,14 @@ Class IsALimit `(F : J ⟶ C) (c : C) := {
     vertex_map _ ∘ u ≈ vertex_map x
   }.
 
+Program Definition LimitSetoid `(F : J ⟶ C) (c : C) : Setoid (IsALimit F c) :=
+  {| equiv := fun l1 l2 => @limit_acone _ _ _ _ l1 ≈ @limit_acone _ _ _ _ l2 |}.
+Next Obligation.
+  abstract(equivalence;
+           specialize X with j; specialize X0 with j;
+           exact (Equivalence_Transitive _ _ _ X X0)).
+Defined.
+  
 Coercion limit_cone : Limit >-> Cone.
 
 Require Import Category.Functor.Opposite.
