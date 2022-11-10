@@ -60,10 +60,9 @@ Proof.
     unshelve eapply Build_SetoidMorphism.
     + simpl; intro λ1. unshelve eapply Build_ACone.
       * exact (fun x => compose (@vertex_map _ _ _ _ λ1 x) f).
-      * abstract(simpl; intros x y g; rewrite comp_assoc, (cone_coherence g);
-        reflexivity).
+      * abstract(simpl; intros x y g; now rewrite comp_assoc, (cone_coherence g)).
     + abstract(simpl; intros a b t j; specialize t with j; cbn;
-               rewrite t; reflexivity).
+      rewrite t; reflexivity).
   - abstract(proper).
   - abstract(intro x; cbn; intros y j; now apply id_right).
   - abstract(cbn; intros; now apply comp_assoc).
