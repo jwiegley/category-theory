@@ -173,7 +173,7 @@ Next Obligation.
   proper.
   simpl in H; subst.
   destruct x, y; simpl; auto.
-  elimtype False.
+  exfalso.
   now apply ParHom_Y_X_absurd in e.
 Qed.
 Next Obligation.
@@ -181,12 +181,12 @@ Next Obligation.
 Qed.
 Next Obligation.
   destruct x, y, z; simpl; auto.
-  - elimtype False.
+  - exfalso.
     now apply ParHom_Y_X_absurd in X0.
-  - elimtype False.
+  - exfalso.
     now apply ParHom_Y_X_absurd in X.
-  - elimtype False.
+  - exfalso.
     now apply ParHom_Y_X_absurd in X.
-  - elimtype False.
+  - exfalso.
     now apply ParHom_Y_X_absurd in X0.
 Qed.
