@@ -15,7 +15,7 @@ practical work.
 build: [make "-j%{jobs}%"]
 install: [make "install"]
 depends: [
-  "coq" {(>= "8.14" & < "8.17~") | (= "dev")}
+  "coq" {(>= "8.14" & < "8.18~") | (= "dev")}
   "coq-equations" {(>= "1.2" & < "1.4~") | (= "dev")}
 ]
 
