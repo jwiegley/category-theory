@@ -100,6 +100,8 @@ Arguments SN_Sub {Γ Γ'} /.
 
 Definition SN_halts {Γ τ} {e : Γ ⊢ τ} : SN e → halts e := ExpP_P _.
 
+#[local] Transparent ExpP.
+
 Lemma step_preserves_SN {Γ τ} {e e' : Γ ⊢ τ} :
   (e ---> e') → SN e → SN e'.
 Proof.
