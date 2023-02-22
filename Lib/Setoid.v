@@ -1,7 +1,7 @@
-Require Export Category.Lib.Foundation.
 Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Setoids.Setoid.
 Require Import Coq.Vectors.Fin.
+Require Export Category.Lib.Foundation.
 
 Generalizable All Variables.
 Set Primitive Projections.
