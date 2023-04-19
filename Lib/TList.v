@@ -35,7 +35,7 @@ Next Obligation.
 Defined.
 
 Arguments tnil {A B i}.
-Arguments tcons {A B i} j {k} x xs.
+Arguments tcons {A B i} j {k} _ _.
 
 Notation "x ::: xs" := (tcons _ x xs) (at level 60, right associativity).
 
