@@ -4,9 +4,9 @@ Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 
-Inductive TwoObj : Type := TwoX | TwoY.
+Inductive TwoObj : Set := TwoX | TwoY.
 
-Inductive TwoHom : TwoObj → TwoObj → Type :=
+Inductive TwoHom : TwoObj → TwoObj → Set :=
   | TwoIdX : TwoHom TwoX TwoX
   | TwoIdY : TwoHom TwoY TwoY
   | TwoXY  : TwoHom TwoX TwoY.
