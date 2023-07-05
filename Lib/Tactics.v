@@ -95,6 +95,8 @@ Ltac srewrite F :=
 Ltac srewrite_r F :=
   let H := fresh "H" in pose proof F as H; cbn in H; rewrite <- H; clear H.
 
+Ltac Tauto.intuition_solver ::= auto with exfalso category_laws bool.
+
 Ltac cat_simpl :=
   program_simpl; autounfold;
   try solve [

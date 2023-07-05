@@ -11,6 +11,8 @@ Require Import Category.Instance.Lambda.Step.
 From Equations Require Import Equations.
 Set Equations With UIP.
 
+Local Ltac Tauto.intuition_solver ::= auto with eqdep solve_subterm exfalso.
+
 Section Multi.
 
 Generalizable All Variables.

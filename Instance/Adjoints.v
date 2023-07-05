@@ -9,6 +9,8 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
+Local Ltac Tauto.intuition_solver ::= auto with crelations.
+
 #[export]
 Program Instance adj_id {C : Category} : Id ⊣ Id := {
   adj := fun _ _ =>

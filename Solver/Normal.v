@@ -9,6 +9,8 @@ Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 Require Import Category.Solver.Reify.
 
+Local Ltac Tauto.intuition_solver ::= auto with solve_subterm.
+
 Section Normal.
 
 Context `{Arrows}.

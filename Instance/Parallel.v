@@ -3,6 +3,8 @@ Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 
+Local Ltac Tauto.intuition_solver ::= auto with exfalso bool parallel_laws category_laws.
+
 (* This is the category with two objects and two parallel arrows between them
    (and two identity morphisms):
 

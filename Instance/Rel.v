@@ -7,6 +7,8 @@ Require Import Coq.Sets.Ensembles.
 
 Generalizable All Variables.
 
+Local Ltac Tauto.intuition_solver ::= auto with sets.
+
 (* The category of heterogenous relations on Coq objects. *)
 
 Program Definition Rel : Category := {|

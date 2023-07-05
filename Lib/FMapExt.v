@@ -3,6 +3,8 @@ Require Import Coq.FSets.FMapFacts.
 
 Module FMapExt (E : DecidableType) (M : WSfun E).
 
+Local Ltac Tauto.intuition_solver ::= auto with map crelations.
+
 Module P := WProperties_fun E M.
 Module F := P.F.
 

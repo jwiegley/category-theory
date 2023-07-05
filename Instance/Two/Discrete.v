@@ -49,7 +49,7 @@ Program Definition Two_Discrete : Category := {|
     | _,    _,    _    => _
     end
 |}.
-Next Obligation. destruct x, y, z; intuition. Qed.
+Next Obligation. destruct x, y, z; intuition auto with exfalso two_laws. Qed.
 Next Obligation.
   destruct x, y, z; auto with two_laws;
   intuition; discriminate.
