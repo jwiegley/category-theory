@@ -48,13 +48,13 @@ Section Category.
 
 Context (M : Metacategory).
 
-Record object := {
+Record object : Set := {
   obj_arr : arrow M;
   obj_def : composite M obj_arr obj_arr obj_arr;
   obj_id  : is_identity M obj_arr
 }.
 
-Record morphism (dom cod : object) := {
+Record morphism (dom cod : object) : Set := {
   mor_arr : arrow M;
   mor_dom : composite M mor_arr (obj_arr dom) mor_arr;
   mor_cod : composite M (obj_arr cod) mor_arr mor_arr

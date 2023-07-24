@@ -24,7 +24,7 @@ Open Scope Ty_scope.
 
 (* A context defines a hole which, after substitution, yields an expression of
    the index type. *)
-Inductive Frame Γ : Ty → Ty → Type :=
+Inductive Frame Γ : Ty → Ty → Set :=
   | F_PairL {τ1 τ2}  : Exp Γ τ2 → Frame τ1 (τ1 × τ2)
   | F_PairR {τ1 τ2}  : Exp Γ τ1 → Frame τ2 (τ1 × τ2)
   | F_Fst {τ1 τ2}    : Frame (τ1 × τ2) τ1
@@ -34,7 +34,7 @@ Inductive Frame Γ : Ty → Ty → Type :=
 
 Derive Signature NoConfusion Subterm for Frame.
 
-Inductive Ctxt Γ : Ty → Ty → Type :=
+Inductive Ctxt Γ : Ty → Ty → Set :=
   | C_Nil {τ}         : Ctxt τ τ
   | C_Cons {τ τ' τ''} : Frame Γ τ' τ → Ctxt τ'' τ' → Ctxt τ'' τ.
 
@@ -65,7 +65,7 @@ Theorem Ctxt_comp_assoc {Γ τ τ' τ'' τ'''}
   Ctxt_comp C (Ctxt_comp C' C'') = Ctxt_comp (Ctxt_comp C C') C''.
 Proof. induction C; simpl; auto; now f_equal. Qed.
 
-Inductive Redex {Γ} : ∀ {τ}, Exp Γ τ → Exp Γ τ → Type :=
+Inductive Redex {Γ} : ∀ {τ}, Exp Γ τ → Exp Γ τ → Set :=
   | R_Beta {dom cod} (e : Exp (dom :: Γ) cod) v :
     ValueP v →
     Redex (APP (LAM e) v) (SubExp {|| v ||} e)
@@ -82,7 +82,7 @@ Derive Signature for Redex.
 
 Unset Elimination Schemes.
 
-Inductive Plug {Γ τ'} (e : Exp Γ τ') : ∀ {τ}, Ctxt Γ τ' τ → Exp Γ τ → Type :=
+Inductive Plug {Γ τ'} (e : Exp Γ τ') : ∀ {τ}, Ctxt Γ τ' τ → Exp Γ τ → Set :=
   | Plug_Hole : Plug (C_Nil _) e
 
   | Plug_PairL {τ1 τ2} {C : Ctxt Γ τ' τ1} {e' : Exp Γ τ1} {e2 : Exp Γ τ2} :
@@ -147,7 +147,7 @@ Theorem Plug_id_left {Γ τ τ'} {C : Ctxt Γ τ' τ} {x : Exp Γ τ'} {y : Exp 
   Plug_comp Plug_id P ~= P.
 *)
 
-Inductive Step {Γ τ} : Exp Γ τ → Exp Γ τ → Type :=
+Inductive Step {Γ τ} : Exp Γ τ → Exp Γ τ → Set :=
   | StepRule {τ'} {C : Ctxt Γ τ' τ} {e1 e2 : Exp Γ τ'} {e1' e2' : Exp Γ τ} :
     Plug e1 C e1' →
     Plug e2 C e2' →

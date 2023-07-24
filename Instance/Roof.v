@@ -15,9 +15,9 @@ Generalizable All Variables.
 
   This is used to build diagrams that identify spans and pullbacks. *)
 
-Inductive RoofObj : Type := RNeg | RZero | RPos.
+Inductive RoofObj : Set := RNeg | RZero | RPos.
 
-Inductive RoofHom : RoofObj → RoofObj → Type :=
+Inductive RoofHom : RoofObj → RoofObj → Set :=
   | IdNeg   : RoofHom RNeg  RNeg
   | ZeroNeg : RoofHom RZero RNeg
   | IdZero  : RoofHom RZero RZero

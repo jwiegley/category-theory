@@ -19,13 +19,13 @@ Open Scope Ty_scope.
 
 Definition Env := list Ty.
 
-Inductive Var : Env → Ty → Type :=
+Inductive Var : Env → Ty → Set :=
   | ZV {Γ τ}    : Var (τ :: Γ) τ
   | SV {Γ τ τ'} : Var Γ τ → Var (τ' :: Γ) τ.
 
 Derive Signature NoConfusion EqDec for Var.
 
-Inductive Exp Γ : Ty → Type :=
+Inductive Exp Γ : Ty → Set :=
   | EUnit         : Exp Γ TyUnit
 
   | Pair {τ1 τ2}  : Exp Γ τ1 → Exp Γ τ2 → Exp Γ (TyPair τ1 τ2)

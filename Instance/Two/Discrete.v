@@ -4,9 +4,9 @@ Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 
-Inductive TwoDObj : Type := TwoDX | TwoDY.
+Inductive TwoDObj : Set := TwoDX | TwoDY.
 
-Inductive TwoDHom : TwoDObj → TwoDObj → Type :=
+Inductive TwoDHom : TwoDObj → TwoDObj → Set :=
   | TwoDIdX : TwoDHom TwoDX TwoDX
   | TwoDIdY : TwoDHom TwoDY TwoDY.
 
