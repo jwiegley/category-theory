@@ -33,3 +33,4 @@
 /html/
 log_*.txt
 /build.log
+/versions/
