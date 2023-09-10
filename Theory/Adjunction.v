@@ -57,6 +57,40 @@ Class Adjunction@{o3 h3 p3 so sh sp} := {
     ⌈fmap[U] f ∘ g⌉ ≈ f ∘ ⌈g⌉
 }.
 
+Definition Build_Adjunction'
+  (adj : forall x y,
+    @Isomorphism Sets
+      {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |}
+      {| carrier := @hom D x (U y); is_setoid := @homset D x (U y) |})
+  (to_adj_nat_l : forall x y z (f : F y ~> z) (g : x ~> y),
+      (to (adj _ _)  (f ∘ fmap[F] g) ≈ (to (adj _ _) f) ∘ g))
+  (to_adj_nat_r : forall x y z (f : y ~> z) (g : F x ~> y),
+      (to (adj _ _) (f ∘ g) ≈ fmap[U] f ∘ (to (adj _ _) g)))
+  : Adjunction.
+Proof.
+  unshelve eapply Build_Adjunction.
+  + apply to_adj_nat_l.
+  + apply to_adj_nat_r.
+  + intros x y z f g.
+    set (f' := from (adj y z) f).
+    apply ((snd (@injectivity_is_monic _ _ (adj x z))) _).
+    change (to (adj x z) (from (adj x z) _)) with
+      (((adj x z) ∘ (from (adj x z))) (f ∘ g)).
+    rewrite ((iso_to_from (adj x z)) (f ∘ g)); simpl;
+    rewrite to_adj_nat_l.
+    refine (compose_respects _ _ _ g _ (Equivalence_Reflexive _)).
+    unfold f'; symmetry.
+    exact ((iso_to_from (adj y z)) f).
+  + intros x y z f g.
+    set (g' :=  from (adj x y) g).
+    apply ((snd (@injectivity_is_monic _ _ (adj x z))) _).
+    rewrite (iso_to_from (adj x z) (fmap[U] f ∘ g)); simpl.
+    rewrite to_adj_nat_r.
+    apply (compose_respects (fmap[U] f) _ (Equivalence_Reflexive _)).
+    unfold g'; symmetry;
+      apply (iso_to_from (adj x y) g).
+Defined.
+
 Context `{@Adjunction}.
 
 Notation "⌊ f ⌋" := (to adj f).

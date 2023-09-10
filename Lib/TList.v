@@ -11,15 +11,18 @@ Open Scope lazy_bool_scope.
 
 Set Transparent Obligations.
 
-Inductive tlist {A : Type} (B : A → A → Type) : A → A → Type :=
-  | tnil : ∀ i : A, tlist i i
-  | tcons : ∀ i j k : A, B i j → tlist j k → tlist i k.
+Inductive tlist' {A :Type} {B : A → A → Type} (k : A) : A -> Type :=
+| tnil : tlist' k
+| tcons : ∀ i j : A, B i j -> tlist' j -> tlist' i.
 
-Derive Signature NoConfusion Subterm for tlist.
+Definition tlist {A : Type} (B : A → A → Type) (i j : A) := @tlist' A B j i.
+
+Derive Signature NoConfusion Subterm for tlist'.
 Next Obligation.
   apply Transitive_Closure.wf_clos_trans.
   intros a.
-  destruct a as [[] pr0].
+  destruct a as [? pr0].
+  (* destruct a as [[] pr0]. *)
   simpl in pr0.
   induction pr0.
   - (* tnil *)
@@ -27,15 +30,13 @@ Next Obligation.
     intros y H.
     inversion H; subst; clear H.
   - (* tcons *)
-    constructor.
-    intros [[l m] pr1] H.
-    simpl in *.
-    dependent induction H.
+    constructor. intros [ l m] pr1 . simpl in *.
+    dependent induction pr1.
     assumption.
 Defined.
 
-Arguments tnil {A B i}.
-Arguments tcons {A B i} j {k} _ _.
+Arguments tnil {A B k}.
+Arguments tcons {A B k} i {j} x xs.
 
 Notation "x ::: xs" := (tcons _ x xs) (at level 60, right associativity).
 
@@ -50,6 +51,12 @@ Fixpoint tlist_length {i j} (xs : tlist B i j) : nat :=
   | tcons x _ xs => 1 + tlist_length xs
   end.
 
+Definition tlist_singleton {i j} (x : B i j) : tlist B i j := x ::: tnil.
+
+Equations tlist_rcons {i j k} (xs : tlist B i j) (y : B j k) : tlist B i k :=
+  tlist_rcons tnil y := y ::: (@tnil _ B k);
+  tlist_rcons (@tcons _ _ _ _ _ x xs) y := x ::: tlist_rcons xs y.
+      
 Equations tlist_app {i j k} (xs : tlist B i j) (ys : tlist B j k) :
   tlist B i k :=
   tlist_app tnil ys := ys;
@@ -122,8 +129,8 @@ Equations tlist_eq_dec {i j : A} (x y : tlist B i j) : {x = y} + {x ≠ y} :=
   tlist_eq_dec tnil tnil := left eq_refl;
   tlist_eq_dec tnil _ := in_right;
   tlist_eq_dec _ tnil := in_right;
-  tlist_eq_dec (@tcons _ _ _ m _ x xs) (@tcons _ _ _ o _ y ys)
-    with @eq_dec _ AE m o := {
+  tlist_eq_dec (@tcons _ _ _ _ m x xs) (@tcons _ _ _ _ o y ys)
+  with @eq_dec _ AE m o := {
       | left H with @eq_dec _ (BE _ _) x (rew <- [fun x => B _ x] H in y) := {
           | left _ with tlist_eq_dec xs (rew <- [fun x => tlist B x _] H in ys) := {
              | left _ => left _;
@@ -137,9 +144,7 @@ Next Obligation.
   simpl_eq; intros.
   apply n.
   inv H.
-  apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply eq_dec].
-  apply Eqdep_dec.inj_pair2_eq_dec in H1; [|apply eq_dec].
-  assumption.
+  apply Eqdep_dec.inj_pair2_eq_dec in H1; [ assumption |apply eq_dec].
 Defined.
 Next Obligation.
   simpl_eq; intros.
@@ -181,7 +186,7 @@ Equations tlist_equiv {i j : A} (x y : tlist B i j) : Type :=
   tlist_equiv tnil tnil := True;
   tlist_equiv tnil _ := False;
   tlist_equiv _ tnil := False;
-  tlist_equiv (@tcons _ _ _ m _ x xs) (@tcons _ _ _ o _ y ys)
+  tlist_equiv (@tcons _ _ _ _ m x xs) (@tcons _ _ _ _ o y ys)
     with eq_dec m o := {
       | left H =>
          equiv x (rew <- [fun x => B _ x] H in y) *
@@ -203,12 +208,12 @@ Next Obligation.
     + apply IHx.
 Qed.
 Next Obligation.
-  repeat intro.
+  intros x y X.
   induction x; simpl.
   - dependent elimination y as [tnil]; auto.
   - dependent elimination y as [tcons _ y ys]; auto.
     rewrite tlist_equiv_equation_4 in *.
-    destruct (eq_dec j _); [|contradiction].
+    destruct (eq_dec j0 _); [|contradiction].
     subst.
     rewrite EqDec.peq_dec_refl.
     destruct X.
@@ -224,7 +229,7 @@ Next Obligation.
     simpl; intros.
     dependent elimination z as [tcons _ z zs]; auto.
     rewrite tlist_equiv_equation_4 in *.
-    destruct (eq_dec j _); [|contradiction].
+    destruct (eq_dec j0 _); [|contradiction].
     destruct (eq_dec _ _); [|contradiction].
     subst.
     rewrite EqDec.peq_dec_refl.
@@ -260,7 +265,7 @@ Next Obligation.
   - contradiction.
   - rewrite <- !tlist_app_comm_cons.
     rewrite tlist_equiv_equation_4 in *.
-    destruct (eq_dec j j0); [|contradiction].
+    destruct (eq_dec j0 j1); [|contradiction].
     subst.
     destruct X.
     split; auto.
