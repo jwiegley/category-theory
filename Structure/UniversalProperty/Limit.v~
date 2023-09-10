@@ -1,0 +1,196 @@
+Require Import Category.Lib.
+Require Import Category.Lib.Tactics2.
+Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
+Require Import Category.Construction.Opposite.
+Require Import Category.Theory.Functor.
+Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Functor.Hom.
+Require Import Category.Instance.Sets.
+Require Import Category.Structure.UniversalProperty.
+Require Import Category.Structure.Cone.
+Require Import Category.Structure.Limit.
+Require Import Category.Functor.Hom.Yoneda.
+
+Section LimitUniversalProperty.
+  Context (J C : Category).
+  Context (F : J ⟶ C).
+
+  Definition ump_limit_construct (a z : C) (H : IsALimit F z) :
+      ACone a F -> a ~> z.
+  Proof.
+    destruct H.
+    intro m; specialize ump_limit with {| vertex_obj := a ; coneFrom := m |}.
+    destruct ump_limit as [unique_obj ? ?].
+    exact unique_obj.
+  Defined.
+
+  Proposition ump_limit_construct_proper (a z : C) (H : IsALimit F z) :
+    Proper (equiv ==> equiv) (ump_limit_construct a z H).
+  Proof.
+    repeat(intro).
+    unfold ump_limit_construct.
+    apply uniqueness. simpl.
+    intro j.
+    set (k := (unique_property (ump_limit {| vertex_obj := a ; coneFrom := y |}))).
+    destruct x, y; simpl in X.
+    simpl in *; rewrite X; apply k.
+  Qed.
+
+  Local Arguments vertex_map {J C c F}.
+  Proposition ump_limit_construct_recover (w z : C) (H : IsALimit F z) (m : obj[J])
+     (a : ACone w F) : vertex_map limit_acone m ∘ (ump_limit_construct w z _ a) ≈ vertex_map a m.
+  Proof.
+    unfold ump_limit_construct. simpl. 
+    exact (unique_property (ump_limit {| vertex_obj := w; coneFrom :=a |} ) _).
+  Qed.
+
+  Create HintDb limit discriminated.
+  Hint Resolve ump_limit_construct : limit.
+  Hint Resolve ump_limit_construct_proper : limit.
+
+  Set Warnings "-non-reversible-notation".
+  Notation next_field X
+    := ltac:(let c := type of X in match c with forall _ : ?A, _  => exact A end).
+  Set Warnings "non-reversible-notation".
+  
+  Let limit_is_univ_property :=
+        Build_IsUniversalProperty C^op
+         (fun c => IsALimit F c)
+         (fun c => @LimitSetoid J C F c)
+         (@ConePresheaf J C F).
+  Section allC.
+    Context (z : C).
+    Let master_iso := Eval hnf in ltac:(
+                      (let A := (eval hnf in (next_field limit_is_univ_property)) in
+                       match A with
+                       | forall a : _, @?B a => exact(B z)
+                       end)).
+    (* master_iso := IsALimit F z ≊ fobj[C^op] z ≅ ConePresheaf F *)
+
+    Let Build_Iso := Eval hnf in ltac:(let A := (eval hnf in master_iso) in
+                           match A with
+                           | @Isomorphism ?a ?b ?c => exact(@Build_Isomorphism a b c)
+                           end).
+    Let master_iso_to := next_field Build_Iso.
+
+    Let Build_to := Eval hnf in ltac:(let A := (eval hnf in master_iso_to) in
+                           match A with
+                           | @SetoidMorphism ?x ?sx ?y ?sy =>
+                               exact(@Build_SetoidMorphism x sx y sy)
+                           end).
+    Let master_iso_to_underlying := next_field Build_to.
+    
+    Local Arguments vertex_map {J C c F}.
+    Proposition limit_to_representable : master_iso_to_underlying.
+    Proof using Type.
+      unfold master_iso_to_underlying; clear master_iso_to_underlying.
+      clear Build_to master_iso_to master_iso Build_Iso limit_is_univ_property.
+      simpl. intro A.
+      unshelve econstructor.
+      - apply (from (Yoneda_Lemma C (ConePresheaf F) z)).
+        exact limit_acone. 
+      - simpl. unshelve eapply Build_Transform'.
+        + simpl; intro c; unshelve econstructor.
+          * auto with limit.
+          * abstract(auto with limit).
+        + abstract(simpl; intros c' c f L;
+          symmetry; apply uniqueness;
+          intro m; simpl;
+            now rewrite comp_assoc, ump_limit_construct_recover).
+      - abstract(simpl; intros a L j; rewrite id_right; apply ump_limit_construct_recover).
+      - abstract(intros a f; simpl; rewrite id_right; now apply uniqueness).
+    Defined.
+          
+    Proposition limit_to_representable_proper :
+      Proper (equiv ==> equiv) limit_to_representable.
+    Proof using Type.
+      unfold limit_to_representable.
+      unfold master_iso_to_underlying; clear master_iso_to_underlying.
+      clear Build_to master_iso_to master_iso Build_Iso limit_is_univ_property.
+      intros l1 l2 eq; apply to_equiv_implies_iso_equiv; simpl.
+      intros c f j.
+      apply compose_respects; auto.
+    Qed.
+
+    Let master_iso_from :=
+          next_field (Build_Iso (Build_to limit_to_representable limit_to_representable_proper)).
+    Let Build_from := Eval hnf in ltac:(let A := (eval hnf in master_iso_from) in
+                           match A with
+                           | @SetoidMorphism ?x ?sx ?y ?sy =>
+                               exact(@Build_SetoidMorphism x sx y sy)
+                           end).
+    Proposition from : next_field Build_from.
+    Proof using Type.
+      clear Build_from
+        master_iso_from
+        master_iso_to_underlying
+        Build_to
+        master_iso_to
+        Build_Iso
+        master_iso
+        limit_is_univ_property.
+      simpl; intro; simpl.
+      apply (from (representability_by_yoneda _ _ _)) in X.
+      destruct X as [x i]; exists x.
+      intros [Nvertex ConeOfN]; destruct i as [inv tofrom_id fromto_id].
+      exists (inv Nvertex ConeOfN).
+      + abstract(simpl; intro; simpl in tofrom_id; now rewrite tofrom_id, id_right).
+      + abstract(simpl; intros;
+        simpl in fromto_id; specialize fromto_id with Nvertex v; simpl in fromto_id;
+        rewrite id_right in fromto_id;
+        rewrite <- fromto_id;
+        apply (proper_morphism (inv Nvertex));
+        simpl; intro j; simpl in x; symmetry; exact (X j)).
+    Defined.
+
+    Proposition from_proper : Proper (equiv ==> equiv) from.
+    Proof using Type.
+      unfold from.
+      clear Build_from
+        master_iso_from
+        master_iso_to_underlying
+        Build_to
+        master_iso_to
+        Build_Iso
+        master_iso
+        limit_is_univ_property.
+      simpl. intros a b eq j.
+      simpl. destruct eq as [e _]. simpl in e. now rewrite e.
+    Qed.
+
+    Proposition tofrom_id : next_field (Build_Iso
+                               (Build_to limit_to_representable limit_to_representable_proper)
+                               (Build_from from from_proper)).
+    Proof using Type.
+      simpl; intro x; apply to_equiv_implies_iso_equiv. simpl.
+      clear Build_from
+        master_iso_from
+        master_iso_to_underlying
+        Build_to
+        master_iso_to
+        Build_Iso
+        master_iso
+        limit_is_univ_property.
+      intros a b j.
+      destruct x as [xto from ? ?]; simpl.
+      assert (k:= UniversalProperty.preyoneda xto b).
+      symmetry; simpl in k; apply k.
+    Qed.
+
+    Proposition fromto_id : next_field (Build_Iso
+                               (Build_to limit_to_representable limit_to_representable_proper)
+                               (Build_from from from_proper)
+                               tofrom_id).
+    Proof using Type.
+      simpl; intros a j; now rewrite id_right.
+    Qed.
+
+    Definition allC := Eval hnf in (Build_Iso
+                               (Build_to limit_to_representable limit_to_representable_proper)
+                               (Build_from from from_proper)
+                               tofrom_id fromto_id).
+  End allC.
+  Definition LimitIsUniversalProperty := Eval hnf in limit_is_univ_property allC.
+End LimitUniversalProperty.
+

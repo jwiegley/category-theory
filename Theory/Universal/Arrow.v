@@ -3,8 +3,10 @@ Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Adjunction.
 Require Import Category.Structure.Initial.
+Require Import Category.Theory.Isomorphism.
 Require Import Category.Construction.Comma.
 Require Import Category.Functor.Diagonal.
+Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
@@ -110,5 +112,16 @@ Proof.
              apply (unique_property (ump_universal_arrows (H c1) _))).
   + abstract(intros ? ? ? ? ?; simpl; rewrite fmap_comp, <- comp_assoc; reflexivity).
 Defined.
+
+
+Class AUniversalArrow (c : C) (F : D ⟶ C) (a : D) := {
+    universal_arrow : c ~> fobj[F] a ;
+    universal_arrow_universal {d} {f : c ~> (fobj[F] d)} :
+    Unique (fun g : hom a d => fmap[F] g ∘ universal_arrow ≈ f)
+  }.
+
+#[export] Program Instance AUniversalArrowEquiv (c : C) (F : D ⟶ C) (a : D) :
+  Setoid (AUniversalArrow c F a) :=
+  {| equiv := fun X Y => (@universal_arrow _ _ _ X) ≈ (@universal_arrow _ _ _ Y) |}.
 
 End UniversalArrow.

@@ -24,8 +24,17 @@ Class Transform := {
 
   naturality_sym {x y} (f : x ~> y) :
     transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform
-}.
+  }.
 
+Definition Build_Transform'
+  (transform' : forall x, F x ~> G x)
+  (natural : forall x y (f : x ~> y), fmap[G] f ∘ transform' x ≈ transform' y ∘ fmap[F] f)
+  :  Transform.
+Proof.
+  apply (Build_Transform transform' natural).
+  intros x y f; symmetry; apply natural.
+Defined.
+  
 #[export]
 Program Instance Transform_Setoid : Setoid Transform :=
   {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x); |}.

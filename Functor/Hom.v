@@ -2,6 +2,7 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
+Require Import Category.Theory.Isomorphism.
 Require Import Category.Construction.Product.
 Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Fun.
@@ -74,6 +75,23 @@ Proof.
     now rewrite Fnat, id_right).
 Defined.
 
+Corollary Yoneda_Embedding' (C: Category) (c d : C) :
+  @IsIsomorphism Sets {| carrier := hom d c |}
+                 {| carrier := hom (fobj[C] c) (fobj[C] d) |}
+                 {| morphism := @fmap _ _ (Curried_Hom C) c d;
+                            proper_morphism := fmap_respects _ _ |}.
+Proof.
+  apply bijective_is_iso.
+  - abstract(assert (H := Yoneda_Faithful C); constructor;
+             intros x y eq; apply H; exact eq).
+  - constructor. simpl. 
+    intro A; exists (@prefmap _ _ _ (Yoneda_Full C) _ _ A ).
+    abstract(intros x f; unfold op;
+             assert (M := @fmap_sur _ _ _ (Yoneda_Full C));
+             specialize M with _ _ A; simpl in M;
+             unfold op in M; apply M).
+Defined.
+    
 Program Definition CoHom_Alt `(C : Category) : C ∏ C^op ⟶ Sets :=
   Hom C ◯ Swap.
 
@@ -83,23 +101,9 @@ Program Definition CoHom `(C : Category) : C ∏ C^op ⟶ Sets := {|
   fmap := fun x y (f : x ~{C ∏ C^op}~> y) =>
     {| morphism := fun g => snd f ∘ g ∘ fst f |}
 |}.
+Next Obligation. now rewrite <- ! comp_assoc. Qed.
 
-Program Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] := {|
-  fobj := fun x => {|
-    fobj := fun y => {| carrier := @hom (C^op) x y
-                      ; is_setoid := @homset (C^op) x y |};
-    fmap := fun y z (f : y ~{C^op}~> z) =>
-              {| morphism := fun (g : x ~{C^op}~> y) =>
-                               (f ∘ g) : x ~{C^op}~> z |}
-  |};
-  fmap := fun x y (f : x ~{C}~> y) => {|
-    transform := fun _ => {| morphism := fun g => g ∘ op f |}
-  |}
-|}.
-Next Obligation.
-  simpl; intros.
-  symmetry.
-  now rewrite !comp_assoc.
-Qed.
+Definition Curried_CoHom `(C : Category) : C ⟶ [C^op, Sets] :=
+  Curried_Hom C^op.
 
 Notation "[Hom ─ , A ]" := (@Curried_CoHom _ A) : functor_scope.

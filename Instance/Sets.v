@@ -267,6 +267,18 @@ Proof.
     constructor.
 Qed.
 
+Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) :
+  injective h -> surjective h -> IsIsomorphism h.
+Proof.
+  intros [i] [lift] ; unshelve econstructor.
+  - exists (fun b => `1 (lift b)).
+    abstract(intros a b eq; simpl;
+    apply i; now rewrite `2 (lift a), `2 (lift b)).
+  - abstract(intro x; now rewrite `2 (lift x)).
+  - abstract(intro x; apply i; now rewrite `2 (lift (h x))).
+Defined.
+
+
 Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets}~> B) :
   (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h.
@@ -284,7 +296,7 @@ Proof.
        aws (https://mathoverflow.net/users/30790/aws)
        In the category of sets epimorphisms are surjective - Constructive Proof?
        URL (version: 2014-08-18): https://mathoverflow.net/q/178786 *)
-    intros [epic] ?.
+    intros [epic] ?. 
     given (C : SetoidObject). {
       refine {|
         carrier := Type;
@@ -294,25 +306,24 @@ Proof.
       |}.
       equivalence.
     }
-(*
-    given (f : B ~{Sets}~> C). {
-      refine {|
-        morphism := λ b, ∃ a, h a ≈ b
-      |}.
-    }
-    given (g : B ~{Sets}~> C). {
-      refine {|
-        morphism := λ _, True
-      |}.
-    }
-    specialize (epic C f g).
-    enough ((f ∘[Sets] h) ≈ (g ∘[Sets] h)). {
-      specialize (epic X b); clear X.
-      unfold f, g in epic.
-      simpl in *.
-      now rewrite epic.
-    }
-    intro.
-    unfold f, g; simpl.
-*)
+
+    (* given (f : B ~{Sets}~> C). { *)
+    (*   refine {| *)
+    (*     morphism := λ b, ∃ a, h a ≈ b *)
+    (*   |}. *)
+    (* } *)
+    (* given (g : B ~{Sets}~> C). { *)
+    (*   refine {| *)
+    (*     morphism := λ _, True *)
+    (*   |}. *)
+    (* } *)
+    (* specialize (epic C f g). *)
+    (* enough ((f ∘[Sets] h) ≈ (g ∘[Sets] h)). { *)
+    (*   specialize (epic X b); clear X. *)
+    (*   unfold f, g in epic. *)
+    (*   simpl in *. *)
+    (*   now rewrite epic. *)
+    (* } *)
+    (* intro. *)
+    (* unfold f, g; simpl. *)
 Abort.
