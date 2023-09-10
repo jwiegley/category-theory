@@ -15,7 +15,7 @@ Section Ren.
 
 Import ListNotations.
 
-Inductive Ren : Env → Env → Type :=
+Inductive Ren : Env → Env → Set :=
   | NoRen : Ren [] []
   | Drop {τ Γ Γ'} : Ren Γ Γ' → Ren (τ :: Γ) Γ'
   | Keep {τ Γ Γ'} : Ren Γ Γ' → Ren (τ :: Γ) (τ :: Γ').

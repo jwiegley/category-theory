@@ -78,7 +78,7 @@ Qed.
 
 (**************************************************************************)
 
-Inductive Shape :=
+Inductive Shape : Set :=
   | Bottom
   | Top
   | Plus (x y : Shape)

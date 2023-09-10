@@ -53,6 +53,27 @@ Coercion Curried_Hom : Category >-> Functor.
 
 Notation "[Hom A , ─]" := (@Curried_Hom _ A) : functor_scope.
 
+#[export] Instance Yoneda_Faithful (C : Category) : Faithful (Curried_Hom C).
+Proof.
+  constructor.
+  intros c c' f g same_nat_iso.
+  simpl in same_nat_iso.
+  specialize same_nat_iso with c id. now rewrite 2 id_left in same_nat_iso.
+Qed.
+
+#[export] Instance Yoneda_Full (C : Category) : Full (Curried_Hom C).
+Proof.
+  unshelve econstructor; simpl in *.
+  - exact (fun c d f => f c id).
+  - abstract(auto).
+  - abstract(intros c; simpl; now autorewrite with categories).
+  - abstract(intros; destruct f as [ftrans fnat ?]; simpl in *;
+             rewrite <- (id_right (g x id)), <- fnat at 1; reflexivity).
+  - abstract(intros x y [Ftrans Fnat ?] c f; simpl in *;
+    unfold op;
+    now rewrite Fnat, id_right).
+Defined.
+
 Program Definition CoHom_Alt `(C : Category) : C ∏ C^op ⟶ Sets :=
   Hom C ◯ Swap.
 

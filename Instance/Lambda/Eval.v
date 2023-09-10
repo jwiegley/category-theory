@@ -17,14 +17,14 @@ Section Eval.
 
 Import ListNotations.
 
-Inductive Closed : Ty → Type :=
+Inductive Closed : Ty → Set :=
   | Closure {Γ τ} : Exp Γ τ → ClEnv Γ → Closed τ
 
-with ClEnv : Env → Type :=
+with ClEnv : Env → Set :=
   | NoCl : ClEnv []
   | AddCl {Γ τ} : Value τ → ClEnv Γ → ClEnv (τ :: Γ)
 
-with Value : Ty → Type :=
+with Value : Ty → Set :=
   | Val {Γ τ} (x : Exp Γ τ) : ValueP x → ClEnv Γ → Value τ.
 
 Derive Signature NoConfusion NoConfusionHom Subterm for ClEnv Closed Value.
@@ -43,7 +43,7 @@ Fixpoint snoc {a : Type} (x : a) (xs : list a) : list a :=
   | x :: xs => x :: snoc x xs
   end.
 
-Inductive EvalContext : Ty → Ty → Type :=
+Inductive EvalContext : Ty → Ty → Set :=
   | MT {τ} : EvalContext τ τ
   | AR {dom cod τ} :
     Closed dom → EvalContext cod τ → EvalContext (dom ⟶ cod) τ
@@ -56,7 +56,7 @@ Inductive EvalContext : Ty → Ty → Type :=
 
 Derive Signature NoConfusion NoConfusionHom Subterm for EvalContext.
 
-Inductive Σ : Ty → Type :=
+Inductive Σ : Ty → Set :=
   | MkΣ {u    : Ty}
         (exp  : Closed u)
         {τ    : Ty}

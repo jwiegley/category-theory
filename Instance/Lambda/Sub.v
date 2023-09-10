@@ -16,7 +16,7 @@ Section Sub.
 
 Import ListNotations.
 
-Inductive Sub (Γ : Env) : Env → Type :=
+Inductive Sub (Γ : Env) : Env → Set :=
   | NoSub : Sub []
   | Push {Γ' τ} : Exp Γ τ → Sub Γ' → Sub (τ :: Γ').
 

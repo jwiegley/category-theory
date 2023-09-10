@@ -17,12 +17,11 @@ Generalizable All Variables.
    "One says that the cone (N, ψ) factors through the cone (L, φ) with the
    unique factorization u. The morphism u is sometimes called the mediating
    morphism." *)
-
 Class Limit `(F : J ⟶ C) := {
   limit_cone : Cone F;
 
   ump_limits : ∀ N : Cone F, ∃! u : N ~> limit_cone, ∀ x : J,
-    vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ N x
+    vertex_map[limit_cone] ∘ u ≈ @vertex_map _ _ _ _ (@coneFrom _ _ _ N) x
 }.
 
 Coercion limit_cone : Limit >-> Cone.

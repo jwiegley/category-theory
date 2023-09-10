@@ -25,7 +25,7 @@ Open Scope Ty_scope.
 
 Reserved Notation " t '--->' t' " (at level 40).
 
-Inductive Step : ∀ {Γ τ}, Exp Γ τ → Exp Γ τ → Type :=
+Inductive Step : ∀ {Γ τ}, Exp Γ τ → Exp Γ τ → Set :=
   | ST_Pair1 Γ τ1 τ2 (x x' : Exp Γ τ1) (y : Exp Γ τ2) :
     x ---> x' →
     Pair x y ---> Pair x' y

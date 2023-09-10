@@ -7,7 +7,7 @@ Set Transparent Obligations.
 
 Section Ty.
 
-Inductive Ty : Type :=
+Inductive Ty : Set :=
   | TyUnit  : Ty
   | TyPair  : Ty → Ty → Ty
   | TyArrow : Ty → Ty → Ty.

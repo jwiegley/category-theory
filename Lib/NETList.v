@@ -19,7 +19,7 @@ Inductive netlist {A : Type} (B : A → A → Type) : A → A → Type :=
 Derive Signature NoConfusion NoConfusionHom Subterm for netlist.
 
 Arguments tfin {A B i j} x.
-Arguments tadd {A B i} j {k} x xs.
+Arguments tadd {A B i} j {k} _ _.
 
 Notation "x :::: xs" := (tadd _ x xs) (at level 60, right associativity).
 

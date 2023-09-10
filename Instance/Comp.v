@@ -250,7 +250,7 @@ Section Examples.
    and long. *)
 
 (* Group operations *)
-Inductive Group_operation :=
+Inductive Group_operation : Set :=
   | one : Group_operation  (* unit *)
   | mul : Group_operation  (* multiplication *)
   | inv : Group_operation. (* inverse *)
@@ -283,7 +283,7 @@ Definition inv' {G : OpAlgebra GroupOp} (x : G) :=
   op G inv (fun _ => x).
 
 (* There are five group equations. *)
-Inductive Group_equation :=
+Inductive Group_equation : Set :=
   | assoc : Group_equation
   | unit_left : Group_equation
   | unit_right : Group_equation

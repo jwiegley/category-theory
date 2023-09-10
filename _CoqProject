@@ -162,6 +162,7 @@ Structure/Monoidal/Cartesian.v
 Structure/Monoidal/Cartesian/Cartesian.v
 Structure/Monoidal/Cartesian/Proofs.v
 Structure/Monoidal/Closed.v
+Structure/Monoidal/Commutative.v
 Structure/Monoidal/Compose.v
 Structure/Monoidal/Internal/Product.v
 Structure/Monoidal/Naturality.v

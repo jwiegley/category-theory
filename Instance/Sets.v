@@ -124,7 +124,7 @@ Ltac morphism :=
 Require Import Category.Structure.Terminal.
 
 #[export]
-Program Instance Unit_Setoid : Setoid poly_unit := {
+Program Instance Unit_Setoid@{u} : Setoid@{u u} poly_unit@{u} := {
   equiv := fun x y => x = y
 }.
 
@@ -139,7 +139,8 @@ Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
 Require Import Category.Structure.Initial.
 
 #[export]
-Program Instance False_Setoid : Setoid False.
+Program Instance False_Setoid@{u} : Setoid@{u u} False.
+Next Obligation. proper. Qed.
 
 #[export]
 Program Instance Sets_Initial : @Initial Sets := {
