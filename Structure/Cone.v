@@ -7,13 +7,16 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
-Class ACone `(c : obj[C]) `(F : J ⟶ C) := {
+Class ACone@{u0 u1 u2 u3 u4 u5} {J : Category@{u0 u1 u2}}
+  {C : Category@{u3 u4 u5}} (c : obj[C]) (F : J ⟶ C) := {
     vertex_map (x : J) : c ~{C}~> F x;
     cone_coherence {x y : J} (f : x ~{J}~> y) :
     fmap[F] f ∘ vertex_map x ≈ vertex_map y
   }.
 
-#[export] Program Instance AConeEquiv {C J: Category}
+#[export]
+  Program Instance AConeEquiv@{u0 u1 u2 u3 u4 u5 +}
+  {J: Category@{u0 u1 u2}} {C: Category@{u3 u4 u5}}
   c (F : C ⟶ J) : Setoid (ACone c F) :=
   {| equiv := fun cone1 cone2 =>
                 forall j, @vertex_map _ _ _ _ cone1 j ≈ @vertex_map _ _ _ _ cone2 j |}.
@@ -21,9 +24,12 @@ Next Obligation.
   equivalence.
   specialize X with j. specialize X0 with j.
   exact (Equivalence_Transitive _ _ _ X X0).
-Qed.  
+Qed.
 
-Class Cone `(F : J ⟶ C) := {
+Class Cone@{u0 u1 u2 u3 u4 u5}
+  {J : Category@{u0 u1 u2}}
+  {C : Category@{u3 u4 u5}}
+  (F : J ⟶ C) := {
   vertex_obj : C;
   coneFrom : ACone vertex_obj F
 }.
@@ -42,8 +48,10 @@ Notation "Cone[ N ] F" := (ACone N F)(* . { ψ : Cone F | vertex_obj[ψ] = N } *
 Definition Cocone `(F : J ⟶ C) := Cone (F^op).
 
 #[export]
-Instance ConePresheaf `(F : J ⟶ C) : C^op ⟶ Sets.
-Proof.
+Instance ConePresheaf@{u0 u1 u2 u3 u4 u5 +}
+   {J : Category@{u0 u1 u2}} {C : Category@{u3 u4 u5}} (F : @Functor J C) :
+   @Functor C^op Sets.
+Proof. 
   unshelve eapply Build_Functor.
   - change obj[C^op] with obj[C]. 
     exact (fun c => {| carrier := Cone[c]F ; is_setoid := AConeEquiv _ _ |}).
@@ -59,5 +67,3 @@ Proof.
   - abstract(intro x; cbn; intros y j; now apply id_right).
   - abstract(cbn; intros; now apply comp_assoc).
 Defined.
-
-
