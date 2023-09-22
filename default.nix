@@ -1,6 +1,6 @@
 args@{
-  rev    ? "c6fd903606866634312e40cceb2caee8c0c9243f"
-, sha256 ? "04iai62cvjyk7niq0jbfd1x0afk6rbz9y1cncldrx126p2cm6wa7"
+  rev    ? "8b5ab8341e33322e5b66fb46ce23d724050f6606"
+, sha256 ? "05ynih3wc7shg324p7icz21qx71ckivzdhkgf5xcvdz6a407v53h"
 
 , pkgs   ? import (builtins.fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/${rev}.tar.gz";
@@ -34,12 +34,17 @@ equations = coqPackages:
     (if coqPackages == "coqPackages_8_16"
      then {
        rev = "v1.3-8.16";
-       sha256 = "sha256-MwMW7vXEM02DsBhs2LthscEbTK3qYaZhrThzyBOPjqI=";
+       sha256 = "sha256-zyMGeRObtSGWh7n3WCqesBZL5EgLvKwmnTy09rYpxyE=";
      } else {}) //
     (if coqPackages == "coqPackages_8_17"
      then {
        rev = "v1.3-8.17";
        sha256 = "sha256-yNotSIxFkhTg3reZIchGQ7cV9WmTJ7p7hPfKGBiByDw=";
+     } else {}) //
+    (if coqPackages == "coqPackages_8_18"
+     then {
+       rev = "v1.3-8.18";
+       sha256 = "sha256-8MZO9vWdr8wlAov0lBTYMnde0RuMyhaiM99zp7Zwfao=";
      } else {}));
 
     phases = [
@@ -64,7 +69,8 @@ equations = coqPackages:
 
     env = pkgs.buildEnv { inherit name; paths = buildInputs; };
     passthru = {
-      compatibleCoqVersions = v: builtins.elem v [ "8.14" "8.15" "8.16" "8.17" ];
+      compatibleCoqVersions = v:
+        builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" ];
     };
   };
 
@@ -80,7 +86,8 @@ category-theory = coqPackages:
     buildInputs = [
       coq coq.ocaml coq.findlib (equations coqPackages)
     ] ++ pkgs.lib.optionals (coqPackages != "coqPackages_8_16" &&
-                             coqPackages != "coqPackages_8_17") [
+                             coqPackages != "coqPackages_8_17" &&
+                             coqPackages != "coqPackages_8_18") [
       dpdgraph
     ];
     enableParallelBuilding = true;
@@ -97,14 +104,17 @@ category-theory = coqPackages:
 
     env = pkgs.buildEnv { inherit name; paths = buildInputs; };
     passthru = {
-      compatibleCoqVersions = v: builtins.elem v [ "8.14" "8.15" "8.16" "8.17" ];
+      compatibleCoqVersions = v:
+        builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" ];
     };
   };
 
-in {
+in rec {
   inherit category-theory;
   category-theory_8_14 = category-theory "coqPackages_8_14";
   category-theory_8_15 = category-theory "coqPackages_8_15";
   category-theory_8_16 = category-theory "coqPackages_8_16";
   category-theory_8_17 = category-theory "coqPackages_8_17";
+  category-theory_8_18 = category-theory "coqPackages_8_18";
+  category-theory_cur  = category-theory_8_18;
 }
