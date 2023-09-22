@@ -32,6 +32,8 @@ Proof. inversion 1. Qed.
 
 #[export] Hint Extern 4 => contradiction TwoDHom_Y_X_absurd : two_laws.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 (* The discrete category 2 has two objects and their identity morphisms. *)
 
 Program Definition Two_Discrete : Category := {|

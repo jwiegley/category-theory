@@ -294,7 +294,10 @@ Proof.
   destruct p. reflexivity.
 Defined.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 Local Notation "Q ⇨ Q'" := (QuiverHomomorphism Q Q') (at level 40).
+
 Definition QuiverComp {Q1 Q2 Q3: Quiver} (F : Q1 ⇨ Q2) (G : Q2 ⇨ Q3) : Q1 ⇨ Q3.
 Proof.
   unshelve refine

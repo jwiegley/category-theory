@@ -28,6 +28,8 @@ Proof. inversion 1. Qed.
 
 #[export] Hint Extern 4 => contradiction TwoHom_Y_X_absurd : two_laws.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 (* The category 2 has two objects, their identity morphisms, and one morphism
    from the first object to the second (here denoted false and true). *)
 

@@ -73,6 +73,8 @@ Qed.
 
 #[local] Hint Extern 7 (_ ---> _) => repeat econstructor : core.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 Corollary values_final {Γ τ} {e e' : Exp Γ τ} :
   e --->* e' → ValueP e → e = e'.
 Proof.

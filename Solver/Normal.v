@@ -51,6 +51,8 @@ Ltac solveit :=
   solve [ intros; subst; breakit; intuition; substituted
         | split; intros; breakit; intuition; discriminate ].
 
+Local Set Warnings "-intuition-auto-with-star".
+
 Program Fixpoint morphism_eq_dec (f g : Morphism) : {f = g} + {f ≠ g} :=
   match f, g with
   | Identity, Identity => left eq_refl

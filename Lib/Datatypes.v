@@ -104,6 +104,8 @@ Proof.
   now apply IHxs.
 Qed.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 (* The only inductive types from the standard library used in this development
    are products and sums, so we must show how they interact with constructive
    setoids. *)

@@ -233,6 +233,8 @@ Proof.
   exact H2.
 Qed.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 Lemma filter_add_true : ∀ elt k (e : elt) m m' P,
   Proper (E.eq ==> eq ==> eq) P
     → ~ M.In (elt:=elt) k m
