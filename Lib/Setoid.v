@@ -70,9 +70,9 @@ Notation "∃! x .. y , P" := (Unique (fun x => .. (Unique (fun y => P)) ..))
 Local Set Warnings "-not-a-class".
 
 Class injective {A : Type} `{Setoid A} {B : Type} `{Setoid B} (f : A -> B) :=
-  { #[global] inj {x y} :: f x ≈ f y -> x ≈ y }.
+  { inj {x y} : f x ≈ f y -> x ≈ y }.
 
 Class surjective {A : Type} {B : Type} `{Setoid B} (f : A -> B) :=
-  { #[global] surj {y} :: { x & f x ≈ y} }.
+  { surj {y} : { x & f x ≈ y} }.
 
 Local Set Warnings "not-a-class".
