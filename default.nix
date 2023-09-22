@@ -55,6 +55,7 @@ equations = coqPackages:
       coq coq.ocaml coq.findlib
     ];
     enableParallelBuilding = true;
+    dontDetectOcamlConflicts = true;
 
     configurePhase = "coq_makefile -f _CoqProject -o Makefile.coq";
     checkPhase = "make examples test-suite";
