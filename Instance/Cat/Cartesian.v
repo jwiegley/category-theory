@@ -8,6 +8,8 @@ Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 #[export]
 Program Instance Cat_Cartesian : @Cartesian Cat := {
   product_obj := @Product;

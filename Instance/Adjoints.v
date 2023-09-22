@@ -49,6 +49,8 @@ Record adj_morphism {C : Category} {D : Category} := {
   adjunction : free_functor ⊣ forgetful_functor
 }.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 #[export]
 Program Instance adj_morphism_setoid {C : Category} {D : Category} :
   Setoid (@adj_morphism C D) := {

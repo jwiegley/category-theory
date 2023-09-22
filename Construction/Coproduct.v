@@ -8,6 +8,8 @@ Section Coproduct.
 Context {C : Category}.
 Context {D : Category}.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 Program Definition Coproduct : Category := {|
   obj     := C + D;
   hom     := fun x y =>

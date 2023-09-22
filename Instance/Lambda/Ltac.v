@@ -1,6 +1,8 @@
 Require Import Coq.Unicode.Utf8.
 Require Import Coq.Program.Program.
 
+Local Set Warnings "-deprecated-notation".
+
 Ltac reduce_jmeq :=
   repeat match goal with
   | [ H : ∀ _: _, _ ~= _ → _ |- _ ] =>

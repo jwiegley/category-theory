@@ -6,6 +6,8 @@ Require Import Category.Instance.Sets.Cartesian.
 
 Generalizable All Variables.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 (* This instance must appear in a separate file, because the Closed structure
    makes use of isomorphisms in [Sets]. *)
 

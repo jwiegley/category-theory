@@ -56,6 +56,8 @@ Definition term_beq (x y : term) : bool :=
   | _, _ => false
   end.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 Lemma term_beq_sound x y : term_beq x y = true → x = y.
 Proof.
   induction x, y; simpl; intros; intuition.

@@ -62,6 +62,8 @@ Proof. inversion 1. Qed.
 
 Set Transparent Obligations.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 Program Definition Parallel : Category := {|
   obj     := ParObj;
   hom     := fun x y => ∃ b : bool, ParHom b x y;

@@ -7,6 +7,8 @@ Require Import Coq.Sets.Ensembles.
 
 Generalizable All Variables.
 
+Local Set Warnings "-intuition-auto-with-star".
+
 (* The category of heterogenous relations on Coq objects. *)
 
 Program Definition Rel : Category := {|
