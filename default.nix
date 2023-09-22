@@ -12,68 +12,6 @@ args@{
 
 let
 
-equations = coqPackages:
-  with pkgs.${coqPackages}; pkgs.stdenv.mkDerivation rec {
-    name = "coq${coq.coq-version}-equations-${version}";
-    version = "1.3";
-
-    src = pkgs.fetchFromGitHub ({
-      owner = "mattam82";
-      repo = "Coq-Equations";
-    } //
-    (if coqPackages == "coqPackages_8_14"
-     then {
-       rev = "v1.3-8.14";
-       sha256 = "19bj9nncd1r9g4273h5qx35gs3i4bw5z9bhjni24b413hyj55hkv";
-     } else {}) //
-    (if coqPackages == "coqPackages_8_15"
-     then {
-       rev = "v1.3-8.15";
-       sha256 = "1vfcfpsp9zyj0sw0cwibk76nj6n0r6gwh8m1aa3lbvc0b1kbm32k";
-     } else {}) //
-    (if coqPackages == "coqPackages_8_16"
-     then {
-       rev = "v1.3-8.16";
-       sha256 = "sha256-zyMGeRObtSGWh7n3WCqesBZL5EgLvKwmnTy09rYpxyE=";
-     } else {}) //
-    (if coqPackages == "coqPackages_8_17"
-     then {
-       rev = "v1.3-8.17";
-       sha256 = "sha256-yNotSIxFkhTg3reZIchGQ7cV9WmTJ7p7hPfKGBiByDw=";
-     } else {}) //
-    (if coqPackages == "coqPackages_8_18"
-     then {
-       rev = "v1.3-8.18";
-       sha256 = "sha256-8MZO9vWdr8wlAov0lBTYMnde0RuMyhaiM99zp7Zwfao=";
-     } else {}));
-
-    phases = [
-      "unpackPhase" "configurePhase" "buildPhase" "checkPhase" "installPhase"
-    ];
-
-    buildInputs = [
-      coq coq.ocaml coq.findlib
-    ];
-    enableParallelBuilding = true;
-
-    configurePhase = "coq_makefile -f _CoqProject -o Makefile.coq";
-    checkPhase = "make examples test-suite";
-
-    installFlags = [
-      "COQLIB=$(out)/lib/coq/${coq.coq-version}/"
-      "COQLIBINSTALL=$(out)/lib/coq/${coq.coq-version}/user-contrib"
-      "COQPLUGININSTALL=$(OCAMLFIND_DESTDIR)"
-      "DOCDIR=$(out)/share/coq/${coq.coq-version}/"
-      "COQDOCINSTALL=$(out)/share/coq/${coq.coq-version}/user-contrib"
-    ];
-
-    env = pkgs.buildEnv { inherit name; paths = buildInputs; };
-    passthru = {
-      compatibleCoqVersions = v:
-        builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" ];
-    };
-  };
-
 category-theory = coqPackages:
   with pkgs.${coqPackages}; pkgs.stdenv.mkDerivation rec {
     name = "coq${coq.coq-version}-category-theory-${version}";
@@ -84,7 +22,7 @@ category-theory = coqPackages:
           else ./.;
 
     buildInputs = [
-      coq coq.ocaml coq.findlib (equations coqPackages)
+      coq coq.ocaml coq.findlib pkgs.${coqPackages}.equations
     ] ++ pkgs.lib.optionals (coqPackages != "coqPackages_8_16" &&
                              coqPackages != "coqPackages_8_17" &&
                              coqPackages != "coqPackages_8_18") [
