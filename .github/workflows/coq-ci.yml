@@ -9,6 +9,7 @@ jobs:
       matrix:
         image:
           - 'coqorg/coq:dev'
+          - 'coqorg/coq:8.18'
           - 'coqorg/coq:8.17'
           - 'coqorg/coq:8.16'
           - 'coqorg/coq:8.15'
