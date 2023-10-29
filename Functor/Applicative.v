@@ -36,4 +36,4 @@ Arguments Applicative {_ _} F.
 Arguments pure {C _ F _ _ _}.
 
 Notation "pure[ F ]" := (@pure _ _ F _ _ _)
-  (at level 9, format "pure[ F ]") : morphism_scope.
+  (at level 0, format "pure[ F ]") : morphism_scope.
