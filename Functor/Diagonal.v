@@ -26,12 +26,12 @@ Program Instance Diagonal_Product `(C : Category) : C ⟶ C ∏ C.
 
 End Diagonal_Product.
 
-Notation "Δ[ J ]( c )" := (Diagonal J c) (at level 90, format "Δ[ J ]( c )") : functor_scope.
+Notation "Δ[ J ]( c )" := (Diagonal J c) (at level 0, format "Δ[ J ]( c )") : functor_scope.
 
 Require Import Category.Instance.One.
 
-Notation "Δ( c )" := (Diagonal _ c) (at level 90, format "Δ( c )") : functor_scope.
-Notation "=( c )" := (Diagonal 1 c) (at level 90, format "=( c )") : functor_scope.
+Notation "Δ( c )" := (Diagonal _ c) (at level 0, format "Δ( c )") : functor_scope.
+Notation "=( c )" := (Diagonal 1 c) (at level 0, format "=( c )") : functor_scope.
 
 Definition Δ {C J : Category} := @Diagonal C J.
 

@@ -56,7 +56,7 @@ Context {G : C ⟶ D}.
 Definition πD := comma_proj1.
 Definition πC := comma_proj2.
 
-#[local] Notation "⟨πD,πC⟩" := comma_proj (at level 100).
+#[local] Notation "⟨πD,πC⟩" := comma_proj (at level 0).
 
 Record lawvere_equiv := {
   lawvere_iso : F ↓ Id[C] ≅[Cat] Id[D] ↓ G;
