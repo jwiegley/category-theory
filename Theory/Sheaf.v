@@ -26,6 +26,13 @@ Inductive ForallT {A : Type} (P : A → Type) :
   | ForallT_cons (n : nat) (x : A) (v : t A n) :
     P x → ForallT v → ForallT (cons A x n v).
 
+Inductive ExistsT {A : Type} (P : A → Type) :
+  ∀ {n : nat}, t A n → Type :=
+  | ExistsT_cons_hd (m : nat) (x : A) (v : t A m) :
+    P x → ExistsT (cons A x m v)
+  | ExistsT_cons_tl (m : nat) (x : A) (v : t A m) :
+    ExistsT v → ExistsT (cons A x m v).
+
 (* A coverage on a category C consists of a function assigning to each object
    U ∈ C a collection of families of morphisms { fᵢ : Uᵢ → U } (i∈I), called
    covering families, such that
@@ -36,21 +43,18 @@ Inductive ForallT {A : Type} (P : A → Type) :
    such that each composite g ∘ hⱼ factors through some fᵢ. *)
 
 Class Site (C : Category) := {
-  covering_family (u : C) :=
-    ∃ I : nat, Vector.t (∃ v : C, v ~> u) I;
+  covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u));
 
   coverage (u : C) : covering_family u;
 
   coverage_condition
     (u  : C) (fs : covering_family u)
     (v  : C) (g  : v ~> u) :
-    ∃ (hs : covering_family v),
-      ForallT
-        (λ h : { w : C & w ~> v },
-          ∃ (i : Fin.t (`1 fs)),
-            let f := Vector.nth (`2 fs) i in
-            ∃ (k : `1 h ~> `1 f),
-              `2 f ∘ k ≈ g ∘ `2 h)
+    ∃ hs : covering_family v,
+      ForallT (A := ∃ vⱼ, vⱼ ~> v) (λ '(vⱼ; hⱼ),
+          ExistsT (A := ∃ uᵢ, uᵢ ~> u) (λ '(uᵢ; fᵢ),
+              ∃ k : vⱼ ~> uᵢ, fᵢ ∘ k ≈ g ∘ hⱼ)
+            (`2 fs))
         (`2 hs)
 }.
 
@@ -65,22 +69,23 @@ Class Site (C : Category) := {
    then there exists a unique x ∈ X(U)
    such that X(fᵢ)(x) = xᵢ for all i . *)
 
-Class Sheaf {C : Category} `{@Site C} (X : Presheaf C Sets) := {
+Class Sheaf `{@Site C} (X : Presheaf C Sets) := {
   restriction :
     ∀ u : C,
-      let I := `1 (coverage u) in
-      let f := `2 (coverage u) in
+      let '(i; f) := coverage u in
       ForallT
-        (λ fᵢ : { v : C & v ~> u },
-            ∀ (xᵢ : X (`1 fᵢ))
-              (P : ∀ (v : C)
-                     (g : v ~> `1 fᵢ)
-                     (j : Fin.t I),
-                  let fⱼ := Vector.nth f j in
-                  ∀ (h : v ~> `1 fⱼ),
-                    `2 fᵢ ∘ g ≈ `2 fⱼ ∘ h →
-                    ∀ xⱼ : X (`1 fⱼ),
-                      fmap[X] g xᵢ = fmap[X] h xⱼ),
-              ∃! x : X u, fmap[X] (`2 fᵢ) x = xᵢ)
+        (A := ∃ uᵢ, uᵢ ~> u)
+        (λ '(uᵢ; fᵢ),
+            ∀ xᵢ : X uᵢ,
+              (∀ (v : C) (g : v ~> uᵢ),
+                  ForallT
+                    (A := ∃ uⱼ, uⱼ ~> u)
+                    (λ '(uⱼ; fⱼ),
+                      ∀ h : v ~> uⱼ,
+                        fᵢ ∘ g ≈ fⱼ ∘ h →
+                        ∀ xⱼ : X uⱼ,
+                          fmap[X] g xᵢ = fmap[X] h xⱼ)
+                    f) →
+              ∃! x : X u, fmap[X] fᵢ x = xᵢ)
         f
 }.
