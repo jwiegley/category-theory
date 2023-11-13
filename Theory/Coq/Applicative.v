@@ -28,16 +28,16 @@ Module ApplicativeNotations.
 Export FunctorNotations.
 
 Notation "pure[ M ]" := (@pure M _ _)
-  (at level 9, format "pure[ M ]").
+  (at level 0, format "pure[ M ]").
 Notation "pure[ M N ]" := (@pure (fun X => M (N X)) _ _)
-  (at level 9, format "pure[ M  N ]").
+  (at level 0, format "pure[ M  N ]").
 
 Notation "ap[ M ]" := (@ap M _ _ _)
-  (at level 9, format "ap[ M ]").
+  (at level 0, format "ap[ M ]").
 Notation "ap[ M N ]" := (@ap (fun X => M (N X)) _ _ _)
-  (at level 9, format "ap[ M  N ]").
+  (at level 0, format "ap[ M  N ]").
 Notation "ap[ M N O ]" := (@ap (fun X => M (N (O X))) _ _ _)
-  (at level 9, format "ap[ M  N  O ]").
+  (at level 0, format "ap[ M  N  O ]").
 
 Infix "<*>" := ap (at level 29, left associativity).
 Infix "<*[ M ]>" := (@ap M _ _ _)
