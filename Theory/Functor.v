@@ -57,9 +57,9 @@ Notation "x <&> f" := (fmap f x)
   (at level 29, left associativity, only parsing) : morphism_scope.
 
 Notation "fobj[ F ]" := (@fobj _ _ F%functor)
-  (at level 9, format "fobj[ F ]") : object_scope.
+  (at level 0, format "fobj[ F ]") : object_scope.
 Notation "fmap[ F ]" := (@fmap _ _ F%functor _ _)
-  (at level 9, format "fmap[ F ]") : morphism_scope.
+  (at level 0, format "fmap[ F ]") : morphism_scope.
 
 #[export] Hint Rewrite @fmap_id : categories.
 
@@ -168,7 +168,7 @@ Program Definition Id {C : Category} : C ⟶ C := {|
 
 Arguments Id {C} /.
 
-Notation "Id[ C ]" := (@Id C) (at level 9, format "Id[ C ]") : functor_scope.
+Notation "Id[ C ]" := (@Id C) (at level 0, format "Id[ C ]") : functor_scope.
 
 Program Definition Compose {C D E : Category}
         (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|

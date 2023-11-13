@@ -35,11 +35,11 @@ Arguments ap   {F _ _ _} _ x.
 
 Coercion Applicative_Functor `{@Applicative F} : Coq ⟶ Coq := F.
 
-Notation "pure[ F ]" := (@pure F _ _) (at level 19, F at next level).
-Notation "pure[ F G ]" := (@pure (fun x => F (G x)) _ _) (at level 9).
+Notation "pure[ F ]" := (@pure F _ _) (at level 0, F at next level).
+Notation "pure[ F G ]" := (@pure (fun x => F (G x)) _ _) (at level 0).
 
-Notation "ap[ F ]" := (@ap F _ _ _) (at level 9).
-Notation "ap[ F G ]" := (@ap (fun x => F (G x)) _ _ _) (at level 9).
+Notation "ap[ F ]" := (@ap F _ _ _) (at level 0).
+Notation "ap[ F G ]" := (@ap (fun x => F (G x)) _ _ _) (at level 0).
 
 Infix "<*>" := ap (at level 29, left associativity).
 Notation "x <**> F" := (ap F x) (at level 29, left associativity).
