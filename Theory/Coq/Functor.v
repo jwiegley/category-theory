@@ -32,22 +32,22 @@ Notation "x <&> f" := (fmap f x)
   (at level 29, left associativity, only parsing).
 
 Notation "fmap[ M ]" := (@fmap M _ _ _)
-  (at level 9, format "fmap[ M ]").
+  (at level 0, format "fmap[ M ]").
 Notation "fmap[ M N ]" := (@fmap (λ X, M (N X)) _ _ _)
-  (at level 9, format "fmap[ M  N ]").
+  (at level 0, format "fmap[ M  N ]").
 Notation "fmap[ M N O ]" := (@fmap (λ X, M (N (O X))) _ _ _)
-  (at level 9, format "fmap[ M  N  O ]").
+  (at level 0, format "fmap[ M  N  O ]").
 
 Infix ">$<" := contramap (at level 29, left associativity, only parsing).
 Notation "x >&< f" :=
   (contramap f x) (at level 29, left associativity, only parsing).
 
 Notation "contramap[ M ]" := (@contramap M _ _ _)
-  (at level 9, format "contramap[ M ]").
+  (at level 0, format "contramap[ M ]").
 Notation "contramap[ M N ]" := (@contramap (λ X, M (N X)) _ _ _)
-  (at level 9, format "contramap[ M  N ]").
+  (at level 0, format "contramap[ M  N ]").
 Notation "contramap[ M N O ]" := (@contramap (λ X, M (N (O X))) _ _ _)
-  (at level 9, format "contramap[ M  N  O ]").
+  (at level 0, format "contramap[ M  N  O ]").
 
 End FunctorNotations.
 

@@ -25,4 +25,4 @@ Next Obligation.
 Qed.
 
 Notation "×( C )" := (@InternalProductFunctor C _)
-  (at level 90, format "×( C )") : functor_scope.
+  (at level 0, format "×( C )") : functor_scope.
