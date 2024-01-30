@@ -5,8 +5,11 @@ git clean -dfx
 nix-build --cores 4 . --argstr coqPackages coqPackages_8_14 > log_8_14.txt 2>&1 &
 nix-build --cores 4 . --argstr coqPackages coqPackages_8_15 > log_8_15.txt 2>&1 &
 nix-build --cores 4 . --argstr coqPackages coqPackages_8_16 > log_8_16.txt 2>&1 &
+nix-build --cores 4 . --argstr coqPackages coqPackages_8_17 > log_8_17.txt 2>&1 &
+nix-build --cores 4 . --argstr coqPackages coqPackages_8_18 > log_8_18.txt 2>&1 &
+nix-build --cores 4 . --argstr coqPackages coqPackages_8_19 > log_8_19.txt 2>&1 &
 
-docker run -t coqorg/coq:8.16 bash -c '
+docker run -t coqorg/coq:8.19 bash -c '
     git clone https://github.com/jwiegley/category-theory;
     cd category-theory;
     opam update;
