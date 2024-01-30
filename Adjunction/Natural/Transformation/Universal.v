@@ -28,21 +28,21 @@ Next Obligation. proper; now rewrites. Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite <- comp_assoc.
-  srewrite (naturality[unit[A]]).
+  srewrite (naturality[@Transformation.unit _ _ _ _ A]).
   rewrite comp_assoc.
   srewrite (@Transformation.fmap_counit_unit); cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite comp_assoc.
-  srewrite_r (naturality[counit[A]]).
+  srewrite_r (naturality[@Transformation.counit _ _ _ _ A]).
   rewrite <- comp_assoc.
   srewrite (@Transformation.counit_fmap_unit); cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite <- comp_assoc.
-  srewrite (naturality[unit[A]]).
+  srewrite (naturality[@Transformation.unit _ _ _ _ A]).
   now rewrite comp_assoc.
 Qed.
 Next Obligation.
@@ -56,7 +56,7 @@ Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite comp_assoc.
-  srewrite_r (naturality[counit[A]]).
+  srewrite_r (naturality[@Transformation.counit _ _ _ _ A]).
   now rewrite <- comp_assoc.
 Qed.
 
