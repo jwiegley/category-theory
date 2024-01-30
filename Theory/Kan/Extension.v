@@ -54,15 +54,8 @@ Class LocalRightKan (X : A ⟶ C) := {
 #[export] Program Instance RightKan_to_LocalRightKan {R : RightKan} (X : A ⟶ C) :
   LocalRightKan X := {|
   LocalRan := Ran X;
-  ran_transform :=
-    let adj_from := from (@adj _ _ _ _ ran_adjoint (Ran X) X) nat_id in
-    {| transform  := transform[adj_from]
-     ; naturality := naturality[adj_from] |}
+  ran_transform := from (@adj _ _ _ _ ran_adjoint (Ran X) X) nat_id
 |}.
-Next Obligation.
-  srewrite_r (naturality[from (@adj _ _ _ _ ran_adjoint (Ran X) X) nat_id]).
-  reflexivity.
-Qed.
 Next Obligation.
   exists (to (@adj _ _ _ _ (@ran_adjoint R) M X) μ).
   - intros.
@@ -112,15 +105,8 @@ Class LocalLeftKan (X : A ⟶ C) := {
 #[export] Program Instance LeftKan_to_LocalLeftKan {R : LeftKan} (X : A ⟶ C) :
   LocalLeftKan X := {|
   LocalLan := Lan X;
-  lan_transform :=
-    let adj_to := to (@adj _ _ _ _ lan_adjoint X (Lan X)) nat_id in
-    {| transform  := transform[adj_to]
-     ; naturality := naturality[adj_to] |}
+  lan_transform := to (@adj _ _ _ _ lan_adjoint X (Lan X)) nat_id
 |}.
-Next Obligation.
-  srewrite_r (naturality[to (@adj _ _ _ _ lan_adjoint X (Lan X)) nat_id]).
-  reflexivity.
-Qed.
 Next Obligation.
   exists (from (@adj _ _ _ _ (@lan_adjoint R) X M) ε).
   - intros.
