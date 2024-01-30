@@ -23,45 +23,41 @@ Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := {|
      ; from := {| morphism := fun f =>
          @Transformation.counit _ _ _ _ A b ∘ fmap f |} |}
 |}.
-Next Obligation. proper; rewrites; reflexivity. Qed.
-Next Obligation. proper; rewrites; reflexivity. Qed.
+Next Obligation. proper; now rewrites. Qed.
+Next Obligation. proper; now rewrites. Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite <- comp_assoc.
-  srewrite (naturality[Transformation.unit]).
+  srewrite (naturality[unit[A]]).
   rewrite comp_assoc.
   srewrite (@Transformation.fmap_counit_unit); cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite comp_assoc.
-  srewrite_r (naturality[Transformation.counit]).
+  srewrite_r (naturality[counit[A]]).
   rewrite <- comp_assoc.
   srewrite (@Transformation.counit_fmap_unit); cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite <- comp_assoc.
-  srewrite (naturality[Transformation.unit]).
-  rewrite comp_assoc.
-  reflexivity.
+  srewrite (naturality[unit[A]]).
+  now rewrite comp_assoc.
+Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  now rewrite comp_assoc.
+Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  now rewrite comp_assoc.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite comp_assoc.
-  reflexivity.
-Qed.
-Next Obligation.
-  rewrite fmap_comp.
-  rewrite comp_assoc.
-  reflexivity.
-Qed.
-Next Obligation.
-  rewrite fmap_comp.
-  rewrite comp_assoc.
-  srewrite_r (naturality[Transformation.counit]).
-  rewrite <- comp_assoc.
-  reflexivity.
+  srewrite_r (naturality[counit[A]]).
+  now rewrite <- comp_assoc.
 Qed.
 
 Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U := {|
