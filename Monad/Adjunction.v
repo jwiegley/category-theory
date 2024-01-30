@@ -75,7 +75,7 @@ Proof.
   - simpl.
     srewrite (@fmap_counit_unit); cat.
   - rewrite <- !fmap_comp.
-    srewrite (naturality[counit]); cat.
+    now srewrite (naturality[counit[X]]).
 Qed.
 
 End AdjunctionMonad.
