@@ -187,11 +187,11 @@ Proof.
       * simpl.
         rewrite <- to_adj_nat_l.
         rewrite <- to_adj_nat_r.
-        now srewrite (naturality[X0]).
+        now srewrite (@naturality _ _ _ _ X0 _ _ f).
       * simpl.
         rewrite <- to_adj_nat_l.
         rewrite <- to_adj_nat_r.
-        now srewrite (naturality[X0]).
+        now srewrite (@naturality _ _ _ _ X0 _ _ f).
     + simpl.
       proper.
       apply to_adj_respects.
@@ -204,11 +204,11 @@ Proof.
       * simpl.
         rewrite <- from_adj_nat_l.
         rewrite <- from_adj_nat_r.
-        now srewrite (naturality[X0]).
+        now srewrite (@naturality _ _ _ _ X0 _ _ f).
       * simpl.
         rewrite <- from_adj_nat_l.
         rewrite <- from_adj_nat_r.
-        now srewrite (naturality[X0]).
+        now srewrite (@naturality _ _ _ _ X0 _ _ f).
     + simpl.
       proper.
       apply from_adj_respects.
