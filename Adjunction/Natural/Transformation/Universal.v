@@ -18,7 +18,7 @@ Context {U : C ⟶ D}.
 
 Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := {|
   adj := fun a b =>
-    {| to   := {| morphism := fun f =>n fmap f ∘ transform[unit[A]] a |}
+    {| to   := {| morphism := fun f => fmap f ∘ transform[unit[A]] a |}
      ; from := {| morphism := fun f => transform[counit[A]] b ∘ fmap f |} |}
 |}.
 Next Obligation. proper; now rewrites. Qed.
