@@ -40,8 +40,8 @@ Proof.
     rewrite comp_assoc.
     rewrites.
     rewrite <- !comp_assoc.
-    pose proof (naturality[@sequence _ _ _ O _ X]) as X3; simpl in *.
-    pose proof (naturality[@sequence _ _ _ P _ X]) as X4; simpl in *.
+    pose proof (naturality[@sequence _ _ _ O _ X] _ _ f) as X3; simpl in *.
+    pose proof (naturality[@sequence _ _ _ P _ X] _ _ f) as X4; simpl in *.
     rewrite !comp_assoc.
     comp_left.
     rewrite bimap_fmap.
@@ -55,8 +55,8 @@ Proof.
     rewrite comp_assoc.
     rewrites.
     rewrite <- !comp_assoc.
-    pose proof (naturality[@sequence _ _ _ O _ X]) as X3; simpl in *.
-    pose proof (naturality[@sequence _ _ _ P _ X]) as X4; simpl in *.
+    pose proof (naturality[@sequence _ _ _ O _ X] _ _ f) as X3; simpl in *.
+    pose proof (naturality[@sequence _ _ _ P _ X] _ _ f) as X4; simpl in *.
     rewrite !comp_assoc.
     comp_left.
     rewrite bimap_fmap.
