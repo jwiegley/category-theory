@@ -18,31 +18,29 @@ Context {U : C ⟶ D}.
 
 Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := {|
   adj := fun a b =>
-    {| to   := {| morphism := fun f =>
-         fmap f ∘ @Transformation.unit _ _ _ _ A a |}
-     ; from := {| morphism := fun f =>
-         @Transformation.counit _ _ _ _ A b ∘ fmap f |} |}
+    {| to   := {| morphism := fun f =>n fmap f ∘ transform[unit[A]] a |}
+     ; from := {| morphism := fun f => transform[counit[A]] b ∘ fmap f |} |}
 |}.
 Next Obligation. proper; now rewrites. Qed.
 Next Obligation. proper; now rewrites. Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite <- comp_assoc.
-  srewrite (naturality[@Transformation.unit _ _ _ _ A]).
+  srewrite (naturality[unit[A]]).
   rewrite comp_assoc.
   srewrite (@Transformation.fmap_counit_unit); cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite comp_assoc.
-  srewrite_r (naturality[@Transformation.counit _ _ _ _ A]).
+  srewrite_r (naturality[counit[A]]).
   rewrite <- comp_assoc.
   srewrite (@Transformation.counit_fmap_unit); cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite <- comp_assoc.
-  srewrite (naturality[@Transformation.unit _ _ _ _ A]).
+  srewrite (naturality[unit[A]]).
   now rewrite comp_assoc.
 Qed.
 Next Obligation.
@@ -56,13 +54,13 @@ Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite comp_assoc.
-  srewrite_r (naturality[@Transformation.counit _ _ _ _ A]).
+  srewrite_r (naturality[counit[A]]).
   now rewrite <- comp_assoc.
 Qed.
 
 Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U := {|
-  Transformation.unit   := {| transform := fun a => @unit _ _ _ _ A a |};
-  Transformation.counit := {| transform := fun b => @counit _ _ _ _ A b |}
+  Transformation.unit   := {| transform := fun _ => unit |};
+  Transformation.counit := {| transform := fun _ => counit |}
 |}.
 Next Obligation.
   unfold unit.
