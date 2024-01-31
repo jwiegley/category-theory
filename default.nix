@@ -1,6 +1,6 @@
 args@{
-  rev    ? "8b5ab8341e33322e5b66fb46ce23d724050f6606"
-, sha256 ? "05ynih3wc7shg324p7icz21qx71ckivzdhkgf5xcvdz6a407v53h"
+  rev    ? "90f456026d284c22b3e3497be980b2e47d0b28ac"
+, sha256 ? "164lsq7xjjvpga6l6lfi9wfsnshgfxnpa8lvb2imscdwgmajakrc"
 
 , pkgs   ? import (builtins.fetchTarball {
     url = "https://github.com/NixOS/nixpkgs/archive/${rev}.tar.gz";
@@ -45,6 +45,11 @@ equations = coqPackages:
      then {
        rev = "v1.3-8.18";
        sha256 = "sha256-8MZO9vWdr8wlAov0lBTYMnde0RuMyhaiM99zp7Zwfao=";
+     } else {}) //
+    (if coqPackages == "coqPackages_8_19"
+     then {
+       rev = "v1.3-8.19";
+       sha256 = "sha256-roBCWfAHDww2Z2JbV5yMI3+EOfIsv3WvxEcUbBiZBsk=";
      } else {}));
 
     phases = [
@@ -70,7 +75,7 @@ equations = coqPackages:
     env = pkgs.buildEnv { inherit name; paths = buildInputs; };
     passthru = {
       compatibleCoqVersions = v:
-        builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" ];
+        builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" "8.19" ];
     };
   };
 
@@ -87,7 +92,8 @@ category-theory = coqPackages:
       coq coq.ocaml coq.findlib (equations coqPackages)
     ] ++ pkgs.lib.optionals (coqPackages != "coqPackages_8_16" &&
                              coqPackages != "coqPackages_8_17" &&
-                             coqPackages != "coqPackages_8_18") [
+                             coqPackages != "coqPackages_8_18" &&
+                             coqPackages != "coqPackages_8_19") [
       dpdgraph
     ];
     enableParallelBuilding = true;
@@ -105,7 +111,7 @@ category-theory = coqPackages:
     env = pkgs.buildEnv { inherit name; paths = buildInputs; };
     passthru = {
       compatibleCoqVersions = v:
-        builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" ];
+        builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" "8.19" ];
     };
   };
 
@@ -116,5 +122,6 @@ in rec {
   category-theory_8_16 = category-theory "coqPackages_8_16";
   category-theory_8_17 = category-theory "coqPackages_8_17";
   category-theory_8_18 = category-theory "coqPackages_8_18";
-  category-theory_cur  = category-theory_8_18;
+  category-theory_8_19 = category-theory "coqPackages_8_19";
+  category-theory_cur  = category-theory_8_19;
 }

@@ -150,7 +150,7 @@ Qed.
 Next Obligation.
   simpl.
   rewrite <- !comp_assoc.
-  srewrite_r (naturality[unit]).
+  srewrite_r (@naturality _ _ _ _ unit _ _ h).
   rewrite !comp_assoc.
   rewrite <- !fmap_comp.
   reflexivity.
@@ -158,7 +158,7 @@ Qed.
 Next Obligation.
   simpl.
   rewrite <- !comp_assoc.
-  srewrite_r (naturality[unit]).
+  srewrite_r (@naturality _ _ _ _ unit _ _ h).
   rewrite !comp_assoc.
   rewrite <- !fmap_comp.
   reflexivity.
@@ -169,7 +169,7 @@ Qed.
 Next Obligation.
   simpl.
   rewrite !comp_assoc.
-  srewrite (naturality[counit]).
+  srewrite (@naturality _ _ _ _ counit _ _ h0).
   rewrite <- !comp_assoc.
   rewrite <- !fmap_comp.
   reflexivity.
@@ -177,7 +177,7 @@ Qed.
 Next Obligation.
   simpl.
   rewrite !comp_assoc.
-  srewrite (naturality[counit]).
+  srewrite (@naturality _ _ _ _ counit _ _ h0).
   rewrite <- !comp_assoc.
   rewrite <- !fmap_comp.
   reflexivity.
@@ -186,7 +186,7 @@ Next Obligation.
   simpl; cat.
   rewrite fmap_comp.
   rewrite <- comp_assoc.
-  srewrite (naturality[unit]).
+  srewrite (@naturality _ _ _ _ unit _ _ x0).
   rewrite comp_assoc.
   srewrite (@fmap_counit_unit _ _ _ _ A); cat.
 Qed.
@@ -194,7 +194,7 @@ Next Obligation.
   simpl; cat.
   rewrite fmap_comp.
   rewrite comp_assoc.
-  srewrite_r (naturality[counit]).
+  srewrite_r (@naturality _ _ _ _ counit _ _ x0).
   rewrite <- comp_assoc.
   srewrite (@counit_fmap_unit _ _ _ _ A); cat.
 Qed.
@@ -237,14 +237,9 @@ Qed.
 
 Program Definition Adjunction_Universal_to_Hom (A : F ⊣ U) : Adjunction_Hom := {|
   hom_adj :=
-    {| to   := {| transform := fun _ =>
-        {| morphism := fun f => to adj f |} |}
-     ; from := {| transform := fun _ =>
-        {| morphism := fun f => from adj f |} |} |}
+    {| to   := {| transform := fun _ => {| morphism := to adj   |} |}
+     ; from := {| transform := fun _ => {| morphism := from adj |} |} |}
 |}.
-Next Obligation.
-  proper; rewrites; reflexivity.
-Qed.
 Next Obligation.
   rewrite <- comp_assoc.
   rewrite to_adj_nat_l.
@@ -258,9 +253,6 @@ Next Obligation.
   rewrite <- comp_assoc.
   rewrite to_adj_nat_l.
   reflexivity.
-Qed.
-Next Obligation.
-  proper; rewrites; reflexivity.
 Qed.
 Next Obligation.
   rewrite <- comp_assoc.
