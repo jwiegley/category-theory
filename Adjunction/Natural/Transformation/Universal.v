@@ -18,55 +18,49 @@ Context {U : C ⟶ D}.
 
 Program Definition Adjunction_from_Transform (A : F ∹ U) : F ⊣ U := {|
   adj := fun a b =>
-    {| to   := {| morphism := fun f =>
-         fmap f ∘ @Transformation.unit _ _ _ _ A a |}
-     ; from := {| morphism := fun f =>
-         @Transformation.counit _ _ _ _ A b ∘ fmap f |} |}
+    {| to   := {| morphism := fun f => fmap f ∘ transform[unit[A]] a |}
+     ; from := {| morphism := fun f => transform[counit[A]] b ∘ fmap f |} |}
 |}.
-Next Obligation. proper; rewrites; reflexivity. Qed.
-Next Obligation. proper; rewrites; reflexivity. Qed.
+Next Obligation. proper; now rewrites. Qed.
+Next Obligation. proper; now rewrites. Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite <- comp_assoc.
-  srewrite (naturality[Transformation.unit]).
-  rewrite comp_assoc.
+  rewrite (@naturality _ _ _ _ unit[A] _ _ x).
+  rewrite comp_assoc; simpl.
   srewrite (@Transformation.fmap_counit_unit); cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite comp_assoc.
-  srewrite_r (naturality[Transformation.counit]).
-  rewrite <- comp_assoc.
+  rewrite <- (@naturality _ _ _ _ counit[A] _ _ x).
+  rewrite <- comp_assoc; simpl.
   srewrite (@Transformation.counit_fmap_unit); cat.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite <- comp_assoc.
-  srewrite (naturality[Transformation.unit]).
-  rewrite comp_assoc.
-  reflexivity.
+  rewrite (@naturality _ _ _ _ unit[A] _ _ g).
+  now rewrite comp_assoc.
+Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  now rewrite comp_assoc.
+Qed.
+Next Obligation.
+  rewrite fmap_comp.
+  now rewrite comp_assoc.
 Qed.
 Next Obligation.
   rewrite fmap_comp.
   rewrite comp_assoc.
-  reflexivity.
-Qed.
-Next Obligation.
-  rewrite fmap_comp.
-  rewrite comp_assoc.
-  reflexivity.
-Qed.
-Next Obligation.
-  rewrite fmap_comp.
-  rewrite comp_assoc.
-  srewrite_r (naturality[Transformation.counit]).
-  rewrite <- comp_assoc.
-  reflexivity.
+  rewrite <- (@naturality _ _ _ _ counit[A] _ _ f).
+  now rewrite <- comp_assoc.
 Qed.
 
 Program Definition Adjunction_to_Transform {A : F ⊣ U} : F ∹ U := {|
-  Transformation.unit   := {| transform := fun a => @unit _ _ _ _ A a |};
-  Transformation.counit := {| transform := fun b => @counit _ _ _ _ A b |}
+  Transformation.unit   := {| transform := fun _ => unit |};
+  Transformation.counit := {| transform := fun _ => counit |}
 |}.
 Next Obligation.
   unfold unit.
