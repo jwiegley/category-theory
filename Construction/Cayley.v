@@ -19,7 +19,7 @@ Program Instance Cayley : Category := {
   hom     := fun x y =>
     { f : ∀ r, (y ~> r) → (x ~> r)
     & Proper (forall_relation (fun _ => respectful equiv equiv)) f ∧
-      ∀ r k, f r k ≈ k ∘ f _ id[y] };
+      ∀ (r : C) (k : y ~> r), f r k ≈ k ∘ f _ id };
   homset  := fun x y => {| equiv := fun f g => ∀ r k, `1 f r k ≈ `1 g r k |};
   id      := fun _ => (fun _ => Datatypes.id; _);
   compose := fun x y z f g  => (fun r k => `1 g r (`1 f r k); _)
@@ -67,7 +67,7 @@ Defined.
 
 Program Instance From_Cayley : Cayley ⟶ C := {
   fobj := fun x => x;
-  fmap := fun x y f => `1 f y (@id C y);
+  fmap := fun _ y f => `1 f y (@id C y);
 }.
 
 Context `{Cayley}.
