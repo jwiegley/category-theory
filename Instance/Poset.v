@@ -8,7 +8,7 @@ Require Import Coq.Relations.Relation_Definitions.
 Generalizable All Variables.
 
 (* Any partially-ordered set forms a category (directly from its preorder,
-   since it simply adds asymmetry). See also [Pos], the category of
+   since it simply adds antisymmetry). See also [Pos], the category of
    partially-ordered sets (where the sets are the objects, and morphisms are
    monotonic mappings.
 
@@ -23,5 +23,16 @@ Generalizable All Variables.
    set is equivalent to a poset. Finally, every subcategory of a poset is
    isomorphism-closed." *)
 
-Definition Poset {C : Category} `{R : relation C}
-           `(P : PreOrder C R) `{Asymmetric C R} : Category := Proset P.
+Lemma eq_equiv {C : Type} : @Equivalence C eq.
+Proof.
+  split; auto. intros x y z; apply eq_trans.
+Qed.
+
+Definition Poset {C : Type} `{R : relation C}
+           `(P : PreOrder C R) `{@Antisymmetric C eq eq_equiv R} : Category := Proset P.
+
+Section Examples.
+Definition LessThanEqualTo_Category : Category :=
+  @Poset nat PeanoNat.Nat.le PeanoNat.Nat.le_preorder
+    (partial_order_antisym PeanoNat.Nat.le_partialorder).
+End Examples.
