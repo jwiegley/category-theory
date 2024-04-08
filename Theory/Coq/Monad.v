@@ -123,7 +123,7 @@ Open Scope monad_scope.
 Instance Compose_Monad `{Monad M} `{Applicative N}
   `{@Monad_Distributes M N} : Monad (M ∘ N) := {
   ret := λ _ x, ret[M] (pure[N] x);
-  bind := λ _ _ m f, m >>=[M] (mprod M N ∘ ap (pure f));
+  bind := λ x y m f, m >>=[M] (mprod M N ∘ ap (@pure _ _ (x → M (N y)) f));
 }.
 
 #[export]
