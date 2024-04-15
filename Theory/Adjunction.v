@@ -36,11 +36,11 @@ Context {U : C ⟶ D}.
 Reserved Notation "⌊ f ⌋".
 Reserved Notation "⌈ f ⌉".
 
-(* o3 h3 p3 are universes larger than either C or D. *)
-Class Adjunction@{o3 h3 p3 so sh sp} := {
+(* o3 p3 are universes larger than either C or D. *)
+Class Adjunction@{o3 p3 so sh sp} := {
   (* adj {x y} : F x ~{C}~> y ≊ x ~{D}~> U y *)
   adj {x y} :
-    @Isomorphism@{so sh p3} Sets@{o3 h3 so sh p3}
+    @Isomorphism@{so sh p3} Sets@{o3 so}
       {| carrier := @hom C (F x) y; is_setoid := @homset C (F x) y |}
       {| carrier := @hom D x (U y); is_setoid := @homset D x (U y) |}
     where "⌊ f ⌋" := (to   adj f)

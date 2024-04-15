@@ -74,14 +74,14 @@ Qed.
       identity: typical identity of sets
    composition: composition of set maps, preserving equivalence
  *)
-Program Definition Sets@{o h so sh p} : Category@{so sh p} := {|
-  obj     := SetoidObject@{o p} : Type@{so};
-  hom     := λ x y, SetoidMorphism@{o h p} x y : Type@{sh};
-  homset  := @SetoidMorphism_Setoid@{o h p};
-  id      := @setoid_morphism_id@{o h p};
-  compose := @setoid_morphism_compose@{o h p};
+Program Definition Sets@{o so} : Category@{so o o} := {|
+  obj     := SetoidObject@{o o} : Type@{so};
+  hom     := λ x y, SetoidMorphism@{o o o} x y : Type@{o};
+  homset  := @SetoidMorphism_Setoid@{o o o};
+  id      := @setoid_morphism_id@{o o o};
+  compose := @setoid_morphism_compose@{o o o};
 
-  compose_respects := @setoid_morphism_compose_respects@{o h p}
+  compose_respects := @setoid_morphism_compose_respects@{o o o}
 |}.
 
 Require Import Category.Theory.Isomorphism.
