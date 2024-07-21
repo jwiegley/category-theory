@@ -1,5 +1,5 @@
-Require Import Coq.Lists.List.
-Require Import Coq.micromega.Lia.
+From Coq Require Import List.
+From Coq Require Import Lia.
 
 From Equations Require Import Equations.
 Set Equations With UIP.

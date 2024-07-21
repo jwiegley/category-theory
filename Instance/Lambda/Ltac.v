@@ -1,5 +1,5 @@
-Require Import Coq.Unicode.Utf8.
-Require Import Coq.Program.Program.
+From Coq Require Import Utf8.
+From Coq Require Import Program.
 
 Local Set Warnings "-deprecated-notation".
 

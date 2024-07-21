@@ -1,5 +1,5 @@
-Require Import Coq.NArith.NArith.
-Require Import Coq.micromega.Lia.
+From Coq Require Import NArith.
+From Coq Require Import Lia.
 
 Require Import Category.Lib.
 Require Import Category.Lib.MapDecide.
