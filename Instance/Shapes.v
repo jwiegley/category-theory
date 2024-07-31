@@ -133,7 +133,7 @@ Fixpoint vec `(x : Trie a s) : Vector.t a (size s) :=
   | Joins _ k xs => concat (map (vec ∘ k) (vec xs))
   end.
 
-Program Fixpoint trie `(x : Vector.t a (size s)) : Trie a s :=
+Program Fixpoint trie {a : Type} `(x : Vector.t a (size s)) : Trie a s :=
   match s with
   | Bottom    => Unit
   | Top       => Id (@hd a 0 x)
@@ -143,7 +143,7 @@ Program Fixpoint trie `(x : Vector.t a (size s)) : Trie a s :=
                        (trie (group (size s) (size t) x))
   end.
 
-Fixpoint vec_trie `(x : Vector.t a (size s)) : vec (trie x) = x.
+Fixpoint vec_trie {a : Type} `(x : Vector.t a (size s)) : vec (trie x) = x.
 Proof.
   induction s; simpl in *.
   - now induction x using case0.
