@@ -294,8 +294,8 @@ syntactic domains, without relying on Coq's extraction mechanism.
 
 ## License
 
-This library is made available under the MIT license, a copy of which is
-included in the file `LICENSE`. Basically: you are free to use it for any
+This library is made available under the BSD-3-Clause license, a copy of which is
+included in the file [`LICENSE`](LICENSE). Basically: you are free to use it for any
 purpose, personal or commercial (including proprietary derivates), so long as
 a copy of the license file is maintained in the derived work. Further, any
 acknowledgement referring back to this repository, while not necessary, is
