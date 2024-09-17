@@ -399,9 +399,7 @@ Instance List_Applicative : Applicative list := {
   ap   := @list_ap
 }.
 
-Require Import
-  Coq.Relations.Relations
-  Coq.Reals.ROrderedType.
+From Coq Require Import Relations ROrderedType.
 
 Require Export Coq.Lists.List.
 

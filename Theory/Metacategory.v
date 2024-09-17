@@ -1,7 +1,7 @@
-Require Import Coq.Structures.DecidableTypeEx.
-Require Import Coq.FSets.FMapFacts.
+From Coq Require Import DecidableTypeEx.
+From Coq Require Import FMapFacts.
 Require Import Category.Lib.FMapExt.
-Require Import Coq.Arith.PeanoNat.
+From Coq Require Import PeanoNat.
 
 (* Override ++> notation with the crelation-based version. *)
 #[local] Set Warnings "-notation-overridden".

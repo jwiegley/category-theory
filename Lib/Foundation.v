@@ -1,5 +1,5 @@
-Require Export Coq.Program.Program.
-Require Export Coq.Classes.CMorphisms.
+From Coq Require Export Program.
+From Coq Require Export CMorphisms.
 
 Generalizable All Variables.
 Set Primitive Projections.
