@@ -31,7 +31,7 @@ Arguments Basics.arrow _ _ /.
 Arguments Datatypes.id {_} _ /.
 
 Notation "∀  x .. y , P" := (forall x, .. (forall y, P) ..)
-  (at level 200, x binder, y binder, right associativity) :
+  (at level 10, x binder, y binder, P at level 200, right associativity) :
   category_theory_scope.
 
 Notation "'exists' x .. y , p" := (sigT (fun x => .. (sigT (fun y => p)) ..))
@@ -40,7 +40,7 @@ Notation "'exists' x .. y , p" := (sigT (fun x => .. (sigT (fun y => p)) ..))
   category_theory_scope.
 
 Notation "∃  x .. y , P" := (exists x, .. (exists y, P) ..)
-  (at level 200, x binder, y binder, right associativity) :
+  (at level 10, x binder, y binder, P at level 200, right associativity) :
   category_theory_scope.
 
 Notation "x → y" := (x -> y)
@@ -55,5 +55,5 @@ Infix "∧" := prod (at level 80, right associativity) : category_theory_scope.
 Infix "∨" := sum (at level 85, right associativity) : category_theory_scope.
 
 Notation "'λ'  x .. y , t" := (fun x => .. (fun y => t) ..)
-  (at level 200, x binder, y binder, right associativity) :
+  (at level 10, x binder, y binder, t at level 200, right associativity) :
   category_theory_scope.
