@@ -48,6 +48,11 @@
             then {
               rev = "v1.3-8.19";
               sha256 = "sha256-roBCWfAHDww2Z2JbV5yMI3+EOfIsv3WvxEcUbBiZBsk=";
+            } else {}) //
+            (if coqPackages == "coqPackages_8_20"
+            then {
+              rev = "v1.3.1-8.20";
+              sha256 = "sha256-u8LB1KiACM5zVaoL7dSdHYvZgX7pf30VuqtjLLGuTzc=";
             } else {}));
 
             phases = [
@@ -73,7 +78,7 @@
             env = pkgs.buildEnv { inherit name; paths = buildInputs; };
             passthru = {
               compatibleCoqVersions = v:
-              builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" "8.19" ];
+              builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" "8.19" "8.20" ];
             };
           };
 
@@ -106,7 +111,7 @@
             env = pkgs.buildEnv { inherit name; paths = buildInputs; };
             passthru = {
               compatibleCoqVersions = v:
-              builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" "8.19" ];
+              builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" "8.19" "8.20" ];
             };
           };
 
@@ -116,8 +121,9 @@
           category-theory_8_17 = category-theory "coqPackages_8_17";
           category-theory_8_18 = category-theory "coqPackages_8_18";
           category-theory_8_19 = category-theory "coqPackages_8_19";
+          category-theory_8_20 = category-theory "coqPackages_8_20";
 
-          default = category-theory_8_19;
+          default = category-theory_8_20;
         };
 
         defaultPackage = packages.default;
