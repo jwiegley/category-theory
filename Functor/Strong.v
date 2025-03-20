@@ -12,7 +12,7 @@ Require Import Category.Functor.Construction.Product.
 Generalizable All Variables.
 
 Class StrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
-  strength {x y} : x ⨂ F y ~> F (x ⨂ y);
+  strength {x y} : (x ⨂ F y)%object ~> F (x ⨂ y)%object;
   strength_natural : natural (@strength);
 
   strength_id_left {x} :
@@ -22,14 +22,14 @@ Class StrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
 
   strength_assoc {x y z} :
     fmap[F] (to (@tensor_assoc _ _ x y z)) ∘ strength
-      << (x ⨂ y) ⨂ F z ~~> F (x ⨂ y ⨂ z) >>
+      << (x ⨂ y) ⨂ F z ~~> F (x ⨂ y ⨂ z)%object >>
     strength ∘ bimap id strength ∘ to (@tensor_assoc _ _ x y (F z))
 }.
 
 Class RightStrongFunctor `{@Monoidal C} (F : C ⟶ C) := {
   rstrength_nat : (⨂) ◯ F ∏⟶ Id ⟹ F ◯ (⨂);
 
-  rstrength {x y} : F x ⨂ y ~> F (x ⨂ y) := transform[rstrength_nat] (x, y);
+  rstrength {x y} : F x ⨂ y ~> F (x ⨂ y)%object := transform[rstrength_nat] (x, y);
 
   rrstrength_id_right {x} :
     fmap[F] (to unit_right) ∘ rstrength ≈ to (@unit_right _ _ (F x));

@@ -22,7 +22,7 @@ Context {F : C ⟶ D}.
 Lemma ap_iso_to_from
       (ap_functor_iso : (⨂) ◯ F ∏⟶ F ≅[[C ∏ C, D]] F ◯ (⨂)) {x y} :
   transform (to ap_functor_iso) (x, y)
-    ∘ transform (from ap_functor_iso) (x, y) ≈ id[F (x ⨂ y)].
+    ∘ transform (from ap_functor_iso) (x, y) ≈ id[F (x ⨂ y)%object].
 Proof.
   spose (iso_to_from ap_functor_iso (x, y)) as X.
   rewrite !fmap_id in X.
@@ -74,12 +74,12 @@ Class LaxMonoidalFunctor := {
 
   ap_functor_nat : ((⨂) ◯ F ∏⟶ F) ~{[C ∏ C, D]}~> (F ◯ (⨂));
 
-  lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y) := transform[ap_functor_nat] (x, y);
+  lax_ap {x y} : F x ⨂ F y ~> F (x ⨂ y)%object := transform[ap_functor_nat] (x, y);
 
   pure_left {x}  : I ⨂ F x ≅ F (I ⨂ x);
   pure_right {x} : F x ⨂ I ≅ F (x ⨂ I);
 
-  ap_assoc {x y z} : (F x ⨂ F y) ⨂ F z ≅ F (x ⨂ (y ⨂ z));
+  ap_assoc {x y z} : ((F x ⨂ F y) ⨂ F z) ≅ F (x ⨂ (y ⨂ z));
 
   lax_monoidal_unit_left {x} :
     to unit_left

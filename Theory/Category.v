@@ -67,46 +67,46 @@ Delimit Scope object_scope with object.
 Delimit Scope homset_scope with homset.
 Delimit Scope morphism_scope with morphism.
 
-Arguments dom {_%category _%object _%object} _%morphism.
-Arguments cod {_%category _%object _%object} _%morphism.
+Arguments dom {_%_category _%_object _%_object} _%_morphism.
+Arguments cod {_%_category _%_object _%_object} _%_morphism.
 
-Notation "obj[ C ]" := (@obj C%category)
+Notation "obj[ C ]" := (@obj C%_category)
   (at level 0, format "obj[ C ]") : type_scope.
-Notation "hom[ C ]" := (@hom C%category)
+Notation "hom[ C ]" := (@hom C%_category)
   (at level 0, format "hom[ C ]") : type_scope.
 
-Notation "x ~> y" := (@hom _%category x%object y%object)
+Notation "x ~> y" := (@hom _%_ category x%_object y%_object)
   (at level 90, right associativity) : homset_scope.
-Notation "x ~{ C }~> y" := (@hom C%category x%object y%object)
+Notation "x ~{ C }~> y" := (@hom C%_category x%_object y%_object)
   (at level 90) : homset_scope.
 
-Notation "x <~ y" := (@hom _%category y%object x%object)
+Notation "x <~ y" := (@hom _%_category y%_object x%_object)
   (at level 90, right associativity, only parsing) : homset_scope.
-Notation "x <~{ C }~ y" := (@hom C%category y%object x%object)
+Notation "x <~{ C }~ y" := (@hom C%_category y%_object x%_object)
   (at level 90, only parsing) : homset_scope.
 
-Notation "id[ x ]" := (@id _%category x%object)
+Notation "id[ x ]" := (@id _%_category x%_object)
   (at level 9, format "id[ x ]") : morphism_scope.
 
-Notation "id{ C }" := (@id C%category _%object)
+Notation "id{ C }" := (@id C%_category _%_object)
   (at level 9, format "id{ C }") : morphism_scope.
 
 Notation "f ∘ g" :=
-  (@compose _%category _%object _%object _%object f%morphism g%morphism)
+  (@compose _%_category _%_object _%_object _%_object f%_morphism g%_morphism)
   : morphism_scope.
 Notation "f ∘[ C ] g" :=
-  (@compose C%category _%object _%object _%object f%morphism g%morphism)
+  (@compose C%_category _%_object _%_object _%_object f%_morphism g%_morphism)
   (at level 40, only parsing) : morphism_scope.
 
 Notation "f ≈[ C ] g" :=
-  (@equiv _ (@homset C%category _%object _%object) f%morphism g%morphism)
+  (@equiv _ (@homset C%_category _%_object _%_object) f%_morphism g%_morphism)
   (at level 79, only parsing) : category_theory_scope.
 Notation "f ≈[ C ] g" :=
-  (@equiv _ (@homset C%category _%object _%object) f%morphism g%morphism)
+  (@equiv _ (@homset C%_category _%_object _%_object) f%_morphism g%_morphism)
   (at level 79, only parsing) : category_theory_scope.
 
 Notation "f << A ~~> B >> g" :=
-  (@equiv (A%object ~> B%object)%homset _ f%morphism g%morphism)
+  (@equiv (A%_object ~> B%_object)%homset _ f%_morphism g%_morphism)
   (at level 99, A at next level, B at next level, only parsing) : category_theory_scope.
 
 Coercion obj : Category >-> Sortclass.
@@ -178,12 +178,12 @@ Proof. split; auto. Qed.
 
 End Category.
 
-Arguments dom {_%category _%object _%object} _%morphism.
-Arguments cod {_%category _%object _%object} _%morphism.
-Arguments id_left {_%category _%object _%object} _%morphism.
-Arguments id_right {_%category _%object _%object} _%morphism.
-Arguments comp_assoc {_%category _%object _%object _%object _%object}
-  _%morphism _%morphism _%morphism.
+Arguments dom {_%_category _%_object _%_object} _%_morphism.
+Arguments cod {_%_category _%_object _%_object} _%_morphism.
+Arguments id_left {_%_category _%_object _%_object} _%_morphism.
+Arguments id_right {_%_category _%_object _%_object} _%_morphism.
+Arguments comp_assoc {_%_category _%_object _%_object _%_object _%_object}
+  _%_morphism _%_morphism _%_morphism.
 
 #[export]
 Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := {

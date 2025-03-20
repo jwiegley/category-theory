@@ -248,7 +248,7 @@ Proof. intros; now rewrites. Qed.
 
 End Adjunction.
 
-Arguments Adjunction {C D} F%functor U%functor.
+Arguments Adjunction {C D} F%_functor U%_functor.
 
 Declare Scope adjunction_scope.
 Declare Scope adjunction_type_scope.
