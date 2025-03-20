@@ -45,7 +45,7 @@ Notation "C ⟶ D" := (@Functor C%category D%category)
   (at level 90, right associativity) : functor_type_scope.
 
 Arguments fmap
-  {C%category D%category Functor%functor x%object y%object} f%morphism.
+  {C%_category D%_category Functor%_functor x%_object y%_object} f%_morphism.
 
 Infix "<$>" := fmap
   (at level 29, left associativity, only parsing) : morphism_scope.

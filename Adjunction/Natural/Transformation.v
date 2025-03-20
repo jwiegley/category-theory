@@ -24,7 +24,7 @@ Class Adjunction_Transform := {
 
 End AdjunctionTransform.
 
-Arguments Adjunction_Transform {C D} F%functor U%functor.
+Arguments Adjunction_Transform {C D} F%_functor U%_functor.
 
 Declare Scope adjunction_scope.
 Declare Scope adjunction_type_scope.
