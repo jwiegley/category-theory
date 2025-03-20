@@ -1,15 +1,4 @@
--R _build/default Category
--Q Adjunction Category.Adjunction
--Q Construction Category.Construction
--Q Functor Category.Functor
--Q Instance Category.Instance
--Q Lib Category.Lib
--Q Monad Category.Monad
--Q Natural Category.Natural
--Q Structure Category.Structure
--Q Theory Category.Theory
--Q Tools Category.Tools
-
+-R . Category
 Adjunction/Diagonal/Product.v
 Adjunction/Hom.v
 Adjunction/Natural/Transformation.v
