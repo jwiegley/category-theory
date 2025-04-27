@@ -67,8 +67,8 @@ Delimit Scope object_scope with object.
 Delimit Scope homset_scope with homset.
 Delimit Scope morphism_scope with morphism.
 
-Arguments dom {_%category _%object _%object} _%morphism.
-Arguments cod {_%category _%object _%object} _%morphism.
+Arguments dom {_%_category _%_object _%_object} _%_morphism.
+Arguments cod {_%_category _%_object _%_object} _%_morphism.
 
 Notation "obj[ C ]" := (@obj C%category)
   (at level 0, format "obj[ C ]") : type_scope.
@@ -178,12 +178,12 @@ Proof. split; auto. Qed.
 
 End Category.
 
-Arguments dom {_%category _%object _%object} _%morphism.
-Arguments cod {_%category _%object _%object} _%morphism.
-Arguments id_left {_%category _%object _%object} _%morphism.
-Arguments id_right {_%category _%object _%object} _%morphism.
-Arguments comp_assoc {_%category _%object _%object _%object _%object}
-  _%morphism _%morphism _%morphism.
+Arguments dom {_%_category _%_object _%_object} _%_morphism.
+Arguments cod {_%_category _%_object _%_object} _%_morphism.
+Arguments id_left {_%_category _%_object _%_object} _%_morphism.
+Arguments id_right {_%_category _%_object _%_object} _%_morphism.
+Arguments comp_assoc {_%_category _%_object _%_object _%_object _%_object}
+  _%_morphism _%_morphism _%_morphism.
 
 #[export]
 Program Instance hom_preorder {C : Category} : PreOrder (@hom C) := {
