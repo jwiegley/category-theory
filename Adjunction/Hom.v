@@ -279,4 +279,4 @@ Qed.
 
 End AdjunctionHom.
 
-Arguments Adjunction_Hom {C D} F%functor U%functor.
+Arguments Adjunction_Hom {C D} F%_functor U%_functor.
