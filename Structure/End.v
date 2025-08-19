@@ -14,8 +14,8 @@ Class End `(F : C^op ∏ C ⟶ D) := {
     wedge_map[end_wedge] ∘ u ≈ @wedge_map _ _ _ W x
 }.
 
-Arguments End {_%category _%category} F%functor.
-Arguments end_wedge {_%category _%category} F%functor {_}.
+Arguments End {_%_category _%_category} F%_functor.
+Arguments end_wedge {_%_category _%_category} F%_functor {_}.
 
 Coercion wedge_obj `(F : C^op ∏ C ⟶ D) (E : End F) := @end_wedge _ _ _ E.
 
