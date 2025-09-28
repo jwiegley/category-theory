@@ -337,7 +337,7 @@ Fixpoint exprAD (e : Expr) : Type :=
 
 Theorem exprAD_sound (e : Expr) : exprAD e ↔ exprD e.
 Proof.
-  induction e; split; simpl in *; intuition.
+  induction e; split; simpl in *; intuition; auto with *.
   - destruct (termD _ _ _) eqn:?; [|tauto].
     destruct (termD _ _ (_ (_ g))) eqn:?; [|tauto].
     apply from_morphism_to_morphism in Heqo.

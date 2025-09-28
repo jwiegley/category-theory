@@ -24,7 +24,7 @@ Program Instance Cat_Cartesian : @Cartesian Cat := {
              ; fmap := fun _ _ => snd |};
 }.
 Next Obligation. proper; apply fmap_respects; auto. Qed.
-Next Obligation. simplify; rewrite !fmap_comp; intuition. Qed.
+Next Obligation. simplify; rewrite !fmap_comp; intuition; auto with *. Qed.
 Next Obligation.
   rename x into A.
   rename y into B.

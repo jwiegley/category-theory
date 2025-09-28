@@ -162,7 +162,7 @@ Program Instance sum_setoid {A B} `{Setoid A} `{Setoid B} :
     end
 }.
 Next Obligation.
-  equivalence; destruct x, y; try destruct z; intuition.
+  equivalence; destruct x, y; try destruct z; intuition; auto with *.
 Qed.
 
 #[global]

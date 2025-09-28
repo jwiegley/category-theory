@@ -43,14 +43,14 @@ Next Obligation.
   - destruct H as [? [? H2]].
     destruct H2; assumption.
   - exists y0.
-    intuition.
+    intuition; auto with *.
 Qed.
 Next Obligation.
   split; intros.
   - destruct H as [? [H1 ?]].
     destruct H1; assumption.
   - exists x0.
-    intuition.
+    intuition; auto with *.
 Qed.
 Next Obligation. firstorder. Qed.
 Next Obligation. firstorder. Qed.

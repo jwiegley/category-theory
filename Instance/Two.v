@@ -50,7 +50,7 @@ Program Definition _2 : Category := {|
     | _,    _,    _    => _
     end
 |}.
-Next Obligation. destruct x, y, z; intuition. Qed.
+Next Obligation. destruct x, y, z; intuition; auto with *. Qed.
 Next Obligation.
   destruct x, y, z; auto with two_laws;
   intuition; discriminate.
@@ -65,7 +65,7 @@ Next Obligation.
 Qed.
 Next Obligation. destruct f; auto. Qed.
 Next Obligation. destruct f; auto. Qed.
-Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
+Next Obligation. destruct x, y, z, w; auto with two_laws; intuition; auto with *. Qed.
 Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
 
 Require Import Category.Instance.Sets.

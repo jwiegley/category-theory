@@ -82,7 +82,7 @@ Proof.
   apply value_is_nf in H.
   unfold normal_form in H.
   induction X; auto.
-  now intuition.
+  now intuition; auto with *.
 Qed.
 
 Lemma multistep_AppR {Γ dom cod} {e e' : Γ ⊢ dom} {v : Γ ⊢ (dom ⟶ cod)} :
