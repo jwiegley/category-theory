@@ -247,9 +247,9 @@ Proof.
   apply F.Equal_mapsto_iff; split; intros.
     simplify_maps.
       rewrite <- H3.
-      simplify_maps; intuition.
+      simplify_maps; intuition; auto with *.
       simplify_maps.
-    simplify_maps; intuition.
+    simplify_maps; intuition; auto with *.
   simplify_maps.
   simplify_maps.
     rewrite H1.
@@ -277,12 +277,12 @@ Proof.
     simplify_maps.
   simplify_maps.
     simplify_maps.
-    intuition.
+    intuition; auto with *.
     rewrite <- H3.
     assumption.
   simplify_maps.
   simplify_maps.
-  intuition.
+  intuition; auto with *.
 Qed.
 
 Lemma in_mapsto_iff : ∀ elt k (m : M.t elt),
@@ -474,7 +474,7 @@ Proof.
     repeat simplify_maps.
   - apply F.Equal_mapsto_iff; split; intros;
     repeat simplify_maps;
-    right; intuition; simplify_maps.
+    right; intuition; auto with *; simplify_maps.
 Qed.
 
 Lemma add_associative {elt}
@@ -642,7 +642,7 @@ Qed.
 Obligation 2.
   intros x y Heq.
   destruct x, y; simpl in *; trivial.
-  intuition.
+  intuition; auto with *.
 Qed.
 Obligation 3.
   intros x y z Heq1 Heq2.
@@ -661,12 +661,12 @@ Program Instance pairP_Equivalence {A B} (P : relation A) (Q : relation B) :
 Obligation 1.
   intro x.
   destruct x; simpl.
-  intuition.
+  intuition; auto with *.
 Qed.
 Obligation 2.
   intros x y Heq.
   destruct x, y; simpl in *.
-  intuition.
+  intuition; auto with *.
 Qed.
 Obligation 3.
   intros x y z Heq1 Heq2.

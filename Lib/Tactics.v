@@ -86,7 +86,7 @@ Ltac cat :=
     [H : equiv ?X ?Y, H' : equiv ?Y ?Z |- equiv ?X ?Z] => transitivity Y
   end : category_laws.
 
-Ltac equivalence := constructor; repeat intro; simpl; try cat; intuition.
+Ltac equivalence := constructor; repeat intro; simpl; try cat; intuition; auto with *.
 Ltac proper := repeat intro; simpl; try cat; intuition.
 Ltac sapply F :=
   let H := fresh "H" in pose proof F as H; cbn in H; apply H; clear H.

@@ -27,12 +27,12 @@ Program Instance Sets_Closed : @Closed Sets _ := {
 Next Obligation.
   proper; destruct f; simpl.
   apply proper_morphism.
-  split; simpl; intuition.
+  split; simpl; intuition; auto with *.
 Qed.
 Next Obligation.
   proper; destruct f; simpl.
   apply proper_morphism.
-  split; simpl; intuition.
+  split; simpl; intuition; auto with *.
 Qed.
 Next Obligation.
   proper; simpl in *.

@@ -46,7 +46,7 @@ Next Obligation.
   equivalence;
   destruct x, y; simpl; intuition;
   unfold Coproduct_obligation_1 in *;
-  intuition.
+  intuition; auto with *.
 Qed.
 Next Obligation.
   repeat match goal with [ H : _ + _ |- _ ] => destruct H end;
@@ -57,7 +57,7 @@ Next Obligation.
   destruct x, y, z;
   unfold Coproduct_obligation_1 in *;
   unfold Coproduct_obligation_3 in *;
-  intuition.
+  intuition; auto with *.
 Qed.
 Next Obligation.
   destruct x, y;

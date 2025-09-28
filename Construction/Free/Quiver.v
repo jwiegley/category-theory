@@ -304,7 +304,7 @@ Proof.
     (Build_QuiverHomomorphism Q1 Q3 (Basics.compose (@fnodes _ _ G) (@fnodes _ _ F)) _ _).
   unshelve eapply Build_SetoidMorphism.
   + exact (fun f => (fedgemap (fedgemap f))).
-  + cat_simpl.
+  + auto with *.
 Defined.
 
 #[export] Instance QuiverHomomorphismEquivalence_IsEquivalence (Q Q': Quiver)

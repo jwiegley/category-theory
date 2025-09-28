@@ -86,29 +86,29 @@ Program Definition Parallel : Category := {|
 |}.
 Next Obligation. equivalence; reduce. Qed.
 Next Obligation. exact (f; X0). Defined.
-Next Obligation. reduce; intuition. Qed.
+Next Obligation. reduce; intuition; auto with *. Qed.
 Next Obligation. intuition; discriminate. Qed.
 Next Obligation. intuition; discriminate. Qed.
 Next Obligation. intuition; discriminate. Qed.
 Next Obligation.
   proper.
-  destruct x, y, z; simpl in *; intuition.
+  destruct x, y, z; simpl in *; intuition; auto with *.
 Defined.
 Next Obligation.
   destruct x, y; simpl in *;
-  destruct f; intuition.
+  destruct f; intuition; auto with *.
 Qed.
 Next Obligation.
   destruct x, y; simpl in *;
-  destruct f; intuition.
+  destruct f; intuition; auto with *.
 Qed.
 Next Obligation.
   destruct x, y, z, w; simpl in *;
-  destruct f; intuition.
+  destruct f; intuition; auto with *.
 Qed.
 Next Obligation.
   destruct x, y, z, w; simpl in *;
-  destruct f; intuition.
+  destruct f; intuition; auto with *.
 Qed.
 
 Require Import Category.Theory.Functor.
@@ -130,7 +130,7 @@ Program Definition APair {C : Category} {x y : C} (f g : x ~> y) :
     | ParY, ParX => False_rect _ (ParHom_Y_X_absurd _ (projT2 h))
     end
 |}.
-Next Obligation. proper; reduce; simpl; intuition. Qed.
+Next Obligation. proper; reduce; simpl; intuition; auto with *. Qed.
 Next Obligation. destruct x0; simpl; cat. Qed.
 Next Obligation.
   destruct x0, y0, z; simpl; auto with parallel_laws; cat.

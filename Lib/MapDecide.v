@@ -60,7 +60,7 @@ Local Set Warnings "-intuition-auto-with-star".
 
 Lemma term_beq_sound x y : term_beq x y = true → x = y.
 Proof.
-  induction x, y; simpl; intros; intuition.
+  induction x, y; simpl; intros; intuition; auto with *.
   - apply Pos.eqb_eq in H; subst; reflexivity.
   - apply N.eqb_eq in H; subst; reflexivity.
 Defined.
