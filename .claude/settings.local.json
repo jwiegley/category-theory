@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "mcp__Ref__ref_read_url"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -171,6 +171,8 @@ Structure/Monoidal/Naturality.v
 Structure/Monoidal/Product.v
 Structure/Monoidal/Proofs.v
 Structure/Monoidal/Relevance.v
+Structure/Monoidal/Rigid.v
+Structure/Monoidal/Pivotal.v
 Structure/Monoidal/Semicartesian.v
 Structure/Monoidal/Semicartesian/Proofs.v
 Structure/Monoidal/Semicartesian/Terminal.v
