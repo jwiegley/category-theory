@@ -9,11 +9,49 @@ Unset Transparent Obligations.
 
 Open Scope lazy_bool_scope.
 
+Module Compat.
+  (* In Rocq 9.2 the EqdepFacts.internal_foo schemes moved to Init.Logic
+     and dropped the "internal".
+
+     This module uses shadowing to refer to the schemes by the same
+     name regardless of Rocq version. *)
+
+  Module Fake.
+    Notation internal_eq_rew_r_dep := ltac:(fail "should not happen") (only parsing).
+    Notation internal_eq_sym_involutive := ltac:(fail "should not happen") (only parsing).
+    Notation internal_eq_sym_internal := ltac:(fail "should not happen") (only parsing).
+  End Fake.
+
+  Module FromEqdepFactsIfExists.
+    Import Fake.
+    Import EqdepFacts.
+
+    (* if eq_rew_r_dep exists in EqdepFacts then it is used here,
+       otherwise this is the "fake" notation *)
+    Notation eq_rew_r_dep := internal_eq_rew_r_dep.
+
+    (* same for the other notations *)
+    Notation eq_sym_involutive := internal_eq_sym_involutive.
+    Notation eq_sym := internal_eq_sym_internal.
+  End FromEqdepFactsIfExists.
+
+  Import FromEqdepFactsIfExists.
+  Import Logic.
+
+  (* if eq_rew_r_dep exists in Logic then it is used here,
+     otherwise this is internal_eq_rew_r_dep through FromEqdepFactsIfExists. *)
+  Notation eq_rew_r_dep := eq_rew_r_dep.
+
+  (* same for the other notations *)
+  Notation eq_sym_involutive := eq_sym_involutive.
+  Notation eq_sym := eq_sym.
+End Compat.
+
 Ltac simpl_eq :=
   unfold eq_rect_r, eq_rect, eq_ind_r, eq_ind, eq_sym, prod_rect,
-         EqdepFacts.internal_eq_rew_r_dep,
-         EqdepFacts.internal_eq_sym_involutive,
-         EqdepFacts.internal_eq_sym_internal in *.
+    Compat.eq_rew_r_dep,
+    Compat.eq_sym_involutive,
+    Compat.eq_sym in *.
 
 Ltac simplify :=
   repeat
