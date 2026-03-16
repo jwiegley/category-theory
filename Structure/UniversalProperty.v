@@ -17,7 +17,7 @@ Class IsUniversalProperty (C : Category) (P : C → Type) (eqP : forall c, Setoi
   {
     repr_functor : C ⟶ Sets ;
     repr_equivalence : forall c : C,
-      @Isomorphism Sets 
+      @Isomorphism Sets
         (Build_SetoidObject (P c) (eqP c))
         (Build_SetoidObject (Isomorphism [Hom c,─] repr_functor) _)
   }.
@@ -29,7 +29,7 @@ Proof.
   intro f. rewrite <- (id_left f) at 1.
   exact (symmetry (naturality τ _ d f) id{C}).
 Qed.
- 
+
 #[local] Program Instance exists_setoid (A : Type) (B : Setoid A) (C : A -> Type) :
   Setoid { x : A & C x } :=
   { equiv := fun a b => `1 a ≈ `1 b }.
@@ -37,7 +37,7 @@ Local Arguments morphism {x H y H0} s.
 Proposition representability_by_yoneda (C : Category) (F : C^op ⟶ Sets) (c : C):
   @Isomorphism Sets
     {| carrier := { x : F c & IsIsomorphism (from (Yoneda_Lemma C F c ) x) } |}
-                              
+
     (Build_SetoidObject (Isomorphism [Hom ─,c] F) _) .
 Proof.
   unshelve econstructor.
@@ -54,7 +54,7 @@ Proof.
   - unshelve econstructor.
     + simpl. intro X; simpl in X. destruct X as [Xto Xfrom tofromid fromtoid]; simpl in *.
       exists (morphism (to (Yoneda_Lemma C F c)) Xto).
-      simpl. 
+      simpl.
       unshelve econstructor.
       * exact Xfrom.
       * abstract(simpl; intros; rewrite <- tofromid; symmetry; apply preyoneda).
@@ -77,9 +77,9 @@ Section UniversalProperty.
     set (a1 := to (repr_equivalence c)). set (a2 := to(repr_equivalence v)).
     set (b1 := a1 t). set (b2 := a2 Pv). unfold a1, a2 in *. clear a1 a2;
       unfold carrier in b1, b2.
-    unshelve econstructor. 
-    - exact (@two_sided_inverse _ _ _ _  (Yoneda_Embedding' C v c) (from b1 ∘ to b2)). 
-    - exact (@two_sided_inverse _ _ _ _ (Yoneda_Embedding' C c v) (from b2 ∘ to b1)). 
+    unshelve econstructor.
+    - exact (@two_sided_inverse _ _ _ _  (Yoneda_Embedding' C v c) (from b1 ∘ to b2)).
+    - exact (@two_sided_inverse _ _ _ _ (Yoneda_Embedding' C c v) (from b2 ∘ to b1)).
     - abstract(apply (@fmap_inj _ _ (Curried_Hom C) _);
       set (j := ( _ ( compose  _ _)));
       set (j' := ( _ ( compose  _ _)));
@@ -97,7 +97,7 @@ Section UniversalProperty.
       simpl; clear ab;
       set (ab' := (iso_from_to b2));
       simpl in ab'; rewrite ab'; rewrite id_left;
-      reflexivity). 
+      reflexivity).
     - abstract(apply (@fmap_inj _ _ (Curried_Hom C) _);
       set (j := ( _ ( compose  _ _)));
       set (j' := ( _ ( compose  _ _)));
@@ -128,7 +128,7 @@ Section UniversalProperty.
   Defined.
 
   (* Let c, d be objects in C, and t : P c, s : P d.
-     Then there is a unique isomorphism p : c ≈ d 
+     Then there is a unique isomorphism p : c ≈ d
      such that the transport of p along t is equivalent to s. *)
   Proposition univ_property_unique_up_to_unique_iso
     (c d : C) (t : P c) (s : P d) :
@@ -136,13 +136,13 @@ Section UniversalProperty.
   Proof.
     (* We have already constructed the isomorphism p.*)
     (* We have isomorphisms Hom(c, -) ≅ repr_functor ≅ Hom(d,-)
-       corresponding to the choice of t and s, and we 
+       corresponding to the choice of t and s, and we
        pull back this isomorphism Hom(c,-) ≅ Hom(d,-) along the
        Yoneda embedding. *)
     exists (uniqueness (univ_property_unique c t) d s).
     - (* Why does this isomorphism respect the structure of P? *)
       abstract(simpl; unfold univ_property_respects_iso; simpl;
-      (* Proofs of P d are in one to one correspondence 
+      (* Proofs of P d are in one to one correspondence
          with natural isomorphisms
          Hom(d, - ) ≅ repr_functor. *)
       (* So it suffices to show that these determine the same natural isomorphism. *)
@@ -170,7 +170,7 @@ Section UniversalProperty.
       (* rep_c ^-1 ∘ rep_d : Hom(d,-) -> repr_functor -> Hom(c, -) *)
       (* " ... " d id_d : Hom(c, d) *)
       (* p := rep_c^-1 ∘ rep_d d id_d. *)
-      (* OTOH, by assumption, we have - 
+      (* OTOH, by assumption, we have -
          y(v) : Hom(d, -) ≌ Hom(c, -)
          rep_c : Hom(c, -) ≌ repr_functor
          rep_d : Hom(d, -) ≌ repr_functor *)
@@ -179,7 +179,7 @@ Section UniversalProperty.
       (* corresonds to s across the bijection. *)
       (* Of couse since by construction, s also corresponds to rep_d, *)
       (* this means that  rep_c ∘ y(v) ≈ rep_d as isomorphisms Hom(d,-) ≈ repr_functor. *)
-      (* Thus y(v) ≈ rep_c^-1 ∘ rep_d : Hom(d,-) ≅ Hom(c,-) and in particular 
+      (* Thus y(v) ≈ rep_c^-1 ∘ rep_d : Hom(d,-) ≅ Hom(c,-) and in particular
          they agree at (d, id{C} d).  *)
       abstract(intros v respects_iso;
       simpl uniqueness;
@@ -207,5 +207,5 @@ Section UniversalProperty.
       rewrite (@id_left (Groupoid (@Fun.Fun C Sets))) in respects_iso;
       symmetry in respects_iso;
       exact respects_iso).
-  Defined.      
+  Defined.
 End UniversalProperty.

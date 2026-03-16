@@ -296,7 +296,7 @@ Proof.
        aws (https://mathoverflow.net/users/30790/aws)
        In the category of sets epimorphisms are surjective - Constructive Proof?
        URL (version: 2014-08-18): https://mathoverflow.net/q/178786 *)
-    intros [epic] ?. 
+    intros [epic] ?.
     given (C : SetoidObject). {
       refine {|
         carrier := Type;

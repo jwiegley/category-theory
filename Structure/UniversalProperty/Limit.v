@@ -41,7 +41,7 @@ Section LimitUniversalProperty.
   Proposition ump_limit_construct_recover (w z : C) (H : IsALimit F z) (m : obj[J])
      (a : ACone w F) : vertex_map limit_acone m ∘ (ump_limit_construct w z _ a) ≈ vertex_map a m.
   Proof.
-    unfold ump_limit_construct. simpl. 
+    unfold ump_limit_construct. simpl.
     exact (unique_property (ump_limit {| vertex_obj := w; coneFrom :=a |} ) _).
   Qed.
 
@@ -51,7 +51,7 @@ Section LimitUniversalProperty.
   Proof.
     now rewrite comp_assoc, ump_limit_construct_recover.
   Qed.
-  
+
   Create HintDb limit discriminated.
   Hint Resolve ump_limit_construct : limit.
   Hint Resolve ump_limit_construct_proper : limit.
@@ -93,7 +93,7 @@ Section LimitUniversalProperty.
   Hint Extern 20 => easy : core.
 
   Hint Extern 10 => (autorewrite with limit) : limit.
-  
+
   Proposition LimitIsUniversalProperty :
     IsUniversalProperty C^op (fun c => IsALimit F c)
                             (fun c => @LimitSetoid J C F c).
@@ -102,7 +102,7 @@ Section LimitUniversalProperty.
     repeat(unshelve econstructor; try intros); simpl in *.
     - auto with cat limit.
     - abstract(auto with cat limit).
-    - abstract(auto with cat). 
+    - abstract(auto with cat).
     - abstract(auto with cat).
     - abstract(auto with cat).
     - auto with limit.
@@ -141,13 +141,13 @@ Section LimitUniversalProperty.
     - abstract(intros a f j; destruct x, to; simpl in *;
       rewrite naturality; revert j;
       change _ with (transform a (id{C} ∘ f) ≈ transform a f);
-      now rewrite id_left). 
+      now rewrite id_left).
     - abstract(now unfold  ump_limit_construct).
     - abstract(auto with cat limit).
   Defined.
 
 End LimitUniversalProperty.
-      
-      
-      
-      
+
+
+
+

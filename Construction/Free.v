@@ -17,7 +17,7 @@ Context {C : Category@{o h p}}.
    a directed graph or quiver is the category that results from freely
    concatenating arrows together, whenever the target of one arrow is the
    source of the next."
-   
+
    "More precisely, the objects of the category are the vertices of the
    quiver, and the morphisms are paths between objects. Here, a path is
    defined as a finite sequence " *)

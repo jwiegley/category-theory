@@ -51,9 +51,9 @@ Definition Cocone `(F : J ⟶ C) := Cone (F^op).
 Instance ConePresheaf@{u0 u1 u2 u3 u4 u5 +}
    {J : Category@{u0 u1 u2}} {C : Category@{u3 u4 u5}} (F : @Functor J C) :
    @Functor C^op Sets.
-Proof. 
+Proof.
   unshelve eapply Build_Functor.
-  - change obj[C^op] with obj[C]. 
+  - change obj[C^op] with obj[C].
     exact (fun c => {| carrier := Cone[c]F ; is_setoid := AConeEquiv _ _ |}).
   - change obj[C^op] with obj[C] in *; intros c c'.
     intro f; simpl in f.

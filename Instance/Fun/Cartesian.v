@@ -20,7 +20,7 @@ Proof.
   apply (snd (ump_products _ _ _)); split; reflexivity.
   }
   rewrite RW; symmetry.
-  apply (snd (ump_products _ _ _)); split; symmetry; assumption. 
+  apply (snd (ump_products _ _ _)); split; symmetry; assumption.
 Qed.
 
 Proposition ump_product_auto1 (C : Category) `{@Cartesian C} (x y z: C)
@@ -90,7 +90,7 @@ Proof.
     + abstract(intros x y f;
       unfold split; autorewrite with categories;
       apply ump_product_auto3; autorewrite with categories;
-        destruct σ, τ; auto). 
+        destruct σ, τ; auto).
     + abstract(intros x y f; destruct σ, τ; unfold split; auto with cat).
   - simpl. intros F G; unshelve econstructor.
     + intro a. simpl. exact exl.

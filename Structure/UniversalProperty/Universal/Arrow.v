@@ -22,11 +22,11 @@ Section UniversalArrowUniversalProperty.
   Proof using Type.
     apply fmap_respects.
   Qed.
-                             
+
   Hint Resolve fmap_respects' : cat.
   Hint Rewrite @fmap_comp : categories.
   Hint Resolve uniqueness : cat.
-  
+
   Proposition UniversalArrowIsUniversalProperty :
     IsUniversalProperty D (fun a : D => AUniversalArrow c U a) _.
   Proof.
@@ -37,7 +37,7 @@ Section UniversalArrowUniversalProperty.
     - abstract(auto with cat).
     - abstract(auto with cat).
     - abstract(auto with cat).
-    - simpl in *. destruct X. now apply universal_arrow_universal. 
+    - simpl in *. destruct X. now apply universal_arrow_universal.
     - abstract(simpl; intros; apply uniqueness;
       rewrite (unique_property universal_arrow_universal); easy).
     - abstract(simpl; intros; symmetry; apply uniqueness;
@@ -59,7 +59,7 @@ Section UniversalArrowUniversalProperty.
       simpl in M; rewrite <- M; clear M;
       assert (K := (@iso_to_from _ _ _ X)); simpl in K; rewrite K;
                now autorewrite with categories).
-    - (* This proof is only valid for Coq versions >= 8.16 
+    - (* This proof is only valid for Coq versions >= 8.16
          because setoid rewriting supports polymorphism better *)
       try(
       simpl; assert (M := @preyoneda D^op _ d _ (to X));
@@ -74,5 +74,5 @@ Section UniversalArrowUniversalProperty.
   Defined.
 
 End UniversalArrowUniversalProperty.
-      
-      
+
+

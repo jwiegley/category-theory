@@ -395,15 +395,15 @@ Program Instance Functor_StrictEq_Setoid {C D : Category} : Setoid (C ⟶ D) := 
     equiv := fun F G =>
       { eq_on_obj : ∀ x : C, F x = G x
                   & ∀ (x y : C) (f : x ~> y),
-            transport (fun z => hom (fobj[ F ] x) z) (eq_on_obj y) (fmap[F] f) ≈ 
+            transport (fun z => hom (fobj[ F ] x) z) (eq_on_obj y) (fmap[F] f) ≈
                    (transport_r (fun z => hom z (fobj[G] y)) (eq_on_obj x) (fmap[G] f)) }
 }.
 Next Obligation.
   equivalence.
   - unfold transport_r. rewrite eq_sym_involutive.
     fold (transport_r (λ z : obj[D], fobj[y] x1 ~{ D }~> z) (x0 y0)).
-    symmetry. 
-    rename x into F, y into G, x0 into eq_ob, x1 into x, y0 into y. 
+    symmetry.
+    rename x into F, y into G, x0 into eq_ob, x1 into x, y0 into y.
     refine ((snd
                (transport_adjunction D (hom (fobj[G] x))
                   (fun d t s => t ≈ s) _ _ _ _ _)) _).
@@ -453,7 +453,7 @@ Defined.
  Next Obligation.
   intros F G [FG_eq_on_obj FG_morphismcoherence] H K [HK_eq_on_obj HK_morphismcoherence].
   unshelve eapply (_ ; _).
-  - intro c; simpl. 
+  - intro c; simpl.
       exact(eq_trans (f_equal (fobj[F]) (HK_eq_on_obj c)) (FG_eq_on_obj (fobj[K] c))).
   - intros c c' f.
     simpl.
@@ -467,7 +467,7 @@ Defined.
     apply proper_transport_dom.
     now trivial.
  Defined.
-    
+
  Lemma fun_strict_equiv_id_right {A B} (F : A ⟶ B) : F ◯ Id ≈ F.
  Proof. construct; cat. Qed.
 

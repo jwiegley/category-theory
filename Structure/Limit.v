@@ -37,7 +37,7 @@ Next Obligation.
            specialize X with j; specialize X0 with j;
            exact (Equivalence_Transitive _ _ _ X X0)).
 Defined.
-  
+
 Coercion limit_cone : Limit >-> Cone.
 
 Require Import Category.Functor.Opposite.

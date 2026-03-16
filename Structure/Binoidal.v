@@ -57,7 +57,7 @@ Definition central `(f : x ~> y) : Type :=
 
 Definition composite_ff' {x x' y y'} (f : x ~> y) (f' : x' ~> y') :
   x ⊗ x' ~> y ⊗ y' := fmap[inj_right y] f' ∘ fmap[inj_left x'] f.
-  
+
 #[export]
 Program Instance composite_ff'_respects {x x' y y'} :
   Proper (equiv ==> equiv ==> equiv) (@composite_ff' x x' y y').
@@ -72,7 +72,7 @@ Qed.
 
 Definition composite_f'f {x x' y y'} (f' : x' ~> y') (f : x ~> y) :
   x' ⊗ x ~> y' ⊗ y := fmap[inj_right y'] f ∘ fmap[inj_left x] f'.
-  
+
 #[export]
 Program Instance composite_f'f_respects {x x' y y'} :
   Proper (equiv ==> equiv ==> equiv) (@composite_f'f x x' y y').

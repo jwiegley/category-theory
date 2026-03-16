@@ -38,7 +38,7 @@ Infix "≅" := Isomorphism (at level 91) : category_scope.
 Class IsIsomorphism {x y : C} (f : x ~> y) := {
     two_sided_inverse : y ~> x;
     is_right_inverse : f ∘ two_sided_inverse ≈ id;
-    is_left_inverse : two_sided_inverse ∘ f ≈ id                        
+    is_left_inverse : two_sided_inverse ∘ f ≈ id
   }.
 
 #[export]
@@ -196,7 +196,7 @@ Proposition to_equiv_implies_iso_equiv {C : Category} {x y} (f g : x ≅ y) :
 Proof.
   intro eq. split; [ assumption | ].
   assert (m := iso_to_epic f).
-  destruct f as [tof fromf tofrom_eqf fromto_eqf], 
+  destruct f as [tof fromf tofrom_eqf fromto_eqf],
       g as [tog fromg tofrom_eqg fromto_eqg].
   simpl in *.
   destruct m as [epic]. apply epic.

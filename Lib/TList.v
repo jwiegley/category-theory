@@ -56,7 +56,7 @@ Definition tlist_singleton {i j} (x : B i j) : tlist B i j := x ::: tnil.
 Equations tlist_rcons {i j k} (xs : tlist B i j) (y : B j k) : tlist B i k :=
   tlist_rcons tnil y := y ::: (@tnil _ B k);
   tlist_rcons (@tcons _ _ _ _ _ x xs) y := x ::: tlist_rcons xs y.
-      
+
 Equations tlist_app {i j k} (xs : tlist B i j) (ys : tlist B j k) :
   tlist B i k :=
   tlist_app tnil ys := ys;
