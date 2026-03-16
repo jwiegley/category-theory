@@ -34,7 +34,7 @@ Proof.
   apply (Build_Transform transform' natural).
   intros x y f; symmetry; apply natural.
 Defined.
-  
+
 #[export]
 Program Instance Transform_Setoid : Setoid Transform :=
   {| equiv N0 N1 := ∀ x, (@transform N0 x) ≈ (@transform N1 x); |}.

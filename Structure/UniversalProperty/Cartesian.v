@@ -15,7 +15,7 @@ Require Import Category.Structure.UniversalProperty.
 Local Hint Extern 5 (hom ?z ?x) => apply (@exl' _ x _ z (ltac:(typeclasses eauto))) : cat.
 Local Hint Extern 5 (hom ?z ?y) => apply (@exr' _ _ y z (ltac:(typeclasses eauto))) : cat.
 Local Hint Extern 5 (Proper _ _ ) => progress(repeat(intro)) : cat.
-    
+
 #[local] Hint Rewrite @exl_fork : categories.
 #[local] Hint Rewrite @exr_fork : categories.
 
@@ -51,14 +51,14 @@ Section CartesianProduct.
       + abstract(simpl; intros F G [eq1 eq2]; apply to_equiv_implies_iso_equiv;
                  simpl; intros; split; apply compose_respects; auto with cat).
     - simpl. unshelve econstructor.
-      + intro X. 
+      + intro X.
         destruct X as [[X_to_transform X_to_naturality ?]
                          [X_from_transform X_from_naturality ?]
                          X_tofromid X_fromtoid ]. simpl in *.
         simpl in X_to_transform, X_from_transform.
         clear naturality_sym naturality_sym0.
         unshelve econstructor.
-        * intros a f g. 
+        * intros a f g.
           exact (X_from_transform a (f, g)).
         * exact (fst (X_to_transform z id{C})).
         * exact (snd (X_to_transform z id{C})).
@@ -81,7 +81,7 @@ Section CartesianProduct.
                        [iso_from_transform iso_from_nat ?]
                        tofrom_id fromto_id]; simpl in *;
                apply to_equiv_implies_iso_equiv; simpl;
-               intros c f; assert (j:= (iso_to_nat z c f id{C})); 
+               intros c f; assert (j:= (iso_to_nat z c f id{C}));
                set (m := f) at 2 4; split;
                rewrite <- (id_left m); [ exact (fst j) | exact (snd j)]).
     - abstract(simpl; intro a; split; now rewrite id_right).

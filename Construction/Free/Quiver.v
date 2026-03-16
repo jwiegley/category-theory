@@ -24,12 +24,12 @@ Section Quiver.
   Context (G : Quiver).
   Existing Instance edgeset.
 
-  Fixpoint tlist'_quiver_equiv (k i j : G) 
+  Fixpoint tlist'_quiver_equiv (k i j : G)
     (f : @tlist' _ edges k i) (g : @tlist' _ edges k j) ( p : i = j ) : Type :=
     match f in (tlist' _ i_t) return (tlist' _ j) -> i_t = j -> Type with
     | tnil => fun g' q => tnil = Logic.transport_r (fun z => @tlist' _ edges k z) q g'
     | @tcons _ _ _ i0 i1 fhead ftail =>
-        fun g' : tlist' _ j  => 
+        fun g' : tlist' _ j  =>
           match g' in tlist' _ j return @tlist' _ edges k i1 -> i0 = j -> Type with
           | tnil => fun _ _ => False
            | @tcons _ _ _ j0 j1 ghead gtail =>
@@ -72,7 +72,7 @@ Section Quiver.
     induction H; [ now simpl | simpl ].
     exists eq_refl; assumption.
   Defined.
-  
+
   Lemma tlist'_equiv_lengths (i j k : G) (f : tlist' k i) (g : tlist' k j) (p : i = j) :
     tlist'_quiver_equiv _ _ _ f g p -> tlist_length f = tlist_length g.
     revert j g p; induction f.
@@ -82,7 +82,7 @@ Section Quiver.
     - intros j' g p; destruct g; [ now apply False_rect | simpl ].
       intros [j_eq_j0 X]; apply eq_S; unshelve eapply IHf; [ exact j_eq_j0 | assumption ].
   Defined.
-  
+
   Proposition tlist'_quiver_equiv_reflexive (k i: G) :
     forall f : tlist edges i k, tlist'_quiver_equiv k i i f f eq_refl.
   Proof.
@@ -100,14 +100,14 @@ Section Quiver.
         tlist'_quiver_equiv k i1 i3 f h (eq_trans p q).
   Proof.
     intro f; revert i2 i3.
-    induction f as [ | i0 i1 fhead ftail ]; 
+    induction f as [ | i0 i1 fhead ftail ];
       [ intros i2 i3 g h p q equiv1 equiv2;
         destruct p, q;
         simpl in *; destruct equiv1; now simpl in equiv2 |].
- 
+
       (* [ intros; destruct g; [ easy | now apply False_rect ] |]. *)
     intros i2 i3 g h p q equiv1 equiv2.
-    destruct g as [ | j0 j1 ghead gtail ]; [ now apply False_rect |]. 
+    destruct g as [ | j0 j1 ghead gtail ]; [ now apply False_rect |].
     simpl in equiv1. destruct equiv1 as [j_eq_j0 fhead_eq_ghead].
     destruct h as [ | k0 k1 hhead htail]; [ now apply False_rect |].
     simpl; simpl in equiv2; destruct equiv2 as [j1_eq_k1 gtail_eq_htail].
@@ -118,7 +118,7 @@ Section Quiver.
     - unshelve eapply IHftail; [ exact gtail | assumption | assumption ].
   Defined.
 
-  Proposition tlist'_quiver_equiv_symmetric (k i j: G) (p : i = j) : 
+  Proposition tlist'_quiver_equiv_symmetric (k i j: G) (p : i = j) :
     forall (f : tlist edges i k) (g: tlist edges j k),
       tlist'_quiver_equiv k i j f g p -> tlist'_quiver_equiv k j i g f (eq_sym p).
   Proof.
@@ -159,7 +159,7 @@ Definition Build_Quiver_Standard_Eq ( node_type : Type )
   {|
     nodes := node_type ;
     edges := edge_type;
-    edgeset := fun _ _ => {| equiv := eq; setoid_equiv := eq_equivalence |}                       
+    edgeset := fun _ _ => {| equiv := eq; setoid_equiv := eq_equivalence |}
   |}.
 
 Class QuiverHomomorphism@{o1 h1 p1 o2 h2 p2}
@@ -346,9 +346,9 @@ Proof.
     rewrite <- transport_quiver_dom.
     apply fedgemap_respects.
     reflexivity.
-  + intros x y f; now exists (fun x =>  eq_refl). 
-  + intros x y f; now exists (fun x =>  eq_refl). 
-  + intros w x y z f g h; now exists (fun x => eq_refl). 
+  + intros x y f; now exists (fun x =>  eq_refl).
+  + intros x y f; now exists (fun x =>  eq_refl).
+  + intros w x y z f g h; now exists (fun x => eq_refl).
 Defined.
 End QuiverCategory.
 
@@ -415,16 +415,16 @@ Next Obligation.
     simpl in H. destruct H as [q tr t]; exists q; [ exact tr |].
     unfold tlist_quiver_equiv in IHx1. destruct q.
     apply IHx1; [ exact f_eq_g | exact t ].
-  Defined. 
+  Defined.
   Next Obligation. rewrite tlist_app_tnil_r. apply Equivalence_Reflexive. Qed.
   Next Obligation. rewrite tlist_app_tnil_l. apply Equivalence_Reflexive. Qed.
   Next Obligation. rewrite tlist_app_assoc. apply Equivalence_Reflexive.  Qed.
   Next Obligation. rewrite tlist_app_assoc. apply Equivalence_Reflexive.  Qed.
-  
-  Definition InducedFunctor {C : Category} 
+
+  Definition InducedFunctor {C : Category}
     (F : QuiverHomomorphism G (QuiverOfCat C)) : @Functor (FreeOnQuiver) C.
   Proof.
-    unshelve eapply Build_Functor. 
+    unshelve eapply Build_Functor.
     { change obj[C] with (@nodes (QuiverOfCat C)). exact fnodes. }
     { intros c c'; simpl; intro f; unfold tlist in f.
       induction f as [| c c_mid fhead ftail IHftail] ; [ exact id | ].
@@ -432,7 +432,7 @@ Next Obligation.
       change _ with (@edges (QuiverOfCat C) (fnodes c) (fnodes c_mid)).
       exact (fedgemap _ _ fhead). }
     { intros c1 c2; simpl; intro f; induction f as [| c1 c_mid fhead ftail IHf].
-      - intros a H; simpl in H; unfold tlist_quiver_equiv, tlist'_quiver_equiv in H. 
+      - intros a H; simpl in H; unfold tlist_quiver_equiv, tlist'_quiver_equiv in H.
         simpl in H; destruct H; reflexivity.
       - intros g H. unfold tlist_quiver_equiv in H.
         destruct g; [ now apply False_rect |].
@@ -474,7 +474,7 @@ Next Obligation.
         simpl; unfold tlist_quiver_equiv, tlist'_quiver_equiv;
         intros ?; exists eq_refl; [assumption | reflexivity]. }
   Defined.
-  
+
   Definition UniversalArrowQuiverCat : @UniversalArrow QuiverCategory StrictCat  G Forgetful.
     unshelve eapply universal_arrow_from_UMP.
     - exact FreeOnQuiver.
@@ -491,7 +491,7 @@ Next Obligation.
             ((fmap[InducedFunctor F] f) ∘ (@fedgemap _ _ F _ _ b)).
           assert (RW : @equiv (@hom FreeOnQuiver i y) _ (b ::: f)
                          (@compose FreeOnQuiver _ _ _ f (tlist_singleton b)))
-                   by 
+                   by
                    (unfold tlist_singleton; simpl; now rewrite <- tlist_app_cons);
           rewrite RW, fmap_comp.
           rewrite transport_comp.

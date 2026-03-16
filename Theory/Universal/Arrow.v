@@ -65,7 +65,7 @@ Context (U : @Functor D C).
 
 Arguments arrow : clear implicits.
 Arguments arrow_obj : clear implicits.
-Definition LeftAdjointFunctorFromUniversalArrows (H : forall c : C, UniversalArrow c U) 
+Definition LeftAdjointFunctorFromUniversalArrows (H : forall c : C, UniversalArrow c U)
   : @Functor C D.
 Proof.
   refine
@@ -73,7 +73,7 @@ Proof.
         fobj := (fun c => arrow_obj _ _ (H c));
         fmap := (fun x y f => unique_obj (ump_universal_arrows (H x)
                                             ((arrow _ _ (H y) ∘ f))))
-                  
+
       |}).
   - abstract(intros x y f g f_eq_g;
              apply uniqueness;

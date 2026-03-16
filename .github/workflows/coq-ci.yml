@@ -1,4 +1,4 @@
-name: CI
+name: Docker CI
 
 on: [push, pull_request]
 
@@ -17,7 +17,7 @@ jobs:
           - 'coqorg/coq:8.14'
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: coq-community/docker-coq-action@v1
         with:
           opam_file: 'coq-category-theory.opam'

@@ -34,3 +34,5 @@
 log_*.txt
 /build.log
 /versions/
+/result
+build-timing.log

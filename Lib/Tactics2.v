@@ -17,7 +17,7 @@ Create HintDb cat discriminated.
 #[export]
 Hint Extern 1 (@hom _ _ _) => compose_reduce : cat.
 
-Ltac apply_setoid_morphism := 
+Ltac apply_setoid_morphism :=
   match goal with
   | [ H : context[SetoidMorphism ] |- _ ] =>  apply H
   end.
@@ -26,7 +26,7 @@ Ltac apply_setoid_morphism :=
 Hint Extern 20 => apply_setoid_morphism : cat.
 
 (* This is tempting but the "proper" script calls
-   intuition, which calls auto with *, so "proper" 
+   intuition, which calls auto with *, so "proper"
    should probably be a top-level command only. *)
 (* Hint Extern 1 (Proper _ _) => proper : cat. *)
 (* Similarly with cat_simpl. *)
@@ -59,7 +59,7 @@ first [repeat(rewrite <- comp_assoc);
        apply compose_respects; try(reflexivity)].
 
 #[export] Hint Extern 20 (@equiv _ (@homset _ _ _) (@compose _ _ _ _ _ _) (@compose _ _ _ _ _ _))
-     => compose_respects_script : cat.    
+     => compose_respects_script : cat.
 
 #[export] Hint Extern 10 => progress(autorewrite with categories) : cat.
 #[export] Hint Extern 5 => (progress(simplify)) : cat.

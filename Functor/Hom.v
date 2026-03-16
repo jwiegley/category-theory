@@ -84,14 +84,14 @@ Proof.
   apply bijective_is_iso.
   - abstract(assert (H := Yoneda_Faithful C); constructor;
              intros x y eq; apply H; exact eq).
-  - constructor. simpl. 
+  - constructor. simpl.
     intro A; exists (@prefmap _ _ _ (Yoneda_Full C) _ _ A ).
     abstract(intros x f; unfold op;
              assert (M := @fmap_sur _ _ _ (Yoneda_Full C));
              specialize M with _ _ A; simpl in M;
              unfold op in M; apply M).
 Defined.
-    
+
 Program Definition CoHom_Alt `(C : Category) : C ∏ C^op ⟶ Sets :=
   Hom C ◯ Swap.
 

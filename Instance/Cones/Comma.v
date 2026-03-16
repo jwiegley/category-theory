@@ -17,7 +17,7 @@ Proof.
   functor; simpl; intros.
   - exists (vertex_obj[X], ttt).
     transform; simpl; intros.
-    + apply @vertex_map. exact (@coneFrom _ _ _ X). 
+    + apply @vertex_map. exact (@coneFrom _ _ _ X).
     + abstract (rewrite id_right; apply cone_coherence).
     + abstract (rewrite id_right; symmetry; apply cone_coherence).
   - exists (`1 f, ttt); abstract (simpl; intros; cat).

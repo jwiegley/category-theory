@@ -70,7 +70,7 @@ Next Obligation.
   destruct x0, y0;
   destruct P; simpl in *; auto with roof_laws; cat.
 Qed.
-Next Obligation. 
+Next Obligation.
   destruct P, N, coneFrom; simpl in *.
   assert (eqv : f ∘ (vertex_map RNeg) ≈
                   g ∘ (vertex_map RPos)). {
