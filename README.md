@@ -4,8 +4,42 @@ This development encodes category theory in Coq, with the primary aim being to
 allow representation and manipulation of categorical terms, as well
 realization of those terms in various target categories.
 
-- Versions used: [Coq](https://github.com/coq/coq/) 8.14.1, 8.15.2, 8.16+rc1.
-- Some parts depend on [Coq-Equations](https://github.com/mattam82/Coq-Equations) 1.2.4, 1.3.
+- Supported versions: [Coq](https://github.com/coq/coq/) 8.14 through 8.20 and [Rocq](https://github.com/coq/coq/) 9.0 through 9.1.
+- Some parts depend on [Coq-Equations](https://github.com/mattam82/Coq-Equations) 1.2.4 through 1.3.1.
+
+## Building
+
+The easiest way to build is with [Nix](https://nixos.org/):
+
+    nix build
+
+This builds against Rocq 9.1 by default. For other versions:
+
+    nix build .#category-theory_8_20
+    nix build .#category-theory_9_0
+
+To enter a development shell with all dependencies:
+
+    nix develop
+
+From there, you can use the standard Makefile:
+
+    make          # build everything
+    make clean    # clean build artifacts
+    make install  # install the library
+
+There are also some additional targets for development:
+
+    make lint           # check for admitted proofs and TODOs
+    make format-check   # check for trailing whitespace
+    make format         # fix trailing whitespace
+    make timing         # build with per-file timing
+    make timing-report  # show slowest files from last timing build
+    make check          # run all checks
+
+To set up pre-commit hooks (requires [Lefthook](https://github.com/evilmartians/lefthook)):
+
+    lefthook install
 
 ## Usage
 
@@ -295,9 +329,9 @@ syntactic domains, without relying on Coq's extraction mechanism.
 ## License
 
 This library is made available under the BSD-3-Clause license, a copy of which is
-included in the file [`LICENSE`](LICENSE). Basically: you are free to use it for any
-purpose, personal or commercial (including proprietary derivates), so long as
-a copy of the license file is maintained in the derived work. Further, any
+included in the file [`LICENSE.md`](LICENSE.md). You're free to use it for any
+purpose, personal or commercial (including proprietary derivatives), so long as
+a copy of the license file is maintained in the derived work. Any
 acknowledgement referring back to this repository, while not necessary, is
 certainly appreciated.
 
