@@ -1,0 +1,22 @@
+pre-commit:
+  parallel: true
+  commands:
+    whitespace:
+      glob: "*.v"
+      run: "! grep -rn '[[:blank:]]$' {staged_files} 2>/dev/null | head -5 | grep -q ."
+    admitted:
+      glob: "*.v"
+      run: |
+        current=$(grep -ciE '(Admitted\.|[^_]admit|Abort\.)' {staged_files} 2>/dev/null | awk -F: '{s+=$2} END {print s+0}')
+        baseline=$(cat .admitted-baseline 2>/dev/null || echo 0)
+        total=$(find . -name '*.v' -print0 | xargs -0 grep -ciE '(Admitted\.|[^_]admit|Abort\.)' 2>/dev/null | awk -F: '{s+=$2} END {print s+0}')
+        if [ "$total" -gt "$baseline" ]; then
+          echo "Admitted proof count increased ($total > $baseline)"
+          exit 1
+        fi
+    nix-build:
+      glob: "*.{v,nix}"
+      run: nix build --no-warn-dirty 2>&1
+    nix-check:
+      glob: "*.{v,nix}"
+      run: nix flake check --no-warn-dirty 2>&1
