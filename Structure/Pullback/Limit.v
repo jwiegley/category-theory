@@ -12,10 +12,10 @@ Require Import Category.Instance.Roof.
 Generalizable All Variables.
 
 Definition Pullback_Limit {C : Category} (F : Cospan C) := Limit F.
-Arguments Pullback_Limit {_%category} F%functor /.
+Arguments Pullback_Limit {_%_category} F%_functor /.
 
 Definition Pushout_Limit {C : Category} (F : Span C) := Colimit F.
-Arguments Pushout_Limit {_%category} F%functor /.
+Arguments Pushout_Limit {_%_category} F%_functor /.
 
 Program Definition Pullback_to_Universal {C : Category}
         (F : Cospan C) (P : Pullback_Limit F) :
