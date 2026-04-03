@@ -10,11 +10,6 @@ jobs:
         image:
           - 'coqorg/coq:8.20'
           - 'coqorg/coq:8.19'
-          - 'coqorg/coq:8.18'
-          - 'coqorg/coq:8.17'
-          - 'coqorg/coq:8.16'
-          - 'coqorg/coq:8.15'
-          - 'coqorg/coq:8.14'
       fail-fast: false
     steps:
       - uses: actions/checkout@v4

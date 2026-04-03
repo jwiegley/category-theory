@@ -26,31 +26,6 @@
             owner = "mattam82";
             repo = "Coq-Equations";
           } //
-          (if coqPackages == "coqPackages_8_14"
-          then {
-            rev = "v1.3-8.14";
-            sha256 = "19bj9nncd1r9g4273h5qx35gs3i4bw5z9bhjni24b413hyj55hkv";
-          } else {}) //
-          (if coqPackages == "coqPackages_8_15"
-          then {
-            rev = "v1.3-8.15";
-            sha256 = "1vfcfpsp9zyj0sw0cwibk76nj6n0r6gwh8m1aa3lbvc0b1kbm32k";
-          } else {}) //
-          (if coqPackages == "coqPackages_8_16"
-          then {
-            rev = "v1.3-8.16";
-            sha256 = "sha256-zyMGeRObtSGWh7n3WCqesBZL5EgLvKwmnTy09rYpxyE=";
-          } else {}) //
-          (if coqPackages == "coqPackages_8_17"
-          then {
-            rev = "v1.3-8.17";
-            sha256 = "sha256-yNotSIxFkhTg3reZIchGQ7cV9WmTJ7p7hPfKGBiByDw=";
-          } else {}) //
-          (if coqPackages == "coqPackages_8_18"
-          then {
-            rev = "v1.3-8.18";
-            sha256 = "sha256-8MZO9vWdr8wlAov0lBTYMnde0RuMyhaiM99zp7Zwfao=";
-          } else {}) //
           (if coqPackages == "coqPackages_8_19"
           then {
             rev = "v1.3-8.19";
@@ -120,7 +95,7 @@
           env.env = pkgs.buildEnv { inherit name; paths = buildInputs; };
           passthru = {
             compatibleCoqVersions = v:
-            builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" "8.19" "8.20" "9.0" "9.1" ];
+            builtins.elem v [ "8.19" "8.20" "9.0" "9.1" ];
           };
         };
 
@@ -170,17 +145,12 @@
           env.env = pkgs.buildEnv { inherit name; paths = buildInputs; };
           passthru = {
             compatibleCoqVersions = v:
-            builtins.elem v [ "8.14" "8.15" "8.16" "8.17" "8.18" "8.19" "8.20" "9.0" "9.1" ];
+            builtins.elem v [ "8.19" "8.20" "9.0" "9.1" ];
           };
         };
 
       in rec {
         packages = rec {
-          category-theory_8_14 = category-theory "coqPackages_8_14";
-          category-theory_8_15 = category-theory "coqPackages_8_15";
-          category-theory_8_16 = category-theory "coqPackages_8_16";
-          category-theory_8_17 = category-theory "coqPackages_8_17";
-          category-theory_8_18 = category-theory "coqPackages_8_18";
           category-theory_8_19 = category-theory "coqPackages_8_19";
           category-theory_8_20 = category-theory "coqPackages_8_20";
           category-theory_9_0 = category-theory "coqPackages_9_0";
