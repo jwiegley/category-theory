@@ -2,11 +2,6 @@
 
 git clean -dfx
 
-nix build --cores 4 .\#packages.x86_64-darwin.category-theory_8_14 > log_8_14.txt 2>&1 &
-nix build --cores 4 .\#packages.x86_64-darwin.category-theory_8_15 > log_8_15.txt 2>&1 &
-nix build --cores 4 .\#packages.x86_64-darwin.category-theory_8_16 > log_8_16.txt 2>&1 &
-nix build --cores 4 .\#packages.x86_64-darwin.category-theory_8_17 > log_8_17.txt 2>&1 &
-nix build --cores 4 .\#packages.x86_64-darwin.category-theory_8_18 > log_8_18.txt 2>&1 &
 nix build --cores 4 .\#packages.x86_64-darwin.category-theory_8_19 > log_8_19.txt 2>&1 &
 nix build --cores 4 .\#packages.x86_64-darwin.category-theory_8_20 > log_8_20.txt 2>&1 &
 
