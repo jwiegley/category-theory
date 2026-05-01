@@ -72,6 +72,13 @@ Record Metacategory := {
 
   (* "For each arrow g of C there exist identity arrows u and u' of C such
      that u'∙g and g∙u are defined." *)
+  (* jww (TODO): The use of [->] below should be [/\]. The current form is
+     vacuously true (any non-identity [u] makes the implication trivially
+     hold), so this axiom imposes no real constraint. Fixing requires
+     reworking the [check_structure] tactic and providing explicit identity
+     witnesses for the example metacategories below. The mistake does not
+     affect [FromArrows], which builds its category from
+     [obj := ∃ i, identity M i], not from [identity_law]. *)
   identity_law (g : arr) :
     ∃ u,  identity u  ->
     ∃ u', identity u' ->

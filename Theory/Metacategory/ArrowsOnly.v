@@ -39,6 +39,13 @@ Record Metacategory := {
     (∀ f, defined f u → composite f u f) ∧
     (∀ g, defined u g → composite u g g);
 
+  (* jww (TODO): The two [->] below should be [/\]. The current form is
+     vacuously true (any non-identity [u]/[u'] makes the implications
+     trivially hold), so this axiom imposes no real constraint. Fixing
+     requires manually supplying identity witnesses for each example
+     metacategory in this file. The mistake does not affect
+     [Category_from_Metacategory], which builds its category from objects
+     [{i | is_identity i}], not from [identity_law]. *)
   identity_law (x y f : arrow) : composite x y f ->
     ∃ u u', is_identity u → is_identity u' ->
       composite f u f ∧ composite u' f f
