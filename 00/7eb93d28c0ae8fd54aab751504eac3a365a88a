@@ -1,0 +1,23 @@
+Theory/Sheaf.v
+  46d3b81f9b95616d 87,89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.5",
+  "base_commit_sha": "007eb93d28c0ae8fd54aab751504eac3a365a88a",
+  "prompts": {
+    "46d3b81f9b95616d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1331b1b4-1404-41a5-a30b-1bcf229057f4",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "John Wiegley <johnw@newartisans.com>",
+      "messages": [],
+      "total_additions": 107,
+      "total_deletions": 62,
+      "accepted_lines": 92,
+      "overriden_lines": 0
+    }
+  }
+}
