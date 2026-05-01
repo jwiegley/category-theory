@@ -1,0 +1,23 @@
+Theory/Coq/List.v
+  46d3b81f9b95616d 166-174
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.5",
+  "base_commit_sha": "62c71fd9b50c381e839845503b1a67d167aae851",
+  "prompts": {
+    "46d3b81f9b95616d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1331b1b4-1404-41a5-a30b-1bcf229057f4",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "John Wiegley <johnw@newartisans.com>",
+      "messages": [],
+      "total_additions": 9,
+      "total_deletions": 2,
+      "accepted_lines": 9,
+      "overriden_lines": 0
+    }
+  }
+}
