@@ -27,7 +27,13 @@ Class Dinatural := {
         ≈ fmap[G] (id ⋆⋆⋆ f) ∘ @ditransform x ∘ fmap[F] (op f ⋆⋆⋆ id)
 }.
 
-#[export] Program Instance Dinatural_Setoid : Setoid Dinatural.
+#[export] Program Instance Dinatural_Setoid : Setoid Dinatural := {|
+  equiv := fun X Y => forall x, (@ditransform X x) ≈ (@ditransform Y x)
+|}.
+Next Obligation.
+  equivalence.
+  transitivity (@ditransform y x0); auto.
+Qed.
 
 End Dinatural.
 
