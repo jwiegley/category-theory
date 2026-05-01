@@ -28,7 +28,7 @@ Generalizable All Variables.
 Section Adjunction.
 
 Universes o1 h1 p1 o2 h2 p2.
-Context {C : Category@{o1 h1 p2}}.
+Context {C : Category@{o1 h1 p1}}.
 Context {D : Category@{o2 h2 p2}}.
 Context {F : D ⟶ C}.
 Context {U : C ⟶ D}.
