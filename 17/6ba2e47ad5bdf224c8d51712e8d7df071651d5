@@ -1,0 +1,23 @@
+Instance/Coq/Par.v
+  46d3b81f9b95616d 185-193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.5",
+  "base_commit_sha": "176ba2e47ad5bdf224c8d51712e8d7df071651d5",
+  "prompts": {
+    "46d3b81f9b95616d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1331b1b4-1404-41a5-a30b-1bcf229057f4",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "John Wiegley <johnw@newartisans.com>",
+      "messages": [],
+      "total_additions": 58,
+      "total_deletions": 38,
+      "accepted_lines": 189,
+      "overriden_lines": 0
+    }
+  }
+}
