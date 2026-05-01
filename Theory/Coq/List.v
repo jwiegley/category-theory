@@ -163,8 +163,15 @@ Definition olast `(l : list a) : Maybe a :=
       end in
   go Nothing l.
 
-Definition oends a (l : list a) : Maybe (a + (a * a)).
-Proof. Admitted.
+Definition oends {a} (l : list a) : Maybe (a + (a * a)) :=
+  match l with
+  | [] => Nothing
+  | x :: xs =>
+      match olast xs with
+      | Nothing => Just (Datatypes.inl x)
+      | Just y => Just (Datatypes.inr (x, y))
+      end
+  end.
 
 (*
 Definition exist_in_cons : forall {A} {a} {l : list A},
