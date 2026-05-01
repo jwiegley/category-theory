@@ -1,0 +1,25 @@
+Theory/Metacategory.v
+  46d3b81f9b95616d 75-81
+Theory/Metacategory/ArrowsOnly.v
+  46d3b81f9b95616d 42-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.5",
+  "base_commit_sha": "9457d37ca7bd0bc7bb65a28b6709aebd993f59dc",
+  "prompts": {
+    "46d3b81f9b95616d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1331b1b4-1404-41a5-a30b-1bcf229057f4",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "John Wiegley <johnw@newartisans.com>",
+      "messages": [],
+      "total_additions": 19,
+      "total_deletions": 5,
+      "accepted_lines": 17,
+      "overriden_lines": 0
+    }
+  }
+}
