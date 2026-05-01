@@ -9,8 +9,6 @@ Generalizable All Variables.
 Section Dinatural.
 
 Context {C : Category}.
-Context `{@Terminal C}.
-Context `{@Terminal (C^op)}.
 Context {D : Category}.
 Context {F : C^op ∏ C ⟶ D}.
 Context {G : C^op ∏ C ⟶ D}.
@@ -25,8 +23,8 @@ Class Dinatural := {
   ditransform {x} : F (x, x) ~> G (x, x);
 
   dinaturality {x y} (f : x ~{C}~> y) :
-    fmap[G] (op f ⋆⋆⋆ id) ∘ ditransform ∘ fmap[F] (id ⋆⋆⋆ f)
-        ≈ fmap[G] (id ⋆⋆⋆ f) ∘ ditransform ∘ fmap[F] (op f ⋆⋆⋆ id)
+    fmap[G] (op f ⋆⋆⋆ id) ∘ @ditransform y ∘ fmap[F] (id ⋆⋆⋆ f)
+        ≈ fmap[G] (id ⋆⋆⋆ f) ∘ @ditransform x ∘ fmap[F] (op f ⋆⋆⋆ id)
 }.
 
 #[export] Program Instance Dinatural_Setoid : Setoid Dinatural.
