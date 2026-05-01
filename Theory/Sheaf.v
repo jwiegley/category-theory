@@ -84,8 +84,8 @@ Class Sheaf `{@Site C} (X : Presheaf C Sets) := {
                       ∀ h : v ~> uⱼ,
                         fᵢ ∘ g ≈ fⱼ ∘ h →
                         ∀ xⱼ : X uⱼ,
-                          fmap[X] g xᵢ = fmap[X] h xⱼ)
+                          fmap[X] g xᵢ ≈ fmap[X] h xⱼ)
                     f) →
-              ∃! x : X u, fmap[X] fᵢ x = xᵢ)
+              ∃! x : X u, fmap[X] fᵢ x ≈ xᵢ)
         f
 }.

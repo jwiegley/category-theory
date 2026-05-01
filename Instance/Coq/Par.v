@@ -182,8 +182,15 @@ Next Obligation. solveit. Defined.
 #[export] Program Instance Par_Cartesian : @Cartesian Par :=
   @CartesianMonoidal_Cartesian _ Par_CartesianMonoidal.
 
-(* Par is not cartesian closed, but it is monoidal closed by taking the smash
-   product as the tensor. *)
+(* Par is not cartesian closed.
+
+   It is *also* not closed under the smash product: an earlier
+   [Par_ClosedMonoidal] instance has been removed because the iso laws
+   [to_from = id] and [from_to = id] for the candidate currying are not
+   provable in general. The parallel development in Instance/Sets/Par.v
+   contains a pair of [_impossible] lemmas (search "to_from_impossible")
+   that prove the negation under decidability/inhabitance assumptions,
+   demonstrating the obstruction. *)
 
 #[export] Program Instance Par_Initial : Initial Par := {
   terminal_obj := False;
@@ -209,41 +216,3 @@ Next Obligation.
 Qed.
 
 Open Scope object_scope.
-
-#[export] Program Instance Par_ClosedMonoidal : @ClosedMonoidal Par := {
-  exponent_obj := λ A B, A ~{Par}~> B;
-  exp_iso := λ x y z, {|
-    to   := {|
-      morphism := λ (f : x ⨂ y ~> z) x,
-        Some (λ y, f (Datatypes.inl (Datatypes.inl (x, y))))
-    |};
-    from := {|
-      morphism := λ (f : x ~> y ~> z) (o : x ⨂ y),
-        match o with
-        | Datatypes.inl (Datatypes.inl (x, y)) =>
-            option_bind (λ g, g y) (f x)
-        | Datatypes.inl (Datatypes.inr x) => None
-        | Datatypes.inr y => None
-        end;
-    |}
-  |}
-}.
-Next Obligation.
-  proper.
-  f_equal.
-  extensionality w.
-  apply H.
-Qed.
-Next Obligation.
-  proper.
-  now rewrite (H a).
-Qed.
-Next Obligation.
-  unfold option_bind.
-  crunch.
-Admitted.
-Next Obligation.
-  crunch.
-Admitted.
-Next Obligation.
-Admitted.

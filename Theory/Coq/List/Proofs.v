@@ -168,13 +168,27 @@ Qed.
 Lemma Forall_append : forall A (P : A → Prop) xs ys,
    List.Forall P xs /\ List.Forall P ys <-> List.Forall P (xs ++ ys).
 Proof.
-Admitted.
+  intros A P xs ys.
+  rewrite List.Forall_app.
+  tauto.
+Qed.
 
 Lemma StronglySorted_inv_app : forall a R (l1 l2 : list a),
   StronglySorted R (l1 ++ l2)
     → StronglySorted R l1 /\ StronglySorted R l2.
 Proof.
-Admitted.
+  intros a R l1 l2 H.
+  induction l1 as [|x xs IHxs]; simpl in *.
+  - split; [constructor|assumption].
+  - inversion H; subst.
+    specialize (IHxs H2).
+    destruct IHxs as [Hs1 Hs2].
+    split; [|assumption].
+    constructor; [assumption|].
+    apply List.Forall_app in H3.
+    destruct H3 as [HF _].
+    assumption.
+Qed.
 
 (*
 Lemma StronglySorted_skip : forall a R (y : a) a0 ys,
@@ -182,6 +196,18 @@ Lemma StronglySorted_skip : forall a R (y : a) a0 ys,
 Proof.
 Admitted.
 *)
+
+Lemma Forall_ordered : forall a (R : a → a → Prop) `{Transitive _ R} x y xs,
+  R x y → List.Forall (R y) xs → List.Forall (R x) xs.
+Proof.
+  intros a R Htrans x y xs Hxy Hf.
+  induction xs as [|z zs IHzs].
+  - constructor.
+  - inversion Hf; subst.
+    constructor.
+    + apply (Htrans x y z); assumption.
+    + apply IHzs; assumption.
+Qed.
 
 Lemma StronglySorted_cat {A : Type} {xs ys : list A} {R : A → A → Prop}
   `{Transitive _ R} :
@@ -192,7 +218,72 @@ Lemma StronglySorted_cat {A : Type} {xs ys : list A} {R : A → A → Prop}
         end)
     → StronglySorted R (xs ++ ys)%list.
 Proof.
-Admitted.
+  intros Hsxs Hsys Hbridge.
+  generalize dependent ys.
+  induction Hsxs as [|x xs' Hsxs' IHxs Hfx]; intros ys Hsys Hbridge.
+  - simpl. assumption.
+  - simpl.
+    (* Bridge derivation: for any y at head of ys, we need R x y *)
+    assert (Hxy_for_head : forall y ys', ys = y :: ys' → R x y).
+    { intros y ys' Heq; subst ys.
+      destruct xs' as [|x' xs''].
+      - simpl in Hbridge. assumption.
+      - rewrite olast_last in Hbridge.
+        (* Hbridge : R (last xs'' x') y *)
+        (* We need R x y. We have Forall (R x) (x' :: xs'') so R x (last xs'' x'), then transitivity. *)
+        assert (Hlast : forall (us : list A) (u : A),
+                          List.Forall (R x) (u :: us) → R x (last us u)).
+        { clear.
+          intros us. induction us as [|z zs IH]; intros u Hf.
+          - simpl. inversion Hf; subst. assumption.
+          - destruct zs as [|w ws].
+            + simpl. inversion Hf; subst. inversion H2; subst. assumption.
+            + simpl. apply IH.
+              inversion Hf; subst.
+              inversion H2; subst.
+              constructor; assumption.
+        }
+        specialize (Hlast xs'' x' Hfx).
+        (* Hlast : R x (last xs'' x'); Hbridge : R (last (x' :: xs'') x) y. *)
+        (* Bridge the two forms: last (x' :: xs'') x = last xs'' x'. *)
+        assert (Heq : last (x' :: xs'') x = last xs'' x').
+        { clear. destruct xs'' as [|z zs]; [reflexivity|].
+          simpl. revert z. induction zs as [|w ws IH]; intros z.
+          - reflexivity.
+          - simpl. apply IH. }
+        rewrite Heq in Hbridge.
+        eapply transitivity; eassumption.
+    }
+    (* Now derive Forall (R x) ys *)
+    assert (Hfys : List.Forall (R x) ys).
+    { destruct ys as [|y ys'].
+      - constructor.
+      - assert (Hxy : R x y) by (apply (Hxy_for_head y ys'); reflexivity).
+        constructor; [assumption|].
+        inversion Hsys as [|? ? ? Hfy]; subst.
+        eapply Forall_ordered; eassumption.
+    }
+    (* Apply IH *)
+    constructor.
+    + apply IHxs; [assumption|].
+      destruct xs' as [|x' xs''].
+      * simpl. trivial.
+      * (* olast (x' :: xs'') need to relate to ys. Use Hbridge which gives R (last xs'' x') y. *)
+        destruct ys as [|y ys'].
+        -- destruct (olast (x' :: xs'')); trivial.
+        -- rewrite olast_last.
+           rewrite olast_last in Hbridge.
+           (* Same default-equivalence trick as in the bridge derivation *)
+           assert (Heq2 : last (x' :: xs'') x = last xs'' x').
+           { clear. destruct xs'' as [|z zs]; [reflexivity|].
+             simpl. revert z. induction zs as [|w ws IH]; intros z.
+             - reflexivity.
+             - simpl. apply IH. }
+           rewrite Heq2 in Hbridge.
+           assumption.
+    + apply List.Forall_app.
+      split; assumption.
+Qed.
 
 (*
 Lemma StronglySorted_cat_cons
@@ -221,7 +312,13 @@ Qed.
 Lemma StronglySorted_cons_cons : forall a (R : a → a → Prop) x xs y ys,
   StronglySorted R (x :: xs ++ y :: ys) → R x y.
 Proof.
-Admitted.
+  intros a R x xs y ys H.
+  inversion H; subst.
+  apply List.Forall_app in H3.
+  destruct H3 as [_ HF].
+  inversion HF; subst.
+  assumption.
+Qed.
 
 (*
 Lemma StronglySorted_rcons_inv : forall a R (x : a) xs,
@@ -256,10 +353,9 @@ Proof.
 Qed.
 *)
 
-Lemma Forall_ordered : forall a (R : a → a → Prop) `{Transitive _ R} x y xs,
-  R x y → List.Forall (R y) xs → List.Forall (R x) xs.
-Proof.
-Admitted.
+(* Forall_ordered: moved earlier in the file because it is consumed by
+   StronglySorted_cat below. Original site retained as comment for
+   continuity. *)
 
 (*
 Lemma StronglySorted_rcons_rcons : forall a R `{Transitive _ R} (x : a) y xs,
