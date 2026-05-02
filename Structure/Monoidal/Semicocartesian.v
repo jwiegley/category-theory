@@ -12,9 +12,16 @@ Section SemicocartesianMonoidal.
 Context {C : Category}.
 
 (* A semi-cartesian monoidal category is basically an assertion that the unit
-   is terminal. *)
+   is terminal; the semicocartesian dual asserts the unit is initial.
 
-(* jww (2017-06-02): Define this using the dual construction. *)
+   In a more developed dual infrastructure this could read
+
+       Definition SemicocartesianMonoidal `{M : @Monoidal C} :=
+         @SemicartesianMonoidal (C^op) (Monoidal_Opposite M).
+
+   but the library does not currently carry [Monoidal (C^op)] as a derived
+   instance. The direct (dual-by-hand) class below mirrors the
+   [SemicartesianMonoidal] fields with directions flipped. *)
 
 Class SemicocartesianMonoidal `{@Monoidal C} := {
   generate {x} : I ~> x;
