@@ -82,7 +82,10 @@ Instance Compose_Applicative `{Applicative F} `{Applicative G} :
   ap   := λ _ _, ap[F] ∘ ap[F] (pure ap[G])
 }.
 
-(* jww (2022-09-07): This needs work *)
+(* This is the standard Haskell-style [Alternative (Compose f g)]: it lifts F's
+   Alternative structure pointwise over G, and does NOT use G's Alternative
+   structure at all -- there is no canonical way to combine an [F (G x)] and
+   [F (G x)] using G's choose without committing to a specific shape. *)
 #[export]
 Instance Compose_Alternative `{Alternative F} `{Alternative G} :
   Alternative (F ∘ G) := {
