@@ -124,15 +124,6 @@ Next Obligation.
     exact (iso_sym X0).
 Defined.
 
-Goal ∀ {F G K} (f : G ≅ K) (g : F ≅ G), F ≅ K.
-Proof.
-  intros.
-  (* jww (2021-08-09): It should be possible to rewrite here with isomorphism
-     acting similarly to an equivalence. *)
-  rewrite g.
-  exact f.
-Qed.
-
 End Isomorphism.
 
 Declare Scope isomorphism_scope.
