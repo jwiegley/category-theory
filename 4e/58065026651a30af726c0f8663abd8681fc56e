@@ -1,0 +1,23 @@
+Structure/Pullback.v
+  46d3b81f9b95616d 123-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.5",
+  "base_commit_sha": "4e58065026651a30af726c0f8663abd8681fc56e",
+  "prompts": {
+    "46d3b81f9b95616d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1331b1b4-1404-41a5-a30b-1bcf229057f4",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "John Wiegley <johnw@newartisans.com>",
+      "messages": [],
+      "total_additions": 13,
+      "total_deletions": 3,
+      "accepted_lines": 45,
+      "overriden_lines": 0
+    }
+  }
+}
