@@ -120,10 +120,38 @@ Require Import Category.Construction.Opposite.
 Definition Pushout {C : Category} {x y z : C^op} (f : x ~> z) (g : y ~> z) :=
   Pullback f g.
 
-(* jww (2017-06-01): TODO *)
-(* Wikipedia: "A weak pullback of a cospan X → Z ← Y is a cone over the cospan
-   that is only weakly universal, that is, the mediating morphism u : Q → P
-   above is not required to be unique." *)
+(* A weak pullback differs from a pullback in that the mediating morphism is
+   merely required to exist; uniqueness is dropped. *)
+Record WeakPullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := {
+  weak_pull : C;
+  weak_pullback_fst : weak_pull ~> x;
+  weak_pullback_snd : weak_pull ~> y;
+
+  weak_pullback_commutes :
+    f ∘ weak_pullback_fst ≈ g ∘ weak_pullback_snd;
+
+  weak_ump_pullbacks :
+    ∀ Q (q1 : Q ~> x) (q2 : Q ~> y),
+      f ∘ q1 ≈ g ∘ q2
+      → ∃ u : Q ~> weak_pull,
+          weak_pullback_fst ∘ u ≈ q1 ∧ weak_pullback_snd ∘ u ≈ q2
+}.
+
+(* Every pullback is a weak pullback by forgetting uniqueness. *)
+Definition Pullback_to_WeakPullback {C : Category} {x y z : C}
+           {f : x ~> z} {g : y ~> z} (P : Pullback f g) : WeakPullback f g.
+Proof.
+  refine {|
+    weak_pull              := Pull f g P;
+    weak_pullback_fst      := pullback_fst f g P;
+    weak_pullback_snd      := pullback_snd f g P;
+    weak_pullback_commutes := pullback_commutes f g P
+  |}.
+  intros Q q1 q2 H.
+  pose proof (ump_pullbacks f g P Q q1 q2 H) as U.
+  exists (unique_obj U).
+  exact (unique_property U).
+Defined.
 
 (* jww (2017-06-01): TODO *)
 (* Wikipedia: "The pullback is similar to the product, but not the same. One
