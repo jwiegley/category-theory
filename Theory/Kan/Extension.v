@@ -170,7 +170,6 @@ Definition preserves_right_Kan `(R : E ⟶ F) :=
     the existence of an adjoint is conditional on a functor having and
     preserving certain Kan extensions." *)
 
-(** jww (2021-08-07): TODO *)
 Theorem left_adjoint_impl `(L : C ⟶ D) :
   ∀ R : D ⟶ C, L ⊣ R ->
   ∀ {E} (G : E ⟶ C) (H : E ⟶ D),
