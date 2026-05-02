@@ -1,5 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
 
 Generalizable All Variables.
 
@@ -60,11 +61,10 @@ Generalizable All Variables.
 
     p1 ∘ u = q1,    p2 ∘ u = q2
 
-   jww (2017-06-01): TODO
    As with all universal constructions, a pullback, if it exists, is unique up
    to isomorphism. In fact, given two pullbacks (A, a1, a2) and (B, b1, b2) of
    the same cospan X → Z ← Y, there is a unique isomorphism between A and B
-   respecting the pullback structure." *)
+   respecting the pullback structure (proven below as [pullback_unique])." *)
 
 Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := {
   Pull : C;
@@ -79,6 +79,41 @@ Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := {
 
 Coercion pullback_ob {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z)
          (L : Pullback f g) := @Pull _ _ _ _ _ _ L.
+
+(** Pullbacks are unique up to a unique isomorphism respecting the projections.
+    This is the standard proof from the universal property: each pullback gives
+    a mediating morphism into the other, and the round-trip mediator into a
+    pullback from itself must equal [id] by uniqueness. *)
+Lemma pullback_unique {C : Category} {x y z : C} {f : x ~> z} {g : y ~> z}
+      (P Q : Pullback f g) : Pull f g P ≅ Pull f g Q.
+Proof.
+  pose proof (ump_pullbacks f g Q _ (pullback_fst f g P) (pullback_snd f g P)
+                            (pullback_commutes f g P)) as HQ.
+  pose proof (ump_pullbacks f g P _ (pullback_fst f g Q) (pullback_snd f g Q)
+                            (pullback_commutes f g Q)) as HP.
+  pose proof (ump_pullbacks f g P _ (pullback_fst f g P) (pullback_snd f g P)
+                            (pullback_commutes f g P)) as HPP.
+  pose proof (ump_pullbacks f g Q _ (pullback_fst f g Q) (pullback_snd f g Q)
+                            (pullback_commutes f g Q)) as HQQ.
+  destruct (unique_property HQ) as [HQfst HQsnd].
+  destruct (unique_property HP) as [HPfst HPsnd].
+  unshelve refine {|
+    to   := unique_obj HQ;
+    from := unique_obj HP
+  |}.
+  - (* to ∘ from ≈ id at Pull Q, by uniqueness against HQQ *)
+    transitivity (unique_obj HQQ).
+    + symmetry; apply (uniqueness HQQ); split.
+      * rewrite comp_assoc, HQfst; exact HPfst.
+      * rewrite comp_assoc, HQsnd; exact HPsnd.
+    + apply (uniqueness HQQ); split; apply id_right.
+  - (* from ∘ to ≈ id at Pull P, by uniqueness against HPP *)
+    transitivity (unique_obj HPP).
+    + symmetry; apply (uniqueness HPP); split.
+      * rewrite comp_assoc, HPfst; exact HQfst.
+      * rewrite comp_assoc, HPsnd; exact HQsnd.
+    + apply (uniqueness HPP); split; apply id_right.
+Qed.
 
 Require Import Category.Construction.Opposite.
 
