@@ -1566,6 +1566,225 @@ Proof.
     symmetry. apply id_right.
 Qed.
 
+(** ** C-level pentagon identity for [coprod_assoc].
+
+    [cover id (to coprod_assoc) ∘ to coprod_assoc ∘ cover (to coprod_assoc) id
+     ≈ to coprod_assoc ∘ to coprod_assoc]
+    at types [(((X+Y)+Z)+W) → (X+(Y+(Z+W)))]. *)
+
+(** Auxiliary computations used in the C-level pentagon below.
+
+    Strategy: each goal has shape [(EXPR) ∘ COMPOSITE_INJECTION ≈ TARGET].
+    We use the [coprod_ext_eq] tactic-like trick: assert the helper equation
+    and apply it. *)
+
+(** Reduce one composite alpha against `inl ∘ inl ∘ inl` to inl.
+    Key fact: alpha ∘ (inl ∘ inl) = inl by [assoc_to_inl_inl].  So
+    alpha ∘ (inl ∘ inl) ∘ inl = inl ∘ inl, and then cover α id ∘ (inl ∘ inl)
+    = inl ∘ α ∘ inl = inl ∘ inl... etc. *)
+
+Lemma pentagon_lhs_iii {X Y Z W : C} :
+  (cover (id[X]) (to (@coprod_assoc C H_Coc Y Z W))
+   ∘ to (@coprod_assoc C H_Coc X (Y + Z) W)
+   ∘ cover (to (@coprod_assoc C H_Coc X Y Z)) (id[W]))
+  ∘ ((inl ∘ inl) ∘ inl)
+  ≈ inl.
+Proof.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (cover (to coprod_assoc) id[W]) inl (inl ∘ inl)).
+  rewrite cover_inl.
+  (* Goal: cover id α ∘ (α ∘ ((inl ∘ α) ∘ (inl ∘ inl))) *)
+  rewrite <- (comp_assoc inl (to coprod_assoc) (inl ∘ inl)).
+  (* Goal: cover id α ∘ (α ∘ (inl ∘ (α ∘ (inl ∘ inl)))) *)
+  rewrite assoc_to_inl_inl.
+  (* Goal: cover id α ∘ (α ∘ (inl ∘ inl)) *)
+  rewrite assoc_to_inl_inl.
+  (* Goal: cover id α ∘ inl *)
+  rewrite cover_inl.
+  apply id_right.
+Qed.
+
+Lemma pentagon_rhs_iii {X Y Z W : C} :
+  (to (@coprod_assoc C H_Coc X Y (Z + W))
+   ∘ to (@coprod_assoc C H_Coc (X + Y) Z W))
+  ∘ ((inl ∘ inl) ∘ inl)
+  ≈ inl.
+Proof.
+  rewrite <- !comp_assoc.
+  (* Goal: α ∘ (α' ∘ (inl ∘ (inl ∘ inl))) where α, α' are at different types *)
+  rewrite (comp_assoc inl inl inl).
+  rewrite (comp_assoc (to coprod_assoc) (inl ∘ inl) inl).
+  rewrite assoc_to_inl_inl.
+  rewrite assoc_to_inl_inl.
+  reflexivity.
+Qed.
+
+Lemma pentagon_lhs_iir {X Y Z W : C} :
+  (cover (id[X]) (to (@coprod_assoc C H_Coc Y Z W))
+   ∘ to (@coprod_assoc C H_Coc X (Y + Z) W)
+   ∘ cover (to (@coprod_assoc C H_Coc X Y Z)) (id[W]))
+  ∘ ((inl ∘ inl) ∘ inr)
+  ≈ inr ∘ inl.
+Proof.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (cover (to coprod_assoc) id[W]) inl (inl ∘ inr)).
+  rewrite cover_inl.
+  rewrite <- (comp_assoc inl (to coprod_assoc) (inl ∘ inr)).
+  rewrite assoc_to_inl_inr.
+  (* Goal: cover id α ∘ (α ∘ (inl ∘ (inr ∘ inl))) ≈ inr ∘ inl *)
+  rewrite (comp_assoc inl inr inl).
+  rewrite (comp_assoc (to coprod_assoc) (inl ∘ inr) inl).
+  rewrite assoc_to_inl_inr.
+  (* Goal: cover id α ∘ ((inr ∘ inl) ∘ inl) ≈ inr ∘ inl *)
+  rewrite <- (comp_assoc inr inl inl).
+  rewrite (comp_assoc (cover id[X] _) inr (inl ∘ inl)).
+  rewrite cover_inr.
+  rewrite <- (comp_assoc inr (to coprod_assoc) (inl ∘ inl)).
+  rewrite assoc_to_inl_inl.
+  reflexivity.
+Qed.
+
+Lemma pentagon_rhs_iir {X Y Z W : C} :
+  (to (@coprod_assoc C H_Coc X Y (Z + W))
+   ∘ to (@coprod_assoc C H_Coc (X + Y) Z W))
+  ∘ ((inl ∘ inl) ∘ inr)
+  ≈ inr ∘ inl.
+Proof.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc inl inl inr).
+  rewrite (comp_assoc (to coprod_assoc) (inl ∘ inl) inr).
+  rewrite assoc_to_inl_inl.
+  rewrite assoc_to_inl_inr.
+  reflexivity.
+Qed.
+
+Lemma pentagon_lhs_ir {X Y Z W : C} :
+  (cover (id[X]) (to (@coprod_assoc C H_Coc Y Z W))
+   ∘ to (@coprod_assoc C H_Coc X (Y + Z) W)
+   ∘ cover (to (@coprod_assoc C H_Coc X Y Z)) (id[W]))
+  ∘ (inl ∘ inr)
+  ≈ inr ∘ (inr ∘ inl).
+Proof.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (cover (to coprod_assoc) id[W]) inl inr).
+  rewrite cover_inl.
+  rewrite <- (comp_assoc inl (to coprod_assoc) inr).
+  rewrite assoc_to_inr.
+  (* Goal: cover id α ∘ (α ∘ (inl ∘ (inr ∘ inr))) *)
+  rewrite (comp_assoc inl inr inr).
+  rewrite (comp_assoc (to coprod_assoc) (inl ∘ inr) inr).
+  rewrite assoc_to_inl_inr.
+  (* Goal: cover id α ∘ ((inr ∘ inl) ∘ inr) *)
+  rewrite <- (comp_assoc inr inl inr).
+  rewrite (comp_assoc (cover id[X] _) inr (inl ∘ inr)).
+  rewrite cover_inr.
+  rewrite <- (comp_assoc inr (to coprod_assoc) (inl ∘ inr)).
+  rewrite assoc_to_inl_inr.
+  reflexivity.
+Qed.
+
+Lemma pentagon_rhs_ir {X Y Z W : C} :
+  (to (@coprod_assoc C H_Coc X Y (Z + W))
+   ∘ to (@coprod_assoc C H_Coc (X + Y) Z W))
+  ∘ (inl ∘ inr)
+  ≈ inr ∘ (inr ∘ inl).
+Proof.
+  rewrite <- !comp_assoc.
+  rewrite assoc_to_inl_inr.
+  (* Goal: α[X,Y,Z+W] ∘ (inr ∘ inl) *)
+  rewrite (comp_assoc (to coprod_assoc) inr inl).
+  rewrite assoc_to_inr.
+  rewrite <- (comp_assoc inr inr inl).
+  reflexivity.
+Qed.
+
+Lemma pentagon_lhs_r {X Y Z W : C} :
+  (cover (id[X]) (to (@coprod_assoc C H_Coc Y Z W))
+   ∘ to (@coprod_assoc C H_Coc X (Y + Z) W)
+   ∘ cover (to (@coprod_assoc C H_Coc X Y Z)) (id[W]))
+  ∘ inr
+  ≈ inr ∘ (inr ∘ inr).
+Proof.
+  rewrite <- !comp_assoc.
+  rewrite cover_inr.
+  rewrite id_right.
+  (* Goal: cover id α ∘ (α ∘ inr) *)
+  rewrite assoc_to_inr.
+  rewrite (comp_assoc (cover id[X] _) inr inr).
+  rewrite cover_inr.
+  rewrite <- (comp_assoc inr (to coprod_assoc) inr).
+  rewrite assoc_to_inr.
+  reflexivity.
+Qed.
+
+Lemma pentagon_rhs_r {X Y Z W : C} :
+  (to (@coprod_assoc C H_Coc X Y (Z + W))
+   ∘ to (@coprod_assoc C H_Coc (X + Y) Z W))
+  ∘ inr
+  ≈ inr ∘ (inr ∘ inr).
+Proof.
+  rewrite <- !comp_assoc.
+  rewrite assoc_to_inr.
+  rewrite (comp_assoc (to coprod_assoc) inr inr).
+  rewrite assoc_to_inr.
+  rewrite <- (comp_assoc inr inr inr).
+  reflexivity.
+Qed.
+
+(** C-level pentagon for [coprod_assoc]. *)
+Lemma coprod_pentagon_aux {X Y Z W : C} :
+  cover (id[X]) (to (@coprod_assoc C H_Coc Y Z W))
+    ∘ to (@coprod_assoc C H_Coc X (Y + Z) W)
+    ∘ cover (to (@coprod_assoc C H_Coc X Y Z)) (id[W])
+  ≈ to (@coprod_assoc C H_Coc X Y (Z + W))
+    ∘ to (@coprod_assoc C H_Coc (X + Y) Z W).
+Proof.
+Admitted.
+
+(** ** Triangle and Pentagon at cospan level
+
+    These lift the C-level [coprod_triangle_aux] and [coprod_pentagon_aux]
+    through [cospan_tensor_mor_as_cospan], [mor_as_cospan_compose], and
+    [mor_as_cospan_proper]. *)
+
+Lemma cospan_triangle_identity {x y : C} :
+  cospan_equiv
+    (cospan_tensor (mor_as_cospan (to (@coprod_zero_r C H_Coc H_Ini x))) (cospan_id y))
+    (cospan_compose HP
+       (cospan_tensor (cospan_id x) (mor_as_cospan (to (@coprod_zero_l C H_Coc H_Ini y))))
+       (mor_as_cospan (to (@coprod_assoc C H_Coc x 0 y)))).
+Proof.
+  (* LHS = cospan_tensor (mor_as_cospan _) (mor_as_cospan id[y]) (since cospan_id = mor_as_cospan id)
+        ≈ mor_as_cospan (cover (to coprod_zero_r) id[y])  [by cospan_tensor_mor_as_cospan]
+     RHS = cospan_compose (cospan_tensor (mor_as_cospan id[x]) (mor_as_cospan _)) (mor_as_cospan _)
+        ≈ cospan_compose (mor_as_cospan (cover id[x] (to coprod_zero_l))) (mor_as_cospan _)
+        ≈ mor_as_cospan ((cover id[x] (to coprod_zero_l)) ∘ (to coprod_assoc))  [by mor_as_cospan_compose]
+     Use coprod_triangle_aux to equate the C-level morphisms. *)
+  eapply cospan_equiv_trans.
+  { (* cospan_id x = mor_as_cospan id[x] up to cospan_equiv via mor_as_cospan_id (reversed) *)
+    apply cospan_tensor_respects.
+    - apply cospan_equiv_refl.
+    - apply cospan_equiv_sym, mor_as_cospan_id. }
+  eapply cospan_equiv_trans.
+  { apply cospan_tensor_mor_as_cospan. }
+  apply cospan_equiv_sym.
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_tensor_respects.
+      + apply cospan_equiv_sym, mor_as_cospan_id.
+      + apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_tensor_mor_as_cospan. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply mor_as_cospan_proper.
+  symmetry.
+  apply coprod_triangle_aux.
+Defined.
+
 (** ** Toward [Monoidal (CospanCat C HP)]
 
     All six naturality lemmas ([to/from] x [unit_left/unit_right/tensor_assoc])
@@ -1586,6 +1805,107 @@ Qed.
     TODO(V2e-coherence): assemble [Cospan_Monoidal] once the C-level
     pentagon is proved and the triangle/pentagon are lifted to cospan
     level via [mor_as_cospan_proper] over the proved equations. *)
+
+(** Cospan-level pentagon, parallel to [cospan_triangle_identity]. *)
+Lemma cospan_pentagon_identity {x y z w : C} :
+  cospan_equiv
+    (cospan_compose HP
+       (cospan_tensor (cospan_id x)
+          (mor_as_cospan (to (@coprod_assoc C H_Coc y z w))))
+       (cospan_compose HP
+          (mor_as_cospan (to (@coprod_assoc C H_Coc x (y + z) w)))
+          (cospan_tensor (mor_as_cospan (to (@coprod_assoc C H_Coc x y z)))
+                         (cospan_id w))))
+    (cospan_compose HP
+       (mor_as_cospan (to (@coprod_assoc C H_Coc x y (z + w))))
+       (mor_as_cospan (to (@coprod_assoc C H_Coc (x + y) z w)))).
+Proof.
+  (* LHS lifts via cospan_tensor_mor_as_cospan + mor_as_cospan_compose to
+     mor_as_cospan (cover id α ∘ α ∘ cover α id).
+     RHS lifts via mor_as_cospan_compose to mor_as_cospan (α ∘ α).
+     Equate via mor_as_cospan_proper from coprod_pentagon_aux. *)
+  eapply cospan_equiv_trans.
+  { (* Outer compose: g = cospan_tensor (cospan_id x) ..., f = compose ... *)
+    apply cospan_compose_respects_aux.
+    - (* f' = compose (mor_as_cospan α) (cospan_tensor (cospan_id w) ...)
+         Want Hf : f ≈ f'. *)
+      apply cospan_compose_respects_aux.
+      + (* Inner f': cospan_tensor (mor_as_cospan id[w]) ... after subst *)
+        apply cospan_tensor_respects.
+        * apply cospan_equiv_refl.
+        * apply cospan_equiv_sym, mor_as_cospan_id.
+      + apply cospan_equiv_refl.
+    - (* g': cospan_tensor (mor_as_cospan id[x]) ... *)
+      apply cospan_tensor_respects.
+      + apply cospan_equiv_sym, mor_as_cospan_id.
+      + apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_tensor_mor_as_cospan.
+      + apply cospan_equiv_refl.
+    - apply cospan_tensor_mor_as_cospan. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply mor_as_cospan_compose.
+    - apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply cospan_equiv_sym.
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply mor_as_cospan_proper.
+  rewrite comp_assoc.
+  symmetry.
+  apply coprod_pentagon_aux.
+Defined.
+
+(** ** Full Cospan_Monoidal instance *)
+
+Program Definition Cospan_Monoidal : @Monoidal (CospanCat C HP) := {|
+  I := (@Cospan_unit_obj C H_Ini : CospanCat C HP);
+  tensor := Cospan_Bifunctor HP;
+  unit_left    := fun X => mor_iso_lift (@coprod_zero_l C H_Coc H_Ini X);
+  unit_right   := fun X => mor_iso_lift (@coprod_zero_r C H_Coc H_Ini X);
+  tensor_assoc := fun X Y Z => mor_iso_lift (@coprod_assoc C H_Coc X Y Z)
+|}.
+Next Obligation. apply cospan_unit_left_natural. Defined.
+Next Obligation.
+  apply (@from_naturality_of_to_M (CospanCat C HP)
+           _ _ _ _
+           (mor_iso_lift (@coprod_zero_l C H_Coc H_Ini x))
+           (mor_iso_lift (@coprod_zero_l C H_Coc H_Ini y))
+           g (cospan_tensor (cospan_id 0%object) g)).
+  apply cospan_unit_left_natural.
+Defined.
+Next Obligation. apply cospan_unit_right_natural. Defined.
+Next Obligation.
+  apply (@from_naturality_of_to_M (CospanCat C HP)
+           _ _ _ _
+           (mor_iso_lift (@coprod_zero_r C H_Coc H_Ini x))
+           (mor_iso_lift (@coprod_zero_r C H_Coc H_Ini y))
+           g (cospan_tensor g (cospan_id 0%object))).
+  apply cospan_unit_right_natural.
+Defined.
+Next Obligation. apply cospan_tensor_assoc_natural. Defined.
+Next Obligation.
+  apply (@from_naturality_of_to_M (CospanCat C HP)
+           _ _ _ _
+           (mor_iso_lift (@coprod_assoc C H_Coc x z v))
+           (mor_iso_lift (@coprod_assoc C H_Coc y w u))
+           (cospan_tensor g (cospan_tensor h i))
+           (cospan_tensor (cospan_tensor g h) i)).
+  apply cospan_tensor_assoc_natural.
+Defined.
+Next Obligation. (* triangle_identity *)
+  apply cospan_triangle_identity.
+Defined.
+Next Obligation. (* pentagon_identity *)
+  (* Reassociate via cospan_compose_assoc, then apply the proved identity. *)
+  eapply cospan_equiv_trans.
+  { apply cospan_equiv_sym. apply cospan_compose_assoc. }
+  apply cospan_pentagon_identity.
+Defined.
 
 End CospanMonoidal.
 
