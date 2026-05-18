@@ -307,5 +307,27 @@ End CorelToCospan.
     Reference: nLab "corelation", Fong–Spivak "Algebra of Open
     Systems" Theorem 4.2.5. *)
 
-(* TODO(V2c-applications): Instance CorelComposable for Sets (once Sets
-   has explicit pushouts and a regular-epi factorisation system). *)
+(* TODO(V2c-applications): Instance CorelComposable for Sets.
+
+   Concrete scope required (in dependency order):
+
+   1. [Instance/Sets/Pushout.v]: build [HasPushouts Sets].  The apex is
+      [(y + z)%type] quotiented by the smallest setoid-equivalence
+      relation containing both the coproduct equivalence and the
+      identification [inl (f a) ≈ inr (g a)] for the input span.  This
+      is the inductive equivalence closure, ~150-250 lines of careful
+      setoid reasoning to discharge [Reflexive]/[Symmetric]/[Transitive]
+      and the universal property (pushout_med proper, mediator
+      uniqueness).
+
+   2. [Instance/Sets/RegularEpi.v] (new): factorise every
+      [SetoidMorphism] as a regular epi (surjection-on-equivalence-
+      classes) followed by a mono (injection-on-equivalence-classes).
+      Standard image factorisation in setoid land, ~100-150 lines.
+
+   3. [Instance/Sets/Corelation.v] (new): combine (1)+(2) to prove
+      [composite_copairing_epic] for Sets pushouts and deliver the
+      [CorelComposable Sets] instance.
+
+   Each piece is independent of the V2d-coherence wall in
+   [Construction/Cospan/Hypergraph.v] and could be tackled separately. *)
