@@ -237,8 +237,7 @@ Proof.
   unfold corelation_equiv, corelation_compose; simpl.
   unfold corelation_underlying_compose.
   intros Hf Hg.
-  exact (@span_compose_respects_aux (C^op)
-           (HasPullbacks_op_of_HasPushouts HP) X Y Z
+  exact (@cospan_compose_respects_aux C HP X Y Z
            (corelation_cospan g) (corelation_cospan g')
            (corelation_cospan f) (corelation_cospan f')
            Hf Hg).

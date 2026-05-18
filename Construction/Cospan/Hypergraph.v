@@ -138,38 +138,27 @@ Context {C : Category}.
 Context `{H_Coc : @Cocartesian C}.
 
 (** Tensor of identity cospans is the identity cospan, witnessed by the
-    coproduct-of-identities equality [(id ▽ id) ∘ id = id ▽ id] and the
     codiagonal identity [inl ▽ inr ≈ id]. *)
 Lemma cospan_tensor_id (X Y : C) :
   cospan_equiv (cospan_tensor (cospan_id X) (cospan_id Y))
                (cospan_id (X + Y)).
 Proof.
   unfold cospan_tensor, cospan_id; simpl.
-  unfold cospan_equiv, span_equiv; simpl.
   exists iso_id; simpl; split.
   - rewrite id_left.
     unfold cover.
     rewrite !id_right.
-    symmetry; apply merge_inl_inr.
+    apply merge_inl_inr.
   - rewrite id_left.
     unfold cover.
     rewrite !id_right.
-    symmetry; apply merge_inl_inr.
+    apply merge_inl_inr.
 Defined.
 
 (** [cospan_tensor] respects [cospan_equiv] in both arguments.
 
-    Construction: the iso of cospan apexes [apex f + apex g ≅[C^op] apex f' + apex g']
-    has [to] (in C^op) = [cover (from phi) (from psi)] (in C, but with directions
-    flipped so that in C^op it goes from [apex f + apex g] to [apex f' + apex g'])
-    and [from] (in C^op) = [cover (to phi) (to psi)] (similarly).
-
-    Note: when reading [cover f g] where [f, g] are C-morphisms, the result
-    is a C-morphism.  When using it to build a C^op-morphism in the
-    "forward" direction, the C-direction of [cover (from phi) (from psi)]
-    is [apex f + apex g ~{C}~> apex f' + apex g'], which is a C^op-morphism
-    from [apex f' + apex g'] to [apex f + apex g] — i.e., the [from]
-    direction in C^op.  Hence the swap. *)
+    With the direct CospanCat, the apex iso is just a C-iso of coproducts,
+    built via [coprod_respects_iso] from the per-component isos. *)
 Lemma cospan_tensor_respects
       {X Y X' Y' : C}
       (f f' : CospanArrow X Y) (g g' : CospanArrow X' Y') :
@@ -178,79 +167,16 @@ Lemma cospan_tensor_respects
   cospan_equiv (cospan_tensor f g) (cospan_tensor f' g').
 Proof.
   intros [phi [Hf1 Hf2]] [psi [Hg1 Hg2]].
-  (* The iso of cospan apexes in C^op is built from the underlying iso
-     of cospan apexes in C^op (= apex isos with C-direction flipped). *)
-  unfold cospan_equiv, span_equiv,
-         cospan_tensor, cospan_apex, cospan_in1, cospan_in2 in *.
-  simpl in *.
-  (* phi has type [apex f ≅[C^op] apex f'], so [to phi : apex f ~{C^op}~> apex f']
-     which is [apex f' ~{C}~> apex f] in C.  Build the apex iso in C^op
-     using [cover] in C. *)
-  unshelve refine (existT _ _ _).
-  - unshelve refine
-      (@Build_Isomorphism (C^op)
-         (@Coprod C H_Coc (apex f) (apex g))
-         (@Coprod C H_Coc (apex f') (apex g'))
-         (@cover C H_Coc _ _ _ _ (to phi) (to psi))
-         (@cover C H_Coc _ _ _ _ (from phi) (from psi))
-         _ _).
-    + (* to ∘[C^op] from ≈[C^op] id
-         which in C is: from ∘[C] to ≈[C] id.
-         Concretely: cover (from phi) (from psi) ∘ cover (to phi) (to psi) ≈ id.
-         By cover_comp: cover (from phi ∘ to phi) (from psi ∘ to psi).
-         By iso_from_to: cover id id = id (via cover_id). *)
-      change (
-        (@cover C H_Coc _ _ _ _ (from phi) (from psi)
-           ∘[C]
-           @cover C H_Coc _ _ _ _ (to phi) (to psi))
-        ≈[C] id).
-      rewrite (@cover_comp C H_Coc).
-      pose proof (@iso_to_from (C^op) _ _ phi) as Hphi.
-      pose proof (@iso_to_from (C^op) _ _ psi) as Hpsi.
-      change ((from phi ∘[C] to phi) ≈[C] id) in Hphi.
-      change ((from psi ∘[C] to psi) ≈[C] id) in Hpsi.
-      rewrite Hphi, Hpsi.
-      apply (@cover_id C H_Coc).
-    + change (
-        (@cover C H_Coc _ _ _ _ (to phi) (to psi)
-           ∘[C]
-           @cover C H_Coc _ _ _ _ (from phi) (from psi))
-        ≈[C] id).
-      rewrite (@cover_comp C H_Coc).
-      pose proof (@iso_from_to (C^op) _ _ phi) as Hphi.
-      pose proof (@iso_from_to (C^op) _ _ psi) as Hpsi.
-      change ((to phi ∘[C] from phi) ≈[C] id) in Hphi.
-      change ((to psi ∘[C] from psi) ≈[C] id) in Hpsi.
-      rewrite Hphi, Hpsi.
-      apply (@cover_id C H_Coc).
-  - simpl; split.
-    + (* (leg1 in C^op of the tensored target cospan) ∘[C^op] (the iso's to in C^op)
-         ≈ leg1 in C^op of the tensored source cospan.
-         In C this reads as:
-         cover (to phi) (to psi) ∘[C] cover (cospan_in1 f') (cospan_in1 g')
-         ≈ cover (cospan_in1 f) (cospan_in1 g).
-         By cover_comp: cover (to phi ∘ cospan_in1 f') (to psi ∘ cospan_in1 g').
-         By Hf1, Hg1: cover (cospan_in1 f) (cospan_in1 g). *)
-      change (
-        (@cover C H_Coc _ _ _ _ (to phi) (to psi)
-           ∘[C]
-           @cover C H_Coc _ _ _ _ (cospan_in1 f') (cospan_in1 g'))
-        ≈[C] @cover C H_Coc _ _ _ _ (cospan_in1 f) (cospan_in1 g)).
-      rewrite (@cover_comp C H_Coc).
-      change ((to phi ∘[C] cospan_in1 f') ≈[C] cospan_in1 f) in Hf1.
-      change ((to psi ∘[C] cospan_in1 g') ≈[C] cospan_in1 g) in Hg1.
-      rewrite Hf1, Hg1.
-      reflexivity.
-    + change (
-        (@cover C H_Coc _ _ _ _ (to phi) (to psi)
-           ∘[C]
-           @cover C H_Coc _ _ _ _ (cospan_in2 f') (cospan_in2 g'))
-        ≈[C] @cover C H_Coc _ _ _ _ (cospan_in2 f) (cospan_in2 g)).
-      rewrite (@cover_comp C H_Coc).
-      change ((to phi ∘[C] cospan_in2 f') ≈[C] cospan_in2 f) in Hf2.
-      change ((to psi ∘[C] cospan_in2 g') ≈[C] cospan_in2 g) in Hg2.
-      rewrite Hf2, Hg2.
-      reflexivity.
+  unfold cospan_tensor; simpl.
+  exists (@coprod_respects_iso C H_Coc _ _ phi _ _ psi); simpl; split.
+  - (* cover (to phi) (to psi) ∘ cover (cospan_in1 f) (cospan_in1 g)
+       ≈ cover (cospan_in1 f') (cospan_in1 g') *)
+    rewrite cover_comp.
+    rewrite Hf1, Hg1.
+    reflexivity.
+  - rewrite cover_comp.
+    rewrite Hf2, Hg2.
+    reflexivity.
 Defined.
 
 End CospanTensorBasics.
@@ -376,7 +302,6 @@ Lemma mor_as_cospan_id (X : C) :
   cospan_equiv (mor_as_cospan id[X]) (cospan_id X).
 Proof.
   unfold mor_as_cospan, cospan_id; simpl.
-  unfold cospan_equiv, span_equiv; simpl.
   exists iso_id; simpl; split; cat.
 Defined.
 
@@ -390,10 +315,10 @@ Lemma mor_as_cospan_proper {X Y : C} (f g : X ~> Y) :
   f ≈ g -> cospan_equiv (mor_as_cospan f) (mor_as_cospan g).
 Proof.
   intros Hfg.
-  unfold mor_as_cospan, cospan_equiv, span_equiv; simpl.
+  unfold mor_as_cospan; simpl.
   exists iso_id; simpl; split.
   - rewrite id_left.
-    symmetry; exact Hfg.
+    exact Hfg.
   - cat.
 Defined.
 
@@ -519,21 +444,22 @@ Lemma mor_as_cospan_compose {X Y Z : C} (g : Y ~> Z) (f : X ~> Y) :
     (cospan_compose HP (mor_as_cospan g) (mor_as_cospan f))
     (mor_as_cospan (g ∘ f)).
 Proof.
-  unfold cospan_compose, mor_as_cospan, cospan_equiv, span_equiv; simpl.
+  unfold cospan_compose, mor_as_cospan; simpl.
   pose (P := pushout (id[Y] : Y ~{C}~> Y) g).
-  exists (Isomorphism_Opposite (pushout_id_left_apex HP g)).
-  simpl.
+  (* Apex of LHS is pushout_apex P; apex of RHS is Z.
+     pushout_id_left_apex gives the iso pushout_apex P ≅ Z. *)
+  exists (pushout_id_left_apex HP g); simpl.
   split.
-  - (* Goal (in C-direction): Pcollapse⁻¹ ∘ (g ∘ f) ≈ pullback_fst _ _ P ∘ f *)
+  - (* to (collapse) ∘ (pushout_in1 P ∘ f) ≈ g ∘ f *)
     rewrite comp_assoc.
     apply compose_respects; [|reflexivity].
-    pose proof (pushout_commutes P) as PC.
-    rewrite id_right in PC.
-    unfold pushout_in1, pushout_in2 in PC.
-    symmetry.
-    exact PC.
-  - simpl.
-    reflexivity.
+    (* to (collapse) ∘ pushout_in1 P ≈ g; by definition of pushout_id_left_apex,
+       [to] is the [pushout_med P (Hcomm: g ∘ id ≈ id ∘ g)], and its first
+       leg equation is [m ∘ pushout_in1 P ≈ g]. *)
+    apply pushout_med_in1.
+  - (* to (collapse) ∘ (pushout_in2 P ∘ id) ≈ id *)
+    rewrite (id_right (pushout_in2 _)).
+    apply pushout_med_in2.
 Defined.
 
 End MorAsCospanFunctorial.
