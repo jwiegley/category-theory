@@ -767,6 +767,42 @@ Defined.
 
 End CospanTensorBifunctoriality.
 
+(** ** Cospan_Bifunctor: [cospan_tensor] as a bifunctor on [CospanCat C]
+
+    Builds the [Functor (CospanCat C ∏ CospanCat C) (CospanCat C)] from
+    the per-component data: object mapping is [Cospan_tensor_obj],
+    morphism mapping is [cospan_tensor], with [fmap_id] and [fmap_comp]
+    discharged by [cospan_tensor_id] and [cospan_tensor_compose_compat]. *)
+
+Section CospanBifunctor.
+
+Context {C : Category}.
+Context `{H_Coc : @Cocartesian C}.
+Context (HP : HasPushouts C).
+
+Program Definition Cospan_Bifunctor
+  : ((CospanCat C HP) ∏ (CospanCat C HP)) ⟶ (CospanCat C HP) := {|
+  fobj := fun xy => @Cospan_tensor_obj C H_Coc (fst xy) (snd xy);
+  fmap := fun xy uv fg => cospan_tensor (fst fg) (snd fg)
+|}.
+Next Obligation.
+  proper; simpl in *.
+  apply cospan_tensor_respects; assumption.
+Defined.
+Next Obligation.
+  (* fmap id ≈ id  i.e.  cospan_tensor (cospan_id x) (cospan_id y) ≈ cospan_id (x + y) *)
+  apply cospan_tensor_id.
+Defined.
+Next Obligation.
+  (* fmap (f ∘ g) ≈ fmap f ∘ fmap g
+     i.e.  cospan_tensor (f1 ∘ g1) (f2 ∘ g2)
+         ≈ cospan_tensor f1 f2 ∘ cospan_tensor g1 g2
+     in CospanCat (composition is cospan_compose HP). *)
+  apply cospan_tensor_compose_compat.
+Defined.
+
+End CospanBifunctor.
+
 (** ** Status of the full Cospan-Hypergraph derivation
 
     With the above [mor_as_cospan] embedding and the unitor / associator
