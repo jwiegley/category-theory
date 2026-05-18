@@ -1731,7 +1731,12 @@ Proof.
   reflexivity.
 Qed.
 
-(** C-level pentagon for [coprod_assoc]. *)
+(** C-level pentagon for [coprod_assoc].
+
+    Two coproduct iso composites out of [((X+Y)+Z)+W] are equal iff they
+    agree on the four basis injections [(inl∘inl)∘inl], [(inl∘inl)∘inr],
+    [inl∘inr], and [inr].  Each of those is closed by the corresponding
+    [pentagon_lhs_*] / [pentagon_rhs_*] helper above. *)
 Lemma coprod_pentagon_aux {X Y Z W : C} :
   cover (id[X]) (to (@coprod_assoc C H_Coc Y Z W))
     ∘ to (@coprod_assoc C H_Coc X (Y + Z) W)
@@ -1739,7 +1744,38 @@ Lemma coprod_pentagon_aux {X Y Z W : C} :
   ≈ to (@coprod_assoc C H_Coc X Y (Z + W))
     ∘ to (@coprod_assoc C H_Coc (X + Y) Z W).
 Proof.
-Admitted.
+  apply coprod_ext.
+  - (* outer inl case: domain (X+Y)+Z *)
+    apply coprod_ext.
+    + (* (inl ∘ inl) on (X+Y)+Z side: domain X+Y *)
+      apply coprod_ext.
+      * (* ((inl ∘ inl) ∘ inl): X-injection.
+           Goal is left-associated, helpers use right-associated form.
+           Bridge by an explicit assertion. *)
+        assert (Hl : forall (u : (X + Y + Z + W) ~> X + (Y + (Z + W))),
+                   (u ∘ inl) ∘ inl ∘ inl ≈ u ∘ ((inl ∘ inl) ∘ inl)).
+        { intros u; rewrite !comp_assoc; reflexivity. }
+        rewrite !Hl.
+        rewrite pentagon_lhs_iii.
+        symmetry; rewrite pentagon_rhs_iii; reflexivity.
+      * (* ((inl ∘ inl) ∘ inr): Y-injection. *)
+        assert (Hl : forall (u : (X + Y + Z + W) ~> X + (Y + (Z + W))),
+                   (u ∘ inl) ∘ inl ∘ inr ≈ u ∘ ((inl ∘ inl) ∘ inr)).
+        { intros u; rewrite !comp_assoc; reflexivity. }
+        rewrite !Hl.
+        rewrite pentagon_lhs_iir.
+        symmetry; rewrite pentagon_rhs_iir; reflexivity.
+    + (* (inl ∘ inr): Z-injection. *)
+      assert (Hl : forall (u : (X + Y + Z + W) ~> X + (Y + (Z + W))),
+                 (u ∘ inl) ∘ inr ≈ u ∘ (inl ∘ inr)).
+      { intros u; rewrite !comp_assoc; reflexivity. }
+      rewrite !Hl.
+      rewrite pentagon_lhs_ir.
+      symmetry; rewrite pentagon_rhs_ir; reflexivity.
+  - (* outer inr: W-injection. *)
+    rewrite pentagon_lhs_r.
+    symmetry; rewrite pentagon_rhs_r; reflexivity.
+Qed.
 
 (** ** Triangle and Pentagon at cospan level
 
