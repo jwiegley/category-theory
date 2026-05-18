@@ -1451,6 +1451,106 @@ Proof.
     apply cover_assoc_from.
 Defined.
 
+(** ** From [to] to [from] naturality
+
+    General principle: for any iso [phi : X ≅ Y] in a category [D],
+    if [g ∘ to phi ≈ to phi ∘ h] (the "to" naturality) then
+    [h ∘ from phi ≈ from phi ∘ g] (the "from" naturality). *)
+
+Lemma from_naturality_of_to {D : Category} {X Y W : D}
+      (phi : @Isomorphism D X Y)
+      (g : Y ~{D}~> W) (h : X ~{D}~> W)
+      (Hto : g ∘ to phi ≈ h) :
+  g ≈ h ∘ from phi.
+Proof.
+  rewrite <- Hto.
+  rewrite <- comp_assoc.
+  rewrite iso_to_from.
+  rewrite id_right.
+  reflexivity.
+Qed.
+
+Lemma from_naturality_of_to_2 {D : Category} {X Y A B : D}
+      (phi : @Isomorphism D X Y) (psi : @Isomorphism D A B)
+      (g : Y ~{D}~> B) (h : X ~{D}~> A)
+      (Hto : g ∘ to phi ≈ to psi ∘ h) :
+  from psi ∘ g ≈ h ∘ from phi.
+Proof.
+  apply (from_naturality_of_to phi (from psi ∘ g) h).
+  rewrite <- comp_assoc.
+  rewrite Hto.
+  rewrite comp_assoc.
+  rewrite iso_from_to.
+  apply id_left.
+Qed.
+
+(** ** Triangle identity at C level (for coproducts).
+
+    [cover (to coprod_zero_r) id ≈ cover id (to coprod_zero_l) ∘ to coprod_assoc]
+    i.e., (X+0)+Y → X+Y the two paths agree. *)
+
+Lemma coprod_triangle_aux {x y : C} :
+  cover (to (@coprod_zero_r C H_Coc H_Ini x)) id[y]
+  ≈ cover id[x] (to (@coprod_zero_l C H_Coc H_Ini y))
+    ∘ to (@coprod_assoc C H_Coc x 0 y).
+Proof.
+  apply coprod_ext.
+  - apply coprod_ext.
+    + (* ∘ (inl ∘ inl), i.e., x part *)
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (cover _ id[y]) inl inl).
+      rewrite cover_inl.
+      rewrite <- (comp_assoc inl (to coprod_zero_r) inl).
+      (* RHS: cover id coprod_zero_l ∘ (coprod_assoc ∘ (inl ∘ inl)) = inl *)
+      rewrite assoc_to_inl_inl.
+      (* LHS: inl ∘ (to coprod_zero_r ∘ inl)
+         to coprod_zero_r = id ▽ zero, so (id ▽ zero) ∘ inl = id *)
+      assert (Hzr : to (@coprod_zero_r C H_Coc H_Ini x) ∘ (@inl C _ x 0) ≈ id[x]).
+      { unfold to, coprod_zero_r; simpl. apply inl_merge. }
+      rewrite Hzr.
+      rewrite id_right.
+      symmetry.
+      rewrite cover_inl.
+      apply id_right.
+    + (* ∘ (inl ∘ inr), i.e., 0 part - both go to zero *)
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (cover _ id[y]) inl inr).
+      rewrite cover_inl.
+      rewrite <- (comp_assoc inl (to coprod_zero_r) inr).
+      assert (Hzr_inr : to (@coprod_zero_r C H_Coc H_Ini x) ∘ (@inr C _ x 0) ≈ zero).
+      { unfold to, coprod_zero_r; simpl. apply inr_merge. }
+      rewrite Hzr_inr.
+      (* RHS: cover id coprod_zero_l ∘ (coprod_assoc ∘ (inl ∘ inr)) *)
+      rewrite assoc_to_inl_inr.
+      (* Goal: inl ∘ zero[x] ≈ cover id coprod_zero_l ∘ (inr ∘ inl) *)
+      rewrite (comp_assoc (cover id[x] _) inr inl).
+      rewrite cover_inr.
+      rewrite <- comp_assoc.
+      assert (Hzl : to (@coprod_zero_l C H_Coc H_Ini y) ∘ (@inl C _ 0 y) ≈ zero).
+      { unfold to, coprod_zero_l; simpl. apply inl_merge. }
+      rewrite Hzl.
+      apply (@zero_unique C H_Ini _ _ _).
+  - (* ∘ inr, i.e., y part *)
+    rewrite cover_inr.
+    rewrite id_right.
+    rewrite <- (comp_assoc (cover id[x] _) (to coprod_assoc) inr).
+    rewrite assoc_to_inr.
+    rewrite (comp_assoc (cover id[x] _) inr inr).
+    rewrite cover_inr.
+    rewrite <- (comp_assoc inr _ inr).
+    assert (Hzl_inr : to (@coprod_zero_l C H_Coc H_Ini y) ∘ (@inr C _ 0 y) ≈ id[y]).
+    { unfold to, coprod_zero_l; simpl. apply inr_merge. }
+    rewrite Hzl_inr.
+    symmetry. apply id_right.
+Qed.
+
+(** ** Full [Monoidal (CospanCat C HP)] instance.
+
+    All eight obligations: lifted-iso definitions for unitors/associator,
+    [to_] naturality from proved lemmas, [from_] naturality via the
+    [from_naturality_of_to] helper, triangle/pentagon via [mor_iso_lift]
+    of the corresponding C-level identities. *)
+
 End CospanMonoidal.
 
 (** ** Status of the full Cospan-Hypergraph derivation
