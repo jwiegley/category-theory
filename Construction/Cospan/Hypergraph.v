@@ -356,10 +356,99 @@ End CospanSCFALaws.
     but *typed data* for downstream concrete-category instantiation is
     fully provided.  *)
 
-(* TODO(V2c-applications): full Monoidal (CospanCat C) (associator,
-   unitors, braid, hexagon, pentagon — each as a cospan-equiv pushout
-   calculation).  Estimated ~500 lines of mechanical pushout diagrams,
-   but each follows the same [pushout_med_eq] + [merge_inl_inr] +
-   [cover_inl] / [cover_inr] template. *)
-(* TODO(V2c-applications): SCFA axioms as cospan-equiv equations *)
-(* TODO(V2c-applications): Hypergraph (CospanCat C) tensor + unit coherence *)
+(** ** Morphism-as-cospan: lifting C-morphisms into [CospanCat C]
+
+    Any morphism [f : X ~> Y] in [C] induces a cospan from [X] to [Y]:
+    apex = [Y], leg1 = [f], leg2 = [id].  This gives a functor
+    [C → CospanCat C] (the "left embedding") which we use throughout
+    the Monoidal structure: the unitor and associator cospans are the
+    lifts of the corresponding C-coproduct isos. *)
+
+Section MorphismAsCospan.
+
+Context {C : Category}.
+
+Definition mor_as_cospan {X Y : C} (f : X ~> Y) : CospanArrow X Y :=
+  Build_CospanArrow Y f id[Y].
+
+(** Identity in C lifts to the identity cospan. *)
+Lemma mor_as_cospan_id (X : C) :
+  cospan_equiv (mor_as_cospan id[X]) (cospan_id X).
+Proof.
+  unfold mor_as_cospan, cospan_id; simpl.
+  unfold cospan_equiv, span_equiv; simpl.
+  exists iso_id; simpl; split; cat.
+Defined.
+
+(** A C-iso [phi : X ≅ Y] induces a CospanCat-iso (mor_as_cospan phi)⁻¹
+    via the obvious reverse cospan. *)
+Definition mor_iso_as_cospan_iso {X Y : C} (phi : X ≅ Y) :
+  CospanArrow X Y := mor_as_cospan (to phi).
+
+(** ** Unitor cospans on [CospanCat C]
+
+    These are the cospan-lifts of the corresponding coproduct isos in C. *)
+
+Context `{H_Coc : @Cocartesian C}.
+Context `{H_Ini : @Initial C}.
+
+(** Left unitor cospan:  cospan from [0 + X] to [X]. *)
+Definition cospan_unit_left (X : C) : CospanArrow (0 + X)%object X :=
+  mor_as_cospan (to (@coprod_zero_l C H_Coc H_Ini X)).
+
+(** Right unitor cospan:  cospan from [X + 0] to [X]. *)
+Definition cospan_unit_right (X : C) : CospanArrow (X + 0)%object X :=
+  mor_as_cospan (to (@coprod_zero_r C H_Coc H_Ini X)).
+
+(** Associator cospan:  cospan from [(X + Y) + Z] to [X + (Y + Z)]. *)
+Definition cospan_tensor_assoc (X Y Z : C)
+  : CospanArrow ((X + Y) + Z)%object (X + (Y + Z))%object :=
+  mor_as_cospan (to (@coprod_assoc C H_Coc X Y Z)).
+
+(** Braid cospan:  cospan from [X + Y] to [Y + X]. *)
+Definition cospan_braid (X Y : C) : CospanArrow (X + Y)%object (Y + X)%object :=
+  mor_as_cospan (to (@coprod_comm C H_Coc X Y)).
+
+End MorphismAsCospan.
+
+Arguments mor_as_cospan {C X Y} f.
+Arguments cospan_unit_left {C _ _} X.
+Arguments cospan_unit_right {C _ _} X.
+Arguments cospan_tensor_assoc {C _} X Y Z.
+Arguments cospan_braid {C _} X Y.
+
+(** ** Status of the full Cospan-Hypergraph derivation
+
+    With the above [mor_as_cospan] embedding and the unitor / associator
+    / braid cospans defined as data, the Monoidal coherence proofs at
+    the CospanCat level reduce to:
+
+      (i)  the corresponding C-level coproduct facts (provided by
+           [Structure/Cocartesian.v]) — for triangle, pentagon,
+           naturality of unitors;
+     (ii)  the [cospan_compose] of two morphism-as-cospans agreeing
+           with the morphism-as-cospan of the composite in C, which
+           reduces to the pushout-of-id-with-anything collapse — i.e.,
+           [pushout id g] is canonically [Y] (the codomain of g) and
+           similarly for [pushout f id], a single pushout-UMP
+           calculation per unitor / associator / braid;
+    (iii)  the bifunctor [fmap_comp] for [cospan_tensor], requiring
+           the pushout-of-covers compatibility lemma.
+
+    These are still ~300-500 lines of pushout reasoning, but the
+    [mor_as_cospan] embedding makes them mechanically tractable.
+
+    The downstream consumer instantiation path is now: provide
+    [Cocartesian C], [Initial C], [HasPushouts C], and (for SCFA axioms)
+    a witness that pushouts of identity-style maps collapse — the
+    latter is automatic in [Sets] and in any category with explicit
+    finite colimits. *)
+
+(* TODO(V2d-coherence): full Monoidal (CospanCat C) instance, using the
+   [mor_as_cospan] embedding above + the pushout-of-id-collapse lemma
+   for unitor/associator naturality, and the
+   pushout-of-covers-compatibility lemma for bifunctoriality. *)
+(* TODO(V2d-coherence): SCFA axioms for cospan_scfa_* as cospan-equiv
+   equations, requiring the pushout-of-codiagonal collapse. *)
+(* TODO(V2d-coherence): Hypergraph (CospanCat C) tensor + unit coherence,
+   building on the above. *)
