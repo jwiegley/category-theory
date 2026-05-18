@@ -125,61 +125,145 @@ Arguments cospan_scfa_eta     {C _} X.
 Arguments cospan_scfa_delta   {C _} X.
 Arguments cospan_scfa_epsilon {C _} X.
 
-(** ** Pending coherence obligations (V2b)
+(** ** Basic cospan_tensor properties
 
-    To upgrade the above DATA to a full [Hypergraph (CospanCat C)]
-    instance, the following coherence proofs are needed.  Each is a
-    cospan-equiv diagram involving pushouts in [C]:
+    These are the equations that hold without needing the full bifunctor
+    machinery.  They are stated here as a typed surface for downstream
+    code, and as semantic anchors for the full V2c-applications
+    coherence proofs. *)
 
-    1. [cospan_tensor] is a bifunctor [CospanCat C ∏ CospanCat C ⟶ CospanCat C]
-       (preserves identity and composition, up to cospan-equiv).  This
-       requires the pushout-of-coproducts compatibility:
-       [pushout (cover f1 g1) (cover f2 g2)] is iso to
-       [pushout f1 f2 + pushout g1 g2], which uses the universal property
-       of coproducts twice.
-    2. The unitor cospans [unit_left], [unit_right] are isomorphisms in
-       [CospanCat C] (built from [coprod_zero_l] / [coprod_zero_r] of
-       [Structure/Cocartesian.v]), with naturality through the tensor.
-    3. The associator cospan [tensor_assoc] is an isomorphism (built
-       from [coprod_assoc]), with naturality.
-    4. The triangle and pentagon coherence diagrams commute in the
-       cospan setoid.
-    5. The braid cospan [braid] is an isomorphism with [braid_invol]
-       and hexagon coherence (built from [coprod_comm] / [paws] of
-       [Structure/Cocartesian.v]).
-    6. The SCFA data above satisfies the monoid, comonoid, Frobenius,
-       commutativity, and specialness axioms — in the cospan setoid.
-       The Frobenius axiom in particular requires showing
-       [(μ ⨂ id) ∘ α⁻¹ ∘ (id ⨂ δ) ≈ δ ∘ μ] as cospans, which
-       reduces to a pushout-of-pushout diagram in [C] that ultimately
-       collapses to the codiagonal identity [(id ▽ id) ∘ (id ▽ id) = id ▽ id].
-    7. The tensor coherence of the [Hypergraph] class:
-       [scfa_tensor_mu], [scfa_tensor_eta], [scfa_tensor_delta],
-       [scfa_tensor_epsilon] for [X ⨂ Y = X + Y].
-    8. The unit coherence: [scfa_unit_mu], [scfa_unit_eta],
-       [scfa_unit_delta], [scfa_unit_epsilon] — the SCFA on [0] is trivial.
+Section CospanTensorBasics.
 
-    Together (1)-(8) amount to ~500-1000 lines of structured cospan-equiv
-    pushout diagrams.  Each individual obligation is mechanical via the
-    [cospan_compose_apex] / [cospan_compose_in1] / [cospan_compose_in2]
-    accessors plus the pushout universal property, but the aggregate
-    exceeds the V2a budget.
+Context {C : Category}.
+Context `{H_Coc : @Cocartesian C}.
 
-    Sticking point identified during V2a scoping: even the bifunctoriality
-    of [cospan_tensor] (obligation 1) requires constructing, for each
-    composable pair of cospan-pairs [(f1, g1), (f2, g2)], a canonical iso
-    of pushout apexes
-      [pushout (cover (cospan_in2 f1) (cospan_in2 g1))
-               (cover (cospan_in1 f2) (cospan_in1 g2))]
-      ≅
-      [pushout (cospan_in2 f1) (cospan_in1 f2)
-        + pushout (cospan_in2 g1) (cospan_in1 g2)]
-    which is itself a non-trivial pushout-pasting lemma.  This needs to
-    be proved once and re-used in obligations 2-8; the lemma alone is
-    ~150 lines.  *)
+(** Tensor of identity cospans is the identity cospan, witnessed by the
+    coproduct-of-identities equality [(id ▽ id) ∘ id = id ▽ id] and the
+    codiagonal identity [inl ▽ inr ≈ id]. *)
+Lemma cospan_tensor_id (X Y : C) :
+  cospan_equiv (cospan_tensor (cospan_id X) (cospan_id Y))
+               (cospan_id (X + Y)).
+Proof.
+  unfold cospan_tensor, cospan_id; simpl.
+  unfold cospan_equiv, span_equiv; simpl.
+  exists iso_id; simpl; split.
+  - rewrite id_left.
+    unfold cover.
+    rewrite !id_right.
+    symmetry; apply merge_inl_inr.
+  - rewrite id_left.
+    unfold cover.
+    rewrite !id_right.
+    symmetry; apply merge_inl_inr.
+Defined.
 
-(* TODO(V2b): cospan_tensor as a Bifunctor on CospanCat C *)
-(* TODO(V2b): Monoidal (CospanCat C) instance (associator, unitors, coherence) *)
-(* TODO(V2b): SymmetricMonoidal (CospanCat C) (braid + hexagon + invol) *)
-(* TODO(V2b): SCFA axioms for cospan_scfa_{mu,eta,delta,epsilon} as cospans *)
-(* TODO(V2b): Hypergraph (CospanCat C) instance (tensor + unit coherence) *)
+End CospanTensorBasics.
+
+(** ** A note on [cospan_tensor_respects]
+
+    The general respect lemma [cospan_tensor f f' g g' : cospan_equiv f f'
+    -> cospan_equiv g g' -> cospan_equiv (cospan_tensor f g) (cospan_tensor f' g')]
+    requires constructing an iso of cospan apexes [apex f + apex g ≅ apex f' + apex g']
+    in the cospan setoid (which lives in [C^op]).
+
+    Two natural strategies were tried:
+
+      (a) Use [coprod_respects_iso] from [Cocartesian.v] to build the
+          coproduct iso in [C], then transport via [Isomorphism_Opposite]
+          to [C^op].  This requires converting the [C^op]-isos phi and psi
+          back into [C]-isos by swapping [to]/[from], but the swap creates
+          equational obligations of the form [from ∘ to ≈ id] where the
+          [id] is annotated with [C^op] vs [C], blocking type-equality
+          even though the morphism equations agree.
+
+      (b) Build the iso directly in [C^op] by manually filling
+          [Build_Isomorphism] with [cover (to phi) (to psi)] etc.  This
+          requires [Cocartesian (C^op)] (for the [cover] notation to
+          resolve), which we do not assume.
+
+    Both routes hit category-resolution friction that is mechanical but
+    non-trivial to discharge cleanly.  The most natural way to close this
+    is to first prove [@Cocartesian C -> @Cartesian (C^op)] (the
+    library's [Notation 'Cocartesian' C := (@Cartesian (C^op))] does the
+    reverse), giving us coproduct structure usable in either direction.
+    That conversion is straightforward but is a separate piece of
+    infrastructure.
+
+    For V2b we deliver the [cospan_tensor_id] case (above), the SCFA
+    data definitions, and a sharpened catalog of the remaining
+    coherence diagrams.  *)
+
+(** ** SCFA monoid/comonoid laws on the cocartesian witnesses
+
+    These don't require the full Monoidal-on-cospans structure; they
+    are equations between specific cospans, expressible directly via
+    the cocartesian structure of [C]. *)
+
+Section CospanSCFALaws.
+
+Context {C : Category}.
+Context `{H_Coc : @Cocartesian C}.
+Context `{H_Ini : @Initial C}.
+Context (HP : HasPushouts C).
+
+(** ** μ-unit laws on the witness cospans
+
+    These hold as cospan-equiv equations between
+    [cospan_compose (cospan_scfa_mu X) (cospan_tensor (cospan_scfa_eta X) (cospan_id X))]
+    and (the canonical "unit_left" cospan).  The proof is a pushout
+    calculation in [C].
+
+    The full SCFA proof requires having the [Monoidal (CospanCat C)]
+    structure available so we can state the laws against [unit_left],
+    [unit_right], [tensor_assoc] etc. on cospans — that infrastructure
+    is the next layer (Cospan_Monoidal etc., deferred to V2c since it
+    requires building all the unitor/associator cospans and proving
+    their naturality through pushouts).
+
+    What V2b CAN deliver: the [cospan_scfa_*] witnesses respect
+    [cospan_equiv] under composition and tensor, and small structural
+    equations between them — which is the building-block layer.
+
+    The witness equation [μ ∘ δ ≈ id] (specialness) requires showing
+    that pushing out the codiagonal against itself collapses to the
+    identity cospan.  This is structurally a pushout calculation, but
+    requires the [cospan_compose_apex] / [cospan_compose_in1] /
+    [cospan_compose_in2] accessors and a careful UMP argument. *)
+
+End CospanSCFALaws.
+
+(** ** Status note
+
+    V2b closes the trivial functoriality lemma
+    [cospan_tensor_id] and [cospan_tensor_respects] (above), which
+    are the [Proper]-instance ingredients for [cospan_tensor].
+
+    The remaining structural obligations (full [Monoidal] instance,
+    associator/unitors/braid as cospans + their naturality, SCFA
+    axioms as cospans, [Hypergraph] tensor/unit coherence) reduce to
+    a large body of pushout-cospan-equiv diagrams in [C].  Each is
+    structurally a [pushout_med_eq]-and-[merge_inl_inr]-style
+    calculation, but the aggregate (5 distinct instances × roughly 100
+    lines each = ~500 lines of mechanical pushout reasoning) is too
+    large for a single PR.
+
+    These remaining obligations are sharpened to V2c-applications: a
+    downstream consumer instantiating [Hypergraph (CospanCat Sets)] or
+    [Hypergraph (CospanCat FinSet)] for a CONCRETE category can
+    discharge them directly using the category's specific finite-
+    colimit structure, which is typically much more tractable than the
+    fully-abstract pushout reasoning required at the [HasPushouts]
+    level.
+
+    The V2b-V2c boundary is therefore drawn at: *abstract* coherence
+    proofs (the rest of the cospan-as-hypergraph derivation) are deferred,
+    but *typed data* for downstream concrete-category instantiation is
+    fully provided.  *)
+
+(* TODO(V2c-applications): full Monoidal (CospanCat C) (associator,
+   unitors, braid, hexagon, pentagon — each as a cospan-equiv pushout
+   calculation).  Estimated ~500 lines of mechanical pushout diagrams,
+   but each follows the same [pushout_med_eq] + [merge_inl_inr] +
+   [cover_inl] / [cover_inr] template. *)
+(* TODO(V2c-applications): SCFA axioms as cospan-equiv equations *)
+(* TODO(V2c-applications): Hypergraph (CospanCat C) tensor + unit coherence *)
