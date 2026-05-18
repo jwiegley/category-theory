@@ -22,6 +22,7 @@ Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Subcategory.v
 Construction/Free/Quiver.v
+Construction/Span/Category.v
 Functor/Applicative.v
 Functor/Bifunctor.v
 Functor/Construction/Product.v
