@@ -872,7 +872,7 @@ Defined.
     [(cover id g2, zero ▽ id)], which also collapses to [N] by a
     direct UMP calculation, exhibited below. *)
 
-Lemma pushout_cover_id_unit_left_apex {x y N : C} (g2 : y ~> N) :
+Lemma pushout_cover_id_unit_left_apex {y N : C} (g2 : y ~> N) :
   pushout_apex (pushout (cover id[0] g2 : (0 + y)%object ~> (0 + N)%object)
                         (zero ▽ id[y] : (0 + y)%object ~> y)) ≅ N.
 Proof.
@@ -971,6 +971,101 @@ Defined.
 
 (** When the cospan is itself a [mor_as_cospan], both forms agree.
     This is exactly [mor_as_cospan_compose] (proven earlier). *)
+
+(** ** Left-unitor naturality
+
+    For any cospan [g : x → y]:
+      [g ∘ unit_left ≈ unit_left ∘ bimap id g]
+    in [CospanCat C HP], where [unit_left = mor_as_cospan (zero ▽ id)]
+    and [bimap id g = cospan_tensor (cospan_id 0) g].
+
+    The iso of apexes is [pushout_cover_id_unit_left_apex (cospan_in2 g)],
+    whose [to] is exactly the [pushout_med] making the legs match the
+    bridging-lemma-simplified LHS. *)
+
+Lemma cospan_unit_left_natural
+      {x y : C} (g : CospanArrow x y) :
+  cospan_equiv
+    (cospan_compose HP g (mor_as_cospan (zero ▽ id[x])))
+    (cospan_compose HP (mor_as_cospan (zero ▽ id[y]))
+       (cospan_tensor (cospan_id 0%object) g)).
+Proof.
+  (* LHS simplifies via bridging. *)
+  eapply cospan_equiv_trans;
+    [apply cospan_compose_mor_as_cospan_right|].
+  apply cospan_equiv_sym.
+  unfold cospan_compose, mor_as_cospan, cospan_tensor; simpl.
+  (* Inline the apex iso construction so [to] reduces by [pushout_med_in1/2]. *)
+  pose (Pcov := pushout (cover id[0] (cospan_in2 g) : (0 + y)%object ~> (0 + cospan_apex g)%object)
+                        (zero ▽ id[y] : (0 + y)%object ~> y)).
+  assert (HC : (zero ▽ id[cospan_apex g]) ∘ cover id[0] (cospan_in2 g)
+              ≈ cospan_in2 g ∘ (zero ▽ id[y])).
+  { unfold cover.
+    rewrite <- merge_comp.
+    rewrite (comp_assoc _ inl).
+    rewrite (comp_assoc _ inr).
+    rewrite inl_merge, inr_merge.
+    rewrite id_left, id_right.
+    rewrite <- merge_comp.
+    rewrite id_right, zero_comp.
+    reflexivity. }
+  pose (m := pushout_med Pcov HC).
+  assert (Hm1 : m ∘ pushout_in1 Pcov ≈ zero ▽ id[cospan_apex g])
+    by (apply pushout_med_in1).
+  assert (Hm2 : m ∘ pushout_in2 Pcov ≈ cospan_in2 g)
+    by (apply pushout_med_in2).
+  unshelve refine
+    (existT _ {| to := m;
+                 from := pushout_in1 Pcov ∘ inr;
+                 iso_to_from := _;
+                 iso_from_to := _ |} _).
+  - (* m ∘ (pushout_in1 Pcov ∘ inr) ≈ id at apex g *)
+    rewrite comp_assoc.
+    rewrite Hm1.
+    apply inr_merge.
+  - (* (pushout_in1 Pcov ∘ inr) ∘ m ≈ id at apex Pcov *)
+    apply (pushout_med_eq Pcov (pushout_commutes Pcov)
+            ((pushout_in1 Pcov ∘ inr) ∘ m) id).
+    + rewrite <- !comp_assoc.
+      rewrite Hm1.
+      assert (Hinr : (@inr C _ 0 (cospan_apex g))
+                       ∘ (zero[cospan_apex g] ▽ id[cospan_apex g])
+                     ≈ id[0 + cospan_apex g]).
+      { rewrite <- merge_comp.
+        rewrite id_right.
+        rewrite <- merge_inl_inr.
+        apply (snd (merge_inv _ _ _ _)).
+        split.
+        - apply (@zero_unique C H_Ini _ _ _).
+        - reflexivity. }
+      rewrite Hinr.
+      apply id_right.
+    + rewrite <- !comp_assoc.
+      rewrite Hm2.
+      pose proof (pushout_commutes Pcov) as PC.
+      rewrite <- (cover_inr id[0] (cospan_in2 g)).
+      rewrite comp_assoc.
+      rewrite PC.
+      rewrite <- comp_assoc.
+      rewrite inr_merge.
+      apply id_right.
+    + cat.
+    + cat.
+  - simpl; split; fold Pcov.
+    + rewrite comp_assoc.
+      rewrite Hm1.
+      unfold cover.
+      rewrite <- merge_comp.
+      rewrite (comp_assoc _ inl).
+      rewrite (comp_assoc _ inr).
+      rewrite inl_merge, inr_merge.
+      rewrite id_left, id_right.
+      rewrite <- merge_comp.
+      rewrite id_right, zero_comp.
+      reflexivity.
+    + rewrite id_right.
+      exact Hm2.
+Defined.
 
 End CospanMonoidal.
 
