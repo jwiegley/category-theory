@@ -934,6 +934,51 @@ Proof.
     + cat.
 Defined.
 
+(** ** Pushout-along-iso: the apex collapses
+
+    For [m : Y → N] and a C-iso [phi : Y ≅ Z], the pushout of [(m, to phi)]
+    is canonically [N], with [pushout_in1 ≈ id[N]] and
+    [pushout_in2 ≈ m ∘ from phi]. *)
+
+Lemma pushout_along_iso_apex {Y Z N : C} (m : Y ~> N) (phi : Y ≅ Z) :
+  pushout_apex (pushout m (to phi)) ≅ N.
+Proof.
+  set (P := pushout m (to phi)).
+  assert (HC : id[N] ∘ m ≈ (m ∘ from phi) ∘ to phi).
+  { rewrite id_left.
+    rewrite <- comp_assoc.
+    rewrite iso_from_to.
+    rewrite id_right.
+    reflexivity. }
+  pose (k := pushout_med P HC).
+  assert (Hk1 : k ∘ pushout_in1 P ≈ id) by (apply pushout_med_in1).
+  assert (Hk2 : k ∘ pushout_in2 P ≈ m ∘ from phi) by (apply pushout_med_in2).
+  unshelve refine
+    {| to := k;
+       from := pushout_in1 P;
+       iso_to_from := _;
+       iso_from_to := _ |}.
+  - exact Hk1.
+  - apply (pushout_med_eq P (pushout_commutes P)
+            (pushout_in1 P ∘ k) id).
+    + rewrite <- comp_assoc.
+      rewrite Hk1; cat.
+    + rewrite <- comp_assoc.
+      rewrite Hk2.
+      pose proof (pushout_commutes P) as PC.
+      rewrite comp_assoc.
+      (* Need: pushout_in1 P ∘ m ∘ from phi ≈ pushout_in2 P.
+         By PC: pushout_in1 P ∘ m ≈ pushout_in2 P ∘ to phi.
+         Hence pushout_in1 P ∘ m ∘ from phi ≈ pushout_in2 P ∘ to phi ∘ from phi
+                                            ≈ pushout_in2 P ∘ id ≈ pushout_in2 P. *)
+      rewrite PC.
+      rewrite <- comp_assoc.
+      rewrite iso_to_from.
+      apply id_right.
+    + cat.
+    + cat.
+Defined.
+
 (** ** Bridging lemma: composing a cospan with a [mor_as_cospan] on the right
 
     For [f : Y ~{CospanCat}~> Z] (a generic cospan) and [h : X ~> Y] a
@@ -960,17 +1005,57 @@ Proof.
     apply id_left.
 Defined.
 
-(** Dual: composing a cospan with a [mor_as_cospan] on the LEFT.
-    [cospan_compose (mor_as_cospan h) f] for [f : X → Y] and [h : Y → Z]:
-    pushout of [(cospan_in2 f, h : Y → Z)]. By [pushout_id_right_apex]
-    in the special case where one side is identity... but here h is general,
-    so no straightforward collapse.
+(** Dual bridging: composing a cospan with [mor_as_cospan (to phi)] on
+    the LEFT where [phi] is a C-iso. By [pushout_along_iso_apex], the
+    apex collapses to apex(f), with adjusted in2. *)
 
-    However, when both [f] and [h] come from C-morphisms, both sides
-    collapse and we get [mor_as_cospan_compose]. *)
-
-(** When the cospan is itself a [mor_as_cospan], both forms agree.
-    This is exactly [mor_as_cospan_compose] (proven earlier). *)
+Lemma cospan_compose_mor_iso_left
+      {X Y Z : C} (f : CospanArrow X Y) (phi : Y ≅ Z) :
+  cospan_equiv (cospan_compose HP (mor_as_cospan (to phi)) f)
+               (Build_CospanArrow (cospan_apex f)
+                                  (cospan_in1 f)
+                                  (cospan_in2 f ∘ from phi)).
+Proof.
+  unfold cospan_compose, mor_as_cospan; simpl.
+  pose (P := pushout (cospan_in2 f) (to phi)).
+  assert (HC : id[cospan_apex f] ∘ cospan_in2 f
+              ≈ (cospan_in2 f ∘ from phi) ∘ to phi).
+  { rewrite id_left.
+    rewrite <- comp_assoc.
+    rewrite iso_from_to.
+    rewrite id_right.
+    reflexivity. }
+  pose (k := pushout_med P HC).
+  assert (Hk1 : k ∘ pushout_in1 P ≈ id) by (apply pushout_med_in1).
+  assert (Hk2 : k ∘ pushout_in2 P ≈ cospan_in2 f ∘ from phi)
+    by (apply pushout_med_in2).
+  unshelve refine
+    (existT _ {| to := k;
+                 from := pushout_in1 P;
+                 iso_to_from := _;
+                 iso_from_to := _ |} _).
+  - exact Hk1.
+  - apply (pushout_med_eq P (pushout_commutes P)
+            (pushout_in1 P ∘ k) id).
+    + rewrite <- comp_assoc.
+      rewrite Hk1; cat.
+    + rewrite <- comp_assoc.
+      rewrite Hk2.
+      pose proof (pushout_commutes P) as PC.
+      rewrite comp_assoc.
+      rewrite PC.
+      rewrite <- comp_assoc.
+      rewrite iso_to_from.
+      apply id_right.
+    + cat.
+    + cat.
+  - simpl; split; fold P.
+    + rewrite comp_assoc.
+      rewrite Hk1.
+      apply id_left.
+    + rewrite id_right.
+      exact Hk2.
+Defined.
 
 (** ** Left-unitor naturality
 
