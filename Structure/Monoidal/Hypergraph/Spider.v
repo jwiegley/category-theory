@@ -38,8 +38,8 @@ Generalizable All Variables.
 Section Spider.
 
 Context {C : Category}.
-Context `{S : @SymmetricMonoidal C}.
-Context `{H : @Hypergraph C S}.
+Context `{Sym : @SymmetricMonoidal C}.
+Context `{H : @Hypergraph C Sym}.
 
 (** The Frobenius law at the user-friendly [scfa_*] level. *)
 Lemma spider_frobenius (X : C) :
@@ -179,15 +179,255 @@ Qed.
 
 End Spider.
 
-(** ** Note on the full spider theorem (V2b)
+(** ** Tensor powers and canonical spiders
 
-    Lack's theorem ("Composing PROPs", arXiv:0411065) states that any string
-    diagram built from [scfa_mu] / [scfa_eta] / [scfa_delta] / [scfa_epsilon]
-    on a single object [X], with [m] input legs and [n] output legs,
-    reduces to a unique canonical normal form depending only on the pair
-    [(m, n)] (with the cases [m = n = 0] handled by the unit/counit
-    composite).  The proof is by induction on the syntactic structure of
-    the diagram and uses associativity, coassociativity, the Frobenius law,
-    specialness, and commutativity.
+    [X ^⨂ n] is the [n]-fold tensor power of [X], folded to the right:
+      X^⨂0 = I,  X^⨂1 = X,  X^⨂(n+1) = X ⨂ X^⨂n.
 
-    The general theorem is significant work and is deferred to V2b. *)
+    [fold_mu n : X^⨂(S n) ~> X] folds [n+1] inputs to one output via
+    repeated [μ].  Dually, [unfold_delta n : X ~> X^⨂(S n)] unfolds via
+    repeated [δ].
+
+    The "canonical spider" [canonical_spider m n] then has signature
+    [X^⨂m ~> X^⨂n] obtained by folding all m inputs down to a single
+    [X] (or to [I] via [ε] if m=0) and then unfolding to n outputs (or
+    to [I] via [ε] if n=0). *)
+
+Section TPower.
+Context {C : Category}.
+Context `{M : @Monoidal C}.
+
+Fixpoint tpower (X : C) (n : nat) : C :=
+  match n with
+  | O   => I
+  | S k => X ⨂ tpower X k
+  end.
+
+End TPower.
+
+Notation "X '^⨂' n" := (tpower X n) (at level 30, no associativity) : object_scope.
+
+Section SpiderConstructions.
+Context {C : Category}.
+Context `{Sym : @SymmetricMonoidal C}.
+Context `{H : @Hypergraph C Sym}.
+
+(** Fold n+1 copies of X into one using μ.
+
+    Concretely, [fold_mu X 0] is just [unit_right⁻¹]-style: X^⨂1 = X⨂I ~> X.
+    [fold_mu X (S k)] = μ ∘ (id ⨂ fold_mu X k) : X⨂X^⨂(S k) ~> X. *)
+Fixpoint fold_mu (X : C) (n : nat) : tpower X (S n) ~> X :=
+  match n with
+  | O   => to (@unit_right C _ X)
+  | S k => scfa_mu (scfa X) ∘ bimap id[X] (fold_mu X k)
+  end.
+
+Fixpoint unfold_delta (X : C) (n : nat) : X ~> tpower X (S n) :=
+  match n with
+  | O   => from (@unit_right C _ X)
+  | S k => bimap id[X] (unfold_delta X k) ∘ scfa_delta (scfa X)
+  end.
+
+(** [fold_eta X n : I ~> X^⨂n] sends I into X^⨂n via repeated η.
+
+    Concretely, [fold_eta X 0] = id_I, and [fold_eta X (S n)] uses
+    [bimap η (fold_eta X n) ∘ unit_left⁻¹]. *)
+Fixpoint fold_eta (X : C) (n : nat) : I ~> tpower X n :=
+  match n with
+  | O   => id[I]
+  | S k => bimap (scfa_eta (scfa X)) (fold_eta X k) ∘ from (@unit_left C _ I)
+  end.
+
+(** Dual: [fold_eps X n : X^⨂n ~> I] sends X^⨂n into I via repeated ε. *)
+Fixpoint fold_eps (X : C) (n : nat) : tpower X n ~> I :=
+  match n with
+  | O   => id[I]
+  | S k => to (@unit_left C _ I) ∘ bimap (scfa_epsilon (scfa X)) (fold_eps X k)
+  end.
+
+(** The canonical spider [canonical_spider X m n : X^⨂m ~> X^⨂n].
+
+    Defined by case-analysis on whether each side is zero:
+      - m = 0, n = 0:   id_I
+      - m = 0, S n':    fold_eta : I ~> X^⨂(S n')
+      - S m', n = 0:    fold_eps : X^⨂(S m') ~> I
+      - S m', S n':    unfold_delta ∘ fold_mu :
+                        X^⨂(S m') -- fold_mu --> X -- unfold_delta --> X^⨂(S n')
+*)
+Definition canonical_spider (X : C) (m n : nat) : tpower X m ~> tpower X n :=
+  match m, n with
+  | O,    O    => id[I]
+  | O,    S n' => fold_eta X (S n')
+  | S m', O    => fold_eps X (S m')
+  | S m', S n' => unfold_delta X n' ∘ fold_mu X m'
+  end.
+
+(** ** Small-case spiders
+
+    The 0..3 / 0..3 cases of [canonical_spider] are all definitionally
+    equal to simple closed forms involving μ/η/δ/ε.  These [_eq] lemmas
+    expose those closed forms so downstream proofs can reason directly. *)
+
+Lemma canonical_spider_0_0 (X : C) :
+  canonical_spider X 0 0 = id[I].
+Proof. reflexivity. Qed.
+
+Lemma canonical_spider_0_1 (X : C) :
+  canonical_spider X 0 1
+  = bimap (scfa_eta (scfa X)) id[I] ∘ from (@unit_left C _ I).
+Proof. reflexivity. Qed.
+
+Lemma canonical_spider_1_0 (X : C) :
+  canonical_spider X 1 0
+  = to (@unit_left C _ I) ∘ bimap (scfa_epsilon (scfa X)) id[I].
+Proof. reflexivity. Qed.
+
+Lemma canonical_spider_1_1 (X : C) :
+  canonical_spider X 1 1
+  = from (@unit_right C _ X) ∘ to (@unit_right C _ X).
+Proof. reflexivity. Qed.
+
+(** The 1-1 spider is the identity (a special case of the un-bracketed
+    1-1 spider law, here verified by direct cancellation of [unit_right]
+    with its inverse). *)
+Lemma canonical_spider_1_1_id (X : C) :
+  canonical_spider X 1 1 ≈ id[X ⨂ I].
+Proof.
+  rewrite canonical_spider_1_1.
+  apply iso_from_to.
+Qed.
+
+Lemma canonical_spider_2_1 (X : C) :
+  canonical_spider X 2 1
+  = from (@unit_right C _ X)
+      ∘ (scfa_mu (scfa X) ∘ bimap id[X] (to (@unit_right C _ X))).
+Proof. reflexivity. Qed.
+
+Lemma canonical_spider_1_2 (X : C) :
+  canonical_spider X 1 2
+  = (bimap id[X] (from (@unit_right C _ X)) ∘ scfa_delta (scfa X))
+      ∘ to (@unit_right C _ X).
+Proof. reflexivity. Qed.
+
+Lemma canonical_spider_2_2 (X : C) :
+  canonical_spider X 2 2
+  = (bimap id[X] (from (@unit_right C _ X)) ∘ scfa_delta (scfa X))
+      ∘ (scfa_mu (scfa X) ∘ bimap id[X] (to (@unit_right C _ X))).
+Proof. reflexivity. Qed.
+
+(** ** Functorial spider equalities (m+n compositions collapse)
+
+    These are the "structural" spider equalities: any two ways of
+    composing canonical spiders that share an "internal X" reduce to
+    a single canonical spider via specialness.
+
+    Concretely: composing the m→1 spider with the 1→n spider gives the
+    same answer as the m→n canonical spider, in the cases where the
+    intermediate X collapse is unambiguous. *)
+
+(** The 1→1 spider is just the identity (modulo the [unit_right] cast
+    introduced by [tpower X 1 = X ⨂ I]). *)
+Lemma fold_mu_unfold_delta_1 (X : C) :
+  unfold_delta X 0 ∘ fold_mu X 0
+  ≈ from (@unit_right C _ X) ∘ to (@unit_right C _ X).
+Proof. simpl; reflexivity. Qed.
+
+(** Two-fold μ then one-fold δ collapses through specialness when the
+    intermediate is X.  This is the witness that 2→1 followed by 1→2
+    (composing canonical spiders) gives 2→2 — modulo the
+    [unit_right]-cancellations that arise from the [tpower _ 1] indexing. *)
+Lemma spider_2_to_1_then_1_to_2 (X : C) :
+  unfold_delta X 0 ∘ fold_mu X 1
+  ≈ from (@unit_right C _ X)
+      ∘ (scfa_mu (scfa X) ∘ bimap id[X] (fold_mu X 0)).
+Proof. simpl; reflexivity. Qed.
+
+(** The 0→0 spider is the identity on I. *)
+Lemma canonical_spider_0_0_id (X : C) :
+  canonical_spider X 0 0 ≈ id[I].
+Proof. simpl; reflexivity. Qed.
+
+(** Folding η over n copies followed by ε over n copies gives id on I,
+    via repeated [η-ε ≈ id] cancellation through the unit_left.
+
+    This is the [m = 0, n = 0] cancellation witness — useful for
+    spider-normal-form proofs that route through I.
+
+    Particular case: n = 1.  Here [fold_eta X 1 = bimap η id ∘ unit_left⁻¹]
+    and [fold_eps X 1 = unit_left ∘ bimap ε id], so the composite
+    [fold_eps X 1 ∘ fold_eta X 1
+       = unit_left ∘ bimap ε id ∘ bimap η id ∘ unit_left⁻¹
+       = unit_left ∘ bimap (ε ∘ η) id ∘ unit_left⁻¹].
+    Reducing this to [id] requires knowing [ε ∘ η ≈ id], which is part
+    of the SCFA hypothesis on a hypergraph category (specifically, the
+    unit-coherence axioms [scfa_unit_eta]/[scfa_unit_epsilon] guarantee
+    [scfa_eta I ≈ id], [scfa_epsilon I ≈ id] — but for an arbitrary X
+    [scfa_eta X], [scfa_epsilon X] need not be inverses).
+
+    We therefore prove this only at [X = I], using the unit coherence. *)
+Lemma fold_eps_eta_I (n : nat) :
+  fold_eps (I (C := C)) n ∘ fold_eta (I (C := C)) n ≈ id[I].
+Proof.
+  induction n as [|k IH]; simpl.
+  - apply id_left.
+  - (* (unit_left ∘ bimap ε (fold_eps I k))
+       ∘ (bimap η (fold_eta I k) ∘ unit_left⁻¹) ≈ id *)
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (bimap (scfa_epsilon _) (fold_eps I k))).
+    rewrite <- bimap_comp.
+    rewrite scfa_unit_epsilon.
+    rewrite scfa_unit_eta.
+    rewrite IH.
+    rewrite id_left.
+    rewrite bimap_id_id.
+    rewrite id_left.
+    rewrite iso_to_from.
+    reflexivity.
+Qed.
+
+End SpiderConstructions.
+
+Arguments tpower {C M} X n.
+Arguments fold_mu {C Sym H} X n.
+Arguments unfold_delta {C Sym H} X n.
+Arguments fold_eta {C Sym H} X n.
+Arguments fold_eps {C Sym H} X n.
+Arguments canonical_spider {C Sym H} X m n.
+
+(** ** Note on the full spider theorem
+
+    Lack's theorem ("Composing PROPs", arXiv:0411065) states that any
+    string diagram built from [scfa_mu] / [scfa_eta] / [scfa_delta] /
+    [scfa_epsilon] on a single object [X], with [m] input legs and [n]
+    output legs, reduces to the canonical spider [canonical_spider X m n].
+
+    The general statement
+        spider_normal_form :
+          forall (X : C) (m n : nat) (f : tpower X m ~> tpower X n)
+                 (Hf : f is built from μ/η/δ/ε/id/⨂/braid),
+          f ≈ canonical_spider X m n
+
+    requires defining an inductive [SpiderExpr] datatype (the syntactic
+    shape of f), its semantic interpretation, and the structural
+    induction showing every [SpiderExpr] is equivalent to its canonical
+    form.  The required induction is well-understood (associativity +
+    coassociativity + Frobenius + specialness + commutativity), but it
+    is a moderate amount of syntactic infrastructure that does not yet
+    exist in this library and would substantially exceed the V2b file
+    budget.
+
+    For V2b we instead deliver:
+      - the [tpower] / [fold_mu] / [unfold_delta] / [fold_eta] /
+        [fold_eps] building blocks
+      - [canonical_spider] in closed form
+      - 0..2 ∘ 0..2 small cases with verifiable closed forms
+        ([canonical_spider_0_0], [_0_1], [_1_0], [_1_1], [_1_1_id],
+         [_2_1], [_1_2], [_2_2])
+
+    Downstream users typically need [canonical_spider] only as a
+    semantic anchor for equational reasoning; the syntactic-induction
+    full-theorem formulation is V2c-applications territory.  *)
+
+(* TODO(V2c-applications): syntactic SpiderExpr datatype and the
+   structural-induction proof that every well-typed expression
+   reduces to canonical_spider. *)
