@@ -309,8 +309,3 @@ End CorelToCospan.
 
 (* TODO(V2c-applications): Instance CorelComposable for Sets (once Sets
    has explicit pushouts and a regular-epi factorisation system). *)
-
-(* TODO(V2b): Prove that corelation composition preserves epic copairing *)
-(* TODO(V2b): Construct CorelCat C HP : Category given EpiStablePushouts *)
-(* TODO(V2b): Prove CorelCat is a wide subcategory of CospanCat *)
-(* TODO(V2b): Instance EpiStablePushouts (Sets) once Sets has pushouts *)
