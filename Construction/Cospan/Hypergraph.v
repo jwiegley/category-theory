@@ -886,27 +886,54 @@ End CospanMonoidal.
     latter is automatic in [Sets] and in any category with explicit
     finite colimits. *)
 
-(* TODO(V2d-coherence): full Monoidal (CospanCat C) instance, using the
-   [mor_as_cospan] embedding above + the pushout-of-id-collapse lemma
-   for unitor/associator naturality, and the
-   pushout-of-covers-compatibility lemma for bifunctoriality.
+(** ** Progress on V2 Final Push (this branch)
 
-   ATTEMPTED in V2-Final-Push; HARD WALL encountered on
-   [cospan_tensor_compose_compat] (bifunctoriality / [fmap_comp]).
-   The iso construction is mechanical (via [Isomorphism_Opposite]
-   over [pushout_cover_split]/[pushout_cover_combine]; both directions
-   proved in [PushoutCoproductCompat] above). The remaining four leg
-   conditions require rewriting [merge ∘ inl/inr] inside C^op-composed
-   chains where [merge] is a C-morphism but the surrounding composition
-   is in C^op (since [cospan_apex] lives at C^op level). Both
-   [rewrite inl_merge] and [rewrite (@exl_fork (C^op) _ _ _ _)] fail to
-   find the subterm due to the C-vs-C^op direction mismatch on the
-   [▽]/[△] notation. The clean fix is to develop dedicated lemmas
-   bridging [merge] in C with [fork] in C^op around pullback/pushout
-   mediators — see [Construction/Span/Category.v] for the dual pattern. *)
-(* TODO(V2d-coherence): SCFA axioms for cospan_scfa_* as cospan-equiv
-   equations, requiring the pushout-of-codiagonal collapse. Blocked on
-   the same C-vs-C^op merge/fork bridging issue documented above for
-   [cospan_tensor_compose_compat]. *)
+    After refactoring [CospanCat] to a direct construction (no [C^op]
+    shim), the following V2d-coherence machinery is now available:
+
+    - [cospan_tensor_id], [cospan_tensor_respects],
+      [cospan_tensor_compose_compat] — the three [Proper] + bifunctor
+      ingredients for [cospan_tensor].
+
+    - [Cospan_Bifunctor : (CospanCat C HP) ∏ (CospanCat C HP) ⟶ CospanCat C HP]
+      — the bifunctor underlying the Monoidal tensor.
+
+    - [mor_as_cospan_compose], [mor_as_cospan_id], [mor_as_cospan_proper]
+      — functoriality of the embedding [C ⟶ CospanCat C].
+
+    - [mor_iso_lift] — lift any [C]-iso to a [CospanCat C HP]-iso, used
+      for the unitor / associator / braid as cospan-level isos.
+
+    - [cospan_tensor_mor_as_cospan] — the bridge
+      [cospan_tensor (mor_as_cospan f) (mor_as_cospan g) ≈ mor_as_cospan (cover f g)]
+      that lets [mor_as_cospan]-lifted morphisms interact with [bimap]
+      in the upcoming Monoidal naturality proofs.
+
+    What remains for the full Monoidal instance:
+
+      (a) The six naturality conditions ([to/from_unit_left_natural],
+          [to/from_unit_right_natural], [to/from_tensor_assoc_natural]).
+          Each requires showing
+            [g ∘ unit_left ≈ unit_left ∘ bimap id g]
+          for an *arbitrary* cospan [g], where [unit_left] is a lifted
+          C-iso but [g] is a generic cospan with non-trivial apex.  The
+          apex of the LHS composite collapses by [pushout_id_left_apex],
+          but the apex of the RHS composite is a pushout of [cover id g_2]
+          against [zero ▽ id], which is a non-trivial UMP calculation
+          (~50-100 lines each, ~400-600 total).
+
+      (b) Triangle + pentagon coherence identities, each a UMP
+          calculation against the unitor/associator cospans (~100-200
+          lines).
+
+    Estimated total: ~600-1000 lines of mechanical-but-detailed pushout
+    UMP reasoning.  Tractable but beyond a single dispatch session. *)
+(* TODO(V2d-coherence): full Monoidal (CospanCat C) instance.
+   Building blocks (a)-(b) above are now available; the remaining work
+   is the 6 naturality lemmas + triangle + pentagon, each a UMP
+   calculation on a pushout-of-cover-style apex. *)
+(* TODO(V2d-coherence): SCFA axioms for cospan_scfa_*.  Depends on
+   the SymmetricMonoidal (CospanCat C) instance, which depends on
+   the Monoidal instance above. *)
 (* TODO(V2d-coherence): Hypergraph (CospanCat C) tensor + unit coherence,
-   building on the above. Blocked transitively on the Monoidal instance. *)
+   building on the above. *)
