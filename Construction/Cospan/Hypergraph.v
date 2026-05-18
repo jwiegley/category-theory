@@ -857,6 +857,83 @@ Proof.
       * apply mor_as_cospan_id.
 Defined.
 
+(** ** Unitor naturality (left): a pushout-UMP calculation
+
+    For a generic cospan [g : x → y] with apex [N], legs [g1 : x → N]
+    and [g2 : y → N], the left-unitor naturality in [CospanCat] requires
+
+       cospan_compose HP g unit_left ≈ cospan_compose HP unit_left (bimap id g)
+
+    where [unit_left = mor_as_cospan (zero ▽ id : 0+x → x)] and
+    [bimap id g = cospan_tensor (cospan_id 0) g].
+
+    The LHS apex is [pushout id g1], which collapses to [N] by
+    [pushout_id_left_apex].  The RHS apex is the pushout of
+    [(cover id g2, zero ▽ id)], which also collapses to [N] by a
+    direct UMP calculation, exhibited below. *)
+
+Lemma pushout_cover_id_unit_left_apex {x y N : C} (g2 : y ~> N) :
+  pushout_apex (pushout (cover id[0] g2 : (0 + y)%object ~> (0 + N)%object)
+                        (zero ▽ id[y] : (0 + y)%object ~> y)) ≅ N.
+Proof.
+  set (P := pushout (cover id[0] g2 : (0 + y)%object ~> (0 + N)%object)
+                    (zero ▽ id[y])).
+  (* Mediator P -> N via cocone (zero ▽ id : 0+N → N, g2 : y → N). *)
+  assert (HC : (zero ▽ id[N]) ∘ cover id[0] g2 ≈ g2 ∘ (zero ▽ id[y])).
+  { unfold cover.
+    rewrite <- merge_comp.
+    rewrite (comp_assoc _ inl).
+    rewrite (comp_assoc _ inr).
+    rewrite inl_merge, inr_merge.
+    rewrite id_left, id_right.
+    rewrite <- merge_comp.
+    rewrite id_right, zero_comp.
+    reflexivity. }
+  set (m := pushout_med P HC).
+  assert (Hm1 : m ∘ pushout_in1 P ≈ zero ▽ id[N]) by (apply pushout_med_in1).
+  assert (Hm2 : m ∘ pushout_in2 P ≈ g2) by (apply pushout_med_in2).
+  unshelve refine
+    {| to := m;
+       from := pushout_in1 P ∘ inr;
+       iso_to_from := _;
+       iso_from_to := _ |}.
+  - (* m ∘ (pushout_in1 P ∘ inr) ≈ id at N *)
+    rewrite comp_assoc.
+    rewrite Hm1.
+    apply inr_merge.
+  - (* (pushout_in1 P ∘ inr) ∘ m ≈ id at apex P. UMP against identity. *)
+    apply (pushout_med_eq P (pushout_commutes P)
+            ((pushout_in1 P ∘ inr) ∘ m) id).
+    + (* ((pushout_in1 P ∘ inr) ∘ m) ∘ pushout_in1 P ≈ pushout_in1 P *)
+      rewrite <- !comp_assoc.
+      rewrite Hm1.
+      (* Goal: pushout_in1 P ∘ (inr ∘ (zero ▽ id[N])) ≈ pushout_in1 P *)
+      assert (Hinr : (@inr C _ 0 N) ∘ (zero[N] ▽ id[N]) ≈ id[0 + N]).
+      { rewrite <- merge_comp.
+        rewrite id_right.
+        rewrite <- merge_inl_inr.
+        apply (snd (merge_inv _ _ _ _)).
+        split.
+        - apply (@zero_unique C H_Ini _ _ _).
+        - reflexivity. }
+      rewrite Hinr.
+      apply id_right.
+    + (* ((pushout_in1 P ∘ inr) ∘ m) ∘ pushout_in2 P ≈ pushout_in2 P *)
+      rewrite <- !comp_assoc.
+      rewrite Hm2.
+      (* Goal: pushout_in1 P ∘ (inr ∘ g2) ≈ pushout_in2 P *)
+      pose proof (pushout_commutes P) as PC.
+      (* PC : pushout_in1 P ∘ cover id g2 ≈ pushout_in2 P ∘ (zero ▽ id) *)
+      rewrite <- (cover_inr id[0] g2).
+      rewrite comp_assoc.
+      rewrite PC.
+      rewrite <- comp_assoc.
+      rewrite inr_merge.
+      apply id_right.
+    + cat.
+    + cat.
+Defined.
+
 End CospanMonoidal.
 
 (** ** Status of the full Cospan-Hypergraph derivation
