@@ -1896,9 +1896,18 @@ Proof.
   apply coprod_pentagon_aux.
 Defined.
 
-(** ** Full Cospan_Monoidal instance *)
+(** ** Full Cospan_Monoidal instance
 
-Program Definition Cospan_Monoidal : @Monoidal (CospanCat C HP) := {|
+    The Monoidal structure on [CospanCat C HP], with:
+      - unit object [I = 0] (initial object of C)
+      - tensor = coproduct of apexes via [Cospan_Bifunctor]
+      - unitors / associator = [mor_iso_lift] of the C-level coproduct isos
+      - naturality conditions discharged by [cospan_unit_*_natural] and
+        [cospan_tensor_assoc_natural]
+      - triangle / pentagon discharged by [cospan_triangle_identity] /
+        [cospan_pentagon_identity]. *)
+
+#[export] Program Instance Cospan_Monoidal : @Monoidal (CospanCat C HP) := {|
   I := (@Cospan_unit_obj C H_Ini : CospanCat C HP);
   tensor := Cospan_Bifunctor HP;
   unit_left    := fun X => mor_iso_lift (@coprod_zero_l C H_Coc H_Ini X);
@@ -2014,10 +2023,8 @@ End CospanMonoidal.
 
     Estimated total: ~600-1000 lines of mechanical-but-detailed pushout
     UMP reasoning.  Tractable but beyond a single dispatch session. *)
-(* TODO(V2d-coherence): full Monoidal (CospanCat C) instance.
-   Building blocks (a)-(b) above are now available; the remaining work
-   is the 6 naturality lemmas + triangle + pentagon, each a UMP
-   calculation on a pushout-of-cover-style apex. *)
+(* CLOSED(V2d-coherence): the full Monoidal (CospanCat C HP) instance is
+   built as [Cospan_Monoidal] above. *)
 (* TODO(V2d-coherence): SCFA axioms for cospan_scfa_*.  Depends on
    the SymmetricMonoidal (CospanCat C) instance, which depends on
    the Monoidal instance above. *)
