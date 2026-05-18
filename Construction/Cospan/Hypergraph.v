@@ -385,6 +385,25 @@ Defined.
 Definition mor_iso_as_cospan_iso {X Y : C} (phi : X ≅ Y) :
   CospanArrow X Y := mor_as_cospan (to phi).
 
+(** [mor_as_cospan] respects [≈] on the C-morphism. *)
+Lemma mor_as_cospan_proper {X Y : C} (f g : X ~> Y) :
+  f ≈ g -> cospan_equiv (mor_as_cospan f) (mor_as_cospan g).
+Proof.
+  intros Hfg.
+  unfold mor_as_cospan, cospan_equiv, span_equiv; simpl.
+  exists iso_id; simpl; split.
+  - rewrite id_left.
+    symmetry; exact Hfg.
+  - cat.
+Defined.
+
+#[export] Program Instance mor_as_cospan_Proper {X Y : C} :
+  Proper (equiv ==> equiv) (mor_as_cospan (X := X) (Y := Y)).
+Next Obligation.
+  intros f g Hfg.
+  apply mor_as_cospan_proper, Hfg.
+Defined.
+
 (** ** Unitor cospans on [CospanCat C]
 
     These are the cospan-lifts of the corresponding coproduct isos in C. *)
@@ -518,6 +537,227 @@ Proof.
 Defined.
 
 End MorAsCospanFunctorial.
+
+(** ** Pushout-coproduct compatibility: the bifunctor key lemma
+
+    The pushout of two [cover]s is canonically isomorphic to the coproduct
+    of the per-component pushouts.  This is the key compatibility behind
+    [cospan_tensor]'s functoriality. *)
+
+Section PushoutCoproductCompat.
+
+Context {C : Category}.
+Context `{H_Coc : @Cocartesian C}.
+Context (HP : HasPushouts C).
+
+(** The "split" cocone: given a pushout [P] of [(f, g)], the maps
+    [inl ∘ pushout_in1 P : Y → P + P'] and [inl ∘ pushout_in2 P]
+    form a cocone over [(f, g)]. *)
+
+(** The cocone for the forward direction: from the pushout-of-covers
+    apex to the coproduct of the per-component pushout apexes. *)
+Lemma pushout_cover_split_cocone
+  {X X' Y Y' Z Z' : C}
+  (f : X ~> Y) (g : X ~> Z)
+  (f' : X' ~> Y') (g' : X' ~> Z')
+  (P : IsPushout f g) (P' : IsPushout f' g') :
+  cover (pushout_in1 P) (pushout_in1 P') ∘ cover f f'
+  ≈ cover (pushout_in2 P) (pushout_in2 P') ∘ cover g g'.
+Proof.
+  rewrite !cover_comp.
+  pose proof (pushout_commutes P) as PC.
+  pose proof (pushout_commutes P') as PC'.
+  unfold pushout_in1, pushout_in2 in *.
+  rewrite PC, PC'.
+  reflexivity.
+Qed.
+
+(** Forward iso direction: pushout of covers ⟶ coproduct of pushouts. *)
+Definition pushout_cover_split
+  {X X' Y Y' Z Z' : C}
+  (f : X ~> Y) (g : X ~> Z)
+  (f' : X' ~> Y') (g' : X' ~> Z')
+  (P : IsPushout f g) (P' : IsPushout f' g')
+  (Pcov : IsPushout (cover f f' : (X + X')%object ~> (Y + Y')%object)
+                    (cover g g'))
+  : pushout_apex Pcov ~> (pushout_apex P + pushout_apex P')%object
+  := pushout_med Pcov (pushout_cover_split_cocone f g f' g' P P').
+
+(** Sub-cocone: pushout_in1 Pcov composed with [inl] is a leg into the
+    pushout-of-covers apex via the X-side of the coproduct. *)
+Lemma pushout_cover_left_cocone
+  {X X' Y Y' Z Z' : C}
+  (f : X ~> Y) (g : X ~> Z)
+  (f' : X' ~> Y') (g' : X' ~> Z')
+  (Pcov : IsPushout (cover f f' : (X + X')%object ~> (Y + Y')%object)
+                    (cover g g')) :
+  (pushout_in1 Pcov ∘ inl) ∘ f
+  ≈ (pushout_in2 Pcov ∘ inl) ∘ g.
+Proof.
+  pose proof (pushout_commutes Pcov) as PC.
+  rewrite <- !comp_assoc.
+  rewrite <- (cover_inl f f').
+  rewrite <- (cover_inl g g').
+  rewrite !comp_assoc.
+  rewrite PC.
+  reflexivity.
+Qed.
+
+Lemma pushout_cover_right_cocone
+  {X X' Y Y' Z Z' : C}
+  (f : X ~> Y) (g : X ~> Z)
+  (f' : X' ~> Y') (g' : X' ~> Z')
+  (Pcov : IsPushout (cover f f' : (X + X')%object ~> (Y + Y')%object)
+                    (cover g g')) :
+  (pushout_in1 Pcov ∘ inr) ∘ f'
+  ≈ (pushout_in2 Pcov ∘ inr) ∘ g'.
+Proof.
+  pose proof (pushout_commutes Pcov) as PC.
+  rewrite <- !comp_assoc.
+  rewrite <- (cover_inr f f').
+  rewrite <- (cover_inr g g').
+  rewrite !comp_assoc.
+  rewrite PC.
+  reflexivity.
+Qed.
+
+(** Reverse iso direction: coproduct of pushouts ⟶ pushout of covers.
+    Built via two applications of [pushout_med] (one per component),
+    combined by [merge]. *)
+Definition pushout_cover_combine
+  {X X' Y Y' Z Z' : C}
+  (f : X ~> Y) (g : X ~> Z)
+  (f' : X' ~> Y') (g' : X' ~> Z')
+  (P : IsPushout f g) (P' : IsPushout f' g')
+  (Pcov : IsPushout (cover f f' : (X + X')%object ~> (Y + Y')%object)
+                    (cover g g'))
+  : (pushout_apex P + pushout_apex P')%object ~> pushout_apex Pcov :=
+  merge (pushout_med P (pushout_cover_left_cocone f g f' g' Pcov))
+        (pushout_med P' (pushout_cover_right_cocone f g f' g' Pcov)).
+
+(** ** Pushout-coproduct compatibility iso
+
+    The pushout of covers IS the coproduct of pushouts.  Witnessed by the
+    split/combine maps above being mutual inverses. *)
+
+Lemma pushout_cover_split_combine
+  {X X' Y Y' Z Z' : C}
+  (f : X ~> Y) (g : X ~> Z)
+  (f' : X' ~> Y') (g' : X' ~> Z')
+  (P : IsPushout f g) (P' : IsPushout f' g')
+  (Pcov : IsPushout (cover f f' : (X + X')%object ~> (Y + Y')%object)
+                    (cover g g')) :
+  pushout_cover_combine f g f' g' P P' Pcov
+    ∘ pushout_cover_split f g f' g' P P' Pcov
+  ≈ id.
+Proof.
+  unfold pushout_cover_combine, pushout_cover_split.
+  (* Use joint-epi via [fork_inv]: a morphism on a coproduct is determined
+     by its restrictions to inl/inr.  The plan:
+       1. transitive through pushout_med Pcov (pushout_commutes Pcov)
+       2. apply pushout_med_unique
+       3. for each pushout-in, use cover_inl / cover_inr to split. *)
+  transitivity (pushout_med Pcov (pushout_commutes Pcov)).
+  - symmetry.
+    apply pushout_med_unique.
+    + (* Goal: (m1 ▽ m2) ∘ pushout_med Pcov (...) ∘ pushout_in1 Pcov ≈ pushout_in1 Pcov. *)
+      rewrite <- comp_assoc, (pushout_med_in1 Pcov).
+      pose proof (pushout_med_in1 P (pushout_cover_left_cocone f g f' g' Pcov)) as Hl.
+      pose proof (pushout_med_in1 P' (pushout_cover_right_cocone f g f' g' Pcov)) as Hr.
+      (* Goal: (m1 ▽ m2) ∘ cover (in1 P) (in1 P') ≈ pushout_in1 Pcov.
+         Unfold cover, distribute via merge_comp:
+         = (m1 ∘ in1 P) ▽ (m2 ∘ in1 P')
+         By Hl, Hr: = (in1 Pcov ∘ inl) ▽ (in1 Pcov ∘ inr)
+                   = in1 Pcov ∘ (inl ▽ inr)
+                   = in1 Pcov ∘ id = in1 Pcov. *)
+      unfold cover.
+      rewrite <- !merge_comp.
+      rewrite (comp_assoc _ inl), (comp_assoc _ inr).
+      rewrite inl_merge, inr_merge.
+      rewrite Hl, Hr.
+      rewrite merge_comp.
+      rewrite merge_inl_inr.
+      cat.
+    + rewrite <- comp_assoc, (pushout_med_in2 Pcov).
+      pose proof (pushout_med_in2 P (pushout_cover_left_cocone f g f' g' Pcov)) as Hl.
+      pose proof (pushout_med_in2 P' (pushout_cover_right_cocone f g f' g' Pcov)) as Hr.
+      unfold cover.
+      rewrite <- !merge_comp.
+      rewrite (comp_assoc _ inl), (comp_assoc _ inr).
+      rewrite inl_merge, inr_merge.
+      rewrite Hl, Hr.
+      rewrite merge_comp.
+      rewrite merge_inl_inr.
+      cat.
+  - apply pushout_med_unique; cat.
+Qed.
+
+Lemma pushout_cover_combine_split
+  {X X' Y Y' Z Z' : C}
+  (f : X ~> Y) (g : X ~> Z)
+  (f' : X' ~> Y') (g' : X' ~> Z')
+  (P : IsPushout f g) (P' : IsPushout f' g')
+  (Pcov : IsPushout (cover f f' : (X + X')%object ~> (Y + Y')%object)
+                    (cover g g')) :
+  pushout_cover_split f g f' g' P P' Pcov
+    ∘ pushout_cover_combine f g f' g' P P' Pcov
+  ≈ id.
+Proof.
+  unfold pushout_cover_combine, pushout_cover_split.
+  rewrite <- merge_inl_inr.
+  rewrite <- merge_comp.
+  apply (snd (merge_inv _ _ _ _)).
+  split.
+  - (* Goal: split ∘ m1 ≈ inl
+       Cocone for P that gives `inl` as mediator: legs (inl ∘ pushout_in1 P, inl ∘ pushout_in2 P).
+       But that's just the inl-of-identity cocone.
+       Use pushout_med_unique to derive both [split ∘ m1] and [inl] equal the same
+       cocone-mediator. *)
+    assert (HC : (@inl C _ (pushout_apex P) (pushout_apex P')) ∘ pushout_in1 P ∘ f
+                 ≈ (@inl C _ (pushout_apex P) (pushout_apex P')) ∘ pushout_in2 P ∘ g).
+    { rewrite <- !comp_assoc.
+      apply compose_respects; [reflexivity|].
+      apply (pushout_commutes P). }
+    transitivity (pushout_med P HC).
+    + symmetry.
+      apply pushout_med_unique.
+      * rewrite <- comp_assoc.
+        rewrite (pushout_med_in1 P).
+        rewrite (comp_assoc _ (pushout_in1 Pcov)).
+        rewrite (pushout_med_in1 Pcov).
+        unfold cover.
+        apply inl_merge.
+      * rewrite <- comp_assoc.
+        rewrite (pushout_med_in2 P).
+        rewrite (comp_assoc _ (pushout_in2 Pcov)).
+        rewrite (pushout_med_in2 Pcov).
+        unfold cover.
+        apply inl_merge.
+    + apply pushout_med_unique; cat.
+  - assert (HC : (@inr C _ (pushout_apex P) (pushout_apex P')) ∘ pushout_in1 P' ∘ f'
+                 ≈ (@inr C _ (pushout_apex P) (pushout_apex P')) ∘ pushout_in2 P' ∘ g').
+    { rewrite <- !comp_assoc.
+      apply compose_respects; [reflexivity|].
+      apply (pushout_commutes P'). }
+    transitivity (pushout_med P' HC).
+    + symmetry.
+      apply pushout_med_unique.
+      * rewrite <- comp_assoc.
+        rewrite (pushout_med_in1 P').
+        rewrite (comp_assoc _ (pushout_in1 Pcov)).
+        rewrite (pushout_med_in1 Pcov).
+        unfold cover.
+        apply inr_merge.
+      * rewrite <- comp_assoc.
+        rewrite (pushout_med_in2 P').
+        rewrite (comp_assoc _ (pushout_in2 Pcov)).
+        rewrite (pushout_med_in2 Pcov).
+        unfold cover.
+        apply inr_merge.
+    + apply pushout_med_unique; cat.
+Qed.
+
+End PushoutCoproductCompat.
 
 (** ** Status of the full Cospan-Hypergraph derivation
 
