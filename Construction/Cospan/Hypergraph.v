@@ -1413,6 +1413,44 @@ Proof.
       exact Hm2.
 Defined.
 
+(** ** Tensor-associator naturality
+
+    For arbitrary cospans [f : x → x'], [g : y → y'], [h : z → z']:
+      [bimap f (bimap g h) ∘ tensor_assoc
+       ≈ tensor_assoc ∘ bimap (bimap f g) h]
+    in [CospanCat C HP], where [tensor_assoc = mor_as_cospan (to coprod_assoc)]
+    and [bimap = cospan_tensor]. *)
+
+Lemma cospan_tensor_assoc_natural
+      {x x' y y' z z' : C}
+      (f : CospanArrow x x') (g : CospanArrow y y') (h : CospanArrow z z') :
+  cospan_equiv
+    (cospan_compose HP (cospan_tensor f (cospan_tensor g h))
+                       (mor_as_cospan (to coprod_assoc)))
+    (cospan_compose HP (mor_as_cospan (to coprod_assoc))
+                       (cospan_tensor (cospan_tensor f g) h)).
+Proof.
+  eapply cospan_equiv_trans;
+    [apply cospan_compose_mor_as_cospan_right|].
+  apply cospan_equiv_sym.
+  eapply cospan_equiv_trans;
+    [apply cospan_compose_mor_iso_left|].
+  apply cospan_equiv_sym.
+  unfold cospan_tensor; simpl.
+  exists (iso_sym (@coprod_assoc C H_Coc (cospan_apex f) (cospan_apex g) (cospan_apex h))).
+  simpl; split.
+  - (* from coprod_assoc ∘ (cover (in1 f) (cover (in1 g) (in1 h)) ∘ to coprod_assoc)
+       ≈ cover (cover (in1 f) (in1 g)) (in1 h) *)
+    rewrite comp_assoc.
+    rewrite cover_assoc_from.
+    rewrite <- comp_assoc.
+    rewrite iso_from_to.
+    apply id_right.
+  - (* from coprod_assoc ∘ cover (in2 f) (cover (in2 g) (in2 h))
+       ≈ cover (cover (in2 f) (in2 g)) (in2 h) ∘ from coprod_assoc *)
+    apply cover_assoc_from.
+Defined.
+
 End CospanMonoidal.
 
 (** ** Status of the full Cospan-Hypergraph derivation
