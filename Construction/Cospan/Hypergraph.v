@@ -803,6 +803,62 @@ Defined.
 
 End CospanBifunctor.
 
+(** ** Cospan_Monoidal: the Monoidal structure on [CospanCat C]
+
+    The unitor, associator, braid are [mor_as_cospan]s of the
+    corresponding C-level coproduct isos.  The Monoidal naturality
+    and coherence conditions lift through the [mor_as_cospan]
+    embedding because [mor_as_cospan] respects composition (via
+    [mor_as_cospan_compose]) and equivalence (via
+    [mor_as_cospan_proper]). *)
+
+Section CospanMonoidal.
+
+Context {C : Category}.
+Context `{H_Coc : @Cocartesian C}.
+Context `{H_Ini : @Initial C}.
+Context (HP : HasPushouts C).
+
+(** Lifting a C-iso to a cospan-iso (in CospanCat) via mor_as_cospan. *)
+(** [cospan_tensor] of two [mor_as_cospan]s agrees with [mor_as_cospan]
+    of the [cover] of the underlying C-morphisms. *)
+Lemma cospan_tensor_mor_as_cospan
+      {X Y X' Y' : C} (f : X ~> Y) (g : X' ~> Y') :
+  cospan_equiv (cospan_tensor (mor_as_cospan f) (mor_as_cospan g))
+               (mor_as_cospan (cover f g)).
+Proof.
+  unfold cospan_tensor, mor_as_cospan; simpl.
+  exists iso_id; simpl; split.
+  - rewrite id_left; reflexivity.
+  - rewrite id_left.
+    unfold cover.
+    rewrite !id_right.
+    apply merge_inl_inr.
+Defined.
+
+Definition mor_iso_lift {X Y : C} (phi : X ≅ Y)
+  : @Isomorphism (CospanCat C HP) X Y.
+Proof.
+  unshelve refine
+    {| to   := (mor_as_cospan (to phi) : X ~{CospanCat C HP}~> Y);
+       from := (mor_as_cospan (from phi) : Y ~{CospanCat C HP}~> X);
+       iso_to_from := _;
+       iso_from_to := _ |}.
+  - (* mor_as_cospan (to phi) ∘ mor_as_cospan (from phi) ≈ id in CospanCat *)
+    eapply cospan_equiv_trans.
+    + apply mor_as_cospan_compose.
+    + eapply cospan_equiv_trans.
+      * apply mor_as_cospan_proper. apply iso_to_from.
+      * apply mor_as_cospan_id.
+  - eapply cospan_equiv_trans.
+    + apply mor_as_cospan_compose.
+    + eapply cospan_equiv_trans.
+      * apply mor_as_cospan_proper. apply iso_from_to.
+      * apply mor_as_cospan_id.
+Defined.
+
+End CospanMonoidal.
+
 (** ** Status of the full Cospan-Hypergraph derivation
 
     With the above [mor_as_cospan] embedding and the unitor / associator
