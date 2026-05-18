@@ -184,6 +184,7 @@ Structure/Monoidal/Traced.v
 Structure/Monoidal/CompactClosed.v
 Structure/Monoidal/Hypergraph.v
 Structure/Monoidal/Hypergraph/Spider.v
+Structure/Monoidal/Strict.v
 Structure/Pullback.v
 Structure/Pullback/Limit.v
 Structure/Pushout.v
