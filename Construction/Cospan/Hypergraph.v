@@ -1111,6 +1111,54 @@ Proof.
     reflexivity.
 Qed.
 
+(** ** Cover-paws (braid) interaction at C level
+
+    The C-iso [paws ≈ to coprod_comm] intertwines [cover g h] and
+    [cover h g].  Both directions are pure cocartesian calculations
+    via [paws_fork] and the [paws ∘ inl ≈ inr] / [paws ∘ inr ≈ inl]
+    base facts. *)
+
+Lemma paws_inl {x y : C} :
+  (@paws C H_Coc x y) ∘ inl ≈ inr.
+Proof.
+  unfold paws, swap, inl, inr; simpl.
+  apply (@exl_fork _ H_Coc).
+Qed.
+
+Lemma paws_inr {x y : C} :
+  (@paws C H_Coc x y) ∘ inr ≈ inl.
+Proof.
+  unfold paws, swap, inl, inr; simpl.
+  apply (@exr_fork _ H_Coc).
+Qed.
+
+(** Braid-naturality at C level: [paws ∘ cover g h ≈ cover h g ∘ paws]. *)
+Lemma cover_paws {a a' b b' : C} (g : a ~> a') (h : b ~> b') :
+  paws ∘ cover g h ≈ cover h g ∘ paws.
+Proof.
+  apply coprod_ext.
+  - (* ∘ inl: LHS = paws ∘ (cover g h ∘ inl) = paws ∘ (inl ∘ g) = (paws ∘ inl) ∘ g = inr ∘ g
+       RHS = (cover h g ∘ paws) ∘ inl = cover h g ∘ (paws ∘ inl) = cover h g ∘ inr = inr ∘ g  *)
+    rewrite <- comp_assoc.
+    rewrite cover_inl.
+    rewrite comp_assoc.
+    rewrite paws_inl.
+    rewrite <- comp_assoc.
+    rewrite paws_inl.
+    rewrite cover_inr.
+    reflexivity.
+  - (* ∘ inr: LHS = paws ∘ (cover g h ∘ inr) = paws ∘ (inr ∘ h) = (paws ∘ inr) ∘ h = inl ∘ h
+       RHS = (cover h g ∘ paws) ∘ inr = cover h g ∘ (paws ∘ inr) = cover h g ∘ inl = inl ∘ h *)
+    rewrite <- comp_assoc.
+    rewrite cover_inr.
+    rewrite comp_assoc.
+    rewrite paws_inr.
+    rewrite <- comp_assoc.
+    rewrite paws_inr.
+    rewrite cover_inl.
+    reflexivity.
+Qed.
+
 (** ** Pushout-along-iso: the apex collapses
 
     For [m : Y → N] and a C-iso [phi : Y ≅ Z], the pushout of [(m, to phi)]
