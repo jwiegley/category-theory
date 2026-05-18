@@ -934,6 +934,44 @@ Proof.
     + cat.
 Defined.
 
+(** ** Bridging lemma: composing a cospan with a [mor_as_cospan] on the right
+
+    For [f : Y ~{CospanCat}~> Z] (a generic cospan) and [h : X ~> Y] a
+    C-morphism, [cospan_compose f (mor_as_cospan h)] simplifies under
+    the pushout-id-collapse: the pushout of [(id[Y], cospan_in1 f)] is
+    canonically the apex of [f], and the composite cospan becomes
+    [Build_CospanArrow (apex f) (cospan_in1 f ∘ h) (cospan_in2 f)]. *)
+
+Lemma cospan_compose_mor_as_cospan_right
+      {X Y Z : C} (f : CospanArrow Y Z) (h : X ~> Y) :
+  cospan_equiv (cospan_compose HP f (mor_as_cospan h))
+               (Build_CospanArrow (cospan_apex f)
+                                  (cospan_in1 f ∘ h)
+                                  (cospan_in2 f)).
+Proof.
+  unfold cospan_compose, mor_as_cospan; simpl.
+  exists (pushout_id_left_apex HP (cospan_in1 f)); simpl.
+  split.
+  - rewrite comp_assoc.
+    apply compose_respects; [|reflexivity].
+    apply pushout_med_in1.
+  - rewrite comp_assoc.
+    rewrite pushout_med_in2.
+    apply id_left.
+Defined.
+
+(** Dual: composing a cospan with a [mor_as_cospan] on the LEFT.
+    [cospan_compose (mor_as_cospan h) f] for [f : X → Y] and [h : Y → Z]:
+    pushout of [(cospan_in2 f, h : Y → Z)]. By [pushout_id_right_apex]
+    in the special case where one side is identity... but here h is general,
+    so no straightforward collapse.
+
+    However, when both [f] and [h] come from C-morphisms, both sides
+    collapse and we get [mor_as_cospan_compose]. *)
+
+(** When the cospan is itself a [mor_as_cospan], both forms agree.
+    This is exactly [mor_as_cospan_compose] (proven earlier). *)
+
 End CospanMonoidal.
 
 (** ** Status of the full Cospan-Hypergraph derivation
