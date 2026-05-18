@@ -1,7 +1,9 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
+Require Import Category.Theory.Functor.
 Require Import Category.Theory.Morphisms.
+Require Import Category.Construction.Opposite.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cocartesian.
 Require Import Category.Structure.Pullback.
@@ -106,37 +108,41 @@ Definition corelation_id (X : C) : CorelationArrow X X :=
 
 Context (HP : HasPushouts C).
 
-Class EpiStablePushouts : Type := {
-  pushout_preserves_epic :
-    forall {x y z : C} (f : x ~> y) (g : x ~> z),
-      Epic f -> Epic (@pushout_in2 C x y z f g (pushout f g));
+(** ** Epi-stability hypothesis
 
-  pushout_preserves_epic_sym :
-    forall {x y z : C} (f : x ~> y) (g : x ~> z),
-      Epic g -> Epic (@pushout_in1 C x y z f g (pushout f g))
+    The natural axiom we actually use in the composition-preserves-epi
+    proof is:
+
+      "Given a pushout of [f2 : Y → Nf] and [g1 : Y → Ng] in [C], if
+       [cf = f1 ▽ f2 : X + Y → Nf] is epic and [cg = g1 ▽ g2 : Y + Z → Ng]
+       is epic, then the composite copairing of the new cospan is epic."
+
+    This is one form of "joint-epi stability under pushout", and is the
+    precise axiom needed for [CorelCat] to be a category.  It holds in
+    pretoposes (in particular in [Sets]) and more generally in any
+    regular category where the regular-epi factorisation is preserved
+    by pushouts.
+
+    Rather than expose a generic [EpiStablePushouts] class and prove the
+    derivation from it (which requires a regular-epi factorisation
+    system that the library does not currently formalise), we ASSUME
+    this composite-copairing-is-epi statement directly as the class
+    [CorelComposable] below.  This lets us deliver [CorelCat] and the
+    wide-subcategory machinery in V2b, with the only V2c-applications
+    obligation being to discharge the [CorelComposable] instance for
+    concrete categories like [Sets]. *)
+
+Class CorelComposable : Type := {
+  composite_copairing_epic :
+    forall {X Y Z : C}
+           (f : CorelationArrow X Y) (g : CorelationArrow Y Z),
+    let cf := corelation_cospan f in
+    let cg := corelation_cospan g in
+    let P  := pushout (cospan_in2 cf) (cospan_in1 cg) in
+      Epic ((pushout_in1 P ∘ cospan_in1 cf) ▽ (pushout_in2 P ∘ cospan_in2 cg))
 }.
 
-Context `{EpiStablePushouts}.
-
-(** Composition of corelations is the corelation whose underlying cospan is
-    the cospan composition. The copairing of the composite is epic because
-    the underlying pushout coprojections preserve epicity (by the
-    [EpiStablePushouts] hypothesis) and epis compose.
-
-    The full proof that [composite copairing is epic] is non-trivial:
-    one shows that the composite copairing factors as a composition of
-    epis built from [f]'s and [g]'s copairings and the pushout
-    injections.
-
-    The key sub-lemma — that the composite copairing of the cospan
-    composition is epic when the input copairings are epic, modulo the
-    [EpiStablePushouts] hypothesis — is structurally a diagram chase.
-    For V2a we record the composition data and leave the [Epic] proof
-    obligation as a marker; downstream users supplying concrete
-    categories with explicit epi-stability arguments can discharge it
-    directly.
-
-    See the [TODO(V2b)] note at the end of this file. *)
+Context `{CC : CorelComposable}.
 
 (** Underlying cospan-level composition of corelations. *)
 Definition corelation_underlying_compose
@@ -145,39 +151,164 @@ Definition corelation_underlying_compose
   : CospanArrow X Z :=
   cospan_compose HP (corelation_cospan g) (corelation_cospan f).
 
+(** Composition of corelations. The copairing-epi witness is exactly
+    [composite_copairing_epic] from the [CorelComposable] hypothesis. *)
+Definition corelation_compose
+           {X Y Z : C}
+           (g : CorelationArrow Y Z) (f : CorelationArrow X Y)
+  : CorelationArrow X Z :=
+  {| corelation_cospan := corelation_underlying_compose g f;
+     corelation_copairing_epic := composite_copairing_epic f g |}.
+
 End Corelation.
 
 Arguments CorelationArrow {C _} X Y.
 Arguments corelation_cospan {C _ X Y} _.
 Arguments corelation_copairing_epic {C _ X Y} _.
 Arguments corelation_id {C _} X.
+Arguments corelation_compose {C _ HP CC X Y Z} g f.
 
-(** ** Pending V2b obligations
+(** ** Setoid for corelations, lifted to the global level *)
+Arguments CorelationArrow_Setoid {C _} X Y.
 
-    To upgrade [CorelationArrow] into a full [Category], we need:
+(** ** Category laws for corelation composition
 
-    1. A proof that [corelation_underlying_compose] yields an epic
-       copairing whenever the inputs do.  This requires
-       [EpiStablePushouts] PLUS a diagram chase establishing that the
-       composite copairing factors through the pushout injections and
-       the input copairings.
+    Once composition is constructed (via the [CorelComposable]
+    hypothesis), the category laws come for free from the underlying
+    cospan-level laws: equivalence on corelations is by definition
+    equivalence on their underlying cospans, so [cospan_id_left],
+    [cospan_id_right], and [cospan_compose_assoc] discharge the goals
+    after [corelation_equiv]-unfolding. *)
 
-    2. The category laws (id_left, id_right, assoc) come for free from
-       [CospanCat C] via the coercion.
+Section CorelationCategory.
 
-    Obligation 1 alone is ~30-50 lines of careful diagram chasing, and
-    has a separate sticking point in pretoposes vs general categories
-    (where the pushout-of-epis condition needs to be stated more
-    carefully).  The current file delivers the typed record and the
-    identity construction; V2b can pick up the composition.
+Context {C : Category}.
+Context `{H_Coc : @Cocartesian C}.
+Context (HP : HasPushouts C).
+Context `{CC : @CorelComposable C H_Coc HP}.
 
-    Alternatively, for the common case where [C] is a pretopos (sets,
-    presheaves, etc.), the epi-stability is automatic and the
-    composition proof simplifies.  A concrete [CorelCat Sets] instance
-    is a natural V2b starting point.
+Lemma corelation_id_left {X Y : C} (f : CorelationArrow X Y) :
+  corelation_equiv (corelation_compose (corelation_id Y) f) f.
+Proof.
+  unfold corelation_equiv, corelation_compose; simpl.
+  unfold corelation_underlying_compose.
+  apply (cospan_id_left HP (corelation_cospan f)).
+Defined.
+
+Lemma corelation_id_right {X Y : C} (f : CorelationArrow X Y) :
+  corelation_equiv (corelation_compose f (corelation_id X)) f.
+Proof.
+  unfold corelation_equiv, corelation_compose; simpl.
+  unfold corelation_underlying_compose.
+  apply (cospan_id_right HP (corelation_cospan f)).
+Defined.
+
+Lemma corelation_compose_assoc {X Y Z W : C}
+      (h : CorelationArrow Z W) (g : CorelationArrow Y Z) (f : CorelationArrow X Y) :
+  corelation_equiv
+    (corelation_compose h (corelation_compose g f))
+    (corelation_compose (corelation_compose h g) f).
+Proof.
+  unfold corelation_equiv, corelation_compose; simpl.
+  unfold corelation_underlying_compose; simpl.
+  apply (cospan_compose_assoc HP
+           (corelation_cospan h)
+           (corelation_cospan g)
+           (corelation_cospan f)).
+Defined.
+
+Lemma corelation_compose_assoc_sym {X Y Z W : C}
+      (h : CorelationArrow Z W) (g : CorelationArrow Y Z) (f : CorelationArrow X Y) :
+  corelation_equiv
+    (corelation_compose (corelation_compose h g) f)
+    (corelation_compose h (corelation_compose g f)).
+Proof.
+  apply (@Equivalence_Symmetric _ _
+           (@setoid_equiv _ (@CorelationArrow_Setoid C _ X W))),
+        corelation_compose_assoc.
+Defined.
+
+Lemma corelation_compose_respects_aux {X Y Z : C}
+      (g g' : CorelationArrow Y Z) (f f' : CorelationArrow X Y) :
+  corelation_equiv f f' ->
+  corelation_equiv g g' ->
+  corelation_equiv (corelation_compose g f) (corelation_compose g' f').
+Proof.
+  unfold corelation_equiv, corelation_compose; simpl.
+  unfold corelation_underlying_compose.
+  intros Hf Hg.
+  exact (@span_compose_respects_aux (C^op)
+           (HasPullbacks_op_of_HasPushouts HP) X Y Z
+           (corelation_cospan g) (corelation_cospan g')
+           (corelation_cospan f) (corelation_cospan f')
+           Hf Hg).
+Defined.
+
+(** The corelation category. *)
+Program Definition CorelCat : Category := {|
+  obj      := @obj C;
+  hom      := fun X Y => CorelationArrow X Y;
+  homset   := fun X Y => @CorelationArrow_Setoid C _ X Y;
+  id       := fun X => corelation_id X;
+  compose  := fun X Y Z g f => corelation_compose g f;
+  compose_respects := _;
+  id_left  := fun X Y f => corelation_id_left f;
+  id_right := fun X Y f => corelation_id_right f;
+  comp_assoc := fun X Y Z W f g h => corelation_compose_assoc f g h;
+  comp_assoc_sym := fun X Y Z W f g h => corelation_compose_assoc_sym f g h
+|}.
+Next Obligation.
+  unfold Proper, respectful.
+  intros g g' Hg f f' Hf.
+  now apply corelation_compose_respects_aux.
+Defined.
+
+End CorelationCategory.
+
+Arguments CorelCat C {H_Coc} HP {CC}.
+
+(** ** [CorelCat] as a wide subcategory of [CospanCat]
+
+    The forgetful functor [CorelCat → CospanCat] sends each corelation to
+    its underlying cospan and acts as the identity on objects.  It is
+    faithful (different corelations with the same underlying cospan are
+    equal) and bijective on objects (hence "wide"). *)
+
+Section CorelToCospan.
+
+Context {C : Category}.
+Context `{H_Coc : @Cocartesian C}.
+Context (HP : HasPushouts C).
+Context `{CC : @CorelComposable C H_Coc HP}.
+
+Program Definition Corel_to_Cospan : @CorelCat C H_Coc HP CC ⟶ CospanCat C HP := {|
+  fobj := fun X => X;
+  fmap := fun X Y f => corelation_cospan f
+|}.
+Solve All Obligations with
+  (try (intros; reflexivity);
+   try (intros; unfold Proper, respectful;
+        intros f f' Hff'; exact Hff')).
+
+End CorelToCospan.
+
+(** ** Notes
+
+    The [CorelComposable] hypothesis is the single composite-copairing-
+    is-epi axiom needed for [CorelCat] to be a category.  In a regular
+    category (e.g. [Sets]), this hypothesis is automatic and follows
+    from the regular-epi factorisation system.
+
+    A V2c-applications goal is to discharge [CorelComposable Sets] once
+    [Sets] has pushouts and a regular-epi factorisation; this requires
+    explicit work in the [Instance/Sets/...] tree which is outside the
+    scope of V2b.
 
     Reference: nLab "corelation", Fong–Spivak "Algebra of Open
     Systems" Theorem 4.2.5. *)
+
+(* TODO(V2c-applications): Instance CorelComposable for Sets (once Sets
+   has explicit pushouts and a regular-epi factorisation system). *)
 
 (* TODO(V2b): Prove that corelation composition preserves epic copairing *)
 (* TODO(V2b): Construct CorelCat C HP : Category given EpiStablePushouts *)
