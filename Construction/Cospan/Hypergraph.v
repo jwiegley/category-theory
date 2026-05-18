@@ -489,27 +489,33 @@ Section MorAsCospanFunctorial.
 Context {C : Category}.
 Context (HP : HasPushouts C).
 
-(** This lemma states that [mor_as_cospan] respects composition: the
-    cospan-composite of two morphism-as-cospans is cospan-equivalent
-    to the morphism-as-cospan of the C-composite.
+(** [mor_as_cospan] respects composition.
 
-    *Status*: the iso data is provided by [pushout_id_left_apex] (above);
-    the proof of the cospan-equiv condition involves a C-vs-C^op
-    conversion friction.  The proof was sketched but exceeded the
-    typecheck-debug budget in this commit.
-
-    The mathematical content is straightforward: the composite cospan's
-    apex is the pushout of (id, g), which collapses to Z; the legs
-    become [g ∘ f] (from X) and [id_Z] (from Z).
-
-    The remaining work is to assemble the [existT (apex iso) (leg
-    conditions)] cleanly in C^op.  *)
-
-(* TODO(V2d-coherence): mor_as_cospan_compose using
-   pushout_id_left_apex.  The cospan-equiv condition reduces to the
-   pushout-commutes equation with [id_right] simplification, but the
-   [existT]-and-iso-build wrt C^op vs C requires a small typecheck
-   adjustment that exceeds this commit's scope. *)
+    The composite cospan's apex is the pushout of [(id, g)], which by
+    [pushout_id_left_apex] is isomorphic to [Z] (the codomain of [g]).
+    Under that iso, the composite legs agree with [g ∘ f] and [id_Z]
+    respectively. *)
+Lemma mor_as_cospan_compose {X Y Z : C} (g : Y ~> Z) (f : X ~> Y) :
+  cospan_equiv
+    (cospan_compose HP (mor_as_cospan g) (mor_as_cospan f))
+    (mor_as_cospan (g ∘ f)).
+Proof.
+  unfold cospan_compose, mor_as_cospan, cospan_equiv, span_equiv; simpl.
+  pose (P := pushout (id[Y] : Y ~{C}~> Y) g).
+  exists (Isomorphism_Opposite (pushout_id_left_apex HP g)).
+  simpl.
+  split.
+  - (* Goal (in C-direction): Pcollapse⁻¹ ∘ (g ∘ f) ≈ pullback_fst _ _ P ∘ f *)
+    rewrite comp_assoc.
+    apply compose_respects; [|reflexivity].
+    pose proof (pushout_commutes P) as PC.
+    rewrite id_right in PC.
+    unfold pushout_in1, pushout_in2 in PC.
+    symmetry.
+    exact PC.
+  - simpl.
+    reflexivity.
+Defined.
 
 End MorAsCospanFunctorial.
 
