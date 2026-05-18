@@ -1067,6 +1067,91 @@ Proof.
       exact Hm2.
 Defined.
 
+(** ** Right-unitor naturality, dual of left.
+
+    [unit_right = mor_as_cospan (id ▽ zero : x + 0 → x)] and
+    [bimap g id = cospan_tensor g (cospan_id 0)]. *)
+
+Lemma cospan_unit_right_natural
+      {x y : C} (g : CospanArrow x y) :
+  cospan_equiv
+    (cospan_compose HP g (mor_as_cospan (id[x] ▽ zero)))
+    (cospan_compose HP (mor_as_cospan (id[y] ▽ zero))
+       (cospan_tensor g (cospan_id 0%object))).
+Proof.
+  eapply cospan_equiv_trans;
+    [apply cospan_compose_mor_as_cospan_right|].
+  apply cospan_equiv_sym.
+  unfold cospan_compose, mor_as_cospan, cospan_tensor; simpl.
+  pose (Pcov := pushout (cover (cospan_in2 g) id[0] : (y + 0)%object ~> (cospan_apex g + 0)%object)
+                        (id ▽ zero : (y + 0)%object ~> y)).
+  assert (HC : (id[cospan_apex g] ▽ zero) ∘ cover (cospan_in2 g) id[0]
+              ≈ cospan_in2 g ∘ (id ▽ zero)).
+  { unfold cover.
+    rewrite <- merge_comp.
+    rewrite (comp_assoc _ inl).
+    rewrite (comp_assoc _ inr).
+    rewrite inl_merge, inr_merge.
+    rewrite id_left, id_right.
+    rewrite <- merge_comp.
+    rewrite id_right, zero_comp.
+    reflexivity. }
+  pose (m := pushout_med Pcov HC).
+  assert (Hm1 : m ∘ pushout_in1 Pcov ≈ id[cospan_apex g] ▽ zero)
+    by (apply pushout_med_in1).
+  assert (Hm2 : m ∘ pushout_in2 Pcov ≈ cospan_in2 g)
+    by (apply pushout_med_in2).
+  unshelve refine
+    (existT _ {| to := m;
+                 from := pushout_in1 Pcov ∘ inl;
+                 iso_to_from := _;
+                 iso_from_to := _ |} _).
+  - rewrite comp_assoc.
+    rewrite Hm1.
+    apply inl_merge.
+  - apply (pushout_med_eq Pcov (pushout_commutes Pcov)
+            ((pushout_in1 Pcov ∘ inl) ∘ m) id).
+    + rewrite <- !comp_assoc.
+      rewrite Hm1.
+      assert (Hinl : (@inl C _ (cospan_apex g) 0)
+                       ∘ (id[cospan_apex g] ▽ zero[cospan_apex g])
+                     ≈ id[cospan_apex g + 0]).
+      { rewrite <- merge_comp.
+        rewrite id_right.
+        rewrite <- merge_inl_inr.
+        apply (snd (merge_inv _ _ _ _)).
+        split.
+        - reflexivity.
+        - apply (@zero_unique C H_Ini _ _ _). }
+      rewrite Hinl.
+      apply id_right.
+    + rewrite <- !comp_assoc.
+      rewrite Hm2.
+      pose proof (pushout_commutes Pcov) as PC.
+      rewrite <- (cover_inl (cospan_in2 g) id[0]).
+      rewrite comp_assoc.
+      rewrite PC.
+      rewrite <- comp_assoc.
+      rewrite inl_merge.
+      apply id_right.
+    + cat.
+    + cat.
+  - simpl; split; fold Pcov.
+    + rewrite comp_assoc.
+      rewrite Hm1.
+      unfold cover.
+      rewrite <- merge_comp.
+      rewrite (comp_assoc _ inl).
+      rewrite (comp_assoc _ inr).
+      rewrite inl_merge, inr_merge.
+      rewrite id_left, id_right.
+      rewrite <- merge_comp.
+      rewrite id_right, zero_comp.
+      reflexivity.
+    + rewrite id_right.
+      exact Hm2.
+Defined.
+
 End CospanMonoidal.
 
 (** ** Status of the full Cospan-Hypergraph derivation
