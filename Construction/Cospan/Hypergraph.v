@@ -1882,13 +1882,9 @@ Defined.
         [coprod_triangle_aux] (proved above) lifted via
         [cospan_tensor_mor_as_cospan] and [mor_as_cospan_compose].
 
-      - [pentagon_identity]: requires the C-level pentagon identity
-        for [coprod_assoc] (not yet proved here, but a routine [coprod_ext]
-        calculation on the lines of [cover_assoc_to]).
-
-    TODO(V2e-coherence): assemble [Cospan_Monoidal] once the C-level
-    pentagon is proved and the triangle/pentagon are lifted to cospan
-    level via [mor_as_cospan_proper] over the proved equations. *)
+      - [pentagon_identity]: derived from [coprod_pentagon_aux] (C-level)
+        via [mor_as_cospan_proper], [cospan_tensor_mor_as_cospan], and
+        [mor_as_cospan_compose].  See [cospan_pentagon_identity] below. *)
 
 (** Cospan-level pentagon, parallel to [cospan_triangle_identity]. *)
 Lemma cospan_pentagon_identity {x y z w : C} :
