@@ -13,6 +13,7 @@ Require Import Category.Structure.Pullback.
 Require Import Category.Structure.Pushout.
 Require Import Category.Construction.Span.Category.
 Require Import Category.Construction.Cospan.Category.
+Require Import Category.Construction.Cospan.Bridging.
 
 Generalizable All Variables.
 
@@ -933,6 +934,181 @@ Proof.
     + cat.
     + cat.
 Defined.
+
+(** ** Cover-associator interaction
+
+    The C-iso [coprod_assoc] intertwines [cover (cover f g) h] with
+    [cover f (cover g h)]. *)
+
+(** Helpers for the associator-cover proofs. *)
+
+Lemma assoc_to_inl_inl {x y z : C} :
+  to (@coprod_assoc C H_Coc x y z) ∘ (inl ∘ inl) ≈ inl.
+Proof.
+  unfold to, coprod_assoc; simpl.
+  rewrite comp_assoc.
+  rewrite inl_merge.
+  apply inl_merge.
+Qed.
+
+Lemma assoc_to_inl_inr {x y z : C} :
+  to (@coprod_assoc C H_Coc x y z) ∘ (inl ∘ inr) ≈ inr ∘ inl.
+Proof.
+  unfold to, coprod_assoc; simpl.
+  rewrite comp_assoc.
+  rewrite inl_merge.
+  apply inr_merge.
+Qed.
+
+Lemma assoc_to_inr {x y z : C} :
+  to (@coprod_assoc C H_Coc x y z) ∘ inr ≈ inr ∘ inr.
+Proof.
+  unfold to, coprod_assoc; simpl.
+  apply inr_merge.
+Qed.
+
+Lemma assoc_from_inl {x y z : C} :
+  from (@coprod_assoc C H_Coc x y z) ∘ inl ≈ inl ∘ inl.
+Proof.
+  unfold from, coprod_assoc; simpl.
+  apply inl_merge.
+Qed.
+
+Lemma assoc_from_inr_inl {x y z : C} :
+  from (@coprod_assoc C H_Coc x y z) ∘ (inr ∘ inl) ≈ inl ∘ inr.
+Proof.
+  unfold from, coprod_assoc; simpl.
+  rewrite comp_assoc.
+  rewrite inr_merge.
+  apply inl_merge.
+Qed.
+
+Lemma assoc_from_inr_inr {x y z : C} :
+  from (@coprod_assoc C H_Coc x y z) ∘ (inr ∘ inr) ≈ inr.
+Proof.
+  unfold from, coprod_assoc; simpl.
+  rewrite comp_assoc.
+  rewrite inr_merge.
+  apply inr_merge.
+Qed.
+
+(** Goal: [to coprod_assoc ∘ cover (cover f g) h ≈ cover f (cover g h) ∘ to coprod_assoc].
+
+    The proof is "computational" — both sides equal the canonical morphism
+    [(inl ∘ f) ▽ ((inr ∘ inl) ∘ g) ▽ ((inr ∘ inr) ∘ h)] (with appropriate
+    associativity).  We split it via joint-epi and reduce each leg by
+    explicit composition. *)
+
+Lemma cover_assoc_from {a a' b b' c c' : C}
+      (f : a ~> a') (g : b ~> b') (h : c ~> c') :
+  from coprod_assoc ∘ cover f (cover g h)
+  ≈ cover (cover f g) h ∘ from coprod_assoc.
+Proof.
+  apply coprod_ext.
+  - (* ∘ inl: reduces to inl ∘ inl ∘ f *)
+    rewrite <- !comp_assoc.
+    rewrite cover_inl.
+    rewrite (comp_assoc (from coprod_assoc) inl f).
+    rewrite assoc_from_inl.
+    rewrite assoc_from_inl.
+    symmetry.
+    rewrite <- comp_assoc.
+    rewrite (comp_assoc (cover (cover f g) h) inl inl).
+    rewrite cover_inl.
+    rewrite <- comp_assoc.
+    rewrite cover_inl.
+    rewrite comp_assoc.
+    reflexivity.
+  - apply coprod_ext.
+    + (* ∘ (inr ∘ inl) on (b+c) side → b → inl ∘ inr ∘ g *)
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (cover f (cover g h)) inr inl).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (cover g h) inl).
+      rewrite cover_inl.
+      rewrite (comp_assoc inr inl g).
+      rewrite (comp_assoc (from coprod_assoc) (inr ∘ inl) g).
+      rewrite assoc_from_inr_inl.
+      rewrite assoc_from_inr_inl.
+      symmetry.
+      rewrite <- comp_assoc.
+      rewrite (comp_assoc (cover (cover f g) h) inl inr).
+      rewrite cover_inl.
+      rewrite <- comp_assoc.
+      rewrite cover_inr.
+      rewrite !comp_assoc.
+      reflexivity.
+    + (* ∘ (inr ∘ inr) on (b+c) side → c → inr ∘ h *)
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (cover f (cover g h)) inr inr).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (cover g h) inr).
+      rewrite cover_inr.
+      rewrite (comp_assoc inr inr h).
+      rewrite (comp_assoc (from coprod_assoc) (inr ∘ inr) h).
+      rewrite assoc_from_inr_inr.
+      rewrite assoc_from_inr_inr.
+      symmetry.
+      apply cover_inr.
+Qed.
+
+Lemma cover_assoc_to {a a' b b' c c' : C}
+      (f : a ~> a') (g : b ~> b') (h : c ~> c') :
+  to coprod_assoc ∘ cover (cover f g) h
+  ≈ cover f (cover g h) ∘ to coprod_assoc.
+Proof.
+  apply coprod_ext.
+  - apply coprod_ext.
+    + (* ∘ (inl ∘ inl): both reduce to inl ∘ f *)
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (cover (cover f g) h) inl inl).
+      rewrite cover_inl.
+      rewrite <- (comp_assoc inl (cover f g) inl).
+      rewrite cover_inl.
+      rewrite (comp_assoc inl inl f).
+      rewrite (comp_assoc (to coprod_assoc) (inl ∘ inl) f).
+      rewrite assoc_to_inl_inl.
+      (* Goal: inl ∘ f ≈ cover f (cover g h) ∘ (to coprod_assoc ∘ (inl ∘ inl)) *)
+      rewrite assoc_to_inl_inl.
+      symmetry.
+      apply cover_inl.
+    + (* ∘ (inl ∘ inr): both reduce to inr ∘ inl ∘ g *)
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (cover (cover f g) h) inl inr).
+      rewrite cover_inl.
+      rewrite <- (comp_assoc inl (cover f g) inr).
+      rewrite cover_inr.
+      rewrite (comp_assoc inl inr g).
+      rewrite (comp_assoc (to coprod_assoc) (inl ∘ inr) g).
+      rewrite assoc_to_inl_inr.
+      (* Goal now: inr ∘ inl ∘ g ≈ cover f (cover g h) ∘ (to coprod_assoc ∘ (inl ∘ inr)) *)
+      rewrite assoc_to_inl_inr.
+      (* Goal: inr ∘ inl ∘ g ≈ cover f (cover g h) ∘ (inr ∘ inl) *)
+      symmetry.
+      rewrite <- comp_assoc.
+      rewrite (comp_assoc (cover f (cover g h)) inr inl).
+      rewrite cover_inr.
+      rewrite <- comp_assoc.
+      rewrite cover_inl.
+      rewrite comp_assoc.
+      reflexivity.
+  - (* ∘ inr: both reduce to inr ∘ inr ∘ h *)
+    rewrite <- !comp_assoc.
+    rewrite cover_inr.
+    rewrite (comp_assoc (to coprod_assoc) inr h).
+    rewrite assoc_to_inr.
+    (* RHS *)
+    rewrite assoc_to_inr.
+    (* Goal: inr ∘ inr ∘ h ≈ cover f (cover g h) ∘ (inr ∘ inr) *)
+    symmetry.
+    rewrite <- comp_assoc.
+    rewrite (comp_assoc (cover f (cover g h)) inr inr).
+    rewrite cover_inr.
+    rewrite <- comp_assoc.
+    rewrite cover_inr.
+    rewrite comp_assoc.
+    reflexivity.
+Qed.
 
 (** ** Pushout-along-iso: the apex collapses
 
