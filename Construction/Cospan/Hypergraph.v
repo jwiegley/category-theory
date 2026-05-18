@@ -789,8 +789,24 @@ End PushoutCoproductCompat.
 (* TODO(V2d-coherence): full Monoidal (CospanCat C) instance, using the
    [mor_as_cospan] embedding above + the pushout-of-id-collapse lemma
    for unitor/associator naturality, and the
-   pushout-of-covers-compatibility lemma for bifunctoriality. *)
+   pushout-of-covers-compatibility lemma for bifunctoriality.
+
+   ATTEMPTED in V2-Final-Push; HARD WALL encountered on
+   [cospan_tensor_compose_compat] (bifunctoriality / [fmap_comp]).
+   The iso construction is mechanical (via [Isomorphism_Opposite]
+   over [pushout_cover_split]/[pushout_cover_combine]; both directions
+   proved in [PushoutCoproductCompat] above). The remaining four leg
+   conditions require rewriting [merge ∘ inl/inr] inside C^op-composed
+   chains where [merge] is a C-morphism but the surrounding composition
+   is in C^op (since [cospan_apex] lives at C^op level). Both
+   [rewrite inl_merge] and [rewrite (@exl_fork (C^op) _ _ _ _)] fail to
+   find the subterm due to the C-vs-C^op direction mismatch on the
+   [▽]/[△] notation. The clean fix is to develop dedicated lemmas
+   bridging [merge] in C with [fork] in C^op around pullback/pushout
+   mediators — see [Construction/Span/Category.v] for the dual pattern. *)
 (* TODO(V2d-coherence): SCFA axioms for cospan_scfa_* as cospan-equiv
-   equations, requiring the pushout-of-codiagonal collapse. *)
+   equations, requiring the pushout-of-codiagonal collapse. Blocked on
+   the same C-vs-C^op merge/fork bridging issue documented above for
+   [cospan_tensor_compose_compat]. *)
 (* TODO(V2d-coherence): Hypergraph (CospanCat C) tensor + unit coherence,
-   building on the above. *)
+   building on the above. Blocked transitively on the Monoidal instance. *)
