@@ -189,6 +189,11 @@ Structure/Wedge.v
 Theory.v
 Theory/Adjunction.v
 Theory/Algebra.v
+Theory/Algebra/Monoid.v
+Theory/Algebra/Comonoid.v
+Theory/Algebra/Frobenius.v
+Theory/Algebra/CommutativeFrobenius.v
+Theory/Algebra/SpecialCommutativeFrobenius.v
 Theory/Bicategory.v
 Theory/Category.v
 Theory/Category/Raw.v
