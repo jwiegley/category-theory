@@ -113,24 +113,77 @@ Lemma strict_assoc_iso (X Y Z : C) :
   ≈ id.
 Proof. apply iso_to_from. Qed.
 
-(** ** Note on the [from] direction
+(** ** Closed-form [from] corollaries
 
-    A clean closed-form expression for [from tensor_assoc] in terms of
-    [strict_assoc_obj] alone requires transporting [id] backwards along
-    the equality, which is a [match … with eq_refl => id end] whose
-    return type necessarily mentions both endpoints of the equality.
-    Coq's [destruct] in the proof attempted to abstract over both
-    endpoints simultaneously, which fails because [tensor_assoc] itself
-    carries the second endpoint in its type signature.
+    The [from] direction of each structural isomorphism is, like its
+    [to] direction, the transported identity — but transported along the
+    SYMMETRIC equality (so that the domain and codomain of the resulting
+    morphism are swapped).
 
-    Downstream consumers who need to reason about [from] in a strict
-    monoidal category should reach for [iso_to_from] / [iso_from_to]
-    directly (treating [tensor_assoc] as the [Isomorphism] it is); the
-    strict structure ensures both composites are [id], which is what
-    most users need.  A polished [strict_*_from] closed-form is
-    deferred to V2b. *)
+    The phrasing uses a single match-and-return-on-the-domain (rather
+    than a doubly-dependent [a ~> b]).  Concretely, given
+    [e : a = b], the morphism [b ~> a] is given by
+    [match e in _ = T return T ~> a with eq_refl => id end]:
+    at [eq_refl], [T = b] reduces to [a] by elimination, and the branch
+    [id : a ~> a] inhabits the resulting type. *)
 
-(* TODO(V2b): Closed-form [from] corollaries strict_assoc_from etc. *)
+(** A general lemma: given an iso [phi : a ≅ b] and an equality [e : a = b]
+    such that [to phi] equals the transported identity along [e], the
+    [from phi] equals the transported identity along [e] in the other
+    direction.
+
+    This is purely group-theoretic — once you know [to phi] is "id along
+    e", uniqueness of inverses in [Isomorphism] forces [from phi] to be
+    "id along the symmetric e". *)
+Lemma transported_iso_from
+  {C' : Category} {a b : C'} (e : a = b) (phi : a ≅[C'] b)
+  (Hto : to phi ≈ match e in _ = T return a ~> T with eq_refl => id end) :
+  from phi ≈ match e in _ = T return T ~> a with eq_refl => id end.
+Proof.
+  pose proof (iso_to_from phi) as Htf.
+  rewrite Hto in Htf.
+  destruct e.
+  simpl in Htf |- *.
+  rewrite id_left in Htf.
+  exact Htf.
+Qed.
+
+Lemma strict_assoc_from (X Y Z : C) :
+  from (@tensor_assoc C strict_is_monoidal X Y Z)
+  ≈ match strict_assoc_obj X Y Z in _ = T
+      return T ~> ((X ⨂[strict_is_monoidal] Y)%object
+                    ⨂[strict_is_monoidal] Z)%object
+    with eq_refl => id end.
+Proof.
+  apply (transported_iso_from
+           (strict_assoc_obj X Y Z)
+           (@tensor_assoc C _ X Y Z)).
+  apply strict_assoc_to.
+Qed.
+
+Lemma strict_unit_left_from (X : C) :
+  from (@unit_left C strict_is_monoidal X)
+  ≈ match strict_unit_left_obj X in _ = T
+      return T ~> (I ⨂[strict_is_monoidal] X)%object
+    with eq_refl => id end.
+Proof.
+  apply (transported_iso_from
+           (strict_unit_left_obj X)
+           (@unit_left C _ X)).
+  apply strict_unit_left_to.
+Qed.
+
+Lemma strict_unit_right_from (X : C) :
+  from (@unit_right C strict_is_monoidal X)
+  ≈ match strict_unit_right_obj X in _ = T
+      return T ~> (X ⨂[strict_is_monoidal] I)%object
+    with eq_refl => id end.
+Proof.
+  apply (transported_iso_from
+           (strict_unit_right_obj X)
+           (@unit_right C _ X)).
+  apply strict_unit_right_to.
+Qed.
 
 End StrictMonoidal.
 
