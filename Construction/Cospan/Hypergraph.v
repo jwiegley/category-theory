@@ -685,6 +685,88 @@ Qed.
 
 End PushoutCoproductCompat.
 
+(** ** Bifunctoriality: [cospan_tensor (g ∘ f) (g' ∘ f')
+                       ≈ cospan_tensor g g' ∘ cospan_tensor f f']
+
+    With the direct CospanCat, the iso of cospan apexes is built directly
+    from [pushout_cover_combine] (going from coproduct-of-pushouts
+    to pushout-of-covers).  The leg conditions reduce to
+    pushout-mediator-of-cover calculations. *)
+
+Section CospanTensorBifunctoriality.
+
+Context {C : Category}.
+Context `{H_Coc : @Cocartesian C}.
+Context (HP : HasPushouts C).
+
+(** Helper: [merge] distributes through [cover]. *)
+Lemma merge_cover_compose {a b c d e : C}
+      (m1 : c ~> e) (m2 : d ~> e) (h1 : a ~> c) (h2 : b ~> d) :
+  (m1 ▽ m2) ∘ cover h1 h2 ≈ (m1 ∘ h1) ▽ (m2 ∘ h2).
+Proof.
+  unfold cover.
+  rewrite <- !merge_comp.
+  rewrite (comp_assoc _ inl).
+  rewrite (comp_assoc _ inr).
+  rewrite inl_merge, inr_merge.
+  reflexivity.
+Qed.
+
+Lemma cospan_tensor_compose_compat
+  {X Y Z X' Y' Z' : C}
+  (g : CospanArrow Y Z) (f : CospanArrow X Y)
+  (g' : CospanArrow Y' Z') (f' : CospanArrow X' Y') :
+  cospan_equiv
+    (cospan_tensor (cospan_compose HP g f) (cospan_compose HP g' f'))
+    (cospan_compose HP (cospan_tensor g g') (cospan_tensor f f')).
+Proof.
+  unfold cospan_tensor, cospan_compose; simpl.
+  pose (P  := pushout (cospan_in2 f)  (cospan_in1 g)).
+  pose (P' := pushout (cospan_in2 f') (cospan_in1 g')).
+  pose (Pcov := pushout (cover (cospan_in2 f) (cospan_in2 f'))
+                        (cover (cospan_in1 g) (cospan_in1 g'))).
+  (* Iso of apexes: pushout_apex P + pushout_apex P' ≅ pushout_apex Pcov,
+     given by pushout_cover_combine / pushout_cover_split. *)
+  unshelve refine (existT _ _ _).
+  - refine {| to   := pushout_cover_combine _ _ _ _ P P' Pcov;
+              from := pushout_cover_split   _ _ _ _ P P' Pcov;
+              iso_to_from := pushout_cover_split_combine _ _ _ _ P P' Pcov;
+              iso_from_to := pushout_cover_combine_split _ _ _ _ P P' Pcov |}.
+  - simpl; split; fold P P' Pcov.
+    + (* pushout_cover_combine ∘ cover (in1 P ∘ in1 f) (in1 P' ∘ in1 f')
+         ≈ in1 Pcov ∘ cover (in1 f) (in1 f') *)
+      unfold pushout_cover_combine.
+      rewrite merge_cover_compose.
+      pose proof (pushout_med_in1 P
+                    (pushout_cover_left_cocone _ _ _ _ Pcov)) as Hl.
+      pose proof (pushout_med_in1 P'
+                    (pushout_cover_right_cocone _ _ _ _ Pcov)) as Hr.
+      rewrite !comp_assoc.
+      rewrite Hl, Hr.
+      (* Goal: (in1 Pcov ∘ inl) ∘ in1 f ▽ (in1 Pcov ∘ inr) ∘ in1 f'
+              ≈ in1 Pcov ∘ cover (in1 f) (in1 f') *)
+      rewrite <- (comp_assoc (pushout_in1 Pcov) inl).
+      rewrite <- (comp_assoc (pushout_in1 Pcov) inr).
+      rewrite merge_comp.
+      reflexivity.
+    + (* pushout_cover_combine ∘ cover (in2 P ∘ in2 g) (in2 P' ∘ in2 g')
+         ≈ in2 Pcov ∘ cover (in2 g) (in2 g') *)
+      unfold pushout_cover_combine.
+      rewrite merge_cover_compose.
+      pose proof (pushout_med_in2 P
+                    (pushout_cover_left_cocone _ _ _ _ Pcov)) as Hl.
+      pose proof (pushout_med_in2 P'
+                    (pushout_cover_right_cocone _ _ _ _ Pcov)) as Hr.
+      rewrite !comp_assoc.
+      rewrite Hl, Hr.
+      rewrite <- (comp_assoc (pushout_in2 Pcov) inl).
+      rewrite <- (comp_assoc (pushout_in2 Pcov) inr).
+      rewrite merge_comp.
+      reflexivity.
+Defined.
+
+End CospanTensorBifunctoriality.
+
 (** ** Status of the full Cospan-Hypergraph derivation
 
     With the above [mor_as_cospan] embedding and the unitor / associator
