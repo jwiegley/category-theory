@@ -107,6 +107,26 @@ Proof.
   apply (uniqueness (pushout_ump P Q q1 q2 Hcomm)); split; assumption.
 Qed.
 
+(** Equality lemma: two mediators out of a pushout that agree on both
+    pushout legs are equal.  Useful for showing [u ≈ v] without
+    exhibiting the intermediate [pushout_med] explicitly. *)
+Lemma pushout_med_eq {x y z : C} {f : x ~> y} {g : x ~> z}
+      (P : IsPushout f g)
+      {Q : C} {q1 : y ~> Q} {q2 : z ~> Q}
+      (Hcomm : q1 ∘ f ≈ q2 ∘ g)
+      (u v : pushout_apex P ~> Q) :
+  u ∘ pushout_in1 P ≈ q1 ->
+  u ∘ pushout_in2 P ≈ q2 ->
+  v ∘ pushout_in1 P ≈ q1 ->
+  v ∘ pushout_in2 P ≈ q2 ->
+  u ≈ v.
+Proof.
+  intros Hu1 Hu2 Hv1 Hv2.
+  transitivity (pushout_med P Hcomm).
+  - symmetry. apply pushout_med_unique; assumption.
+  - apply pushout_med_unique; assumption.
+Qed.
+
 End Pushout.
 
 (** A category has all binary pushouts if every span has a pushout. *)
