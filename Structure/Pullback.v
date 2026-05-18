@@ -115,6 +115,14 @@ Proof.
     + apply (uniqueness HPP); split; apply id_right.
 Qed.
 
+(** A category has all binary pullbacks if every cospan has a pullback.
+    This is the dual of [HasPushouts] in [Structure/Pushout.v]. *)
+Class HasPullbacks (C : Category) : Type := {
+  pullback : forall {x y z : C} (f : x ~> z) (g : y ~> z), Pullback f g
+}.
+
+Arguments pullback {C _ x y z} f g.
+
 Require Import Category.Construction.Opposite.
 
 Definition Pushout {C : Category} {x y z : C^op} (f : x ~> z) (g : y ~> z) :=
