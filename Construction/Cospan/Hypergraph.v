@@ -14,6 +14,7 @@ Require Import Category.Structure.Pushout.
 Require Import Category.Construction.Span.Category.
 Require Import Category.Construction.Cospan.Category.
 Require Import Category.Construction.Cospan.Bridging.
+Require Import Category.Structure.Monoidal.
 
 Generalizable All Variables.
 
@@ -1484,6 +1485,27 @@ Proof.
   apply id_left.
 Qed.
 
+(** Variant matching the Monoidal naturality shape:
+      from to-naturality [g ∘ to phi_X ≈ to phi_Y ∘ h]
+      derive from-naturality [h ∘ from phi_X ≈ from phi_Y ∘ g]. *)
+Lemma from_naturality_of_to_M {D : Category} {X Y A B : D}
+      (phi_X : @Isomorphism D X A) (phi_Y : @Isomorphism D Y B)
+      (g : A ~{D}~> B) (h : X ~{D}~> Y)
+      (Hto : g ∘ to phi_X ≈ to phi_Y ∘ h) :
+  h ∘ from phi_X ≈ from phi_Y ∘ g.
+Proof.
+  assert (H1 : from phi_Y ∘ g ∘ to phi_X ≈ h).
+  { rewrite <- comp_assoc.
+    rewrite Hto.
+    rewrite comp_assoc.
+    rewrite iso_from_to.
+    apply id_left. }
+  rewrite <- H1.
+  rewrite <- (comp_assoc _ (to phi_X) (from phi_X)).
+  rewrite iso_to_from.
+  apply id_right.
+Qed.
+
 (** ** Triangle identity at C level (for coproducts).
 
     [cover (to coprod_zero_r) id ≈ cover id (to coprod_zero_l) ∘ to coprod_assoc]
@@ -1544,12 +1566,26 @@ Proof.
     symmetry. apply id_right.
 Qed.
 
-(** ** Full [Monoidal (CospanCat C HP)] instance.
+(** ** Toward [Monoidal (CospanCat C HP)]
 
-    All eight obligations: lifted-iso definitions for unitors/associator,
-    [to_] naturality from proved lemmas, [from_] naturality via the
-    [from_naturality_of_to] helper, triangle/pentagon via [mor_iso_lift]
-    of the corresponding C-level identities. *)
+    All six naturality lemmas ([to/from] x [unit_left/unit_right/tensor_assoc])
+    are now derivable from the proved [cospan_unit_left_natural],
+    [cospan_unit_right_natural], [cospan_tensor_assoc_natural], and the
+    [from_naturality_of_to_M] helper.
+
+    The remaining obligations for the full [Monoidal] instance:
+
+      - [triangle_identity]: at cospan level, this reduces to the C-level
+        [coprod_triangle_aux] (proved above) lifted via
+        [cospan_tensor_mor_as_cospan] and [mor_as_cospan_compose].
+
+      - [pentagon_identity]: requires the C-level pentagon identity
+        for [coprod_assoc] (not yet proved here, but a routine [coprod_ext]
+        calculation on the lines of [cover_assoc_to]).
+
+    TODO(V2e-coherence): assemble [Cospan_Monoidal] once the C-level
+    pentagon is proved and the triangle/pentagon are lifted to cospan
+    level via [mor_as_cospan_proper] over the proved equations. *)
 
 End CospanMonoidal.
 
