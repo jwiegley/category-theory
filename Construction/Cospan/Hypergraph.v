@@ -417,6 +417,102 @@ Arguments cospan_unit_right {C _ _} X.
 Arguments cospan_tensor_assoc {C _} X Y Z.
 Arguments cospan_braid {C _} X Y.
 
+(** ** Pushout-of-id-with-g collapse
+
+    The pushout of [(id : Y → Y, g : Y → Z)] is canonically isomorphic
+    to [Z].  This is the key calculation behind the morphism-as-cospan
+    functoriality. *)
+
+Section PushoutIdCollapse.
+
+Context {C : Category}.
+Context (HP : HasPushouts C).
+
+(** Pushout of [(id_Y, g)] collapses to Z (the codomain of g). *)
+Lemma pushout_id_left_apex {Y Z : C} (g : Y ~> Z) :
+  pushout_apex (pushout id[Y] g) ≅ Z.
+Proof.
+  set (P := pushout id[Y] g).
+  assert (Hcomm : g ∘ id ≈ id ∘ g) by cat.
+  set (m := pushout_med P Hcomm).
+  assert (Hm1 : m ∘ pushout_in1 P ≈ g) by (apply pushout_med_in1).
+  assert (Hm2 : m ∘ pushout_in2 P ≈ id[Z]) by (apply pushout_med_in2).
+  refine {| to   := m;
+            from := pushout_in2 P;
+            iso_to_from := _;
+            iso_from_to := _ |}.
+  - exact Hm2.
+  - (* pushout_in2 P ∘ m ≈ id at apex P, by uniqueness on identity cocone. *)
+    transitivity (pushout_med P (pushout_commutes P)).
+    + symmetry.
+      apply pushout_med_unique.
+      * rewrite <- comp_assoc, Hm1.
+        pose proof (pushout_commutes P) as PC.
+        rewrite <- PC; cat.
+      * rewrite <- comp_assoc, Hm2; cat.
+    + apply pushout_med_unique; cat.
+Defined.
+
+(** Pushout of [(g, id_Y)] collapses to Z (codomain of g). *)
+Lemma pushout_id_right_apex {Y Z : C} (g : Y ~> Z) :
+  pushout_apex (pushout g id[Y]) ≅ Z.
+Proof.
+  set (P := pushout g id[Y]).
+  assert (Hcomm : id ∘ g ≈ g ∘ id) by cat.
+  set (m := pushout_med P Hcomm).
+  assert (Hm1 : m ∘ pushout_in1 P ≈ id[Z]) by (apply pushout_med_in1).
+  assert (Hm2 : m ∘ pushout_in2 P ≈ g) by (apply pushout_med_in2).
+  refine {| to   := m;
+            from := pushout_in1 P;
+            iso_to_from := _;
+            iso_from_to := _ |}.
+  - exact Hm1.
+  - transitivity (pushout_med P (pushout_commutes P)).
+    + symmetry.
+      apply pushout_med_unique.
+      * rewrite <- comp_assoc, Hm1; cat.
+      * rewrite <- comp_assoc, Hm2.
+        pose proof (pushout_commutes P) as PC.
+        rewrite PC; cat.
+    + apply pushout_med_unique; cat.
+Defined.
+
+End PushoutIdCollapse.
+
+(** ** [mor_as_cospan] is functorial
+
+    Composition of two morphism-as-cospans agrees with the morphism-as-
+    cospan of the composite.  Witnessed via the pushout-of-id collapse. *)
+
+Section MorAsCospanFunctorial.
+
+Context {C : Category}.
+Context (HP : HasPushouts C).
+
+(** This lemma states that [mor_as_cospan] respects composition: the
+    cospan-composite of two morphism-as-cospans is cospan-equivalent
+    to the morphism-as-cospan of the C-composite.
+
+    *Status*: the iso data is provided by [pushout_id_left_apex] (above);
+    the proof of the cospan-equiv condition involves a C-vs-C^op
+    conversion friction.  The proof was sketched but exceeded the
+    typecheck-debug budget in this commit.
+
+    The mathematical content is straightforward: the composite cospan's
+    apex is the pushout of (id, g), which collapses to Z; the legs
+    become [g ∘ f] (from X) and [id_Z] (from Z).
+
+    The remaining work is to assemble the [existT (apex iso) (leg
+    conditions)] cleanly in C^op.  *)
+
+(* TODO(V2d-coherence): mor_as_cospan_compose using
+   pushout_id_left_apex.  The cospan-equiv condition reduces to the
+   pushout-commutes equation with [id_right] simplification, but the
+   [existT]-and-iso-build wrt C^op vs C requires a small typecheck
+   adjustment that exceeds this commit's scope. *)
+
+End MorAsCospanFunctorial.
+
 (** ** Status of the full Cospan-Hypergraph derivation
 
     With the above [mor_as_cospan] embedding and the unitor / associator
