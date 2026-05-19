@@ -27,6 +27,7 @@ Construction/Cospan/Category.v
 Construction/Cospan/Bridging.v
 Construction/Cospan/Corelation.v
 Construction/Cospan/Hypergraph.v
+Construction/Cospan/Symmetric.v
 Functor/Applicative.v
 Functor/Bifunctor.v
 Functor/Construction/Product.v
