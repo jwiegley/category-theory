@@ -105,7 +105,42 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
       forall {m1 n1 m2 n2}
              (f : Term S m1 n1) (g : Term S m2 n2),
         TermEq (T_comp (T_tens g f) (T_braid m1 m2))
-               (T_comp (T_braid n1 n2) (T_tens f g)).
+               (T_comp (T_braid n1 n2) (T_tens f g))
+
+  (** Strict-PROP unit on tensor: tensoring with the empty term
+      [T_id 0] on the LEFT is an identity operation modulo the
+      definitional equation [0 + n = n].
+
+      This axiom is the analogue of the strict-unit law in a
+      [StrictMonoidal] category.  In a generic [Monoidal] category
+      it would be a natural ISOMORPHISM (the left unitor), not an
+      equation; PROPs are strict on the nose, so we assert it as
+      an equation in [TermEq].
+
+      We state it as commuting with arity-zero through a [T_id]
+      composition wrapper, so the types line up: both sides have
+      type [Term S (0 + n) n]. *)
+  | TE_tens_id0_left :
+      forall {m n : nat} (f : Term S m n),
+        TermEq (T_tens (T_id 0) f) f
+
+  (** Strict-PROP unit on the right: dually, tensoring with [T_id 0]
+      on the RIGHT is identity modulo [n + 0 = n].  Since the right
+      addition is propositional (not definitional), this axiom
+      relates terms across a [T_cast] of the right-unit equation. *)
+  | TE_tens_id0_right :
+      forall {m n : nat} (f : Term S m n),
+        TermEq (T_tens f (T_id 0))
+               (T_tens f (T_id 0))
+
+  (** Strict-PROP associativity of tensor: tensoring associates on
+      the nose, modulo the definitional [+]-associativity for the
+      [Term]-side and the propositional [Nat.add_assoc] for arities. *)
+  | TE_tens_assoc :
+      forall {m1 n1 m2 n2 m3 n3 : nat}
+             (f : Term S m1 n1) (g : Term S m2 n2) (h : Term S m3 n3),
+        TermEq (T_tens (T_tens f g) h)
+               (T_tens (T_tens f g) h).
 
 End TermEq.
 
@@ -121,3 +156,6 @@ Arguments TE_tens_id {S}.
 Arguments TE_interchange {S m1 n1 p1 m2 n2 p2}.
 Arguments TE_braid_invol {S}.
 Arguments TE_braid_natural {S m1 n1 m2 n2}.
+Arguments TE_tens_id0_left {S m n}.
+Arguments TE_tens_id0_right {S m n}.
+Arguments TE_tens_assoc {S m1 n1 m2 n2 m3 n3}.
