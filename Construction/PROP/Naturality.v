@@ -51,4 +51,24 @@ Proof.
     + apply TE_tens_id0_left.
 Qed.
 
+(** ** Left-unitor naturality, the [from]-direction
+
+    Goal:  bimap id g ⊙ unit_left⁻¹ ≈ unit_left⁻¹ ⊙ g
+    expanded:
+      (T_id 0 ⊕ g) ⊙ T_cast (eq_sym (Nat.add_0_l x))
+        ≈ T_cast (eq_sym (Nat.add_0_l y)) ⊙ g *)
+
+Lemma left_unit_natural_from {x y : nat} (g : Term S x y) :
+  TermEq S (T_comp (T_tens (T_id 0) g) (T_cast (eq_sym (Nat.add_0_l x))))
+           (T_comp (T_cast (eq_sym (Nat.add_0_l y))) g).
+Proof.
+  rewrite (T_cast_id (eq_sym (Nat.add_0_l x))).
+  rewrite (T_cast_id (eq_sym (Nat.add_0_l y))).
+  apply TE_trans with (T_tens (T_id 0) g).
+  - apply TE_id_right.
+  - apply TE_trans with g.
+    + apply TE_tens_id0_left.
+    + apply TE_sym, TE_id_left.
+Qed.
+
 End Naturality.
