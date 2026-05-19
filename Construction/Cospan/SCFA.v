@@ -116,6 +116,55 @@ Defined.
     a genuine pushout (not a collapse), so no analogous left-collapse bridge
     exists.  The dual configurations use [back] on the LEFT (outer). *)
 
+(** ** Tensor of [mor_as_cospan_back]s is again a [mor_as_cospan_back] *)
+Lemma cospan_tensor_mor_as_cospan_back
+      {X Y X' Y' : C} (f : Y ~> X) (g : Y' ~> X') :
+  cospan_equiv
+    (cospan_tensor (mor_as_cospan_back f) (mor_as_cospan_back g))
+    (mor_as_cospan_back (cover f g)).
+Proof.
+  unfold cospan_tensor, mor_as_cospan_back; simpl.
+  exists iso_id; simpl; split.
+  - rewrite id_left.
+    (* cover id id ≈ id *)
+    apply cover_id.
+  - rewrite id_left.
+    reflexivity.
+Defined.
+
+(** [cospan_id X] is in particular [mor_as_cospan_back id[X]]. *)
+Lemma cospan_id_as_back (X : C) :
+  cospan_equiv (cospan_id X) (mor_as_cospan_back (id[X] : X ~{C}~> X)).
+Proof.
+  unfold cospan_id, mor_as_cospan_back; simpl.
+  exists iso_id; simpl; split; cat.
+Defined.
+
+(** [mor_as_cospan_back] respects [≈] on the C-morphism. *)
+Lemma mor_as_cospan_back_proper {X Y : C} (f g : Y ~> X) :
+  f ≈ g -> cospan_equiv (mor_as_cospan_back f) (mor_as_cospan_back g).
+Proof.
+  intros Hfg.
+  unfold mor_as_cospan_back; simpl.
+  exists iso_id; simpl; split.
+  - cat.
+  - rewrite id_left.
+    exact Hfg.
+Defined.
+
+(** Composition of two backward cospans corresponds to composition of the
+    underlying C-morphisms IN REVERSE ORDER (this is the cospan duality). *)
+Lemma mor_as_cospan_back_compose
+      {X Y Z : C} (g : Z ~> Y) (f : Y ~> X) :
+  cospan_equiv
+    (cospan_compose HP (mor_as_cospan_back g) (mor_as_cospan_back f))
+    (mor_as_cospan_back (f ∘ g)).
+Proof.
+  (* Apply cospan_compose_mor_as_cospan_back_left with the inner being back_f
+     and back_g as outer. *)
+  apply cospan_compose_mor_as_cospan_back_left.
+Defined.
+
 (** ** C-level: codiagonal absorbs cover
 
     [(id ▽ id) ∘ cover f g ≈ f ▽ g] : the codiagonal absorbs the
@@ -362,6 +411,177 @@ Proof.
   apply codiag_eta_right.
 Defined.
 
+(** ** Cospan-level comonoid axioms (duals of the monoid axioms)
+
+    Each δ-axiom decomposes into the same C-level codiagonal identity as
+    the corresponding μ-axiom, via [mor_as_cospan_back_compose] +
+    [cospan_tensor_mor_as_cospan_back] + [cospan_compose_mor_iso_left]. *)
+
+(** [bimap delta id ∘ delta ≈ from tensor_assoc ∘ bimap id delta ∘ delta]. *)
+Lemma cospan_delta_coassoc (X : C) :
+  cospan_equiv
+    (cospan_compose HP
+       (cospan_tensor (cospan_scfa_delta X) (cospan_id X))
+       (cospan_scfa_delta X))
+    (cospan_compose HP
+       (cospan_compose HP
+          (mor_as_cospan (from (@coprod_assoc C H_Coc X X X)))
+          (cospan_tensor (cospan_id X) (cospan_scfa_delta X)))
+       (cospan_scfa_delta X)).
+Proof.
+  unfold cospan_scfa_delta.
+  (* LHS: compose (cospan_tensor (back (id▽id)) (cospan_id X)) (back (id▽id))
+        ≈ compose (back (cover (id▽id) id)) (back (id▽id))      [tensor_back + id_as_back]
+        ≈ back ((id▽id) ∘ cover (id▽id) id)                     [back_compose]                *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_equiv_trans with
+        (g := cospan_tensor (mor_as_cospan_back (id[X] ▽ id[X]))
+                            (mor_as_cospan_back id[X])).
+      + apply cospan_tensor_respects.
+        * apply cospan_equiv_refl.
+        * apply cospan_id_as_back.
+      + apply cospan_tensor_mor_as_cospan_back. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_back_compose. }
+  apply cospan_equiv_sym.
+  (* RHS handling *)
+  (* By cospan_compose_assoc:  compose (compose A B) C ≈ compose A (compose B C). *)
+  eapply cospan_equiv_trans.
+  { apply cospan_equiv_sym.
+    apply (cospan_compose_assoc HP
+             (mor_as_cospan (from (@coprod_assoc C H_Coc X X X)))
+             (cospan_tensor (cospan_id X) (Build_CospanArrow X id[X] (id[X] ▽ id[X])))
+             (Build_CospanArrow X id[X] (id[X] ▽ id[X]))). }
+  (* Inner compose: tensor (cospan_id X) (back (id▽id)) ∘ back (id▽id)
+     ≈ compose (back (cover id (id▽id))) (back (id▽id))   [tensor + id_as_back]
+     ≈ back ((id▽id) ∘ cover id (id▽id))                  [back_compose]                  *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_equiv_refl.
+      + apply cospan_equiv_trans with
+          (g := cospan_tensor (mor_as_cospan_back id[X])
+                              (mor_as_cospan_back (id[X] ▽ id[X]))).
+        * apply cospan_tensor_respects.
+          ++ apply cospan_id_as_back.
+          ++ apply cospan_equiv_refl.
+        * apply cospan_tensor_mor_as_cospan_back.
+    - apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply mor_as_cospan_back_compose.
+    - apply cospan_equiv_refl. }
+  (* Now: compose (mor_as_cospan (from α)) (back ((id▽id) ∘ cover id (id▽id))).
+     Apply cospan_compose_mor_iso_left with phi = iso_sym coprod_assoc, since
+     [to (iso_sym α) = from α] (definitionally). *)
+  eapply cospan_equiv_trans.
+  { apply (cospan_compose_mor_iso_left HP
+              (mor_as_cospan_back (id[X] ▽ id[X] ∘ cover id[X] (id[X] ▽ id[X])))
+              (iso_sym (@coprod_assoc C H_Coc X X X))). }
+  (* Resulting cospan: Build_CospanArrow X id ((id▽id) ∘ cover id (id▽id) ∘ from phi)
+     where from phi = to α. *)
+  apply cospan_equiv_sym.
+  (* LHS-after-reduction (target): mor_as_cospan_back ((id▽id) ∘ cover (id▽id) id) *)
+  unfold mor_as_cospan_back.
+  exists iso_id; simpl; split.
+  - cat.
+  - rewrite id_left.
+    apply codiag_assoc.
+Defined.
+
+(** [bimap epsilon id ∘ delta ≈ from unit_left]. *)
+Lemma cospan_delta_counit_left (X : C) :
+  cospan_equiv
+    (cospan_compose HP
+       (cospan_tensor (cospan_scfa_epsilon X) (cospan_id X))
+       (cospan_scfa_delta X))
+    (mor_as_cospan (from (@coprod_zero_l C H_Coc H_Ini X))).
+Proof.
+  unfold cospan_scfa_delta, cospan_scfa_epsilon.
+  (* LHS: compose (cospan_tensor (back zero) (cospan_id X)) (back (id▽id)) *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_equiv_trans with
+        (g := cospan_tensor (mor_as_cospan_back zero)
+                            (mor_as_cospan_back id[X])).
+      + apply cospan_tensor_respects.
+        * apply cospan_equiv_refl.
+        * apply cospan_id_as_back.
+      + apply cospan_tensor_mor_as_cospan_back. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_back_compose. }
+  (* Now: back ((id▽id) ∘ cover zero id) = back (to coprod_zero_l)  [codiag_eta_left]. *)
+  (* RHS is mor_as_cospan (from coprod_zero_l), which is a forward cospan with apex X.
+     LHS is back ((id▽id) ∘ cover zero id) = back (to coprod_zero_l), a backward cospan with apex X.
+     For backward cospan [Build_CospanArrow X id f]: apex X, leg1 = id, leg2 = f.
+     For forward cospan [mor_as_cospan g = Build_CospanArrow X g id]: apex X, leg1 = g, leg2 = id.
+     These are equal iff id ≈ leg of the other side — which requires the apex iso to swap. *)
+  unfold mor_as_cospan, mor_as_cospan_back; simpl.
+  (* Goal: Build_CospanArrow X id[X] ((id▽id) ∘ cover zero id) ≈
+          Build_CospanArrow X (from coprod_zero_l) id[X]                    *)
+  (* These are NOT cospan-equiv unless we can find an apex iso phi : X ≅ X
+     with phi ∘ id ≈ from coprod_zero_l and phi ∘ ((id▽id) ∘ cover zero id) ≈ id.
+     The first forces phi = from coprod_zero_l = inr.  But inr : X → 0+X, not X → X.
+     So these are NOT cospan-equiv at all — the LHS and RHS differ in the direction
+     of the "X" leg vs the "0+X" leg.
+     Actually the LHS has type CospanArrow X (0+X) (apex X, going X → 0+X), and
+     the RHS [mor_as_cospan (from coprod_zero_l : X → 0+X)] also has type
+     CospanArrow X (0+X) with apex (0+X).  So the cospan apexes are different! *)
+  (* Provide the apex iso: from coprod_zero_l : X ≅ 0+X (the reverse direction).
+     But cospan apex must be in C, and we need an iso between X (LHS apex) and
+     0+X (RHS apex).  But X and 0+X are not isomorphic without the coprod_zero_l iso. *)
+  (* Actually, mor_as_cospan f for f : X → Y has apex Y.  So
+     mor_as_cospan (from coprod_zero_l) where from coprod_zero_l : X → 0+X
+     has apex 0+X.  Now LHS Build_CospanArrow X id ((id▽id) ∘ cover zero id) has
+     apex X (the [Build] argument), with leg1 : X → X (=id), leg2 : 0+X → X (= (id▽id)∘cover zero id = to coprod_zero_l).
+     So apex iso phi : X ≅ 0+X with phi ∘ id ≈ from coprod_zero_l (=inr) and
+     phi ∘ to coprod_zero_l ≈ id.
+     phi = coprod_zero_l backwards i.e. iso_sym coprod_zero_l : X ≅ 0+X? Wait
+     coprod_zero_l : 0+X ≅ X, so iso_sym coprod_zero_l : X ≅ 0+X. Take phi = iso_sym coprod_zero_l. Then
+       to phi = from coprod_zero_l = inr ✓ (matches "phi ∘ id ≈ from coprod_zero_l")
+       to phi ∘ to coprod_zero_l = from coprod_zero_l ∘ to coprod_zero_l = id  ✓ *)
+  exists (iso_sym (@coprod_zero_l C H_Coc H_Ini X)).
+  simpl; split.
+  - rewrite id_right.
+    reflexivity.
+  - (* from coprod_zero_l ∘ ((id▽id) ∘ cover zero id) ≈ id *)
+    rewrite codiag_eta_left.
+    apply (iso_from_to (@coprod_zero_l C H_Coc H_Ini X)).
+Defined.
+
+(** [bimap id epsilon ∘ delta ≈ from unit_right]. *)
+Lemma cospan_delta_counit_right (X : C) :
+  cospan_equiv
+    (cospan_compose HP
+       (cospan_tensor (cospan_id X) (cospan_scfa_epsilon X))
+       (cospan_scfa_delta X))
+    (mor_as_cospan (from (@coprod_zero_r C H_Coc H_Ini X))).
+Proof.
+  unfold cospan_scfa_delta, cospan_scfa_epsilon.
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_equiv_trans with
+        (g := cospan_tensor (mor_as_cospan_back id[X])
+                            (mor_as_cospan_back zero)).
+      + apply cospan_tensor_respects.
+        * apply cospan_id_as_back.
+        * apply cospan_equiv_refl.
+      + apply cospan_tensor_mor_as_cospan_back. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_back_compose. }
+  unfold mor_as_cospan, mor_as_cospan_back; simpl.
+  exists (iso_sym (@coprod_zero_r C H_Coc H_Ini X)).
+  simpl; split.
+  - rewrite id_right.
+    reflexivity.
+  - rewrite codiag_eta_right.
+    apply (iso_from_to (@coprod_zero_r C H_Coc H_Ini X)).
+Defined.
+
 (** ** [Monoid (CospanCat C HP) X] for every X *)
 
 Program Definition cospan_monoid (X : C) :
@@ -377,6 +597,23 @@ Next Obligation.
 Defined.
 Next Obligation.
   apply cospan_mu_unit_right.
+Defined.
+
+(** ** [Comonoid (CospanCat C HP) X] for every X *)
+
+Program Definition cospan_comonoid (X : C) :
+  @Comonoid (CospanCat C HP) (Cospan_Monoidal HP) X := {|
+  delta   := cospan_scfa_delta X ;
+  epsilon := cospan_scfa_epsilon X
+|}.
+Next Obligation.
+  apply cospan_delta_coassoc.
+Defined.
+Next Obligation.
+  apply cospan_delta_counit_left.
+Defined.
+Next Obligation.
+  apply cospan_delta_counit_right.
 Defined.
 
 End CospanSCFA.
