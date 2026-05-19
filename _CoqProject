@@ -31,6 +31,7 @@ Construction/Cospan/Symmetric.v
 Construction/Cospan/SCFA.v
 Construction/Cospan/HypergraphInstance.v
 Construction/PROP.v
+Construction/ColouredPROP.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
 Construction/DecoratedCospan/Symmetric.v
