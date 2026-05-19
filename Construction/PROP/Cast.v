@@ -137,3 +137,11 @@ Lemma T_term_eq_rect_destruct
     | eq_refl => t
     end.
 Proof. destruct e; reflexivity. Qed.
+
+(** Dual: an [eq_rect_r] transport on the domain index reduces at
+    [eq_refl] to the term itself.  More general transport shapes
+    require a [destruct e] in context. *)
+Lemma T_term_eq_rect_r_refl
+  {S : Signature} {m : nat} (t : Term S m m) :
+  eq_rect_r (fun k => Term S k m) t (eq_refl m) = t.
+Proof. reflexivity. Qed.
