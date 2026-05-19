@@ -3,9 +3,9 @@ Require Import Category.Construction.PROP.Signature.
 Require Import Category.Construction.PROP.Term.
 Require Import Category.Construction.PROP.TermEq.
 
-From Stdlib Require Import Arith.
-From Stdlib Require Import PeanoNat.
-From Stdlib Require Import Eqdep_dec.
+From Coq Require Import Arith.
+From Coq Require Import PeanoNat.
+From Coq Require Import Eqdep_dec.
 
 Generalizable All Variables.
 

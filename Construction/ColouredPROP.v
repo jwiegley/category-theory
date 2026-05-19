@@ -9,7 +9,7 @@ Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Structure.Monoidal.Hypergraph.
 
-From Stdlib Require Import Lists.List.
+From Coq Require Import Lists.List.
 Import ListNotations.
 
 Generalizable All Variables.

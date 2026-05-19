@@ -8,7 +8,7 @@ Require Import Category.Construction.PROP.Term.
 Require Import Category.Construction.PROP.TermEq.
 Require Import Category.Construction.PROP.Free.
 
-From Stdlib Require Import Arith.
+From Coq Require Import Arith.
 
 Generalizable All Variables.
 

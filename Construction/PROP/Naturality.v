@@ -5,7 +5,7 @@ Require Import Category.Construction.PROP.TermEq.
 Require Import Category.Construction.PROP.Cast.
 Require Import Category.Construction.PROP.CastTensor.
 
-From Stdlib Require Import Arith.
+From Coq Require Import Arith.
 
 Generalizable All Variables.
 

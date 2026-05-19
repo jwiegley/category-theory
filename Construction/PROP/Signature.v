@@ -1,6 +1,6 @@
 Require Import Category.Lib.
 
-From Stdlib Require Import Arith.
+From Coq Require Import Arith.
 
 Generalizable All Variables.
 

@@ -1,7 +1,7 @@
 Require Import Category.Lib.
 Require Import Category.Construction.PROP.Signature.
 
-From Stdlib Require Import Arith.
+From Coq Require Import Arith.
 
 Generalizable All Variables.
 
