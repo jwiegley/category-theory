@@ -306,6 +306,8 @@ End DecoratedCospan.
 
 Arguments dc_cospan {C D MD F X Y} _.
 Arguments dc_decoration {C D MD F X Y} _.
+Arguments dce_cospan_eq {C D MD F X Y f g} _.
+Arguments dce_dec_eq    {C D MD F X Y f g} _.
 
 (** ** Functoriality remarks
 
