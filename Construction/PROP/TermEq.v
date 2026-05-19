@@ -125,22 +125,37 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
         TermEq (T_tens (T_id 0) f) f
 
   (** Strict-PROP unit on the right: dually, tensoring with [T_id 0]
-      on the RIGHT is identity modulo [n + 0 = n].  Since the right
-      addition is propositional (not definitional), this axiom
-      relates terms across a [T_cast] of the right-unit equation. *)
+      on the RIGHT is identity modulo [n + 0 = n].
+
+      Stated in transport form via [eq_rect] over the
+      arity-equations.  Concretely [T_tens f (T_id 0)] has type
+      [Term S (m + 0) (n + 0)]; we transport it to [Term S m n] using
+      [Nat.add_0_r] on both indices, and assert the result equals [f]. *)
   | TE_tens_id0_right :
       forall {m n : nat} (f : Term S m n),
-        TermEq (T_tens f (T_id 0))
-               (T_tens f (T_id 0))
+        TermEq (eq_rect (Nat.add n O)
+                        (fun k => Term S (Nat.add m O) k)
+                        (T_tens f (T_id O))
+                        n
+                        (Nat.add_0_r n))
+               (eq_rect_r
+                  (fun k => Term S k n)
+                  f
+                  (Nat.add_0_r m))
 
-  (** Strict-PROP associativity of tensor: tensoring associates on
-      the nose, modulo the definitional [+]-associativity for the
-      [Term]-side and the propositional [Nat.add_assoc] for arities. *)
+  (** Strict-PROP associativity of tensor.  Transport form. *)
   | TE_tens_assoc :
       forall {m1 n1 m2 n2 m3 n3 : nat}
              (f : Term S m1 n1) (g : Term S m2 n2) (h : Term S m3 n3),
-        TermEq (T_tens (T_tens f g) h)
-               (T_tens (T_tens f g) h).
+        TermEq (eq_rect (Nat.add (Nat.add n1 n2) n3)
+                        (fun k => Term S (Nat.add (Nat.add m1 m2) m3) k)
+                        (T_tens (T_tens f g) h)
+                        (Nat.add n1 (Nat.add n2 n3))
+                        (eq_sym (Nat.add_assoc n1 n2 n3)))
+               (eq_rect_r
+                  (fun k => Term S k (Nat.add n1 (Nat.add n2 n3)))
+                  (T_tens f (T_tens g h))
+                  (eq_sym (Nat.add_assoc m1 m2 m3))).
 
 End TermEq.
 
