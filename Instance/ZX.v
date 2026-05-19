@@ -404,3 +404,26 @@ Lemma zx_z_self_fuse (m n : nat) :
   zx_eq (zx_z 1 n phase_zero ⊙ zx_z m 1 phase_zero)
         (zx_z m n (phase_add phase_zero phase_zero)).
 Proof. apply (zx_eq_z_fusion m n 1). Qed.
+
+(** ** Sanity check: X-spider fusion at zero phase. *)
+
+Lemma zx_x_self_fuse (m n : nat) :
+  zx_eq (zx_x 1 n phase_zero ⊙ zx_x m 1 phase_zero)
+        (zx_x m n (phase_add phase_zero phase_zero)).
+Proof. apply (zx_eq_x_fusion m n 1). Qed.
+
+(** ** Triple Hadamard reduces to a single Hadamard. *)
+
+Lemma zx_h_triple :
+  zx_eq (zx_h ⊙ zx_h ⊙ zx_h) zx_h.
+Proof.
+  eapply zx_eq_trans.
+  - apply zx_eq_compose; [ apply zx_eq_h_invol | apply zx_eq_refl ].
+  - apply zx_eq_id_left.
+Qed.
+
+(** ** Double swap is the identity wire pair. *)
+
+Lemma zx_swap_double :
+  zx_eq (zx_swap ⊙ zx_swap) (zx_id 2).
+Proof. apply zx_eq_swap_invol. Qed.
