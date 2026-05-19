@@ -427,3 +427,36 @@ Qed.
 Lemma zx_swap_double :
   zx_eq (zx_swap ⊙ zx_swap) (zx_id 2).
 Proof. apply zx_eq_swap_invol. Qed.
+
+(** ** Quadruple swap is the identity (two double-swaps). *)
+
+Lemma zx_swap_quadruple :
+  zx_eq (zx_swap ⊙ zx_swap ⊙ zx_swap ⊙ zx_swap) (zx_id 2).
+Proof.
+  (* parses as ((s⊙s)⊙s)⊙s ; re-associate to (s⊙s)⊙(s⊙s) *)
+  eapply zx_eq_trans.
+  - apply zx_eq_assoc.
+  - eapply zx_eq_trans.
+    + apply zx_eq_compose; apply zx_eq_swap_invol.
+    + apply zx_eq_id_left.
+Qed.
+
+(** ** Quadruple Hadamard is the identity wire. *)
+
+Lemma zx_h_quadruple :
+  zx_eq (zx_h ⊙ zx_h ⊙ (zx_h ⊙ zx_h)) (zx_id 1).
+Proof.
+  eapply zx_eq_trans.
+  - apply zx_eq_compose; apply zx_eq_h_invol.
+  - apply zx_eq_id_left.
+Qed.
+
+(** ** Identity Z-spider on the right is absorbed by composition. *)
+
+Lemma zx_compose_z_id_right {m : nat} (f : ZX m 1) :
+  zx_eq (zx_z 1 1 phase_zero ⊙ f) f.
+Proof.
+  eapply zx_eq_trans.
+  - apply zx_eq_compose; [ apply zx_eq_z_id | apply zx_eq_refl ].
+  - apply zx_eq_id_left.
+Qed.
