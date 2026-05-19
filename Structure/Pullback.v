@@ -123,11 +123,6 @@ Class HasPullbacks (C : Category) : Type := {
 
 Arguments pullback {C _ x y z} f g.
 
-Require Import Category.Construction.Opposite.
-
-Definition Pushout {C : Category} {x y z : C^op} (f : x ~> z) (g : y ~> z) :=
-  Pullback f g.
-
 (* A weak pullback differs from a pullback in that the mediating morphism is
    merely required to exist; uniqueness is dropped. *)
 Record WeakPullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := {
