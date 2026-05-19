@@ -7,9 +7,13 @@ considered internal to the library and may change without notice.
 
 ## Tactics
 
-All tactics live in `Lib/Tactics.v` (loaded transitively by
+Most tactics live in `Lib/Tactics.v` (loaded transitively by
 `Require Import Category.Lib.`, which is itself the first import of
 every library file).
+
+**Exception:** `Ltac normal` is defined in `Functor/Bifunctor.v:129` —
+NOT in `Lib/Tactics.v`. To use `normal` in your own code, write
+`Require Import Category.Functor.Bifunctor.` explicitly.
 
 | Tactic        | Arity      | Purpose                                                       | Closes / progresses        | Stability     |
 |---------------|------------|---------------------------------------------------------------|----------------------------|---------------|
@@ -18,7 +22,7 @@ every library file).
 | `proper`      | no-arg     | Discharge a `Proper _ _` goal. `repeat intro; simpl; try cat; intuition`. | Most `Proper`/`respectful` instances. | Stable        |
 | `equivalence` | no-arg     | Discharge a `Equivalence` goal. `constructor; repeat intro; simpl; try cat; intuition; auto with *`. | Most setoid `Equivalence` proofs. | Stable        |
 | `construct`   | no-arg     | `unshelve econstructor; simpl; intros` — build a record value, leaving each field as a subgoal. | Record-introduction step. | Stable        |
-| `normal`      | no-arg     | Bring a composition chain into a canonical right-associated form. | Composition normalisation. | Stable        |
+| `normal`      | no-arg     | Bring a composition chain into a canonical right-associated form. Defined in `Functor/Bifunctor.v` (NOT `Lib/Tactics.v`). | Composition normalisation. | Stable        |
 | `simplify`    | no-arg     | Library's structural-tactic preamble used inside `cat` / `cat_simpl`. | Match-and-split goals.    | Internal*     |
 | `inv`         | hypothesis | `inversion H; subst; try clear H`.                            | Hypothesis destruction.     | Stable        |
 | `spose F as X` | term + ident | `pose proof F as X; simpl in X` — bring `F` into the context simplified. | Lemma instantiation step.   | Stable        |
@@ -34,7 +38,7 @@ should prefer the higher-level wrappers `cat` / `cat_simpl`.
 
 | Database         | Contents                                                                                          | Defined in                              |
 |------------------|---------------------------------------------------------------------------------------------------|------------------------------------------|
-| `categories`     | Rewrite rules for category laws: `id_left`, `id_right`, `comp_assoc` (both directions), `fmap_id`, etc. | `Theory/Category.v`, `Lib/Tactics2.v`   |
+| `categories`     | Rewrite rules for category laws: `id_left`, `id_right`, `comp_assoc` (right-associated direction only, to normalise; the forward direction would loop), `fmap_id`, etc. | `Theory/Category.v`, `Lib/Tactics2.v`   |
 | `category_laws`  | `Hint Extern` resolutions for `Reflexive`/`Symmetric`/`Transitive`/`Proper`/`equiv`.              | `Lib/Tactics.v`                          |
 | `core`           | Standard Coq + library-installed extensions for `Equivalence`/`Proper`/`Reflexive`/`Symmetric`/`Transitive`. | `Lib/Tactics.v` (via `Hint Extern 1`). |
 
