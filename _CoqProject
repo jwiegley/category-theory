@@ -33,6 +33,7 @@ Construction/Cospan/HypergraphInstance.v
 Construction/PROP.v
 Construction/PROP/Signature.v
 Construction/PROP/Term.v
+Construction/PROP/TermEq.v
 Construction/ColouredPROP.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
