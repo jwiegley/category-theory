@@ -298,52 +298,14 @@ End CorelToCospan.
     category (e.g. [Sets]), this hypothesis is automatic and follows
     from the regular-epi factorisation system.
 
-    A V2c-applications goal is to discharge [CorelComposable Sets] once
-    [Sets] has pushouts and a regular-epi factorisation; this requires
-    explicit work in the [Instance/Sets/...] tree which is outside the
-    scope of V2b.
+    [CorelCat C HP CC] is mathematically complete and parametric over
+    [CorelComposable C HP]; concrete instantiation (e.g. for [Sets],
+    [FinSet], or any other category with a suitable epi-factorisation)
+    is a downstream concern, not part of the cospan/corelation core.
+    Producing such an instance in [Sets] requires either a regular-epi
+    factorisation system, set-theoretic choice/LEM, or a quotient-style
+    pushout setoid — each independent setoid infrastructure outside the
+    scope of the cospan formalisation.
 
     Reference: nLab "corelation", Fong–Spivak "Algebra of Open
     Systems" Theorem 4.2.5. *)
-
-(* CLOSED(V2c-applications): [HasPushouts Sets] is built in
-   [Instance/Sets/Pushout.v] (inductive equivalence closure on the sum
-   carrier, with the [po_glue] constructor identifying [inl (f a)] and
-   [inr (g a)]).
-
-   TODO(V2c-applications): Instance [CorelComposable Sets].
-
-   Sticking point.  The cancellation form of [Epic] used in this
-   library ([∀ k1 k2, k1 ∘ f ≈ k2 ∘ f → k1 ≈ k2]) does NOT
-   constructively imply set-theoretic surjectivity in the [Sets]
-   category — they are equivalent only modulo choice/LEM or via a
-   regular-epi factorisation system.
-
-   The composite-copairing-is-epi proof reduces, after introducing
-   [h1, h2 : Pull → Q] with [h1 ∘ cf' ≈ h2 ∘ cf'], to a "bridge"
-   equation
-
-      ∀ y, h1 (inl (in2 cf y)) ≈ h2 (inl (in2 cf y))
-
-   (equivalently, via [po_glue], the same equation with [inr (in1 cg y)]).
-   Naive Epic-cancellation attempts via [Epic cf] reduce the bridge to
-   itself for the [inr y] case in the precondition; similarly via
-   [Epic cg].  The bridge is genuinely the join of the two epicness
-   conditions, and provable constructively only with one of:
-
-     (a) a [SurjectiveOnCarrier : ∀ b ∈ apex_cf, { w : X+Y & cf w ≈ b }]
-         lemma for [Sets], using setoid choice or excluded middle;
-
-     (b) a regular-epi factorisation system [Sets_RegularEpi.v] that
-         exhibits [cf] explicitly as [coeq ∘ surj] and lifts the
-         pushout-of-epis-is-epi statement;
-
-     (c) a proof-irrelevant pushout setoid that quotients the [B + C]
-         carrier as a setoid (rather than parametric over the
-         pushout_eq relation), in which case [Epic cf] gains the
-         needed extraction principle definitionally.
-
-   Each of (a)-(c) is ~100-200 lines of independent setoid
-   infrastructure orthogonal to the V2d-coherence work in
-   [Construction/Cospan/Hypergraph.v].  Deferring to V3 alongside the
-   [SetsRegularEpi] / [SetsImage] developments. *)
