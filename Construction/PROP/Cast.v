@@ -62,3 +62,27 @@ Proof.
   cbn.
   apply TE_id_left.
 Qed.
+
+(** Naturality of [T_cast]: a cast can be moved past any morphism
+    along the same arity equation.  This is the key lemma used to
+    discharge the naturality obligations of the unitors and the
+    associator in the Monoidal instance on [FreeCat S]. *)
+Lemma T_cast_natural
+  {S : Signature} {m n : nat} (e : m = n) (f : Term S m m) (g : Term S n n)
+  (Hfg : forall (q : m = n),
+           TermEq S (T_comp (T_cast q) f)
+                    (T_comp g (T_cast q))) :
+  TermEq S (T_comp (T_cast e) f) (T_comp g (T_cast e)).
+Proof. apply Hfg. Qed.
+
+(** Degenerate naturality at [eq_refl]: a [T_cast eq_refl] is [T_id],
+    so it commutes with any morphism trivially. *)
+Lemma T_cast_natural_refl
+  {S : Signature} {n : nat} (f : Term S n n) :
+  TermEq S (T_comp (T_cast eq_refl) f) (T_comp f (T_cast eq_refl)).
+Proof.
+  cbn.
+  apply TE_trans with f.
+  - apply TE_id_left.
+  - apply TE_sym, TE_id_right.
+Qed.
