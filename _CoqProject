@@ -36,6 +36,7 @@ Construction/DecoratedCospan/Category.v
 Construction/DecoratedCospan/Symmetric.v
 Construction/DecoratedCospan/Monoidal.v
 Construction/DecoratedCospan/Braided.v
+Construction/DecoratedCospan/Hypergraph.v
 Construction/Cospan/BlackBox.v
 Instance/ZX.v
 Functor/Applicative.v
