@@ -201,4 +201,147 @@ Proof.
   apply (@zero_unique C H_Ini _ _ _).
 Defined.
 
+(** ** C-level identity for [scfa_tensor_mu]
+
+    The codiagonal on [(X+Y) + (X+Y)] factors through the middle-swap
+    composite and the per-component codiagonals. *)
+
+Lemma codiag_through_mid_swap (X Y : C) :
+  ((id[X + Y] ▽ id[X + Y]) : ((X + Y) + (X + Y))%object ~> (X + Y))
+  ≈ cover (id[X] ▽ id[X]) (id[Y] ▽ id[Y])
+      ∘ from (@coprod_assoc C H_Coc X X (Y + Y))
+      ∘ cover id[X] (to (@coprod_assoc C H_Coc X Y Y))
+      ∘ cover id[X] (cover (paws : (Y + X)%object ~{C}~> (X + Y)%object) id[Y])
+      ∘ cover id[X] (from (@coprod_assoc C H_Coc Y X Y))
+      ∘ to (@coprod_assoc C H_Coc X Y (X + Y)).
+Proof.
+  apply coprod_ext.
+  - apply coprod_ext.
+    + (* X.first leg via (inl ∘ inl); both sides → inl *)
+      rewrite <- !comp_assoc.
+      rewrite assoc_to_inl_inl.
+      rewrite cover_inl, id_right.
+      rewrite cover_inl, id_right.
+      rewrite cover_inl, id_right.
+      rewrite assoc_from_inl.
+      rewrite (comp_assoc (cover (id[X] ▽ id[X]) (id[Y] ▽ id[Y])) inl inl).
+      rewrite cover_inl.
+      rewrite <- (comp_assoc inl (id[X] ▽ id[X]) inl).
+      rewrite inl_merge, id_right.
+      rewrite (comp_assoc (id[X+Y] ▽ id[X+Y]) inl inl).
+      rewrite inl_merge, id_left.
+      reflexivity.
+    + (* Y.first leg via (inl ∘ inr); both sides → inr *)
+      rewrite <- !comp_assoc.
+      rewrite assoc_to_inl_inr.
+      rewrite (comp_assoc (cover id[X] (from coprod_assoc)) inr inl).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (from coprod_assoc) inl).
+      rewrite assoc_from_inl.
+      rewrite (comp_assoc (cover id[X] (cover paws id[Y])) inr (inl ∘ inl)).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (cover paws id[Y]) (inl ∘ inl)).
+      rewrite (comp_assoc (cover paws id[Y]) inl inl).
+      rewrite cover_inl.
+      rewrite <- (comp_assoc inl paws inl).
+      rewrite paws_inl.
+      rewrite (comp_assoc (cover id[X] (to coprod_assoc)) inr (inl ∘ inr)).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (to coprod_assoc) (inl ∘ inr)).
+      rewrite assoc_to_inl_inr.
+      rewrite (comp_assoc (from coprod_assoc) inr (inr ∘ inl)).
+      rewrite (comp_assoc (from coprod_assoc ∘ inr) inr inl).
+      rewrite <- (comp_assoc (from coprod_assoc) inr inr).
+      rewrite assoc_from_inr_inr.
+      rewrite (comp_assoc (cover (id[X] ▽ id[X]) (id[Y] ▽ id[Y])) inr inl).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (id[Y] ▽ id[Y]) inl).
+      rewrite inl_merge, id_right.
+      rewrite (comp_assoc (id[X+Y] ▽ id[X+Y]) inl inr).
+      rewrite inl_merge, id_left.
+      reflexivity.
+  - apply coprod_ext.
+    + (* X.second leg via (inr ∘ inl); both sides → inl *)
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (to coprod_assoc) inr inl).
+      rewrite assoc_to_inr.
+      rewrite <- (comp_assoc inr inr inl).
+      rewrite (comp_assoc (cover id[X] (from coprod_assoc)) inr (inr ∘ inl)).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (from coprod_assoc) (inr ∘ inl)).
+      rewrite assoc_from_inr_inl.
+      rewrite (comp_assoc (cover id[X] (cover paws id[Y])) inr (inl ∘ inr)).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (cover paws id[Y]) (inl ∘ inr)).
+      rewrite (comp_assoc (cover paws id[Y]) inl inr).
+      rewrite cover_inl.
+      rewrite <- (comp_assoc inl paws inr).
+      rewrite paws_inr.
+      rewrite (comp_assoc (cover id[X] (to coprod_assoc)) inr (inl ∘ inl)).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (to coprod_assoc) (inl ∘ inl)).
+      rewrite assoc_to_inl_inl.
+      rewrite assoc_from_inr_inl.
+      rewrite (comp_assoc (cover (id[X] ▽ id[X]) (id[Y] ▽ id[Y])) inl inr).
+      rewrite cover_inl.
+      rewrite <- (comp_assoc inl (id[X] ▽ id[X]) inr).
+      rewrite inr_merge, id_right.
+      rewrite (comp_assoc (id[X+Y] ▽ id[X+Y]) inr inl).
+      rewrite inr_merge, id_left.
+      reflexivity.
+    + (* Y.second leg via (inr ∘ inr); both sides → inr *)
+      rewrite <- !comp_assoc.
+      rewrite (comp_assoc (to coprod_assoc) inr inr).
+      rewrite assoc_to_inr.
+      rewrite <- (comp_assoc inr inr inr).
+      rewrite (comp_assoc (cover id[X] (from coprod_assoc)) inr (inr ∘ inr)).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (from coprod_assoc) (inr ∘ inr)).
+      rewrite assoc_from_inr_inr.
+      rewrite (comp_assoc (cover id[X] (cover paws id[Y])) inr inr).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (cover paws id[Y]) inr).
+      rewrite cover_inr.
+      rewrite id_right.
+      rewrite (comp_assoc (cover id[X] (to coprod_assoc)) inr inr).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (to coprod_assoc) inr).
+      rewrite assoc_to_inr.
+      rewrite (comp_assoc (from coprod_assoc) inr (inr ∘ inr)).
+      rewrite (comp_assoc (from coprod_assoc ∘ inr) inr inr).
+      rewrite <- (comp_assoc (from coprod_assoc) inr inr).
+      rewrite assoc_from_inr_inr.
+      rewrite (comp_assoc (cover (id[X] ▽ id[X]) (id[Y] ▽ id[Y])) inr inr).
+      rewrite cover_inr.
+      rewrite <- (comp_assoc inr (id[Y] ▽ id[Y]) inr).
+      rewrite inr_merge, id_right.
+      rewrite (comp_assoc (id[X+Y] ▽ id[X+Y]) inr inr).
+      rewrite inr_merge, id_left.
+      reflexivity.
+Qed.
+
+(** ** Cospan-level [scfa_tensor_mu]
+
+    Reduces [bimap mu_X mu_Y ∘ mid_swap X Y] (at the cospan level) to
+    [mor_as_cospan ((cover (id▽id_X) (id▽id_Y)) ∘ mid_swap_C)], which by
+    [codiag_through_mid_swap] equals [mor_as_cospan (id▽id_{X+Y})] =
+    [scfa_mu (X+Y)]. *)
+
+(** Tactical hint: any [cospan_tensor (cospan_id _) (mor_as_cospan g)]
+    reduces to [mor_as_cospan (cover id g)] via id_as_back + tensor compatibility.
+    This bundles two steps. *)
+
+Lemma cospan_tensor_id_left_as_cospan {A B X : C}
+  (g : A ~> B) :
+  cospan_equiv
+    (cospan_tensor (cospan_id X) (mor_as_cospan g))
+    (mor_as_cospan (cover id[X] g)).
+Proof.
+  eapply cospan_equiv_trans.
+  { apply cospan_tensor_respects.
+    - apply cospan_equiv_sym, mor_as_cospan_id.
+    - apply cospan_equiv_refl. }
+  apply cospan_tensor_mor_as_cospan.
+Defined.
+
 End CospanHypergraphInstance.
