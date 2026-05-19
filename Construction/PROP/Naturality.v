@@ -135,6 +135,22 @@ Lemma tens_id0_right_at (n : nat) (f : Term S n n) :
     (eq_rect_r (fun k => Term S k n) f (Nat.add_0_r n)).
 Proof. exact (TE_tens_id0_right f). Qed.
 
+(** ** Tensor-associativity at any concrete arities *)
+
+Lemma tens_assoc_at {m1 n1 m2 n2 m3 n3 : nat}
+                    (f : Term S m1 n1) (g : Term S m2 n2) (h : Term S m3 n3) :
+  TermEq S
+    (eq_rect (Nat.add (Nat.add n1 n2) n3)
+             (fun k => Term S (Nat.add (Nat.add m1 m2) m3) k)
+             (T_tens (T_tens f g) h)
+             (Nat.add n1 (Nat.add n2 n3))
+             (eq_sym (Nat.add_assoc n1 n2 n3)))
+    (eq_rect_r
+       (fun k => Term S k (Nat.add n1 (Nat.add n2 n3)))
+       (T_tens f (T_tens g h))
+       (eq_sym (Nat.add_assoc m1 m2 m3))).
+Proof. exact (TE_tens_assoc f g h). Qed.
+
 (** ** Braid naturality, exposed as a named lemma
 
     Direct restatement of [TE_braid_natural] with a friendly name.
