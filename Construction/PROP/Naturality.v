@@ -71,4 +71,17 @@ Proof.
     + apply TE_sym, TE_id_left.
 Qed.
 
+(** ** Simple corollaries of the strict-unit axioms *)
+
+(** Tensoring two identity terms with [T_id 0] on the left collapses
+    to a single identity term. *)
+Lemma tens_id0_id (n : nat) :
+  TermEq S (T_tens (T_id 0) (T_id n)) (T_id n).
+Proof. apply TE_tens_id0_left. Qed.
+
+(** Repeated tensor of [T_id 0] on the left is still [T_id 0]. *)
+Lemma tens_id0_id0 :
+  TermEq S (T_tens (T_id 0) (T_id 0)) (T_id 0).
+Proof. apply TE_tens_id0_left. Qed.
+
 End Naturality.
