@@ -591,6 +591,35 @@ Proof.
   apply iso_from_to.
 Qed.
 
+(** Reverse cancellation: [mid_swap_C_inv ∘ mid_swap_C ≈ id].
+
+    Five stages of cancellation, dual to [mid_swap_C_inv_left]:
+    (1) to α(X,X,Y+Y) ∘ from α(X,X,Y+Y) = id
+    (2) cover id (from α(X,Y,Y)) ∘ cover id (to α(X,Y,Y)) = id
+    (3) cover id (cover paws id) ∘ cover id (cover paws id) = id
+    (4) cover id (to α(Y,X,Y)) ∘ cover id (from α(Y,X,Y)) = id
+    (5) from α(X,Y,X+Y) ∘ to α(X,Y,X+Y) = id *)
+Lemma mid_swap_C_inv_right (X Y : C) :
+  mid_swap_C_inv X Y ∘ mid_swap_C X Y ≈ id.
+Proof.
+  unfold mid_swap_C, mid_swap_C_inv.
+  rewrite <- !comp_assoc.
+  rewrite (comp_assoc (to coprod_assoc) (from coprod_assoc)).
+  rewrite iso_to_from, id_left.
+  rewrite (comp_assoc (cover id[X] (from coprod_assoc))
+                      (cover id[X] (to coprod_assoc))).
+  rewrite cover_comp, id_left, iso_from_to, cover_id, id_left.
+  rewrite (comp_assoc (cover id[X] (cover paws id[Y]))
+                      (cover id[X] (cover paws id[Y]))).
+  rewrite cover_comp, id_left.
+  rewrite cover_comp, paws_invol, id_left.
+  rewrite cover_id, cover_id, id_left.
+  rewrite (comp_assoc (cover id[X] (to coprod_assoc))
+                      (cover id[X] (from coprod_assoc))).
+  rewrite cover_comp, id_left, iso_to_from, cover_id, id_left.
+  apply iso_from_to.
+Qed.
+
 Lemma cospan_scfa_tensor_delta (X Y : C) :
   cospan_equiv
     (cospan_scfa_delta (X + Y))
@@ -620,29 +649,7 @@ Proof.
     @Build_Isomorphism C _ _
       (mid_swap_C_inv X Y) (mid_swap_C X Y) _ _).
   2: { apply mid_swap_C_inv_left. }
-  { (* mid_swap_C_inv ∘ mid_swap_C ≈ id, dual to mid_swap_C_inv_left.
-       After right-association, the adjacent pairs are:
-       (1) to α(X,X,Y+Y) ∘ from α(X,X,Y+Y)
-       (2) cover id (from α(X,Y,Y)) ∘ cover id (to α(X,Y,Y))
-       (3) cover id (cover paws id) ∘ cover id (cover paws id)
-       (4) cover id (to α(Y,X,Y)) ∘ cover id (from α(Y,X,Y))
-       (5) from α(X,Y,X+Y) ∘ to α(X,Y,X+Y).                    *)
-    unfold mid_swap_C, mid_swap_C_inv.
-    rewrite <- !comp_assoc.
-    rewrite (comp_assoc (to coprod_assoc) (from coprod_assoc)).
-    rewrite iso_to_from, id_left.
-    rewrite (comp_assoc (cover id[X] (from coprod_assoc))
-                        (cover id[X] (to coprod_assoc))).
-    rewrite cover_comp, id_left, iso_from_to, cover_id, id_left.
-    rewrite (comp_assoc (cover id[X] (cover paws id[Y]))
-                        (cover id[X] (cover paws id[Y]))).
-    rewrite cover_comp, id_left.
-    rewrite cover_comp, paws_invol, id_left.
-    rewrite cover_id, cover_id, id_left.
-    rewrite (comp_assoc (cover id[X] (to coprod_assoc))
-                        (cover id[X] (from coprod_assoc))).
-    rewrite cover_comp, id_left, iso_to_from, cover_id, id_left.
-    apply iso_from_to. }
+  { apply mid_swap_C_inv_right. }
   (* Rewrite (mor_as_cospan (mid_swap_C_inv X Y)) = (mor_as_cospan (to phi)). *)
   eapply cospan_equiv_trans.
   { apply cospan_compose_respects_aux.
