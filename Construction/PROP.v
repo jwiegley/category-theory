@@ -60,6 +60,25 @@ Class PROP : Type := {
   prop_strict : @StrictMonoidal prop_cat;
   prop_symmetric : @SymmetricMonoidal prop_cat;
 
+  (** Coherence between the two [Monoidal] paths through a PROP.
+      [prop_strict] supplies a [Monoidal] via [strict_is_monoidal];
+      [prop_symmetric] supplies one via
+      [braided_is_monoidal ∘ symmetric_is_braided].  Without an axiom
+      relating them, downstream tensor expressions resolve
+      ambiguously.  We require these to be EQUAL as [Monoidal]
+      records:
+
+        [prop_monoidal_coherence] :
+            [strict_is_monoidal prop_strict
+             = braided_is_monoidal (symmetric_is_braided prop_symmetric)]
+
+      so a [rewrite] (or [subst]) brings any term phrased via one path
+      into agreement with the other. *)
+  prop_monoidal_coherence :
+    (@strict_is_monoidal prop_cat prop_strict)
+    = (@braided_is_monoidal prop_cat
+         (@symmetric_is_braided prop_cat prop_symmetric));
+
   (** The canonical object correspondence: every natural number names an
       object of [prop_cat], with [0] the monoidal unit and addition
       reflecting tensor. *)
