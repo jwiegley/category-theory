@@ -256,5 +256,6 @@ Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
+Test/HypergraphPROPResolution.v
 Tools/Abstraction.v
 Tools/Represented.v
