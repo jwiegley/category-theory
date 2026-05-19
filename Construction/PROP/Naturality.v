@@ -126,6 +126,15 @@ Proof.
   exact Hr.
 Qed.
 
+(** ** Arity-specialised right-unit at any concrete (n, n) *)
+
+Lemma tens_id0_right_at (n : nat) (f : Term S n n) :
+  TermEq S
+    (eq_rect (n + 0) (fun k => Term S (n + 0) k)
+             (T_tens f (T_id 0)) n (Nat.add_0_r n))
+    (eq_rect_r (fun k => Term S k n) f (Nat.add_0_r n)).
+Proof. exact (TE_tens_id0_right f). Qed.
+
 (** ** Braid naturality, exposed as a named lemma
 
     Direct restatement of [TE_braid_natural] with a friendly name.
