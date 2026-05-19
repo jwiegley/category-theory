@@ -231,12 +231,18 @@ Context `{H_Coc : @Cocartesian C}.
     where [cospan_merge : N ⨂_C M ~> P] is the user-supplied map that
     glues the two halves of the cospan-tensor into the pushout apex.
 
-    In Fong's original setting [⨂_C = +_C] (the source monoidal structure
-    is the coproduct), and [cospan_merge = pushout_in1 ▽ pushout_in2] is
-    the cocartesian comediator into the pushout.  In more general
-    settings (e.g. when C is multicategorical or has a different
-    monoidal structure than its coproducts), [cospan_merge] is supplied
-    as part of the decoration data.
+    Note on [cospan_merge]: its TYPE is [(N ⨂_C M) ~> (N + M)] — it
+    bridges the source monoidal tensor to the source coproduct.  It is
+    NOT the pushout mediator (the comediator [pushout_in1 ▽ pushout_in2
+    : (N + M) ~> P] is applied SEPARATELY, below).
+
+    In Fong's original setting [⨂_C = +_C] (the source monoidal
+    structure IS the coproduct), so [cospan_merge = id] and the only
+    pushout-related work is the separate [pushout_in1 ▽ pushout_in2]
+    factor.  In more general settings (when C is multicategorical or
+    has a different monoidal structure than its coproducts),
+    [cospan_merge] is genuinely needed and supplied as part of the
+    decoration data.
 
     To keep the construction abstract we PARAMETERISE by [cospan_merge].
     The downstream files providing concrete instances (the classical
