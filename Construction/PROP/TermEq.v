@@ -234,7 +234,42 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
       the strict-PROP setting on [nat], this becomes
       [T_braid 0 n ≈ T_id n] and [T_braid n 0 ≈ T_id n] modulo the
       arity equation [n + 0 = n] (which is propositional, not
-      definitional — [Nat.add] is left-strict only). *)
+      definitional — [Nat.add] is left-strict only).
+
+      ** Minimality note (Joyal–Street §2 Prop. 2.1; Mac Lane CWM VII §1)
+
+      In the literature these unit-braid equations are NOT independent
+      axioms — they are theorems of [hexagon + naturality + invol +
+      triangle].  Sketch of the derivation in our setting (we omit the
+      formal proof's eq_rect bookkeeping for brevity):
+
+        1. Instantiate [TE_braid_hex_right] at [m := n], [n := 0],
+           [p := 0]:
+             σ_{n, 0+0} ≈ (id_0 ⊕ σ_{n,0}) ⊙ (σ_{n,0} ⊕ id_0).
+        2. Collapse the [id_0 ⊕ _] and [_ ⊕ id_0] tensors via
+           [TE_tens_id0_left] / [TE_tens_id0_right]:
+             σ_{n, 0} ≈ σ_{n, 0} ⊙ σ_{n, 0}                   (idempotency)
+        3. By [TE_braid_invol]: [σ_{0, n} ⊙ σ_{n, 0} ≈ id_{n+0} ≈ id_n].
+           Compose both sides of (2) with [σ_{0, n}] on the left:
+             σ_{0, n} ⊙ σ_{n, 0} ≈ σ_{0, n} ⊙ (σ_{n, 0} ⊙ σ_{n, 0}).
+             id_n        ≈  σ_{0, n} ⊙ σ_{n, 0} ⊙ σ_{n, 0}      (assoc)
+             id_n        ≈  id_n ⊙ σ_{n, 0}                     (involution)
+             id_n        ≈  σ_{n, 0}                            (id-left)
+        4. The dual [σ_{0, n} ≈ id_n] follows by applying [TE_braid_invol]
+           once more to step (3)'s conclusion.
+
+      We keep them as primitive constructors here for ergonomics: the
+      formal derivation requires substantial [eq_rect] bookkeeping
+      across hexagon-, strict-unit-, and involution-form transports
+      (the unit-arity cases of those transports do not reduce
+      definitionally in [Nat.add]), and the downstream [SymmetricMonoidal]
+      instance on [FreeCat S] consumes the strict form directly.
+
+      Adding sound redundant constructors is harmless (it cannot make
+      [TermEq] inconsistent — every constructor remains inhabited by
+      the standard permutation model).  A future refactor that
+      derives these as [Lemma]s after the inductive declaration would
+      not change any [TermEq]-judgements, only the axiom budget. *)
 
   | TE_braid_unit_left :
       forall (n : nat),
