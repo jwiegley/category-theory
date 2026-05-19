@@ -733,6 +733,159 @@ Proof.
   apply codiag_paws_comm.
 Defined.
 
+(** ** Frobenius pushout apex calculation
+
+    The Frobenius law decomposes (after [bimap], [tensor_assoc] reductions)
+    to a pushout of [cover id (id▽id) ∘ to α] against [cover (id▽id) id],
+    both [(X+X)+X → X+X].  This pushout's apex collapses to X by an
+    argument analogous to specialness: the pushout's commutativity relation
+    forces [pushout_in1 ≈ pushout_in2] via [coprod_ext]. *)
+
+Lemma frob_pushout_legs_eq (X : C) :
+  let P := pushout
+             ((cover id[X] (id[X] ▽ id[X]) ∘ to (@coprod_assoc C H_Coc X X X))
+                : ((X + X) + X)%object ~> (X + X)%object)
+             (cover (id[X] ▽ id[X]) id[X])
+  in pushout_in1 P ≈ pushout_in2 P.
+Proof.
+  intros P.
+  pose proof (pushout_commutes P) as PC.
+  (* From PC, prove three sub-equations via coprod_ext on the (X+X)+X domain. *)
+  assert (Eq1 : pushout_in1 P ∘ inl ≈ pushout_in2 P ∘ inl).
+  { (* PC ∘ (inl ∘ inl) gives this after reduction. *)
+    assert (H : (pushout_in1 P ∘ (cover id[X] (id[X] ▽ id[X])
+                                  ∘ to coprod_assoc)) ∘ (inl ∘ inl)
+              ≈ (pushout_in2 P ∘ cover (id[X] ▽ id[X]) id[X]) ∘ (inl ∘ inl))
+      by (rewrite PC; reflexivity).
+    rewrite <- !comp_assoc in H.
+    rewrite assoc_to_inl_inl in H.
+    rewrite cover_inl in H.
+    rewrite id_right in H.
+    rewrite (comp_assoc (cover (id[X] ▽ id[X]) id[X]) inl inl) in H.
+    rewrite cover_inl in H.
+    rewrite <- (comp_assoc inl (id[X] ▽ id[X]) inl) in H.
+    rewrite inl_merge in H.
+    rewrite id_right in H.
+    exact H. }
+  assert (Eq3 : pushout_in1 P ∘ inr ≈ pushout_in2 P ∘ inr).
+  { assert (H : (pushout_in1 P ∘ (cover id[X] (id[X] ▽ id[X])
+                                  ∘ to coprod_assoc)) ∘ inr
+              ≈ (pushout_in2 P ∘ cover (id[X] ▽ id[X]) id[X]) ∘ inr)
+      by (rewrite PC; reflexivity).
+    rewrite <- !comp_assoc in H.
+    rewrite assoc_to_inr in H.
+    rewrite (comp_assoc (cover id[X] (id[X] ▽ id[X])) inr inr) in H.
+    rewrite cover_inr in H.
+    rewrite <- (comp_assoc inr (id[X] ▽ id[X]) inr) in H.
+    rewrite inr_merge in H.
+    rewrite id_right in H.
+    rewrite cover_inr in H.
+    rewrite id_right in H.
+    exact H. }
+  apply coprod_ext; assumption.
+Qed.
+
+(** Companion lemma: [pushout_in1 P ∘ inl ≈ pushout_in1 P ∘ inr], derived
+    from the additional cross constraint [pushout_in1 ∘ inr ≈ pushout_in2 ∘ inl]
+    obtained by post-composing [pushout_commutes] with [inl ∘ inr]. *)
+
+Lemma frob_pushout_in1_collapse (X : C) :
+  let P := pushout
+             ((cover id[X] (id[X] ▽ id[X]) ∘ to (@coprod_assoc C H_Coc X X X))
+                : ((X + X) + X)%object ~> (X + X)%object)
+             (cover (id[X] ▽ id[X]) id[X])
+  in pushout_in1 P ∘ (inl ∘ (id[X] ▽ id[X] : (X + X)%object ~> X))
+     ≈ pushout_in1 P.
+Proof.
+  intros P.
+  pose proof (pushout_commutes P) as PC.
+  assert (Cross : pushout_in1 P ∘ inr ≈ pushout_in2 P ∘ inl).
+  { assert (H : (pushout_in1 P ∘ (cover id[X] (id[X] ▽ id[X])
+                                  ∘ to coprod_assoc)) ∘ (inl ∘ inr)
+              ≈ (pushout_in2 P ∘ cover (id[X] ▽ id[X]) id[X]) ∘ (inl ∘ inr))
+      by (rewrite PC; reflexivity).
+    rewrite <- !comp_assoc in H.
+    rewrite assoc_to_inl_inr in H.
+    rewrite (comp_assoc (cover id[X] (id[X] ▽ id[X])) inr inl) in H.
+    rewrite cover_inr in H.
+    rewrite <- (comp_assoc inr (id[X] ▽ id[X]) inl) in H.
+    rewrite inl_merge in H.
+    rewrite id_right in H.
+    rewrite (comp_assoc (cover (id[X] ▽ id[X]) id[X]) inl inr) in H.
+    rewrite cover_inl in H.
+    rewrite <- (comp_assoc inl (id[X] ▽ id[X]) inr) in H.
+    rewrite inr_merge in H.
+    rewrite id_right in H.
+    exact H. }
+  assert (Hleg : pushout_in1 P ≈ pushout_in2 P).
+  { unfold P. apply frob_pushout_legs_eq. }
+  apply coprod_ext.
+  - rewrite <- !comp_assoc.
+    rewrite inl_merge.
+    rewrite id_right.
+    reflexivity.
+  - rewrite <- !comp_assoc.
+    rewrite inr_merge.
+    rewrite id_right.
+    rewrite Cross.
+    apply (compose_respects _ _ Hleg inl inl).
+    reflexivity.
+Qed.
+
+(** Apex iso for the Frobenius pushout. *)
+Lemma frob_pushout_apex (X : C) :
+  pushout_apex (pushout
+    ((cover id[X] (id[X] ▽ id[X]) ∘ to (@coprod_assoc C H_Coc X X X))
+       : ((X + X) + X)%object ~> (X + X)%object)
+    (cover (id[X] ▽ id[X]) id[X])) ≅ X.
+Proof.
+  set (P := pushout ((cover id[X] (id[X] ▽ id[X]) ∘ to (@coprod_assoc C H_Coc X X X))
+                       : ((X + X) + X)%object ~> (X + X)%object)
+                    (cover (id[X] ▽ id[X]) id[X])).
+  (* Mediator P → X using the (id▽id, id▽id) cocone.
+     Hcomm: (id▽id) ∘ (cover id (id▽id) ∘ to α) ≈ (id▽id) ∘ cover (id▽id) id
+       LHS: by codiag_cover, = (id ▽ (id▽id)) ∘ to α
+       RHS: by codiag_cover, = (id▽id) ▽ id
+     These are equal by codiag_assoc (after rewrites). *)
+  assert (HC : (id[X] ▽ id[X]) ∘ (cover id[X] (id[X] ▽ id[X]) ∘ to coprod_assoc)
+              ≈ (id[X] ▽ id[X]) ∘ cover (id[X] ▽ id[X]) id[X]).
+  { rewrite comp_assoc. symmetry. apply codiag_assoc. }
+  pose (m := pushout_med P HC).
+  assert (Hm1 : m ∘ pushout_in1 P ≈ id[X] ▽ id[X]) by (apply pushout_med_in1).
+  assert (Hm2 : m ∘ pushout_in2 P ≈ id[X] ▽ id[X]) by (apply pushout_med_in2).
+  pose (Hleg := frob_pushout_legs_eq X).
+  fold P in Hleg.
+  refine {| to := m; from := pushout_in1 P ∘ inl;
+            iso_to_from := _; iso_from_to := _ |}.
+  - (* m ∘ (pushout_in1 P ∘ inl) ≈ id[X] *)
+    rewrite comp_assoc.
+    rewrite Hm1.
+    apply inl_merge.
+  - (* (pushout_in1 P ∘ inl) ∘ m ≈ id[P]: use pushout_med_eq. *)
+    apply (pushout_med_eq P (pushout_commutes P)
+                          ((pushout_in1 P ∘ inl) ∘ m) id[pushout_apex P]).
+    + (* ((pushout_in1 P ∘ inl) ∘ m) ∘ pushout_in1 P ≈ pushout_in1 P
+         Step: rewrite <- comp_assoc twice (the m and inl):
+           pushout_in1 P ∘ inl ∘ (m ∘ pushout_in1 P) = pushout_in1 P ∘ inl ∘ (id▽id)
+         Then expand by coprod_ext: ∘ inl gives pushout_in1 ∘ inl ∘ id = pushout_in1 ∘ inl.
+         ∘ inr gives pushout_in1 ∘ inl ∘ id = pushout_in1 ∘ inl ≈ pushout_in1 ∘ inr (by Hleg).
+         So overall ≈ pushout_in1 P. *)
+      rewrite <- !comp_assoc.
+      rewrite Hm1.
+      assert (Hcoll : pushout_in1 P ∘ (inl ∘ (id[X] ▽ id[X])) ≈ pushout_in1 P).
+      { unfold P. apply frob_pushout_in1_collapse. }
+      exact Hcoll.
+    + (* ((pushout_in1 P ∘ inl) ∘ m) ∘ pushout_in2 P ≈ pushout_in2 P *)
+      rewrite <- !comp_assoc.
+      rewrite Hm2.
+      assert (Hcoll : pushout_in1 P ∘ (inl ∘ (id[X] ▽ id[X])) ≈ pushout_in1 P).
+      { unfold P. apply frob_pushout_in1_collapse. }
+      rewrite Hcoll.
+      exact Hleg.
+    + cat.
+    + cat.
+Defined.
+
 (** ** Specialness: μ ∘ δ ≈ id
 
     [μ ∘ δ : X → X] via [cospan_compose μ δ].  Inner = δ = back (id▽id),
