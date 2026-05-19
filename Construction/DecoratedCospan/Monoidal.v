@@ -235,19 +235,19 @@ Program Definition DecoratedCospan_Monoidal : @Monoidal DC := {|
                     iso_to_from := _;
                     iso_from_to := _ |}
 |}.
-Next Obligation. apply (dec_iso_lift_to_from (@coprod_zero_l C H_Coc H_Ini X)). Defined.
-Next Obligation. apply (dec_iso_lift_from_to (@coprod_zero_l C H_Coc H_Ini X)). Defined.
-Next Obligation. apply (dec_iso_lift_to_from (@coprod_zero_r C H_Coc H_Ini X)). Defined.
-Next Obligation. apply (dec_iso_lift_from_to (@coprod_zero_r C H_Coc H_Ini X)). Defined.
-Next Obligation. apply (dec_iso_lift_to_from (@coprod_assoc C H_Coc X Y Z)). Defined.
-Next Obligation. apply (dec_iso_lift_from_to (@coprod_assoc C H_Coc X Y Z)). Defined.
-Next Obligation. apply dec_to_unit_left_natural_eq. Defined.
-Next Obligation. apply dec_from_unit_left_natural_eq. Defined.
-Next Obligation. apply dec_to_unit_right_natural_eq. Defined.
-Next Obligation. apply dec_from_unit_right_natural_eq. Defined.
-Next Obligation. apply dec_to_tensor_assoc_natural_eq. Defined.
-Next Obligation. apply dec_from_tensor_assoc_natural_eq. Defined.
-Next Obligation. apply dec_triangle_identity_eq. Defined.
+Next Obligation. apply (dec_iso_lift_to_from (@coprod_zero_l C H_Coc H_Ini X)). Qed.
+Next Obligation. apply (dec_iso_lift_from_to (@coprod_zero_l C H_Coc H_Ini X)). Qed.
+Next Obligation. apply (dec_iso_lift_to_from (@coprod_zero_r C H_Coc H_Ini X)). Qed.
+Next Obligation. apply (dec_iso_lift_from_to (@coprod_zero_r C H_Coc H_Ini X)). Qed.
+Next Obligation. apply (dec_iso_lift_to_from (@coprod_assoc C H_Coc X Y Z)). Qed.
+Next Obligation. apply (dec_iso_lift_from_to (@coprod_assoc C H_Coc X Y Z)). Qed.
+Next Obligation. apply dec_to_unit_left_natural_eq. Qed.
+Next Obligation. apply dec_from_unit_left_natural_eq. Qed.
+Next Obligation. apply dec_to_unit_right_natural_eq. Qed.
+Next Obligation. apply dec_from_unit_right_natural_eq. Qed.
+Next Obligation. apply dec_to_tensor_assoc_natural_eq. Qed.
+Next Obligation. apply dec_from_tensor_assoc_natural_eq. Qed.
+Next Obligation. apply dec_triangle_identity_eq. Qed.
 Next Obligation.
   (* Reassociate via dec_cospan_compose_assoc_sym, then apply the proved identity. *)
   eapply dec_cospan_equiv_trans.
@@ -255,7 +255,7 @@ Next Obligation.
     apply (dec_cospan_compose_assoc HP LM id_decoration cospan_merge).
   }
   apply dec_pentagon_identity_eq.
-Defined.
+Qed.
 
 End DecoratedCospanMonoidal.
 

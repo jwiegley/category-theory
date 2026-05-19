@@ -187,7 +187,7 @@ Proof.
              (dce_cospan_eq Hf) (dce_cospan_eq Hg)).
   - simpl.
     exact (dc_compose_respects_dec g g' f f' Hf Hg).
-Defined.
+Qed.
 
 #[export] Program Instance dec_cospan_compose_respects {X Y Z : C} :
   Proper (equiv ==> equiv ==> equiv)
@@ -208,7 +208,7 @@ Proof.
   unshelve econstructor.
   - exact (cospan_id_left HP (dc_cospan f)).
   - simpl. exact (dc_id_left_dec f).
-Defined.
+Qed.
 
 Lemma dec_cospan_id_right {X Y : C} (f : DecoratedCospanArrow X Y) :
   dec_cospan_equiv
@@ -218,7 +218,7 @@ Proof.
   unshelve econstructor.
   - exact (cospan_id_right HP (dc_cospan f)).
   - simpl. exact (dc_id_right_dec f).
-Defined.
+Qed.
 
 Lemma dec_cospan_compose_assoc {X Y Z W : C}
       (h : DecoratedCospanArrow Z W)
@@ -233,7 +233,7 @@ Proof.
   unshelve econstructor.
   - exact (cospan_compose_assoc HP (dc_cospan h) (dc_cospan g) (dc_cospan f)).
   - simpl. exact (dc_compose_assoc_dec h g f).
-Defined.
+Qed.
 
 Lemma dec_cospan_compose_assoc_sym {X Y Z W : C}
       (h : DecoratedCospanArrow Z W)
@@ -246,7 +246,7 @@ Lemma dec_cospan_compose_assoc_sym {X Y Z W : C}
        (dec_cospan_compose HP LM cospan_merge g f)).
 Proof.
   apply dec_cospan_equiv_sym, dec_cospan_compose_assoc.
-Defined.
+Qed.
 
 (** ** [DecoratedCospanCat] as a [Category] record *)
 

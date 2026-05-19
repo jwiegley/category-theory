@@ -199,7 +199,7 @@ Proof.
   unshelve econstructor.
   - exact (cospan_tensor_id X Y).
   - simpl. exact (dec_tensor_id_dec X Y).
-Defined.
+Qed.
 
 Lemma dec_cospan_tensor_respects
       {X Y X' Y' : C}
@@ -217,7 +217,7 @@ Proof.
              (dc_cospan g) (dc_cospan g')
              (dce_cospan_eq Hf) (dce_cospan_eq Hg)).
   - simpl. exact (dec_tensor_respects_dec f f' g g' Hf Hg).
-Defined.
+Qed.
 
 Lemma dec_cospan_tensor_compose_compat
       {X Y Z X' Y' Z' : C}
@@ -236,7 +236,7 @@ Proof.
              (dc_cospan g) (dc_cospan f)
              (dc_cospan g') (dc_cospan f')).
   - simpl. exact (dec_tensor_compose_compat_dec g f g' f').
-Defined.
+Qed.
 
 (** ** [DecoratedCospan_Bifunctor]: the Bifunctor on [DecoratedCospanCat] *)
 
@@ -259,13 +259,13 @@ Program Definition DecoratedCospan_Bifunctor
 Next Obligation.
   proper; simpl in *.
   apply dec_cospan_tensor_respects; assumption.
-Defined.
+Qed.
 Next Obligation.
   apply dec_cospan_tensor_id.
-Defined.
+Qed.
 Next Obligation.
   apply dec_cospan_tensor_compose_compat.
-Defined.
+Qed.
 
 (** ** Decorated lift of a C-morphism
 

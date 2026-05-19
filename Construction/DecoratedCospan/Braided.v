@@ -189,7 +189,7 @@ Next Obligation.
     - apply dec_cospan_equiv_refl. }
   apply dec_cospan_equiv_sym.
   apply dec_braid_natural_eq.
-Defined.
+Qed.
 Next Obligation.
   (* Hexagon LHS and RHS are both left-associated in the Monoidal goal;
      the [dec_hexagon_identity_eq] coherence is right-associated.
@@ -200,7 +200,7 @@ Next Obligation.
   eapply dec_cospan_equiv_trans.
   { apply dec_hexagon_identity_eq. }
   apply (dec_cospan_compose_assoc HP LM id_decoration cospan_merge).
-Defined.
+Qed.
 Next Obligation.
   eapply dec_cospan_equiv_trans.
   { apply dec_cospan_equiv_sym.
@@ -208,7 +208,7 @@ Next Obligation.
   eapply dec_cospan_equiv_trans.
   { apply dec_hexagon_identity_sym_eq. }
   apply (dec_cospan_compose_assoc HP LM id_decoration cospan_merge).
-Defined.
+Qed.
 
 (** ** Coherence class for the Symmetric structure on [DecoratedCospanCat]
 
@@ -234,7 +234,7 @@ Program Definition DecoratedCospan_SymmetricMonoidal
 |}.
 Next Obligation.
   apply dec_braid_invol_eq.
-Defined.
+Qed.
 
 End DecoratedCospanBraided.
 
