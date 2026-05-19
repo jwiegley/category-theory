@@ -50,7 +50,9 @@ Context (HP : HasPushouts C).
 (** ** Identification of the SCFA data with [mor_as_cospan] lifts
 
     [cospan_scfa_mu X] and [cospan_scfa_eta X] are exactly
-    [mor_as_cospan (id ▽ id)] and [mor_as_cospan zero] respectively. *)
+    [mor_as_cospan (id ▽ id)] and [mor_as_cospan zero] respectively.
+    [cospan_scfa_delta X] and [cospan_scfa_epsilon X] are the
+    backwards-cospan variants, lifted via [mor_as_cospan_back]. *)
 
 Lemma cospan_scfa_mu_as_cospan (X : C) :
   cospan_scfa_mu X = mor_as_cospan ((id[X] ▽ id[X]) : (X + X)%object ~{C}~> X).
@@ -59,6 +61,60 @@ Proof. reflexivity. Qed.
 Lemma cospan_scfa_eta_as_cospan (X : C) :
   cospan_scfa_eta X = mor_as_cospan (zero : 0%object ~{C}~> X).
 Proof. reflexivity. Qed.
+
+(** A cospan from [X] to [Y] with apex [X], leg1 = id, leg2 = f : Y → X.
+    This is the "backward" direction: a C-morphism [Y → X] reinterpreted
+    as a cospan from [X] to [Y]. *)
+Definition mor_as_cospan_back {X Y : C} (f : Y ~> X) : CospanArrow X Y :=
+  Build_CospanArrow X id[X] f.
+
+Lemma cospan_scfa_delta_as_back (X : C) :
+  cospan_scfa_delta X
+  = mor_as_cospan_back ((id[X] ▽ id[X]) : (X + X)%object ~{C}~> X).
+Proof. reflexivity. Qed.
+
+Lemma cospan_scfa_epsilon_as_back (X : C) :
+  cospan_scfa_epsilon X
+  = mor_as_cospan_back (zero : 0%object ~{C}~> X).
+Proof. reflexivity. Qed.
+
+(** ** Bridging: composing a backward-cospan on the outside
+
+    [mor_as_cospan_back f : X → Y] has apex X and in1 = id[X].
+    Composing it with [g : Z → X] (apex N) gives the pushout of
+    [(in2 g : X → N, id[X] : X → X)], whose apex collapses to N. *)
+
+Lemma cospan_compose_mor_as_cospan_back_left
+      {X Y Z : C} (f : Y ~> X) (g : CospanArrow Z X) :
+  cospan_equiv (cospan_compose HP (mor_as_cospan_back f) g)
+               (Build_CospanArrow (cospan_apex g)
+                                  (cospan_in1 g)
+                                  (cospan_in2 g ∘ f)).
+Proof.
+  unfold cospan_compose, mor_as_cospan_back; simpl.
+  pose (P := pushout (cospan_in2 g) (id[X] : X ~{C}~> X)).
+  (* The apex P is pushout (in2 g, id[X]); by pushout_id_right_apex it ≅ apex g. *)
+  pose (iso := pushout_id_right_apex HP (cospan_in2 g)).
+  (* to iso : apex P → apex g, with:
+       to iso ∘ pushout_in1 P ≈ id[apex g]
+       to iso ∘ pushout_in2 P ≈ cospan_in2 g                                 *)
+  exists iso.
+  simpl; split; fold P.
+  - (* to iso ∘ (pushout_in1 P ∘ in1 g) ≈ in1 g *)
+    rewrite comp_assoc.
+    unfold iso, pushout_id_right_apex; simpl.
+    rewrite pushout_med_in1.
+    apply id_left.
+  - (* to iso ∘ (pushout_in2 P ∘ f) ≈ in2 g ∘ f *)
+    rewrite comp_assoc.
+    unfold iso, pushout_id_right_apex; simpl.
+    rewrite pushout_med_in2.
+    reflexivity.
+Defined.
+
+(** Note: composing [back_f] on the RIGHT (as inner) of a generic cospan is
+    a genuine pushout (not a collapse), so no analogous left-collapse bridge
+    exists.  The dual configurations use [back] on the LEFT (outer). *)
 
 (** ** C-level: codiagonal absorbs cover
 
@@ -195,5 +251,132 @@ Lemma codiag_paws_comm {X : C} :
   ((id[X] ▽ id[X]) : (X + X)%object ~> X) ∘ paws
   ≈ (id[X] ▽ id[X]).
 Proof. apply paws_fork. Qed.
+
+(** ** Cospan-level monoid axioms
+
+    Each axiom lifts the corresponding C-level identity through
+    [mor_as_cospan_compose] and [cospan_tensor_mor_as_cospan]. *)
+
+(** [cospan_scfa_mu ∘ bimap mu (cospan_id X) ≈ cospan_scfa_mu ∘ bimap id mu ∘ to tensor_assoc]
+    in [CospanCat C HP]. *)
+Lemma cospan_mu_assoc (X : C) :
+  cospan_equiv
+    (cospan_compose HP (cospan_scfa_mu X)
+       (cospan_tensor (cospan_scfa_mu X) (cospan_id X)))
+    (cospan_compose HP
+       (cospan_compose HP (cospan_scfa_mu X)
+          (cospan_tensor (cospan_id X) (cospan_scfa_mu X)))
+       (mor_as_cospan (to (@coprod_assoc C H_Coc X X X)))).
+Proof.
+  unfold cospan_scfa_mu.
+  (* LHS: cospan_compose (mor_as_cospan (id▽id))
+                         (cospan_tensor (mor_as_cospan (id▽id)) (cospan_id X)).
+     RHS: cospan_compose (cospan_compose (mor_as_cospan (id▽id))
+                            (cospan_tensor (cospan_id X) (mor_as_cospan (id▽id))))
+                         (mor_as_cospan α). *)
+  (* On LHS replace [cospan_id X] with [mor_as_cospan id[X]], then fuse tensors. *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_tensor_respects.
+      + apply cospan_equiv_refl.
+      + apply cospan_equiv_sym, mor_as_cospan_id.
+    - apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_tensor_mor_as_cospan.
+    - apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply cospan_equiv_sym.
+  (* RHS handling. *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_tensor_respects.
+        * apply cospan_equiv_sym, mor_as_cospan_id.
+        * apply cospan_equiv_refl.
+      + apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_tensor_mor_as_cospan.
+      + apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply mor_as_cospan_compose. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply mor_as_cospan_proper.
+  symmetry.
+  apply codiag_assoc.
+Defined.
+
+(** Cospan-level [mu ∘ bimap eta id ≈ to unit_left]. *)
+Lemma cospan_mu_unit_left (X : C) :
+  cospan_equiv
+    (cospan_compose HP (cospan_scfa_mu X)
+       (cospan_tensor (cospan_scfa_eta X) (cospan_id X)))
+    (mor_as_cospan (to (@coprod_zero_l C H_Coc H_Ini X))).
+Proof.
+  unfold cospan_scfa_mu, cospan_scfa_eta.
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_tensor_respects.
+      + apply cospan_equiv_refl.
+      + apply cospan_equiv_sym, mor_as_cospan_id.
+    - apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_tensor_mor_as_cospan.
+    - apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply mor_as_cospan_proper.
+  apply codiag_eta_left.
+Defined.
+
+(** Cospan-level [mu ∘ bimap id eta ≈ to unit_right]. *)
+Lemma cospan_mu_unit_right (X : C) :
+  cospan_equiv
+    (cospan_compose HP (cospan_scfa_mu X)
+       (cospan_tensor (cospan_id X) (cospan_scfa_eta X)))
+    (mor_as_cospan (to (@coprod_zero_r C H_Coc H_Ini X))).
+Proof.
+  unfold cospan_scfa_mu, cospan_scfa_eta.
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_tensor_respects.
+      + apply cospan_equiv_sym, mor_as_cospan_id.
+      + apply cospan_equiv_refl.
+    - apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_tensor_mor_as_cospan.
+    - apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply mor_as_cospan_proper.
+  apply codiag_eta_right.
+Defined.
+
+(** ** [Monoid (CospanCat C HP) X] for every X *)
+
+Program Definition cospan_monoid (X : C) :
+  @Monoid (CospanCat C HP) (Cospan_Monoidal HP) X := {|
+  mu  := cospan_scfa_mu X ;
+  eta := cospan_scfa_eta X
+|}.
+Next Obligation.
+  apply cospan_mu_assoc.
+Defined.
+Next Obligation.
+  apply cospan_mu_unit_left.
+Defined.
+Next Obligation.
+  apply cospan_mu_unit_right.
+Defined.
 
 End CospanSCFA.
