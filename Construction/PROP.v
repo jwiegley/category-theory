@@ -124,6 +124,43 @@ Lemma prop_tensor_unit_right_obj (n : nat) :
   (⟦n⟧ ⨂ ⟦0⟧)%object = ⟦n + 0⟧.
 Proof. apply prop_tensor_plus. Qed.
 
+(** ** PROP-arity ergonomics
+
+    The Leibniz equality [prop_tensor_plus : ⟦m⟧ ⨂ ⟦n⟧ = ⟦m+n⟧] is
+    the right primitive, but using it to translate between the
+    "single-object" view [⟦m+n⟧] and the "tensor of wires" view
+    [⟦m⟧ ⨂ ⟦n⟧] is verbose at the use site.  The following helpers
+    give downstream code a uniform way to flip between the two. *)
+
+Open Scope nat_scope.
+
+(** Iterated tensor of [n] copies of [⟦1⟧], starting from [I]. *)
+Fixpoint iter_tensor (n : nat) : @obj P :=
+  match n with
+  | O    => @I P _
+  | S n' => (@prop_of_nat P 1 ⨂ iter_tensor n')%object
+  end.
+
+(** Every PROP object [⟦n⟧] is Leibniz-equal to [iter_tensor n].
+
+    Base: [⟦0⟧ = I] by [prop_unit_zero].
+    Step: [⟦S n⟧ = ⟦1 + n⟧ = ⟦1⟧ ⨂ ⟦n⟧ = ⟦1⟧ ⨂ iter_tensor n] by IH. *)
+Lemma prop_of_nat_iter : forall n, @prop_of_nat P n = iter_tensor n.
+Proof.
+  induction n; cbn.
+  - exact (eq_sym (@prop_unit_zero P)).
+  - rewrite <- IHn.
+    exact (eq_sym (@prop_tensor_plus P 1 n)).
+Qed.
+
+(** The successor decomposition: [⟦S n⟧ = ⟦1⟧ ⨂ ⟦n⟧]. *)
+Lemma prop_of_nat_S :
+  forall n, @prop_of_nat P (S n)
+            = (@prop_of_nat P 1 ⨂ @prop_of_nat P n)%object.
+Proof. intro n. exact (eq_sym (@prop_tensor_plus P 1 n)). Qed.
+
+Close Scope nat_scope.
+
 End PROPLemmas.
 
 (** ** Hypergraph PROPs
