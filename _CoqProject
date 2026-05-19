@@ -215,6 +215,7 @@ Theory/Adjunction.v
 Theory/Algebra.v
 Theory/Algebra/Monoid.v
 Theory/Algebra/Comonoid.v
+Theory/Algebra/CommutativeMonoid.v
 Theory/Algebra/Frobenius.v
 Theory/Algebra/CommutativeFrobenius.v
 Theory/Algebra/SpecialCommutativeFrobenius.v
