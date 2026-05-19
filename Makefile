@@ -97,12 +97,14 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.Cospan.HypergraphInstance.'; \
 	  echo 'Require Import Category.Construction.DecoratedCospan.Hypergraph.'; \
 	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.Spider.'; \
+	  echo 'Require Import Category.Instance.ZX.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
 	  echo 'Print Assumptions DecoratedCospan_Hypergraph.'; \
 	  echo 'Print Assumptions spider_collapse.'; \
 	  echo 'Print Assumptions spider_frobenius.'; \
+	  echo 'Print Assumptions ZX_Cat.'; \
 	} > /tmp/print_assumptions.v
 	@coqc -R . Category /tmp/print_assumptions.v 2>&1 | grep -vE '^Warning|^\[' | grep -vE '^$$' || true
 	@rm -f /tmp/print_assumptions.v /tmp/print_assumptions.vo /tmp/print_assumptions.vok /tmp/print_assumptions.vos /tmp/print_assumptions.glob
