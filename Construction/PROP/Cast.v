@@ -4,6 +4,8 @@ Require Import Category.Construction.PROP.Term.
 Require Import Category.Construction.PROP.TermEq.
 
 From Stdlib Require Import Arith.
+From Stdlib Require Import PeanoNat.
+From Stdlib Require Import Eqdep_dec.
 
 Generalizable All Variables.
 
@@ -85,4 +87,30 @@ Proof.
   apply TE_trans with f.
   - apply TE_id_left.
   - apply TE_sym, TE_id_right.
+Qed.
+
+(** Proof-irrelevance for nat-equation casts: any two proofs [e1 e2]
+    of [m = n] give equal cast terms.
+
+    [nat] has decidable equality, hence Uniqueness of Identity Proofs
+    (UIP) holds for it without any axioms — proved by
+    [Eqdep_dec.UIP_dec Nat.eq_dec].  This lets us replace one proof
+    of a [nat] equation by another inside [T_cast]. *)
+Lemma T_cast_irrelevant
+  {S : Signature} {m n : nat} (e1 e2 : m = n) :
+  T_cast (S := S) e1 = T_cast (S := S) e2.
+Proof.
+  rewrite (UIP_dec Nat.eq_dec e1 e2).
+  reflexivity.
+Qed.
+
+(** Special case: any cast along an equation of [m = m] is the
+    identity, because [eq_refl m] is the canonical proof of [m = m]
+    and [T_cast eq_refl = T_id m] reduces definitionally. *)
+Lemma T_cast_id
+  {S : Signature} {m : nat} (e : m = m) :
+  T_cast (S := S) e = T_id m.
+Proof.
+  rewrite (T_cast_irrelevant e eq_refl).
+  reflexivity.
 Qed.
