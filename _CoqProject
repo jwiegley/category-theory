@@ -29,6 +29,7 @@ Construction/Cospan/Corelation.v
 Construction/Cospan/Hypergraph.v
 Construction/Cospan/Symmetric.v
 Construction/Cospan/SCFA.v
+Construction/Cospan/HypergraphInstance.v
 Functor/Applicative.v
 Functor/Bifunctor.v
 Functor/Construction/Product.v
