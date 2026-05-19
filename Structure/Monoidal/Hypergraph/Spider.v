@@ -635,6 +635,34 @@ Qed.
     remaining structural induction can be built on top in V2d as
     needed. *)
 
+(** ** Smoke-test corollaries of [denote_spider] on identity sequences
+
+    Direct consequences of the [SE_seq_X] / [SE_par_X] reduction rules.
+    These exercise the semantic interpretation without requiring the
+    full normal-form theorem. *)
+
+(** A sequence of two identity wires denotes the identity. *)
+Lemma denote_spider_id_seq_id (X : C) :
+  denote_spider (SE_seq_X (X := X) SE_id_X SE_id_X) ≈ id.
+Proof. simpl; apply id_left. Qed.
+
+(** A 3-fold identity sequence still denotes the identity. *)
+Lemma denote_spider_id_seq_3 (X : C) :
+  denote_spider
+    (SE_seq_X (X := X) SE_id_X (SE_seq_X SE_id_X SE_id_X))
+  ≈ id.
+Proof. simpl; rewrite id_left; apply id_left. Qed.
+
+(** μ followed by ε denotes [ε_X ∘ μ_X] (modulo the unit_right cast).
+    Direct unfolding of [denote_spider]. *)
+Lemma denote_spider_mu_seq_eps (X : C) :
+  denote_spider (SE_seq_X (X := X) SE_mu_X SE_eps_X)
+  ≈ scfa_epsilon (scfa X) ∘ to (@unit_right C _ X)
+      ∘ (from (@unit_right C _ X)
+           ∘ scfa_mu (scfa X)
+           ∘ bimap id[X] (to (@unit_right C _ X))).
+Proof. simpl; reflexivity. Qed.
+
 End SpiderExpr.
 
 Arguments SpiderExpr {C} X.
