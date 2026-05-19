@@ -73,7 +73,30 @@ Class PROP : Type := {
              = braided_is_monoidal (symmetric_is_braided prop_symmetric)]
 
       so a [rewrite] (or [subst]) brings any term phrased via one path
-      into agreement with the other. *)
+      into agreement with the other.
+
+      ** Known limitation (deferred refactor)
+
+      This coherence is PROPOSITIONAL, not DEFINITIONAL: a tensor
+      expression like [braid : (T ⨂ T) ~> (T ⨂ T)] in a [HypergraphPROP]
+      context typically resolves [T ⨂ T] via [prop_symmetric]'s
+      Monoidal, while the hypergraph SCFA on [T ⨂ T] is phrased via
+      [prop_strict]'s.  Bridging requires an explicit
+      [rewrite prop_monoidal_coherence] (or [subst]) at every use
+      site.  See [Test/HypergraphPROPResolution.v] for the test case
+      that documents this friction.
+
+      The literature-correct DEFINITIONAL fix is to re-parameterise the
+      library's [BraidedMonoidal] and [SymmetricMonoidal] classes to
+      take an [@Monoidal C] as an explicit parameter rather than
+      projecting one (similar to how [DepFun] takes its source
+      explicitly).  That would let [prop_symmetric] inherit
+      [strict_is_monoidal prop_strict] verbatim, making
+      [prop_monoidal_coherence] reduce to [eq_refl] definitionally.
+
+      This is a multi-file library refactor (touches every site that
+      uses [BraidedMonoidal]/[SymmetricMonoidal] today) and is
+      deferred to a separate PR. *)
   prop_monoidal_coherence :
     (@strict_is_monoidal prop_cat prop_strict)
     = (@braided_is_monoidal prop_cat
