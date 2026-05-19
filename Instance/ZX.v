@@ -300,8 +300,8 @@ Program Definition ZX_Cat : Category := {|
       - the interchange law as a derived [zx_eq] judgment (not in the
         primitive rule list — derivable by induction);
       - the strict-monoidal coherence for [Nat.add_assoc] / [_0_l] / [_0_r]
-        as transport diagrams (mirroring the [TrivPROP] discussion in
-        [Construction/PROP.v]);
+        as transport diagrams (mirroring the discussion of concrete
+        PROP instances in [Construction/PROP.v]);
       - the SCFA construction at each [n] (a few hundred lines of
         per-arity spider manipulation).
 
@@ -367,8 +367,8 @@ Program Definition ZX_Cat : Category := {|
     delta, the Frobenius condition, and the specialness condition
     [mu ∘ delta ≈ id]) all reduce to instances of [zx_eq_z_fusion] +
     [zx_eq_z_id].  Stating the [Hypergraph]-class fields against the
-    canonical [TrivPROP_Cat] / generic [Monoidal] pattern requires
-    that the [Bifunctor]-tensor on [ZX_Cat] reduce on the diagonal
+    generic [Monoidal] pattern requires that the [Bifunctor]-tensor
+    on [ZX_Cat] reduce on the diagonal
     [(n, n)] in the correct way, which is precisely the same transport
     bookkeeping as the SMC layer.
 

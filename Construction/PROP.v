@@ -228,81 +228,39 @@ Class HypergraphPROP : Type := {
 
 Coercion hpprop : HypergraphPROP >-> PROP.
 
-(** ** Skeleton for the trivial / discrete-thin PROP
+(** ** Discussion: concrete PROP instances
 
-    The simplest example would be the discrete category on the natural
-    numbers with NO non-identity morphisms — all hom-sets are empty
-    except the diagonal, which is a singleton.  As a [Category] this is
-    straightforward; equipping it with [Monoidal], [SymmetricMonoidal],
-    and [StrictMonoidal] structures is mechanical (every parallel-pair
-    of morphisms is equivalent, so all coherences hold by [tt]) but
-    drags in a long list of obligation discharges.  We expose just the
-    underlying category here; the strict symmetric monoidal layer is
-    deferred to a downstream "concrete PROPs" file where the obligation
-    sequencing can be tuned with a dedicated [Obligation Tactic].
+    Two illustrative kinds of PROP instance:
 
-    Mathematically: the construction is the free PROP on the empty
-    signature, i.e. the terminal PROP. *)
+    1. **Free PROP on a signature** ([Construction/PROP/Free.v]).
+       Given a signature [S : Signature], the free PROP on [S] has
+       morphisms [m ~> n] equivalence classes of [Term S m n] under
+       [TermEq].  This is the canonical worked example in the library:
+       it carries an explicit [Category] structure built from the
+       inductive [Term] datatype.  See also [Construction/PROP/Term.v]
+       for the syntax and [Construction/PROP/TermEq.v] for the
+       quotient.
 
-Section TrivialPROP.
+    2. **Permutation PROP** (literature canonical, not yet in the
+       library).  Its morphisms [m ~> n] are nonempty exactly when
+       [m = n], in which case they are the symmetric group [S_n] of
+       permutations of [Fin n].  Building [Perm n] requires
+       either an inductive presentation of permutations as a quotient
+       of [list (Fin n × Fin n)] adjacency generators, or the
+       bijection presentation [{ p : Fin n -> Fin n | bij p }] under
+       extensional equality.  This is a few hundred lines of
+       finite-combinatorics infrastructure the library does not yet
+       provide; downstream consumers needing [Perm n] morphisms supply
+       their own datatype while retaining all theorems proven against
+       the [PROP] class.
 
-(** Morphisms: the singleton set when [m = n], empty when [m ≠ n].
-    Encoded as the proposition [m = n] (so the unique morphism is the
-    equality proof, and identity is [eq_refl]). *)
-
-Definition TrivPROP_hom (m n : nat) : Type := m = n.
-
-#[export] Program Instance TrivPROP_hom_Setoid (m n : nat) :
-  Setoid (TrivPROP_hom m n) := {|
-  equiv := fun _ _ => True
-|}.
-
-Definition TrivPROP_id (n : nat) : TrivPROP_hom n n := eq_refl.
-
-Definition TrivPROP_compose {m n p : nat}
-  (g : TrivPROP_hom n p) (f : TrivPROP_hom m n) : TrivPROP_hom m p :=
-  eq_trans f g.
-
-#[export] Program Instance TrivPROP_compose_respects {m n p : nat} :
-  Proper (equiv ==> equiv ==> equiv) (@TrivPROP_compose m n p).
-
-Program Definition TrivPROP_Cat : Category := {|
-  obj      := nat;
-  hom      := TrivPROP_hom;
-  homset   := TrivPROP_hom_Setoid;
-  id       := TrivPROP_id;
-  compose  := @TrivPROP_compose
-|}.
-
-End TrivialPROP.
-
-(** ** Discussion: the free PROP of permutations
-
-    The literature canonical example is the "free PROP" [P] whose
-    morphisms [m ~> n] are nonempty exactly when [m = n], in which case
-    they are the symmetric group [S_n] of permutations of [Fin n].
-    Building [Perm n] as a setoid in Coq is straightforward but verbose;
-    it requires either:
-
-      (a) an inductive presentation of permutations as a quotient of
-          [list (Fin n × Fin n)] adjacencies generators, with the
-          braid-group relations, OR
-
-      (b) the bijection presentation [{ p : Fin n -> Fin n | bij p }] /
-          extensional equality.
-
-    In the form of this library, (b) is the natural choice and yields a
-    PROP whose underlying symmetric monoidal category is the disjoint
-    union of the groupoids [S_0 ⊔ S_1 ⊔ S_2 ⊔ ...].  Building it requires
-    proving that bijection composition is associative, that the symmetric
-    group is closed under inverses, etc. — all standard but a few hundred
-    lines of finite-combinatorics infrastructure that the rest of this
-    library does not currently use.
-
-    For V3 we ship the [PROP] CLASS and the [TrivPROP] instance.  Concrete
-    permutation-PROP instances are V4-applications work.  The applications
-    that actually require [Perm] morphisms — the free PROP, the symmetric
-    monoidal coherence theorem, etc. — are in any case organised around
-    the PROP class itself, so downstream users can plug in their own
-    [Perm n] datatype while retaining all theorems proven against
-    [PROP]. *)
+    3. **Trivial / discrete-thin PROP** (the terminal PROP).  Objects
+       are [nat], every hom-set is a singleton (the unique morphism is
+       an [m = n] equality proof).  Equipping this with full [PROP]
+       structure ([StrictMonoidal] + [SymmetricMonoidal] +
+       [prop_monoidal_coherence] + the [prop_of_nat] / [prop_unit_zero]
+       / [prop_tensor_plus] data) is mechanical but volumetric.  It
+       is omitted from this file since it adds no theoretical content
+       beyond what the [PROP] class already specifies; should a
+       downstream test need it, a minimal stub-instance can be
+       inhabited per-test. *)
