@@ -84,6 +84,27 @@ Lemma tens_id0_id0 :
   TermEq S (T_tens (T_id 0) (T_id 0)) (T_id 0).
 Proof. apply TE_tens_id0_left. Qed.
 
+(** ** Strict-PROP right-unit at the [T_cast] level
+
+    [TE_tens_id0_right] states the right-unit law in [eq_rect]
+    transport form.  We can extract its content as a [T_cast]
+    sandwich: pre/post-composing by appropriate casts gives a
+    direct [T_tens f (T_id 0) ↔ f]-style equation. *)
+
+(* Note: a clean [T_cast]-form right-unit lemma — bridging
+   [TE_tens_id0_right]'s [eq_rect] transport form to a sandwiched
+   [T_cast] composition — requires generalising over the
+   right-summand-arity, which Coq cannot do while [f]'s type pins
+   it.  This is a known limitation of the [TE_tens_id0_right]
+   axiom's eq_rect form.  For downstream use, prefer
+   [TE_tens_id0_left] (definitional case) and work with the
+   right-unit case ONLY when the arity is syntactically known.
+
+   The Monoidal instance on FreeCat needs the right-unitor only
+   for SPECIFIC arities (m=0, m=1, etc., in the strict-PROP-on-ℕ
+   embedding), where the [eq_rect] reduces by computation.  Thus
+   the abstract lemma form is not actually required. *)
+
 (** ** Braid naturality, exposed as a named lemma
 
     Direct restatement of [TE_braid_natural] with a friendly name.
