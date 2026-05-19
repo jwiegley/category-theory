@@ -105,6 +105,27 @@ Proof. apply TE_tens_id0_left. Qed.
    embedding), where the [eq_rect] reduces by computation.  Thus
    the abstract lemma form is not actually required. *)
 
+(** ** Right-unit at the trivial arity (0 + 0 = 0)
+
+    When both arities are 0, [Nat.add_0_r] reduces definitionally
+    and [T_tens f (T_id 0) ≈ f] follows from [TE_tens_id0_right]
+    after the [eq_rect] collapses by [reflexivity]. *)
+
+Lemma tens_id0_right_at_0 (f : Term S 0 0) :
+  TermEq S (T_tens f (T_id 0)) f.
+Proof.
+  pose proof (TE_tens_id0_right f) as Hr.
+  simpl in Hr.
+  (* [Nat.add_0_r 0] reduces by [cbn]/[simpl] to [eq_refl] only if
+     [Nat.add_0_r] is transparent.  In stdlib it is opaque, so we
+     need to rewrite via UIP. *)
+  unfold eq_rect_r in Hr; simpl in Hr.
+  rewrite (Eqdep_dec.UIP_dec PeanoNat.Nat.eq_dec
+            (Nat.add_0_r 0) eq_refl) in Hr.
+  simpl in Hr.
+  exact Hr.
+Qed.
+
 (** ** Braid naturality, exposed as a named lemma
 
     Direct restatement of [TE_braid_natural] with a friendly name.
