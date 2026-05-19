@@ -2074,24 +2074,15 @@ End CospanMonoidal.
    [Construction/Cospan/Symmetric.v].  The SCFA-on-every-X instance
    [cospan_scfa] (and the underlying monoid / comonoid / Frobenius /
    commutative Frobenius pieces) is built in
-   [Construction/Cospan/SCFA.v].
-
-   The [Hypergraph (CospanCat C HP) Cospan_SymmetricMonoidal] instance
-   itself is partially built in [Construction/Cospan/HypergraphInstance.v]:
-   - 4 unit axioms ([scfa_unit_{mu,eta,delta,epsilon}]) — fully closed
-     via initiality of [0].
-   - 2 of the 4 tensor axioms ([scfa_tensor_{eta,epsilon}]) — fully
-     closed via the bridging lemmas already in [SCFA.v].
-   - The remaining 2 tensor axioms ([scfa_tensor_mu] and
-     [scfa_tensor_delta]) reduce to the C-level identity
-     [codiag_through_mid_swap] (proved in [HypergraphInstance.v]) lifted
-     through the standard [mor_as_cospan_compose] /
+   [Construction/Cospan/SCFA.v].  The full
+   [Hypergraph (CospanCat C HP) Cospan_SymmetricMonoidal] instance is
+   built as [Cospan_Hypergraph] in
+   [Construction/Cospan/HypergraphInstance.v]:
+   - 4 unit axioms ([scfa_unit_{mu,eta,delta,epsilon}]) — closed via
+     initiality of [0];
+   - 4 tensor axioms ([scfa_tensor_{mu,eta,delta,epsilon}]) — closed via
+     the C-level identity [codiag_through_mid_swap] lifted through
+     [cospan_mid_swap_as_mor] / [cospan_mid_swap_inv_as_mor] and the
+     standard [mor_as_cospan_compose] /
      [cospan_tensor_mor_as_cospan] / [cospan_tensor_id_left_as_cospan]
-     bridges over the 5-fold [mid_swap] composite.  The full bridging
-     reduction (~30-50 lines per axiom) is mechanical but exceeds the
-     scope of the present dispatch session.
-
-   For downstream consumers needing the full [Hypergraph] instance now:
-   the C-level identity is available as [codiag_through_mid_swap].
-   Instantiating concretely in [Sets] or [FinSet] is straightforward
-   given that category's effective-epi structure. *)
+     bridges over the 5-fold [mid_swap] composite. *)

@@ -344,4 +344,351 @@ Proof.
   apply cospan_tensor_mor_as_cospan.
 Defined.
 
+(** ** C-level mid-swap composite
+
+    The C-morphism [(X+Y)+(X+Y) → (X+X)+(Y+Y)] that the Hypergraph
+    [mid_swap] reduces to when [tensor = coproduct], expressed without
+    [bimap]/[cover] sugar (i.e., directly as a [cover]-of-isos chain). *)
+
+Definition mid_swap_C (X Y : C) :
+  ((X + Y) + (X + Y))%object ~> ((X + X) + (Y + Y))%object :=
+  from (@coprod_assoc C H_Coc X X (Y + Y))
+    ∘ cover id[X] (to (@coprod_assoc C H_Coc X Y Y))
+    ∘ cover id[X] (cover (paws : (Y + X)%object ~{C}~> (X + Y)%object) id[Y])
+    ∘ cover id[X] (from (@coprod_assoc C H_Coc Y X Y))
+    ∘ to (@coprod_assoc C H_Coc X Y (X + Y)).
+
+(** Restate [codiag_through_mid_swap] in terms of [mid_swap_C]. *)
+Lemma codiag_via_mid_swap_C (X Y : C) :
+  ((id[X + Y] ▽ id[X + Y]) : ((X + Y) + (X + Y))%object ~> (X + Y))
+  ≈ cover (id[X] ▽ id[X]) (id[Y] ▽ id[Y]) ∘ mid_swap_C X Y.
+Proof.
+  unfold mid_swap_C.
+  rewrite !comp_assoc.
+  apply codiag_through_mid_swap.
+Qed.
+
+(** ** Cospan-level mid_swap reduces to [mor_as_cospan mid_swap_C]
+
+    The [Hypergraph] class's [mid_swap X Y] is built from cospan
+    [tensor_assoc], [bimap], and [braid].  In [CospanCat C HP],
+    [tensor_assoc] is [mor_iso_lift] of [coprod_assoc] (so [to] is
+    [mor_as_cospan (to coprod_assoc)] and [from] is [mor_as_cospan
+    (from coprod_assoc)]), [bimap] is [cospan_tensor], and [braid] is
+    [mor_as_cospan paws].  The whole expression therefore reduces, by
+    iterated [cospan_tensor_id_left_as_cospan] /
+    [cospan_tensor_mor_as_cospan] / [mor_as_cospan_compose], to
+    [mor_as_cospan (mid_swap_C X Y)]. *)
+
+Lemma cospan_mid_swap_as_mor (X Y : C) :
+  cospan_equiv
+    (@mid_swap (CospanCat C HP) (Cospan_SymmetricMonoidal HP) X Y)
+    (mor_as_cospan (mid_swap_C X Y)).
+Proof.
+  unfold mid_swap, mid_swap_C; simpl.
+  (* The expression is left-associated: ((((e1 ∘ e2) ∘ e3) ∘ e4) ∘ e5)
+     where, with cospan_compose g f convention,
+       e1 = α⁻¹              (mor_as_cospan)
+       e2 = bimap id (to α)  → rewrite to mor_as_cospan via tensor_id_left
+       e3 = bimap id (bimap paws id)  → 2-stage reduction
+       e4 = bimap id (α⁻¹)   → rewrite via tensor_id_left
+       e5 = to α             (mor_as_cospan)
+     At depth k from outer, [f] is e_{5-k} and [g] is the prefix. *)
+  (* Stage A: reduce e2, e3, e4 each to mor_as_cospan. *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.                          (* e5 unchanged *)
+    - apply cospan_compose_respects_aux.
+      + apply cospan_tensor_id_left_as_cospan.          (* e4 *)
+      + apply cospan_compose_respects_aux.
+        * apply cospan_tensor_respects.
+          { apply cospan_equiv_refl. }
+          { apply cospan_tensor_mor_as_cospan. }        (* e3 inner *)
+        * apply cospan_compose_respects_aux.
+          { apply cospan_tensor_id_left_as_cospan. }    (* e2 *)
+          { apply cospan_equiv_refl. } }                (* e1 unchanged *)
+  (* After Stage A, e3 has shape  cospan_tensor (cospan_id X) (mor_as_cospan (cover paws id))
+     which is still a tensor; apply tensor_id_left to fully reduce it. *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_equiv_refl.
+      + apply cospan_compose_respects_aux.
+        * apply cospan_tensor_id_left_as_cospan.        (* e3 final *)
+        * apply cospan_equiv_refl. }
+  (* Now all 5 pieces are mor_as_cospan; fuse left-to-right.
+     Composite shape:  (((e1' ∘ e2') ∘ e3') ∘ e4') ∘ e5'  (all mor_as_cospan).
+     Fuse outermost first (peel f off and into the prefix). *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_equiv_refl.
+      + apply cospan_compose_respects_aux.
+        * apply cospan_equiv_refl.
+        * apply mor_as_cospan_compose. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_equiv_refl.
+      + apply mor_as_cospan_compose. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply mor_as_cospan_compose. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply mor_as_cospan_proper.
+  reflexivity.
+Defined.
+
+(** ** Cospan-level [scfa_tensor_mu]
+
+    Both sides reduce to [mor_as_cospan (id▽id : (X+Y)+(X+Y) → X+Y)]
+    via [codiag_through_mid_swap]: the RHS fuses to [mor_as_cospan
+    (cover (id▽id_X) (id▽id_Y) ∘ mid_swap_C X Y)], which by the
+    C-identity equals [mor_as_cospan (id▽id)]. *)
+
+Lemma cospan_scfa_tensor_mu (X Y : C) :
+  cospan_equiv
+    (cospan_scfa_mu (X + Y))
+    (cospan_compose HP
+       (cospan_tensor (cospan_scfa_mu X) (cospan_scfa_mu Y))
+       (@mid_swap (CospanCat C HP) (Cospan_SymmetricMonoidal HP) X Y)).
+Proof.
+  (* RHS: cospan_tensor (mor_as_cospan (id▽id_X)) (mor_as_cospan (id▽id_Y))
+        ≈ mor_as_cospan (cover (id▽id_X) (id▽id_Y))                       *)
+  apply cospan_equiv_sym.
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_mid_swap_as_mor.
+    - apply cospan_tensor_mor_as_cospan. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply mor_as_cospan_proper.
+  (* C-level: (cover (id▽id_X) (id▽id_Y)) ∘ mid_swap_C X Y ≈ id▽id_{X+Y} *)
+  symmetry.
+  apply codiag_via_mid_swap_C.
+Defined.
+
+(** ** Cospan-level [scfa_tensor_delta]
+
+    Dual to [tensor_mu]: both sides reduce to [mor_as_cospan_back
+    (id▽id : (X+Y)+(X+Y) → X+Y)] (backward cospans).  The bridge uses
+    [cospan_tensor_mor_as_cospan_back] for the inner tensor, then
+    [mid_swap_inv] is bridged as [mor_as_cospan_back] of an inverse-iso
+    composite, after which [mor_as_cospan_back_compose] fuses. *)
+
+(** A [mor_as_cospan] of [to phi] for an iso [phi] is cospan-equivalent
+    to a [mor_as_cospan_back] of [from phi].  Both express the same
+    span shape via the iso [phi]. *)
+Lemma mor_as_cospan_to_iso_as_back {X Y : C} (phi : X ≅ Y) :
+  cospan_equiv
+    (mor_as_cospan (to phi))
+    (mor_as_cospan_back (from phi : Y ~> X)).
+Proof.
+  unfold mor_as_cospan, mor_as_cospan_back; simpl.
+  exists (iso_sym phi); simpl; split.
+  - apply iso_from_to.
+  - rewrite id_right. reflexivity.
+Defined.
+
+(** [mid_swap_C] is an iso in [C] (built as a composite of coproduct
+    isos and [paws]).  Its inverse is the analogous backwards composite. *)
+Definition mid_swap_C_inv (X Y : C) :
+  ((X + X) + (Y + Y))%object ~> ((X + Y) + (X + Y))%object :=
+  from (@coprod_assoc C H_Coc X Y (X + Y))
+    ∘ cover id[X] (to (@coprod_assoc C H_Coc Y X Y))
+    ∘ cover id[X] (cover (paws : (X + Y)%object ~{C}~> (Y + X)%object) id[Y])
+    ∘ cover id[X] (from (@coprod_assoc C H_Coc X Y Y))
+    ∘ to (@coprod_assoc C H_Coc X X (Y + Y)).
+
+(** [mid_swap_inv] in [CospanCat C HP] reduces to [mor_as_cospan
+    (mid_swap_C_inv X Y)]: same chain of bridging steps as for
+    [mid_swap]. *)
+Lemma cospan_mid_swap_inv_as_mor (X Y : C) :
+  cospan_equiv
+    (@mid_swap_inv (CospanCat C HP) (Cospan_SymmetricMonoidal HP) X Y)
+    (mor_as_cospan (mid_swap_C_inv X Y)).
+Proof.
+  unfold mid_swap_inv, mid_swap_C_inv; simpl.
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_tensor_id_left_as_cospan.
+      + apply cospan_compose_respects_aux.
+        * apply cospan_tensor_respects.
+          { apply cospan_equiv_refl. }
+          { apply cospan_tensor_mor_as_cospan. }
+        * apply cospan_compose_respects_aux.
+          { apply cospan_tensor_id_left_as_cospan. }
+          { apply cospan_equiv_refl. } }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_equiv_refl.
+      + apply cospan_compose_respects_aux.
+        * apply cospan_tensor_id_left_as_cospan.
+        * apply cospan_equiv_refl. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_equiv_refl.
+      + apply cospan_compose_respects_aux.
+        * apply cospan_equiv_refl.
+        * apply mor_as_cospan_compose. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_equiv_refl.
+      + apply mor_as_cospan_compose. }
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply mor_as_cospan_compose. }
+  eapply cospan_equiv_trans.
+  { apply mor_as_cospan_compose. }
+  apply mor_as_cospan_proper.
+  reflexivity.
+Defined.
+
+(** Composing [mid_swap_C_inv] before [mid_swap_C] cancels (in C).
+
+    The five-stage cancellation chain (after full right-associativity):
+    [to α₄ ∘ from α₅], then [cover id (from α₃) ∘ cover id (to α₆)],
+    [cover id (cover paws id) ∘ cover id (cover paws id)],
+    [cover id (to α₂) ∘ cover id (from α₇)], and finally
+    [from α₁ ∘ to α₈]. *)
+Lemma mid_swap_C_inv_left (X Y : C) :
+  mid_swap_C X Y ∘ mid_swap_C_inv X Y ≈ id.
+Proof.
+  unfold mid_swap_C, mid_swap_C_inv.
+  rewrite <- !comp_assoc.
+  (* Stage 1: to α(X,Y,X+Y) ∘ from α(X,Y,X+Y) = id *)
+  rewrite (comp_assoc (to coprod_assoc) (from coprod_assoc)).
+  rewrite iso_to_from, id_left.
+  (* Stage 2: cover id (from α(Y,X,Y)) ∘ cover id (to α(Y,X,Y)) = id *)
+  rewrite (comp_assoc (cover id[X] (from coprod_assoc))
+                      (cover id[X] (to coprod_assoc))).
+  rewrite cover_comp, id_left, iso_from_to, cover_id, id_left.
+  (* Stage 3: cover id (cover paws id) ∘ cover id (cover paws id) = id *)
+  rewrite (comp_assoc (cover id[X] (cover paws id[Y]))
+                      (cover id[X] (cover paws id[Y]))).
+  rewrite cover_comp, id_left.
+  rewrite cover_comp, paws_invol, id_left.
+  rewrite cover_id, cover_id, id_left.
+  (* Stage 4: cover id (to α(X,Y,Y)) ∘ cover id (from α(X,Y,Y)) = id *)
+  rewrite (comp_assoc (cover id[X] (to coprod_assoc))
+                      (cover id[X] (from coprod_assoc))).
+  rewrite cover_comp, id_left, iso_to_from, cover_id, id_left.
+  (* Stage 5: from α(X,X,Y+Y) ∘ to α(X,X,Y+Y) = id *)
+  apply iso_from_to.
+Qed.
+
+Lemma cospan_scfa_tensor_delta (X Y : C) :
+  cospan_equiv
+    (cospan_scfa_delta (X + Y))
+    (cospan_compose HP
+       (@mid_swap_inv (CospanCat C HP) (Cospan_SymmetricMonoidal HP) X Y)
+       (cospan_tensor (cospan_scfa_delta X) (cospan_scfa_delta Y))).
+Proof.
+  (* Build the iso phi : (X+X)+(Y+Y) ≅ (X+Y)+(X+Y) with
+       to phi   := mid_swap_C_inv X Y
+       from phi := mid_swap_C X Y.
+     Then [mor_as_cospan mid_swap_C_inv ≈ mor_as_cospan_to phi].
+     [cospan_compose_forward_iso_back] collapses the composite to a
+     single [mor_as_cospan_back] whose underlying C-morphism is
+     [(cover (id▽id_X)(id▽id_Y)) ∘ from phi = m1 ∘ mid_swap_C],
+     which by [codiag_via_mid_swap_C] equals [id▽id_{X+Y}].         *)
+  apply cospan_equiv_sym.
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_tensor_mor_as_cospan_back.
+    - apply cospan_mid_swap_inv_as_mor. }
+  (* Goal:
+       cospan_compose (mor_as_cospan (mid_swap_C_inv X Y))
+                      (mor_as_cospan_back (cover (id▽id_X)(id▽id_Y)))
+       ≈ cospan_scfa_delta (X+Y).                                   *)
+  (* Build the iso. *)
+  unshelve epose (phi :=
+    @Build_Isomorphism C _ _
+      (mid_swap_C_inv X Y) (mid_swap_C X Y) _ _).
+  2: { apply mid_swap_C_inv_left. }
+  { (* mid_swap_C_inv ∘ mid_swap_C ≈ id, dual to mid_swap_C_inv_left.
+       After right-association, the adjacent pairs are:
+       (1) to α(X,X,Y+Y) ∘ from α(X,X,Y+Y)
+       (2) cover id (from α(X,Y,Y)) ∘ cover id (to α(X,Y,Y))
+       (3) cover id (cover paws id) ∘ cover id (cover paws id)
+       (4) cover id (to α(Y,X,Y)) ∘ cover id (from α(Y,X,Y))
+       (5) from α(X,Y,X+Y) ∘ to α(X,Y,X+Y).                    *)
+    unfold mid_swap_C, mid_swap_C_inv.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (to coprod_assoc) (from coprod_assoc)).
+    rewrite iso_to_from, id_left.
+    rewrite (comp_assoc (cover id[X] (from coprod_assoc))
+                        (cover id[X] (to coprod_assoc))).
+    rewrite cover_comp, id_left, iso_from_to, cover_id, id_left.
+    rewrite (comp_assoc (cover id[X] (cover paws id[Y]))
+                        (cover id[X] (cover paws id[Y]))).
+    rewrite cover_comp, id_left.
+    rewrite cover_comp, paws_invol, id_left.
+    rewrite cover_id, cover_id, id_left.
+    rewrite (comp_assoc (cover id[X] (to coprod_assoc))
+                        (cover id[X] (from coprod_assoc))).
+    rewrite cover_comp, id_left, iso_to_from, cover_id, id_left.
+    apply iso_from_to. }
+  (* Rewrite (mor_as_cospan (mid_swap_C_inv X Y)) = (mor_as_cospan (to phi)). *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply (mor_as_cospan_proper (mid_swap_C_inv X Y) (to phi)).
+      reflexivity. }
+  eapply cospan_equiv_trans.
+  { apply (cospan_compose_forward_iso_back HP
+              (cover (id[X] ▽ id[X] : (X + X)%object ~> X)
+                     (id[Y] ▽ id[Y] : (Y + Y)%object ~> Y))
+              phi). }
+  (* Now: mor_as_cospan_back (cover (id▽id_X)(id▽id_Y) ∘ from phi)
+            = mor_as_cospan_back (cover ... ∘ mid_swap_C X Y).
+     Apply codiag_via_mid_swap_C symmetrically. *)
+  apply mor_as_cospan_back_proper.
+  symmetry.
+  apply codiag_via_mid_swap_C.
+Defined.
+
 End CospanHypergraphInstance.
+
+(** * The [Hypergraph (CospanCat C HP)] instance
+
+    Assembling the eight axioms ([4 unit] + [4 tensor]) into the full
+    [Hypergraph] class.  The SCFA on every object is [cospan_scfa]; the
+    tensor coherence is [cospan_scfa_tensor_{mu,eta,delta,epsilon}]; the
+    unit coherence is [cospan_scfa_unit_{mu,eta,delta,epsilon}]. *)
+
+Section CospanHypergraph.
+
+Context {C : Category}.
+Context `{H_Coc : @Cocartesian C}.
+Context `{H_Ini : @Initial C}.
+Context (HP : HasPushouts C).
+
+#[export] Program Instance Cospan_Hypergraph
+  : @Hypergraph (CospanCat C HP) (Cospan_SymmetricMonoidal HP) := {|
+  scfa                := cospan_scfa HP ;
+  scfa_tensor_mu      := cospan_scfa_tensor_mu HP ;
+  scfa_tensor_eta     := cospan_scfa_tensor_eta HP ;
+  scfa_tensor_delta   := cospan_scfa_tensor_delta HP ;
+  scfa_tensor_epsilon := cospan_scfa_tensor_epsilon HP ;
+  scfa_unit_mu        := cospan_scfa_unit_mu ;
+  scfa_unit_eta       := cospan_scfa_unit_eta ;
+  scfa_unit_delta     := cospan_scfa_unit_delta ;
+  scfa_unit_epsilon   := cospan_scfa_unit_epsilon
+|}.
+
+End CospanHypergraph.
