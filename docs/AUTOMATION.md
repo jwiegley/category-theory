@@ -63,7 +63,22 @@ If you depend on this library and want to add your own automation:
    typeclass contexts.** This forces every proof term to capture every
    in-scope section variable, which makes proof terms enormous and can
    trigger memory blow-ups in typeclass-rich code (e.g. anything
-   touching `Hypergraph`).
+   touching `Hypergraph`).  Use per-proof `Proof using ...` with the
+   minimum set of section variables instead.  ([Note that
+   `"Type*"` is NOT a remedy here: it still captures every type-
+   relevant section variable that any tactic step touches, which in
+   typeclass-heavy code is effectively all of them.])
+
+   **Known exception:** the five
+   `Construction/DecoratedCospan/{Category,Symmetric,Monoidal,
+   Braided,Hypergraph}.v` files use `Set Default Proof Using "All"`
+   today because each carries an 11-variable `Context` block.  The
+   per-proof `Proof using` refactor is a tractable but tedious
+   ~30-edit follow-up; the current memory overhead is ~7 GB per
+   file, which is borderline acceptable for the library's CI budget.
+   New files in similar territory should NOT follow this pattern —
+   instead, take the per-proof `Proof using` discipline from the
+   outset.
 5. **Prefer flat projections over deep nests.** Use `scfa_mu (scfa X)`
    rather than `@mu _ _ _ (@frob_monoid _ _ _ (@cfrob_frobenius _ _ _
    (@scfa_commutative _ _ _ (scfa X))))`. The flat projections are
