@@ -115,10 +115,13 @@ Proof.
     + apply (uniqueness HPP); split; apply id_right.
 Qed.
 
-Require Import Category.Construction.Opposite.
+(** A category has all binary pullbacks if every cospan has a pullback.
+    This is the dual of [HasPushouts] in [Structure/Pushout.v]. *)
+Class HasPullbacks (C : Category) : Type := {
+  pullback : forall {x y z : C} (f : x ~> z) (g : y ~> z), Pullback f g
+}.
 
-Definition Pushout {C : Category} {x y z : C^op} (f : x ~> z) (g : y ~> z) :=
-  Pullback f g.
+Arguments pullback {C _ x y z} f g.
 
 (* A weak pullback differs from a pullback in that the mediating morphism is
    merely required to exist; uniqueness is dropped. *)
