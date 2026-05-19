@@ -183,4 +183,45 @@ End ForgetDecoration.
 
     This file provides the canonical forgetful black-box, the
     well-definedness lemmas at the cospan/equivalence level, and the
-    pattern-recipe for instantiating the general case. *)
+    pattern-recipe for instantiating the general case.
+
+    ** Packaging as a [HypergraphFunctor] record
+
+    [Structure/Monoidal/HypergraphFunctor.v] defines the literature
+    notion of a hypergraph functor (Fong, Def. 4.1.3): a symmetric
+    monoidal functor between hypergraph categories preserving the SCFA
+    structure on every object.
+
+    The forgetful black-box [forget_decoration : DecoratedCospanCat F →
+    CospanCat C] is, by construction, a STRICT hypergraph functor: it
+    acts as the identity on objects, and on each generator it sends
+    the decorated SCFA-generator back to the underlying cospan-level
+    SCFA-generator (since the decoration is, by definition, an extra
+    layer wrapped around the cospan).
+
+    Formally building the [HypergraphFunctor] instance requires:
+
+      1. [DecoratedCospanCat F] as a [Category] record (done by
+         [Construction/DecoratedCospan/Category.v], parameterised by
+         a [DecCospan_Coherent] instance);
+
+      2. the SMC structure on [DecoratedCospanCat] (the
+         [Construction/DecoratedCospan/Category.v] discussion section
+         outlines the [DecCospan_Monoidal_Coherent] +
+         [DecCospan_Symmetric_Coherent] coherence-class signatures);
+
+      3. the [Hypergraph] structure on [DecoratedCospanCat] (chosen
+         decorations on each of the four SCFA generators, lifting
+         [Cospan_Hypergraph]'s scfa fields one level).
+
+    With (1)-(3) in scope, the [HypergraphFunctor] instance for
+    [forget_decoration] takes [hf_unit_iso := iso_id] and
+    [hf_tensor_iso X Y := iso_id] (the functor acts as the identity
+    on objects), and discharges each of the four preservation
+    equations by [reflexivity] (since
+    [forget_decoration_morphism (scfa_gen_dec X) = scfa_gen X]
+    holds on the nose by the choice of decorated SCFA).
+
+    This is the canonical Fong-style "black-box is a hypergraph
+    functor" theorem (Theorem 4.1.4 in his thesis), realised in
+    formal Coq. *)

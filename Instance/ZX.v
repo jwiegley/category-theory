@@ -259,7 +259,82 @@ Program Definition ZX_Cat : Category := {|
     over this signature; the spider axioms in [zx_eq] DIRECTLY discharge
     the Frobenius axioms (Lack's normal-form theorem realised
     syntactically).  This is a clean follow-up rather than a research
-    obstruction. *)
+    obstruction.
+
+    ** Sticking-point analysis: the dependent-type tax
+
+    Building [ZX_Monoidal : Monoidal ZX_Cat] requires constructing a
+    [Bifunctor (ZX_Cat ∏ ZX_Cat) ZX_Cat] whose action on objects is
+    [(m, n) ↦ m + n] and whose action on morphisms is [zx_tensor].
+    The [Bifunctor]-laws (functoriality + naturality) hold by the
+    [zx_eq_tensor] congruence rule plus identity-/composition-tensor
+    laws (which need to be added to [zx_eq] as separate constructors
+    [zx_eq_tensor_id], [zx_eq_tensor_compose] capturing
+    [id_m ⊕ id_n = id_{m+n}] and the interchange law
+    [(f ⊕ g) ⊙ (h ⊕ k) = (f ⊙ h) ⊕ (g ⊙ k)]).
+
+    The structural isomorphisms involve TRANSPORT:
+
+      - [unit_left : 0 + n ≅ n]:  by [Nat.add_0_l : 0 + n = n] which
+        is DEFINITIONAL (since [+] recurs on the first argument), the
+        types [ZX (0+n) n] and [ZX n n] coincide, and
+        [unit_left := zx_id n] works on the nose.
+
+      - [unit_right : n + 0 ≅ n]:  by [Nat.add_0_r : n + 0 = n], which
+        is NOT definitional — requires [eq_rect] / [match]-transport.
+        The iso is [zx_id n] transported.
+
+      - [tensor_assoc : (m + n) + p ≅ m + (n + p)]:  by [Nat.add_assoc],
+        also NOT definitional — same transport pattern.
+
+      - braid:  the symmetric-monoidal braid on [(m, n)] is the
+        [m × n]-many-wire-crossing built from [zx_swap], indexed by a
+        finite reshuffling.  Construction requires recursion on [m, n]
+        and the braid-naturality requires the swap-cancellation
+        constructor (already present as [zx_eq_swap_invol]).
+
+    The implementation is a pure dependent-types-and-arithmetic
+    exercise: roughly the same shape as [Span/Category.v]-style proofs
+    but indexed by [nat] rather than abstract objects.  The current
+    library imports [eq_rect_dep] and [rew] in [Lib/Tactics.v], so the
+    transport machinery is in scope.
+
+    ** Frobenius / Hypergraph layer
+
+    Once the SMC layer is in place, the Hypergraph instance on every
+    [n : nat] uses the n-fold tensor of the Z-spider SCFA (or X-spider
+    SCFA — they are isomorphic via the colour-change rule):
+
+        μ_n  :=  Z_2^1(0) ⊕ Z_2^1(0) ⊕ ... ⊕ Z_2^1(0)   (n times, with
+                                                         appropriate
+                                                         re-wiring)
+        η_n  :=  Z_0^1(0) ⊕ ... ⊕ Z_0^1(0)
+        δ_n  :=  Z_1^2(0) ⊕ ... ⊕ Z_1^2(0)
+        ε_n  :=  Z_1^0(0) ⊕ ... ⊕ Z_1^0(0)
+
+    The Frobenius axioms (associativity of mu, coassociativity of
+    delta, the Frobenius condition, and the specialness condition
+    [mu ∘ delta ≈ id]) all reduce to instances of [zx_eq_z_fusion] +
+    [zx_eq_z_id].  Stating the [Hypergraph]-class fields against the
+    canonical [TrivPROP_Cat] / generic [Monoidal] pattern requires
+    that the [Bifunctor]-tensor on [ZX_Cat] reduce on the diagonal
+    [(n, n)] in the correct way, which is precisely the same transport
+    bookkeeping as the SMC layer.
+
+    ** Volume estimate
+
+    Full ZX-PROP-Hypergraph instance: roughly 400-600 lines split
+    across a [ZX_Monoidal.v], [ZX_Symmetric.v], and
+    [ZX_Hypergraph.v] family of modules, each with the bulk of the
+    work being arithmetic-transport bookkeeping rather than novel
+    categorical reasoning.
+
+    The signature DATA in this file — [ZX_Cat], [zx_eq] with the full
+    set of spider-fusion + colour-change + identity + swap rules — is
+    the foundation; the layered PROP-and-Hypergraph instance is a
+    clean follow-up exercise organised against the [PROP] / [Hypergraph]
+    classes defined in [Construction/PROP.v] and
+    [Structure/Monoidal/Hypergraph.v]. *)
 
 (** ** Sanity check: the identity wire on [n] composed with itself is itself. *)
 
