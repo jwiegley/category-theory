@@ -2069,58 +2069,9 @@ End CospanMonoidal.
     UMP reasoning.  Tractable but beyond a single dispatch session. *)
 (* CLOSED(V2d-coherence): the full Monoidal (CospanCat C HP) instance is
    built as [Cospan_Monoidal] above. *)
-(* TODO(V2d-coherence): SCFA axioms for cospan_scfa_*.
-
-   Depends on the SymmetricMonoidal (CospanCat C HP) instance, which is
-   itself blocked on:
-
-     (S1) [Cospan_BraidedMonoidal] — needs [cospan_braid_natural] for
-          arbitrary cospans (not just [mor_as_cospan] lifts), a
-          pushout-UMP calculation parallel to [cospan_unit_left_natural]
-          at ~100-150 lines, plus the C-level hexagon identity for
-          [paws] against [coprod_assoc] (~50-100 lines via [coprod_ext]
-          like [coprod_triangle_aux]).
-
-     (S2) [Cospan_SymmetricMonoidal] — once (S1) is done, [braid_invol]
-          follows trivially from [paws_invol] lifted via
-          [mor_as_cospan_proper].
-
-   Once (S1)-(S2) provide the SymmetricMonoidal layer, the SCFA axioms
-   for the four cospan_scfa_* witnesses decompose into:
-
-     (SCFA1) [mu_assoc] / [mu_unit_left] / [mu_unit_right] — three
-             cospan-equiv equations between pushouts of codiagonals,
-             each ~80-120 lines of [pushout_med_eq] + [merge_inl_inr]
-             calculations.
-
-     (SCFA2) [delta_coassoc] / [delta_counit_*] — dual to (SCFA1),
-             same shape (~80-120 lines each).
-
-     (SCFA3) [mu_commutative] / [delta_cocommutative] — reduces to
-             [paws_fork] lifted via [cospan_compose_mor_as_cospan_right]
-             (~30-50 lines).
-
-     (SCFA4) [frob_law_left] / [frob_law_right] — the Frobenius
-             compatibility laws; require a "diamond" pushout
-             calculation on the codiagonal-against-itself pushout
-             (~120-180 lines each).
-
-     (SCFA5) [mu_delta_id] (specialness) — needs the "pushout of
-             [(id, id) : X → X+X]-style cocone" to collapse to [X];
-             ~60-80 lines.
-
-   Total estimated cost of (SCFA1)-(SCFA5): ~600-900 lines of mechanical
-   pushout reasoning on top of (S1)-(S2)'s ~250 lines.  Outside the
-   scope of a single dispatch session. *)
-(* TODO(V2d-coherence): [Hypergraph (CospanCat C HP) Cospan_SymmetricMonoidal]
-   tensor + unit coherence.
-
-   Depends on the SCFA-axioms TODO above.  Once SCFA on every object is
-   available, the tensor coherence ([scfa_tensor_mu / _eta / _delta /
-   _epsilon]) reduces to the C-level coproduct interchange via
-   [mid_swap], a ~150-200 line calculation per equation (4 equations).
-   The unit coherence ([scfa_unit_*]) is automatic by uniqueness of
-   morphisms in / out of the initial object [0], ~20-30 lines total.
-
-   Total estimated cost: ~600-800 lines on top of the SCFA-axioms
-   TODO. *)
+(* CLOSED(V2d-coherence): The [Cospan_BraidedMonoidal] /
+   [Cospan_SymmetricMonoidal] instances are built in
+   [Construction/Cospan/Symmetric.v].  The SCFA-on-every-X instance
+   [cospan_scfa] (and the underlying monoid / comonoid / Frobenius /
+   commutative Frobenius pieces) is built in
+   [Construction/Cospan/SCFA.v]. *)

@@ -886,6 +886,312 @@ Proof.
     + cat.
 Defined.
 
+(** Mirror version: pushout for [frob_law_right]. *)
+
+Lemma frob_pushout_legs_eq_R (X : C) :
+  let P := pushout
+             ((cover (id[X] ▽ id[X]) id[X] ∘ from (@coprod_assoc C H_Coc X X X))
+                : (X + (X + X))%object ~> (X + X)%object)
+             (cover id[X] (id[X] ▽ id[X]))
+  in pushout_in1 P ≈ pushout_in2 P.
+Proof.
+  intros P.
+  pose proof (pushout_commutes P) as PC.
+  (* PC ∘ inl: gives pushout_in1 ∘ inl ≈ pushout_in2 ∘ inl. *)
+  assert (Eq1 : pushout_in1 P ∘ inl ≈ pushout_in2 P ∘ inl).
+  { assert (H : (pushout_in1 P ∘ (cover (id[X] ▽ id[X]) id[X] ∘ from coprod_assoc)) ∘ inl
+              ≈ (pushout_in2 P ∘ cover id[X] (id[X] ▽ id[X])) ∘ inl)
+      by (rewrite PC; reflexivity).
+    rewrite <- !comp_assoc in H.
+    rewrite assoc_from_inl in H.
+    rewrite (comp_assoc (cover (id[X] ▽ id[X]) id[X]) inl inl) in H.
+    rewrite cover_inl in H.
+    rewrite <- (comp_assoc inl (id[X] ▽ id[X]) inl) in H.
+    rewrite inl_merge in H.
+    rewrite id_right in H.
+    rewrite cover_inl in H.
+    rewrite id_right in H.
+    exact H. }
+  (* PC ∘ (inr ∘ inr): gives pushout_in1 ∘ inr ≈ pushout_in2 ∘ inr. *)
+  assert (Eq3 : pushout_in1 P ∘ inr ≈ pushout_in2 P ∘ inr).
+  { assert (H : (pushout_in1 P ∘ (cover (id[X] ▽ id[X]) id[X] ∘ from coprod_assoc)) ∘ (inr ∘ inr)
+              ≈ (pushout_in2 P ∘ cover id[X] (id[X] ▽ id[X])) ∘ (inr ∘ inr))
+      by (rewrite PC; reflexivity).
+    rewrite <- !comp_assoc in H.
+    rewrite assoc_from_inr_inr in H.
+    rewrite cover_inr in H.
+    rewrite id_right in H.
+    rewrite (comp_assoc (cover id[X] (id[X] ▽ id[X])) inr inr) in H.
+    rewrite cover_inr in H.
+    rewrite <- (comp_assoc inr (id[X] ▽ id[X]) inr) in H.
+    rewrite inr_merge in H.
+    rewrite id_right in H.
+    exact H. }
+  apply coprod_ext; assumption.
+Qed.
+
+Lemma frob_pushout_in2_collapse_R (X : C) :
+  let P := pushout
+             ((cover (id[X] ▽ id[X]) id[X] ∘ from (@coprod_assoc C H_Coc X X X))
+                : (X + (X + X))%object ~> (X + X)%object)
+             (cover id[X] (id[X] ▽ id[X]))
+  in pushout_in2 P ∘ (inl ∘ (id[X] ▽ id[X] : (X + X)%object ~> X))
+     ≈ pushout_in2 P.
+Proof.
+  intros P.
+  pose proof (pushout_commutes P) as PC.
+  (* Cross constraint: PC ∘ (inr ∘ inl) gives pushout_in1 ∘ inl ≈ pushout_in2 ∘ inr. *)
+  assert (Cross : pushout_in1 P ∘ inl ≈ pushout_in2 P ∘ inr).
+  { assert (H : (pushout_in1 P ∘ (cover (id[X] ▽ id[X]) id[X] ∘ from coprod_assoc)) ∘ (inr ∘ inl)
+              ≈ (pushout_in2 P ∘ cover id[X] (id[X] ▽ id[X])) ∘ (inr ∘ inl))
+      by (rewrite PC; reflexivity).
+    rewrite <- !comp_assoc in H.
+    rewrite assoc_from_inr_inl in H.
+    rewrite (comp_assoc (cover (id[X] ▽ id[X]) id[X]) inl inr) in H.
+    rewrite cover_inl in H.
+    rewrite <- (comp_assoc inl (id[X] ▽ id[X]) inr) in H.
+    rewrite inr_merge in H.
+    rewrite id_right in H.
+    rewrite (comp_assoc (cover id[X] (id[X] ▽ id[X])) inr inl) in H.
+    rewrite cover_inr in H.
+    rewrite <- (comp_assoc inr (id[X] ▽ id[X]) inl) in H.
+    rewrite inl_merge in H.
+    rewrite id_right in H.
+    exact H. }
+  assert (Hleg : pushout_in1 P ≈ pushout_in2 P).
+  { unfold P. apply frob_pushout_legs_eq_R. }
+  apply coprod_ext.
+  - rewrite <- !comp_assoc.
+    rewrite inl_merge.
+    rewrite id_right.
+    reflexivity.
+  - rewrite <- !comp_assoc.
+    rewrite inr_merge.
+    rewrite id_right.
+    rewrite <- Cross.
+    symmetry.
+    rewrite Hleg at 1.
+    reflexivity.
+Qed.
+
+Lemma frob_pushout_apex_R (X : C) :
+  pushout_apex (pushout
+    ((cover (id[X] ▽ id[X]) id[X] ∘ from (@coprod_assoc C H_Coc X X X))
+       : (X + (X + X))%object ~> (X + X)%object)
+    (cover id[X] (id[X] ▽ id[X]))) ≅ X.
+Proof.
+  set (P := pushout
+              ((cover (id[X] ▽ id[X]) id[X] ∘ from (@coprod_assoc C H_Coc X X X))
+                 : (X + (X + X))%object ~> (X + X)%object)
+              (cover id[X] (id[X] ▽ id[X]))).
+  (* Cocone (id▽id, id▽id) over the span:
+     Hcomm: (id▽id) ∘ (cover (id▽id) id ∘ from α) ≈ (id▽id) ∘ cover id (id▽id)
+     LHS: by codiag_cover, (id▽id) ∘ cover (id▽id) id ∘ from α
+                          = ((id▽id) ▽ id) ∘ from α.
+     RHS: by codiag_cover, = id ▽ (id▽id).
+     Need: ((id▽id) ▽ id) ∘ from α ≈ id ▽ (id▽id).
+     This is codiag_assoc rewritten using iso_to/from cancellation. *)
+  assert (HC : (id[X] ▽ id[X]) ∘ (cover (id[X] ▽ id[X]) id[X] ∘ from coprod_assoc)
+              ≈ (id[X] ▽ id[X]) ∘ cover id[X] (id[X] ▽ id[X])).
+  { rewrite comp_assoc.
+    rewrite codiag_cover.
+    (* Now need: ((id▽id) ▽ id) ∘ from α ≈ (id▽id) ∘ cover id (id▽id) *)
+    pose proof (@codiag_assoc X) as Ha.
+    (* Ha: (id▽id) ∘ cover (id▽id) id ≈ (id▽id) ∘ cover id (id▽id) ∘ to α *)
+    rewrite codiag_cover in Ha.
+    (* Ha: (id▽id) ▽ id ≈ (id▽id) ∘ cover id (id▽id) ∘ to α *)
+    rewrite Ha.
+    rewrite <- !comp_assoc.
+    rewrite iso_to_from.
+    rewrite id_right.
+    reflexivity. }
+  pose (m := pushout_med P HC).
+  assert (Hm1 : m ∘ pushout_in1 P ≈ id[X] ▽ id[X]) by (apply pushout_med_in1).
+  assert (Hm2 : m ∘ pushout_in2 P ≈ id[X] ▽ id[X]) by (apply pushout_med_in2).
+  pose proof (frob_pushout_legs_eq_R X) as Hleg.
+  cbn beta zeta in Hleg.
+  fold P in Hleg.
+  refine {| to := m; from := pushout_in2 P ∘ inl;
+            iso_to_from := _; iso_from_to := _ |}.
+  - (* m ∘ (pushout_in2 P ∘ inl) ≈ id[X] *)
+    rewrite comp_assoc.
+    rewrite Hm2.
+    apply inl_merge.
+  - (* (pushout_in2 P ∘ inl) ∘ m ≈ id[P] *)
+    apply (pushout_med_eq P (pushout_commutes P)
+                          ((pushout_in2 P ∘ inl) ∘ m) id[pushout_apex P]).
+    + rewrite <- !comp_assoc.
+      rewrite Hm1.
+      assert (Hcoll : pushout_in2 P ∘ (inl ∘ (id[X] ▽ id[X])) ≈ pushout_in2 P).
+      { unfold P. apply frob_pushout_in2_collapse_R. }
+      rewrite Hcoll.
+      symmetry. exact Hleg.
+    + rewrite <- !comp_assoc.
+      rewrite Hm2.
+      assert (Hcoll : pushout_in2 P ∘ (inl ∘ (id[X] ▽ id[X])) ≈ pushout_in2 P).
+      { unfold P. apply frob_pushout_in2_collapse_R. }
+      exact Hcoll.
+    + cat.
+    + cat.
+Defined.
+
+(** ** Frobenius laws
+
+    LHS = [bimap mu id ∘ from α ∘ bimap id delta] and
+    RHS = [delta ∘ mu], where both reduce to the cospan with apex X and
+    legs (id ▽ id, id ▽ id). *)
+
+Lemma cospan_frob_law_left (X : C) :
+  cospan_equiv
+    (cospan_compose HP
+       (cospan_tensor (cospan_scfa_mu X) (cospan_id X))
+       (cospan_compose HP
+          (mor_as_cospan (from (@coprod_assoc C H_Coc X X X)))
+          (cospan_tensor (cospan_id X) (cospan_scfa_delta X))))
+    (cospan_compose HP (cospan_scfa_delta X) (cospan_scfa_mu X)).
+Proof.
+  unfold cospan_scfa_mu, cospan_scfa_delta.
+  (* LHS: convert each bimap (cospan_id) to (mor_as_cospan_back id), then fuse tensors. *)
+  (* Inner of LHS: cospan_tensor (cospan_id X) (back (id▽id)) ≈ back (cover id (id▽id)). *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_equiv_trans with
+          (g := cospan_tensor (mor_as_cospan_back id[X])
+                              (mor_as_cospan_back (id[X] ▽ id[X]))).
+        * apply cospan_tensor_respects.
+          ++ apply cospan_id_as_back.
+          ++ apply cospan_equiv_refl.
+        * apply cospan_tensor_mor_as_cospan_back.
+      + apply cospan_equiv_refl.
+    - apply cospan_equiv_refl. }
+  (* Now: compose (compose (mor_as_cospan (from α)) (back (cover id (id▽id)))) tensor.
+     Apply cospan_compose_forward_iso_back to inner compose. *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply (cospan_compose_forward_iso_back (cover id[X] (id[X] ▽ id[X]))
+              (iso_sym (@coprod_assoc C H_Coc X X X))).
+    - apply cospan_equiv_refl. }
+  (* Now: compose (back (cover id (id▽id) ∘ to coprod_assoc)) (cospan_tensor mu cospan_id).
+     Reduce outer tensor: cospan_tensor (mor_as_cospan (id▽id)) (cospan_id X)
+     ≈ mor_as_cospan (cover (id▽id) id). *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_equiv_trans with
+        (g := cospan_tensor (mor_as_cospan (id[X] ▽ id[X]))
+                            (mor_as_cospan id[X])).
+      + apply cospan_tensor_respects.
+        * apply cospan_equiv_refl.
+        * apply cospan_equiv_sym, mor_as_cospan_id.
+      + apply cospan_tensor_mor_as_cospan. }
+  (* Now: compose (back (cover id (id▽id) ∘ to coprod_assoc))
+                 (mor_as_cospan (cover (id▽id) id))
+     The outer is "back", inner is "forward".  This is a genuine pushout
+     (the Frobenius pushout). *)
+  apply cospan_equiv_sym.
+  (* RHS = compose (back (id▽id)) (mor_as_cospan (id▽id)).
+     By cospan_compose_mor_as_cospan_back_left (with outer = back (id▽id), inner = mor_as_cospan (id▽id)):
+       ≈ Build_CospanArrow X (in1 inner) (in2 inner ∘ (id▽id))
+       = Build_CospanArrow X (id▽id) (id ∘ (id▽id))
+       = Build_CospanArrow X (id▽id) (id▽id)                              *)
+  eapply cospan_equiv_trans.
+  { apply (cospan_compose_mor_as_cospan_back_left (id[X] ▽ id[X])
+             (mor_as_cospan (id[X] ▽ id[X]))). }
+  apply cospan_equiv_sym.
+  unfold cospan_compose, mor_as_cospan, mor_as_cospan_back; simpl.
+  (* LHS apex: pushout (cover id (id▽id) ∘ to α) (cover (id▽id) id) ≅ X (via frob_pushout_apex).
+     LHS legs (after iso): pushout_in1 P ∘ id[X+X] = pushout_in1 P, pushout_in2 P ∘ id[X+X] = pushout_in2 P.
+     RHS: apex X, in1 = id▽id (from in1 inner of cospan_compose_back_left =
+                              cospan_in1 (mor_as_cospan (id▽id)) = id▽id),
+                   in2 = id ∘ (id▽id) = id▽id. *)
+  set (P := pushout
+              ((cover id[X] (id[X] ▽ id[X]) ∘ to (@coprod_assoc C H_Coc X X X))
+                 : ((X + X) + X)%object ~> (X + X)%object)
+              (cover (id[X] ▽ id[X]) id[X])).
+  exists (frob_pushout_apex X); simpl; fold P; split.
+  - (* to (frob_pushout_apex X) ∘ (pushout_in1 P ∘ id[X+X]) ≈ id[X] ▽ id[X] *)
+    rewrite id_right.
+    unfold frob_pushout_apex; simpl.
+    apply pushout_med_in1.
+  - rewrite id_right.
+    unfold frob_pushout_apex; simpl.
+    rewrite pushout_med_in2.
+    rewrite id_left.
+    reflexivity.
+Defined.
+
+(** Mirror of [cospan_frob_law_left]:
+    [bimap id mu ∘ to α ∘ bimap delta id ≈ delta ∘ mu]. *)
+Lemma cospan_frob_law_right (X : C) :
+  cospan_equiv
+    (cospan_compose HP
+       (cospan_tensor (cospan_id X) (cospan_scfa_mu X))
+       (cospan_compose HP
+          (mor_as_cospan (to (@coprod_assoc C H_Coc X X X)))
+          (cospan_tensor (cospan_scfa_delta X) (cospan_id X))))
+    (cospan_compose HP (cospan_scfa_delta X) (cospan_scfa_mu X)).
+Proof.
+  unfold cospan_scfa_mu, cospan_scfa_delta.
+  (* Inner of LHS: cospan_tensor (back (id▽id)) (cospan_id X)
+                 ≈ back (cover (id▽id) id). *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_compose_respects_aux.
+      + apply cospan_equiv_trans with
+          (g := cospan_tensor (mor_as_cospan_back (id[X] ▽ id[X]))
+                              (mor_as_cospan_back id[X])).
+        * apply cospan_tensor_respects.
+          ++ apply cospan_equiv_refl.
+          ++ apply cospan_id_as_back.
+        * apply cospan_tensor_mor_as_cospan_back.
+      + apply cospan_equiv_refl.
+    - apply cospan_equiv_refl. }
+  (* Now inner is compose (mor_as_cospan (to α)) (back (cover (id▽id) id)).
+     Apply cospan_compose_forward_iso_back with g = cover (id▽id) id, phi = coprod_assoc. *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply (cospan_compose_forward_iso_back (cover (id[X] ▽ id[X]) id[X])
+              (@coprod_assoc C H_Coc X X X)).
+    - apply cospan_equiv_refl. }
+  (* Now: compose (back (cover (id▽id) id ∘ from coprod_assoc))
+                 (cospan_tensor (cospan_id X) μ).
+     Outer tensor: cospan_tensor (cospan_id X) μ
+                 ≈ mor_as_cospan (cover id (id▽id)). *)
+  eapply cospan_equiv_trans.
+  { apply cospan_compose_respects_aux.
+    - apply cospan_equiv_refl.
+    - apply cospan_equiv_trans with
+        (g := cospan_tensor (mor_as_cospan id[X])
+                            (mor_as_cospan (id[X] ▽ id[X]))).
+      + apply cospan_tensor_respects.
+        * apply cospan_equiv_sym, mor_as_cospan_id.
+        * apply cospan_equiv_refl.
+      + apply cospan_tensor_mor_as_cospan. }
+  apply cospan_equiv_sym.
+  (* RHS = compose (back (id▽id)) (mor_as_cospan (id▽id)). *)
+  eapply cospan_equiv_trans.
+  { apply (cospan_compose_mor_as_cospan_back_left (id[X] ▽ id[X])
+             (mor_as_cospan (id[X] ▽ id[X]))). }
+  apply cospan_equiv_sym.
+  unfold cospan_compose, mor_as_cospan, mor_as_cospan_back; simpl.
+  set (P := pushout
+              ((cover (id[X] ▽ id[X]) id[X] ∘ from (@coprod_assoc C H_Coc X X X))
+                 : (X + (X + X))%object ~> (X + X)%object)
+              (cover id[X] (id[X] ▽ id[X]))).
+  exists (frob_pushout_apex_R X); simpl; fold P; split.
+  - rewrite comp_assoc.
+    rewrite id_right.
+    unfold frob_pushout_apex_R; simpl.
+    apply pushout_med_in1.
+  - rewrite comp_assoc.
+    rewrite id_right.
+    unfold frob_pushout_apex_R; simpl.
+    rewrite pushout_med_in2.
+    rewrite id_left.
+    reflexivity.
+Defined.
+
 (** ** Specialness: μ ∘ δ ≈ id
 
     [μ ∘ δ : X → X] via [cospan_compose μ δ].  Inner = δ = back (id▽id),
@@ -930,6 +1236,47 @@ Next Obligation.
 Defined.
 Next Obligation.
   apply cospan_delta_counit_right.
+Defined.
+
+(** ** [Frobenius (CospanCat C HP) X] for every X *)
+
+Program Definition cospan_frobenius (X : C) :
+  @Frobenius (CospanCat C HP) (Cospan_Monoidal HP) X := {|
+  frob_monoid   := cospan_monoid X ;
+  frob_comonoid := cospan_comonoid X
+|}.
+Next Obligation.
+  eapply cospan_equiv_trans.
+  { apply cospan_equiv_sym. apply cospan_compose_assoc. }
+  apply (cospan_frob_law_left X).
+Defined.
+Next Obligation.
+  eapply cospan_equiv_trans.
+  { apply cospan_equiv_sym. apply cospan_compose_assoc. }
+  apply (cospan_frob_law_right X).
+Defined.
+
+(** ** [CommutativeFrobenius (CospanCat C HP) X] for every X *)
+
+Program Definition cospan_commutative_frobenius (X : C) :
+  @CommutativeFrobenius (CospanCat C HP) (Cospan_SymmetricMonoidal HP) X := {|
+  cfrob_frobenius := cospan_frobenius X
+|}.
+Next Obligation.
+  apply cospan_mu_commutative.
+Defined.
+Next Obligation.
+  apply cospan_delta_cocommutative.
+Defined.
+
+(** ** [SpecialCommutativeFrobenius (CospanCat C HP) X] for every X *)
+
+Program Definition cospan_scfa (X : CospanCat C HP) :
+  @SpecialCommutativeFrobenius (CospanCat C HP) (Cospan_SymmetricMonoidal HP) X := {|
+  scfa_commutative := cospan_commutative_frobenius X
+|}.
+Next Obligation.
+  apply cospan_mu_delta_id.
 Defined.
 
 End CospanSCFA.
