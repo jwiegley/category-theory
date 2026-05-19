@@ -50,10 +50,45 @@ Generalizable All Variables.
         2→1 spider, η the 0→1 spider, δ the 1→2 spider, ε the 1→0 spider.
         The Frobenius and special laws are EXACTLY the spider equations.
 
-    In this file we define the SIGNATURE of the ZX-calculus: the inductive
-    morphism type, the equational theory as an inductive predicate, and a
-    canonical-form theorem statement.  Concrete examples and the completeness
-    theorem are downstream applications. *)
+    In this file we define a PARTIAL SIGNATURE of the ZX-calculus: the
+    inductive morphism type and a SUBSET of its standard equational theory
+    as an inductive predicate.  Concrete examples and the completeness
+    theorem are downstream applications.
+
+    ** Scope of this file (what IS axiomatised in [zx_eq])
+
+    Category laws (id_left, id_right, assoc), congruences (compose, tensor,
+    refl/sym/trans), bifunctor laws (tensor of identities, interchange),
+    spider fusion [S1] at one connecting wire (Z and X variants), identity
+    spider [S2], Hadamard involution, swap involution, and color change
+    [CC] at the 1→1 arity.
+
+    ** Out of scope (NOT axiomatised — known limitations)
+
+    - **General spider fusion**: the Coecke-Duncan rule fuses any two
+      same-colour spiders connected by *any* k ≥ 1 wires; here only the
+      k = 1 case is primitive.  The general case is not derivable from
+      the present rules alone.
+    - **General color change**: H on every leg of an [m → n] Z-spider
+      turning it into an X-spider of the same arity.  Here only the
+      1→1 case is primitive.
+    - **Bialgebra / strong complementarity**: the defining Z-X
+      interaction.  Without it, Z and X are two independent SCFAs
+      connected only by H.
+    - **π-copy**: usually derivable from bialgebra + color change, but
+      neither is present here.
+    - **Phase equivalence**: phases are compared by syntactic equality
+      ([eq]) rather than the standard ZX [phase_eq] (a real-number mod
+      2π equivalence).  Phase-equality-respecting Z/X-spiders are not
+      enforced.
+
+    Consequently [zx_eq] is a SOUND but INCOMPLETE axiomatisation of
+    the standard ZX-calculus: every [zx_eq]-equation holds of the
+    represented linear map, but not every such equation is derivable.
+    Calling this file "the ZX-calculus" without these qualifications
+    overpromises; it is best understood as a strict-symmetric-monoidal
+    base layer over which the full ZX equational theory can be built
+    in successor files. *)
 
 (** ** Phases
 
@@ -61,24 +96,17 @@ Generalizable All Variables.
     a real number modulo 2π; in stabiliser ZX, a multiple of π/2; in
     Clifford+T ZX, a multiple of π/4.
 
-    We abstract over the phase set so the construction works for any
-    such variant: a commutative monoid with a "π" distinguished element. *)
+    We abstract over the phase set as a type with a distinguished
+    zero element and a binary [phase_add] operation; we do NOT carry
+    any monoid axioms or a phase-equivalence relation here, since
+    [zx_eq] compares phases by syntactic equality only.  Adding the
+    standard real-number-mod-2π equivalence (and the corresponding
+    [zx_eq_*_phase_resp] congruences) is a clean follow-up to this
+    file. *)
 
 Parameter Phase : Type.
 Parameter phase_zero : Phase.
-Parameter phase_pi   : Phase.
 Parameter phase_add  : Phase -> Phase -> Phase.
-Parameter phase_eq   : Phase -> Phase -> Prop.
-
-Axiom phase_eq_refl  : forall p : Phase, phase_eq p p.
-Axiom phase_eq_sym   : forall p q : Phase, phase_eq p q -> phase_eq q p.
-Axiom phase_eq_trans : forall p q r : Phase, phase_eq p q -> phase_eq q r -> phase_eq p r.
-
-Axiom phase_add_zero_l : forall p, phase_eq (phase_add phase_zero p) p.
-Axiom phase_add_zero_r : forall p, phase_eq (phase_add p phase_zero) p.
-Axiom phase_add_comm   : forall p q, phase_eq (phase_add p q) (phase_add q p).
-Axiom phase_add_assoc  : forall p q r,
-  phase_eq (phase_add (phase_add p q) r) (phase_add p (phase_add q r)).
 
 (** ** ZX morphisms (signature)
 
@@ -156,17 +184,18 @@ Inductive zx_eq : forall {m n}, ZX m n -> ZX m n -> Prop :=
   | zx_eq_z_id : zx_eq (zx_z 1 1 phase_zero) (zx_id 1)
   | zx_eq_x_id : zx_eq (zx_x 1 1 phase_zero) (zx_id 1)
   (** Spider-fusion [S1] for Z: when two Z-spiders meet along a single
-      wire (Z_p^1(α) ⊙ Z_m^p(β)... when p=1 they fuse to Z_m^1(α+β)).
+      wire, [Z_1^n(α) ⊙ Z_m^1(β) ≈ Z_m^n(α+β)].
 
-      The general Coecke–Duncan rule fuses ANY two spiders connected by
-      ≥ 1 wires; the wire-count is irrelevant to the result.  Here we
-      state the canonical one-wire case; the general case derives. *)
+      The general Coecke–Duncan rule fuses ANY two same-colour spiders
+      connected by k ≥ 1 wires.  Here we state only the canonical
+      one-wire case; the general case is NOT derivable from this rule
+      alone (see header). *)
   | zx_eq_z_fusion :
-      forall (m n p : nat) (alpha beta : Phase),
+      forall (m n : nat) (alpha beta : Phase),
         zx_eq (zx_z 1 n alpha ⊙ zx_z m 1 beta)
               (zx_z m n (phase_add alpha beta))
   | zx_eq_x_fusion :
-      forall (m n p : nat) (alpha beta : Phase),
+      forall (m n : nat) (alpha beta : Phase),
         zx_eq (zx_x 1 n alpha ⊙ zx_x m 1 beta)
               (zx_x m n (phase_add alpha beta))
   (** Hadamard self-inverse: H ⊙ H = id_1. *)
@@ -403,14 +432,14 @@ Proof. apply zx_eq_id_left. Qed.
 Lemma zx_z_self_fuse (m n : nat) :
   zx_eq (zx_z 1 n phase_zero ⊙ zx_z m 1 phase_zero)
         (zx_z m n (phase_add phase_zero phase_zero)).
-Proof. apply (zx_eq_z_fusion m n 1). Qed.
+Proof. apply (zx_eq_z_fusion m n). Qed.
 
 (** ** Sanity check: X-spider fusion at zero phase. *)
 
 Lemma zx_x_self_fuse (m n : nat) :
   zx_eq (zx_x 1 n phase_zero ⊙ zx_x m 1 phase_zero)
         (zx_x m n (phase_add phase_zero phase_zero)).
-Proof. apply (zx_eq_x_fusion m n 1). Qed.
+Proof. apply (zx_eq_x_fusion m n). Qed.
 
 (** ** Triple Hadamard reduces to a single Hadamard. *)
 

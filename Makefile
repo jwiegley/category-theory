@@ -83,8 +83,8 @@ check: format-check admitted-check category-theory
 
 # Print Print-Assumptions output for the library's key definitions.
 # See docs/AXIOMS.md for the expected output ("Closed under the global
-# context" for all except ZX-instance definitions, which list the 12
-# user-supplied Phase axioms).
+# context" for all except ZX-instance definitions, which list the 3
+# user-supplied Phase parameters).
 print-assumptions: category-theory
 	@echo "============================================================"
 	@echo "Print Assumptions audit"

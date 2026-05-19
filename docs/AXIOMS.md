@@ -34,27 +34,21 @@ All declared in `Instance/ZX.v`:
 
 | Declaration             | Kind       | Type                              | Purpose                                                 |
 |-------------------------|------------|-----------------------------------|---------------------------------------------------------|
-| `Phase`                 | `Parameter` | `Type`                            | The phase semiring used to label ZX spiders             |
+| `Phase`                 | `Parameter` | `Type`                            | The phase type used to label ZX spiders                 |
 | `phase_zero`            | `Parameter` | `Phase`                           | Neutral phase                                           |
-| `phase_pi`              | `Parameter` | `Phase`                           | π phase, used for the X-of-Z bialgebra rule             |
 | `phase_add`             | `Parameter` | `Phase -> Phase -> Phase`         | Phase addition (used by spider fusion)                  |
-| `phase_eq`              | `Parameter` | `Phase -> Phase -> Prop`          | Phase equality (a setoid relation on `Phase`)           |
-| `phase_eq_refl`         | `Axiom`     | `forall p, phase_eq p p`          | Reflexivity of `phase_eq`                               |
-| `phase_eq_sym`          | `Axiom`     | `forall p q, phase_eq p q -> phase_eq q p` | Symmetry                                        |
-| `phase_eq_trans`        | `Axiom`     | `forall p q r, phase_eq p q -> phase_eq q r -> phase_eq p r` | Transitivity                |
-| `phase_add_zero_l`      | `Axiom`     | `forall p, phase_eq (phase_add phase_zero p) p` | Left-identity of phase addition          |
-| `phase_add_zero_r`      | `Axiom`     | `forall p, phase_eq (phase_add p phase_zero) p` | Right-identity                            |
-| `phase_add_comm`        | `Axiom`     | `forall p q, phase_eq (phase_add p q) (phase_add q p)` | Commutativity                       |
-| `phase_add_assoc`       | `Axiom`     | `forall p q r, phase_eq (phase_add p (phase_add q r)) (phase_add (phase_add p q) r)` | Associativity |
 
-That's 12 declarations total: 5 `Parameter`, 7 `Axiom`.  All twelve
-say "you supply the phase type and a commutative-monoid structure on
-it" — they're the algebraic interface that ZX-calculus is generic
-over.
+That's 3 declarations total: 3 `Parameter`, 0 `Axiom`.  All three say
+"you supply the phase type and a binary phase-addition operation" —
+they are the algebraic interface that ZX-calculus is generic over.
+Note that [zx_eq] currently compares phases by syntactic equality
+only; the standard real-number-mod-2π equivalence and the
+corresponding congruence rules are a deliberate omission (see the
+header of `Instance/ZX.v` for the full list of missing rules).
 
 A concrete instantiation discharging these (e.g. `Phase := R`,
-`phase_eq := eq`, `phase_add := Rplus`, `phase_zero := 0`) reduces
-them all to standard Coq stdlib facts.
+`phase_add := Rplus`, `phase_zero := 0`) reduces them all to standard
+Coq stdlib facts.
 
 ## How to audit
 
@@ -73,7 +67,7 @@ top-level definition in
 `Category.Structure.Monoidal.Hypergraph.Spider`.
 
 Expected output: "Closed under the global context" for each, except
-ZX-instance definitions (which list the 12 phase axioms above).
+ZX-instance definitions (which list the 3 phase parameters above).
 
 ## Stdlib axioms
 
