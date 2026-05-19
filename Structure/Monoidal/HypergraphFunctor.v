@@ -47,7 +47,42 @@ Generalizable All Variables.
     transport along the strict-monoidal coherences that identify
     [F X ⨂_D F Y] with [F (X ⨂_C Y)] and [I_D] with [F I_C].  In the
     fully-strict / on-the-nose case those transports are identities,
-    yielding the literature definition verbatim. *)
+    yielding the literature definition verbatim.
+
+    ** Known scoping limitation: missing monoidal coherences
+
+    Per Fong–Spivak (Definition 4.1.3), a hypergraph functor is a
+    (symmetric) STRONG monoidal functor that ALSO preserves the SCFA
+    generators.  The record below carries [hf_unit_iso] and
+    [hf_tensor_iso] as raw isomorphisms, BUT omits the standard
+    lax-monoidal coherence equations:
+
+      - associator hexagon for [hf_tensor_iso] vs. [tensor_assoc];
+      - unitor squares for [hf_tensor_iso] vs. [unit_left] /
+        [unit_right];
+      - naturality of [hf_tensor_iso] in both arguments;
+      - braid-compatibility ([F braid ≈ braid ∘ hf_tensor_iso]).
+
+    Consequence: two distinct choices of [hf_tensor_iso] / [hf_unit_iso]
+    could each satisfy the four SCFA-preservation equations without
+    [F] actually being a symmetric monoidal functor.  Downstream code
+    that assumes "a [HypergraphFunctor] is in particular a symmetric
+    monoidal functor" does NOT get that property from this record.
+
+    The trivial [Id_HypergraphFunctor] instance below is fine
+    ([hf_tensor_iso := iso_id], [hf_unit_iso := iso_id] discharge all
+    coherences definitionally).  A non-trivial instance — e.g. the
+    [forget_decoration] black-boxing functor — would need to
+    additionally re-establish the missing coherences separately, or
+    the record would need to be re-factored to extend an existing
+    [Functor/Structure/Monoidal.v:MonoidalFunctor] (a deferred
+    refactor).
+
+    A more rigorous future redesign of this record either (a) adds
+    the missing coherence fields here verbatim, or (b) re-parameterises
+    on the library's [MonoidalFunctor] class (plus a fictional
+    [SymmetricMonoidalFunctor] subclass, currently absent from the
+    library) and inherits the coherence equations from there. *)
 
 Section HypergraphFunctor.
 
