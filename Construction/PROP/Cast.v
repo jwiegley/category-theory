@@ -114,3 +114,26 @@ Proof.
   rewrite (T_cast_irrelevant e eq_refl).
   reflexivity.
 Qed.
+
+(** ** Transport bridges for strict-PROP equations
+
+    The strict-PROP right-unit and associativity axioms in [TermEq]
+    are stated in [eq_rect] transport form (over [Nat.add_0_r] and
+    [Nat.add_assoc] respectively).  Below we expose a small helper
+    for use when downstream proofs need to work with both ends of
+    the transport. *)
+
+(** Destructure-bridge: given any predicate [P] over [Term S m n]
+    that holds in the transported [eq_rect] form, it also holds in
+    the un-transported form after a [destruct] on the equation.
+
+    This is the standard "destruct the eq_rect" pattern, but bundled
+    as a helper so the [T_cast]-level naturality proofs don't have
+    to repeat it. *)
+Lemma T_term_eq_rect_destruct
+  {S : Signature} {m n : nat} (e : m = n) (t : Term S m m) :
+  eq_rect m (fun k => Term S m k) t n e
+  = match e in _ = k return Term S m k with
+    | eq_refl => t
+    end.
+Proof. destruct e; reflexivity. Qed.
