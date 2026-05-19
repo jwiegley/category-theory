@@ -85,9 +85,7 @@ Proof.
      Compose both sides with inl: g1 ∘ (id ▽ id) ∘ inl ≈ g2 ∘ (id ▽ id) ∘ inl.
      But (id ▽ id) ∘ inl = id, so g1 ≈ g2. *)
   assert (Hl : g1 ≈ g2).
-  { specialize (Heq).
-    pose proof (compose_respects _ _ Heq id[X + X] id[X + X] (reflexivity _)) as _.
-    rewrite <- (id_right g1).
+  { rewrite <- (id_right g1).
     rewrite <- (@inl_merge _ _ X X X id[X] id[X]).
     rewrite comp_assoc.
     rewrite Heq.
