@@ -81,10 +81,36 @@ build-strict: Makefile.coq
 check: format-check admitted-check category-theory
 	@echo "All checks passed."
 
+# Print Print-Assumptions output for the library's key definitions.
+# See docs/AXIOMS.md for the expected output ("Closed under the global
+# context" for all except ZX-instance definitions, which list the 12
+# user-supplied Phase axioms).
+print-assumptions: category-theory
+	@echo "============================================================"
+	@echo "Print Assumptions audit"
+	@echo "============================================================"
+	@{ \
+	  echo 'Require Import Category.Lib.'; \
+	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.'; \
+	  echo 'Require Import Category.Structure.Monoidal.CompactClosed.'; \
+	  echo 'Require Import Category.Construction.PROP.'; \
+	  echo 'Require Import Category.Construction.Cospan.HypergraphInstance.'; \
+	  echo 'Require Import Category.Construction.DecoratedCospan.Hypergraph.'; \
+	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.Spider.'; \
+	  echo 'Print Assumptions Hypergraph.'; \
+	  echo 'Print Assumptions PROP.'; \
+	  echo 'Print Assumptions Cospan_Hypergraph.'; \
+	  echo 'Print Assumptions DecoratedCospan_Hypergraph.'; \
+	  echo 'Print Assumptions spider_collapse.'; \
+	  echo 'Print Assumptions spider_frobenius.'; \
+	} > /tmp/print_assumptions.v
+	@coqc -R . Category /tmp/print_assumptions.v 2>&1 | grep -vE '^Warning|^\[' | grep -vE '^$$' || true
+	@rm -f /tmp/print_assumptions.v /tmp/print_assumptions.vo /tmp/print_assumptions.vok /tmp/print_assumptions.vos /tmp/print_assumptions.glob
+
 force _CoqProject Makefile: ;
 
 %: Makefile.coq force
 	@+$(MAKE) -f Makefile.coq $@
 
 .PHONY: all clean force lint format-check format admitted-count admitted-check
-.PHONY: timing timing-report build-strict check
+.PHONY: timing timing-report build-strict check print-assumptions
