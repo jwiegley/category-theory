@@ -65,7 +65,23 @@ Generalizable All Variables.
 
     We package this as [DecCospan_Hypergraph_Coherent], whose principal
     field is a per-object [SpecialCommutativeFrobenius DC X], plus the
-    8 standard tensor + unit coherence equations. *)
+    8 standard tensor + unit coherence equations.
+
+    ** Note on the lax-symmetric requirement (Fong Definition 3.1)
+
+    Fong's original construction requires [F] to be a LAX SYMMETRIC
+    monoidal functor.  The symmetric-laxness is needed here because
+    [μ] for the SCFA on [X+Y] uses braiding to interleave decorations:
+    without [F (braid_C) ∘ lax_ap ≈ lax_ap ∘ braid_D], the canonical
+    SCFA on [X+Y] (assembled from the SCFAs of [X] and [Y]) cannot
+    be shown to satisfy the Frobenius/commutativity laws on decorated
+    cospans.
+
+    In this library's factoring, the [DecCospan_Braided_Coherent] and
+    [DecCospan_Symmetric_Coherent] classes (taken as [Context] above)
+    encode exactly the decorated-cospan-side consequences of [F] being
+    lax-symmetric — instantiating them is impossible without an
+    underlying lax-symmetric [F]. *)
 
 Section DecoratedCospanHypergraph.
 

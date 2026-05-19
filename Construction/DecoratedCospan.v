@@ -43,6 +43,35 @@ Generalizable All Variables.
     category whenever [C] has finite coproducts and [F] is symmetric
     monoidal.
 
+    ** Note on the lax-symmetric requirement (Fong Definition 3.1)
+
+    Fong's Definition 3.1 takes a LAX SYMMETRIC monoidal functor
+    [F : (C, +, 0) → (D, ⊗, I)].  The symmetric-laxness condition
+    (the laxator [lax_ap] commutes with the symmetries of [+] and [⊗])
+    is genuinely needed for two purposes:
+
+      1. to make the resulting category symmetric monoidal — the
+         braiding on decorated cospans must respect decorations;
+      2. to establish the Frobenius / hypergraph laws — since [μ] for
+         the SCFA on [X+Y] uses braiding to interleave decorations.
+
+    In this library's factoring of the construction we ask only for
+    [LaxMonoidalFunctor] at the BASE level (this file): just enough
+    to get [DecoratedCospanCat] as a category.  The symmetric and
+    hypergraph layers (see [Construction/DecoratedCospan/Braided.v],
+    [.../Symmetric.v], [.../Hypergraph.v]) capture the additional
+    coherence requirements through dedicated classes
+    [DecCospan_{Braided,Symmetric}_Coherent], whose fields encode
+    exactly the consequences of [F] being lax-symmetric on the
+    decorated-cospan side.  Instantiating these classes for a
+    non-lax-symmetric [F] is impossible in general — they implicitly
+    enforce the requirement.
+
+    If you instantiate this file's classes from a [LaxMonoidalFunctor]
+    that is NOT lax-symmetric you can build [DecCospan_Coherent] and
+    the base category structure, but the [Braided] / [Symmetric] /
+    [Hypergraph] layers will be unprovable.
+
     Applications: electrical circuits (Baez–Fong), Markov processes,
     chemical reaction networks, signal-flow graphs.  In each case the
     decorations encode "internal" data of the apex that black-boxes to
