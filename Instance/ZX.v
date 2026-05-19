@@ -181,7 +181,29 @@ Inductive zx_eq : forall {m n}, ZX m n -> ZX m n -> Prop :=
               (zx_x 1 1 alpha)
   (** Swap involutivity: σ ⊙ σ = id_2. *)
   | zx_eq_swap_invol :
-      zx_eq (zx_swap ⊙ zx_swap) (zx_id 2).
+      zx_eq (zx_swap ⊙ zx_swap) (zx_id 2)
+  (** Tensor-of-identities axiom: [id_m ⊕ id_n = id_(m+n)].
+
+      This is a strict-monoidal-category axiom of the ZX-calculus
+      (the tensor unit/composition coherences hold on the nose
+      because diagrams are juxtaposed and re-wired on parallel
+      lines without ambient transport).  We adopt it as a primitive
+      axiom of [zx_eq] for the Bifunctor laws to discharge. *)
+  | zx_eq_tensor_id :
+      forall (m n : nat), zx_eq (zx_id m ⊕ zx_id n) (zx_id (m + n))
+  (** Interchange / functoriality of tensor: [(f ⊕ g) ⊙ (h ⊕ k)
+                                              = (f ⊙ h) ⊕ (g ⊙ k)].
+
+      This is the strict-monoidal interchange law.  In the
+      ZX-calculus it holds for the same reason as
+      [zx_eq_tensor_id]: tensors are parallel juxtapositions, and
+      composition is wire connection on each strand
+      independently. *)
+  | zx_eq_tensor_compose :
+      forall {m n p m' n' p' : nat}
+             (f : ZX n p) (h : ZX m n)
+             (g : ZX n' p') (k : ZX m' n'),
+        zx_eq ((f ⊕ g) ⊙ (h ⊕ k))%zx ((f ⊙ h) ⊕ (g ⊙ k))%zx.
 
 (** Setoid wrapper. *)
 #[export] Program Instance ZX_Setoid {m n : nat} : Setoid (ZX m n) := {|
@@ -335,6 +357,40 @@ Program Definition ZX_Cat : Category := {|
     clean follow-up exercise organised against the [PROP] / [Hypergraph]
     classes defined in [Construction/PROP.v] and
     [Structure/Monoidal/Hypergraph.v]. *)
+
+(** ** [zx_tensor] as a Bifunctor on [ZX_Cat]
+
+    With [zx_eq_tensor_id] and [zx_eq_tensor_compose] in scope, the
+    Bifunctor laws on [zx_tensor] discharge mechanically:
+      - object mapping: [(m, n) ↦ m + n] (the strict-monoidal sum);
+      - fmap_id: [id_m ⊕ id_n ≈ id_(m+n)] by [zx_eq_tensor_id];
+      - fmap_compose: interchange by [zx_eq_tensor_compose] (sym).
+
+    This is the first piece of the strict symmetric monoidal hypergraph
+    structure on [ZX_Cat]. *)
+
+#[export] Program Instance zx_tensor_respects {m n m' n' : nat} :
+  Proper (equiv ==> equiv ==> equiv) (@zx_tensor m n m' n').
+Next Obligation.
+  proper.
+  apply zx_eq_tensor; assumption.
+Qed.
+
+Program Definition ZX_Bifunctor
+  : (ZX_Cat ∏ ZX_Cat) ⟶ ZX_Cat := {|
+  fobj := fun mn => Nat.add (fst mn) (snd mn);
+  fmap := fun mn pq fg => zx_tensor (fst fg) (snd fg)
+|}.
+Next Obligation.
+  proper; simpl in *.
+  apply zx_eq_tensor; assumption.
+Defined.
+Next Obligation.
+  apply zx_eq_tensor_id.
+Defined.
+Next Obligation.
+  apply zx_eq_sym, zx_eq_tensor_compose.
+Defined.
 
 (** ** Sanity check: the identity wire on [n] composed with itself is itself. *)
 
