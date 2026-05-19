@@ -64,3 +64,40 @@ End Frobenius.
 
 Arguments frob_monoid   {C M X _}.
 Arguments frob_comonoid {C M X _}.
+
+(** ** Flat projections
+
+    Convenience aliases paralleling [scfa_mu] / [scfa_eta] /
+    [scfa_delta] / [scfa_epsilon] (in
+    [Theory/Algebra/SpecialCommutativeFrobenius.v]) and [cfrob_*]
+    (in [Theory/Algebra/CommutativeFrobenius.v]).  Project a
+    [Frobenius X] to its underlying [mu] / [eta] / [delta] /
+    [epsilon] without going through [frob_monoid] / [frob_comonoid]
+    one-by-one.
+
+    The instance arguments are explicit so downstream code can
+    write e.g. [frob_mu F] unambiguously. *)
+
+Section FrobeniusProjections.
+
+Context {C : Category}.
+Context `{M : @Monoidal C}.
+
+Definition frob_mu {X : C} (F : Frobenius X) : (X ⨂ X)%object ~> X :=
+  @mu _ _ _ (frob_monoid (X := X)).
+
+Definition frob_eta {X : C} (F : Frobenius X) : @I _ _ ~> X :=
+  @eta _ _ _ (frob_monoid (X := X)).
+
+Definition frob_delta {X : C} (F : Frobenius X) : X ~> (X ⨂ X)%object :=
+  @delta _ _ _ (frob_comonoid (X := X)).
+
+Definition frob_epsilon {X : C} (F : Frobenius X) : X ~> @I _ _ :=
+  @epsilon _ _ _ (frob_comonoid (X := X)).
+
+End FrobeniusProjections.
+
+Arguments frob_mu      {C M X} F.
+Arguments frob_eta     {C M X} F.
+Arguments frob_delta   {C M X} F.
+Arguments frob_epsilon {C M X} F.
