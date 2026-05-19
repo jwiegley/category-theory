@@ -55,3 +55,41 @@ Generalizable All Variables.
   @spider_mu_commutative
   @spider_delta_cocommutative
   : hypergraph.
+
+(** * [solve_hypergraph]: an automation tactic for SCFA-algebra goals
+
+    Composes:
+      1. [autorewrite with hypergraph]   simplify via the spider rules
+                                          registered above
+      2. [autorewrite with categories]    simplify via the library's
+                                          category laws ([id_left],
+                                          [id_right], [comp_assoc])
+      3. [auto with category_laws]        close any remaining setoid
+                                          reflexivity / [Proper] goals
+
+    The tactic loops on its own simplification pass until fixpoint, so
+    composite goals that decompose into a sequence of spider rewrites
+    interleaved with category-law cleanups close in one call.
+
+    Goals it does NOT close:
+
+      - Anything requiring the BIDIRECTIONAL Frobenius / associativity
+        rules ([spider_frobenius], [spider_mu_assoc], [spider_3_to_1]).
+        Use [rewrite] manually for those.
+      - Anything requiring monoidal-coherence (associator / unitor)
+        manipulation beyond what's in the [categories] hint database.
+        Combine with the future [strict_collapse] tactic for the
+        strict-monoidal case.
+
+    Typical use:
+
+      Lemma foo : forall (X : C) (f : X ~> X),
+        scfa_mu (scfa X) ∘ scfa_delta (scfa X) ∘ f ≈ f.
+      Proof. intros; solve_hypergraph. Qed. *)
+
+Ltac solve_hypergraph :=
+  repeat (autorewrite with hypergraph in *;
+          autorewrite with categories in *);
+  try (auto with category_laws);
+  try reflexivity.
+
