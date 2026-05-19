@@ -84,4 +84,27 @@ Lemma tens_id0_id0 :
   TermEq S (T_tens (T_id 0) (T_id 0)) (T_id 0).
 Proof. apply TE_tens_id0_left. Qed.
 
+(** ** Braid naturality, exposed as a named lemma
+
+    Direct restatement of [TE_braid_natural] with a friendly name.
+    Downstream callers building the SymmetricMonoidal instance on
+    [FreeCat S] use this to discharge [braid_natural]. *)
+
+Lemma braid_natural {m1 n1 m2 n2 : nat}
+                    (f : Term S m1 n1) (g : Term S m2 n2) :
+  TermEq S (T_comp (T_tens g f) (T_braid m1 m2))
+           (T_comp (T_braid n1 n2) (T_tens f g)).
+Proof. apply TE_braid_natural. Qed.
+
+(** ** Braid involution, exposed as a named lemma
+
+    Direct restatement of [TE_braid_invol]:
+        σ_{n,m} ⊙ σ_{m,n} ≈ id_{m+n}
+    Downstream callers building the SymmetricMonoidal instance use
+    this to discharge [braid_invol]. *)
+
+Lemma braid_invol (m n : nat) :
+  TermEq S (T_comp (T_braid n m) (T_braid m n)) (T_id (m + n)).
+Proof. apply TE_braid_invol. Qed.
+
 End Naturality.
