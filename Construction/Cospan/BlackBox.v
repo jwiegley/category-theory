@@ -11,6 +11,7 @@ Require Import Category.Structure.Monoidal.
 Require Import Category.Functor.Structure.Monoidal.
 Require Import Category.Construction.Cospan.Category.
 Require Import Category.Construction.DecoratedCospan.
+Require Import Category.Construction.DecoratedCospan.Category.
 
 (** * Black-boxing functor for decorated cospans
 
@@ -136,6 +137,55 @@ Proof.
 Qed.
 
 End ForgetDecoration.
+
+(** ** The forgetful black-box as a [Functor]
+
+    With [DecoratedCospanCat] in scope (and the [DecCospan_Coherent]
+    coherence class), [forget_decoration] is a [Functor] record from
+    [DecoratedCospanCat HP LM id_decoration cospan_merge] to
+    [CospanCat C HP].
+
+    The functor laws are immediate from the [forget_decoration_*]
+    lemmas above: the underlying cospan of the identity decorated
+    cospan IS the identity cospan, and the underlying cospan of a
+    composite IS the composite of underlying cospans (both by
+    reflexivity of the cospan setoid). *)
+
+Section ForgetDecorationFunctor.
+
+Context {C : Category}.
+Context (HP : HasPushouts C).
+Context `{H_Coc : @Cocartesian C}.
+Context {MC : @Monoidal C}.
+Context {D : Category}.
+Context {MD : @Monoidal D}.
+Context {F : C ⟶ D}.
+Context (LM : @LaxMonoidalFunctor C D MC MD F).
+Context (id_decoration : forall X : C, @I D _ ~{D}~> F X).
+Context (cospan_merge :
+          forall (N M : C), (N ⨂[MC] M)%object ~{C}~> (N + M)%object).
+Context `{DCC : @DecCospan_Coherent C HP H_Coc MC D MD F LM
+                                     id_decoration cospan_merge}.
+
+Program Definition forget_decoration
+  : (DecoratedCospanCat HP LM id_decoration cospan_merge) ⟶ (CospanCat C HP) := {|
+  fobj := fun X => X;
+  fmap := fun X Y f => @forget_decoration_morphism C D MD F X Y f
+|}.
+Next Obligation.
+  proper.
+  apply (@forget_decoration_morphism_respects C D MD F);
+    assumption.
+Defined.
+Next Obligation.
+  apply (@forget_decoration_correct_id C D MD F id_decoration).
+Defined.
+Next Obligation.
+  apply (@forget_decoration_correct_compose C HP MC D MD F LM
+                                            H_Coc cospan_merge).
+Defined.
+
+End ForgetDecorationFunctor.
 
 (** ** Hypergraph-functoriality of the forgetful black-box
 
