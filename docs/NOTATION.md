@@ -16,14 +16,34 @@ the named file plus the right `Open Scope`.
 
 ## Scopes
 
-| Scope            | Opened by                                          | Contains                       |
-|------------------|----------------------------------------------------|--------------------------------|
-| `category_scope` | `Theory/Category.v` (via `Open Scope category_scope.`) | `obj[]`, `~>`, `~{}~>`, `<~`, `<~{}~`, `≅`, `≅[]` |
-| `morphism_scope` | `Theory/Category.v`                                | `f ∘ g`, `f ∘[C] g`, `id[x]`, `id{C}`, `≈[C]`, `f ⁻¹` |
-| `functor_scope`  | `Theory/Functor.v`                                 | `C ⟶ D`, `fobj[F]`, `Id[C]`, `(⨂)` |
-| `object_scope`   | implicit (used by `x ⨂ y` and `⟦n⟧`)               | `⨂`, `⨂[M]`, `⟦n⟧`, `iter_tensor n` |
-| `isomorphism_scope` | `Theory/Isomorphism.v`                          | `f ⊙ g` (iso composition)      |
-| `nat_scope`      | Coq stdlib                                         | Numerals `0`, `1`, ..., `+`     |
+The library opens, in `Theory/Category.v`, the following scopes in order
+(later opens take precedence):
+
+```coq
+Open Scope category_scope.
+Open Scope object_scope.
+Open Scope homset_scope.
+Open Scope morphism_scope.
+```
+
+`functor_type_scope` and `functor_scope` are opened by `Theory/Functor.v`.
+
+| Scope                   | Opened by                  | Contains (representative)                       |
+|-------------------------|----------------------------|-------------------------------------------------|
+| `type_scope`            | Coq stdlib                 | `obj[C]`, `hom[C]`                              |
+| `category_scope`        | `Theory/Category.v`        | `F ◯ G` (functor composition)                   |
+| `homset_scope`          | `Theory/Category.v`        | `~>`, `~{C}~>`, `<~`, `<~{C}~`                  |
+| `morphism_scope`        | `Theory/Category.v`        | `f ∘ g`, `f ∘[C] g`, `id[x]`, `id{C}`, `f ⁻¹`, `f ⨂ g`, `f ⨂[M] g`, `<$>`, `fmap[F]` |
+| `category_theory_scope` | `Lib/Setoid.v`             | `f ≈ g`, `f ≈[C] g`                             |
+| `object_scope`          | `Theory/Category.v`        | `x ⨂ y`, `x ⨂[M] y`, `fobj[F]`                  |
+| `functor_type_scope`    | `Theory/Functor.v`         | `C ⟶ D`                                         |
+| `functor_scope`         | `Theory/Functor.v`         | `(⨂)`, `Id[C]`                                  |
+| `isomorphism_scope`     | `Theory/Isomorphism.v`     | `x ≅ y`, `x ≅[C] y`                             |
+| `nat_scope`             | Coq stdlib                 | Numerals `0`, `1`, ..., `+`                     |
+
+Note: `f ⊙ g` (iso composition, `Theory/Isomorphism.v:298`) is declared
+without a `: scope_name` clause, so it lives in whatever scope is open
+at the use site.
 
 ## Core morphism / category notations
 
@@ -35,7 +55,7 @@ the named file plus the right `Open Scope`.
 | `x <~{C}~ y`    | `@hom C y x` — explicit-category opposite                   | `Theory/Category.v`        |
 | `f ∘ g`         | morphism composition                                        | `Theory/Category.v`        |
 | `f ∘[C] g`      | explicit-category composition                               | `Theory/Category.v`        |
-| `f ≈ g`         | setoid equivalence on a hom-set (the universal `=` for morphisms) | `Theory/Category.v` (via `Setoid`) |
+| `f ≈ g`         | setoid equivalence on a hom-set (the universal `=` for morphisms) | `Lib/Setoid.v` |
 | `f ≈[C] g`      | explicit-category setoid equivalence                        | `Theory/Category.v`        |
 | `id[x]`         | identity morphism at `x`                                    | `Theory/Category.v`        |
 | `id{C}`         | identity morphism in `C` (object inferred)                  | `Theory/Category.v`        |
