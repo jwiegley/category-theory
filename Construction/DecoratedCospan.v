@@ -304,6 +304,9 @@ End DecoratedCospan.
 
 (** Argument metadata for the section-closed definitions. *)
 
+Arguments dc_cospan {C D MD F X Y} _.
+Arguments dc_decoration {C D MD F X Y} _.
+
 (** ** Functoriality remarks
 
     [F ↦ DecoratedCospanCat F] is functorial in the lax monoidal functor

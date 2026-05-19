@@ -32,6 +32,7 @@ Construction/Cospan/SCFA.v
 Construction/Cospan/HypergraphInstance.v
 Construction/PROP.v
 Construction/DecoratedCospan.v
+Construction/Cospan/BlackBox.v
 Instance/ZX.v
 Functor/Applicative.v
 Functor/Bifunctor.v
