@@ -267,6 +267,18 @@ Next Obligation.
   apply dec_cospan_tensor_compose_compat.
 Defined.
 
+(** ** Decorated lift of a C-morphism
+
+    Given [f : X ~> Y] in [C], the natural decorated-cospan lift is
+    [mor_as_cospan f] (apex = Y) carrying [id_decoration Y].  This is
+    the canonical "structural" decoration, used to lift the
+    unitor/associator/braid of [CospanCat] to [DecoratedCospanCat]. *)
+
+Definition dec_mor_as_cospan {X Y : C} (f : X ~> Y)
+  : DecoratedCospanArrow X Y :=
+  {| dc_cospan := mor_as_cospan f;
+     dc_decoration := id_decoration Y |}.
+
 End DecoratedCospanSymmetric.
 
 (** ** Path to the full SMC layer
