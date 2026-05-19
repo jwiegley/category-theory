@@ -281,7 +281,25 @@ Defined.
 (** ** Associativity via pushout-pasting
 
     Mirrors [span_compose_assoc] in [Construction/Span/Category.v]
-    with arrows reversed. *)
+    with arrows reversed.
+
+    ** Refactoring note (deferred)
+
+    The proof below is 175 lines.  It builds both mediator maps
+    [PR -> PL] and [PL -> PR] inline by the HP-style "construct cocone,
+    apply UMP, prove round-trips by [pushout_med_eq]" technique.
+    The two mediator constructions are structurally identical modulo
+    a swap of inner / outer pushouts.
+
+    Extracting the "mediator-by-pasting" sub-lemma — call it
+    [pushout_pasting_med] — should shrink this proof to roughly
+    50 lines, by replacing the two ad-hoc inline mediator
+    constructions with a single shared lemma application.  The
+    underlying mathematical fact is one application of pushout-pasting
+    in two steps (Mac Lane CWM IX.3, or Riehl Ch.3 Prop 3.4.7).
+
+    Deferred to a follow-up PR; the present proof is correct and
+    self-contained. *)
 
 Lemma cospan_compose_assoc {X Y Z W : C}
       (h : CospanArrow Z W) (g : CospanArrow Y Z) (f : CospanArrow X Y) :
