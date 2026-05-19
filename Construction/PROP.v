@@ -103,6 +103,27 @@ Lemma prop_tensor_eq_plus (m n : nat) :
   (⟦m⟧ ⨂ ⟦n⟧)%object = ⟦m + n⟧.
 Proof. exact (prop_tensor_plus m n). Qed.
 
+(** Tensor of three PROP-objects collapses to the sum. *)
+Lemma prop_tensor_triple (m n p : nat) :
+  ((⟦m⟧ ⨂ ⟦n⟧) ⨂ ⟦p⟧)%object = ⟦m + n + p⟧.
+Proof.
+  rewrite prop_tensor_plus.
+  apply prop_tensor_plus.
+Qed.
+
+(** The unit object on the left of a tensor is absorbed. *)
+Lemma prop_tensor_unit_left_obj (n : nat) :
+  (⟦0⟧ ⨂ ⟦n⟧)%object = ⟦n⟧.
+Proof.
+  rewrite prop_tensor_plus.
+  reflexivity.
+Qed.
+
+(** The unit object on the right of a tensor is absorbed, modulo [n + 0 = n]. *)
+Lemma prop_tensor_unit_right_obj (n : nat) :
+  (⟦n⟧ ⨂ ⟦0⟧)%object = ⟦n + 0⟧.
+Proof. apply prop_tensor_plus. Qed.
+
 End PROPLemmas.
 
 (** ** Hypergraph PROPs
