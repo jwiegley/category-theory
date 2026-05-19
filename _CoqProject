@@ -37,6 +37,7 @@ Construction/PROP/TermEq.v
 Construction/PROP/Free.v
 Construction/PROP/Tensor.v
 Construction/PROP/Cast.v
+Construction/PROP/Structural.v
 Construction/ColouredPROP.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
