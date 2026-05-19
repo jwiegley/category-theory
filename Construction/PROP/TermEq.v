@@ -6,6 +6,8 @@ From Stdlib Require Import Arith.
 
 Generalizable All Variables.
 
+Local Open Scope nat_scope.
+
 (** * Equational theory of free-PROP terms
 
     The equivalence relation [TermEq] on [Term S m n] quotients the
@@ -155,7 +157,106 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
                (eq_rect_r
                   (fun k => Term S k (Nat.add n1 (Nat.add n2 n3)))
                   (T_tens f (T_tens g h))
-                  (eq_sym (Nat.add_assoc m1 m2 m3))).
+                  (eq_sym (Nat.add_assoc m1 m2 m3)))
+
+  (** ** Hexagon axioms for block braids
+
+      In a strict symmetric monoidal category the braid decomposes
+      additively in either argument (Mac Lane CWM Ch.VII §7;
+      Joyal–Street §2; Selinger §3.2):
+
+        σ_{m+n,p} ≈ (σ_{m,p} ⊕ id_n) ⊙ (id_m ⊕ σ_{n,p})       (hex-left)
+        σ_{m,n+p} ≈ (id_n ⊕ σ_{m,p}) ⊙ (σ_{m,n} ⊕ id_p)       (hex-right)
+
+      The LHS and RHS do not have matching types on the nose because
+      addition on [nat] is associative only up to propositional [=],
+      so both equations are stated in transport form via [eq_rect]
+      against [Nat.add_assoc], analogous to [TE_tens_assoc].
+
+      Without these, e.g. [T_braid 3 2] is not provably equal to the
+      layered composite of single-wire swaps, and the [SymmetricMonoidal]
+      instance on [FreeCat S] cannot discharge [hexagon_to] /
+      [hexagon_from] for non-trivial arities. *)
+
+  | TE_braid_hex_left :
+      forall (m n p : nat),
+        TermEq
+          (* LHS: σ_{m+n,p} with source cast (m+n)+p → m+(n+p). *)
+          (eq_rect ((m + n) + p)
+                   (fun s => Term S s (p + (m + n)))
+                   (T_braid (m + n) p)
+                   (m + (n + p))
+                   (eq_sym (Nat.add_assoc m n p)))
+          (* RHS: (σ_{m,p} ⊕ id_n) ⊙ (id_m ⊕ σ_{n,p})
+             — the outer term needs both source and target casts to
+             reach types Term S (m+(p+n)) (p+(m+n)); the inner term
+             already has type Term S (m+(n+p)) (m+(p+n)). *)
+          (T_comp
+             (eq_rect ((p + m) + n)
+                      (fun t => Term S (m + (p + n)) t)
+                      (eq_rect ((m + p) + n)
+                               (fun s => Term S s ((p + m) + n))
+                               (T_tens (T_braid m p) (T_id n))
+                               (m + (p + n))
+                               (eq_sym (Nat.add_assoc m p n)))
+                      (p + (m + n))
+                      (eq_sym (Nat.add_assoc p m n)))
+             (T_tens (T_id m) (T_braid n p)))
+
+  | TE_braid_hex_right :
+      forall (m n p : nat),
+        TermEq
+          (* LHS: σ_{m,n+p} with target cast (n+p)+m → n+(p+m). *)
+          (eq_rect ((n + p) + m)
+                   (fun t => Term S (m + (n + p)) t)
+                   (T_braid m (n + p))
+                   (n + (p + m))
+                   (eq_sym (Nat.add_assoc n p m)))
+          (* RHS: (id_n ⊕ σ_{m,p}) ⊙ (σ_{m,n} ⊕ id_p)
+             — outer source: n+(m+p) → (n+m)+p (Nat.add_assoc forward);
+               inner source: (m+n)+p → m+(n+p) (eq_sym). *)
+          (T_comp
+             (eq_rect (n + (m + p))
+                      (fun s => Term S s (n + (p + m)))
+                      (T_tens (T_id n) (T_braid m p))
+                      ((n + m) + p)
+                      (Nat.add_assoc n m p))
+             (eq_rect ((m + n) + p)
+                      (fun s => Term S s ((n + m) + p))
+                      (T_tens (T_braid m n) (T_id p))
+                      (m + (n + p))
+                      (eq_sym (Nat.add_assoc m n p))))
+
+  (** ** Unit-braid coherence
+
+      In any symmetric monoidal category the braid involving the unit
+      object collapses to the unitor: [σ_{I,X} = λ_X ∘ ρ_X^{-1}].  In
+      the strict-PROP setting on [nat], this becomes
+      [T_braid 0 n ≈ T_id n] and [T_braid n 0 ≈ T_id n] modulo the
+      arity equation [n + 0 = n] (which is propositional, not
+      definitional — [Nat.add] is left-strict only). *)
+
+  | TE_braid_unit_left :
+      forall (n : nat),
+        TermEq
+          (* T_braid 0 n : Term S (0+n) (n+0) = Term S n (n+0).
+             Cast the target n+0 → n. *)
+          (eq_rect (n + 0) (fun t => Term S n t)
+                   (T_braid 0 n)
+                   n
+                   (Nat.add_0_r n))
+          (T_id n)
+
+  | TE_braid_unit_right :
+      forall (n : nat),
+        TermEq
+          (* T_braid n 0 : Term S (n+0) (0+n) = Term S (n+0) n.
+             Cast the source n+0 → n. *)
+          (eq_rect (n + 0) (fun s => Term S s n)
+                   (T_braid n 0)
+                   n
+                   (Nat.add_0_r n))
+          (T_id n).
 
 End TermEq.
 
@@ -174,3 +275,7 @@ Arguments TE_braid_natural {S m1 n1 m2 n2}.
 Arguments TE_tens_id0_left {S m n}.
 Arguments TE_tens_id0_right {S m n}.
 Arguments TE_tens_assoc {S m1 n1 m2 n2 m3 n3}.
+Arguments TE_braid_hex_left {S}.
+Arguments TE_braid_hex_right {S}.
+Arguments TE_braid_unit_left {S}.
+Arguments TE_braid_unit_right {S}.
