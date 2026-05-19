@@ -43,6 +43,15 @@ Next Obligation.
   apply TE_comp_cong; assumption.
 Qed.
 
+(** Tensor (parallel composition) is also Proper for [TermEq], by
+    [TE_tens_cong].  Allows [rewrite] under [T_tens]. *)
+#[export] Program Instance T_tens_respects {m1 n1 m2 n2 : nat} :
+  Proper (equiv ==> equiv ==> equiv) (@T_tens S m1 n1 m2 n2).
+Next Obligation.
+  proper.
+  apply TE_tens_cong; assumption.
+Qed.
+
 (** The free category on [S]. *)
 Program Definition FreeCat : Category := {|
   obj      := nat;
