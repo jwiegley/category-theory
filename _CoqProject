@@ -269,6 +269,7 @@ Theory/Sheaf.v
 Theory/Universal/Arrow.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
+Test/FullIssue118.v
 Test/HypergraphPROPResolution.v
 Tools/Abstraction.v
 Tools/Represented.v
