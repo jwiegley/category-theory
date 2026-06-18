@@ -26,20 +26,39 @@ Generalizable All Variables.
    [obj := Category] sit below the universe of [Cat] itself.
 
    Strict vs. weak: because the hom-setoid [Functor_Setoid] identifies functors
-   only up to natural isomorphism (not on-the-nose equality of object/morphism
-   maps), an isomorphism in this [Cat] is an *equivalence* of categories rather
-   than a strict isomorphism. Cat is the underlying 1-category of the strict
-   2-category whose 2-cells are natural transformations; only the 1-category
-   structure is built here.
+   whenever they are naturally isomorphic (not on-the-nose equal on objects and
+   morphisms), an isomorphism in this [Cat] is an *equivalence* of categories.
+   Identifying functors up to natural isomorphism makes this the homotopy
+   category Ho(Cat) (the 1-truncation of the 2-category Cat), whose morphisms are
+   natural-isomorphism classes of functors. It is therefore NOT the strict
+   1-category of categories of the textbooks; and although it keeps the same
+   objects, it is neither the *underlying* 1-category of the 2-category Cat
+   (which keeps functor equality) nor its *core* (which keeps only the
+   isomorphisms).
 
-   The strict counterpart — functors compared by on-the-nose equality of their
-   object and morphism maps — is [Category.Instance.StrictCat.StrictCat]; the
-   identity-on-objects comparison functor [StrictCat_to_Cat : StrictCat ⟶ Cat]
-   of [Category.Instance.StrictCat.ToCat] exhibits the former as a refinement of
-   the latter. Issue #138 discusses why the weak hom-equivalence is retained
-   here (the Lawvere/comma characterisation of adjunctions, e.g.
-   [Construction.Comma.Adjunction], genuinely needs [≅] in [Cat] to mean
-   equivalence of categories). *)
+   This is deliberate, and consistent with the rest of the library: lacking
+   function extensionality, the development compares morphisms up to a setoid
+   equivalence [≈] rather than by Coq's intensional equality [=]. For [Cat] the
+   morphisms are functors, and the corresponding [≈] is natural isomorphism —
+   the equivalence-invariant notion of sameness for functors. So [Cat] applies
+   the weaker notion of equivalence used everywhere else, lifted one level up, to
+   suit Coq's metatheory.
+
+   The reporter of issue #138 is right that the textbook bare-name "Cat" is the
+   STRICT 1-category (functors compared by on-the-nose equality); that is
+   [Category.Instance.StrictCat.StrictCat]. The choice here is not an error but a
+   weaker, equivalence-invariant convention (cf. agda-categories' [Cats], whose
+   functor equivalence is likewise natural isomorphism). The identity-on-objects
+   comparison functor [StrictCat_to_Cat : StrictCat ⟶ Cat] of
+   [Category.Instance.StrictCat.ToCat] sends each strict equality to the natural
+   isomorphism it induces, exhibiting [StrictCat] as a strictification of this
+   Ho(Cat). Note that the comma/slice comparisons phrased with [≅[Cat]] (e.g.
+   [Construction.Comma.Adjunction]) are in fact *strict* isomorphisms of
+   categories — the Lawvere comma comparison is bijective on objects with an
+   on-the-nose inverse — so using the weak [Cat] there is a convenience, not a
+   necessity. What genuinely requires strict equality is the object-equality-
+   dependent underlying-graph functor [Forgetful : StrictCat ⟶ Quiv] of issue
+   #138, which has no counterpart over this [Cat]. *)
 
 #[export]
 Instance Cat : Category := {
