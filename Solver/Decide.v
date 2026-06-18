@@ -9,11 +9,45 @@ Require Import Category.Solver.Denote.
 Require Import Category.Solver.Reify.
 Require Import Category.Solver.Normal.
 
+(** * The decision procedure and its soundness theorem
+
+    This file is the top of the [Solver/] reflective tower (Expr → Denote →
+    Normal → Reify → Decide).  It assembles a decision procedure for morphism
+    equalities and proves the one fact that makes the reflective tactic sound:
+    if the procedure reports that two reified terms are equal, then their
+    denotations are equal under [≈].  The technique is the standard "proof by
+    reflection" (https://en.wikipedia.org/wiki/Computational_reflection):
+    compute a verdict on the syntax, then transport that verdict to the
+    original goal.
+
+    The decision is structural: by [to_morphism] (Solver/Normal.v) a [Term] of
+    the free category (https://ncatlab.org/nlab/show/free+category) is sent to a
+    flat normal form, and two terms are judged equal exactly when their normal
+    forms are [eq_dec]-equal.  Because [Term] normal forms have decidable
+    equality and normalization is sound w.r.t. denotation, agreement of normal
+    forms implies agreement of denotations.
+
+    The verdict type [partial], its [Yes]/[No] constructors and the
+    [Reduce]/[||]/[&&] notation are the decidability monad of Adam Chlipala's
+    "Certified Programming with Dependent Types" (CPDT): a [partial P] is either
+    a proof of [P] ([Proved]) or [Uncertain].  Note the asymmetry — an
+    [Uncertain] result carries no refutation, it merely records that the
+    procedure could not establish the goal.  Consequently only soundness is
+    proved here, never the converse: the procedure is sound but not claimed to
+    be complete, and an honest [Uncertain] is always permitted.  Soundness
+    alone is exactly what a reflective tactic needs.
+
+    [expr_sound] is the soundness lemma the tactics below rely on; the
+    [categorify] and [categorical] entry points reify a categorical goal (via
+    Solver/Reify.v), apply [expr_sound], and discharge the residual
+    well-typedness side-condition by [vm_compute]. *)
+
 Section Decide.
 
 Context `{Arrows}.
 
-(** This code is from Certified Programming with Dependent Types (CPDT). *)
+(** [partial] and the [Yes]/[No]/[Reduce] machinery below are taken from
+    Certified Programming with Dependent Types (CPDT). *)
 
 Inductive partial (P : Type) : Type :=
 | Proved : P → partial
@@ -94,6 +128,11 @@ Next Obligation.
   contradiction.
 Qed.
 
+(** Soundness of the procedure, in the form the tactics consume.  The
+    [termD d c f = Some h] premise is a definedness witness — it states that
+    [f] actually denotes a morphism [d ~> c] — and is discharged by
+    [vm_compute] at the call site.  Given that and an equality [f ≈ g] of the
+    interpreted terms, the reified goal [exprD (Equiv d c f g)] holds. *)
 Lemma expr_sound {d c f g h} :
   termD d c f = Some h → f ≈ g → exprD (Equiv d c f g).
 Proof.
