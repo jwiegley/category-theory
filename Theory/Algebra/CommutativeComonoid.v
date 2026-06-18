@@ -10,21 +10,36 @@ Require Import Category.Theory.Algebra.Comonoid.
 
 Generalizable All Variables.
 
-(** * Commutative comonoids in a symmetric monoidal category
+(** * Commutative comonoids in a symmetric monoidal category *)
 
-    The dual of [CommutativeMonoid]: a [Comonoid X] over a
-    [SymmetricMonoidal] category is COCOMMUTATIVE when its
-    comultiplication is invariant under post-composition with the
-    braiding:
+(* The dual of [CommutativeMonoid]: a [Comonoid X] over a
+   [SymmetricMonoidal] category is COCOMMUTATIVE when its
+   comultiplication is invariant under the braiding.
 
-      σ ∘ δ ≈ δ
+   In this library's notation, with [braid : X ⨂ X ~> X ⨂ X] the
+   symmetry of the two outputs, the cocommutativity law reads
 
-    Provided independently of [CommutativeFrobenius] so that an
-    object can carry a cocommutative-comonoid structure WITHOUT being
-    forced to also carry a multiplication.  Downstream callers that
-    want to model "duplicate a tensor wire" (the canonical δ on a
-    hypergraph object) without committing to a corresponding fan-in
-    operation use this directly. *)
+       braid ∘ delta ≈ delta       (cocommutativity of the comultiplication)
+
+   This is the categorical dual of [mu ∘ braid ≈ mu]: where the monoid
+   law precomposes the multiplication with the swap of its two inputs,
+   the comonoid law postcomposes the comultiplication with the swap of
+   its two outputs (the braiding moves to the other side of the
+   operation, matching [delta]'s reversed direction).  Stated for a
+   braiding it makes sense in any braided monoidal category; here we
+   work in the symmetric setting, where the braiding is additionally
+   involutive ([braid ∘ braid ≈ id]).
+
+   nLab:      https://ncatlab.org/nlab/show/comonoid
+   nLab:      https://ncatlab.org/nlab/show/braided+monoidal+category
+   Wikipedia: https://en.wikipedia.org/wiki/Monoid_(category_theory)
+
+   This class is provided independently of [CommutativeFrobenius] so
+   that an object can carry a cocommutative-comonoid structure WITHOUT
+   being forced to also carry a multiplication.  Downstream callers
+   that want to model "duplicate a tensor wire" (the canonical [delta]
+   on a hypergraph object) without committing to a corresponding
+   fan-in operation use this directly. *)
 
 Section CommutativeComonoid.
 
@@ -32,11 +47,14 @@ Context {C : Category}.
 Context `{S : @SymmetricMonoidal C}.
 
 Class CommutativeComonoid (X : C) : Type := {
+  (* underlying comonoid object, taken in the monoidal category
+     underlying the symmetric structure [S] *)
   ccomon_comonoid : @Comonoid C
                       (@braided_is_monoidal C
                          (@symmetric_is_braided C S))
                       X;
 
+  (* comultiplication is invariant under the braiding: [braid ∘ delta ≈ delta] *)
   delta_cocommutative_of_ccomon :
     braid ∘ (@delta _ _ _ ccomon_comonoid)
       ≈ (@delta _ _ _ ccomon_comonoid)

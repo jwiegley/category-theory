@@ -5,12 +5,38 @@ Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 
+(* nLab: https://ncatlab.org/nlab/show/natural+transformation
+   Wikipedia: https://en.wikipedia.org/wiki/Natural_transformation
+
+   Naturality infrastructure. This file provides the `Naturality` type class,
+   whose method `natural f` computes the *naturality statement* appropriate to
+   the type `A` of the family `f`. Instance resolution on `A` selects the right
+   square: for a family `f : ∀ A, F A ~> G A` the statement is the ordinary
+   naturality square `fmap[G] g ∘ f x ≈ f y ∘ fmap[F] g` (i.e. `G g ∘ η_x ≈
+   η_y ∘ F g`); for families of several arguments it is the joint, per-variable
+   square; and for families of isomorphisms it is the conjunction of the `to`
+   and `from` squares. This lets a single `natural f` notation discharge the
+   naturality obligations that arise throughout the library (see
+   `prove_naturality` and `Structure/Monoidal/Naturality.v`).
+
+   Note: the multi-argument `Arity*` instances express naturality *separately*
+   in each (covariant) argument, combined into one square via the bifunctorial
+   action `P(g,h) = FB h ∘ FA g`. This is distinct from a dinatural
+   transformation (https://ncatlab.org/nlab/show/dinatural+transformation),
+   whose hexagon mixes the two variances of a single variable. *)
+
+(* `Naturality A` equips a type `A` of morphism families with the proposition
+   `natural f` that asserts `f` is natural. *)
 Class Naturality (A : Type) : Type := {
-  natural (f : A) : Type
+  natural (f : A) : Type            (* the naturality statement for a family f *)
 }.
 
 Arguments natural {A _} _ /.
 
+(* Discharge a `natural _ * natural _ * ...` goal (a tuple of naturality
+   squares, as produced for isomorphism families and for the conjunctions in
+   `monoidal_naturality`): unfold the structure `H`, split the products, then
+   close each square with the caller-supplied tactic `tac`. *)
 Ltac prove_naturality H tac :=
   simpl; destruct H; simpl;
   split; [split|];
@@ -31,6 +57,9 @@ Program Instance Functor_Naturality
                ∀ x y (g : x ~{C}~> y), fmap[G] g ∘ f x ≈ f y ∘ fmap[F] g
 }.
 
+(* Retained exploratory code: partial-application functors for bi/curried
+   functors. Superseded by the `Mapping`-based `Arity*` instances below, which
+   avoid materialising a `C ⟶ C` functor per argument; kept for reference. *)
 (*
 Program Instance PartialApply_Product_Left {F : C × C ⟶ C} {x : C} : C ⟶ C := {
   fobj := fun y => F (x, y);
@@ -85,8 +114,14 @@ Next Obligation.
 Qed.
  *)
 
+(* A `Mapping F` records a morphism action `map : (x ~> y) → (F x ~> F y)` for
+   an object map `F : C → C`, without demanding the functor laws. It supplies
+   the per-variable action `F(f)`/`G(f)` used inside the `Arity*` naturality
+   squares below, so that those squares can be stated for object maps that are
+   functorial in each argument (e.g. the partial applications of a bifunctor)
+   even when no single `C ⟶ C` functor is to hand. *)
 Class Mapping {C : Category} (F : C → C) : Type := {
-  map {x y} (f : x ~> y) : F x ~> F y;
+  map {x y} (f : x ~> y) : F x ~> F y;    (* the morphism action F f of F *)
 }.
 
 #[export]
@@ -122,6 +157,10 @@ Program Instance ArityOne {C : Category}
   natural := fun f => ∀ x y (g : x ~> y), @map _ _ G _ _ g ∘ f x ≈ f y ∘ @map _ _ F _ _ g
 }.
 
+(* Naturality of a family `f : ∀ A B, P A B ~> Q A B` jointly in both
+   (covariant) arguments: for `g : x ~> y` and `h : z ~> w` the square reads
+   `Q(g,h) ∘ f x z ≈ f y w ∘ P(g,h)`, where the bifunctorial actions factor as
+   `Q(g,h) = GB h ∘ GA g` and `P(g,h) = FB h ∘ FA g`. *)
 #[export]
 Program Instance ArityTwo {C : Category}
   (P : C → C → C)
@@ -223,6 +262,9 @@ Program Instance ArityFive {C : Category}
                    ∘ @map _ _ (FA _ _ _ _) _ _ g
 }.
 
+(* For a family of isomorphisms `f : ∀ A, P A ≅ Q A`, naturality means both the
+   forward components `to (f A)` and the backward components `from (f A)` are
+   natural; the statement is the product (`*`) of the two squares. *)
 #[export]
 Program Instance Transform_ArityOne {C : Category}
   (P : C → C) `{@Mapping C P}

@@ -9,6 +9,18 @@ Section Isomorphism.
 Universes o h p.
 Context {C : Category@{o h p}}.
 
+(* nLab: https://ncatlab.org/nlab/show/isomorphism
+   Wikipedia: https://en.wikipedia.org/wiki/Isomorphism
+
+   An isomorphism `x ≅ y` is a morphism `to : x ~> y` equipped with a
+   two-sided inverse `from : y ~> x`, witnessed by `to ∘ from ≈ id`
+   (iso_to_from) and `from ∘ to ≈ id` (iso_from_to). Because identities are
+   isomorphisms (iso_id), the inverse of an isomorphism is an isomorphism
+   (iso_sym), and a composite of isomorphisms is an isomorphism (iso_compose),
+   the relation `≅` is an equivalence relation on objects (iso_equivalence).
+   As elsewhere in the library the inverse laws use the hom-setoid equivalence
+   `≈` rather than Coq's `=`. *)
+
 (* This defines what it means for two objects in a category to be
    "isomorphic". This requires both witnesses to the isomoprhism, and proof
    their compositions are equivalent to identity in both directions. Since
@@ -21,11 +33,11 @@ Context {C : Category@{o h p}}.
    usually too strong a notion, it does not have its own abstraction here. *)
 
 Class Isomorphism (x y : C) : Type := {
-  to   : x ~> y;
-  from : y ~> x;
+  to   : x ~> y;            (* the forward morphism x ~> y *)
+  from : y ~> x;            (* its two-sided inverse y ~> x *)
 
-  iso_to_from : to ∘ from ≈ id;
-  iso_from_to : from ∘ to ≈ id
+  iso_to_from : to ∘ from ≈ id;   (* right inverse law: to ∘ from ≈ id *)
+  iso_from_to : from ∘ to ≈ id    (* left  inverse law: from ∘ to ≈ id *)
 }.
 
 Arguments to {x y} _.
@@ -35,10 +47,15 @@ Arguments iso_from_to {x y} _.
 
 Infix "≅" := Isomorphism (at level 91) : category_scope.
 
+(* The predicate form: `f` is an isomorphism iff it has a two-sided inverse.
+   This is the nLab definition "an invertible morphism", phrased about a
+   single morphism `f` rather than about a pair of objects; [IsIsoToIso]
+   below recovers the object-level [Isomorphism] from it. *)
+
 Class IsIsomorphism {x y : C} (f : x ~> y) := {
-    two_sided_inverse : y ~> x;
-    is_right_inverse : f ∘ two_sided_inverse ≈ id;
-    is_left_inverse : two_sided_inverse ∘ f ≈ id
+    two_sided_inverse : y ~> x;                  (* the inverse g : y ~> x *)
+    is_right_inverse : f ∘ two_sided_inverse ≈ id;  (* right inverse: f ∘ g ≈ id *)
+    is_left_inverse : two_sided_inverse ∘ f ≈ id    (* left  inverse: g ∘ f ≈ id *)
   }.
 
 #[export]
@@ -50,11 +67,14 @@ Instance IsIsoToIso {x y : C} (f : x ~> y) ( _ : IsIsomorphism f) : Isomorphism 
     iso_from_to := is_left_inverse
   |}.
 
+(* Reflexivity of ≅: the identity is an isomorphism. *)
 #[export] Program Instance iso_id {x : C} : x ≅ x := {
   to   := id;
   from := id
 }.
 
+(* Symmetry of ≅: the inverse of an isomorphism is an isomorphism,
+   obtained by swapping `to` and `from` and the two inverse laws. *)
 Program Definition iso_sym {x y : C} `(f : x ≅ y) : y ≅ x := {|
   to   := from f;
   from := to f;
@@ -63,6 +83,8 @@ Program Definition iso_sym {x y : C} `(f : x ≅ y) : y ≅ x := {|
   iso_from_to := iso_to_from f
 |}.
 
+(* Transitivity of ≅: a composite of isomorphisms is an isomorphism, with
+   inverse `from g ∘ from f` (the inverses compose in the opposite order). *)
 Program Definition iso_compose {x y z : C} `(f : y ≅ z) `(g : x ≅ y) :
   x ≅ z := {|
   to   := to f ∘ to g;
@@ -81,6 +103,9 @@ Next Obligation.
   apply iso_from_to.
 Defined.
 
+(* Bundling the three constructions above: `≅` is an equivalence relation on
+   the objects of C. (Per nLab, the isomorphisms of C are the morphisms of its
+   core groupoid; this instance records the relation they induce on objects.) *)
 #[export] Program Instance iso_equivalence : Equivalence Isomorphism := {
   Equivalence_Reflexive  := @iso_id;
   Equivalence_Symmetric  := @iso_sym;
@@ -93,6 +118,10 @@ Definition ob_equiv : crelation C := Isomorphism.
   {| equiv := Isomorphism
    ; setoid_equiv := iso_equivalence |}.
 
+(* Equivalence of two isomorphisms between the *same* pair of objects (as
+   opposed to `≅`, which relates objects): two isos are equal when their `to`
+   and `from` components are equal as morphisms under `≈`. This makes each
+   hom `x ≅ y` of isomorphisms into a setoid ([iso_setoid] below). *)
 Definition iso_equiv {x y : C} : crelation (x ≅ y) :=
   fun f g => (to f ≈ to g) * (from f ≈ from g).
 
@@ -149,6 +178,10 @@ Notation "f '⁻¹'" := (from f) (at level 9, format "f '⁻¹'") : morphism_sco
 Ltac isomorphism :=
   unshelve (refine {| to := _; from := _ |}; simpl; intros).
 
+(* Every isomorphism is both monic and epic, in each direction: `to` and
+   `from` are cancellable on both sides because each has a two-sided inverse.
+   (The converse fails in general; see [Monic_Retraction_Iso] below for the
+   extra hypothesis that recovers an isomorphism.) *)
 #[export]
 Program Instance iso_to_monic {C : Category} {x y} (iso : @Isomorphism C x y) :
   Monic iso.
@@ -182,6 +215,10 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
+(* Two-sided inverses are unique, so an isomorphism is determined by its `to`
+   component: if `to f ≈ to g` then the `from` components agree as well, hence
+   `f ≈ g`. The proof uses that `to f` is epic (a standard inverse-uniqueness
+   argument). *)
 Proposition to_equiv_implies_iso_equiv {C : Category} {x y} (f g : x ≅ y) :
   to f ≈ to g -> f ≈ g.
 Proof.
@@ -251,6 +288,11 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
+(* Partial converses to "isos are monic and epic": a morphism that is both
+   monic and a retraction (split epi) is an isomorphism, and dually a morphism
+   that is both epic and a section (split mono) is an isomorphism. In each case
+   the one-sided inverse supplied by the split, together with cancellability,
+   upgrades to a two-sided inverse. *)
 #[export]
 Program Instance Monic_Retraction_Iso
         {C : Category} {x y : C} `(r : @Retraction _ _ _ f) `(m : @Monic _ _ _ f) :

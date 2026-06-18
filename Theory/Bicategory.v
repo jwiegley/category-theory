@@ -12,7 +12,29 @@ Reserved Infix "∘∘∘" (at level 40, left associativity).
 
 (** Bicategory *)
 
-(* From [ncatlab](https://ncatlab.org/nlab/show/bicategory#detailedDefn):
+(* nLab: https://ncatlab.org/nlab/show/bicategory
+   Wikipedia: https://en.wikipedia.org/wiki/Bicategory
+
+   A bicategory (a weak 2-category) has 0-cells (objects), 1-cells between
+   0-cells, and 2-cells between parallel 1-cells. For each pair of 0-cells the
+   1-cells and 2-cells form a hom-category `bicat x y` (objects are 1-cells,
+   morphisms are 2-cells, `∘∘` is vertical composition). Horizontal
+   composition `hcompose` is a functor of these hom-categories, associative
+   and unital only up to coherent 2-isomorphism: an associator α and left/right
+   unitors λ, ρ, subject to the pentagon and triangle coherence laws.
+
+   Notation map: in the verbatim nLab definition below, → is `~>` (a 1-cell)
+   and ⇒ is `~~>` (a 2-cell); here `~~~>` is also a 2-cell, `∘∘` is vertical
+   2-cell composition and `∘∘∘` is horizontal 1-cell composition.
+
+   STATUS: this development supplies the bicategory data through the hom-
+   categories `bicat x y` and the horizontal-composition functor `hcompose`.
+   The associator, left/right unitors, and the pentagon and triangle coherence
+   laws are not yet formalised; they are described in the TODOs after the
+   `hcompose` field. The class as written is therefore an incomplete (data-
+   only) bicategory, retained as scaffolding. *)
+
+(* From https://ncatlab.org/nlab/show/bicategory#detailedDefn :
 
 {In the following text, → matches ~> in this library, and ⇒ matches ~~>}
 
@@ -99,40 +121,43 @@ such that
 *)
 
 Class Bicategory := {
-  bi0cell : Type;
+  bi0cell : Type;                       (* collection of 0-cells (objects) *)
 
-  bi1uhom := Type : Type;
-  bi1cell : bi0cell → bi0cell → bi1uhom
+  bi1uhom := Type : Type;               (* universe of 1-cell collections *)
+  bi1cell : bi0cell → bi0cell → bi1uhom (* 1-cells a ~~> b *)
     where "a ~~> b" := (bi1cell a b);
 
-  bi2uhom := Type : Type;
-  bi2cell {x y : bi0cell} (f g : bi1cell x y) : bi2uhom
+  bi2uhom := Type : Type;               (* universe of 2-cell collections *)
+  bi2cell {x y : bi0cell} (f g : bi1cell x y) : bi2uhom  (* 2-cells f ~~~> g *)
     where "f ~~~> g" := (bi2cell f g);
 
-  bi1id {x : bi0cell} : x ~~> x;
+  bi1id {x : bi0cell} : x ~~> x;        (* identity 1-cell on a 0-cell *)
 
   bi2homset {x y : bi0cell} : ∀ X Y : bi1cell x y, Setoid (@bi2cell x y X Y);
+                                        (* 2-cells form a hom-setoid (≈) *)
 
-  bi2id {x y : bi0cell} {a : bi1cell x y} : a ~~~> a;
+  bi2id {x y : bi0cell} {a : bi1cell x y} : a ~~~> a;  (* identity 2-cell on a 1-cell *)
 
-  vcompose {x y : bi0cell} {a b c : bi1cell x y}
+  vcompose {x y : bi0cell} {a b c : bi1cell x y}      (* vertical 2-cell composition *)
            (f : b ~~~> c) (g : a ~~~> b) : a ~~~> c
     where "f ∘∘ g" := (vcompose f g);
 
-  vcompose_respects x y a b c :
+  vcompose_respects x y a b c :         (* vertical composition respects ≈ *)
     Proper (equiv ==> equiv ==> equiv) (@vcompose x y a b c);
 
   bi2id_left  {x y : bi0cell} {a b : bi1cell x y} (f : a ~~~> b) : bi2id ∘∘ f ≈ f;
+                                        (* left unit law for vertical composition *)
   bi2id_right {x y : bi0cell} {a b : bi1cell x y} (f : a ~~~> b) : f ∘∘ bi2id ≈ f;
+                                        (* right unit law for vertical composition *)
 
-  vcompose_assoc {x y : bi0cell} {a b c d : bi1cell x y}
+  vcompose_assoc {x y : bi0cell} {a b c d : bi1cell x y}  (* associativity of vertical comp. *)
                  (f : c ~~~> d) (g : b ~~~> c) (h : a ~~~> b) :
     f ∘∘ (g ∘∘ h) ≈ (f ∘∘ g) ∘∘ h;
-  vcompose_assoc_sym {x y : bi0cell} {a b c d : bi1cell x y}
+  vcompose_assoc_sym {x y : bi0cell} {a b c d : bi1cell x y}  (* dual form (built-in duality) *)
                      (f : c ~~~> d) (g : b ~~~> c) (h : a ~~~> b) :
     (f ∘∘ g) ∘∘ h ≈ f ∘∘ (g ∘∘ h);
 
-  bicat (x y : bi0cell) : Category := {|
+  bicat (x y : bi0cell) : Category := {|  (* hom-category B(x,y): 1-cells / 2-cells *)
     obj              := @bi1cell x y;
     hom              := @bi2cell x y;
     homset           := @bi2homset x y;
@@ -146,17 +171,26 @@ Class Bicategory := {
   |};
 
   hcompose {x y z : bi0cell} : bicat y z ∏ bicat x y ⟶ bicat x z
-    where "f ∘∘∘ g" := (hcompose (f, g));
+    where "f ∘∘∘ g" := (hcompose (f, g));  (* horizontal composition functor *)
 
-  (* jww (2018-06-16): The horizontal composition is required to be
-     associative up to a natural isomorphism α between morphisms. *)
+  (* The following coherence data and laws of a bicategory are not yet
+     formalised (cf. the STATUS note in the header); each would be added as a
+     field above. Using the library isomorphism `≅` (in the hom-category
+     `bicat _ _`) for the coherence 2-isomorphisms:
+
+       - associator α[h,g,f] : (h ∘∘∘ g) ∘∘∘ f ≅ h ∘∘∘ (g ∘∘∘ f), natural in
+         f, g, h (jww 2018-06-16: associativity holds up to this natural iso);
+       - left  unitor λ[f] : bi1id ∘∘∘ f ≅ f, natural in f;
+       - right unitor ρ[f] : f ∘∘∘ bi1id ≅ f, natural in f;
+       - triangle identity relating ρ, λ and α on a ~> b ~> c;
+       - pentagon identity relating the four reassociations on a ~> .. ~> e.
+
+     jww (2018-06-16): these coherence axioms, analogous to those of a
+     monoidal category, remain to be added. *)
 
   (* hcompose_assoc {x y z w : bi0cell} *)
   (*                (f : bicat z w) (g : bicat y z) (h : bicat x y) : *)
-  (*   f ∘∘ (g ∘∘ h) ≅ (f ∘∘ g) ∘∘ h *)
-
-  (* jww (2018-06-16): Some more coherence axioms, similar to those needed for
-     monoidal categories, are moreover required to hold. *)
+  (*   f ∘∘∘ (g ∘∘∘ h) ≅ (f ∘∘∘ g) ∘∘∘ h *)
 }.
 #[export] Existing Instance bi2homset.
 #[export] Existing Instance vcompose_respects.

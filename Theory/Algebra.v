@@ -10,8 +10,29 @@ Require Import Category.Structure.BiCCC.
 
 Generalizable All Variables.
 
-(* This file repeats results from elsewhere, to show a direct correspondence
-   between categorical constructions, and basic high-school algebra. *)
+(** * Categorified high-school algebra in a bicartesian closed category *)
+
+(* nLab: https://ncatlab.org/nlab/show/bicartesian+closed+category
+   nLab: https://ncatlab.org/nlab/show/rig+category
+   Wikipedia: https://en.wikipedia.org/wiki/Distributive_category
+
+   This file collects results proven elsewhere (in Structure/Cartesian.v,
+   Structure/Cocartesian.v, and Structure/Cartesian/Closed.v) to exhibit a
+   direct correspondence between categorical constructions and basic
+   high-school algebra. In a bicartesian closed category — one that is
+   cartesian (×, with terminal object 1), cocartesian (+, with initial
+   object 0) and cartesian closed (internal hom, written x^y) — the
+   structural isomorphisms categorify the identities of a rig (a semiring,
+   i.e. a ring without negatives): the coproduct + behaves like addition with
+   unit 0, the product × like multiplication with unit 1 annihilated by 0,
+   distributivity of × over + holds, and the internal hom x^y plays the role
+   of exponentiation. Reading ≅ ("isomorphic") for the algebraist's = , each
+   goal below is the categorified counterpart of a familiar arithmetic law,
+   for example x × (y + z) ≅ (x × y) + (x × z), x^(y + z) ≅ x^y × x^z and
+   x^(y × z) ≅ (x^y)^z (the last being the curry/uncurry adjunction). Every
+   goal is discharged by [auto] from the local hint database of these
+   pre-proven isomorphisms, so this section asserts no new content; it is a
+   readable index of the algebra that the BiCCC structure already provides. *)
 
 Section BasicAlgebra.
 

@@ -16,6 +16,23 @@ Generalizable All Variables.
 
 Import ApplicativeNotations.
 
+(** Instance characterisations and computation rules for the Coq applicatives *)
+
+(* nLab: https://ncatlab.org/nlab/show/applicative+functor
+   nLab: https://ncatlab.org/nlab/show/monoidal+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Applicative_functor
+
+   This file relates the Haskell-style [Applicative] class of
+   [Theory.Coq.Applicative] (carrying only [pure]/[ap]) to the categorical
+   notion of an applicative functor from [Functor.Applicative], namely a
+   strong lax monoidal endofunctor on Coq (with its cartesian monoidal
+   structure).  [IsApplicative] is the predicate "this [pure]/[ap] arises from
+   such a lax monoidal functor", and [Identity_IsApplicative],
+   [arrow_IsApplicative] and [Compose_IsApplicative] establish lawfulness of
+   the identity, reader and composite instances by exhibiting that structure.
+   The opening corollaries are the definitional computation rules for [pure]
+   and [ap] (in particular for the composite applicative). *)
+
 Corollary compose_ap  `{Applicative F} `{Applicative G} {x y} :
   ap[F ∘ G]%prg = (ap[F] ∘ fmap[F] (@ap G _ x y))%prg.
 Proof. reflexivity. Qed.

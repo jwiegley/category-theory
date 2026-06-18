@@ -10,23 +10,49 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
+(** * Universal arrows *)
+
+(* nLab: https://ncatlab.org/nlab/show/universal+morphism
+   Wikipedia: https://en.wikipedia.org/wiki/Universal_property
+
+   A universal arrow from an object c : C to a functor F : D ⟶ C is a pair
+   (a, u) consisting of an object a : D and a morphism u : c ~> F a, such that
+   for every object d : D and every morphism h : c ~> F d there exists a
+   unique g : a ~> d satisfying h ≈ fmap[F] g ∘ u. Equivalently, (a, u) is an
+   initial object of the comma category =(c) ↓ F (objects are pairs (d, f)
+   with f : c ~> F d). The dual notion, a universal arrow from F to c, is a
+   terminal object of F ↓ =(c). Universal arrows are the unifying notion
+   behind limits, representables, and adjunctions: when every c : C has a
+   universal arrow to U : D ⟶ C, the assignment c ↦ a extends to a left
+   adjoint of U, with the arrows u serving as the components of the unit. *)
+
+(* Two encodings of this notion are given below. UniversalArrow packages the
+   property as an initial object of the comma category =(c) ↓ F, which makes
+   the universal mapping property [ump_universal_arrows] an immediate
+   consequence; AUniversalArrow records the same data directly as a morphism
+   together with its [Unique] factorization, without naming the object a as a
+   projection out of the comma category. *)
+
 Section UniversalArrow.
 
 Context `{C : Category}.
 Context `{D : Category}.
 
-(* A universal arrow is an initial object in the comma category (=(c) ↓ F). *)
+(* A universal arrow from c to F is an initial object of the comma category
+   =(c) ↓ F.  Its underlying object [arrow_obj] and morphism [arrow] are read
+   off as the two projections of that initial object. *)
 Class UniversalArrow (c : C) (F : D ⟶ C) := {
-  arrow_initial : @Initial (=(c) ↓ F);
+  arrow_initial : @Initial (=(c) ↓ F);   (* the universal property, as initiality *)
 
-  arrow_obj := snd (`1 (@initial_obj _ arrow_initial));
-  arrow : c ~> F arrow_obj := `2 (@initial_obj _ arrow_initial)
+  arrow_obj := snd (`1 (@initial_obj _ arrow_initial));     (* the universal object a : D *)
+  arrow : c ~> F arrow_obj := `2 (@initial_obj _ arrow_initial)  (* the universal morphism u : c ~> F a *)
 }.
 
 Notation "c ⟿ F" := (UniversalArrow c F) (at level 20) : category_theory_scope.
 
-(* The following UMP follows directly from the nature of initial objects in a
-   comma category. *)
+(* The universal mapping property: any h : c ~> F d factors as h ≈ fmap[F] g ∘
+   arrow through a unique g : arrow_obj ~> d.  This follows directly from the
+   initiality of arrow_obj in the comma category =(c) ↓ F. *)
 Corollary ump_universal_arrows `(c ⟿ F) `(h : c ~> F d) :
   ∃! g : arrow_obj ~> d, h ≈ fmap[F] g ∘ arrow.
 Proof.
@@ -43,6 +69,9 @@ Proof.
                              ((ttt, h1); e) ((ttt, v); X))).
 Qed.
 
+(* Conversely, the universal mapping property reconstructs the initial object,
+   hence a UniversalArrow: given η : c ~> F d that factors every f : c ~> F d'
+   uniquely, (d, η) is initial in =(c) ↓ F. *)
 Definition universal_arrow_from_UMP (c : C) (F : D ⟶ C) (d : D) (η : c ~> fobj[F] d)
   (u : ∀ (d' : D) (f : c ~> fobj[F] d'), ∃! g : d ~> d', f ≈ fmap[F] g ∘ η)
   : UniversalArrow c F.
@@ -65,6 +94,11 @@ Context (U : @Functor D C).
 
 Arguments arrow : clear implicits.
 Arguments arrow_obj : clear implicits.
+
+(* A universal arrow to U from every object c : C assembles into a left adjoint
+   of U.  The object map sends c to its universal object arrow_obj, and the
+   morphism map sends f : x ~> y to the unique factorization of arrow ∘ f
+   through arrow_obj x. *)
 Definition LeftAdjointFunctorFromUniversalArrows (H : forall c : C, UniversalArrow c U)
   : @Functor C D.
 Proof.
@@ -91,6 +125,9 @@ Proof.
              f f (Equivalence_Reflexive _))).
 Defined.
 
+(* The induced functor is genuinely left adjoint to U: the hom-set isomorphism
+   (LeftAdjoint c ~> d) ≊ (c ~> U d) is exactly the universal factorization,
+   with the universal arrows u serving as the unit of the adjunction. *)
 Definition AdjunctionFromUniversalArrows (H: forall c : C, UniversalArrow c U) :
   @Adjunction _ _ (LeftAdjointFunctorFromUniversalArrows H) U.
 Proof.
@@ -114,12 +151,17 @@ Proof.
 Defined.
 
 
+(* The same notion stated directly, with the universal object a : D given as a
+   parameter rather than projected from a comma category.  The data is the
+   universal morphism together with its uniqueness-of-factorization property. *)
 Class AUniversalArrow (c : C) (F : D ⟶ C) (a : D) := {
-    universal_arrow : c ~> fobj[F] a ;
-    universal_arrow_universal {d} {f : c ~> (fobj[F] d)} :
+    universal_arrow : c ~> fobj[F] a ;                 (* the universal morphism u : c ~> F a *)
+    universal_arrow_universal {d} {f : c ~> (fobj[F] d)} :  (* the universal property: f factors uniquely as fmap[F] g ∘ u *)
     Unique (fun g : hom a d => fmap[F] g ∘ universal_arrow ≈ f)
   }.
 
+(* Two universal arrows at the same object are equivalent when their underlying
+   morphisms agree; the uniqueness property carries no further data. *)
 #[export] Program Instance AUniversalArrowEquiv (c : C) (F : D ⟶ C) (a : D) :
   Setoid (AUniversalArrow c F a) :=
   {| equiv := fun X Y => (@universal_arrow _ _ _ X) ≈ (@universal_arrow _ _ _ Y) |}.
