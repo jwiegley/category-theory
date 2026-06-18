@@ -11,22 +11,33 @@ Require Import Category.Construction.Cospan.Category.
 
 Generalizable All Variables.
 
-(** * Cospan bridging helpers (direct-CospanCat version)
+(** * Cospan bridging helpers (direct-CospanCat version) *)
 
-    With [CospanCat] now built directly via pushouts in [C] (rather than
-    as [SpanCat (C^op)]), the cospan obligations are already phrased in
-    terms of C-direction morphisms.  This file collects a few derived
-    rewrites that come up repeatedly in Monoidal / SCFA / Hypergraph
-    coherence proofs over [CospanCat C]. *)
+(* nLab:      https://ncatlab.org/nlab/show/cospan
+   Wikipedia: https://en.wikipedia.org/wiki/Span_(category_theory)
 
-(** ** Section 1: pushout/cover bridging
+   This file introduces no new categorical concept; it is a collection of
+   derived rewrites about the cospan category [CospanCat C] (and the
+   ambient coproduct structure) defined in [Construction.Cospan.Category],
+   where the cospan concept and its sources are documented in full.
 
-    When proving the bifunctor [fmap_comp] for [cospan_tensor], the leg
-    conditions involve a [merge]-of-mediators composed against
-    [cover]-style legs.  The fundamental simplifications are
-    [merge ∘ cover] and [merge ∘ inl/inr]. *)
+   With [CospanCat] now built directly via pushouts in [C] (rather than as
+   [SpanCat (C^op)]), the cospan obligations are already phrased in terms
+   of C-direction morphisms.  This file collects a few derived rewrites
+   that come up repeatedly in Monoidal / SCFA / Hypergraph coherence proofs
+   over [CospanCat C]. *)
 
-Section PushoutCoverBridging.
+(** ** Section 1: coproduct/cover bridging
+
+    These rewrites are purely about the cocartesian (coproduct) structure
+    of [C]; no pushout is involved here (the relevant cospan tensor builds
+    its legs from the binary coproduct [+], i.e. the pushout over the
+    initial object).  When proving the bifunctor [fmap_comp] for
+    [cospan_tensor], the leg conditions involve a [merge]-of-mediators
+    composed against [cover]-style legs.  The fundamental simplifications
+    are [merge ∘ cover] and [merge ∘ inl/inr]. *)
+
+Section CoprodCoverBridging.
 
 Context {C : Category}.
 Context `{H_Coc : @Cocartesian C}.
@@ -76,7 +87,7 @@ Proof.
   rewrite inr_merge; reflexivity.
 Qed.
 
-End PushoutCoverBridging.
+End CoprodCoverBridging.
 
 (** ** Section 2: Coproduct mediator extensionality
 
