@@ -14,7 +14,52 @@ Generalizable All Variables.
 
 Set Transparent Obligations.
 
-(** Evaluation contexts *)
+(** Reduction by decomposition into an evaluation context and a redex. *)
+
+(* This module gives a Felleisen-Hieb-style, context-based presentation of the
+   small-step reduction relation for the de Bruijn STLC (see [Exp]).  Instead
+   of one congruence rule per elimination form (as in [Step]), reduction is
+   factored into three reusable pieces:
+
+     - a [Redex] is a contraction at the root: beta ([R_Beta]) and the two
+       projection rules ([R_Fst], [R_Snd]);
+     - a [Ctxt] is an evaluation context, i.e. a typed term with a single hole,
+       built as a snoc-list of single-constructor [Frame]s;
+     - [Plug e C e'] witnesses that filling the hole of [C] with [e] yields the
+       whole term [e'] (the recomposition operation written E[e] on paper).
+
+   A single rule then closes contraction under arbitrary evaluation contexts:
+
+     [Step]:   Plug e1 C e1'  →  Plug e2 C e2'  →  Redex e1 e2  →  e1' ---> e2'
+
+   so e1' ---> e2' iff e1' decomposes as C[e1], e1 contracts to e2, and e2'
+   recomposes as C[e2].  This is the standard contextual/reduction-semantics
+   schema: decompose into context-plus-redex, contract, plug back.
+
+   Note that, despite living next to a general beta-reduction story, the
+   relation here is call-by-value, not full beta-reduction: the redexes
+   [R_Fst]/[R_Snd] require both projection components to be values
+   ([ValueP]), and the [Plug] constructors that descend into a second
+   subterm ([Plug_PairR], [Plug_AppR]) require the first to already be a
+   value, fixing a left-to-right evaluation order.  Reduction therefore never
+   proceeds under a [LAM], and the contexts decompose exactly the redex that
+   [Step] (the congruence-rule presentation) would also reduce.
+
+   The accompanying lemmas establish that this presentation is well behaved:
+   [strong_progress] (a closed term is a value or steps), [Plug_functional]
+   and [Plug_injective] (plugging is single-valued in either argument),
+   [Redex_deterministic] (contraction is a function), and the congruence
+   lemmas [AppL_LAM]/[AppR_LAM].  The [Frame]/[Ctxt] and [Plug] layers are
+   moreover shown to be categorical: [Ctxt_id]/[Ctxt_comp] satisfy the
+   identity and associativity laws ([Ctxt_id_left], [Ctxt_id_right],
+   [Ctxt_comp_assoc]).
+
+   References:
+     beta-reduction      https://ncatlab.org/nlab/show/beta-reduction
+     lambda-calculus     https://ncatlab.org/nlab/show/lambda-calculus
+     evaluation contexts / reduction semantics:
+       M. Felleisen and R. Hieb, "The revised report on the syntactic
+       theories of sequential control and state", TCS 103(2), 1992. *)
 
 Section Full.
 
@@ -22,8 +67,9 @@ Import ListNotations.
 
 Open Scope Ty_scope.
 
-(* A context defines a hole which, after substitution, yields an expression of
-   the index type. *)
+(* A [Frame] is an evaluation context with a single hole one constructor deep:
+   [Frame Γ τ' τ] has a hole of type [τ'] and, once filled, yields a term of
+   type [τ].  Frames are the building blocks snoc-listed together into [Ctxt]. *)
 Inductive Frame Γ : Ty → Ty → Set :=
   | F_PairL {τ1 τ2}  : Exp Γ τ2 → Frame τ1 (τ1 × τ2)
   | F_PairR {τ1 τ2}  : Exp Γ τ1 → Frame τ2 (τ1 × τ2)
@@ -65,6 +111,9 @@ Theorem Ctxt_comp_assoc {Γ τ τ' τ'' τ'''}
   Ctxt_comp C (Ctxt_comp C' C'') = Ctxt_comp (Ctxt_comp C C') C''.
 Proof. induction C; simpl; auto; now f_equal. Qed.
 
+(* [Redex e1 e2] is a root contraction: the three primitive reduction rules,
+   each contracting an elimination of a value to its component.  These are the
+   only redexes; congruence is handled separately by [Plug]/[Step]. *)
 Inductive Redex {Γ} : ∀ {τ}, Exp Γ τ → Exp Γ τ → Set :=
   | R_Beta {dom cod} (e : Exp (dom :: Γ) cod) v :
     ValueP v →
@@ -82,6 +131,10 @@ Derive Signature for Redex.
 
 Unset Elimination Schemes.
 
+(* [Plug e C e'] is the recomposition relation: filling the hole of context [C]
+   with [e] reconstructs the whole term [e'] (written E[e] on paper).  Each
+   constructor mirrors one [Frame], and the value side-conditions on
+   [Plug_PairR]/[Plug_AppR] enforce left-to-right (call-by-value) evaluation. *)
 Inductive Plug {Γ τ'} (e : Exp Γ τ') : ∀ {τ}, Ctxt Γ τ' τ → Exp Γ τ → Set :=
   | Plug_Hole : Plug (C_Nil _) e
 
@@ -147,6 +200,9 @@ Theorem Plug_id_left {Γ τ τ'} {C : Ctxt Γ τ' τ} {x : Exp Γ τ'} {y : Exp 
   Plug_comp Plug_id P ~= P.
 *)
 
+(* One-step reduction: [e1' ---> e2'] when [e1'] decomposes as C[e1], the
+   redex [e1] contracts to [e2], and [e2'] recomposes as C[e2].  This single
+   rule closes [Redex] under every evaluation context. *)
 Inductive Step {Γ τ} : Exp Γ τ → Exp Γ τ → Set :=
   | StepRule {τ'} {C : Ctxt Γ τ' τ} {e1 e2 : Exp Γ τ'} {e1' e2' : Exp Γ τ} :
     Plug e1 C e1' →
@@ -162,6 +218,7 @@ Derive Signature for Step.
 
 #[local] Hint Extern 7 (_ ---> _) => repeat econstructor : core.
 
+(* Progress: every closed term is either a value or takes a step. *)
 Theorem strong_progress {τ} (e : Exp [] τ) :
   ValueP e ∨ ∃ e', e ---> e'.
 Proof.
@@ -191,6 +248,12 @@ Proof.
     + dependent elimination H1'; now eauto 6.
 Qed.
 
+(* Unique decomposition: any term [e2] splits into at most one
+   context-plus-redex pair.  This is the property that would yield determinism
+   of [Step] (cf. [Step_deterministic] in the [Step] module).  It is left open
+   here: stating equality of the contexts [C ~= C'] and redexes [e1 ~= f1]
+   across distinct hole types requires heterogeneous (JMeq) equality, and the
+   dependent inversions have not yet been discharged. *)
 (*
 Lemma Plug_deterministic {Γ τ} e2 :
   ∀ τ' (C : Ctxt Γ τ' τ) e1 e1',
@@ -200,6 +263,8 @@ Lemma Plug_deterministic {Γ τ} e2 :
     τ' = τ'' ∧ C ~= C' ∧ e1 ~= f1.
 *)
 
+(* Plugging is a function of its filler: a given (context, hole) recomposes to
+   at most one whole term. *)
 Lemma Plug_functional {Γ τ τ'} {C : Ctxt Γ τ' τ} e :
   ∀ e1, Plug e C e1 → ∀ e2, Plug e C e2 → e1 = e2.
 Proof.
@@ -220,6 +285,8 @@ Proof.
     now f_equal; auto.
 Qed.
 
+(* Plugging is injective in its filler: a whole term determines the hole that
+   a fixed context decomposed it into. *)
 Lemma Plug_injective {Γ τ τ'} {C : Ctxt Γ τ' τ} e :
   ∀ e1, Plug e1 C e → ∀ e2, Plug e2 C e → e1 = e2.
 Proof.
@@ -240,6 +307,7 @@ Proof.
     now f_equal; auto.
 Qed.
 
+(* Contraction is deterministic: a redex has a unique contractum. *)
 Lemma Redex_deterministic {Γ τ} {e : Exp Γ τ} :
   ∀ e', Redex e e' → ∀ e'', Redex e e'' → e' = e''.
 Proof.
@@ -248,6 +316,8 @@ Proof.
   dependent elimination H; eauto.
 Qed.
 
+(* Congruence under application: a step of the operator (resp. operand, with
+   the operator already a [LAM]) lifts to a step of the whole [APP]. *)
 Lemma AppL_LAM {Γ dom cod} {e e' : Exp Γ (dom ⟶ cod)} {x : Exp Γ dom} :
   e ---> e' →
   APP e x ---> APP e' x.
@@ -264,12 +334,18 @@ Proof.
   dependent induction H; now eauto 6.
 Qed.
 
+(* [t] is a normal form for [R] when it has no [R]-successor. *)
 Definition normal_form `(R : crelation X) (t : X) : Type :=
   ∀ t', ¬ R t t'.
 
+(* [R] is deterministic when every element has at most one [R]-successor. *)
 Definition deterministic `(R : crelation X) : Type :=
   ∀ x y1 y2 : X, R x y1 → R x y2 → y1 = y2.
 
+(* Values are normal forms.  Provable here as in the [Step] module (where it is
+   discharged), but left open in this context-based presentation: it needs the
+   unique-decomposition reasoning sketched in [Plug_deterministic] above to rule
+   out a redex hiding under any evaluation context. *)
 (*
 Lemma value_is_nf {Γ τ} (v : Exp Γ τ) :
   ValueP v → normal_form Step v.

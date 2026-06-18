@@ -10,21 +10,54 @@ Set Equations With UIP.
 
 Generalizable All Variables.
 
+(** Denotational semantics of the simply-typed lambda calculus in a CCC *)
+
+(* nLab: https://ncatlab.org/nlab/show/relation+between+type+theory+and+category+theory
+   Wikipedia: https://en.wikipedia.org/wiki/Cartesian_closed_category
+   Wikipedia: https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence
+
+   This file gives the categorical (denotational) semantics of the de Bruijn
+   STLC of Exp.v, realizing the Curry-Howard-Lambek correspondence: a
+   cartesian closed category interprets the calculus, with the product type
+   denoting the categorical product, the function type denoting the internal
+   hom (exponential), and a context denoting the iterated product of its
+   types.  Here the interpreting CCC is taken to be Coq's own universe [Type]
+   (with [unit] terminal, [*] product, [→] exponential), so the interpretation
+   is the standard one read off into that concrete model:
+
+       ⟦TyUnit⟧      := unit                   (terminal object)
+       ⟦t1 × t2⟧     := ⟦t1⟧ * ⟦t2⟧            (categorical product)
+       ⟦dom ⟶ cod⟧  := ⟦dom⟧ → ⟦cod⟧          (exponential / internal hom)
+       ⟦Γ⟧           := ilist ⟦·⟧ Γ            (right-nested product of types)
+       ⟦Γ ⊢ t : τ⟧   : ⟦Γ⟧ → ⟦τ⟧              (a morphism in the CCC)
+
+   On terms (SemExp) the standard CCC interpretation is used: a variable is a
+   product projection (var = proj), application is evaluation composed with
+   pairing (app = eval ∘ ⟨_,_⟩), and lambda abstraction is currying
+   (lam = curry).  The remaining results are the semantic compatibility lemmas
+   between interpretation and the renaming/substitution machinery of Ren.v and
+   Sub.v; they are what make βη-equality sound, witnessed downstream by
+   [soundness] in Sound.v ([e ---> v] implies [SemExp e = SemExp v]).  By
+   Lambek's theorem the syntax presented here is the free CCC, so this
+   interpretation factors uniquely through every model. *)
+
 Section Sem.
 
 Fixpoint SemTy (τ : Ty) : Type :=
   match τ with
-  | TyUnit          => unit
-  | TyPair t1 t2    => SemTy t1 * SemTy t2
-  | TyArrow dom cod => SemTy dom → SemTy cod
+  | TyUnit          => unit                  (* terminal object             *)
+  | TyPair t1 t2    => SemTy t1 * SemTy t2   (* categorical product         *)
+  | TyArrow dom cod => SemTy dom → SemTy cod (* exponential / internal hom  *)
   end.
 
+(* A context denotes the iterated (right-nested) product of its types. *)
 Definition SemEnv Γ : Type := ilist (B:=SemTy) Γ.
 
+(* A variable denotes a product projection (var = proj). *)
 Fixpoint SemVar `(v : Var Γ τ) : SemEnv Γ → SemTy τ :=
   match v with
-  | ZV   => λ se, fst se
-  | SV v => λ se, SemVar v (snd se)
+  | ZV   => λ se, fst se              (* first projection            *)
+  | SV v => λ se, SemVar v (snd se)   (* projection through the tail *)
   end.
 
 Equations RenSem {Γ Γ'} (r : Ren Γ Γ') (se : SemEnv Γ) : SemEnv Γ' :=
@@ -76,15 +109,19 @@ Proof.
       now rewrite <- IHΓ; simp RcR; simp RenSem.
 Qed.
 
+(* The term interpretation ⟦Γ ⊢ e : τ⟧ : ⟦Γ⟧ → ⟦τ⟧, the standard CCC
+   semantics read into Coq's [Type]: pairing into the product, the product
+   projections, a variable as a projection, λ as currying, and application
+   as evaluation composed with pairing. *)
 Fixpoint SemExp `(e : Exp Γ τ) : SemEnv Γ → SemTy τ :=
   match e with
-  | EUnit     => λ _, tt
-  | Pair x y  => λ se, (SemExp x se, SemExp y se)
-  | Fst p     => λ se, fst (SemExp p se)
-  | Snd p     => λ se, snd (SemExp p se)
-  | VAR v     => SemVar v
-  | LAM e     => λ se x, SemExp e (x, se)
-  | APP e1 e2 => λ se, SemExp e1 se (SemExp e2 se)
+  | EUnit     => λ _, tt                              (* unique map to terminal *)
+  | Pair x y  => λ se, (SemExp x se, SemExp y se)     (* pairing ⟨_,_⟩           *)
+  | Fst p     => λ se, fst (SemExp p se)              (* first projection        *)
+  | Snd p     => λ se, snd (SemExp p se)              (* second projection       *)
+  | VAR v     => SemVar v                             (* var = proj              *)
+  | LAM e     => λ se x, SemExp e (x, se)             (* lam = curry             *)
+  | APP e1 e2 => λ se, SemExp e1 se (SemExp e2 se)    (* app = eval ∘ ⟨_,_⟩      *)
   end.
 
 Equations SubSem {Γ Γ'} (s : Sub Γ Γ') (se : SemEnv Γ) : SemEnv Γ' :=

@@ -9,6 +9,35 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
+(** The category of adjunctions. *)
+
+(* nLab: https://ncatlab.org/nlab/show/adjoint+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Adjoint_functors#Composition
+
+   Adjunctions can be composed: the identity functor is self-adjoint
+   (Id ⊣ Id, [adj_id]), and given F ⊣ U and F' ⊣ U' the composites are again
+   adjoint, with the left adjoints composing covariantly and the right adjoints
+   contravariantly,
+
+       F ⊣ U  →  F' ⊣ U'  →  F ◯ F' ⊣ U' ◯ U     ([adj_comp]).
+
+   (Recall F ◯ G applies G then F, so F ◯ F' is the left adjoint and U' ◯ U the
+   right adjoint of the composite.) This is exactly what is needed to organize
+   categories and adjunctions into a category [Adjoints]:
+
+       objects        Categories
+       arrows         Adjunctions F ⊣ U between categories
+       identity       Id ⊣ Id
+       composition    F ⊣ U → F' ⊣ U' → F ◯ F' ⊣ U' ◯ U
+
+   Two adjunctions are identified when their left and right adjoints are
+   correspondingly naturally isomorphic ([adj_morphism_setoid]). Choosing the
+   left adjoint as the "forward" direction is an arbitrary but harmless
+   convention; see the closing note on InvAdj for the involutive refinement that
+   removes the choice. *)
+
+(* The identity functor is its own left and right adjoint: the transpose iso
+   F x ~> y ≅ x ~> U y is the identity on hom-sets when F = U = Id. *)
 #[export]
 Program Instance adj_id {C : Category} : Id ⊣ Id := {
   adj := fun _ _ =>
@@ -16,6 +45,13 @@ Program Instance adj_id {C : Category} : Id ⊣ Id := {
      ; from := {| morphism := _ |} |}
 }.
 
+(* Composite of two adjunctions. The transpose iso for F ◯ F' ⊣ U' ◯ U is the
+   composite of the two component transposes,
+
+       F (F' a) ~> b  ≅[X]  F' a ~> U b  ≅[Y]  a ~> U' (U b),
+
+   so ⌊-⌋ of the composite is ⌊-⌋ ∘ ⌊-⌋ and its inverse runs the two ⌈-⌉ in the
+   opposite order. *)
 Program Definition adj_comp
         {C : Category} {D : Category} {E : Category}
         (F : D ⟶ C) (U : C ⟶ D) (F' : E ⟶ D) (U' : D ⟶ E)
@@ -43,14 +79,19 @@ Next Obligation. rewrite <- !from_adj_nat_r; reflexivity. Qed.
 Notation "F ⊚ G" := (@adj_comp _ _ _ _ _ _ _ F G)
   (at level 30, right associativity) : category_scope.
 
+(* An arrow C ⇸ D in [Adjoints]: a left/right adjoint pair, the left adjoint
+   ("free") taken as the forward direction. *)
 Record adj_morphism {C : Category} {D : Category} := {
-  free_functor : D ⟶ C;
-  forgetful_functor : C ⟶ D;
+  free_functor : D ⟶ C;                       (* the left adjoint  *)
+  forgetful_functor : C ⟶ D;                  (* the right adjoint *)
   adjunction : free_functor ⊣ forgetful_functor
 }.
 
 Local Set Warnings "-intuition-auto-with-star".
 
+(* Two adjunctions are equal when their left adjoints are naturally isomorphic
+   and their right adjoints are naturally isomorphic (in the functor category
+   [Fun]); the conjugate-pair correspondence then makes the choice coherent. *)
 #[export]
 Program Instance adj_morphism_setoid {C : Category} {D : Category} :
   Setoid (@adj_morphism C D) := {
@@ -204,6 +245,13 @@ Next Obligation.
   split; isomorphism;
   try (transform; simpl; intros; try exact id; cat); cat.
 Qed.
+
+(* The closing quote (Chris Heunen, on MathOverflow) describes InvAdj, the
+   involutive refinement of [Adjoints] that removes the arbitrary forward/
+   backward choice; it is defined in §3.1.8 of his thesis "Categorical Quantum
+   Models and Logics":
+   https://homepages.inf.ed.ac.uk/cheunen/publications/2009/thesis/thesis.pdf
+   This library implements only the plain [Adjoints] above, not InvAdj. *)
 
 (* mathoverflow: "You will have to make an arbitrary choice for the direction
    of morphisms: is the left adjoint "forward" or "backward"? To prevent that,

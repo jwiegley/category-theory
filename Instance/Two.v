@@ -4,6 +4,22 @@ Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 
+(** The interval category 2 (the "walking arrow"). *)
+
+(* nLab:      https://ncatlab.org/nlab/show/interval+category
+   nLab:      https://ncatlab.org/nlab/show/walking+structure (walking morphism)
+   Wikipedia: https://en.wikipedia.org/wiki/Posetal_category
+
+   2 is the ordinal {0 < 1} regarded as a (thin / posetal) category: two
+   objects 0, 1, their identities, and a single non-identity arrow 0 → 1.
+   There is NO arrow 1 → 0.  Here the objects are named TwoX (= 0) and
+   TwoY (= 1), and the non-identity arrow is TwoXY : TwoX ~> TwoY.
+
+   2 is the "walking arrow": a functor 2 ⟶ C is exactly a choice of one
+   morphism of C (the image of TwoXY), so functors out of 2 classify the
+   morphisms of C, and the functor category [2, C] is the arrow category of
+   C (objects = arrows of C, morphisms = commutative squares). *)
+
 Inductive TwoObj : Set := TwoX | TwoY.
 
 Inductive TwoHom : TwoObj → TwoObj → Set :=
@@ -30,8 +46,10 @@ Proof. inversion 1. Qed.
 
 Local Set Warnings "-intuition-auto-with-star".
 
-(* The category 2 has two objects, their identity morphisms, and one morphism
-   from the first object to the second (here denoted false and true). *)
+(* The category 2 has two objects TwoX, TwoY, their identity morphisms, and
+   one non-identity morphism TwoXY : TwoX ~> TwoY from the first to the
+   second.  The hom-sets carry strict (Leibniz) equality via
+   Morphism_equality, since 2 is thin (at most one arrow between objects). *)
 
 Program Definition _2 : Category := {|
   obj     := TwoObj;
@@ -69,6 +87,9 @@ Next Obligation. destruct x, y, z, w; auto with two_laws; intuition; auto with *
 Next Obligation. destruct x, y, z, w; auto with two_laws; intuition. Qed.
 
 Require Import Category.Instance.Sets.
+
+(* A functor 2 ⟶ Sets is precisely a morphism of Sets; this one picks out the
+   unique map (the empty function) from False to True, sending TwoXY there. *)
 
 Program Definition _2_as_Set : _2 ⟶ Sets := {|
   fobj := fun x =>

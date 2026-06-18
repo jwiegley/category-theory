@@ -28,8 +28,9 @@ Generalizable All Variables.
 
       - Spider fusion: connecting two Z-spiders along any wire fuses them
         into one Z-spider with summed phase, and dually for X.
-      - The Hopf law / colour change: HZH = X (Hadamard exchanges colours).
-      - The bialgebra law between Z and X.
+      - Colour change: HZH = X (Hadamard exchanges colours).
+      - The bialgebra law between Z and X, with the Hopf law (cancellation
+        of parallel wires between opposite-colour spiders) as a consequence.
       - π-copy: a Z-spider with a π-phase X-leg commutes through.
       - Identity: a 1-to-1 spider with zero phase is the identity wire.
 
@@ -151,7 +152,8 @@ Open Scope zx_scope.
     Naming follows van de Wetering's survey:
       [S1]  spider-fusion (Z and X variants)
       [S2]  identity spider (Z_1^1(0) = id_1, X_1^1(0) = id_1)
-      [CC]  colour change (H ⊙ Z_m^n(α) ⊙ ⊕_m H = X_m^n(α))
+      [CC]  colour change ((⊕_n H) ⊙ Z_m^n(α) ⊙ (⊕_m H) = X_m^n(α):
+            H on every input AND output leg)
       [B]   bialgebra
       [P]   π-copy
       [E]   Euler decomposition (typically replaced by the more
@@ -202,8 +204,10 @@ Inductive zx_eq : forall {m n}, ZX m n -> ZX m n -> Prop :=
   | zx_eq_h_invol :
       zx_eq (zx_h ⊙ zx_h) (zx_id 1)
   (** Colour change [CC]: a Z-spider conjugated by Hadamards on every
-      leg becomes an X-spider of the same arity and phase.  Stated for
-      the 1→1 case (the general case is a corollary via fusion). *)
+      leg becomes an X-spider of the same arity and phase.  Stated only
+      for the 1→1 case; the general [m → n] case is NOT derivable from
+      the present rules (it needs general spider fusion, also out of
+      scope — see the header's "Out of scope" list). *)
   | zx_eq_colour_change_1 :
       forall (alpha : Phase),
         zx_eq (zx_h ⊙ zx_z 1 1 alpha ⊙ zx_h)

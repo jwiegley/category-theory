@@ -19,7 +19,54 @@ Unset Universe Polymorphism.
 Set Universe Minimization ToSet.
 Set Transparent Obligations.
 
-(* These two lemmas is missing in Coq 8.11 and earlier. *)
+(** Shape-indexed tries as exponentials of types *)
+
+(* A [Shape] is a binary expression tree over the constructors [Bottom],
+   [Top], [Plus] and [Times].  Reading it as an arithmetic expression with
+   [Bottom = 0], [Top = 1], [Plus = +] and [Times = *] gives its [size], the
+   number of leaves it carries.
+
+   [Trie a s] is the type of [a]-labelled tries of shape [s].  It realises the
+   exponential [a^s], indexed not by a number but by the shape itself, so that
+   the standard exponent laws hold definitionally on the constructors:
+
+       a^0     = 1          (Unit  : Trie a Bottom)
+       a^1     = a          (Id    : a -> Trie a Top)
+       a^(b+c) = a^b * a^c  (Join  : Trie a b -> Trie a c -> Trie a (Plus b c))
+       a^(b*c) = (a^b)^c    (Joins, the nested/representable case)
+
+   This is the "logarithm of a type" / Naperian-functor view: a trie of shape
+   [s] is isomorphic to a function from the [size s] positions, equivalently to
+   a length-[size s] vector ([vec]/[trie] are mutually inverse, [vec_trie] and
+   [trie_vec]).  See Gibbons, "APLicative Programming with Naperian Functors".
+
+   The file catalogues, for each carrier type [a]:
+     - [Tries a]    : the category of tries over [a], shapes as objects;
+     - [Vectors a]  : the category of vectors over [a], lengths as objects;
+   each shown [Terminal] and [Cartesian] (Plus / plus are the products), and
+     - [Cardinality a : Tries a -> Vectors a]   (s |-> size s, t |-> vec t)
+     - [Canonicity a  : Vectors a -> Tries a]   (n |-> unsize n)
+   forming the adjunction [Cardinality a ⊣ Canonicity a].  Since [vec]/[trie]
+   are inverse this adjunction is in fact an equivalence presented in adjoint
+   form.
+
+   nLab (representable functor, of which these tries are an instance):
+     https://ncatlab.org/nlab/show/representable+functor
+   nLab (polynomial functor / container, the shapes-and-positions view):
+     https://ncatlab.org/nlab/show/polynomial+functor
+   Wikipedia (representable functor):
+     https://en.wikipedia.org/wiki/Representable_functor
+   Wikipedia (the exponent laws annotated on the [Trie] constructors):
+     https://en.wikipedia.org/wiki/Exponentiation
+
+   Note: because [Trie] is indexed by [Shape] and the homsets are quotiented
+   through stdlib [Vector.t], the dependent [inversion]/[dependent induction]
+   used by [Trie_left], [Trie_right] and [Tries_Cartesian]/[Tries_Terminal]
+   relies on [Eqdep.Eq_rect_eq] (Streicher K / UIP on [Shape]).  This is the
+   only axiom this file depends on; [Vectors], [Cardinality], [Canonicity] and
+   [Card_Canon_Adjunction] are axiom-free. *)
+
+(* These two lemmas are missing in Coq 8.11 and earlier. *)
 Lemma map_id A: ∀ n (v : t A n),
   map (fun x => x) v = v.
 Proof.
@@ -78,6 +125,11 @@ Qed.
 
 (**************************************************************************)
 
+(* Shapes: the free algebra on 0, 1, sum and product, with [size] reading a
+   shape as a natural number and [unsize] picking the canonical shape
+   [Top + ... + Top] of a given size.  Two shapes are equivalent when they
+   have the same size. *)
+
 Inductive Shape : Set :=
   | Bottom
   | Top
@@ -107,6 +159,9 @@ Program Instance Shape_Setoid : Setoid Shape := {|
 |}.
 
 (**************************************************************************)
+
+(* Tries: the exponential [a^s], with [vec]/[trie] the isomorphism to
+   length-[size s] vectors and [Trie_map] making [Trie _ s] a functor in [a]. *)
 
 Unset Uniform Inductive Parameters.
 
@@ -216,6 +271,9 @@ Next Obligation.
 Qed.
 
 (**************************************************************************)
+
+(* The categories [Tries a] and [Vectors a], their terminal/cartesian
+   structure, and the adjunction [Cardinality a ⊣ Canonicity a] between them. *)
 
 #[export]
 Program Instance Trie_Functor (s : Shape) : Coq ⟶ Sets := {|

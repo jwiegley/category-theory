@@ -8,25 +8,37 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
-(** * Pushouts in [Sets]
+(** * Pushouts in [Sets] *)
 
-    For setoid-morphisms [f : A → B] and [g : A → C] in [Sets], the pushout
-    apex carrier is [B + C] (the Coq sum type), equipped with the smallest
-    equivalence relation containing:
+(* nLab:      https://ncatlab.org/nlab/show/pushout
+   Wikipedia: https://en.wikipedia.org/wiki/Pushout_(category_theory)
 
-      - the existing setoid equivalences on [B] (lifted via [inl])
-        and on [C] (lifted via [inr]);
-      - the "glue" identifications [inl (f a) ~ inr (g a)] for every [a : A].
+   For setoid-morphisms [f : A → B] and [g : A → C] in [Sets], the pushout
+   of the span [B <-f- A -g-> C] is the quotient [(B ⊔ C)/~]: the apex
+   carrier is [B + C] (the Coq sum type), equipped with the smallest
+   equivalence relation containing:
 
-    We realise this as an inductive type [pushout_eq] with explicit
-    reflexivity, symmetry, transitivity, an inl-congruence, an inr-congruence,
-    and a glue constructor.
+     - the existing setoid equivalences on [B] (lifted via [inl])
+       and on [C] (lifted via [inr]);
+     - the "glue" identifications [inl (f a) ~ inr (g a)] for every [a : A].
 
-    The setoid laws (refl/sym/trans) are immediate from the constructors;
-    the universal property is proved by induction on [pushout_eq].
+   This matches the standard Set construction: the disjoint union (coproduct)
+   modulo the finest equivalence relation with [f a ~ g a].  The cocone legs
+   are the two injections [inl : B ~> apex] and [inr : C ~> apex], and the
+   universal property (UMP) factors any competing cocone [(q1, q2)] with
+   [q1 ∘ f ≈ q2 ∘ g] through a unique copairing mediator out of the quotient.
 
-    This file is the concrete realisation needed by
-    [Construction/Cospan/Corelation.v]'s [CorelComposable Sets] instance. *)
+   Because the apex is a setoid, the equivalence relation is carried by the
+   object itself rather than by a Coq quotient type, so the whole construction
+   is [funext]-free.  We realise [~] as an inductive type [pushout_eq] with
+   explicit reflexivity, symmetry, transitivity, an inl-congruence, an
+   inr-congruence, and a glue constructor.
+
+   The setoid laws (refl/sym/trans) are immediate from the constructors;
+   the universal property is proved by induction on [pushout_eq].
+
+   This file is the concrete realisation needed by
+   [Construction/Cospan/Corelation.v]'s [CorelComposable Sets] instance. *)
 
 Section SetsPushout.
 

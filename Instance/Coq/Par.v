@@ -13,6 +13,28 @@ Require Import Category.Instance.Coq.
 
 Generalizable All Variables.
 
+(** * Par: partial functions over Coq Types *)
+
+(* nLab:      https://ncatlab.org/nlab/show/partial+function
+   Wikipedia: https://en.wikipedia.org/wiki/Partial_function
+
+   [Par] is the Kleisli category of the option/Maybe ("partiality", or
+   "exception") monad on Coq [Type]s. A partial map A ⇀ B is encoded as a
+   total function A → option B, so the homset is
+
+       A ~> B  :=  A → option B,
+
+   with [None] standing for "undefined". Identity is [Some] (the monad's
+   [return]) and composition is Kleisli composition (the monad's [bind]),
+   i.e. [g ; f := option_bind f ∘ g] threads the "is it None?" check,
+   propagating undefinedness. Morphisms are compared pointwise, [∀ x, f x =
+   g x] — the extensional equality of partial functions — so this development
+   needs no funext axiom (it is closed under the global context).
+
+   This is equivalent (not isomorphic) to the category of pointed sets and
+   basepoint-preserving maps: the object [A] realizes the pointed set
+   [option A = A ⊔ {None}] with basepoint [None]. *)
+
 Definition option_bind {A B : Type}
            (f : A → option B) (o : option A) : option B :=
   match o with
@@ -67,7 +89,19 @@ Next Obligation. now destruct (h x0); simpl. Qed.
 #[export] Program Instance Par_Monoidal : @Monoidal Par := {
   I := False;
   tensor := {|
-    fobj := λ '(x, y), (x * y) + x + y; (* smash product *)
+    (* Tensor of two objects, computed on underlying (non-basepoint) sets.
+       On the pointed-set realizations [option x], [option y] this is their
+       *cartesian product* with only the basepoint pair [(None, None)]
+       removed and re-adjoined as the new basepoint:
+
+           option x × option y  ≅  ((x * y) + x + y) ⊔ {(None, None)}.
+
+       Hence the underlying set is [(x * y) + x + y] (both-defined,
+       left-defined, right-defined cases). This is the product in pointed
+       sets, NOT the smash product (which would collapse the whole wedge,
+       leaving only [x * y]); accordingly Par below is proven cartesian
+       monoidal, and the smash product is not cartesian. *)
+    fobj := λ '(x, y), (x * y) + x + y;
     fmap := λ '(x1, x2) '(y1, y2) '(f1, f2) o,
       match o with
       | Datatypes.inl (Datatypes.inl (x, y)) =>
@@ -184,13 +218,13 @@ Next Obligation. solveit. Defined.
 
 (* Par is not cartesian closed.
 
-   It is *also* not closed under the smash product: an earlier
-   [Par_ClosedMonoidal] instance has been removed because the iso laws
-   [to_from = id] and [from_to = id] for the candidate currying are not
-   provable in general. The parallel development in Instance/Sets/Par.v
-   contains a pair of [_impossible] lemmas (search "to_from_impossible")
-   that prove the negation under decidability/inhabitance assumptions,
-   demonstrating the obstruction. *)
+   It is *also* not closed for the monoidal tensor defined above (the product
+   in pointed sets, [(x * y) + x + y]): an earlier [Par_ClosedMonoidal]
+   instance has been removed because the iso laws [to_from = id] and
+   [from_to = id] for the candidate currying are not provable in general. The
+   parallel development in Instance/Sets/Par.v contains a pair of [_impossible]
+   lemmas (search "to_from_impossible") that prove the negation under
+   decidability/inhabitance assumptions, demonstrating the obstruction. *)
 
 #[export] Program Instance Par_Initial : Initial Par := {
   terminal_obj := False;

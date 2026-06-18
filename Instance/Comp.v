@@ -6,9 +6,28 @@ Require Import Category.Structure.Cartesian.
 
 Generalizable All Variables.
 
-(** Most of what follows in this file was written by Andrej Bauer:
+(** Universal algebra and the category of software components. *)
 
-    https://gist.github.com/andrejbauer/3cc438ab38646516e5e9278fdb22022c *)
+(* nLab:      https://ncatlab.org/nlab/show/variety+of+algebras
+   nLab:      https://ncatlab.org/nlab/show/algebraic+theory
+   Wikipedia: https://en.wikipedia.org/wiki/Universal_algebra
+   Wikipedia: https://en.wikipedia.org/wiki/Initial_algebra
+
+   This file develops finitary (single-sorted) universal algebra in the style
+   of nLab's "variety of algebras": an [OpSignature] lists operation symbols,
+   each tagged with an arity *type* (so an o-ary operation takes its arguments
+   as a function [arity o → carrier]); an [OpAlgebra] interprets those symbols
+   on a carrier; and [AlgHom] is a homomorphism (a carrier map commuting with
+   every operation).  For a fixed signature [S] these assemble into a category
+   [Algs] which is shown to have a terminal object (the one-element algebra),
+   binary products (carrierwise), and an initial object (the free algebra on
+   no generators).  Adding an [EqSignature] of laws yields varieties [Algebra
+   S E] (e.g. groups), and the eponymous [Comp] is the category of "software
+   components" — maps between such algebraic interfaces that need not be
+   homomorphic.
+
+   Most of what follows in this file was written by Andrej Bauer:
+   https://gist.github.com/andrejbauer/3cc438ab38646516e5e9278fdb22022c *)
 
 Module UniversalAlgebra.
 
@@ -102,7 +121,13 @@ Section FreeAlg.
     - now apply eq_gen.
     - rewrite 2 op_commute.
       f_equal.
-      extensionality x.           (* jww (2020-02-23): How to remove this axiom? *)
+      (* jww (2020-02-23): How to remove this axiom?  It is hard to avoid
+         here: an operation's arguments are packaged as a function
+         [arity o → Tree], so deriving equality of the two argument bundles
+         from a pointwise hypothesis genuinely needs functional
+         extensionality.  Working up to a setoid on [Tree] (rather than
+         Leibniz [=]) would remove the dependency. *)
+      extensionality x.
       now apply H.
   Qed.
 End FreeAlg.
@@ -182,7 +207,14 @@ Program Instance Algs_Closed : @Closed Algs _ := {
 (** In a category of algebras for some signature S, the free object is always
     initial. *)
 Program Instance Algs_Initial : Initial Algs := {
-  (* jww (2020-02-23): Is it right to be using False here? *)
+  (* Yes: the free algebra on the empty set of generators (here [False]) is
+     the initial object.  The free functor is left adjoint to the forgetful
+     functor and so preserves colimits, hence sends the initial set ∅ to the
+     initial algebra; concretely [Free S False] is the algebra of closed
+     (variable-free) terms, into which every algebra receives the unique
+     homomorphism [induced_hom] (its uniqueness is [from_free_unique]).
+     Note [Initial Algs] unfolds to [Terminal (Algs^op)], so the initial
+     object is supplied via the dual field name [terminal_obj]. *)
   terminal_obj := Free S False;
   one := fun x : OpAlgebra S => induced_hom S False x (False_rect _)
 }.

@@ -10,11 +10,42 @@ Require Import Category.Theory.Coq.Monoid.
 
 Generalizable All Variables.
 
+(** * ParE: partial functions with monoidal errors over Coq Types *)
+
+(* nLab:      https://ncatlab.org/nlab/show/exception+monad
+   Wikipedia: https://en.wikipedia.org/wiki/Monad_(functional_programming)#The_Either_monad
+
+   [ParE] is the Kleisli category of the *exception* (a.k.a. error) monad
+   [T A := E + A] on Coq [Type]s, where the error type [E] carries a [Monoid]
+   structure so that errors can be combined. A morphism A ~> B is a total
+   function A → E + B, with [inl e] reporting an error [e] and [inr b] a
+   successful result [b]. Identity is [inr] (the monad's [return]) and
+   composition is Kleisli composition (the monad's [bind]), realized by
+   [sum_bind] below: [inl e] short-circuits, propagating the error, while
+   [inr b] feeds [b] to the next function.
+
+   The Maybe/partiality monad (see Instance/Coq/Par.v) is the special case
+   [E = unit]; here [E] is an arbitrary monoid, so an error carries typed
+   information rather than mere undefinedness, and several errors arising "in
+   parallel" (e.g. in the cartesian [fork] below) are merged with the monoid
+   product [⊗], the empty error being [mempty].
+
+   Crucially, the homset equivalence here is *error irrelevance*: two
+   morphisms agree at an input [x] when they return equal [inr] values, or
+   when they both return *some* [inl] error (regardless of which). Identifying
+   all errors is what makes [bind] (which keeps the first error) and parallel
+   error-merging (which uses [⊗]) cohere into a category and a cartesian
+   structure. A finer "error compatibility" relation — two errors are
+   equivalent when both are parts of a common error — would be desirable, but
+   is not provably transitive for this encoding, so it is not used. *)
+
 Section ParE.
 
 Context {E : Type}.
 Context `{Monoid E}.
 
+(* Kleisli bind for the exception monad [E + -]: an incoming error [inl x] is
+   propagated unchanged, while a value [inr y] is fed to the continuation [f]. *)
 Definition sum_bind {A B : Type} (f : A → E + B) (o : E + A) : E + B :=
   match o with
   | Datatypes.inl x => Datatypes.inl x
@@ -22,15 +53,6 @@ Definition sum_bind {A B : Type} (f : A → E + B) (o : E + A) : E + B :=
   end.
 
 Ltac bust x := destruct (x _); subst; auto; try tauto.
-
-(* The category of partial maps yielding errors is expressed as functions in
-   Coq via error irrelevance: that is, two morphisms are considered equivalent
-   if, for a given input, they either yield the same output or both yield some
-   error.
-
-   jww (2022-08-19): I could say something stronger here, like error
-   compatibility: There exists some error of which both errors form a part.
-   However, I was unable to prove transitivity for this formulation. *)
 
 Program Definition ParE : Category := {|
   obj     := Type;
@@ -80,6 +102,9 @@ Next Obligation.
   bust h; bust g; bust f.
 Qed.
 
+(* The terminal object is the empty type [False]: there is no [inr] value to
+   return, so the unique morphism [one] is the always-error map [inl mempty].
+   It is unique by error irrelevance, since any two error-valued maps agree. *)
 #[export] Program Instance ParE_Terminal : @Terminal ParE := {
   terminal_obj := False;
   one := λ _ _, Datatypes.inl mempty
@@ -88,6 +113,14 @@ Next Obligation.
   destruct (f x0), (g x0); try contradiction; auto.
 Qed.
 
+(* The categorical product is the product of pointed sets: on the realizations
+   [E + x], [E + y] it is their cartesian product with the both-error pair
+   merged into the new basepoint, whose underlying non-error set is
+   [(x * y) + x + y] (both-defined, left-defined, right-defined). [fork] keeps
+   both results when both succeed and merges the two errors with [⊗] when both
+   fail; [exl]/[exr] project, falling back to [mempty] when their component is
+   absent. This is the product, NOT the smash product (which would collapse the
+   wedge to [x * y]). *)
 #[export] Program Instance Par_Cartesian : @Cartesian ParE := {
   product_obj := λ x y, (x * y) + x + y;
   fork := λ _ _ _ f g x,
@@ -138,15 +171,25 @@ Next Obligation.
     destruct p; subst; auto; try tauto.
 Qed.
 
-(* Par is not cartesian closed, but it is monoidal closed by taking the smash
-   product as the tensor. *)
+(* nLab:      https://ncatlab.org/nlab/show/smash+product
+   Wikipedia: https://en.wikipedia.org/wiki/Smash_product
 
+   [ParE] is not cartesian closed. It is, however, closed for a *different*
+   monoidal product: the smash product [x * y] (the cartesian product with the
+   whole wedge collapsed to the error), which makes the underlying category of
+   pointed objects symmetric monoidal closed. That tensor and its closure are
+   not formalized here; this remark only records the structure that exists. *)
+
+(* The initial object is again the empty type [False], but now read as the
+   *source*: a morphism out of [False] is given by [False_rect], vacuously. *)
 #[export] Program Instance Par_Initial : Initial ParE := {
   terminal_obj := False;
   one := λ _ _, False_rect _ _
 }.
 Next Obligation. contradiction. Qed.
 
+(* The coproduct is the disjoint sum [sum]: [fork] (the copairing) dispatches
+   on the tag, and the injections [exl]/[exr] are total, hence always [inr]. *)
 #[export] Program Instance Par_Cocartesian : @Cocartesian ParE := {
   product_obj := sum;
   fork := λ _ _ _ f g x,

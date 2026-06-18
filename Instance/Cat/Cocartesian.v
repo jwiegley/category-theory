@@ -6,7 +6,35 @@ Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 
-(* Another way of reading this is that we're proving Cat^op is Cartesian. *)
+(** Cat has finite coproducts: the coproduct of two categories. *)
+
+(* nLab:      https://ncatlab.org/nlab/show/Cat
+   nLab:      https://ncatlab.org/nlab/show/coproduct
+   Wikipedia: https://en.wikipedia.org/wiki/Coproduct
+
+   Cat has finite coproducts. The coproduct of two categories C and D is the
+   disjoint-union (coproduct) category C ∐ D of Construction/Coproduct.v, and
+   here it is exhibited as the categorical coproduct in Cat:
+
+       product_obj := C ∐ D    (the coproduct object, read in Cat^op)
+       exl         := Inl       (inclusion functor C ⟶ C ∐ D)
+       exr         := Inr       (inclusion functor D ⟶ C ∐ D)
+       fork F G    := [F, G]    (copairing / case functor C ∐ D ⟶ E)
+
+   Because [Cocartesian C] is by definition [Cartesian (C^op)] (a coproduct in
+   C is a product in C^op, dualizing all arrows), this instance is literally a
+   proof that Cat^op is Cartesian: the product fields of Cat^op are the
+   coproduct fields of Cat, and [ump_products] read in Cat^op is the universal
+   property of the coproduct -- a functor C ∐ D ⟶ E is uniquely the case
+   functor [F, G] of a pair of functors F : C ⟶ E and G : D ⟶ E.
+
+   The copairing's action on a hom is forced by the disjoint union: within a
+   summand it runs F (resp. G), and the cross-summand hom-sets are empty (False
+   in Construction/Coproduct.v), discharged here by [False_rect].
+
+   The nullary coproduct, the initial object of Cat, is the empty category 0
+   (Instance/Zero.v); it is supplied separately by [Initial] and is not a field
+   of this binary-coproduct class. *)
 
 #[export]
 Program Instance Cat_Cocartesian : @Cocartesian Cat := {

@@ -5,6 +5,36 @@ Require Import Category.Instance.Coq.
 
 Generalizable All Variables.
 
+(** Applicative endofunctors on COQ, with the four laws as class fields. *)
+
+(* nLab: https://ncatlab.org/nlab/show/applicative+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Applicative_functor
+
+   An applicative functor (Haskell sense) over COQ is an endofunctor
+   [F : Coq ⟶ Coq] equipped with [pure : a → F a], injecting a value, and
+   [ap : F (a → b) → F a → F b] (Haskell's [<*>]), applying a wrapped function
+   to a wrapped argument. Categorically this is exactly a strong lax monoidal
+   endofunctor on COQ with its cartesian monoidal structure (tensor [×], unit
+   [unit]): [pure] supplies the unit [η : 1 → F 1] and [ap] the laxator
+   [μ : F x ⊗ F y → F (x ⊗ y)], the four laws below being the lax-monoidal
+   coherence axioms. The commented-out development at the end of CoqApplicative
+   sketches this equivalence concretely.
+
+   Unlike the parametric class in Theory/Coq/Applicative.v (which carries only
+   [pure] and [ap], leaving lawfulness as a per-instance obligation), this
+   formulation bundles the four applicative laws as class fields, stated as
+   pointwise Leibniz equations on COQ morphisms:
+     ap_id          [pure id <*> v = v];
+     ap_comp        [pure (∘) <*> u <*> v <*> w = u <*> (v <*> w)];
+     ap_homo        [pure f <*> pure x = pure (f x)];
+     ap_interchange [u <*> pure y = pure (λ g, g y) <*> u];
+   together with [ap_fmap] recovering [fmap f = ap (pure f)]. The laws are
+   stated with [=] at function type, so any instance discharging them under
+   this layer's pointwise-equality morphisms relies on the pre-existing
+   functional_extensionality axiom of Instance/Coq.v; the class itself adds
+   none, and is consistent (e.g. the identity functor instantiates it with no
+   axioms). This file declares no concrete instances. *)
+
 Section Applicative.
 
 Context `{F : Coq ⟶ Coq}.

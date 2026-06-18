@@ -16,23 +16,55 @@ Set Equations With UIP.
 
 Generalizable All Variables.
 
+(** Strong normalization of the intrinsically-typed STLC. *)
+
+(* Every well-typed closed expression reduces to a value.  Because [Step] is
+   deterministic (see [Step_deterministic]) there is a single reduction
+   sequence out of each term, so reaching a value (here [halts]) coincides with
+   strong normalization; the [SN]/[strong_normalization] naming reflects that
+   identification.
+
+   The argument is Tait's reducibility / logical-relations method (Tait 1967,
+   Girard's "reducibility candidates"):
+   https://softwarefoundations.cis.upenn.edu/plf-current/Norm.html
+
+   The reducibility predicate is [SN := ExpP halts], where [ExpP] (from [Log])
+   recurses on the type:
+     - base ([Unit]):  SN e  :=  halts e
+     - arrow (σ ⟶ τ):  SN e  :=  halts e ∧ (∀ x, SN x → SN (APP e x))
+     - product (σ × τ): SN e  :=  halts e ∧ SN (Fst e) ∧ SN (Snd e)
+   The arrow clause is the crux: halting alone is not preserved by application,
+   since β-reduction substitutes the argument and may expose fresh redexes, so
+   reducibility must close over application.
+
+   Strong normalization then follows in two steps:
+     - the fundamental lemma [SubExp_SN]: under a reducible substitution every
+       expression is reducible (the analogue of Software Foundations' msubst_R);
+     - [Exp_SN] instantiates it at the empty substitution, and
+       [strong_normalization] extracts the halting witness via [SN_halts]. *)
+
 Section Norm.
 
 #[local] Hint Constructors ValueP Step : core.
 
 #[local] Hint Extern 7 (_ ---> _) => repeat econstructor : core.
 
+(* A relation is normalizing when every element reaches a normal form. *)
 Definition normalizing `(R : crelation X) : Type :=
   ∀ t, ∃ t', multi R t t' ∧ normal_form R t'.
 
+(* [e] halts when it reduces in finitely many steps to a value. *)
 Definition halts {Γ τ} (e : Exp Γ τ) : Type :=
   ∃ e', e --->* e' ∧ ValueP e'.
 
 Notation " e '⇓' " := (halts e) (at level 11).
 
+(* [e'] is a normal form of [e]: reachable from [e] and itself irreducible. *)
 Definition normal_form_of {Γ τ} (e e' : Exp Γ τ) : Type :=
   (e --->* e' ∧ normal_form Step e').
 
+(* Discharge a goal that contradicts irreducibility: a value or normal form
+   cannot take a step. *)
 Ltac normality :=
   exfalso;
   lazymatch goal with
@@ -43,12 +75,15 @@ Ltac normality :=
         exfalso; now apply (H1 Y)
   end.
 
+(* Close a step-inversion subgoal, either by inverting the step or via
+   [normality]. *)
 Ltac invert_step :=
   try lazymatch goal with
   | [ H : _ ---> _ |- _ ] => now inv H
   end;
   try solve [ f_equal; intuition eauto | normality ].
 
+(* A value already halts: it reaches itself in zero steps. *)
 Lemma value_halts {Γ τ} (v : Exp Γ τ) : ValueP v → halts v.
 Proof.
   intros X.
@@ -56,6 +91,7 @@ Proof.
   now induction X; eexists; repeat constructor.
 Qed.
 
+(* Normal forms are unique, since [Step] is deterministic. *)
 Theorem normal_forms_unique Γ τ :
   deterministic (normal_form_of (Γ:=Γ) (τ:=τ)).
 Proof.
@@ -74,6 +110,7 @@ Proof.
       now subst.
 Qed.
 
+(* A single step neither creates nor destroys halting (forward determinism). *)
 Lemma step_preserves_halting {Γ τ} (e e' : Exp Γ τ) :
   (e ---> e') → (halts e ↔ halts e').
 Proof.
@@ -92,16 +129,23 @@ Proof.
       now eapply multi_step; eauto.
 Qed.
 
+(* The reducibility predicate: [halts] lifted type-directed through [ExpP].
+   At arrow and product types this also requires the type-indexed components
+   (applications, projections) to be reducible, the closure that makes the
+   fundamental lemma go through. *)
 Definition SN {Γ τ} : Γ ⊢ τ → Type := ExpP (@halts Γ).
 Arguments SN {Γ τ} _ /.
 
+(* Reducibility extended pointwise to substitutions. *)
 Definition SN_Sub {Γ Γ'} : Sub Γ' Γ → Type := SubP (@halts Γ').
 Arguments SN_Sub {Γ Γ'} /.
 
+(* CR1: reducible expressions halt (extract the [halts] component of [ExpP]). *)
 Definition SN_halts {Γ τ} {e : Γ ⊢ τ} : SN e → halts e := ExpP_P _.
 
 #[local] Transparent ExpP.
 
+(* CR2 forward: reducibility is preserved by a reduction step. *)
 Lemma step_preserves_SN {Γ τ} {e e' : Γ ⊢ τ} :
   (e ---> e') → SN e → SN e'.
 Proof.
@@ -112,6 +156,7 @@ Proof.
   firstorder.
 Qed.
 
+(* CR2 forward, iterated over a multi-step reduction. *)
 Lemma multistep_preserves_SN {Γ τ} {e e' : Γ ⊢ τ} :
   (e --->* e') → SN e → SN e'.
 Proof.
@@ -121,6 +166,8 @@ Proof.
   now eapply step_preserves_SN; eauto.
 Qed.
 
+(* CR3 (backward closure): reducibility is reflected by a reduction step.
+   This is where determinism of [Step] is essential. *)
 Lemma step_preserves_SN' {Γ τ} {e e' : Γ ⊢ τ} :
   (e ---> e') → SN e' → SN e.
 Proof.
@@ -131,6 +178,7 @@ Proof.
   firstorder.
 Qed.
 
+(* Backward closure, iterated over a multi-step reduction. *)
 Lemma multistep_preserves_SN' {Γ τ} {e e' : Γ ⊢ τ} :
   (e --->* e') → SN e' → SN e.
 Proof.
@@ -139,6 +187,11 @@ Proof.
   now eapply step_preserves_SN'; eauto.
 Qed.
 
+(* The fundamental lemma (Software Foundations' msubst_R): under a reducible
+   substitution [env], every expression [e] is reducible.  Proved by induction
+   on [e], using the closure lemmas above for the eliminator cases (Fst/Snd,
+   APP) and [SubExp_Push] to handle the β-redex created by LAM applied to an
+   argument. *)
 Lemma SubExp_SN {Γ Γ'} (env : Sub Γ' Γ) {τ} (e : Exp Γ τ) :
   SN_Sub env →
   SN (SubExp env e).
@@ -195,6 +248,8 @@ Proof.
   - now apply IHe1, IHe2.
 Qed.
 
+(* Every closed expression is reducible: instantiate the fundamental lemma at
+   the empty (identity) substitution. *)
 Theorem Exp_SN {τ} (e : Exp nil τ) : SN e.
 Proof.
   intros.
@@ -204,6 +259,7 @@ Proof.
   - now rewrite NoSub_idSub, SubExp_idSub.
 Qed.
 
+(* Strong normalization: every closed expression halts at a value. *)
 Corollary strong_normalization {τ} (e : Exp nil τ) : e ⇓.
 Proof.
   pose proof (Exp_SN e) as X.

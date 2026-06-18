@@ -5,7 +5,10 @@ Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 
-(* Cat is the category of all small categories:
+(* nLab: https://ncatlab.org/nlab/show/Cat
+   Wikipedia: https://en.wikipedia.org/wiki/Category_of_small_categories
+
+   Cat is the category of all small categories:
 
     objects               Categories
     arrows                Functors
@@ -15,7 +18,19 @@ Generalizable All Variables.
 
     isomorphisms          Equivalences of Categories (caused by the definition
                           of [Functor_Setoid]).
-*)
+
+   Size: Cat is a large category, and so cannot be an object of itself (there
+   is no category of *all* categories). Here that constraint is enforced by
+   universe polymorphism: [Category@{o h p | h <= p}] lives at a strictly
+   higher universe than its objects, so the inner categories collected by
+   [obj := Category] sit below the universe of [Cat] itself.
+
+   Strict vs. weak: because the hom-setoid [Functor_Setoid] identifies functors
+   only up to natural isomorphism (not on-the-nose equality of object/morphism
+   maps), an isomorphism in this [Cat] is an *equivalence* of categories rather
+   than a strict isomorphism. Cat is the underlying 1-category of the strict
+   2-category whose 2-cells are natural transformations; only the 1-category
+   structure is built here. *)
 
 #[export]
 Instance Cat : Category := {
