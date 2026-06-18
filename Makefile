@@ -90,7 +90,7 @@ bench-config-check:
 		exit 1; \
 	fi
 	@bi=$$(grep -E '^[[:space:]]*(build|install):' coq-category-theory.opam); \
-	if printf '%s\n' "$$bi" | grep -q 'dune'; then \
+	if printf '%s\n' "$$bi" | grep -qw 'dune'; then \
 		echo "ERROR: coq-category-theory.opam build/install invokes dune; the bench requires make"; \
 		printf '%s\n' "$$bi"; \
 		exit 1; \
