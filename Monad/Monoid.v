@@ -9,13 +9,31 @@ Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
 
+(** * Monads are monoids in the category of endofunctors *)
+
+(* nLab:      https://ncatlab.org/nlab/show/monad
+   Wikipedia: https://en.wikipedia.org/wiki/Monad_(category_theory)
+
+   The endofunctor category [[C, C]] is monoidal with functor composition [∘]
+   as tensor and the identity functor [Id] as unit (this monoidal structure is
+   [Compose_Monoidal]). A monad on [C] is exactly a monoid object in this
+   monoidal category: the carrier is the endofunctor [M], the monoid unit
+   [mempty : Id ⟹ M] is the monad unit [ret] (η), and the monoid
+   multiplication [mappend : M ∘ M ⟹ M] is the monad multiplication [join]
+   (μ). Because the tensor here is strict composition, the unitors and
+   associator are identities, so the monoid unit/associativity laws collapse to
+   the bare monad laws [join_ret], [join_fmap_ret] and [join_fmap_join]; the
+   naturality squares of [mempty]/[mappend] become [fmap_ret] and
+   [join_fmap_fmap]. This is the precise content of the slogan "a monad is a
+   monoid in the category of endofunctors".
+
+   [Monoid_Monad] proves the correspondence as a genuine logical equivalence
+   ([↔]), constructing a monad from any such monoid object and vice versa. *)
+
 Section MonoidMonad.
 
 Context {C : Category}.
 Context {M : C ⟶ C}.
-
-(* Monads are monoid (objects) in the (monoidal) category of endofunctors
-   which is monoidal with respect to functor composition. *)
 
 Definition Endofunctors `(C : Category) := ([C, C]).
 

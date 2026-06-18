@@ -5,6 +5,30 @@ Require Import Category.Theory.Monad.
 
 Generalizable All Variables.
 
+(** The Kleisli category of a monad. *)
+
+(* nLab: https://ncatlab.org/nlab/show/Kleisli+category
+   Wikipedia: https://en.wikipedia.org/wiki/Kleisli_category
+
+   The Kleisli category C_T of a monad (M, ret, join) = (T, η, μ) on C has the
+   same objects as C, while a Kleisli morphism a ⇸ b is an ordinary C-morphism
+   a ~> M b. The identity on x is the unit ret (η_x), and the Kleisli composite
+   of f : b ~> M c after g : a ~> M b is
+
+       f ∘_K g  ≈  join ∘ fmap[M] f ∘ g    (μ_c ∘ T(f) ∘ g),
+
+   which is exactly the bind of f precomposed with g (g >>= f). The category
+   laws follow from the monad laws: the left/right unit laws use join_fmap_ret
+   and join_ret (with the unit naturality fmap_ret), and associativity uses the
+   monad associativity join_fmap_join together with the multiplication
+   naturality join_fmap_fmap.
+
+   Here objects = obj C, hom a ⇸ b = a ~> M b, id = ret (η), compose = bind.
+
+   The free/forgetful adjunction F_T ⊣ U_T on this category has M as its monad,
+   and C_T is the full subcategory of free algebras inside the Eilenberg–Moore
+   category (see Monad/Eilenberg/Moore.v). *)
+
 Section Kleisli.
 
 Context `{@Monad C M}.
