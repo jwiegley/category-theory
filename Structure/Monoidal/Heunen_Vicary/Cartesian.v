@@ -11,8 +11,8 @@ Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Relevance.
 Require Import Category.Structure.Monoidal.Semicartesian.
 Require Import Category.Structure.Monoidal.Semicartesian.Proofs.
-Require Import Category.Structure.Monoidal.Cartesian.
-Require Import Category.Structure.Monoidal.Cartesian.Proofs.
+Require Import Category.Structure.Monoidal.Heunen_Vicary.
+Require Import Category.Structure.Monoidal.Heunen_Vicary.Proofs.
 
 Generalizable All Variables.
 

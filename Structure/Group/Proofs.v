@@ -4,7 +4,7 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Naturality.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.Proofs.
-Require Import Category.Structure.Monoidal.Cartesian.
+Require Import Category.Structure.Monoidal.Heunen_Vicary.
 Require Import Category.Structure.Monoid.
 Require Import Category.Structure.Group.
 

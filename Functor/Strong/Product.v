@@ -6,9 +6,9 @@ Require Import Category.Functor.Bifunctor.
 Require Import Category.Functor.Product.
 Require Import Category.Functor.Strong.
 Require Import Category.Structure.Monoidal.Proofs.
-Require Import Category.Structure.Monoidal.Cartesian.
+Require Import Category.Structure.Monoidal.Heunen_Vicary.
 Require Import Category.Structure.Monoidal.Semicartesian.Proofs.
-Require Import Category.Structure.Monoidal.Cartesian.Proofs.
+Require Import Category.Structure.Monoidal.Heunen_Vicary.Proofs.
 
 Generalizable All Variables.
 

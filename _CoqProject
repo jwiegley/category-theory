@@ -189,8 +189,9 @@ Structure/Monoidal.v
 Structure/Monoidal/Balanced.v
 Structure/Monoidal/Braided.v
 Structure/Monoidal/Cartesian.v
-Structure/Monoidal/Cartesian/Cartesian.v
-Structure/Monoidal/Cartesian/Proofs.v
+Structure/Monoidal/Heunen_Vicary.v
+Structure/Monoidal/Heunen_Vicary/Cartesian.v
+Structure/Monoidal/Heunen_Vicary/Proofs.v
 Structure/Monoidal/Closed.v
 Structure/Monoidal/Commutative.v
 Structure/Monoidal/Compose.v
@@ -270,5 +271,6 @@ Theory/Universal/Arrow.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
 Test/HypergraphPROPResolution.v
+Test/Issue139.v
 Tools/Abstraction.v
 Tools/Represented.v

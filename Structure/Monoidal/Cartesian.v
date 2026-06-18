@@ -1,117 +1,51 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
-Require Import Category.Theory.Functor.
-Require Export Category.Structure.Monoidal.Relevance.
-Require Export Category.Structure.Monoidal.Semicartesian.
+Require Import Category.Structure.Cartesian.
+Require Import Category.Structure.Terminal.
+Require Import Category.Structure.Monoidal.
+Require Export Category.Structure.Monoidal.Internal.Product.
 
 Generalizable All Variables.
-
-Section CartesianMonoidal.
-
-Context {C : Category}.
 
 (* nLab: https://ncatlab.org/nlab/show/cartesian+monoidal+category
    Wikipedia: https://en.wikipedia.org/wiki/Cartesian_monoidal_category
 
-   A cartesian monoidal category is a monoidal category whose tensor is the
-   categorical product and whose unit is a terminal object. In this library's
-   notation that means
+   The forward relationship between products and tensors: every cartesian
+   category -- a category with binary products ([Cartesian]) and a terminal
+   object ([Terminal]) -- is monoidal, with the tensor given by the
+   categorical product and the unit by the terminal object,
 
-       x ⨂ y   is the product  x × y,
-       I       is the terminal object  1,
+       x ⨂ y := x × y,        I := 1.
 
-   with the associator, unitors and braiding all induced by the universal
-   property of products. We do not assume products outright; instead we
-   characterise the same structure from the two halves that, combined, force
-   the tensor to be a product: a coherent diagonal (RelevanceMonoidal,
-   copying) and a terminal unit (SemicartesianMonoidal, discarding). The two
-   proj_*_diagonal laws below are exactly the missing compatibility that makes
-   the result cartesian — this is Fox's theorem (Fox 1976), stated on nLab as:
-   a symmetric monoidal category with natural diagonals ∆ and augmentations e
-   is cartesian iff proj_left ∘ ∆ ≈ id and proj_right ∘ ∆ ≈ id, where
-   proj_left = unit_right ∘ id ⨂ eliminate and proj_right = unit_left ∘
-   eliminate ⨂ id (see Semicartesian.v).
+   This is the direction most users want, because it lets every theorem about
+   general monoidal categories specialize to cartesian products for free.
 
-   Wikipedia: "Cartesian monoidal categories have a number of special and
-   important properties, such as the existence of diagonal maps (Δ) x : x → x
-   ⨂ x and augmentations (e) x : x → I for any object x. In applications to
-   computer science we can think of (Δ) as 'duplicating data' and (e) as
-   'deleting' data. These maps make any object into a comonoid. In fact, any
-   object in a cartesian monoidal category becomes a comonoid in a unique way.
+   The construction itself, together with all of its coherence proofs (the
+   associator and unitors built from [prod_assoc]/[prod_one_l]/[prod_one_r],
+   the triangle and pentagon identities, and the symmetric / relevant /
+   semicartesian tower stacked on top), lives in
+   [Category.Structure.Monoidal.Internal.Product] as [CC_Monoidal] and the
+   [CC_*] family.  That file is re-exported here so that the forward direction
+   has a name where readers naturally look for it; [Cartesian_Monoidal] below
+   is the headline result.  A concrete use is [Instance/Coq.v], where
+   [Coq_Monoidal := @CC_Monoidal Coq Coq_Cartesian Coq_Terminal].
 
-   Moreover, one can show (e.g. Heunen-Vicary 12, p. 84) that any symmetric
-   monoidal category equipped with suitably well-behaved diagonals and
-   augmentations must in fact be cartesian monoidal." *)
+   The *reverse* direction -- that a relevant and semicartesian monoidal
+   category is itself cartesian (Fox 1976 / Heunen-Vicary) -- is the
+   [CartesianMonoidal] typeclass in
+   [Category.Structure.Monoidal.Heunen_Vicary]. *)
 
-Class CartesianMonoidal := {
-  cartesian_is_relevance     : @RelevanceMonoidal C;
-  cartesian_is_semicartesian : @SemicartesianMonoidal C _;
+Section CartesianIsMonoidal.
 
-  (* Fox's coherence: copying then discarding one copy is the identity. These
-     two laws are precisely what upgrades the relevance + semicartesian data to
-     a genuine product (tensor = ×), per the nLab characterisation above. *)
-  proj_left_diagonal  {x} : proj_left  ∘ diagonal ≈ id[x];
-  proj_right_diagonal {x} : proj_right ∘ diagonal ≈ id[x];
+Context {C : Category}.
+Context `{@Cartesian C}.
+Context `{@Terminal C}.
 
-  (* Unit/braiding coherence λ ∘ σ ≈ ρ and ρ ∘ σ ≈ λ at the unit. In a
-     symmetric monoidal category these are derivable from Mac Lane's coherence
-     theorem rather than minimal; they are kept as explicit fields here because
-     this library's SymmetricMonoidal does not expose that derivation, and
-     downstream proofs (e.g. Cartesian/Proofs.v, Group/Proofs.v) rewrite with
-     them directly. *)
-  unit_left_braid  {x} : unit_left  ∘ @braid _ _ x I ≈ unit_right;
-  unit_right_braid {x} : unit_right ∘ @braid _ _ I x ≈ unit_left
-}.
-#[export] Existing Instance cartesian_is_semicartesian.
-#[export] Existing Instance cartesian_is_relevance.
+(* The cartesian monoidal structure: tensor := ×, unit := 1.  This is a plain
+   [Definition] rather than an [Instance] (mirroring [CC_Monoidal]): making it
+   an instance would let typeclass resolution silently pick the product as
+   *the* monoidal structure on every cartesian category, conflicting with
+   hand-rolled monoidal structures elsewhere.  Callers select it explicitly. *)
+Definition Cartesian_Monoidal : @Monoidal C := CC_Monoidal.
 
-Coercion cartesian_is_relevance : CartesianMonoidal >-> RelevanceMonoidal.
-Coercion cartesian_is_semicartesian : CartesianMonoidal >-> SemicartesianMonoidal.
-
-Context `{CartesianMonoidal}.
-
-(* The product action on morphisms, built from the projections and fork (the
-   pairing ⟨-,-⟩ = (- ⨂ -) ∘ ∆ supplied by RelevanceMonoidal). With a genuine
-   product available these agree with the usual combinators: [first f] runs f
-   on the left factor and keeps the right, [second f] does the dual, and
-   [split f g] = f ⨂ g acts componentwise (the bifunctorial action). *)
-
-Definition first  {x y z : C} (f : x ~> y) : x ⨂ z ~> y ⨂ z :=
-  fork (f ∘ proj_left) proj_right.
-
-Definition second  {x y z : C} (f : x ~> y) : z ⨂ x ~> z ⨂ y :=
-  fork proj_left (f ∘ proj_right).
-
-Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
-  x ⨂ z ~> y ⨂ w :=
-  fork (f ∘ proj_left) (g ∘ proj_right).
-
-#[export] Program Instance first_respects {a b c : C} :
-  Proper (equiv ==> equiv) (@first a b c).
-Next Obligation.
-  proper.
-  unfold first.
-  rewrites.
-  reflexivity.
-Qed.
-
-#[export] Program Instance second_respects {a b c : C} :
-  Proper (equiv ==> equiv) (@second a b c).
-Next Obligation.
-  proper.
-  unfold second.
-  rewrites.
-  reflexivity.
-Qed.
-
-#[export] Program Instance split_respects {a b c d : C} :
-  Proper (equiv ==> equiv ==> equiv) (@split a b c d).
-Next Obligation.
-  proper.
-  unfold split.
-  rewrites.
-  reflexivity.
-Qed.
-
-End CartesianMonoidal.
+End CartesianIsMonoidal.
