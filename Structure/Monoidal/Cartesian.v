@@ -69,49 +69,4 @@ Class CartesianMonoidal := {
 Coercion cartesian_is_relevance : CartesianMonoidal >-> RelevanceMonoidal.
 Coercion cartesian_is_semicartesian : CartesianMonoidal >-> SemicartesianMonoidal.
 
-Context `{CartesianMonoidal}.
-
-(* The product action on morphisms, built from the projections and fork (the
-   pairing ⟨-,-⟩ = (- ⨂ -) ∘ ∆ supplied by RelevanceMonoidal). With a genuine
-   product available these agree with the usual combinators: [first f] runs f
-   on the left factor and keeps the right, [second f] does the dual, and
-   [split f g] = f ⨂ g acts componentwise (the bifunctorial action). *)
-
-Definition first  {x y z : C} (f : x ~> y) : x ⨂ z ~> y ⨂ z :=
-  fork (f ∘ proj_left) proj_right.
-
-Definition second  {x y z : C} (f : x ~> y) : z ⨂ x ~> z ⨂ y :=
-  fork proj_left (f ∘ proj_right).
-
-Definition split  {x y z w : C} (f : x ~> y) (g : z ~> w) :
-  x ⨂ z ~> y ⨂ w :=
-  fork (f ∘ proj_left) (g ∘ proj_right).
-
-#[export] Program Instance first_respects {a b c : C} :
-  Proper (equiv ==> equiv) (@first a b c).
-Next Obligation.
-  proper.
-  unfold first.
-  rewrites.
-  reflexivity.
-Qed.
-
-#[export] Program Instance second_respects {a b c : C} :
-  Proper (equiv ==> equiv) (@second a b c).
-Next Obligation.
-  proper.
-  unfold second.
-  rewrites.
-  reflexivity.
-Qed.
-
-#[export] Program Instance split_respects {a b c d : C} :
-  Proper (equiv ==> equiv ==> equiv) (@split a b c d).
-Next Obligation.
-  proper.
-  unfold split.
-  rewrites.
-  reflexivity.
-Qed.
-
 End CartesianMonoidal.
