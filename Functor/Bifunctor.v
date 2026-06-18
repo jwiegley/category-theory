@@ -6,9 +6,26 @@ Require Import Category.Construction.Product.
 
 Generalizable All Variables.
 
-(* A bifunctor is any functor from a product category to another category; so
-   we don't need to formalize it separately here, but there are certain helper
-   function related to bifunctors. *)
+(** Bifunctors (functors of two variables) *)
+
+(* nLab: https://ncatlab.org/nlab/show/bifunctor
+   Wikipedia: https://en.wikipedia.org/wiki/Bifunctor
+
+   A bifunctor is just a functor F : C ∏ D ⟶ E out of a product category, so we
+   do not formalize it as a separate structure; we only provide helpers for the
+   action of such an F on pairs of arrows.  The central helper is [bimap f g],
+   the lift of (f, g) through F.  A functor on C ∏ D is equivalent to giving two
+   "partial" actions, one in each variable, that are separately functorial and
+   compatible via the interchange (middle-four exchange) law
+
+     bimap (f ∘ h) (g ∘ i) ≈ bimap f g ∘ bimap h i    ([bimap_comp]),
+
+   together with bimap id id ≈ id ([bimap_id_id]).  The two "swap" forms of
+   interchange, bimap f id ∘ bimap id g ≈ bimap f g and its mirror, are recorded
+   as [bimap_id_right_left] / [bimap_id_left_right].  Currying a bifunctor
+   C ∏ D ⟶ E into C ⟶ [D, E] is exhibited concretely for the hom-bifunctor by
+   [Curried_Hom] in Functor/Hom.v; the prototypical bifunctor, the tensor ⊗,
+   appears in Structure/Monoidal. *)
 
 Section Bifunctor.
 
@@ -22,6 +39,9 @@ Definition bimap {F : C ∏ D ⟶ E} {x w : C} {y z : D}
            (f : x ~{C}~> w) (g : y ~{D}~> z) :
   F (x, y) ~{E}~> F (w, z) := @fmap (C ∏ D) E F (x, y) (w, z) (f, g).
 
+(* [bimap] is definitionally [fmap] on a pair; this folds the [fmap] notation
+   back into [bimap] during rewriting.  The equality is Leibniz (=), not ≈,
+   because both sides are the very same term. *)
 Corollary bimap_fmap {F : C ∏ D ⟶ E} {x w : C} {y z : D}
       (f : x ~{C}~> w) (g : y ~{D}~> z) :
   @fmap (C ∏ D) E F (x, y) (w, z) (f, g) = bimap f g.
@@ -43,6 +63,8 @@ Proof.
   apply fmap_id.
 Qed.
 
+(* Interchange (middle-four exchange): F preserves composition in both
+   variables simultaneously. *)
 Lemma bimap_comp {F : C ∏ D ⟶ E} {x y z w u v}
       (f : y ~{C}~> z) (h : x ~{C}~> y)
       (g : v ~{D}~> w) (i : u ~{D}~> v) :
@@ -54,6 +76,7 @@ Proof.
   reflexivity.
 Qed.
 
+(* Functoriality of the partial functor F(w, -) in the second variable. *)
 Lemma bimap_comp_id_left {F : C ∏ D ⟶ E} {w}
       `(f : y ~{D}~> z) `(g : x ~{D}~> y) :
   bimap (id[w]) (f ∘ g) ≈ bimap id f ∘ bimap id g.
@@ -64,6 +87,7 @@ Proof.
   split; simpl; cat.
 Qed.
 
+(* Functoriality of the partial functor F(-, w) in the first variable. *)
 Lemma bimap_comp_id_right {F : C ∏ D ⟶ E} {w}
       `(f : y ~{C}~> z) `(g : x ~{C}~> y) :
   bimap (f ∘ g) (id[w]) ≈ bimap f id ∘ bimap g id.
@@ -74,6 +98,9 @@ Proof.
   split; simpl; cat.
 Qed.
 
+(* Interchange, swap form: acting first in D then in C agrees with the joint
+   action.  Together with [bimap_id_left_right] this expresses that the two
+   partial actions commute (the middle-four exchange). *)
 Lemma bimap_id_right_left {F : C ∏ D ⟶ E} {w}
       `(f : z ~{C}~> w) `(g : x ~{D}~> y) :
   bimap f id ∘ bimap id g ≈ bimap f g.
@@ -84,6 +111,8 @@ Proof.
   split; simpl; cat.
 Qed.
 
+(* Interchange, swap form: acting first in C then in D agrees with the joint
+   action (mirror of [bimap_id_right_left]). *)
 Lemma bimap_id_left_right {F : C ∏ D ⟶ E} {w}
       `(f : z ~{D}~> w) `(g : x ~{C}~> y) :
   bimap id f ∘ bimap g id ≈ bimap g f.
@@ -94,6 +123,9 @@ Proof.
   split; simpl; cat.
 Qed.
 
+(* A bifunctor preserves isomorphisms in each variable: isomorphic inputs in
+   both factors yield isomorphic objects in E, with bimap of the component
+   isos as the witness. *)
 #[export] Program Instance bifunctor_respects {F : C ∏ D ⟶ E} :
   Proper ((fun p q => Isomorphism (fst p) (fst q) ∧
                       Isomorphism (snd p) (snd q))

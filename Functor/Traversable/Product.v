@@ -12,6 +12,41 @@ Require Import Category.Functor.Applicative.
 
 Generalizable All Variables.
 
+(** The pointwise product of traversable functors is traversable *)
+
+(* nLab:      https://ncatlab.org/nlab/show/distributive+law
+   HaskellWiki: https://wiki.haskell.org/Foldable_and_Traversable
+   Reference: Jaskelioff and Rypacek, "An Investigation of the Laws of
+              Traversals", MSFP 2012 (https://arxiv.org/abs/1202.2919)
+
+   Wikipedia: none-exists - there is no Wikipedia page for "traversable
+   functor"; the closest published accounts are the HaskellWiki article and
+   the arXiv reference above (see also Category.Functor.Traversable).
+
+   Here [F :*: G] is the pointwise tensor product of two endofunctors, from
+   Category.Functor.Product: [(F :*: G) x = F x ⨂ G x], where [⨂] is the
+   monoidal tensor.  The monoidal structure in scope is [CC_Monoidal], the
+   cartesian (internal-product) structure [⨂ = ×, I = 1] of the closed
+   monoidal category [C].
+
+   Lawful traversable endofunctors on [C] form a monoidal category under
+   composition, with the identity functor as unit; this file records that the
+   pointwise product also carries a traversal.  Given traversals [δ_F : F ◯ H
+   ⟹ H ◯ F] and [δ_G : G ◯ H ⟹ H ◯ G], the composite traversal on [F :*: G]
+   pairs the two component sequences and merges them through the applicative's
+   tensor comparison [lax_ap[H] : H a ⨂ H b ~> H (a ⨂ b)]:
+
+     δ_(F :*: G) X
+       := lax_ap[H] ∘ bimap (transform[δ_F] X) (transform[δ_G] X)
+                                : H (F X) ⨂ H (G X) ~> H (F X ⨂ G X).
+
+   The naturality of this transformation is discharged below from the
+   naturality of [ap_functor_nat] and of the two component sequences, axiom
+   free.  The three Traversable coherence laws (naturality in the applicative,
+   identity, and composition) are inherited from the components; assembling
+   them into the full [Traversable (F :*: G)] instance remains in progress and
+   is kept as commented scaffolding after the lemma below. *)
+
 Section ProductTraversable.
 
 Context {C : Category}.
@@ -21,6 +56,12 @@ Context {G : C ⟶ C}.
 
 Existing Instance CC_Monoidal.
 
+(* The component of the composite traversal on [F :*: G], built from the two
+   component sequences merged through [lax_ap[H]].  [transform] leaves three
+   goals: the component map, then the [naturality] and [naturality_sym]
+   conditions of a natural transformation (the latter two are dual, so the two
+   proof blocks below are identical - this is the library's built-in-duality
+   idiom, not duplication). *)
 Lemma ProductFunctor_Traversable_ap_functor_nat :
   Traversable F → Traversable G
     → ∀ H : C ⟶ C, @Applicative _ _ H
@@ -65,6 +106,13 @@ Proof.
     reflexivity.
 Defined.
 
+(* Work in progress: the full [Traversable (F :*: G)] instance.  The component
+   above supplies [sequence]; what remains is to discharge the three coherence
+   laws (sequence_naturality, sequence_Id, sequence_Compose) from those of the
+   components.  [sequence_Id] is complete; the other two obligations still need
+   the interaction of [lax_ap]/[ap_functor_nat] with the component sequences,
+   so the definition is kept here as commented scaffolding rather than sealed
+   with an unfinished proof.  Nothing in the library depends on it yet. *)
 (*
 Program Definition ProductFunctor_Traversable :
   Traversable F → Traversable G

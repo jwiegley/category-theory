@@ -10,21 +10,34 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
-(* The Yoneda lemma tells us that a natural transformation, from the covariant
-   or contravariant hom-functor on some object in C, to some other functor
-   from C to Sets, is isomorphic to mapping the object by that functor
-   directly from C to Sets.
+(** * The Yoneda lemma and the Yoneda embedding. *)
 
-   Writing this statement in code, it becomes a bit clearer what it's telling
-   us: If the contravariant functor on `A` turns any `X` into the arrow `A ~>
-   X`, and if natural transformation is given by `∀ x, f x ~> g x` (assuming
-   naturality), the statement of the Yoneda lemma is:
+(* nLab: https://ncatlab.org/nlab/show/Yoneda+lemma
+   Wikipedia: https://en.wikipedia.org/wiki/Yoneda_lemma
 
-       ∀ f x a, Functor f => (x ~{Sets}~> a) ~{Sets}~> f x ≅ f a
+   For a presheaf F : C^op ⟶ Sets and an object A, the Yoneda lemma is the
+   natural bijection between natural transformations out of the representable
+   [Hom ─,A] and elements of F A:
 
-   The Lemma states: Since the only thing knowable about a functor is its
-   ability to map objects and morphisms, any object `f x` through which we map
-   a morphism `x ~> a` to obtain an object `f a`, *must* be identical to `f a`
+       Nat([Hom ─,A], F) ≅ F A,      natural in both A and F.
+
+   Here the left-hand side is written [Presheaves [Hom ─,A] F]: the Category
+   [Presheaves] = [C^op, Sets] coerces (via [Curried_Hom]) to a functor whose
+   value on the pair ([Hom ─,A], F) is the hom-setoid of natural transformations
+   [Hom ─,A] ⟹ F, so [≅] is an isomorphism in Sets. The forward map [to] is
+   evaluation at the identity, η ↦ η_A id_A; its inverse [from] sends y ∈ F A to
+   the transformation whose component at x carries φ : x ~> A to fmap[F] φ y.
+   [Covariant_Yoneda_Lemma] is the dual for a copresheaf F : C ⟶ Sets and the
+   covariant representable [Hom A,─].
+
+   Specialising F to a representable recovers the Yoneda embedding as a fully
+   faithful functor (see [Yoneda_Full] and [Yoneda_Faithful] in Functor/Hom.v):
+   on hom-setoids it gives Nat([Hom ─,A], [Hom ─,B]) ≅ (A ~> B), realised below
+   as [Yoneda_Embedding] and its covariant counterpart.
+
+   The intuition: since the only thing knowable about a functor is its ability
+   to map objects and morphisms, any object `F x` through which we map a
+   morphism `x ~> A` to obtain an element of `F A` *must* be determined by `F A`
    obtained directly, since the functor has no way of introducing additional
    meaning.
 

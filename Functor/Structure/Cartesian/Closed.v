@@ -8,6 +8,37 @@ Require Import Category.Functor.Structure.Cartesian.
 
 Generalizable All Variables.
 
+(** Cartesian closed functors *)
+
+(* nLab: https://ncatlab.org/nlab/show/cartesian+closed+functor
+   nLab: https://ncatlab.org/nlab/show/closed+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Cartesian_closed_category
+   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_functor
+
+   A cartesian closed functor F : C ⟶ D between cartesian closed categories
+   preserves both finite products and exponentials (internal homs). Product
+   preservation is assumed here as [CartesianFunctor], so [prod_in]/[prod_out]
+   already witness F (x × y) ≅ F x × F y. Whenever F preserves products there
+   is a canonical exponential comparison map
+
+       F (y^x) ~> F y ^ F x
+
+   obtained as the transpose (curry) of the composite
+
+       F (y^x) × F x ≅ F (y^x × x) --F eval--> F y,
+
+   i.e. curry (fmap eval ∘ prod_in). F is cartesian closed exactly when this
+   comparison is an isomorphism for all x, y. Viewing CCCs as cartesian closed
+   monoidal categories, this is a strong monoidal functor that is also strong
+   closed.
+
+   Rather than building the comparison and asserting it is invertible, this
+   class postulates the iso [fobj_exp_iso] directly and pins [exp_out] down to
+   the canonical comparison via the coherence laws [fmap_curry]/[fmap_uncurry]
+   (whence [fmap_eval] below recovers F eval = uncurry exp_out ∘ prod_out). The
+   two presentations are equivalent. Cartesian closed functors are exactly the
+   morphisms of models of the simply-typed lambda calculus. *)
+
 Section ClosedFunctor.
 
 Context `{F : C ⟶ D}.
@@ -16,13 +47,15 @@ Context `{@Closed C CA}.
 Context `{@Closed D CB}.
 
 Class ClosedFunctor := {
-  fobj_exp_iso {x y : C} : F (y^x) ≅ F y ^ F x;
+  fobj_exp_iso {x y : C} : F (y^x) ≅ F y ^ F x;   (* exponential comparison iso *)
 
-  exp_in  := fun x y => from (@fobj_exp_iso x y);
-  exp_out := fun x y => to   (@fobj_exp_iso x y);
+  exp_in  := fun x y => from (@fobj_exp_iso x y);  (* F y ^ F x ~> F (y^x) *)
+  exp_out := fun x y => to   (@fobj_exp_iso x y);  (* comparison: F (y^x) ~> F y ^ F x *)
 
+  (* Coherence: F commutes with currying up to the comparison. *)
   fmap_curry {x y z : C} {f : x × y ~> z} :
     fmap (curry f) ≈ exp_in _ _ ∘ curry (fmap f ∘ prod_in);
+  (* Coherence: F commutes with uncurrying up to the comparison. *)
   fmap_uncurry {x y z : C} (f : x ~> z^y) :
     fmap (uncurry f) ≈ uncurry (exp_out _ _ ∘ fmap f) ∘ prod_out
 }.
@@ -32,6 +65,9 @@ Context `{@ClosedFunctor}.
 Arguments exp_in {_ _ _} /.
 Arguments exp_out {_ _ _} /.
 
+(* F eval factors through the comparison: F eval ≈ uncurry exp_out ∘ prod_out,
+   since curry eval ≈ id. This is the nLab map F (y^x × x) --F eval--> F y read
+   through prod_out and exp_out. *)
 Corollary fmap_eval {x y : C} :
   fmap (@eval C _ _ x y) ≈ uncurry (curry eval ∘ exp_out) ∘ prod_out.
 Proof.

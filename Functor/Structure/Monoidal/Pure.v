@@ -10,6 +10,27 @@ Require Import Category.Functor.Structure.Monoidal.
 
 Generalizable All Variables.
 
+(** The applicative [pure] from a strong lax monoidal functor. *)
+
+(* nLab: https://ncatlab.org/nlab/show/applicative+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Applicative_functor
+
+   For a strong lax monoidal endofunctor F on a monoidal category, the unit
+   comparison lax_pure : I ~> F I and the tensorial strength combine into the
+   point operation pure : A ~> F A.  This is the categorical source of the
+   Haskell [Applicative] method pure : a -> F a (McBride and Paterson,
+   "Applicative programming with effects", JFP 18(1), 2008).
+
+   Following nLab, pure[A] is the composite (read right to left, with ρ the
+   right unitor unit_right, ε = lax_pure the unit comparison and st = strength)
+
+       A  --ρ⁻¹-->  A ⨂ I  --id ⨂ ε-->  A ⨂ F I
+          --st-->  F (A ⨂ I)  --F ρ-->  F A,
+
+   i.e. pure ≈ fmap unit_right ∘ strength ∘ (id ⨂ lax_pure) ∘ unit_right⁻¹.
+   The right unitor is used here, matching the nLab presentation; the left
+   unitor would give the mirror-image construction. *)
+
 Section Pure.
 
 Context {C : Category}.
@@ -21,6 +42,7 @@ Context `{@LaxMonoidalFunctor C C _ _ F}.
 Definition pure {A} : A ~> F A :=
   fmap unit_right ∘ strength ∘ id[A] ⨂ lax_pure ∘ unit_right⁻¹.
 
+(* pure is natural in A: it is a natural transformation Id ⟹ F. *)
 Lemma pure_natural : natural (@pure).
 Proof.
   simpl; intros.
@@ -42,6 +64,7 @@ Proof.
   rewrite fmap_id; cat.
 Qed.
 
+(* The naturality square of pure as a rewrite: fmap f commutes past pure. *)
 Lemma fmap_pure {a b} (f : a ~> b) : pure ∘ f ≈ fmap f ∘ pure.
 Proof.
   symmetry.
