@@ -274,6 +274,7 @@ Structure/Monoidal/Strict/Tactics.v
 Test/FullIssue118.v
 Test/HypergraphPROPResolution.v
 Test/Issue138.v
+Test/Poset.v
 Test/Issue139.v
 Tools/Abstraction.v
 Tools/Represented.v
