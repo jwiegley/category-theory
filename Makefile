@@ -42,7 +42,9 @@ lint: todo bench-config-check
 
 format-check:
 	@echo "Checking for trailing whitespace..."
-	@if find . -name '*.v' -print0 | xargs -0 grep -n '[[:blank:]]$$' 2>/dev/null | head -20; then \
+	@out=$$(find . -name '*.v' -print0 | xargs -0 grep -n '[[:blank:]]$$' 2>/dev/null | head -20); \
+	if [ -n "$$out" ]; then \
+		echo "$$out"; \
 		echo "ERROR: Trailing whitespace found in .v files"; \
 		exit 1; \
 	fi
@@ -178,9 +180,12 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions spider_collapse.'; \
 	  echo 'Print Assumptions spider_frobenius.'; \
 	  echo 'Print Assumptions ZX_Cat.'; \
+	  echo 'Print Assumptions Hypergraph_CompactClosed.'; \
 	} > /tmp/print_assumptions.v
-	@coqc -R . Category /tmp/print_assumptions.v 2>&1 | grep -vE '^Warning|^\[' | grep -vE '^$$' || true
-	@rm -f /tmp/print_assumptions.v /tmp/print_assumptions.vo /tmp/print_assumptions.vok /tmp/print_assumptions.vos /tmp/print_assumptions.glob
+	@coqc -R . Category /tmp/print_assumptions.v > /tmp/print_assumptions.out 2>&1; rc=$$?; \
+	  grep -vE '^Warning|^\[|^$$' /tmp/print_assumptions.out || true; \
+	  if [ $$rc -ne 0 ]; then echo "ERROR: print-assumptions failed to compile (axiom audit broken)"; exit 1; fi
+	@rm -f /tmp/print_assumptions.v /tmp/print_assumptions.vo /tmp/print_assumptions.vok /tmp/print_assumptions.vos /tmp/print_assumptions.glob /tmp/print_assumptions.out
 
 force _CoqProject Makefile: ;
 
