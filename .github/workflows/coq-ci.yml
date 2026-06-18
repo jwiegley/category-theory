@@ -3,6 +3,16 @@ name: Docker CI
 on: [push, pull_request]
 
 jobs:
+  config-check:
+    # Guard the make/coq_makefile build configuration that the Coq bench
+    # (opam install) relies on; see issue #158. Pure file inspection, so it
+    # runs on the bare runner in seconds without the Coq toolchain.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bench build-config regression guard (issue #158)
+        run: make bench-config-check
+
   build:
     runs-on: ubuntu-latest
     strategy:
