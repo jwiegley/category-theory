@@ -12,6 +12,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Bench build-config regression guard (issue #158)
         run: make bench-config-check
+      - name: Bench build-config guard self-test (reject path, issue #158)
+        run: make bench-config-check-selftest
 
   build:
     runs-on: ubuntu-latest
