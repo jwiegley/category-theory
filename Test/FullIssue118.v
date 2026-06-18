@@ -65,9 +65,11 @@ Definition Full_from_section
    ; fmap_sur x y g := sec x y g |}.
 
 (** The identity functor is full: every hom-map is the identity, hence its own
-    section.  The witness is exhibited through [Full_from_section]. *)
-Program Definition Id_Full {C : Category} : Full (@Id C) :=
-  Full_from_section Id (fun _ _ g => g) _.
+    section.  The witness is exhibited through [Full_from_section], with the
+    section law closed explicitly by [reflexivity] rather than left to the
+    ambient [Program] obligation tactic — so the test states its own proof. *)
+Definition Id_Full {C : Category} : Full (@Id C) :=
+  Full_from_section Id (fun _ _ g => g) (fun _ _ g => reflexivity g).
 
 (** Register an instance so resolution of the leaner class is exercised too. *)
 #[local] Existing Instance Id_Full.
