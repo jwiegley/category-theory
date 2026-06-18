@@ -83,6 +83,7 @@ Instance/Cat/Cartesian.v
 Instance/Cat/Cartesian/Closed.v
 Instance/Cat/Cocartesian.v
 Instance/StrictCat.v
+Instance/StrictCat/ToCat.v
 Instance/Comp.v
 Instance/Cones.v
 Instance/Cones/Comma.v
@@ -272,6 +273,7 @@ Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
 Test/FullIssue118.v
 Test/HypergraphPROPResolution.v
+Test/Issue138.v
 Test/Poset.v
 Test/Issue139.v
 Tools/Abstraction.v

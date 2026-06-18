@@ -31,12 +31,26 @@ Generalizable All Variables.
    agreement of the underlying morphism actions.
 
    Difference from [Cat]: the sibling category [Cat] uses [Functor_Setoid],
-   which identifies functors only up to natural isomorphism (object maps related
-   by [F x ≅ G x]); its isomorphisms are therefore *equivalences* of categories.
-   StrictCat instead uses [Functor_StrictEq_Setoid] with [F x = G x], so it is
-   the strict 1-category in which an isomorphism is a genuine (on-the-nose)
-   isomorphism of categories. Under the axiom of choice this strict 1-category
-   is equivalent, as a bicategory, to the weak [Cat]. *)
+   which identifies functors up to natural isomorphism (object maps related by
+   [F x ≅ G x]); its isomorphisms are therefore *equivalences* of categories,
+   making it the homotopy category Ho(Cat). StrictCat instead uses
+   [Functor_StrictEq_Setoid] with [F x = G x], so it is the strict 1-category in
+   which an isomorphism is a genuine (on-the-nose) isomorphism of categories —
+   matching the textbook bare-name "Cat". The library nonetheless works up to the
+   weaker notion of equivalence in [Cat] almost everywhere, to suit Coq's
+   metatheory (no function extensionality); StrictCat is provided for the few
+   constructions that genuinely need on-the-nose object equality. Under the axiom
+   of choice this strict 1-category is equivalent, as a bicategory, to the weak
+   [Cat].
+
+   Strict equality of functors implies natural isomorphism, so there is an
+   identity-on-objects comparison functor [StrictCat_to_Cat : StrictCat ⟶ Cat],
+   built in [Category.Instance.StrictCat.ToCat]. The strictness of StrictCat is
+   what makes functors *out of* it well-defined even when they do not respect
+   natural isomorphism — e.g. the underlying-graph functor
+   [Category.Construction.Free.Quiver.Forgetful : StrictCat ⟶ Quiv], the
+   motivating example of issue #138, which has no counterpart over the weak
+   [Cat]. *)
 
 #[export]
 Instance StrictCat : Category := {
