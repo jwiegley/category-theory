@@ -1,7 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
-Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Monoidal.
@@ -20,9 +19,9 @@ Generalizable All Variables.
    discoverable name Cartesian_Monoidal in Monoidal/Cartesian.v.
 
    These checks pin that down: the forward direction is available generically
-   under its discoverable name, its tensor is the categorical product and its
-   unit the terminal object, and it agrees definitionally with the monoidal
-   structure that a concrete cartesian category (Coq) actually uses. *)
+   under its discoverable name; its tensor is the categorical product, on both
+   objects and morphisms; its unit is the terminal object; and it agrees with
+   the monoidal structure that a concrete cartesian category (Coq) uses. *)
 
 Section Issue139.
 
@@ -43,6 +42,19 @@ Proof. reflexivity. Qed.
 Example issue_139_unit_is_terminal :
   @I C Cartesian_Monoidal = 1%object.
 Proof. reflexivity. Qed.
+
+(* Beyond the object level, the monoidal action on *morphisms* is the product's
+   bifunctorial action: projecting after the tensor f ⨂ g recovers f on the
+   left factor and g on the right.  These are genuine equational checks via the
+   product UMP (exl_fork / exr_fork), so they fail for any non-product tensor --
+   they exercise the structure itself, not merely the discoverable name. *)
+Example issue_139_exl_tensor {a b c d : C} (f : a ~> b) (g : c ~> d) :
+  exl ∘ (f ⨂[Cartesian_Monoidal] g) ≈ f ∘ exl.
+Proof. simpl; now rewrite exl_fork. Qed.
+
+Example issue_139_exr_tensor {a b c d : C} (f : a ~> b) (g : c ~> d) :
+  exr ∘ (f ⨂[Cartesian_Monoidal] g) ≈ g ∘ exr.
+Proof. simpl; now rewrite exr_fork. Qed.
 
 End Issue139.
 
