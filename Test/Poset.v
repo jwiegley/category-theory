@@ -86,9 +86,15 @@ Definition poset_nat_comp_0_2 : (0 ~{Poset_nat}~> 2)%nat :=
 
 (** *** Antisymmetry / skeletality
 
-    This is the exact witness the fixed [Poset] relies on.  Its type is
-    [Antisymmetric ... eq ...]; it CANNOT be coerced to [Asymmetric], the
-    type the old definition demanded — a direct type mismatch. *)
+    [poset_nat_skeletal] records that the poset is skeletal: any two
+    mutually related objects are equal.  It is stated over [obj[Poset_nat]]
+    and the poset hom-types, so it type-checks only once [Poset_nat] is
+    well-formed, and its proof reuses [poset_nat_antisym], the
+    standard-library antisymmetry of [(nat, ≤)] that backs the
+    [Antisymmetric] hypothesis the fixed [Poset] requires.  (These
+    nat-level facts document the skeletal property; the regression guards
+    proper are the [Poset_nat] and [Poset_two] constructions, which do not
+    build under the old definition.) *)
 
 Definition poset_nat_antisym : Antisymmetric nat eq PeanoNat.Nat.le :=
   partial_order_antisym PeanoNat.Nat.le_partialorder.
@@ -98,19 +104,15 @@ Lemma poset_nat_skeletal :
     (x ~{Poset_nat}~> y)%nat -> (y ~{Poset_nat}~> x)%nat -> x = y.
 Proof. intros x y Hxy Hyx; exact (poset_nat_antisym x y Hxy Hyx). Qed.
 
-Lemma poset_nat_le_antisym :
-  forall x y : nat, (x <= y)%nat -> (y <= x)%nat -> x = y.
-Proof. intros x y; apply (antisymmetry (R:=PeanoNat.Nat.le)). Qed.
-
 (** ** A bespoke 2-element poset over a [Type] with no categorical structure
 
     This decisively exercises defect 1: the carrier [two] is an ordinary
     inductive [Type] that is NOT a [Category], so [@Poset two ...] is
     unbuildable under the old [{C : Category}] signature.  It also exercises
     defect 2: the fourth argument is an [Antisymmetric] instance, exactly
-    where the old definition demanded an [Asymmetric] one.  A self-contained
-    custom order is used (Rocq 9.1 ships [Bool.le] but no bundled
-    [PreOrder]/[Antisymmetric] instances for it). *)
+    where the old definition demanded an [Asymmetric] one.  A small bespoke
+    order on [two] is used so the example is self-contained and depends only
+    on this file. *)
 
 Inductive two : Type := lo | hi.
 
