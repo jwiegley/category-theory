@@ -64,12 +64,14 @@ Check (@QuiverHomomorphismOfFunctor
 (* The composite Forgetful ◯ FreeCatFunctor is an endofunctor on QuiverCategory. *)
 Check (Forgetful ◯ FreeCatFunctor : QuiverCategory ⟶ QuiverCategory).
 
-(* The motivating NEGATIVE of issue #138: the underlying-graph functor cannot be
-   typed over the weak [Cat].  [Forgetful] is fixed as [StrictCat ⟶ Quiv], and no
-   functor with this object/morphism action exists over [Cat], because its
-   [fmap_respects] would need to turn a natural isomorphism [F x ≅ G x] into a
-   strict equality [F x = G x] of quiver nodes — which is exactly what fails.
-   These [Fail] commands lock that in: each ascription is a genuine type error. *)
+(* A negative check.  [Forgetful] is fixed as [StrictCat ⟶ Quiv], so ascribing
+   it the type [Cat ⟶ Quiv] is a genuine type error — the domain category differs
+   ("has type StrictCat ⟶ QuiverCategory while it is expected to have type
+   Cat ⟶ QuiverCategory").  These [Fail] commands lock in that [Forgetful] is NOT
+   a functor over the weak [Cat].  Note this only checks the type mismatch; it
+   does not itself exercise the deeper reason no such functor can be *built* over
+   [Cat] (its [fmap_respects] would have to turn a natural isomorphism [F x ≅ G x]
+   into a strict equality [F x = G x] of quiver nodes — see [Instance.Cat]). *)
 Fail Check (Forgetful : Cat ⟶ QuiverCategory).
 Fail Definition A138_forgetful_over_Cat : Cat ⟶ QuiverCategory := Forgetful.
 
@@ -97,9 +99,6 @@ Example B138_free_loop_nodes :
 Check (FreeCatFunctor ◯ Forgetful : StrictCat ⟶ StrictCat).
 
 (* ===== BLOCK C138 — StrictCat strict laws ===== *)
-
-(* StrictCat is a category. *)
-Check (StrictCat : Category).
 
 (* The defining property of issue #138's fix: StrictCat's hom-equivalence IS the
    strict equality [Functor_StrictEq_Setoid] (not the weak nat-iso
@@ -160,11 +159,13 @@ Example D138_obj (C : Category) : StrictCat_to_Cat C = C := eq_refl.
 
 Example D138_map {C D} (F : C ⟶ D) : fmap[StrictCat_to_Cat] F = F := eq_refl.
 
-(* Identity-on-objects content of the comparison: the natural isomorphism that
-   [strict_equiv_implies_fun_equiv] builds is, at each object, the identity
-   morphism transported along the object equality.  At a reflexivity proof this
-   per-object component [iso_of_eq eq_refl] is literally the identity iso, so its
-   [to] and [from] are [id]. *)
+(* The per-object isomorphism the comparison uses is [iso_of_eq] of the object
+   equality, which at a reflexivity proof is the identity iso (its [to] and
+   [from] are [id]).  These two examples pin [iso_of_eq]'s behaviour directly.
+   That [strict_equiv_implies_fun_equiv] builds its natural-iso family as
+   [fun x => iso_of_eq (eq_on_obj x)] is true by construction (see ToCat.v); it
+   is not separately machine-checked here because that lemma is opaque ([Qed]),
+   so its body does not reduce for an [eq_refl] comparison. *)
 Example D138_iso_of_eq_refl_to (C : Category) (x : C) :
   to (iso_of_eq (@eq_refl _ x)) = @id C x := eq_refl.
 
