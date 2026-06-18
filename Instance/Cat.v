@@ -52,13 +52,17 @@ Generalizable All Variables.
    comparison functor [StrictCat_to_Cat : StrictCat ⟶ Cat] of
    [Category.Instance.StrictCat.ToCat] sends each strict equality to the natural
    isomorphism it induces, exhibiting [StrictCat] as a strictification of this
-   Ho(Cat). Note that the comma/slice comparisons phrased with [≅[Cat]] (e.g.
-   [Construction.Comma.Adjunction]) are in fact *strict* isomorphisms of
-   categories — the Lawvere comma comparison is bijective on objects with an
-   on-the-nose inverse — so using the weak [Cat] there is a convenience, not a
-   necessity. What genuinely requires strict equality is the object-equality-
-   dependent underlying-graph functor [Forgetful : StrictCat ⟶ Quiv] of issue
-   #138, which has no counterpart over this [Cat]. *)
+   Ho(Cat). The weak hom-equivalence is moreover used substantively, not merely
+   for phrasing: [Construction.Comma.Adjunction], for instance, builds an
+   adjunction's unit and counit out of the *natural-isomorphism components* of a
+   comma equivalence [≅[Cat]] — it takes the underlying morphism
+   [from (`1 (iso_from_to lawvere_iso) x)] of such a component — which relies on
+   [≅] in [Cat] being a natural isomorphism; a strict reformulation would be a
+   genuinely different, transport-based construction rather than a rename.
+   Conversely, the construction that cannot live over this
+   [Cat] at all is the object-equality-dependent underlying-graph functor
+   [Forgetful : StrictCat ⟶ Quiv] of issue #138, which does not respect natural
+   isomorphism. *)
 
 #[export]
 Instance Cat : Category := {
