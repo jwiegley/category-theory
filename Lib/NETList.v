@@ -12,7 +12,41 @@ Set Transparent Obligations.
 
 Open Scope lazy_bool_scope.
 
+(* nLab: https://ncatlab.org/nlab/show/free+category
+   Wikipedia: https://en.wikipedia.org/wiki/Quiver_(mathematics)
+
+   A [netlist B i j] is a NON-Empty Typed list: a type-aligned sequence of
+   values of [B] whose adjacent indices line up, [B i j0], [B j0 j1], ...,
+   [B jn j].  Reading [B] as the hom-family of a quiver (directed graph) on
+   the index type [A], such a chain is exactly a non-empty PATH in that
+   quiver, i.e. a composable chain of edges/morphisms from [i] to [j].  These
+   are the (length >= 1) morphisms of the free category / path category on
+   the quiver [B].
+
+   The "NET" prefix abbreviates "Non-Empty Typed": [tfin] is a one-edge path
+   and [tadd] prepends an edge, so a netlist always carries at least one edge
+   (there is no nil constructor).  The same data structure is known in the
+   Haskell community as a non-empty "type-aligned sequence" (Atze van der
+   Ploeg, https://github.com/atzeus/type-aligned).
+
+   Operations below give this family its path algebra: [netlist_app] (++++)
+   concatenates two head-to-tail composable paths and is associative
+   ([netlist_app_assoc]), making [netlist B] an [ISemigroup] (a category
+   without identities, i.e. a semicategory) at the end of the file.  The
+   remaining operations are the expected destructors (head/tail/init/last,
+   uncons), structural maps ([netlist_map] over the edge family, [netlist_mapv]
+   to a plain list), [netlist_rev] (reverse, given an edge-flipping operation),
+   [netlist_concat] (flatten a path of paths), and decidable structure
+   (equality, setoid equivalence, and the [netlist_incl] / [netlist_find_sublist]
+   sub-path searches) used when [A] and each [B i j] have decidable equality.
+   Formalized with the Equations plugin, with UIP enabled so dependent matches
+   on the index equalities reduce. *)
+
 Inductive netlist {A : Type} (B : A → A → Type) : A → A → Type :=
+  (* [tfin x] is the singleton path consisting of one edge [x : B i j];
+     [tadd j x xs] prepends an edge [x : B i j] onto a path [xs : B j k],
+     yielding a path [B i k].  There is no nil case, so every path is
+     non-empty. *)
   | tfin : ∀ i j : A, B i j → netlist i j
   | tadd : ∀ i j k : A, B i j → netlist j k → netlist i k.
 
@@ -98,7 +132,13 @@ Context `{∀ i j, EqDec (B i j)}.
 
 Import EqNotations.
 
-(* Returns true if [xs] is a sublist of [ys] *)
+(* Decides whether the path [xs] occurs as a sub-path of [ys]: a run of
+   consecutive edges of [ys], with matching endpoints, equal (via [eq_dec])
+   edge-by-edge to [xs].  The index equalities [eq_dec] produces are used to
+   [rew]-transport the candidate edge of [ys] into [B]'s expected fibre before
+   comparing.  Requires decidable equality on both [A] and each [B i j].
+   [netlist_find_sublist] below is the proof-carrying analogue, returning the
+   surrounding prefix/suffix instead of a mere boolean. *)
 Equations netlist_incl
           {j k} (xs : netlist B j k)
           {i l} (ys : netlist B i l) : bool :=
@@ -422,6 +462,14 @@ Context `{∀ i j, EqDec (B i j)}.
 
 Import EqNotations.
 
+(* Searches for the path [xs : B j k] as a sub-path of [ys : B i l].  On
+   success returns the surrounding context as [Some (pre, post)], where each
+   side is either the corresponding prefix/suffix path or a proof that no edges
+   remain on that side (the index already matches: [i = j] on the left, [k = l]
+   on the right).  [netlist_find_sublist_app] proves this output is faithful:
+   [ys] equals [pre ++++ xs ++++ post] (up to the [rew] transports recorded by
+   the [i = j] / [k = l] equalities).  This is the proof-carrying refinement of
+   the boolean [netlist_incl]. *)
 Fixpoint netlist_find_sublist
          {j k} (xs : netlist B j k)
          {i l} (ys : netlist B i l) :
@@ -618,6 +666,13 @@ Qed.
 
 Reserved Infix "<+>" (at level 42, right associativity).
 
+(* nLab: https://ncatlab.org/nlab/show/semicategory
+
+   An indexed semigroup: an associative composition [<+>] on an index-aligned
+   family [B i j], with no identities required.  This is exactly the data of a
+   semicategory (a category dropping the identity laws) on the objects [A].
+   [netlist B] is the free such structure: its composition is path
+   concatenation [netlist_app], associative by [netlist_app_assoc]. *)
 Class ISemigroup {A : Type} (B : A → A → Type) := {
   isappend {i j k : A} : B i j → B j k → B i k
     where "x <+> y" := (isappend x y);

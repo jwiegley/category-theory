@@ -6,6 +6,34 @@ Module FMapExt (E : DecidableType) (M : WSfun E).
 Module P := WProperties_fun E M.
 Module F := P.F.
 
+(** * Extensions to Coq's weak finite-map library *)
+
+(* nLab: https://ncatlab.org/nlab/show/decidable+equality
+   Wikipedia: https://en.wikipedia.org/wiki/Associative_array
+
+   A finite map (associative array) over a key type with decidable equality
+   [E : DecidableType], implemented by the standard-library weak signature
+   [M : WSfun E].  [P] and [F] abbreviate the derived [WProperties_fun] and
+   [WFacts_fun] modules.
+
+   This module layers convenience on top of Coq's [FMapFacts]:
+
+   - Tactics [normalize] and [simplify_maps] that decompose [MapsTo]/[find]
+     goals and hypotheses through the standard [add]/[remove]/[map]/[mapi]/
+     [filter]/[update]/[empty] characterization lemmas, plus [relational] and
+     [apply_for_all] for the recurring [Proper]/[for_all] bookkeeping.
+   - [Proper] instances so map operations ([MapsTo], [find], [fold], [add],
+     [filter], [update]) respect key equality [E.eq] and extensional map
+     equality [M.Equal], which the bare signature does not provide.
+   - Computational ([Type]-valued) counterparts [in_mapsto_iffT],
+     [add_mapsto_iffT] and a decision procedure [mapsto_dec] for use where the
+     [Prop]-valued [FMapFacts] versions cannot eliminate into [Type].
+   - Algebraic facts about [filter], [for_all], [update] and [add]/[remove]
+     interaction that are absent from [FMapFacts] (e.g. [filter_idempotent],
+     [filter_add_true], [for_all_add_true], [update_find_l], [remove_add]).
+
+   Every lemma is constructive: no axioms are used beyond the chosen [M]. *)
+
 Ltac normalize :=
   repeat match goal with
   | [ H : M.find ?ADDR ?Z = Some ?CBLK |- _ ] => apply F.find_mapsto_iff in H
@@ -368,6 +396,9 @@ Proof.
   apply (H x); assumption.
 Qed.
 
+(* Deciding [MapsTo k e m] needs decidable equality on the value type [elt]:
+   [find] settles whether some value is bound at [k], but matching it against
+   the specific [e] requires comparing the two values. *)
 Lemma mapsto_dec : ∀ elt k e (m : M.t elt),
   (∀ x y : elt, {x = y} + {x <> y}) ->
   { M.MapsTo k e m } + { ~ M.MapsTo k e m }.
@@ -477,6 +508,10 @@ Proof.
     right; intuition; auto with *; simplify_maps.
 Qed.
 
+(* Two [add]s commute only when they do not disagree on a shared key: if
+   [E.eq k k0] then both sides must bind that key to the same value, hence the
+   precondition [E.eq k k0 -> e = e0].  For distinct keys it holds
+   unconditionally. *)
 Lemma add_associative {elt}
       (k : M.key) (e : elt)
       (k0 : M.key) (e0 : elt)
@@ -617,6 +652,10 @@ End for_all.
 
 Import ListNotations.
 
+(* [take_first f] is a fold accumulator that keeps the first key/value pair
+   for which [f] holds: once a [Some] is found it is preserved, otherwise the
+   current [(k, e)] is selected when [f k e] is [true].  Folding it over a map
+   yields an arbitrary-but-fixed witness satisfying [f]. *)
 Definition take_first {elt} (f : M.key → elt → bool) (k : M.key) (e : elt)
            (x0 : option (M.key * elt)) :=
   match x0 with
@@ -624,6 +663,9 @@ Definition take_first {elt} (f : M.key → elt → bool) (k : M.key) (e : elt)
   | None => if f k e then Some (k, e) else None
   end.
 
+(* Lift a relation [P] on [A] to [option A]: two values are related when both
+   are [None] or both are [Some] of [P]-related contents.  Used to give
+   [take_first] an extensional equivalence on its [option (key * elt)] result. *)
 Definition optionP {A} (P : relation A) : relation (option A) :=
   fun x y => match x, y with
              | Some x', Some y' => P x' y'
@@ -650,6 +692,7 @@ Obligation 3.
   firstorder.
 Qed.
 
+(* Componentwise lift of relations [P] and [Q] to the product [A * B]. *)
 Definition pairP {A B} (P : relation A) (Q : relation B) : relation (A * B) :=
   fun p p' => match p, p' with
               | (x, y), (x', y') => P x x' /\ Q y y'
@@ -775,6 +818,11 @@ Obligation 1.
   assumption.
 Qed.
 
+(* [P.update m1 m2] is the right-biased union of [m1] and [m2]: by
+   [P.update_mapsto_iff], a binding of [m2] always wins over one of [m1] at
+   the same key.  The following five facts characterize it on the standard
+   constructors: empty on either side, [find] when a key is absent from one
+   side, and commuting an [add] on the (winning) right argument outward. *)
 Lemma update_empty_l : ∀ elt (m : M.t elt),
   M.Equal (P.update (M.empty _) m) m.
 Proof. intros; apply F.Equal_mapsto_iff; split; intros; simplify_maps. Qed.

@@ -1,5 +1,3 @@
-(** A theory of type-aligned lists, using the Coq-Equations plugin *)
-
 Require Export Coq.Classes.CRelationClasses.
 
 From Equations Require Import Equations.
@@ -10,6 +8,41 @@ Require Import Category.Lib.
 Open Scope lazy_bool_scope.
 
 Set Transparent Obligations.
+
+(** A theory of type-aligned lists, using the Coq-Equations plugin *)
+
+(* nLab: https://ncatlab.org/nlab/show/free+category
+   Wikipedia: https://en.wikipedia.org/wiki/Quiver_(mathematics)
+
+   A [tlist B i j] is a Typed list: a type-aligned sequence of values of [B]
+   whose adjacent indices line up, [B i j0], [B j0 j1], ..., [B jn j].
+   Reading [B] as the hom-family of a quiver (directed graph) on the index
+   type [A], such a chain is exactly a PATH in that quiver, i.e. a composable
+   chain of edges/morphisms from [i] to [j].  Unlike [netlist] (Lib/NETList.v),
+   [tlist] has a nil constructor [tnil : tlist B i i], the empty path, so it
+   includes paths of length zero.  These are precisely the morphisms of the
+   free category / path category on the quiver [B], with [tnil] the identity
+   and [tlist_app] (+++) the composition (associativity is [tlist_app_assoc]);
+   see Construction/Free.v.  The same data structure is known in the Haskell
+   community as a "type-aligned sequence" (Atze van der Ploeg,
+   https://github.com/atzeus/type-aligned).
+
+   Note on indexing: the underlying inductive [tlist'] is defined "snoc-first"
+   with the source index fixed in the parameter [k] and the target varying, so
+   that [tcons] can prepend an edge while recursing on the tail.  The exposed
+   [tlist B i j] flips these into the conventional source-then-target order
+   [tlist B i j := tlist' j i].
+
+   Operations below give this family its path algebra: [tlist_app] (+++)
+   concatenates two head-to-tail composable paths and is associative; [tnil]
+   is its two-sided unit ([tlist_app_tnil_l]/[tlist_app_tnil_r]).  The
+   remaining operations are the expected constructors/destructors (singleton,
+   rcons, uncons, head/tail/init/last), structural maps ([tlist_map] over the
+   edge family, [tlist_mapv] to a plain list), [tlist_rev] (reverse, given an
+   edge-flipping operation), [tlist_concat] (flatten a path of paths), and
+   decidable structure (equality, setoid equivalence) used when [A] and each
+   [B i j] have decidable equality.  Formalized with the Equations plugin,
+   with UIP enabled so dependent matches on the index equalities reduce. *)
 
 Inductive tlist' {A :Type} {B : A → A → Type} (k : A) : A -> Type :=
 | tnil : tlist' k
