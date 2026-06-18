@@ -281,6 +281,11 @@ End ForgetDecorationFunctor.
     [forget_decoration_morphism (scfa_gen_dec X) = scfa_gen X]
     holds on the nose by the choice of decorated SCFA).
 
-    This is the canonical Fong-style "black-box is a hypergraph
-    functor" theorem (Theorem 6.1 in his thesis, arXiv:1609.05382),
-    realised in formal Coq. *)
+    This file provides the forgetful functor [forget_decoration] and
+    the recipe above for packaging it as the canonical Fong-style
+    "black-box is a hypergraph functor" (Theorem 6.1 in his thesis,
+    arXiv:1609.05382).  The [HypergraphFunctor] instance itself is NOT
+    yet constructed here: it awaits the [DecCospan_*_Coherent]
+    instances of steps (1)-(3) above (the only [HypergraphFunctor]
+    instance currently in the library is the trivial
+    [Id_HypergraphFunctor] of [Structure/Monoidal/HypergraphFunctor.v]). *)

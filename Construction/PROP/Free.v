@@ -33,8 +33,13 @@ Generalizable All Variables.
    unit, associativity) are exactly its [TE_id_left] / [TE_id_right] /
    [TE_assoc] constructors, and [compose_respects] is its [TE_comp_cong]
    congruence.  The [Monoidal], [SymmetricMonoidal], [StrictMonoidal], and
-   [PROP] instances — completing [FreeCat S] to a free strict symmetric
-   monoidal category — follow in successor files. *)
+   [PROP] instances — which would complete [FreeCat S] to a free strict
+   symmetric monoidal category — are not yet built.  The successor files
+   so far only lay groundwork toward them: a tensor functor
+   ([Construction/PROP/Tensor.v]), the structural isomorphisms
+   ([Construction/PROP/Structural.v]), and their naturality lemmas
+   ([Construction/PROP/Naturality.v]).  No [Monoidal] or [PROP] instance
+   on [FreeCat S] exists in the library at present. *)
 
 Section FreeCategory.
 

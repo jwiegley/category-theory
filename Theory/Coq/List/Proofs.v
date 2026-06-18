@@ -208,13 +208,6 @@ Proof.
     assumption.
 Qed.
 
-(*
-Lemma StronglySorted_skip : forall a R (y : a) a0 ys,
-  StronglySorted R [y, a0 & ys] → StronglySorted R (y :: ys).
-Proof.
-Admitted.
-*)
-
 Lemma Forall_ordered : forall a (R : a → a → Prop) `{Transitive _ R} x y xs,
   R x y → List.Forall (R y) xs → List.Forall (R x) xs.
 Proof.
