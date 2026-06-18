@@ -15,19 +15,41 @@ Require Import Category.Structure.Monoidal.Hypergraph.
 
 Generalizable All Variables.
 
-(** * Compact closed categories
+(** * Compact closed categories *)
 
-    A compact closed category is a symmetric monoidal category in which
-    every object [X] has a (chosen) dual [X^*], with a unit
-    [η_X : I ~> X^* ⨂ X] and counit [ε_X : X ⨂ X^* ~> I] satisfying the
-    snake/triangle identities
+(* nLab: https://ncatlab.org/nlab/show/compact+closed+category
+   Wikipedia: https://en.wikipedia.org/wiki/Compact_closed_category
 
-        (ε ⨂ id) ∘ α⁻¹ ∘ (id ⨂ η) ≈ id_X        (up to unitors)
-        (id ⨂ ε) ∘ α ∘ (η ⨂ id) ≈ id_{X^*}      (up to unitors)
+   A compact closed category is a symmetric monoidal category in which every
+   object [X] has a (chosen) dual [X^*], i.e. it is a rigid (autonomous)
+   symmetric monoidal category. Symmetry forces the left and right duals to
+   coincide, so a single dual [X^*] suffices. The structure comprises:
 
-    Hypergraph categories are a special case: every object is its own dual
-    via [X^* := X], with unit and counit built from the SCFA structure as
-    [η := δ ∘ η_X] and [ε := ε_X ∘ μ]. *)
+       dual X       X^*                         (the chosen dual object)
+       cc_unit X    η_X : I ~> X^* ⨂ X          (unit / coevaluation / "cup")
+       cc_counit X  ε_X : X ⨂ X^* ~> I          (counit / evaluation / "cap")
+
+   subject to the two snake / zigzag (triangle, "yanking") identities. In this
+   library's notation, with λ = [unit_left], ρ = [unit_right], α =
+   [tensor_assoc], and [to]/[from] the forward/inverse iso components:
+
+     snake_left  (= id[X]):
+       λ_X ∘ (ε ⨂ id) ∘ α⁻¹_{X,X^*,X} ∘ (id ⨂ η) ∘ ρ⁻¹_X
+
+     snake_right (= id[X^*]):
+       ρ_{X^*} ∘ (id ⨂ ε) ∘ α_{X^*,X,X^*} ∘ (η ⨂ id) ∘ λ⁻¹_{X^*}
+
+   These match the Wikipedia statements λ ∘ (ε⊗id) ∘ α⁻¹ ∘ (id⊗η) ∘ ρ⁻¹ = id_A
+   and ρ ∘ (id⊗ε) ∘ α ∘ (η⊗id) ∘ λ⁻¹ = id_{A^*}; the unitors here are folded
+   into the identity rather than written as a separate [λ ∘ ρ⁻¹] coherence.
+
+   Compact closed categories are the setting for finite-dimensional vector
+   spaces (FdVect), the category Rel of relations, and — once a compatible
+   dagger is added (a dagger-compact category) — the ZX-calculus.
+
+   Hypergraph categories are a special case: every object is its own dual via
+   [X^* := X], with unit and counit built from the special commutative
+   Frobenius (SCFA) structure as [η := δ ∘ η_X] and [ε := ε_X ∘ μ]. *)
 
 Section CompactClosed.
 
@@ -35,11 +57,16 @@ Context {C : Category}.
 Context `{S : @SymmetricMonoidal C}.
 
 Class CompactClosed : Type := {
+  (* The chosen dual object [X^*] of each object [X]. *)
   dual : C -> C;
 
+  (* Unit / coevaluation ("cup")    η_X : I ~> X^* ⨂ X. *)
   cc_unit   : forall X : C, I ~> dual X ⨂ X;
+  (* Counit / evaluation ("cap")    ε_X : X ⨂ X^* ~> I. *)
   cc_counit : forall X : C, X ⨂ dual X ~> I;
 
+  (* Left snake / zigzag, "yanking" the X-strand straight:
+       λ ∘ (ε ⨂ id) ∘ α⁻¹ ∘ (id ⨂ η) ∘ ρ⁻¹ ≈ id[X]. *)
   snake_left : forall X : C,
     to (@unit_left C _ X)
       ∘ bimap (cc_counit X) id[X]
@@ -48,6 +75,8 @@ Class CompactClosed : Type := {
       ∘ from (@unit_right C _ X)
     ≈ id[X];
 
+  (* Right snake / zigzag, "yanking" the X^*-strand straight:
+       ρ ∘ (id ⨂ ε) ∘ α ∘ (η ⨂ id) ∘ λ⁻¹ ≈ id[X^*]. *)
   snake_right : forall X : C,
     to (@unit_right C _ (dual X))
       ∘ bimap id[dual X] (cc_counit X)
@@ -64,55 +93,53 @@ Arguments dual {C S _} X.
 Arguments cc_unit {C S _} X.
 Arguments cc_counit {C S _} X.
 
-(** * Every hypergraph category is compact closed (self-dual)
+(** * Every hypergraph category is compact closed (self-dual) *)
 
-    For [X^* := X] we set
+(* For [X^* := X] we set
 
-      cc_unit_X   := (δ_X ⨂ id_I-ish) ∘ η_X  — really  δ ∘ η : I ~> X⨂X
-      cc_counit_X := ε ∘ μ : X⨂X ~> I
+      cc_unit X   := δ ∘ η : I ~> X ⨂ X
+      cc_counit X := ε ∘ μ : X ⨂ X ~> I
 
-    The snake identities collapse via specialness ([μ ∘ δ ≈ id]) plus the
-    Frobenius equation.  We do **not** export this as a [Global Instance] to
-    avoid typeclass-search blowups: clients opt in via [Existing Instance].
-
-    Note: the full snake derivation requires a non-trivial diagram chase
-    combining Frobenius, specialness, and the unit/associator coherence.
-    In V1 we record the construction and snake equations as goals; the
-    derivation is left for V2 (downstream users only need the [CompactClosed]
-    interface, not the specific witness). *)
+   built from the special commutative Frobenius algebra carried by every
+   object of a hypergraph category. The snake identities collapse via the
+   Frobenius law together with the monoid unit and comonoid counit laws (see
+   the worked proofs below); specialness ([μ ∘ δ ≈ id]) is not needed for the
+   snake equations themselves. This construction is not exported as a [Global
+   Instance], to avoid typeclass-search blowups: clients opt in via [Existing
+   Instance Hypergraph_CompactClosed]. *)
 
 Section HypergraphIsCompactClosed.
 
 Context {C : Category}.
 Context `{S : @SymmetricMonoidal C}.
 
-(** Self-dual unit, given an SCFA on [X]. *)
+(* Self-dual unit, given an SCFA on [X]. *)
 Definition hcc_unit (X : C) `{F : @SpecialCommutativeFrobenius C S X}
   : I ~> X ⨂ X := scfa_delta F ∘ scfa_eta F.
 
-(** Self-dual counit, given an SCFA on [X]. *)
+(* Self-dual counit, given an SCFA on [X]. *)
 Definition hcc_counit (X : C) `{F : @SpecialCommutativeFrobenius C S X}
   : X ⨂ X ~> I := scfa_epsilon F ∘ scfa_mu F.
 
 End HypergraphIsCompactClosed.
 
-(** ** The derivation [Hypergraph C -> CompactClosed C]
+(** * The derivation [Hypergraph C -> CompactClosed C] *)
 
-    Self-dual: [dual X := X], [cc_unit X := scfa_delta ∘ scfa_eta],
-    [cc_counit X := scfa_epsilon ∘ scfa_mu].
+(* Self-dual: [dual X := X], [cc_unit X := scfa_delta ∘ scfa_eta],
+   [cc_counit X := scfa_epsilon ∘ scfa_mu].
 
-    Both snake equations reduce by the same pattern:
-      1. Distribute [bimap (ε∘μ) id ≈ bimap ε id ∘ bimap μ id] and dually
-         [bimap id (δ∘η) ≈ bimap id δ ∘ bimap id η].
-      2. Apply the Frobenius law [frob_law_left] (resp. [frob_law_right])
-         to collapse [bimap μ id ∘ α⁻¹ ∘ bimap id δ] to [δ ∘ μ].
-      3. Apply the monoid unit law [mu_unit_right] to collapse
-         [μ ∘ bimap id η] to [unit_right], cancelling with [unit_right⁻¹].
-      4. Apply the comonoid counit law [delta_counit_left] to collapse
-         [bimap ε id ∘ δ] to [unit_left⁻¹], cancelling with [unit_left].
+   Both snake equations reduce by the same pattern:
+     1. Distribute [bimap (ε∘μ) id ≈ bimap ε id ∘ bimap μ id] and dually
+        [bimap id (δ∘η) ≈ bimap id δ ∘ bimap id η].
+     2. Apply the Frobenius law [frob_law_left] (resp. [frob_law_right])
+        to collapse [bimap μ id ∘ α⁻¹ ∘ bimap id δ] to [δ ∘ μ].
+     3. Apply the monoid unit law [mu_unit_right] to collapse
+        [μ ∘ bimap id η] to [unit_right], cancelling with [unit_right⁻¹].
+     4. Apply the comonoid counit law [delta_counit_left] to collapse
+        [bimap ε id ∘ δ] to [unit_left⁻¹], cancelling with [unit_left].
 
-    Not exported as a [Global Instance] to avoid typeclass-search blowups;
-    clients opt in with [Existing Instance Hypergraph_CompactClosed.]. *)
+   Not exported as a [Global Instance] to avoid typeclass-search blowups;
+   clients opt in with [Existing Instance Hypergraph_CompactClosed]. *)
 
 Section HypergraphToCompactClosed.
 
@@ -120,8 +147,8 @@ Context {C : Category}.
 Context `{S : @SymmetricMonoidal C}.
 Context `{H : @Hypergraph C S}.
 
-(** Re-expose the unfoldings of [cc_unit] / [cc_counit] for the self-dual
-    construction; these isolate the [scfa_*] form for rewriting. *)
+(* Re-expose the unfoldings of [cc_unit] / [cc_counit] for the self-dual
+   construction; these isolate the [scfa_*] form for rewriting. *)
 Lemma cc_unit_unfold (X : C) :
   hcc_unit X (F := scfa X) = scfa_delta (scfa X) ∘ scfa_eta (scfa X).
 Proof. reflexivity. Qed.
@@ -130,7 +157,7 @@ Lemma cc_counit_unfold (X : C) :
   hcc_counit X (F := scfa X) = scfa_epsilon (scfa X) ∘ scfa_mu (scfa X).
 Proof. reflexivity. Qed.
 
-(** The snake-left calculation, abstracted away from the iso unfoldings. *)
+(* The snake-left calculation, abstracted away from the iso unfoldings. *)
 Lemma hypergraph_snake_left (X : C) :
   to (@unit_left C _ X)
     ∘ bimap (hcc_counit X (F := scfa X)) id[X]
@@ -162,7 +189,7 @@ Proof.
   reflexivity.
 Qed.
 
-(** The snake-right calculation, symmetric to [snake_left] under [paws]. *)
+(* The snake-right calculation, symmetric to [snake_left] under [paws]. *)
 Lemma hypergraph_snake_right (X : C) :
   to (@unit_right C _ X)
     ∘ bimap id[X] (hcc_counit X (F := scfa X))
@@ -188,13 +215,11 @@ Proof.
   reflexivity.
 Qed.
 
-(** The derived compact-closed structure on a hypergraph category.
+(* The derived compact-closed structure on a hypergraph category.
 
-    [dual X := X] (self-dual), and [cc_unit] / [cc_counit] are the
-    SCFA-derived morphisms [hcc_unit] / [hcc_counit].
-
-    The snake identities follow from [hypergraph_snake_left] and
-    [hypergraph_snake_right]. *)
+   [dual X := X] (self-dual), and [cc_unit] / [cc_counit] are the SCFA-derived
+   morphisms [hcc_unit] / [hcc_counit]. The snake identities follow from
+   [hypergraph_snake_left] and [hypergraph_snake_right]. *)
 Program Instance Hypergraph_CompactClosed : @CompactClosed C S := {|
   dual      := fun X => X;
   cc_unit   := fun X => hcc_unit X (F := scfa X);

@@ -24,10 +24,25 @@ Require Import Category.Construction.DecoratedCospan.Monoidal.
 
 Generalizable All Variables.
 
-(** * Braided and Symmetric Monoidal structure on [DecoratedCospanCat]
+(** * Braided and Symmetric Monoidal structure on [DecoratedCospanCat] *)
 
+(* nLab: https://ncatlab.org/nlab/show/braided+monoidal+category
+   nLab: https://ncatlab.org/nlab/show/symmetric+monoidal+category
+   Wikipedia: https://en.wikipedia.org/wiki/Braided_monoidal_category
+   Wikipedia: https://en.wikipedia.org/wiki/Symmetric_monoidal_category
+
+   The braiding on [DC] is the decorated lift [dec_mor_as_cospan paws] of the
+   C-coproduct swap [paws], carrying the canonical [id_decoration] on the apex.
+   It satisfies naturality and the two hexagon identities ([hexagon_identity],
+   [hexagon_identity_sym]) of a braided monoidal category, and is involutive
+   ([braid ∘ braid ≈ id]) for the symmetric structure; the concept definitions
+   live in Structure/Monoidal/Braided.v and Structure/Monoidal/Symmetric.v. *)
+
+(*
     Reference: Brendan Fong, "Decorated Cospans", arXiv:1502.00872,
-    Theorem 3.1.  This module assembles the [BraidedMonoidal] and
+    Theorem 3.5 (the symmetric-monoidal / hypergraph structure; in the
+    arXiv numbering 3.1 is the Definition, 3.2 the Proposition, 3.4 a
+    Remark, and 3.5 the Theorem).  This module assembles the [BraidedMonoidal] and
     [SymmetricMonoidal] instances on [DecoratedCospanCat] by layering
     decoration coherences on top of [Cospan_BraidedMonoidal] /
     [Cospan_SymmetricMonoidal] from [Construction/Cospan/Symmetric.v].

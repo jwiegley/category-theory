@@ -10,6 +10,46 @@ Import ListNotations.
 
 Open Scope nat_scope.
 
+(** * Reification: from a concrete goal to syntactic [Expr]/[Term]
+
+    This file is the metaprogramming bridge of the [Solver/] reflective tower
+    (Expr → Denote → Normal → Reify → Decide).  The decision procedure works by
+    reflection — it computes on a syntactic mirror of the goal rather than
+    reasoning about the goal directly
+    (https://en.wikipedia.org/wiki/Computational_reflection) — so something has
+    to build that mirror.  That is reification: the Ltac below inspects a goal
+    about real morphisms [f ≈ g] and constructs the corresponding [Expr] (and
+    its [Term] leaves) together with the [Arrows] environment that interprets
+    them, so that [exprD env (reify G)] is definitionally the original goal [G].
+    Reification carries no proof of its own — it is tactic code — but a faithful
+    translation is what makes the whole tactic sound in practice; an unfaithful
+    one would be caught only by the final [Denote]-based [change].
+
+    Faithfulness here means matching the conventions fixed by the (verified)
+    syntax and denotation:
+      - [id] reifies to [Ident], and [f ∘ g] (i.e. [compose f g]) reifies to
+        [Comp ft gt] — the same argument order [termD_work] reads back as
+        [f ∘ g] (Solver/Denote.v), so composition order is preserved;
+      - a morphism atom reifies to [Morph n], where [n] is a de Bruijn-style
+        index into the ambient [arrs] list, and the goal's objects reify to
+        their indices into [objs];
+      - the propositional connectives [True]/[False]/[∧]/[∨]/[→]/[≈] reify to
+        [Top]/[Bottom]/[And]/[Or]/[Impl]/[Equiv].
+    The [Term] leaves are paths in the free category on the reified arrows
+    (https://ncatlab.org/nlab/show/free+category).
+
+    The pipeline runs in two passes.  First [allVars] walks the goal collecting
+    every category, object, and arrow it mentions into Ltac-level association
+    lists (the helpers below build and query those lists).  Then [reifyExpr]
+    walks the goal again, this time emitting [Expr]/[Term] syntax whose indices
+    point into those lists, and [build_objs]/[build_arrs] reflect the lists into
+    the runtime [Objects]/[Arrows] record.  The user-facing entry points are
+    [reify] (which just [pose]s the reified environment and goal) and
+    [reify_and_change] (which [change]s the goal into [exprD env g], handing it
+    to Decide.v).  Each tactic is paired with an [Example] that pins down its
+    output by reflexive [assert]ions, so this file's round-trip claims are
+    re-checked on every build. *)
+
 (** Lists in Ltac *)
 
 Ltac addToList x xs :=

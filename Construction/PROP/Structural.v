@@ -11,21 +11,31 @@ From Coq Require Import Arith.
 
 Generalizable All Variables.
 
-(** * Structural isomorphisms for the free PROP
+(** * Structural isomorphisms for the free PROP *)
 
-    Package the three structural maps of a monoidal category — left
-    unitor, right unitor, associator — as isomorphisms in [FreeCat S]
-    using [T_cast].
+(* nLab: https://ncatlab.org/nlab/show/monoidal+category
+   nLab: https://ncatlab.org/nlab/show/associator
+   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_category
+   Wikipedia: https://en.wikipedia.org/wiki/Coherence_condition
 
-    The arity-equations are pure [Nat] facts:
+   Package the three structural maps of a monoidal category — left
+   unitor, right unitor, associator — as isomorphisms in [FreeCat S]
+   using [T_cast].
 
-      [Nat.add_0_l n]      : 0 + n = n              (left unit)
-      [Nat.add_0_r n]      : n + 0 = n              (right unit)
-      [Nat.add_assoc x y z] : x + (y + z) = (x + y) + z   (associator)
+   "Structural" here is the monoidal-coherence sense (the unitors and
+   associator of nLab/Mac Lane), not the permutation sense: a PROP also
+   has the symmetric structural maps [S_n ⊆ PROP(n,n)] built from braids
+   and identities (see [T_swap] in Term.v), which are a separate family.
 
-    Because [Nat.add] is left-strict in Coq, the left unitor at
-    [0 + n] is the identity definitionally; the right unitor and the
-    associator require non-trivial casts. *)
+   The arity-equations are pure [Nat] facts:
+
+     [Nat.add_0_l n]       : 0 + n = n                  (left unit)
+     [Nat.add_0_r n]       : n + 0 = n                  (right unit)
+     [Nat.add_assoc x y z] : x + (y + z) = (x + y) + z  (associator)
+
+   Because [Nat.add] is left-strict in Coq, the left unitor at
+   [0 + n] is the identity definitionally; the right unitor and the
+   associator require non-trivial casts. *)
 
 Open Scope nat_scope.
 
@@ -33,10 +43,8 @@ Section Structural.
 
 Context (S : Signature).
 
-(** ** Left unitor: [0 + n ≅ n] in FreeCat S.
-
-    Definitionally [0 + n = n] so the cast is along [eq_refl] and the
-    unitor is the literal identity. *)
+(* Left unitor [0 + n ≅ n] in [FreeCat S].  Definitionally [0 + n = n],
+   so the cast is along [eq_refl] and the unitor is the literal identity. *)
 Program Definition FreeCat_unit_left (n : nat) : @Isomorphism (FreeCat S) (0 + n) n := {|
   to   := T_cast (Nat.add_0_l n);
   from := T_cast (eq_sym (Nat.add_0_l n))
@@ -44,10 +52,9 @@ Program Definition FreeCat_unit_left (n : nat) : @Isomorphism (FreeCat S) (0 + n
 Next Obligation. apply T_cast_inv_sym. Qed.
 Next Obligation. apply T_cast_inv. Qed.
 
-(** ** Right unitor: [n + 0 ≅ n] in FreeCat S.
-
-    [Nat.add_0_r] is propositional, not definitional, so the cast is
-    along a non-trivial equation. *)
+(* Right unitor [n + 0 ≅ n] in [FreeCat S].  [Nat.add_0_r] is
+   propositional, not definitional, so the cast is along a non-trivial
+   equation. *)
 Program Definition FreeCat_unit_right (n : nat) : @Isomorphism (FreeCat S) (n + 0) n := {|
   to   := T_cast (Nat.add_0_r n);
   from := T_cast (eq_sym (Nat.add_0_r n))
@@ -55,9 +62,9 @@ Program Definition FreeCat_unit_right (n : nat) : @Isomorphism (FreeCat S) (n + 
 Next Obligation. apply T_cast_inv_sym. Qed.
 Next Obligation. apply T_cast_inv. Qed.
 
-(** ** Associator: [(x + y) + z ≅ x + (y + z)] in FreeCat S.
-
-    Likewise propositional via [Nat.add_assoc]. *)
+(* Associator [(x + y) + z ≅ x + (y + z)] in [FreeCat S].  Likewise
+   propositional via [Nat.add_assoc].  Oriented [to : (x+y)+z ~> x+(y+z)],
+   matching the nLab associator α : (A⊗B)⊗C → A⊗(B⊗C). *)
 Program Definition FreeCat_tensor_assoc (x y z : nat)
   : @Isomorphism (FreeCat S) ((x + y) + z) (x + (y + z)) := {|
   to   := T_cast (eq_sym (Nat.add_assoc x y z));

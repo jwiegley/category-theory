@@ -8,11 +8,21 @@ Generalizable All Variables.
 
 Local Open Scope nat_scope.
 
-(** * Equational theory of free-PROP terms
+(** * Equational theory of free-PROP terms *)
 
-    The equivalence relation [TermEq] on [Term S m n] quotients the
-    raw syntax of [Construction/PROP/Term.v] by the strict symmetric
-    monoidal category axioms:
+(* nLab: https://ncatlab.org/nlab/show/PROP
+   nLab: https://ncatlab.org/nlab/show/symmetric+monoidal+category
+   Wikipedia: https://en.wikipedia.org/wiki/Symmetric_monoidal_category
+   Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
+
+   The equivalence relation [TermEq] on [Term S m n] quotients the
+   raw syntax of [Construction/PROP/Term.v] by the strict symmetric
+   monoidal category axioms.  The quotient [Term S / TermEq] is the
+   free PROP (= free strict symmetric monoidal category whose objects
+   are the naturals under [+]) on the signature [S].
+
+   In library notation, with [⊙ = T_comp], [⊕ = T_tens],
+   [id = T_id], [σ = T_braid], the constructors below assert:
 
       - reflexivity, symmetry, transitivity (the setoid laws)
       - congruences for [T_comp] and [T_tens]
@@ -31,7 +41,16 @@ Local Open Scope nat_scope.
 
     This file defines just the equivalence relation.  The [Setoid]
     instance and the [Category] / [PROP] structure on the quotient
-    live in successor files. *)
+    live in successor files.
+
+    In a STRICT symmetric monoidal category the associator and unitors
+    are identities, so the pentagon and triangle coherences hold on the
+    nose and the only substantive coherences left are the hexagon and
+    the symmetry/involution equation [σ_{n,m} ⊙ σ_{m,n} ≈ id] (cf. the
+    nLab and Wikipedia pages above).  Because [nat] addition is strictly
+    associative/unital only up to propositional [=], several of those
+    "on the nose" equations are nonetheless stated below in [eq_rect]
+    transport form. *)
 
 Section TermEq.
 
@@ -42,38 +61,38 @@ Context (S : Signature).
     [nat] addition is associative ONLY up to propositional [=]
     (not definitional), we cannot state e.g. an associator
     [T_assoc : Term S ((m+n)+p) (m+(n+p))] in [Term] alone.  The
-    equational theory bridges these via the strict axioms
-    [TE_assoc_obj] / [TE_unit_*_obj]; in practice they are used as
-    rewrite rules to bring a term into a canonical right-associated
-    form on its arities. *)
+    equational theory bridges these via the strict tensor axioms
+    [TE_tens_assoc] / [TE_tens_id0_left] / [TE_tens_id0_right]; in
+    practice they are used as rewrite rules to bring a term into a
+    canonical right-associated form on its arities. *)
 
 Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
 
   (** Setoid laws. *)
-  | TE_refl  : forall {m n} (t : Term S m n), TermEq t t
-  | TE_sym   : forall {m n} (s t : Term S m n),
+  | TE_refl  : forall {m n} (t : Term S m n), TermEq t t     (* equivalence: reflexivity *)
+  | TE_sym   : forall {m n} (s t : Term S m n),              (* equivalence: symmetry *)
                TermEq s t -> TermEq t s
-  | TE_trans : forall {m n} (s t u : Term S m n),
+  | TE_trans : forall {m n} (s t u : Term S m n),            (* equivalence: transitivity *)
                TermEq s t -> TermEq t u -> TermEq s u
 
   (** Congruence of sequential composition. *)
-  | TE_comp_cong : forall {m n p}
+  | TE_comp_cong : forall {m n p}                            (* congruence of [T_comp] *)
                           (f f' : Term S n p) (g g' : Term S m n),
                    TermEq f f' -> TermEq g g' ->
                    TermEq (T_comp f g) (T_comp f' g')
 
   (** Congruence of parallel composition (tensor). *)
-  | TE_tens_cong : forall {m1 n1 m2 n2}
+  | TE_tens_cong : forall {m1 n1 m2 n2}                      (* congruence of [T_tens] *)
                           (f f' : Term S m1 n1) (g g' : Term S m2 n2),
                    TermEq f f' -> TermEq g g' ->
                    TermEq (T_tens f g) (T_tens f' g')
 
   (** Category laws: id-left, id-right, associativity. *)
-  | TE_id_left  : forall {m n} (f : Term S m n),
+  | TE_id_left  : forall {m n} (f : Term S m n),             (* category: left identity *)
                   TermEq (T_comp (T_id n) f) f
-  | TE_id_right : forall {m n} (f : Term S m n),
+  | TE_id_right : forall {m n} (f : Term S m n),             (* category: right identity *)
                   TermEq (T_comp f (T_id m)) f
-  | TE_assoc    : forall {m n p q}
+  | TE_assoc    : forall {m n p q}                           (* category: associativity of [⊙] *)
                          (h : Term S p q) (g : Term S n p) (f : Term S m n),
                   TermEq (T_comp (T_comp h g) f)
                          (T_comp h (T_comp g f))
@@ -82,12 +101,12 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
 
       [TE_tens_id]: [id_m ⊕ id_n = id_(m+n)] — typing OK because [Term]
       is [nat]-indexed and addition is the tensor on arities. *)
-  | TE_tens_id : forall (m n : nat),
+  | TE_tens_id : forall (m n : nat),                         (* bifunctor: tensor preserves identity *)
                  TermEq (T_tens (T_id m) (T_id n)) (T_id (m + n))
 
   (** [TE_interchange]: (f₁ ⊕ g₁) ⊙ (f₂ ⊕ g₂) ≈ (f₁ ⊙ f₂) ⊕ (g₁ ⊙ g₂)
       — the parallel/sequential interchange law. *)
-  | TE_interchange :
+  | TE_interchange :                                         (* bifunctor: middle-four interchange *)
       forall {m1 n1 p1 m2 n2 p2}
              (f1 : Term S n1 p1) (g1 : Term S n2 p2)
              (f2 : Term S m1 n1) (g2 : Term S m2 n2),
@@ -96,14 +115,14 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
 
   (** Braid involution: [σ_{m,n} ⊙ σ_{n,m} ≈ id_{m+n}].  Block-braiding
       twice returns to identity. *)
-  | TE_braid_invol :
+  | TE_braid_invol :                                         (* symmetry: involution σ⊙σ = id *)
       forall (m n : nat),
         TermEq (T_comp (T_braid n m) (T_braid m n)) (T_id (m + n))
 
   (** Braid naturality (top form):
         (g ⊕ f) ⊙ σ_{m1,m2} ≈ σ_{n1,n2} ⊙ (f ⊕ g)
       where f : m1 -> n1, g : m2 -> n2. *)
-  | TE_braid_natural :
+  | TE_braid_natural :                                       (* symmetry: braiding naturality *)
       forall {m1 n1 m2 n2}
              (f : Term S m1 n1) (g : Term S m2 n2),
         TermEq (T_comp (T_tens g f) (T_braid m1 m2))
@@ -122,7 +141,7 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
       We state it as commuting with arity-zero through a [T_id]
       composition wrapper, so the types line up: both sides have
       type [Term S (0 + n) n]. *)
-  | TE_tens_id0_left :
+  | TE_tens_id0_left :                                       (* strict unit: left unitor λ = id *)
       forall {m n : nat} (f : Term S m n),
         TermEq (T_tens (T_id 0) f) f
 
@@ -133,7 +152,7 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
       arity-equations.  Concretely [T_tens f (T_id 0)] has type
       [Term S (m + 0) (n + 0)]; we transport it to [Term S m n] using
       [Nat.add_0_r] on both indices, and assert the result equals [f]. *)
-  | TE_tens_id0_right :
+  | TE_tens_id0_right :                                      (* strict unit: right unitor ρ = id *)
       forall {m n : nat} (f : Term S m n),
         TermEq (eq_rect (Nat.add n O)
                         (fun k => Term S (Nat.add m O) k)
@@ -146,7 +165,7 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
                   (Nat.add_0_r m))
 
   (** Strict-PROP associativity of tensor.  Transport form. *)
-  | TE_tens_assoc :
+  | TE_tens_assoc :                                          (* strict associator α = id *)
       forall {m1 n1 m2 n2 m3 n3 : nat}
              (f : Term S m1 n1) (g : Term S m2 n2) (h : Term S m3 n3),
         TermEq (eq_rect (Nat.add (Nat.add n1 n2) n3)
@@ -176,9 +195,25 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
       Without these, e.g. [T_braid 3 2] is not provably equal to the
       layered composite of single-wire swaps, and the [SymmetricMonoidal]
       instance on [FreeCat S] cannot discharge [hexagon_to] /
-      [hexagon_from] for non-trivial arities. *)
+      [hexagon_from] for non-trivial arities.
 
-  | TE_braid_hex_left :
+      ** Minimality note (nLab/Wikipedia, symmetric_monoidal_category)
+
+      In a SYMMETRIC (as opposed to merely braided) monoidal category
+      the two hexagons are NOT independent: given the symmetry equation
+      [σ_{n,m} ⊙ σ_{m,n} ≈ id] ([TE_braid_invol]) together with braid
+      naturality ([TE_braid_natural]), either hexagon implies the other.
+      So exactly one of [TE_braid_hex_left] / [TE_braid_hex_right] is
+      logically necessary; the other is a derivable theorem we keep as a
+      primitive constructor for ergonomics (the [eq_rect] transport
+      bookkeeping makes the formal derivation tedious).  As with the
+      unit-braid constructors below, the redundancy is sound and cannot
+      make [TermEq] inconsistent (every constructor is inhabited by the
+      standard permutation model).  Deriving one as a [Lemma] after the
+      inductive would change only the axiom budget, not any
+      [TermEq]-judgement.  See review FLAG (needs-followup). *)
+
+  | TE_braid_hex_left :                                       (* symmetry: hexagon (left argument) *)
       forall (m n p : nat),
         TermEq
           (* LHS: σ_{m+n,p} with source cast (m+n)+p → m+(n+p). *)
@@ -203,7 +238,7 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
                       (eq_sym (Nat.add_assoc p m n)))
              (T_tens (T_id m) (T_braid n p)))
 
-  | TE_braid_hex_right :
+  | TE_braid_hex_right :                                      (* symmetry: hexagon (right argument) *)
       forall (m n p : nat),
         TermEq
           (* LHS: σ_{m,n+p} with target cast (n+p)+m → n+(p+m). *)
@@ -271,7 +306,7 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
       derives these as [Lemma]s after the inductive declaration would
       not change any [TermEq]-judgements, only the axiom budget. *)
 
-  | TE_braid_unit_left :
+  | TE_braid_unit_left :                                      (* symmetry: unit braid σ_{0,n} = id (derivable) *)
       forall (n : nat),
         TermEq
           (* T_braid 0 n : Term S (0+n) (n+0) = Term S n (n+0).
@@ -282,7 +317,7 @@ Inductive TermEq : forall {m n}, Term S m n -> Term S m n -> Prop :=
                    (Nat.add_0_r n))
           (T_id n)
 
-  | TE_braid_unit_right :
+  | TE_braid_unit_right :                                     (* symmetry: unit braid σ_{n,0} = id (derivable) *)
       forall (n : nat),
         TermEq
           (* T_braid n 0 : Term S (n+0) (0+n) = Term S (n+0) n.

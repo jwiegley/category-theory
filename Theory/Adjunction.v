@@ -7,6 +7,20 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
+(* nLab: https://ncatlab.org/nlab/show/adjoint+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Adjoint_functors
+
+   An adjunction F ⊣ U between F : D ⟶ C (the left adjoint) and U : C ⟶ D
+   (the right adjoint) is given here in hom-set form: a family of isomorphisms
+   adj {x y} : (F x ~{C}~> y) ≊ (x ~{D}~> U y) in the category of setoids,
+   natural in both arguments. Writing ⌊f⌋ := to adj f and ⌈f⌉ := from adj f
+   for the two transposes, naturality is recorded by [to_adj_nat_l],
+   [to_adj_nat_r] (and the inverse-direction [from_adj_nat_l],
+   [from_adj_nat_r]). The unit η := ⌊id⌋ : x ~> U (F x) and counit
+   ε := ⌈id⌉ : F (U x) ~> x are the transposes of the identities, and the
+   triangle (zig-zag) identities ε ∘ fmap[F] η ≈ id[F x] (counit_fmap_unit)
+   and fmap[U] ε ∘ η ≈ id[U x] (fmap_counit_unit) hold as derived corollaries. *)
+
 (* Adjunctions relate two functors that map between the same two categories
   (though in opposite directions), in a manner that is weaker than isomorphism
   or equivalence, but still quite informative. In general, one functor is
@@ -46,11 +60,17 @@ Class Adjunction@{o3 p3 so sh sp} := {
     where "⌊ f ⌋" := (to   adj f)
       and "⌈ f ⌉" := (from adj f);
 
+  (* Naturality of the iso in both arguments, stated for the forward transpose
+     ⌊-⌋ = to adj (naturality in x, via F) and ... *)
   to_adj_nat_l {x y z} (f : F y ~> z) (g : x ~> y) :
     ⌊f ∘ fmap[F] g⌋ ≈ ⌊f⌋ ∘ g;
+  (* ... naturality in y, via U. *)
   to_adj_nat_r {x y z} (f : y ~> z) (g : F x ~> y) :
     ⌊f ∘ g⌋ ≈ fmap[U] f ∘ ⌊g⌋;
 
+  (* The dual (_sym) statements for the inverse transpose ⌈-⌉ = from adj;
+     derivable from the above, but kept as fields so that opposite-side proofs
+     are available by reflexivity-of-duality without re-deriving them. *)
   from_adj_nat_l {x y z} (f : y ~> U z) (g : x ~> y) :
     ⌈f ∘ g⌉ ≈ ⌈f⌉ ∘ fmap[F] g;
   from_adj_nat_r {x y z} (f : y ~> z) (g : x ~> U y) :

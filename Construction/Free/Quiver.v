@@ -13,12 +13,49 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
+(** * Quivers and the free category on a quiver *)
+
+(* nLab:      https://ncatlab.org/nlab/show/quiver
+   Wikipedia: https://en.wikipedia.org/wiki/Quiver_(mathematics)
+
+   A quiver (directed multigraph) is a set of nodes (vertices) together with,
+   for each ordered pair of nodes, a set of edges (arrows) between them.  In
+   the classical presentation this is two sets V, E with source/target maps
+   s, t : E → V; here the edges are indexed directly by their endpoints, so
+   [edges X Y] is the set of arrows from X to Y and source/target are implicit
+   in the indexing.  Parallel edges and loops are allowed.  Each [edges X Y]
+   carries a setoid so arrows are compared up to [≈] rather than [=].
+
+   A quiver homomorphism (QuiverHomomorphism) maps nodes to nodes and edges to
+   edges respecting source and target (here automatic from the indexing) and
+   the edge setoids.  Quivers and their homomorphisms form the category
+   [QuiverCategory] (the Quiv of the literature); morphism equivalence is
+   pointwise equality on nodes together with transported [≈] on edges.
+
+   The free category on a quiver G, [FreeOnQuiver G], has the nodes of G as
+   objects and finite composable paths of edges as morphisms ([tlist edges],
+   the type-aligned lists of Lib/TList.v): the empty path [tnil] is the
+   identity and path concatenation [+++] (with composition order flipped,
+   [g +++ f]) is composition; associativity and unit laws are the [tlist_app]
+   laws.  [QuiverOfCat] underlies a category as a quiver, giving the forgetful
+   functor [Forgetful : StrictCat ⟶ QuiverCategory].
+
+   [UniversalArrowQuiverCat] establishes the universal property: every quiver
+   homomorphism G ⇨ U(C) factors uniquely through the unit
+   [UnitQuiverCatAdjunction] as a functor [InducedFunctor], i.e. Free ⊣
+   Forgetful.  [FreeForgetfulAdjunction] packages this adjunction.
+
+   [FreeSyntax] (Section FreeQuiverSyntax) gives an alternative syntactic free
+   category whose morphisms are the free term algebra [Mor] (Ident/Morph/Comp)
+   quotiented by [≈] under the normalising map [morDA] into paths; it is
+   equivalent to [FreeOnQuiver]. *)
+
 Section Quiver.
   Class Quiver@{o h p} := {
-      nodes : Type@{o};
-      uedges := Type@{h} : Type@{h+1};
-      edges : nodes → nodes → uedges;
-      edgeset : ∀ X Y, Setoid@{h p} (edges X Y)
+      nodes : Type@{o};                          (* vertices / objects *)
+      uedges := Type@{h} : Type@{h+1};           (* universe of edge sets *)
+      edges : nodes → nodes → uedges;            (* arrows, indexed by source and target *)
+      edgeset : ∀ X Y, Setoid@{h p} (edges X Y)  (* each edge set is a setoid (≈) *)
     }.
   Coercion nodes : Quiver >-> Sortclass.
   Context (G : Quiver).
@@ -162,11 +199,14 @@ Definition Build_Quiver_Standard_Eq ( node_type : Type )
     edgeset := fun _ _ => {| equiv := eq; setoid_equiv := eq_equivalence |}
   |}.
 
+(* A quiver homomorphism G ⇨ G': a map on nodes together with, for each pair
+   of nodes, a map on edges into the image pair (source and target are thus
+   preserved by construction) that respects the edge setoids. *)
 Class QuiverHomomorphism@{o1 h1 p1 o2 h2 p2}
   (G : Quiver@{o1 h1 p1}) (G' : Quiver@{o2 h2 p2}) := {
-    fnodes : @nodes G -> @nodes G';
-    fedgemap : ∀ x y : @nodes G, edges x y -> edges (fnodes x) (fnodes y);
-    fedgemap_respects : ∀ x y,
+    fnodes : @nodes G -> @nodes G';                                    (* action on nodes *)
+    fedgemap : ∀ x y : @nodes G, edges x y -> edges (fnodes x) (fnodes y); (* action on edges *)
+    fedgemap_respects : ∀ x y,                                         (* edge map respects ≈ *)
     Proper@{h2 p2} (respectful@{h1 p1 h2 p2 h2 p2}
                       (@equiv@{h1 p1} _ (edgeset _ _))
                       (@equiv@{h2 p2} _ (edgeset _ _))) (@fedgemap x y)
@@ -513,10 +553,13 @@ Definition FreeForgetfulAdjunction : Adjunction FreeCatFunctor Forgetful :=
 Section FreeQuiverSyntax.
 Context {G : Quiver}.
 
+(* Syntactic free morphisms: the free term algebra on the edges of G, with
+   formal identities and composites.  [morDA] normalises a term to a path,
+   and [Mor_Setoid] quotients terms by equality of their normal forms. *)
 Inductive Mor : nodes → nodes → Type :=
-  | Ident {x} : Mor x x
-  | Morph {x y} (f : edges x y) : Mor x y
-  | Comp  {x y z} (f : Mor y z) (g : Mor x y) : Mor x z.
+  | Ident {x} : Mor x x                                   (* formal identity *)
+  | Morph {x y} (f : edges x y) : Mor x y                 (* generating edge *)
+  | Comp  {x y z} (f : Mor y z) (g : Mor x y) : Mor x z.  (* formal composite *)
 
 Fixpoint morDA `(t : Mor x y) : tlist edges x y :=
   match t with

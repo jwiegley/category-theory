@@ -9,6 +9,32 @@ Require Import Category.Functor.Structure.Monoidal.
 
 Generalizable All Variables.
 
+(** Composition of monoidal functors. *)
+
+(* nLab: https://ncatlab.org/nlab/show/monoidal+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_functor
+
+   The composite of two monoidal functors G : C ⟶ D and F : D ⟶ E is again a
+   monoidal functor F ◯ G : C ⟶ E, in both the lax and the strong forms. The
+   composite comparison maps are built from those of the factors, with the
+   outer functor F applied to the inner comparison and then composed with F's
+   own comparison (writing the inner functor as G here, the outer as F):
+
+       η^{F◯G}    = F η^G ∘ η^F                : I ~> F (G I)
+       μ^{F◯G}_xy = F μ^G_{x,y} ∘ μ^F_{G x,G y} : F (G x) ⨂ F (G y)
+                                                    ~> F (G (x ⨂ y))
+
+   matching nLab and Wikipedia (μ^{G∘F} = G(μ^F) ∘ μ^G with G outer). The
+   coherence obligations (associativity and the two unit laws) for the
+   composite follow from those of each factor together with naturality of the
+   comparison maps; both instances below discharge them with no axioms.
+
+   This is composition of 1-morphisms in the 2-category MonCat of monoidal
+   categories, monoidal functors, and monoidal natural transformations (with
+   the strong functors forming a sub-2-category MonCat_strong); it is not a
+   groupoid, since a strong monoidal functor has invertible comparison maps
+   but need not be invertible as a functor. *)
+
 Section MonoidalFunctors.
 
 Context {C : Category}.
@@ -24,8 +50,11 @@ Context {F : D ⟶ E}.
 #[local] Set Transparent Obligations.
 #[local] Obligation Tactic := program_simpl.
 
-(* Any two monoidal functors compose to create a monoidal functor. This is
-   composition in the groupoid of categories with monoidal structure. *)
+(* Any two strong monoidal functors compose to create a strong monoidal
+   functor. This is composition of 1-morphisms in the sub-2-category
+   MonCat_strong of monoidal categories and strong monoidal functors. The
+   composite comparison maps are F μ^G ∘ μ^F and F η^G ∘ η^F (F outer), and
+   remain invertible because each factor's are. *)
 
 #[export] Program Instance Compose_MonoidalFunctor
        `(M : @MonoidalFunctor D E _ _ F)
@@ -254,8 +283,10 @@ Next Obligation.
 Qed.
 
 (* Likewise, any two lax monoidal functors compose to create a lax monoidal
-   functor. This is composition in the category of categories with monoidal
-   structure. *)
+   functor. This is composition of 1-morphisms in the 2-category MonCat_lax of
+   monoidal categories and lax monoidal functors. The composite comparison
+   maps are F μ^G ∘ μ^F and F η^G ∘ η^F (F outer), exactly as in the strong
+   case but without requiring invertibility. *)
 
 #[export] Program Instance Compose_LaxMonoidalFunctor
        `(M : @LaxMonoidalFunctor D E _ _ F)

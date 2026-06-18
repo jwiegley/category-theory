@@ -3,8 +3,27 @@ Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 
-(* A product of two categories forms a category. All of the methods are
-   spelled out here to ease simplification. *)
+(** The product of two categories. *)
+
+(* nLab: https://ncatlab.org/nlab/show/product+category
+   Wikipedia: https://en.wikipedia.org/wiki/Product_category
+
+   The product category C ∏ D has as objects the pairs (c, d) with c : C and
+   d : D, and as morphisms (c, d) ~> (c', d') the pairs (f, g) of a morphism
+   f : c ~> c' in C and a morphism g : d ~> d' in D. Identity and composition
+   are componentwise: id := (id, id) and (f, g) ∘ (f', g') := (f ∘ f', g ∘ g').
+   Equivalence of morphisms is the componentwise conjunction of ≈ in C and ≈
+   in D, and the unit and associativity laws hold componentwise because they
+   hold in each factor.
+
+   This is the cartesian product in Cat, the category of categories: the
+   projection functors Fst and Snd (π₁, π₂ below) exhibit C ∏ D as the
+   categorical product of C and D, so a functor E ⟶ C ∏ D is the same as a
+   pair of functors E ⟶ C and E ⟶ D. This is the product *of categories*, and
+   is distinct from a product *object* inside a single category, formed via a
+   universal cone in Structure/Cartesian.v.
+
+   All of the methods are spelled out here to ease simplification. *)
 
 Definition Product (C D : Category) : Category := {|
   obj     := C * D;
@@ -57,22 +76,28 @@ Notation "C ∏ D" := (@Product C D) (at level 90) : category_scope.
 
 Require Import Category.Theory.Functor.
 
+(* First projection functor π₁ : C ∏ D ⟶ C, taking (c, d) to c on objects and
+   (f, g) to f on morphisms. *)
 #[export]
 Program Instance Fst {C D : Category} : C ∏ D ⟶ C := {
-  fobj := fst;
-  fmap := fun _ _ => fst
+  fobj := fst;                          (* (c, d) ↦ c *)
+  fmap := fun _ _ => fst                (* (f, g) ↦ f *)
 }.
 
+(* Second projection functor π₂ : C ∏ D ⟶ D, taking (c, d) to d on objects and
+   (f, g) to g on morphisms. *)
 #[export]
 Program Instance Snd {C D : Category} : C ∏ D ⟶ D := {
-  fobj := snd;
-  fmap := fun _ _ => snd
+  fobj := snd;                          (* (c, d) ↦ d *)
+  fmap := fun _ _ => snd                (* (f, g) ↦ g *)
 }.
 
+(* The symmetry functor C ∏ D ⟶ D ∏ C exchanging the two factors, witnessing
+   that the product of categories is commutative up to isomorphism. *)
 Program Definition Swap
         {C : Category} {D : Category} : (C ∏ D) ⟶ (D ∏ C) := {|
-  fobj := fun x => (snd x, fst x);
-  fmap := fun _ _ f => (snd f, fst f);
+  fobj := fun x => (snd x, fst x);      (* (c, d) ↦ (d, c) *)
+  fmap := fun _ _ f => (snd f, fst f);  (* (f, g) ↦ (g, f) *)
 |}.
 
 Corollary fst_comp {C : Category} {D : Category} x y z
@@ -87,5 +112,8 @@ Proof. reflexivity. Qed.
 
 Require Import Category.Construction.Opposite.
 
+(* The opposite of a product is the product of the opposites, on the nose:
+   both Opposite and Product act componentwise, so the two categories are
+   definitionally equal (hence the proof by reflexivity, using =). *)
 Corollary Product_Opposite {C D : Category} : (C ∏ D) ^op = (C^op ∏ D^op).
 Proof. reflexivity. Qed.

@@ -12,17 +12,40 @@ Require Import Category.Theory.Algebra.CommutativeFrobenius.
 
 Generalizable All Variables.
 
-(** * Special commutative Frobenius algebras (SCFAs)
+(** * Special commutative Frobenius algebras (SCFAs) *)
 
-    A commutative Frobenius algebra is "special" when the round trip
-    [mu ∘ delta] is the identity.  Equivalently the Frobenius pair has no
-    redundancy — every "spider" with the same number of legs collapses to a
-    single canonical form.
+(* A commutative Frobenius algebra (Theory/Algebra/CommutativeFrobenius.v) is
+   "special" when the round trip [mu ∘ delta] is the identity.  In our library
+   notation the special law is
 
-    Special commutative Frobenius algebras are the central algebraic object
-    of hypergraph categories: a hypergraph category is a symmetric monoidal
-    category equipped with an SCFA on every object, compatible with the
-    tensor in a canonical way. *)
+       mu ∘ delta ≈ id[X]            (the special / "isometric" law)
+
+   Equivalently the Frobenius pair has no redundancy: every "spider" with the
+   same number of legs collapses to a single canonical form (this is the
+   normal-form / "spider theorem").  Both nLab and Wikipedia state the law as
+   [prod ∘ coprod = id] (Wikipedia writes [μ ∘ δ = Id_A]); some authors only
+   require [mu ∘ delta = β·id] for a nonzero scalar [β], in which case ours is
+   the strict (β = 1) version.
+
+   Note on neighbouring conditions.  "Special" constrains only [mu ∘ delta]; it
+   does NOT impose the dual unit/counit law [epsilon ∘ eta ≈ id].  That extra
+   law is the separate "extraspecial" (a.k.a. "bone" / "irredundancy") axiom,
+   and we deliberately do not require it here.
+
+   ZX-calculus.  Dagger special commutative Frobenius algebras are exactly the
+   "classical structures" / "observable structures" of categorical quantum
+   mechanics: their morphisms are the ZX-calculus green/red spiders, and the
+   special law is what powers the spider fusion rule.  (Our setting is a plain
+   symmetric monoidal category, without the dagger.)
+
+   Special commutative Frobenius algebras are also the central algebraic object
+   of hypergraph categories: a hypergraph category is a symmetric monoidal
+   category equipped with an SCFA on every object, compatible with the tensor
+   in a canonical way.
+
+   nLab:      https://ncatlab.org/nlab/show/Frobenius+algebra
+   nLab:      https://ncatlab.org/nlab/show/classical+structure
+   Wikipedia: https://en.wikipedia.org/wiki/Frobenius_algebra *)
 
 Section SpecialCommutativeFrobenius.
 
@@ -30,8 +53,10 @@ Context {C : Category}.
 Context `{S : @SymmetricMonoidal C}.
 
 Class SpecialCommutativeFrobenius (X : C) : Type := {
+  (* underlying commutative Frobenius algebra ([mu], [eta], [delta], [epsilon]) *)
   scfa_commutative : @CommutativeFrobenius C _ X;
 
+  (* the special law: [mu ∘ delta ≈ id[X]] *)
   mu_delta_id :
     (@mu _ _ _ (@frob_monoid _ _ _ (@cfrob_frobenius _ _ _ scfa_commutative)))
       ∘ (@delta _ _ _ (@frob_comonoid _ _ _ (@cfrob_frobenius _ _ _ scfa_commutative)))

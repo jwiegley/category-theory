@@ -3,17 +3,27 @@ Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 
-(* This is the category of three objects and two arrows, from the first object
-   to the other two (as well as the three identity morphisms):
+(** The walking span (span shape category). *)
 
-                x
-              /   \
-           f /     \ g
-            /       \
-           v         v
-          y           z
+(* The category of three objects and two non-identity arrows, both pointing
+   from the apex RZero to the other two objects (plus the three identities):
 
-  This is used to build diagrams that identify spans and pullbacks. *)
+                RZero
+               /     \
+       ZeroNeg/       \ZeroPos
+             /         \
+            v           v
+          RNeg         RPos
+
+   This is the span shape `RNeg ← RZero → RPos`, i.e. the indexing category
+   whose functors out of it are spans: a functor [Roof ⟶ C] is a span in C,
+   and a functor out of the opposite [Roof^op ⟶ C] is a cospan in C (see
+   [Structure/Span.v]). A colimit over a span is a pushout; dually, a limit
+   over a cospan (a functor out of [Roof^op]) is a pullback (see
+   [Structure/Pullback/Limit.v]).
+
+   nLab:      https://ncatlab.org/nlab/show/span
+   Wikipedia: https://en.wikipedia.org/wiki/Span_(category_theory) *)
 
 Inductive RoofObj : Set := RNeg | RZero | RPos.
 
@@ -70,7 +80,9 @@ Proof. inversion 1. Qed.
 Program Definition Roof : Category := {|
   obj    := RoofObj;
   hom    := RoofHom;
-  (* Any hom that typechecks is valid. *)
+  (* Each homset is a subsingleton (at most one arrow between any two
+     objects), so the trivial relation True is already an equivalence and
+     respects composition; any two parallel arrows are interchangeable. *)
   homset := fun x y => {| equiv := fun (f g : RoofHom x y) => True |};
   id     := fun x => match x return RoofHom x x with
     | RNeg  => IdNeg

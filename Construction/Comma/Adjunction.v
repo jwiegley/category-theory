@@ -14,6 +14,28 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
+(** Comma-category characterization of adjunctions (Lawvere) *)
+
+(* nLab: https://ncatlab.org/nlab/show/adjoint+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Comma_category
+
+   Lawvere's theorem: F ⊣ G iff the comma categories (F ↓ Id[C]) and
+   (Id[D] ↓ G) are isomorphic over the projections to the product category
+   D ∏ C; that is, the isomorphism commutes with comma_proj.  Here, with
+   F : D ⟶ C and G : C ⟶ D, the record [lawvere_equiv] below packages such an
+   iso together with its over-D∏C coherence ([projF], [projG], [σ]) and
+   extracts from it the hom-set bijection
+
+     φ' : (F a ~> b) ≅ (a ~> G b)
+
+   natural in both a and b (see [lawvere_to_functorial], [lawvere_from_functorial]),
+   recovering the classical hom-set definition of an adjunction. *)
+
+(* Coherence between an iso φ : C ⟶ D (with inverse ψ) and two projections
+   πC, πD : _ ⟶ E that it preserves: the unit/counit η, μ paste together with
+   the comparison cells κ, θ.  Whiskered along φ and ψ this says φ, ψ are
+   compatible "over the projections", the property that makes the comma-category
+   iso below an iso over D ∏ C. *)
 Definition whisker_equiv
            {C D E : Category}
            (φ  : C ⟶ D)
@@ -59,21 +81,21 @@ Definition πC := comma_proj2.
 #[local] Notation "⟨πD,πC⟩" := comma_proj (at level 0).
 
 Record lawvere_equiv := {
-  lawvere_iso : F ↓ Id[C] ≅[Cat] Id[D] ↓ G;
+  lawvere_iso : F ↓ Id[C] ≅[Cat] Id[D] ↓ G;   (* the comma iso (F↓Id) ≅ (Id↓G) *)
 
-  φ := to lawvere_iso;
-  ψ := from lawvere_iso;
+  φ := to lawvere_iso;                         (* forward functor of the iso *)
+  ψ := from lawvere_iso;                       (* backward functor of the iso *)
 
-  η x := from (`1 (iso_from_to lawvere_iso) x);
-  μ x := from (`1 (iso_to_from lawvere_iso) x);
+  η x := from (`1 (iso_from_to lawvere_iso) x);  (* ψ◯φ ≅ Id component, as a mor *)
+  μ x := from (`1 (iso_to_from lawvere_iso) x);  (* φ◯ψ ≅ Id component, as a mor *)
 
-  projF : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ φ;
-  projG : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ ψ;
+  projF : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ φ;               (* φ is over the D∏C projection *)
+  projG : ⟨πD,πC⟩ ≈ ⟨πD,πC⟩ ◯ ψ;               (* ψ is over the D∏C projection *)
 
-  κ := `1 projF;
-  θ := `1 projG;
+  κ := `1 projF;                               (* nat-iso witnessing projF *)
+  θ := `1 projG;                               (* nat-iso witnessing projG *)
 
-  σ : @whisker_equiv
+  σ : @whisker_equiv                           (* η,μ cohere with κ,θ over D∏C *)
         (F ↓ Id[C]) (Id[D] ↓ G) (D ∏ C)
         (to lawvere_iso) (from lawvere_iso)
         comma_proj comma_proj
@@ -82,20 +104,26 @@ Record lawvere_equiv := {
         (to (equiv_iso projF))
         (to (equiv_iso projG));
 
+  (* The hom-set bijection extracted from the comma iso: transport
+     f : F a ~> b through φ, then re-fasten the endpoints to (a, b) using the
+     projection comparison κ, landing on a ~> G b. *)
   lawvere_to {a b} (f : F a ~> b) : a ~> G b :=
     let o := ((a, b); f) in
     fmap[G] (snd (from (κ o))) ∘ `2 (φ o) ∘ fst (to (κ o));
 
+  (* Its inverse, transporting g : a ~> G b back through ψ via θ. *)
   lawvere_from {a b} (g : a ~> G b) : F a ~> b :=
     let o := ((a, b); g) in
     snd (from (θ o)) ∘ `2 (ψ o) ∘ fmap[F] (fst (to (θ o)));
 
-  φ' {a b} (f : F a ~> b) := lawvere_to f;
-  ψ' {a b} (g : a ~> G b) := lawvere_from g
+  φ' {a b} (f : F a ~> b) := lawvere_to f;     (* the forward adjunct ⌊f⌋ *)
+  ψ' {a b} (g : a ~> G b) := lawvere_from g     (* the backward adjunct ⌈g⌉ *)
 }.
 
 Context `(E : lawvere_equiv).
 
+(* Component form of the first conjunct of σ: the unit η factors through the
+   projection comparisons κ and θ. *)
 Lemma η_θ_κ : ∀ x, `1 (η E x) ≈ θ E (φ E x) ∘ κ E x.
 Proof.
   intros.
@@ -111,6 +139,7 @@ Proof.
     rewrite <- e3; cat.
 Qed.
 
+(* Component form of the second conjunct of σ: the counit μ factors dually. *)
 Lemma μ_κ_θ : ∀ x, `1 (μ E x) ≈ κ E (ψ E x) ∘ θ E x.
 Proof.
   intros.
@@ -126,6 +155,8 @@ Proof.
     rewrite <- e3; cat.
 Qed.
 
+(* The composite ψ∘φ acts as the identity on the carrier morphism `2 x, the
+   morphism-level half of ψ'(φ' f) ≈ f (cf. lawvere_from_to). *)
 Theorem ψ_φ_equiv :
   ∀ x, snd (from (κ E x))
          ∘ snd (from (θ E (φ E x)))
@@ -152,6 +183,8 @@ Proof.
   now rewrite iso_from_to; cat.
 Qed.
 
+(* Dual: φ∘ψ acts as the identity on the carrier morphism, the morphism-level
+   half of φ'(ψ' g) ≈ g (cf. lawvere_to_from). *)
 Theorem φ_ψ_equiv :
   ∀ x, fmap[G] (snd (from (θ E x)))
          ∘ fmap[G] (snd (from (κ E (ψ E x))))
@@ -179,6 +212,7 @@ Proof.
   now rewrite iso_from_to; cat.
 Qed.
 
+(* φ, being a functor, carries isomorphisms to isomorphisms (via fobj_iso). *)
 Program Instance to_lawvere_iso_Proper :
   Proper (Isomorphism ==> Isomorphism) (φ E).
 Next Obligation.
@@ -190,6 +224,7 @@ Next Obligation.
   - exact (iso_from_to (@fobj_iso _ _ (φ E) _ _ X)).
 Qed.
 
+(* Dually, ψ carries isomorphisms to isomorphisms. *)
 Program Instance from_lawvere_iso_Proper :
   Proper (Isomorphism ==> Isomorphism) (ψ E).
 Next Obligation.
@@ -201,6 +236,7 @@ Next Obligation.
   - exact (iso_from_to (@fobj_iso _ _ (ψ E) _ _ X)).
 Qed.
 
+(* The forward adjunct φ' respects ≈ on hom-sets. *)
 Program Instance lawvere_to_Proper {a b} :
   Proper (equiv ==> equiv) (@φ' E a b).
 Next Obligation.
@@ -239,6 +275,7 @@ Next Obligation.
   apply e.
 Qed.
 
+(* Dually, the backward adjunct ψ' respects ≈. *)
 Program Instance lawvere_from_Proper {a b} :
   Proper (equiv ==> equiv) (@ψ' E a b).
 Next Obligation.
@@ -274,6 +311,8 @@ Next Obligation.
   apply e.
 Qed.
 
+(* Fold a product-category composite of first/second components back into the
+   component of the composite (fst_comp / snd_comp). *)
 Ltac pair_comp :=
   match goal with
   | [ |- context[@fst _ _ ?F ∘ @fst _ _ ?G] ] =>
@@ -285,6 +324,8 @@ Ltac pair_comp :=
 Arguments φ' l {_ _} _.
 Arguments ψ' l {_ _} _.
 
+(* φ((a,b);f) is isomorphic in (Id[D] ↓ G) to the normal form ((a,b); φ' f),
+   re-fastened to the original endpoints (a, b) via κ. *)
 Lemma lawvere_iso_to {a b} (f : F a ~> b) :
   φ E ((a, b); f) ≅ ((a, b); φ' E f).
 Proof.
@@ -316,6 +357,7 @@ Proof.
        now rewrite iso_to_from).
 Defined.
 
+(* Dually, ψ((a,b);g) ≅ ((a,b); ψ' g) in (F ↓ Id[C]), via θ. *)
 Lemma lawvere_iso_from {a b} (g : a ~> G b) :
   ψ E ((a, b); g) ≅ ((a, b); ψ' E g).
 Proof.
@@ -347,6 +389,7 @@ Proof.
        now rewrite iso_to_from).
 Defined.
 
+(* Compose the two normal-form isos: ψ(φ((a,b);f)) ≅ ((a,b); ψ'(φ' f)). *)
 Lemma lawvere_iso_from_to {a b} (f : F a ~> b) :
   ψ E (φ E ((a, b); f)) ≅ ((a, b); ψ' E (φ' E f)).
 Proof.
@@ -355,6 +398,7 @@ Proof.
   now apply lawvere_iso_to.
 Qed.
 
+(* Dually, φ(ψ((a,b);g)) ≅ ((a,b); φ'(ψ' g)). *)
 Definition lawvere_iso_to_from {a b} (g : a ~> G b) :
   φ E (ψ E ((a, b); g)) ≅ ((a, b); φ' E (ψ' E g)).
 Proof.
@@ -363,16 +407,22 @@ Proof.
   now apply lawvere_iso_from.
 Qed.
 
+(* Round-trip on the (Id[D] ↓ G) side: ((a,b); φ'(ψ' g)) ≅ ((a,b); g), using
+   the comma iso's own iso_to_from.  Underlies φ'(ψ' g) ≈ g. *)
 Definition lawvere_to_from_iso {a b} (g : a ~> G b) :
   ((a, b); φ' E (ψ' E g)) ≅[Id[D] ↓ G] ((a, b); g) :=
   iso_compose (`1 (iso_to_from (lawvere_iso E)) ((a, b); g))
               (iso_sym (@lawvere_iso_to_from _ _ g)).
 
+(* Dual round-trip on the (F ↓ Id[C]) side, underlying ψ'(φ' f) ≈ f. *)
 Definition lawvere_from_to_iso {a b} (f : F a ~> b) :
   ((a, b); ψ' E (φ' E f)) ≅[F ↓ Id[C]] ((a, b); f) :=
   iso_compose (`1 (iso_from_to (lawvere_iso E)) ((a, b); f))
               (iso_sym (@lawvere_iso_from_to _ _ f)).
 
+(* Naturality of the forward adjunct in both variables: this is the hom-set
+   adjunction naturality square Φ(j ∘ f ∘ F i) = G j ∘ Φ(f) ∘ i
+   (Wikipedia: Hom(i, G j) ∘ Φ = Φ ∘ Hom(F i, j)). *)
 Lemma lawvere_to_functorial {a b} (f : F a ~{C}~> b)
       {a' b'} (i : a' ~> a) (j : b ~> b') :
   φ' E (j ∘ f ∘ fmap[F] i) ≈ fmap[G] j ∘ φ' E f ∘ i.
@@ -429,6 +479,7 @@ Proof.
   now cat.
 Qed.
 
+(* Dual naturality of the backward adjunct: j ∘ Φ⁻¹(g) ∘ F i = Φ⁻¹(G j ∘ g ∘ i). *)
 Lemma lawvere_from_functorial {a b} (g : a ~{D}~> G b)
       {a' b'} (i : a' ~> a) (j : b ~> b') :
   j ∘ ψ' E g ∘ fmap[F] i ≈ ψ' E (fmap[G] j ∘ g ∘ i).
@@ -484,6 +535,10 @@ Proof.
   now cat.
 Qed.
 
+(* Surjective pairing for comma objects: a comma object is recovered from its
+   two D∏C components and its carrier morphism.  This is a structural identity
+   on the underlying sigma (hence Leibniz =, not ≈), used to re-expand objects
+   under the projections. *)
 Lemma surjective_tripleF (p : obj[F ↓ Id[C]]) :
   ((fst `1 p, snd `1 p); `2 p) = p.
 Proof.
@@ -498,6 +553,9 @@ Proof.
   destruct x; reflexivity.
 Qed.
 
+(* Auxiliary re-expansion lemmas: under φ (resp. ψ) a comma object may be
+   replaced by its surjective-pairing normal form without changing the value.
+   Stated for completeness; not used by the development below. *)
 Lemma expand_φ_ψ {a b} (g : a ~> G b) :
   φ E (ψ E ((a, b); g))
     ≈
@@ -516,10 +574,10 @@ Lemma expand_ψ_φ {a b} (f : F a ~> b) :
        `2 (φ E ((a, b); f))).
 Proof. now rewrite surjective_tripleG. Qed.
 
-(** Given that:
+(* Given that:
 
       π₁((A,B);f) = (A,B)
-        = π₁(φ((A,B);f)) = π₁(φ((A,B);f))       [projF, projG]
+        = π₁(φ((A,B);f)) = π₁(ψ((A,B);f))       [projF, projG]
       φ((A,B);f) ≅ ((A,B);φ'(f))                [lawvere_iso_to]
       ψ((A,B);f) ≅ ((A,B);ψ'(f))                [lawvere_iso_from]
       φ(ψ(f)) ≈ f and ψ(φ(f)) ≈ f               [lawvere_iso]
@@ -560,6 +618,7 @@ Proof.
             ].
 Qed.
 
+(* Dual round-trip: the backward adjunct inverts the forward one. *)
 Lemma lawvere_from_to {a b} (f : F a ~> b) : ψ' E (φ' E f) ≈ f.
 Proof.
   intros.
@@ -594,6 +653,9 @@ Proof.
             ].
 Qed.
 
+(* The extracted hom-set bijection Hom_C(F a, b) ≅ Hom_D(a, G b), packaged as a
+   Sets-isomorphism with the two adjuncts φ' and ψ' as its legs.  This is the
+   classical hom-set datum of an adjunction. *)
 Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
   to   := {| morphism := φ' E; proper_morphism := lawvere_to_Proper |};
   from := {| morphism := ψ' E; proper_morphism := lawvere_from_Proper |};
@@ -601,18 +663,24 @@ Program Instance lawvere_morph_iso {a b} : F a ~> b ≊ a ~> G b := {
   iso_from_to := lawvere_from_to
 }.
 
+(* Naturality of the bijection in both variables, restated for the packaged
+   iso: φ'(j ∘ f ∘ F i) ≈ G j ∘ φ'(f) ∘ i (cf. lawvere_to_functorial). *)
 Corollary lawvere_to_morph_iso_functorial {a b} (f : F a ~{C}~> b)
           {a' b'} (i : a' ~> a) (j : b ~> b') :
   to lawvere_morph_iso (j ∘ f ∘ fmap[F] i)
     ≈ fmap[G] j ∘ to lawvere_morph_iso f ∘ i.
 Proof. now apply lawvere_to_functorial. Qed.
 
+(* Dual naturality for the inverse leg (cf. lawvere_from_functorial). *)
 Corollary lawvere_from_morph_iso_functorial {a b} (g : a ~{D}~> G b)
           {a' b'} (i : a' ~> a) (j : b ~> b') :
   j ∘ from lawvere_morph_iso g ∘ fmap[F] i
     ≈ from lawvere_morph_iso (fmap[G] j ∘ g ∘ i).
 Proof. now apply lawvere_from_functorial. Qed.
 
+(* Diagonal embedding of D into (F ↓ Id[C]) sending a to the object
+   (a, F a; id[F a]); its carrier id[F a] is the seed whose forward adjunct is
+   the unit (see lawvere_eqv_unit). *)
 Program Definition Left_Functor : D ⟶ (F ↓ Id[C]) := {|
   fobj := fun x : D => ((x, F x); id[F x]);
   fmap := fun _ _ f => ((f, fmap[F] f); _)
@@ -620,6 +688,8 @@ Program Definition Left_Functor : D ⟶ (F ↓ Id[C]) := {|
 Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation. split; [ reflexivity | apply fmap_comp ]. Qed.
 
+(* Dually, embedding of C into (Id[D] ↓ G) sending a to (G a, a; id[G a]);
+   its carrier id[G a] seeds the counit (see lawvere_eqv_counit). *)
 Program Definition Right_Functor : C ⟶ (Id[D] ↓ G) := {|
   fobj := fun x : C => ((G x, x); id[G x]);
   fmap := fun _ _ f => ((fmap[G] f, f); _)
@@ -627,12 +697,17 @@ Program Definition Right_Functor : C ⟶ (Id[D] ↓ G) := {|
 Next Obligation. proper; rewrites; reflexivity. Qed.
 Next Obligation. split; [ apply fmap_comp | reflexivity ]. Qed.
 
+(* Unit η_a := φ'(id[F a]), the forward adjunct of the identity; this is the
+   universal arrow a ~> G (F a). *)
 Definition lawvere_eqv_unit {a} : a ~{ D }~> G (F a) :=
   to lawvere_morph_iso (`2 (Left_Functor a)).
 
+(* Counit ε_a := ψ'(id[G a]), the backward adjunct of the identity; the
+   universal arrow F (G a) ~> a. *)
 Definition lawvere_eqv_counit {a} : F (G a) ~{ C }~> a :=
   from lawvere_morph_iso (`2 (Right_Functor a)).
 
+(* First triangle (zig-zag) identity: ε_{F a} ∘ F(η_a) ≈ id[F a]. *)
 Lemma lawvere_eqv_counit_fmap_unit {a} :
   lawvere_eqv_counit ∘ fmap[F] lawvere_eqv_unit ≈ id[F a].
 Proof.
@@ -646,6 +721,7 @@ Proof.
   now sapply (iso_from_to (@lawvere_morph_iso a (F a))).
 Qed.
 
+(* Second triangle (zig-zag) identity: G(ε_a) ∘ η_{G a} ≈ id[G a]. *)
 Lemma lawvere_eqv_fmap_counit_unit {a} :
   fmap[G] lawvere_eqv_counit ∘ lawvere_eqv_unit ≈ id[G a].
 Proof.
@@ -659,6 +735,8 @@ Proof.
   now sapply (iso_to_from (@lawvere_morph_iso (G a) a)).
 Qed.
 
+(* Naturality of the unit: the underlying square for η as a transformation
+   Id ⟹ G ◯ F, obtained by transporting f through the comma projection. *)
 Lemma Left_Functoriality
       x y (f : comma_proj (Left_Functor x) ~> comma_proj (Left_Functor y)) :
   fmap[G] (fmap[F] (fst f))
@@ -697,6 +775,7 @@ Proof.
   reflexivity.
 Qed.
 
+(* Dually, naturality of the counit ε as a transformation F ◯ G ⟹ Id. *)
 Lemma Right_Functoriality
       x y (f : comma_proj (Right_Functor x) ~> comma_proj (Right_Functor y)) :
   snd f ∘ (snd (θ E (Right_Functor x))⁻¹
@@ -732,6 +811,7 @@ Proof.
   apply (`2 (fmap[ψ E] ff)).
 Qed.
 
+(* The unit assembled as a natural transformation Id ⟹ G ◯ F. *)
 Program Definition lawvere_eqv_unit_transform : Id ⟹ G ◯ F := {|
   transform := @lawvere_eqv_unit;
   naturality := fun x y f =>
@@ -740,6 +820,7 @@ Program Definition lawvere_eqv_unit_transform : Id ⟹ G ◯ F := {|
     symmetry (Left_Functoriality x y (f, fmap[F] f))
 |}.
 
+(* The counit assembled as a natural transformation F ◯ G ⟹ Id. *)
 Program Definition lawvere_eqv_counit_transform : F ◯ G ⟹ Id := {|
   transform := @lawvere_eqv_counit;
   naturality := fun x y f =>
@@ -748,6 +829,9 @@ Program Definition lawvere_eqv_counit_transform : F ◯ G ⟹ Id := {|
     symmetry (Right_Functoriality x y (fmap[G] f, f))
 |}.
 
+(* The forward direction of Lawvere's theorem: a genuine adjunction H : F ⊣ G
+   induces the comma iso, sending ((d,c); f : F d ~> c) to ((d,c); ⌊f⌋), the
+   square condition following from naturality of the transpose. *)
 Program Definition Comma_Functor_F_Id_Id_G (H : F ⊣ G) :
   (F ↓ Id[C]) ⟶ (Id[D] ↓ G) := {|
   fobj := fun x => (``x; to adj (`2 x));
@@ -760,6 +844,7 @@ Next Obligation.
   reflexivity.
 Qed.
 
+(* Its inverse functor, sending ((d,c); g : d ~> G c) to ((d,c); ⌈g⌉). *)
 Program Definition Comma_Functor_Id_G_F_Id (H : F ⊣ G) :
   (Id[D] ↓ G) ⟶ (F ↓ Id[C]) := {|
   fobj := fun x => (``x; from adj (`2 x));
@@ -772,6 +857,9 @@ Next Obligation.
   reflexivity.
 Qed.
 
+(* The two functors are mutually inverse (via iso_to_from / iso_from_to of the
+   adjunction's hom-set iso), giving the comma-category isomorphism that
+   Lawvere's theorem asserts in the forward direction. *)
 Program Instance Comma_F_Id_Id_G_Iso (H : F ⊣ G) :
   (F ↓ Id[C]) ≅[Cat] (Id[D] ↓ G) := {
   to   := Comma_Functor_F_Id_Id_G H;
@@ -808,6 +896,11 @@ Defined.
 
 End AdjunctionComma.
 
+(* Lawvere's characterization, both directions: F ⊣ G holds iff the comma
+   categories (F ↓ Id[C]) and (Id[D] ↓ G) are isomorphic over D ∏ C.  Forward:
+   package Comma_F_Id_Id_G_Iso with its projection coherence.  Backward: read
+   off the unit, counit and triangle identities and build the adjunction from
+   them via Adjunction_from_Transform. *)
 Theorem Adjunction_Comma `{F : D ⟶ C} `{G : C ⟶ D} :
   F ⊣ G  ↔  @lawvere_equiv _ _ F G.
 Proof.

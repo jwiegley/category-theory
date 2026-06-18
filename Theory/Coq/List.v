@@ -15,6 +15,22 @@ Generalizable All Variables.
 Import ListNotations.
 Import MonadNotations.
 
+(** The list type as functor, applicative and monad *)
+
+(* nLab: https://ncatlab.org/nlab/show/list+monad
+   nLab: https://ncatlab.org/nlab/show/free+monoid
+   Wikipedia: https://en.wikipedia.org/wiki/Free_monoid
+
+   The functional-programming list type [list A] is, categorically, the
+   underlying set of the free monoid on A: the coproduct of all finite
+   powers of A, with concatenation [app] as multiplication and the empty
+   list as unit.  The list monad is the monad induced by the free-monoid /
+   forgetful adjunction Set <-> Mon: its unit is the singleton [ret x = [x]]
+   and its multiplication is one level of concatenation
+   [join = flatten : list (list A) → list A], so that
+   [bind x f = flatten (map f x)].  Its Eilenberg-Moore algebras are
+   exactly the monoids. *)
+
 #[export]
 Instance list_Functor : Functor list := {
   fmap := λ _ _ f, List.map f;
@@ -31,24 +47,50 @@ Fixpoint zipWith `(f : a → b → c) (xs : list a) (ys : list b) : list c :=
   | x :: xs', y :: ys' => f x y :: zipWith f xs' ys'
   end.
 
+(* nLab: https://ncatlab.org/nlab/show/monoidal+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Applicative_functor
+
+   An applicative functor is a lax monoidal endofunctor (with strength) on
+   the cartesian closed category of types, where [pure] is the unit map and
+   [ap] is derived from the product map [μ : F x × F y → F (x × y)].
+
+   There are two standard applicative structures on lists.  The one below
+   is the positional ZipList structure, where [ap] zips functions against
+   arguments via [zipWith id] (i.e. zipWith ($)).  The lawful ZipList
+   requires [pure x = repeat x] (an infinite stream) so that
+   [pure id <*> v = v]; with [pure x = [x]] the identity law fails because
+   the zip truncates to the shorter list.  The lawful, cartesian-product
+   structure that agrees with the list monad is [List_Applicative] below. *)
 #[export]
 Instance list_Applicative : Applicative list := {
   pure := λ _ x, [x];
   ap := λ _ _ f x, zipWith id f x;
 }.
 
+(* The [Alternative] instance exposes the underlying free-monoid structure of
+   lists: [empty = []] is the monoid unit and [choose = app] is concatenation
+   (the monoid multiplication).
+   Wikipedia: https://en.wikipedia.org/wiki/Free_monoid *)
 #[export]
 Program Instance list_Alternative : Alternative list := {
   empty := λ _, [];
   choose := List.app;
 }.
 
+(* [flatten] is the multiplication (join) of the list monad: it concatenates
+   a list-of-lists into a single list by repeated [app], i.e. the monad
+   multiplication μ : list (list A) → list A of the free-monoid monad.
+   nLab: https://ncatlab.org/nlab/show/list+monad *)
 Fixpoint flatten `(xs : list (list A)) : list A :=
   match xs with
   | nil => nil
   | cons x xs' => app x (flatten xs')
   end.
 
+(* [mapM]/[forM] is the applicative traversal of a list (Haskell's
+   [traverse]/[mapM]): it threads the effect [m] through the list using the
+   lax-monoidal structure of [m], witnessing that [list] is a traversable
+   functor.  Wikipedia: https://en.wikipedia.org/wiki/Applicative_functor *)
 Fixpoint mapM `{Applicative m} {A B : Type} (f : A → m B) (l : list A) :
   m (list B) :=
   match l with
@@ -60,6 +102,13 @@ Definition concatMapM `{Applicative m} {A B : Type}
   (f : A → m (list B)) (l : list A) : m (list B) :=
   fmap flatten (mapM f l).
 
+(* nLab: https://ncatlab.org/nlab/show/list+monad
+   Wikipedia: https://en.wikipedia.org/wiki/Monad_(functional_programming)#The_list_monad
+
+   The (free-monoid) list monad: unit [ret x = [x]] is the singleton, and
+   [bind x f = flatten (map f x)] is map-then-join.  The cartesian-product
+   applicative [List_Applicative] below is the one induced by this monad
+   (ap fs xs = bind fs (fun f => bind xs (fun x => [f x]))). *)
 #[export]
 Instance list_Monad : Monad list := {
   ret := λ _ x, [x];
@@ -121,6 +170,10 @@ Fixpoint insertM `{Monad m} {A : Type} (P : A → A → m bool)
 
 Arguments insertM {m H A} P z l : simpl never.
 
+(* [concat] is the monad multiplication [flatten] under its conventional
+   name; [concatMap f = flatten ∘ map f] is exactly Kleisli extension /
+   [bind] for the list monad with its arguments flipped.
+   nLab: https://ncatlab.org/nlab/show/list+monad *)
 Definition concat {A} : list (list A) → list A := flatten.
 Definition concatMap {A B} (f : A → list B) : list A → list B :=
   flatten ∘ map f.
@@ -387,11 +440,19 @@ Fixpoint between_all `(R : rel a) (xs : list a) : bool :=
   else true.
 *)
 
+(* [List_Functor] repeats [list_Functor] above; both define [fmap = map] and
+   are therefore definitionally equal.  Being declared last, this instance is
+   the one typeclass resolution selects by default. *)
 #[export]
 Instance List_Functor : Functor list := {
   fmap := map
 }.
 
+(* [list_ap] is the cartesian-product application: it applies every function
+   in [fs] to every element of [xs], realizing the lax-monoidal product map
+   μ : list (A → B) × list A → list B of the standard list applicative.
+   nLab: https://ncatlab.org/nlab/show/monoidal+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Applicative_functor *)
 Fixpoint list_ap {A B} (fs: list (A → B)) (xs: list A)
   : list B :=
   match fs with
@@ -399,7 +460,10 @@ Fixpoint list_ap {A B} (fs: list (A → B)) (xs: list A)
   | _ => nil
   end.
 
-
+(* The lawful, cartesian-product list applicative, induced by [list_Monad]:
+   it satisfies the four applicative laws (identity, composition,
+   homomorphism, interchange), unlike the ZipList-style [list_Applicative]
+   above.  Declared last, it is the instance resolution selects by default. *)
 #[export]
 Instance List_Applicative : Applicative list := {
   pure := fun _ x => [x];

@@ -23,6 +23,23 @@ Generalizable All Variables.
     [scfa_delta] / [scfa_epsilon] — collapse to canonical normal forms that
     depend only on the leg count, not on how the spider was assembled.
 
+    References:
+      nLab:      https://ncatlab.org/nlab/show/Frobenius+algebra
+      nLab:      https://ncatlab.org/nlab/show/classical+structure
+      Wikipedia: https://en.wikipedia.org/wiki/ZX-calculus
+      Wikipedia: https://en.wikipedia.org/wiki/Frobenius_algebra
+
+    The spider [S_{n,m} : X^⨂n ~> X^⨂m] (here [canonical_spider X n m]) is the
+    canonical SCFA morphism with [n] input legs and [m] output legs.  The
+    SPIDER FUSION law — composing two same-object spiders along a shared leg
+    merges them, [S_{k,m} ∘ S_{n,k} ≈ S_{n,m}] — is exactly the equational
+    content powered by the SCFA laws below: associativity/coassociativity
+    reassociate the legs, the Frobenius law turns a δ-then-μ into the I-shape,
+    and the special law [μ ∘ δ ≈ id[X]] ([spider_collapse]) cancels the shared
+    internal wire.  (In ZX-calculus terms these are the green/red spiders and
+    their fusion rule; this file works in a plain symmetric monoidal category,
+    without the dagger or phases.)
+
     The full "spider theorem" (Lack's normal form for SCFA expressions) is
     a non-trivial induction and is deferred to V2b.  This file provides the
     workhorse lemmas that downstream proofs typically reach for:
@@ -668,9 +685,18 @@ End SpiderExpr.
 Arguments SpiderExpr {C} X.
 Arguments denote_spider {C Sym Hyp X m n} e.
 
-(* HARD-V2d: The full spider_normal_form theorem requires the inductive
-   k-ary specialness lemma  [fold_mu X k ∘ unfold_delta X k ≈ id[X]],
-   which is a ~150-line structural induction using Frobenius + the
-   base case [spider_collapse].  The SpiderExpr datatype and
-   denote_spider are delivered in V2c; the universal-statement theorem
-   awaits the k-ary specialness lemma. *)
+(* Status of the full [spider_normal_form] theorem.
+
+   The combinatorial crux — the k-ary specialness lemma
+   [fold_mu X k ∘ unfold_delta X k ≈ id[X]] — is proved above as
+   [fold_mu_unfold_delta_id] (a short structural induction on k using
+   Frobenius bookkeeping plus the base case [spider_collapse]).  The
+   [SpiderExpr] datatype and its denotation [denote_spider] are also
+   delivered here.
+
+   What remains is the structural induction over [SpiderExpr] itself,
+   i.e. the two helper lemmas [spider_compose_canonical] (SE_seq) and
+   [spider_par_canonical] (SE_par) sketched in the status note above.
+   Those assemble the delivered pieces into the universal statement
+   [forall e, denote_spider e ≈ canonical_spider X m n]; they are the
+   deferred work, not the k-ary specialness lemma. *)

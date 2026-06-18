@@ -12,6 +12,25 @@ Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 
+(** * The category of cones over F is the comma category (Δ ↓ F) *)
+
+(* nLab: https://ncatlab.org/nlab/show/cone
+   Wikipedia: https://en.wikipedia.org/wiki/Cone_(category_theory)
+
+   A cone over a diagram F : J ⟶ C with apex c is exactly a natural
+   transformation Δ(c) ⟹ F from the constant functor at c to F. Collecting
+   these into a category, the category of cones to F is the comma category
+   (Δ ↓ F): its objects are pairs (c, ψ) with ψ : Δ(c) ⟹ F, and a cone
+   morphism (c, ψ) ~> (c', ψ') is a single arrow u : c ~> c' in C making every
+   leg triangle commute (ψ'x ∘ u ≈ ψx), since the diagonal acts trivially on
+   arrows. Here =(F) denotes the constant functor 1 ⟶ [J, C] picking out F, so
+   that the J-indexed diagonal Δ : C ⟶ [J, C] and =(F) share the codomain
+   [J, C] needed to form the comma category. The limit of F, when it exists, is
+   the terminal object of this category; dually, cocones to F form (F ↓ Δ).
+
+   [Cones_to_Comma] and [Cones_from_Comma] build the two comparison functors,
+   and [Cones_Comma] assembles them into an isomorphism in Cat. *)
+
 Theorem Cones_to_Comma `(F : [J, C]) : Cones F ⟶ (Δ ↓ =(F)).
 Proof.
   functor; simpl; intros.
@@ -39,15 +58,17 @@ Proof.
   - abstract cat.
 Defined.
 
-(* Wikipedia: "We can define the category of cones to F as the comma category
-  (Δ ↓ F). Morphisms of cones are then just morphisms in this category. This
-  equivalence is rooted in the observation that a natural map between constant
-  functors Δ(N), Δ(M) corresponds to a morphism between N and M. In this
-  sense, the diagonal functor acts trivially on arrows. In similar vein,
-  writing down the definition of a natural map from a constant functor Δ(N) to
-  F yields the same diagram as the above. As one might expect, a morphism from
-  a cone (N, ψ) to a cone (L, φ) is just a morphism N → L such that all the
-  "obvious" diagrams commute." *)
+(* nLab: https://ncatlab.org/nlab/show/comma+category
+   Wikipedia: https://en.wikipedia.org/wiki/Cone_(category_theory)
+
+   Cones F and (Δ ↓ =(F)) are not merely equivalent but isomorphic in Cat: the
+   two comparison functors are mutually inverse on the nose. This reflects how
+   directly the data line up — an apex with a coherent leg family on one side is
+   literally a pair (object, natural transformation Δ(c) ⟹ F) on the other, and
+   a cone morphism is the same single arrow either way (the second comma
+   component lives in the terminal category 1, hence is ttt). Both Wikipedia and
+   nLab record this identification: "morphisms of cones are then just morphisms
+   in this [comma] category," the diagonal acting trivially on arrows. *)
 
 Theorem Cones_Comma `(F : [J, C]) : Cones F ≅[Cat] (Δ ↓ =(F)).
 Proof.

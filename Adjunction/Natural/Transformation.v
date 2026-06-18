@@ -5,6 +5,26 @@ Require Import Category.Theory.Natural.Transformation.
 
 Generalizable All Variables.
 
+(** The counit/unit (natural-transformation) characterization of an
+    adjunction. *)
+
+(* nLab: https://ncatlab.org/nlab/show/adjoint+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Adjoint_functors
+
+   An adjunction F ⊣ U between F : D ⟶ C (the left adjoint) and U : C ⟶ D
+   (the right adjoint) is given here in counit/unit form: a unit
+   η : Id ⟹ U ◯ F and a counit ε : F ◯ U ⟹ Id satisfying the two triangle
+   (zig-zag) identities. Componentwise these are
+
+     ε (F X) ∘ fmap[F] (η X) ≈ id[F X]   (counit_fmap_unit), i.e. εF ∘ Fη = 1_F,
+     fmap[U] (ε X) ∘ η (U X) ≈ id[U X]   (fmap_counit_unit), i.e. Uε ∘ ηU = 1_U.
+
+   This is the data of an adjunction with which the hom-set form
+   [Category.Adjunction.Hom] and the universal-morphism form
+   [Category.Theory.Adjunction] are shown equivalent: the transposes of the
+   identities recover η and ε, and conversely η, ε with these identities
+   reconstruct the natural hom-set isomorphism. *)
+
 Section AdjunctionTransform.
 
 Context {C : Category}.

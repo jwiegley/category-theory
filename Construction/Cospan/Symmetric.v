@@ -18,13 +18,24 @@ Require Import Category.Construction.Cospan.Hypergraph.
 
 Generalizable All Variables.
 
-(** * Braided and symmetric monoidal structure on [CospanCat C]
+(** * Braided and symmetric monoidal structure on [CospanCat C] *)
 
-    Building on [Cospan_Monoidal] (in [Construction/Cospan/Hypergraph.v]),
-    we equip [CospanCat C HP] with a braiding given by the cospan-lift of
-    the C-coproduct swap [paws], and verify the symmetry axiom
-    [braid ∘ braid ≈ id].  The hexagon coherence reduces to a C-level
-    coproduct calculation between [paws] and [coprod_assoc]. *)
+(* nLab: https://ncatlab.org/nlab/show/cospan
+   nLab: https://ncatlab.org/nlab/show/hypergraph+category
+   nLab: https://ncatlab.org/nlab/show/symmetric+monoidal+category
+   Wikipedia: https://en.wikipedia.org/wiki/Braided_monoidal_category
+   Wikipedia: https://en.wikipedia.org/wiki/Symmetric_monoidal_category
+
+   For a category C with finite colimits (initial object, binary coproducts,
+   pushouts), Cospan(C) is symmetric monoidal with tensor = the C-coproduct
+   (X ⨂ Y := X + Y), unit = the initial object 0, and symmetry inherited from
+   the colimit structure of C.
+
+   Building on [Cospan_Monoidal] (in [Construction/Cospan/Hypergraph.v]), we
+   equip [CospanCat C HP] with a braiding given by the cospan-lift of the
+   C-coproduct swap [paws], and verify the symmetry axiom [braid ∘ braid ≈ id]
+   (Wikipedia: s_{Y,X} ∘ s_{X,Y} = 1_{X ⨂ Y}). The hexagon coherence reduces to
+   a C-level coproduct calculation between [paws] and [coprod_assoc]. *)
 
 Section CospanSymmetric.
 

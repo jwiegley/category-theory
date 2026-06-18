@@ -12,17 +12,52 @@ Section Closed.
 Context {C : Category}.
 Context `{@Cartesian C}.
 
+(* nLab: https://ncatlab.org/nlab/show/cartesian+closed+category
+   nLab: https://ncatlab.org/nlab/show/exponential+object
+   Wikipedia: https://en.wikipedia.org/wiki/Cartesian_closed_category
+   Wikipedia: https://en.wikipedia.org/wiki/Exponential_object
+
+   A cartesian closed category (CCC) is a cartesian category in which every
+   functor - × y has a right adjoint - ^ y, the exponential (internal hom).
+   Equivalently, for all objects y, z there is an exponential object z^y
+   equipped with an evaluation map
+
+       eval : z^y × y ~> z
+
+   that is universal: for every f : x × y ~> z there is a unique transpose
+   (the curry) curry f : x ~> z^y with eval ∘ (curry f × id) ≈ f.
+
+   Packaged as an adjunction, the universal property is the bijection
+
+       Hom(x × y, z) ≅ Hom(x, z^y)         ([exp_iso])
+
+   natural in x, y and z, expressing (- × y) ⊣ (- ^ y). Currying is the
+   left-to-right direction, uncurrying its inverse, and eval is the image of
+   the identity on z^y (the counit of the adjunction). CCCs are the
+   categorical semantics of the simply-typed lambda calculus.
+
+   Note on argument order: [exponent_obj x y] is displayed as y ^ x, so the
+   exponential z^y is [exponent_obj y z] and z^y × y ~> z is the hom of the
+   left adjoint applied to z. *)
+
 Class Closed := {
-  exponent_obj : obj → obj → obj    (* internal homs *)
+  exponent_obj : obj → obj → obj    (* internal hom; y ^ x = exponent_obj x y *)
     where "y ^ x" := (exponent_obj x y);
 
+  (* The product-exponential adjunction (- × y) ⊣ (- ^ y), as the natural
+     isomorphism Hom(x × y, z) ≅ Hom(x, z^y).  This is the exponential UMP
+     in packaged form: the iso bundles existence and uniqueness of the
+     transpose, and naturality recovers the substitution laws below. *)
   exp_iso {x y z} : x × y ~> z ≊ x ~> z^y;
 
-  curry'   {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z);
-  uncurry' {x y z} : x ~> z^y → x × y ~> z := from (@exp_iso x y z);
+  curry'   {x y z} : x × y ~> z → x ~> z^y := to (@exp_iso x y z);    (* transpose: x×y~>z to x~>z^y *)
+  uncurry' {x y z} : x ~> z^y → x × y ~> z := from (@exp_iso x y z);  (* inverse transpose *)
 
-  eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id;
+  eval' {x y} : y^x × x ~> y := @uncurry' _ _ _ id;   (* evaluation; counit, = uncurry id *)
 
+  (* Beta law / UMP existence equation: eval ∘ (curry f × id) ≈ f, with
+     [first (curry' f)] = curry' f × id.  Uniqueness of the transpose is
+     supplied by [exp_iso] being an isomorphism (see [uncurry_curry]). *)
   ump_exponents' {x y z} (f : x × y ~> z) :
     eval' ∘ first (@curry' _ _ _ f) ≈ f
 }.

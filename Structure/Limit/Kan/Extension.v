@@ -14,6 +14,35 @@ Require Import Category.Structure.Cone.Const.
 
 Generalizable All Variables.
 
+(** * Limits as right Kan extensions along the terminal functor *)
+
+(* nLab: https://ncatlab.org/nlab/show/Kan+extension
+   Wikipedia: https://en.wikipedia.org/wiki/Kan_extension
+
+   The limit of a functor F : J ⟶ C is the right Kan extension of F along the
+   unique functor to the terminal category 1.  Dually the colimit is the left
+   Kan extension along that functor.  Writing E := Erase J : J ⟶ 1 for the
+   terminal functor (Wikipedia/nLab call it the unique functor to 1), the
+   restriction Induced = (− ◯ E) sends an object d of 1 to the constant functor
+   Δ_d, so the adjunction Induced ⊣ Ran makes Ran E F corepresent the cones
+   over F; that universal property is exactly the limit of F.
+
+   Since the global right Kan extension Ran E F is a functor 1 ⟶ C, evaluating
+   it at the unique object ttt of 1 yields the limit object in C.  This is the
+   slogan "lim F = Ran_E F" (Wikipedia) / "the right Kan extension operation
+   forms the limit of a functor" (nLab) made into a concrete isomorphism.
+
+   Theorem (Kan_Limit): for F : J ⟶ C with a limit and a right Kan extension
+   along Erase J, the limit object is isomorphic in C to (Ran (Erase J) F) ttt.
+
+   Notation:
+     Erase J        the terminal functor J ⟶ 1
+     1              the terminal category (single object ttt, Instance/One)
+     ttt            the unique object of 1 (poly_unit)
+     Ran K F        the right Kan extension functor (Theory/Kan/Extension)
+     Δ(c)           the constant/diagonal functor at c
+     ≅              isomorphism of objects (Theory/Isomorphism) *)
+
 Theorem Kan_Limit `(F : J ⟶ C) `{Lim : @Limit _ _ F} `{@RightKan _ _ (Erase J) C} :
   Lim ≅ Ran (Erase J) F ttt.
 Proof.

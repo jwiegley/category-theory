@@ -8,15 +8,47 @@ Require Import Coq.Vectors.Vector.
 
 Generalizable All Variables.
 
+(** * Presheaves, sites (coverages), and sheaves *)
+
+(* nLab: https://ncatlab.org/nlab/show/presheaf
+   Wikipedia: https://en.wikipedia.org/wiki/Presheaf_(category_theory)
+
+   A C-valued presheaf on a category U is a functor U^op ⟶ C; the classical
+   case takes C := Sets. Its action fmap[X] f on a morphism f : a ~> b of U is
+   the restriction map X(b) → X(a). Presheaves on U form the functor category
+   [U^op, C], and a copresheaf is the covariant variant U ⟶ C (a presheaf on
+   U^op). *)
+
+(* nLab: https://ncatlab.org/nlab/show/site
+   Wikipedia: https://en.wikipedia.org/wiki/Grothendieck_topology
+
+   A site is a category C equipped with a coverage J, which assigns to each
+   object u a collection of covering families { fᵢ : uᵢ ~> u } subject to the
+   pullback-stability axiom: for any covering family of u and any g : v ~> u
+   there is a covering family { hⱼ : vⱼ ~> v } of v such that every composite
+   g ∘ hⱼ factors through some fᵢ (i.e. fᵢ ∘ k ≈ g ∘ hⱼ for some k). *)
+
+(* nLab: https://ncatlab.org/nlab/show/sheaf
+   Wikipedia: https://en.wikipedia.org/wiki/Sheaf_(mathematics)
+
+   A presheaf X : C^op ⟶ Sets is a sheaf for a covering family
+   { fᵢ : uᵢ ~> u } when every matching (compatible) family of local sections
+   xᵢ ∈ X(uᵢ) — sections agreeing on overlaps, X(g)(xᵢ) ≈ X(h)(xⱼ) whenever
+   fᵢ ∘ g ≈ fⱼ ∘ h — glues to a unique global section x ∈ X(u) with
+   X(fᵢ)(x) ≈ xᵢ for all i (existence is the gluing axiom, uniqueness is the
+   separated/locality axiom). A separated presheaf asks only for uniqueness. *)
+
 (* A C-valued presheaf on some category U.
   C is often taken to be Sets. *)
 Definition Presheaf (U C : Category) := U^op ⟶ C.
 
-(* The category of C-valued presheaves presheaves on a category U. *)
+(* The category of C-valued presheaves on a category U. *)
 Definition Presheaves {U C : Category} := [U^op, C].
 
+(* A C-valued copresheaf on U: a covariant functor, i.e. a presheaf on U^op. *)
 Definition Copresheaf (U C : Category) := U ⟶ C.
 
+(* The category of C-valued copresheaves on a category U. *)
 Definition Copresheaves {U C : Category} := [U, C].
 
 (* Custom data type to express Forall propositions on vectors over Type. *)
@@ -26,6 +58,7 @@ Inductive ForallT {A : Type} (P : A → Type) :
   | ForallT_cons (n : nat) (x : A) (v : t A n) :
     P x → ForallT v → ForallT (cons A x n v).
 
+(* Likewise the Type-valued analogue of Vector.Exists, carrying witness data. *)
 Inductive ExistsT {A : Type} (P : A → Type) :
   ∀ {n : nat}, t A n → Type :=
   | ExistsT_cons_hd (m : nat) (x : A) (v : t A m) :
@@ -43,10 +76,16 @@ Inductive ExistsT {A : Type} (P : A → Type) :
    such that each composite g ∘ hⱼ factors through some fᵢ. *)
 
 Class Site (C : Category) := {
+  (* A covering family of u is a finite (vector-indexed) list of morphisms
+     uᵢ ~> u into u; sigT packages the length together with the vector. *)
   covering_family (u : C) := sigT (Vector.t (∃ uᵢ, uᵢ ~> u));
 
+  (* This encoding picks a single covering family per object rather than the
+     usual collection of covering families; it suffices to state the sheaf
+     condition below, but is less general than a full coverage. *)
   coverage (u : C) : covering_family u;
 
+  (* The coverage axiom (pullback stability), per the site reference above. *)
   coverage_condition
     (u  : C) (fs : covering_family u)
     (v  : C) (g  : v ~> u) :

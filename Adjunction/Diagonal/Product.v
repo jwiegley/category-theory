@@ -9,9 +9,28 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
-(* The diagonal functor on C is left adjoint to the internal product functor
-   on C. *)
-(* jww (2021-08-04): Is it right to use Diagonal_Product here? *)
+(** * The diagonal–product adjunction Δ ⊣ × *)
+
+(* nLab: https://ncatlab.org/nlab/show/diagonal+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Product_(category_theory)
+
+   In a cartesian category C the binary product functor ×(C) : C ∏ C ⟶ C is
+   right adjoint to the binary diagonal Δ = Diagonal_Product C : C ⟶ C ∏ C
+   (so that, dually, the coproduct is left adjoint to Δ): nLab records that
+   "C is J-cocomplete (J-complete) iff Δ has a left (right) adjoint", and the
+   two-object discrete case is exactly the binary product/coproduct. The
+   adjunction is presented here in hom-set form, as the family of bijections
+
+       (Δ x ~{C ∏ C}~> p)  ≅  (x ~{C}~> ×(C) p)
+
+   natural in x : C and p : C ∏ C. Spelling out the left side: a morphism
+   Δ x ~> p is a pair (f, g) with f : x ~> fst p and g : x ~> snd p, while the
+   right side is a single arrow x ~> fst p × snd p. The forward transpose
+   [to] pairs the components, (f, g) ↦ f △ g, and the inverse [from] splits an
+   arrow by postcomposing with the projections, h ↦ (exl ∘ h, exr ∘ h). That
+   these are mutually inverse and natural is precisely the universal property
+   of the product (the [fork]/projection laws of Structure/Cartesian.v), which
+   is why the obligations below discharge by [unfork] and [fork_comp]. *)
 
 #[export]
 Program Instance Diagonal_Product_Adjunction (C : Category) `{@Cartesian C} :

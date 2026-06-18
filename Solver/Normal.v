@@ -9,6 +9,42 @@ Require Import Category.Solver.Expr.
 Require Import Category.Solver.Denote.
 Require Import Category.Solver.Reify.
 
+(** * Normalization: a normal form for free-category expressions
+
+    This file is the heart of the reflective solver
+    (https://en.wikipedia.org/wiki/Computational_reflection).  The only laws
+    available for the syntactic [Term]s of Solver/Expr.v are the category
+    axioms — associativity of [Comp] and the left/right identity laws for
+    [Ident] — so the [Term]s are exactly the free category on the reified
+    generators (https://ncatlab.org/nlab/show/free+category).  A morphism of a
+    free category has a unique normal form: the *flattened list* of its
+    generating arrows, with associativity making the bracketing irrelevant and
+    the identity laws deleting every [Ident].
+
+    The normal form is encoded by the mutually inductive [Morphism]:
+
+      - [Identity] is the empty composite (the unit);
+      - [Morphisms c] wraps a non-empty list [c : Composition] of arrows,
+        where [Single f] is the one-element list [[f]] and [Composed f fs] is
+        the cons [f :: fs].
+
+    The list is ordered outermost-first, matching the [Comp f g = f ∘ g]
+    convention of [termD] (f is applied last): [Composed f fs] denotes
+    [f ∘ denote fs].  Composition of normal forms is therefore list
+    concatenation ([append], proven associative by [append_assoc]) with
+    [Identity] as the unit ([combine]); [to_morphism] folds a [Term] into its
+    normal form and [from_morphism] reads a normal form back as a [Term].
+
+    Soundness is the statement that normalization is invisible under the
+    denotation of Solver/Denote.v.  It is proven in both directions —
+    [from_morphism_to_morphism] and [from_morphism_to_morphism_r] — giving
+    [termD d c (from_morphism (to_morphism t)) ≈ termD d c t]; the key step is
+    that [combine] (list concatenation) denotes composition, established by the
+    paired lemmas [from_morphism_app] and [from_morphism_app_r].  Lifting this
+    to the whole proposition language yields [exprAD_sound : exprAD e ↔ exprD e]
+    (an [↔], so the [normalize] tactic is both sound and complete for the goals
+    it accepts), and [exprAD_sound'] specializes it for fast tactic use. *)
+
 Section Normal.
 
 Context `{Arrows}.
@@ -292,7 +328,9 @@ Proof.
     now rewrite x1, IHt1, IHt2.
 Qed.
 
-(* Normalization gives us a way to define the category of reifed terms. *)
+(* Normalization gives us a way to define the category of reified terms,
+   whose hom-setoid identifies two terms exactly when they share a normal
+   form. *)
 
 #[local]
 Program Instance Terms : Category := {
@@ -382,7 +420,10 @@ Qed.
 
 End Normal.
 
-(* * This is a much easier theorem to apply, so it speeds things up a lot! *)
+(** The [exprAD e → exprD e] direction of [exprAD_sound], with the [Arrows]
+    environment made an explicit argument.  Taking [env] explicitly lets the
+    [normalize] tactic apply this with [simple apply] and no instance search,
+    which is much faster than appealing to the full [↔]. *)
 Corollary exprAD_sound' {cat} (env : Arrows cat) (e : Expr) :
   exprAD e → exprD e.
 Proof. apply exprAD_sound. Qed.

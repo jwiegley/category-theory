@@ -8,6 +8,34 @@ Require Import Category.Instance.Two.Discrete.
 
 Generalizable All Variables.
 
+(** * Binary products as limits of a discrete two-object diagram *)
+
+(* nLab:      https://ncatlab.org/nlab/show/product
+   Wikipedia: https://en.wikipedia.org/wiki/Product_(category_theory)
+
+   A binary product is the limit of a diagram of shape [Two_Discrete], the
+   discrete category with two objects and only identity morphisms (see
+   [Instance/Two/Discrete.v]). A functor F : Two_Discrete ⟶ C picks out an
+   ordered pair of objects (F TwoDX, F TwoDY); a cone over F is an apex with
+   two legs into those objects, and the limit cone is exactly the product
+   F TwoDX × F TwoDY with its projections exl, exr as legs. The terminal-cone
+   universal property of the limit coincides with the product UMP
+   ([ump_products] in [Structure/Cartesian.v]); the empty discrete diagram
+   gives the nullary product, the terminal object (see [Structure/Limit/
+   Terminal.v]).
+
+   This theorem records the equivalence in both directions: C has a limit for
+   every two-object discrete diagram iff C is cartesian (has all binary
+   products).
+
+       (∀ F : Two_Discrete ⟶ C, Limit F)  ↔  Cartesian C
+
+   Left to right: a chosen pair of objects is presented as [Pick_Two x y], the
+   limit's apex becomes the product object, and the limit legs become exl/exr;
+   the limit's mediating morphism becomes the pairing [fork]. Right to left:
+   the product object is the cone apex and exl/exr are its legs, with [fork]
+   supplying the unique factorization. *)
+
 Theorem Cartesian_Limit (C : Category) :
   (∀ F : Two_Discrete ⟶ C, Limit F) ↔ @Cartesian C.
 Proof.

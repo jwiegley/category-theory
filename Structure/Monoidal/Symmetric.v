@@ -11,9 +11,24 @@ Section SymmetricMonoidal.
 
 Context {C : Category}.
 
+(* nLab: https://ncatlab.org/nlab/show/symmetric+monoidal+category
+   Wikipedia: https://en.wikipedia.org/wiki/Symmetric_monoidal_category
+
+   A symmetric monoidal category is a braided monoidal category whose braiding
+   is its own inverse: the symmetry condition is
+
+       braid ∘ braid ≈ id[x ⨂ y]
+
+   i.e. β_{y,x} ∘ β_{x,y} = 1_{x ⨂ y}, "switching twice has no effect". A
+   braided monoidal category carries two hexagon identities; under symmetry
+   either one implies the other, so a symmetric monoidal category is fully
+   determined by its underlying braided structure together with braid_invol. *)
+
 Class SymmetricMonoidal := {
+  (* The underlying braided monoidal structure (braiding + hexagon laws). *)
   symmetric_is_braided : @BraidedMonoidal C;
 
+  (* Symmetry: the braiding is its own inverse, β_{y,x} ∘ β_{x,y} = id. *)
   braid_invol {x y} : braid ∘ braid ≈ id[x ⨂ y];
 }.
 #[export] Existing Instance symmetric_is_braided.
@@ -22,6 +37,8 @@ Coercion symmetric_is_braided : SymmetricMonoidal >-> BraidedMonoidal.
 
 Context `{SymmetricMonoidal}.
 
+(* A rotated form of the hexagon identity, available once the braiding is
+   symmetric: the second hexagon is recovered from the first via braid_invol. *)
 Lemma hexagon_rotated {x y z} :
   tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc ⁻¹
     << x ⨂ (y ⨂ z) ~~> y ⨂ (x ⨂ z) >>
@@ -39,6 +56,8 @@ Proof.
   cat.
 Qed.
 
+(* Naturality of the braiding, transposed: braid commutes a tensor of two
+   morphisms past itself, swapping the order of the factors. *)
 Lemma bimap_braid {x y z w} (f : x ~> z) (g : y ~> w) :
   g ⨂ f ∘ braid ≈ braid ∘ f ⨂ g.
 Proof.
@@ -47,6 +66,8 @@ Proof.
   apply X.
 Qed.
 
+(* Conjugating a swapped tensor by the braiding on both sides recovers the
+   original tensor; combines bimap_braid with the symmetry law braid_invol. *)
 Lemma braid_bimap_braid {x y z w} (f : x ~> z) (g : y ~> w) :
   braid ∘ g ⨂ f ∘ braid ≈ f ⨂ g.
 Proof.
@@ -61,6 +82,9 @@ End SymmetricMonoidal.
 
 Require Export Category.Structure.Monoidal.Balanced.
 
+(* A balanced monoidal category whose twist is the identity is symmetric: the
+   balancing axiom braid ∘ twist ⨂ twist ∘ braid ≈ twist then degenerates to
+   the symmetry law braid ∘ braid ≈ id. *)
 Program Definition balanced_twist_id_is_symmetric
   `{@BalancedMonoidal C}
   (to_twist : ∀ x : C, to twist ≈[C] to (@iso_id _ x)) :

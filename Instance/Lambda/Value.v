@@ -8,19 +8,42 @@ Set Equations With UIP.
 
 Generalizable All Variables.
 
+(** The values (canonical forms) of the call-by-value de Bruijn STLC. *)
+
+(* [ValueP e] holds exactly when [e] is a value: a term that cannot reduce any
+   further under the call-by-value strategy of [Step] (see [Value_irreducible]
+   there).  The value grammar carved out by the constructors below is
+
+     v ::= ()              (EUnit)
+         | (v, v)          (Pair of values)
+         | λ. e            (LAM, never reduced under)
+
+   matching the standard CBV grammar for unit, products, and functions.  The
+   eliminators -- [Fst], [Snd], [APP] -- are deliberately absent: a projection
+   or application is a redex (or contains one), never a value.  [VAR] is absent
+   too: progress ([strong_progress]) is stated for closed terms ([Exp []]),
+   where no free variable can occur, so variables need not be values.  (nLab
+   has no page for "value" in this PL sense: ncatlab.org/nlab/show/value is the
+   mathematical "value of a function".)
+
+   The predicate lands in [Set] rather than [Prop] so that downstream
+   evaluators ([Eval]) may compute with the witness; [ValueP_irrelevance]
+   recovers proof irrelevance constructively, so the [Set] placement costs no
+   uniqueness. *)
 Section Value.
 
 Import ListNotations.
 
 Open Scope Ty_scope.
 
-(* [ValueP] is an inductive proposition that indicates whether an expression
-   represents a value, i.e., that it does reduce any further. *)
+(* [ValueP] is an inductive predicate that indicates whether an expression
+   represents a value, i.e., that it does not reduce any further. *)
 Inductive ValueP Γ : ∀ {τ}, Exp Γ τ → Set :=
-  | UnitP : ValueP EUnit
+  | UnitP : ValueP EUnit                          (* () is a value *)
   | PairP {τ1 τ2} {x : Exp Γ τ1} {y : Exp Γ τ2} :
-    ValueP x → ValueP y → ValueP (Pair x y)
-  | LambdaP {dom cod} (e : Exp (dom :: Γ) cod) : ValueP (LAM e).
+    ValueP x → ValueP y → ValueP (Pair x y)       (* a pair of values is a value *)
+  | LambdaP {dom cod} (e : Exp (dom :: Γ) cod) :
+    ValueP (LAM e).                               (* an abstraction is a value *)
 
 Derive Signature for ValueP.
 

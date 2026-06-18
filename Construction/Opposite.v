@@ -3,6 +3,22 @@ Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 
+(** The opposite (dual) category C^op. *)
+
+(* nLab: https://ncatlab.org/nlab/show/opposite+category
+   Wikipedia: https://en.wikipedia.org/wiki/Opposite_category
+
+   C^op has the same objects as C, with hom-sets reversed,
+   hom[C^op] x y := hom[C] y x, so that f : y ~> x in C is read as
+   f : x ~{C^op}~> y.  Identities are unchanged and composition is reversed:
+   g ∘ f in C^op is f ∘ g in C.
+
+   Duality is built in here so that (C^op)^op = C holds by reflexivity: the
+   two associativity laws are swapped (comp_assoc uses comp_assoc_sym and vice
+   versa) and compose_respects is re-bracketed symmetrically, so applying the
+   construction twice lands every field back on its original (see op_invol,
+   provable by [reflexivity]). *)
+
 Definition Opposite `(C : Category) : Category := {|
   obj     := @obj C;
   hom     := fun x y => @hom C y x;
@@ -29,6 +45,10 @@ Proof.
   destruct C; simpl.
   f_equal.
 Qed.
+
+(* [op] and [unop] re-read a C-morphism as a C^op-morphism and back. Since the
+   hom-sets are definitionally equal, both are the identity on the underlying
+   arrow; they only flip how its direction is named. *)
 
 Definition op   {C : Category} {x y} (f : y ~{C}~> x) : x ~{C^op}~> y := f.
 Definition unop {C : Category} {x y} (f : x ~{C^op}~> y) : y ~{C}~> x := f.

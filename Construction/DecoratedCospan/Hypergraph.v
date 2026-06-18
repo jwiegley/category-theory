@@ -35,8 +35,10 @@ Generalizable All Variables.
 (** * Hypergraph structure on [DecoratedCospanCat]
 
     Reference: Brendan Fong, "Decorated Cospans", arXiv:1502.00872,
-    Theorem 3.1; Fong–Spivak, "Hypergraph categories", JPAA 223 (2019),
-    Theorem 3.4.
+    Theorem 3.5 (the decorated-cospan category is symmetric monoidal and
+    a hypergraph category); Fong–Spivak, "Hypergraph categories",
+    JPAA 223 (2019) = arXiv:1806.08304, Definition 4.1.1 (hypergraph
+    category) and Definition 4.1.3 (hypergraph functor).
 
     This module assembles the [Hypergraph] instance on
     [DecoratedCospanCat HP LM id_decoration cospan_merge] by layering
@@ -56,8 +58,8 @@ Generalizable All Variables.
         [scfa_unit_delta], [scfa_unit_epsilon]) — the SCFA on [I]
         is the trivial one.
 
-    The literature-correct packaging (Fong, Definition 3.3 of the
-    Hypergraph categories paper) bundles all of this — the
+    The literature-correct packaging (Fong–Spivak, Definition 4.1.1 of
+    the "Hypergraph categories" paper) bundles all of this — the
     decoration-coherent SCFA per object plus the 8 coherence equations
     — as a single hypergraph-decoration coherence class.  Concrete
     decoration choices (Fong's circuits, Baez–Fong Markov processes)
@@ -67,10 +69,12 @@ Generalizable All Variables.
     field is a per-object [SpecialCommutativeFrobenius DC X], plus the
     8 standard tensor + unit coherence equations.
 
-    ** Note on the lax-symmetric requirement (Fong Definition 3.1)
+    ** Note on the lax-symmetric requirement (Fong Definition 3.1 / Theorem 3.5)
 
-    Fong's original construction requires [F] to be a LAX SYMMETRIC
-    monoidal functor.  The symmetric-laxness is needed here because
+    Fong introduces [F] as a lax braided monoidal functor in
+    Definition 3.1; the hypergraph structure (Theorem 3.5) requires the
+    SYMMETRIC strengthening, so [F] must be a LAX SYMMETRIC monoidal
+    functor.  The symmetric-laxness is needed here because
     [μ] for the SCFA on [X+Y] uses braiding to interleave decorations:
     without [F (braid_C) ∘ lax_ap ≈ lax_ap ∘ braid_D], the canonical
     SCFA on [X+Y] (assembled from the SCFAs of [X] and [Y]) cannot
@@ -198,7 +202,7 @@ End DecoratedCospanHypergraph.
 (** ** Discussion: discharging the coherence class
 
     The [DecCospan_Hypergraph_Coherent] class packages exactly the
-    structure Fong identifies in Theorem 3.1 of "Decorated Cospans":
+    structure Fong identifies in Theorem 3.5 of "Decorated Cospans":
     a per-object decoration-coherent SCFA plus the 8 standard
     hypergraph coherences.
 

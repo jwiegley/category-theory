@@ -8,7 +8,13 @@ Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 
-(* Wikipedia: "If the domains of S, T are equal, then the diagram which
+(** Huq's correspondence: natural transformations as sections of the comma
+    projections. *)
+
+(* nLab: https://ncatlab.org/nlab/show/comma+category
+   Wikipedia: https://en.wikipedia.org/wiki/Comma_category
+
+   Wikipedia: "If the domains of S, T are equal, then the diagram which
    defines morphisms in S↓T with α=β, α′=β′, g=h is identical to the diagram
    which defines a natural transformation S ⟹ T. The difference between the
    two notions is that a natural transformation is a particular collection of
@@ -21,8 +27,18 @@ Generalizable All Variables.
    bijective correspondence between natural transformations S ⟹ T and functors
    A ⟶ (S↓T) which are sections of both forgetful functors from S↓T."
 
-   This is also given in Mac Lane, page 47, exercise 4. *)
+   This is also given in Mac Lane, page 47, exercise 4.
 
+   The two definitions below realize the two directions of Huq's bijection for
+   functors S T : D ⟶ C sharing the domain D (the "domains equal" case above).
+   Comma_Functor sends a natural transformation F : S ⟹ T to the functor
+   D ⟶ (S ↓ T) of the observation, X ↦ (X, X; F X) and f ↦ (f, f); it is a
+   common section of comma_proj1 and comma_proj2 by construction. Comma_Transform
+   is the inverse: from a functor F : D ⟶ (S ↓ T) together with witnesses that
+   it is a section of both projections (comma_proj1 ◯ F ≈ Id and
+   comma_proj2 ◯ F ≈ Id), it recovers a natural transformation S ⟹ T. *)
+
+(* natural transformation S ⟹ T  ↦  section functor D ⟶ (S ↓ T) *)
 Program Definition Comma_Functor {C D : Category} {S T : D ⟶ C}
         (F : S ⟹ T) : D ⟶ (S ↓ T) := {|
   fobj := fun X : D => ((X, X); F X);
@@ -32,6 +48,8 @@ Next Obligation. apply naturality_sym. Qed.
 
 #[local] Obligation Tactic := simpl; intros.
 
+(* section functor D ⟶ (S ↓ T) of both projections  ↦  natural transformation
+   S ⟹ T (the inverse direction of Huq's bijection) *)
 Program Definition Comma_Transform {C D : Category} {S T : D ⟶ C}
         (F : D ⟶ (S ↓ T))
         (proj1 : comma_proj1 ◯ F ≈[Cat] Id)

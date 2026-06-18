@@ -8,6 +8,30 @@ Unset Transparent Obligations.
 
 Close Scope nat_scope.
 
+(* nLab: https://ncatlab.org/nlab/show/setoid
+   Wikipedia: https://en.wikipedia.org/wiki/Setoid
+
+   Foundational plumbing shared by the whole library. There is no single
+   mathematical object defined here; instead this file fixes the global
+   conventions under which everything downstream is built:
+
+   - The library is setoid-based (see Lib/Setoid.v): a type is equipped with a
+     chosen equivalence relation `≈` standing in for equality, in the sense of
+     Bishop sets / setoids. To make those equivalences and the `Proper`
+     machinery `Type`-valued rather than `Prop`-valued, we work in `Type`
+     throughout and use Coq's `CMorphisms`/`CRelationClasses` (the `Type`-valued
+     analogues of `Morphisms`/`RelationClasses`).
+
+   - Accordingly the logical connectives are rebound to their constructive,
+     `Type`-valued forms in `category_theory_scope`: `exists`/`∃` denote `sigT`,
+     `∧` denotes `prod`, `∨` denotes `sum`, and `↔` denotes `iffT`. These carry
+     computational content, unlike the `Prop`-valued `ex`/`and`/`or`/`iff`.
+
+   - Notation also supplies the sigma-type projections `` ``x `` / `` `1 x `` /
+     `` `2 x `` / `` `3 x `` (the latter projecting a two-predicate `sigT2`) and
+     the pairing `( x ; y )`, plus unicode forms for `∀`, `→`, `¬`, `≠`, and
+     `λ`. *)
+
 Declare Scope category_theory_scope.
 Delimit Scope category_theory_scope with category_theory.
 Open Scope category_theory_scope.

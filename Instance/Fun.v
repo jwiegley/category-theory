@@ -12,14 +12,27 @@ Section Fun.
 Context {C : Category}.
 Context {D : Category}.
 
-(* Fun is the category whose morphisms are natural transformations between
-   Functors from C ⟶ D. *)
+(* nLab: https://ncatlab.org/nlab/show/functor+category
+   Wikipedia: https://en.wikipedia.org/wiki/Functor_category
+
+   The functor category `[C, D]` (also written `D^C`) has functors `C ⟶ D` as
+   objects and natural transformations as morphisms. Composition is vertical
+   composition of natural transformations (`nat_compose`), the identity is the
+   identity natural transformation (`nat_id`), and the hom-setoid is
+   componentwise: two natural transformations are equal exactly when their
+   components agree at every object (this is the [Transform_Setoid] of
+   [Theory.Natural.Transformation]). The unit and associativity laws hold
+   componentwise, inherited from D, and are discharged by [Program] below.
+
+   When D carries pointwise structure (limits, colimits, cartesian, closed),
+   `[C, D]` inherits it pointwise from D; those instances live in their own
+   files (e.g. under Structure) rather than here. *)
 
 Program Definition Fun : Category := {|
-  obj     := C ⟶ D;
-  hom     := @Transform C D;
-  id      := @nat_id C D;
-  compose := @nat_compose C D;
+  obj     := C ⟶ D;                 (* objects are functors C ⟶ D *)
+  hom     := @Transform C D;        (* morphisms are natural transformations *)
+  id      := @nat_id C D;           (* identity natural transformation *)
+  compose := @nat_compose C D;      (* vertical composition of nat-transes *)
 
   compose_respects := @nat_compose_respects C D
 |}.
@@ -32,6 +45,9 @@ Notation "[ C , D ]" := (@Fun C D)
 Notation "[[[ C , D ]]]( F , G )" := ({| carrier   := @hom (@Fun C D) F G
                                        ; is_setoid := @homset (@Fun C D) F G |})
   (at level 90, right associativity, format "[[[ C ,  D ]]]( F , G )") : homset_scope.
+
+(* The category laws restated directly for `[C, D]`: left/right identity and
+   associativity of vertical composition, each holding componentwise in D. *)
 
 Corollary nat_id_left C D (F G : C ⟶ D) (N : F ⟹ G) :
   nat_id ∙ N ≈[Fun] N.
@@ -46,6 +62,11 @@ Corollary nat_comp_assoc C D (F G H J : C ⟶ D)
   M ∙ (N ∙ O) ≈[Fun] (M ∙ N) ∙ O.
 Proof. unfold nat_compose; simpl; intros; cat. Qed.
 
+(* Whiskering and coherence laws for natural transformations viewed in the
+   functor category: whiskering the identity yields an identity, whiskering
+   distributes over vertical composition, and the interchange law relates left
+   and right whiskering (see Theory/Natural/Transformation.v for `⊲`/`⊳`). *)
+
 Lemma whisker_right_id A B C (F : A ⟶ B) (G : B ⟶ C) : id{Fun} ⊲ F ≈ id{Fun}.
 Proof. simpl; intros; cat. Qed.
 
@@ -59,6 +80,13 @@ Proof. simpl; intros; cat. Qed.
 Lemma whisker_right_dist A B C (F G H : A ⟶ B) (J : B ⟶ C)
       (η : F ⟹ G) (θ : G ⟹ H) : (J ⊳ θ) ∙ (J ⊳ η) ≈ J ⊳ (θ ∙ η).
 Proof. simpl; intros; cat. now rewrite fmap_comp. Qed.
+
+(* The unitors and associator as natural isomorphisms in `[A, B]` (resp.
+   `[A, _]`), witnessing functor-composition coherence. Note the orientation:
+   `nat_λ` is the right-unit isomorphism `F ◯ Id ≅ F` (identity on the right)
+   and `nat_ρ` is the left-unit isomorphism `Id ◯ F ≅ F` (identity on the
+   left); these names are local conventions and do not follow the usual
+   monoidal left-/right-unitor naming (λ for `I ⊗ A`, ρ for `A ⊗ I`). *)
 
 Definition nat_λ {A B} (F : A ⟶ B) : F ◯ Id ≅[Fun] F.
 Proof.
@@ -117,14 +145,35 @@ Lemma nat_α_nat_α A B C D E (F : A ⟶ B) (G : B ⟶ C) (H : C ⟶ D) (J : D �
     ≈ to (nat_α F G (J ◯ H)) ∙ to (nat_α (G ◯ F) H J).
 Proof. simpl; intros; cat. Qed.
 
+(* nLab: https://ncatlab.org/nlab/show/pointed+endofunctor
+
+   A pointed endofunctor is an endofunctor `F : C ⟶ C` equipped with a natural
+   transformation `point : Id ⟹ F` from the identity functor. *)
+
 Class Pointed {C : Category} (F : C ⟶ C) := {
-  point : Id ⟹ F
+  point : Id ⟹ F                        (* the point η : Id ⟹ F *)
 }.
+
+(* A pointed endofunctor is well-pointed when the two whiskerings of `point`
+   with `F` agree as natural transformations `F ⟹ F ◯ F`, i.e. `F point` and
+   `point F` coincide; the unitor isomorphisms `nat_λ`/`nat_ρ` reconcile the
+   `F ◯ Id`/`Id ◯ F` source types with `F`. (A monad is well-pointed via its
+   unit exactly when it is idempotent.) *)
 
 Class WellPointed `{@Pointed C F} := {
   well_pointed :
     (F ⊳ point) ∙ from (nat_λ _) ≈ (point ⊲ F) ∙ from (nat_ρ _)
 }.
+
+(* nLab: https://ncatlab.org/nlab/show/natural+isomorphism
+   Wikipedia: https://en.wikipedia.org/wiki/Natural_transformation#Natural_isomorphism
+
+   Isomorphisms in `[C, D]` are exactly natural isomorphisms, and a natural
+   transformation is invertible iff each of its components is invertible in D.
+   Here that pointwise-iso characterization is packaged as an equivalence with
+   the functor setoid-equality `F ≈ G`: an iso in `[C, D]` yields a family of
+   componentwise isomorphisms `F x ≅ G x` (the forward direction builds it),
+   and conversely such a family assembles into a natural isomorphism. *)
 
 Theorem Functor_Setoid_Nat_Iso `(F : C ⟶ D) (G : C ⟶ D) :
   F ≅[Fun] G  ↔  F ≈ G.
@@ -172,6 +221,9 @@ Proof.
         (rewrite fmap_id;
          apply iso_from_to).
 Defined.
+
+(* The two directions of [Functor_Setoid_Nat_Iso] as standalone conversions:
+   a natural isomorphism gives functor equality, and vice versa. *)
 
 Definition iso_equiv {C D : Category} {f g : C ⟶ D} :
   f ≅[Fun] g → f ≈ g := fst (Functor_Setoid_Nat_Iso _ _).

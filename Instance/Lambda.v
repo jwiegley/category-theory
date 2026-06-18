@@ -17,6 +17,44 @@ Set Equations With UIP.
 
 Generalizable All Variables.
 
+(** The syntactic cartesian closed category of the simply-typed lambda calculus. *)
+
+(* nLab: https://ncatlab.org/nlab/show/relation+between+type+theory+and+category+theory
+   nLab: https://ncatlab.org/nlab/show/cartesian+closed+category
+   Wikipedia: https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence
+   Wikipedia: https://en.wikipedia.org/wiki/Simply_typed_lambda_calculus
+
+   This file is the top of the simply-typed lambda calculus (STLC) development
+   in Instance/Lambda/ (syntax in Ty.v/Exp.v, de Bruijn renaming/weakening in
+   Ren.v, the standard-model interpretation into Coq in Sem.v).  It packages
+   that syntax as a category and exhibits its cartesian closed structure, the
+   categorical half of the Curry-Howard-Lambek correspondence: STLC is the
+   internal language of cartesian closed categories (Lambek & Scott).
+
+   Fixing a typing context `Γ`, the category [Lambda Γ] has
+
+     - objects        types `τ : Ty`,
+     - morphisms      `a ~> b  :=  Exp Γ (a ⟶ b)`, i.e. open terms of function
+                      type in context `Γ`,
+     - identity       `LAM (VAR ZV)`              (the term `λx. x`),
+     - composition    `LAM (APP (wk f) (APP (wk g) (VAR ZV)))`   (`λx. f (g x)`).
+
+   Morphism equivalence is *semantic*, not syntactic: `f ≈ g` holds when the
+   interpretations `SemExp f` and `SemExp g` agree on every environment (see
+   [Exp_Setoid]).  This is the denotational, not the β/η-quotient, equality;
+   the laws below are therefore discharged by `SemExp_*` rewriting rather than
+   by reasoning about reductions.  The cartesian closed structure is then read
+   off the term language: `TyUnit` is terminal, `TyPair` gives products with
+   the `Pair`/`Fst`/`Snd` introduction and projections, and `TyArrow` gives
+   exponentials with the usual [curry]/[uncurry] adjunction.
+
+   Note: `A` and `L : HostExprsSem A` below are vestigial context.  No class
+   named `HostExprsSem` is in scope, so `Generalizable All Variables` quietly
+   treats it as a free variable to be generalized; since nothing in this file
+   depends on `A` or `L`, both are dropped and [Lambda] reduces to `Env →
+   Category` (confirmed by `About Lambda`).  They are kept here as a record of
+   the intended host-language extension point used in the sibling files. *)
+
 Section Lambda.
 
 Context {A : Type}.
@@ -121,15 +159,15 @@ Program Definition Lambda Γ : Category := {|
   compose_respects := @composition_respects Γ;
 
   id_left := @composition_identity_left Γ;
-  id_right := @composition_identity_left Γ;
+  id_right := @composition_identity_right Γ;
   comp_assoc := @composition_assoc Γ;
   comp_assoc_sym := @composition_assoc_sym Γ;
 |}.
 
 #[export]
 Program Instance Lambda_Terminal Γ : @Terminal (Lambda Γ) := {
-  terminal_obj := TyUnit;
-  one := λ _, LAM EUnit
+  terminal_obj := TyUnit;            (* the unit type is the terminal object *)
+  one := λ _, LAM EUnit              (* the unique map `λ_. ()` into it *)
 }.
 Next Obligation.
   repeat intro.
@@ -138,11 +176,11 @@ Qed.
 
 #[export]
 Program Instance Lambda_Cartesian Γ : @Cartesian (Lambda Γ) := {
-  product_obj := TyPair;
-  fork := λ _ _ _ f g,
+  product_obj := TyPair;             (* the pair type is the categorical product *)
+  fork := λ _ _ _ f g,               (* `⟨f, g⟩ := λx. (f x, g x)` *)
     LAM (Pair (APP (wk f) (VAR ZV)) (APP (wk g) (VAR ZV)));
-  exl  := λ _ _, LAM (Fst (VAR ZV));
-  exr  := λ _ _, LAM (Snd (VAR ZV));
+  exl  := λ _ _, LAM (Fst (VAR ZV)); (* first projection `λp. fst p` *)
+  exr  := λ _ _, LAM (Snd (VAR ZV)); (* second projection `λp. snd p` *)
 }.
 Next Obligation.
   proper.
@@ -177,8 +215,8 @@ Definition uncurry {Γ a b c} (f : Exp Γ (a ⟶ b ⟶ c)) : Exp Γ (a × b ⟶ 
 
 #[export]
 Program Instance Lambda_Closed Γ : @Closed (Lambda Γ) _ := {
-  exponent_obj := TyArrow;
-  exp_iso := λ _ _ _,
+  exponent_obj := TyArrow;           (* the function type is the exponential object *)
+  exp_iso := λ _ _ _,                (* the natural iso `Hom(a×b,c) ≅ Hom(a,b⟶c)` *)
     {| to   := {| morphism := curry |}
      ; from := {| morphism := uncurry |} |}
 }.

@@ -18,6 +18,22 @@ Require Import Category.Structure.Monoidal.
 
 Generalizable All Variables.
 
+(* References:
+   nLab: https://ncatlab.org/nlab/show/hypergraph+category
+   nLab: https://ncatlab.org/nlab/show/Frobenius+algebra
+   Wikipedia: https://en.wikipedia.org/wiki/Frobenius_algebra
+   Fong, "Decorated Cospans" (arXiv:1502.00872), Thm 3.5.
+   Fong-Spivak, "Hypergraph Categories" (arXiv:1806.08304).
+
+   A hypergraph category is a symmetric monoidal category in which every
+   object carries a special commutative Frobenius algebra (SCFA), coherently
+   with the monoidal product: hypergraph category = SMC + per-object SCFA.
+   The SCFA on each object [X] consists of multiplication [μ : X⨂X ~> X],
+   unit [η : I ~> X], comultiplication [δ : X ~> X⨂X], counit [ε : X ~> I],
+   subject to the commutative-monoid, cocommutative-comonoid, Frobenius, and
+   special ([μ ∘ δ ≈ id]) laws.  On [CospanCat C] these are the cospans built
+   from the cocartesian (fold/cofold) structure of [C], as set out below. *)
+
 (** * Hypergraph structure on [CospanCat C]
 
     Mathematical content (cf. Carboni–Walters, Fong–Spivak):
@@ -307,8 +323,10 @@ Proof.
   exists iso_id; simpl; split; cat.
 Defined.
 
-(** A C-iso [phi : X ≅ Y] induces a CospanCat-iso (mor_as_cospan phi)⁻¹
-    via the obvious reverse cospan. *)
+(* Lift a C-iso [phi : X ≅ Y] into [CospanCat C] by taking the cospan of
+   its forward map [to phi].  This is the underlying cospan of the induced
+   CospanCat-iso; the inverse cospan (the lift of [from phi]) is built
+   symmetrically when the full isomorphism is needed. *)
 Definition mor_iso_as_cospan_iso {X Y : C} (phi : X ≅ Y) :
   CospanArrow X Y := mor_as_cospan (to phi).
 
@@ -478,12 +496,11 @@ Context {C : Category}.
 Context `{H_Coc : @Cocartesian C}.
 Context (HP : HasPushouts C).
 
-(** The "split" cocone: given a pushout [P] of [(f, g)], the maps
-    [inl ∘ pushout_in1 P : Y → P + P'] and [inl ∘ pushout_in2 P]
-    form a cocone over [(f, g)]. *)
-
-(** The cocone for the forward direction: from the pushout-of-covers
-    apex to the coproduct of the per-component pushout apexes. *)
+(* The "split" cocone over [(cover f f', cover g g')]: the two legs
+   [cover (pushout_in1 P) (pushout_in1 P')] and
+   [cover (pushout_in2 P) (pushout_in2 P')] into the coproduct of the
+   per-component pushout apexes agree, so they mediate the forward map
+   from the pushout-of-covers apex to that coproduct. *)
 Lemma pushout_cover_split_cocone
   {X X' Y Y' Z Z' : C}
   (f : X ~> Y) (g : X ~> Z)
@@ -821,7 +838,6 @@ Context `{H_Coc : @Cocartesian C}.
 Context `{H_Ini : @Initial C}.
 Context (HP : HasPushouts C).
 
-(** Lifting a C-iso to a cospan-iso (in CospanCat) via mor_as_cospan. *)
 (** [cospan_tensor] of two [mor_as_cospan]s agrees with [mor_as_cospan]
     of the [cover] of the underlying C-morphisms. *)
 Lemma cospan_tensor_mor_as_cospan
@@ -838,6 +854,7 @@ Proof.
     apply merge_inl_inr.
 Defined.
 
+(** Lift a C-iso [phi : X ≅ Y] to a [CospanCat]-iso via [mor_as_cospan]. *)
 Definition mor_iso_lift {X Y : C} (phi : X ≅ Y)
   : @Isomorphism (CospanCat C HP) X Y.
 Proof.
@@ -1115,8 +1132,8 @@ Qed.
 
     The C-iso [paws ≈ to coprod_comm] intertwines [cover g h] and
     [cover h g].  Both directions are pure cocartesian calculations
-    via [paws_fork] and the [paws ∘ inl ≈ inr] / [paws ∘ inr ≈ inl]
-    base facts. *)
+    via [cover_inl] / [cover_inr] and the [paws ∘ inl ≈ inr] /
+    [paws ∘ inr ≈ inl] base facts ([paws_inl], [paws_inr]). *)
 
 Lemma paws_inl {x y : C} :
   (@paws C H_Coc x y) ∘ inl ≈ inr.
@@ -1997,6 +2014,13 @@ Next Obligation. (* pentagon_identity *)
 Defined.
 
 End CospanMonoidal.
+
+(* Historical note: the two status blocks below predate the completed
+   [Cospan_Monoidal] instance above and are retained only as design
+   rationale.  Their line-count estimates and "what remains" language are
+   superseded — the full Monoidal coherence (naturality, triangle,
+   pentagon) is discharged by the lemmas in this file and closes under the
+   global context, as recorded by the CLOSED markers at the end. *)
 
 (** ** Status of the full Cospan-Hypergraph derivation
 

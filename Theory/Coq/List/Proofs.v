@@ -10,6 +10,24 @@ Require Import Category.Theory.Coq.Maybe.
 
 Generalizable All Variables.
 
+(** Proofs and lemmas for the Coq list instance *)
+
+(* nLab: https://ncatlab.org/nlab/show/list+monad
+   nLab: https://ncatlab.org/nlab/show/free+monoid
+   Wikipedia: https://en.wikipedia.org/wiki/Free_monoid
+
+   This file collects lemmas about the list type whose functor, applicative
+   and monad instances live in the parent module [Theory.Coq.List].  The list
+   type is the underlying set of the free monoid on A, with [app] as the
+   monoid multiplication and [[]] as its unit; the [Forall_append] lemma below
+   witnesses that the predicate [Forall P] respects this multiplication.
+
+   The remaining lemmas in this range ([olast_*], [Forall_ordered],
+   [StronglySorted_*]) are pure list-algorithm helpers about the last element
+   and about sorted lists.  They are not laws of the monad/free-monoid
+   structure and have no dedicated nLab or Wikipedia page; they support
+   order-theoretic reasoning over lists elsewhere in the library. *)
+
 (*
 Lemma foldl_cons : forall a (x : a) xs,
   foldl (fun us : list a => cons^~ us) [x] xs
@@ -353,9 +371,9 @@ Proof.
 Qed.
 *)
 
-(* Forall_ordered: moved earlier in the file because it is consumed by
-   StronglySorted_cat below. Original site retained as comment for
-   continuity. *)
+(* Forall_ordered: moved earlier in the file (to its definition site above)
+   because it is consumed by StronglySorted_cat.  This note marks its former
+   location; the lemmas that follow remain commented out for continuity. *)
 
 (*
 Lemma StronglySorted_rcons_rcons : forall a R `{Transitive _ R} (x : a) y xs,
@@ -832,6 +850,12 @@ Proof.
       * assumption.
 Qed.
 
+(* Permutation infrastructure for the insertion-sort helpers below.  [Permutation]
+   is the equivalence on lists that quotients [app] down to the free *commutative*
+   monoid; registering it as an [Equivalence] (with [insert] and [Forall] shown to
+   respect it) lets the sorting lemmas rewrite freely under reordering.  Coq's
+   [Permutation] is reflexive by construction, so only symmetry and transitivity
+   need discharging here. *)
 #[export]
 Program Instance Permutation_Equivalence {A} : Equivalence (@Permutation A).
 Next Obligation. now apply (@Permutation_sym A). Qed.
@@ -1020,6 +1044,13 @@ Proof.
     exact (H1 x).
 Qed.
 
+(* The lawful functor instance: [list] is a genuine endofunctor on [Coq],
+   with [fmap = List.map].  As in the sibling [Maybe]/[Either]/[Tuple] proof
+   files, the witness reuses the source [list_Functor] instance for [a_fmap]
+   and discharges the three [AFunctor] obligations -- [map] respects pointwise
+   equality of functions, [map id = id], and [map (g ∘ f) = map g ∘ map f] --
+   each by induction on the list.  (The name reuses the source [list_Functor]
+   instance from [Theory.Coq.List].) *)
 Program Definition list_Functor : IsFunctor list_Functor := {|
   a_fmap := list_Functor;
 |}.

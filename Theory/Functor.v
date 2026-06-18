@@ -5,24 +5,33 @@ Require Import Equations.Prop.Logic.
 
 Generalizable All Variables.
 
-(* Functors map objects and morphisms between categories, where such mappings
-   preserve equivalences and basic categorical structure (identity and
-   composition). Note that there are many species of functor, one each for the
-   various categorical structures (included below), for example, the
-   `CartesianFunctor` that maps products to products and preserves all its
-   structural properties and laws. *)
+(* nLab: https://ncatlab.org/nlab/show/functor
+   Wikipedia: https://en.wikipedia.org/wiki/Functor
+
+   A functor F : C ⟶ D assigns to each object x : C an object F x : D and to
+   each morphism f : x ~> y a morphism fmap f : F x ~> F y, subject to the two
+   functoriality laws fmap id ≈ id (fmap_id) and fmap (f ∘ g) ≈ fmap f ∘ fmap g
+   (fmap_comp). Because hom-sets here are setoids, the morphism mapping must
+   also respect ≈ (fmap_respects); the equational laws above use ≈ rather than
+   = throughout. Functoriality forces functors to preserve isomorphisms (see
+   [fobj_iso] below).
+
+   Note that there are many species of functor, one each for the various
+   categorical structures (included below), for example, the `CartesianFunctor`
+   that maps products to products and preserves all its structural properties
+   and laws. *)
 
 Class Functor@{o1 h1 p1 o2 h2 p2}
   {C : Category@{o1 h1 p1}} {D : Category@{o2 h2 p2}} := {
-  fobj : C → D;
-  fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y;
+  fobj : C → D;                                (* action on objects *)
+  fmap {x y : C} (f : x ~> y) : fobj x ~> fobj y;  (* action on morphisms *)
 
-  fmap_respects : ∀ x y,
+  fmap_respects : ∀ x y,                       (* fmap respects ≈ (setoid law) *)
     Proper@{h2 p2} (respectful@{h1 p1 h2 p2 h2 p2}
                       equiv@{h1 p1} equiv@{h2 p2}) (@fmap x y);
 
-  fmap_id {x : C} : fmap (@id C x) ≈ id;
-  fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :
+  fmap_id {x : C} : fmap (@id C x) ≈ id;       (* functor law: preserves identities *)
+  fmap_comp {x y z : C} (f : y ~> z) (g : x ~> y) :  (* functor law: preserves composition *)
     fmap (f ∘ g) ≈ fmap f ∘ fmap g
 }.
 #[export] Existing Instance fmap_respects.
@@ -161,6 +170,8 @@ Instance fobj_respects `(F : C ⟶ D) :
 
 Ltac functor := unshelve (refine {| fobj := _; fmap := _ |}; simpl; intros).
 
+(* The identity functor Id[C] maps every object and morphism to itself; it is
+   the unit for functor composition (see fun_equiv_id_left/right below). *)
 Program Definition Id {C : Category} : C ⟶ C := {|
   fobj := fun x => x;
   fmap := fun _ _ f => f
@@ -170,6 +181,8 @@ Arguments Id {C} /.
 
 Notation "Id[ C ]" := (@Id C) (at level 0, format "Id[ C ]") : functor_scope.
 
+(* Composition of functors F ◯ G applies G then F on both objects and
+   morphisms. It is associative with Id as unit, making Cat a category. *)
 Program Definition Compose {C D E : Category}
         (F : D ⟶ E) (G : C ⟶ D) : C ⟶ E := {|
   fobj := fun x => fobj (fobj x);
@@ -232,23 +245,41 @@ Proof. construct; cat. Qed.
 
 Arguments fun_equiv_comp_assoc {A B C D} F G H.
 
+(* nLab: https://ncatlab.org/nlab/show/full+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Full_functor
+
+   F is full when each hom-map fmap[F] : (x ~> y) → (F x ~> F y) is surjective.
+   Constructively this is witnessed by a section [prefmap] of [fmap[F]] (a
+   functorial choice of preimage with fmap[F] (prefmap g) ≈ g, [fmap_sur]),
+   rather than by a bare surjectivity proposition. *)
 Class Full `(F : C ⟶ D) := {
-  prefmap {x y} (g : F x ~> F y) : x ~> y;
+  prefmap {x y} (g : F x ~> F y) : x ~> y;     (* chosen preimage of g under fmap *)
 
-  prefmap_respects {x y} : Proper (equiv ==> equiv) (@prefmap x y);
+  prefmap_respects {x y} : Proper (equiv ==> equiv) (@prefmap x y);  (* prefmap respects ≈ *)
 
-  prefmap_id : ∀ x, @prefmap x x id ≈ id;
-  prefmap_comp : ∀ x y z (f : F y ~> F z) (g : F x ~> F y),
+  prefmap_id : ∀ x, @prefmap x x id ≈ id;      (* preimage is functorial: identities *)
+  prefmap_comp : ∀ x y z (f : F y ~> F z) (g : F x ~> F y),  (* ... and composition *)
     prefmap (f ∘ g) ≈ prefmap f ∘ prefmap g;
 
-  fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g
+  fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g  (* prefmap is a section of fmap *)
 }.
 
+(* nLab: https://ncatlab.org/nlab/show/faithful+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Faithful_functor
+
+   F is faithful when each hom-map fmap[F] : (x ~> y) → (F x ~> F y) is
+   injective. *)
 Class Faithful `(F : C ⟶ D) := {
-  fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g
+  fmap_inj {x y} (f g : x ~> y) : fmap[F] f ≈ fmap[F] g → f ≈ g  (* injectivity of fmap[F] *)
 }.
 
-(* Properties that follow from the above. *)
+(* nLab: https://ncatlab.org/nlab/show/fully+faithful+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Full_and_faithful_functors
+
+   A fully faithful functor (both Full and Faithful) reflects isomorphisms: if
+   F x ≅ F y then x ≅ y. The witnesses are built from [prefmap] applied to the
+   given iso; only fullness (via prefmap_comp / prefmap_id) is needed to verify
+   them here. *)
 Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} :
   ∀ x y, F x ≅ F y → x ≅ y.
 Proof.
@@ -270,6 +301,14 @@ Proof.
        apply prefmap_id).
 Defined.
 
+(* nLab: https://ncatlab.org/nlab/show/algebra+over+an+endofunctor
+   Wikipedia: https://en.wikipedia.org/wiki/F-algebra
+
+   For an endofunctor F : C ⟶ C, an F-algebra on a carrier object a is a
+   structure morphism F a ~> a; the dual F-coalgebra is a ~> F a. The
+   (F, G)-dialgebra generalizes both to a morphism F a ~> G a between the
+   images of two endofunctors. Here these definitions name only the carrying
+   morphism type, not the full category of algebras. *)
 Definition FAlgebra `(F : C ⟶ C) (a : C) := F a ~> a.
 
 Definition FCoalgebra `(F : C ⟶ C) (a : C) := a ~> F a.
@@ -319,6 +358,13 @@ Proof. reflexivity. Qed.
 
 End AFunctor.
 
+(* An alternative setoid of functors that uses strict (propositional) equality
+   of objects, F x = G x, rather than the natural isomorphism F x ≅ G x of
+   [Functor_Setoid]. Because objects equal only up to = require transporting
+   morphisms along those equalities, this section first develops the transport
+   lemmas needed to state and prove the morphism-coherence condition
+   ([Functor_StrictEq_Setoid]). This notion is stricter than [Functor_Setoid]
+   and is provided for settings where object equality is available. *)
 Section StrictEq.
  Lemma transport_adjunction (A : Type) (B : A -> Type) (R: forall a :A, crelation (B a)) :
    forall (a a' : A) (p : a = a') (x : B a) (y : B a'),
@@ -476,13 +522,13 @@ Defined.
  Lemma fun_strict_equiv_id_left {A B} (F : A ⟶ B) : Id ◯ F ≈ F.
  Proof. construct; cat. Qed.
 
- Arguments fun_equiv_id_left {A B} F.
+ Arguments fun_strict_equiv_id_left {A B} F.
 
  Lemma fun_strict_equiv_comp_assoc {A B C D} (F : C ⟶ D) (G : B ⟶ C) (H : A ⟶ B)  :
    F ◯ (G ◯ H) ≈ (F ◯ G) ◯ H.
  Proof. construct; cat. Qed.
 
- Arguments fun_equiv_comp_assoc {A B C D} F G H.
+ Arguments fun_strict_equiv_comp_assoc {A B C D} F G H.
 
 End StrictEq.
 

@@ -9,6 +9,29 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
+(** * Adjunctions: hom-set form ⇔ unit/counit form *)
+
+(* nLab: https://ncatlab.org/nlab/show/adjoint+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Adjoint_functors
+
+   The two standard presentations of an adjunction F ⊣ U, with F : D ⟶ C the
+   left adjoint and U : C ⟶ D the right adjoint, are equivalent, and this file
+   exhibits both directions of that equivalence.
+
+   The hom-set form (Theory.Adjunction, F ⊣ U) packages a natural isomorphism
+   adj : (F a ~{C}~> b) ≊ (a ~{D}~> U b). The unit/counit form
+   (Adjunction.Natural.Transformation, F ∹ U) packages a unit η : Id ⟹ U ◯ F
+   and counit ε : F ◯ U ⟹ Id satisfying the two triangle (zig-zag) identities.
+
+   [Adjunction_from_Transform] builds the hom-set isomorphism from the
+   unit/counit data using the universal-arrow transposes: the forward map sends
+   f : F a ~> b to fmap[U] f ∘ η a (so η a is a universal arrow from a to U —
+   every a ~> U b factors through it), and the backward map sends g : a ~> U b
+   to ε b ∘ fmap[F] g. Naturality of η and ε plus the triangle identities make
+   these mutually inverse and natural. [Adjunction_to_Transform] runs the
+   reverse direction, reading off η and ε as the transposes of the identities
+   and deriving their naturality and triangle laws from naturality of adj. *)
+
 Section AdjunctionToTransform.
 
 Context {C : Category}.

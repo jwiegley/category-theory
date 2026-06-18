@@ -4,6 +4,19 @@ Require Import Category.Theory.Isomorphism.
 
 Generalizable All Variables.
 
+(* A pullback (also called a fibered product) is the limit of a cospan
+   `b → a ← c`; it is dual to the pushout (a pullback in C is a pushout in
+   C^op).
+
+   nLab:      https://ncatlab.org/nlab/show/pullback
+   Wikipedia: https://en.wikipedia.org/wiki/Pullback_(category_theory)
+
+   Universal property, in this library's notation: a pullback of f and g is an
+   object [Pull] with projections [pullback_fst : Pull ~> x] and
+   [pullback_snd : Pull ~> y] satisfying f ∘ pullback_fst ≈ g ∘ pullback_snd,
+   such that for every (Q, q1, q2) with f ∘ q1 ≈ g ∘ q2 there is a unique
+   u : Q ~> Pull with pullback_fst ∘ u ≈ q1 and pullback_snd ∘ u ≈ q2. *)
+
 (* Given a cospan in C:
 
            A         B
@@ -13,14 +26,14 @@ Generalizable All Variables.
                 v
                 C
 
-   This can be thought of, set-theoretically, as the equation:
+   This can be thought of, set-theoretically, as singling out the pairs that
+   agree under f and g, i.e. those satisfying the equation:
 
-      ∀ a ∈ A, b ∈ B, f(b) = g(a)
+      f(a) = g(b),   for a ∈ A, b ∈ B
 
-   Which is a strong statement, requiring that every element of A agree with
-   an element of B, through f and g. A pullback is a subset of the cartesian
-   product of A and B, X ⊆ A × B, such that (a, b) ∈ X, where the following
-   diagram commutes:
+   A pullback is the subset of the cartesian product of A and B,
+   X ⊆ A × B, consisting of exactly those pairs (a, b) for which f(a) = g(b),
+   where the following diagram commutes:
 
                  X
                /   \
@@ -67,12 +80,15 @@ Generalizable All Variables.
    respecting the pullback structure (proven below as [pullback_unique])." *)
 
 Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := {
-  Pull : C;
-  pullback_fst : Pull ~> x;
-  pullback_snd : Pull ~> y;
+  Pull         : C;            (* the pullback object  b ×_a c (fibered product) *)
+  pullback_fst : Pull ~> x;    (* projection p1 : Pull ~> x *)
+  pullback_snd : Pull ~> y;    (* projection p2 : Pull ~> y *)
 
+  (* the projection square commutes *)
   pullback_commutes : f ∘ pullback_fst ≈ g ∘ pullback_snd;
 
+  (* universal property: the commuting square is terminal among such squares,
+     i.e. every competing cone (Q, q1, q2) factors through a unique mediator u *)
   ump_pullbacks : ∀ Q (q1 : Q ~> x) (q2 : Q ~> y), f ∘ q1 ≈ g ∘ q2
     → ∃! u : Q ~> Pull, pullback_fst ∘ u ≈ q1 ∧ pullback_snd ∘ u ≈ q2
 }.

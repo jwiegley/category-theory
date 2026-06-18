@@ -9,7 +9,21 @@ Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
 
-(* Wikipedia: "At first glance cones seem to be slightly abnormal
+(* nLab: https://ncatlab.org/nlab/show/cone
+   Wikipedia: https://en.wikipedia.org/wiki/Cone_(category_theory)
+   nLab: https://ncatlab.org/nlab/show/diagonal+functor
+
+   A cone over a diagram F : J ⟶ C with apex N is the same data as a natural
+   transformation Δ(N) ⟹ F out of the constant (diagonal) functor at N, and
+   the same data as an object of the comma category (Δ ↓ F). The two lemmas
+   below realise the first two of these equivalences in library notation:
+   [Cone_Natural_Transform] proves Δ[J](N) ⟹ F ↔ Cone[N] F (a leg family with
+   apex N), and [Cone_Comma] proves (Δ ↓ Δ(F)) ↔ Cone F (the diagram F is
+   encoded as the constant functor Δ(F) : 1 ⟶ [J, C] so that both sides of the
+   comma share a codomain). Limits arise as the universal/terminal such cone,
+   equivalently as the right adjoint Δ ⊣ lim of the diagonal functor.
+
+   Wikipedia: "At first glance cones seem to be slightly abnormal
    constructions in category theory. They are maps from an object to a functor
    (or vice versa). In keeping with the spirit of category theory we would
    like to define them as morphisms or objects in some suitable category. In
@@ -51,8 +65,9 @@ Proof.
     + abstract(simpl; rewrite id_right; symmetry; apply cone_coherence).
 Defined.
 
-(** See Instance/Cones/Comma for a similar proof involving the category of
-    cones. *)
+(* See Instance/Cones/Comma.v for the analogous statement upgraded to a
+   functorial equivalence Cones F ≅[Cat] (Δ ↓ =(F)) between the whole category
+   of cones and the comma category. *)
 
 Lemma Cone_Comma `(F : [J, C]) : (Δ ↓ Δ(F)) ↔ Cone F.
 Proof.

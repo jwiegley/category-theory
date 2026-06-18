@@ -6,23 +6,36 @@ Generalizable All Variables.
 
 (** * Signatures over PROPs
 
-    A SIGNATURE is the data of an algebraic theory: a family of typed
-    generators indexed by their input/output arity.  This is the
-    standard "many-sorted signature in the arities-are-naturals
-    setting" that PROPs are designed to capture syntactically.
+    A SIGNATURE is the data of a (one-sorted) symmetric monoidal
+    theory: a family of typed generators indexed by their input/output
+    arity.  Unlike an ordinary algebraic (Lawvere) theory, whose
+    operations have a single output, a generator here may have any
+    output coarity, so a signature is just the underlying object of
+    the free-PROP adjunction, an element of [Set^(nat x nat)] (here in
+    [Type]).  This is the standard "many-sorted signature in the
+    arities-are-naturals setting" that PROPs are designed to capture
+    syntactically.
 
     Concretely [Sig m n] is the [Type] of generator names that have
-    [m] input wires and [n] output wires.  In examples:
+    [m] input wires (the domain/arity) and [n] output wires (the
+    codomain/coarity).  In examples:
 
-      - The empty signature [Empty_Sig m n := False] presents a PROP
-        with NO non-structural generators (just identity, composition,
-        tensor, braid).  Its free hypergraph PROP is the "free
-        hypergraph PROP on no generators", which is exactly the PROP
-        of cospans of finite sets.
-      - The Cartesian-monoid signature has one [Sig 2 1] (mul) and one
-        [Sig 0 1] (unit).  Its free PROP-on-signature with the
+      - The empty signature [Empty_Sig m n := Empty_set] presents a
+        PROP with NO non-structural generators (just identity,
+        composition, tensor, braid).  Its free PROP on no generators
+        is the permutation category: morphisms [m ~> n] are empty
+        unless [m = n], in which case they are the braidings of [m]
+        wires.  (NB: the free *hypergraph* PROP on no generators, which
+        additionally quotients by the special-commutative-Frobenius
+        axioms, is the PROP of cospans of finite sets; that extra
+        structure is NOT imposed by the [FreePROP] of this development,
+        which quotients only by the strict-SMC axioms.)
+      - The commutative-monoid signature has one [Sig 2 1] (mul) and
+        one [Sig 0 1] (unit).  Its free PROP-on-signature with the
         commutative-monoid equational theory is the PROP of finite
-        sets with multivalued functions.
+        sets and functions (i.e. FinSet, the prop for commutative
+        monoids; multivalued/span semantics would instead require the
+        comonoid generators of a bicommutative bimonoid).
       - For an electrical-circuit signature one might have [Sig 0 1]
         for a battery, [Sig 1 1] for a resistor, [Sig 2 1] for a
         Y-junction, etc.
@@ -45,8 +58,11 @@ Definition Signature : Type := nat -> nat -> Type.
 Definition Empty_Sig : Signature :=
   fun (_ _ : nat) => Empty_set.
 
-(** The signature of a single binary generator [g : m -> n], with no
-    other generators.  Parameterised over the input and output arities
+(** The signature of a single generator [g : m -> n] (with [m] inputs
+    and [n] outputs), with no other generators.  The generator's arity
+    [(m, n)] is arbitrary, not fixed to a binary operation: [Sig a b]
+    is [unit] exactly when [(a, b) = (m, n)] and [Empty_set] otherwise.
+    Parameterised over the input and output arities
     so the same skeleton can present a Y-junction (2, 1), a fork (1, 2),
     a unit (0, 1), and so on. *)
 Definition Single_Sig (m n : nat) : Signature :=

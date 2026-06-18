@@ -14,6 +14,34 @@ Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
 
+(** Monoidal structure on a product of functors. *)
+
+(* nLab: https://ncatlab.org/nlab/show/monoidal+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_functor
+
+   Given (lax/strong) monoidal functors F : C ⟶ J and G : D ⟶ K between
+   monoidal categories, the pointwise product functor
+
+       F ∏⟶ G : C ∏ D ⟶ J ∏ K
+
+   is again (lax/strong) monoidal for the product monoidal structures on
+   C ∏ D and J ∏ K (see Structure.Monoidal.Product). The unit comparison is
+   the pair of the unit comparisons of F and G, and the tensor comparison is
+   the componentwise pair of their tensor comparisons,
+
+       η      = (η_F, η_G)        : I ~> (F ∏⟶ G) I,
+       μ_{..} = (μ^F_{..}, μ^G_{..}).
+
+   Because equivalence in a product category is the componentwise conjunction
+   (see Construction.Product), each coherence square in J ∏ K splits into the
+   corresponding squares in J and in K, so the laws hold whenever they hold
+   for F and G; if both are strong (resp. strict) so is the product.
+
+   Conversely, monoidality of F ∏⟶ G can be projected back onto each factor
+   by feeding the unit I into the unused slot: the [_proj1]/[_proj2]
+   definitions recover monoidality of F and of G. This is the product (in the
+   2-category MonCat / its lax variant) acting on monoidal functors. *)
+
 Section ProductMonoidal.
 
 Context {C : Category}.
@@ -30,6 +58,8 @@ Context {G : D ⟶ K}.
 
 #[local] Obligation Tactic := program_simpl.
 
+(* The tensor comparison μ for F ∏⟶ G as a natural isomorphism, built
+   componentwise from the tensor comparisons of F (via O) and of G (via P). *)
 Program Definition ProductFunctor_Monoidal_ap_functor_iso
   (O : MonoidalFunctor F) (P : MonoidalFunctor G) :
     (⨂) ◯ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ≅[[(C ∏ D) ∏ (C ∏ D), J ∏ K]] F ∏⟶ G ◯ (⨂) :=
@@ -73,6 +103,8 @@ Next Obligation.
   - apply (iso_from_to (ap_functor_iso[P]) (_, _)).
 Qed.
 
+(* Strong monoidality is closed under the product of functors: if F and G are
+   strong monoidal then so is F ∏⟶ G, with all comparisons formed pairwise. *)
 Program Definition ProductFunctor_Monoidal :
   MonoidalFunctor F → MonoidalFunctor G
     → MonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
@@ -110,6 +142,9 @@ Next Obligation.
   intros; split; apply monoidal_assoc.
 Qed.
 
+(* Projection onto the first factor: the tensor comparison of F recovered from
+   that of F ∏⟶ G by setting the second components to the unit I and taking the
+   first component (fst) of each resulting pair. *)
 Program Definition ProductFunctor_Monoidal_proj1_ap_functor_iso
   (P : MonoidalFunctor F ∏⟶ G) :
     (⨂) ◯ F ∏⟶ F ≅[[(C ∏ C), J]] F ◯ (⨂) :=
@@ -177,6 +212,10 @@ Next Obligation.
   apply (iso_from_to (ap_functor_iso[P]) (_, I, (_, I))).
 Qed.
 
+(* Strong monoidality of F ∏⟶ G projects to strong monoidality of F. The
+   associativity obligation uses naturality of the tensor comparison together
+   with [unit_left] to discard the I ⨂ I slots that arise from the product
+   unit, reducing the square to the one already proved for F ∏⟶ G. *)
 Program Definition ProductFunctor_Monoidal_proj1 :
   MonoidalFunctor (F ∏⟶ G) → MonoidalFunctor F := fun P => {|
   pure_iso := _;
@@ -248,6 +287,9 @@ Next Obligation.
   apply (fst (@monoidal_assoc _ _ _ _ _ P (x, I) (y, I) (z, I))).
 Qed.
 
+(* Projection onto the second factor, dual to the proj1 case: the tensor
+   comparison of G recovered by setting the first components to the unit I and
+   taking the second component (snd) of each resulting pair. *)
 Lemma ProductFunctor_Monoidal_proj2_ap_functor_iso :
   MonoidalFunctor F ∏⟶ G
     → (⨂) ◯ G ∏⟶ G ≅[[(D ∏ D), K]] G ◯ (⨂).
@@ -298,6 +340,8 @@ Proof.
     apply (iso_from_to (ap_functor_iso[P]) (I, o, (I, o0))).
 Defined.
 
+(* Strong monoidality of F ∏⟶ G projects to strong monoidality of G, dual to
+   ProductFunctor_Monoidal_proj1. *)
 Program Definition ProductFunctor_Monoidal_proj2 :
   MonoidalFunctor (F ∏⟶ G) → MonoidalFunctor G := fun P => {|
   pure_iso            := _;
@@ -369,6 +413,9 @@ Next Obligation.
   apply (snd (@monoidal_assoc _ _ _ _ _ P (I, x) (I, y) (I, z))).
 Qed.
 
+(* The lax tensor comparison μ for F ∏⟶ G as a natural transformation (no
+   invertibility required), built componentwise from the comparisons of F and
+   G. This is the lax analogue of ProductFunctor_Monoidal_ap_functor_iso. *)
 Lemma ProductFunctor_LaxMonoidal_ap_functor_nat :
   LaxMonoidalFunctor F → LaxMonoidalFunctor G
     → (⨂) ◯ (F ∏⟶ G) ∏⟶ (F ∏⟶ G) ⟹ F ∏⟶ G ◯ (⨂).
@@ -397,6 +444,9 @@ Proof.
                                      (x2, y2) (z2, w2) (f1b, f2b)).
 Defined.
 
+(* Lax monoidality is closed under the product of functors: if F and G are lax
+   monoidal then so is F ∏⟶ G, with all comparisons formed pairwise. This is
+   the lax analogue of ProductFunctor_Monoidal. *)
 Program Definition ProductFunctor_LaxMonoidal :
   LaxMonoidalFunctor F → LaxMonoidalFunctor G
     → LaxMonoidalFunctor (F ∏⟶ G) := fun _ _ => {|
@@ -425,6 +475,10 @@ Next Obligation. intros; split; apply lax_monoidal_unit_left. Qed.
 Next Obligation. intros; split; apply lax_monoidal_unit_right. Qed.
 Next Obligation. intros; split; apply lax_monoidal_assoc. Qed.
 
+(* Lax analogue of ProductFunctor_Monoidal_proj1_ap_functor_iso: the lax tensor
+   comparison of F recovered from that of F ∏⟶ G by setting the second
+   components to the unit I and taking the first component (fst) of each pair.
+   Here no invertibility is assumed, so this is a bare natural transformation. *)
 Lemma ProductFunctor_LaxMonoidal_proj1_ap_functor_nat :
   LaxMonoidalFunctor F ∏⟶ G
     → (⨂) ◯ F ∏⟶ F ⟹ F ◯ (⨂).
@@ -452,6 +506,11 @@ Proof.
                                ((f, id), (g, id)))).
 Defined.
 
+(* Lax monoidality of F ∏⟶ G projects to lax monoidality of F, the lax analogue
+   of ProductFunctor_Monoidal_proj1. The associativity obligation uses
+   naturality of the tensor comparison together with [unit_left] to discard the
+   I ⨂ I slots arising from the product unit, reducing to the square already
+   proved for F ∏⟶ G. *)
 Program Definition ProductFunctor_LaxMonoidal_proj1 :
   LaxMonoidalFunctor (F ∏⟶ G) → LaxMonoidalFunctor F := fun P => {|
   lax_pure                := _;
@@ -519,6 +578,10 @@ Next Obligation.
   apply (fst (@lax_monoidal_assoc _ _ _ _ _ P (x, I) (y, I) (z, I))).
 Qed.
 
+(* Lax analogue of the proj2 projection, dual to
+   ProductFunctor_LaxMonoidal_proj1_ap_functor_nat: the lax tensor comparison of
+   G recovered by setting the first components to the unit I and taking the
+   second component (snd) of each pair. *)
 Lemma ProductFunctor_LaxMonoidal_proj2_ap_functor_nat :
   LaxMonoidalFunctor F ∏⟶ G
     → (⨂) ◯ G ∏⟶ G ⟹ G ◯ (⨂).
@@ -546,6 +609,8 @@ Proof.
                                ((id, f), (id, g)))).
 Defined.
 
+(* Lax monoidality of F ∏⟶ G projects to lax monoidality of G, dual to
+   ProductFunctor_LaxMonoidal_proj1. *)
 Program Definition ProductFunctor_LaxMonoidal_proj2 :
   LaxMonoidalFunctor (F ∏⟶ G) → LaxMonoidalFunctor G := fun P => {|
   lax_pure                := _;
@@ -615,6 +680,15 @@ Qed.
 
 End ProductMonoidal.
 
+(* A different projection: rather than splitting a product F ∏⟶ G of two
+   functors, here we start from a single functor P : C ∏ J ⟶ D ∏ K on product
+   categories and restrict it to each factor. [ProductFunctor_fst P : C ⟶ D]
+   sends x to fst (P (x, I)) and [ProductFunctor_snd P : J ⟶ K] sends x to
+   snd (P (I, x)) (see Functor.Construction.Product). When P is lax monoidal for
+   the product monoidal structures, each restriction is again lax monoidal; the
+   tensor comparison must be corrected by [unit_left] : I ⨂ I ≅ I to collapse
+   the unit fed into the unused slot, hence the [bimap … unit_left] factors and
+   the [unit_identity] rewrites in the proofs below. *)
 Section ProductMonoidalProj.
 
 Context {C : Category}.
@@ -628,6 +702,10 @@ Context `{@Monoidal K}.
 
 Variable (P : (C ∏ J) ⟶ D ∏ K).
 
+(* Lax tensor comparison for the first restriction ProductFunctor_fst P. The
+   comparison of P maps fst (P (x, I)) ⨂ fst (P (y, I)) into fst (P (x ⨂ y,
+   I ⨂ I)); precomposing with [bimap id (to unit_left)] inside P collapses the
+   I ⨂ I in the unused J-slot back to I, landing in fst (P (x ⨂ y, I)). *)
 Lemma ProductFunctor_fst_LaxMonoidal_ap_functor_nat :
   LaxMonoidalFunctor P
     → (⨂) ◯ (ProductFunctor_fst P) ∏⟶ (ProductFunctor_fst P)
@@ -684,6 +762,10 @@ Defined.
 
 #[local] Obligation Tactic := program_simpl.
 
+(* ProductFunctor_fst P is lax monoidal whenever P is: unit and coherence data
+   are obtained by projecting P's structure at the unit I in the J-slot and
+   correcting with [unit_left]. The associativity obligation reassociates using
+   naturality of P's tensor comparison plus the [triangle_identity]. *)
 Program Definition ProductFunctor_fst_LaxMonoidal :
   LaxMonoidalFunctor P
     → LaxMonoidalFunctor (ProductFunctor_fst P) := fun L => {|
@@ -859,6 +941,9 @@ Next Obligation.
   reflexivity.
 Qed.
 
+(* Lax tensor comparison for the second restriction ProductFunctor_snd P, dual
+   to ProductFunctor_fst_LaxMonoidal_ap_functor_nat: the I ⨂ I now sits in the
+   unused C-slot and is collapsed by [bimap (to unit_left) id]. *)
 Lemma ProductFunctor_snd_LaxMonoidal_ap_functor_nat :
   LaxMonoidalFunctor P
     → (⨂) ◯ (ProductFunctor_snd P) ∏⟶ (ProductFunctor_snd P)
@@ -913,6 +998,8 @@ Proof.
     reflexivity.
 Defined.
 
+(* ProductFunctor_snd P is lax monoidal whenever P is, dual to
+   ProductFunctor_fst_LaxMonoidal. *)
 Program Definition ProductFunctor_snd_LaxMonoidal :
   LaxMonoidalFunctor P
     → LaxMonoidalFunctor (ProductFunctor_snd P) := fun L => {|
@@ -1087,6 +1174,11 @@ Next Obligation.
   reflexivity.
 Qed.
 
+(* Recombining the two restrictions: the product of the factor functors is lax
+   monoidal, by feeding ProductFunctor_fst_LaxMonoidal and
+   ProductFunctor_snd_LaxMonoidal into ProductFunctor_LaxMonoidal. Note this
+   reconstructs lax monoidality of ProductFunctor_fst P ∏⟶ ProductFunctor_snd P,
+   which is in general only naturally isomorphic to P, not equal to it. *)
 Corollary ProductFunctor_proj_LaxMonoidal :
   LaxMonoidalFunctor P
     → LaxMonoidalFunctor ((ProductFunctor_fst P) ∏⟶ (ProductFunctor_snd P)).

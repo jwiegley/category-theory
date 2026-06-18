@@ -10,9 +10,29 @@ Require Import Category.Theory.Functor.
 Generalizable All Variables.
 Set Transparent Obligations.
 
-(* An arrows-only meta-category defines identity arrows as those which, when
-   composed to the left or right of another arrow, result in that same arrow.
-   This definition requires that all such composition be present. *)
+(** Arrows-only metacategories *)
+
+(* nLab: https://ncatlab.org/nlab/show/category
+   nLab: https://ncatlab.org/nlab/show/metacategory
+   Wikipedia: https://en.wikipedia.org/wiki/Category_(mathematics)
+
+   The single-sorted ("arrows-only") axiomatization of a category, due to
+   Mac Lane (Categories for the Working Mathematician, I.1, "arrows-only"
+   description). A category is given purely by a collection of arrows together
+   with a partial composition; there is no separate sort of objects. Objects
+   are recovered as the identity arrows: an arrow [u] is an identity when
+   [f ∘ u ≈ f] for every [f] whose composite with [u] is defined, and dually
+   [u ∘ g ≈ g] for every such [g].
+
+   Here the partial composition is represented concretely by a finite map
+   [pairs : M.t arrow] over [arrow := N], where [M.find (f, g) pairs = Some h]
+   records that the composite of the composable pair [(f, g)] is [h]. Thus
+   [composite f g h] is the proposition "g and f compose to h", [defined f g]
+   says their composite exists, and the record's law fields impose Mac Lane's
+   matchability (existence of composites for composable pairs), associativity,
+   and existence of identities. [Category_from_Metacategory] below shows every
+   such metacategory yields a [Category] whose objects are the identity arrows
+   [{i | is_identity i}]. *)
 
 Record Metacategory := {
   arrow := N;
@@ -24,22 +44,37 @@ Record Metacategory := {
   composite_defined {f g h : arrow} (H : composite f g h) :
     defined f g := (h; H);
 
-  (*a ∀ edges (X, Y) and (Y, Z), ∃ an edge (X, Z) which is equal to the
-     composition of those edges. *)
+  (* Matchability (Mac Lane C-1): whenever [fg] is the composite of [(f, g)]
+     and [gh] is the composite of [(g, h)], the composite [(fg, h)] also
+     exists. This is the arrows-only form of "composable pairs have a
+     composite": the composable triple [f, g, h] always has the composite
+     [(f ∘ g) ∘ h]. *)
   composite_correct {f g h fg gh : arrow} :
     composite f g fg ->
     composite g h gh → ∃ fgh, composite fg h fgh;
 
+  (* Associativity (Mac Lane C-2): for a composable triple, associating to the
+     left, [(fg, h)], agrees with associating to the right, [(f, gh)]. The
+     biconditional captures that one composite is defined exactly when the
+     other is, and then they are the same arrow. *)
   composition_law {f g h fg gh : arrow} :
     composite f g fg ->
     composite g h gh ->
     ∀ fgh, composite fg h fgh ↔ composite f gh fgh;
 
+  (* Identity arrows (objects). [u] is an identity when it acts neutrally on
+     either side of every composite in which it participates: [f ∘ u ≈ f]
+     whenever [f ∘ u] is defined, and [u ∘ g ≈ g] whenever [u ∘ g] is defined.
+     These are exactly the arrows that stand in for objects. *)
   is_identity (u : arrow) :=
     (∀ f, defined f u → composite f u f) ∧
     (∀ g, defined u g → composite u g g);
 
-  (* jww (TODO): The two [->] below should be [/\]. The current form is
+  (* Existence of identities (Mac Lane): to each arrow [f] there should be a
+     source identity and a target identity whose composites with [f] recover
+     [f]. As currently written, however, this axiom is vacuous.
+
+     jww (TODO): The two [->] below should be [/\]. The current form is
      vacuously true (any non-identity [u]/[u'] makes the implications
      trivially hold), so this axiom imposes no real constraint. Fixing
      requires manually supplying identity witnesses for each example

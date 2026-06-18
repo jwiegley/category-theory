@@ -6,52 +6,75 @@ Require Import Category.Structure.Pushout.
 
 Generalizable All Variables.
 
-(** * The cospan category (direct construction)
+(** * The cospan category (direct construction) *)
 
-    Objects: the objects of [C].
-    Morphisms [X ~> Y]: cospans [X -in1-> N <-in2- Y], with apex [N].
-    Equivalence: two cospans are equivalent if their apexes are connected
-    by an isomorphism that respects both legs.
-    Composition: given [X -> N <- Y] and [Y -> M <- Z], the composite is
-    the pushout [X -> N ⊔_Y M <- Z].
+(* nLab:      https://ncatlab.org/nlab/show/cospan
+   Wikipedia: https://en.wikipedia.org/wiki/Span_(category_theory)
 
-    For this to be a category we need that [C] has pushouts ([HasPushouts]).
+   A cospan in [C] from [X] to [Y] is a diagram [X -in1-> N <-in2- Y], i.e. an
+   apex [N] with two legs into it.  In library notation:
 
-    This construction MIRRORS [Construction.Span.Category] in shape but uses
-    pushouts in [C] directly, rather than going through pullbacks in [C^op].
-    Downstream files can therefore phrase all cospan obligations as C-level
-    equations without C^op type friction.  The duality is still present at
-    the level of [HasPushouts ↔ HasPullbacks (C^op)] (via [Structure/Pushout]).
+     Objects:          the objects of [C].
+     Morphisms X ~> Y: cospans [X -in1-> N <-in2- Y], with apex [N].
+     Equivalence ≈:    two cospans are equivalent (cospan_equiv) if their
+                       apexes are connected by an isomorphism respecting both
+                       legs.
+     Composition:      given [X -> N <- Y] and [Y -> M <- Z], the composite is
+                       the PUSHOUT cospan [X -> N ⊔_Y M <- Z]; this needs [C] to
+                       have pushouts ([HasPushouts]).
+     Identity:         the cospan [X -id-> X <-id- X].
 
-    User-facing API:
+   A cospan in [C] is the same as a span in [C^op], so cospans are dual to
+   spans (nLab).  This file is nonetheless an INDEPENDENT mirror of
+   [Construction.Span.Category]: it uses pushouts in [C] directly rather than
+   going through pullbacks in [C^op], so it does not wrap [SpanCat].
+   Downstream files can therefore phrase all cospan obligations as C-level
+   equations without C^op type friction.  The duality is still present at the
+   level of [HasPushouts ↔ HasPullbacks (C^op)] (via [Structure/Pushout]).
 
-      - [CospanArrow X Y]   — the record of cospans from [X] to [Y]
-      - [cospan_apex f]     — the apex
-      - [cospan_in1 f]      — the leg [X ~> apex]
-      - [cospan_in2 f]      — the leg [Y ~> apex]
-      - [CospanCat C HP]    — the category of cospans *)
+   Bicategory vs. category.  With cospans taken literally as morphisms,
+   pushouts are determined only up to canonical isomorphism, so associativity
+   and the unit laws hold only UP TO ISOMORPHISM of apexes; Cospan(C) is
+   therefore in general a bicategory, not a strict 1-category.  Here we obtain
+   an honest 1-category ([CospanCat]) by the standard device of quotienting by
+   that isomorphism: the hom-setoid equality [≈] is [cospan_equiv] (isomorphism
+   of apexes respecting the legs).  Relative to that [≈] the unit and
+   associativity laws hold strictly, which is exactly the nLab/Wikipedia
+   prescription of taking iso-classes of cospans to recover a 1-category.
+
+   Related: cospans of monos in [Set] present corelations, and cospan
+   composition is the prototypical Frobenius/hypergraph structure used in
+   applied category theory — neither is developed here.
+
+   User-facing API:
+
+     - [CospanArrow X Y]   — the record of cospans from [X] to [Y]
+     - [cospan_apex f]     — the apex
+     - [cospan_in1 f]      — the leg [X ~> apex]
+     - [cospan_in2 f]      — the leg [Y ~> apex]
+     - [CospanCat C HP]    — the category of cospans *)
 
 Section CospanCategory.
 
 Context {C : Category}.
 
-(** A cospan from [X] to [Y]: an apex [N] together with two legs from [X]
-    and [Y] into the apex. *)
+(* A cospan from [X] to [Y]: an apex [N] together with two legs from [X]
+   and [Y] into the apex. *)
 Record CospanArrow (X Y : C) : Type := {
-  cospan_apex : C;
-  cospan_in1  : X ~> cospan_apex;
-  cospan_in2  : Y ~> cospan_apex
+  cospan_apex : C;                  (* the apex [N] of the cospan *)
+  cospan_in1  : X ~> cospan_apex;   (* the leg [X ~> N] *)
+  cospan_in2  : Y ~> cospan_apex    (* the leg [Y ~> N] *)
 }.
 
 Arguments cospan_apex {X Y} _.
 Arguments cospan_in1  {X Y} _.
 Arguments cospan_in2  {X Y} _.
 
-(** Two cospans are equivalent if there is an isomorphism of apexes whose
-    composite (in either direction) with the corresponding legs agrees.
+(* Two cospans are equivalent if there is an isomorphism of apexes whose
+   composite (in either direction) with the corresponding legs agrees.
 
-    Convention: we require [to phi ∘ cospan_in1 f ≈ cospan_in1 g] (the iso
-    intertwines the legs from the LHS apex to the RHS apex). *)
+   Convention: we require [to phi ∘ cospan_in1 f ≈ cospan_in1 g] (the iso
+   intertwines the legs from the LHS apex to the RHS apex). *)
 Definition cospan_equiv {X Y : C} (f g : CospanArrow X Y) : Type :=
   { phi : cospan_apex f ≅ cospan_apex g
     & ((to phi ∘ cospan_in1 f ≈ cospan_in1 g)
@@ -96,19 +119,19 @@ Next Obligation.
   - intros f g h; apply cospan_equiv_trans.
 Defined.
 
-(** Identity cospan on [X]: apex is [X], both legs are identity. *)
+(* Identity cospan on [X]: apex is [X], both legs are identity. *)
 Definition cospan_id (X : C) : CospanArrow X X :=
   {| cospan_apex := X; cospan_in1 := id[X]; cospan_in2 := id[X] |}.
 
 Variable HP : HasPushouts C.
 
-(** Composition of cospans via pushout.
+(* Composition of cospans via pushout.
 
-    Given [f : X ~> Y] with apex [N] and legs [i1f : X ~> N], [i2f : Y ~> N],
-    and [g : Y ~> Z] with apex [M] and legs [i1g : Y ~> M], [i2g : Z ~> M],
-    the pushout of the span [N <-i2f- Y -i1g-> M] gives an apex [P] with
-    [in1 : N ~> P], [in2 : M ~> P].  The composite cospan has apex [P],
-    [cospan_in1 := in1 ∘ i1f] and [cospan_in2 := in2 ∘ i2g]. *)
+   Given [f : X ~> Y] with apex [N] and legs [i1f : X ~> N], [i2f : Y ~> N],
+   and [g : Y ~> Z] with apex [M] and legs [i1g : Y ~> M], [i2g : Z ~> M],
+   the pushout of the span [N <-i2f- Y -i1g-> M] gives an apex [P] with
+   [in1 : N ~> P], [in2 : M ~> P].  The composite cospan has apex [P],
+   [cospan_in1 := in1 ∘ i1f] and [cospan_in2 := in2 ∘ i2g]. *)
 Definition cospan_compose
            {X Y Z : C}
            (g : CospanArrow Y Z) (f : CospanArrow X Y)
@@ -278,28 +301,28 @@ Proof.
     + rewrite comp_assoc, Hm2, id_left; reflexivity.
 Defined.
 
-(** ** Associativity via pushout-pasting
+(** ** Associativity via pushout-pasting *)
 
-    Mirrors [span_compose_assoc] in [Construction/Span/Category.v]
-    with arrows reversed.
+(* Mirrors [span_compose_assoc] in [Construction/Span/Category.v]
+   with arrows reversed.
 
-    ** Refactoring note (deferred)
+   Refactoring note (deferred).
 
-    The proof below is 175 lines.  It builds both mediator maps
-    [PR -> PL] and [PL -> PR] inline by the HP-style "construct cocone,
-    apply UMP, prove round-trips by [pushout_med_eq]" technique.
-    The two mediator constructions are structurally identical modulo
-    a swap of inner / outer pushouts.
+   The proof below is 175 lines.  It builds both mediator maps
+   [PR -> PL] and [PL -> PR] inline by the HP-style "construct cocone,
+   apply UMP, prove round-trips by [pushout_med_eq]" technique.
+   The two mediator constructions are structurally identical modulo
+   a swap of inner / outer pushouts.
 
-    Extracting the "mediator-by-pasting" sub-lemma — call it
-    [pushout_pasting_med] — should shrink this proof to roughly
-    50 lines, by replacing the two ad-hoc inline mediator
-    constructions with a single shared lemma application.  The
-    underlying mathematical fact is one application of pushout-pasting
-    in two steps (Mac Lane CWM IX.3, or Riehl Ch.3 Prop 3.4.7).
+   Extracting the "mediator-by-pasting" sub-lemma — call it
+   [pushout_pasting_med] — should shrink this proof to roughly
+   50 lines, by replacing the two ad-hoc inline mediator
+   constructions with a single shared lemma application.  The
+   underlying mathematical fact is one application of pushout-pasting
+   in two steps (Mac Lane CWM IX.3, or Riehl Ch.3 Prop 3.4.7).
 
-    Deferred to a follow-up PR; the present proof is correct and
-    self-contained. *)
+   Deferred to a follow-up PR; the present proof is correct and
+   self-contained. *)
 
 Lemma cospan_compose_assoc {X Y Z W : C}
       (h : CospanArrow Z W) (g : CospanArrow Y Z) (f : CospanArrow X Y) :
@@ -494,15 +517,15 @@ Arguments cospan_in1  {C X Y} _.
 Arguments cospan_in2  {C X Y} _.
 Arguments Build_CospanArrow {C X Y} _ _ _.
 
-(** [Build_CospanArrow] is the auto-generated record constructor:
-      [Build_CospanArrow : forall {C X Y} (N : C) (l1 : X ~> N) (l2 : Y ~> N),
-                            CospanArrow X Y].
-    Downstream uses match this signature directly. *)
+(* [Build_CospanArrow] is the auto-generated record constructor:
+     [Build_CospanArrow : forall {C X Y} (N : C) (l1 : X ~> N) (l2 : Y ~> N),
+                           CospanArrow X Y].
+   Downstream uses match this signature directly. *)
 
-(** ** Cospan composition accessors (reflexivity-level)
+(** ** Cospan composition accessors (reflexivity-level) *)
 
-    These let downstream code unfold composition without having to
-    [simpl] the [pushout] applicative machinery. *)
+(* These let downstream code unfold composition without having to
+   [simpl] the [pushout] applicative machinery. *)
 
 Section CospanCompositionAccessors.
 

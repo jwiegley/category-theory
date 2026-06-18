@@ -12,6 +12,33 @@ Require Import Category.Structure.Monoidal.Cartesian.Proofs.
 
 Generalizable All Variables.
 
+(** Strength of a pointwise product of strong functors *)
+
+(* nLab: https://ncatlab.org/nlab/show/tensorial+strength
+   Wikipedia: https://en.wikipedia.org/wiki/Strong_monad
+
+   In a cartesian monoidal category (tensor = product, unit = terminal) the
+   pointwise product functor F :*: G : x ↦ F x ⨂ G x (see Functor/Product.v)
+   inherits a tensorial strength from strengths on F and on G.  Writing
+   strength[F], strength[G] for the two given left strengths and using the
+   copying diagonal ∆ together with the projections proj_left, proj_right of
+   the cartesian structure, the product strength is
+
+     strength[F:*:G][x,y]
+       : x ⨂ (F y ⨂ G y) ~> F (x ⨂ y) ⨂ G (x ⨂ y)
+       = (strength[F] ∘ id ⨂ proj_left) ⨂ (strength[G] ∘ id ⨂ proj_right)
+           ∘ ∆(x ⨂ F y ⨂ G y).
+
+   Operationally: copy the input pair, on one copy keep x and the F-summand
+   (id ⨂ proj_left) then slide x inside F via strength[F], on the other copy
+   keep x and the G-summand (id ⨂ proj_right) then slide x inside G via
+   strength[G], and pair the results.  This construction genuinely uses the
+   cartesian assumption: the diagonal ∆ (copying x so it can be fed to both
+   factors) and the projections are only available because ⨂ is the product.
+   The two obligations discharge Kock's unit law ([strength_id_left]) and
+   associativity law ([strength_assoc]) for the resulting strength; the
+   leading obligation discharges naturality in both arguments. *)
+
 Section ProductStrong.
 
 Context `{@CartesianMonoidal C}.

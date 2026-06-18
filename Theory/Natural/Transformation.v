@@ -12,19 +12,39 @@ Context {D : Category@{o2 h2 p2}}.
 Context {F : C ⟶ D}.
 Context {G : C ⟶ D}.
 
-(* If a functor may be transformed, one must show how to transform mapped
-   objects and that the mapping of morphisms is natural (i.e., transforming
-   before or after introduces no change in the effect of such mappings). *)
+(* nLab: https://ncatlab.org/nlab/show/natural+transformation
+   Wikipedia: https://en.wikipedia.org/wiki/Natural_transformation
+
+   A natural transformation `transform : F ⟹ G` between functors
+   `F G : C ⟶ D` is a family of morphisms `transform : F x ~> G x`, one per
+   object `x : C` (its components), such that for every morphism `f : x ~> y`
+   the naturality square commutes: `fmap[G] f ∘ transform ≈ transform ∘
+   fmap[F] f` (i.e., `G f ∘ η_x ≈ η_y ∘ F f`). Intuitively, transforming a
+   mapped object before or after applying the functorial action introduces no
+   change in the effect of such mappings. *)
+
+(* The `naturality_sym` field records the symmetric orientation of the
+   naturality square. It is logically derivable from `naturality` (see
+   `Build_Transform'` below, which proves it from `naturality` alone), but is
+   kept as a primitive field so that duality holds definitionally: the
+   opposite of a [Transform] swaps `naturality` and `naturality_sym` without
+   any rewriting, mirroring `comp_assoc`/`comp_assoc_sym` in [Category]. *)
 
 Class Transform := {
-  transform {x} : F x ~> G x;
+  transform {x} : F x ~> G x;             (* the component at each object x *)
 
+  (* naturality square: `G f ∘ η_x ≈ η_y ∘ F f` *)
   naturality {x y} (f : x ~> y) :
     fmap[G] f ∘ transform ≈ transform ∘ fmap[F] f;
 
+  (* the symmetric orientation of the naturality square (built-in dual) *)
   naturality_sym {x y} (f : x ~> y) :
     transform ∘ fmap[F] f ≈ fmap[G] f ∘ transform
   }.
+
+(* Smart constructor: build a [Transform] from the components together with the
+   single (non-symmetric) naturality square, deriving `naturality_sym` by
+   symmetry. This witnesses that `naturality_sym` carries no extra content. *)
 
 Definition Build_Transform'
   (transform' : forall x, F x ~> G x)
@@ -114,11 +134,19 @@ Lemma fun_comp_assoc_sym_and `(F : A ⟶ B) `(G : B ⟶ C) `(H : C ⟶ D) (x : A
   fun_comp_assoc_sym x ∘ fun_comp_assoc x ≈ fmap[H] (fmap[G] (fmap[F] id)).
 Proof. simpl; cat. Qed.
 
+(* The identity natural transformation `id_F : F ⟹ F`. Its component at `X` is
+   `id_{F X}`, written here as `fmap[F] id` (equal to `id` by `fmap_id`). *)
+
 Program Definition nat_id `{F : C ⟶ D} : F ⟹ F := {|
   transform := λ X, fmap (@id C X)
 |}.
 
 #[export] Hint Unfold nat_id : core.
+
+(* Vertical composition of natural transformations: for `g : F ⟹ G` and
+   `f : G ⟹ K`, the composite `f ∙ g : F ⟹ K` has component
+   `(f ∙ g)_X = f_X ∘ g_X`. This is the composition of the functor category
+   `[C, D]`. *)
 
 Program Definition nat_compose `{F : C ⟶ D} {G : C ⟶ D} {K : C ⟶ D}
   (f : G ⟹ K) (g : F ⟹ G) : F ⟹ K := {|
@@ -161,14 +189,16 @@ Program Instance Transform_respects {C D : Category} :
   Proper ((λ F G, G ⟹ F) ==> @Transform C D ==> arrow) (@Transform C D) :=
   λ _ _ F _ _ G H, nat_compose G (nat_compose H F).
 
-(* Wikipedia: "Natural transformations also have a "horizontal composition".
-   If η : F → G is a natural transformation between functors F,G : C → D and ε
-   : J → K is a natural transformation between functors J,K : D → E, then the
-   composition of functors allows a composition of natural transformations
-   ε ∘ η : J ◯ F → K ◯ G. This operation is also associative with identity,
-   and the identity coincides with that for vertical composition. The two
-   operations are related by an identity which exchanges vertical composition
-   with horizontal composition." *)
+(* nLab: https://ncatlab.org/nlab/show/natural+transformation
+   Wikipedia: https://en.wikipedia.org/wiki/Natural_transformation
+
+   Horizontal (Godement) composition. Given `η : F ⟹ G` between
+   `F G : C ⟶ D` and `ε : J ⟹ K` between `J K : D ⟶ E`, functor composition
+   yields `nat_hcompose ε η : J ◯ F ⟹ K ◯ G` whose component at `x` is
+   `transform[ε] (G x) ∘ fmap[J] (transform[η] x)`, which by naturality of `ε`
+   also equals `fmap[K] (transform[η] x) ∘ transform[ε] (F x)`. This operation
+   is associative with identity, the identity coinciding with that for vertical
+   composition, and the two compositions satisfy the interchange law. *)
 
 Program Definition nat_hcompose {C D E} {F G : C ⟶ D} {J K : D ⟶ E}
   (ε : J ⟹ K) (η : F ⟹ G) : J ◯ F ⟹ K ◯ G := {|
@@ -208,6 +238,14 @@ Next Obligation.
   now apply Compose_respects_Transform_obligation_1.
 Qed.
 
+(* nLab: https://ncatlab.org/nlab/show/whiskering
+
+   Right whiskering `N ⊲ X`: precompose the natural transformation `N : F ⟹ G`
+   with a functor `X : E ⟶ C`, yielding `F ◯ X ⟹ G ◯ X` with component
+   `(N ⊲ X)_x = N (X x)`. This is the horizontal composite of `N` with the
+   identity transformation on `X`; the naturality squares are inherited
+   directly from `N`. *)
+
 Program Definition whisker_right {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
         {E : Category} (X : E ⟶ C) : F ◯ X ⟹ G ◯ X := {|
   transform := λ x, N (X x);
@@ -217,6 +255,14 @@ Program Definition whisker_right {C D : Category} {F G : C ⟶ D} `(N : F ⟹ G)
 |}.
 
 Notation "N ⊲ F" := (whisker_right N F) (at level 10).
+
+(* nLab: https://ncatlab.org/nlab/show/whiskering
+
+   Left whiskering `X ⊳ N`: postcompose the natural transformation `N : F ⟹ G`
+   with a functor `X : D ⟶ E`, yielding `X ◯ F ⟹ X ◯ G` with component
+   `(X ⊳ N)_x = fmap[X] (N x)`. This is the horizontal composite of the
+   identity transformation on `X` with `N`; naturality follows from `fmap[X]`
+   preserving composition (`fmap_comp`) and `N`'s naturality. *)
 
 Program Definition whisker_left {C D : Category}
         {E : Category} (X : D ⟶ E)

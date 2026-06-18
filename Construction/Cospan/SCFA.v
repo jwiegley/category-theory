@@ -40,6 +40,19 @@ Generalizable All Variables.
     [cospan_tensor_mor_as_cospan] — to C-level coproduct identities on
     pushouts of the codiagonal [id ▽ id] and zero. *)
 
+(* SCFA = special commutative Frobenius algebra, i.e. the "classical
+   structure" of categorical quantum mechanics: a commutative comonoid
+   plus cocommutative monoid satisfying the Frobenius law
+   [(id ⨂ mu) ∘ (delta ⨂ id) ≈ delta ∘ mu ≈ (mu ⨂ id) ∘ (id ⨂ delta)]
+   and the special law [mu ∘ delta ≈ id].  In [CospanCat C HP] each object
+   [X] carries the canonical SCFA whose [mu]/[delta] are the fold/cofold
+   (codiagonal [id ▽ id]) maps and whose [eta]/[epsilon] are [zero], making
+   [Cospan(FinSet)] the prototypical hypergraph category.
+
+   nLab:      https://ncatlab.org/nlab/show/Frobenius+algebra
+   nLab:      https://ncatlab.org/nlab/show/classical+structure
+   Wikipedia: https://en.wikipedia.org/wiki/Frobenius_algebra *)
+
 Section CospanSCFA.
 
 Context {C : Category}.
@@ -546,35 +559,19 @@ Proof.
   eapply cospan_equiv_trans.
   { apply mor_as_cospan_back_compose. }
   (* Now: back ((id▽id) ∘ cover zero id) = back (to coprod_zero_l)  [codiag_eta_left]. *)
-  (* RHS is mor_as_cospan (from coprod_zero_l), which is a forward cospan with apex X.
-     LHS is back ((id▽id) ∘ cover zero id) = back (to coprod_zero_l), a backward cospan with apex X.
-     For backward cospan [Build_CospanArrow X id f]: apex X, leg1 = id, leg2 = f.
-     For forward cospan [mor_as_cospan g = Build_CospanArrow X g id]: apex X, leg1 = g, leg2 = id.
-     These are equal iff id ≈ leg of the other side — which requires the apex iso to swap. *)
   unfold mor_as_cospan, mor_as_cospan_back; simpl.
-  (* Goal: Build_CospanArrow X id[X] ((id▽id) ∘ cover zero id) ≈
-          Build_CospanArrow X (from coprod_zero_l) id[X]                    *)
-  (* These are NOT cospan-equiv unless we can find an apex iso phi : X ≅ X
-     with phi ∘ id ≈ from coprod_zero_l and phi ∘ ((id▽id) ∘ cover zero id) ≈ id.
-     The first forces phi = from coprod_zero_l = inr.  But inr : X → 0+X, not X → X.
-     So these are NOT cospan-equiv at all — the LHS and RHS differ in the direction
-     of the "X" leg vs the "0+X" leg.
-     Actually the LHS has type CospanArrow X (0+X) (apex X, going X → 0+X), and
-     the RHS [mor_as_cospan (from coprod_zero_l : X → 0+X)] also has type
-     CospanArrow X (0+X) with apex (0+X).  So the cospan apexes are different! *)
-  (* Provide the apex iso: from coprod_zero_l : X ≅ 0+X (the reverse direction).
-     But cospan apex must be in C, and we need an iso between X (LHS apex) and
-     0+X (RHS apex).  But X and 0+X are not isomorphic without the coprod_zero_l iso. *)
-  (* Actually, mor_as_cospan f for f : X → Y has apex Y.  So
-     mor_as_cospan (from coprod_zero_l) where from coprod_zero_l : X → 0+X
-     has apex 0+X.  Now LHS Build_CospanArrow X id ((id▽id) ∘ cover zero id) has
-     apex X (the [Build] argument), with leg1 : X → X (=id), leg2 : 0+X → X (= (id▽id)∘cover zero id = to coprod_zero_l).
-     So apex iso phi : X ≅ 0+X with phi ∘ id ≈ from coprod_zero_l (=inr) and
-     phi ∘ to coprod_zero_l ≈ id.
-     phi = coprod_zero_l backwards i.e. iso_sym coprod_zero_l : X ≅ 0+X? Wait
-     coprod_zero_l : 0+X ≅ X, so iso_sym coprod_zero_l : X ≅ 0+X. Take phi = iso_sym coprod_zero_l. Then
-       to phi = from coprod_zero_l = inr ✓ (matches "phi ∘ id ≈ from coprod_zero_l")
-       to phi ∘ to coprod_zero_l = from coprod_zero_l ∘ to coprod_zero_l = id  ✓ *)
+  (* Goal (cospan_equiv f g):
+       f = Build_CospanArrow X id[X] ((id▽id) ∘ cover zero id)   apex X,
+           in1 = id[X], in2 = (id▽id) ∘ cover zero id = to coprod_zero_l;
+       g = mor_as_cospan (from coprod_zero_l)                     apex 0+X,
+           in1 = from coprod_zero_l, in2 = id[X].
+     The two apexes are X and 0+X, so the witnessing iso phi must have type
+     X ≅ 0+X (not X ≅ X); cospan_equiv asks for
+       to phi ∘ in1 f ≈ in1 g   and   to phi ∘ in2 f ≈ in2 g. *)
+  (* Take phi = iso_sym coprod_zero_l : X ≅ 0+X, so [to phi = from coprod_zero_l].
+     Then to phi ∘ id[X] = from coprod_zero_l = in1 g ✓, and
+       to phi ∘ to coprod_zero_l = from coprod_zero_l ∘ to coprod_zero_l = id[X] = in2 g ✓
+     (the latter by [iso_from_to], after [codiag_eta_left] rewrites in2 f). *)
   exists (iso_sym (@coprod_zero_l C H_Coc H_Ini X)).
   simpl; split.
   - rewrite id_right.

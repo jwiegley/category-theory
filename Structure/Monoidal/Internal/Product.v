@@ -22,8 +22,34 @@ Context `{@Terminal C}.
   unfold proj_left, proj_right;
   try split; intros; unfork; cat.
 
-(* Every cartesian category with terminal objects gives rise to a monoidal
-   category taking the terminal object as unit, and the tensor as product. *)
+(** Cartesian monoidal structure from products. *)
+
+(* nLab: https://ncatlab.org/nlab/show/cartesian+monoidal+category
+   Wikipedia: https://en.wikipedia.org/wiki/Cartesian_monoidal_category
+
+   Every cartesian category with a terminal object is a cartesian monoidal
+   category: take the categorical product × for the tensor ⨂ and the terminal
+   object 1 for the unit I. On nLab, "a monoidal category whose monoidal
+   structure is given by the category-theoretic product (and so whose unit is
+   a terminal object)"; on Wikipedia, the case where "the monoidal ('tensor')
+   product is the categorical product" with "the terminal object [as] the
+   monoidal unit".
+
+   This file equips that data with the full tower of monoidal refinements,
+   each derived from the universal property of products (so the coherence
+   morphisms are all canonical):
+
+       CC_Monoidal             tensor := ×,  I := 1
+       CC_BraidedMonoidal      braid := swap = ⟨exr, exl⟩
+       CC_BalancedMonoidal     twist := id
+       CC_SymmetricMonoidal    braid_invol from swap ∘ swap ≈ id
+       CC_RelevanceMonoidal    diagonal := ⟨id, id⟩
+       CC_SemicartesianMonoidal eliminate := one (the unique map into 1)
+       CC_CartesianMonoidal    relevance + semicartesian (Fox's theorem)
+       CCC_ClosedMonoidal      exponent_obj from the internal hom (when closed)
+
+   The braiding is the product swap rather than an interleaving via braiding of
+   monoid factors; this is the cartesian, not the free, monoidal structure. *)
 
 Program Definition CC_Monoidal : @Monoidal C := {|
   tensor := InternalProductFunctor C;

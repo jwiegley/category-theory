@@ -9,6 +9,26 @@ Require Import Category.Functor.Structure.Monoidal.
 
 Generalizable All Variables.
 
+(** The identity functor is monoidal. *)
+
+(* nLab: https://ncatlab.org/nlab/show/monoidal+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_functor
+
+   The identity functor Id[C] on a monoidal category C is canonically a strong
+   (indeed strict) monoidal functor.  Because Id x = x on the nose, the two
+   comparison maps are identities,
+
+       η     = id : I ~> Id I        (unit comparison, here pure_iso = iso_id),
+       μ_x_y = id : Id x ⨂ Id y ~> Id (x ⨂ y)   (tensor comparison),
+
+   so both are trivially invertible (strong) and equal to identities (strict).
+   The three coherence squares — left and right unitality against λ and ρ, and
+   associativity against the associator α — collapse to the monoidal axioms of
+   C itself, discharged below by tensor_assoc and bimap_id_id.  This instance
+   is the unit of the 2-category MonCat of monoidal categories and (strong)
+   monoidal functors.  [Id_MonoidalFunctor] gives the strong form and
+   [Id_LaxMonoidalFunctor] the lax form, both axiom-free. *)
+
 Section MonoidalFunctors.
 
 Context {C : Category}.

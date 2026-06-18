@@ -13,23 +13,37 @@ Require Import Category.Construction.Cospan.Category.
 
 Generalizable All Variables.
 
-(** * Corelations: jointly-epic cospans
+(** * Corelations: jointly-epic cospans *)
 
-    A *corelation* from [X] to [Y] is a cospan [X -in1-> N <-in2- Y] whose
-    copairing
-        [in1, in2] := cospan_in1 ▽ cospan_in2 : X + Y ~> N
-    is an epimorphism in [C].  Equivalently, the cospan apex is the
-    image of [X + Y] under the cocone formed by its two legs.
+(* nLab:      https://ncatlab.org/nlab/show/corelation
+   Wikipedia: none-exists (no category-theoretic article; the page title
+              "Corelation" redirects to the statistics article on correlation)
 
-    Corelations form a subcategory of [CospanCat C] when [C] has the
-    "epi-stable pushouts" property: pushouts of epis along arbitrary
-    morphisms are again epis.  This property is automatic in pretoposes
-    (sets, presheaves, …) but must be carried as a hypothesis in the
-    general setting.  We expose it as a typeclass [EpiStablePushouts].
+   A corelation from [X] to [Y] is a cospan [X -in1-> N <-in2- Y] whose
+   copairing
+       [in1, in2] := cospan_in1 ▽ cospan_in2 : X + Y ~> N
+   is an epimorphism in [C] (a "jointly-epic" cospan).  Equivalently, the
+   cospan apex is the image of [X + Y] under the cocone formed by its two
+   legs.  This is the exact dual of a relation, which is a jointly-MONIC
+   span [X <- N -> Y] (copairing [N -> X × Y] monic); see
+   [Construction.Span] for the spans this dualises.
 
-    Reference: Fong–Spivak, "The Algebra of Open and Interconnected
-    Systems" — corelations are introduced as the image factorisation of
-    cospans through their jointly-surjective representative. *)
+   Corelations form a subcategory of [CospanCat C] whenever the composite
+   pushout-cospan stays jointly epic.  This holds automatically in
+   pretoposes (sets, presheaves, …), where pushouts of (regular) epis are
+   again epis, but must be carried as a hypothesis in the general setting.
+   Rather than expose a generic epi-stability class, we package exactly the
+   composite-copairing-is-epi statement we need as the typeclass
+   [CorelComposable] below.
+
+   References:
+     - nLab, "corelation" (definition and duality with relations).
+     - B. Fong, "The Algebra of Open and Interconnected Systems", DPhil
+       thesis, Oxford 2016, arXiv:1609.05382 — corelations are introduced
+       as the image factorisation of cospans through their
+       jointly-surjective (jointly-epic) representative.
+     - B. Coya and B. Fong, "Corelations are the prop for extraspecial
+       commutative Frobenius monoids", TAC 32 (2017), arXiv:1601.02307. *)
 
 Section Corelation.
 
@@ -305,5 +319,6 @@ End CorelToCospan.
     pushout setoid — each independent setoid infrastructure outside the
     scope of the cospan formalisation.
 
-    Reference: nLab "corelation", Fong–Spivak "Algebra of Open
-    Systems" Theorem 4.2.5. *)
+    Reference: nLab "corelation"; B. Fong, "The Algebra of Open and
+    Interconnected Systems" (DPhil thesis, Oxford 2016, arXiv:1609.05382),
+    where Corel(C) is built as the image factorisation of Cospan(C). *)

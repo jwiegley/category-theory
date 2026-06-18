@@ -8,6 +8,40 @@ Require Import Category.Instance.Cat.
 
 Generalizable All Variables.
 
+(** The slice (over) category C/c and coslice (under) category c/C. *)
+
+(* nLab: https://ncatlab.org/nlab/show/over+category
+   nLab: https://ncatlab.org/nlab/show/under+category
+   Wikipedia: https://en.wikipedia.org/wiki/Comma_category
+
+   Fix a category C and an object c : C. The slice category C/c has as objects
+   the morphisms a ~> c into c (encoded as the dependent pair (∃ a : C, a ~> c),
+   so `1 x is the domain a and `2 x is the structure morphism a ~> c). A
+   morphism from x = (a, g : a ~> c) to y = (a', g' : a' ~> c) is a morphism
+   f : a ~> a' in C making the triangle commute, `2 y ∘ f ≈ `2 x, i.e.
+   g' ∘ f ≈ g:
+
+       a  --f-->  a'
+        \         /
+       g \       / g'      commute, i.e.  g' ∘ f ≈ g.
+          v     v
+            c
+
+   Identity is id (g ∘ id ≈ g) and composition is composition in C (the
+   triangle for f ∘ f' follows by associativity); two slice morphisms are
+   equivalent when their underlying C-morphisms are ≈, the triangle proof being
+   irrelevant. Dually, the coslice c/C has objects the morphisms c ~> a out of
+   c and morphisms f : a ~> a' with `2 y ≈ f ∘ `2 x, i.e. ι' ≈ f ∘ ι.
+
+   Both are special cases of the comma category (Construction/Comma.v). Taking
+   the constant functor =(c) := Δ(c) : 1 ⟶ C selecting c, the slice is the
+   comma (Id[C] ↓ =(c)) and the coslice is (=(c) ↓ Id[C]); these isomorphisms
+   are proven below as Comma_Slice and Comma_Coslice. The forgetful functor
+   C/c ⟶ C sending (a, g) to a is the comma projection comma_proj1 transported
+   across Comma_Slice; the post-composition functor C/a ⟶ C/b induced by a
+   morphism a ~> b (making C/(-) functorial) lives in Construction/Slice/
+   Pullback.v as Bang_Functor. *)
+
 Program Definition Slice `(C : Category) `(c : C) : Category := {|
   obj     := ∃ a : C, a ~> c;
   hom     := fun x y => ∃ f : (`1 x) ~> (`1 y), `2 y ∘ f ≈ `2 x;

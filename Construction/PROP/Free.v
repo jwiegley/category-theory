@@ -8,16 +8,33 @@ From Coq Require Import Arith.
 
 Generalizable All Variables.
 
-(** * The free PROP category on a signature
+(** * The free PROP category on a signature *)
 
-    Quotient the raw [Term S m n] type by [TermEq S], yielding a
-    category whose objects are natural numbers and whose morphisms
-    [m ~> n] are equivalence classes of [S]-labelled string-diagram
-    expressions modulo the strict symmetric monoidal category axioms.
+(* nLab: https://ncatlab.org/nlab/show/PROP
+   nLab: https://ncatlab.org/nlab/show/free+category
+   Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
+   Wikipedia: https://en.wikipedia.org/wiki/Free_category
 
-    This file delivers the underlying [Category] structure.  The
-    [Monoidal], [SymmetricMonoidal], [StrictMonoidal], and [PROP]
-    instances follow in successor files. *)
+   A PROP is a strict symmetric monoidal category whose objects are the
+   natural numbers and whose tensor on objects is addition, [m ⊗ n = m + n].
+   The free PROP on a signature [S] has as its [m ~> n] arrows the [S]-terms
+   [Term S m n] quotiented by the laws of a symmetric monoidal category; this
+   is the standard "free = syntactic" construction, the symmetric-monoidal
+   analogue of the path/quotient construction of a free category.
+
+   This file assembles only the underlying [Category] layer of that quotient:
+
+     - obj      := nat                         (objects are ℕ)
+     - hom m n  := Term S m n  modulo  TermEq  (string-diagram terms / ≈)
+     - id       := T_id                        (identity wires)
+     - compose  := T_comp                      (sequential composition)
+
+   The hom-equivalence ≈ is [TermEq S], so the [Category] laws (left/right
+   unit, associativity) are exactly its [TE_id_left] / [TE_id_right] /
+   [TE_assoc] constructors, and [compose_respects] is its [TE_comp_cong]
+   congruence.  The [Monoidal], [SymmetricMonoidal], [StrictMonoidal], and
+   [PROP] instances — completing [FreeCat S] to a free strict symmetric
+   monoidal category — follow in successor files. *)
 
 Section FreeCategory.
 

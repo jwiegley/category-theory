@@ -9,21 +9,38 @@ Section Subcategory.
 
 Context (C : Category).
 
+(** A subcategory D of a category C. *)
+
+(* nLab: https://ncatlab.org/nlab/show/subcategory
+   Wikipedia: https://en.wikipedia.org/wiki/Subcategory
+
+   A subcategory D of C is given by a subcollection [sobj] of the objects of C
+   together with, for each pair of selected objects, a subcollection [shom] of
+   the C-morphisms between them, closed under identity ([sid]) and composition
+   ([scomp]). The source/target closure condition (if f : x ~> y is in D then
+   so are x and y) holds here by construction: [shom] is only indexed by
+   objects ox, oy already selected from [sobj].
+
+   These conditions make D a category in its own right ([Sub] below) for which
+   the inclusion D ⟶ C ([Incl]) is a functor; that inclusion is always
+   faithful, since on each hom-set it is the first projection out of a sigma
+   type. A subcategory is full when [shom] retains every C-morphism between
+   selected objects ([Full]), and wide (lluf) when [sobj] selects every object
+   of C ([Wide]). *)
+
 Record Subcategory := {
-  (* Given a category C, a subcategory D consists of a subcollection of the
-     collection of objects of C *)
-  sobj : C → Type;
-  (* and a subcollection of the collection of morphisms of D such that: *)
-  (* If the morphism f : x → y is in D, then so are x and y. *)
+  sobj : C → Type;                  (* sub-collection of the objects of C *)
+
+  (* sub-collection of the C-morphisms between selected objects *)
   shom {x y : C} : sobj x → sobj y → (x ~> y) → Type;
 
-  (* If f : x → y and g : y → z are in D, then so is the composite
-     g ∘ f : x → z. *)
+  (* closed under composition: if f : y ~> z and g : x ~> y are in D, then so
+     is the composite f ∘ g : x ~> z *)
   scomp {x y z : C} (ox : sobj x) (oy : sobj y) (oz : sobj z)
         {f : y ~> z} {g : x ~> y} :
     shom oy oz f → shom ox oy g → shom ox oz (f ∘ g);
 
-  (* If x is in D then so is the identity morphism 1ₓ. *)
+  (* closed under identity: if x is in D then so is the identity 1ₓ *)
   sid {x : C} (ox : sobj x) : shom ox ox (@id C x)
 }.
 

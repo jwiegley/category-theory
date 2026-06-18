@@ -5,6 +5,36 @@ Require Import Category.Theory.Monad.
 
 Generalizable All Variables.
 
+(** * Monad transformers. *)
+
+(* nLab: https://ncatlab.org/nlab/show/monad+transformer
+   Wikipedia: https://en.wikipedia.org/wiki/Monad_transformer
+
+   A monad transformer sends a monad M on C to a new monad T M on C, together
+   with a monad morphism lift : M ⟹ T M embedding the base monad into the
+   transformed one. (nLab phrases this as a pointed endofunctor on the category
+   of monads, whose point is exactly this lift; the Haskell [MonadTrans] class
+   is the same data.)
+
+   Being a monad morphism, lift must respect the unit and the Kleisli bind, the
+   two laws recorded here as [lift_return] and [lift_bind]:
+
+       lift ∘ ret              ≈ ret                               (1)
+       lift ∘ (join ∘ fmap f)  ≈ join ∘ fmap (lift ∘ f) ∘ lift     (2)
+
+   In the pointful Haskell phrasing these are
+
+       lift . return    = return
+       lift (m >>= f)   = lift m >>= (lift . f)
+
+   recalling that bind f = join ∘ fmap f in the join/return presentation (see
+   Theory/Monad.v). In (1) the right-hand ret is that of T M; in (2) the
+   left-hand join/fmap are M's while the right-hand join/fmap are those of T M.
+   Together they say lift commutes with the monadic structure, so that the
+   semantics of an M-computation is preserved when it is lifted into the larger
+   monad T M. Transformers are not in general commutative: T₁ (T₂ M) and
+   T₂ (T₁ M) usually differ. *)
+
 Section Transformer.
 
 Context {C : Category}.
@@ -28,6 +58,11 @@ Arguments MonadTransformer {_ _ _} T {_}.
 (******************************************************************************
  * Species 1: Identity transformations.
  ******************************************************************************)
+
+(* The identity transformer leaves the monad untouched: IdentityT M is M again,
+   with the same unit and multiplication, and lift is the identity morphism.
+   The two transformer laws hold trivially, so this is the unit of transformer
+   stacking. *)
 
 Program Definition IdentityT {C : Category} (M : C ⟶ C) : C ⟶ C := {|
   fobj := fobj[M];
@@ -143,6 +178,12 @@ Inductive Alg (c f g : Type → Type) a :=
 (******************************************************************************
  * Species 2: Constant mapping transformations.
  ******************************************************************************)
+
+(* The constant transformer ignores its argument monad M and always yields the
+   fixed monad K. K M is a monad whenever K is, but the construction fails to
+   be a monad transformer: lift would have to provide a morphism M A ~> K A
+   natural in A, and no such family exists for arbitrary unrelated K and M, as
+   the [Fail]ing definition below witnesses. *)
 
 Program Definition ConstT {C : Category} (K M : C ⟶ C) : C ⟶ C := {|
   fobj := fobj[K];

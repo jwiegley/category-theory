@@ -9,8 +9,42 @@ Require Import Category.Lib.
 Generalizable All Variables.
 Set Transparent Obligations.
 
-(** General utility library providing partial maps, built
-    on a foundation isomorphic to association lists. *)
+(** Finite partial maps *)
+
+(* nLab: https://ncatlab.org/nlab/show/partial+function
+   Wikipedia: https://en.wikipedia.org/wiki/Associative_array
+
+   This is a utility library, not a categorical construction: [Map k v] is
+   the abstract data type of a finite partial map (associative array,
+   dictionary, "function with finite domain") from keys [k] to values [v].
+   It is represented concretely as a list of key/value bindings, so it is
+   isomorphic to an association list [list (k * v)] (see [toList]/[fromList]).
+   Later bindings of a key are shadowed by earlier ones, exactly as for an
+   association list scanned front-to-back; [compress] computes the canonical
+   shadow-free representative.
+
+   The observational notion of equality is extensional: two maps are
+   equivalent iff they agree on every [lookup] (see [Map_Setoid]), matching
+   the associative-array law
+       lookup k (insert j v m) = if k = j then Some v else lookup k m.
+
+   The API mirrors Haskell's [Data.Map] (containers package): [empty],
+   [singleton], [insert], [delete], [adjust], [alter], [member], [size],
+   [findWithDefault], the [*WithKey] variants, the folds, and the functorial
+   [map]/[mapWithKey].  See
+   https://hackage.haskell.org/package/containers/docs/Data-Map-Lazy.html *)
+
+(* nLab: https://ncatlab.org/nlab/show/functor
+   Wikipedia: https://en.wikipedia.org/wiki/Functor_(functional_programming)
+
+   [map : (v -> b) -> Map k v -> Map k b] is the functorial action (fmap)
+   of the endofunctor [Map k -] on the category of Coq types, fixing the key
+   type [k].  It satisfies the two functor laws up to the extensional [Map]
+   equivalence: [map id ≈ id] and [map (g ∘ f) ≈ map g ∘ map f] (these laws
+   are not proved here, but follow because [map] rewrites values pointwise
+   and preserves every key, hence commutes with [lookup]).  [mapWithKey]
+   is the key-aware variant [k -> v -> b], not a plain functor since the
+   transported function may depend on the key. *)
 
 Section Map.
 
@@ -18,9 +52,12 @@ Import ListNotations.
 
 Context {k v : Type}.
 
+(* A finite map as a list of bindings: [Add i x m] prepends the binding
+   [i ↦ x] to [m].  When a key occurs more than once the earliest (outermost)
+   binding wins, since [lookup] scans front-to-back. *)
 Inductive Map : Type :=
-  | Add : k → v → Map → Map
-  | Empty : Map.
+  | Add : k → v → Map → Map     (* cons a key/value binding *)
+  | Empty : Map.                (* the empty map *)
 
 Derive NoConfusion NoConfusionHom Subterm for Map.
 
@@ -60,6 +97,10 @@ Proof.
     + discriminate.
 Qed.
 
+(* Extensional equality of maps: two maps are equivalent iff they agree on
+   every [lookup].  This is the associative-array notion of equality, under
+   which structural noise (binding order, shadowed/duplicate bindings) is
+   quotiented away. *)
 #[export]
 Program Instance Map_Setoid `{EqDec k} : Setoid (Map) := {|
   equiv := λ m1 m2, ∀ k, lookup k m1 = lookup k m2
@@ -302,7 +343,7 @@ Fixpoint insertWith `{EqDec k} (f : v → v → v) (i : k) (x : v) (m : Map) : M
   | Add i' x' m =>
       if eq_dec i i'
       then Add i (f x x') m
-      else insertWith f i x m
+      else Add i' x' (insertWith f i x m)
   end.
 
 Fixpoint insertWithKey `{EqDec k} (f : k → v → v → v) (i : k) (x : v) (m : Map) : Map :=
@@ -311,7 +352,7 @@ Fixpoint insertWithKey `{EqDec k} (f : k → v → v → v) (i : k) (x : v) (m :
   | Add i' x' m =>
       if eq_dec i i'
       then Add i (f i x x') m
-      else insertWithKey f i x m
+      else Add i' x' (insertWithKey f i x m)
   end.
 
 Fixpoint insertLookupWithKey `{EqDec k} (f : k → v → v → v) (i : k) (x : v) (m : Map) :
@@ -321,7 +362,9 @@ Fixpoint insertLookupWithKey `{EqDec k} (f : k → v → v → v) (i : k) (x : v
   | Add i' x' m =>
       if eq_dec i i'
       then (Some x', Add i (f i x x') m)
-      else insertLookupWithKey f i x m
+      else
+        let '(old, m') := insertLookupWithKey f i x m in
+        (old, Add i' x' m')
   end.
 
 Fixpoint adjust `{EqDec k} (f : v → v) (i : k) (m : Map) : Map :=
@@ -363,6 +406,8 @@ End Map.
 
 Arguments Map k v : clear implicits.
 
+(* Functorial action (fmap) of the endofunctor [Map k -]: transport values
+   along [f], leaving keys and structure fixed. *)
 Fixpoint map `(f : v → b) `(m : Map k v) : Map k b :=
   match m with
   | Empty => Empty

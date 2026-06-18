@@ -8,6 +8,27 @@ Require Import Category.Instance.Fun.
 
 Generalizable All Variables.
 
+(** The diagonal functor Δ : C ⟶ [J, C] (and the binary Δ : C ⟶ C ∏ C). *)
+
+(* nLab: https://ncatlab.org/nlab/show/diagonal+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Diagonal_functor
+
+   For a fixed index category J, the diagonal functor Δ[J] : C ⟶ [J, C] sends
+   each object c : C to the constant functor Δ[J](c) : J ⟶ C, which takes every
+   object of J to c and every morphism of J to id[c]; and it sends each
+   morphism f : c ~> c' to the natural transformation Δ[J](c) ⟹ Δ[J](c') whose
+   component at every j : J is f itself (naturality is f ∘ id ≈ id ∘ f). When J
+   is the discrete two-object category this recovers the binary diagonal
+   Δ : C ⟶ C ∏ C with c ↦ (c, c); Diagonal_Product_Two below witnesses that
+   agreement.
+
+   The diagonal is the universal source of cones: a cone over a diagram
+   F : J ⟶ C with apex c is exactly a natural transformation Δ[J](c) ⟹ F. When
+   the relevant universal cones exist, Δ is sandwiched by the limit and colimit
+   functors as colim ⊣ Δ ⊣ lim (C is J-cocomplete iff Δ has a left adjoint and
+   J-complete iff Δ has a right adjoint); for the binary case this is the
+   familiar (-) + (-) ⊣ Δ ⊣ (-) × (-). *)
+
 #[export]
 Program Instance Diagonal {C : Category} (J : Category) : C ⟶ [J, C] := {
   fobj := fun x =>
@@ -35,7 +56,9 @@ Notation "=( c )" := (Diagonal 1 c) (at level 0, format "=( c )") : functor_scop
 
 Definition Δ {C J : Category} := @Diagonal C J.
 
-(* Wikipedia: "In category theory, a branch of mathematics, the diagonal
+(* Wikipedia: https://en.wikipedia.org/wiki/Diagonal_functor
+
+   Wikipedia: "In category theory, a branch of mathematics, the diagonal
    functor C → C × C is given by Δ(a) = ⟨a, a⟩, which maps objects as well as
    morphisms. This functor can be employed to give a succinct alternate
    description of the product of objects within the category C: a product a ×

@@ -9,10 +9,41 @@ Require Import Category.Structure.Monoidal.Cartesian.
 
 Generalizable All Variables.
 
+(* Derived equalities for the cartesian monoidal structure: a category whose
+   tensor is the categorical product and whose unit is terminal.  In that
+   setting all coherence data is forced by the universal property of products,
+   and the lemmas below recover the projection/diagonal calculus from the
+   abstract monoidal axioms.
+
+   In this library the product UMP is not assumed directly; instead the
+   cartesian monoidal structure is presented via a natural diagonal ∆x = ⟨id,
+   id⟩ (Relevance) together with a counit `eliminate` x ~> I (Semicartesian),
+   from which the projections are defined as
+
+       proj_left  = unit_right ∘ id ⨂ eliminate : x ⨂ y ~> x,
+       proj_right = unit_left  ∘ eliminate ⨂ id : x ⨂ y ~> y.
+
+   The corollaries here are the cartesian shadows of the Fox-theorem composites
+   ℓ ∘ (e ⨂ id) ∘ ∆ ≈ id and r ∘ (id ⨂ e) ∘ ∆ ≈ id: that ∆ is a (split, hence)
+   monic copying map, that (id ⨂ e) ∘ ∆ and (e ⨂ id) ∘ ∆ are the inverse
+   unitors ⟨id, e⟩ and ⟨e, id⟩, and that pairing the projections after ∆
+   recovers the identity (and the braiding when crossed).
+
+   nLab:      https://ncatlab.org/nlab/show/cartesian+monoidal+category
+   Wikipedia: https://en.wikipedia.org/wiki/Cartesian_monoidal_category
+
+   These establish that the product's universal property is enough to derive the
+   unitor, braiding, and diagonal facts of a symmetric monoidal category; here
+   they are proven from the relevance/semicartesian axioms rather than assumed. *)
+
 Section CartesianMonoidal.
 
 Context `{@CartesianMonoidal C}.
 
+(* The right-handed Fox composite, generalized along f: discard the left copy,
+   apply f to the right copy, then project with the left unitor.  Since the
+   discarded factor is killed by `eliminate`, the result is just f.  Taking
+   f = id recovers proj_right ∘ ∆ ≈ id (the comonoid counit law on the right). *)
 Corollary unit_left_eliminate {x y} (f : x ~> y) :
   unit_left ∘ eliminate ⨂ f ∘ ∆x ≈ f.
 Proof.
@@ -28,6 +59,9 @@ Proof.
   reflexivity.
 Qed.
 
+(* The left-handed Fox composite, dual to unit_left_eliminate: apply f to the
+   left copy, discard the right copy, then project with the right unitor.  With
+   f = id this is proj_left ∘ ∆ ≈ id (the comonoid counit law on the left). *)
 Corollary unit_right_eliminate {x y} (f : x ~> y) :
   unit_right ∘ f ⨂ eliminate ∘ ∆x ≈ f.
 Proof.
@@ -43,6 +77,8 @@ Proof.
   reflexivity.
 Qed.
 
+(* Copy x then delete the right factor: this is the pairing ⟨id, e⟩, which is
+   exactly the inverse right unitor r⁻¹ in the product presentation. *)
 Lemma eliminate_right_diagonal {x} :
   id[x] ⨂ eliminate ∘ ∆x ≈ unit_right⁻¹.
 Proof.
@@ -53,6 +89,8 @@ Proof.
   reflexivity.
 Qed.
 
+(* Dually, copy x then delete the left factor: the pairing ⟨e, id⟩, which is the
+   inverse left unitor l⁻¹. *)
 Lemma eliminate_left_diagonal {x} :
   eliminate ⨂ id[x] ∘ ∆x ≈ unit_left⁻¹.
 Proof.
@@ -63,6 +101,9 @@ Proof.
   reflexivity.
 Qed.
 
+(* An associator-coherence step: copying the pair x ⨂ y and projecting the left
+   factor of the first copy regroups (via the associator) to copying x alone.
+   This is one of the two intermediate facts feeding proj_left_right_diagonal. *)
 Lemma proj_left_id_diagonal {x y} :
   proj_left ⨂ id ∘ ∆(x ⨂ y) ≈ tensor_assoc ∘ ∆x ⨂ id.
 Proof.
@@ -99,6 +140,9 @@ Proof.
   reflexivity.
 Qed.
 
+(* The companion associator-coherence step for the right projection: copying
+   x ⨂ y and projecting the right factor of the first copy regroups, through a
+   braiding, to copying y.  Feeds proj_right_left_diagonal. *)
 Lemma proj_right_id_diagonal {x y} :
   proj_right ⨂ id ∘ ∆(x ⨂ y)
     ≈ tensor_assoc ∘ braid ⨂ id ∘ tensor_assoc⁻¹ ∘ id[x] ⨂ ∆y.
@@ -133,6 +177,9 @@ Proof.
   reflexivity.
 Qed.
 
+(* Copy x ⨂ y, then keep the right factor of the first copy and the left factor
+   of the second: this swaps the two components, i.e. it is the braiding
+   σ_{x,y} = ⟨π₂, π₁⟩. *)
 Corollary proj_right_left_diagonal {x y} :
   proj_right ⨂ proj_left ∘ ∆(x ⨂ y) ≈ braid.
 Proof.
@@ -174,6 +221,9 @@ Proof.
   normal; reflexivity.
 Qed.
 
+(* Copy x ⨂ y, then keep the left factor of the first copy and the right factor
+   of the second: the pairing ⟨π₁, π₂⟩ reassembles the original pair, so this is
+   the identity.  This is the fork/projection round-trip law for the product. *)
 Corollary proj_left_right_diagonal {x y} :
   proj_left ⨂ proj_right ∘ ∆(x ⨂ y) ≈ id[x ⨂ y].
 Proof.
@@ -198,6 +248,9 @@ Qed.
 
 #[local] Obligation Tactic := intros; simplify; simpl in *; intros; normal.
 
+(* The diagonal is monic: it has a left inverse (proj_left ∘ ∆ ≈ id via
+   unit_right_eliminate), so it is a split mono, hence monic.  The obligation
+   cancels ∆ from ∆ ∘ g1 ≈ ∆ ∘ g2 using naturality of the diagonal. *)
 Program Instance diagonal_monic {x} :
   Monic ∆x.
 Next Obligation.
@@ -215,6 +268,8 @@ Next Obligation.
   reflexivity.
 Qed.
 
+(* Projecting left after the braiding is the same as projecting right: swapping
+   then taking π₁ equals taking π₂. *)
 Corollary proj_left_braid {x y} :
   proj_left ∘ braid ≈ @proj_right _ _ _ x y.
 Proof.
@@ -226,6 +281,7 @@ Proof.
   reflexivity.
 Qed.
 
+(* Dually, projecting right after the braiding is projecting left. *)
 Corollary proj_right_braid {x y} :
   proj_right ∘ braid ≈ @proj_left _ _ _ x y.
 Proof.

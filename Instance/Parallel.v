@@ -3,14 +3,27 @@ Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 
-(* This is the category with two objects and two parallel arrows between them
-   (and two identity morphisms):
+(** The walking parallel pair *)
+
+(* nLab: https://ncatlab.org/nlab/show/parallel+morphisms
+   nLab: https://ncatlab.org/nlab/show/walking+parallel+pair
+   Wikipedia: https://en.wikipedia.org/wiki/Equaliser_(mathematics)
+
+   This is the "walking parallel pair" (also called the free quiver), the
+   category with two objects and two parallel non-identity arrows between them
+   (plus the two identity morphisms):
 
        --- f --->
      x            y
        --- g --->
 
-  This is used to build diagrams that identify equalizers. *)
+   There are no arrows y → x, and no non-identity arrows x → x or y → y, so
+   composition is trivial: composing the only non-identity arrows f, g : x → y
+   with an identity yields that same arrow.
+
+   A functor [Parallel ⟶ C] is exactly a parallel pair of morphisms in C; its
+   limit is their equalizer and its colimit their coequalizer.  This is the
+   shape category used to build the diagrams that identify (co)equalizers. *)
 
 Inductive ParObj : Set := ParX | ParY.
 
@@ -136,11 +149,16 @@ Next Obligation.
   destruct x0, y0, z; simpl; auto with parallel_laws; cat.
 Qed.
 
-(* A contravariant functor on this category is given by a pair of sets G0,G1
-   and a pair of function source, target: G_1\to G_0. Identities are sent to
-   identities.
+(* A presheaf on this category, i.e. a contravariant functor [Parallel^op ⟶
+   Sets], is given by a pair of sets G0, G1 and a pair of functions source,
+   target : G1 → G0.  Identities are sent to identities.
 
-   In other words, a presheaf on the category 0⟹1 is a graph. *)
+   nLab: https://ncatlab.org/nlab/show/quiver
+   Wikipedia: https://en.wikipedia.org/wiki/Quiver_(mathematics)
+
+   In other words, a presheaf on the parallel-pair category x ⇉ y is a graph
+   (quiver): G0 is the set of vertices, G1 the set of edges, and the two arrows
+   send an edge to its source and target. *)
 
 Require Import Category.Construction.Opposite.
 Require Import Category.Instance.Sets.

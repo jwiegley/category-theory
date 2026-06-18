@@ -9,6 +9,28 @@ Unset Transparent Obligations.
 
 Import ListNotations.
 
+(** * Basic datatypes and setoid structure *)
+
+(* Utility lemmas and setoid instances for the standard-library datatypes used
+   throughout the development: lists, products, sums, options, functions and a
+   binary symmetric product for well-founded recursion.
+
+   The list induction helpers [rev_list_rect] and [rev_rect] mirror the
+   reverse-induction principles of the Rocq standard library
+   (Stdlib.Lists.List); they are reproduced here so that this file does not
+   depend on their exact location across Coq/Rocq versions.
+
+   The product, sum, option, list and function setoid instances equip those
+   type constructors with the pointwise/componentwise equivalence that makes
+   them objects of the category of setoids (see Instance/Sets.v); these are the
+   constructive analogues of the categorical product, coproduct and maybe
+   monad on Set:
+
+     nLab:    https://ncatlab.org/nlab/show/setoid
+     nLab:    https://ncatlab.org/nlab/show/product
+     nLab:    https://ncatlab.org/nlab/show/coproduct
+     Wikipedia: https://en.wikipedia.org/wiki/Setoid *)
+
 Definition rev_list_rect (A : Type) (P : list A → Type) (H : P [])
            (H0 : ∀ (a : A) (l : list A), P (rev l) → P (rev (a :: l)))
            (l : list A) : P (rev l) :=
@@ -110,6 +132,9 @@ Local Set Warnings "-intuition-auto-with-star".
    are products and sums, so we must show how they interact with constructive
    setoids. *)
 
+(* Product setoid: equivalence is componentwise, the equivalence relation
+   carried by the categorical product A × B in the category of setoids.
+   nLab: https://ncatlab.org/nlab/show/product *)
 #[global]
 Program Instance prod_setoid {A B} `{Setoid A} `{Setoid B} :
   Setoid (A * B) := {
@@ -144,6 +169,11 @@ Corollary let_projT2 {A P} (S : @sigT A P) `(f : ∀ x, P x → z) :
   (let (x, y) := S in f x y) = f (projT1 S) (projT2 S).
 Proof. destruct S; auto. Qed.
 
+(* Sum setoid: elements are equivalent only when they lie in the same
+   injection and their contents are equivalent; cross-injection elements are
+   never equivalent. This is the equivalence carried by the categorical
+   coproduct A + B in the category of setoids.
+   nLab: https://ncatlab.org/nlab/show/coproduct *)
 #[global]
 Program Instance sum_setoid {A B} `{Setoid A} `{Setoid B} :
   Setoid (A + B) := {
@@ -173,6 +203,10 @@ Program Instance inl_respects {A B} `{Setoid A} `{Setoid B} :
 Program Instance inr_respects {A B} `{Setoid A} `{Setoid B} :
   Proper (equiv ==> equiv) (@inr A B).
 
+(* Option setoid: [Some] is equivalence-respecting on its contents and [None]
+   is equivalent only to itself. Equivalently this is the coproduct setoid
+   1 + A, the maybe/option construction on Set.
+   nLab: https://ncatlab.org/nlab/show/maybe+monad *)
 #[global]
 Program Instance option_setoid `{Setoid A} : Setoid (option A) := {
   equiv := fun x y => match x, y with
@@ -253,6 +287,15 @@ Proof.
   apply le_n_S, IHxs.
 Qed.
 
+(* Symmetric product of a relation with itself. This is the homogeneous (single
+   relation, single carrier) specialization of the standard library's symmetric
+   product [symprod] from Stdlib.Relations.Relation_Operators, whose
+   well-foundedness is established in the Wf_Symmetric_Product section of
+   Stdlib.Wellfounded.Lexicographic_Product. A pair decreases when either
+   component decreases, so well-foundedness of [leA] yields well-foundedness of
+   [symprod2].
+   nLab: https://ncatlab.org/nlab/show/well-founded+relation
+   Wikipedia: https://en.wikipedia.org/wiki/Well-founded_relation *)
 Section Symmetric_Product2.
 
 Variable A : Type.
@@ -303,9 +346,16 @@ Proof.
   induction l2; auto.
 Qed.
 
+(* The discrete setoid on [nat]: with no [equiv] field supplied, Program
+   resolves [equiv := eq] (with [eq_equivalence]), giving the setoid whose
+   equivalence is Leibniz equality. *)
 #[global]
 Program Instance nat_setoid : Setoid nat.
 
+(* Function setoid: pointwise equivalence of functions into a setoid codomain.
+   This is the extensional equivalence on the exponential B ^ A in the category
+   of setoids; it carries the hom-setoid used for morphisms in Instance/Sets.v.
+   nLab: https://ncatlab.org/nlab/show/function+extensionality *)
 #[global]
 Program Instance fun_setoid {A : Type} `{Setoid B} : Setoid (A → B) := {
   equiv := fun f g => ∀ x, f x ≈ g x

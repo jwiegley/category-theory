@@ -19,6 +19,18 @@ Generalizable All Variables.
 
 (** * End-to-end typeclass-resolution smoke tests for HypergraphPROP
 
+    nLab:      https://ncatlab.org/nlab/show/PROP
+    nLab:      https://ncatlab.org/nlab/show/hypergraph+category
+    Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
+
+    A [HypergraphPROP] (see [Construction/PROP.v]) bundles a [PROP] — a
+    strict symmetric monoidal category whose object monoid is [(ℕ, +, 0)] —
+    with a [Hypergraph] instance, i.e. a chosen special commutative
+    Frobenius algebra (SCFA) on every object.  This file is a compile-time
+    smoke test: each [Definition] below type-checks only if the coercion /
+    [#[export] Existing Instance] chain actually delivers the structure
+    named in its type, so a successful build IS the assertion.
+
     These tests verify that, given just [Variable P : HypergraphPROP],
     Coq's typeclass resolution finds the structural instances downstream
     callers will need:
@@ -74,7 +86,7 @@ Close Scope nat_scope.
 
 (** ** KNOWN LIMITATION: ambiguous [Monoidal (prop_cat P)] instance
 
-    The [PROP] class supplies TWO independent fields that each induce a
+    The [PROP] class supplies TWO fields that each induce a
     [Monoidal (prop_cat P)]:
 
       - [prop_strict   : StrictMonoidal     (prop_cat P)] with coercion
@@ -83,39 +95,42 @@ Close Scope nat_scope.
         [braided_is_monoidal . symmetric_is_braided : SymmetricMonoidal
                                                       -> Monoidal]
 
-    The class does not assert that these two paths produce
-    *definitionally equal* [Monoidal] records.  In consequence, an
-    expression like
+    The class DOES relate these two paths, via the field
+
+      [prop_monoidal_coherence :
+         strict_is_monoidal prop_strict
+         = braided_is_monoidal (symmetric_is_braided prop_symmetric)]
+
+    but only as a PROPOSITIONAL (Leibniz) equality, not a definitional
+    one.  In consequence, an expression like
 
       braid : (T ⨂ T) ~> (T ⨂ T)
 
-    fails to type-check inside a [HypergraphPROP] context because the
-    [⨂] notation resolves through [strict_is_monoidal] (the
-    StrictMonoidal path) while [braid] expects the
-    [SymmetricMonoidal]-induced [Monoidal]; Coq does not unify them.
+    still fails to type-check inside a [HypergraphPROP] context (verified
+    empirically): the [⨂] notation resolves [T ⨂ T] through
+    [strict_is_monoidal] (the StrictMonoidal path) while [braid] expects
+    the [SymmetricMonoidal]-induced [Monoidal], and Coq will not unify the
+    two records up to a propositional equality on its own.
 
     Similarly, [scfa_mu (scfa T) : T ⨂ T ~> T] resolves through the
-    [Hypergraph]'s [SymmetricMonoidal] path, while
+    [Hypergraph]'s [SymmetricMonoidal] path (confirmed by [Check]), while
     [prop_tensor_plus : ⟦m⟧ ⨂ ⟦n⟧ = ⟦m+n⟧] uses the strict path; they
-    are interchangeable mathematically but not as Coq terms.
+    are interchangeable mathematically but not as bare Coq terms.
 
-    The workaround for downstream code is to PIN the [Monoidal] path
-    explicitly at each tensor: write [(T ⨂[strict_is_monoidal] T)] when
-    proving against [prop_tensor_plus], and let inference pick the
-    [SymmetricMonoidal] path when using [braid] / [scfa_*].
+    The workaround for downstream code is to bridge the two paths with an
+    explicit [rewrite prop_monoidal_coherence] (or [subst]) at the use
+    site, or to PIN the [Monoidal] path: write
+    [(T ⨂[strict_is_monoidal] T)] when proving against [prop_tensor_plus],
+    and let inference pick the [SymmetricMonoidal] path when using [braid]
+    / [scfa_*].
 
-    The proper fix in the library is to require, in the [PROP] class,
-    that [prop_symmetric]'s underlying [Monoidal] is *the same* (up to
-    definitional equality) as [strict_is_monoidal prop_strict] — for
-    example by re-parameterising:
-
-      Class PROP : Type := {
-        prop_cat     : Category;
-        prop_strict  : @StrictMonoidal prop_cat;
-        prop_symmetric : @SymmetricMonoidal prop_cat
-                          (@strict_is_monoidal prop_cat prop_strict);
-        ...
-      }.
-
-    This would make the two paths definitionally identical and unblock
-    the smoke tests removed from this file.  Tracked as a follow-up. *)
+    The DEFINITIONAL fix — which would make [prop_monoidal_coherence]
+    reduce to [eq_refl] and let [braid] / [scfa_*] / [prop_tensor_plus]
+    inter-operate without any [rewrite] — is to re-parameterise the
+    library's [BraidedMonoidal] / [SymmetricMonoidal] classes to take an
+    [@Monoidal C] as an explicit parameter, so [prop_symmetric] can
+    inherit [strict_is_monoidal prop_strict] verbatim.  That is a
+    multi-file refactor deferred to a separate PR and tracked in the
+    [prop_monoidal_coherence] discussion in [Construction/PROP.v]; the
+    tests requiring it (e.g. a typed [braid] on [T ⨂ T]) are omitted from
+    this file until then. *)

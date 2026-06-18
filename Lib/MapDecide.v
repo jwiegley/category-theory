@@ -9,6 +9,26 @@ Require Import Category.Lib.FMapExt.
 
 Generalizable All Variables.
 
+(** A reflective decision procedure for FMap membership goals *)
+
+(* Wikipedia: https://en.wikipedia.org/wiki/Associative_array
+
+   This module implements proof by reflection (the computational-reflection
+   technique of CPDT chapter 15, Adam Chlipala) for goals about finite maps.
+   FMap goals such as [M.MapsTo (x, y) f m] and implications between them are
+   reified into the inductive syntax [formula] (see [reify]); a Gallina
+   decision procedure [formula_backward]/[formula_forward] decides the reified
+   goal and returns a [partial] proof object; and [formula_sound] reflects a
+   successful decision back into the original FMap proposition.
+
+   Soundness contract: every tactic here is sound by construction.  The
+   procedure can only emit [Yes] (i.e. [Proved]) when it carries an actual
+   proof of [formula_denote env t], so a goal closed via [map_decide] /
+   [solve_map] is genuinely true; the procedure is intentionally incomplete
+   (it may answer [No]/[Uncertain]) but never unsound.  There is no canonical
+   nLab/Wikipedia page for proof by reflection; see CPDT,
+   http://adam.chlipala.net/cpdt/html/Cpdt.Reflection.html. *)
+
 (* For the time being, this module is fixed to maps from [N * N → N]. *)
 
 Module PO := PairOrderedType N_as_OT N_as_OT.
@@ -18,6 +38,13 @@ Module Import FMapExt := FMapExt PO M.
 (**************************************************************************
  * Data type for representing partial results, taken from Chlipala's CPDT
  *)
+
+(* CPDT: http://adam.chlipala.net/cpdt/html/Cpdt.Reflection.html
+
+   [partial P], written [[P]], is the type of a verified-but-possibly-failing
+   decision: [Proved] carries an actual proof of [P], while [Uncertain]
+   carries nothing.  Because the only way to produce a [Yes] is to supply a
+   proof, any procedure returning [[P]] is sound by construction. *)
 
 Inductive partial (P : Prop) : Set :=
 | Proved : P → partial
@@ -432,6 +459,11 @@ Proof.
   intros; refine (Reduce (formula_backward t env)); auto.
 Defined.
 
+(* The reflection correctness lemma: if the decision procedure succeeds
+   (the [partial] is [Proved], so the [if] guard reduces to [True]) then the
+   reified goal [formula_denote env t] genuinely holds.  This is what lets
+   [solve_map] discharge a goal by [vm_compute]-ing [formula_tauto] to [Yes].
+   The converse (completeness) is deliberately not claimed. *)
 Lemma formula_sound env t :
   (if formula_tauto env t then True else False) → formula_denote env t.
 Proof.

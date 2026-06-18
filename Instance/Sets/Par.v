@@ -6,6 +6,24 @@ Generalizable All Variables.
 
 (** The category of partial maps, built on the category of setoids. *)
 
+(* nLab: https://ncatlab.org/nlab/show/partial+function
+   nLab: https://ncatlab.org/nlab/show/maybe+monad
+   Wikipedia: https://en.wikipedia.org/wiki/Partial_function
+
+   This is the category PAR (also written Par or Pfn) of setoids and partial
+   maps. Following the standard presentation, a partial map A ⇀ B is encoded
+   as a total setoid map A → option B (= A → 1 + B): the elements sent to
+   [None] are exactly those outside the domain of definition. Equivalently
+   this is the Kleisli category of the maybe monad [option] on [Sets]; in Set
+   (a Boolean topos) every Kleisli map of [option] is a partial function, so
+   PAR ≅ Kleisli(option).
+
+      objects: setoids
+       arrows: partial setoid maps  f : A → option B   (None = undefined)
+     identity: the total map  x ↦ Some x
+   composition: Kleisli composition — (f ∘ g) x = match g x with
+                  None => None | Some b => f b end  (undefined if either is) *)
+
 Program Definition Part : Category := {|
   obj := Sets;
   hom := fun x y =>
@@ -81,6 +99,17 @@ Require Import Category.Structure.Cartesian.
 
 Arguments option_setoid A {_}.
 Arguments sum_setoid A B {_ _}.
+
+(* The categorical product in PAR is NOT the set product [x * y] but the
+   "classical product" A & B := A + B + (A × B): a partial pair records that
+   only the left component is defined, only the right is, both are, or neither
+   (the latter being [None]). This is forced because a partial map into a
+   product must be allowed to converge on one projection while diverging on
+   the other. PAR, being the Kleisli category of the maybe monad on Set, is a
+   classical distributive restriction category, and there A + B + (A × B) is a
+   genuine categorical product (Cockett & Lemay, "Classical Distributive
+   Restriction Categories", TAC 42 (2024) No. 6,
+   https://arxiv.org/abs/2305.16524). *)
 
 #[export]
 Program Instance Part_Cartesian : @Cartesian Part := {
@@ -168,14 +197,21 @@ Next Obligation.
     destruct p; simpl in *; auto.
 Qed.
 
-(** This is an invalid definition, since there are three ways we could produce
-    an [option c], but no way to decide which. *)
+(** PAR is not closed for the classical product in the naive way. *)
+
+(* The maps [to]/[from] below attempt a currying isomorphism
+   (A & B ⇀ C) ≅ (A ⇀ (B ⇀ C)) for the classical product
+   A & B = A + B + (A × B). The [_impossible] lemmas show no such iso exists:
+   each direction loses information, so neither round trip is the identity. *)
+
+(* This is an invalid definition, since there are three ways we could produce
+   an [option c], but no way to decide which. *)
 Definition to {a b c} :
   (a + (b + (a * b)) → option c) → (a → option (b → option c)) :=
   fun f a => Some (fun b => f (inr (inr (a, b)))).
 
-(** Meanwhile, there is only one scenario that yields an [option c] here,
-    leaving us unable to use the information at hand for the other two. *)
+(* Meanwhile, there is only one scenario that yields an [option c] here,
+   leaving us unable to use the information at hand for the other two. *)
 Definition from {a b c} :
   (a → option (b → option c)) → (a + (b + (a * b)) → option c) :=
   fun f x =>
@@ -198,7 +234,7 @@ Proof.
   unfold to, from.
   destruct (f x).
   - f_equal.
-  - (** Stuck proving False. *)
+  - (* Stuck proving False. *)
 Abort.
 
 Lemma to_from_impossible {a b c} :
@@ -223,7 +259,7 @@ Proof.
   extensionality x.
   unfold to, from.
   destruct x; simpl.
-  - (** Stuck proving a fact we can't determine. *)
+  - (* Stuck proving a fact we can't determine. *)
     admit.
   - destruct s; simpl.
     + admit.

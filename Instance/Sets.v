@@ -5,21 +5,56 @@ Require Import Category.Theory.Functor.
 
 Generalizable All Variables.
 
+(** The category of setoids *)
+
+(* nLab: https://ncatlab.org/nlab/show/category+of+sets
+   nLab: https://ncatlab.org/nlab/show/setoid
+   Wikipedia: https://en.wikipedia.org/wiki/Category_of_sets
+   Wikipedia: https://en.wikipedia.org/wiki/Setoid
+
+   This is the category [Sets], the constructive analogue of the classical
+   category Set. To model "sets" without quotient types and without the
+   function-extensionality axiom, objects are not bare types but setoids
+   (Bishop sets): a carrier type together with an equivalence relation `≈`.
+   Morphisms are setoid maps, i.e. functions that respect `≈` (proper
+   functions), and the hom-setoid identifies two such maps when they agree
+   pointwise up to the codomain's `≈` (extensional equality of setoid maps,
+   realised without [funext]).
+
+      objects: setoids        (carrier type + equivalence relation `≈`)
+       arrows: setoid maps    (functions f with x ≈ y → f x ≈ f y)
+     hom-setoid: f ≈ g  :=  ∀ x, f x ≈ g x   (pointwise, up to codomain `≈`)
+     identity: the identity function
+   composition: composition of functions, again respecting `≈`
+
+   This file builds the category and its first structural instances:
+   [Sets_Terminal] (singleton), [Sets_Initial] (empty), the cartesian
+   [Sets_Product_Monoidal], and the characterizations of monos as injections
+   and epis as surjections. The cartesian / closed structure proper lives in
+   the companion files Instance/Sets/Cartesian.v and
+   Instance/Sets/Cartesian/Closed.v. *)
+
 Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := {
-  carrier :> Type@{o};
-  is_setoid :> Setoid@{o p} carrier
+  carrier :> Type@{o};               (* the underlying type (Bishop carrier) *)
+  is_setoid :> Setoid@{o p} carrier   (* its equivalence relation `≈` *)
 }.
 #[export] Existing Instance is_setoid.
 
+(* A setoid map: a function on carriers together with a proof that it respects
+   the two equivalences. This is the morphism part of [Sets]. *)
 Record SetoidMorphism@{o h p} `{Setoid@{o p} x} `{Setoid@{o p} y} := {
-  morphism :> x → y;
-  proper_morphism :> Proper@{h p} (respectful@{h p h p h p} equiv equiv) morphism
+  morphism :> x → y;                  (* the underlying function on carriers *)
+  proper_morphism :>                  (* it sends `≈`-related inputs to `≈`-related outputs *)
+    Proper@{h p} (respectful@{h p h p h p} equiv equiv) morphism
 }.
 #[export] Existing Instance proper_morphism.
 
 Arguments SetoidMorphism {_} _ {_} _.
 Arguments morphism {_ _ _ _ _} _.
 
+(* Extensional equality of setoid maps: two maps are equivalent when they
+   agree pointwise, judged up to the codomain's `≈`. This is the hom-setoid's
+   underlying relation; [funext] is not needed because we compare up to `≈`. *)
 Definition SetoidMorphism_equiv@{o h p} {x y : SetoidObject@{o p}} :
   crelation@{h p} (SetoidMorphism@{o h p} x y) :=
   fun f g => ∀ x, @equiv@{o p} _ y (f x) (g x).
@@ -118,16 +153,21 @@ Next Obligation.
   rewrite X; reflexivity.
 Qed.
 
+(* Build a [SetoidMorphism] by giving its underlying function and leaving the
+   [proper_morphism] obligation as a fresh goal. *)
 Ltac morphism :=
   unshelve (refine {| morphism := _ |}; simpl; intros).
 
 Require Import Category.Structure.Terminal.
 
+(* The singleton setoid: [poly_unit] under `=`, used as the terminal object. *)
 #[export]
 Program Instance Unit_Setoid@{u} : Setoid@{u u} poly_unit@{u} := {
   equiv := fun x y => x = y
 }.
 
+(* Terminal object: the singleton. There is exactly one map into it (every
+   element maps to [ttt]), unique up to `≈`. *)
 #[export]
 Program Instance Sets_Terminal : @Terminal Sets := {
   terminal_obj := {| carrier := poly_unit |};
@@ -138,10 +178,13 @@ Next Obligation. destruct (f x0), (g x0); reflexivity. Qed.
 
 Require Import Category.Structure.Initial.
 
+(* The empty setoid: [False] as carrier; equivalence is vacuous. *)
 #[export]
 Program Instance False_Setoid@{u} : Setoid@{u u} False.
 Next Obligation. proper. Qed.
 
+(* Initial object: the empty setoid. The unique map out of it is the empty
+   function (by [False] elimination). *)
 #[export]
 Program Instance Sets_Initial : @Initial Sets := {
   terminal_obj := {| carrier := False |};
@@ -156,6 +199,10 @@ Next Obligation. contradiction. Qed.
 
 Require Import Category.Structure.Monoidal.
 
+(* Cartesian monoidal structure on [Sets]: the tensor is the product of
+   setoids (carrier = product of carriers, `≈` componentwise) and the unit is
+   the singleton setoid. The unitor/associator obligations below supply the
+   coherence isomorphisms. *)
 #[export]
 Program Instance Sets_Product_Monoidal : @Monoidal Sets := {
   I      := {| carrier := poly_unit |};
@@ -234,10 +281,15 @@ Next Obligation.
     simplify; simpl; cat.
 Defined.
 
+(* The singleton as a [SetoidObject], packaging [unit_setoid] for use as a
+   probe object below (a map out of it picks an element up to `≈`). *)
 Definition unit_setoid_object@{t u} : SetoidObject@{t u} :=
   {| carrier   := poly_unit@{t}
    ; is_setoid := unit_setoid@{t u} |}.
 
+(* In [Sets] the monomorphisms are exactly the injections (up to `≈`). The
+   non-trivial direction probes [f] with two constant maps out of the singleton
+   [unit_setoid_object]. *)
 Lemma injectivity_is_monic {X Y : SetoidObject} (f : X ~{Sets}~> Y) :
   (∀ x y : X, f x ≈ f y → x ≈ y) ↔ Monic f.
 Proof.
@@ -267,6 +319,8 @@ Proof.
     constructor.
 Qed.
 
+(* In [Sets] a bijection (injective and split-surjective up to `≈`) is an
+   isomorphism: the chosen preimage assembles a two-sided inverse. *)
 Lemma bijective_is_iso {A B : SetoidObject} (h : A ~{Sets}~> B) :
   injective h -> surjective h -> IsIsomorphism h.
 Proof.
@@ -279,6 +333,22 @@ Proof.
 Defined.
 
 
+(* In Set the epimorphisms are exactly the surjections (see the Wikipedia and
+   nLab pages cited in the file header), so the statement below is correct.
+   The forward direction (surjective → epic) is proved; the reverse direction
+   is abandoned (this lemma ends in a non-completing tactic), so
+   [surjectivity_is_epic] does NOT enter the environment and nothing downstream
+   relies on it.
+
+   The classical argument distinguishes a point not in the image with the
+   characteristic map of the image versus the constant map into a truth-value
+   object. Realising that truth-value object here runs into a size obstruction:
+   the natural choice has carrier [Type] (or [Prop]) with `≈` taken to be `↔`,
+   but such an object does not fit as an [obj[Sets]] at the same universe as
+   [A] and [B] — Set's subobject classifier lives one universe up. Closing
+   this would require universe-polymorphic re-engineering of [Sets] and is left
+   as future work. Companion results [injectivity_is_monic] and
+   [bijective_is_iso] above are fully proved. *)
 Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets}~> B) :
   (∀ b, ∃ a, h a ≈ b)%type ↔ Epic@{h p} h.

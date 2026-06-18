@@ -9,7 +9,8 @@ Generalizable All Variables.
 
 (** * Strict monoidal categories
 
-    Reference: nLab "strict monoidal category".
+    nLab: https://ncatlab.org/nlab/show/strict+monoidal+category
+    Wikipedia: https://en.wikipedia.org/wiki/Monoidal_category#Strict_monoidal_category
 
     A strict monoidal category is a monoidal category in which the
     associator and unitors are identity natural transformations —
@@ -31,10 +32,12 @@ Generalizable All Variables.
     coincide on the nose.
 
     The structural isomorphisms then transport along those equalities
-    to give [id].  We use the [rew] (Coq's [eq_rect]) form, which the
-    library's [Lib/Tactics.v] already engages with via
-    [eq_rew_r_dep]; the [match]-form was tried and gave noisier
-    obligations in this codebase.
+    to give [id].  We use the explicit [match … in _ = T return …]
+    form (Coq's primitive dependent elimination on equality), rather
+    than the [rew]/[eq_rect] notation, which the library's [_CoqProject]
+    does not pull in.  See the "Formulation note" at the end of the file
+    for the rationale; both the [strict_*_to] fields and the derived
+    [strict_*_from] corollaries use the [match] form consistently.
 
     Strict monoidal categories are precisely monoid objects in the
     cartesian monoidal category [Cat].  PROPs are strict symmetric
@@ -100,13 +103,14 @@ Coercion strict_is_monoidal : StrictMonoidal >-> Monoidal.
 
 Context `{S : StrictMonoidal}.
 
-(** The [from] direction: transports [id] from the codomain along the
-    domain equality (using [cast_dom]). *)
-(** A sanity-check corollary: in any strict monoidal category, the
-    composite [α ∘ α⁻¹] at any triple is [id] (which is just
-    [iso_to_from] specialised — we restate it here as a flat lemma
-    using the strict-shape so downstream code can use it without
-    going through [tensor_assoc]'s iso projections). *)
+(* A sanity-check corollary: in any strict monoidal category, the
+   composite [α ∘ α⁻¹] at any triple is [id] (which is just
+   [iso_to_from] specialised — we restate it here as a flat lemma
+   using the strict-shape so downstream code can use it without
+   going through [tensor_assoc]'s iso projections).  The closed-form
+   [from] direction of each structural iso (the transported identity
+   along the symmetric equality) is given by the [strict_*_from]
+   corollaries below. *)
 Lemma strict_assoc_iso (X Y Z : C) :
   to (@tensor_assoc C strict_is_monoidal X Y Z)
     ∘ from (@tensor_assoc C strict_is_monoidal X Y Z)

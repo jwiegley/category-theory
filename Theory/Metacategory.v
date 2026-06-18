@@ -10,12 +10,34 @@ Require Import Category.Theory.Category.
 
 Generalizable All Variables.
 
-(* This module defines an "arrows-only" metacategory, and shows that such a
-   metacategory is sufficient to define a category. The axioms defined by Mac
-   Lane are used, with the "defined set of composable pairs" and "composite
-   assignments" both encoded using a key-value map provided by FMap, since
-   that provides just the structure we need. Natural numbers are used to
-   differentiate arrows. *)
+(** Arrows-only metacategories *)
+
+(* nLab: https://ncatlab.org/nlab/show/metacategory
+   nLab: https://ncatlab.org/nlab/show/category
+   Wikipedia: https://en.wikipedia.org/wiki/Category_(mathematics)
+
+   The single-sorted ("arrows-only") axiomatization of a category, due to
+   Mac Lane (Categories for the Working Mathematician, I.1, "arrows-only"
+   description). A category is presented purely by a collection of arrows
+   together with a partial composition (a partial magma on arrows); there is
+   no separate sort of objects. Objects are recovered as the identity arrows:
+   an arrow [u] is an identity when [f ∘ u ≈ f] whenever [f ∘ u] is defined and
+   [u ∘ g ≈ g] whenever [u ∘ g] is defined. The three axioms (matchability,
+   associativity, and existence of identities) then capture exactly a
+   category. [FromArrows] below shows that every such metacategory yields a
+   [Category] whose objects are the identity arrows [∃ i, identity M i].
+
+   This module shows that an "arrows-only" metacategory is sufficient to
+   define a category. The axioms defined by Mac Lane are used, with the
+   "defined set of composable pairs" and "composite assignments" both encoded
+   using a key-value map provided by FMap, since that provides just the
+   structure we need: [M.MapsTo (f, g) h pairs] records that the composable
+   pair [(f, g)] has composite [h]. Natural numbers are used to differentiate
+   arrows.
+
+   Theory/Metacategory/ArrowsOnly.v is a parallel development of the same idea
+   over [arrow := N] with a more direct [find]-based composition; it carries
+   the polished form of these definitions. *)
 
 Module PNN := PairUsualDecidableType Nat_as_DT Nat_as_DT.
 
@@ -45,6 +67,15 @@ Record Metacategory := {
   (* "With these data one defines an identity of C to be an arrow u such that
      f∙u = f whenever the composite f∙u is defined and u∙g = g whenever u∙g is
      defined." *)
+  (* Note: Mac Lane's definition is conditional ("whenever ... defined"). The
+     encoding below drops the definedness guard and instead requires
+     [composite f u f] (and [composite u g g]) for *every* arrow, i.e. that
+     [f ∙ u] and [u ∙ g] are defined and equal to [f]/[g] for all [f]/[g]. This
+     is strictly stronger than Mac Lane's notion but is sound for the finite,
+     explicitly-enumerated metacategories built here, and it is what the
+     [FromArrows] obligations below rely on (they apply these universally). The
+     parallel development in Theory/Metacategory/ArrowsOnly.v keeps the
+     conditional guard, [defined f u → composite f u f]. *)
   identity (u : arr) :=
     (∀ (f : arr), composite f u f) ∧ (∀ (g : arr), composite u g g);
 
