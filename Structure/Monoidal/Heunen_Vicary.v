@@ -58,7 +58,7 @@ Class CartesianMonoidal := {
      symmetric monoidal category these are derivable from Mac Lane's coherence
      theorem rather than minimal; they are kept as explicit fields here because
      this library's SymmetricMonoidal does not expose that derivation, and
-     downstream proofs (e.g. Cartesian/Proofs.v, Group/Proofs.v) rewrite with
+     downstream proofs (e.g. Heunen_Vicary/Proofs.v, Group/Proofs.v) rewrite with
      them directly. *)
   unit_left_braid  {x} : unit_left  ∘ @braid _ _ x I ≈ unit_right;
   unit_right_braid {x} : unit_right ∘ @braid _ _ I x ≈ unit_left

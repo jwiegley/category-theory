@@ -2,7 +2,7 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Export Category.Structure.Monoidal.Cartesian.
+Require Export Category.Structure.Monoidal.Heunen_Vicary.
 Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
