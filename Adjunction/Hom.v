@@ -15,6 +15,27 @@ Require Import Category.Instance.Sets.
 
 Generalizable All Variables.
 
+(** The hom-set (hom-isomorphism) characterization of an adjunction. *)
+
+(* nLab: https://ncatlab.org/nlab/show/adjoint+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Adjoint_functors
+
+   An adjunction F ⊣ U between F : D ⟶ C (left adjoint) and U : C ⟶ D (right
+   adjoint) is here a natural isomorphism of the two hom-bifunctors
+
+     hom_adj : Hom C ◯ F^op ∏⟶ Id ≅ Hom D ◯ Id^op ∏⟶ U
+
+   in the functor category [D^op ∏ C, Sets]; that is, a family of bijections
+   Hom_C(F a, b) ≅ Hom_D(a, U b) natural in both a and b (the two naturality
+   squares for the forward and inverse transposes). The transposes (adjuncts)
+   are to hom_adj : (F a ~> b) → (a ~> U b) and from hom_adj : (a ~> U b) →
+   (F a ~> b). Transposing the identities yields the unit η a := to hom_adj
+   id[F a] : a ~> U (F a) (hom_unit) and counit ε b := from hom_adj id[U b] :
+   F (U b) ~> b (hom_counit); these satisfy the triangle identities and so
+   recover the counit/unit form [Category.Adjunction.Natural.Transformation]
+   and the universal-morphism form [Category.Theory.Adjunction], with which
+   this presentation is shown equivalent below (the four conversions). *)
+
 Section AdjunctionHom.
 
 Context {C : Category}.
