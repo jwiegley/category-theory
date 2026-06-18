@@ -7,10 +7,12 @@ axiom-free.
 
 ## Summary
 
-The library's CORE definitions — `Category`, `Functor`, `Monoidal`,
-`Symmetric`, `Hypergraph`, `CompactClosed`, `Cospan_Hypergraph`,
-`PROP`, and everything they transitively depend on — are CLOSED UNDER
-THE GLOBAL CONTEXT.  They use no axioms whatsoever.  This can be
+The headline definitions checked by the `print-assumptions` make
+target — `Hypergraph`, `PROP`, `Cospan_Hypergraph`,
+`DecoratedCospan_Hypergraph`, `spider_collapse`, `spider_frobenius`,
+`Hypergraph_CompactClosed`, and `ZX_Cat` — are reported as CLOSED
+UNDER THE GLOBAL CONTEXT (with the sole exception of `ZX_Cat`, which
+lists the three `Phase` parameters described below).  This can be
 verified by
 
 ```coq
@@ -19,14 +21,22 @@ Print Assumptions Hypergraph.
 (* prints:  Closed under the global context *)
 ```
 
-and similarly for `PROP`, `Cospan_Hypergraph`,
-`DecoratedCospan_Hypergraph`, etc.
+and similarly for the other audited definitions.
 
-The ONLY axioms in the library are the `Phase` parameterisation in
-the ZX-calculus instance, where they are explicit "you supply the
-phase semiring" declarations that any concrete user would
-realise concretely (e.g. as `R / 2π` for the standard ZX calculus or
-as `bool` for the Clifford fragment).
+Read this scope precisely.  "Closed under the global context" is a
+statement about a *particular* definition's assumption set; it is NOT
+a claim that the library as a whole — every instance, every
+construction — is free of stdlib axioms.  It is not.  Several concrete
+instance layers do invoke stdlib axioms; these are enumerated in the
+[Stdlib axioms](#stdlib-axioms) section below.  See also the
+[Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+section for what the audit does and does not certify.
+
+The only `Axiom`/`Parameter` declarations in the library are the
+`Phase` parameterisation in the ZX-calculus instance — a bare phase
+type, a distinguished zero, and a binary addition — which a concrete
+user would realise concretely (e.g. as `R / 2π` for the standard ZX
+calculus or as `bool` for the Clifford fragment).
 
 ## Complete list
 
@@ -38,17 +48,53 @@ All declared in `Instance/ZX.v`:
 | `phase_zero`            | `Parameter` | `Phase`                           | Neutral phase                                           |
 | `phase_add`             | `Parameter` | `Phase -> Phase -> Phase`         | Phase addition (used by spider fusion)                  |
 
-That's 3 declarations total: 3 `Parameter`, 0 `Axiom`.  All three say
-"you supply the phase type and a binary phase-addition operation" —
-they are the algebraic interface that ZX-calculus is generic over.
+That's 3 declarations total: 3 `Parameter`, 0 `Axiom`.  They provide a
+bare phase type, a distinguished zero element, and a binary addition
+operation.  No algebraic laws are declared on them: there is no
+monoid, group, or semiring structure asserted — `phase_add` is not
+even claimed to be associative or to have `phase_zero` as a unit.
+They are simply the data interface that ZX-calculus is generic over.
 Note that [zx_eq] currently compares phases by syntactic equality
 only; the standard real-number-mod-2π equivalence and the
 corresponding congruence rules are a deliberate omission (see the
 header of `Instance/ZX.v` for the full list of missing rules).
 
-A concrete instantiation discharging these (e.g. `Phase := R`,
+A concrete instantiation supplying these (e.g. `Phase := R`,
 `phase_add := Rplus`, `phase_zero := 0`) reduces them all to standard
 Coq stdlib facts.
+
+## Caveats: what "Closed under the global context" does and does not establish
+
+The audit conflates two genuinely different situations, and it is
+important to keep them apart.
+
+1. **Axiom-free AND inhabited by a concrete model.**  Here a "Closed
+   under the global context" report certifies a real mathematical
+   result, because the library actually contains an inhabitant.  The
+   genuine example is `Cospan_Hypergraph`: it is a special commutative
+   Frobenius algebra in a cospan category, and the library provides a
+   concrete pushout model to feed it — `Sets_HasPushouts :
+   HasPushouts Sets` in `Instance/Sets/Pushout.v` — so the
+   construction can be instantiated over `Sets`.
+
+2. **Axiom-free *as written*, but not yet instantiated.**  `Hypergraph`
+   and `PROP` are `Class : Type` declarations, and
+   `DecoratedCospan_Hypergraph` is a `Program Definition` living under
+   a section `Context` `{DCHGC : DecCospan_Hypergraph_Coherent}` whose
+   coherence class is NEVER instantiated anywhere in the library
+   (there is no inhabitant of `DecCospan_Hypergraph_Coherent`, of
+   `PROP`, or of `HypergraphPROP`).  For these, "Closed under the
+   global context" is trivially or vacuously true and certifies no
+   concrete result.
+
+   Running `Print Assumptions` on a `Class` *type* reports the
+   assumptions of the type expression, not of any inhabitant — a type
+   has no proof content to depend on axioms.  Likewise, a definition
+   quantified over an uninstantiated section hypothesis reports
+   "Closed" only because that hypothesis is lambda-bound: the
+   assumption is discharged into the definition's own signature rather
+   than satisfied.  In neither case does the audit establish that any
+   inhabitant exists.
 
 ## How to audit
 
@@ -58,20 +104,32 @@ Run
 make print-assumptions
 ```
 
-This (re-)builds the library and prints the assumption-set of every
-top-level definition in
-`Category.Structure.Monoidal.Hypergraph`,
-`Category.Construction.PROP`,
-`Category.Construction.Cospan.HypergraphInstance`,
-`Category.Construction.DecoratedCospan.Hypergraph`,
-`Category.Structure.Monoidal.Hypergraph.Spider`.
+This (re-)builds the library and prints the assumption set of the
+following specific definitions:
+
+- `Hypergraph`
+- `PROP`
+- `Cospan_Hypergraph`
+- `DecoratedCospan_Hypergraph`
+- `spider_collapse`
+- `spider_frobenius`
+- `Hypergraph_CompactClosed`
+- `ZX_Cat`
 
 Expected output: "Closed under the global context" for each, except
-ZX-instance definitions (which list the 3 phase parameters above).
+`ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the
+assumption set of these specific headline definitions only — it is not
+a claim about every definition in the library.  Read it together with
+the [Caveats](#caveats-what-closed-under-the-global-context-does-and-does-not-establish)
+above: several of these definitions are class types or conditional
+constructions that are axiom-free without yet being inhabited.
 
 ## Stdlib axioms
 
-The library does NOT depend on any of the following stdlib axioms:
+The audited core definitions listed under [How to audit](#how-to-audit)
+— the ones the `print-assumptions` make target checks — are "Closed
+under the global context" and invoke none of the following stdlib
+axioms:
 
 - `proof_irrelevance`
 - `functional_extensionality` (in any form)
@@ -81,15 +139,37 @@ The library does NOT depend on any of the following stdlib axioms:
 - `dependent_choice`
 - `unique_choice`
 
-If you `Require Import` files from `Coq.Logic.*` (most commonly to
-get `eq_rect_eq`), those axioms become available to YOUR code but the
-library itself never invokes them.
+This freedom is scoped to those audited definitions; it is NOT a
+library-wide guarantee.  Several concrete instance layers DO invoke
+some of these stdlib axioms, and a `Print Assumptions` on a definition
+that depends on them will report the axiom rather than "Closed under
+the global context".  Known live uses:
+
+- **`functional_extensionality_dep`** — the cartesian-closed /
+  exponential structure on `Instance/Coq` depends on it (verify:
+  `Print Assumptions Coq_Closed` lists
+  `FunctionalExtensionality.functional_extensionality_dep`).
+  `Instance/Comp.v` also applies `functional_extensionality` /
+  `functional_extensionality_dep` directly, and
+  `Theory/Coq/Functor/Proofs.v` uses the `extensionality` tactic.
+- **`proof_irrelevance`** — applied directly in `Instance/Rel.v`
+  (several obligations around lines 137–156).
+- **UIP / `Eqdep` (`inj_pair2`, `eq_rect_eq`)** — `Instance/Lambda.v`
+  and its tactic support `Instance/Lambda/Ltac.v` rely on UIP for
+  index types (injectivity of `existT` via `Coq.Logic.Eqdep`).
+- `Instance/Sets/Par.v` likewise uses the `extensionality` tactic.
+
+So if you `Require Import` and build on these instance layers — or on
+files from `Coq.Logic.*` more generally — those axioms become part of
+your development's assumption set.  The point is that the audited core
+definitions above stay free of them; the library as a whole does not.
 
 ## Adding new axioms
 
-The library's design intent is to remain axiom-free apart from the
-ZX `Phase` semiring.  If you add a new `Axiom` or `Parameter` in a
-contribution:
+The design intent is to keep the audited core definitions free of
+`Axiom`/`Parameter` declarations apart from the ZX `Phase`
+parameters (the bare phase type, zero, and addition above).  If you
+add a new `Axiom` or `Parameter` in a contribution:
 
 1. Document it in this file under a clearly-marked new heading.
 2. Justify why it's acceptable (e.g. "interface to user-supplied
@@ -97,3 +177,24 @@ contribution:
 3. Add a corresponding `Print Assumptions` invocation to the
    `print-assumptions` make target so the addition shows up in audit
    output.
+
+## Note: one version-conditional obligation
+
+There is a single `admit`-closed obligation in
+`Structure/UniversalProperty/Universal/Arrow.v` (in
+`UniversalArrowIsUniversalProperty`).  Per that file's own comment, the
+preceding `try(...)` tactic block discharges the goal in full on
+Coq/Rocq >= 8.16 — leaving the trailing `admit` running against zero
+remaining goals, so it is inert and the obligation is axiom-free on the
+default Rocq 9.1 toolchain (the file records that `Print Assumptions
+UniversalArrowIsUniversalProperty` reports "Closed under the global
+context" on Rocq 9.1).  On Coq < 8.16 the block does not close the
+goal and the `admit` is reached, so on those older versions this one
+obligation is accepted on faith rather than proven.
+
+This is pre-existing debt (the comment is flagged for revisiting once
+8.16 is the minimum supported version).  The module is an orphan — no
+other file in the library depends on it — so it is outside the audited
+core and does not affect any definition in the
+[How to audit](#how-to-audit) list.  This note acknowledges its
+existence; it does not change any version-support policy.
