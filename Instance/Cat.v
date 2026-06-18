@@ -127,22 +127,6 @@ Program Definition Cat_Iso_to_Full `(iso : C ≅ D) :
                            ∘ from (`1 (iso_from_to iso) x)
     |}.
 Next Obligation.
-  proper. comp_right. comp_left. now rewrite X.
-Qed.
-Next Obligation.
-  rewrite fmap_id, id_right.
-  apply iso_to_from.
-Qed.
-Next Obligation.
-  comp_right.
-  comp_left.
-  rewrite !fmap_comp.
-  comp_left.
-  rewrite comp_assoc.
-  rewrite iso_from_to.
-  cat.
-Qed.
-Next Obligation.
   rewrite !fmap_comp.
   srewrite H0.
   srewrite (`2 (iso_to_from iso)).

@@ -249,17 +249,15 @@ Arguments fun_equiv_comp_assoc {A B C D} F G H.
    Wikipedia: https://en.wikipedia.org/wiki/Full_functor
 
    F is full when each hom-map fmap[F] : (x ~> y) → (F x ~> F y) is surjective.
-   Constructively this is witnessed by a section [prefmap] of [fmap[F]] (a
-   functorial choice of preimage with fmap[F] (prefmap g) ≈ g, [fmap_sur]),
-   rather than by a bare surjectivity proposition. *)
+   Constructively this is witnessed by a section [prefmap] of [fmap[F]]: a
+   choice of preimage with fmap[F] (prefmap g) ≈ g ([fmap_sur]), rather than by
+   a bare surjectivity proposition. No functoriality is demanded of [prefmap]
+   itself — it need not respect ≈ nor preserve identities/composition; only that
+   it lands in a genuine preimage. This matches the standard meaning of fullness
+   (cf. issue #118); the previous definition's [prefmap_respects], [prefmap_id]
+   and [prefmap_comp] fields were extraneous. *)
 Class Full `(F : C ⟶ D) := {
   prefmap {x y} (g : F x ~> F y) : x ~> y;     (* chosen preimage of g under fmap *)
-
-  prefmap_respects {x y} : Proper (equiv ==> equiv) (@prefmap x y);  (* prefmap respects ≈ *)
-
-  prefmap_id : ∀ x, @prefmap x x id ≈ id;      (* preimage is functorial: identities *)
-  prefmap_comp : ∀ x y z (f : F y ~> F z) (g : F x ~> F y),  (* ... and composition *)
-    prefmap (f ∘ g) ≈ prefmap f ∘ prefmap g;
 
   fmap_sur {x y} (g : F x ~> F y) : fmap[F] (prefmap g) ≈ g  (* prefmap is a section of fmap *)
 }.
@@ -277,9 +275,11 @@ Class Faithful `(F : C ⟶ D) := {
    Wikipedia: https://en.wikipedia.org/wiki/Full_and_faithful_functors
 
    A fully faithful functor (both Full and Faithful) reflects isomorphisms: if
-   F x ≅ F y then x ≅ y. The witnesses are built from [prefmap] applied to the
-   given iso; only fullness (via prefmap_comp / prefmap_id) is needed to verify
-   them here. *)
+   F x ≅ F y then x ≅ y. The witnesses are [prefmap] applied to the given iso;
+   the inverse laws are discharged by faithfulness ([fmap_inj]), which reduces
+   each to the corresponding law of the image iso after pushing [fmap] through
+   composition ([fmap_comp]) and cancelling the sections ([fmap_sur]). Fullness
+   alone no longer needs to be functorial. *)
 Lemma FullyFaithful `(F : C ⟶ D) `{@Full _ _ F} `{@Faithful _ _ F} :
   ∀ x y, F x ≅ F y → x ≅ y.
 Proof.
@@ -288,17 +288,13 @@ Proof.
   + apply prefmap, X.
   + apply prefmap, X.
   + abstract
-      (simpl;
-       rewrite <- prefmap_comp;
-       destruct H;
-       rewrite iso_to_from;
-       apply prefmap_id).
+      (apply fmap_inj;
+       rewrite fmap_comp, !fmap_sur, fmap_id;
+       apply iso_to_from).
   + abstract
-      (simpl;
-       rewrite <- prefmap_comp;
-       destruct H;
-       rewrite iso_from_to;
-       apply prefmap_id).
+      (apply fmap_inj;
+       rewrite fmap_comp, !fmap_sur, fmap_id;
+       apply iso_from_to).
 Defined.
 
 (* nLab: https://ncatlab.org/nlab/show/algebra+over+an+endofunctor

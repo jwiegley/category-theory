@@ -97,10 +97,6 @@ Qed.
 Proof.
   unshelve econstructor; simpl in *.
   - exact (fun c d f => f c id).
-  - abstract(auto).
-  - abstract(intros c; simpl; now autorewrite with categories).
-  - abstract(intros; destruct f as [ftrans fnat ?]; simpl in *;
-             rewrite <- (id_right (g x id)), <- fnat at 1; reflexivity).
   - abstract(intros x y [Ftrans Fnat ?] c f; simpl in *;
     unfold op;
     now rewrite Fnat, id_right).
