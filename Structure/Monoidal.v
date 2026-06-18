@@ -11,6 +11,38 @@ Section Monoidal.
 
 Context {C : Category}.
 
+(* nLab: https://ncatlab.org/nlab/show/monoidal+category
+   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_category
+
+   A monoidal category is a category equipped with a tensor product and a
+   unit object that are associative and unital up to coherent isomorphism.
+   The data are a unit object I, a tensor bifunctor ⊗ : C ∏ C ⟶ C, and three
+   natural isomorphisms,
+
+       lambda  : I ⊗ x ≅ x              ([unit_left]),
+       rho     : x ⊗ I ≅ x              ([unit_right]),
+       alpha   : (x ⊗ y) ⊗ z ≅ x ⊗ (y ⊗ z)   ([tensor_assoc]),
+
+   the left unitor, the right unitor, and the associator respectively. The
+   associator direction (x ⊗ y) ⊗ z ≅ x ⊗ (y ⊗ z) follows nLab; the opposite
+   orientation appears in some sources and differs only by inverses.
+
+   Naturality of each isomorphism is recorded explicitly, in both the forward
+   (to) and inverse (from) directions, so rewriting and dualization work
+   either way. For lambda this is the square g ∘ λ ≈ λ ∘ (id ⊗ g), and
+   similarly for rho and alpha.
+
+   Two coherence conditions govern the interaction of these isomorphisms:
+
+       triangle:  (ρ ⊗ id) ≈ (id ⊗ λ) ∘ α   on   (x ⊗ I) ⊗ y
+       pentagon:  (id ⊗ α) ∘ α ∘ (α ⊗ id) ≈ α ∘ α
+                                              on  ((x ⊗ y) ⊗ z) ⊗ w
+
+   The triangle identity relates the unitors to the associator across the
+   unit; the pentagon identity makes the two reassociations of a fourfold
+   tensor agree. By Mac Lane's coherence theorem these two laws force every
+   formal diagram built from α, λ, ρ to commute. *)
+
 Reserved Infix "⨂" (at level 30, right associativity).
 
 Class Monoidal := {
@@ -46,7 +78,9 @@ Class Monoidal := {
       << x ⨂ z ⨂ v ~~> (y ⨂ w) ⨂ u >>
     tensor_assoc⁻¹ ∘ bimap g (bimap h i);
 
-  (* The above observe the following coherence conditions *)
+  (* The above observe the following coherence conditions:
+     the triangle identity (unitors vs. associator) and the pentagon
+     identity (the two reassociations of a fourfold tensor agree). *)
 
   triangle_identity {x y} :
     bimap unit_right id

@@ -11,31 +11,68 @@ Section Cartesian.
 
 Context `{C : Category}.
 
+(* nLab: https://ncatlab.org/nlab/show/cartesian+category
+   nLab: https://ncatlab.org/nlab/show/product
+   nLab: https://ncatlab.org/nlab/show/universal+property
+   Wikipedia: https://en.wikipedia.org/wiki/Product_(category_theory)
+
+   A cartesian category is a category equipped with finite products. This
+   class axiomatizes the binary product; the nullary product (the terminal
+   object 1) is supplied separately by [Terminal] and used below for the
+   unitor isomorphisms [prod_one_l] and [prod_one_r].
+
+   The product x × y is characterized by its universal mapping property. It
+   comes with two projections,
+
+       exl : x × y ~> x        exr : x × y ~> y,
+
+   and for any object x with morphisms f : x ~> y and g : x ~> z there is a
+   pairing ⟨f, g⟩ (written [fork f g], notation f △ g) factoring f and g
+   through the projections. The UMP records this factorization together with
+   its uniqueness as the biconditional [ump_products]:
+
+       h ≈ ⟨f, g⟩  ↔  exl ∘ h ≈ f  ∧  exr ∘ h ≈ g.
+
+   Read left-to-right, h = ⟨f, g⟩ satisfies the two projection equations
+   (existence). Read right-to-left, any h satisfying both equations is equal
+   to ⟨f, g⟩ (uniqueness of the mediating morphism). The familiar identities
+   exl ∘ ⟨f, g⟩ ≈ f and exr ∘ ⟨f, g⟩ ≈ g ([exl_fork], [exr_fork]) and the
+   eta law ⟨exl, exr⟩ ≈ id ([fork_exl_exr]) are corollaries derived below. *)
+
 Class Cartesian := {
-  product_obj : obj → obj → obj
+  product_obj : obj → obj → obj       (* the product object x × y *)
     where "x × y" := (product_obj x y);
 
-  fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z;
+  fork {x y z} (f : x ~> y) (g : x ~> z) : x ~> y × z;  (* pairing ⟨f, g⟩ *)
 
-  exl {x y} : x × y ~> x;
-  exr {x y} : x × y ~> y;
+  exl {x y} : x × y ~> x;             (* first projection  (left) *)
+  exr {x y} : x × y ~> y;             (* second projection (right) *)
 
-  fork_respects : ∀ x y z,
+  fork_respects : ∀ x y z,            (* ⟨-, -⟩ respects ≈ *)
     Proper (equiv ==> equiv ==> equiv) (@fork x y z);
 
+  (* ump_products: the universal mapping property of the product. The
+     mediating morphism ⟨f, g⟩ is the unique h factoring f and g through the
+     projections exl and exr. *)
   ump_products {x y z} (f : x ~> y) (g : x ~> z) (h : x ~> y × z) :
     h ≈ fork f g ↔ (exl ∘ h ≈ f) * (exr ∘ h ≈ g)
   }.
 
+(* IsCartesianProduct x y z witnesses that the object z is a product of x and
+   y, i.e. z plays the role of x × y. It packages the same universal mapping
+   property as [Cartesian] but for one designated triple, so that "being a
+   product" can be asserted of a specific object rather than a chosen
+   operation. *)
 Class IsCartesianProduct (x y z : C) := {
-  fork' {a} (f : a ~> x) (g : a ~> y) : a ~> z;
+  fork' {a} (f : a ~> x) (g : a ~> y) : a ~> z;  (* pairing into z *)
 
-  exl'  : z ~> x;
-  exr'  : z ~> y;
+  exl'  : z ~> x;                     (* first projection  (left) *)
+  exr'  : z ~> y;                     (* second projection (right) *)
 
-  fork'_respects : ∀ a,
+  fork'_respects : ∀ a,               (* ⟨-, -⟩ respects ≈ *)
     Proper (equiv ==> equiv ==> equiv) (@fork' a);
 
+  (* ump_product: the universal mapping property for the designated product z. *)
   ump_product {a} (f : a ~> x) (g : a ~> y) (h : a ~> z) :
     h ≈ fork' f g ↔ (exl' ∘ h ≈ f) * (exr' ∘ h ≈ g)
   }.

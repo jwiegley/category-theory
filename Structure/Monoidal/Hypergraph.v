@@ -42,7 +42,19 @@ Generalizable All Variables.
     - On the unit object [I] the canonical SCFA is trivial:
       μ = unit_left, η = id, δ = unit_left⁻¹, ε = id.  These four
       coherence axioms are stated as the [scfa_unit_*] fields of the
-      [Hypergraph] class. *)
+      [Hypergraph] class.  Fong–Spivak prove this is the *only* Frobenius
+      structure on [I] with η_I = id = ε_I (and λ_I = ρ_I on the unit, so
+      [unit_left] and [unit_right] agree there).
+
+    nLab:      https://ncatlab.org/nlab/show/hypergraph+category
+    Wikipedia: no dedicated article (the underlying special commutative
+               Frobenius algebra is covered at
+               https://en.wikipedia.org/wiki/Frobenius_algebra)
+    Reference: Fong & Spivak, "Hypergraph Categories",
+               J. Pure Appl. Algebra 223(11):4746–4777, 2019
+               (arXiv:1806.08304) — the compatibility law
+               μ_{X⨂Y} = (μ_X ⨂ μ_Y) ∘ (1_X ⨂ σ_{Y,X} ⨂ 1_Y) is the
+               [scfa_tensor_mu]/[mid_swap] coherence below. *)
 
 Section Hypergraph.
 

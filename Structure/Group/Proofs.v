@@ -10,12 +10,51 @@ Require Import Category.Structure.Group.
 
 Generalizable All Variables.
 
+(** * Derived identities for group objects *)
+
+(* nLab:      https://ncatlab.org/nlab/show/group+object
+   Wikipedia: https://en.wikipedia.org/wiki/Group_object
+
+   A group object on [grp : C] (see [Structure.Group]) is a monoid object
+   [(grp, mappend, mempty)] equipped with an inversion map [inverse : grp ~> grp]
+   satisfying the two-sided inverse laws
+
+     mappend ∘ inverse ⨂ id ∘ ∆ grp ≈ mempty ∘ eliminate   (left_inverse)
+     mappend ∘ id ⨂ inverse ∘ ∆ grp ≈ mempty ∘ eliminate   (right_inverse)
+
+   where ∆ is the cartesian diagonal and [eliminate] is the unique map to the
+   tensor unit (terminal object). These are exactly the diagrammatic inverse
+   axioms of the nLab/Wikipedia definition, with [mempty ∘ eliminate] playing
+   the role of the constant map e ∘ p sending everything to the identity element.
+
+   This file proves the two standard group facts that follow from those axioms,
+   each carried out diagrammatically in an arbitrary cartesian monoidal category:
+
+     - [left_inverse_unique]: uniqueness of (left) inverses — if
+       [mappend ∘ f_inv ⨂ f ∘ ∆ X ≈ mempty ∘ eliminate], i.e. f_inv is a
+       left inverse of f, then f_inv ≈ inverse[grp] ∘ f. This is the internal
+       form of "yx = I implies y = x⁻¹".
+
+     - [mappend_inverse]: the inversion map is an anti-homomorphism,
+       mappend ∘ inverse ⨂ inverse ≈ inverse ∘ mappend ∘ braid, i.e.
+       a⁻¹·b⁻¹ = (b·a)⁻¹, the internal form of the classical (xy)⁻¹ = y⁻¹x⁻¹.
+       Wikipedia/nLab do not spell these consequences out as separate diagrams;
+       they are the standard derived group identities.
+
+   The [CartesianMonoid] section first records two helper identities about a
+   plain monoid object (collapsing a [mempty ∘ eliminate] half of a diagonal to
+   the identity), which the group proofs reuse. Each lemma below is annotated
+   with the ordinary-algebra calculation it mirrors. *)
+
 Section CartesianMonoid.
 
 Context `{@CartesianMonoidal C}.
 Context (mon : C).
 Context `{@MonoidObject C _ grp}.
 
+(* Multiplying an element on the right by the identity is the identity:
+   g·I = g. Here the right factor of the diagonal is collapsed to [mempty]
+   via [eliminate], then the right unit law [mempty_right] applies. *)
 Lemma mempty_right_diagonal : mappend ∘ id ⨂ (mempty ∘ eliminate) ∘ ∆ grp ≈ id.
 Proof.
   rewrite bimap_comp_id_left.
@@ -24,6 +63,9 @@ Proof.
   apply proj_left_diagonal.
 Qed.
 
+(* Multiplying an element on the left by the identity is the identity:
+   I·g = g. Dual to [mempty_right_diagonal], using the left unit law
+   [mempty_left]. *)
 Lemma mempty_left_diagonal : mappend ∘ (mempty ∘ eliminate) ⨂ id ∘ ∆ grp ≈ id.
 Proof.
   rewrite bimap_comp_id_right.
@@ -46,7 +88,6 @@ Context `{@GroupObject C _ grp}.
 
      y = yI
        = y(xx⁻¹)
-       = (yx)x⁻¹
        = (yx)x⁻¹
        = Ix⁻¹
        = x⁻¹ *)

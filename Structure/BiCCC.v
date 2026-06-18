@@ -10,6 +10,32 @@ Require Import Category.Structure.Distributive.
 
 Generalizable All Variables.
 
+(* nLab: https://ncatlab.org/nlab/show/bicartesian+closed+category
+   Wikipedia: https://en.wikipedia.org/wiki/Cartesian_closed_category
+   Wikipedia: https://en.wikipedia.org/wiki/Distributive_category
+
+   A bicartesian closed category (BiCCC) is a cartesian closed category that
+   also has finite coproducts: it is simultaneously cartesian (finite products
+   ×, terminal object 1), closed (exponentials →, written `y^x` here), and
+   cocartesian (finite coproducts +, initial object 0). It is the categorical
+   model of the simply-typed lambda calculus with sums - the internal language
+   is a type theory with the type formers ×, →, +, 1 and 0.
+
+   This file does not introduce a `BiCCC` class: rather than bundle a fourth
+   redundant record, a BiCCC is obtained simply by assuming all four pieces of
+   structure together (Cartesian, Closed, Cocartesian and Initial in the same
+   Context), exactly as the section header below does.
+
+   The mathematical content of the file is that this combination is forced to
+   be distributive. Distributivity is not an extra axiom: because the category
+   is closed, each functor `_ × x` has a right adjoint `_ ^ x`, hence preserves
+   all colimits, in particular finite coproducts and the initial object. The
+   canonical comparison maps are therefore isomorphisms, and the section
+   derives them as concrete instances `prod_coprod_l`, `prod_coprod_r`,
+   `prod_zero_l`, `prod_zero_r`, `exp_coprod` and `exp_zero`. The final
+   instance [BiCCC_Distributive] packages the relevant ones as a
+   [Distributive] structure. *)
+
 Section BiCCC.
 
 Context {C : Category}.
@@ -18,8 +44,8 @@ Context `{@Cocartesian C}.
 Context `{@Closed C _}.
 
 #[export] Program Instance prod_coprod_l {x y z : C} :
-  (* Products distribute over coproducts in every bicartesian closed
-     category. *)
+  (* Right distributivity: `_ × x` preserves the coproduct y + z, so it
+     distributes over it (the left-hand, mirror form of prod_coprod_r). *)
   (y + z) × x ≅ y × x + z × x := {
   to   := uncurry (curry inl ▽ curry inr);
   from := first inl ▽ first inr
@@ -62,8 +88,9 @@ Proof.
 Qed.
 
 #[export] Program Instance prod_coprod_r {x y z : C} :
-  (* Products distribute over coproducts in every bicartesian closed
-     category. *)
+  (* Left distributivity: `x × _` preserves the coproduct y + z, so it
+     distributes over it. This is the canonical distributivity iso of a
+     distributive category, supplying [distr_prod_coprod] below. *)
   x × (y + z) ≅ x × y + x × z := {
   to   := uncurry (curry (inl ∘ swap) ▽ curry (inr ∘ swap)) ∘ swap;
   from := second inl ▽ second inr
@@ -221,6 +248,11 @@ Qed.
 
 End BiCCC.
 
+(* Every BiCCC is distributive. The two [Distributive] fields,
+   [distr_prod_coprod] (x × (y + z) ≅ x × y + x × z) and [distr_zero]
+   (x × 0 ≅ 0), are exactly the instances [prod_coprod_r] and [prod_zero_r]
+   derived above, so the structure is found by instance resolution with no
+   further proof obligations. *)
 #[export]
 Program Instance BiCCC_Distributive {C : Category}
         `{@Cartesian C} `{@Cocartesian C} `{@Closed C _} `{@Initial C} :

@@ -10,6 +10,37 @@ Require Import Category.Instance.Sets.
 Require Import Category.Structure.UniversalProperty.
 Require Import Category.Theory.Universal.Arrow.
 
+(** * A universal arrow is a universal property *)
+
+(* nLab: https://ncatlab.org/nlab/show/universal+morphism
+   nLab: https://ncatlab.org/nlab/show/representable+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Universal_property
+
+   A universal arrow from an object c : C to a functor U : D ⟶ C is a pair
+   (a, u : c ~> U a) such that every h : c ~> U d factors as h ≈ fmap[U] g ∘ u
+   through a unique g : a ~> d (see Theory/Universal/Arrow.v, where the same
+   data is packaged as [AUniversalArrow] and, equivalently, as an initial
+   object of the comma category =(c) ↓ U).  Equivalently — this is the
+   "universal property ⟺ representability" equivalence — the object a together
+   with the assignment g ↦ fmap[U] g ∘ u exhibits a natural isomorphism of
+   copresheaves
+
+       Hom_D(a, ─) ≅ Hom_C(c, U ─)    (natural in the target)
+
+   so that a represents the functor d ↦ Hom_C(c, U d).  This is exactly the
+   representable-functor characterisation given on both reference pages.
+
+   [UniversalArrowIsUniversalProperty] instantiates the generic packaging
+   [IsUniversalProperty] from [Structure.UniversalProperty] for the predicate
+   P := fun a => AUniversalArrow c U a, with the representing functor taken to
+   be (Curried_Hom C c) ◯ U : D ⟶ Sets, i.e. d ↦ Hom_C(c, U d).  Its per-object
+   obligations build, in both directions, the natural isomorphism between the
+   setoid of universal arrows AUniversalArrow c U a and the setoid of natural
+   isomorphisms [Hom a,─] ≅ ((Curried_Hom C c) ◯ U); the universal element is
+   recovered through the Yoneda computation [preyoneda].  [fmap_respects'] is a
+   local, [cat]-resolvable restatement of [fmap_respects] used by the
+   automation discharging those obligations. *)
+
 Section UniversalArrowUniversalProperty.
   Context (C D: Category).
   Context (U : D ⟶ C).
@@ -59,8 +90,18 @@ Section UniversalArrowUniversalProperty.
       simpl in M; rewrite <- M; clear M;
       assert (K := (@iso_to_from _ _ _ X)); simpl in K; rewrite K;
                now autorewrite with categories).
-    - (* This proof is only valid for Coq versions >= 8.16
-         because setoid rewriting supports polymorphism better *)
+    - (* This obligation is discharged in full only on Coq/Rocq >= 8.16, where
+         setoid rewriting handles universe polymorphism well enough for the
+         [try(...)] block below to close the goal.  On those versions the
+         trailing fallback after the block runs against zero remaining goals and
+         is therefore inert, so the development stays axiom-free (verified:
+         [Print Assumptions UniversalArrowIsUniversalProperty] reports "Closed
+         under the global context" on Rocq 9.1).  On Coq < 8.16 the [try(...)]
+         block fails, the goal is left open, and the fallback closes it
+         unsoundly — so on those older versions this single obligation is
+         accepted on faith rather than proven.  FLAG: revisit once 8.16 is the
+         minimum supported version, at which point the [try] wrapper and the
+         fallback should both be removed. *)
       try(
       simpl; assert (M := @preyoneda D^op _ d _ (to X));
       simpl in M; intro A; rewrite <- M in A; clear M;

@@ -7,9 +7,25 @@ Require Import Category.Construction.Opposite.
 
 Generalizable All Variables.
 
+(* nLab: https://ncatlab.org/nlab/show/coproduct
+   Wikipedia: https://en.wikipedia.org/wiki/Coproduct
+
+   A cocartesian category has all finite coproducts. For objects x and y the
+   coproduct `x + y` comes with injections `inl : x ~> x + y` and
+   `inr : y ~> x + y`, and the universal mapping property states that for any
+   object w with `f : y ~> x` and `g : z ~> x` there is a unique copairing
+   `f ▽ g : y + z ~> x` (the `merge`, written [f, g] in the literature)
+   satisfying `f ▽ g ∘ inl ≈ f` (inl_merge) and `f ▽ g ∘ inr ≈ g` (inr_merge);
+   uniqueness is recorded by [merge_inv] together with [merge_inl_inr]
+   (`inl ▽ inr ≈ id`). This is exactly the dual of the cartesian product: a
+   coproduct in C is a product in C^op, with all arrows reversed. *)
+
 (* To be cocartesian is just to be cartesian in the opposite category; but to
    avoid confusion, we'd like a set of notations specific to categories with
-   cocartesian structure. *)
+   cocartesian structure. As a consequence the coproduct UMP is not restated
+   as a class field here: it is inherited from Cartesian's [ump_products]
+   read in C^op, and surfaces below as the dualized equations [inl_merge],
+   [inr_merge] and uniqueness [merge_inv] / [merge_inl_inr]. *)
 
 Notation "'Cocartesian' C" := (@Cartesian (C^op))
   (at level 9) : category_theory_scope.
@@ -20,10 +36,13 @@ Section Cocartesian_.
 
 Context `{O : @Cocartesian C}.
 
+(* The coproduct object x + y is the product object read in C^op. *)
 Definition Coprod : C → C → C := @product_obj _ O.
 
 Infix "+" := Coprod (at level 50, left associativity) : object_scope.
 
+(* The copairing [f, g] : y + z ~> x is the fork of C^op; it is the unique
+   morphism out of the coproduct furnished by the UMP. *)
 Definition merge {x y z : C} (f : y ~> x) (g : z ~> x) : y + z ~{C}~> x :=
   @fork _ O _ _ _ f g.
 
@@ -33,6 +52,8 @@ Infix "▽" := merge (at level 26) : morphism_scope.
   Proper (equiv ==> equiv ==> equiv) (@merge x y z).
 Next Obligation. apply (@fork_respects _ O). Qed.
 
+(* The coproduct injections are the product projections exl/exr of C^op, whose
+   arrows are reversed: inl : x ~> x + y and inr : y ~> x + y. *)
 Definition inl {x y : C} : x ~{C}~> x + y := @exl _ O _ _.
 Definition inr {x y : C} : y ~{C}~> x + y := @exr _ O _ _.
 
@@ -65,24 +86,28 @@ Qed.
 
 Definition paws {x y : C} : x + y ~{C}~> y + x := @swap _ O _ _.
 
+(* UMP, first computation rule: the copairing recovers f along inl. *)
 Lemma inl_merge {x z w : C} (f : z ~> x) (g : w ~> x) :
   f ▽ g ∘ inl ≈ f.
 Proof. apply (@exl_fork _ O). Qed.
 
 #[local] Hint Rewrite @inl_merge : categories.
 
+(* UMP, second computation rule: the copairing recovers g along inr. *)
 Lemma inr_merge {x z w : C} (f : z ~> x) (g : w ~> x) :
   f ▽ g ∘ inr ≈ g.
 Proof. apply (@exr_fork _ O). Qed.
 
 #[local] Hint Rewrite @inr_merge : categories.
 
+(* The copairing of the injections is the identity: the eta law for +. *)
 Corollary merge_inl_inr {x y : C} :
   inl ▽ inr ≈ @id C (x + y).
 Proof. apply (@fork_exl_exr _ O). Qed.
 
 #[local] Hint Rewrite @merge_inl_inr : categories.
 
+(* UMP uniqueness: two copairings agree iff their components agree. *)
 Corollary merge_inv {x y z : C} (f h : y ~> x) (g i : z ~> x) :
   f ▽ g ≈ h ▽ i ↔ (f ≈ h) * (g ≈ i).
 Proof. apply (@fork_inv _ O). Qed.

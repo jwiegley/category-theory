@@ -9,19 +9,48 @@ Require Import Category.Functor.Hom.
 Require Import Category.Functor.Hom.Yoneda.
 Require Import Category.Instance.Sets.
 Require Import Category.Construction.Groupoid.
-(* A predicate on objects of a category can be called a "universal property" *)
-(* if satisfying the predicate is equivalent to representing a certain functor. *)
-(* This definition of a universal property contains all examples that I am aware of
-   but I do not claim it is completely exhaustive. *)
+
+(** * Universal properties as representability *)
+
+(* nLab: https://ncatlab.org/nlab/show/universal+property
+   nLab: https://ncatlab.org/nlab/show/representable+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Universal_property
+   Wikipedia: https://en.wikipedia.org/wiki/Representable_functor
+
+   A predicate P on the objects of C is a "universal property" when satisfying
+   the predicate is equivalent to representing a fixed functor.  Concretely, an
+   object c "has the property P" exactly when c represents [repr_functor], i.e.
+   there is a natural isomorphism of copresheaves
+
+       [Hom c,─] ≅ repr_functor    (Hom(c, ─) ≅ P, naturally in the target)
+
+   in the functor category [C, Sets].  This is the standard equivalence
+   "universal property ⟺ representability": following nLab, a representation of
+   a functor F : C ⟶ Sets is a natural isomorphism Hom(c, ─) ≅ F, and by the
+   Yoneda lemma it is determined by a single universal element (the image of
+   id{C} c).  Wikipedia phrases the same fact as: (A, u) is universal from X to
+   F iff Hom(A, ─) ≅ Hom(X, F ─), and the representing object is then unique up
+   to unique isomorphism (see [univ_property_unique_up_to_unique_iso] below).
+
+   Here [repr_functor] is covariant, [Hom c,─] = Curried_Hom C c is the
+   covariant hom-functor Hom(c, ─), and the per-c isomorphism lives in [Sets]
+   (setoids), identifying the setoid of proofs [P c] with the setoid of natural
+   isomorphisms [Hom c,─] ≅ [repr_functor].  The claim is not that this captures
+   *every* conceivable universal construction, only the representable ones,
+   which cover the standard examples. *)
 Class IsUniversalProperty (C : Category) (P : C → Type) (eqP : forall c, Setoid (P c)) :=
   {
-    repr_functor : C ⟶ Sets ;
-    repr_equivalence : forall c : C,
+    repr_functor : C ⟶ Sets ;                  (* the functor F = P being represented *)
+    repr_equivalence : forall c : C,           (* proofs of [P c] ≅ representations of F by c *)
       @Isomorphism Sets
         (Build_SetoidObject (P c) (eqP c))
         (Build_SetoidObject (Isomorphism [Hom c,─] repr_functor) _)
+                                               (* natural isos [Hom c,─] ≅ repr_functor *)
   }.
 
+(* A transformation out of a representable presheaf [Hom ─,c] ⟹ P is fixed by
+   its value at id{C} c, the universal element: τ_d(f) ≈ P(f)(τ_c id).  This is
+   the computational half of the Yoneda lemma used throughout below. *)
 Lemma preyoneda {C : Category} {c d: C} {P : C^op ⟶ Sets} (τ : [Hom ─ , c] ⟹ P) :
   forall f : d ~> c,
     transform τ d f ≈ fmap[P] f (transform τ c id{C}).
@@ -34,6 +63,12 @@ Qed.
   Setoid { x : A & C x } :=
   { equiv := fun a b => `1 a ≈ `1 b }.
 Local Arguments morphism {x H y H0} s.
+
+(* The universal-element form of representability: the set of universal elements
+   { x : F c & the Yoneda image of x is an isomorphism } is itself isomorphic to
+   the set of natural isomorphisms [Hom ─,c] ≅ F.  This is the contravariant
+   (presheaf) counterpart of the representation packaged in [IsUniversalProperty]
+   and witnesses that a representation is the same data as a universal element. *)
 Proposition representability_by_yoneda (C : Category) (F : C^op ⟶ Sets) (c : C):
   @Isomorphism Sets
     {| carrier := { x : F c & IsIsomorphism (from (Yoneda_Lemma C F c ) x) } |}
@@ -70,6 +105,10 @@ Section UniversalProperty.
   Context (C : Category) (P : obj[C] -> Type) (eqP : forall c, Setoid (P c))
     (H : IsUniversalProperty C P eqP).
 
+  (* A representing object is unique up to isomorphism: given t : P c, every
+     other v with a proof Pv is isomorphic to c.  The mediating iso is obtained
+     by transporting the representations of c and v across each other and
+     pulling the result back through the (fully faithful) Yoneda embedding. *)
   Proposition univ_property_unique (c : C) (t : P c) : @Unique obj[C] (ob_setoid) P.
   Proof using eqP H.
     exists c ; [exact t |].
@@ -118,6 +157,9 @@ Section UniversalProperty.
       reflexivity).
   Defined.
 
+  (* P is invariant under isomorphism: an iso c ≅ d transports a proof of P c to
+     a proof of P d, by conjugating the representation of c with the induced
+     iso of hom-functors [Hom d,─] ≅ [Hom c,─]. *)
   Proposition univ_property_respects_iso (c d : C) (iso : c ≅ d) : P c -> P d.
   Proof using eqP H.
     intro t.

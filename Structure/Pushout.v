@@ -6,23 +6,38 @@ Require Import Category.Structure.Pullback.
 
 Generalizable All Variables.
 
-(** * Pushouts: ergonomic accessors
+(** * Pushouts: ergonomic accessors *)
 
-    A pushout of a span [B <-f- A -g-> C] in [C] is a pullback of the dual
-    cospan in [C^op].  The library defines
+(* nLab:      https://ncatlab.org/nlab/show/pushout
+   Wikipedia: https://en.wikipedia.org/wiki/Pushout_(category_theory)
 
-        Definition Pushout {C} {x y z : C^op} (f : x ~> z) (g : y ~> z)
-          := Pullback f g.
+   A pushout is the colimit of a span [y <-f- x -g-> z] in [C]: an apex
+   object [y +_x z] together with two injections [pushout_in1 : y ~> apex]
+   and [pushout_in2 : z ~> apex] whose square commutes,
 
-    which forces users to write their morphisms in [C^op] (i.e. reversed).
-    This file provides a thin convenience layer that takes the span in [C]
-    directly, plus a [HasPushouts] predicate that quantifies the existence of
-    all binary pushouts.
+       pushout_in1 ∘ f ≈ pushout_in2 ∘ g,
 
-    The accessors [pushout_apex], [pushout_in1], [pushout_in2],
-    [pushout_commutes] and [pushout_ump] are written with the morphisms
-    inverted to the underlying [Pullback] representation, so downstream code
-    can think entirely in terms of [C]. *)
+   and which is universal (initial) among such cocones.  Universal property,
+   in library notation: for every competing cocone [(Q, q1, q2)] with
+   [q1 ∘ f ≈ q2 ∘ g] there is a unique mediator [u : apex ~> Q] with
+
+       u ∘ pushout_in1 ≈ q1   and   u ∘ pushout_in2 ≈ q2.
+
+   Pushout is dual to pullback: a pushout in [C] is exactly a pullback in
+   [C^op].  Accordingly the underlying representation reuses [Pullback]:
+
+       Definition Pushout {C} {x y z : C^op} (f : x ~> z) (g : y ~> z)
+         := Pullback f g.
+
+   That phrasing forces users to write their morphisms in [C^op] (i.e.
+   reversed).  This file provides a thin convenience layer that takes the
+   span in [C] directly, plus a [HasPushouts] predicate that quantifies the
+   existence of all binary pushouts.
+
+   The accessors [pushout_apex], [pushout_in1], [pushout_in2],
+   [pushout_commutes] and [pushout_ump] are written with the morphisms
+   inverted to the underlying [Pullback] representation, so downstream code
+   can think entirely in terms of [C]. *)
 
 Section Pushout.
 
@@ -132,6 +147,7 @@ End Pushout.
 (** A category has all binary pushouts if every span has a pushout. *)
 Class HasPushouts (C : Category) : Type := {
   pushout : forall {x y z : C} (f : x ~> y) (g : x ~> z), IsPushout f g
+                                        (* a chosen pushout for every span *)
 }.
 
 Arguments pushout {C _ x y z} f g.

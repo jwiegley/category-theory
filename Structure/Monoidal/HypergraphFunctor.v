@@ -15,13 +15,26 @@ Generalizable All Variables.
 
     Reference: Fong, "The Algebra of Open and Interconnected Systems"
     (arXiv:1609.05382), Definition 4.1.3; Fong–Spivak, "Hypergraph
-    categories" (Journal of Pure and Applied Algebra 223, 2019).
+    categories" (Journal of Pure and Applied Algebra 223, 2019;
+    arXiv:1806.08304).
+
+    nLab:      https://ncatlab.org/nlab/show/hypergraph+category
+               (defines hypergraph categories; the page does NOT define
+               "hypergraph functor" — see the arXiv references above)
+    nLab:      https://ncatlab.org/nlab/show/monoidal+functor
+               (the underlying strong symmetric monoidal functor notion)
+    Wikipedia: no dedicated article for hypergraph categories or
+               hypergraph functors as of this writing.
 
     A HYPERGRAPH FUNCTOR between hypergraph categories [(C, ⨂_C, I_C, …)]
-    and [(D, ⨂_D, I_D, …)] is a symmetric monoidal functor preserving the
-    SCFA structure on each object.  Concretely, the functor acts as a
-    *strict* symmetric monoidal functor (or up to canonical isomorphism)
-    AND sends μ_X, η_X, δ_X, ε_X to μ_{F X}, η_{F X}, δ_{F X}, ε_{F X}.
+    and [(D, ⨂_D, I_D, …)] is a STRONG symmetric monoidal functor (per
+    Fong–Spivak; Seven Sketches Def. 6.60) preserving the SCFA structure
+    on each object.  Concretely, the functor carries comparison
+    *isomorphisms* [F X ⨂_D F Y ≅ F (X ⨂_C Y)] and [I_D ≅ F I_C]
+    AND sends μ_X, η_X, δ_X, ε_X to μ_{F X}, η_{F X}, δ_{F X}, ε_{F X}
+    up to transport along those isomorphisms.  (The fully-strict case,
+    where the comparison isomorphisms are identities, recovers the
+    on-the-nose equations [F (μ_X) ≈ μ_{F X}], etc.)
 
     This is the morphism notion in the category [HypGraph] of hypergraph
     categories.  Examples include the BLACK-BOXING functors of
