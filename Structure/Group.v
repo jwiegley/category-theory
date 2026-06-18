@@ -1,6 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Structure.Monoidal.Cartesian.
+Require Import Category.Structure.Monoidal.Heunen_Vicary.
 Require Import Category.Structure.Monoid.
 
 Generalizable All Variables.

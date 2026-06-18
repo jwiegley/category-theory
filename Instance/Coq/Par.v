@@ -5,7 +5,7 @@ Require Import Category.Theory.Functor.
 Require Import Category.Structure.Cartesian.
 Require Import Category.Structure.Cocartesian.
 Require Import Category.Structure.Monoidal.Closed.
-Require Import Category.Structure.Monoidal.Cartesian.Cartesian.
+Require Import Category.Structure.Monoidal.Heunen_Vicary.Cartesian.
 Require Import Category.Structure.Initial.
 Require Import Category.Structure.Terminal.
 Require Import Category.Instance.Sets.
