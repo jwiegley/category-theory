@@ -30,7 +30,16 @@ Generalizable All Variables.
    maps), an isomorphism in this [Cat] is an *equivalence* of categories rather
    than a strict isomorphism. Cat is the underlying 1-category of the strict
    2-category whose 2-cells are natural transformations; only the 1-category
-   structure is built here. *)
+   structure is built here.
+
+   The strict counterpart — functors compared by on-the-nose equality of their
+   object and morphism maps — is [Category.Instance.StrictCat.StrictCat]; the
+   identity-on-objects comparison functor [StrictCat_to_Cat : StrictCat ⟶ Cat]
+   of [Category.Instance.StrictCat.ToCat] exhibits the former as a refinement of
+   the latter. Issue #138 discusses why the weak hom-equivalence is retained
+   here (the Lawvere/comma characterisation of adjunctions, e.g.
+   [Construction.Comma.Adjunction], genuinely needs [≅] in [Cat] to mean
+   equivalence of categories). *)
 
 #[export]
 Instance Cat : Category := {
