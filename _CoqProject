@@ -270,5 +270,6 @@ Theory/Universal/Arrow.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
 Test/HypergraphPROPResolution.v
+Test/Poset.v
 Tools/Abstraction.v
 Tools/Represented.v
