@@ -14,6 +14,9 @@ pre-commit:
           echo "Admitted proof count increased ($total > $baseline)"
           exit 1
         fi
+    bench-config:
+      glob: "{_CoqProject,*.opam,dune,dune-project}"
+      run: make -s bench-config-check
     nix-build:
       glob: "*.{v,nix}"
       run: nix build --no-warn-dirty 2>&1
