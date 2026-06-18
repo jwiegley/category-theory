@@ -90,7 +90,7 @@ bench-config-check:
 		exit 1; \
 	fi
 	@bi=$$(grep -E '^[[:space:]]*(build|install):' coq-category-theory.opam); \
-	if printf '%s\n' "$$bi" | grep -q 'dune'; then \
+	if printf '%s\n' "$$bi" | grep -qw 'dune'; then \
 		echo "ERROR: coq-category-theory.opam build/install invokes dune; the bench requires make"; \
 		printf '%s\n' "$$bi"; \
 		exit 1; \
@@ -107,6 +107,38 @@ bench-config-check:
 		fi; \
 	done
 	@echo "Bench config check passed."
+
+# Self-test for the issue #158 guard: prove bench-config-check actually
+# REJECTS each broken PR #156 facet, not merely that it accepts the current
+# tree. Each scenario writes a throwaway copy of this Makefile into a temp
+# dir with one facet broken and asserts the guard fails there; then it
+# asserts the guard passes on the real tree. Wired into CI so the failure
+# path is exercised on Linux, not only on a developer's machine.
+bench-config-check-selftest:
+	@echo "Self-testing bench-config-check (issue #158)..."
+	@mk='$(CURDIR)/$(firstword $(MAKEFILE_LIST))'; rc=0; \
+	mkgood() { \
+		printf '%s\n' '-R . Category' 'Theory/Category.v' > "$$1/_CoqProject"; \
+		printf '%s\n' 'build: [make "-j"]' 'install: [make "install"]' > "$$1/coq-category-theory.opam"; \
+	}; \
+	expect_reject() { \
+		cp "$$mk" "$$1/Makefile"; \
+		if $(MAKE) -C "$$1" -s bench-config-check >/dev/null 2>&1; then \
+			echo "  FAIL: guard ACCEPTED a broken config ($$2)"; rc=1; \
+		else \
+			echo "  ok: rejected $$2"; \
+		fi; \
+		rm -rf "$$1"; \
+	}; \
+	t=$$(mktemp -d); mkgood "$$t"; printf '%s\n' '-R _build/default Category' 'Theory/Category.v' > "$$t/_CoqProject"; expect_reject "$$t" "guard 1: -R _build/default (PR #156)"; \
+	t=$$(mktemp -d); mkgood "$$t"; printf '%s\n' '-R . Category' '-arg _build/default' 'Theory/Category.v' > "$$t/_CoqProject"; expect_reject "$$t" "guard 2: _build token"; \
+	t=$$(mktemp -d); mkgood "$$t"; printf '%s\n' '-R . Category' '-Q Lib Category.Lib' 'Theory/Category.v' > "$$t/_CoqProject"; expect_reject "$$t" "guard 3: -Q directive"; \
+	t=$$(mktemp -d); mkgood "$$t"; printf '%s\n' 'build: ["dune" "build" "-p" name "-j" jobs]' > "$$t/coq-category-theory.opam"; expect_reject "$$t" "guard 4: opam invokes dune"; \
+	t=$$(mktemp -d); mkgood "$$t"; : > "$$t/dune"; expect_reject "$$t" "guard 5: stray dune file"; \
+	if [ $$rc -ne 0 ]; then echo "Self-test FAILED."; exit 1; fi
+	@$(MAKE) -s bench-config-check >/dev/null || { echo "  FAIL: guard rejected the current (fixed) tree"; exit 1; }
+	@echo "  ok: accepted the current tree"
+	@echo "Self-test passed."
 
 timing: Makefile.coq
 	$(MAKE) -f Makefile.coq TIMED=1 2>&1 | tee build-timing.log
@@ -156,4 +188,4 @@ force _CoqProject Makefile: ;
 	@+$(MAKE) -f Makefile.coq $@
 
 .PHONY: all clean force lint format-check format admitted-count admitted-check
-.PHONY: bench-config-check timing timing-report build-strict check print-assumptions
+.PHONY: bench-config-check bench-config-check-selftest timing timing-report build-strict check print-assumptions
