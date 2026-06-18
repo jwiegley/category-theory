@@ -41,8 +41,8 @@ Generalizable All Variables.
     without the dagger or phases.)
 
     The full "spider theorem" (Lack's normal form for SCFA expressions) is
-    a non-trivial induction and is deferred to V2b.  This file provides the
-    workhorse lemmas that downstream proofs typically reach for:
+    a non-trivial induction and is deferred to a later milestone.  This file
+    provides the workhorse lemmas that downstream proofs typically reach for:
 
       - [spider_frobenius]    — the Frobenius law at the [scfa_*] level
       - [spider_frobenius_sym] — its dual via [frob_law_right]
@@ -430,10 +430,9 @@ Arguments canonical_spider {C Sym H} X m n.
     form.  The required induction is well-understood (associativity +
     coassociativity + Frobenius + specialness + commutativity), but it
     is a moderate amount of syntactic infrastructure that does not yet
-    exist in this library and would substantially exceed the V2b file
-    budget.
+    exist in this library and is deferred to a later milestone.
 
-    For V2b we instead deliver:
+    For now we instead deliver:
       - the [tpower] / [fold_mu] / [unfold_delta] / [fold_eta] /
         [fold_eps] building blocks
       - [canonical_spider] in closed form
@@ -443,7 +442,7 @@ Arguments canonical_spider {C Sym H} X m n.
 
     Downstream users typically need [canonical_spider] only as a
     semantic anchor for equational reasoning; the syntactic-induction
-    full-theorem formulation is V2c-applications territory.  *)
+    full-theorem formulation is deferred to a later milestone.  *)
 
 (** ** Syntactic spider expressions and Lack's normal-form theorem *)
 
@@ -647,10 +646,10 @@ Qed.
     The full inductive statement for arbitrary SE_seq / SE_par
     compositions requires assembling the helper lemmas
     [spider_compose_canonical] and [spider_par_canonical], which
-    together exceed the V2c file budget.  We deliver the [fold_mu_
+    together are deferred to a later milestone.  We deliver the [fold_mu_
     unfold_delta_id] lemma above (the combinatorial crux) so that the
-    remaining structural induction can be built on top in V2d as
-    needed. *)
+    remaining structural induction can be built on top in a later
+    milestone as needed. *)
 
 (** ** Smoke-test corollaries of [denote_spider] on identity sequences
 

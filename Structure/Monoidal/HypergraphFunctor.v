@@ -43,6 +43,16 @@ Generalizable All Variables.
     decorated-cospan domain into a target hypergraph category (relations,
     linear maps, ZX-diagrams).
 
+    CAVEAT: the [HypergraphFunctor] record formalised below is a
+    DELIBERATELY WEAKENED version of this literature notion.  It drops
+    the strong-monoidal coherence equations (associator/unitor squares,
+    naturality, braid-compatibility) and only records the comparison
+    isomorphisms together with the four SCFA-preservation equations; see
+    the "Known scoping limitation: missing monoidal coherences" section
+    below.  As a consequence the record is NOT in general a symmetric
+    monoidal functor, and the only inhabitant currently provided is the
+    trivial [Id_HypergraphFunctor].
+
     ** Coq-specific organisation
 
     To keep the record self-contained in the present library and avoid

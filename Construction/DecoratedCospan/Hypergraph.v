@@ -63,7 +63,8 @@ Generalizable All Variables.
     decoration-coherent SCFA per object plus the 8 coherence equations
     — as a single hypergraph-decoration coherence class.  Concrete
     decoration choices (Fong's circuits, Baez–Fong Markov processes)
-    supply explicit witnesses for all fields.
+    would supply explicit witnesses for all fields; this library does
+    not yet provide any such instance (see the status note below).
 
     We package this as [DecCospan_Hypergraph_Coherent], whose principal
     field is a per-object [SpecialCommutativeFrobenius DC X], plus the
@@ -85,7 +86,23 @@ Generalizable All Variables.
     [DecCospan_Symmetric_Coherent] classes (taken as [Context] above)
     encode exactly the decorated-cospan-side consequences of [F] being
     lax-symmetric — instantiating them is impossible without an
-    underlying lax-symmetric [F]. *)
+    underlying lax-symmetric [F].
+
+    ** Status: CONDITIONAL on unfilled coherence assumptions
+
+    [DecoratedCospan_Hypergraph] below is built inside a [Section] whose
+    [Context] assumes the full stack of coherence classes
+    ([DecCospan_Coherent], [DecCospan_Bifunctor_Coherent],
+    [DecCospan_Monoidal_Coherent], [DecCospan_Braided_Coherent],
+    [DecCospan_Symmetric_Coherent], [DecCospan_Hypergraph_Coherent]).
+    NONE of these classes is instantiated anywhere in the library: only
+    the [Class] declarations and the [Context] assumptions exist, with no
+    [Instance]/[Build_] witnesses.  This construction is therefore a
+    CONDITIONAL result — given the coherence witnesses it would yield the
+    [Hypergraph] instance, but it is not a finished, inhabited result.
+    Even the "trivial decoration" ([F = Δ I_D]) witness is NOT supplied
+    here; the discussion of how each field would be discharged (below) is
+    a sketch of intended work, not a delivered instance. *)
 
 Section DecoratedCospanHypergraph.
 
@@ -199,7 +216,11 @@ Program Definition DecoratedCospan_Hypergraph : @Hypergraph DC DCSMC := {|
 
 End DecoratedCospanHypergraph.
 
-(** ** Discussion: discharging the coherence class
+(** ** Discussion: how the coherence class WOULD be discharged
+
+    The following sketches the intended witnesses; none is constructed in
+    this library (the coherence classes are assumed, never instantiated —
+    see the status note in the header above).
 
     The [DecCospan_Hypergraph_Coherent] class packages exactly the
     structure Fong identifies in Theorem 3.5 of "Decorated Cospans":
@@ -212,10 +233,11 @@ End DecoratedCospanHypergraph.
         with [id_decoration] on every apex (the apex for [mu] is [X],
         for [eta] is [X], etc.);
 
-      - the 8 coherence equations are inherited from the corresponding
-        [Cospan_Hypergraph] equations under apex-iso transport of
-        [id_decoration], which is automatic when [F = Δ I_D] (since
-        [fmap[F] _ = id]).
+      - the 8 coherence equations would be inherited from the
+        corresponding [Cospan_Hypergraph] equations under apex-iso
+        transport of [id_decoration], which simplifies when [F = Δ I_D]
+        (since [fmap[F] _ = id]) — but even this trivial witness is not
+        actually built here.
 
     For Fong's electrical circuits, [dec_cospan_scfa X] is the SCFA
     carrying the "empty resistor network" decoration (the additive
@@ -227,6 +249,8 @@ End DecoratedCospanHypergraph.
     carrying the "no transitions" decoration; the coherences follow
     from the monoid structure on transition graphs.
 
-    In every case the witness is a short calculation in the chosen
-    decoration data; the heavy work (cospan-level SCFA construction)
-    is already done by [Cospan_Hypergraph]. *)
+    In every case the witness would be a short calculation in the chosen
+    decoration data, building on the cospan-level SCFA construction
+    already done by [Cospan_Hypergraph]; those calculations are not yet
+    carried out here, so no [DecCospan_Hypergraph_Coherent] instance is
+    provided. *)

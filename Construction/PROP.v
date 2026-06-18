@@ -244,13 +244,26 @@ Coercion hpprop : HypergraphPROP >-> PROP.
     Three illustrative kinds of PROP instance:
 
     1. **Free PROP on a signature** ([Construction/PROP/Free.v]).
-       Given a signature [S : Signature], the free PROP on [S] has
-       morphisms [m ~> n] equivalence classes of [Term S m n] under
-       [TermEq].  This is the canonical worked example in the library:
-       it carries an explicit [Category] structure built from the
-       inductive [Term] datatype.  See also [Construction/PROP/Term.v]
+       Given a signature [S : Signature], the free PROP on [S] would
+       have morphisms [m ~> n] equivalence classes of [Term S m n]
+       under [TermEq].  This is the construction the library carries
+       furthest, but it is *not yet a [PROP]*: [Construction/PROP/Free.v]
+       delivers only the underlying [Category] layer ([FreeCat S]),
+       built from the inductive [Term] datatype.  Completing it to an
+       actual [PROP] — the [Monoidal] / [SymmetricMonoidal] /
+       [StrictMonoidal] structure, and the [prop_of_nat] /
+       [prop_unit_zero] / [prop_tensor_plus] data — is still pending in
+       the successor files, which so far supply a tensor functor
+       ([Construction/PROP/Tensor.v]), the structural isomorphisms
+       ([Construction/PROP/Structural.v]), and their naturality
+       lemmas ([Construction/PROP/Naturality.v]) but stop short of the
+       [PROP] instance itself.  See also [Construction/PROP/Term.v]
        for the syntax and [Construction/PROP/TermEq.v] for the
        quotient.
+
+       So despite the heading, none of the three kinds of PROP
+       instance below is actually inhabited in the library today; this
+       is a discussion of what such instances would look like.
 
     2. **Permutation PROP** (literature canonical, not yet in the
        library).  Its morphisms [m ~> n] are nonempty exactly when

@@ -68,22 +68,24 @@ Generalizable All Variables.
     proof obligations (naturality of associator/unitors, triangle and
     pentagon, braid coherence, SCFA axioms in the cospan setoid, and
     tensor/unit coherence on the [Hypergraph] class) decompose into a
-    large body of cospan-equiv pushout diagrams.  Each individual
-    diagram is mechanical, but the aggregate (~500-1000 lines of
-    structured pushout coherence proofs) exceeds the V2a budget; these
-    obligations are deferred to V2b.
+    large body of cospan-equiv pushout diagrams.  These obligations ARE
+    now discharged: the full [Hypergraph (CospanCat C)] instance
+    [Cospan_Hypergraph] is delivered in
+    [Construction/Cospan/HypergraphInstance.v] (which builds on the
+    monoidal/symmetric-monoidal instances and consumes the typed data
+    this file provides).
 
-    For V2a consumers who need a concrete [Hypergraph] instance now:
+    Consumers who want to instantiate [Hypergraph] for a different
+    concrete category, or to work below the [Hypergraph] class, have two
+    further options:
 
       (a) Instantiate [Hypergraph] directly for your concrete category
           (e.g. [Cospan(Sets)]) using the data definitions below plus
           your category's specific axioms, OR
       (b) Work at the level of the algebraic classes [Monoid] /
           [Comonoid] / [Frobenius] / [SpecialCommutativeFrobenius]
-          directly on your objects — V2a fully delivers these, plus the
-          [Hypergraph_CompactClosed] derivation and the [Spider] lemmas.
-
-    See [docs/HYPERGRAPH_MIGRATION.md] for the migration story. *)
+          directly on your objects — these are fully delivered, plus the
+          [Hypergraph_CompactClosed] derivation and the [Spider] lemmas. *)
 
 Section CospanHypergraphData.
 
