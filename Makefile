@@ -42,9 +42,9 @@ lint: todo bench-config-check
 
 format-check:
 	@echo "Checking for trailing whitespace..."
-	@out=$$(find . -name '*.v' -print0 | xargs -0 grep -n '[[:blank:]]$$' 2>/dev/null | head -20); \
-	if [ -n "$$out" ]; then \
-		echo "$$out"; \
+	@ws=`find . -name '*.v' -print0 | xargs -0 grep -n '[[:blank:]]$$' 2>/dev/null | head -20`; \
+	if [ -n "$$ws" ]; then \
+		printf '%s\n' "$$ws"; \
 		echo "ERROR: Trailing whitespace found in .v files"; \
 		exit 1; \
 	fi

@@ -110,6 +110,7 @@ Example: `f ∘[C] g` specifies category C when needed.
 - **Theory/Natural/Transformation.v**: Natural transformations
 - **Theory/Adjunction.v**: The most important concept - adjunctions
 - **Theory/Monad.v**: Monads as endofunctors with structure
+- **Monad/Strong.v**: Strong monads — a monad whose functor carries a tensorial strength compatible with η and μ (Kock/Moggi)
 - **Theory/Kan/Extension.v**: Universal property of Kan extensions
 
 ### Structures (Internal Properties)
