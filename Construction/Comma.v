@@ -14,28 +14,58 @@ Context {A B C : Category}.
 Context {S : A ⟶ C}.
 Context {T : B ⟶ C}.
 
-(* Wikipedia: "... a comma category (a special case being a slice category) is
-   a construction in category theory. It provides another way of looking at
-   morphisms: instead of simply relating objects of a category to one another,
-   morphisms become objects in their own right. This notion was introduced in
-   1963 by F. W. Lawvere (Lawvere, 1963 p. 36), although the technique did not
-   become generally known until many years later. Several mathematical
-   concepts can be treated as comma categories. Comma categories also
-   guarantee the existence of some limits and colimits. The name comes from
-   the notation originally used by Lawvere, which involved the comma
-   punctuation mark." *)
+(** The comma category (S ↓ T) of two functors with common codomain. *)
+
+(* nLab: https://ncatlab.org/nlab/show/comma+category
+   Wikipedia: https://en.wikipedia.org/wiki/Comma_category
+
+   Given functors S : A ⟶ C and T : B ⟶ C, the comma category S ↓ T has as
+   objects the triples (a, b, h) of objects a : A and b : B together with a
+   morphism h : S a ~> T b in C; here a triple is encoded as the dependent
+   pair (∃ p : A ∏ B, S (fst p) ~> T (snd p)), so `1 x is the pair (a, b) and
+   `2 x is the mediating morphism h. A morphism (a, b, h) ~> (a', b', h') is a
+   pair of morphisms (f : a ~> a' in A, g : b ~> b' in B) making the square
+
+       S a  --h-->  T b
+        |            |
+      S f           T g           commute, i.e.  h' ∘ S f ≈ T g ∘ h.
+        v            v
+       S a' --h'--> T b'
+
+   Identity is (id, id) and composition is componentwise, (f, g) ∘ (f', g') :=
+   (f ∘ f', g ∘ g'); both laws hold because they hold in A and B. Equivalence
+   of morphisms is the componentwise conjunction of ≈ in A and ≈ in B (the
+   commuting-square proof component is irrelevant to equality).
+
+   The construction is due to Lawvere (1963), who used a comma punctuation mark
+   for it; the name persists even though the modern notation is the arrow ↓.
+
+   Special cases: taking S = T = Id[C] gives the arrow category C^→, whose
+   objects are the morphisms of C and whose morphisms are commuting squares;
+   taking S = Id[C] and T = Δ(c) the constant functor at c : C gives the slice
+   C/c (see Construction/Slice.v, where C ̸ c ≅ (Id ↓ =(c)) is proven); dually
+   S = Δ(c), T = Id[C] gives the coslice c/C. The projection functors below,
+   comma_proj1 : S ↓ T ⟶ A and comma_proj2 : S ↓ T ⟶ B, recover a and b, and
+   comma_proj_nat is the natural transformation S ◯ comma_proj1 ⟹ T ◯
+   comma_proj2 whose component at (a, b, h) is h. Comma categories characterize
+   adjunctions and universal arrows: a universal arrow from S to T is an
+   initial object of the appropriate comma category. *)
 
 #[local] Set Transparent Obligations.
 #[local] Obligation Tactic := idtac.
 
 Program Definition Comma : Category := {|
+  (* objects: triples (a, b, h : S a ~> T b) *)
   obj     := ∃ p : A ∏ B, S (fst p) ~{C}~> T (snd p);
+  (* morphisms: pairs (f, g) with the commuting square h' ∘ S f ≈ T g ∘ h *)
   hom     := fun x y =>
     ∃ f : (fst (`1 x) ~{A}~> fst (`1 y)) * (snd (`1 x) ~{B}~> snd (`1 y)),
       `2 y ∘ fmap[S] (fst f) ≈ fmap[T] (snd f) ∘ `2 x;
+  (* equivalence: componentwise ≈ in A and B (square proof is irrelevant) *)
   homset  := fun _ _ =>
     {| equiv := fun f g => (fst `1 f ≈ fst `1 g) * (snd `1 f ≈ snd `1 g) |};
-  id      := fun _ => ((id, id); _);
+  id      := fun _ => ((id, id); _);    (* identity (id_a, id_b) *)
+  (* composition is componentwise (f ∘ f', g ∘ g') *)
   compose := fun _ _ _ f g => ((fst `1 f ∘ fst `1 g, snd `1 f ∘ snd `1 g); _)
 |}.
 Next Obligation.
@@ -145,6 +175,12 @@ Qed.
 Require Import Category.Construction.Opposite.
 Require Import Category.Functor.Opposite.
 
+(* The "cocomma" defined here is the comma category formed in the opposite
+   categories, @Comma (B^op) (A^op) (C^op) (T^op) (S^op). Since the comma of
+   opposite functors is the opposite of the comma, this is (S ↓ T)^op up to
+   isomorphism: it dualizes S ↓ T by reversing every arrow. Note this is the
+   pointwise/op dual and is NOT the cocomma *object* of nLab (the colimit-side
+   dual, a.k.a. the collage), which is a genuinely different construction. *)
 Definition Cocomma {A : Category} {B : Category} {C : Category}
   {S : A ⟶ C} {T : B ⟶ C} := @Comma (B^op) (A^op) (C^op) (T^op) (S^op).
 

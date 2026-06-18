@@ -8,19 +8,41 @@ Generalizable All Variables.
 
 Reserved Infix "⟿" (at level 90, right associativity).
 
+(** A category enriched over a monoidal category K (a K-category). *)
+
+(* nLab: https://ncatlab.org/nlab/show/enriched+category
+   Wikipedia: https://en.wikipedia.org/wiki/Enriched_category
+
+   Given a monoidal category (K, ⨂, I) playing the role of V, a K-enriched
+   category replaces each hom-set by a hom-object (x ⟿ y) : K.  Composition
+   is the K-morphism ecompose : (y ⟿ z) ⨂ (x ⟿ y) ~> (x ⟿ z) (the codomain
+   factor on the left, mirroring ordinary composition order), and the
+   identity is the K-morphism eid : I ~> (x ⟿ x) that names the identity
+   inside the hom-object.  The three coherence axioms below assert, as
+   equalities of K-morphisms, the associativity diagram and the two unit
+   diagrams of Kelly's definition, with unit_left, unit_right and
+   tensor_assoc supplying the unitors and associator of K.
+
+   Taking K = Set recovers ordinary (locally small) categories: hom-objects
+   become hom-sets, eid picks out an element, and ecompose a function.
+   Taking K = Ab gives preadditive categories, with bilinear composition. *)
+
 Class Enriched (K : Category) `{@Monoidal K} := {
   eobj : Type;
 
   ehom : eobj → eobj → K where "a ⟿ b" := (ehom a b);
 
-  eid {x} : I ~{K}~> (x ⟿ x);
-  ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z);
+  eid {x} : I ~{K}~> (x ⟿ x);                                  (* identity j_x *)
+  ecompose {x y z} : (y ⟿ z) ⨂ (x ⟿ y) ~{K}~> (x ⟿ z);        (* composition *)
 
+  (* left unit: ecompose after eid on the codomain factor is unit_left *)
   eid_left  {x y} :
     ecompose ∘ eid ⨂ id << I ⨂ (x ⟿ y) ~~> (x ⟿ y) >> unit_left;
+  (* right unit: ecompose after eid on the domain factor is unit_right *)
   eid_right {x y} :
     ecompose ∘ id ⨂ eid << (x ⟿ y) ⨂ I ~~> (x ⟿ y) >> unit_right;
 
+  (* associativity: the two composition paths agree up to tensor_assoc *)
   ecompose_assoc {x y z w} :
     ecompose ∘ ecompose ⨂ id
       << ((z ⟿ w) ⨂ (y ⟿ z)) ⨂ (x ⟿ y) ~~> (x ⟿ w) >>
@@ -31,14 +53,24 @@ Infix "⟿" := ehom (at level 90, right associativity).
 
 Coercion eobj : Enriched >-> Sortclass.
 
+(** A K-enriched functor between K-categories. *)
+
+(* nLab: https://ncatlab.org/nlab/show/enriched+functor
+   Wikipedia: https://en.wikipedia.org/wiki/Enriched_category#Enriched_functors
+
+   An object map efobj together with hom-object maps efmap : (x ⟿ y) ~>
+   (efobj x ⟿ efobj y) in K, commuting with eid and ecompose. *)
+
 Class EnrichedFunctor
       (K : Category) `{@Monoidal K}
       (C : Enriched K) (D : Enriched K) := {
   efobj : C → D;
   efmap {x y} : (x ⟿ y) ~{K}~> (efobj x ⟿ efobj y);
 
+  (* preserves identity: efmap takes eid to eid *)
   efmap_id : ∀ x,
     efmap ∘ eid << I ~~> (efobj x ⟿ efobj x) >> eid;
+  (* preserves composition: efmap commutes with ecompose *)
   efmap_comp : ∀ x y z,
     ecompose ∘ efmap ⨂ efmap
       << (y ⟿ z) ⨂ (x ⟿ y) ~~> (efobj x ⟿ efobj z) >>

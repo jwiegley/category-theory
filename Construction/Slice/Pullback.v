@@ -6,13 +6,47 @@ Require Import Category.Structure.Pullback.
 
 Generalizable All Variables.
 
+(** Functors between slice categories induced by a base morphism. *)
+
+(* nLab: https://ncatlab.org/nlab/show/base+change
+   nLab: https://ncatlab.org/nlab/show/dependent+sum
+   nLab: https://ncatlab.org/nlab/show/over+category
+   Wikipedia: https://en.wikipedia.org/wiki/Pullback_(category_theory)
+
+   A morphism f : a ~> b in C induces two functors between the slice categories
+   C ̸ a and C ̸ b:
+
+   - Bang_Functor f : C ̸ a ⟶ C ̸ b is the dependent sum Σ_f (also written f_!,
+     "lower shriek"), defined by post-composition with f: it sends an object
+     (o; h) with h : o ~> a to (o; f ∘ h), an object over b. This needs no extra
+     structure on C.
+
+   - Star_Functor f : C ̸ a ⟶ C ̸ c is the base change (pullback) functor f*,
+     defined by pulling back along f: given f : c ~> a, it sends an object (o; h)
+     with h : o ~> a to (Pull h f; pullback_snd h f), the fiber product o ×_a c
+     equipped with its projection to c. This requires that the relevant
+     pullbacks exist in C, which is assumed below as the Hypothesis [pullbacks].
+
+   These two functors are adjoint, dependent sum on the left and base change on
+   the right: for a single f : a ~> b,
+
+       Bang_Functor f ⊣ Star_Functor f,   i.e.   Σ_f ⊣ f*
+
+   (a slice C ̸ b having pullbacks along f exactly makes f* the right adjoint of
+   post-composition Σ_f). When C is locally cartesian closed, f* itself has a
+   further right adjoint Π_f (the dependent product), giving Σ_f ⊣ f* ⊣ Π_f.
+   The adjunction is sketched in the commented Base_Functor_Adjunction stub
+   below; note that the live statement should read Bang_Functor f ⊣ Star_Functor
+   f, since dependent sum is the LEFT adjoint. *)
+
 Section SliceFunctors.
 
 Context `{C : Category}.
-Context `{A : @Cartesian C}.
+Context `{A : @Cartesian C}.   (* only used by the commented Production functor *)
 
 #[local] Set Transparent Obligations.
 
+(* Dependent sum Σ_f (= f_!): post-compose the structure morphism with f. *)
 Program Definition Bang_Functor `(f : a ~> b) : @Slice C a ⟶ @Slice C b := {|
   fobj := λ '(o; h), (o; f ∘ h);
   fmap := λ x y f, (_; _)
@@ -22,10 +56,14 @@ Next Obligation.
   now rewrite X.
 Qed.
 
+(* Postfix notation for Σ_f, mirroring the standard f_! ("lower shriek"). *)
 Notation "f !" := (Bang_Functor f) (at level 90) : category_scope.
 
+(* C has all binary pullbacks; this is what makes base change f* below total. *)
 Hypothesis pullbacks : ∀ {X Y Z : C} (f : Y ~> Z) (g : X ~> Z), Pullback f g.
 
+(* Base change f*: pull the structure morphism back along f, taking the
+   resulting projection onto c as the new structure morphism over c. *)
 Program Definition Star_Functor `(f : c ~> a) :
   @Slice C a ⟶ @Slice C c := {|
   fobj := λ '(_; h),

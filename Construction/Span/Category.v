@@ -5,19 +5,40 @@ Require Import Category.Structure.Pullback.
 
 Generalizable All Variables.
 
-(** * The span category
+(** * The span category *)
 
-    Objects: the objects of [C].
-    Morphisms [X ~> Y]: spans [X <-leg1- N -leg2-> Y], with apex [N].
-    Equivalence: two spans are equivalent if their apexes are connected by
-    an isomorphism that respects both legs.
-    Composition: given [X <- N -> Y] and [Y <- M -> Z], the composite is the
-    pullback [X <- N ×_Y M -> Z].
+(* nLab:      https://ncatlab.org/nlab/show/span
+   Wikipedia: https://en.wikipedia.org/wiki/Span_(category_theory)
 
-    For this to be a category we need that [C] has pullbacks ([HasPullbacks]).
+   A span in [C] from [X] to [Y] is a diagram [X <-leg1- N -leg2-> Y], i.e. an
+   apex [N] with two legs.  In library notation:
 
-    This file is the **primary** construction.  The dual file
-    [Construction.Cospan.Category] is a thin wrapper around [SpanCat (C^op)]. *)
+     Objects:          the objects of [C].
+     Morphisms X ~> Y: spans [X <-leg1- N -leg2-> Y], with apex [N].
+     Equivalence ≈:    two spans are equivalent (span_equiv) if their apexes
+                       are connected by an isomorphism respecting both legs.
+     Composition:      given [X <- N -> Y] and [Y <- M -> Z], the composite is
+                       the PULLBACK span [X <- N ×_Y M -> Z]; this needs [C] to
+                       have pullbacks ([HasPullbacks]).
+     Identity:         the span [X <-id- X -id-> X].
+
+   Bicategory vs. category.  With spans taken literally as morphisms, pullbacks
+   are determined only up to canonical isomorphism, so associativity and the
+   unit laws hold only UP TO ISOMORPHISM of apexes; Span(C) is therefore in
+   general a bicategory, not a strict 1-category.  Here we obtain an honest
+   1-category ([SpanCat]) by the standard device of quotienting by that
+   isomorphism: the hom-setoid equality [≈] is [span_equiv] (isomorphism of
+   apexes respecting the legs).  Relative to that [≈] the unit and associativity
+   laws hold strictly, which is exactly the nLab/Wikipedia prescription of
+   taking iso-classes of spans to recover a 1-category.
+
+   Related: a span generalises a binary relation [X <- R -> Y], so Span(Set)
+   subsumes Rel; if [C] has finite products then Span(C) carries a (symmetric,
+   in fact dagger compact) monoidal structure — neither is developed here.
+
+   This file is the primary construction.  The dual file
+   [Construction.Cospan.Category] is an independent mirror using pushouts in [C]
+   directly (rather than pullbacks in [C^op]); it does not wrap [SpanCat]. *)
 
 Section SpanCategory.
 

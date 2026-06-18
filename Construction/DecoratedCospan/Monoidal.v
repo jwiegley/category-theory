@@ -23,10 +23,28 @@ Generalizable All Variables.
 (** * Monoidal structure on [DecoratedCospanCat]
 
     Reference: Brendan Fong, "Decorated Cospans", arXiv:1502.00872,
-    Theorem 3.1.  This module assembles the [Monoidal] instance on
-    [DecoratedCospanCat HP LM id_decoration cospan_merge], layering a
-    decoration coherence class on top of [Cospan_Monoidal] from
-    [Construction/Cospan/Hypergraph.v].
+    Theorem 3.5 (the symmetric-monoidal hypergraph structure on
+    [F Cospan]).  This module assembles the plain [Monoidal] layer of
+    that theorem on [DecoratedCospanCat HP LM id_decoration cospan_merge],
+    layering a decoration coherence class on top of [Cospan_Monoidal]
+    from [Construction/Cospan/Hypergraph.v].  The braiding and symmetry
+    that complete Theorem 3.5 are added in the sibling [Braided] and
+    [Symmetric] modules; here we ask only for a plain
+    [LaxMonoidalFunctor], which suffices for the associator and unitors.
+
+    nLab: https://ncatlab.org/nlab/show/decorated+cospan
+    Wikipedia: https://en.wikipedia.org/wiki/Monoidal_category
+
+    In library notation the monoidal data follows Fong's Theorem 3.5:
+    the tensor of objects is the coproduct ([I := initial_obj], and
+    [tensor := DecoratedCospan_Bifunctor], whose object part is the
+    coproduct [X + Y]); the tensor of morphisms combines the two
+    decorations via the laxator [lax_ap[F]] (see [dec_tensor_decoration]
+    in [Symmetric]); the monoidal unit is the initial object [0]
+    decorated trivially; and the associator/unitors are the [Dlift] of
+    the corresponding [Cocartesian] isos [coprod_assoc],
+    [coprod_zero_l], [coprod_zero_r], each carrying [id_decoration] on
+    its codomain apex.
 
     ** Architecture
 
@@ -262,7 +280,7 @@ End DecoratedCospanMonoidal.
 (** ** Discussion: the coherence-class instance
 
     The [DecCospan_Monoidal_Coherent] class is the literature-correct
-    packaging of the decoration-side coherences for Theorem 3.1 of
+    packaging of the decoration-side coherences for Theorem 3.5 of
     Fong's "Decorated Cospans".  Each field is a single decorated-cospan
     equivalence whose cospan part is delivered by the existing
     [Cospan_Monoidal] infrastructure and whose decoration part is the

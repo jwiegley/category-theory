@@ -24,8 +24,11 @@ Generalizable All Variables.
 (** * Symmetric monoidal structure on [DecoratedCospanCat]
 
     Reference: Brendan Fong, "Decorated Cospans", arXiv:1502.00872,
-    Theorem 3.1 (the decorated-cospan category is a hypergraph category
-    whenever the decorating functor is a symmetric lax monoidal functor).
+    Theorem 3.5 (the decorated-cospan category is a symmetric monoidal
+    hypergraph category whenever the decorating functor is a lax braided
+    (symmetric) monoidal functor).
+    nLab: https://ncatlab.org/nlab/show/decorated+cospan
+    Wikipedia: https://en.wikipedia.org/wiki/Symmetric_monoidal_category
 
     This module assembles the symmetric monoidal hierarchy on
     [DecoratedCospanCat] by layering decoration coherences on top of the

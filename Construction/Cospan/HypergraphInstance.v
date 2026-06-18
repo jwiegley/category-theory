@@ -38,7 +38,22 @@ Generalizable All Variables.
     The four TENSOR axioms ([scfa_tensor_{mu/eta/delta/epsilon}]) reduce
     to C-level identities relating the codiagonal/zero structure of
     [X+Y] to the same structure on [X] and [Y] composed through the
-    middle-swap [mid_swap X Y]. *)
+    middle-swap [mid_swap X Y].
+
+    This is the concrete hypergraph-category instance for cospans: when
+    [C] is cocartesian with an initial object, [CospanCat C HP] is a
+    hypergraph category with [I = 0], [tensor = coproduct], and the
+    per-object SCFA given by the codiagonal [id ▽ id] and the zero map.
+
+    nLab:      https://ncatlab.org/nlab/show/hypergraph+category
+    Wikipedia: no dedicated article (the underlying special commutative
+               Frobenius algebra is covered at
+               https://en.wikipedia.org/wiki/Frobenius_algebra)
+    Reference: Fong & Spivak, Hypergraph Categories, J. Pure Appl. Algebra
+               223(11):4746-4777, 2019 (arXiv:1806.08304), hypergraph
+               category = Def 4.1.1; Fong, Decorated Cospans
+               (arXiv:1502.00872), Theorem 3.5 (the cospan category is a
+               symmetric monoidal hypergraph category). *)
 
 Section CospanHypergraphInstance.
 

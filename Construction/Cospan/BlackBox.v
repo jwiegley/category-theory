@@ -16,9 +16,16 @@ Require Import Category.Construction.DecoratedCospan.Category.
 (** * Black-boxing functor for decorated cospans
 
     Reference: Baez–Fong, "A compositional framework for passive linear
-    networks", arXiv:1504.05625 §4; Fong, "The Algebra of Open and
-    Interconnected Systems", arXiv:1609.05382 (PhD thesis), Ch. 4 ("Black
-    Boxes").
+    networks", arXiv:1504.05625 §4 (the black-box functor ♭ : Circ →
+    LagRel); Fong, "The Algebra of Open and Interconnected Systems",
+    arXiv:1609.05382 (PhD thesis), where black-boxing is developed across
+    Ch. 3 ("Corelations: a tool for black boxing") and Ch. 4 ("Decorated
+    corelations: black-boxed open systems").
+
+    nLab has no dedicated "black boxing" page; the concept is documented
+    under https://ncatlab.org/nlab/show/decorated+cospan and
+    https://ncatlab.org/nlab/show/hypergraph+category.  Wikipedia has no
+    article on this (applied-category-theory) sense of black-boxing.
 
     The black-boxing concept: a "decorated cospan" represents an open
     system with an internal mechanism (the decoration) and an external
@@ -53,12 +60,13 @@ Require Import Category.Construction.DecoratedCospan.Category.
        decorated cospans to relations, Markov kernels, linear maps, or
        ZX-diagrams — instantiates the same pattern.
 
-    See Fong's thesis, Theorem 4.1.4, which formalises the hypergraph-
-    functoriality property for the original Baez–Fong electrical-circuit
-    black-boxing functor.  The categorical content of that theorem is
-    precisely: apex-iso transport + lax-monoidal naturality + SCFA
-    preservation; the forgetful black-box below is the trivial instance
-    that exhibits this structure with the cleanest possible proof. *)
+    See Fong's thesis, Theorem 6.1, which states that the original
+    Baez–Fong electrical-circuit black-boxing functor ♭ : Circ → LagRel
+    is a hypergraph functor (equivalently Baez–Fong arXiv:1504.05625).
+    The categorical content of that theorem is precisely: apex-iso
+    transport + lax-monoidal naturality + SCFA preservation; the
+    forgetful black-box below is the trivial instance that exhibits this
+    structure with the cleanest possible proof. *)
 
 (** ** Section: forgetful black-box on decorated cospans *)
 
@@ -238,7 +246,8 @@ End ForgetDecorationFunctor.
     ** Packaging as a [HypergraphFunctor] record
 
     [Structure/Monoidal/HypergraphFunctor.v] defines the literature
-    notion of a hypergraph functor (Fong, Def. 4.1.3): a symmetric
+    notion of a hypergraph functor (Fong–Spivak, "Hypergraph
+    Categories", arXiv:1806.08304, Def. 4.1.3): a strong symmetric
     monoidal functor between hypergraph categories preserving the SCFA
     structure on every object.
 
@@ -273,5 +282,5 @@ End ForgetDecorationFunctor.
     holds on the nose by the choice of decorated SCFA).
 
     This is the canonical Fong-style "black-box is a hypergraph
-    functor" theorem (Theorem 4.1.4 in his thesis), realised in
-    formal Coq. *)
+    functor" theorem (Theorem 6.1 in his thesis, arXiv:1609.05382),
+    realised in formal Coq. *)

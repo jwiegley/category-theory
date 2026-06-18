@@ -5,11 +5,16 @@ From Coq Require Import Arith.
 
 Generalizable All Variables.
 
-(** * Raw terms over a PROP signature
+(** * Raw terms over a PROP signature *)
 
-    The syntactic representation of morphisms in the free PROP on a
-    signature [S].  A term of type [Term S m n] is a string-diagram
-    expression with [m] input wires and [n] output wires, built up from:
+(* nLab: https://ncatlab.org/nlab/show/PROP
+   nLab: https://ncatlab.org/nlab/show/symmetric+monoidal+category
+   nLab: https://ncatlab.org/nlab/show/string+diagram
+   Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
+
+   The syntactic representation of morphisms in the free PROP on a
+   signature [S].  A term of type [Term S m n] is a string-diagram
+   expression with [m] input wires and [n] output wires, built up from:
 
       - identity wires [T_id n]
       - braids [T_braid m n] (the canonical "block braiding" that
@@ -32,12 +37,13 @@ Section Term.
 Context (S : Signature).
 
 Inductive Term : nat -> nat -> Type :=
-  | T_id    : forall n, Term n n
-  | T_braid : forall m n, Term (m + n) (n + m)
+  | T_id    : forall n, Term n n                    (* identity on n wires *)
+  | T_braid : forall m n, Term (m + n) (n + m)      (* symmetry σ_{m,n} *)
   | T_comp  : forall {m n p}, Term n p -> Term m n -> Term m p
-  | T_tens  : forall {m1 n1 m2 n2},
+                                                    (* g ⊙ f : m ⇒ p (g outer) *)
+  | T_tens  : forall {m1 n1 m2 n2},                 (* parallel: arities add *)
               Term m1 n1 -> Term m2 n2 -> Term (m1 + m2) (n1 + n2)
-  | T_gen   : forall {m n}, S m n -> Term m n.
+  | T_gen   : forall {m n}, S m n -> Term m n.      (* signature generator *)
 
 End Term.
 
@@ -59,7 +65,10 @@ Notation "f ⊕t g" := (T_tens f g) (at level 30, right associativity) : term_sc
 Definition T_swap {S : Signature} : Term S 2 2 :=
   T_braid 1 1.
 
-(** Lift a generator under a signature embedding. *)
+(* Relabel a whole term along a signature embedding [inc : SubSig S T],
+   recursing through the structural constructors and remapping each
+   [T_gen] leaf.  Arities [m n] are preserved, so this is the action on
+   morphisms of the induced functor [FreePROP S -> FreePROP T]. *)
 Definition T_inj {S T : Signature} (inc : SubSig S T)
                  {m n : nat} (t : Term S m n) : Term T m n.
 Proof.

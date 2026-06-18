@@ -123,9 +123,12 @@ Qed.
     for use when downstream proofs need to work with both ends of
     the transport. *)
 
-(** Destructure-bridge: given any predicate [P] over [Term S m n]
-    that holds in the transported [eq_rect] form, it also holds in
-    the un-transported form after a [destruct] on the equation.
+(** Transport-spelling bridge: the [eq_rect] transport of a term
+    along [e : m = n] over the codomain index equals the [match]
+    (dependent pattern-match) spelling of the same transport.  Both
+    sides are [T_cast e] applied to [t]; this lemma just lets a proof
+    switch between the [eq_rect] form used in [TermEq]'s strict-PROP
+    axioms and the [match] form used by [T_cast].
 
     This is the standard "destruct the eq_rect" pattern, but bundled
     as a helper so the [T_cast]-level naturality proofs don't have

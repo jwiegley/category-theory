@@ -17,9 +17,15 @@ Generalizable All Variables.
 
 (** * Decorated cospans (Fong)
 
-    Reference: Brendan Fong, "Decorated Cospans", arXiv:1502.00872; and
-    Baez–Fong, "A Compositional Framework for Markov Processes",
-    arXiv:1508.06448.
+    Reference: Brendan Fong, "Decorated Cospans", arXiv:1502.00872
+    (published as Theory and Applications of Categories, Vol. 30, No. 33,
+    2015, pp. 1096-1120); and Baez, Fong & Pollard, "A Compositional
+    Framework for Markov Processes", arXiv:1508.06448.
+
+    nLab:      https://ncatlab.org/nlab/show/decorated+cospan
+    (Wikipedia has no dedicated decorated-cospan article as of this
+    writing; none-exists: the topic is covered only on nLab and in the
+    primary literature.)
 
     A decorated cospan is a cospan [X → N ← Y] in a category [C] (with
     pushouts and a chosen coproduct/initial structure) equipped with a
@@ -37,18 +43,26 @@ Generalizable All Variables.
 
       I ≅ I ⨂ I --d_N ⨂ d_M-> F N ⨂ F M --lax_ap-> F (N + M) --F(pushout-leg)-> F P.
 
-    The key insight (Fong, Theorem 2.3): this construction is functorial,
-    the apex-isomorphism equivalence on cospans transports cleanly, and
-    the resulting category — [DecoratedCospanCat F] — is a hypergraph
-    category whenever [C] has finite coproducts and [F] is symmetric
-    monoidal.
+    The key insight: this construction is functorial, the apex-iso
+    equivalence on cospans transports cleanly, and the resulting category
+    [DecoratedCospanCat F] is a hypergraph category whenever [C] has finite
+    colimits and [F] is lax BRAIDED monoidal.  In Fong's numbering, that
+    decorated cospans form a category is [3.2. Proposition]; the symmetric-
+    monoidal and hypergraph structure (with the wide embedding of
+    [Cospan(C)]) is [3.5. Theorem].
 
-    ** Note on the lax-symmetric requirement (Fong Definition 3.1)
+    ** Note on the lax-braided / lax-symmetric requirement
 
-    Fong's Definition 3.1 takes a LAX SYMMETRIC monoidal functor
-    [F : (C, +, 0) → (D, ⊗, I)].  The symmetric-laxness condition
-    (the laxator [lax_ap] commutes with the symmetries of [+] and [⊗])
-    is genuinely needed for two purposes:
+    Fong's [3.1. Definition] takes only a plain LAX MONOIDAL functor
+    [(F, ϕ) : (C, +) → (D, ⊗)]; that is all the bare DECORATED-COSPAN
+    DATA and the [3.2. Proposition] category structure need.  The extra
+    BRAIDING/SYMMETRY hypothesis enters at [3.5. Theorem], which assumes
+    [(D, ⊗)] braided monoidal and [F] LAX BRAIDED monoidal in order to
+    obtain the symmetric monoidal and hypergraph structure.  (When the
+    codomain is [(Set, ×)] this is the lax-symmetric case Fong uses in his
+    examples.)  The braiding/symmetry condition (the laxator [lax_ap]
+    commutes with the braidings of [+] and [⊗]) is genuinely needed for
+    two purposes:
 
       1. to make the resulting category symmetric monoidal — the
          braiding on decorated cospans must respect decorations;
@@ -204,9 +218,11 @@ Defined.
     coproduct initial object is available.  For now we PARAMETERISE the
     identity decoration: the user supplies it.
 
-    Fong's formal definition: the identity at [X] uses the F-image of
-    the empty cospan; we instead supply [I → F X] explicitly via an
-    abstract [id_decoration] family. *)
+    Fong's formal definition (proof of [3.2. Proposition]): the identity at
+    [X] is the identity cospan decorated by [1 →^{ϕ_1} F ∅ →^{F!} F X],
+    i.e. [F! ∘ lax_pure]; here [∅ = I_C] is the unit of [(C, +)] and
+    [! : ∅ ~> X] is the unique map.  We instead supply [I ~> F X] explicitly
+    via an abstract [id_decoration] family. *)
 
 Context (id_decoration : forall X : C, @I D _ ~{D}~> F X).
 
@@ -219,34 +235,22 @@ Definition dec_cospan_id (X : C) : DecoratedCospanArrow X X := {|
 
     Given decorated cospans [(f, d_f) : X ~> Y] and [(g, d_g) : Y ~> Z],
     the composite is:
-    - the cospan-level composite [g ∘ f] (via pushout in [C])
-    - the decoration
+    - the cospan-level composite [g ∘ f] (the pushout cospan in [C]);
+    - the decoration obtained by Fong's [3.2. Proposition] formula
 
-        I ≅ I⨂I  -d_f ⨂ d_g->  F N ⨂ F M  -lax_ap->  F(N+M)... wait
+        1 -λ⁻¹-> 1 ⨂ 1 -s ⨂ t-> F N ⨂ F M -ϕ_{N,M}-> F (N + M)
+                 -F [j_N, j_M]-> F (N +_Y M).
 
-      In Fong's setting [C] has finite coproducts and the apex of the
-      composite is [pushout(N, M)] (not [N + M]).  The decoration is
+      Here [N], [M] are the two apices, [P = N +_Y M] is the pushout
+      apex of the composite cospan, [s ⨂ t = bimap d_f d_g] tensors the
+      two decorations, [ϕ_{N,M} = lax_ap] is the laxator, and the final
+      map [F [j_N, j_M]] is the F-image of the copairing of the pushout
+      injections — exactly the comediator [pushout_in1 ▽ pushout_in2] out
+      of the coproduct [N + M] into [P].
 
-        I ≅ I ⨂ I  →  F N ⨂ F M  →  F (N + M)  →  F P
-
-      where the last map is [F (pushout-induced-map : N + M → P)] given
-      by the universal property of the pushout (or, in the framework
-      that uses the coproduct directly, the apex IS [N + M] and one
-      quotients by the equivalence generated by [Y]; this is the
-      coequalizer / pushout perspective).
-
-    With [Cocartesian C], we have the canonical map [N + M → P] = the
-    co-mediator [pushout_in1 ▽ pushout_in2] (a single morphism out of
-    [N + M] = the coproduct in [C]).  Fong uses this directly.
-
-    To keep the code purely categorical, we use the pushout's apex
-    directly and the legs [pushout_in1 : N → P], [pushout_in2 : M → P]
-    via [lax_ap] composed with the pushout legs separately:
-
-      decomp =  F(pushout_in1) ∘ ... how do we combine d_f and d_g?
-
-    Path A (Fong-original, requires coproduct): combine into a single
-    decoration via the comediator. *)
+    With [Cocartesian C] the comediator [pushout_in1 ▽ pushout_in2 :
+    (N + M) ~> P] is a single morphism out of the coproduct [N + M].
+    Fong uses this copairing [[j_N, j_M]] directly. *)
 
 Context `{H_Coc : @Cocartesian C}.
 
@@ -255,10 +259,13 @@ Context `{H_Coc : @Cocartesian C}.
     Build [I ~> F P] as:
 
       I  -unit_left⁻¹->  I ⨂ I  -d_f ⨂ d_g->  F N ⨂ F M
-         -lax_ap->  F (N ⨂_C M)  -F (cospan_merge)->  F P
+         -lax_ap->  F (N ⨂_C M)  -F (cospan_merge)->  F (N + M)
+         -F (pushout_in1 ▽ pushout_in2)->  F P
 
-    where [cospan_merge : N ⨂_C M ~> P] is the user-supplied map that
-    glues the two halves of the cospan-tensor into the pushout apex.
+    where [cospan_merge : N ⨂_C M ~> N + M] is the user-supplied map
+    that bridges the source-monoidal tensor to the source coproduct, and
+    the final factor is the F-image of the comediator into the pushout
+    apex [P].
 
     Note on [cospan_merge]: its TYPE is [(N ⨂_C M) ~> (N + M)] — it
     bridges the source monoidal tensor to the source coproduct.  It is
@@ -321,11 +328,12 @@ Definition dec_cospan_compose
       (c) associativity [(h ∘ g) ∘ f ≈ h ∘ (g ∘ f)] (the decoration side
           reduces via [lax_monoidal_assoc]).
 
-    Each of (a)–(c) is a Fong-style theorem.  Because the cospan-level
+    These are exactly the well-definedness, associativity, and unitality
+    obligations of Fong's [3.2. Proposition].  Because the cospan-level
     proofs are already done in [Construction/Cospan/Category.v] and the
     decoration-level proofs are all instances of the lax-monoidal-functor
-    coherences, the full proof is mechanical but volumetric (Fong's
-    proof of Theorem 2.3 in arXiv:1502.00872 is roughly six pages).
+    coherences, the full proof is mechanical but volumetric (Fong defers
+    the diagram-chases to Appendix A.1-A.3 of arXiv:1502.00872).
 
     We expose the DATA (objects, morphisms, equivalence, composition, id)
     here as the core API; the full category proof is captured in the

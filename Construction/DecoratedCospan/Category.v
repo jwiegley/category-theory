@@ -18,8 +18,17 @@ Generalizable All Variables.
 
 (** * DecoratedCospanCat as a Category
 
-    Reference: Brendan Fong, "Decorated Cospans", Theorem 2.3
-    (arXiv:1502.00872).
+    nLab: https://ncatlab.org/nlab/show/decorated+cospan
+    Wikipedia: none-exists (the Wikipedia "Cospan" article does not
+    cover decorated cospans or hypergraph categories).
+
+    Reference: Brendan Fong, "Decorated Cospans", arXiv:1502.00872
+    (Theory and Applications of Categories 30 (33), 2015, 1096-1120).
+    The fact that the F-decorated cospans form a category — composition
+    by pushout, identity by the empty decoration, morphisms taken up to
+    apex-iso — is Fong's [3.2. Proposition].  (The earlier draft of this
+    header miscited it as "Theorem 2.3"; in the paper Section 2 is about
+    plain [Cospan(C)], and [2.3] is not a theorem about [FCospan].)
 
     [Construction/DecoratedCospan.v] supplies the data layer: the
     [DecoratedCospanArrow] record, the [dec_cospan_equiv] setoid,
@@ -41,17 +50,19 @@ Generalizable All Variables.
         cospan-level proof.
 
     The decoration-level facts are the "lax-monoidal coherence" half
-    of Fong's Theorem 2.3.  They are not free: they depend on the
+    of Fong's [3.2. Proposition].  They are not free: they depend on the
     chosen identity-decoration [id_decoration] and merge map
     [cospan_merge] being COHERENT with the lax monoidal structure on
-    [F].  Fong supplies these coherences as standing hypotheses
-    (Definition 2.1 + Lemma 2.2 of his paper).
+    [F].  Fong supplies these coherences as part of the decorated-cospan
+    data of his [3.1. Definition] (a lax braided monoidal functor
+    [F : (C, +) -> (D, tensor)]), and the diagram chases discharging
+    them are the content of the proof of his [3.2. Proposition].
 
     In this Coq formalisation we bundle those coherences as a
     typeclass [DecCospan_Coherent], parameterised by the same data
     used in [Construction/DecoratedCospan.v].  Concrete instances of
     [DecCospan_Coherent] correspond exactly to Fong's "decorated
-    cospan structure" (Definition 2.1): a lax monoidal functor [F]
+    cospan structure" ([3.1. Definition]): a lax monoidal functor [F]
     with a chosen identity-decoration map and merge map, satisfying
     the unit / associativity / functoriality coherences.
 
@@ -81,8 +92,8 @@ Context (cospan_merge :
 
 (** ** Coherence class for the decorated-cospan category
 
-    Bundles the four conditions Fong identifies in Definition 2.1 /
-    Lemma 2.2 of "Decorated Cospans":
+    Bundles the four conditions implicit in Fong's [3.1. Definition] /
+    [3.2. Proposition] of "Decorated Cospans":
 
       (i) the decoration laws are [Proper] under the apex-iso
           transport produced by [cospan_equiv];
@@ -270,10 +281,10 @@ Arguments DecoratedCospanCat
 
 (** ** Path to the full symmetric monoidal layer
 
-    Given [DecoratedCospanCat], the next-layer structure (Fong, Theorem
-    3.1 of "Decorated Cospans") is a SYMMETRIC MONOIDAL category
-    extending the underlying [CospanCat]'s SMC structure with
-    decoration data:
+    Given [DecoratedCospanCat], the next-layer structure (Fong, [3.5.
+    Theorem] of "Decorated Cospans") is a SYMMETRIC MONOIDAL category —
+    in fact a HYPERGRAPH category — extending the underlying
+    [CospanCat]'s SMC structure with decoration data:
 
       - tensor of two decorated cospans: tensor the cospans (via
         [Cospan_Monoidal]) and tensor the decorations via [lax_ap[F]];
