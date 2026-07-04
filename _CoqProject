@@ -91,6 +91,7 @@ Instance/Cat/Cartesian/Closed.v
 Instance/Cat/Cocartesian.v
 Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
+Instance/StrictCat/Terminal.v
 Instance/Comp.v
 Instance/Cones.v
 Instance/Cones/Comma.v
