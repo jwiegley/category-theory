@@ -20,6 +20,7 @@ Construction/Funny/Bifunctor.v
 Construction/Funny/Comparison.v
 Construction/Funny/Unitors.v
 Construction/Funny/Swap.v
+Construction/Funny/Associator.v
 Construction/Groupoid.v
 Construction/Opposite.v
 Construction/Product.v
