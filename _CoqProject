@@ -15,6 +15,7 @@ Construction/Coproduct.v
 Construction/Enriched.v
 Construction/Free.v
 Construction/Funny.v
+Construction/Funny/StrictEq.v
 Construction/Groupoid.v
 Construction/Opposite.v
 Construction/Product.v
