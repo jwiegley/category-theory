@@ -22,6 +22,7 @@ Construction/Funny/Unitors.v
 Construction/Funny/Swap.v
 Construction/Funny/Associator.v
 Construction/Funny/Hom.v
+Construction/Funny/Closed.v
 Construction/Groupoid.v
 Construction/Opposite.v
 Construction/Product.v
