@@ -28,6 +28,7 @@ Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
 Construction/Product/Comma.v
+Construction/Quotient.v
 Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Subcategory.v
