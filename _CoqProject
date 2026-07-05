@@ -14,6 +14,15 @@ Construction/Comma/Natural/Transformation.v
 Construction/Coproduct.v
 Construction/Enriched.v
 Construction/Free.v
+Construction/Funny.v
+Construction/Funny/StrictEq.v
+Construction/Funny/Bifunctor.v
+Construction/Funny/Comparison.v
+Construction/Funny/Unitors.v
+Construction/Funny/Swap.v
+Construction/Funny/Associator.v
+Construction/Funny/Hom.v
+Construction/Funny/Closed.v
 Construction/Groupoid.v
 Construction/Opposite.v
 Construction/Product.v
@@ -84,6 +93,8 @@ Instance/Cat/Cartesian/Closed.v
 Instance/Cat/Cocartesian.v
 Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
+Instance/StrictCat/Terminal.v
+Instance/StrictCat/Funny.v
 Instance/Comp.v
 Instance/Cones.v
 Instance/Cones/Comma.v
