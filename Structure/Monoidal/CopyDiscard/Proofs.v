@@ -29,8 +29,8 @@ Generalizable All Variables.
       deterministic morphisms under ⨂;
     - the bridge identifying [RelevanceMonoidal]'s [braid2] at
       (x, x, y, y) with [mid_swap_inv x y];
-    - rewrite-friendly forms of the tensor-coherence fields
-      ([copy_tensor], [discard_tensor]);
+    - rewrite-friendly forms of the tensor- and unit-coherence fields
+      ([copy_tensor], [discard_tensor], [copy_unit], [discard_unit]);
     - the two SOUND generic instances:
         [CD_of_Cartesian]  : CartesianMonoidal ⇒ CopyDiscard
           (Fox's projection laws proj_*_diagonal supply the comonoid
@@ -139,6 +139,15 @@ Proof.
   unfold canonical_tensor_epsilon.
   reflexivity.
 Qed.
+
+(* The unit-coherence fields, in the same rewrite-friendly form. *)
+
+Corollary copy_unit `{CD : @CopyDiscard C S} :
+  copy[I] ≈ (@unit_left C _ I)⁻¹.
+Proof. exact cd_unit_delta. Qed.
+
+Corollary discard_unit `{CD : @CopyDiscard C S} : discard[I] ≈ id[I].
+Proof. exact cd_unit_epsilon. Qed.
 
 End CopyDiscardRewrites.
 

@@ -36,9 +36,11 @@ Generalizable All Variables.
     that carry no randomness.  Deterministic morphisms contain the
     identities and are closed under composition and under ⨂; all the
     structural isomorphisms of the symmetric monoidal base — braiding,
-    unitors, associator — are deterministic.  Consequently the deterministic
-    morphisms form a wide (lluf) subcategory [Det] of [C], packaged here
-    through [Construction/Subcategory.v].
+    unitors, associator — are deterministic, and so are the generators
+    [copy] and [discard] themselves ([deterministic_copy] /
+    [deterministic_discard]).  Consequently the deterministic morphisms
+    form a wide (lluf) subcategory [Det] of [C], packaged here through
+    [Construction/Subcategory.v].
 
     The structural-morphism proofs are instances of the classical fact that
     the squaring functor [x ↦ x ⨂ x] of a symmetric monoidal category is
@@ -225,13 +227,156 @@ Proof.
     reflexivity.
 Qed.
 
-(** Rewrite-friendly forms of the unit coherence fields. *)
+(** *** The generators copy and discard are themselves deterministic
 
-Corollary copy_unit : copy[I] ≈ (@unit_left C _ I)⁻¹.
-Proof. exact cd_unit_delta. Qed.
+    The canonical generators are the standard first examples of
+    deterministic morphisms (Cho–Jacobs §2; Fritz §10): [copy] is a
+    comonoid homomorphism precisely because the supply is coassociative
+    and cocommutative — its δ-square says [mid_swap_inv] fixes the
+    two-fold copy — and [discard] is one by the counit and unit
+    coherences.  These two lemmas are what a copy-discard supply on
+    [Det] itself would require of its structure morphisms. *)
 
-Corollary discard_unit : discard[I] ≈ id[I].
-Proof. exact cd_unit_epsilon. Qed.
+(* The comonoid laws of the canonical supply, restated in copy/discard
+   form for rewriting (the class fields state them at [delta] and
+   [epsilon] of the underlying comonoid). *)
+
+Lemma copy_coassoc {x : C} :
+  (copy[x] ⨂ id[x]) ∘ copy[x]
+    ≈ tensor_assoc⁻¹ ∘ ((id[x] ⨂ copy[x]) ∘ copy[x]).
+Proof.
+  rewrite comp_assoc.
+  exact (@delta_coassoc C _ x (cd_comonoid x)).
+Qed.
+
+(* Coassociativity solved for the forward associator. *)
+Lemma copy_coassoc_to {x : C} :
+  to tensor_assoc ∘ ((copy[x] ⨂ id[x]) ∘ copy[x])
+    ≈ (id[x] ⨂ copy[x]) ∘ copy[x].
+Proof.
+  rewrite copy_coassoc.
+  rewrite comp_assoc.
+  now rewrite iso_to_from, id_left.
+Qed.
+
+Lemma copy_cocomm {x : C} : braid ∘ copy[x] ≈ copy[x].
+Proof. exact (@delta_cocommutative_of_ccomon C S x (cd_comonoid x)). Qed.
+
+Lemma copy_counit_left {x : C} :
+  (discard[x] ⨂ id[x]) ∘ copy[x] ≈ unit_left⁻¹.
+Proof. exact (@delta_counit_left C _ x (cd_comonoid x)). Qed.
+
+(* The δ-square of copy: [mid_swap_inv] fixes the two-fold copy
+   (δ ⨂ δ) ∘ δ.  The chase pushes all three copies into the right-hand
+   nest with coassociativity ([Key]), where the conjugated inner braid
+   dies against cocommutativity ([Inner]), and comes back down ([Key2]). *)
+Lemma copy_copy {x : C} :
+  copy[(x ⨂ x)%object] ∘ copy[x] ≈ (copy[x] ⨂ copy[x]) ∘ copy[x].
+Proof.
+  rewrite copy_tensor.
+  (* The α-normalized two-fold copy: all three copies pushed into the
+     right-hand nest. *)
+  assert (Key : to (@tensor_assoc C _ x x (x ⨂ x)%object)
+                  ∘ ((copy[x] ⨂ copy[x]) ∘ copy[x])
+                  ≈ (id[x] ⨂ ((id[x] ⨂ copy[x]) ∘ copy[x])) ∘ copy[x]).
+  { rewrite <- (bimap_id_left_right (copy x) (copy x)).
+    rewrite <- (@bimap_id_id C C C (@tensor C _) x x).
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (to tensor_assoc)).
+    rewrite <- to_tensor_assoc_natural.
+    rewrite <- comp_assoc.
+    rewrite copy_coassoc_to.
+    rewrite comp_assoc.
+    rewrite <- bimap_comp_id_left.
+    reflexivity. }
+  (* Its inverse form, for coming back down. *)
+  assert (Key2 : (@tensor_assoc C _ x x (x ⨂ x)%object)⁻¹
+                   ∘ ((id[x] ⨂ ((id[x] ⨂ copy[x]) ∘ copy[x])) ∘ copy[x])
+                   ≈ (copy[x] ⨂ copy[x]) ∘ copy[x]).
+  { rewrite bimap_comp_id_left.
+    rewrite <- !comp_assoc.
+    rewrite (comp_assoc (tensor_assoc⁻¹)).
+    rewrite <- from_tensor_assoc_natural.
+    rewrite bimap_id_id.
+    rewrite <- comp_assoc.
+    rewrite <- copy_coassoc.
+    rewrite comp_assoc.
+    rewrite bimap_id_left_right.
+    reflexivity. }
+  (* Conjugating the inner braid by the associators fixes the nest:
+     cocommutativity. *)
+  assert (Inner : to (@tensor_assoc C _ x x x)
+                    ∘ ((braid ⨂ id[x])
+                         ∘ ((@tensor_assoc C _ x x x)⁻¹
+                              ∘ ((id[x] ⨂ copy[x]) ∘ copy[x])))
+                    ≈ (id[x] ⨂ copy[x]) ∘ copy[x]).
+  { rewrite <- copy_coassoc.
+    rewrite (comp_assoc (braid ⨂ id[x])).
+    rewrite <- bimap_comp_id_right.
+    rewrite copy_cocomm.
+    apply copy_coassoc_to. }
+  rewrite <- comp_assoc.
+  unfold mid_swap_inv.
+  rewrite <- !comp_assoc.
+  rewrite Key.
+  rewrite (comp_assoc (id[x] ⨂ (@tensor_assoc C _ x x x)⁻¹)).
+  rewrite <- bimap_comp_id_left.
+  rewrite (comp_assoc (id[x] ⨂ (braid ⨂ id[x]))).
+  rewrite <- bimap_comp_id_left.
+  rewrite (comp_assoc (id[x] ⨂ to (@tensor_assoc C _ x x x))).
+  rewrite <- bimap_comp_id_left.
+  rewrite Inner.
+  apply Key2.
+Qed.
+
+(* The ε-square of copy: the counit laws. *)
+Lemma discard_copy {x : C} :
+  discard[(x ⨂ x)%object] ∘ copy[x] ≈ discard[x].
+Proof.
+  rewrite discard_tensor.
+  rewrite <- (bimap_id_left_right (discard x) (discard x)).
+  rewrite <- !comp_assoc.
+  rewrite copy_counit_left.
+  rewrite from_unit_left_natural.
+  rewrite comp_assoc.
+  rewrite iso_to_from, id_left.
+  reflexivity.
+Qed.
+
+Theorem deterministic_copy {x : C} : deterministic (copy x).
+Proof.
+  split.
+  - exact copy_copy.
+  - exact discard_copy.
+Qed.
+
+(* The δ-square of discard: both sides are the counit pushed through the
+   left unitor. *)
+Lemma copy_discard {x : C} :
+  copy[I] ∘ discard[x] ≈ (discard[x] ⨂ discard[x]) ∘ copy[x].
+Proof.
+  rewrite copy_unit.
+  rewrite <- (bimap_id_left_right (discard x) (discard x)).
+  rewrite <- comp_assoc.
+  rewrite copy_counit_left.
+  rewrite from_unit_left_natural.
+  reflexivity.
+Qed.
+
+(* The ε-square of discard: the unit coherence. *)
+Lemma discard_discard {x : C} :
+  discard[I] ∘ discard[x] ≈ discard[x].
+Proof.
+  rewrite discard_unit.
+  apply id_left.
+Qed.
+
+Theorem deterministic_discard {x : C} : deterministic (discard x).
+Proof.
+  split.
+  - exact copy_discard.
+  - exact discard_discard.
+Qed.
 
 (** *** The structural isomorphisms are deterministic *)
 
@@ -271,7 +416,7 @@ Qed.
 
 (* Left unitor. *)
 
-Lemma copy_unit_left {x : C} :
+Lemma copy_unitor_left {x : C} :
   copy[x] ∘ unit_left
     ≈ (unit_left ⨂ unit_left) ∘ copy[(I ⨂ x)%object].
 Proof.
@@ -285,7 +430,7 @@ Proof.
   apply mid_swap_inv_unit_left.
 Qed.
 
-Lemma discard_unit_left {x : C} :
+Lemma discard_unitor_left {x : C} :
   discard[x] ∘ unit_left ≈ discard[(I ⨂ x)%object].
 Proof.
   rewrite discard_tensor.
@@ -298,8 +443,8 @@ Theorem deterministic_unit_left_to {x : C} :
   deterministic (to (@unit_left C _ x)).
 Proof.
   split.
-  - exact copy_unit_left.
-  - exact discard_unit_left.
+  - exact copy_unitor_left.
+  - exact discard_unitor_left.
 Qed.
 
 Theorem deterministic_unit_left_from {x : C} :
@@ -308,7 +453,7 @@ Proof. exact (deterministic_iso_from _ deterministic_unit_left_to). Qed.
 
 (* Right unitor. *)
 
-Lemma copy_unit_right {x : C} :
+Lemma copy_unitor_right {x : C} :
   copy[x] ∘ unit_right
     ≈ (unit_right ⨂ unit_right) ∘ copy[(x ⨂ I)%object].
 Proof.
@@ -322,7 +467,7 @@ Proof.
   apply mid_swap_inv_unit_right.
 Qed.
 
-Lemma discard_unit_right {x : C} :
+Lemma discard_unitor_right {x : C} :
   discard[x] ∘ unit_right ≈ discard[(x ⨂ I)%object].
 Proof.
   rewrite discard_tensor.
@@ -336,8 +481,8 @@ Theorem deterministic_unit_right_to {x : C} :
   deterministic (to (@unit_right C _ x)).
 Proof.
   split.
-  - exact copy_unit_right.
-  - exact discard_unit_right.
+  - exact copy_unitor_right.
+  - exact discard_unitor_right.
 Qed.
 
 Theorem deterministic_unit_right_from {x : C} :
