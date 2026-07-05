@@ -57,9 +57,9 @@ Context `{M : @Monoidal C}.
 
 Class ComonoidHom {x y : C} (Cx : Comonoid x) (Cy : Comonoid y)
       (f : x ~> y) : Type := {
-  (* f preserves comultiplication: δ ∘ f ≈ (f ⨂ f) ∘ δ *)
+  (* f preserves comultiplication: delta[Cy] ∘ f ≈ (f ⨂ f) ∘ delta[Cx] *)
   hom_delta   : delta[Cy] ∘ f ≈ (f ⨂ f) ∘ delta[Cx];
-  (* f preserves the counit: ε ∘ f ≈ ε *)
+  (* f preserves the counit: epsilon[Cy] ∘ f ≈ epsilon[Cx] *)
   hom_epsilon : epsilon[Cy] ∘ f ≈ epsilon[Cx]
 }.
 

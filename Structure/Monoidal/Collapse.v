@@ -143,11 +143,12 @@ End FrobeniusObject.
 
 End FrobeniusCollapse.
 
-(* The cartesian instance (§2 #7): in a cartesian monoidal category — where
-   the tensor is the categorical product — every Frobenius object collapses
-   to the terminal unit.  This is the load-bearing form for seam-discipline
-   rule 2: no special commutative Frobenius structure can live on a colour
-   whose ambient tensor is cartesian. *)
+(* The cartesian instance: in a cartesian monoidal category — where the
+   tensor is the categorical product — every Frobenius object collapses to
+   the terminal unit (cf. Heunen & Vicary, "Categories for Quantum Theory",
+   Oxford UP, 2019, Ch. 5 on Frobenius structures).  This is the
+   load-bearing form for seam discipline: no special commutative Frobenius
+   structure can live on a colour whose ambient tensor is cartesian. *)
 Theorem frobenius_collapse {C : Category} `{H : @CartesianMonoidal C} {X : C}
         (F : @Frobenius C _ X) : X ≅ I.
 Proof.
@@ -159,10 +160,12 @@ Qed.
     Abramsky, "No-Cloning in categorical quantum mechanics" (arXiv:0910.2401),
     §4.  Uniform copying in a symmetric monoidal category is a monoidal
     natural diagonal that is coassociative and cocommutative — precisely the
-    [RelevanceMonoidal] structure: [diagonal_natural] (naturality),
-    [diagonal_unit] (∆I = λ⁻¹) and [diagonal_braid2] (monoidality),
-    [diagonal_tensor_assoc] (coassociativity), [braid_diagonal]
-    (cocommutativity).
+    [RelevanceMonoidal] structure.  The proofs below consume only
+    [diagonal_natural] (naturality), [diagonal_unit] (∆I = λ⁻¹),
+    [diagonal_braid2] (monoidality) and [braid_diagonal] (cocommutativity);
+    coassociativity ([diagonal_tensor_assoc]) is carried by the class but
+    never used, so the no-go applies just as well to a non-coassociative
+    copying operation.
 
     The theorem: if such a category is moreover compact closed, the braiding
     σ_{x,x} on every diagonal square is the identity ("the twist map is the
@@ -515,12 +518,12 @@ Proof.
   reflexivity.
 Qed.
 
-(* §2 #6 — Abramsky's no-cloning theorem (arXiv:0910.2401, Theorem 11,
-   second step): in a compact closed category with uniform copying, the
-   braiding on every diagonal square is the identity.  The copied two-cup
-   state is silently swap-invariant ([cups_mid_braid]); pushing the swap
-   through the closure ([close_braid]) and evaluating ([close_cups_mid])
-   forces σ ≈ σ ∘ σ ≈ id. *)
+(* Abramsky's no-cloning theorem (arXiv:0910.2401, Theorem 11, second
+   step): in a compact closed category with uniform copying, the braiding
+   on every diagonal square is the identity.  The copied two-cup state is
+   silently swap-invariant ([cups_mid_braid]); pushing the swap through
+   the closure ([close_braid]) and evaluating ([close_cups_mid]) forces
+   σ ≈ σ ∘ σ ≈ id. *)
 Theorem no_cloning : @braid C _ x x ≈ id[(x ⨂ x)%object].
 Proof using C CC R x.
   pose proof close_cups_mid as E1.
