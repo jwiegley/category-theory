@@ -81,6 +81,7 @@ Functor/Structure/Monoidal.v
 Functor/Structure/Monoidal/Compose.v
 Functor/Structure/Monoidal/Id.v
 Functor/Structure/Monoidal/Pure.v
+Functor/Structure/Monoidal/Strict.v
 Functor/Structure/Terminal.v
 Functor/Traversable.v
 Functor/Traversable/Product.v
