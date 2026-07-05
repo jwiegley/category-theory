@@ -55,6 +55,7 @@ Construction/PROP/Monoidal.v
 Construction/PROP/Braided.v
 Construction/PROP/Symmetric.v
 Construction/PROP/Strict.v
+Construction/PROP/Instance.v
 Construction/ColouredPROP.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
