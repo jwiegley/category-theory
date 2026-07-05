@@ -122,6 +122,7 @@ Instance/Coq/Par.v
 Instance/Coq/ParE.v
 Instance/Ens.v
 Instance/Fact.v
+Instance/FinSet.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Lambda.v
