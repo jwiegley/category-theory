@@ -53,6 +53,7 @@ Construction/PROP/Structural.v
 Construction/PROP/Naturality.v
 Construction/PROP/Monoidal.v
 Construction/PROP/Braided.v
+Construction/PROP/Symmetric.v
 Construction/ColouredPROP.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
