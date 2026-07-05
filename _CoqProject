@@ -201,6 +201,7 @@ Structure/Monoid.v
 Structure/Monoidal.v
 Structure/Monoidal/Balanced.v
 Structure/Monoidal/Braided.v
+Structure/Monoidal/Braided/Proofs.v
 Structure/Monoidal/Cartesian.v
 Structure/Monoidal/Heunen_Vicary.v
 Structure/Monoidal/Heunen_Vicary/Cartesian.v
