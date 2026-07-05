@@ -57,6 +57,7 @@ Construction/PROP/Symmetric.v
 Construction/PROP/Strict.v
 Construction/PROP/Instance.v
 Construction/PROP/Interp.v
+Construction/PROP/Universal.v
 Construction/ColouredPROP.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
