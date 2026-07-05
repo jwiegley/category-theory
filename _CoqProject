@@ -213,6 +213,7 @@ Structure/Monoidal/Closed.v
 Structure/Monoidal/Commutative.v
 Structure/Monoidal/Compose.v
 Structure/Monoidal/CopyDiscard.v
+Structure/Monoidal/CopyDiscard/Proofs.v
 Structure/Monoidal/Internal/Product.v
 Structure/Monoidal/Naturality.v
 Structure/Monoidal/Product.v
