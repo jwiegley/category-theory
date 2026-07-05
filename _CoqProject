@@ -243,6 +243,7 @@ Theory/Algebra.v
 Theory/Algebra/Monoid.v
 Theory/Algebra/Monoid/Hom.v
 Theory/Algebra/Comonoid.v
+Theory/Algebra/Comonoid/Hom.v
 Theory/Algebra/CommutativeMonoid.v
 Theory/Algebra/CommutativeComonoid.v
 Theory/Algebra/Frobenius.v
