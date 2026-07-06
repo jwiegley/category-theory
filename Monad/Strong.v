@@ -284,8 +284,8 @@ Arguments RightStrongMonad {C} _ M.
    computations.  Out of the left strength t and the right strength t' one
    builds two "double strengths" M x ⨂ M y ~> M (x ⨂ y):
 
-     dstr  = μ ∘ M t  ∘ t'   (sequence the right computation first)
-     dstr' = μ ∘ M t' ∘ t    (sequence the left  computation first)
+     dstr  = μ ∘ M t  ∘ t'   (sequence the left  computation first)
+     dstr' = μ ∘ M t' ∘ t    (sequence the right computation first)
 
    and the monad is commutative when dstr ≈ dstr' — running the two effects in
    either order yields the same result.  This double strength is precisely the

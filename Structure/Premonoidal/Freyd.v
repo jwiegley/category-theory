@@ -16,7 +16,6 @@ Require Import Category.Structure.Binoidal.Central.
 Require Import Category.Structure.Premonoidal.
 Require Import Category.Structure.Premonoidal.Monoidal.
 Require Import Category.Structure.Premonoidal.Centre.
-Require Import Category.Functor.Structure.Monoidal.Strict.
 Require Import Category.Monad.Strong.
 Require Import Category.Monad.Kleisli.
 Require Import Category.Monad.Kleisli.Premonoidal.
@@ -102,7 +101,6 @@ Set Transparent Obligations.
 Section Effectful.
 
 Context {V K : Category}.
-Context `{MV : @Monoidal V}.
 Context `{BK : @Binoidal K}.
 
 Class EffectfulFunctor (J : V ⟶ K) := {

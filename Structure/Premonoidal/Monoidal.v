@@ -152,9 +152,9 @@ Proof.
 Qed.
 
 (* The interleaved binoidal tensor over [Monoidal_Binoidal] agrees with
-   the monoidal [bimap]; recorded here because downstream instances
-   (e.g. Structure/Premonoidal/Freyd.v's identity example) rewrite
-   between the two spellings. *)
+   the monoidal [bimap]; recorded as the bridge between the binoidal
+   [composite_ff'] spelling and the monoidal [bimap] spelling of
+   tensoring a pair of morphisms. *)
 Lemma Monoidal_composite_ff' {x x' y y' : C} (f : x ~> y) (f' : x' ~> y') :
   @composite_ff' C Monoidal_Binoidal x x' y y' f f' ≈ f ⨂ f'.
 Proof. exact (bimap_id_left_right f' f). Qed.
@@ -303,8 +303,8 @@ Definition Premonoidal_Monoidal : @Monoidal C :=
     (fun x y z w => premon_pentagon_ff').
 
 (* The induced monoidal tensor acts on morphism pairs exactly by
-   [composite_ff']; the agreement is definitional and recorded for
-   downstream rewriting. *)
+   [composite_ff']; the agreement is definitional, recorded here as
+   the explicit bridge between the two spellings. *)
 Corollary Premonoidal_Monoidal_bimap {x x' y y' : C}
           (f : x ~> y) (f' : x' ~> y') :
   f ⨂[Premonoidal_Monoidal] f' ≈ composite_ff' f f'.

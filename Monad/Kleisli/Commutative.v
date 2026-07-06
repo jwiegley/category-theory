@@ -4,15 +4,11 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Naturality.
 Require Import Category.Theory.Monad.
 Require Import Category.Functor.Bifunctor.
-Require Import Category.Construction.Product.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Naturality.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Braided.Proofs.
 Require Import Category.Structure.Monoidal.Hypergraph.
 Require Import Category.Structure.Monoidal.CopyDiscard.
 Require Import Category.Theory.Algebra.Comonoid.
@@ -42,8 +38,8 @@ Set Transparent Obligations.
     premonoidal structure, and characterizes centrality there: a Kleisli
     morphism f is central exactly when the two double strengths [dstr] and
     [dstr'] agree on every tensor with f in either factor
-    ([kleisli_central_iff]).  This file completes deliverable (e) of the
-    effects programme with the commutative case:
+    ([kleisli_central_iff]).  This file treats the commutative case of
+    the Kleisli premonoidal development:
 
     1. The funnel between commutativity and centrality, in both
        directions.  If M is commutative ([commutative_sm], i.e. dstr and
@@ -225,16 +221,7 @@ Proof.
     now rewrite <- bimap_comp. }
   rewrite E; clear E.
   rewrite comp_assoc.
-  assert (E2 : dstr ∘ (ret[M] ⨂ ret[M])
-                 ≈ (ret[M] : b ⨂ d ~{C}~> M (b ⨂ d))).
-  { transitivity (dstr ∘ ((ret[M] ⨂ id[M d]) ∘ (id[b] ⨂ ret[M]))).
-    - apply compose_respects; [reflexivity|].
-      rewrite <- bimap_comp.
-      now rewrite id_left, id_right.
-    - rewrite comp_assoc.
-      rewrite dstr_ret_left.
-      apply strength_ret. }
-  rewrite E2.
+  rewrite dstr_ret_ret.
   unfold kpure.
   reflexivity.
 Qed.

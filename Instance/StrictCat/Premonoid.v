@@ -2,24 +2,15 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Naturality.
-Require Import Category.Construction.Product.
-Require Import Category.Functor.Bifunctor.
 Require Import Category.Instance.One.
 Require Import Category.Instance.StrictCat.
-Require Import Category.Instance.StrictCat.Terminal.
 Require Import Category.Construction.Funny.
 Require Import Category.Construction.Funny.StrictEq.
 Require Import Category.Construction.Funny.Bifunctor.
 Require Import Category.Construction.Funny.Unitors.
-Require Import Category.Construction.Funny.Swap.
 Require Import Category.Construction.Funny.Associator.
 Require Import Category.Instance.StrictCat.Funny.
-Require Import Category.Structure.Terminal.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
-Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Semicartesian.
 Require Import Category.Structure.Monoid.
 Require Import Category.Structure.Binoidal.
 
@@ -69,17 +60,12 @@ Generalizable All Variables.
     Universe scope.  [Funny_Monoidal@{u} : Monoidal@{u Set}] pins
     StrictCat's member categories to [Category@{Set Set Set}].  Re-declaring
     the instance at a rigid universe [v] is blocked: the compiled unitors of
-    Construction/Funny/Unitors.v carry a minimized [Set] level, and
-    [Build_Monoidal] at member level [v] reports the constraint [Set = v] as
-    unsatisfiable (probe ProbeFunnyPoly.v — re-verified this session by
-    recompiling the probe, which reproduces "Cannot enforce Set = v" at the
-    [Build_Monoidal] unitor field; an earlier .vo of the probe was stale).
-    Everything below therefore holds for [Set]-small carrier categories;
-    lifting the restriction requires re-declaring the unitors with explicit
-    universe binders in Construction/Funny/Unitors.v, which is outside this
-    phase's envelope. *)
-
-#[local] Obligation Tactic := idtac.
+    Construction/Funny/Unitors.v carry a minimized [Set] level, so
+    [Build_Monoidal] at member level [v] reports "Cannot enforce Set = v" at
+    the unitor field.  Everything below therefore holds for [Set]-small
+    carrier categories; lifting the restriction requires re-declaring the
+    unitors with explicit universe binders in Construction/Funny/Unitors.v,
+    which is left as future work. *)
 
 (** ** Strict premonoidal structures
 

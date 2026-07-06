@@ -2,22 +2,15 @@ Set Warnings "-notation-overridden".
 
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Monad.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.CopyDiscard.
 Require Import Category.Structure.Monoidal.CopyDiscard.Deterministic.
-Require Import Category.Structure.Monoidal.Markov.
 Require Import Category.Theory.Algebra.Comonoid.
-Require Import Category.Theory.Algebra.CommutativeComonoid.
-Require Import Category.Theory.Algebra.Comonoid.Hom.
 Require Import Category.Structure.Binoidal.
-Require Import Category.Structure.Binoidal.Central.
-Require Import Category.Functor.Strong.
 Require Import Category.Monad.Strong.
 Require Import Category.Monad.Strong.Symmetric.
 Require Import Category.Monad.Kleisli.
@@ -92,7 +85,7 @@ Set Transparent Obligations.
        the deterministic morphisms in the first place).
 
     3. Over a commutative strong monad on a copy-discard base, the honest
-       form of the master plan's thunkable-determinism statement:
+       form of the thunkable-determinism statement:
        [thunkable_deterministic] lands every thunkable Kleisli morphism in
        the Cho-Jacobs deterministic class of the descended copy-discard
        structure [Kleisli_CopyDiscard] (Monad/Kleisli/Commutative.v) —
@@ -116,7 +109,7 @@ Set Transparent Obligations.
     Kleisli morphism is copyable and discardable, but only the morphisms
     that ignore the read value are thunkable (Moss & Perrone,
     "Probability monads with submonads of deterministic states",
-    LICS 2022, Theorem 3.14).  The converse of
+    LICS 2022, Theorem 3.14 and Example 3.16).  The converse of
     [thunkable_deterministic] is therefore not provable, and the
     deterministic class is in general strictly larger than the thunkable
     one. *)
@@ -247,22 +240,9 @@ Proof.
 Qed.
 
 (* Feeding returned values into BOTH factors of the double strength
-   leaves a single unit: split ret ⨂ ret at the middle, collapse the
-   left insertion with [dstr_ret_left] and the remaining strength with
-   [strength_ret].  This is the unit law of the lax monoidal structure
-   that [dstr] puts on M, needed below for the copyability of thunkable
-   morphisms. *)
-Lemma dstr_ret_ret {b d : C} :
-  dstr ∘ (ret[M] ⨂ ret[M]) ≈ (ret[M] : b ⨂ d ~{C}~> M (b ⨂ d)).
-Proof.
-  transitivity (dstr ∘ ((ret[M] ⨂ id[M d]) ∘ (id[b] ⨂ ret[M]))).
-  - apply compose_respects; [reflexivity|].
-    rewrite <- bimap_comp.
-    now rewrite id_left, id_right.
-  - rewrite comp_assoc.
-    rewrite dstr_ret_left.
-    apply strength_ret.
-Qed.
+   leaves a single unit — [dstr_ret_ret] (Monad/Strong/Symmetric.v), the
+   unit law of the lax monoidal structure that [dstr] puts on M, needed
+   below for the copyability of thunkable morphisms. *)
 
 (* ------------------------------------------------------------------ *)
 (** ** The wide subcategory Thunk of thunkable morphisms.              *)

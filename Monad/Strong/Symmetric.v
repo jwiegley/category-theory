@@ -4,17 +4,14 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Naturality.
 Require Import Category.Theory.Natural.Transformation.
 Require Import Category.Theory.Monad.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Naturality.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Braided.Proofs.
 Require Import Category.Functor.Strong.
-Require Import Category.Natural.Transformation.Strong.
 Require Import Category.Construction.Product.
 Require Import Category.Functor.Construction.Product.
 Require Import Category.Monad.Strong.
@@ -195,6 +192,21 @@ Proof.
   rewrite comp_assoc.
   rewrite join_fmap_ret.
   now rewrite id_left.
+Qed.
+
+(* Both factors pure at once: the double strength collapses to the unit.
+   Shared by [kl_pure_tensor] (Monad/Kleisli/Commutative.v) and the
+   thunkability development (Monad/Thunkable.v). *)
+Lemma dstr_ret_ret {x y} :
+  dstr ∘ (ret[M] ⨂ ret[M]) ≈ (ret[M] : x ⨂ y ~{C}~> M (x ⨂ y)).
+Proof.
+  transitivity (dstr ∘ ((ret[M] ⨂ id[M y]) ∘ (id[x] ⨂ ret[M]))).
+  - apply compose_respects; [reflexivity|].
+    rewrite <- bimap_comp.
+    now rewrite id_left, id_right.
+  - rewrite comp_assoc.
+    rewrite dstr_ret_left.
+    apply strength_ret.
 Qed.
 
 Lemma dstr_natural {x y z w} (u : x ~> z) (v : y ~> w) :

@@ -4,15 +4,12 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Naturality.
 Require Import Category.Theory.Monad.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Naturality.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Binoidal.
-Require Import Category.Structure.Binoidal.Central.
 Require Import Category.Structure.Premonoidal.
 Require Import Category.Functor.Strong.
 Require Import Category.Monad.Strong.
