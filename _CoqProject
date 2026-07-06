@@ -199,6 +199,7 @@ Monad/Eilenberg/Moore.v
 Monad/Graded.v
 Monad/Kleisli.v
 Monad/Kleisli/Premonoidal.v
+Monad/Kleisli/Commutative.v
 Monad/Monoid.v
 Monad/Strong.v
 Monad/Strong/Symmetric.v
