@@ -81,6 +81,7 @@ Construction/ColouredPROP/BaseChange/Laws.v
 Construction/ColouredPROP/Supply.v
 Construction/ColouredPROP/Linear.v
 Construction/ColouredPROP/Supply/Instance.v
+Construction/ColouredPROP/LNL.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
 Construction/DecoratedCospan/Symmetric.v
