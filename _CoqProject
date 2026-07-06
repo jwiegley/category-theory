@@ -64,6 +64,7 @@ Construction/PROP/Presentation/Universal.v
 Construction/PROP/Tietze.v
 Construction/ColouredPROP.v
 Construction/ColouredPROP/Signature.v
+Construction/ColouredPROP/TermEq.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
 Construction/DecoratedCospan/Symmetric.v
