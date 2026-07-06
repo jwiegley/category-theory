@@ -37,9 +37,10 @@ Generalizable All Variables.
    braiding is packaged as an isomorphism; every consumer in this development
    is symmetric.)
 
-   This is exactly the coherence noted as missing at the end of
-   Monad/Strong.v (packaging the derived right strength of a strong monad
-   over a symmetric base needs ρ ≈ λ ∘ β), and it discharges the braid-unitor
+   This supplies the coherence needed to package the derived right strength
+   of a strong monad over a symmetric base (ρ ≈ λ ∘ β):
+   Monad/Strong/Symmetric.v consumes it to build [rstr_RightStrongFunctor]
+   and [rstr_RightStrongMonad].  It also discharges the braid-unitor
    compatibilities that a cartesian monoidal structure must satisfy.
 
    Beyond the braid-unitor coherence, this file hosts the shared
@@ -97,7 +98,7 @@ End IsoCancellation.
 
     The kit is exported, citable API: plain and mirror-image forms are
     included for completeness even where only one orientation currently has
-    an in-tree consumer (e.g. [bimap_id_fuse], [triangle_inverse_left]). *)
+    an in-tree consumer (e.g. [triangle_inverse_left]). *)
 
 Section MonoidalToolkit.
 
@@ -613,7 +614,8 @@ End BraidedUnitors.
     independent of the hypergraph stack.
 
     Mirror forms are kept as citable API even where currently unconsumed
-    in-tree: [braid_I_right], [braid_conjugate_right]. *)
+    in-tree: [braid_conjugate_right] (which itself consumes the otherwise
+    unconsumed [braid_I_right]). *)
 
 Section Interchange.
 

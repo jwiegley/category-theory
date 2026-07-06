@@ -47,10 +47,11 @@ Generalizable All Variables.
    This is packaged both pointwise ([Comonoid_to_op_Monoid] and companions)
    and functorially, as functors Mon(C^op) ⟶ Comon(C)^op and back.
 
-   No involution claim is made for [Monoidal_op]: its tensor is a functor
-   on C^op ∏ C^op, which is not definitionally (C ∏ C)^op, so
-   [Monoidal_op (Monoidal_op M)] is not definitionally M even though
-   (C^op)^op = C holds by reflexivity. *)
+   No involution claim is made for [Monoidal_op]: although (C ∏ C)^op and
+   C^op ∏ C^op are convertible, [Opposite_Tensor] and the [Monoidal_op]
+   obligations rebuild the functor-law and coherence fields as fresh
+   Qed-opaque proof terms, so [Monoidal_op (Monoidal_op M)] is not
+   definitionally M even though (C^op)^op = C holds by reflexivity. *)
 
 Section OppositeMonoidal.
 
