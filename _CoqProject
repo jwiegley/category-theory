@@ -79,6 +79,7 @@ Construction/ColouredPROP/Relabel.v
 Construction/ColouredPROP/BaseChange.v
 Construction/ColouredPROP/BaseChange/Laws.v
 Construction/ColouredPROP/Supply.v
+Construction/ColouredPROP/Linear.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
 Construction/DecoratedCospan/Symmetric.v
