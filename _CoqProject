@@ -222,6 +222,7 @@ Structure/Binoidal/Central.v
 Structure/Premonoidal.v
 Structure/Premonoidal/Monoidal.v
 Structure/Premonoidal/Centre.v
+Structure/Premonoidal/Freyd.v
 Structure/Cartesian.v
 Structure/Cartesian/Closed.v
 Structure/Cartesian/Closed/Product.v
