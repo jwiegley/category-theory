@@ -131,6 +131,7 @@ Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
 Instance/StrictCat/Terminal.v
 Instance/StrictCat/Funny.v
+Instance/StrictCat/Premonoid.v
 Instance/Comp.v
 Instance/Cones.v
 Instance/Cones/Comma.v
