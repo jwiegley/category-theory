@@ -34,9 +34,11 @@ Reserved Infix "⊗" (at level 30, right associativity).
    and f' : a' ~> b' on the right may be applied in two orders, giving in
    general distinct composites a ⊗ a' ~> b ⊗ b'. This is the "premagmoidal"
    precursor to a premonoidal category, which adds a unit and central
-   coherence isomorphisms. The naming here follows the rest of the library;
-   the symbols ⋉ / ⋊ match the nLab convention for the right/left tensoring
-   functors. *)
+   coherence isomorphisms. The premonoidal successor is
+   Structure/Premonoidal.v; the funny-tensor characterization of
+   separately-functorial tensors is Instance/StrictCat/Premonoid.v. The
+   naming here follows the rest of the library; the symbols ⋉ / ⋊ match the
+   nLab convention for the right/left tensoring functors. *)
 Class Binoidal := {
   tensor (x y : C) : C where "x ⊗ y" := (tensor x y);
 
@@ -66,7 +68,10 @@ Proof. reflexivity. Qed.
    first conjunct is the square on x ⊗ x' ~~> y ⊗ y' (f on the left, f' on the
    right); the second is the mirror square on x' ⊗ x ~~> y' ⊗ y. When f is
    central these common composites are the f ⊗ f' and f' ⊗ f below. The
-   central morphisms form the centre, a monoidal subcategory of C. *)
+   central morphisms form the centre, a monoidal subcategory of C: it is
+   constructed as a wide subcategory in Structure/Binoidal/Central.v
+   ([Centre]), and shown monoidal for premonoidal C in
+   Structure/Premonoidal/Centre.v ([Centre_Monoidal]). *)
 
 Definition central `(f : x ~> y) : Type :=
   ∀ x' y' (f' : x' ~> y'),
