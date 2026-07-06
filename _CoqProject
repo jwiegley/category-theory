@@ -198,6 +198,7 @@ Monad/Eilenberg/Moore.v
 Monad/Kleisli.v
 Monad/Monoid.v
 Monad/Strong.v
+Monad/Strong/Symmetric.v
 Monad/Transformer.v
 Natural/Transformation/Applicative.v
 Natural/Transformation/Monoidal.v
