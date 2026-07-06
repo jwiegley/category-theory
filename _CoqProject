@@ -74,6 +74,7 @@ Construction/ColouredPROP/Interp.v
 Construction/ColouredPROP/Universal.v
 Construction/ColouredPROP/Presentation.v
 Construction/ColouredPROP/Presentation/Universal.v
+Construction/ColouredPROP/Algebra.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
 Construction/DecoratedCospan/Symmetric.v
