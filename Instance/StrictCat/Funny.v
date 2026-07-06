@@ -44,7 +44,7 @@ Generalizable All Variables.
     [(fapp (rstep u) (lstep u))⁻¹ ∘ (fapp (lstep u) (rstep u))]
     at (a, a) is free ([fapp t u] is "t then u", Construction/Funny.v).
     Hence [fmap_respects] of a would-be
-    [tensor : Cat ∏ Cat ⟶ Cat] is FALSE, and the failure persists with one
+    [tensor : Cat ∏ Cat ⟶ Cat] is FALSE, and the obstruction persists with one
     argument fixed ([− □ I] is already non-Proper).  The tensor therefore
     lives on [StrictCat] (Instance/StrictCat.v), whose hom-setoid
     [Functor_StrictEq_Setoid] compares functors strictly — the same shape of

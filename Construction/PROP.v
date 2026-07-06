@@ -244,26 +244,23 @@ Coercion hpprop : HypergraphPROP >-> PROP.
     Three illustrative kinds of PROP instance:
 
     1. **Free PROP on a signature** ([Construction/PROP/Free.v]).
-       Given a signature [S : Signature], the free PROP on [S] would
-       have morphisms [m ~> n] equivalence classes of [Term S m n]
-       under [TermEq].  This is the construction the library carries
-       furthest, but it is *not yet a [PROP]*: [Construction/PROP/Free.v]
-       delivers only the underlying [Category] layer ([FreeCat S]),
-       built from the inductive [Term] datatype.  Completing it to an
-       actual [PROP] — the [Monoidal] / [SymmetricMonoidal] /
-       [StrictMonoidal] structure, and the [prop_of_nat] /
-       [prop_unit_zero] / [prop_tensor_plus] data — is still pending in
-       the successor files, which so far supply a tensor functor
-       ([Construction/PROP/Tensor.v]), the structural isomorphisms
-       ([Construction/PROP/Structural.v]), and their naturality
-       lemmas ([Construction/PROP/Naturality.v]) but stop short of the
-       [PROP] instance itself.  See also [Construction/PROP/Term.v]
-       for the syntax and [Construction/PROP/TermEq.v] for the
-       quotient.
-
-       So despite the heading, none of the three kinds of PROP
-       instance below is actually inhabited in the library today; this
-       is a discussion of what such instances would look like.
+       Given a signature [S : Signature], the free PROP on [S] has
+       morphisms [m ~> n] the equivalence classes of [Term S m n]
+       under [TermEq].  [Construction/PROP/Free.v] delivers the
+       underlying [Category] layer ([FreeCat S]) from the inductive
+       [Term] datatype, and the successor files complete it to an
+       actual [PROP]: the tensor functor ([Construction/PROP/Tensor.v]),
+       the structural isomorphisms ([Construction/PROP/Structural.v])
+       and their naturality lemmas ([Construction/PROP/Naturality.v]),
+       the shared [Monoidal] record ([Construction/PROP/Monoidal.v])
+       with its braided/symmetric/strict structure ([Braided.v] /
+       [Symmetric.v] / [Strict.v]), and finally the bundled
+       [FreePROP S : PROP] with definitional coherence
+       ([Construction/PROP/Instance.v]), together with interpretation,
+       the universal property, and presentations ([Interp.v],
+       [Universal.v], [Presentation.v]).  See also
+       [Construction/PROP/Term.v] for the syntax and
+       [Construction/PROP/TermEq.v] for the quotient.
 
     2. **Permutation PROP** (literature canonical, not yet in the
        library).  Its morphisms [m ~> n] are nonempty exactly when
@@ -272,11 +269,13 @@ Coercion hpprop : HypergraphPROP >-> PROP.
        either an inductive presentation of permutations as a quotient
        of [list (Fin n × Fin n)] adjacency generators, or the
        bijection presentation [{ p : Fin n -> Fin n | bij p }] under
-       extensional equality.  This is a few hundred lines of
-       finite-combinatorics infrastructure the library does not yet
-       provide; downstream consumers needing [Perm n] morphisms supply
-       their own datatype while retaining all theorems proven against
-       the [PROP] class.
+       extensional equality.  [Instance/FinSet.v] now supplies part of
+       the finite-combinatorics substrate (skeletal [FinSet] with
+       computable coproducts and a [Fin.t] case-analysis toolkit), but
+       the permutation subcategory [Perm n] itself remains unbuilt;
+       downstream consumers needing [Perm n] morphisms supply their
+       own datatype while retaining all theorems proven against the
+       [PROP] class.
 
     3. **Trivial / discrete-thin PROP** (the terminal PROP).  Objects
        are [nat], every hom-set is a singleton (the unique morphism is
