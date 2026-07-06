@@ -281,11 +281,11 @@ Program Definition Presented_Monoidal : @Monoidal PresentedCat := {|
   to_unit_right_natural := fun x y g =>
     TEW_termeq _ _ (right_unit_natural Σ g);
   from_unit_right_natural := fun x y g =>
-    TEW_termeq _ _ (from_right_unit_natural Σ g);
+    TEW_termeq _ _ (right_unit_natural_from Σ g);
   to_tensor_assoc_natural := fun _ _ _ _ _ _ g h i =>
     TEW_termeq _ _ (assoc_natural Σ g h i);
   from_tensor_assoc_natural := fun _ _ _ _ _ _ g h i =>
-    TEW_termeq _ _ (from_assoc_natural Σ g h i);
+    TEW_termeq _ _ (assoc_natural_from Σ g h i);
   triangle_identity := fun x y =>
     TEW_termeq _ _ (free_triangle Σ x y);
   pentagon_identity := fun x y z w =>

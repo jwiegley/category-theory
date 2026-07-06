@@ -10,11 +10,9 @@ Require Import Category.Instance.Fun.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.
 Require Import Category.Functor.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.Braided.
-Require Import Category.Construction.Quotient.
 Require Import Category.Construction.PROP.
 Require Import Category.Construction.PROP.Signature.
 Require Import Category.Construction.PROP.Term.
@@ -22,12 +20,10 @@ Require Import Category.Construction.PROP.TermEq.
 Require Import Category.Construction.PROP.Free.
 Require Import Category.Construction.PROP.Tensor.
 Require Import Category.Construction.PROP.Cast.
-Require Import Category.Construction.PROP.Structural.
 Require Import Category.Construction.PROP.Monoidal.
 Require Import Category.Construction.PROP.Braided.
 Require Import Category.Construction.PROP.Symmetric.
 Require Import Category.Construction.PROP.Strict.
-Require Import Category.Construction.PROP.Instance.
 Require Import Category.Construction.PROP.Interp.
 Require Import Category.Construction.PROP.Presentation.
 
@@ -564,9 +560,11 @@ Context (w : Term (smt_sig B) m n).
 Definition ext_sig : Signature := Sum_Sig (smt_sig B) (Single_Sig m n).
 
 (** The unique generator of [Single_Sig m n], with its arity
-    equations.  All three are transparent so that they may participate
-    in conversion, although the conservativity proof below only ever
-    consumes the arity equations through UIP on [nat]. *)
+    equations.  Only [single_gen] is transparent — it is data,
+    occurring in [new_gen] and the [ee_def] constructor.  The two
+    arity equations are opaque: the conservativity proof below only
+    ever consumes them through UIP on [nat], so nothing computes
+    through them. *)
 Definition single_gen : Single_Sig m n m n.
 Proof.
   unfold Single_Sig.
@@ -582,7 +580,7 @@ Proof.
     apply Nat.eqb_eq.
     exact Ha.
   - intros [].
-Defined.
+Qed.
 
 Definition single_cod {a b : nat} : Single_Sig m n a b → b = n.
 Proof.
@@ -594,7 +592,7 @@ Proof.
       exact Hb.
     + intros [].
   - intros [].
-Defined.
+Qed.
 
 (** The fresh generator, as a generator of the extended signature. *)
 Definition new_gen : ext_sig m n := Datatypes.inr single_gen.

@@ -4,7 +4,6 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Construction.PROP.
@@ -12,10 +11,6 @@ Require Import Category.Construction.PROP.Signature.
 Require Import Category.Construction.PROP.Term.
 Require Import Category.Construction.PROP.TermEq.
 Require Import Category.Construction.PROP.Free.
-Require Import Category.Construction.PROP.Tensor.
-Require Import Category.Construction.PROP.Cast.
-Require Import Category.Construction.PROP.Monoidal.
-Require Import Category.Construction.PROP.Braided.
 Require Import Category.Construction.PROP.Symmetric.
 Require Import Category.Construction.PROP.Strict.
 Require Import Category.Construction.Quotient.
@@ -33,15 +28,9 @@ Generalizable All Variables.
 
    This file assembles the bundled [PROP] instance [FreePROP S] on the
    free category [FreeCat S] of a signature [S] — the first inhabitant
-   of the [PROP] class in the library.  The status notes written before
-   this construction existed — [Construction/PROP/Free.v] (lines 35-42,
-   "The [Monoidal], [SymmetricMonoidal], [StrictMonoidal], and [PROP]
-   instances ... are not yet built") and [Construction/PROP.v] (the
-   closing "Discussion: concrete PROP instances", lines 242-290, "none
-   of the three kinds of PROP instance below is actually inhabited in
-   the library today") — are superseded by this successor file; per the
-   repository's append-only discipline for the PROP spine, those files
-   are left untouched and the record is set straight here.
+   of the [PROP] class in the library.  See the surrounding discussions
+   in [Construction/PROP/Free.v] and [Construction/PROP.v] for the
+   roadmap of the instance tower that this file completes.
 
    Every equality field of [FreePROP] is [eq_refl], because the whole
    tower shares ONE [Monoidal] record:

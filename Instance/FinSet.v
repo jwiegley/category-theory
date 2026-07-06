@@ -28,16 +28,17 @@ Generalizable All Variables.
    structure (tensor on objects is [plus]) makes every object a commutative
    monoid via the codiagonal [id ▽ id] and the empty map.  That monoidal
    assembly, and the [PROP] instance riding on it, need the coherence
-   machinery and are built later; this file delivers exactly their inputs:
+   machinery and are not yet built; this file delivers their intended
+   inputs:
 
    - the category itself, with Initial (0), Terminal (1) and COMPUTING
      coproducts: [fin_split] is built on the standard library's recursor
      [Fin.case_L_R'], so copairings evaluate on closed inputs by [eq_refl]
      (see [fin_split_computes] and [merge_computes] below);
    - the [HomEqProp] and [ObjDecEq] side conditions from
-     [Construction/Quotient.v], which downstream universal-property proofs
-     against FinSet-like targets rely on ([Prop]-reflected hom equivalence,
-     and axiom-free UIP on objects via [Nat.eq_dec]).
+     [Construction/Quotient.v], which universal-property proofs against
+     FinSet-like targets require ([Prop]-reflected hom equivalence, and
+     axiom-free UIP on objects via [Nat.eq_dec]).
 
    NOTE on names: [Structure/Cocartesian.v] defines [inl], [inr], [left]
    and [right] for the coproduct calculus, shadowing the sum-type

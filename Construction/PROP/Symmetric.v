@@ -8,7 +8,6 @@ Require Import Category.Construction.PROP.Signature.
 Require Import Category.Construction.PROP.Term.
 Require Import Category.Construction.PROP.TermEq.
 Require Import Category.Construction.PROP.Free.
-Require Import Category.Construction.PROP.Monoidal.
 Require Import Category.Construction.PROP.Braided.
 
 Generalizable All Variables.

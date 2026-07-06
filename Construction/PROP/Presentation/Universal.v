@@ -12,7 +12,6 @@ Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.
-Require Import Category.Functor.Structure.Monoidal.Id.
 Require Import Category.Functor.Structure.Monoidal.Compose.
 Require Import Category.Functor.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.Braided.
@@ -111,7 +110,9 @@ Generalizable All Variables.
    comparison, with the target braiding re-indexed to the strict path
    by [strict_braid]; see the design note there for why the hypothesis
    pack is phrased against this bundle rather than against the two
-   independent Phase-1 functor classes. *)
+   independent [StrictMonoidalFunctor]/[BraidedMonoidalFunctor]
+   classes of [Functor/Structure/Monoidal/Strict.v] and
+   [Functor/Structure/Monoidal/Braided.v]. *)
 
 Section PresentedUniversal.
 

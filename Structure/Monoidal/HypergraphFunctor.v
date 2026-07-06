@@ -14,9 +14,9 @@ Generalizable All Variables.
 (** * Hypergraph functors
 
     Reference: Fong, "The Algebra of Open and Interconnected Systems"
-    (arXiv:1609.05382), Definition 4.1.3; Fong–Spivak, "Hypergraph
+    (arXiv:1609.05382), Definition 1.4; Fong–Spivak, "Hypergraph
     categories" (Journal of Pure and Applied Algebra 223, 2019;
-    arXiv:1806.08304).
+    arXiv:1806.08304), Definition 2.12.
 
     nLab:      https://ncatlab.org/nlab/show/hypergraph+category
                (defines hypergraph categories; the page does NOT define
@@ -28,8 +28,9 @@ Generalizable All Variables.
 
     A HYPERGRAPH FUNCTOR between hypergraph categories [(C, ⨂_C, I_C, …)]
     and [(D, ⨂_D, I_D, …)] is a STRONG symmetric monoidal functor (per
-    Fong–Spivak; Seven Sketches Def. 6.60) preserving the SCFA structure
-    on each object.  Concretely, the functor carries comparison
+    Fong–Spivak, "Hypergraph categories", Definition 2.12; Seven Sketches
+    Def. 6.60 defines hypergraph categories themselves) preserving the
+    SCFA structure on each object.  Concretely, the functor carries comparison
     *isomorphisms* [F X ⨂_D F Y ≅ F (X ⨂_C Y)] and [I_D ≅ F I_C]
     AND sends μ_X, η_X, δ_X, ε_X to μ_{F X}, η_{F X}, δ_{F X}, ε_{F X}
     up to transport along those isomorphisms.  (The fully-strict case,
@@ -76,7 +77,7 @@ Generalizable All Variables.
 
     ** Known scoping limitation: missing monoidal coherences
 
-    Per Fong–Spivak (Definition 4.1.3), a hypergraph functor is a
+    Per Fong–Spivak (Definition 2.12), a hypergraph functor is a
     (symmetric) STRONG monoidal functor that ALSO preserves the SCFA
     generators.  The record below carries [hf_unit_iso] and
     [hf_tensor_iso] as raw isomorphisms, BUT omits the standard

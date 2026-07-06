@@ -286,6 +286,9 @@ End ForgetDecorationFunctor.
     "black-box is a hypergraph functor" (Theorem 6.1 in his thesis,
     arXiv:1609.05382).  The [HypergraphFunctor] instance itself is NOT
     yet constructed here: it awaits the [DecCospan_*_Coherent]
-    instances of steps (1)-(3) above (the only [HypergraphFunctor]
-    instance currently in the library is the trivial
-    [Id_HypergraphFunctor] of [Structure/Monoidal/HypergraphFunctor.v]). *)
+    instances of steps (1)-(3) above (the [HypergraphFunctor]
+    inhabitants currently in the library are the trivial
+    [Id_HypergraphFunctor] of [Structure/Monoidal/HypergraphFunctor.v]
+    and the images of the forgetful bridge
+    [SymmetricMonoidalFunctor_HypergraphFunctor] of
+    [Functor/Structure/Monoidal/Hypergraph.v]). *)

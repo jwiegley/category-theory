@@ -113,17 +113,20 @@ Proof. apply TE_tens_id0_left. Qed.
 
 (* Note: a clean [T_cast]-form right-unit lemma — bridging
    [TE_tens_id0_right]'s [eq_rect] transport form to a sandwiched
-   [T_cast] composition — requires generalising over the
-   right-summand-arity, which Coq cannot do while [f]'s type pins
-   it.  This is a known limitation of the [TE_tens_id0_right]
-   axiom's eq_rect form.  For downstream use, prefer
-   [TE_tens_id0_left] (definitional case) and work with the
-   right-unit case ONLY when the arity is syntactically known.
+   [T_cast] composition — requires first generalising over the
+   arity equation [n + 0 = n] rather than destructing it in place.
+   That is exactly what the transport bridges [eq_rect_cod_cast]
+   and [eq_rect_r_dom_cast] of [Construction/PROP/Monoidal.v] do:
+   they convert the [eq_rect] spelling wholesale, and the Monoidal
+   instance derives its [right_unit_natural] there in full
+   generality.
 
-   The Monoidal instance on FreeCat needs the right-unitor only
-   for SPECIFIC arities (m=0, m=1, etc., in the strict-PROP-on-ℕ
-   embedding), where the [eq_rect] reduces by computation.  Thus
-   the abstract lemma form is not actually required. *)
+   The arity-specialised lemmas below ([tens_id0_right_at_0],
+   [tens_id0_right_at]) treat the case where the arity is
+   syntactically known, so the [eq_rect] collapses by computation
+   (after UIP on [nat] discharges the opaque [Nat.add_0_r]); for
+   the general naturality square, use [right_unit_natural] in
+   [Construction/PROP/Monoidal.v]. *)
 
 (** ** Right-unit at the trivial arity (0 + 0 = 0)
 
@@ -173,9 +176,14 @@ Proof. exact (TE_tens_assoc f g h). Qed.
 
 (** ** Braid naturality, exposed as a named lemma
 
-    Direct restatement of [TE_braid_natural] with a friendly name.
-    Downstream callers building the SymmetricMonoidal instance on
-    [FreeCat S] use this to discharge [braid_natural]. *)
+    Direct restatement of [TE_braid_natural] with a friendly name,
+    for use outside the instance files.  The instance files
+    themselves ([Construction/PROP/Braided.v],
+    [Construction/PROP/Presentation.v]) deliberately apply the
+    constructor [TE_braid_natural] directly and do not import this
+    file: the name [braid_natural] would shadow the
+    [BraidedMonoidal] projection of the same name in their record
+    literals. *)
 
 Lemma braid_natural {m1 n1 m2 n2 : nat}
                     (f : Term S m1 n1) (g : Term S m2 n2) :
@@ -187,8 +195,12 @@ Proof. apply TE_braid_natural. Qed.
 
     Direct restatement of [TE_braid_invol]:
         σ_{n,m} ⊙ σ_{m,n} ≈ id_{m+n}
-    Downstream callers building the SymmetricMonoidal instance use
-    this to discharge [braid_invol]. *)
+    for use outside the instance files.  As with [braid_natural]
+    above, [Construction/PROP/Symmetric.v] deliberately applies the
+    constructor [TE_braid_invol] directly rather than importing
+    this file, since the name [braid_invol] would shadow the
+    [SymmetricMonoidal] projection of the same name in its record
+    literal. *)
 
 Lemma braid_invol (m n : nat) :
   TermEq S (T_comp (T_braid n m) (T_braid m n)) (T_id (m + n)).

@@ -10,8 +10,6 @@ Require Import Category.Construction.PROP.TermEq.
 Require Import Category.Construction.PROP.Free.
 Require Import Category.Construction.PROP.Tensor.
 Require Import Category.Construction.PROP.Cast.
-Require Import Category.Construction.PROP.CastTensor.
-Require Import Category.Construction.PROP.Structural.
 Require Import Category.Construction.PROP.Monoidal.
 
 From Coq Require Import Arith.
@@ -325,7 +323,7 @@ Qed.
     above.  Every field is explicit, so no Program obligations are
     generated. *)
 
-Program Definition FreeCat_Braided : @BraidedMonoidal (FreeCat S) := {|
+Definition FreeCat_Braided : @BraidedMonoidal (FreeCat S) := {|
   braided_is_monoidal := FreeCat_Monoidal S;
   braid := fun m n => T_braid m n;
   braid_natural := fun x y g z w h => free_braid_square g h;

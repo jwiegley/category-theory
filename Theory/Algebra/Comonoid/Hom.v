@@ -31,11 +31,13 @@ Generalizable All Variables.
 
    Beyond its algebraic role, this class is the predicate behind
    *determinism* in categorical probability: in a category where every
-   object carries a canonical copy/discard comonoid, Cho–Jacobs
-   (arXiv:1709.00322) call a morphism deterministic precisely when it is a
-   comonoid homomorphism between the canonical comonoids — copying the
-   output of f is the same as running f twice on a copied input, and
-   discarding the output is the same as discarding the input.
+   object carries a canonical copy/discard comonoid (the CD-categories of
+   Cho–Jacobs, arXiv:1709.00322 §2), a morphism is called deterministic
+   (Fritz, arXiv:1908.07021, Definition 10.1; the condition goes back to
+   Carboni–Walters) precisely when it is a comonoid homomorphism between
+   the canonical comonoids — copying the output of f is the same as
+   running f twice on a copied input, and discarding the output is the
+   same as discarding the input.
    Structure/Monoidal/CopyDiscard/Deterministic.v instantiates this class at
    those canonical comonoids.
 

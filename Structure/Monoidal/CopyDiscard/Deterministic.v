@@ -22,9 +22,9 @@ Generalizable All Variables.
 
     A [CopyDiscard] category deliberately imposes NO naturality on [copy] and
     [discard]: a general morphism need not commute with duplication or
-    deletion.  Following Cho–Jacobs, a morphism [f : x ~> y] is
-    DETERMINISTIC when it does commute with both, i.e. when it is a comonoid
-    homomorphism between the canonical comonoids:
+    deletion.  Following Fritz (Definition 10.1 of arXiv:1908.07021), a
+    morphism [f : x ~> y] is DETERMINISTIC when it does commute with both,
+    i.e. when it is a comonoid homomorphism between the canonical comonoids:
 
       copy[y] ∘ f ≈ (f ⨂ f) ∘ copy[x]        (copying the output of [f]
                                                is running [f] twice on a
@@ -32,8 +32,12 @@ Generalizable All Variables.
       discard[y] ∘ f ≈ discard[x]             (running [f] and discarding
                                                is just discarding)
 
-    In a Markov category these two squares single out exactly the morphisms
-    that carry no randomness.  Deterministic morphisms contain the
+    When other files cite these squares under the Cho–Jacobs name, the
+    shorthand means exactly these two comonoid-homomorphism squares taken
+    over the Cho–Jacobs CD structure (Definition 2.2 of arXiv:1709.00322);
+    the determinism condition itself is Fritz's.  In a Markov category
+    these two squares single out exactly the morphisms that carry no
+    randomness.  Deterministic morphisms contain the
     identities and are closed under composition and under ⨂; all the
     structural isomorphisms of the symmetric monoidal base — braiding,
     unitors, associator — are deterministic, and so are the generators
@@ -85,9 +89,8 @@ Generalizable All Variables.
     [swap_inner x x y y] is definitionally Hypergraph.v's [mid_swap_inv]
     ([swap_inner_diag]); the corollaries below restate the interchange
     coherences in [mid_swap_inv] form, which is the shape the determinism
-    proofs consume.  This is the only place the toolkit meets the
-    hypergraph vocabulary — Braided/Proofs.v itself stays independent of
-    the hypergraph stack. *)
+    proofs consume.  Braided/Proofs.v itself stays independent of the
+    hypergraph stack. *)
 
 Section MidSwapCoherence.
 
@@ -150,8 +153,9 @@ Context `{S : @SymmetricMonoidal C}.
 Context `{CD : @CopyDiscard C S}.
 
 (* A morphism is deterministic when it is a comonoid homomorphism between
-   the canonical copy/discard comonoids (Cho–Jacobs, Definition 2.2 of
-   arXiv:1709.00322 in the Markov setting). *)
+   the canonical copy/discard comonoids (deterministic in the sense of
+   Fritz, Definition 10.1 of arXiv:1908.07021, stated over the Cho–Jacobs
+   CD structure, Definition 2.2 of arXiv:1709.00322). *)
 Definition deterministic {x y : C} (f : x ~> y) : Type :=
   ComonoidHom (cd_comonoid x) (cd_comonoid y) f.
 
@@ -230,7 +234,8 @@ Qed.
 (** *** The generators copy and discard are themselves deterministic
 
     The canonical generators are the standard first examples of
-    deterministic morphisms (Cho–Jacobs §2; Fritz §10): [copy] is a
+    deterministic morphisms (Fritz §10, over the CD structure of
+    Cho–Jacobs §2): [copy] is a
     comonoid homomorphism precisely because the supply is coassociative
     and cocommutative — its δ-square says [mid_swap_inv] fixes the
     two-fold copy — and [discard] is one by the counit and unit
@@ -562,7 +567,7 @@ Theorem deterministic_tensor_assoc_from {x y z : C} :
   deterministic ((@tensor_assoc C _ x y z)⁻¹).
 Proof. exact (deterministic_iso_from _ deterministic_tensor_assoc_to). Qed.
 
-(** *** The wide deterministic subcategory (Cho–Jacobs [Det]) *)
+(** *** The wide deterministic subcategory [Det] (Fritz §10) *)
 
 Program Definition DeterministicSub : Subcategory C := {|
   sobj  := fun _ => poly_unit;

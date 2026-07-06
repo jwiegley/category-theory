@@ -2,9 +2,7 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Construction.Product.
 Require Import Category.Construction.PROP.Signature.
 Require Import Category.Construction.PROP.Term.
 Require Import Category.Construction.PROP.TermEq.
@@ -199,7 +197,7 @@ Proof.
 Qed.
 
 (** The [from]-direction square [(g ⊕ id₀) ∘ ρ⁻¹ ≈ ρ⁻¹ ∘ g]. *)
-Lemma from_right_unit_natural {x y : nat} (g : Term S x y) :
+Lemma right_unit_natural_from {x y : nat} (g : Term S x y) :
   TermEq S (T_comp (T_tens g (T_id 0)) (T_cast (eq_sym (Nat.add_0_r x))))
            (T_comp (T_cast (eq_sym (Nat.add_0_r y))) g).
 Proof.
@@ -234,7 +232,7 @@ Qed.
 
 (** The [from]-direction square
       [((f ⊕ g) ⊕ h) ∘ α⁻¹ ≈ α⁻¹ ∘ (f ⊕ (g ⊕ h))]. *)
-Lemma from_assoc_natural {m1 n1 m2 n2 m3 n3 : nat}
+Lemma assoc_natural_from {m1 n1 m2 n2 m3 n3 : nat}
       (f : Term S m1 n1) (g : Term S m2 n2) (h : Term S m3 n3) :
   TermEq S
     (T_comp (T_tens (T_tens f g) h) (T_cast (Nat.add_assoc m1 m2 m3)))
@@ -349,9 +347,9 @@ Program Definition FreeCat_Monoidal : @Monoidal (FreeCat S) := {|
   to_unit_left_natural      := fun x y g => left_unit_natural S g;
   from_unit_left_natural    := fun x y g => left_unit_natural_from S g;
   to_unit_right_natural     := fun x y g => right_unit_natural g;
-  from_unit_right_natural   := fun x y g => from_right_unit_natural g;
+  from_unit_right_natural   := fun x y g => right_unit_natural_from g;
   to_tensor_assoc_natural   := fun _ _ _ _ _ _ g h i => assoc_natural g h i;
-  from_tensor_assoc_natural := fun _ _ _ _ _ _ g h i => from_assoc_natural g h i;
+  from_tensor_assoc_natural := fun _ _ _ _ _ _ g h i => assoc_natural_from g h i;
   triangle_identity := fun x y => free_triangle x y;
   pentagon_identity := fun x y z w => free_pentagon x y z w
 |}.

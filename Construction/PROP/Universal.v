@@ -12,8 +12,6 @@ Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.
-Require Import Category.Functor.Structure.Monoidal.Id.
-Require Import Category.Functor.Structure.Monoidal.Compose.
 Require Import Category.Functor.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.Braided.
 Require Import Category.Construction.Quotient.
@@ -61,21 +59,22 @@ Generalizable All Variables.
    A PROP carries two [Monoidal] structures on the same category — the
    strict path [MP P] and the braided/symmetric path [MB P] — related
    only by the propositional equality [prop_monoidal_coherence].  The
-   Phase-1 classes [StrictMonoidalFunctor] (at [MP P]) and
-   [BraidedMonoidalFunctor] (at [MB P]) therefore carry INDEPENDENT
-   [MonoidalFunctor] fields over propositionally-different target
-   monoidals, and a hypothesis pack made of one instance of each would
-   be underdetermined (nothing would relate their two tensor
+   classes [StrictMonoidalFunctor] (at [MP P];
+   Functor/Structure/Monoidal/Strict.v) and [BraidedMonoidalFunctor]
+   (at [MB P]; Functor/Structure/Monoidal/Braided.v) therefore carry
+   INDEPENDENT [MonoidalFunctor] fields over propositionally-different
+   target monoidals, and a hypothesis pack made of one instance of each
+   would be underdetermined (nothing would relate their two tensor
    comparisons).  Uniqueness is instead phrased against ONE
    [StrictMonoidalFunctor] plus [SymmetricStrict]: the braid
    compatibility square over that SAME [ap_iso], with the braiding
    re-indexed to the strict path by [strict_braid] (the transport of
-   [Interp.v]).  For competitors arriving with a genuine Phase-1
+   [Interp.v]).  For competitors arriving with a genuine
    [BraidedMonoidalFunctor], the converse bridge
    [SymmetricStrict_of_Braided] converts (given the agreement of the
    two tensor comparisons across the coherence transport), and
    [InterpF_Braided] / [InterpF_Symmetric] deliver [InterpF] itself in
-   the Phase-1 classes via the match-based [MonoidalFunctor_transport].
+   those classes via the match-based [MonoidalFunctor_transport].
 
    ** Uniqueness
 
@@ -430,7 +429,9 @@ Example InterpF_strict_ap_obj_is_prop_tensor_plus (x y : nat) :
     monoidal functor [G] over ITS OWN tensor comparison, with the
     target braiding re-indexed to the strict path by [strict_braid].
     See the header for why uniqueness is phrased against this bundle
-    rather than against the two independent Phase-1 classes. *)
+    rather than against the two independent
+    [StrictMonoidalFunctor]/[BraidedMonoidalFunctor] classes of
+    Functor/Structure/Monoidal/{Strict,Braided}.v. *)
 
 Definition SymmetricStrict (G : FreeCat S ⟶ P)
   (MG : @MonoidalFunctor (FreeCat S) P (FreeCat_Monoidal S) (MP P) G) : Type :=
@@ -444,7 +445,8 @@ Proof.
   exact (interp_braid_ap m n).
 Qed.
 
-(** *** Bridges to the Phase-1 braided/symmetric functor classes
+(** *** Bridges to the [BraidedMonoidalFunctor]/[SymmetricMonoidalFunctor]
+    classes of Functor/Structure/Monoidal/Braided.v
 
     The braid square at the transported functor is the braid square at
     the original functor against the transported braid family; both
@@ -491,7 +493,7 @@ Proof.
   exact (Hsq x y).
 Qed.
 
-(** [InterpF] as a Phase-1 [BraidedMonoidalFunctor]: the underlying
+(** [InterpF] as a [BraidedMonoidalFunctor]: the underlying
     strong structure is [InterpF_Monoidal] transported across the
     coherence, and the braid square is [InterpF_SymmetricStrict]. *)
 Program Definition InterpF_Braided :
@@ -508,13 +510,14 @@ Next Obligation.
            x y (InterpF_SymmetricStrict x y)).
 Qed.
 
-(** [SymmetricMonoidalFunctor] is a [Definition] alias in Phase 1, so
-    the instance is supplied explicitly rather than by class search. *)
+(** [SymmetricMonoidalFunctor] is a [Definition] alias in
+    [Functor/Structure/Monoidal/Braided.v], so the instance is supplied
+    explicitly rather than by class search. *)
 Definition InterpF_Symmetric :
   @SymmetricMonoidalFunctor (FreeCat S) P (FreeCat_Symmetric S)
     (@prop_symmetric P) InterpF := InterpF_Braided.
 
-(** Competitors arriving with a Phase-1 [BraidedMonoidalFunctor]
+(** Competitors arriving with a [BraidedMonoidalFunctor]
     convert to [SymmetricStrict], given that their two tensor
     comparisons agree across the coherence transport. *)
 Corollary SymmetricStrict_of_Braided

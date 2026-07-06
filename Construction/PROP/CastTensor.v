@@ -10,8 +10,9 @@ Generalizable All Variables.
 
 (** * [T_cast] interaction with [T_tens]
 
-    Bridge lemmas that the upcoming Monoidal instance on [FreeCat S]
-    will need to discharge naturality of the structural isomorphisms.
+    Bridge lemmas that the Monoidal instance on [FreeCat S]
+    (Construction/PROP/Monoidal.v) uses to discharge naturality of the
+    structural isomorphisms.
     [T_tens] mixes two arities additively; [T_cast] rewrites a single
     arity along a propositional equation.  The lemmas below all reduce
     the cast away by [destruct]-ing the arity equation, after which the

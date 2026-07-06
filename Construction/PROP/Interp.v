@@ -13,11 +13,7 @@ Require Import Category.Construction.PROP.
 Require Import Category.Construction.PROP.Signature.
 Require Import Category.Construction.PROP.Term.
 Require Import Category.Construction.PROP.TermEq.
-Require Import Category.Construction.PROP.Free.
-Require Import Category.Construction.PROP.Tensor.
 Require Import Category.Construction.PROP.Cast.
-Require Import Category.Construction.PROP.Monoidal.
-Require Import Category.Construction.PROP.Instance.
 
 From Coq Require Import Arith.
 From Coq Require Import Eqdep_dec.

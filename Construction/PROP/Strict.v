@@ -2,16 +2,12 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Construction.PROP.Signature.
 Require Import Category.Construction.PROP.Term.
 Require Import Category.Construction.PROP.TermEq.
 Require Import Category.Construction.PROP.Free.
-Require Import Category.Construction.PROP.Tensor.
-Require Import Category.Construction.PROP.Cast.
-Require Import Category.Construction.PROP.Structural.
 Require Import Category.Construction.PROP.Monoidal.
 
 From Coq Require Import Arith.
@@ -22,7 +18,7 @@ Generalizable All Variables.
 
 (* nLab: https://ncatlab.org/nlab/show/strict+monoidal+category
    nLab: https://ncatlab.org/nlab/show/PROP
-   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_category#Strict_monoidal_category
+   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_category
    Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
 
    [FreeCat S] is STRICT monoidal: its objects are natural numbers, its

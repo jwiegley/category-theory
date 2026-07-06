@@ -2,13 +2,10 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
-Require Import Category.Functor.Bifunctor.
-Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Construction.Quotient.
 Require Import Category.Construction.PROP.
 Require Import Category.Construction.PROP.Signature.
 Require Import Category.Construction.PROP.Term.
-Require Import Category.Construction.PROP.TermEq.
 Require Import Category.Construction.PROP.Free.
 Require Import Category.Construction.PROP.Instance.
 Require Import Category.Construction.PROP.Interp.
@@ -18,8 +15,7 @@ Generalizable All Variables.
 
 (** * Algebras (models) of a signature in a PROP *)
 
-(* nLab: https://ncatlab.org/nlab/show/PROP
-   nLab: https://ncatlab.org/nlab/show/algebra+over+a+PROP
+(* nLab: https://ncatlab.org/nlab/show/PROP (see the section on algebras)
    Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
 
    Fixing a signature [S] and a PROP [P], a MODEL (or algebra) of [S]
