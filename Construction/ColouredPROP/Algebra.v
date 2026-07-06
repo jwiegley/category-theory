@@ -7,10 +7,6 @@ Require Import Category.Construction.ColouredPROP.
 Require Import Category.Construction.ColouredPROP.Signature.
 Require Import Category.Construction.ColouredPROP.TermEq.
 Require Import Category.Construction.ColouredPROP.Free.
-Require Import Category.Construction.ColouredPROP.Cast.
-Require Import Category.Construction.ColouredPROP.Monoidal.
-Require Import Category.Construction.ColouredPROP.Braided.
-Require Import Category.Construction.ColouredPROP.Instance.
 Require Import Category.Construction.ColouredPROP.Interp.
 Require Import Category.Construction.ColouredPROP.Universal.
 
@@ -22,7 +18,6 @@ Generalizable All Variables.
 (** * Algebras (models) of a coloured signature in a coloured PROP *)
 
 (* nLab: https://ncatlab.org/nlab/show/PROP
-   nLab: https://ncatlab.org/nlab/show/algebra+over+a+PROP
    Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
 
    Fixing a coloured signature [S] and a coloured PROP [P], a MODEL

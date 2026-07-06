@@ -29,7 +29,6 @@ Require Import Category.Construction.ColouredPROP.Free.
 Require Import Category.Construction.ColouredPROP.Cast.
 Require Import Category.Construction.ColouredPROP.Monoidal.
 Require Import Category.Construction.ColouredPROP.Braided.
-Require Import Category.Construction.ColouredPROP.Instance.
 
 From Coq Require Import Lists.List.
 Import ListNotations.

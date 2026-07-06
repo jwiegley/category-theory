@@ -17,7 +17,6 @@ Require Import Category.Construction.ColouredPROP.
 Require Import Category.Construction.ColouredPROP.Signature.
 Require Import Category.Construction.ColouredPROP.TermEq.
 Require Import Category.Construction.ColouredPROP.Free.
-Require Import Category.Construction.ColouredPROP.Cast.
 Require Import Category.Construction.ColouredPROP.Monoidal.
 Require Import Category.Construction.ColouredPROP.Braided.
 Require Import Category.Construction.ColouredPROP.Instance.
@@ -664,7 +663,7 @@ Arguments PresentedBaseChange {Colour Colour'} f C'dec E E' hE HR : assert.
     functoriality of the descended construction along identities and
     composites follows from [QuotientLift_unique] together with the
     laws above, at the price of the same casts; the statements are
-    omitted here because no blueprint deliverable consumes them —
+    omitted here because nothing in the library consumes them —
     the same no-consumer ground on which the free-level laws
     themselves currently stand, since no in-repo file yet imports
     this one. *)

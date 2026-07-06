@@ -3,7 +3,6 @@ Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Theory.Natural.Transformation.
-Require Import Category.Functor.Bifunctor.
 Require Import Category.Construction.Product.
 Require Import Category.Functor.Construction.Product.
 (* [Instance.Fun] is Required but NOT Imported: its functor-category
@@ -25,7 +24,6 @@ Require Import Category.Construction.ColouredPROP.Free.
 Require Import Category.Construction.ColouredPROP.Cast.
 Require Import Category.Construction.ColouredPROP.Monoidal.
 Require Import Category.Construction.ColouredPROP.Braided.
-Require Import Category.Construction.ColouredPROP.Instance.
 
 From Coq Require Import Lists.List.
 Import ListNotations.
@@ -225,7 +223,15 @@ Qed.
     identities or tensors of identities, so its coherence squares are
     identity-collapsing equations — stated here over an arbitrary
     signature (the donor's copies in [Construction/PROP/Tietze.v]
-    were the same quartet over [nat] boundaries). *)
+    were the same quartet over [nat] boundaries).
+
+    DUPLICATION NOTE: [Construction/ColouredPROP/Presentation.v]
+    carries the same quartet, statement-for-statement, as
+    [cterm_id_swap] / [cterm_comp_id_tens] / [cterm_collapse_r] /
+    [cterm_collapse_l], specialised to its section signature.  Any
+    change here should be mirrored there; the natural shared home for
+    a hoisted version would be [TermEq.v], which both files already
+    import. *)
 
 (** An identity slides from one side of a morphism to the other. *)
 Lemma ctm_id_swap {Colour : Type} {S : CSignature Colour}

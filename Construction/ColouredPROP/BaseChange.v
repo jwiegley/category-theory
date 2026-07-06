@@ -1,6 +1,5 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
@@ -116,13 +115,12 @@ Generalizable All Variables.
    arguments, and each instance site should pass the ONE canonical
    decider of its colour type.
 
-   FALLBACK note (kept for the record): the alternative construction
-   is a computing [C_base_map] Fixpoint on [CTerm] with
-   cast-conjugated braid and tensor clauses, whose kernel was
-   probe-compiled during design review; its cost is a fresh 19-case
+   Design alternative (not developed): a computing [C_base_map]
+   Fixpoint on [CTerm] with cast-conjugated braid and tensor clauses
+   would also yield the functor, at the cost of a fresh 19-case
    transport soundness induction mirroring [CT_map_CTermEq] of
    [Construction/ColouredPROP/Relabel.v].  The via-universal-property
-   route delivered everything below without it, so the fixpoint form
+   route delivers everything below without it, so the fixpoint form
    is left undeveloped. *)
 
 (** ** The free coloured PROP's braiding, on the strict path

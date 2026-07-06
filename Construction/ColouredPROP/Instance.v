@@ -1,8 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
-Require Import Category.Theory.Functor.
-Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
@@ -27,7 +25,7 @@ Generalizable All Variables.
    nLab: https://ncatlab.org/nlab/show/strict+monoidal+category
    nLab: https://ncatlab.org/nlab/show/free+category
    Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
-   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_category#Strict_monoidal_category
+   Wikipedia: https://en.wikipedia.org/wiki/Monoidal_category
 
    This file assembles the bundled [ColouredPROP] instance
    [FreeColouredPROP S Cdec] on the free category [CFreeCat S] of a

@@ -1,13 +1,11 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Strict.
-Require Import Category.Structure.Monoidal.Hypergraph.
 Require Import Category.Theory.Algebra.Comonoid.
 Require Import Category.Theory.Algebra.CommutativeComonoid.
 Require Import Category.Theory.Algebra.Comonoid.Tensor.
@@ -59,18 +57,18 @@ Generalizable All Variables.
    [Construction/ColouredPROP/Supply.v]: every copyable wire's dup and
    del descend to a commutative comonoid in the quotient.
 
-   Design decision, recorded (supersedes the boundary-level design):
-   the generators are WIRE-level ONLY.  A comonoid on a composite
-   boundary [cs] is not axiomatised; it is DERIVED by tensoring wire
-   comonoids ([supply_list] of Supply.v, powered by the packaged
-   tensor/unit comonoids of Theory/Algebra/Comonoid/Tensor.v).  This
-   eliminates the boundary-compatibility axiom family (Design A's
-   [SE_dup_app]) and with it that design's top-flagged spelling risk.
+   Design decision, recorded: the generators are WIRE-level ONLY.  A
+   comonoid on a composite boundary [cs] is not axiomatised; it is
+   DERIVED by tensoring wire comonoids ([supply_list] of Supply.v,
+   powered by the packaged tensor/unit comonoids of
+   Theory/Algebra/Comonoid/Tensor.v).  This avoids any
+   boundary-compatibility axiom family (e.g. a dup-on-append
+   equation) and the cast-spelling pitfalls such axioms invite.
 
    The four [SupplyEqs] constructors are stated in the EXACT
    cast-normal shapes the [Comonoid]/[CommutativeComonoid] record
-   fields reduce to at [CPresented_Monoidal] (cbn-probed before
-   freezing, per the Presented_Strict lesson):
+   fields reduce to at [CPresented_Monoidal] (checked by cbn, as for
+   [CPresented_Strict] in Presentation.v):
 
      - coassociativity carries the single [app_assoc [c] [c] [c]]
        cast — the [from] of the presented associator;
@@ -190,7 +188,7 @@ Definition SupplyPROP_del (c : Colour) (H : copyable c = true) :
 (** ** The wire comonoid laws
 
     Standalone law lemmas, each in the EXACT normal form of the
-    record field it discharges (cbn-probed); three of the four are
+    record field it discharges; three of the four are
     verbatim [CTEW_ax] embeddings of the axioms, and the left counit
     law additionally eliminates the field's stuck left-unitor cast
     with [CT_cast_id] (list-UIP under [Cdec]). *)

@@ -18,8 +18,6 @@ Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.
-Require Import Category.Functor.Structure.Monoidal.Id.
-Require Import Category.Functor.Structure.Monoidal.Compose.
 Require Import Category.Functor.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.Braided.
 Require Import Category.Construction.Quotient.
@@ -62,11 +60,11 @@ Generalizable All Variables.
    [app_assoc] replacing [Nat.add_0_l] / [Nat.add_0_r] /
    [Nat.add_assoc].  The generic transport of monoidal-functor
    structure across a [Monoidal] equality — [MonoidalFunctor_transport]
-   and its companion [ap_iso_transport] — is REUSED BY IMPORT from the
-   donor: both are stated over arbitrary categories [C D], so they
-   apply verbatim to [CFreeCat S] and the category underlying a
-   coloured PROP (the same import-not-clone discipline as the
-   [BraidTransport] kit of [Construction/ColouredPROP/Interp.v]).
+   — is REUSED BY IMPORT from the donor: it is stated over arbitrary
+   categories [C D], so it applies verbatim to [CFreeCat S] and the
+   category underlying a coloured PROP (the same import-not-clone
+   discipline as the [BraidTransport] kit of
+   [Construction/ColouredPROP/Interp.v]).
 
    The strictness comparisons of [CInterpF] ride the coloured-PROP
    class fields VERBATIM: [strict_pure_obj] is [cprop_unit_nil] and
@@ -79,9 +77,10 @@ Generalizable All Variables.
    A coloured PROP carries two [Monoidal] structures on the same
    category — the strict path [MPc P] and the braided/symmetric path
    [MBc P] — related only by the propositional equality
-   [cprop_monoidal_coherence].  The Phase-1 classes
-   [StrictMonoidalFunctor] (at [MPc P]) and [BraidedMonoidalFunctor]
-   (at [MBc P]) therefore carry INDEPENDENT [MonoidalFunctor] fields
+   [cprop_monoidal_coherence].  The classes [StrictMonoidalFunctor]
+   (of [Functor/Structure/Monoidal/Strict.v], at [MPc P]) and
+   [BraidedMonoidalFunctor] (of [Functor/Structure/Monoidal/Braided.v],
+   at [MBc P]) therefore carry INDEPENDENT [MonoidalFunctor] fields
    over propositionally-different target monoidals, and a hypothesis
    pack made of one instance of each would be underdetermined (nothing
    would relate their two tensor comparisons).  Uniqueness is instead
@@ -89,11 +88,11 @@ Generalizable All Variables.
    the braid compatibility square over that SAME [ap_iso], with the
    braiding re-indexed to the strict path by [cstrict_braid] (the
    transport of [Interp.v]).  For competitors arriving with a genuine
-   Phase-1 [BraidedMonoidalFunctor], the converse bridge
+   [BraidedMonoidalFunctor], the converse bridge
    [CSymmetricStrict_of_Braided] converts (given the agreement of the
    two tensor comparisons across the coherence transport), and
    [CInterpF_Braided] / [CInterpF_Symmetric] deliver [CInterpF] itself
-   in the Phase-1 classes via the match-based
+   in those two classes via the match-based
    [MonoidalFunctor_transport].
 
    ** Uniqueness
@@ -452,7 +451,9 @@ Example CInterpF_strict_ap_obj_is_cprop_tensor_app (x y : list Colour) :
     monoidal functor [G] over ITS OWN tensor comparison, with the
     target braiding re-indexed to the strict path by [cstrict_braid].
     See the header for why uniqueness is phrased against this bundle
-    rather than against the two independent Phase-1 classes. *)
+    rather than against the two independent functor classes of
+    [Functor/Structure/Monoidal/Strict.v] and
+    [Functor/Structure/Monoidal/Braided.v]. *)
 
 Definition CSymmetricStrict (G : CFreeCat S ⟶ P)
   (MG : @MonoidalFunctor (CFreeCat S) P (CFreeCat_Monoidal S Cdec) (MPc P) G) :
@@ -467,7 +468,8 @@ Proof.
   exact (cinterp_braid_ap cs ds).
 Qed.
 
-(** *** Bridges to the Phase-1 braided/symmetric functor classes
+(** *** Bridges to the braided/symmetric functor classes of
+    [Functor/Structure/Monoidal/Braided.v]
 
     The braid square at the transported functor is the braid square at
     the original functor against the transported braid family; both
@@ -517,8 +519,8 @@ Qed.
 
 (** The braid square of [CInterpF] against the SYMMETRIC-path braiding,
     obtained by transporting [CInterpF_SymmetricStrict] across the
-    coherence.  Standalone so that the Phase-1 record below is an
-    explicit constructor application. *)
+    coherence.  Standalone so that the [BraidedMonoidalFunctor] record
+    below is an explicit constructor application. *)
 Lemma CInterpF_Braided_compat (x y : list Colour) :
   fmap[CInterpF] (CT_braid x y)
       ∘ to (@ap_iso _ _ _ _ CInterpF
@@ -539,7 +541,7 @@ Proof.
            x y (CInterpF_SymmetricStrict x y)).
 Qed.
 
-(** [CInterpF] as a Phase-1 [BraidedMonoidalFunctor]: the underlying
+(** [CInterpF] as a [BraidedMonoidalFunctor]: the underlying
     strong structure is [CInterpF_Monoidal] transported across the
     coherence, and the braid square is [CInterpF_SymmetricStrict]. *)
 Definition CInterpF_Braided :
@@ -551,13 +553,14 @@ Definition CInterpF_Braided :
        CInterpF_Monoidal)
     CInterpF_Braided_compat.
 
-(** [SymmetricMonoidalFunctor] is a [Definition] alias in Phase 1, so
-    the instance is supplied explicitly rather than by class search. *)
+(** [SymmetricMonoidalFunctor] is a [Definition] alias in
+    [Functor/Structure/Monoidal/Braided.v], so the instance is
+    supplied explicitly rather than by class search. *)
 Definition CInterpF_Symmetric :
   @SymmetricMonoidalFunctor (CFreeCat S) P (CFreeCat_Symmetric S Cdec)
     (@cprop_symmetric Colour P) CInterpF := CInterpF_Braided.
 
-(** Competitors arriving with a Phase-1 [BraidedMonoidalFunctor]
+(** Competitors arriving with a [BraidedMonoidalFunctor]
     convert to [CSymmetricStrict], given that their two tensor
     comparisons agree across the coherence transport. *)
 Corollary CSymmetricStrict_of_Braided

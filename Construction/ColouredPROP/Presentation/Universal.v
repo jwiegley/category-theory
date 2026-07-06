@@ -19,8 +19,6 @@ Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.
-Require Import Category.Functor.Structure.Monoidal.Id.
-Require Import Category.Functor.Structure.Monoidal.Compose.
 Require Import Category.Functor.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.Braided.
 Require Import Category.Construction.Quotient.
@@ -32,7 +30,6 @@ Require Import Category.Construction.ColouredPROP.Cast.
 Require Import Category.Construction.ColouredPROP.Monoidal.
 Require Import Category.Construction.ColouredPROP.Braided.
 Require Import Category.Construction.ColouredPROP.Instance.
-Require Import Category.Construction.PROP.Interp.
 Require Import Category.Construction.ColouredPROP.Interp.
 Require Import Category.Construction.ColouredPROP.Universal.
 Require Import Category.Construction.ColouredPROP.Presentation.
@@ -123,7 +120,9 @@ Generalizable All Variables.
    tensor comparison, with the target braiding re-indexed to the
    strict path by [cstrict_braid]; see the design note there for why
    the hypothesis pack is phrased against this bundle rather than
-   against the two independent Phase-1 functor classes. *)
+   against the two independent functor classes of
+   [Functor/Structure/Monoidal/Strict.v] and
+   [Functor/Structure/Monoidal/Braided.v]. *)
 
 Section CPresentedUniversal.
 

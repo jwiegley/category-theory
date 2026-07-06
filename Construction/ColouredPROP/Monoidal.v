@@ -1,10 +1,5 @@
 Require Import Category.Lib.
-Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
-Require Import Category.Theory.Functor.
-Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Construction.Product.
 Require Import Category.Construction.ColouredPROP.Signature.
 Require Import Category.Construction.ColouredPROP.TermEq.
 Require Import Category.Construction.ColouredPROP.Free.
@@ -275,7 +270,14 @@ Proof. apply CTE_tens_id0_left. Qed.
    go through the transport bridges above, which quantify over the
    boundary equation first and therefore CAN destruct it; that is
    precisely how [cright_unit_natural] below succeeds where the
-   pointwise approach stalls. *)
+   pointwise approach stalls.
+
+   Like [ccast_shift_l]/[ccast_shift_r] above, the three pointwise
+   lemmas that follow ([ctens_id0_right_at_0], [ctens_id0_right_at],
+   [ctens_assoc_at]) are exported kit with no in-tree consumer: every
+   naturality square below is derived through the transport bridges
+   instead.  They are kept as the record of what the pointwise route
+   does reach. *)
 
 (** ** Right-unit at the trivial boundary ([[] ++ [] = []])
 
@@ -402,8 +404,9 @@ Qed.
    [Braided.v], the sole would-be consumer, works with the
    [CTE_braid_*] constructors directly, and re-exported synonyms in
    this file would shadow the donor's names for any file importing
-   both spines (the P2 files decline to import the donor's synonyms
-   for the same reason).  This comment records the decision. *)
+   both spines (the one-sorted PROP files of [Construction/PROP/]
+   likewise decline to import [Naturality.v]'s synonyms, for the same
+   reason).  This comment records the decision. *)
 
 (** ** Triangle coherence
 

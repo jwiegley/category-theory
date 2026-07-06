@@ -1,7 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Theory.Algebra.CommutativeComonoid.
 Require Import Category.Theory.Algebra.Comonoid.Hom.
 Require Import Category.Construction.ColouredPROP.

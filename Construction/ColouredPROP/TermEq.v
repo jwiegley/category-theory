@@ -182,7 +182,9 @@ Inductive CTermEq : forall {cs ds}, CTerm S cs ds -> CTerm S cs ds -> Prop :=
 
       In a strict symmetric monoidal category the braid decomposes
       additively in either argument (Mac Lane CWM Ch.VII §7;
-      Joyal–Street §2; Selinger §3.2):
+      Joyal–Street §2; Selinger, "A survey of graphical languages for
+      monoidal categories" (arXiv:0908.3347), §3.3/§3.5 — braided
+      resp. symmetric):
 
         σ_{m++n,p} ≈ (σ_{m,p} ⊕c id_n) ⊙c (id_m ⊕c σ_{n,p})     (hex-left)
         σ_{m,n++p} ≈ (id_n ⊕c σ_{m,p}) ⊙c (σ_{m,n} ⊕c id_p)     (hex-right)
@@ -300,8 +302,10 @@ Inductive CTermEq : forall {cs ds}, CTerm S cs ds -> CTerm S cs ds -> Prop :=
       formal derivation requires substantial [eq_rect] bookkeeping
       across hexagon-, strict-unit-, and involution-form transports
       (the unit-boundary cases of those transports do not reduce
-      definitionally in [app]), and the downstream [SymmetricMonoidal]
-      instance on [CFreeCat S] consumes the strict form directly.
+      definitionally in [app]), and the relabelling congruence
+      (Relabel.v), the interpretation soundness cases (Interp.v), and
+      the supply instance (Supply/Instance.v) consume the strict form
+      directly.
 
       Adding sound redundant constructors is harmless (it cannot make
       [CTermEq] inconsistent — every constructor remains inhabited by

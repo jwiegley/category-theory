@@ -6,22 +6,14 @@ Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
-Require Import Category.Structure.Monoidal.Strict.
-Require Import Category.Structure.Monoidal.Hypergraph.
 Require Import Category.Structure.Monoidal.CopyDiscard.
 Require Import Category.Structure.Monoidal.CopyDiscard.Deterministic.
 Require Import Category.Theory.Algebra.Comonoid.
 Require Import Category.Theory.Algebra.CommutativeComonoid.
 Require Import Category.Theory.Algebra.Comonoid.Hom.
-Require Import Category.Theory.Algebra.Comonoid.Tensor.
 Require Import Category.Construction.Quotient.
 Require Import Category.Construction.ColouredPROP.
 Require Import Category.Construction.ColouredPROP.Signature.
-Require Import Category.Construction.ColouredPROP.TermEq.
-Require Import Category.Construction.ColouredPROP.Free.
-Require Import Category.Construction.ColouredPROP.Cast.
-Require Import Category.Construction.ColouredPROP.Monoidal.
-Require Import Category.Construction.ColouredPROP.Braided.
 Require Import Category.Construction.ColouredPROP.Instance.
 Require Import Category.Construction.ColouredPROP.Interp.
 Require Import Category.Construction.ColouredPROP.Presentation.
@@ -43,7 +35,7 @@ Generalizable All Variables.
    ** SCOPE CONTRACT (read this before extending the file)
 
    This file states the HONEST, ATTAINABLE form of a linear/non-linear
-   bridge for supplied coloured PROPs, in the library's Phase-1
+   bridge for supplied coloured PROPs, in the library's
    copy-discard vocabulary (Structure/Monoidal/CopyDiscard.v and
    CopyDiscard/Deterministic.v — the Cho–Jacobs determinism squares —
    together with the Fong–Spivak comonoid supplies of
@@ -70,16 +62,16 @@ Generalizable All Variables.
        [LNL_lift_unique]) making the identification functorial in
        both directions.
 
-     - Design B's bespoke [Cart] category (a hand-rolled category of
-       cartesian colour words and deterministic maps) and its
-       [Cart_Monoidal] tower are explicit NON-GOALS, recorded here in
-       the same machine-checked-deferral style the spine uses for
-       out-of-scope successors (cf. the deferral notes of
-       Construction/PROP/Algebra.v and Construction/ColouredPROP/
-       Algebra.v).  [Comon (cprop_cat P)] — the sigma-packaged
-       category of internal comonoids that Phase 1 already provides —
-       IS the non-linear leg; duplicating it as a bespoke record
-       tower would add coherence obligations without adding theorems.
+     - A bespoke category of cartesian colour words and deterministic
+       maps (with its own hand-rolled monoidal tower) is an explicit
+       NON-GOAL, recorded here in the same machine-checked-deferral
+       style the spine uses for out-of-scope successors (cf. the
+       deferral notes of Construction/PROP/Algebra.v and
+       Construction/ColouredPROP/Algebra.v).  [Comon (cprop_cat P)] —
+       the sigma-packaged category of internal comonoids that
+       Theory/Algebra/Comonoid/Hom.v already provides — IS the
+       non-linear leg; duplicating it as a bespoke record tower would
+       add coherence obligations without adding theorems.
 
    The conceptual neighbour of this bridge elsewhere in the library is
    the "cartesian colour" discussion of Structure/Monoidal/Collapse.v:
@@ -104,7 +96,7 @@ Generalizable All Variables.
        (pinned by [SupplyDeterministic_is_sel_deterministic]), and —
        at the total-supply degeneration point, the one instance in
        this file where a global [cd_comonoid] supply exists —
-       definitionally equal to Phase 1's [deterministic] itself
+       definitionally equal to that [deterministic] itself
        (pinned by [SupplyDeterministic_is_deterministic]).
 
    2.  [supplied_obj] / [LNL_lift] — the embedding of the copyable
@@ -119,7 +111,7 @@ Generalizable All Variables.
    3.  [CopyDiscard_of_total_supply] — the degeneration test: over the
        TOTAL copyability predicate [fun _ => true], the free supplied
        PROP [SupplyPROP] of Supply/Instance.v carries an honest
-       Phase-1 [CopyDiscard] structure, with
+       [CopyDiscard] structure, with
        [cd_comonoid X := supply_list X (all_true X)] and the four
        coherence fields discharged by the Fong–Spivak coherence
        THEOREMS [supply_app_delta] / [supply_app_epsilon] of Supply.v
@@ -313,11 +305,11 @@ End LNLBridge.
 (** ** Total-supply degeneration: [CopyDiscard] from a total supply
 
     When EVERY colour is copyable, the free supplied PROP collapses
-    into the Phase-1 world: the derived boundary supplies assemble
-    into an honest [CopyDiscard] structure.  This is the degeneration
-    test for the selective-supply design — dial the copyability
-    predicate to [fun _ => true] and the Phase-1 class is recovered on
-    the nose.
+    into the world of Structure/Monoidal/CopyDiscard.v: the derived
+    boundary supplies assemble into an honest [CopyDiscard] structure.
+    This is the degeneration test for the selective-supply design —
+    dial the copyability predicate to [fun _ => true] and the
+    [CopyDiscard] class is recovered on the nose.
 
     The four coherence obligations are [exact] applications of the
     Fong–Spivak coherence theorems [supply_app_delta] /

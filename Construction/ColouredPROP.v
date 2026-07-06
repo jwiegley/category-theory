@@ -163,8 +163,8 @@ Coercion hcprop : HypergraphColouredPROP >-> ColouredPROP.
     so [cprop_of_list (repeat tt n)] corresponds to [prop_of_nat n]
     and concatenation corresponds to addition.
 
-    Formalising that correspondence as a functor / equivalence would
-    show that coloured PROPs are a strict generalisation, but we
-    leave the formal bridge as a downstream construction since the
-    two presentations are typically used in different application
-    domains. *)
+    That correspondence is formalised in
+    [Construction/ColouredPROP/UnitBridge.v]: class-level transports
+    in both directions, free-level bridge functors, and
+    hom_cast-conjugated round-trip laws showing coloured PROPs
+    strictly generalise PROPs. *)

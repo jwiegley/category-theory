@@ -12,9 +12,7 @@ Require Import Category.Construction.Quotient.
 Require Import Category.Construction.ColouredPROP.
 Require Import Category.Construction.ColouredPROP.Signature.
 Require Import Category.Construction.ColouredPROP.TermEq.
-Require Import Category.Construction.ColouredPROP.Free.
 Require Import Category.Construction.ColouredPROP.Cast.
-Require Import Category.Construction.ColouredPROP.Monoidal.
 Require Import Category.Construction.PROP.Interp.
 
 From Coq Require Import Lists.List.
@@ -59,10 +57,11 @@ Generalizable All Variables.
        / [cprop_tensor_app] on the strict path.  Every transporter
        destructs a VARIABLE equality between two [Monoidal] records,
        so the transport reduces definitionally; the concrete coherence
-       proof of [P] is eliminated HERE (at [cstrict_braid] and its six
-       law images below) and NOWHERE else in the delivered spine; the
-       planned [Supply.v]'s MP/MB mediation will eliminate it once
-       more when the advanced tier lands.
+       proof of [P] is eliminated here (at [cstrict_braid] and its six
+       law images below) and, independently, in the MP/MB mediation of
+       [Construction/ColouredPROP/Supply.v] ([ctensor_app_b] /
+       [cunit_nil_b]) — the only place in the coloured-PROP
+       development that matches on it directly.
 
    2.  The coloured-PROP-target kit — [cstrict_braid] (the transported
        braiding), cast/bimap interaction lemmas, the strict structural
@@ -119,9 +118,10 @@ Definition MBc : @Monoidal P :=
     merely passes the concrete coherence proof to a [BraidTransport]
     lemma imported from [Construction/PROP/Interp.v], which eliminates
     only its VARIABLE equality.  The rest of this file never touches
-    the coherence again; every delivered successor file keeps the same
-    discipline and eliminates it nowhere, while the planned [Supply.v]
-    is expected to eliminate it once more in its MP/MB mediation. *)
+    the coherence again.  The same discipline governs the rest of the
+    coloured-PROP development, with one deliberate exception: the
+    MP/MB mediation of [Construction/ColouredPROP/Supply.v] destructs
+    the concrete proof directly in [ctensor_app_b] / [cunit_nil_b]. *)
 Definition cstrict_braid : braid_family MPc :=
   transport_braid (@cprop_monoidal_coherence Colour P)
     (fun x y : P =>

@@ -90,7 +90,9 @@ Generalizable All Variables.
     ([swap_inner_diag]); the corollaries below restate the interchange
     coherences in [mid_swap_inv] form, which is the shape the determinism
     proofs consume.  Braided/Proofs.v itself stays independent of the
-    hypergraph stack. *)
+    hypergraph stack; Theory/Algebra/Comonoid/Tensor.v restates the same
+    bridge in the mirror orientation ([mid_swap_inv_swap_inner]) for the
+    tensor-comonoid laws. *)
 
 Section MidSwapCoherence.
 

@@ -13,22 +13,14 @@ Require Import Category.Construction.Quotient.
 Require Import Category.Construction.PROP.
 Require Import Category.Construction.PROP.Signature.
 Require Import Category.Construction.PROP.Term.
-Require Import Category.Construction.PROP.TermEq.
 Require Import Category.Construction.PROP.Free.
-Require Import Category.Construction.PROP.Tensor.
-Require Import Category.Construction.PROP.Cast.
 Require Import Category.Construction.PROP.Monoidal.
-Require Import Category.Construction.PROP.Braided.
-Require Import Category.Construction.PROP.Symmetric.
-Require Import Category.Construction.PROP.Strict.
 Require Import Category.Construction.PROP.Instance.
 Require Import Category.Construction.PROP.Interp.
 Require Import Category.Construction.PROP.Universal.
 Require Import Category.Construction.ColouredPROP.
 Require Import Category.Construction.ColouredPROP.Signature.
-Require Import Category.Construction.ColouredPROP.TermEq.
 Require Import Category.Construction.ColouredPROP.Free.
-Require Import Category.Construction.ColouredPROP.Cast.
 Require Import Category.Construction.ColouredPROP.Monoidal.
 Require Import Category.Construction.ColouredPROP.Braided.
 Require Import Category.Construction.ColouredPROP.Instance.
@@ -113,7 +105,9 @@ Generalizable All Variables.
    On-the-nose functoriality of the round trips is unattainable:
    [repeat_length] and [unit_list_eta] are propositional, not
    definitional, so the conjugated [hom_cast] form is the honest
-   statement — the same D3 discipline as the base-change laws.  In
+   statement — the same hom_cast-conjugation discipline as the
+   base-change laws (see the Discussion at the foot of
+   [Construction/ColouredPROP/BaseChange/Laws.v]).  In
    this precise sense coloured PROPs are a strict generalisation of
    PROPs: the one-colour free coloured PROP and the free PROP are
    equivalent through strict symmetric monoidal functors that are

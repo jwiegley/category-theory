@@ -38,7 +38,7 @@ Generalizable All Variables.
       - the structural isomorphisms of
         [Construction/PROP/Structural.v].
 
-    Deviation from the donor, by design (D2): [nat] has the canonical
+    Deviation from the donor, by design: [nat] has the canonical
     decider [Nat.eq_dec], so the donor's UIP layer was unconditional.
     An arbitrary [Colour : Type] carries no such decider, so here
     every UIP-dependent lemma threads a colour-equality decider
@@ -143,9 +143,11 @@ Qed.
     proof switch between the [eq_rect] form used in [CTermEq]'s
     strict-PROP axioms and the [match] form used by [CT_cast].
 
-    This is the standard "destruct the eq_rect" pattern, but bundled
-    as a helper so the [CT_cast]-level naturality proofs don't have
-    to repeat it. *)
+    This is the standard "destruct the eq_rect" pattern.  This lemma
+    and [CT_term_eq_rect_r_refl] below are exported kit with no
+    in-tree consumer yet: the naturality proofs in Monoidal.v
+    destruct their quantified boundary equations via the
+    [ceq_rect_*] transport bridges instead. *)
 Lemma CT_term_eq_rect_destruct {Colour : Type} {S : CSignature Colour}
   {cs ds : list Colour} (e : cs = ds) (t : CTerm S cs cs) :
   eq_rect cs (fun k => CTerm S cs k) t ds e
@@ -204,7 +206,10 @@ Qed.
 
 (** Tensor preserves identities: [id_cs ⊕c id_ds ≈ id_(cs ++ ds)].
     This is just the primitive [CTE_tens_id] constructor restated as
-    a named lemma (no cast involved) for use as a rewrite target. *)
+    a named lemma (no cast involved).  Together with the two
+    [eq_refl]-collapse lemmas below ([CT_comp_cast_tens_left] and
+    [CT_comp_tens_cast_right]) it is exported kit with no in-tree
+    consumer yet. *)
 Lemma CT_tens_id_id {Colour : Type} {S : CSignature Colour}
   (cs ds : list Colour) :
   CTermEq S (CT_tens (CT_id cs) (CT_id ds)) (CT_id (cs ++ ds)).
@@ -242,7 +247,7 @@ Proof. cbn. apply CTE_id_right. Qed.
     proof of a boundary equation by another inside [CT_cast].
 
     The decider [Cdec] is threaded as an EXPLICIT argument rather
-    than assumed globally (design decision D2): the UIP-free core
+    than assumed globally: the UIP-free core
     above stays available for arbitrary colour types, and every
     downstream file states exactly which of its results are
     decidability-conditional.  Downstream instance sites must fix ONE
