@@ -70,6 +70,7 @@ Construction/ColouredPROP/Cast.v
 Construction/ColouredPROP/Monoidal.v
 Construction/ColouredPROP/Braided.v
 Construction/ColouredPROP/Instance.v
+Construction/ColouredPROP/Interp.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
 Construction/DecoratedCospan/Symmetric.v
