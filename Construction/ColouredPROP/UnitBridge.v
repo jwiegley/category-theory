@@ -58,7 +58,7 @@ Generalizable All Variables.
       so the underlying category, both [Monoidal] paths, and the
       coherence field are preserved on the nose (machine-checked
       [Example]s).  Only the object-naming function changes, riding
-      [length_app] respectively [repeat_app].
+      [len_app] respectively [repeat_app].
 
    2. FREE-LEVEL BRIDGE FUNCTORS.  For a one-sorted signature [S],
       the unit-coloured signature [USig S] reads a generator's arity
@@ -77,7 +77,7 @@ Generalizable All Variables.
       Their strict monoidal packagings are the [CInterpF_Strict] /
       [InterpF_Strict] instances at those targets; the strict object
       comparisons are the transported class fields, i.e. the
-      [length_app]- respectively [repeat_app]-shaped equalities of
+      [len_app]- respectively [repeat_app]-shaped equalities of
       layer 1.
 
    3. ROUND-TRIP LAWS.  On objects the two composites are
@@ -162,10 +162,21 @@ Qed.
 
 (** ** Layer 1: the class-level transports *)
 
+(* [length (xs ++ ys) = length xs + length ys], proven locally: the
+   standard-library lemma is named [app_length] in Coq 8.19 and
+   [len_app] from 8.20 onward, so the portable route across the
+   supported versions is the two-line induction. *)
+Lemma len_app {A : Type} (xs ys : list A) :
+  length (xs ++ ys) = (length xs + length ys)%nat.
+Proof.
+  induction xs; simpl; [reflexivity|].
+  now rewrite IHxs.
+Qed.
+
 (** Any PROP is a [unit]-coloured PROP: keep the category and BOTH
     monoidal paths (hence the coherence proof) verbatim; name objects
     by the length of the colour word.  [length [] ≡ 0] makes the unit
-    field the PROP's own, and [length_app] corrects the boundary of
+    field the PROP's own, and [len_app] corrects the boundary of
     the tensor field. *)
 Definition PROP_to_ColouredPROP (Q : PROP) : ColouredPROP unit :=
   Build_ColouredPROP unit
@@ -177,7 +188,7 @@ Definition PROP_to_ColouredPROP (Q : PROP) : ColouredPROP unit :=
     (@prop_unit_zero Q)
     (fun cs ds : list unit =>
        eq_trans (@prop_tensor_plus Q (length cs) (length ds))
-                (f_equal (@prop_of_nat Q) (eq_sym (length_app cs ds)))).
+                (f_equal (@prop_of_nat Q) (eq_sym (len_app cs ds)))).
 
 (** Any [unit]-coloured PROP is a PROP: name objects by iterated
     [tt]-wires.  [repeat tt 0 ≡ []] makes the unit field the coloured
@@ -317,7 +328,7 @@ Example LengthFunctor_fobj (cs : list unit) :
 Example LengthFunctor_gen (cs ds : list unit) (g : USig cs ds) :
   fmap[LengthFunctor] (CT_gen g) = T_gen g := eq_refl.
 
-(** The strict object comparison is the [length_app]-shaped tensor
+(** The strict object comparison is the [len_app]-shaped tensor
     field of the layer-1 transport, verbatim. *)
 Example LengthFunctor_strict_ap_obj (x y : list unit) :
   @strict_ap_obj _ _ _ _ LengthFunctor LengthFunctor_Strict x y
