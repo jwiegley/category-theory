@@ -557,7 +557,7 @@ Defined.
 
 (* The packaging that Monad/Strong.v deferred: rstr, with the ρ- and
    α-coherences proved above, is a [RightStrongFunctor] structure on M. *)
-#[export] Instance rstr_RightStrongFunctor : @RightStrongFunctor C _ M :=
+Definition rstr_RightStrongFunctor : @RightStrongFunctor C _ M :=
   @Build_RightStrongFunctor C _ M
     rstr_nat
     (fun x => @rstr_id_right x)
@@ -571,7 +571,7 @@ Proof. reflexivity. Qed.
 (* Together with the monad-compatibility laws [rstr_ret] and [rstr_join]
    from Monad/Strong.v, every strong monad over a symmetric base is a right
    strong monad. *)
-#[export] Instance rstr_RightStrongMonad : @RightStrongMonad C _ M :=
+Definition rstr_RightStrongMonad : @RightStrongMonad C _ M :=
   @Build_RightStrongMonad C _ M
     strongmonad_is_monad
     rstr_RightStrongFunctor

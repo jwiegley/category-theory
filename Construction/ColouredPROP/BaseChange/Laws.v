@@ -8,8 +8,6 @@ Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.
-Require Import Category.Functor.Structure.Monoidal.Id.
-Require Import Category.Functor.Structure.Monoidal.Compose.
 Require Import Category.Functor.Structure.Monoidal.Strict.
 Require Import Category.Functor.Structure.Monoidal.Braided.
 Require Import Category.Construction.Quotient.

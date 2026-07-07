@@ -349,3 +349,176 @@ Arguments TE_braid_hex_left {S}.
 Arguments TE_braid_hex_right {S}.
 Arguments TE_braid_unit_left {S}.
 Arguments TE_braid_unit_right {S}.
+
+(** ** Identity bookkeeping
+
+    The strict monoidal functors built downstream on free and
+    presented PROPs all have comparison maps that are identities or
+    tensors of identities, so their coherence squares reduce to the
+    same four identity-collapsing equations.  They are stated here
+    once, over an arbitrary signature, and consumed by
+    [Construction/PROP/Presentation.v] (at the signature of an [SMT])
+    and [Construction/PROP/Tietze.v]. *)
+
+(** An identity slides from one side of a morphism to the other. *)
+Lemma tm_id_swap {S : Signature} {m n : nat} (t : Term S m n) :
+  TermEq S (T_comp t (T_id m)) (T_comp (T_id n) t).
+Proof.
+  apply TE_trans with t.
+  - apply TE_id_right.
+  - apply TE_sym, TE_id_left.
+Qed.
+
+(** A composite of identities equals a tensor of identities. *)
+Lemma tm_comp_id_tens {S : Signature} (m n : nat) :
+  TermEq S (T_comp (T_id (m + n)) (T_id (m + n))) (T_tens (T_id m) (T_id n)).
+Proof.
+  apply TE_trans with (T_id (m + n)).
+  - apply TE_id_left.
+  - apply TE_sym, TE_tens_id.
+Qed.
+
+(** Collapsing an identity and a tensor of identities after [t]. *)
+Lemma tm_collapse_r {S : Signature} {m n p : nat} (t : Term S (m + n) p) :
+  TermEq S (T_comp (T_comp t (T_id (m + n))) (T_tens (T_id m) (T_id n))) t.
+Proof.
+  apply TE_trans with (T_comp t (T_tens (T_id m) (T_id n))).
+  - apply TE_comp_cong.
+    + apply TE_id_right.
+    + apply TE_refl.
+  - apply TE_trans with (T_comp t (T_id (m + n))).
+    + apply TE_comp_cong.
+      * apply TE_refl.
+      * apply TE_tens_id.
+    + apply TE_id_right.
+Qed.
+
+(** Collapsing an identity and a tensor of identities before [t]. *)
+Lemma tm_collapse_l {S : Signature} {m n p : nat} (t : Term S p (m + n)) :
+  TermEq S (T_comp (T_comp (T_id (m + n)) (T_tens (T_id m) (T_id n))) t) t.
+Proof.
+  apply TE_trans with (T_comp (T_tens (T_id m) (T_id n)) t).
+  - apply TE_comp_cong.
+    + apply TE_id_left.
+    + apply TE_refl.
+  - apply TE_trans with (T_comp (T_id (m + n)) t).
+    + apply TE_comp_cong.
+      * apply TE_tens_id.
+      * apply TE_refl.
+    + apply TE_id_left.
+Qed.
+
+(** ** Generic substitution
+
+    [T_subst sub] replaces every generator leaf [T_gen s] by the term
+    [sub _ _ s] and leaves the structural constructors untouched.  It
+    is the common skeleton of the term homomorphisms defined
+    downstream in [Construction/PROP/Tietze.v] — relabelling along a
+    signature morphism ([T_map], whose generator action is [T_gen]
+    after the morphism) and the definitional-extension retraction
+    ([ext_retract], whose generator action substitutes the defining
+    word) — so the nineteen-case preservation induction
+    [T_subst_TermEq] below is proved ONCE and instantiated there. *)
+
+Fixpoint T_subst {S T : Signature}
+  (sub : forall a b : nat, S a b -> Term T a b)
+  {m n : nat} (t : Term S m n) : Term T m n :=
+  match t in Term _ m' n' return Term T m' n' with
+  | T_id k      => T_id k
+  | T_braid a b => T_braid a b
+  | T_comp g f  => T_comp (T_subst sub g) (T_subst sub f)
+  | T_tens f g  => T_tens (T_subst sub f) (T_subst sub g)
+  | T_gen s     => sub _ _ s
+  end.
+
+(** *** Transport seams
+
+    The strict-PROP axioms of [TermEq] carry their arity mismatches as
+    [eq_rect] transports; [T_subst] commutes with each transport shape
+    by Leibniz equality (destruct the arity equation). *)
+
+Lemma T_subst_eq_rect_cod {S T : Signature}
+  (sub : forall a b : nat, S a b -> Term T a b)
+  {a b b' : nat} (e : b = b') (t : Term S a b) :
+  T_subst sub (eq_rect b (fun k : nat => Term S a k) t b' e)
+  = eq_rect b (fun k : nat => Term T a k) (T_subst sub t) b' e.
+Proof. destruct e; reflexivity. Qed.
+
+Lemma T_subst_eq_rect_dom {S T : Signature}
+  (sub : forall a b : nat, S a b -> Term T a b)
+  {a a' b : nat} (e : a = a') (t : Term S a b) :
+  T_subst sub (eq_rect a (fun k : nat => Term S k b) t a' e)
+  = eq_rect a (fun k : nat => Term T k b) (T_subst sub t) a' e.
+Proof. destruct e; reflexivity. Qed.
+
+Lemma T_subst_eq_rect_r_dom {S T : Signature}
+  (sub : forall a b : nat, S a b -> Term T a b)
+  {a a' b : nat} (e : a' = a) (t : Term S a b) :
+  T_subst sub (eq_rect_r (fun k : nat => Term S k b) t e)
+  = eq_rect_r (fun k : nat => Term T k b) (T_subst sub t) e.
+Proof. destruct e; reflexivity. Qed.
+
+(** *** Preservation of the free equations
+
+    [T_subst sub] carries every free equation of [TermEq S] to the
+    corresponding free equation of [TermEq T], for ANY generator
+    action [sub].  The induction covers all nineteen constructors:
+    the thirteen constructor-to-constructor cases reduce by
+    computation, and the six transport-form cases first move
+    [T_subst] across the [eq_rect] seams by the Leibniz bridges
+    above, then close with the same primitive constructor. *)
+
+Lemma T_subst_TermEq {S T : Signature}
+  (sub : forall a b : nat, S a b -> Term T a b)
+  {m n : nat} {s t : Term S m n} :
+  TermEq S s t -> TermEq T (T_subst sub s) (T_subst sub t).
+Proof.
+  intros HT.
+  induction HT.
+  - (* TE_refl *)
+    apply TE_refl.
+  - (* TE_sym *)
+    exact (TE_sym _ _ IHHT).
+  - (* TE_trans *)
+    exact (TE_trans _ _ _ IHHT1 IHHT2).
+  - (* TE_comp_cong *)
+    cbn [T_subst]; apply TE_comp_cong; assumption.
+  - (* TE_tens_cong *)
+    cbn [T_subst]; apply TE_tens_cong; assumption.
+  - (* TE_id_left *)
+    cbn [T_subst]; apply TE_id_left.
+  - (* TE_id_right *)
+    cbn [T_subst]; apply TE_id_right.
+  - (* TE_assoc *)
+    cbn [T_subst]; apply TE_assoc.
+  - (* TE_tens_id *)
+    cbn [T_subst]; apply TE_tens_id.
+  - (* TE_interchange *)
+    cbn [T_subst]; apply TE_interchange.
+  - (* TE_braid_invol *)
+    cbn [T_subst]; apply TE_braid_invol.
+  - (* TE_braid_natural *)
+    cbn [T_subst]; apply TE_braid_natural.
+  - (* TE_tens_id0_left *)
+    cbn [T_subst]; apply TE_tens_id0_left.
+  - (* TE_tens_id0_right *)
+    rewrite T_subst_eq_rect_cod, T_subst_eq_rect_r_dom.
+    cbn [T_subst]; apply TE_tens_id0_right.
+  - (* TE_tens_assoc *)
+    rewrite T_subst_eq_rect_cod, T_subst_eq_rect_r_dom.
+    cbn [T_subst]; apply TE_tens_assoc.
+  - (* TE_braid_hex_left *)
+    cbn [T_subst].
+    rewrite T_subst_eq_rect_cod, !T_subst_eq_rect_dom.
+    cbn [T_subst]; apply TE_braid_hex_left.
+  - (* TE_braid_hex_right *)
+    cbn [T_subst].
+    rewrite T_subst_eq_rect_cod, !T_subst_eq_rect_dom.
+    cbn [T_subst]; apply TE_braid_hex_right.
+  - (* TE_braid_unit_left *)
+    rewrite T_subst_eq_rect_cod.
+    cbn [T_subst]; apply TE_braid_unit_left.
+  - (* TE_braid_unit_right *)
+    rewrite T_subst_eq_rect_dom.
+    cbn [T_subst]; apply TE_braid_unit_right.
+Qed.

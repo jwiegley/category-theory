@@ -476,6 +476,38 @@ Qed.
 
 End CPresentedUniqueness.
 
+(** *** Existence, machine-checked against the hypothesis pack
+
+    [CPresentedInterp] itself — with its strict structure
+    [CPresentedInterp_Strict], its braid square
+    [CPresentedInterp_SymmetricStrict], and the object family
+    [Hobj := eq_refl] (its object action is [cprop_of_list] on the
+    nose) — satisfies the hypotheses of [CPresented_unique]: the
+    generator agreement is the definitional action on terms up to
+    trivial casts, and instantiating the theorem at
+    [CPresentedInterp] typechecks.  As in the donor
+    [Construction/ColouredPROP/Universal.v], this is the named
+    witness that the mediating functor of the existence half is
+    itself pinned by the uniqueness half. *)
+
+Example CPresentedInterp_generator_agreement (cs ds : list Colour)
+  (g : Σ cs ds) :
+  fmap[CPresentedInterp] (cquot E (CT_gen g))
+    ≈ hom_cast (eq_sym (@eq_refl _ ⟦cs⟧)) (eq_sym (@eq_refl _ ⟦ds⟧))
+               (v cs ds g).
+Proof. reflexivity. Qed.
+
+Example CPresentedInterp_unique_self (cs ds : list Colour)
+  (f : cs ~{CPresentedCat E}~> ds) :
+  fmap[CPresentedInterp] f
+    ≈ hom_cast (eq_sym (@eq_refl _ ⟦cs⟧)) (eq_sym (@eq_refl _ ⟦ds⟧))
+               (cinterp P Σ v f).
+Proof using Cdec E HE HP OD P v.
+  exact (CPresented_unique CPresentedInterp CPresentedInterp_Strict
+           CPresentedInterp_SymmetricStrict (fun ks : list Colour => eq_refl)
+           CPresentedInterp_generator_agreement cs ds f).
+Qed.
+
 (** *** Uniqueness from single-wire object data
 
     As on the free side, the object family [Hobj] can be synthesised
@@ -520,6 +552,40 @@ Proof using Cdec E G H1 HBW OD P SG v.
 Qed.
 
 End CPresentedUniquenessFromWires.
+
+(** *** Agreement of competitors
+
+    Any two strict symmetric functors out of the presented category
+    that agree with [v] on the generators agree with each other on
+    every morphism, after re-indexing both to the canonical
+    objects. *)
+
+Corollary CPresented_unique2
+  (G1 : CPresentedCat E ⟶ P)
+  (SG1 : @StrictMonoidalFunctor (CPresentedCat E) P
+           (CPresented_Monoidal E Cdec) (MPc P) G1)
+  (HBW1 : CSymmetricStrictW G1 SG1)
+  (Hobj1 : ∀ cs : list Colour, G1 cs = ⟦cs⟧)
+  (Hgen1 : ∀ cs ds (g : Σ cs ds),
+     fmap[G1] (cquot E (CT_gen g))
+       ≈ hom_cast (eq_sym (Hobj1 cs)) (eq_sym (Hobj1 ds)) (v cs ds g))
+  (G2 : CPresentedCat E ⟶ P)
+  (SG2 : @StrictMonoidalFunctor (CPresentedCat E) P
+           (CPresented_Monoidal E Cdec) (MPc P) G2)
+  (HBW2 : CSymmetricStrictW G2 SG2)
+  (Hobj2 : ∀ cs : list Colour, G2 cs = ⟦cs⟧)
+  (Hgen2 : ∀ cs ds (g : Σ cs ds),
+     fmap[G2] (cquot E (CT_gen g))
+       ≈ hom_cast (eq_sym (Hobj2 cs)) (eq_sym (Hobj2 ds)) (v cs ds g)) :
+  ∀ cs ds (f : cs ~{CPresentedCat E}~> ds),
+    hom_cast (Hobj1 cs) (Hobj1 ds) (fmap[G1] f)
+      ≈ hom_cast (Hobj2 cs) (Hobj2 ds) (fmap[G2] f).
+Proof using Cdec E OD P v.
+  intros cs ds f.
+  rewrite (CPresented_unique G1 SG1 HBW1 Hobj1 Hgen1 cs ds f).
+  rewrite (CPresented_unique G2 SG2 HBW2 Hobj2 Hgen2 cs ds f).
+  now rewrite !hom_cast_roundtrip.
+Qed.
 
 (** ** Machine-checked sanity
 

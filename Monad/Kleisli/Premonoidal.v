@@ -7,7 +7,6 @@ Require Import Category.Theory.Functor.
 Require Import Category.Theory.Monad.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Binoidal.
 Require Import Category.Structure.Premonoidal.
@@ -201,7 +200,7 @@ Definition Kleisli_Tensor_Right (x' : C) :
 (* The Power–Robinson binoidal structure on Kl(M): the object tensor is
    inherited from C, and the two one-variable tensoring functors are the
    strength-mediated actions above. *)
-#[export] Instance Kleisli_Binoidal : @Binoidal Kleisli :=
+Definition Kleisli_Binoidal : @Binoidal Kleisli :=
   @Build_Binoidal Kleisli
     (fun x y : C => (x ⨂ y)%object)
     Kleisli_Tensor_Left
@@ -609,7 +608,7 @@ Qed.
    maps is [pure_central], the three one-variable associator squares are
    the three strength coherences, and the coherence laws transfer along
    the pure functor. *)
-#[export] Instance Kleisli_Premonoidal : @Premonoidal Kleisli Kleisli_Binoidal :=
+Definition Kleisli_Premonoidal : @Premonoidal Kleisli Kleisli_Binoidal :=
   @Build_Premonoidal Kleisli Kleisli_Binoidal
     (@I C _)
     (fun x : C => Kleisli_pure_iso (@unit_left C _ x))

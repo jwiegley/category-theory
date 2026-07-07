@@ -187,39 +187,37 @@ Qed.
 
     and a SINGLE centrality hypothesis supplies it: this square is
     conjunct 1 of [central f] instantiated at [g'], and equally conjunct 2
-    of [central g'] instantiated at [f].  Hence the two variants below,
-    one keyed on each hypothesis; the shared proof pastes the swap between
-    the [fmap_comp] expansions. *)
+    of [central g'] instantiated at [f].  [composite_ff'_comp_swap] is
+    keyed on the bare square and pastes the swap between the [fmap_comp]
+    expansions once; the two variants below each read the square off one
+    conjunct. *)
+
+Lemma composite_ff'_comp_swap {x y z x' y' z' : C} {f : y ~> z} {g : x ~> y}
+      {f' : y' ~> z'} {g' : x' ~> y'} :
+  fmap[inj_left y'] f ∘ fmap[inj_right y] g'
+    ≈ fmap[inj_right z] g' ∘ fmap[inj_left x'] f →
+  composite_ff' (f ∘ g) (f' ∘ g') ≈ composite_ff' f f' ∘ composite_ff' g g'.
+Proof.
+  intros sq.
+  unfold composite_ff'.
+  rewrite !fmap_comp.
+  rewrite !comp_assoc_sym.
+  rewrite (comp_assoc (fmap[inj_right z] g')).
+  rewrite <- sq.
+  now rewrite !comp_assoc_sym.
+Qed.
 
 Lemma composite_ff'_comp_l {x y z x' y' z' : C} {f : y ~> z} {g : x ~> y}
       {f' : y' ~> z'} {g' : x' ~> y'} :
   central f →
   composite_ff' (f ∘ g) (f' ∘ g') ≈ composite_ff' f f' ∘ composite_ff' g g'.
-Proof.
-  intros cf.
-  destruct (cf x' y' g') as [sq _].
-  unfold composite_ff'.
-  rewrite !fmap_comp.
-  rewrite !comp_assoc_sym.
-  rewrite (comp_assoc (fmap[inj_right z] g')).
-  rewrite <- sq.
-  now rewrite !comp_assoc_sym.
-Qed.
+Proof. intro cf; exact (composite_ff'_comp_swap (fst (cf x' y' g'))). Qed.
 
 Lemma composite_ff'_comp_r {x y z x' y' z' : C} {f : y ~> z} {g : x ~> y}
       {f' : y' ~> z'} {g' : x' ~> y'} :
   central g' →
   composite_ff' (f ∘ g) (f' ∘ g') ≈ composite_ff' f f' ∘ composite_ff' g g'.
-Proof.
-  intros cg'.
-  destruct (cg' y z f) as [_ sq].
-  unfold composite_ff'.
-  rewrite !fmap_comp.
-  rewrite !comp_assoc_sym.
-  rewrite (comp_assoc (fmap[inj_right z] g')).
-  rewrite <- sq.
-  now rewrite !comp_assoc_sym.
-Qed.
+Proof. intro cg'; exact (composite_ff'_comp_swap (snd (cg' y z f))). Qed.
 
 (** ** The centre Z(C) as a wide subcategory
 

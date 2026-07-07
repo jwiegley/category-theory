@@ -17,7 +17,6 @@ Require Import Category.Structure.Binoidal.
 Require Import Category.Structure.Binoidal.Central.
 Require Import Category.Structure.Premonoidal.
 Require Import Category.Structure.Premonoidal.Monoidal.
-Require Import Category.Functor.Strong.
 Require Import Category.Monad.Strong.
 Require Import Category.Monad.Strong.Symmetric.
 Require Import Category.Monad.Kleisli.

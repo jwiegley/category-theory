@@ -57,7 +57,49 @@ Generalizable All Variables.
    colour-list signature.
 
    The class structure mirrors [PROP] (Construction/PROP.v) with [nat]
-   replaced by [list Colour] and [+] replaced by [++]. *)
+   replaced by [list Colour] and [+] replaced by [++].
+
+   ** Policy: the coloured spine MIRRORS the one-sorted spine
+
+   The files under Construction/ColouredPROP/ are deliberate
+   file-by-file mirrors of their one-sorted donors, not
+   instantiations of a shared parameterized core: Free.v mirrors
+   PROP/Free.v + PROP/Tensor.v; Cast.v mirrors PROP/Cast.v +
+   PROP/CastTensor.v + PROP/Structural.v; Monoidal.v mirrors
+   PROP/Naturality.v + PROP/Monoidal.v; Braided.v mirrors
+   PROP/Braided.v + PROP/Symmetric.v; Interp.v mirrors
+   PROP/Interp.v; Universal.v mirrors PROP/Universal.v; Relabel.v
+   mirrors the signature-morphism kit of PROP/Tietze.v; the
+   satellite files' headers each name their own donor.  The
+   duplication is a deliberate decision, not an accident: the two
+   spines differ in their decider/UIP plumbing ([nat] has the
+   canonical [Nat.eq_dec], so the donor's UIP layer is
+   unconditional, while [list Colour] threads an explicit colour
+   decider [Cdec], and the coloured interpretation kit routes UIP
+   through the TARGET's objects via [ObjDecEq] instead of the
+   boundary index), so a shared strict-boundary-monoid
+   parameterization would have to abstract over exactly the plumbing
+   that differs.
+
+   Consequences for maintenance:
+
+   - Any change to the [TermEq]/[CTermEq] constructors must budget
+     synchronized edits at the four parallel 19-case induction
+     sites — [T_map_TermEq] (PROP/Tietze.v, with its
+     [retract_TermEq] sibling there), [CT_map_CTermEq]
+     (ColouredPROP/Relabel.v), [interp_sound_heq] (PROP/Interp.v)
+     and [cinterp_sound_heq] (ColouredPROP/Interp.v) — plus the
+     interpretation kits downstream of the two soundness theorems.
+
+   - Only three kits are shared BY IMPORT rather than mirrored: the
+     [BraidTransport] coherence quarantine (PROP/Interp.v), the
+     [MonoidalFunctor_transport] kit (PROP/Universal.v), and the
+     hom-congruence quotient machinery (Construction/Quotient.v).
+     New features should grow this imported-not-cloned set rather
+     than the mirror: follow the model of ColouredPROP/BaseChange.v,
+     which is built through the universal property instead of a
+     fresh term recursion with yet another 19-case soundness
+     induction. *)
 
 Section ColouredPROP.
 

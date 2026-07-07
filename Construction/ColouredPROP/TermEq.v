@@ -355,3 +355,69 @@ Arguments CTE_braid_hex_left {Colour S}.
 Arguments CTE_braid_hex_right {Colour S}.
 Arguments CTE_braid_unit_left {Colour S}.
 Arguments CTE_braid_unit_right {Colour S}.
+
+(** ** Identity bookkeeping
+
+    The strict monoidal functors built downstream on free and
+    presented coloured PROPs all have comparison maps that are
+    identities or tensors of identities, so their coherence squares
+    reduce to the same four identity-collapsing equations.  They are
+    stated here once, over an arbitrary signature, and consumed by
+    [Construction/ColouredPROP/Presentation.v] (at the signature of a
+    [CSMT]) and [Construction/ColouredPROP/Relabel.v] — the coloured
+    mirror of the [tm_*] quartet of [Construction/PROP/TermEq.v]. *)
+
+(** An identity slides from one side of a morphism to the other. *)
+Lemma ctm_id_swap {Colour : Type} {S : CSignature Colour}
+  {cs ds : list Colour} (t : CTerm S cs ds) :
+  CTermEq S (CT_comp t (CT_id cs)) (CT_comp (CT_id ds) t).
+Proof.
+  apply CTE_trans with t.
+  - apply CTE_id_right.
+  - apply CTE_sym, CTE_id_left.
+Qed.
+
+(** A composite of identities equals a tensor of identities. *)
+Lemma ctm_comp_id_tens {Colour : Type} {S : CSignature Colour}
+  (m n : list Colour) :
+  CTermEq S (CT_comp (CT_id (m ++ n)) (CT_id (m ++ n)))
+            (CT_tens (CT_id m) (CT_id n)).
+Proof.
+  apply CTE_trans with (CT_id (m ++ n)).
+  - apply CTE_id_left.
+  - apply CTE_sym, CTE_tens_id.
+Qed.
+
+(** Collapsing an identity and a tensor of identities after [t]. *)
+Lemma ctm_collapse_r {Colour : Type} {S : CSignature Colour}
+  {m n p : list Colour} (t : CTerm S (m ++ n) p) :
+  CTermEq S (CT_comp (CT_comp t (CT_id (m ++ n)))
+                     (CT_tens (CT_id m) (CT_id n))) t.
+Proof.
+  apply CTE_trans with (CT_comp t (CT_tens (CT_id m) (CT_id n))).
+  - apply CTE_comp_cong.
+    + apply CTE_id_right.
+    + apply CTE_refl.
+  - apply CTE_trans with (CT_comp t (CT_id (m ++ n))).
+    + apply CTE_comp_cong.
+      * apply CTE_refl.
+      * apply CTE_tens_id.
+    + apply CTE_id_right.
+Qed.
+
+(** Collapsing an identity and a tensor of identities before [t]. *)
+Lemma ctm_collapse_l {Colour : Type} {S : CSignature Colour}
+  {m n p : list Colour} (t : CTerm S p (m ++ n)) :
+  CTermEq S (CT_comp (CT_comp (CT_id (m ++ n))
+                              (CT_tens (CT_id m) (CT_id n))) t) t.
+Proof.
+  apply CTE_trans with (CT_comp (CT_tens (CT_id m) (CT_id n)) t).
+  - apply CTE_comp_cong.
+    + apply CTE_id_left.
+    + apply CTE_refl.
+  - apply CTE_trans with (CT_comp (CT_id (m ++ n)) t).
+    + apply CTE_comp_cong.
+      * apply CTE_tens_id.
+      * apply CTE_refl.
+    + apply CTE_id_left.
+Qed.

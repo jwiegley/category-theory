@@ -4,7 +4,6 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Functor.Bifunctor.
 Require Import Category.Construction.Product.
 Require Import Category.Construction.Subcategory.
 Require Import Category.Structure.Monoidal.

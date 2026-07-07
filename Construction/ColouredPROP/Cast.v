@@ -75,6 +75,13 @@ Proof.
   apply CTE_id_left.
 Qed.
 
+(** NOTE (donor divergence): the coloured [CT_cast_inv] is the
+    TARGET-side cancellation — what the donor
+    (Construction/PROP/Cast.v) calls [T_cast_inv_sym] — and
+    [CT_cast_inv_sym] the SOURCE-side one.  Ports of mono-sorted
+    proofs must swap the pair; see also the header of Braided.v,
+    which compensates for this flip. *)
+
 (** Casting along [e] after casting along [eq_sym e] is the identity
     on the TARGET word [ds]. *)
 Lemma CT_cast_inv {Colour : Type} {S : CSignature Colour}

@@ -602,16 +602,24 @@ End BraidedUnitors.
 (** ** The middle interchange and its coherence
 
     [swap_inner a b c d : (a ⨂ b) ⨂ (c ⨂ d) ~> (a ⨂ c) ⨂ (b ⨂ d)] braids
-    the two middle factors.  The three coherence laws [swap_inner_braid],
-    [swap_inner_assoc] (via the two nesting laws [swap_inner_nested] /
-    [swap_inner_nested2]) and [swap_inner_unit_left] /
-    [swap_inner_unit_right] are precisely the conditions making the
-    squaring functor [x ↦ x ⨂ x] of a symmetric monoidal category
-    symmetric (strong) monoidal.  The diagonal [swap_inner x x y y] is
-    definitionally Hypergraph.v's [mid_swap_inv]; that identification
+    the two middle factors.  The coherence laws — four-slot naturality
+    ([swap_inner_natural]), involution ([swap_inner_invol]), braid
+    compatibility ([swap_inner_braid]), associativity ([swap_inner_assoc],
+    via the two nesting laws [swap_inner_nested] / [swap_inner_nested2],
+    plus its inverted form [swap_inner_assoc_inv]) and unit coherence
+    ([swap_inner_unit_left2] / [swap_inner_unit_right2] with their solved
+    and inverse-orientation forms) — are precisely the conditions making
+    the squaring functor [x ↦ x ⨂ x] of a symmetric monoidal category
+    symmetric (strong) monoidal.  Everything is stated at general (mixed)
+    arguments; the diagonal special cases consumed by the copy-discard
+    stack ([swap_inner_nat1], [swap_inner_unit_left] /
+    [swap_inner_unit_right], [braid_conjugate_left]) are one-line
+    instances.  The diagonal [swap_inner x x y y] is definitionally
+    Hypergraph.v's [mid_swap_inv]; that identification
     ([swap_inner_diag]) and its corollaries live in
     Structure/Monoidal/CopyDiscard/Deterministic.v, keeping this file
-    independent of the hypergraph stack.
+    independent of the hypergraph stack (Hypergraph.v itself instantiates
+    [swap_inner_invol] for its [mid_swap_iso] lemmas).
 
     Mirror forms are kept as citable API even where currently unconsumed
     in-tree: [braid_conjugate_right] (which itself consumes the otherwise
@@ -718,10 +726,10 @@ Proof.
   rewrite iso_to_from; cat.
 Qed.
 
-(* The middle conjugate of [swap_inner I I x x]: braiding I past x between
+(* The middle conjugate of [swap_inner I I x y]: braiding I past x between
    two associators is a unitor shuffle. *)
-Lemma braid_conjugate_left {x : C} :
-  to tensor_assoc ∘ (@braid C _ I x ⨂ id[x]) ∘ tensor_assoc⁻¹
+Lemma braid_conjugate_left2 {x y : C} :
+  to tensor_assoc ∘ (@braid C _ I x ⨂ id[y]) ∘ tensor_assoc⁻¹
     ≈ (id[x] ⨂ unit_left⁻¹) ∘ unit_left.
 Proof.
   rewrite braid_I_left.
@@ -732,6 +740,12 @@ Proof.
   rewrite <- bimap_triangle_left.
   reflexivity.
 Qed.
+
+(* The diagonal special case [y := x]. *)
+Lemma braid_conjugate_left {x : C} :
+  to tensor_assoc ∘ (@braid C _ I x ⨂ id[x]) ∘ tensor_assoc⁻¹
+    ≈ (id[x] ⨂ unit_left⁻¹) ∘ unit_left.
+Proof. exact braid_conjugate_left2. Qed.
 
 (* Mirror image, kept as citable API (see the section header). *)
 Lemma braid_conjugate_right {x : C} :
@@ -766,20 +780,92 @@ Lemma swap_inner_unfold {a b c d : C} :
     ≈ swap_inner a b c d.
 Proof. reflexivity. Qed.
 
+(** Naturality of the interchange in all four slots at once. *)
+Lemma swap_inner_natural {a a' b b' c c' d d' : C}
+      (f : a ~> a') (g : b ~> b') (h : c ~> c') (k : d ~> d') :
+  swap_inner a' b' c' d' ∘ ((f ⨂ g) ⨂ (h ⨂ k))
+    ≈ ((f ⨂ h) ⨂ (g ⨂ k)) ∘ swap_inner a b c d.
+Proof.
+  unfold swap_inner.
+  rewrite <- !comp_assoc.
+  rewrite <- to_tensor_assoc_natural.
+  normal.
+  rewrite from_tensor_assoc_natural.
+  normal.
+  comp_right.
+  comp_left.
+  normal.
+  bimap_left.
+  rewrite to_tensor_assoc_natural.
+  rewrite <- !comp_assoc.
+  rewrite <- from_tensor_assoc_natural.
+  comp_left.
+  comp_right.
+  normal.
+  bimap_right.
+  symmetry.
+  apply bimap_braid.
+Qed.
+
+(* The same naturality in mid-composition ("cons") position, oriented
+   for pushing a tensor-of-tensors across the interchange from the
+   left. *)
+Lemma swap_inner_natural_cons {a a' b b' c c' d d' z : C}
+      (f : a ~> a') (g : b ~> b') (h : c ~> c') (k : d ~> d')
+      (m : z ~> ((a ⨂ b) ⨂ (c ⨂ d))%object) :
+  ((f ⨂ h) ⨂ (g ⨂ k)) ∘ (swap_inner a b c d ∘ m)
+    ≈ swap_inner a' b' c' d' ∘ (((f ⨂ g) ⨂ (h ⨂ k)) ∘ m).
+Proof.
+  rewrite comp_assoc.
+  rewrite <- swap_inner_natural.
+  rewrite <- comp_assoc.
+  reflexivity.
+Qed.
+
 (* Naturality of the interchange in its first argument. *)
 Lemma swap_inner_nat1 {a a' b c d : C} (f : a ~> a') :
   ((f ⨂ id[c]) ⨂ id[(b ⨂ d)%object]) ∘ swap_inner a b c d
     ≈ swap_inner a' b c d ∘ ((f ⨂ id[b]) ⨂ id[(c ⨂ d)%object]).
 Proof.
+  spose (swap_inner_natural f (id[b]) (id[c]) (id[d])) as X.
+  rewrite !bimap_id_id in X.
+  symmetry; apply X.
+Qed.
+
+(** Involution: swapping the two middle factors twice is the identity.
+    The braid pair inside dies by [braid_invol]. *)
+Lemma swap_inner_invol {a b c d : C} :
+  swap_inner a c b d ∘ swap_inner a b c d
+    ≈ id[((a ⨂ b) ⨂ (c ⨂ d))%object].
+Proof.
   unfold swap_inner.
   rewrite <- !comp_assoc.
-  rewrite from_assoc_nat_cons.
-  rewrite bimap_id_id.
-  rewrite !bimap_swap2_cons.
-  spose (to_tensor_assoc_natural f (id[b]) (id[(c ⨂ d)%object])) as X1.
-  rewrite bimap_id_id in X1.
-  rewrite X1.
+  rewrite (comp_assoc (to tensor_assoc) ((tensor_assoc)⁻¹)).
+  rewrite iso_to_from, id_left.
+  rewrite (comp_assoc (bimap id ((tensor_assoc)⁻¹))
+                      (bimap id (to tensor_assoc))).
+  rewrite <- bimap_comp, id_left.
+  rewrite iso_from_to, bimap_id_id, id_left.
+  rewrite (comp_assoc (bimap id (bimap (@braid C _ c b) id[d]))
+                      (bimap id (bimap (@braid C _ b c) id[d]))).
+  rewrite <- bimap_comp, id_left.
+  rewrite <- bimap_comp, id_left.
+  rewrite braid_invol, !bimap_id_id, id_left.
+  rewrite (comp_assoc (bimap id (to tensor_assoc))
+                      (bimap id ((tensor_assoc)⁻¹))).
+  rewrite <- bimap_comp, id_left.
+  rewrite iso_to_from, bimap_id_id, id_left.
+  rewrite iso_from_to.
   reflexivity.
+Qed.
+
+Lemma swap_inner_invol_cons {a b c d z : C}
+      (k : z ~> ((a ⨂ b) ⨂ (c ⨂ d))%object) :
+  swap_inner a c b d ∘ (swap_inner a b c d ∘ k) ≈ k.
+Proof.
+  rewrite comp_assoc.
+  rewrite swap_inner_invol.
+  apply id_left.
 Qed.
 
 (** Compatibility of the interchange with the braiding: braiding the two
@@ -1022,24 +1108,61 @@ Proof.
   apply swap_inner_core.
 Qed.
 
+(** The associativity hexagon, inverted: [swap_inner_assoc] with every
+    factor replaced by its inverse (the inverse of an interchange being
+    the interchange with the middle slots swapped, by [swap_inner_invol]).
+    Both sides are two-sided inverses of [swap_inner_assoc]'s left-hand
+    side, so they agree by [comp_inverse_unique]. *)
+Theorem swap_inner_assoc_inv {a b c d e f : C} :
+  tensor_assoc⁻¹
+    ∘ (id[(a ⨂ b)%object] ⨂ swap_inner c e d f)
+    ∘ swap_inner a (c ⨂ e) b (d ⨂ f)
+    ≈ (swap_inner a c b d ⨂ id[(e ⨂ f)%object])
+        ∘ swap_inner (a ⨂ c) e (b ⨂ d) f
+        ∘ (tensor_assoc⁻¹ ⨂ tensor_assoc⁻¹).
+Proof.
+  apply (comp_inverse_unique
+           (swap_inner a b (c ⨂ e) (d ⨂ f)
+              ∘ ((id[(a ⨂ b)%object] ⨂ swap_inner c d e f)
+                   ∘ to tensor_assoc))).
+  - (* The forward hexagon side against the inverted left side. *)
+    rewrite <- !comp_assoc.
+    rewrite (cancel_to_from_cons tensor_assoc).
+    rewrite bimap_id_fuse_cons.
+    rewrite swap_inner_invol.
+    rewrite bimap_id_id, id_left.
+    apply swap_inner_invol.
+  - (* The inverted right side against the forward hexagon side; here
+       [swap_inner_assoc] itself discharges the composite. *)
+    rewrite swap_inner_assoc.
+    rewrite <- !comp_assoc.
+    rewrite bimap_fuse_cons.
+    rewrite !iso_from_to.
+    rewrite bimap_id_id, id_left.
+    rewrite swap_inner_invol_cons.
+    rewrite bimap_fuse_id_right.
+    rewrite swap_inner_invol.
+    apply bimap_id_id.
+Qed.
+
 (** *** Unit coherence of the interchange *)
 
-(* The unit coherence, left form: conjugating [swap_inner I I x x] by the
+(* The unit coherence, left form: conjugating [swap_inner I I x y] by the
    canonical unit isomorphisms is the left unitor. *)
-Lemma swap_inner_unit_left {x : C} :
-  (unit_left ⨂ unit_left) ∘ swap_inner I I x x
-    ∘ (unit_left⁻¹ ⨂ id[(x ⨂ x)%object])
-    ≈ @unit_left C _ (x ⨂ x).
+Lemma swap_inner_unit_left2 {x y : C} :
+  (unit_left ⨂ unit_left) ∘ swap_inner I I x y
+    ∘ (unit_left⁻¹ ⨂ id[(x ⨂ y)%object])
+    ≈ @unit_left C _ (x ⨂ y).
 Proof.
   unfold swap_inner.
   normal.
-  rewrite braid_conjugate_left.
+  rewrite braid_conjugate_left2.
   rewrite unit_identity_from.
   rewrite <- !comp_assoc.
   rewrite triangle_inverse_middle.
-  assert (E : (id[I] ⨂ ((id[x] ⨂ (@unit_left C _ x)⁻¹) ∘ unit_left))
-                ∘ (id[I] ⨂ (@unit_left C _ (x ⨂ x))⁻¹)
-                ≈ id[I] ⨂ (id[x] ⨂ (@unit_left C _ x)⁻¹)).
+  assert (E : (id[I] ⨂ ((id[x] ⨂ (@unit_left C _ y)⁻¹) ∘ unit_left))
+                ∘ (id[I] ⨂ (@unit_left C _ (x ⨂ y))⁻¹)
+                ≈ id[I] ⨂ (id[x] ⨂ (@unit_left C _ y)⁻¹)).
   { rewrite <- bimap_comp_id_left.
     bimap_left.
     rewrite <- comp_assoc.
@@ -1056,24 +1179,117 @@ Proof.
   reflexivity.
 Qed.
 
+(* The diagonal special case [y := x]. *)
+Lemma swap_inner_unit_left {x : C} :
+  (unit_left ⨂ unit_left) ∘ swap_inner I I x x
+    ∘ (unit_left⁻¹ ⨂ id[(x ⨂ x)%object])
+    ≈ @unit_left C _ (x ⨂ x).
+Proof. exact swap_inner_unit_left2. Qed.
+
 (* The unit coherence, right form, derived from the left form through the
    braid compatibility. *)
-Lemma swap_inner_unit_right {x : C} :
-  (unit_right ⨂ unit_right) ∘ swap_inner x x I I
-    ∘ (id[(x ⨂ x)%object] ⨂ unit_left⁻¹)
-    ≈ @unit_right C _ (x ⨂ x).
+Lemma swap_inner_unit_right2 {x y : C} :
+  (unit_right ⨂ unit_right) ∘ swap_inner x y I I
+    ∘ (id[(x ⨂ y)%object] ⨂ unit_left⁻¹)
+    ≈ @unit_right C _ (x ⨂ y).
 Proof.
-  rewrite <- (id_right (swap_inner x x I I)).
-  rewrite <- (braid_invol (x := (x ⨂ x)%object) (y := (I ⨂ I)%object)).
-  rewrite (comp_assoc (swap_inner x x I I)).
+  rewrite <- (id_right (swap_inner x y I I)).
+  rewrite <- (braid_invol (x := (x ⨂ y)%object) (y := (I ⨂ I)%object)).
+  rewrite (comp_assoc (swap_inner x y I I)).
   rewrite swap_inner_braid.
   rewrite <- !comp_assoc.
   rewrite <- bimap_braid.
   rewrite bimap_fuse_cons.
   rewrite !braid_unit_right.
   rewrite !comp_assoc.
-  rewrite swap_inner_unit_left.
+  rewrite swap_inner_unit_left2.
   apply braid_unit_left.
+Qed.
+
+(* The diagonal special case [y := x]. *)
+Lemma swap_inner_unit_right {x : C} :
+  (unit_right ⨂ unit_right) ∘ swap_inner x x I I
+    ∘ (id[(x ⨂ x)%object] ⨂ unit_left⁻¹)
+    ≈ @unit_right C _ (x ⨂ x).
+Proof. exact swap_inner_unit_right2. Qed.
+
+(* The unit coherences solved for the interchange composite, with the
+   inverse unitor moved to the other side. *)
+
+Lemma swap_inner_unit_left2_solved {x y : C} :
+  (unit_left ⨂ unit_left) ∘ swap_inner I I x y
+    ≈ @unit_left C _ (x ⨂ y) ∘ (unit_left ⨂ id[(x ⨂ y)%object]).
+Proof.
+  rewrite <- (id_right ((unit_left ⨂ unit_left) ∘ swap_inner I I x y)).
+  assert (E : ((@unit_left C _ I)⁻¹ ⨂ id[(x ⨂ y)%object])
+                ∘ (unit_left ⨂ id[(x ⨂ y)%object])
+                ≈ id[((I ⨂ I) ⨂ (x ⨂ y))%object]).
+  { rewrite bimap_fuse_id_right.
+    rewrite iso_from_to.
+    apply bimap_id_id. }
+  rewrite <- E; clear E.
+  rewrite !comp_assoc.
+  rewrite swap_inner_unit_left2.
+  reflexivity.
+Qed.
+
+Lemma swap_inner_unit_right2_solved {x y : C} :
+  (unit_right ⨂ unit_right) ∘ swap_inner x y I I
+    ≈ @unit_right C _ (x ⨂ y) ∘ (id[(x ⨂ y)%object] ⨂ unit_left).
+Proof.
+  rewrite <- (id_right ((unit_right ⨂ unit_right) ∘ swap_inner x y I I)).
+  assert (E : (id[(x ⨂ y)%object] ⨂ (@unit_left C _ I)⁻¹)
+                ∘ (id[(x ⨂ y)%object] ⨂ unit_left)
+                ≈ id[((x ⨂ y) ⨂ (I ⨂ I))%object]).
+  { rewrite bimap_id_fuse.
+    rewrite iso_from_to.
+    apply bimap_id_id. }
+  rewrite <- E; clear E.
+  rewrite !comp_assoc.
+  rewrite swap_inner_unit_right2.
+  reflexivity.
+Qed.
+
+(* The unit coherences in the inverse orientation: the interchange
+   applied AFTER the doubled inverse unitors is the inverse unitor of
+   the tensor, decorated by the unit-object unitor.  These are the exact
+   residuals of the counit laws of a tensor comonoid
+   (Theory/Algebra/Comonoid/Tensor.v). *)
+
+Lemma swap_inner_from_unit_left2 {x y : C} :
+  swap_inner I x I y ∘ (unit_left⁻¹ ⨂ unit_left⁻¹)
+    ≈ (unit_left⁻¹ ⨂ id[(x ⨂ y)%object]) ∘ (@unit_left C _ (x ⨂ y))⁻¹.
+Proof.
+  apply (comp_inverse_unique ((unit_left ⨂ unit_left) ∘ swap_inner I I x y)).
+  - rewrite <- !comp_assoc.
+    rewrite swap_inner_invol_cons.
+    rewrite <- bimap_comp.
+    rewrite !iso_to_from.
+    apply bimap_id_id.
+  - rewrite <- !comp_assoc.
+    rewrite swap_inner_unit_left2_solved.
+    rewrite (cancel_from_to_cons unit_left).
+    rewrite bimap_fuse_id_right.
+    rewrite iso_from_to.
+    apply bimap_id_id.
+Qed.
+
+Lemma swap_inner_from_unit_right2 {x y : C} :
+  swap_inner x I y I ∘ (unit_right⁻¹ ⨂ unit_right⁻¹)
+    ≈ (id[(x ⨂ y)%object] ⨂ unit_left⁻¹) ∘ (@unit_right C _ (x ⨂ y))⁻¹.
+Proof.
+  apply (comp_inverse_unique ((unit_right ⨂ unit_right) ∘ swap_inner x y I I)).
+  - rewrite <- !comp_assoc.
+    rewrite swap_inner_invol_cons.
+    rewrite <- bimap_comp.
+    rewrite !iso_to_from.
+    apply bimap_id_id.
+  - rewrite <- !comp_assoc.
+    rewrite swap_inner_unit_right2_solved.
+    rewrite (cancel_from_to_cons unit_right).
+    rewrite bimap_id_fuse.
+    rewrite iso_from_to.
+    apply bimap_id_id.
 Qed.
 
 End Interchange.

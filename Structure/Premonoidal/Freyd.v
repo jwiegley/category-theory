@@ -4,12 +4,9 @@ Require Import Category.Lib.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
-Require Import Category.Theory.Monad.
-Require Import Category.Functor.Bifunctor.
 Require Import Category.Construction.Subcategory.
 Require Import Category.Construction.Quotient.
 Require Import Category.Structure.Monoidal.
-Require Import Category.Structure.Monoidal.Braided.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Binoidal.
 Require Import Category.Structure.Binoidal.Central.
@@ -41,6 +38,15 @@ Set Transparent Obligations.
     Freyd categories are exactly the monad-independent formulation of
     that situation.
 
+    A caveat on the name: both papers ask for more than this file
+    formalizes.  They additionally require finite products on V (a
+    CARTESIAN category of values), a symmetry on the premonoidal K, and
+    strict preservation of that symmetry by J.  Symmetric premonoidal
+    structure is not yet formalized in this library, so the [Freyd]
+    class below drops all three requirements.  What it captures is the
+    (strict) EFFECTFUL CATEGORY of Levy and Román, of which the
+    classical Freyd category is the cartesian/symmetric special case.
+
     The notion is delivered in two layers:
 
       - [EffectfulFunctor]: the centrality half alone — a functor whose
@@ -70,8 +76,9 @@ Set Transparent Obligations.
 
     Two instances close the file:
 
-      - [Freyd_Kleisli], the flagship (Power–Robinson): for a strong
-        monad M on a symmetric monoidal category C, the pure functor
+      - [Freyd_Kleisli], the flagship (Power–Thielecke 1999,
+        Levy–Power–Thielecke 2003): for a strong monad M on a symmetric
+        monoidal category C, the pure functor
         [Kleisli_Pure] : C ⟶ Kl(M) of Monad/Kleisli/Premonoidal.v is a
         Freyd category over [Kleisli_Binoidal]/[Kleisli_Premonoidal].
         Objects of Kl(M) ARE the objects of C, so all object equalities
@@ -270,7 +277,9 @@ End Freyd.
 
 (** ** The flagship instance: the Kleisli category of a strong monad
 
-    Power–Robinson's motivating example.  For a strong monad M on a
+    The motivating example of Power–Thielecke 1999 and
+    Levy–Power–Thielecke 2003, built on the premonoidal structure of
+    Kl(M) established by Power–Robinson 1997.  For a strong monad M on a
     symmetric monoidal C, the pure functor [Kleisli_Pure] : C ⟶ Kl(M)
     is the identity on objects — [obj Kl(M)] is definitionally [obj C] —
     so the section is the identity and every object equality is
