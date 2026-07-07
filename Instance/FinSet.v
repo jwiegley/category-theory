@@ -32,8 +32,8 @@ Generalizable All Variables.
    inputs:
 
    - the category itself, with Initial (0), Terminal (1) and COMPUTING
-     coproducts: [fin_split] is built on the standard library's recursor
-     [Fin.case_L_R'], so copairings evaluate on closed inputs by [eq_refl]
+     coproducts: [fin_split] is a structural fixpoint dispatching through
+     [Fin.caseS'], so copairings evaluate on closed inputs by [eq_refl]
      (see [fin_split_computes] and [merge_computes] below);
    - the [HomEqProp] and [ObjDecEq] side conditions from
      [Construction/Quotient.v], which universal-property proofs against
@@ -78,14 +78,27 @@ Qed.
     [fin_split] analyses an element of the canonical (m + n)-element set as
     either an element of the first m or of the last n; [fin_join] is its
     two-sided inverse, built from the standard library's injections [Fin.L]
-    and [Fin.R].  Both are plain definitions over the recursor
-    [Fin.case_L_R'], so they REDUCE on closed input — the coproduct
-    structure below computes by [eq_refl]. *)
+    and [Fin.R].  [fin_split] is a structural fixpoint on [m] whose
+    successor case dispatches through [Fin.caseS'], re-tagging the
+    recursive result along [Fin.FS] — deliberately built from primitives
+    common to every supported version, avoiding the [Fin.case_L_R'] family
+    that only the Rocq 9.x standard library provides, so the file also
+    compiles on Coq 8.19/8.20.  Both directions REDUCE on closed input —
+    the coproduct structure below computes by [eq_refl]. *)
 
-Definition fin_split {m n : nat} (p : Fin.t (m + n)) :
-  (Fin.t m + Fin.t n)%type :=
-  Fin.case_L_R' (fun _ => (Fin.t m + Fin.t n)%type) p
-    (fun q => Datatypes.inl q) (fun q => Datatypes.inr q).
+Fixpoint fin_split {m n : nat} {struct m} :
+  Fin.t (m + n) -> (Fin.t m + Fin.t n)%type :=
+  match m return Fin.t (m + n) -> (Fin.t m + Fin.t n)%type with
+  | O => fun p => Datatypes.inr p
+  | S m' => fun p =>
+      Fin.caseS' p (fun _ => (Fin.t (S m') + Fin.t n)%type)
+        (Datatypes.inl Fin.F1)
+        (fun q =>
+           match @fin_split m' n q with
+           | Datatypes.inl a => Datatypes.inl (Fin.FS a)
+           | Datatypes.inr b => Datatypes.inr b
+           end)
+  end.
 
 Definition fin_join {m n : nat} (s : (Fin.t m + Fin.t n)%type) :
   Fin.t (m + n) :=
@@ -97,23 +110,33 @@ Definition fin_join {m n : nat} (s : (Fin.t m + Fin.t n)%type) :
 Lemma fin_split_L {m n : nat} (a : Fin.t m) :
   fin_split (Fin.L n a) = Datatypes.inl a.
 Proof.
-  exact (Fin.case_L_R'_L (fun _ => (Fin.t m + Fin.t n)%type) a
-           (fun q => Datatypes.inl q) (fun q => Datatypes.inr q)).
+  induction a as [m | m a IH]; simpl.
+  - reflexivity.
+  - rewrite IH; reflexivity.
 Qed.
 
 Lemma fin_split_R {m n : nat} (b : Fin.t n) :
   fin_split (Fin.R m b) = Datatypes.inr b.
 Proof.
-  exact (Fin.case_L_R'_R (fun _ => (Fin.t m + Fin.t n)%type) b
-           (fun q => Datatypes.inl q) (fun q => Datatypes.inr q)).
+  (* Induction on the amount [m] prepended: [Fin.R 0 b] is definitionally
+     [b], and the successor case re-tags along [Fin.FS]. *)
+  induction m as [| m IH]; simpl.
+  - reflexivity.
+  - rewrite IH; reflexivity.
 Qed.
 
 Lemma fin_join_split {m n : nat} (p : Fin.t (m + n)) :
   fin_join (fin_split p) = p.
 Proof.
-  apply (Fin.case_L_R' (fun p => fin_join (fin_split p) = p) p); intro q.
-  - rewrite fin_split_L; reflexivity.
-  - rewrite fin_split_R; reflexivity.
+  revert p; induction m as [| m IH]; intro p.
+  - reflexivity.
+  - apply (Fin.caseS' p
+             (fun p : Fin.t (S m + n) =>
+                fin_join (@fin_split (S m) n p) = p)).
+    + reflexivity.
+    + intro q; specialize (IH q); simpl; revert IH.
+      destruct (fin_split q) as [a|b]; simpl; intro IH;
+        rewrite IH; reflexivity.
 Qed.
 
 Lemma fin_split_join {m n : nat} (s : (Fin.t m + Fin.t n)%type) :
