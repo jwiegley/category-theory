@@ -117,6 +117,8 @@ Example: `f ∘[C] g` specifies category C when needed.
 - **Structure/Cartesian.v**: Products via universal property
 - **Structure/Closed.v**: Exponentials and internal hom
 - **Structure/Monoidal.v**: Tensor products with coherence
+- **Structure/Monoidal/CopyDiscard.v**: Copy/discard (gs-monoidal) categories — comonoid supply with no naturality; deterministic morphisms and the wide subcategory Det in CopyDiscard/Deterministic.v
+- **Structure/Monoidal/Markov.v**: Markov categories (copy/discard + semicartesian); Fox's theorem in Markov/Fox.v (all-deterministic ⟺ cartesian)
 - **Structure/Limit.v**: Limits and colimits
 
 ### Constructions (External Combinators)
