@@ -131,6 +131,7 @@ Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
 Instance/StrictCat/Terminal.v
 Instance/StrictCat/Funny.v
+Instance/StrictCat/Premonoid.v
 Instance/Comp.v
 Instance/Cones.v
 Instance/Cones/Comma.v
@@ -195,9 +196,14 @@ Monad/Algebra.v
 Monad/Compose.v
 Monad/Distributive.v
 Monad/Eilenberg/Moore.v
+Monad/Graded.v
 Monad/Kleisli.v
+Monad/Kleisli/Premonoidal.v
+Monad/Kleisli/Commutative.v
 Monad/Monoid.v
 Monad/Strong.v
+Monad/Strong/Symmetric.v
+Monad/Thunkable.v
 Monad/Transformer.v
 Natural/Transformation/Applicative.v
 Natural/Transformation/Monoidal.v
@@ -212,6 +218,11 @@ Solver/Reify.v
 Structure/BiCCC.v
 Structure/Bicartesian.v
 Structure/Binoidal.v
+Structure/Binoidal/Central.v
+Structure/Premonoidal.v
+Structure/Premonoidal/Monoidal.v
+Structure/Premonoidal/Centre.v
+Structure/Premonoidal/Freyd.v
 Structure/Cartesian.v
 Structure/Cartesian/Closed.v
 Structure/Cartesian/Closed/Product.v

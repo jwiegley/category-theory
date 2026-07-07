@@ -119,6 +119,7 @@ Example: `f ∘[C] g` specifies category C when needed.
 - **Structure/Monoidal.v**: Tensor products with coherence
 - **Structure/Monoidal/CopyDiscard.v**: Copy/discard (gs-monoidal) categories — comonoid supply with no naturality; deterministic morphisms and the wide subcategory Det in CopyDiscard/Deterministic.v
 - **Structure/Monoidal/Markov.v**: Markov categories (copy/discard + semicartesian); Fox's theorem in Markov/Fox.v (all-deterministic ⟺ cartesian)
+- **Structure/Premonoidal.v**: Premonoidal categories over Structure/Binoidal.v — centre Z(C) as a monoidal wide subcategory (Binoidal/Central.v, Premonoidal/Centre.v), Monoidal ⟺ all-central premonoidal (Premonoidal/Monoidal.v), Freyd/effectful categories (Premonoidal/Freyd.v); Kleisli premonoidal structure and thunkability in Monad/Kleisli/{Premonoidal,Commutative}.v and Monad/Thunkable.v; graded monads in Monad/Graded.v; strict premonoidal = monoid in (StrictCat, □) in Instance/StrictCat/Premonoid.v
 - **Structure/Limit.v**: Limits and colimits
 
 ### Constructions (External Combinators)

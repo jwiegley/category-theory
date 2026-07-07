@@ -240,7 +240,9 @@ End StrongMonadValidation.
                                       ≈ join ∘ fmap rstrength ∘ rstrength
 
    This dual is provided for completeness and symmetry with [StrongMonad]; no
-   instance is built here.  [CommutativeStrongMonad] below deliberately inlines
+   instance is built here.  (A derived instance over any symmetric base is
+   built in Monad/Strong/Symmetric.v as [rstr_RightStrongMonad].)
+   [CommutativeStrongMonad] below deliberately inlines
    a [RightStrongFunctor] plus its two compatibility laws (rather than bundling
    a [RightStrongMonad]) so that the left and right strengths share the *same*
    underlying monad, keeping [join] unambiguous in the commutativity law. *)
@@ -282,8 +284,8 @@ Arguments RightStrongMonad {C} _ M.
    computations.  Out of the left strength t and the right strength t' one
    builds two "double strengths" M x ⨂ M y ~> M (x ⨂ y):
 
-     dstr  = μ ∘ M t  ∘ t'   (sequence the right computation first)
-     dstr' = μ ∘ M t' ∘ t    (sequence the left  computation first)
+     dstr  = μ ∘ M t  ∘ t'   (sequence the left  computation first)
+     dstr' = μ ∘ M t' ∘ t    (sequence the right computation first)
 
    and the monad is commutative when dstr ≈ dstr' — running the two effects in
    either order yields the same result.  This double strength is precisely the
@@ -341,13 +343,15 @@ Arguments CommutativeStrongMonad {C} _ M.
    two monad-compatibility laws — so every strong monad over a symmetric base is
    right-strong in the monad-relevant sense.
 
-   We deliver this as a derived morphism family with its laws rather than as a
-   full [RightStrongMonad] instance: the two [RightStrongFunctor] *coherence*
-   laws (unit-object [rrstrength_id_right] and associator [rstrength_assoc])
-   require braided-coherence lemmas relating the unitors and associator to the
-   braiding (e.g. ρ ≈ λ ∘ β) that are not available from the library's bare
-   [BraidedMonoidal]/[SymmetricMonoidal] axiomatization, so we omit them rather
-   than assume any axiom. *)
+   This file delivers the derived morphism family with its naturality and
+   monad-compatibility laws; the two [RightStrongFunctor] *coherence* laws
+   (unit-object [rrstrength_id_right] and associator [rstrength_assoc]) are
+   now derivable as well: the braid-unitor coherences (ρ ≈ λ ∘ β and its
+   mirrors) are proven from the bare axioms in
+   Structure/Monoidal/Braided/Proofs.v ([braid_unit_left],
+   [braid_unit_right], [braid_I_I]), and Monad/Strong/Symmetric.v packages
+   [rstr] as a full [RightStrongFunctor] and [RightStrongMonad]
+   ([rstr_RightStrongFunctor], [rstr_RightStrongMonad]). *)
 
 Section SymmetricRightStrength.
 
@@ -438,11 +442,12 @@ Definition dstr' {x y} : M x ⨂ M y ~> M (x ⨂ y) :=
    This is the symmetric-base specialization, phrased with the *derived* right
    strength [rstr]; it is distinct from the abstract
    [CommutativeStrongMonad.commutativity] field (stated over an arbitrary
-   bundled right strength).  The two are not formally bridged here: packaging
-   [rstr] as a full [RightStrongFunctor] — and so obtaining a
-   [CommutativeStrongMonad] over the symmetric base — would need the
-   braid/unitor coherence ρ ≈ λ ∘ β, which the bare [SymmetricMonoidal]
-   axiomatization used here does not provide. *)
+   bundled right strength).  The bridge is provided in
+   Monad/Strong/Symmetric.v: [commutative_CommutativeStrongMonad] turns a
+   [commutative_sm] witness into a [CommutativeStrongMonad] over the derived
+   right strength, and [CSM_commutative_sm] gives the converse whenever the
+   bundled right strength agrees with [rstr]; the required braid/unitor
+   coherence is [braid_unit_left] in Structure/Monoidal/Braided/Proofs.v. *)
 Definition commutative_sm : Type := ∀ x y, @dstr x y ≈ @dstr' x y.
 
 End SymmetricRightStrength.
