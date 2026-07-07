@@ -28,6 +28,7 @@ Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
 Construction/Product/Comma.v
+Construction/Quotient.v
 Construction/Slice.v
 Construction/Slice/Pullback.v
 Construction/Subcategory.v
@@ -50,6 +51,17 @@ Construction/PROP/Cast.v
 Construction/PROP/CastTensor.v
 Construction/PROP/Structural.v
 Construction/PROP/Naturality.v
+Construction/PROP/Monoidal.v
+Construction/PROP/Braided.v
+Construction/PROP/Symmetric.v
+Construction/PROP/Strict.v
+Construction/PROP/Instance.v
+Construction/PROP/Interp.v
+Construction/PROP/Universal.v
+Construction/PROP/Algebra.v
+Construction/PROP/Presentation.v
+Construction/PROP/Presentation/Universal.v
+Construction/PROP/Tietze.v
 Construction/ColouredPROP.v
 Construction/DecoratedCospan.v
 Construction/DecoratedCospan/Category.v
@@ -80,6 +92,7 @@ Functor/Structure/Cartesian/Closed.v
 Functor/Structure/Constant.v
 Functor/Structure/Monoidal.v
 Functor/Structure/Monoidal/Braided.v
+Functor/Structure/Monoidal/Hypergraph.v
 Functor/Structure/Monoidal/Compose.v
 Functor/Structure/Monoidal/Id.v
 Functor/Structure/Monoidal/Pure.v
@@ -109,6 +122,7 @@ Instance/Coq/Par.v
 Instance/Coq/ParE.v
 Instance/Ens.v
 Instance/Fact.v
+Instance/FinSet.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Lambda.v

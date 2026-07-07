@@ -1,6 +1,5 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
-Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
@@ -34,9 +33,9 @@ Context `{M : @Monoidal C}.
 
 Class MonoidHom {x y : C} (Mx : Monoid x) (My : Monoid y) (f : x ~> y) :
   Type := {
-  (* f preserves multiplication: f ∘ μ ≈ μ ∘ (f ⨂ f) *)
+  (* f preserves multiplication: f ∘ mu[Mx] ≈ mu[My] ∘ (f ⨂ f) *)
   hom_mu  : f ∘ mu[Mx] ≈ mu[My] ∘ (f ⨂ f);
-  (* f preserves the unit: f ∘ η ≈ η *)
+  (* f preserves the unit: f ∘ eta[Mx] ≈ eta[My] *)
   hom_eta : f ∘ eta[Mx] ≈ eta[My]
 }.
 

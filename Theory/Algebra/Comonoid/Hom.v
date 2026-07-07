@@ -31,11 +31,13 @@ Generalizable All Variables.
 
    Beyond its algebraic role, this class is the predicate behind
    *determinism* in categorical probability: in a category where every
-   object carries a canonical copy/discard comonoid, Cho–Jacobs
-   (arXiv:1709.00322) call a morphism deterministic precisely when it is a
-   comonoid homomorphism between the canonical comonoids — copying the
-   output of f is the same as running f twice on a copied input, and
-   discarding the output is the same as discarding the input.
+   object carries a canonical copy/discard comonoid (the CD-categories of
+   Cho–Jacobs, arXiv:1709.00322 §2), a morphism is called deterministic
+   (Fritz, arXiv:1908.07021, Definition 10.1; the condition goes back to
+   Carboni–Walters) precisely when it is a comonoid homomorphism between
+   the canonical comonoids — copying the output of f is the same as
+   running f twice on a copied input, and discarding the output is the
+   same as discarding the input.
    Structure/Monoidal/CopyDiscard/Deterministic.v instantiates this class at
    those canonical comonoids.
 
@@ -57,9 +59,9 @@ Context `{M : @Monoidal C}.
 
 Class ComonoidHom {x y : C} (Cx : Comonoid x) (Cy : Comonoid y)
       (f : x ~> y) : Type := {
-  (* f preserves comultiplication: δ ∘ f ≈ (f ⨂ f) ∘ δ *)
+  (* f preserves comultiplication: delta[Cy] ∘ f ≈ (f ⨂ f) ∘ delta[Cx] *)
   hom_delta   : delta[Cy] ∘ f ≈ (f ⨂ f) ∘ delta[Cx];
-  (* f preserves the counit: ε ∘ f ≈ ε *)
+  (* f preserves the counit: epsilon[Cy] ∘ f ≈ epsilon[Cx] *)
   hom_epsilon : epsilon[Cy] ∘ f ≈ epsilon[Cx]
 }.
 

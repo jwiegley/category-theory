@@ -57,7 +57,12 @@ Generalizable All Variables.
     per-object structure field, canonical-tensor coherence, and unit
     coherence, reusing [canonical_tensor_delta] / [canonical_tensor_epsilon]
     (stated there for plain [Comonoid] arguments; [CommutativeComonoid]
-    coerces).
+    coerces).  The Hypergraph.v import supplies only that
+    middle-interchange vocabulary ([mid_swap_inv] and the two
+    [canonical_tensor_*] composites) — symmetric-monoidal-level material
+    with no Frobenius content.  Conceptually the dependency runs the
+    other way: every hypergraph category is a copy-discard category
+    ([CD_of_Hypergraph] in CopyDiscard/Proofs.v).
 
     nLab:      https://ncatlab.org/nlab/show/copy-discard+category
     Reference: Cho & Jacobs, "Disintegration and Bayesian inversion via

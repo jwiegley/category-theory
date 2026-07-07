@@ -137,7 +137,7 @@ Next Obligation.
   - intro t. apply feq_refl.
   - intros t u. apply feq_sym.
   - intros t u v. apply feq_trans.
-Defined.
+Qed.
 
 Lemma fapp_feq_l {c1 d1 c2 d2} {t t' : FunHom c1 d1 c2 d2} (E : feq t t') :
   ∀ {c3 d3} (u : FunHom c2 d2 c3 d3), feq (fapp t u) (fapp t' u).
@@ -191,8 +191,11 @@ Proof.
 Qed.
 
 (* [fapp] flipped into composition order: this is [compose] of the category
-   C □ D below. *)
-#[export] Instance funny_compose_respects {c1 d1 c2 d2 c3 d3} :
+   C □ D below.  A plain lemma, not an instance: keyed on a lambda it could
+   never be selected by setoid rewriting (the same argument as
+   [fapp_respects] above); its one consumer is the [compose_respects] field
+   of [Funny]. *)
+Lemma funny_compose_respects {c1 d1 c2 d2 c3 d3} :
   Proper (equiv ==> equiv ==> equiv)
     (fun (t : FunHom c2 d2 c3 d3) (u : FunHom c1 d1 c2 d2) => fapp u t).
 Proof.

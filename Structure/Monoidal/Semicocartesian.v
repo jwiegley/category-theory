@@ -29,13 +29,15 @@ Context {C : Category}.
    categorical coproduct; here only the create maps out of I are guaranteed,
    not the codiagonals.
 
-   In a more developed dual infrastructure this could instead read
+   With [Monoidal_op] from Construction/Opposite/Monoidal.v this could
+   instead read
 
        Definition SemicocartesianMonoidal `{M : @Monoidal C} :=
-         @SemicartesianMonoidal (C^op) (Monoidal_Opposite M).
+         @SemicartesianMonoidal (C^op) Monoidal_op.
 
-   but the library does not currently carry [Monoidal (C^op)] as a derived
-   instance. The direct (dual-by-hand) class below mirrors the
+   but the derived instance's members would need re-unfolding at every use
+   site — the same trade-off documented in Theory/Algebra/Comonoid.v — so
+   the direct (dual-by-hand) class below mirrors the
    [SemicartesianMonoidal] fields with directions flipped. Just as initiality
    of I equips every tensor with coprojection maps, defined dually to the
    semicartesian projections from a create on one factor and a unitor inverse,

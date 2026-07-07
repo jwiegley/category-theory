@@ -14,9 +14,9 @@ Generalizable All Variables.
 (** * Hypergraph functors
 
     Reference: Fong, "The Algebra of Open and Interconnected Systems"
-    (arXiv:1609.05382), Definition 4.1.3; Fong–Spivak, "Hypergraph
+    (arXiv:1609.05382), Definition 1.4; Fong–Spivak, "Hypergraph
     categories" (Journal of Pure and Applied Algebra 223, 2019;
-    arXiv:1806.08304).
+    arXiv:1806.08304), Definition 2.12.
 
     nLab:      https://ncatlab.org/nlab/show/hypergraph+category
                (defines hypergraph categories; the page does NOT define
@@ -28,8 +28,9 @@ Generalizable All Variables.
 
     A HYPERGRAPH FUNCTOR between hypergraph categories [(C, ⨂_C, I_C, …)]
     and [(D, ⨂_D, I_D, …)] is a STRONG symmetric monoidal functor (per
-    Fong–Spivak; Seven Sketches Def. 6.60) preserving the SCFA structure
-    on each object.  Concretely, the functor carries comparison
+    Fong–Spivak, "Hypergraph categories", Definition 2.12; Seven Sketches
+    Def. 6.60 defines hypergraph categories themselves) preserving the
+    SCFA structure on each object.  Concretely, the functor carries comparison
     *isomorphisms* [F X ⨂_D F Y ≅ F (X ⨂_C Y)] and [I_D ≅ F I_C]
     AND sends μ_X, η_X, δ_X, ε_X to μ_{F X}, η_{F X}, δ_{F X}, ε_{F X}
     up to transport along those isomorphisms.  (The fully-strict case,
@@ -50,8 +51,10 @@ Generalizable All Variables.
     isomorphisms together with the four SCFA-preservation equations; see
     the "Known scoping limitation: missing monoidal coherences" section
     below.  As a consequence the record is NOT in general a symmetric
-    monoidal functor, and the only inhabitant currently provided is the
-    trivial [Id_HypergraphFunctor].
+    monoidal functor.  The inhabitants currently provided are the trivial
+    [Id_HypergraphFunctor] below and the images of the forgetful bridge
+    [SymmetricMonoidalFunctor_HypergraphFunctor]
+    (Functor/Structure/Monoidal/Hypergraph.v).
 
     ** Coq-specific organisation
 
@@ -74,7 +77,7 @@ Generalizable All Variables.
 
     ** Known scoping limitation: missing monoidal coherences
 
-    Per Fong–Spivak (Definition 4.1.3), a hypergraph functor is a
+    Per Fong–Spivak (Definition 2.12), a hypergraph functor is a
     (symmetric) STRONG monoidal functor that ALSO preserves the SCFA
     generators.  The record below carries [hf_unit_iso] and
     [hf_tensor_iso] as raw isomorphisms, BUT omits the standard
@@ -84,7 +87,8 @@ Generalizable All Variables.
       - unitor squares for [hf_tensor_iso] vs. [unit_left] /
         [unit_right];
       - naturality of [hf_tensor_iso] in both arguments;
-      - braid-compatibility ([F braid ≈ braid ∘ hf_tensor_iso]).
+      - braid-compatibility ([fmap[F] braid ∘ hf_tensor_iso X Y ≈
+        hf_tensor_iso Y X ∘ braid]).
 
     Consequence: two distinct choices of [hf_tensor_iso] / [hf_unit_iso]
     could each satisfy the four SCFA-preservation equations without
@@ -103,9 +107,17 @@ Generalizable All Variables.
 
     A more rigorous future redesign of this record either (a) adds
     the missing coherence fields here verbatim, or (b) re-parameterises
-    on the library's [MonoidalFunctor] class (plus a fictional
-    [SymmetricMonoidalFunctor] subclass, currently absent from the
-    library) and inherits the coherence equations from there. *)
+    on the library's [MonoidalFunctor] class together with its
+    [SymmetricMonoidalFunctor] refinement
+    (Functor/Structure/Monoidal/Braided.v) and inherits the coherence
+    equations from there.  The sound forgetful half of option (b) now
+    exists — [SymmetricMonoidalFunctor_HypergraphFunctor] in
+    Functor/Structure/Monoidal/Hypergraph.v packages any strong
+    symmetric monoidal functor preserving the SCFA generators as an
+    inhabitant of this record — but forgetting into the record loses
+    the coherences irrecoverably: the missing fields described above
+    remain missing, and consumers of the record remain subject to this
+    caveat. *)
 
 Section HypergraphFunctor.
 
