@@ -34,8 +34,8 @@ Generalizable All Variables.
     - Mark Weber, "Free products of higher operad algebras", TAC 28:2 (2013)
       24-65, §2: the generators-and-relations presentation used here, the
       pushout formula, and the comparison functor κ : C □ D ⟶ C ∏ D.
-    - nLab, "funny tensor product": the pushout definition and the failure of
-      equivalence-invariance.
+    - nLab, "funny tensor product": the pushout definition and the
+      non-invariance under equivalence.
 
     A load-bearing caveat: the funny tensor is NOT invariant under equivalence
     of categories (with I the "walking isomorphism" chaotic groupoid on two
