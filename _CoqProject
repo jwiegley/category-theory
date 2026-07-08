@@ -203,6 +203,7 @@ Monad/Distributive.v
 Monad/Eilenberg/Moore.v
 Monad/Graded.v
 Monad/Kleisli.v
+Monad/Kleisli/Adjunction.v
 Monad/Kleisli/Premonoidal.v
 Monad/Kleisli/Commutative.v
 Monad/Monoid.v
