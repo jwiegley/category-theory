@@ -111,6 +111,7 @@ Example: `f ∘[C] g` specifies category C when needed.
 - **Theory/Adjunction.v**: The most important concept - adjunctions
 - **Theory/Monad.v**: Monads as endofunctors with structure
 - **Monad/Strong.v**: Strong monads — a monad whose functor carries a tensorial strength compatible with η and μ (Kock/Moggi)
+- **Comonad/Core.v**: Covariant comonad API over the one-line `Comonad := @Monad (C^op) (M^op)` — extract/duplicate/extend as definitional op-reads; co-Kleisli category (Comonad/CoKleisli.v), co-Eilenberg-Moore coalgebras (Comonad/Coalgebra.v), costrength (Comonad/Strong.v), and the adjunction-induced comonad with co-resolutions by duality (Comonad/Duality.v); Env/Store/Traced instances in Instance/Coq/Comonad/. Monad resolutions: the Kleisli and Eilenberg-Moore free/forgetful adjunctions in Monad/Kleisli/Adjunction.v and Monad/Eilenberg/Moore/Adjunction.v
 - **Theory/Kan/Extension.v**: Universal property of Kan extensions
 - **Theory/Equivalence.v**: Equivalence of categories — quasi-inverse class with the Full+Faithful+essentially-surjective characterization (Equivalence/FullFaithful.v), adjoint equivalences (Equivalence/Adjoint.v), preservation/reflection/creation of limits and transport of adjunctions and monoidal structure along equivalences (Equivalence/{Limit,Adjunction,Monoidal,Bundled}.v); RAPL/LAPC in Adjunction/Continuity.v over the preservation vocabulary of Structure/Limit/Preservation.v; adjunction composition in Adjunction/Compose.v
 
