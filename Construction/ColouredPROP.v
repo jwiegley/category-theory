@@ -85,11 +85,12 @@ Generalizable All Variables.
 
    - Any change to the [TermEq]/[CTermEq] constructors must budget
      synchronized edits at the four parallel 19-case induction
-     sites — [T_map_TermEq] (PROP/Tietze.v, with its
-     [retract_TermEq] sibling there), [CT_map_CTermEq]
-     (ColouredPROP/Relabel.v), [interp_sound_heq] (PROP/Interp.v)
-     and [cinterp_sound_heq] (ColouredPROP/Interp.v) — plus the
-     interpretation kits downstream of the two soundness theorems.
+     sites — [T_subst_TermEq] (PROP/TermEq.v; [T_map_TermEq] and
+     [retract_TermEq] in PROP/Tietze.v are one-line corollaries of
+     it), [CT_map_CTermEq] (ColouredPROP/Relabel.v),
+     [interp_sound_heq] (PROP/Interp.v) and [cinterp_sound_heq]
+     (ColouredPROP/Interp.v) — plus the interpretation kits
+     downstream of the two soundness theorems.
 
    - Only three kits are shared BY IMPORT rather than mirrored: the
      [BraidTransport] coherence quarantine (PROP/Interp.v), the

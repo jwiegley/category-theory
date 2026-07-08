@@ -611,10 +611,11 @@ End BraidedUnitors.
     and inverse-orientation forms) — are precisely the conditions making
     the squaring functor [x ↦ x ⨂ x] of a symmetric monoidal category
     symmetric (strong) monoidal.  Everything is stated at general (mixed)
-    arguments; the diagonal special cases consumed by the copy-discard
-    stack ([swap_inner_nat1], [swap_inner_unit_left] /
-    [swap_inner_unit_right], [braid_conjugate_left]) are one-line
-    instances.  The diagonal [swap_inner x x y y] is definitionally
+    arguments; the diagonal special cases ([swap_inner_nat1],
+    [swap_inner_unit_left] / [swap_inner_unit_right],
+    [braid_conjugate_left]) are one-line instances, currently consumed
+    only within this file — the copy-discard stack takes its diagonal
+    corollaries from CopyDiscard/Deterministic.v instead.  The diagonal [swap_inner x x y y] is definitionally
     Hypergraph.v's [mid_swap_inv]; that identification
     ([swap_inner_diag]) and its corollaries live in
     Structure/Monoidal/CopyDiscard/Deterministic.v, keeping this file
