@@ -147,6 +147,7 @@ Instance/Coq.v
 Instance/Coq/Applicative.v
 Instance/Coq/Monad.v
 Instance/Coq/Comonad/Env.v
+Instance/Coq/Comonad/Store.v
 Instance/Coq/Par.v
 Instance/Coq/ParE.v
 Instance/Ens.v
