@@ -35,11 +35,14 @@ Generalizable All Variables.
    reflexivity, the covariant components of this construction are
    definitionally the expected ones: the hom-sets are literally
    W x ~{C}~> y ([cokleisli_hom], which holds by reflexivity), the identity
-   is literally [extract] ([cokleisli_id]), and composition is literally
-   f ∘ extend g ([cokleisli_compose_extend]).  The category laws, inherited
-   from Monad/Kleisli.v by duality and re-read covariantly, are the
-   co-Kleisli triple laws [extract_extend], [extend_extract] and
-   [extend_comp] of Comonad/Core.v; they appear below as [comonad_id_left],
+   is literally [extract] ([cokleisli_id]), and the categorical composite
+   [cokleisli_compose f g] (f after g) is literally f ∘ extend g.  The
+   fish operators name this the other way round: [f =>= g] runs the LEFT
+   operand first (Monad/Kleisli.v convention), so [f =>= g ≈ g ∘ extend f]
+   ([cokleisli_compose_extend]).  The category laws, inherited from
+   Monad/Kleisli.v by duality and re-read covariantly, are the co-Kleisli
+   triple laws [extract_extend], [extend_extract] and [extend_comp] of
+   Comonad/Core.v; they appear below as [comonad_id_left],
    [comonad_id_right] and [comonad_comp_assoc]. *)
 
 Section CoKleisli.
