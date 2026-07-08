@@ -211,7 +211,7 @@ Example ColouredPROP_restrict_wire (P : ColouredPROP Colour') (c : Colour) :
 (** ** 2. Signature morphisms over a colour function
 
     The base-change analogue of [CSubSig] ([Construction/ColouredPROP/
-    Signature.v]): where a sub-signature embedding preserves
+    Signature.v]): where a signature relabelling ([CSubSig]) preserves
     boundaries on the nose, a [CSigMap] REINDEXES them through
     [map f].  The identity and composition of such maps involve
     transports along [map_id] / [map_map] and live with the
