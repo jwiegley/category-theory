@@ -201,6 +201,7 @@ Monad/Algebra.v
 Monad/Compose.v
 Monad/Distributive.v
 Monad/Eilenberg/Moore.v
+Monad/Eilenberg/Moore/Adjunction.v
 Monad/Graded.v
 Monad/Kleisli.v
 Monad/Kleisli/Adjunction.v

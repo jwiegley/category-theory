@@ -27,12 +27,22 @@ Generalizable All Variables.
 
    The forgetful functor U^T : C^T → C, (a, ν) ↦ a, has the free-algebra
    functor F^T : C → C^T, x ↦ (T x, μ_x), as left adjoint, and the monad
-   U^T ∘ F^T arising from F^T ⊣ U^T is exactly T. This is the terminal such
-   resolution of T; the Kleisli category (see Monad/Kleisli.v) is the initial
+   U^T ∘ F^T arising from F^T ⊣ U^T is exactly T; that adjunction is
+   constructed in Monad/Eilenberg/Moore/Adjunction.v ([EM_Free] ⊣ [EM_Forget]
+   as [EM_Adjunction], recovering T via [EM_Monad_agrees]). This is the
+   terminal such resolution of T; the Kleisli category (see Monad/Kleisli.v,
+   whose own resolution lives in Monad/Kleisli/Adjunction.v) is the initial
    one, sitting inside C^T as the full subcategory of free algebras. *)
 
-Program Definition EilenbergMoore `(T : C ⟶ C) `{@Monad C T} : Category := {|
-  obj     := ∃ a : C, TAlgebra T a;
+(* The monad instance is bound by name so that [TAlgebra]'s instance argument
+   can be given explicitly in [obj]: were it left to Program, the elaborator
+   would seal that argument behind a Qed-opaque obligation constant, and
+   algebras built against the ambient instance [H] — such as the free algebras
+   (T a, μ_a) of Moore/Adjunction.v — would not be recognized as objects of
+   this category. *)
+
+Program Definition EilenbergMoore `(T : C ⟶ C) `{H : @Monad C T} : Category := {|
+  obj     := ∃ a : C, @TAlgebra C T H a;
   hom     := fun x y => TAlgebraHom T ``x ``y (projT2 x) (projT2 y);
   homset  := fun _ _ => {| equiv := fun f g => t_alg_hom[f] ≈ t_alg_hom[g] |};
   id      := fun _ => {| t_alg_hom := id |};
