@@ -9,6 +9,7 @@ Adjunction/Natural/Transformation/Universal.v
 Adjunction/Opposite.v
 Construction/Arrow.v
 Comonad/Core.v
+Comonad/CoKleisli.v
 Construction/Cayley.v
 Construction/Comma.v
 Construction/Comma/Adjunction.v
