@@ -112,6 +112,7 @@ Example: `f ∘[C] g` specifies category C when needed.
 - **Theory/Monad.v**: Monads as endofunctors with structure
 - **Monad/Strong.v**: Strong monads — a monad whose functor carries a tensorial strength compatible with η and μ (Kock/Moggi)
 - **Theory/Kan/Extension.v**: Universal property of Kan extensions
+- **Theory/Equivalence.v**: Equivalence of categories — quasi-inverse class with the Full+Faithful+essentially-surjective characterization (Equivalence/FullFaithful.v), adjoint equivalences (Equivalence/Adjoint.v), preservation/reflection/creation of limits and transport of adjunctions and monoidal structure along equivalences (Equivalence/{Limit,Adjunction,Monoidal,Bundled}.v); RAPL/LAPC in Adjunction/Continuity.v over the preservation vocabulary of Structure/Limit/Preservation.v; adjunction composition in Adjunction/Compose.v
 
 ### Structures (Internal Properties)
 - **Structure/Cartesian.v**: Products via universal property
