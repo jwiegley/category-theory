@@ -333,6 +333,7 @@ Theory/Dinatural.v
 Theory/Equivalence.v
 Theory/Equivalence/FullFaithful.v
 Theory/Equivalence/Adjoint.v
+Theory/Equivalence/Bundled.v
 Theory/Functor.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
