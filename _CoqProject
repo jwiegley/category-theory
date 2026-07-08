@@ -10,6 +10,7 @@ Adjunction/Opposite.v
 Construction/Arrow.v
 Comonad/Core.v
 Comonad/CoKleisli.v
+Comonad/Coalgebra.v
 Construction/Cayley.v
 Construction/Comma.v
 Construction/Comma/Adjunction.v
