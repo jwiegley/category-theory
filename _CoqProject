@@ -8,6 +8,11 @@ Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
 Adjunction/Opposite.v
 Construction/Arrow.v
+Comonad/Core.v
+Comonad/CoKleisli.v
+Comonad/Coalgebra.v
+Comonad/Duality.v
+Comonad/Strong.v
 Construction/Cayley.v
 Construction/Comma.v
 Construction/Comma/Adjunction.v
@@ -141,6 +146,9 @@ Instance/Cones/Limit.v
 Instance/Coq.v
 Instance/Coq/Applicative.v
 Instance/Coq/Monad.v
+Instance/Coq/Comonad/Env.v
+Instance/Coq/Comonad/Store.v
+Instance/Coq/Comonad/Traced.v
 Instance/Coq/Par.v
 Instance/Coq/ParE.v
 Instance/Ens.v
@@ -198,8 +206,10 @@ Monad/Algebra.v
 Monad/Compose.v
 Monad/Distributive.v
 Monad/Eilenberg/Moore.v
+Monad/Eilenberg/Moore/Adjunction.v
 Monad/Graded.v
 Monad/Kleisli.v
+Monad/Kleisli/Adjunction.v
 Monad/Kleisli/Premonoidal.v
 Monad/Kleisli/Commutative.v
 Monad/Monoid.v
