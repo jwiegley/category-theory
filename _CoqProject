@@ -14,6 +14,7 @@ Comonad/Coalgebra.v
 Comonad/Duality.v
 Comonad/Strong.v
 Construction/Cayley.v
+Construction/Chain.v
 Construction/Comma.v
 Construction/Comma/Adjunction.v
 Construction/Comma/Isomorphism.v
