@@ -191,6 +191,7 @@ Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cocartesian.v
 Instance/Sets/Par.v
 Instance/Sets/Pushout.v
+Instance/Sets/Streams.v
 Instance/Shapes.v
 Instance/Two.v
 Instance/Two/Discrete.v
