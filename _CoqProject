@@ -307,6 +307,7 @@ Structure/UniversalProperty/Limit.v
 Structure/UniversalProperty/Universal/Arrow.v
 Structure/Wedge.v
 Theory.v
+Theory/Adamek.v
 Theory/Adjunction.v
 Theory/Algebra.v
 Theory/Algebra/Monoid.v
