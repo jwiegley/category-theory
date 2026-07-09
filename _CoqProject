@@ -148,6 +148,7 @@ Instance/Cones/Comma.v
 Instance/Cones/Limit.v
 Instance/Coq.v
 Instance/Coq/Applicative.v
+Instance/Coq/Lists.v
 Instance/Coq/Monad.v
 Instance/Coq/Comonad/Env.v
 Instance/Coq/Comonad/Store.v
