@@ -21,6 +21,7 @@ Construction/Comma/Natural/Transformation.v
 Construction/Coproduct.v
 Construction/Enriched.v
 Construction/FAlg.v
+Construction/FCoalg.v
 Construction/Free.v
 Construction/Funny.v
 Construction/Funny/StrictEq.v
