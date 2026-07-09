@@ -41,8 +41,9 @@ Generalizable All Variables.
    hypothesis [AdamekData] and [adamek] is proven directly from it.
 
    The discharge [PreservesColimit -> AdamekData] is therefore not carried in
-   this file: it is routed to ledger 17 / Corollaries as a fast-follow, and the
-   [AdamekData] interface is the load-bearing contract in the interim. *)
+   this file, and [Theory/Adamek/Corollaries.v] does not supply it either: it
+   is deferred as a fast-follow (ledger 17; see the matching note in that file).
+   The [AdamekData] interface is the load-bearing contract in the interim. *)
 
 (* Shift of an order proof [m ≤ n] to [S m ≤ S n], by recursion on the
    derivation.  It only mentions [le_t] (Instance/Omega.v), so it lives above

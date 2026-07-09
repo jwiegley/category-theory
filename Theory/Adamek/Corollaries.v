@@ -74,7 +74,10 @@ Qed.
    [ListF A X := option (A × X)] (Instance/Coq/Lists.v) up to the isomorphism
    [unit × X ≅ X]; that file carries the fully worked initial-algebra proof for
    [ListF A] (with [list A] the carrier), so the analogous [nat] initiality for
-   [NatF] is exactly the [A := unit] reading of it and is not re-proven here. *)
+   [NatF] is exactly the [A := unit] reading of it.  Only the functor [NatF]
+   itself is formalized below; the initial-algebra theorem [nat ≅ μ NatF] is
+   not stated in the tree — it is recorded here as the informal cross-reference
+   to [ListF A], not as a proven result. *)
 
 (* Keep obligation handling explicit and predictable (as in Instance/Coq/Lists.v):
    surface each functor law as its own obligation rather than letting the ambient
