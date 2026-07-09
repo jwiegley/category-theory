@@ -51,21 +51,30 @@ Generalizable All Variables.
 
       [StrictPremonoidal_of_Monoid]  and  [Monoid_of_StrictPremonoidal]
 
-    are pure repackagings, and all four data-projection round trips hold by
-    [reflexivity].  The extractions [StrictPremonoidal_Binoidal] and
+    are pure repackagings, mutually inverse on the nose: the record-level
+    round trips [roundtrip_monoid] and [roundtrip_strict_premonoidal] hold
+    by [reflexivity].  The extractions [StrictPremonoidal_Binoidal] and
     [StrictPremonoidal_SepFunctorial] connect the multiplication to the
     [Binoidal] class of Structure/Binoidal.v and to the funny tensor's
     universal property, again definitionally on the generating steps.
+
+    What is NOT built here: the bridge from [StrictPremonoidal] to the
+    library's iso-weakened [Premonoidal] class (Structure/Premonoidal.v) —
+    its coherence isomorphisms would be transported along the strict object
+    equalities, with naturality via the StrictEq seam helpers — is deferred;
+    the payoff sections below stop at the [Binoidal]/[SepFunctorial]
+    fragment and the object-level strict laws.
 
     Universe scope.  [Funny_Monoidal@{u} : Monoidal@{u Set}] pins
     StrictCat's member categories to [Category@{Set Set Set}].  Re-declaring
     the instance at a rigid universe [v] is blocked: the compiled unitors of
     Construction/Funny/Unitors.v carry a minimized [Set] level, so
     [Build_Monoidal] at member level [v] reports "Cannot enforce Set = v" at
-    the unitor field.  Everything below therefore holds for [Set]-small
-    carrier categories; lifting the restriction requires re-declaring the
-    unitors with explicit universe binders in Construction/Funny/Unitors.v,
-    which is left as future work. *)
+    the unitor field (checked-in probe: Test/ProbeFunnyPoly.v, whose [Fail]
+    guards reproduce the failure).  Everything below therefore holds for
+    [Set]-small carrier categories; lifting the restriction requires
+    re-declaring the unitors with explicit universe binders in
+    Construction/Funny/Unitors.v, which is left as future work. *)
 
 (** ** Strict premonoidal structures
 
@@ -82,8 +91,9 @@ Generalizable All Variables.
     types below convert to the [mempty_left]/[mempty_right]/[mappend_assoc]
     types on the nose.  The law fields are Type-valued (a
     [Functor_StrictEq_Setoid] equivalence is a sigma of an object-equality
-    family and transported morphism agreement), which is why the round trips
-    below compare the DATA projections and not whole records. *)
+    family and transported morphism agreement); projecting out the
+    object-equality family at specific objects yields the object-level
+    strict laws [StrictPremonoidal_unit_left_obj] etc. below. *)
 
 Record StrictPremonoidal (c : Category) : Type := {
   sp_tensor : (c □ c) ⟶ c;
@@ -143,11 +153,23 @@ Definition Monoid_of_StrictPremonoidal {c : Category}
 
 (** ** Round trips
 
-    The two constructions are mutually inverse on the data.  The law fields
-    are Type-valued [Functor_StrictEq] witnesses, so a record-level equality
-    is not the right statement; the four data-projection equalities below
-    are, and each holds by [reflexivity] because both constructions are
-    constructor applications and projections compute. *)
+    The two constructions are mutually inverse — as whole records, not
+    merely on the data.  [MonoidObject] and [StrictPremonoidal] both have
+    primitive projections (Category.Lib exports [Set Primitive
+    Projections]) and hence definitional eta, and each direction is a
+    constructor application of the other's projections, so both composites
+    are definitionally the identity and [reflexivity] closes the
+    record-level equalities.  The four data-projection equalities that
+    follow are immediate specializations, kept for direct reference. *)
+
+Lemma roundtrip_monoid {c : Category}
+  (m : @MonoidObject StrictCat Funny_Monoidal c) :
+  Monoid_of_StrictPremonoidal (StrictPremonoidal_of_Monoid m) = m.
+Proof. reflexivity. Qed.
+
+Lemma roundtrip_strict_premonoidal {c : Category} (p : StrictPremonoidal c) :
+  StrictPremonoidal_of_Monoid (Monoid_of_StrictPremonoidal p) = p.
+Proof. reflexivity. Qed.
 
 Lemma roundtrip_mempty {c : Category}
   (m : @MonoidObject StrictCat Funny_Monoidal c) :
@@ -170,6 +192,30 @@ Lemma roundtrip_sp_tensor {c : Category} (p : StrictPremonoidal c) :
   sp_tensor (StrictPremonoidal_of_Monoid (Monoid_of_StrictPremonoidal p))
     = sp_tensor p.
 Proof. reflexivity. Qed.
+
+(** ** Object-level strict laws
+
+    The object-equality families of the three law fields, at specific
+    objects: the tensor is strictly unital and associative on objects.
+    [ttt] is the lone object of [_1], so [fobj[sp_unit p] ttt] is the tensor
+    unit object; each statement converts to the projected component because
+    the unitors' and associator's object actions compute on literal pairs. *)
+
+Corollary StrictPremonoidal_unit_left_obj {c : Category}
+  (p : StrictPremonoidal c) (x : c) :
+  fobj[sp_tensor p] (fobj[sp_unit p] ttt, x) = x.
+Proof. exact (`1 (sp_unit_left p) (ttt, x)). Qed.
+
+Corollary StrictPremonoidal_unit_right_obj {c : Category}
+  (p : StrictPremonoidal c) (x : c) :
+  fobj[sp_tensor p] (x, fobj[sp_unit p] ttt) = x.
+Proof. exact (`1 (sp_unit_right p) (x, ttt)). Qed.
+
+Corollary StrictPremonoidal_assoc_obj {c : Category}
+  (p : StrictPremonoidal c) (x y z : c) :
+  fobj[sp_tensor p] (fobj[sp_tensor p] (x, y), z)
+    = fobj[sp_tensor p] (x, fobj[sp_tensor p] (y, z)).
+Proof. exact (`1 (sp_assoc p) ((x, y), z)). Qed.
 
 (** ** The binoidal payoff
 

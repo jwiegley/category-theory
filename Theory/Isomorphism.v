@@ -215,6 +215,23 @@ Next Obligation.
   rewrites; reflexivity.
 Qed.
 
+(* Two-sided inverses are unique up to ≈: if `g` is a right inverse and `g'`
+   a left inverse of the same `f`, they agree. Stated for plain morphisms (no
+   isomorphism packaging), which is the form inverted coherence laws
+   downstream consume (e.g. the interchange toolkit of
+   Structure/Monoidal/Braided/Proofs.v). *)
+Lemma comp_inverse_unique
+      {C : Category} {x y : C} (f : x ~> y) (g g' : y ~> x) :
+  f ∘ g ≈ id[y] -> g' ∘ f ≈ id[x] -> g ≈ g'.
+Proof.
+  intros H1 H2.
+  rewrite <- (id_left g).
+  rewrite <- H2.
+  rewrite <- comp_assoc.
+  rewrite H1.
+  apply id_right.
+Qed.
+
 (* Two-sided inverses are unique, so an isomorphism is determined by its `to`
    component: if `to f ≈ to g` then the `from` components agree as well, hence
    `f ≈ g`. The proof uses that `to f` is epic (a standard inverse-uniqueness

@@ -40,18 +40,25 @@ Open Scope nat_scope.
    Wikipedia: https://en.wikipedia.org/wiki/Tietze_transformations
    Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
 
-   Two presentations of the same group are related by a finite sequence
-   of TIETZE TRANSFORMATIONS: adding/removing a derivable relation, and
-   adding/removing a definable generator.  The same calculus applies to
-   presentations of PROPs by symmetric monoidal theories ([SMT], from
-   [Construction/PROP/Presentation.v]), and this file develops its two
-   "adding" moves together with the conservativity theorems that make
-   them presentation-preserving:
+   Two FINITE presentations of the same group are related by a finite
+   sequence of TIETZE TRANSFORMATIONS: adding/removing a derivable
+   relation, and adding/removing a definable generator.  The same
+   calculus applies to presentations of PROPs by symmetric monoidal
+   theories ([SMT], from [Construction/PROP/Presentation.v]), and this
+   file develops its two "adding" moves together with the theorems
+   that make them presentation-preserving: for move 1 the congruences
+   coincide at every arity; for move 2 the embedding is conservative
+   AND a section up to derivable equality, which pins the presented
+   homs on both sides (the packaging as an equivalence of presented
+   PROPs is deferred; see the trailer):
 
    1.  SIGNATURE MORPHISMS ([T_map]): a [SubSig S T] acts on terms by
-       structural recursion, giving a functor [InjFunctor : FreeCat S ⟶
+       structural recursion, giving a functor [RelabelFunctor : FreeCat S ⟶
        FreeCat T] that is strict symmetric monoidal — signature
-       inclusions induce strict symmetric maps of free PROPs.  Unlike
+       morphisms induce strict symmetric maps of free PROPs (no
+       injectivity of [h] is assumed or used: arbitrary
+       boundary-preserving relabellings, including generator
+       collapses, are covered).  Unlike
        the tactic-built [T_inj] of [Term.v] (left untouched, related by
        the bridge [T_map_T_inj]), [T_map] is a computing [Fixpoint], so
        the functor laws hold by reflexivity.
@@ -72,7 +79,11 @@ Open Scope nat_scope.
        proof is by a syntactic retraction that substitutes [w] for the
        new generator; a semantic route through [interp] and a copaired
        valuation is possible but carries heavier dependencies, so the
-       retraction is preferred here.
+       retraction is preferred here.  The retraction is moreover a
+       SECTION of the embedding up to derivable equality
+       ([ext_retract_section]): every extended-signature term is
+       [TermEqW]-equal to an embedded base term, so the extension adds
+       no new morphisms, only a new name.
 
    Everything is elementary syntax: the only quotients involved are the
    [Prop]-valued congruences [TermEq] and [TermEqW], and the only
@@ -82,20 +93,22 @@ Open Scope nat_scope.
 (** ** Signature morphisms acting on terms
 
     [T_map h] relabels every generator leaf through [h] and leaves the
-    structural constructors untouched.  It COMPUTES on constructors —
-    e.g. [T_map h (T_comp g f)] is definitionally [T_comp (T_map h g)
-    (T_map h f)] — which the functor and monoidal-functor packaging
-    below exploits: identity/composition preservation are [TE_refl]. *)
+    structural constructors untouched — the [T_subst] instance of
+    [Construction/PROP/TermEq.v] whose generator action is [T_gen]
+    after [h].  It COMPUTES on constructors — e.g. [T_map h (T_comp g
+    f)] is definitionally [T_comp (T_map h g) (T_map h f)] — which the
+    functor and monoidal-functor packaging below exploits:
+    identity/composition preservation are [TE_refl]. *)
 
-Fixpoint T_map {S T : Signature} (h : SubSig S T) {m n : nat}
+Definition T_map {S T : Signature} (h : SubSig S T) {m n : nat}
   (t : Term S m n) : Term T m n :=
-  match t in Term _ m' n' return Term T m' n' with
-  | T_id k      => T_id k
-  | T_braid a b => T_braid a b
-  | T_comp g f  => T_comp (T_map h g) (T_map h f)
-  | T_tens f g  => T_tens (T_map h f) (T_map h g)
-  | T_gen s     => T_gen (h _ _ s)
-  end.
+  T_subst (fun a b (s : S a b) => T_gen (h a b s)) t.
+
+(** The instantiation is definitional, so every [T_subst]-level lemma
+    specializes to [T_map] by conversion. *)
+Example T_map_is_T_subst {S T : Signature} (h : SubSig S T) {m n : nat} :
+  @T_map S T h m n
+  = @T_subst S T (fun a b (s : S a b) => T_gen (h a b s)) m n := eq_refl.
 
 (** [T_map] agrees with the tactic-built [T_inj] of [Term.v] on the
     nose; [T_inj] itself is left untouched. *)
@@ -113,167 +126,42 @@ Lemma T_map_T_cast {S T : Signature} (h : SubSig S T) {a b : nat}
   T_map h (T_cast e) = T_cast e.
 Proof. destruct e; reflexivity. Qed.
 
-(** *** Transport seams
-
-    The strict-PROP axioms of [TermEq] carry their arity mismatches as
-    [eq_rect] transports; [T_map] commutes with each transport shape by
-    Leibniz equality (destruct the arity equation). *)
-
-Lemma T_map_eq_rect_cod {S T : Signature} (h : SubSig S T)
-  {a b b' : nat} (e : b = b') (t : Term S a b) :
-  T_map h (eq_rect b (fun k : nat => Term S a k) t b' e)
-  = eq_rect b (fun k : nat => Term T a k) (T_map h t) b' e.
-Proof. destruct e; reflexivity. Qed.
-
-Lemma T_map_eq_rect_dom {S T : Signature} (h : SubSig S T)
-  {a a' b : nat} (e : a = a') (t : Term S a b) :
-  T_map h (eq_rect a (fun k : nat => Term S k b) t a' e)
-  = eq_rect a (fun k : nat => Term T k b) (T_map h t) a' e.
-Proof. destruct e; reflexivity. Qed.
-
-Lemma T_map_eq_rect_r_dom {S T : Signature} (h : SubSig S T)
-  {a a' b : nat} (e : a' = a) (t : Term S a b) :
-  T_map h (eq_rect_r (fun k : nat => Term S k b) t e)
-  = eq_rect_r (fun k : nat => Term T k b) (T_map h t) e.
-Proof. destruct e; reflexivity. Qed.
-
 (** *** Soundness of relabelling
 
     [T_map h] carries every free equation of [TermEq S] to the
-    corresponding free equation of [TermEq T].  The induction covers
-    all nineteen constructors: the thirteen constructor-to-constructor
-    cases reduce by computation, and the six transport-form cases first
-    move [T_map] across the [eq_rect] seams by the Leibniz bridges
-    above, then close with the same primitive constructor. *)
+    corresponding free equation of [TermEq T] — the nineteen-case
+    preservation induction [T_subst_TermEq] of
+    [Construction/PROP/TermEq.v], specialized (definitionally) to the
+    relabelling substitution. *)
 
 Lemma T_map_TermEq {S T : Signature} (h : SubSig S T) {m n : nat}
   {s t : Term S m n} :
   TermEq S s t → TermEq T (T_map h s) (T_map h t).
 Proof.
-  intros HT.
-  induction HT.
-  - (* TE_refl *)
-    apply TE_refl.
-  - (* TE_sym *)
-    exact (TE_sym _ _ IHHT).
-  - (* TE_trans *)
-    exact (TE_trans _ _ _ IHHT1 IHHT2).
-  - (* TE_comp_cong *)
-    cbn [T_map]; apply TE_comp_cong; assumption.
-  - (* TE_tens_cong *)
-    cbn [T_map]; apply TE_tens_cong; assumption.
-  - (* TE_id_left *)
-    cbn [T_map]; apply TE_id_left.
-  - (* TE_id_right *)
-    cbn [T_map]; apply TE_id_right.
-  - (* TE_assoc *)
-    cbn [T_map]; apply TE_assoc.
-  - (* TE_tens_id *)
-    cbn [T_map]; apply TE_tens_id.
-  - (* TE_interchange *)
-    cbn [T_map]; apply TE_interchange.
-  - (* TE_braid_invol *)
-    cbn [T_map]; apply TE_braid_invol.
-  - (* TE_braid_natural *)
-    cbn [T_map]; apply TE_braid_natural.
-  - (* TE_tens_id0_left *)
-    cbn [T_map]; apply TE_tens_id0_left.
-  - (* TE_tens_id0_right *)
-    rewrite T_map_eq_rect_cod, T_map_eq_rect_r_dom.
-    cbn [T_map]; apply TE_tens_id0_right.
-  - (* TE_tens_assoc *)
-    rewrite T_map_eq_rect_cod, T_map_eq_rect_r_dom.
-    cbn [T_map]; apply TE_tens_assoc.
-  - (* TE_braid_hex_left *)
-    cbn [T_map].
-    rewrite T_map_eq_rect_cod, !T_map_eq_rect_dom.
-    cbn [T_map]; apply TE_braid_hex_left.
-  - (* TE_braid_hex_right *)
-    cbn [T_map].
-    rewrite T_map_eq_rect_cod, !T_map_eq_rect_dom.
-    cbn [T_map]; apply TE_braid_hex_right.
-  - (* TE_braid_unit_left *)
-    rewrite T_map_eq_rect_cod.
-    cbn [T_map]; apply TE_braid_unit_left.
-  - (* TE_braid_unit_right *)
-    rewrite T_map_eq_rect_dom.
-    cbn [T_map]; apply TE_braid_unit_right.
-Qed.
-
-(** ** Identity bookkeeping on terms
-
-    The comparison maps of the induced monoidal functor below are all
-    identities or tensors of identities, so its coherence squares are
-    the same identity-collapsing equations that discharge the
-    projection functor of [Presentation.v] — restated here over an
-    arbitrary signature (the [Presentation.v] copies are pinned to the
-    signature of an [SMT]). *)
-
-(** An identity slides from one side of a morphism to the other. *)
-Lemma tm_id_swap {S : Signature} {m n : nat} (t : Term S m n) :
-  TermEq S (T_comp t (T_id m)) (T_comp (T_id n) t).
-Proof.
-  apply TE_trans with t.
-  - apply TE_id_right.
-  - apply TE_sym, TE_id_left.
-Qed.
-
-(** A composite of identities equals a tensor of identities. *)
-Lemma tm_comp_id_tens {S : Signature} (m n : nat) :
-  TermEq S (T_comp (T_id (m + n)) (T_id (m + n))) (T_tens (T_id m) (T_id n)).
-Proof.
-  apply TE_trans with (T_id (m + n)).
-  - apply TE_id_left.
-  - apply TE_sym, TE_tens_id.
-Qed.
-
-(** Collapsing an identity and a tensor of identities after [t]. *)
-Lemma tm_collapse_r {S : Signature} {m n p : nat} (t : Term S (m + n) p) :
-  TermEq S (T_comp (T_comp t (T_id (m + n))) (T_tens (T_id m) (T_id n))) t.
-Proof.
-  apply TE_trans with (T_comp t (T_tens (T_id m) (T_id n))).
-  - apply TE_comp_cong.
-    + apply TE_id_right.
-    + apply TE_refl.
-  - apply TE_trans with (T_comp t (T_id (m + n))).
-    + apply TE_comp_cong.
-      * apply TE_refl.
-      * apply TE_tens_id.
-    + apply TE_id_right.
-Qed.
-
-(** Collapsing an identity and a tensor of identities before [t]. *)
-Lemma tm_collapse_l {S : Signature} {m n p : nat} (t : Term S p (m + n)) :
-  TermEq S (T_comp (T_comp (T_id (m + n)) (T_tens (T_id m) (T_id n))) t) t.
-Proof.
-  apply TE_trans with (T_comp (T_tens (T_id m) (T_id n)) t).
-  - apply TE_comp_cong.
-    + apply TE_id_left.
-    + apply TE_refl.
-  - apply TE_trans with (T_comp (T_id (m + n)) t).
-    + apply TE_comp_cong.
-      * apply TE_tens_id.
-      * apply TE_refl.
-    + apply TE_id_left.
+  exact (T_subst_TermEq (fun a b (g : S a b) => T_gen (h a b g))).
 Qed.
 
 (** ** The induced functor of free PROPs
 
-    A signature morphism [h : SubSig S T] induces [InjFunctor h :
+    A signature morphism [h : SubSig S T] induces [RelabelFunctor h :
     FreeCat S ⟶ FreeCat T] — identity on objects (arities), [T_map h]
     on morphisms — and the functor is STRICT SYMMETRIC monoidal: both
     comparison maps are identities on the nose, the object equalities
     are [eq_refl], and the braid square commutes because [T_map] fixes
     [T_braid].  This is the "signature morphisms induce strict
     symmetric maps of free PROPs" half of the Tietze calculus; the
-    packaging mirrors the projection functor of [Presentation.v]. *)
+    packaging mirrors the projection functor of [Presentation.v], and
+    both discharge their coherence squares with the shared
+    identity-bookkeeping lemmas [tm_id_swap] / [tm_comp_id_tens] /
+    [tm_collapse_r] / [tm_collapse_l] of
+    [Construction/PROP/TermEq.v]. *)
 
 Section SignatureMorphism.
 
 Context {S T : Signature}.
 Context (h : SubSig S T).
 
-Definition InjFunctor : FreeCat S ⟶ FreeCat T :=
+Definition RelabelFunctor : FreeCat S ⟶ FreeCat T :=
   Build_Functor (FreeCat S) (FreeCat T)
     (fun n : nat => n)
     (fun m n (t : Term S m n) => T_map h t)
@@ -283,35 +171,35 @@ Definition InjFunctor : FreeCat S ⟶ FreeCat T :=
 
 (** The tensor-then-map and map-then-tensor composites related by the
     tensor comparison of the monoidal structure. *)
-Definition Inj_ap_dom : FreeCat S ∏ FreeCat S ⟶ FreeCat T :=
-  FreeCat_Tensor T ◯ (InjFunctor ∏⟶ InjFunctor).
+Definition Relabel_ap_dom : FreeCat S ∏ FreeCat S ⟶ FreeCat T :=
+  FreeCat_Tensor T ◯ (RelabelFunctor ∏⟶ RelabelFunctor).
 
-Definition Inj_ap_cod : FreeCat S ∏ FreeCat S ⟶ FreeCat T :=
-  InjFunctor ◯ FreeCat_Tensor S.
+Definition Relabel_ap_cod : FreeCat S ∏ FreeCat S ⟶ FreeCat T :=
+  RelabelFunctor ◯ FreeCat_Tensor S.
 
 (** Both directions of the tensor comparison are families of
     identities — [T_map] computes through [T_tens], so the two functors
     have definitionally equal actions — and naturality is
     [tm_id_swap]. *)
-Definition Inj_ap_to : Inj_ap_dom ⟹ Inj_ap_cod :=
+Definition Relabel_ap_to : Relabel_ap_dom ⟹ Relabel_ap_cod :=
   @Build_Transform' (FreeCat S ∏ FreeCat S) (FreeCat T)
-    Inj_ap_dom Inj_ap_cod
+    Relabel_ap_dom Relabel_ap_cod
     (fun p => T_id (fst p + snd p))
     (fun p q f => tm_id_swap (T_tens (T_map h (fst f)) (T_map h (snd f)))).
 
-Definition Inj_ap_from : Inj_ap_cod ⟹ Inj_ap_dom :=
+Definition Relabel_ap_from : Relabel_ap_cod ⟹ Relabel_ap_dom :=
   @Build_Transform' (FreeCat S ∏ FreeCat S) (FreeCat T)
-    Inj_ap_cod Inj_ap_dom
+    Relabel_ap_cod Relabel_ap_dom
     (fun p => T_id (fst p + snd p))
     (fun p q f => tm_id_swap (T_tens (T_map h (fst f)) (T_map h (snd f)))).
 
 (** The identity components are inverse up to [TermEq] (the identity
     natural transformation of a composite-with-tensor functor has
     components [T_tens (T_id _) (T_id _)]). *)
-Program Definition Inj_ap_iso :
-  Inj_ap_dom ≅[[FreeCat S ∏ FreeCat S, FreeCat T]] Inj_ap_cod := {|
-  to   := Inj_ap_to;
-  from := Inj_ap_from;
+Program Definition Relabel_ap_iso :
+  Relabel_ap_dom ≅[[FreeCat S ∏ FreeCat S, FreeCat T]] Relabel_ap_cod := {|
+  to   := Relabel_ap_to;
+  from := Relabel_ap_from;
   iso_to_from := fun p => tm_comp_id_tens (fst p) (snd p);
   iso_from_to := fun p => tm_comp_id_tens (fst p) (snd p)
 |}.
@@ -322,7 +210,7 @@ Program Definition Inj_ap_iso :
     [T_map] fixes ([T_map_T_cast]); after that rewrite the squares are
     pure identity bookkeeping. *)
 
-Lemma Inj_unit_left_square (x : nat) :
+Lemma Relabel_unit_left_square (x : nat) :
   TermEq T (T_cast (Nat.add_0_l x))
     (T_comp (T_comp (T_map h (T_cast (Nat.add_0_l x))) (T_id (0 + x)))
             (T_tens (T_id 0) (T_id x))).
@@ -331,7 +219,7 @@ Proof.
   apply TE_sym, tm_collapse_r.
 Qed.
 
-Lemma Inj_unit_right_square (x : nat) :
+Lemma Relabel_unit_right_square (x : nat) :
   TermEq T (T_cast (Nat.add_0_r x))
     (T_comp (T_comp (T_map h (T_cast (Nat.add_0_r x))) (T_id (x + 0)))
             (T_tens (T_id x) (T_id 0))).
@@ -340,7 +228,7 @@ Proof.
   apply TE_sym, tm_collapse_r.
 Qed.
 
-Lemma Inj_assoc_square (x y z : nat) :
+Lemma Relabel_assoc_square (x y z : nat) :
   TermEq T
     (T_comp (T_comp (T_map h (T_cast (eq_sym (Nat.add_assoc x y z))))
                     (T_id ((x + y) + z)))
@@ -355,18 +243,18 @@ Proof.
   - apply TE_sym, tm_collapse_l.
 Qed.
 
-Program Definition InjFunctor_Monoidal :
+Program Definition RelabelFunctor_Monoidal :
   @MonoidalFunctor (FreeCat S) (FreeCat T)
-    (FreeCat_Monoidal S) (FreeCat_Monoidal T) InjFunctor := {|
+    (FreeCat_Monoidal S) (FreeCat_Monoidal T) RelabelFunctor := {|
   pure_iso := iso_id;
-  ap_functor_iso := Inj_ap_iso;
+  ap_functor_iso := Relabel_ap_iso;
   pure_iso_left  := fun x => iso_id;
   pure_iso_right := fun x => iso_id;
   ap_iso_assoc := fun x y z =>
     @tensor_assoc (FreeCat T) (FreeCat_Monoidal T) x y z;
-  monoidal_unit_left  := fun x => Inj_unit_left_square x;
-  monoidal_unit_right := fun x => Inj_unit_right_square x;
-  monoidal_assoc := fun x y z => Inj_assoc_square x y z
+  monoidal_unit_left  := fun x => Relabel_unit_left_square x;
+  monoidal_unit_right := fun x => Relabel_unit_right_square x;
+  monoidal_assoc := fun x y z => Relabel_assoc_square x y z
 |}.
 
 (** Both comparison maps are identities on the nose, so the functor is
@@ -374,10 +262,10 @@ Program Definition InjFunctor_Monoidal :
     [Presentation.v]'s projection, the two comparison fields are
     discharged in situ, keeping the record at a single universe
     instance. *)
-Program Definition InjFunctor_Strict :
+Program Definition RelabelFunctor_Strict :
   @StrictMonoidalFunctor (FreeCat S) (FreeCat T)
-    (FreeCat_Monoidal S) (FreeCat_Monoidal T) InjFunctor := {|
-  strict_functor_is_monoidal := InjFunctor_Monoidal;
+    (FreeCat_Monoidal S) (FreeCat_Monoidal T) RelabelFunctor := {|
+  strict_functor_is_monoidal := RelabelFunctor_Monoidal;
   strict_pure_obj := eq_refl;
   strict_ap_obj := fun x y => eq_refl
 |}.
@@ -387,20 +275,20 @@ Next Obligation. exact (TE_refl _). Qed.
 (** The braid-compatibility square: [T_map] fixes [T_braid], and both
     tensor comparisons are identities, so the square is one slide of an
     identity past the braid. *)
-Lemma InjFunctor_braid (m n : nat) :
-  fmap[InjFunctor] (@braid (FreeCat S) (FreeCat_Braided S) m n)
-    ∘ to (@ap_iso _ _ _ _ InjFunctor InjFunctor_Monoidal m n)
+Lemma RelabelFunctor_braid (m n : nat) :
+  fmap[RelabelFunctor] (@braid (FreeCat S) (FreeCat_Braided S) m n)
+    ∘ to (@ap_iso _ _ _ _ RelabelFunctor RelabelFunctor_Monoidal m n)
   ≈[FreeCat T]
-  to (@ap_iso _ _ _ _ InjFunctor InjFunctor_Monoidal n m)
+  to (@ap_iso _ _ _ _ RelabelFunctor RelabelFunctor_Monoidal n m)
     ∘ @braid (FreeCat T) (FreeCat_Braided T) m n.
 Proof.
   exact (tm_id_swap (T_braid m n)).
 Qed.
 
-Program Definition InjFunctor_Braided :
+Program Definition RelabelFunctor_Braided :
   @BraidedMonoidalFunctor (FreeCat S) (FreeCat T)
-    (FreeCat_Braided S) (FreeCat_Braided T) InjFunctor := {|
-  braided_is_strong := InjFunctor_Monoidal
+    (FreeCat_Braided S) (FreeCat_Braided T) RelabelFunctor := {|
+  braided_is_strong := RelabelFunctor_Monoidal
 |}.
 Next Obligation.
   exact (tm_id_swap (T_braid x y)).
@@ -410,18 +298,18 @@ Qed.
     a symmetric monoidal functor ([SymmetricMonoidalFunctor] is a
     definition, not a class); supplied explicitly, as the alias does
     not participate in instance resolution. *)
-Definition InjFunctor_Symmetric :
+Definition RelabelFunctor_Symmetric :
   @SymmetricMonoidalFunctor (FreeCat S) (FreeCat T)
-    (FreeCat_Symmetric S) (FreeCat_Symmetric T) InjFunctor :=
-  InjFunctor_Braided.
+    (FreeCat_Symmetric S) (FreeCat_Symmetric T) RelabelFunctor :=
+  RelabelFunctor_Braided.
 
 End SignatureMorphism.
 
-Arguments InjFunctor {S T} h : assert.
-Arguments InjFunctor_Monoidal {S T} h : assert.
-Arguments InjFunctor_Strict {S T} h : assert.
-Arguments InjFunctor_Braided {S T} h : assert.
-Arguments InjFunctor_Symmetric {S T} h : assert.
+Arguments RelabelFunctor {S T} h : assert.
+Arguments RelabelFunctor_Monoidal {S T} h : assert.
+Arguments RelabelFunctor_Strict {S T} h : assert.
+Arguments RelabelFunctor_Braided {S T} h : assert.
+Arguments RelabelFunctor_Symmetric {S T} h : assert.
 
 (** ** Sums of signatures and copaired valuations
 
@@ -452,11 +340,11 @@ Lemma interp_copair_inl {S T : Signature} {P : PROP}
   interp P (Sum_Sig S T) (copair_val v w) (T_map sig_inl t)
     ≈ interp P S v t.
 Proof.
-  induction t; cbn [T_map interp].
+  induction t; cbn [T_map T_subst interp].
   - reflexivity.
   - reflexivity.
-  - now rewrite IHt1, IHt2.
-  - now rewrite IHt1, IHt2.
+  - rewrite <- IHt1, <- IHt2; reflexivity.
+  - rewrite <- IHt1, <- IHt2; reflexivity.
   - reflexivity.
 Qed.
 
@@ -465,11 +353,11 @@ Lemma interp_copair_inr {S T : Signature} {P : PROP}
   interp P (Sum_Sig S T) (copair_val v w) (T_map sig_inr t)
     ≈ interp P T w t.
 Proof.
-  induction t; cbn [T_map interp].
+  induction t; cbn [T_map T_subst interp].
   - reflexivity.
   - reflexivity.
-  - now rewrite IHt1, IHt2.
-  - now rewrite IHt1, IHt2.
+  - rewrite <- IHt1, <- IHt2; reflexivity.
+  - rewrite <- IHt1, <- IHt2; reflexivity.
   - reflexivity.
 Qed.
 
@@ -559,39 +447,88 @@ Context (w : Term (smt_sig B) m n).
 (** The extended signature: the base plus one generator. *)
 Definition ext_sig : Signature := Sum_Sig (smt_sig B) (Single_Sig m n).
 
+(** Computing witnesses for the [Nat.eqb] equations of the singleton
+    signature.  The standard library's [Nat.eqb_refl] and [Nat.eqb_eq]
+    are Qed-opaque, so anything built on them is stuck at closed
+    arities; these transparent fixpoints restore reduction. *)
+
+Fixpoint nat_eqb_refl (x : nat) : Nat.eqb x x = true :=
+  match x return Nat.eqb x x = true with
+  | O => eq_refl
+  | Datatypes.S k => nat_eqb_refl k
+  end.
+
+Fixpoint nat_eqb_eq (a b : nat) {struct a} : Nat.eqb a b = true → a = b :=
+  match a, b return Nat.eqb a b = true → a = b with
+  | O, O => fun _ => eq_refl
+  | O, Datatypes.S b' => fun H =>
+      match H in _ = c return if c then O = Datatypes.S b' else True with
+      | eq_refl => Logic.I
+      end
+  | Datatypes.S a', O => fun H =>
+      match H in _ = c return if c then Datatypes.S a' = O else True with
+      | eq_refl => Logic.I
+      end
+  | Datatypes.S a', Datatypes.S b' => fun H =>
+      f_equal Datatypes.S (nat_eqb_eq a' b' H)
+  end.
+
 (** The unique generator of [Single_Sig m n], with its arity
-    equations.  Only [single_gen] is transparent — it is data,
-    occurring in [new_gen] and the [ee_def] constructor.  The two
-    arity equations are opaque: the conservativity proof below only
-    ever consumes them through UIP on [nat], so nothing computes
-    through them. *)
-Definition single_gen : Single_Sig m n m n.
-Proof.
-  unfold Single_Sig.
-  rewrite !Nat.eqb_refl.
-  exact tt.
-Defined.
+    equations.  All three definitions are TRANSPARENT and built on the
+    computing witnesses above, so they reduce at closed arities
+    ([single_gen] to [tt], the arity equations to [eq_refl]) and
+    [ext_retract] computes on concrete definitional extensions — see
+    [ext_retract_computes_on_new_gen] at the end of the file.  The
+    conservativity proofs below remain transparency-indifferent: they
+    consume the arity equations only through UIP on [nat]
+    ([T_cast_id]). *)
+Definition single_gen : Single_Sig m n m n :=
+  match eq_sym (nat_eqb_refl m) in _ = c
+    return (if c then if Nat.eqb n n then unit else Empty_set
+            else Empty_set)
+  with
+  | eq_refl =>
+      match eq_sym (nat_eqb_refl n) in _ = d
+        return (if d then unit else Empty_set)
+      with
+      | eq_refl => tt
+      end
+  end.
 
-Definition single_dom {a b : nat} : Single_Sig m n a b → a = m.
-Proof.
-  unfold Single_Sig.
-  destruct (Nat.eqb a m) eqn:Ha.
-  - intros _.
-    apply Nat.eqb_eq.
-    exact Ha.
-  - intros [].
-Qed.
+Definition single_dom {a b : nat} : Single_Sig m n a b → a = m :=
+  match Nat.eqb a m as c
+    return (Nat.eqb a m = c →
+            (if c then if Nat.eqb b n then unit else Empty_set
+             else Empty_set) → a = m)
+  with
+  | true  => fun Ha _ => nat_eqb_eq a m Ha
+  | false => fun _ s => match s return a = m with end
+  end eq_refl.
 
-Definition single_cod {a b : nat} : Single_Sig m n a b → b = n.
+Definition single_cod {a b : nat} : Single_Sig m n a b → b = n :=
+  match Nat.eqb a m as c
+    return ((if c then if Nat.eqb b n then unit else Empty_set
+             else Empty_set) → b = n)
+  with
+  | true =>
+      match Nat.eqb b n as d
+        return (Nat.eqb b n = d → (if d then unit else Empty_set) → b = n)
+      with
+      | true  => fun Hb _ => nat_eqb_eq b n Hb
+      | false => fun _ s => match s return b = n with end
+      end eq_refl
+  | false => fun s => match s return b = n with end
+  end.
+
+(** [Single_Sig m n] is a SINGLETON: any two generators of any one
+    arity are equal.  This identifies a generator of the extended
+    signature with [single_gen] in the section lemma below. *)
+Lemma single_sig_singleton {a b : nat} (s s' : Single_Sig m n a b) :
+  s = s'.
 Proof.
+  revert s s'.
   unfold Single_Sig.
-  destruct (Nat.eqb a m).
-  - destruct (Nat.eqb b n) eqn:Hb.
-    + intros _.
-      apply Nat.eqb_eq.
-      exact Hb.
-    + intros [].
-  - intros [].
+  destruct (Nat.eqb a m), (Nat.eqb b n); intros s s'; now destruct s, s'.
 Qed.
 
 (** The fresh generator, as a generator of the extended signature. *)
@@ -625,38 +562,19 @@ Definition ext_retract_gen {a b : nat} (g : ext_sig a b) :
                               (T_comp w (T_cast (single_dom s)))
   end.
 
-Fixpoint ext_retract {a b : nat} (t : Term ext_sig a b) :
+Definition ext_retract {a b : nat} (t : Term ext_sig a b) :
   Term (smt_sig B) a b :=
-  match t in Term _ a' b' return Term (smt_sig B) a' b' with
-  | T_id k      => T_id k
-  | T_braid c d => T_braid c d
-  | T_comp g f  => T_comp (ext_retract g) (ext_retract f)
-  | T_tens f g  => T_tens (ext_retract f) (ext_retract g)
-  | T_gen g     => ext_retract_gen g
-  end.
+  T_subst (@ext_retract_gen) t.
 
-(** [ext_retract] fixes casts and commutes with the transport seams, just
-    as [T_map] does. *)
+(** The instantiation is definitional, so every [T_subst]-level lemma
+    specializes to [ext_retract] by conversion. *)
+Example ext_retract_is_T_subst {a b : nat} :
+  @ext_retract a b
+  = @T_subst ext_sig (smt_sig B) (@ext_retract_gen) a b := eq_refl.
+
+(** [ext_retract] fixes casts, just as [T_map] does. *)
 Lemma retract_T_cast {a b : nat} (e : a = b) :
   ext_retract (T_cast e) = T_cast e.
-Proof. destruct e; reflexivity. Qed.
-
-Lemma retract_eq_rect_cod {a b b' : nat} (e : b = b')
-  (t : Term ext_sig a b) :
-  ext_retract (eq_rect b (fun k : nat => Term ext_sig a k) t b' e)
-  = eq_rect b (fun k : nat => Term (smt_sig B) a k) (ext_retract t) b' e.
-Proof. destruct e; reflexivity. Qed.
-
-Lemma retract_eq_rect_dom {a a' b : nat} (e : a = a')
-  (t : Term ext_sig a b) :
-  ext_retract (eq_rect a (fun k : nat => Term ext_sig k b) t a' e)
-  = eq_rect a (fun k : nat => Term (smt_sig B) k b) (ext_retract t) a' e.
-Proof. destruct e; reflexivity. Qed.
-
-Lemma retract_eq_rect_r_dom {a a' b : nat} (e : a' = a)
-  (t : Term ext_sig a b) :
-  ext_retract (eq_rect_r (fun k : nat => Term ext_sig k b) t e)
-  = eq_rect_r (fun k : nat => Term (smt_sig B) k b) (ext_retract t) e.
 Proof. destruct e; reflexivity. Qed.
 
 (** The retraction is a left inverse of the embedding — a Leibniz
@@ -664,66 +582,21 @@ Proof. destruct e; reflexivity. Qed.
 Lemma retract_map_inl {a b : nat} (t : Term (smt_sig B) a b) :
   ext_retract (T_map sig_inl t) = t.
 Proof.
-  induction t; cbn [T_map ext_retract ext_retract_gen sig_inl];
+  induction t;
+  cbn [T_map ext_retract T_subst ext_retract_gen sig_inl];
   try reflexivity.
-  - now rewrite IHt1, IHt2.
-  - now rewrite IHt1, IHt2.
+  - now f_equal.
+  - now f_equal.
 Qed.
 
-(** The retraction carries free equations to free equations — the same
-    nineteen-case induction as [T_map_TermEq], with the [ext_retract]
-    bridges across the transport seams. *)
+(** The retraction carries free equations to free equations — the
+    nineteen-case preservation induction [T_subst_TermEq] of
+    [Construction/PROP/TermEq.v], specialized (definitionally) to the
+    retraction substitution. *)
 Lemma retract_TermEq {a b : nat} {s t : Term ext_sig a b} :
   TermEq ext_sig s t → TermEq (smt_sig B) (ext_retract s) (ext_retract t).
 Proof.
-  intros HT.
-  induction HT.
-  - (* TE_refl *)
-    apply TE_refl.
-  - (* TE_sym *)
-    exact (TE_sym _ _ IHHT).
-  - (* TE_trans *)
-    exact (TE_trans _ _ _ IHHT1 IHHT2).
-  - (* TE_comp_cong *)
-    cbn [ext_retract]; apply TE_comp_cong; assumption.
-  - (* TE_tens_cong *)
-    cbn [ext_retract]; apply TE_tens_cong; assumption.
-  - (* TE_id_left *)
-    cbn [ext_retract]; apply TE_id_left.
-  - (* TE_id_right *)
-    cbn [ext_retract]; apply TE_id_right.
-  - (* TE_assoc *)
-    cbn [ext_retract]; apply TE_assoc.
-  - (* TE_tens_id *)
-    cbn [ext_retract]; apply TE_tens_id.
-  - (* TE_interchange *)
-    cbn [ext_retract]; apply TE_interchange.
-  - (* TE_braid_invol *)
-    cbn [ext_retract]; apply TE_braid_invol.
-  - (* TE_braid_natural *)
-    cbn [ext_retract]; apply TE_braid_natural.
-  - (* TE_tens_id0_left *)
-    cbn [ext_retract]; apply TE_tens_id0_left.
-  - (* TE_tens_id0_right *)
-    rewrite retract_eq_rect_cod, retract_eq_rect_r_dom.
-    cbn [ext_retract]; apply TE_tens_id0_right.
-  - (* TE_tens_assoc *)
-    rewrite retract_eq_rect_cod, retract_eq_rect_r_dom.
-    cbn [ext_retract]; apply TE_tens_assoc.
-  - (* TE_braid_hex_left *)
-    cbn [ext_retract].
-    rewrite retract_eq_rect_cod, !retract_eq_rect_dom.
-    cbn [ext_retract]; apply TE_braid_hex_left.
-  - (* TE_braid_hex_right *)
-    cbn [ext_retract].
-    rewrite retract_eq_rect_cod, !retract_eq_rect_dom.
-    cbn [ext_retract]; apply TE_braid_hex_right.
-  - (* TE_braid_unit_left *)
-    rewrite retract_eq_rect_cod.
-    cbn [ext_retract]; apply TE_braid_unit_left.
-  - (* TE_braid_unit_right *)
-    rewrite retract_eq_rect_dom.
-    cbn [ext_retract]; apply TE_braid_unit_right.
+  exact (T_subst_TermEq (@ext_retract_gen)).
 Qed.
 
 (** The retraction is sound for the whole extended theory: base axioms
@@ -746,7 +619,7 @@ Proof.
     + rewrite !retract_map_inl.
       apply TEW_ax; exact Hax'.
     + rewrite retract_map_inl.
-      cbn [ext_retract ext_retract_gen new_gen].
+      cbn [ext_retract T_subst ext_retract_gen new_gen].
       rewrite (T_cast_id (single_dom single_gen)).
       rewrite (T_cast_id (eq_sym (single_cod single_gen))).
       apply TEW_termeq.
@@ -755,8 +628,8 @@ Proof.
       * apply TE_id_right.
   - apply TEW_sym; exact IHw.
   - exact (TEW_trans _ _ _ _ IHw1 IHw2).
-  - cbn [ext_retract]; apply TEW_comp; assumption.
-  - cbn [ext_retract]; apply TEW_tens; assumption.
+  - cbn [ext_retract T_subst]; apply TEW_comp; assumption.
+  - cbn [ext_retract T_subst]; apply TEW_tens; assumption.
 Qed.
 
 (** *** Conservativity, both directions *)
@@ -789,8 +662,54 @@ Proof.
   - apply TEW_ax, ee_base; exact Hax.
   - apply TEW_sym; exact IHw.
   - exact (TEW_trans _ _ _ _ IHw1 IHw2).
-  - cbn [T_map]; apply TEW_comp; assumption.
-  - cbn [T_map]; apply TEW_tens; assumption.
+  - cbn [T_map T_subst]; apply TEW_comp; assumption.
+  - cbn [T_map T_subst]; apply TEW_tens; assumption.
+Qed.
+
+(** The fullness ("section") leg: EVERY term of the extended
+    signature is [TermEqW ext_smt]-equal to the embedding of its own
+    retraction — the embedded base theory is not merely conservative
+    but exhaustive.  Together with [ext_conservative]/[ext_reflects]
+    this is the hom-level content of an equivalence between the base
+    and extended presentations; the [PresEquiv] packaging is deferred
+    (see the trailer).  By term induction: structural constructors are
+    congruences, base generators are fixed, and the fresh generator is
+    exactly the defining equation [ee_def] once [single_sig_singleton]
+    pins it to [single_gen] and UIP on [nat] ([T_cast_id]) clears the
+    arity casts. *)
+Lemma ext_retract_section {a b : nat} (t : Term ext_sig a b) :
+  TermEqW ext_smt t (T_map sig_inl (ext_retract t)).
+Proof.
+  induction t.
+  - (* T_id *)
+    apply TEW_termeq, TE_refl.
+  - (* T_braid *)
+    apply TEW_termeq, TE_refl.
+  - (* T_comp *)
+    cbn [ext_retract T_subst T_map].
+    apply TEW_comp; assumption.
+  - (* T_tens *)
+    cbn [ext_retract T_subst T_map].
+    apply TEW_tens; assumption.
+  - (* T_gen *)
+    destruct s as [s|s].
+    + (* a base generator retracts to itself *)
+      apply TEW_termeq, TE_refl.
+    + (* the fresh generator: pin the arity, then [ee_def] *)
+      pose proof (single_dom s) as ea.
+      pose proof (single_cod s) as eb.
+      subst.
+      cbn [ext_retract T_subst ext_retract_gen].
+      rewrite (T_cast_id (single_dom s)).
+      rewrite (T_cast_id (eq_sym (single_cod s))).
+      rewrite (single_sig_singleton s single_gen).
+      apply TEW_trans with (t := T_map sig_inl w).
+      * exact (TEW_ax ext_smt _ _ ee_def).
+      * apply TEW_termeq, T_map_TermEq.
+        apply TE_sym.
+        apply TE_trans with (T_comp w (T_id m)).
+        -- apply TE_id_left.
+        -- apply TE_id_right.
 Qed.
 
 (** The defining equation itself holds in the extended theory. *)
@@ -810,7 +729,7 @@ Arguments new_gen B m n : assert.
 (** ** Machine-checked sanity
 
     [T_map] computes on the structural constructors, so the functor
-    action of [InjFunctor] is definitional. *)
+    action of [RelabelFunctor] is definitional. *)
 
 Example T_map_fixes_id {S T : Signature} (h : SubSig S T) (k : nat) :
   T_map h (T_id k) = T_id k := eq_refl.
@@ -826,8 +745,20 @@ Example T_map_computes_tens {S T : Signature} (h : SubSig S T)
   {a b c d : nat} (f : Term S a b) (g : Term S c d) :
   T_map h (T_tens f g) = T_tens (T_map h f) (T_map h g) := eq_refl.
 
-Example InjFunctor_obj_id {S T : Signature} (h : SubSig S T) (k : nat) :
-  fobj[InjFunctor h] k = k := eq_refl.
+Example RelabelFunctor_obj_id {S T : Signature} (h : SubSig S T) (k : nat) :
+  fobj[RelabelFunctor h] k = k := eq_refl.
+
+(** A scratch definitional extension over the empty signature,
+    witnessing that [ext_retract] REDUCES at closed arities — the
+    transparent [single_gen]/[single_dom]/[single_cod] compute, so
+    retracting the fresh generator yields its defining word framed by
+    identity casts, by [eq_refl]. *)
+Local Definition scratch_smt : SMT :=
+  {| smt_sig := Empty_Sig; smt_eqs := fun _ _ _ _ => False |}.
+
+Example ext_retract_computes_on_new_gen :
+  ext_retract scratch_smt 1 1 (T_id 1) (T_gen (new_gen scratch_smt 1 1))
+  = T_comp (T_id 1) (T_comp (T_id 1) (T_id 1)) := eq_refl.
 
 (** ** Follow-up material (deliberately not started here)
 

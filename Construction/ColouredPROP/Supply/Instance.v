@@ -565,10 +565,12 @@ Context {Colour : Type}.
 Context (Cdec : forall c d : Colour, {c = d} + {c <> d}).
 Context (copyable : Colour -> bool).
 
-(** The empty signature is conservative at every colour. *)
+(** The empty signature is conservative at every colour —
+    [Empty_CSig_conservative] of [Construction/ColouredPROP/Linear.v],
+    at the section's [Cdec]. *)
 Definition pure_base_conservative (c : Colour) :
   c_conservative Cdec Empty_CSig c :=
-  fun cs ds g => match g with end.
+  Empty_CSig_conservative Cdec c.
 
 (** A wire of the pure supply PROP supports a fan-out iff its colour is
     copyable. *)

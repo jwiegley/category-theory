@@ -9,7 +9,6 @@ Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.CopyDiscard.
 Require Import Category.Structure.Monoidal.CopyDiscard.Deterministic.
-Require Import Category.Theory.Algebra.Comonoid.
 Require Import Category.Structure.Binoidal.
 Require Import Category.Monad.Strong.
 Require Import Category.Monad.Strong.Symmetric.

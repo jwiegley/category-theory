@@ -81,7 +81,7 @@ Qed.
     and [Fin.R].  [fin_split] is a structural fixpoint on [m] whose
     successor case dispatches through [Fin.caseS'], re-tagging the
     recursive result along [Fin.FS] — deliberately built from primitives
-    common to every supported version, avoiding the [Fin.case_L_R'] family
+    common to every supported version, avoiding the split/join recursors
     that only the Rocq 9.x standard library provides, so the file also
     compiles on Coq 8.19/8.20.  Both directions REDUCE on closed input —
     the coproduct structure below computes by [eq_refl]. *)

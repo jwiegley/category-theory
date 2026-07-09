@@ -164,7 +164,7 @@ Qed.
 
 (* [length (xs ++ ys) = length xs + length ys], proven locally: the
    standard-library lemma is named [app_length] in Coq 8.19 and
-   [len_app] from 8.20 onward, so the portable route across the
+   [length_app] from 8.20 onward, so the portable route across the
    supported versions is the two-line induction. *)
 Lemma len_app {A : Type} (xs ys : list A) :
   length (xs ++ ys) = (length xs + length ys)%nat.

@@ -236,64 +236,15 @@ Definition CPresentedProj : CFreeCat Σ ⟶ CPresentedCat :=
   @QuotientProj (CFreeCat Σ) (fun cs ds : list Colour => @CTermEqW cs ds)
     CTermEqW_Congruence.
 
-(** ** Term-level bookkeeping lemmas
+(** ** Term-level bookkeeping
 
-    Small [CTermEq]-level facts used to discharge the comparison
-    squares of the projection functor, where every comparison map is
-    an identity or a tensor of identities. *)
-
-(** An identity slides from one side of a morphism to the other. *)
-Lemma cterm_id_swap {cs ds : list Colour} (t : CTerm Σ cs ds) :
-  CTermEq Σ (CT_comp t (CT_id cs)) (CT_comp (CT_id ds) t).
-Proof.
-  apply CTE_trans with t.
-  - apply CTE_id_right.
-  - apply CTE_sym, CTE_id_left.
-Qed.
-
-(** A composite of identities equals a tensor of identities. *)
-Lemma cterm_comp_id_tens (cs ds : list Colour) :
-  CTermEq Σ (CT_comp (CT_id (cs ++ ds)) (CT_id (cs ++ ds)))
-            (CT_tens (CT_id cs) (CT_id ds)).
-Proof.
-  apply CTE_trans with (CT_id (cs ++ ds)).
-  - apply CTE_id_left.
-  - apply CTE_sym, CTE_tens_id.
-Qed.
-
-(** Collapsing an identity and a tensor of identities after [t]. *)
-Lemma cterm_collapse_r {m n p : list Colour} (t : CTerm Σ (m ++ n) p) :
-  CTermEq Σ
-    (CT_comp (CT_comp t (CT_id (m ++ n))) (CT_tens (CT_id m) (CT_id n)))
-    t.
-Proof.
-  apply CTE_trans with (CT_comp t (CT_tens (CT_id m) (CT_id n))).
-  - apply CTE_comp_cong.
-    + apply CTE_id_right.
-    + apply CTE_refl.
-  - apply CTE_trans with (CT_comp t (CT_id (m ++ n))).
-    + apply CTE_comp_cong.
-      * apply CTE_refl.
-      * apply CTE_tens_id.
-    + apply CTE_id_right.
-Qed.
-
-(** Collapsing an identity and a tensor of identities before [t]. *)
-Lemma cterm_collapse_l {m n p : list Colour} (t : CTerm Σ p (m ++ n)) :
-  CTermEq Σ
-    (CT_comp (CT_comp (CT_id (m ++ n)) (CT_tens (CT_id m) (CT_id n))) t)
-    t.
-Proof.
-  apply CTE_trans with (CT_comp (CT_tens (CT_id m) (CT_id n)) t).
-  - apply CTE_comp_cong.
-    + apply CTE_id_left.
-    + apply CTE_refl.
-  - apply CTE_trans with (CT_comp (CT_id (m ++ n)) t).
-    + apply CTE_comp_cong.
-      * apply CTE_tens_id.
-      * apply CTE_refl.
-    + apply CTE_id_left.
-Qed.
+    The [CTermEq]-level facts that discharge the comparison squares
+    of the projection functor — where every comparison map is an
+    identity or a tensor of identities — are the generic
+    identity-bookkeeping lemmas [ctm_id_swap] / [ctm_comp_id_tens] /
+    [ctm_collapse_r] / [ctm_collapse_l] of
+    [Construction/ColouredPROP/TermEq.v], consumed below at the
+    theory's signature [Σ]. *)
 
 (** ** The tensor on the presented category
 
@@ -445,18 +396,18 @@ Definition CPresented_ap_cod : CFreeCat Σ ∏ CFreeCat Σ ⟶ CPresentedCat :=
   CPresentedProj ◯ CFreeCat_Tensor Σ.
 
 (** Both directions of the tensor comparison are families of
-    identities; naturality is [cterm_id_swap]. *)
+    identities; naturality is [ctm_id_swap]. *)
 Definition CPresented_ap_to : CPresented_ap_dom ⟹ CPresented_ap_cod :=
   @Build_Transform' (CFreeCat Σ ∏ CFreeCat Σ) CPresentedCat
     CPresented_ap_dom CPresented_ap_cod
     (fun p => CT_id ((fst p ++ snd p)%list))
-    (fun p q f => CTEW_termeq _ _ (cterm_id_swap (CT_tens (fst f) (snd f)))).
+    (fun p q f => CTEW_termeq _ _ (ctm_id_swap (CT_tens (fst f) (snd f)))).
 
 Definition CPresented_ap_from : CPresented_ap_cod ⟹ CPresented_ap_dom :=
   @Build_Transform' (CFreeCat Σ ∏ CFreeCat Σ) CPresentedCat
     CPresented_ap_cod CPresented_ap_dom
     (fun p => CT_id ((fst p ++ snd p)%list))
-    (fun p q f => CTEW_termeq _ _ (cterm_id_swap (CT_tens (fst f) (snd f)))).
+    (fun p q f => CTEW_termeq _ _ (ctm_id_swap (CT_tens (fst f) (snd f)))).
 
 (** The identity components are inverse up to [CTermEqW] (the identity
     natural transformation of a composite-with-tensor functor has
@@ -470,8 +421,8 @@ Definition CPresented_ap_iso :
     (@Category.Instance.Fun.Fun (CFreeCat Σ ∏ CFreeCat Σ) CPresentedCat)
     CPresented_ap_dom CPresented_ap_cod
     CPresented_ap_to CPresented_ap_from
-    (fun p => CTEW_termeq _ _ (cterm_comp_id_tens (fst p) (snd p)))
-    (fun p => CTEW_termeq _ _ (cterm_comp_id_tens (fst p) (snd p))).
+    (fun p => CTEW_termeq _ _ (ctm_comp_id_tens (fst p) (snd p)))
+    (fun p => CTEW_termeq _ _ (ctm_comp_id_tens (fst p) (snd p))).
 
 Program Definition CPresentedProj_Monoidal :
   @MonoidalFunctor (CFreeCat Σ) CPresentedCat
@@ -484,16 +435,16 @@ Program Definition CPresentedProj_Monoidal :
     @tensor_assoc CPresentedCat CPresented_Monoidal x y z;
   monoidal_unit_left := fun x =>
     CTEW_termeq _ _
-      (CTE_sym _ _ (cterm_collapse_r (CT_cast (app_nil_l x))));
+      (CTE_sym _ _ (ctm_collapse_r (CT_cast (app_nil_l x))));
   monoidal_unit_right := fun x =>
     CTEW_termeq _ _
-      (CTE_sym _ _ (cterm_collapse_r (CT_cast (app_nil_r x))));
+      (CTE_sym _ _ (ctm_collapse_r (CT_cast (app_nil_r x))));
   monoidal_assoc := fun x y z =>
     CTEW_termeq _ _
       (CTE_trans _ _ _
-         (cterm_collapse_r (CT_cast (eq_sym (app_assoc x y z))))
+         (ctm_collapse_r (CT_cast (eq_sym (app_assoc x y z))))
          (CTE_sym _ _
-            (cterm_collapse_l (CT_cast (eq_sym (app_assoc x y z))))))
+            (ctm_collapse_l (CT_cast (eq_sym (app_assoc x y z))))))
 |}.
 
 (** Both comparison maps of the projection are identities on the
@@ -540,7 +491,7 @@ Lemma CPresentedProj_braid (cs ds : list Colour) :
   to (@ap_iso _ _ _ _ CPresentedProj CPresentedProj_Monoidal ds cs)
     ∘ @braid CPresentedCat CPresented_Braided cs ds.
 Proof.
-  exact (CTEW_termeq _ _ (cterm_id_swap (CT_braid cs ds))).
+  exact (CTEW_termeq _ _ (ctm_id_swap (CT_braid cs ds))).
 Qed.
 
 (** The braided packaging of the projection, as an explicit
@@ -553,7 +504,7 @@ Definition CPresentedProj_Braided :
   @Build_BraidedMonoidalFunctor (CFreeCat Σ) CPresentedCat
     (CFreeCat_Braided Σ Cdec) CPresented_Braided CPresentedProj
     CPresentedProj_Monoidal
-    (fun x y => CTEW_termeq _ _ (cterm_id_swap (CT_braid x y))).
+    (fun x y => CTEW_termeq _ _ (ctm_id_swap (CT_braid x y))).
 
 (** A braided monoidal functor between symmetric monoidal categories
     IS a symmetric monoidal functor ([SymmetricMonoidalFunctor] is a

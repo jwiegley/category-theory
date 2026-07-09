@@ -1,6 +1,8 @@
 -R . Category
 Adjunction/Diagonal/Product.v
 Adjunction/Hom.v
+Adjunction/Compose.v
+Adjunction/Continuity.v
 Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
@@ -243,6 +245,7 @@ Structure/Group/Proofs.v
 Structure/Initial.v
 Structure/Limit.v
 Structure/Limit/Cartesian.v
+Structure/Limit/Preservation.v
 Structure/Limit/Kan/Extension.v
 Structure/Limit/Terminal.v
 Structure/Monoid.v
@@ -327,6 +330,13 @@ Theory/Coq/Traversable.v
 Theory/Coq/Tuple.v
 Theory/Coq/Tuple/Proofs.v
 Theory/Dinatural.v
+Theory/Equivalence.v
+Theory/Equivalence/FullFaithful.v
+Theory/Equivalence/Adjoint.v
+Theory/Equivalence/Bundled.v
+Theory/Equivalence/Monoidal.v
+Theory/Equivalence/Adjunction.v
+Theory/Equivalence/Limit.v
 Theory/Functor.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
@@ -346,5 +356,6 @@ Test/HypergraphPROPResolution.v
 Test/Issue138.v
 Test/Poset.v
 Test/Issue139.v
+Test/ProbeFunnyPoly.v
 Tools/Abstraction.v
 Tools/Represented.v

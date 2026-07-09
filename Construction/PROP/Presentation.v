@@ -188,63 +188,18 @@ Definition quot {m n : nat} (t : Term Σ m n) : m ~{PresentedCat}~> n := t.
 Definition PresentedProj : FreeCat Σ ⟶ PresentedCat :=
   @QuotientProj (FreeCat Σ) (fun m n : nat => @TermEqW m n) TermEqW_Congruence.
 
-(** ** Term-level bookkeeping lemmas
+(** ** Term-level bookkeeping
 
-    Small [TermEq]-level facts used to discharge the comparison
-    squares of the projection functor, where every comparison map is
-    an identity or a tensor of identities. *)
-
-(** An identity slides from one side of a morphism to the other. *)
-Lemma term_id_swap {m n : nat} (t : Term Σ m n) :
-  TermEq Σ (T_comp t (T_id m)) (T_comp (T_id n) t).
-Proof.
-  apply TE_trans with t.
-  - apply TE_id_right.
-  - apply TE_sym, TE_id_left.
-Qed.
-
-(** A composite of identities equals a tensor of identities. *)
-Lemma term_comp_id_tens (m n : nat) :
-  TermEq Σ (T_comp (T_id (m + n)) (T_id (m + n))) (T_tens (T_id m) (T_id n)).
-Proof.
-  apply TE_trans with (T_id (m + n)).
-  - apply TE_id_left.
-  - apply TE_sym, TE_tens_id.
-Qed.
+    The [TermEq]-level facts that discharge the comparison squares of
+    the projection functor — where every comparison map is an identity
+    or a tensor of identities — are the generic identity-bookkeeping
+    lemmas [tm_id_swap] / [tm_comp_id_tens] / [tm_collapse_r] /
+    [tm_collapse_l] of [Construction/PROP/TermEq.v], consumed below at
+    the theory's signature [Σ]. *)
 
 (** Reflexivity of the theory congruence, via the embedding. *)
 Definition TermEqW_refl {m n : nat} (t : Term Σ m n) : TermEqW t t :=
   TEW_termeq t t (TE_refl t).
-
-(** Collapsing an identity and a tensor of identities after [t]. *)
-Lemma term_collapse_r {m n p : nat} (t : Term Σ (m + n) p) :
-  TermEq Σ (T_comp (T_comp t (T_id (m + n))) (T_tens (T_id m) (T_id n))) t.
-Proof.
-  apply TE_trans with (T_comp t (T_tens (T_id m) (T_id n))).
-  - apply TE_comp_cong.
-    + apply TE_id_right.
-    + apply TE_refl.
-  - apply TE_trans with (T_comp t (T_id (m + n))).
-    + apply TE_comp_cong.
-      * apply TE_refl.
-      * apply TE_tens_id.
-    + apply TE_id_right.
-Qed.
-
-(** Collapsing an identity and a tensor of identities before [t]. *)
-Lemma term_collapse_l {m n p : nat} (t : Term Σ p (m + n)) :
-  TermEq Σ (T_comp (T_comp (T_id (m + n)) (T_tens (T_id m) (T_id n))) t) t.
-Proof.
-  apply TE_trans with (T_comp (T_tens (T_id m) (T_id n)) t).
-  - apply TE_comp_cong.
-    + apply TE_id_left.
-    + apply TE_refl.
-  - apply TE_trans with (T_comp (T_id (m + n)) t).
-    + apply TE_comp_cong.
-      * apply TE_tens_id.
-      * apply TE_refl.
-    + apply TE_id_left.
-Qed.
 
 (** ** The tensor on the presented category
 
@@ -380,18 +335,18 @@ Definition Presented_ap_cod : FreeCat Σ ∏ FreeCat Σ ⟶ PresentedCat :=
   PresentedProj ◯ FreeCat_Tensor Σ.
 
 (** Both directions of the tensor comparison are families of
-    identities; naturality is [term_id_swap]. *)
+    identities; naturality is [tm_id_swap]. *)
 Definition Presented_ap_to : Presented_ap_dom ⟹ Presented_ap_cod :=
   @Build_Transform' (FreeCat Σ ∏ FreeCat Σ) PresentedCat
     Presented_ap_dom Presented_ap_cod
     (fun p => T_id (fst p + snd p))
-    (fun p q f => TEW_termeq _ _ (term_id_swap (T_tens (fst f) (snd f)))).
+    (fun p q f => TEW_termeq _ _ (tm_id_swap (T_tens (fst f) (snd f)))).
 
 Definition Presented_ap_from : Presented_ap_cod ⟹ Presented_ap_dom :=
   @Build_Transform' (FreeCat Σ ∏ FreeCat Σ) PresentedCat
     Presented_ap_cod Presented_ap_dom
     (fun p => T_id (fst p + snd p))
-    (fun p q f => TEW_termeq _ _ (term_id_swap (T_tens (fst f) (snd f)))).
+    (fun p q f => TEW_termeq _ _ (tm_id_swap (T_tens (fst f) (snd f)))).
 
 (** The identity components are inverse up to [TermEqW] (the identity
     natural transformation of a composite-with-tensor functor has
@@ -401,9 +356,9 @@ Program Definition Presented_ap_iso :
   to   := Presented_ap_to;
   from := Presented_ap_from;
   iso_to_from := fun p =>
-    TEW_termeq _ _ (term_comp_id_tens (fst p) (snd p));
+    TEW_termeq _ _ (tm_comp_id_tens (fst p) (snd p));
   iso_from_to := fun p =>
-    TEW_termeq _ _ (term_comp_id_tens (fst p) (snd p))
+    TEW_termeq _ _ (tm_comp_id_tens (fst p) (snd p))
 |}.
 
 Program Definition PresentedProj_Monoidal :
@@ -415,15 +370,15 @@ Program Definition PresentedProj_Monoidal :
   pure_iso_right := fun x => iso_id;
   ap_iso_assoc := fun x y z => @tensor_assoc PresentedCat Presented_Monoidal x y z;
   monoidal_unit_left := fun x =>
-    TEW_termeq _ _ (TE_sym _ _ (term_collapse_r (T_cast (Nat.add_0_l x))));
+    TEW_termeq _ _ (TE_sym _ _ (tm_collapse_r (T_cast (Nat.add_0_l x))));
   monoidal_unit_right := fun x =>
-    TEW_termeq _ _ (TE_sym _ _ (term_collapse_r (T_cast (Nat.add_0_r x))));
+    TEW_termeq _ _ (TE_sym _ _ (tm_collapse_r (T_cast (Nat.add_0_r x))));
   monoidal_assoc := fun x y z =>
     TEW_termeq _ _
       (TE_trans _ _ _
-         (term_collapse_r (T_cast (eq_sym (Nat.add_assoc x y z))))
+         (tm_collapse_r (T_cast (eq_sym (Nat.add_assoc x y z))))
          (TE_sym _ _
-            (term_collapse_l (T_cast (eq_sym (Nat.add_assoc x y z))))))
+            (tm_collapse_l (T_cast (eq_sym (Nat.add_assoc x y z))))))
 |}.
 
 (** Both comparison maps of the projection are identities on the
@@ -470,7 +425,7 @@ Lemma PresentedProj_braid (m n : nat) :
   to (@ap_iso _ _ _ _ PresentedProj PresentedProj_Monoidal n m)
     ∘ @braid PresentedCat Presented_Braided m n.
 Proof.
-  exact (TEW_termeq _ _ (term_id_swap (T_braid m n))).
+  exact (TEW_termeq _ _ (tm_id_swap (T_braid m n))).
 Qed.
 
 Program Definition PresentedProj_Braided :
@@ -479,7 +434,7 @@ Program Definition PresentedProj_Braided :
   braided_is_strong := PresentedProj_Monoidal
 |}.
 Next Obligation.
-  exact (TEW_termeq _ _ (term_id_swap (T_braid x y))).
+  exact (TEW_termeq _ _ (tm_id_swap (T_braid x y))).
 Qed.
 
 (** A braided monoidal functor between symmetric monoidal categories

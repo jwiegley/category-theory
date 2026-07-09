@@ -36,13 +36,16 @@ Generalizable All Variables.
    nLab: https://ncatlab.org/nlab/show/PROP
    Wikipedia: https://en.wikipedia.org/wiki/PROP_(category_theory)
 
-   A sub-signature embedding [h : CSubSig S T] ([Construction/
+   A signature relabelling [h : CSubSig S T] ([Construction/
    ColouredPROP/Signature.v]) preserves generator boundaries on the
    nose, so it acts on typed string-diagram terms by pure structural
    recursion: relabel every generator leaf through [h] and leave the
-   structural constructors untouched.  This file develops that action
-   and its consequences, the coloured mirror of the signature-morphism
-   half of [Construction/PROP/Tietze.v] (its [T_map] development, with
+   structural constructors untouched.  No injectivity of [h] is
+   assumed or used anywhere in this file — everything applies to
+   arbitrary boundary-preserving relabellings, including generator
+   collapses.  This file develops that action and its consequences,
+   the coloured mirror of the signature-morphism half of
+   [Construction/PROP/Tietze.v] (its [T_map] development, with
    [list Colour] replacing [nat], [++] replacing [Nat.add], and
    [app_nil_r] / [app_assoc] replacing [Nat.add_0_r] /
    [Nat.add_assoc]):
@@ -55,7 +58,7 @@ Generalizable All Variables.
        STATE [CT_map]'s action: the boundaries of a term and of its
        image agree on the nose.  ([CT_cast] does still appear in a
        few statements — [CT_map_CT_cast] and the coherence squares of
-       item 5 — but there it is a first-class term being mapped, the
+       item 4 — but there it is a first-class term being mapped, the
        monoidal structural map under study, never a repair of a
        boundary mismatch introduced by [CT_map] itself.)  (Per the
        note at the foot of [Signature.v], there is
@@ -75,20 +78,18 @@ Generalizable All Variables.
        [CT_map] across the [eq_rect] seams, then close with the same
        primitive constructor.
 
-   4.  The identity-bookkeeping quartet [ctm_id_swap] /
-       [ctm_comp_id_tens] / [ctm_collapse_r] / [ctm_collapse_l], over
-       an arbitrary signature, feeding the comparison squares of the
-       monoidal packaging.
-
-   5.  The induced functor [CInjFunctor h : CFreeCat S ⟶ CFreeCat T]
-       — identity on objects (colour words), [CT_map h] on morphisms —
-       is STRICT SYMMETRIC monoidal: both comparison maps are
-       identities on the nose, the object equalities are [eq_refl],
-       and the braid square commutes because [CT_map] fixes
+   4.  The induced functor [CRelabelFunctor h : CFreeCat S ⟶
+       CFreeCat T] — identity on objects (colour words), [CT_map h] on
+       morphisms — is STRICT SYMMETRIC monoidal: both comparison maps
+       are identities on the nose, the object equalities are
+       [eq_refl], and the braid square commutes because [CT_map] fixes
        [CT_braid].  Signature morphisms induce strict symmetric maps
-       of free coloured PROPs ([CInjFunctor_Monoidal] /
-       [CInjFunctor_Strict] / [CInjFunctor_Braided] /
-       [CInjFunctor_Symmetric]).
+       of free coloured PROPs ([CRelabelFunctor_Monoidal] /
+       [CRelabelFunctor_Strict] / [CRelabelFunctor_Braided] /
+       [CRelabelFunctor_Symmetric]).  The comparison squares are fed
+       by the identity-bookkeeping quartet [ctm_id_swap] /
+       [ctm_comp_id_tens] / [ctm_collapse_r] / [ctm_collapse_l] of
+       [Construction/ColouredPROP/TermEq.v].
 
    Everything is elementary syntax: the only relation involved is the
    [Prop]-valued congruence [CTermEq], and no proof irrelevance is
@@ -217,90 +218,22 @@ Proof.
     cbn [CT_map]; apply CTE_braid_unit_right.
 Qed.
 
-(** ** Identity bookkeeping on terms
-
-    The comparison maps of the induced monoidal functor below are all
-    identities or tensors of identities, so its coherence squares are
-    identity-collapsing equations — stated here over an arbitrary
-    signature (the donor's copies in [Construction/PROP/Tietze.v]
-    were the same quartet over [nat] boundaries).
-
-    DUPLICATION NOTE: [Construction/ColouredPROP/Presentation.v]
-    carries the same quartet, statement-for-statement, as
-    [cterm_id_swap] / [cterm_comp_id_tens] / [cterm_collapse_r] /
-    [cterm_collapse_l], specialised to its section signature.  Any
-    change here should be mirrored there; the natural shared home for
-    a hoisted version would be [TermEq.v], which both files already
-    import. *)
-
-(** An identity slides from one side of a morphism to the other. *)
-Lemma ctm_id_swap {Colour : Type} {S : CSignature Colour}
-  {cs ds : list Colour} (t : CTerm S cs ds) :
-  CTermEq S (CT_comp t (CT_id cs)) (CT_comp (CT_id ds) t).
-Proof.
-  apply CTE_trans with t.
-  - apply CTE_id_right.
-  - apply CTE_sym, CTE_id_left.
-Qed.
-
-(** A composite of identities equals a tensor of identities. *)
-Lemma ctm_comp_id_tens {Colour : Type} {S : CSignature Colour}
-  (m n : list Colour) :
-  CTermEq S (CT_comp (CT_id (m ++ n)) (CT_id (m ++ n)))
-            (CT_tens (CT_id m) (CT_id n)).
-Proof.
-  apply CTE_trans with (CT_id (m ++ n)).
-  - apply CTE_id_left.
-  - apply CTE_sym, CTE_tens_id.
-Qed.
-
-(** Collapsing an identity and a tensor of identities after [t]. *)
-Lemma ctm_collapse_r {Colour : Type} {S : CSignature Colour}
-  {m n p : list Colour} (t : CTerm S (m ++ n) p) :
-  CTermEq S (CT_comp (CT_comp t (CT_id (m ++ n)))
-                     (CT_tens (CT_id m) (CT_id n))) t.
-Proof.
-  apply CTE_trans with (CT_comp t (CT_tens (CT_id m) (CT_id n))).
-  - apply CTE_comp_cong.
-    + apply CTE_id_right.
-    + apply CTE_refl.
-  - apply CTE_trans with (CT_comp t (CT_id (m ++ n))).
-    + apply CTE_comp_cong.
-      * apply CTE_refl.
-      * apply CTE_tens_id.
-    + apply CTE_id_right.
-Qed.
-
-(** Collapsing an identity and a tensor of identities before [t]. *)
-Lemma ctm_collapse_l {Colour : Type} {S : CSignature Colour}
-  {m n p : list Colour} (t : CTerm S p (m ++ n)) :
-  CTermEq S (CT_comp (CT_comp (CT_id (m ++ n))
-                              (CT_tens (CT_id m) (CT_id n))) t) t.
-Proof.
-  apply CTE_trans with (CT_comp (CT_tens (CT_id m) (CT_id n)) t).
-  - apply CTE_comp_cong.
-    + apply CTE_id_left.
-    + apply CTE_refl.
-  - apply CTE_trans with (CT_comp (CT_id (m ++ n)) t).
-    + apply CTE_comp_cong.
-      * apply CTE_tens_id.
-      * apply CTE_refl.
-    + apply CTE_id_left.
-Qed.
-
 (** ** The induced functor of free coloured PROPs
 
-    A signature morphism [h : CSubSig S T] induces [CInjFunctor h :
+    A signature morphism [h : CSubSig S T] induces [CRelabelFunctor h :
     CFreeCat S ⟶ CFreeCat T] — identity on objects (colour words),
     [CT_map h] on morphisms — and the functor is STRICT SYMMETRIC
     monoidal: both comparison maps are identities on the nose, the
     object equalities are [eq_refl], and the braid square commutes
     because [CT_map] fixes [CT_braid].  The packaging mirrors the
-    one-sorted donor's [InjFunctor] tower of [Construction/PROP/
+    one-sorted donor's [RelabelFunctor] tower of [Construction/PROP/
     Tietze.v], with the monoidal instances drawn from the ONE shared
     record [CFreeCat_Monoidal _ Cdec] (see the D2 WARNING at the foot
     of [Construction/ColouredPROP/Monoidal.v]: fix one canonical
-    [Cdec] per colour type). *)
+    [Cdec] per colour type); the coherence squares are discharged with
+    the shared identity-bookkeeping lemmas [ctm_id_swap] /
+    [ctm_comp_id_tens] / [ctm_collapse_r] / [ctm_collapse_l] of
+    [Construction/ColouredPROP/TermEq.v]. *)
 
 Section CSignatureMorphism.
 
@@ -309,7 +242,7 @@ Context (S T : CSignature Colour).
 Context (h : CSubSig S T).
 Context (Cdec : forall c d : Colour, {c = d} + {c <> d}).
 
-Definition CInjFunctor : CFreeCat S ⟶ CFreeCat T :=
+Definition CRelabelFunctor : CFreeCat S ⟶ CFreeCat T :=
   Build_Functor (CFreeCat S) (CFreeCat T)
     (fun cs : list Colour => cs)
     (fun cs ds (t : CTerm S cs ds) => CT_map h t)
@@ -319,39 +252,39 @@ Definition CInjFunctor : CFreeCat S ⟶ CFreeCat T :=
 
 (** The tensor-then-map and map-then-tensor composites related by the
     tensor comparison of the monoidal structure. *)
-Definition CInj_ap_dom : CFreeCat S ∏ CFreeCat S ⟶ CFreeCat T :=
-  CFreeCat_Tensor T ◯ (CInjFunctor ∏⟶ CInjFunctor).
+Definition CRelabel_ap_dom : CFreeCat S ∏ CFreeCat S ⟶ CFreeCat T :=
+  CFreeCat_Tensor T ◯ (CRelabelFunctor ∏⟶ CRelabelFunctor).
 
-Definition CInj_ap_cod : CFreeCat S ∏ CFreeCat S ⟶ CFreeCat T :=
-  CInjFunctor ◯ CFreeCat_Tensor S.
+Definition CRelabel_ap_cod : CFreeCat S ∏ CFreeCat S ⟶ CFreeCat T :=
+  CRelabelFunctor ◯ CFreeCat_Tensor S.
 
 (** Both directions of the tensor comparison are families of
     identities — [CT_map] computes through [CT_tens], so the two
     functors have definitionally equal actions — and naturality is
     [ctm_id_swap]. *)
-Definition CInj_ap_to : CInj_ap_dom ⟹ CInj_ap_cod :=
+Definition CRelabel_ap_to : CRelabel_ap_dom ⟹ CRelabel_ap_cod :=
   @Build_Transform' (CFreeCat S ∏ CFreeCat S) (CFreeCat T)
-    CInj_ap_dom CInj_ap_cod
+    CRelabel_ap_dom CRelabel_ap_cod
     (fun p => CT_id (fst p ++ snd p))
     (fun p q f => ctm_id_swap (CT_tens (CT_map h (fst f)) (CT_map h (snd f)))).
 
-Definition CInj_ap_from : CInj_ap_cod ⟹ CInj_ap_dom :=
+Definition CRelabel_ap_from : CRelabel_ap_cod ⟹ CRelabel_ap_dom :=
   @Build_Transform' (CFreeCat S ∏ CFreeCat S) (CFreeCat T)
-    CInj_ap_cod CInj_ap_dom
+    CRelabel_ap_cod CRelabel_ap_dom
     (fun p => CT_id (fst p ++ snd p))
     (fun p q f => ctm_id_swap (CT_tens (CT_map h (fst f)) (CT_map h (snd f)))).
 
 (** The identity components are inverse up to [CTermEq] (the identity
     natural transformation of a composite-with-tensor functor has
     components [CT_tens (CT_id _) (CT_id _)]). *)
-Definition CInj_ap_iso :
+Definition CRelabel_ap_iso :
   @Isomorphism (@Category.Instance.Fun.Fun (CFreeCat S ∏ CFreeCat S)
                   (CFreeCat T))
-    CInj_ap_dom CInj_ap_cod :=
+    CRelabel_ap_dom CRelabel_ap_cod :=
   @Build_Isomorphism (@Category.Instance.Fun.Fun (CFreeCat S ∏ CFreeCat S)
                         (CFreeCat T))
-    CInj_ap_dom CInj_ap_cod
-    CInj_ap_to CInj_ap_from
+    CRelabel_ap_dom CRelabel_ap_cod
+    CRelabel_ap_to CRelabel_ap_from
     (fun p => ctm_comp_id_tens (fst p) (snd p))
     (fun p => ctm_comp_id_tens (fst p) (snd p)).
 
@@ -361,7 +294,7 @@ Definition CInj_ap_iso :
     [CT_map] fixes ([CT_map_CT_cast]); after that rewrite the squares
     are pure identity bookkeeping. *)
 
-Lemma CInj_unit_left_square (x : list Colour) :
+Lemma CRelabel_unit_left_square (x : list Colour) :
   CTermEq T (CT_cast (app_nil_l x))
     (CT_comp (CT_comp (CT_map h (CT_cast (app_nil_l x))) (CT_id ([] ++ x)))
              (CT_tens (CT_id []) (CT_id x))).
@@ -370,7 +303,7 @@ Proof.
   apply CTE_sym, ctm_collapse_r.
 Qed.
 
-Lemma CInj_unit_right_square (x : list Colour) :
+Lemma CRelabel_unit_right_square (x : list Colour) :
   CTermEq T (CT_cast (app_nil_r x))
     (CT_comp (CT_comp (CT_map h (CT_cast (app_nil_r x))) (CT_id (x ++ [])))
              (CT_tens (CT_id x) (CT_id []))).
@@ -379,7 +312,7 @@ Proof.
   apply CTE_sym, ctm_collapse_r.
 Qed.
 
-Lemma CInj_assoc_square (x y z : list Colour) :
+Lemma CRelabel_assoc_square (x y z : list Colour) :
   CTermEq T
     (CT_comp (CT_comp (CT_map h (CT_cast (eq_sym (app_assoc x y z))))
                       (CT_id ((x ++ y) ++ z)))
@@ -395,32 +328,32 @@ Proof.
 Qed.
 
 (** The strong monoidal structure: the unit comparison is [iso_id],
-    the tensor comparison is the identity family [CInj_ap_iso], and
+    the tensor comparison is the identity family [CRelabel_ap_iso], and
     the three coherence squares are the lemmas above.  Both [Monoidal]
     instances are the shared records [CFreeCat_Monoidal _ Cdec]. *)
-Definition CInjFunctor_Monoidal :
+Definition CRelabelFunctor_Monoidal :
   @MonoidalFunctor (CFreeCat S) (CFreeCat T)
-    (CFreeCat_Monoidal S Cdec) (CFreeCat_Monoidal T Cdec) CInjFunctor :=
+    (CFreeCat_Monoidal S Cdec) (CFreeCat_Monoidal T Cdec) CRelabelFunctor :=
   @Build_MonoidalFunctor (CFreeCat S) (CFreeCat T)
-    (CFreeCat_Monoidal S Cdec) (CFreeCat_Monoidal T Cdec) CInjFunctor
+    (CFreeCat_Monoidal S Cdec) (CFreeCat_Monoidal T Cdec) CRelabelFunctor
     iso_id
-    CInj_ap_iso
+    CRelabel_ap_iso
     (fun x => iso_id)
     (fun x => iso_id)
     (fun x y z => @tensor_assoc (CFreeCat T) (CFreeCat_Monoidal T Cdec) x y z)
-    (fun x => CInj_unit_left_square x)
-    (fun x => CInj_unit_right_square x)
-    (fun x y z => CInj_assoc_square x y z).
+    (fun x => CRelabel_unit_left_square x)
+    (fun x => CRelabel_unit_right_square x)
+    (fun x y z => CRelabel_assoc_square x y z).
 
 (** Both comparison maps are identities on the nose, so the functor is
     STRICT monoidal with [eq_refl] object equalities; the two
     comparison fields reduce to [CTE_refl]-grade goals. *)
-Definition CInjFunctor_Strict :
+Definition CRelabelFunctor_Strict :
   @StrictMonoidalFunctor (CFreeCat S) (CFreeCat T)
-    (CFreeCat_Monoidal S Cdec) (CFreeCat_Monoidal T Cdec) CInjFunctor :=
+    (CFreeCat_Monoidal S Cdec) (CFreeCat_Monoidal T Cdec) CRelabelFunctor :=
   @Build_StrictMonoidalFunctor (CFreeCat S) (CFreeCat T)
-    (CFreeCat_Monoidal S Cdec) (CFreeCat_Monoidal T Cdec) CInjFunctor
-    CInjFunctor_Monoidal
+    (CFreeCat_Monoidal S Cdec) (CFreeCat_Monoidal T Cdec) CRelabelFunctor
+    CRelabelFunctor_Monoidal
     eq_refl
     (fun x y => eq_refl)
     (CTE_refl (CT_id []))
@@ -429,45 +362,45 @@ Definition CInjFunctor_Strict :
 (** The braid-compatibility square: [CT_map] fixes [CT_braid], and
     both tensor comparisons are identities, so the square is one slide
     of an identity past the braid. *)
-Lemma CInjFunctor_braid (m n : list Colour) :
-  fmap[CInjFunctor] (@braid (CFreeCat S) (CFreeCat_Braided S Cdec) m n)
-    ∘ to (@ap_iso _ _ _ _ CInjFunctor CInjFunctor_Monoidal m n)
+Lemma CRelabelFunctor_braid (m n : list Colour) :
+  fmap[CRelabelFunctor] (@braid (CFreeCat S) (CFreeCat_Braided S Cdec) m n)
+    ∘ to (@ap_iso _ _ _ _ CRelabelFunctor CRelabelFunctor_Monoidal m n)
   ≈[CFreeCat T]
-  to (@ap_iso _ _ _ _ CInjFunctor CInjFunctor_Monoidal n m)
+  to (@ap_iso _ _ _ _ CRelabelFunctor CRelabelFunctor_Monoidal n m)
     ∘ @braid (CFreeCat T) (CFreeCat_Braided T Cdec) m n.
 Proof.
   exact (ctm_id_swap (CT_braid m n)).
 Qed.
 
-Definition CInjFunctor_Braided :
+Definition CRelabelFunctor_Braided :
   @BraidedMonoidalFunctor (CFreeCat S) (CFreeCat T)
-    (CFreeCat_Braided S Cdec) (CFreeCat_Braided T Cdec) CInjFunctor :=
+    (CFreeCat_Braided S Cdec) (CFreeCat_Braided T Cdec) CRelabelFunctor :=
   @Build_BraidedMonoidalFunctor (CFreeCat S) (CFreeCat T)
-    (CFreeCat_Braided S Cdec) (CFreeCat_Braided T Cdec) CInjFunctor
-    CInjFunctor_Monoidal
+    (CFreeCat_Braided S Cdec) (CFreeCat_Braided T Cdec) CRelabelFunctor
+    CRelabelFunctor_Monoidal
     (fun x y => ctm_id_swap (CT_braid x y)).
 
 (** A braided monoidal functor between symmetric monoidal categories
     IS a symmetric monoidal functor ([SymmetricMonoidalFunctor] is a
     definition, not a class); supplied explicitly, as the alias does
     not participate in instance resolution. *)
-Definition CInjFunctor_Symmetric :
+Definition CRelabelFunctor_Symmetric :
   @SymmetricMonoidalFunctor (CFreeCat S) (CFreeCat T)
-    (CFreeCat_Symmetric S Cdec) (CFreeCat_Symmetric T Cdec) CInjFunctor :=
-  CInjFunctor_Braided.
+    (CFreeCat_Symmetric S Cdec) (CFreeCat_Symmetric T Cdec) CRelabelFunctor :=
+  CRelabelFunctor_Braided.
 
 End CSignatureMorphism.
 
-Arguments CInjFunctor {Colour S T} h : assert.
-Arguments CInjFunctor_Monoidal {Colour S T} h Cdec : assert.
-Arguments CInjFunctor_Strict {Colour S T} h Cdec : assert.
-Arguments CInjFunctor_Braided {Colour S T} h Cdec : assert.
-Arguments CInjFunctor_Symmetric {Colour S T} h Cdec : assert.
+Arguments CRelabelFunctor {Colour S T} h : assert.
+Arguments CRelabelFunctor_Monoidal {Colour S T} h Cdec : assert.
+Arguments CRelabelFunctor_Strict {Colour S T} h Cdec : assert.
+Arguments CRelabelFunctor_Braided {Colour S T} h Cdec : assert.
+Arguments CRelabelFunctor_Symmetric {Colour S T} h Cdec : assert.
 
 (** ** Machine-checked sanity
 
     [CT_map] computes on the structural constructors, so the functor
-    action of [CInjFunctor] is definitional, and the sub-signature
+    action of [CRelabelFunctor] is definitional, and the sub-signature
     algebra of [Signature.v] is respected on the nose. *)
 
 Example CT_map_fixes_id {Colour : Type} {S T : CSignature Colour}
@@ -502,6 +435,6 @@ Example CT_map_compose_sig {Colour : Type} {S T U : CSignature Colour}
   CT_map (CSubSig_compose h2 h1) (CT_gen g)
   = CT_map h2 (CT_map h1 (CT_gen g)) := eq_refl.
 
-Example CInjFunctor_obj_id {Colour : Type} {S T : CSignature Colour}
+Example CRelabelFunctor_obj_id {Colour : Type} {S T : CSignature Colour}
   (h : CSubSig S T) (cs : list Colour) :
-  fobj[CInjFunctor h] cs = cs := eq_refl.
+  fobj[CRelabelFunctor h] cs = cs := eq_refl.

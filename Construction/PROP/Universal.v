@@ -46,7 +46,16 @@ Generalizable All Variables.
    [Construction/PROP/Interp.v] into a functor [InterpF : FreeCat S ⟶ P]
    and equips it with the full strict-symmetric-monoidal structure,
    then proves it UNIQUE among such functors: the free PROP [FreePROP S]
-   is initial among PROPs with an [S]-valuation.
+   is initial among PROPs that are equipped with an [S]-valuation and
+   satisfy two side conditions on the target [P]: decidable object
+   equality ([ObjDecEq], powering the axiom-free UIP on [obj P]) and a
+   [Prop] reflection of the hom equivalence ([HomEqProp], powering
+   [InterpF]'s respectfulness field [interp_sound]).  The free
+   instance provides both by construction ([FreeCat_HomEqProp] /
+   [FreeCat_ObjDecEq] in [Instance.v]).  The [Proof using] lines
+   witness the split: uniqueness ([interp_unique] and its corollaries)
+   needs only [ObjDecEq]; [HomEqProp] enters only through [InterpF]
+   itself.
 
    The strictness comparisons of [InterpF] ride the PROP class fields
    VERBATIM: [strict_pure_obj] is [prop_unit_zero] and [strict_ap_obj]

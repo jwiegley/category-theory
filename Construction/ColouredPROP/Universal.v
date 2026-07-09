@@ -51,7 +51,16 @@ Generalizable All Variables.
    [CInterpF : CFreeCat S ⟶ P] and equips it with the full
    strict-symmetric-monoidal structure, then proves it UNIQUE among
    such functors: the free coloured PROP [FreeColouredPROP S Cdec] is
-   initial among coloured PROPs with an [S]-valuation.
+   initial among coloured PROPs that are equipped with an
+   [S]-valuation and satisfy two side conditions on the target [P]:
+   decidable object equality ([ObjDecEq], powering the axiom-free UIP
+   on [obj P]) and a [Prop] reflection of the hom equivalence
+   ([HomEqProp], powering [CInterpF]'s respectfulness field
+   [cinterp_sound]).  The free instance provides both by construction
+   ([CFreeCat_HomEqProp] / [CFreeCat_ObjDecEq] in [Instance.v]).  The
+   [Proof using] lines witness the split: uniqueness ([cinterp_unique]
+   and its corollaries) needs only [ObjDecEq]; [HomEqProp] enters only
+   through [CInterpF] itself.
 
    This file is the many-sorted mirror of
    [Construction/PROP/Universal.v] (the one-sorted donor), with

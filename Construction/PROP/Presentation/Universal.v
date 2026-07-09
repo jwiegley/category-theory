@@ -444,6 +444,36 @@ Qed.
 
 End PresentedUniqueness.
 
+(** *** Existence, machine-checked against the hypothesis pack
+
+    [PresentedInterp] itself — with its strict structure
+    [PresentedInterp_Strict], its braid square
+    [PresentedInterp_SymmetricStrict], and the object family
+    [Hobj := eq_refl] (its object action is [prop_of_nat] on the
+    nose) — satisfies the hypotheses of [Presented_unique]: the
+    generator agreement is the definitional action on terms up to
+    trivial casts, and instantiating the theorem at [PresentedInterp]
+    typechecks.  As in the donor [Construction/PROP/Universal.v], this
+    is the named witness that the mediating functor of the existence
+    half is itself pinned by the uniqueness half. *)
+
+Example PresentedInterp_generator_agreement (m n : nat) (g : Σ m n) :
+  fmap[PresentedInterp] (quot E (T_gen g))
+    ≈ hom_cast (eq_sym (@eq_refl _ ⟦m⟧)) (eq_sym (@eq_refl _ ⟦n⟧))
+               (v m n g).
+Proof. reflexivity. Qed.
+
+Example PresentedInterp_unique_self (m n : nat)
+  (f : m ~{PresentedCat E}~> n) :
+  fmap[PresentedInterp] f
+    ≈ hom_cast (eq_sym (@eq_refl _ ⟦m⟧)) (eq_sym (@eq_refl _ ⟦n⟧))
+               (interp P Σ v f).
+Proof.
+  exact (Presented_unique PresentedInterp PresentedInterp_Strict
+           PresentedInterp_SymmetricStrict (fun k : nat => eq_refl)
+           PresentedInterp_generator_agreement m n f).
+Qed.
+
 (** *** Uniqueness from a single object datum
 
     As on the free side, the object family [Hobj] can be synthesised
@@ -487,6 +517,40 @@ Proof using E G H1 HBW OD P SG v.
 Qed.
 
 End PresentedUniquenessFromOne.
+
+(** *** Agreement of competitors
+
+    Any two strict symmetric functors out of the presented category
+    that agree with [v] on the generators agree with each other on
+    every morphism, after re-indexing both to the canonical
+    objects. *)
+
+Corollary Presented_unique2
+  (G1 : PresentedCat E ⟶ P)
+  (SG1 : @StrictMonoidalFunctor (PresentedCat E) P (Presented_Monoidal E)
+           (MP P) G1)
+  (HBW1 : SymmetricStrictW G1 SG1)
+  (Hobj1 : ∀ n : nat, G1 n = ⟦n⟧)
+  (Hgen1 : ∀ m n (g : Σ m n),
+     fmap[G1] (quot E (T_gen g))
+       ≈ hom_cast (eq_sym (Hobj1 m)) (eq_sym (Hobj1 n)) (v m n g))
+  (G2 : PresentedCat E ⟶ P)
+  (SG2 : @StrictMonoidalFunctor (PresentedCat E) P (Presented_Monoidal E)
+           (MP P) G2)
+  (HBW2 : SymmetricStrictW G2 SG2)
+  (Hobj2 : ∀ n : nat, G2 n = ⟦n⟧)
+  (Hgen2 : ∀ m n (g : Σ m n),
+     fmap[G2] (quot E (T_gen g))
+       ≈ hom_cast (eq_sym (Hobj2 m)) (eq_sym (Hobj2 n)) (v m n g)) :
+  ∀ m n (f : m ~{PresentedCat E}~> n),
+    hom_cast (Hobj1 m) (Hobj1 n) (fmap[G1] f)
+      ≈ hom_cast (Hobj2 m) (Hobj2 n) (fmap[G2] f).
+Proof using E OD P v.
+  intros m n f.
+  rewrite (Presented_unique G1 SG1 HBW1 Hobj1 Hgen1 m n f).
+  rewrite (Presented_unique G2 SG2 HBW2 Hobj2 Hgen2 m n f).
+  now rewrite !hom_cast_roundtrip.
+Qed.
 
 (** ** Machine-checked sanity
 

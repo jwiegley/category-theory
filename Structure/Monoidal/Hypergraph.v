@@ -5,6 +5,7 @@ Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
 Require Import Category.Structure.Monoidal.Braided.
+Require Import Category.Structure.Monoidal.Braided.Proofs.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Theory.Algebra.Monoid.
 Require Import Category.Theory.Algebra.Comonoid.
@@ -91,62 +92,18 @@ Definition mid_swap_inv (X Y : C) :
 
 (** ** The middle-swap is an isomorphism
 
-    Both composites of [mid_swap] and [mid_swap_inv] reduce to the identity
-    by associator cancellation, braid involution ([braid ∘ braid ≈ id]) on
-    the inner pair, and the [bimap id id ≈ id] coherence. *)
+    [mid_swap X Y] and [mid_swap_inv X Y] are definitionally the
+    interchange instances [swap_inner X Y X Y] and [swap_inner X X Y Y]
+    of Structure/Monoidal/Braided/Proofs.v, so both composites are
+    instances of the general involution [swap_inner_invol]. *)
 
 Lemma mid_swap_iso (X Y : C) :
   mid_swap X Y ∘ mid_swap_inv X Y ≈ id[(X ⨂ X) ⨂ (Y ⨂ Y)].
-Proof.
-  unfold mid_swap, mid_swap_inv.
-  rewrite <- !comp_assoc.
-  (* Collapse the central α ∘ α⁻¹ to identity. *)
-  rewrite (comp_assoc (to tensor_assoc) ((tensor_assoc)⁻¹)).
-  rewrite iso_to_from, id_left.
-  (* Collapse  id ⨂ α⁻¹ ∘ id ⨂ α  through bimap_comp + bimap_id_id. *)
-  rewrite (comp_assoc (bimap id ((tensor_assoc)⁻¹))
-                      (bimap id (to tensor_assoc))).
-  rewrite <- bimap_comp, id_left.
-  rewrite iso_from_to, bimap_id_id, id_left.
-  (* Collapse the two adjacent inner braid bimaps via braid_invol. *)
-  rewrite (comp_assoc (bimap id (bimap (@braid C _ Y X) id[Y]))
-                      (bimap id (bimap (@braid C _ X Y) id[Y]))).
-  rewrite <- bimap_comp, id_left.
-  rewrite <- bimap_comp, id_left.
-  rewrite braid_invol, !bimap_id_id, id_left.
-  (* Collapse  id ⨂ α ∘ id ⨂ α⁻¹  via bimap_comp + iso_to_from. *)
-  rewrite (comp_assoc (bimap id (to tensor_assoc))
-                      (bimap id ((tensor_assoc)⁻¹))).
-  rewrite <- bimap_comp, id_left.
-  rewrite iso_to_from, bimap_id_id, id_left.
-  (* Final outer α⁻¹ ∘ α. *)
-  rewrite iso_from_to.
-  reflexivity.
-Qed.
+Proof. exact (@swap_inner_invol C S X X Y Y). Qed.
 
 Lemma mid_swap_iso_sym (X Y : C) :
   mid_swap_inv X Y ∘ mid_swap X Y ≈ id[(X ⨂ Y) ⨂ (X ⨂ Y)].
-Proof.
-  unfold mid_swap, mid_swap_inv.
-  rewrite <- !comp_assoc.
-  rewrite (comp_assoc (to tensor_assoc) ((tensor_assoc)⁻¹)).
-  rewrite iso_to_from, id_left.
-  rewrite (comp_assoc (bimap id ((tensor_assoc)⁻¹))
-                      (bimap id (to tensor_assoc))).
-  rewrite <- bimap_comp, id_left.
-  rewrite iso_from_to, bimap_id_id, id_left.
-  rewrite (comp_assoc (bimap id (bimap (@braid C _ X Y) id[Y]))
-                      (bimap id (bimap (@braid C _ Y X) id[Y]))).
-  rewrite <- bimap_comp, id_left.
-  rewrite <- bimap_comp, id_left.
-  rewrite braid_invol, !bimap_id_id, id_left.
-  rewrite (comp_assoc (bimap id (to tensor_assoc))
-                      (bimap id ((tensor_assoc)⁻¹))).
-  rewrite <- bimap_comp, id_left.
-  rewrite iso_to_from, bimap_id_id, id_left.
-  rewrite iso_from_to.
-  reflexivity.
-Qed.
+Proof. exact (@swap_inner_invol C S X Y X Y). Qed.
 
 (** Canonical [mu] on [X ⨂ Y] from those on [X] and [Y]. *)
 Definition canonical_tensor_mu {X Y : C}

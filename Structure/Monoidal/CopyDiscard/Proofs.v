@@ -4,6 +4,7 @@ Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Functor.Bifunctor.
 Require Import Category.Structure.Monoidal.
+Require Import Category.Structure.Monoidal.Braided.Proofs.
 Require Import Category.Structure.Monoidal.Symmetric.
 Require Import Category.Structure.Monoidal.CopyDiscard.
 Require Import Category.Structure.Monoidal.Relevance.
@@ -57,37 +58,15 @@ Context `{S : @SymmetricMonoidal C}.
 
 (* Naturality of the middle-four interchange at the diagonal: tensoring
    f with itself and f' with itself commutes past [mid_swap_inv].  The
-   proof is the same associator/braid chase as [braid2_natural] in
-   Structure/Monoidal/Relevance.v, restated here because [braid2] is a
+   diagonal instance of the four-slot [swap_inner_natural] of
+   Structure/Monoidal/Braided/Proofs.v ([mid_swap_inv x x'] being
+   definitionally [swap_inner x x x' x']); stated in [mid_swap_inv] form
+   rather than via Relevance.v's [braid2_natural] because [braid2] is a
    [RelevanceMonoidal] field while [mid_swap_inv] needs only symmetry. *)
 Lemma mid_swap_inv_natural {x x' y y'} (f : x ~> y) (f' : x' ~> y') :
   mid_swap_inv y y' ∘ ((f ⨂ f) ⨂ (f' ⨂ f'))
     ≈ ((f ⨂ f') ⨂ (f ⨂ f')) ∘ mid_swap_inv x x'.
-Proof.
-  unfold mid_swap_inv.
-  (* Pull (f ⨂ f) ⨂ (f' ⨂ f') through the rightmost associator. *)
-  rewrite <- !comp_assoc.
-  rewrite <- to_tensor_assoc_natural.
-  (* Pull ((f ⨂ f') ⨂ (f ⨂ f')) through the leftmost inverse associator
-     on the right-hand side. *)
-  normal.
-  rewrite from_tensor_assoc_natural.
-  normal.
-  comp_right.
-  comp_left.
-  (* Remaining: the conjugated inner braid against f ⨂ (f' ⨂ f'). *)
-  normal.
-  bimap_left.
-  rewrite to_tensor_assoc_natural.
-  rewrite <- !comp_assoc.
-  rewrite <- from_tensor_assoc_natural.
-  comp_left.
-  comp_right.
-  normal.
-  bimap_right.
-  symmetry.
-  apply bimap_braid.
-Qed.
+Proof. exact (swap_inner_natural f f f' f'). Qed.
 
 End MidSwapNatural.
 

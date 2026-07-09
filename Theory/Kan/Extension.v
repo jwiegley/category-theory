@@ -297,7 +297,11 @@ Qed.
    Concepts are Kan Extensions").  The proof is incomplete — three obligations
    are left open and the proof script is abandoned before `Qed`, so the theorem
    is NOT added to the environment and introduces no axioms.  Retained as a
-   proof sketch.  jww: complete the remaining isomorphism/identity obligations. *)
+   proof sketch.  jww: complete the remaining isomorphism/identity obligations.
+   The adjoint-continuity machinery this wants now exists —
+   [right_adjoint_preserves_limits] and the preservation vocabulary in
+   Adjunction/Continuity.v and Structure/Limit/Preservation.v — and is the
+   natural toolkit for a future completion of this sketch. *)
 
 Theorem left_adjoints_preserve `(L : C ⟶ D) :
   ∀ R : D ⟶ C, L ⊣ R → preserves_left_Kan L.

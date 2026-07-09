@@ -79,8 +79,10 @@ Definition Single_Sig (m n : nat) : Signature :=
 Definition Sum_Sig (S T : Signature) : Signature :=
   fun m n => sum (S m n) (T m n).
 
-(** Sub-signature: an embedding into a larger signature.  Inhabited by
-    [inl] / [inr] / nested projection chains. *)
+(** Sub-signature: an arity-preserving family of generator
+    relabellings into another signature — despite the name, no
+    injectivity is required (generator collapses are allowed).
+    Inhabited by [inl] / [inr] / nested projection chains. *)
 Definition SubSig (Sub Sup : Signature) : Type :=
   forall m n, Sub m n -> Sup m n.
 

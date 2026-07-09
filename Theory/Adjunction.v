@@ -372,7 +372,9 @@ Qed.
     left adjoint) is cocontinuous (i.e. commutes with colimits)."
                                                               -- Wikipedia
 
-   Concretely this would mean adding theorems showing right adjoints
-   preserve limits and left adjoints preserve colimits, plus the usual
-   exactness consequences. Tracked separately if/when limit/colimit
-   infrastructure here grows enough to support a clean statement. *)
+   These theorems are formalized in Adjunction/Continuity.v:
+   [right_adjoint_preserves_limits] (RAPL, proved directly by transposing
+   cones through the hom-setoid isomorphism) and
+   [left_adjoint_preserves_colimits] (LAPC, by duality via
+   Adjunction/Opposite.v), phrased with the preservation vocabulary of
+   Structure/Limit/Preservation.v. *)

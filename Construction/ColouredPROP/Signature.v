@@ -81,9 +81,10 @@ Definition Single_CSig (ms ns : list Colour) : CSignature :=
 Definition Sum_CSig (S T : CSignature) : CSignature :=
   fun cs ds => (S cs ds + T cs ds)%type.
 
-(** Sub-signature: an embedding into a larger signature, preserving
-    boundaries on the nose.  Inhabited by [inl] / [inr] / nested
-    projection chains. *)
+(** Sub-signature: a boundary-preserving family of generator
+    relabellings into another signature — despite the name, no
+    injectivity is required (generator collapses are allowed).
+    Inhabited by [inl] / [inr] / nested projection chains. *)
 Definition CSubSig (Sub Sup : CSignature) : Type :=
   forall cs ds, Sub cs ds -> Sup cs ds.
 
@@ -181,7 +182,7 @@ Definition CT_nothing {Colour} {S : CSignature Colour} : CTerm S [] [] :=
   CT_id [].
 
 (* NOTE: there is deliberately no analogue of the donor's [T_inj]
-   here.  Relabelling a term along a sub-signature embedding is the
+   here.  Relabelling a term along a signature morphism is the
    computing fixpoint [CT_map] of [Construction/ColouredPROP/
    Relabel.v] from day one — in the one-sorted development [T_inj]
    was superseded by [T_map], and the coloured spine skips the
