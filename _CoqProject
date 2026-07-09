@@ -362,6 +362,7 @@ Theory/Monad.v
 Theory/Morphisms.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
+Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
 Structure/Monoidal/Hypergraph/Tactics.v
