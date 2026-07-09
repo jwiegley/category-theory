@@ -41,12 +41,18 @@ Fixpoint le_t_trans@{u} {m n k} (f : le_t@{u} m n) (g : le_t@{u} n k) :
   | le_t_S g'  => le_t_S (le_t_trans f g')
   end.
 
-(* Reflexivity is a strict left unit for [le_t_trans] by the [le_t_n] branch. *)
-Lemma le_t_trans_id_l@{u} {m n} (f : le_t@{u} m n) :
+(* Reflexivity is a strict left unit for [le_t_trans] by the [le_t_n] branch.
+   These three unit/associativity lemmas are left with inferred universe
+   binders (no explicit [@{u}]): stating an [eq] between [le_t]-terms draws in
+   the equality's own universe alongside [le_t]'s, which a single [@{u}] binder
+   cannot name on Coq 8.19/8.20 ("unbound universes"); auto-polymorphism binds
+   them correctly on every supported version.  The load-bearing annotations are
+   the ones inside [Omega] below. *)
+Lemma le_t_trans_id_l {m n} (f : le_t m n) :
   le_t_trans f le_t_n = f.
 Proof. reflexivity. Qed.
 
-Lemma le_t_trans_id_r@{u} {m n} (f : le_t@{u} m n) :
+Lemma le_t_trans_id_r {m n} (f : le_t m n) :
   le_t_trans le_t_n f = f.
 Proof.
   induction f as [| n' f' IH]; simpl.
@@ -54,8 +60,8 @@ Proof.
   - now rewrite IH.
 Qed.
 
-Lemma le_t_trans_assoc@{u} {m n k l}
-  (f : le_t@{u} m n) (g : le_t@{u} n k) (h : le_t@{u} k l) :
+Lemma le_t_trans_assoc {m n k l}
+  (f : le_t m n) (g : le_t n k) (h : le_t k l) :
   le_t_trans (le_t_trans f g) h = le_t_trans f (le_t_trans g h).
 Proof.
   induction h as [| l' h' IH]; simpl.
