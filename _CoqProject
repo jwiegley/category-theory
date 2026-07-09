@@ -354,6 +354,7 @@ Theory/Equivalence/Limit.v
 Theory/Functor.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
+Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
 Theory/Metacategory/DecideExample.v
