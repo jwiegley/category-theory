@@ -364,6 +364,7 @@ Theory/Metacategory/ArrowsOnly.v
 Theory/Metacategory/DecideExample.v
 Theory/Monad.v
 Theory/Morphisms.v
+Theory/Morphisms/Classes.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Recursion.v
