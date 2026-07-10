@@ -238,6 +238,7 @@ Solver/Expr.v
 Solver/Normal.v
 Solver/Reify.v
 Structure/Additive.v
+Structure/Abelian.v
 Structure/BiCCC.v
 Structure/Bicartesian.v
 Structure/Binoidal.v
