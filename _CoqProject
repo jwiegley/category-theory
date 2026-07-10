@@ -305,6 +305,7 @@ Structure/Pullback.v
 Structure/Pullback/Limit.v
 Structure/Pushout.v
 Structure/Regular.v
+Structure/Regular/Factorization.v
 Structure/Span.v
 Structure/Terminal.v
 Structure/UniversalProperty.v
