@@ -257,6 +257,7 @@ Structure/Discrete.v
 Structure/Distributive.v
 Structure/End.v
 Structure/Equalizer.v
+Structure/Factorization.v
 Structure/Group.v
 Structure/Group/Proofs.v
 Structure/Initial.v
