@@ -264,6 +264,7 @@ Structure/Discrete.v
 Structure/Distributive.v
 Structure/End.v
 Structure/Equalizer.v
+Structure/Equalizer/Fork.v
 Structure/Factorization.v
 Structure/Factorization/StrongEpi.v
 Structure/Group.v
