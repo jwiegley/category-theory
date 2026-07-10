@@ -226,6 +226,7 @@ Monad/Kleisli/Adjunction.v
 Monad/Kleisli/Premonoidal.v
 Monad/Kleisli/Commutative.v
 Monad/Monadicity/BeckObjects.v
+Monad/Monadicity/Crude.v
 Monad/Monoid.v
 Monad/Strong.v
 Monad/Strong/Symmetric.v
