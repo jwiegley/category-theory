@@ -35,6 +35,7 @@ Construction/Funny/Associator.v
 Construction/Funny/Hom.v
 Construction/Funny/Closed.v
 Construction/Grothendieck.v
+Construction/Grothendieck/Fiber.v
 Construction/Grothendieck/Fibration.v
 Construction/Groupoid.v
 Construction/Indexed.v
