@@ -317,6 +317,7 @@ Structure/UniversalProperty/Cartesian.v
 Structure/UniversalProperty/Limit.v
 Structure/UniversalProperty/Universal/Arrow.v
 Structure/Wedge.v
+Structure/ZeroObject.v
 Theory.v
 Theory/Adamek.v
 Theory/Adamek/Corollaries.v
