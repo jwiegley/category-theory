@@ -385,6 +385,7 @@ Theory/Equivalence/Bundled.v
 Theory/Equivalence/Monoidal.v
 Theory/Equivalence/Adjunction.v
 Theory/Equivalence/Limit.v
+Theory/Fibration.v
 Theory/Functor.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
