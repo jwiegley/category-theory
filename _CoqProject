@@ -215,6 +215,7 @@ Lib/Tactics.v
 Lib/Tactics2.v
 Monad/Adjunction.v
 Monad/Algebra.v
+Monad/Comparison.v
 Monad/Compose.v
 Monad/Distributive.v
 Monad/Eilenberg/Moore.v
