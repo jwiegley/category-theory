@@ -270,6 +270,7 @@ Structure/Factorization/StrongEpi.v
 Structure/Group.v
 Structure/Group/Proofs.v
 Structure/Initial.v
+Structure/Kernel.v
 Structure/Limit.v
 Structure/Limit/Cartesian.v
 Structure/Limit/Preservation.v
