@@ -247,6 +247,7 @@ Structure/Cartesian/Closed/Product.v
 Structure/Cartesian/Product.v
 Structure/Closed.v
 Structure/Cocartesian.v
+Structure/Coequalizer.v
 Structure/Complete.v
 Structure/Cone.v
 Structure/Cone/Const.v
