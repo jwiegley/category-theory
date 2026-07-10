@@ -242,6 +242,7 @@ Structure/Bicartesian.v
 Structure/Binoidal.v
 Structure/Binoidal/Central.v
 Structure/Biproduct.v
+Structure/Preadditive.v
 Structure/Premonoidal.v
 Structure/Premonoidal/Monoidal.v
 Structure/Premonoidal/Centre.v
