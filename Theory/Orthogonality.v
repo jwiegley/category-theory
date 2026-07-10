@@ -32,7 +32,8 @@ Generalizable All Variables.
    under composition and under retracts in the arrow category.
 
    Stability of the left class under cobase change (pushout) needs the
-   pullback/pushout toolkit and is deferred to Theory/Morphisms/Stability.v. *)
+   pullback/pushout toolkit and lives there: [ortho_left_cobase_change] in
+   Theory/Morphisms/Stability.v. *)
 
 (* The ∃!-with-∧ shape below mirrors [ump_pullbacks] in Structure/Pullback.v:
    [∃!] is the Type-valued [Unique] record of Lib/Setoid.v, and [∧] is the

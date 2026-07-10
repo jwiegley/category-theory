@@ -27,6 +27,10 @@ Generalizable All Variables.
 
    - isomorphisms are stable under pullback ([iso_pullback_stable]);
 
+   - stability of the orthogonal left class under cobase change
+     ([ortho_left_cobase_change], at the end of the file, where the
+     pushout accessors are in scope);
+
    - a strengthening of [pullback_unique]: any two pullbacks of one cospan
      are related by an isomorphism of apexes whose triangles with the
      projections commute ([pullback_transport]).  [pullback_unique] is
@@ -365,4 +369,85 @@ Proof.
       * apply id_right.
   - exact HTfst.
   - exact HTsnd.
+Qed.
+
+(* Stability of the orthogonal left class under cobase change.
+
+   nLab: https://ncatlab.org/nlab/show/orthogonal+factorization+system
+
+   If e ⫫ m and e' is a pushout of e along any morphism g (the cobase
+   change of e), then e' ⫫ m as well.  With the span [b <-e- a -g-> a'] and
+   the pushout square
+
+       a --g--> a'
+       |        |
+      e|        | pushout_in2
+       v        v
+       b -----> apex ,
+          in1
+
+   a lifting square (u, v) over [pushout_in2] transports to one over [e],
+   whose unique filler [d] then combines with [u] into a cocone under the
+   span; the pushout mediator is the required filler, and both mediator
+   uniqueness principles combine to give its uniqueness.  This discharges
+   the pointer at the end of Theory/Orthogonality.v's closure-property
+   list. *)
+
+Require Import Category.Theory.Orthogonality.
+Require Import Category.Structure.Pushout.
+
+Lemma ortho_left_cobase_change {C : Category}
+      {a b a' x y : C} (e : a ~> b) (g : a ~> a')
+      (P : IsPushout e g) (m : x ~> y) :
+  e ⫫ m → pushout_in2 P ⫫ m.
+Proof.
+  intros He.
+  constructor.
+  intros u v comm.
+  (* the transported lifting square over e *)
+  assert (comm_e : m ∘ (u ∘ g) ≈ (v ∘ pushout_in1 P) ∘ e).
+  { rewrite comp_assoc.
+    rewrite comm.
+    rewrite <- !comp_assoc.
+    now rewrite (pushout_commutes P). }
+  pose (D := @ortho_lift _ _ _ _ _ e m He (u ∘ g) (v ∘ pushout_in1 P) comm_e).
+  destruct (unique_property D) as [T1 T2].
+  unshelve refine {| unique_obj := pushout_med P T1 |}.
+  - split.
+    + apply pushout_med_in2.
+    + (* m ∘ mediator ≈ v, on both pushout legs *)
+      assert (Hvc : (v ∘ pushout_in1 P) ∘ e ≈ (v ∘ pushout_in2 P) ∘ g).
+      { rewrite <- !comp_assoc.
+        now rewrite (pushout_commutes P). }
+      apply (pushout_med_eq P Hvc).
+      * rewrite <- comp_assoc.
+        rewrite (pushout_med_in1 P T1).
+        exact T2.
+      * rewrite <- comp_assoc.
+        rewrite (pushout_med_in2 P T1).
+        exact comm.
+      * reflexivity.
+      * reflexivity.
+  - (* uniqueness: any filler agrees with the mediator on both legs *)
+    intros v0 Hv0.
+    destruct Hv0 as [W1 W2].
+    assert (F1 : (v0 ∘ pushout_in1 P) ∘ e ≈ u ∘ g).
+    { rewrite <- comp_assoc.
+      rewrite (pushout_commutes P).
+      rewrite comp_assoc.
+      now rewrite W1. }
+    assert (F2 : m ∘ (v0 ∘ pushout_in1 P) ≈ v ∘ pushout_in1 P).
+    { rewrite comp_assoc.
+      now rewrite W2. }
+    assert (Hd : unique_obj D ≈ v0 ∘ pushout_in1 P).
+    { apply (uniqueness D).
+      split.
+      - exact F1.
+      - exact F2. }
+    apply (pushout_med_eq P T1).
+    + apply (pushout_med_in1 P T1).
+    + apply (pushout_med_in2 P T1).
+    + symmetry.
+      exact Hd.
+    + exact W1.
 Qed.
