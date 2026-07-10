@@ -228,6 +228,7 @@ Monad/Kleisli/Commutative.v
 Monad/Lifting.v
 Monad/Monadicity/BeckObjects.v
 Monad/Monadicity/Crude.v
+Monad/Monadicity/Examples.v
 Monad/Monoid.v
 Monad/Strong.v
 Monad/Strong/Symmetric.v
