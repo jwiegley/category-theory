@@ -189,6 +189,7 @@ Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cocartesian.v
+Instance/Sets/Image.v
 Instance/Sets/Par.v
 Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
