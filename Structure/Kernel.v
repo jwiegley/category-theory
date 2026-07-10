@@ -165,4 +165,78 @@ Definition cokernel_regular_epi {x y q : C} {f : x ~> y} {e : y ~> q}
   regepi_is_coeq := K
 |}.
 
+(** ** Normality against the chosen (co)kernels *)
+
+(* A kernel of anything is a kernel of EVERY cokernel of itself: the
+   original morphism descends through the cokernel, so anything the
+   cokernel projection kills is already killed by the original morphism
+   and factors through the kernel.  Together with its dual this makes the
+   chosen-cokernel phrasing of the normality interface (the class fields
+   of Structure/Abelian.v) carry full generality, as a theorem rather
+   than a remark. *)
+Lemma kernel_of_any_cokernel {k x y q : C} {f : x ~> y} {i : k ~> x}
+  (K : IsKernel f i) {e : x ~> q} (CK : IsCokernel i e) :
+  IsKernel e i.
+Proof.
+  unshelve refine {| fork_eq := _ |}.
+  - (* e ∘ i ≈ zero_mor ∘ i *)
+    rewrite (cokernel_comp_zero CK).
+    symmetry.
+    apply zero_mor_right.
+  - (* descent: anything killed by e is killed by f, then use K *)
+    intros z h Hh.
+    assert (He : e ∘ h ≈ zero_mor).
+    { rewrite Hh.
+      apply zero_mor_right. }
+    pose proof (cokernel_desc CK f (kernel_comp_zero K)) as S.
+    assert (Hf : f ∘ h ≈ zero_mor).
+    { rewrite <- (unique_property S).
+      rewrite <- comp_assoc.
+      rewrite He.
+      apply zero_mor_left. }
+    exact (kernel_desc K h Hf).
+Defined.
+
+(* Dual: a cokernel of anything is a cokernel of every kernel of itself. *)
+Lemma cokernel_of_any_kernel {x y q k : C} {f : x ~> y} {e : y ~> q}
+  (CK : IsCokernel f e) {i : k ~> y} (K : IsKernel e i) :
+  IsCokernel i e.
+Proof.
+  unshelve refine {| cofork := _ |}.
+  - (* e ∘ i ≈ e ∘ zero_mor *)
+    rewrite (kernel_comp_zero K).
+    symmetry.
+    apply zero_mor_left.
+  - (* descent through CK after showing h kills f *)
+    intros z h Hh.
+    assert (He : h ∘ i ≈ zero_mor).
+    { rewrite Hh.
+      apply zero_mor_left. }
+    pose proof (kernel_desc K f (cokernel_comp_zero CK)) as S.
+    assert (Hf : h ∘ f ≈ zero_mor).
+    { rewrite <- (unique_property S).
+      rewrite comp_assoc.
+      rewrite He.
+      apply zero_mor_right. }
+    exact (cokernel_desc CK h Hf).
+Defined.
+
+(* At the CHOSEN cokernel/kernel: a normal mono is a kernel of its chosen
+   cokernel, and dually. *)
+Corollary normal_mono_kernel_of_cokernel {HCK : HasCokernels} {k x : C}
+  (i : k ~> x) (N : normal_mono i) :
+  IsKernel (`1 (`2 (cokernel i))) i.
+Proof.
+  destruct N as [y [f K]].
+  exact (kernel_of_any_cokernel K (`2 (`2 (cokernel i)))).
+Qed.
+
+Corollary normal_epi_cokernel_of_kernel {HK : HasKernels} {y q : C}
+  (e : y ~> q) (N : normal_epi e) :
+  IsCokernel (`1 (`2 (kernel e))) e.
+Proof.
+  destruct N as [x [f CK]].
+  exact (cokernel_of_any_kernel CK (`2 (`2 (kernel e)))).
+Qed.
+
 End Kernel.

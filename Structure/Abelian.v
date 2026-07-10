@@ -32,8 +32,10 @@ Generalizable All Variables.
    Structure/Kernel.v.  The normality fields pin each monomorphism as a
    kernel of its chosen cokernel and each epimorphism as a cokernel of its
    chosen kernel, spelled with the sigma projections of the
-   [HasKernels]/[HasCokernels] choices; since kernels and cokernels are
-   unique up to isomorphism, using the chosen ones loses no generality.
+   [HasKernels]/[HasCokernels] choices; that this carries full generality
+   is a theorem, not a remark: a kernel of anything is a kernel of every
+   cokernel of itself ([kernel_of_any_cokernel] and its dual and their
+   chosen-instance corollaries, Structure/Kernel.v).
 
    The development follows the classical route (Freyd, "Abelian
    Categories"; Borceux vol. 2, ch. 1):
