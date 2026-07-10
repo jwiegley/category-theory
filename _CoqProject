@@ -20,6 +20,7 @@ Construction/Comma/Adjunction.v
 Construction/Comma/Isomorphism.v
 Construction/Comma/Natural/Transformation.v
 Construction/Coproduct.v
+Construction/Displayed/Total.v
 Construction/Enriched.v
 Construction/FAlg.v
 Construction/FCoalg.v
