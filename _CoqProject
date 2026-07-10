@@ -35,6 +35,7 @@ Construction/Funny/Hom.v
 Construction/Funny/Closed.v
 Construction/Groupoid.v
 Construction/Karoubi.v
+Construction/Karoubi/Universal.v
 Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
