@@ -48,8 +48,11 @@ Generalizable All Variables.
    fields; constructors are provided elsewhere in this development (a) from
    split cleavages, where the coherence is trivial
    (Construction/Grothendieck/RoundTrip.v), and (b) from [F : B ⟶ StrictCat]
-   under fibrewise UIP, dischargeable via Hedberg from decidable object
-   equality, e.g. for FinSet-like fibres (Construction/Grothendieck/Strict.v).
+   under fibrewise UIP, dischargeable via Hedberg wherever object equality is
+   decidable (as in FinSet-like fibres); the constructor and a local Hedberg
+   live in Construction/Grothendieck/Strict.v, whose only concrete Grothendieck
+   is the constant one, so the UIP branch is proven but not itself instantiated
+   on a decidable fibre.
    Displayed categories (Theory/Displayed.v) remain the primitive Coq-friendly
    presentation.
 

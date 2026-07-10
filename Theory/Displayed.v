@@ -51,7 +51,15 @@ Generalizable All Variables.
    below holds in this model; yet with outer bases [e : 0 ≈ 2] and inner
    base [1], the left-hand side of the interchange computes over (2, 1) to
    [0 + 0 + 2·1 = 2] while the right-hand side computes over (0, 1) to
-   [0 + 0 + 0·1 = 0], and [2 ≠ 0] in the strict fibre (ℤ, eq). The
+   [0 + 0 + 0·1 = 0], and [2 ≠ 0] in the strict fibre (ℤ, eq). These two
+   fields are load-bearing, not mere convenience: without them the derived
+   [dtransport_dcomp] (below), and hence the total category's [compose_respects]
+   (Construction/Displayed/Total.v), cannot be proved — in the same model the
+   [∫D]-morphisms [(base 0; 0)] and [(base 2; 0)] are equal, yet post-composing
+   each with [(base 1; 0)] gives [(base 1; 0)] and [(base 3; 2)], which are
+   unequal (bases agree mod 2 but the displayed parts [0] and [2] differ under
+   [eq]), so total composition would not respect [≈] and [∫D] would not be a
+   category; the interface must not be trimmed back to the bare skeleton. The
    composite-side proof [e'] is universally quantified rather than pinned to
    the canonical [compose_respects] witness: by proof-irrelevance of
    [dtransport] the two phrasings are interderivable, and the quantified
