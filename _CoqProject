@@ -367,6 +367,7 @@ Theory/Morphisms.v
 Theory/Morphisms/Classes.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
+Theory/Orthogonality.v
 Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
