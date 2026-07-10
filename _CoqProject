@@ -34,6 +34,7 @@ Construction/Funny/Swap.v
 Construction/Funny/Associator.v
 Construction/Funny/Hom.v
 Construction/Funny/Closed.v
+Construction/Grothendieck.v
 Construction/Groupoid.v
 Construction/Indexed.v
 Construction/Karoubi.v
