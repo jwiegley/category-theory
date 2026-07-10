@@ -135,6 +135,7 @@ Functor/Traversable/Product.v
 Instance/AST.v
 Instance/Adj.v
 Instance/Adjoints.v
+Instance/CMon.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cartesian/Closed.v
