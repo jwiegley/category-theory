@@ -71,7 +71,9 @@ Proof. exact (@fmap_comp K Sets G x y z g f w). Qed.
    Theory/Coend/Fubini does not apply directly here, since the doubly-nested
    integrand lives over a product category and needs the interchange gluing
    supplied explicitly below. The induced monoidal structure on [[C, Sets]]
-   itself is left to a downstream file. *)
+   itself — the [Day_Monoidal] instance packaging these isomorphisms with the
+   pentagon and triangle coherences — is deferred to a downstream file
+   (ledger 5). *)
 
 Section Day.
 
