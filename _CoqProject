@@ -431,6 +431,7 @@ Theory/Profunctor/Adjunction.v
 Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
+Theory/WeaklyInitial.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
 Test/FullIssue118.v
