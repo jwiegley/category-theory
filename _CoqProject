@@ -317,6 +317,7 @@ Structure/Monoidal/Compose.v
 Structure/Monoidal/CopyDiscard.v
 Structure/Monoidal/CopyDiscard/Proofs.v
 Structure/Monoidal/CopyDiscard/Deterministic.v
+Structure/Monoidal/Drinfeld.v
 Structure/Monoidal/Internal/Product.v
 Structure/Monoidal/Markov.v
 Structure/Monoidal/Markov/Fox.v
