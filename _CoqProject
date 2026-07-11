@@ -153,6 +153,7 @@ Instance/Cat/Cartesian.v
 Instance/Cat/Cartesian/Closed.v
 Instance/Cat/Cocartesian.v
 Instance/Cat/Bicategory.v
+Instance/Cat/Bicategory/Adjunction.v
 Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
 Instance/StrictCat/Terminal.v
