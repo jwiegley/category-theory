@@ -373,6 +373,7 @@ Theory/Bicategory/Lax.v
 Theory/Bicategory/Modification.v
 Theory/Bicategory/Adjunction.v
 Theory/Bicategory/Mates.v
+Theory/Bicategory/OneObject.v
 Theory/Category.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
