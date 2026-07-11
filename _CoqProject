@@ -370,6 +370,7 @@ Theory/Algebra/SpecialCommutativeFrobenius.v
 Theory/Bicategory.v
 Theory/Bicategory/Pseudofunctor.v
 Theory/Bicategory/Lax.v
+Theory/Bicategory/Modification.v
 Theory/Category.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
