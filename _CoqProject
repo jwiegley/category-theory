@@ -365,6 +365,8 @@ Theory/Bicategory.v
 Theory/Category.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
+Theory/Coend/Fubini.v
+Theory/Coend/Yoneda.v
 Theory/Coq.v
 Theory/Coq/Applicative.v
 Theory/Coq/Applicative/Proofs.v
