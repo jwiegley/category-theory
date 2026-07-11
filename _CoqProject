@@ -302,6 +302,7 @@ Structure/Kernel.v
 Structure/Limit.v
 Structure/Limit/Cartesian.v
 Structure/Limit/Preservation.v
+Structure/Limit/Product.v
 Structure/Limit/Kan/Extension.v
 Structure/Limit/Terminal.v
 Structure/Monoid.v
