@@ -48,6 +48,8 @@ Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
 Construction/Product/Comma.v
+Construction/Profunctor/Compose.v
+Construction/Profunctor/Laws.v
 Construction/Quotient.v
 Construction/Slice.v
 Construction/Slice/Pullback.v
@@ -411,6 +413,8 @@ Theory/Morphisms/Stability.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Orthogonality.v
+Theory/Profunctor.v
+Theory/Profunctor/Adjunction.v
 Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
