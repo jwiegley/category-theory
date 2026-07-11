@@ -201,6 +201,8 @@ Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cocartesian.v
+Instance/Sets/Coend.v
+Instance/Sets/End.v
 Instance/Sets/Image.v
 Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
@@ -271,6 +273,7 @@ Structure/Cartesian/Closed/Product.v
 Structure/Cartesian/Product.v
 Structure/Closed.v
 Structure/Cocartesian.v
+Structure/Coend.v
 Structure/Coequalizer.v
 Structure/Coequalizer/Reflexive.v
 Structure/Coequalizer/Split.v
