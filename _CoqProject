@@ -19,6 +19,7 @@ Construction/Comma.v
 Construction/Comma/Adjunction.v
 Construction/Comma/Isomorphism.v
 Construction/Comma/Natural/Transformation.v
+Construction/Comma/Limit.v
 Construction/Coproduct.v
 Construction/Day.v
 Construction/Displayed/Codomain.v
