@@ -50,6 +50,7 @@ Construction/Indexed.v
 Construction/Karoubi.v
 Construction/Karoubi/Universal.v
 Construction/Reflective.v
+Construction/Reflective/Idempotent.v
 Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
