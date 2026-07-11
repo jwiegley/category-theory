@@ -4,6 +4,7 @@ Adjunction/Hom.v
 Adjunction/Compose.v
 Adjunction/Continuity.v
 Adjunction/GAFT.v
+Adjunction/GAFT/Examples.v
 Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
