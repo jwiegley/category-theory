@@ -48,6 +48,7 @@ Construction/Grothendieck/Strict.v
 Construction/Groupoid.v
 Construction/Indexed.v
 Construction/Karoubi.v
+Construction/Localization.v
 Construction/Karoubi/Universal.v
 Construction/Reflective.v
 Construction/Reflective/Idempotent.v
