@@ -193,6 +193,7 @@ Instance/Fact.v
 Instance/FinSet.v
 Instance/FinSet/Lawvere.v
 Instance/FinSet/Product.v
+Instance/FinSet/Closed.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Lambda.v
