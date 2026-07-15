@@ -436,6 +436,7 @@ Theory/Functor.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
 Theory/Lawvere.v
+Theory/Lawvere/Model.v
 Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
