@@ -419,6 +419,7 @@ Theory/Coq/Tuple.v
 Theory/Coq/Tuple/Proofs.v
 Theory/Dinatural.v
 Theory/Displayed.v
+Theory/DoubleCategory.v
 Theory/Equivalence.v
 Theory/Equivalence/FullFaithful.v
 Theory/Equivalence/Adjoint.v
