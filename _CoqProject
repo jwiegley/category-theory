@@ -28,6 +28,7 @@ Construction/Day.v
 Construction/Displayed/Codomain.v
 Construction/Displayed/Total.v
 Construction/Enriched.v
+Construction/Enriched/Natural.v
 Construction/FAlg.v
 Construction/FCoalg.v
 Construction/Free.v
