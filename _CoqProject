@@ -437,6 +437,7 @@ Theory/Isomorphism.v
 Theory/Kan/Extension.v
 Theory/Lawvere.v
 Theory/Lawvere/Model.v
+Theory/Lawvere/Sets.v
 Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
