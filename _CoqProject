@@ -445,6 +445,7 @@ Theory/Multicategory/Functor.v
 Theory/Multicategory/Representable.v
 Theory/Multicategory/Endomorphism.v
 Theory/Multicategory/Operad.v
+Theory/Multicategory/Algebra.v
 Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
