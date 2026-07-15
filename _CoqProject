@@ -228,6 +228,7 @@ Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
 Instance/Shapes.v
 Instance/Two.v
+Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
 Instance/Zero.v
 Lib.v
