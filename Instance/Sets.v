@@ -345,9 +345,10 @@ Defined.
    object. Realising that truth-value object here runs into a size obstruction:
    the natural choice has carrier [Type] (or [Prop]) with `≈` taken to be `↔`,
    but such an object does not fit as an [obj[Sets]] at the same universe as
-   [A] and [B] — Set's subobject classifier lives one universe up. Closing
-   this would require universe-polymorphic re-engineering of [Sets] and is left
-   as future work. Companion results [injectivity_is_monic] and
+   [A] and [B] — Set's subobject classifier lives one universe up. The
+   cross-universe classifier theorems making this precise — [PropSetoid],
+   [char_setoid], [sets_char_pullback], [sets_char_unique] — are proved in
+   Instance/Sets/Classifier.v. Companion results [injectivity_is_monic] and
    [bijective_is_iso] above are fully proved. *)
 Lemma surjectivity_is_epic@{h p} {A B : SetoidObject@{p p}}
   (h : A ~{Sets}~> B) :

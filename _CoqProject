@@ -230,6 +230,7 @@ Instance/Sets/Cocartesian.v
 Instance/Sets/Coend.v
 Instance/Sets/End.v
 Instance/Sets/Image.v
+Instance/Sets/Classifier.v
 Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Pushout.v
