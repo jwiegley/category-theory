@@ -442,6 +442,7 @@ Theory/Lawvere/Monad.v
 Theory/Lawvere/PROP.v
 Theory/Multicategory.v
 Theory/Multicategory/Functor.v
+Theory/Multicategory/Representable.v
 Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
