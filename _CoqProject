@@ -360,6 +360,7 @@ Structure/Monoidal/Hypergraph/Spider.v
 Structure/Monoidal/HypergraphFunctor.v
 Structure/Monoidal/Strict.v
 Structure/Pullback.v
+Structure/SubobjectClassifier.v
 Structure/Pullback/Limit.v
 Structure/Pushout.v
 Structure/Regular.v
