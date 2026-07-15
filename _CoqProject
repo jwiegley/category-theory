@@ -72,6 +72,7 @@ Construction/Subcategory.v
 Construction/Free/Quiver.v
 Construction/Span/Category.v
 Construction/Cospan/Category.v
+Construction/Cospan/Double.v
 Construction/Cospan/Bridging.v
 Construction/Cospan/Corelation.v
 Construction/Cospan/Hypergraph.v
