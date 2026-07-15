@@ -67,6 +67,7 @@ Construction/Profunctor/Laws.v
 Construction/Quotient.v
 Construction/Slice.v
 Construction/Slice/Pullback.v
+Construction/Sq.v
 Construction/Subcategory.v
 Construction/Free/Quiver.v
 Construction/Span/Category.v
