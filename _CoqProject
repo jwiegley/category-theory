@@ -455,6 +455,7 @@ Theory/Morphisms.v
 Theory/Morphisms/Classes.v
 Theory/Morphisms/Stability.v
 Theory/Subobject.v
+Theory/Subobject/Functor.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Orthogonality.v
