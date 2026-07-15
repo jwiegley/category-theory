@@ -45,6 +45,56 @@ Generalizable All Variables.
    Comonad/Core.v; they appear below as [comonad_id_left],
    [comonad_id_right] and [comonad_comp_assoc]. *)
 
+(* Context-dependent maps, dataflow, and linear logic
+
+   nLab:  https://ncatlab.org/nlab/show/exponential+modality
+   Paper: Uustalu, Vene, "The Essence of Dataflow Programming", APLAS
+          2005, LNCS 3780, pp. 2-18
+   Paper: Petricek, Orchard, Mycroft, "Coeffects: a calculus of
+          context-dependent computation", ICFP 2014
+
+   The co-Kleisli category is where the computational reading of a
+   comonad becomes a category of programs.  A co-Kleisli morphism
+   W x ~> y consumes not a bare x but an x in its W-context, and the
+   composite of two such morphisms first promotes the earlier one to a
+   context-preserving transformation ([extend]) so that the later one
+   may read its result in context; arrows that observe their
+   surroundings thereby compose as ordinary functions do.  The analogy
+   with Kleisli categories runs in parallel throughout: as those model
+   call-by-value languages, co-Kleisli categories model call-by-name,
+   and for an idempotent comonad the construction collapses to the
+   coreflective subcategory of the comonad's modal types.  Haskell's
+   comonad package (Kmett) states the comonad laws in this vocabulary,
+   with extract the identity of co-Kleisli composition, just as
+   [comonad_id_left], [comonad_id_right] and [comonad_comp_assoc] do
+   below.
+
+   Dataflow programming supplies the motivating example.  Uustalu and
+   Vene observed that both general and causal stream functions can be
+   characterized as the co-Kleisli arrows of suitable stream comonads —
+   causality meaning that the output at a given moment depends only on
+   the input's past and present, which is to say on the input value in
+   its history-context — and on that observation built a generic
+   comonadic interpreter, recovering effects where needed through a
+   distributive law of the comonad over a monad (APLAS 2005).  A
+   co-Kleisli arrow of the stream comonad is a digital filter, and
+   [extend] produces the filtered stream (Milewski, 2017).  The coeffect
+   calculi of Petricek, Orchard and Mycroft (ICFP 2014) supply type
+   systems for this class of programs; dataflow, implicit parameters,
+   liveness and bounded usage are among their instances.
+
+   Linear logic supplies the proof-theoretic example.  In models of
+   linear logic the exponential modality ! is a comonad (Girard 1987,
+   the comonadic reading developed by Seely 1989, de Paiva 1989, and
+   Benton–Bierman–de Paiva–Hyland 1992): !A is A made freely duplicable
+   and discardable.  When the linear category is closed symmetric
+   monoidal, the co-Kleisli category of ! is cartesian closed — a
+   categorical form of the translation of intuitionistic logic into
+   linear logic (Seely) — and Benton (1995) showed that the !-comonad
+   is induced by a monoidal adjunction between a cartesian monoidal and
+   a symmetric monoidal category, the linear–non-linear adjunction.
+   The category built below is the common shape behind both readings. *)
+
 Section CoKleisli.
 
 Context {C : Category} {W : C ⟶ C} {H : @Comonad C W}.

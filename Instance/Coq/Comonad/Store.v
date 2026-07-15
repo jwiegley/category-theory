@@ -35,6 +35,44 @@ Generalizable All Variables.
    [extend] off it definitionally (the *_spec lemmas at the end hold by
    [reflexivity]). *)
 
+(* Lenses, grids, and the practical API
+
+   nLab:  https://ncatlab.org/nlab/show/store+comonad
+   Paper: O'Connor, "Functor is to Lens as Applicative is to Biplate:
+          Introducing Multiplate", arXiv:1103.2841, 2011
+
+   The one-line remark above about lenses has a precise statement.  A
+   coalgebra of this comonad on a carrier a — a costructure map
+   a ~> (s ⇒ a) × s satisfying the counit and coaction laws of
+   Comonad/Coalgebra.v — amounts to a pair of maps get : a → s and
+   put : s × a → a, and the two coalgebra laws are together equivalent
+   to the three lens laws: put (get a, a) = a; get (put (σ, a)) = σ;
+   and put (τ, put (σ, a)) = put (τ, a).  Coalgebras of the store
+   comonad are therefore exactly the lawful ("very well-behaved")
+   lenses of functional programming, a correspondence due to O'Connor
+   (November 2010; arXiv:1103.2841, 2011).
+
+   The spatial intuition is a grid of observations with a cursor, and
+   it is what makes this comonad the natural home of cellular
+   computation.  Conway's Game of Life serves as the guiding example in
+   Milewski's exposition (2017).  Piponi's treatment of cellular
+   automata works the same idea over a bi-infinite zipper comonad, one
+   step of the automaton applying the local rule at every refocusing at
+   once — which is [extend] of the rule (2006).  Foner's comonadic
+   fixed point evaluates multi-dimensional spreadsheet-like recurrences
+   in which every cell observes its own context within the whole
+   (Haskell Symposium 2015).
+
+   Kmett's ComonadStore class names the practical vocabulary, and each
+   of its names lands on an artifact of this file.  pos reads the
+   focused position: here [snd], and [extend] preserves it
+   ([Store_extend_pos_spec]).  peek observes at a given position:
+   applying [fst], so that [extract] is peek at pos
+   ([Store_extract_spec]).  seek repositions the store absolutely: the
+   library's [store_seek], whose family over all positions is the
+   observation component of [duplicate] ([Store_seek_spec]).
+   experiment observes many neighbouring positions at once. *)
+
 (** ** The store data over raw types, and why the witness is hosted on Sets
 
     Instance/Coq/Comonad/Env.v hosts the environment comonad on COQ, whose

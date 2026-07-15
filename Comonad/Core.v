@@ -30,6 +30,83 @@ Generalizable All Variables.
    transported by [exact] (at most up to symmetry of ≈, where the op-read
    arrives in the reversed orientation). *)
 
+(* Where comonads come from, and what they are for
+
+   nLab:  https://ncatlab.org/nlab/show/comonad
+   Paper: Eilenberg, Moore, "Adjoint functors and triples", Illinois
+          Journal of Mathematics 9(3), 1965
+   Paper: Uustalu, Vene, "Comonadic Notions of Computation", ENTCS 203(5),
+          2008
+
+   Three views of the same structure organize everything below: the
+   algebraic, the categorical, and the computational.
+
+   Algebraically, a comonad on C is a comonoid in the monoidal category
+   of endofunctors of C, with composition as tensor and Id as unit:
+   [duplicate] is the comultiplication, [extract] is the counit, and the
+   laws below are the comonoid axioms and nothing more.  The reading
+   generalizes to any 2-category E — a comonad on an object X is a
+   comonoid in the hom-category E(X, X) — and this file is the case
+   E = Cat.  The terminology has accumulated in layers: Godement
+   introduced the monad-side notion in 1958 as the "standard
+   construction"; Eilenberg and Moore wrote "triple" in 1965, whence the
+   older synonym "cotriple" for comonads; and the now-standard name
+   "monad" is due to Bénabou (1967).
+
+   Categorically, comonads are the residue that an adjunction leaves on
+   the codomain of its left adjoint.  Every adjunction F ⊣ U induces a
+   comonad there — the endofunctor is F ◯ U, the counit is the
+   adjunction counit ε : F ◯ U ⟹ Id, and the comultiplication is the
+   whiskered unit F η U — an observation that goes back to Huber (1961)
+   and is realized in this library as [Adjunction_Comonad] in
+   Comonad/Duality.v.  Every comonad so arises, and in two canonical
+   ways: the co-Kleisli and co-Eilenberg–Moore resolutions, obtained by
+   duality in Comonad/Duality.v ([CoKleisli_Adjunction],
+   [CoEM_Adjunction]) over the categories built in Comonad/CoKleisli.v
+   and Comonad/Coalgebra.v.
+
+   Computationally, a comonadic value is a value in an observable
+   context.  Where a monadic value T x is a computation that may perform
+   effects while producing an x, a value W x is an x situated in a
+   context that can be read off and re-exposed: [extract] reads the
+   value at the current context, [duplicate] re-exposes the whole
+   context at every point of itself, and [extend] promotes a
+   context-consuming observation W x ~> y to a context-preserving
+   transformation W x ~> W y by running the observation everywhere.
+   Comonads therefore structure context-dependent computation in the
+   same sense that Moggi-style monads structure effectful computation
+   (Uustalu–Vene 2008), and the coeffect calculi of Petricek, Orchard
+   and Mycroft (ICFP 2014) make the duality a type discipline, tracking
+   what a program requires from its context as effect systems track
+   what it does to its surroundings.
+
+   The applications follow the three views.  From the computational
+   reading come the programming uses: dataflow, where general and causal
+   stream functions are the co-Kleisli arrows of stream comonads
+   (Uustalu–Vene, APLAS 2005; see Comonad/CoKleisli.v); cellular
+   automata, where one step of the automaton is [extend] of the local
+   rule over a zipper of cells (Piponi, 2006); spreadsheet-like
+   recurrences, evaluated by a comonadic fixed point in which every cell
+   observes its own context within the whole (Foner, Haskell Symposium
+   2015); and user interfaces, where a comonad models the space of
+   states of an application, [extract] renders the current one, and a
+   paired monad moves through the space (Freeman, 2016).  From the
+   algebraic reading, through its coalgebras, comes the connection to
+   data access: the coalgebras of the store comonad are exactly the
+   lawful lenses of functional programming (O'Connor, 2011; see
+   Comonad/Coalgebra.v and Instance/Coq/Comonad/Store.v).  From the
+   adjunction reading come the mathematical uses: in linear logic the
+   exponential modality ! is a comonad whose co-Kleisli category
+   interprets intuitionistic logic (Girard 1987; Seely 1989; see
+   Comonad/CoKleisli.v), and in descent theory the descent data along a
+   morphism are (co)algebras over the (co)monad of a base-change
+   adjunction (Bénabou–Roubaud 1970), with the simplicial bar resolution
+   of a comonad founding cotriple cohomology (Barr–Beck, Springer LNM
+   80, 1969; see Comonad/Coalgebra.v).  The earliest use of comonads in
+   programming semantics is Brookes–Geva's computational comonads (LMS
+   Lecture Note Series 177, 1992); the first proposal to program with
+   them in Haskell is Kieburtz (1999). *)
+
 (* [Comonad C W] is a Definition that unfolds to the class
    [@Monad (C^op) (W^op)], but typeclass resolution keys on the head constant
    of a goal and does not look through this unfolding.  Declaring [Comonad]

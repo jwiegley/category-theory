@@ -40,6 +40,50 @@ Generalizable All Variables.
    functional extensionality — indeed no axiom of any kind — enters this
    file, and every definition below is closed under the global context. *)
 
+(* Coeffects, annotation, and the slice
+
+   nLab:  https://ncatlab.org/nlab/show/coreader+comonad
+   Paper: Petricek, Orchard, Mycroft, "Coeffects: a calculus of
+          context-dependent computation", ICFP 2014
+
+   The co-Kleisli reading e * x → y is the discipline of implicit
+   parameters, also called dynamic scoping: a program consults a
+   read-only ambient environment without threading it by hand.
+   Haskell's Control.Comonad.Env documents exactly this chain of
+   readings, (a -> e -> m) ~ (a, e) -> m ~ Env e a -> m.  In the
+   coeffect calculi of Petricek, Orchard and Mycroft (ICFP 2014),
+   dynamic scoping is a standard instance of a coeffect — a requirement
+   a computation places on its context, tracked by the type system as
+   effect systems track what a computation does to its surroundings.
+   The environment comonad performs exactly the computations of the
+   reader monad, co-Kleisli composition threading one environment to
+   both arrows (Milewski, 2017); and the relation between the two is an
+   adjunction, for on a cartesian closed category e × − is left adjoint
+   to e ⇒ −, the composite e ⇒ (e × −) is the state monad, and the
+   comonad the same adjunction induces is Store
+   (Instance/Coq/Comonad/Store.v; Comonad/Duality.v,
+   [Adjunction_Comonad]).
+
+   An environment layer is also the canonical annotation device:
+   [extract] drops the annotation and [duplicate] makes it observable
+   to every consumer, so a structure can be labelled without being
+   disturbed.  Annotating the nodes of a cofree-comonad syntax tree
+   through an environment transformer layer is the standard
+   application, and Haskell's free package ships precisely that
+   composition.
+
+   The coalgebras complete the picture.  A coalgebra structure on a
+   carrier a for e × − is the same thing as a single morphism a → e,
+   and the category of coalgebras is isomorphic to the slice category
+   over e: to hold an e-annotation coherently is exactly to be an
+   object over e (see Comonad/Coalgebra.v), and the slice projection is
+   thereby a comonadic functor.  The comonoid remark of the header
+   above also generalizes — whenever w is a comonoid in a monoidal
+   category, w ⨂ − carries an analogous comonad structure, and when w
+   is instead a monoid, w × − carries the writer monad.  The
+   copy/discard vocabulary for categories with a comonoid supply is
+   developed in Structure/Monoidal/CopyDiscard.v. *)
+
 (** The action of e × − on morphisms: apply f under the environment. *)
 Definition env_map {e x y : Type} (f : x → y) (p : e * x) : e * y :=
   match p with (e0, v) => (e0, f v) end.

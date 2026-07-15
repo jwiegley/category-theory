@@ -39,6 +39,39 @@ Generalizable All Variables.
    and [extend] off it definitionally (the *_spec lemmas at the end hold by
    [reflexivity]). *)
 
+(* How much monoid the comonad costs
+
+   Haskell: Control.Comonad.Traced (Kmett's comonad package)
+   Paper:   Eilenberg, Moore, "Adjoint functors and triples", Illinois
+            Journal of Mathematics 9(3), 1965 (the adjoint monad theorem)
+
+   The exponent functor m ⇒ − is made a comonad by exactly the monoid
+   structure on m, and the file keeps the accounting visible: ε
+   consumes the unit, δ consumes the multiplication, and each of the
+   three comonad laws consumes precisely one monoid law.
+   [traced_extract_duplicate] uses only [mempty_left];
+   [traced_fmap_extract_duplicate] uses only [mempty_right]; and
+   [traced_duplicate_coassoc] uses only [mappend_assoc].  The
+   [Proof using] annotations record these dependencies, so the
+   correspondence is checked rather than asserted.  Haskell mirrors the
+   requirement: the Comonad instance for Traced m exists exactly under
+   a Monoid m constraint, and the ComonadTraced class provides
+   trace :: m -> w a -> a — run the observation at a chosen
+   displacement of the context — as the practical vocabulary.
+
+   The comonad also has an adjoint provenance.  Besides the
+   contravariant monoidal push described above, the writer monad m × −
+   is left adjoint to m ⇒ −, and whenever a monad has a right adjoint,
+   that right adjoint canonically carries a comonad structure whose
+   counit and comultiplication are the mates of the monad's unit and
+   multiplication, with the Eilenberg–Moore category of the monad
+   equivalent to the coalgebras of the comonad compatibly with the
+   forgetful functors.  This is the adjoint monad theorem, implicit in
+   Eilenberg–Moore (1965) and explicit in Mac Lane and Moerdijk,
+   "Sheaves in Geometry and Logic", Thm. 2, p. 249.  Writer and Traced
+   are thus paired twice over: dual through the monoid, and adjoint
+   through the exponential. *)
+
 Section Traced.
 
 (** The section-context monoid: ordinary Coq data — a bare type together

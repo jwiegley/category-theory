@@ -69,6 +69,55 @@ Generalizable All Variables.
    [op_CostrongComonad_to_StrongMonad] and the round-trip lemmas at the end
    of this file. *)
 
+(* Why costrength matters
+
+   nLab:  https://ncatlab.org/nlab/show/tensorial+costrength
+   Paper: Blute, Cockett, Seely, J. Pure Appl. Algebra 116(1-3), 1997,
+          pp. 49-98 (where the term "costrength" is introduced)
+   Paper: Kock, Arch. Math. 23, 1972, pp. 113-120 (tensorial strength)
+
+   Strength is what lets a functor travel through paired data.  In
+   Moggi's semantics a bare monad cannot interpret programs with more
+   than one free variable; the strength carries the ambient environment
+   into the effectful computation, and Monad/Strong.v exists for that
+   reason.  The comonadic situation is the mirror image: a context
+   W (x ⨂ y) spanning a pair must be pushable onto a chosen factor,
+   W (x ⨂ y) ~> x ⨂ W y, before a co-Kleisli program can consume the
+   y-part in context while passing the x-part through.  That map is
+   [costrength].  In Uustalu and Vene's account of dataflow the comonad
+   plays the role that strong monads play in Moggi's semantics, with
+   effects reintroduced through a distributive law of the comonad over
+   a monad (APLAS 2005).
+
+   Orientation deserves care, because the literature does not speak with
+   one voice.  Dually to the left and right strengths
+   x ⨂ F y ~> F (x ⨂ y), a left-costrength is F (x ⨂ y) ~> x ⨂ F y —
+   the form of this file — and a right-costrength is
+   F (x ⨂ y) ~> F x ⨂ y.  On a symmetric base either determines the
+   other through the braiding, and one says simply "costrength"; on a
+   non-symmetric base a full costrength further requires the two induced
+   maps F (x ⨂ (y ⨂ z)) ~> (x ⨂ F y) ⨂ z to agree.  The term is due to
+   Blute, Cockett and Seely (1997); nLab cautions that Power and
+   Robinson (1997) use it for what is here a right-strength.
+
+   Whether strength is data or property depends on the base.  For a
+   closed monoidal V, a strength on an endofunctor of V is the same
+   thing as a V-enrichment of it, so every endofunctor of Set carries a
+   canonical strength; over a general monoidal base nothing of the sort
+   holds, which is why the costrength here is data to be supplied
+   ([Build_CostrongComonad] takes the family and its laws as inputs)
+   rather than property to be derived.
+
+   A final distinction separates strength from monoidality.  The
+   programming face of comonads with monoidal structure is Haskell's
+   ComonadApply, characterized in Kmett's Control.Comonad documentation
+   as "a strong lax symmetric semi-monoidal comonad", under which
+   extract and duplicate become symmetric monoidal natural
+   transformations; it is the interface on which Foner's comonadic
+   fixed point for spreadsheet-like recurrences is built (Haskell
+   Symposium 2015).  Lax (semi)monoidal structure on the endofunctor is
+   a further layer that this file does not axiomatize. *)
+
 Definition CostrongComonad {C : Category} (M : @Monoidal C) (W : C ⟶ C) : Type :=
   @StrongMonad (C^op) (@Monoidal_op C M) (W^op).
 

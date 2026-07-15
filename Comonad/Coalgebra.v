@@ -48,6 +48,64 @@ Generalizable All Variables.
    carriers and underlying morphisms, and the natural isomorphisms
    witnessing the two round trips have identity components. *)
 
+(* What a coalgebra is for
+
+   nLab:  https://ncatlab.org/nlab/show/comonadic+functor
+   nLab:  https://ncatlab.org/nlab/show/store+comonad
+   Paper: O'Connor, "Functor is to Lens as Applicative is to Biplate:
+          Introducing Multiplate", arXiv:1103.2841, 2011
+   Paper: Bénabou, Roubaud, "Monades et descente", C. R. Acad. Sc. Paris,
+          Sér. A 270, 1970, pp. 96-98
+
+   A W-coalgebra is an object equipped with coherent access to its own
+   contexts.  The costructure map γ : a ~> W a places each element of a
+   into a W-context; [w_counit_law] states that reading the placement
+   back with ε recovers the element; and [w_coaction] states that
+   placing twice agrees with placing once and duplicating.  Where the
+   cofree coalgebras (W x, δ) supply contexts generically, an arbitrary
+   coalgebra carries its own structured way of being in context.
+
+   Two instances make the definition concrete.  For the store comonad
+   (s ⇒ −) × s (Instance/Coq/Comonad/Store.v), a coalgebra structure on
+   a carrier a amounts to a pair of maps get : a → s and put : s × a → a,
+   and the counit and coaction laws are together equivalent to the three
+   lens laws: put (get a, a) = a; get (put (σ, a)) = σ; and
+   put (τ, put (σ, a)) = put (τ, a).  Coalgebras of the store comonad
+   are therefore exactly the lawful ("very well-behaved") lenses of
+   functional programming, a correspondence due to O'Connor (2010;
+   arXiv:1103.2841).  For the environment comonad e × −
+   (Instance/Coq/Comonad/Env.v) the classification is simpler still: a
+   coalgebra on a is the same thing as a morphism a → e, and the
+   category of coalgebras is isomorphic to the slice category over e.
+
+   The cofree side of the theory dualizes the free algebras over a
+   monad, with one orientation worth fixing in the mind: for a comonad
+   it is the cofree functor that is the RIGHT adjoint, the forgetful
+   functor from coalgebras to C being a left adjoint (Comonad/Duality.v,
+   [CoEM_Adjunction], [CoEM_Cofree]), and the comonad this adjunction
+   induces on C is W itself.  A functor is comonadic when it has a right
+   adjoint and the comparison into the coalgebras of the induced comonad
+   is an equivalence of categories; Beck's monadicity theorem has its
+   exact comonadic dual, with split equalizers in the role that split
+   coequalizers play for monads.  The monad side is formalized in
+   Monad/Monadicity/Beck.v.
+
+   The classical payoff of these categories is descent theory.  For a
+   bifibration satisfying the Beck–Chevalley condition, the descent data
+   along a morphism form the Eilenberg–Moore category of the monad
+   induced by the base-change adjunction (Bénabou–Roubaud 1970); for an
+   adjoint triple f_! ⊣ f^* ⊣ f_* the same data are equally coalgebras
+   over the comonad f^* f_*; and Grothendieck's faithfully flat descent,
+   through the extension-of-scalars adjunction, is the classical
+   instance.  The same resolution machinery yields the simplicial bar
+   construction on an algebra, whose contracting homotopy makes its
+   acyclicity absolute — preserved by every functor — and on which
+   comonad (cotriple) cohomology is founded (Barr–Beck, Springer LNM 80,
+   1969).  Coalgebras over the jet comonad of a base-change adjunction
+   are partial differential equations (Marvan, 1986).  None of this is
+   formalized in this file; the pointers record where the notion earns
+   its keep. *)
+
 (* The covariant coalgebra class.  Its three fields are, definitionally,
    the fields of [@TAlgebra (C^op) (W^op) H a]: the costructure map read
    covariantly, the counit law as the op-read of [t_id] (whose [ret] is

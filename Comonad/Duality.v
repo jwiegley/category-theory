@@ -66,6 +66,39 @@ Generalizable All Variables.
      ([CoKleisli_Comonad_agrees], [CoEM_Comonad_agrees]), dually to
      [Kleisli_Monad_agrees] and [EM_Monad_agrees]. *)
 
+(* The two resolutions as extremes
+
+   nLab: https://ncatlab.org/nlab/show/Eilenberg-Moore+category
+   nLab: https://ncatlab.org/nlab/show/comonadic+functor
+
+   Among the adjunctions inducing a given comonad, the two resolutions
+   of this file occupy the extreme positions.  On the monad side the
+   Kleisli adjunction is initial and the Eilenberg–Moore adjunction
+   terminal in the category of adjunctions inducing T; and because
+   (−)^op is covariant on functors, dualization preserves that
+   orientation, so the co-Kleisli resolution is likewise initial and the
+   co-Eilenberg–Moore resolution terminal.  Every inducing adjunction
+   therefore receives a canonical comparison functor from the former and
+   sends one into the latter, and the comparison into coalgebras being
+   an equivalence is what it means for the inducing adjunction's left
+   adjoint to be comonadic.
+
+   The transfer package below is what makes this duality a theorem
+   scheme rather than a pair of parallel constructions.  Since
+   [Comonad C W] IS [@Monad (C^op) (W^op)] and the op involution is
+   definitional, every monad theorem in the library is already a comonad
+   theorem: instantiate it at (C^op, W^op) and read the composites
+   backwards.  The files of the Comonad/ directory are exactly such
+   readings, and no comonad law is ever proved twice.
+
+   A single adjunction exhibits the whole family of standard examples.
+   On a cartesian closed category the currying adjunction e × − ⊣ e ⇒ −
+   induces, in one order, the state monad e ⇒ (e × −) and, in the other,
+   the store comonad (e ⇒ −) × e; its left adjoint e × − is itself the
+   environment comonad, and its right adjoint e ⇒ − the reader monad.
+   Env, Reader, State and Store are in this sense one adjunction viewed
+   four ways (Instance/Coq/Comonad/Env.v, Instance/Coq/Comonad/Store.v). *)
+
 (** ** The transfer package
 
     [Comonad C W] IS [@Monad (C^op) (W^op)] by definition, so all four
