@@ -434,6 +434,7 @@ Theory/Fibration.v
 Theory/Functor.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
+Theory/Lawvere.v
 Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
