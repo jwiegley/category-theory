@@ -56,12 +56,15 @@ Generalizable All Variables.
        [(x × y) × z] and [x × (y × z)] are canonically isomorphic, not
        Leibniz-equal — so strictness is taken here as a hypothesis pack
        ([SM : StrictMonoidal (@law_cat T)] together with the coherence
-       [coh : strict_is_monoidal SM = Lawvere_Monoidal T]), discharged on
-       skeletal instances (where objects really are the natural numbers
-       and products literally add) with [coh := eq_refl] and the
-       strictness object equalities by nat induction — associativity and
-       the right unit are propositional on [nat], only the left unit
-       computes.  Under that
+       [coh : strict_is_monoidal SM = Lawvere_Monoidal T]).  On skeletal
+       instances (where objects really are the natural numbers and
+       products literally add) the pack is EXPECTED to be discharged with
+       [coh := eq_refl] and the strictness object equalities by nat
+       induction — associativity and the right unit are propositional on
+       [nat], only the left unit computes — but no in-tree witness exists
+       yet: the base [FinSet^op]'s own monoidal assembly is not built
+       (see the note below), so that witness is deferred work, not a
+       citation.  Under that
        pack, [Lawvere_PROP] assembles a bona-fide [PROP] on [law_cat T]
        — its [prop_of_nat] is [law_of_nat], its strictness equalities are
        [law_zero_terminal] / [law_plus_product] transported along [coh],
@@ -141,9 +144,10 @@ Context (T : LawvereTheory).
 (** The strictness pack: the in-tree PROP/interpretation machinery
     requires a strict target, and a general Lawvere theory's cartesian
     monoidal structure is only weakly monoidal, so strictness is a
-    hypothesis — satisfied on skeletal instances (objects literally the
-    natural numbers) with [coh := eq_refl] and the strictness object
-    equalities by nat induction. *)
+    hypothesis — expected to be satisfied on skeletal instances (objects
+    literally the natural numbers) with [coh := eq_refl] and the
+    strictness object equalities by nat induction; the in-tree witness
+    awaits the base's monoidal assembly (header note). *)
 Context (SM : @StrictMonoidal (@law_cat T)).
 Context (coh : @strict_is_monoidal (@law_cat T) SM = Lawvere_Monoidal T).
 

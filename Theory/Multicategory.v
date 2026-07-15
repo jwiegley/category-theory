@@ -82,13 +82,15 @@ Generalizable All Variables.
    (tperm_swap ..)) f ≈ f] of the textbook notion (Leinster; nLab
    "symmetric multicategory") is not derivable from the class.  Likewise
    [mcomp_equivariant] is required only in the independent-block form,
-   not the slot-crossing exchange.  Every in-tree instance
+   not the slot-crossing exchange.  The in-tree instances
    (Theory/Multicategory/Representable.v, Endomorphism.v, and the Comm
-   operad of Algebra.v) satisfies both stronger properties; requiring
-   them as fields — descent is exactly where an instance would consume
-   the braid involution of a SYMMETRIC (vs merely braided) monoidal
-   base — is deferred alongside the work order's own skeleton, which
-   states the class as here. *)
+   operad of Algebra.v) build their actions from braidings and product
+   symmetries and are therefore EXPECTED to satisfy both stronger
+   properties, but the descent lemmas themselves are not stated in-tree.
+   Requiring them as fields — descent is exactly where an instance would
+   consume the braid involution of a SYMMETRIC (vs merely braided)
+   monoidal base — is deferred alongside the work order's own skeleton,
+   which states the class as here. *)
 
 (** ** The splice-equation kit
 
