@@ -32,6 +32,7 @@ Construction/Enriched/Natural.v
 Construction/Enriched/Compose.v
 Construction/Enriched/Fun.v
 Construction/Enriched/Sets.v
+Construction/Enriched/Two.v
 Construction/FAlg.v
 Construction/FCoalg.v
 Construction/Free.v
