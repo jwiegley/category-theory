@@ -439,6 +439,7 @@ Theory/Lawvere.v
 Theory/Lawvere/Model.v
 Theory/Lawvere/Sets.v
 Theory/Lawvere/Monad.v
+Theory/Lawvere/PROP.v
 Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
