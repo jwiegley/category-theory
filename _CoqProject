@@ -470,6 +470,7 @@ Theory/Profunctor.v
 Theory/Profunctor/Adjunction.v
 Theory/Recursion.v
 Theory/Sheaf.v
+Theory/Sheaf/Category.v
 Theory/Universal/Arrow.v
 Theory/WeaklyInitial.v
 Structure/Monoidal/Hypergraph/Tactics.v
