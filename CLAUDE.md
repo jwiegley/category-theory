@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This codebase is a comprehensive formalization of category theory in Coq/Rocq. It contains 1,603 proof files with 225,209 lines implementing core categorical concepts with zero axioms in the core theory.
+This codebase is a comprehensive formalization of category theory in Coq/Rocq. It contains 484 proof files with over 124,000 lines implementing core categorical concepts with zero axioms in the core theory — spanning the classical canon from categories, functors, and adjunctions through monadicity, the adjoint functor theorems, enriched and higher structures (bicategories, pseudo double categories), Lawvere theories, multicategories and operads, and elementary topos theory.
 
 ## Commands
 
@@ -227,9 +227,8 @@ Qed.
 
 When working with specific concepts, reference:
 - **nLab**: https://ncatlab.org/nlab/show/[concept_name]
-- **README.md**: Contains detailed notation guide (lines 193-247)
-- **EXPLORATION_INDEX.md**: Quick navigation to key files
-- **EXPLORATION_SUMMARY.md**: Mathematical concept guide
+- **README.md**: Contains detailed notation guide (the "Notations" section)
+- **Key Files and Concepts** (above): the per-module index of the library's headline developments
 
 ## Versioning
 

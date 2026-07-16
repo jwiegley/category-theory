@@ -85,6 +85,18 @@ This library is broken up into several major areas:
     with the same name occur often, with the parent directory establishing
     intent.
 
+Coverage now extends through much of the classical canon: comonads with
+their (co)resolutions, Beck's monadicity theorems, orthogonal factorization
+systems and regular categories, (co)ends and the profunctor calculus with
+Day convolution, displayed categories and the Grothendieck construction,
+additive and abelian structure, bicategories with the mates correspondence,
+pseudo double categories with companions and conjoints, enriched category
+theory with Sets-weighted limits, the general and special adjoint functor
+theorems with reflective subcategories and orthogonal localization, Lawvere
+theories, symmetric multicategories and operads, and elementary topos
+theory with a fully computable witness on skeletal finite sets — all
+axiom-free.
+
 ### Programming sub-library
 
 Within `Theory.Coq` there is now a sub-library that continues work started in
