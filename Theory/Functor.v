@@ -21,6 +21,78 @@ Generalizable All Variables.
    that maps products to products and preserves all its structural properties
    and laws. *)
 
+(* Where functors come from, and what they are for
+
+   SEP:  https://plato.stanford.edu/entries/category-theory/
+   nLab: https://ncatlab.org/nlab/show/General+Theory+of+Natural+Equivalences
+
+   Functors are the founding notion of category theory, not a derived one.
+   Categories, functors, and natural transformations entered mathematics
+   together in (Eilenberg, Mac Lane, "General theory of natural
+   equivalences", Transactions of the American Mathematical Society 58,
+   1945) — the paper the nLab page above calls the foundational document of
+   category theory — distilled from the group-level computations of their
+   "Group Extensions and Homology" (Annals of Mathematics, 1942).  The
+   authors were explicit about the order of ideas: "the whole concept of a
+   category is essentially an auxiliary one" (quoted in the SEP entry
+   above), the basic concepts being those of functor and natural
+   transformation.  Categories exist so that functors have domains and
+   codomains, and functors exist so that naturality can be stated.  The
+   word itself was borrowed from Rudolf Carnap, who had used it for a
+   linguistic notion in The Logical Syntax of Language (1937), as recorded
+   in Mac Lane, Categories for the Working Mathematician (Springer, 1971),
+   p. 30.
+
+   A functor is the homomorphism notion for categories — the nLab frames it
+   as a horizontal categorification of the homomorphism concept — and its
+   purpose is double-sided.  Read outward, a functor transports whole
+   situations from one mathematical world to another, homology carrying
+   spaces to groups being the founding example; it follows from the iso
+   preservation recorded in [fobj_iso] that an invariant packaged as a
+   functor can never distinguish isomorphic objects.  Read inward, a
+   functor INTO a category is a diagram: a diagram of type J in C is a
+   covariant functor from J to C (Wikipedia, "Functor"), and
+   Structure/Limit.v takes exactly such an F : J ⟶ C as the shape over
+   which limits are formed.  Because [Compose] is associative with [Id] as
+   unit up to the natural isomorphisms of [Functor_Setoid]
+   ([fun_equiv_id_left], [fun_equiv_id_right], [fun_equiv_comp_assoc]),
+   categories themselves assemble into the category Cat of Instance/Cat.v,
+   whose morphisms are this file's functors; the same functors are the
+   objects of the functor categories of Instance/Fun.v, whose morphisms —
+   natural transformations, Theory/Natural/Transformation.v — form the next
+   rung of the ladder.
+
+   The applications track both readings.  Contravariant functors to Sets
+   are presheaves (nLab), of which the hom-functors of Functor/Hom.v and
+   the Yoneda embedding built from them are the canonical examples; a
+   functor from a one-object category BG to vector spaces is precisely a
+   linear representation of the group G (nLab); and Lawvere's functorial
+   semantics recast universal algebra by taking a theory to be a category
+   with finite products and a model to be a product-preserving functor out
+   of it (Lawvere, "Functorial Semantics of Algebraic Theories", PhD
+   thesis, Columbia University 1963; reprinted as TAC Reprints No. 5,
+   2004), the perspective implemented over this file in
+   Theory/Lawvere/Model.v.  The structure-preserving species the header
+   advertises live under Functor/Structure/.
+
+   The computational reading is genuine.  In typed functional programming
+   the type constructor is the object map and fmap the morphism map, with
+   the two laws left as the programmer's proof obligation, verified by
+   equational reasoning (Milewski, "Functors", 2015); this file
+   accordingly ships the Haskell spellings <$>, <$ and <&> as parsing-only
+   notations, and Theory/Coq/Functor.v carries the fmap-only class of that
+   tradition, its laws discharged per instance.  In Haskell the second law
+   is redundant, derivable from the first together with the free theorem of
+   the type of fmap, up to the usual caveat about bottom and seq
+   (Luposchainsky, "The second functor law is redundant").  No such
+   parametricity is available over arbitrary categories with setoid
+   hom-sets, so here [fmap_comp] is a genuine obligation of the class, and
+   a third law, [fmap_respects], appears that Haskell renders invisible.
+   The same setoid design decides what functor equality means: not
+   pointwise identity of objects but a natural isomorphism
+   ([Functor_Setoid]), with a stricter transport-based alternative deferred
+   to [Functor_StrictEq_Setoid] at the end of this file. *)
+
 Class Functor@{o1 h1 p1 o2 h2 p2}
   {C : Category@{o1 h1 p1}} {D : Category@{o2 h2 p2}} := {
   fobj : C → D;                                (* action on objects *)

@@ -54,6 +54,86 @@ Generalizable All Variables.
    constraints of the bridge conversions local to the places that actually
    use them. *)
 
+(* Where equivalence came from, and what it is for
+
+   nLab: https://ncatlab.org/nlab/show/T%C3%B4hoku
+   nLab: https://ncatlab.org/nlab/show/principle+of+equivalence
+   nLab: https://ncatlab.org/nlab/show/skeleton+of+a+category
+   SEP:  https://plato.stanford.edu/entries/category-theory/
+
+   The notion is younger than category theory itself.  The founding
+   paper (Eilenberg, Mac Lane, "General Theory of Natural Equivalences",
+   Transactions of the AMS 58, 1945) treats the category as "essentially
+   an auxiliary" concept, the basic notions being functor and natural
+   transformation (Marquis, "Category Theory", Stanford Encyclopedia of
+   Philosophy).  Equivalence of categories is introduced for the first
+   time in Grothendieck's Tôhoku paper (Grothendieck, "Sur quelques
+   points d'algèbre homologique", Tôhoku Mathematical Journal (2) 9,
+   1957), and in the adjoint form — unit, counit, triangle identities —
+   slightly before Kan isolated adjoint functors in general (nLab,
+   "Tôhoku").  Within a year, Morita had made equivalence of module
+   categories the definition of an equivalence relation on rings
+   (Morita, "Duality for modules and its applications to the theory of
+   rings with minimum condition", Science Reports of the Tokyo Kyoiku
+   Daigaku A 6, 1958): the Morita invariants of a ring are exactly the
+   properties that transport along R-Mod ≃ S-Mod.
+
+   Strict isomorphism of categories — composites Leibniz-equal to the
+   identity functors — is the sameness Cat supports as a mere
+   1-category, and it is too strong: objects are only ever determined up
+   to isomorphism, so comparing them by equality separates categories
+   that no categorical property can tell apart.  Finite-dimensional
+   vector spaces over a field are equivalent, never isomorphic, to the
+   small category of natural numbers and matrices (nLab, "equivalence of
+   categories").  Equivalence is instead exactly the sameness
+   categorical language respects — monos, epis, limits and colimits,
+   cartesian closure, being a topos all transport across it — and the
+   properties it does not preserve are the ones the principle of
+   equivalence brands "evil".  Skeletons measure the cost of
+   strictifying anyway: every category is equivalent to its skeleton,
+   yet the statement that every category has one is itself equivalent to
+   the axiom of choice, skeletality is not equivalence-invariant, and
+   even a skeletal category has no product on the nose (nLab, "skeleton
+   of a category").  The library accordingly states every law up to ≈
+   and confines skeletons to concrete instances such as
+   Instance/FinSet.v, where positional objects let the [FinSet_Topos]
+   examples compute by eq_refl (Instance/FinSet/Topos.v).
+
+   The choice content of the classical characterization dictates the
+   split shape of [EssentiallySurjective].  That every fully faithful,
+   essentially surjective functor is an equivalence is logically
+   equivalent to the axiom of choice: a quasi-inverse must pick a
+   preimage for every object at once (Yorgey, "AC and equivalence of
+   categories", 2014).  Makkai repaired this with anafunctors, functors
+   defined only up to isomorphism (Makkai, "Avoiding the axiom of choice
+   in general category theory", Journal of Pure and Applied Algebra
+   108(2), 1996); univalent foundations dissolve it, since for univalent
+   categories the characterization needs no choice at all (Ahrens,
+   Kapulkin, Shulman, "Univalent categories and the Rezk completion",
+   2015).  This file keeps the constructive kernel of that result in
+   setoid form, following the HoTT Book (chapter 9, 2013): [eso_obj]
+   computes the chosen preimage, [eso_iso] is a data-level witness,
+   "there exists a preimage" becomes "here is one", and [FF_ESO_Equivalence]
+   in Theory/Equivalence/FullFaithful.v invokes no choice principle.
+
+   Equivalence is also the form in which mathematics states its
+   classical dualities: Boolean algebras against Stone spaces (Stone,
+   "The Theory of Representations for Boolean Algebras", Transactions of
+   the AMS 40, 1936), commutative C*-algebras against compact Hausdorff
+   spaces (Gelfand, Naimark, Mat. Sbornik 12, 1943), and, conjecturally,
+   the two sides of mirror symmetry as an equivalence of derived
+   categories (Kontsevich, "Homological algebra of mirror symmetry",
+   1994).  Inside the library the pattern recurs: [Monadic] in
+   Monad/Comparison.v is defined as [EquivalenceOfCategories] at the
+   Eilenberg–Moore comparison, Cauchy completeness makes the Karoubi
+   embedding an equivalence (Construction/Karoubi/Universal.v), the
+   fibred/indexed correspondence concludes with [RoundTrip_Equivalence]
+   (Construction/Grothendieck/RoundTrip.v), and the algebras of an
+   idempotent monad recover its reflective subcategory through
+   [Idempotent_EM_Equivalence] (Construction/Reflective/Idempotent.v).
+   A theorem of this genre is a completed classification: whatever is
+   categorical on one side transports, without loss, to the other. *)
+
 (* F is essentially surjective (on objects) when every object of the target
    category is isomorphic to the image of some object of the source.  The
    witness is split: [eso_obj] chooses a preimage object and [eso_iso]

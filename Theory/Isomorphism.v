@@ -32,6 +32,84 @@ Context {C : Category@{o h p}}.
    ○ F need to be equal, rather than equivalent, to identity. Since this is
    usually too strong a notion, it does not have its own abstraction here. *)
 
+(* Sameness up to isomorphism: history, principle, and reach
+
+   nLab:  https://ncatlab.org/nlab/show/principle+of+equivalence
+   nLab:  https://ncatlab.org/nlab/show/core
+   Words: https://mathshistory.st-andrews.ac.uk/Miller/mathword/i/
+   Paper: Eilenberg, Mac Lane, "General Theory of Natural Equivalences",
+          Trans. Amer. Math. Soc. 58, 1945
+   Essay: Mazur, "When is one thing equal to some other thing?", 2007
+
+   The word predates the theory.  Built from the Greek isos (equal) and
+   morphe (form), it reached mathematics from crystallography: per Jeff
+   Miller's Earliest Known Uses survey, geology texts before 1864 already
+   spoke of the geometrical isomorphism of crystals, Camille Jordan's
+   Traité des substitutions (1870) called one group "isomorphe" to
+   another, and Walther von Dyck used it in his Gruppentheoretische
+   Studien (1882).  The founding paper of category theory then renamed the
+   concept: Eilenberg and Mac Lane (1945) say "equivalence" for an
+   invertible morphism, prove as their Lemma 1.4 that its left and right
+   inverses coincide and are unique, and remark that the resulting
+   relation between objects is reflexive, symmetric and transitive.  This
+   file restates those opening lemmas in setoid form:
+   [comp_inverse_unique] is Lemma 1.4, and [iso_equivalence] is the
+   equivalence-relation remark, recorded on objects as [ob_setoid].
+
+   The concept decides when two objects are the same for categorical
+   purposes.  "The major concept that replaces equality in the context of
+   categories is isomorphism", and it is "usually either quixotic, or
+   irrelevant" to ask whether two objects are equal; the pertinent request
+   is "a specific isomorphism from X to Y" (Mazur, "When is one thing equal
+   to some other thing?", 2007).  Makkai's Principle of Isomorphism asks
+   that every grammatically correct property of objects be invariant under
+   isomorphism, Aczel's Structure Identity Principle states the same for
+   structures, and Voevodsky's univalence axiom makes the invariance
+   automatic by identifying equivalences with inhabitants of the identity
+   type (nLab, principle of equivalence).  Mazur's insistence on a
+   specific isomorphism is the stance [Isomorphism] takes: a Class landing
+   in Type — the data [to] and [from] with the two inverse laws — rather
+   than a bare existence statement; his example is the two constructions
+   of the algebraic closure of F₂, abstractly isomorphic yet with no way
+   of pinpointing a specific isomorphism.  [IsIsomorphism] keeps the
+   predicate reading available when only invertibility of a given morphism
+   is at issue.
+
+   The payoff theorem is uniqueness of universal objects: "representing
+   objects qua representations are unique up to unique isomorphism.
+   Hence, limits qua limits are unique up to unique isomorphism" (Riehl,
+   "A survey of categorical concepts").  In this library the statement is
+   [univ_property_unique_up_to_unique_iso] in Structure/UniversalProperty.v,
+   with Structure/Terminal.v the simplest instance.  Isomorphisms also
+   occur as structure rather than property: the coherence cells
+   [unit_left], [unit_right] and [tensor_assoc] of Structure/Monoidal.v are
+   fields of type ≅, chosen data that a monoidal category carries.
+
+   Discarding the non-invertible morphisms of a category leaves its core,
+   the maximal subgroupoid; the core construction is right adjoint to the
+   inclusion of groupoids into categories (nLab, core).
+   Construction/Groupoid.v builds it from this file directly, taking
+   [iso_setoid] for its hom-setoids and [iso_id] and [iso_compose] for
+   identity and composition.  Groupoids themselves predate category theory:
+   Brandt introduced and named them in a 1926/27 paper on the composition
+   of quadratic forms in four variables, and they have since unified
+   internal and external symmetry, from group actions to Grothendieck's
+   moduli problems (Weinstein, "Groupoids: unifying internal and external
+   symmetry", Notices Amer. Math. Soc. 1996).
+
+   The computational reading extends the remark in the header above.  A
+   term of type x ≅ y is a transport device, the same data as the Iso
+   optic of Haskell's lens library, built "from a pair of inverse
+   functions" (Kmett, Control.Lens.Iso); type isomorphisms — those holding
+   in every cartesian closed category — likewise let function libraries be
+   searched by type modulo isomorphism (Rittri, "Using types as search
+   keys in function libraries", JFP 1991; Di Cosmo, "Isomorphisms of
+   Types", Birkhäuser 1995).  Transport along an isomorphism is well
+   defined because inverses are unique: [to_equiv_implies_iso_equiv] shows
+   an isomorphism is determined up to [iso_equiv] by its [to] component
+   alone, the setoid-local shadow of the homotopy-type-theoretic fact that
+   being an isomorphism is a proposition (nLab, isomorphism). *)
+
 Class Isomorphism (x y : C) : Type := {
   to   : x ~> y;            (* the forward morphism x ~> y *)
   from : y ~> x;            (* its two-sided inverse y ~> x *)
