@@ -48,19 +48,6 @@ Class SubobjectClassifier := {
   (* the characteristic morphism of a mono m : u ~> x *)
   char {u x : C} (m : u ~> x) (M : Monic m) : x ~> Ω;
 
-  (* char is invariant under the subobject equivalence of Subobject.v.
-     This field is derivable from char_pullback + char_unique
-     (transport the classifying square of m' across the domain iso,
-     then apply uniqueness), so instances pay a redundant obligation;
-     it is kept as a field for direct usability, and a smart
-     constructor discharging it can be added when a second instance
-     appears. *)
-  char_respects {u u' x : C} (m : u ~> x) (M : Monic m)
-                (m' : u' ~> x) (M' : Monic m') :
-    {| sub_dom := u; sub_mono := m; sub_is_monic := M |}
-      ≈ {| sub_dom := u'; sub_mono := m'; sub_is_monic := M' |}
-    → char m M ≈ char m' M';
-
   (* the classifying square is a pullback of truth along char m *)
   char_pullback {u x : C} (m : u ~> x) (M : Monic m) :
     IsPullback (char m M) truth u m one;
@@ -110,6 +97,60 @@ Proof.
       apply (uniqueness U); split.
       * exact Hv1.
       * now rewrite Hp.
+Qed.
+
+(* A pullback square transports across an isomorphism of its apex: given a
+   pullback with apex P and an isomorphism i : P' ≅ P, precomposing the two
+   projections with [to i] yields a pullback with apex P'.  The two extra
+   equalities let the caller name the transported projections directly.
+   Companion to [is_pullback_respects_snd] above and
+   [is_pullback_respects_left] of Theory/Subobject/Functor.v. *)
+Lemma is_pullback_precompose_iso {A B Z : C} {f : A ~> Z} {g : B ~> Z}
+      {P P' : C} {p1 : P ~> A} {p2 : P ~> B} (i : P' ≅ P)
+      {p1' : P' ~> A} {p2' : P' ~> B}
+      (H1 : p1 ∘ to i ≈ p1') (H2 : p2 ∘ to i ≈ p2') :
+  IsPullback f g P p1 p2 → IsPullback f g P' p1' p2'.
+Proof.
+  intros Hpb.
+  assert (E1 : p1' ∘ from i ≈ p1).
+  { rewrite <- H1, <- comp_assoc, iso_to_from; cat. }
+  assert (E2 : p2' ∘ from i ≈ p2).
+  { rewrite <- H2, <- comp_assoc, iso_to_from; cat. }
+  constructor.
+  - rewrite <- H1, <- H2, !comp_assoc.
+    now rewrite (is_pullback_commutes Hpb).
+  - intros Q q1 q2 Hq.
+    pose proof (is_pullback_ump Hpb Q q1 q2 Hq) as U.
+    destruct (unique_property U) as [U1 U2].
+    unshelve refine {| unique_obj := from i ∘ unique_obj U |}.
+    + split.
+      * now rewrite comp_assoc, E1.
+      * now rewrite comp_assoc, E2.
+    + intros v [Hv1 Hv2].
+      assert (Hvw : unique_obj U ≈ to i ∘ v).
+      { apply (uniqueness U); split;
+          [ now rewrite comp_assoc, H1
+          | now rewrite comp_assoc, H2 ]. }
+      rewrite Hvw, comp_assoc, iso_from_to.
+      now rewrite id_left.
+Qed.
+
+(* [char] respects the subobject equivalence of Theory/Subobject.v.  This
+   was formerly a class field; it is derivable from [char_pullback] and
+   [char_unique] (transport the classifying square of m' across the domain
+   isomorphism, then invoke uniqueness), so it is proved here once rather
+   than paid as a redundant obligation by every instance. *)
+Lemma char_respects {u u' x : C} (m : u ~> x) (M : Monic m)
+      (m' : u' ~> x) (M' : Monic m') :
+  {| sub_dom := u; sub_mono := m; sub_is_monic := M |}
+    ≈ {| sub_dom := u'; sub_mono := m'; sub_is_monic := M' |}
+  → char m M ≈ char m' M'.
+Proof.
+  intros [i Hi]; simpl in Hi.
+  symmetry.
+  apply char_unique.
+  apply (is_pullback_precompose_iso i Hi (one_unique (one ∘ to i) one)).
+  exact (char_pullback m' M').
 Qed.
 
 (* Round trip (i): classifying the pullback of truth along h recovers h.
