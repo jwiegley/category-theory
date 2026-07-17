@@ -48,7 +48,8 @@ Generalizable All Variables.
 
    THE COMMUTATIVE OPERAD.  [Comm] is the terminal operad: one operation
    in every arity ([mhom Γ c := poly_unit], trivial setoid).  Its algebras
-   in [Sets] are exactly commutative monoids: the two directions are
+   in [Sets] are commutative monoids in both directions (a full
+   categorical equivalence is not claimed; see the bundled note below):
    [Comm_algebra_to_CMon] (binary action + nullary action, with
    associativity/commutativity/unit extracted from the multifunctor laws
    at concrete contexts) and [CMon_to_Comm_algebra] (n-fold sums via the
