@@ -1,5 +1,4 @@
 Require Import Category.Lib.
-Require Import Equations.Prop.Logic.
 Require Import Category.Theory.Category.
 Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
@@ -11,6 +10,8 @@ Require Import Category.Construction.Product.
 Require Import Category.Instance.Cat.
 Require Import Category.Instance.StrictCat.
 Require Import Category.Instance.StrictCat.ToCat.
+
+From Coq Require Import Eqdep_dec.
 
 Generalizable All Variables.
 
@@ -41,8 +42,8 @@ Generalizable All Variables.
    proofs agree; this needs the propositional object-equality proofs in each
    fibre to be unique, i.e. uniqueness of identity proofs (UIP) on the objects
    of every fibre.  UIP is taken as a hypothesis, discharged for fibres with
-   decidable object equality by Hedberg's theorem (proved locally here so as
-   not to depend on any one stdlib packaging of the result).
+   decidable object equality by Hedberg's theorem, taken from the standard
+   library as [UIP_dec] (Coq.Logic.Eqdep_dec).
 
    The second constructor is the constant indexed category: every fibre is a
    fixed [D], every reindexing is the identity functor, and every mediating
@@ -104,58 +105,6 @@ Proof.
   apply id_right.
 Qed.
 
-(** ** Hedberg's theorem
-
-    A type with decidable equality has uniqueness of identity proofs.  The
-    proof is the classical one: a decision procedure yields a constant
-    endofunction [hedberg_nu] on each identity type, and a constant
-    endofunction with a retraction forces every two proofs to agree.  It is
-    reproduced here rather than imported so this file does not depend on the
-    particular module in which any given Rocq release ships the result. *)
-
-(* Concatenating a reversed equality with itself is reflexivity. *)
-Lemma eq_trans_sym_l {A : Type} {x z : A} (a : x = z) :
-  eq_trans (eq_sym a) a = eq_refl.
-Proof. destruct a; reflexivity. Qed.
-
-(* The normalisation of an identity proof through a decision procedure. *)
-Definition hedberg_nu {A : Type} (dec : ∀ x y : A, {x = y} + {x <> y})
-  {x y : A} (p : x = y) : x = y :=
-  match dec x y with
-  | left e => e
-  | right ne => match ne p with end
-  end.
-
-(* [hedberg_nu] does not depend on the proof it normalises. *)
-Lemma hedberg_nu_const {A : Type} (dec : ∀ x y : A, {x = y} + {x <> y})
-  {x y : A} (p q : x = y) : hedberg_nu dec p = hedberg_nu dec q.
-Proof.
-  unfold hedberg_nu; destruct (dec x y).
-  - reflexivity.
-  - destruct (n p).
-Qed.
-
-(* A retraction for [hedberg_nu]. *)
-Definition hedberg_nu_inv {A : Type} (dec : ∀ x y : A, {x = y} + {x <> y})
-  {x y : A} (e : x = y) : x = y :=
-  eq_trans (eq_sym (hedberg_nu dec (@eq_refl A x))) e.
-
-(* [hedberg_nu_inv] retracts [hedberg_nu]. *)
-Lemma hedberg_nu_inv_nu {A : Type} (dec : ∀ x y : A, {x = y} + {x <> y})
-  {x y : A} (p : x = y) : hedberg_nu_inv dec (hedberg_nu dec p) = p.
-Proof.
-  destruct p; unfold hedberg_nu_inv.
-  apply eq_trans_sym_l.
-Qed.
-
-(* Hedberg: decidable equality implies uniqueness of identity proofs. *)
-Theorem hedberg {A : Type} (dec : ∀ x y : A, {x = y} + {x <> y})
-  {x y : A} (p q : x = y) : p = q.
-Proof.
-  rewrite <- (hedberg_nu_inv_nu dec p), <- (hedberg_nu_inv_nu dec q).
-  now rewrite (hedberg_nu_const dec p q).
-Qed.
-
 (** ** The indexed category of a strict functor *)
 
 Section StrictFunctorToIndexed.
@@ -166,7 +115,7 @@ Context (F : B ⟶ StrictCat).
 (* Fibrewise uniqueness of identity proofs on objects: the coherence-collapsing
    hypothesis.  It is legitimate object-level [=] (sanctioned here by the strict
    fibre anchoring of the construction) and is discharged from decidable object
-   equality by [hedberg] below. *)
+   equality by Hedberg's theorem ([UIP_dec]) below. *)
 Hypothesis Fuip : ∀ (b : B) (x y : F b) (p q : x = y), p = q.
 
 (* Under UIP, [iso_of_eq] does not depend on its equality proof. *)
@@ -299,7 +248,7 @@ End StrictFunctorToIndexed.
 Definition IndexedCat_of_StrictFunctor_dec {B : Category}
   (F : B ⟶ StrictCat)
   (Fdec : ∀ (b : B) (x y : F b), {x = y} + {x <> y}) : IndexedCat B :=
-  IndexedCat_of_StrictFunctor F (fun b => @hedberg (F b) (Fdec b)).
+  IndexedCat_of_StrictFunctor F (fun b => @UIP_dec (F b) (Fdec b)).
 
 (** ** The constant indexed category *)
 

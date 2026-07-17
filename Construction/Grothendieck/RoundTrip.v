@@ -1641,3 +1641,29 @@ Definition RoundTrip_Equivalence {E B : Category} (P : E ⟶ B)
   EquivalenceOfCategories (RoundTrip_Comparison P Sp) :=
   @RT_Equivalence E B P Cl.
 
+(** ** The cloven-only deliverables
+
+    The split-cleaving argument [Sp] on the deliverables above is inert.
+    Every lemma feeding the round trip is proved [using Cl], the underlying
+    cloven fibration: [IndexedCat]'s coherence is iso-valued, so the
+    opcartesian universal property already discharges each pseudofunctor law
+    (see the header, point 2), and splitness is never consumed.  The two
+    definitions below restate the comparison and its equivalence over a bare
+    [ClovenFibration (P^op)], with no splitness hypothesis.  The
+    [SplitCleaving]-typed [RoundTrip_Comparison] and [RoundTrip_Equivalence]
+    above are then immediate corollaries, retained for API alignment with the
+    split-cleaving entry point. *)
+
+(* The comparison functor, needing only a cloven structure on [P^op]. *)
+Definition RoundTrip_Comparison_cloven {E B : Category} (P : E ⟶ B)
+  (Cl : ClovenFibration (P^op)) :
+  Grothendieck (@RT_Indexed E B P Cl) ⟶ E :=
+  @RT_Comparison E B P Cl.
+
+(* The comparison is an equivalence of categories, from a cloven structure
+   alone. *)
+Definition RoundTrip_Equivalence_cloven {E B : Category} (P : E ⟶ B)
+  (Cl : ClovenFibration (P^op)) :
+  EquivalenceOfCategories (RoundTrip_Comparison_cloven P Cl) :=
+  @RT_Equivalence E B P Cl.
+
