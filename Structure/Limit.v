@@ -36,6 +36,80 @@ Generalizable All Variables.
    competing cone's legs. (The same presheaf-representability view appears in
    [Structure/UniversalProperty/Limit.v], where representing [ConePresheaf F]
    is shown equivalent to being a limit.) *)
+
+(* Where limits come from, and what they are for
+
+   nLab:  https://ncatlab.org/nlab/show/colimit
+   EoM:   https://encyclopediaofmath.org/wiki/Projective_limit
+   Blog:  https://bartoszmilewski.com/2015/04/15/limits-and-colimits/
+   Paper: Kan, "Adjoint functors", Transactions of the American
+          Mathematical Society 87(2), 1958
+
+   The concept is younger than its examples.  Inverse and direct limits
+   over directed index sets were first studied as such in the 1930s, in
+   connection with topological concepts such as Čech cohomology
+   (Encyclopedia of Mathematics, "Projective limit"); the p-adic integers
+   arise as the inverse limit of the rings Z/pⁿZ under remainder maps,
+   and profinite groups, the Galois groups of infinite extensions among
+   them, are inverse limits of finite groups (Wikipedia, "Inverse limit"
+   and "Profinite group").  The formulation over an arbitrary diagram
+   shape is due to Daniel Kan, in Chapter II of the 1958 paper that also
+   introduced adjoint functors and Kan extensions (nLab, "colimit");
+   those early articles still call colimits "direct limits", the directed
+   special case lending the general notion its name for a while.
+
+   The purpose of the general definition is economy: one universal
+   property covers every construction that glues a diagram along a shape.
+   Varying only J recovers the terminal object (J empty,
+   Structure/Limit/Terminal.v), binary and indexed products (J discrete,
+   Structure/Limit/Cartesian.v and Structure/Limit/Product.v), equalizers
+   (J a parallel pair — Structure/Equalizer.v defines [Equalizer] as a
+   [Limit] over [Parallel]), pullbacks (J a cospan,
+   Structure/Pullback/Limit.v), and the classical inverse limits above
+   (J a directed poset, read contravariantly).  Whatever is proved once
+   about [Limit] — uniqueness up to unique isomorphism, preservation,
+   construction from products and equalizers — thereby specializes to
+   each of these at no further cost.
+
+   Two reformulations knit the concept into the rest of the theory.
+   Instance/Cones/Limit.v turns the terminal-cone slogan of the header
+   into a theorem, extracting a [Limit F] from a terminal object of the
+   category [Cones F] ([Limit_Cones]); Structure/Limit/Kan/Extension.v
+   exhibits the limit as the right Kan extension of F along the unique
+   functor J ⟶ 1, the other thread of Kan's 1958 paper.  When limits of
+   every shape exist, they assemble into functors right adjoint to the
+   constant-diagram functors Δ (Riehl, "Category Theory in Context",
+   Dover 2016, Proposition 4.6.1).
+
+   Downstream, the file is load-bearing in two ways.  Completeness — all
+   small limits, quantified in Structure/Complete.v as [Complete] — is
+   the standing hypothesis of the adjoint functor theorems, and
+   Construction/Comma/Limit.v with Adjunction/GAFT.v concludes Freyd's
+   theorem from it (Mac Lane, "Categories for the Working Mathematician",
+   Springer GTM 5 1998, Chapter V).  The preservation vocabulary of
+   Structure/Limit/Preservation.v ([PreservesLimit]) supports RAPL and
+   LAPC — right adjoints preserve limits, left adjoints preserve
+   colimits, with no size restriction (Riehl, Theorem 4.6.2) — proved
+   in-tree as Adjunction/Continuity.v's [rapl_is_alimit] and its duals.
+   Together with the existence theorem — a category with products and
+   equalizers has all limits (Riehl, Theorem 3.5.11, dual form) — these
+   make limits the everyday currency of adjunction arguments.
+
+   The computational reading is concrete.  Products are pair types and
+   the terminal object is unit (the reading Instance/Coq.v realizes); an
+   equalizer carves out the subset on which two functions agree; and a
+   pullback computes a most general unifier, which is how Milewski frames
+   Hindley–Milner type inference (Milewski, "Limits and Colimits", 2015).
+   The existence theorem is in effect a program: a limit is the part of
+   the product of all F x whose components are compatible along every
+   arrow of J, exactly the shape of the funext-free end of
+   Instance/Sets/End.v.  The inverse-limit technique that opened the
+   history returns in semantics — Scott's D∞ model of the untyped
+   λ-calculus is an inverse limit of function lattices solving
+   D ≅ [D → D], an equation Cantor confines to singletons in Set (Scott,
+   "Continuous Lattices", Springer LNM 274 1972) — while the ω-chain
+   apparatus of Construction/Chain.v and Theory/Adamek.v is the in-tree
+   colimit-side counterpart, building initial algebras. *)
 Class Limit `(F : J ⟶ C) := {
   (* The limit cone (L, φ): the terminal/universal cone over F. *)
   limit_cone : Cone F;

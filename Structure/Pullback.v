@@ -79,6 +79,85 @@ Generalizable All Variables.
    the same cospan X → Z ← Y, there is a unique isomorphism between A and B
    respecting the pullback structure (proven below as [pullback_unique])." *)
 
+(* Purpose, history, and the reach of the pullback
+
+   nLab:  https://ncatlab.org/nlab/show/base+change
+   nLab:  https://ncatlab.org/nlab/show/finite+limit
+   nLab:  https://ncatlab.org/nlab/show/hyperdoctrine
+   nLab:  https://ncatlab.org/nlab/show/span
+
+   The pullback is the categorical semantics of an equation (nLab,
+   "pullback"), and every use of it is some avatar of solving that equation
+   universally.  One limit thereby subsumes many familiar operations.
+   Pulling a monomorphism back along f computes the preimage of the
+   subobject it names; the pullback of two monomorphisms is the
+   intersection of subobjects; the pullback of f along itself is its
+   kernel pair ([kernel_pair] in Structure/Regular.v); and trivializing z
+   to the terminal object recovers the binary product, the reduction
+   recorded in the closing notes of this file.  Conversely, a terminal
+   object together with [HasPullbacks] generates every finite limit
+   (Borceux, "Handbook of Categorical Algebra" I, Prop. 2.8.2), which is
+   why Structure/Regular.v presents finite completeness economically as
+   exactly those two structures.
+
+   The name is imported from topology.  Steenrod's induced bundle
+   (Steenrod, "The Topology of Fibre Bundles", Princeton University Press
+   1951) forms, from a bundle over M and a map N → M, the bundle of pairs
+   of a point of N and a bundle point over its image — this construction
+   verbatim — and the classification of principal G-bundles as pullbacks
+   of a universal bundle made the operation central to algebraic topology.
+   Algebraic geometry knows the same limit as Grothendieck's produit fibré
+   (Grothendieck and Dieudonné, "Éléments de géométrie algébrique" I,
+   Publ. Math. IHÉS 4, 1960, §3.2); base change along a morphism is the
+   engine of the relative point of view there, and for affine schemes the
+   fibre product of Spec A and Spec B over Spec R is Spec of the tensor
+   product A ⊗_R B (Wikipedia, "Pullback (category theory)").  The
+   adjective "cartesian" descends from Grothendieck's fibered categories
+   (Streicher, "Fibered Categories à la Jean Bénabou", arXiv:1801.02927):
+   the cartesian arrows of the codomain fibration are precisely pullback
+   squares, a correspondence realized in-tree by
+   [codomain_cleaving_pullbacks] in Construction/Displayed/Codomain.v.
+
+   In categorical logic, substitution is pullback.  Lawvere's
+   hyperdoctrines (Lawvere, "Adjointness in Foundations", Dialectica 23,
+   1969) cast reindexing along f as the interpretation of substitution and
+   the quantifiers ∃ and ∀ as its adjoints, and Seely identified locally
+   cartesian closed categories as semantics for dependent type theory
+   (Seely, "Locally cartesian closed categories and type theory", Math.
+   Proc. Camb. Phil. Soc. 95, 1984), reading the adjoint triple
+   Σ_f ⊣ f* ⊣ Π_f as dependent sum, substitution, and dependent product.
+   The base-change functor between slices, with its left adjoint, is built
+   in Construction/Slice/Pullback.v as [Bang_Functor] ⊣ [Star_Functor];
+   topos theory rests on the same operation, for
+   Structure/SubobjectClassifier.v exhibits every mono as a pullback of
+   [truth] in exactly one way, and Theory/Subobject/Functor.v obtains the
+   Sub functor by chosen-pullback reindexing.
+
+   A design note.  The [Pullback] record below packages the apex
+   existentially — a pullback of f and g exists, and here is one — so it
+   cannot assert that a GIVEN commuting square is a pullback.  The
+   apex-pinned predicate [IsPullback], with conversions in both
+   directions, the pasting law [pullback_paste], mono-stability
+   [monic_pullback_stable], and the strengthened uniqueness
+   [pullback_transport] — re-derived there because [pullback_unique]
+   below is Qed-opaque — live in Theory/Morphisms/Stability.v, and that
+   split carries the subobject and classifier developments.
+   Structure/Pullback/Limit.v reconciles this record with [Limit] of a
+   cospan diagram over the walking roof of Instance/Roof.v;
+   Construction/Span/Category.v composes spans by exactly this
+   construction (nLab, "span"); Instance/FinSet/Classifier.v computes
+   [FinSet_Pullbacks] as counted subsets, so pullback objects reduce on
+   closed inputs; and the INNER JOIN reading in the header above is
+   developed by Spivak ("Category Theory for the Sciences", MIT Press
+   2014).
+
+   [WeakPullback] earns its keep in coalgebra.  Rutten's structure theory
+   of bisimulations (Rutten, "Universal coalgebra: a theory of systems",
+   Theoretical Computer Science 249, 2000) turns on whether an
+   endofunctor weakly preserves pullbacks — carries pullback squares to
+   weak pullback squares — and existence-only mediators, as in
+   [weak_ump_pullbacks], are exactly what that hypothesis consumes. *)
+
 Record Pullback {C : Category} {x y z : C} (f : x ~> z) (g : y ~> z) := {
   Pull         : C;            (* the pullback object  b ×_a c (fibered product) *)
   pullback_fst : Pull ~> x;    (* projection p1 : Pull ~> x *)

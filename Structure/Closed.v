@@ -29,6 +29,83 @@ Generalizable All Variables.
    evaluation morphism eval[a, b] : (a ⇒ b) ⊗ a ~> b, and the currying
    universal property, lives instead in [Structure.Monoidal.Closed]. *)
 
+(* Where closed categories come from, and why the hom is primitive
+
+   nLab (La Jolla proceedings):
+   https://ncatlab.org/nlab/show/Proceedings+of+the+Conference+on+Categorical+Algebra+-+La+Jolla+1965
+   Wikipedia:
+   https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence
+   Wikipedia: https://en.wikipedia.org/wiki/Currying
+   Paper: Eilenberg, Kelly, "Closed Categories", in Proceedings of the
+          Conference on Categorical Algebra — La Jolla 1965, Springer 1966,
+          421–562
+   Paper: Kelly, "Basic Concepts of Enriched Category Theory", LMS Lecture
+          Note Series 64, Cambridge University Press 1982
+
+   The definition sketched above opens Eilenberg and Kelly's La Jolla
+   paper, a 142-page work that also treated monoidal categories — the
+   very name "monoidal category" is, Mac Lane later wrote, due to
+   Eilenberg, and it is used there — and introduced strict 2-categories
+   under the name "hypercategories".  Their original axioms differ from
+   the modern nLab presentation in one respect: rather than asking that
+   the map from morphisms x ~> y to global elements I ~> [x, y] be a
+   bijection, the paper carried an underlying-set functor sending the
+   internal hom strictly to the external hom-set.  Closed categories
+   serve as a base for enrichment — the nLab observes that a closed
+   structure on V is already an enrichment context in which V is
+   self-enriched — a subject given its textbook consolidation in Kelly's
+   1982 book; enrichment over a monoidal base is realized in-tree in
+   Construction/Enriched.v.
+
+   The point of declining the tensor is that in many categories the hom is
+   the obvious datum and the tensor is not.  Abelian groups internalize
+   their homs by pointwise addition; so do the algebras of any commutative
+   algebraic theory, and strict 2-categories with lax transformations.  In
+   each case, the nLab notes, there is a corresponding tensor product,
+   "but its construction is much less intuitive, being essentially defined
+   by a sort of adjoint functor theorem" — the Gray tensor product and the
+   projective tensor product of Banach spaces were originally defined as
+   left adjoints to their homs.  The asymmetry is genuine: a closed
+   monoidal category yields a closed category by forgetting the tensor,
+   yet recovering a monoidal structure demands C-natural representability
+   of [a, [b, ─]], stronger than the Set-natural isomorphisms needed in
+   the other direction (for symmetric closed categories ordinary
+   naturality suffices; Day–LaPlaza, Prop. 2.3, per the nLab).  LaPlaza's
+   embedding theorem (1977) nevertheless places every closed category
+   fully and faithfully inside a closed monoidal one.
+
+   Lambek carried closed structure into logic in his deductive-systems
+   trilogy (Lambek, "Deductive Systems and Categories I–III", Mathematical
+   Systems Theory 2 1968; Springer LNM 86 1969; LNM 274 1972), whose third
+   part exhibits cartesian closed categories as the equational theory
+   shared by intuitionistic propositional proofs and typed combinators —
+   the categorical leg of Curry–Howard, "abstracting away from dynamics of
+   computation such as beta reduction" (Wikipedia, "Curry–Howard
+   correspondence"; book form in Lambek and Scott, "Introduction to Higher
+   Order Categorical Logic", Cambridge University Press 1986).
+   Theory/Category.v cites that reading as the bridge behind this file and
+   Instance/Lambda/: Instance/Lambda.v builds the syntactic cartesian
+   closed category of the simply typed lambda calculus, and [Coq_Closed]
+   in Instance/Coq.v interprets exponentials as Coq's own arrow types.
+
+   The live content of this file is itself a currying statement one level
+   up.  [Curry] transposes a bifunctor C^op ∏ D ⟶ E into a functor-valued
+   functor C^op ⟶ [D, E] — the cartesian closure of Cat, used to present
+   the partial applications of an internal hom — and [Curry] after [Flip]
+   yields the contravariant section; the transposition device itself
+   predates category theory (Frege 1893, Schönfinkel 1924; Curry wrote in
+   1980 that "Schönfinkel had the idea some 6 years before I did" —
+   Wikipedia, "Currying").  The library's operative closed interfaces are
+   Structure/Cartesian/Closed.v (exponentials via [exp_iso], with curry,
+   uncurry and eval) and Structure/Monoidal/Closed.v ([ClosedMonoidal],
+   the tensor-hom adjunction); Functor/Hom/Internal.v derives the internal
+   hom bifunctor [InternalHomFunctor] from cartesian closure;
+   Structure/Monoidal/StarAutonomous.v declines this file as a base, a
+   placeholder carrying no tensor-hom adjunction, and works over its own
+   [SymMonClosed]; and Construction/Funny/Closed.v presents the only other
+   monoidal biclosed structure on Cat (Foltz, Lair, Kelly, JPAA 17(2),
+   1980). *)
+
 Section Closed.
 
 Context {C : Category}.

@@ -26,6 +26,89 @@ Generalizable All Variables.
    universal arrow to U : D ⟶ C, the assignment c ↦ a extends to a left
    adjoint of U, with the arrows u serving as the components of the unit. *)
 
+(* From universal mappings to adjoint functors
+
+   nLab:  https://ncatlab.org/nlab/show/universal+construction
+   Paper: Samuel, "On universal mappings and free topological groups",
+          Bull. Amer. Math. Soc. 54(6), 1948
+   Paper: Porst, "The history of the General Adjoint Functor Theorem",
+          arXiv:2310.19528, 2024
+
+   The universal arrow is the common shape of the universal mapping
+   problems of classical algebra and topology, isolated before category
+   theory had vocabulary to state it.  Free groups were current in the
+   1920s, the Stone–Čech compactification in the 1930s, and Markov's free
+   topological groups in the 1940s, each with its own bespoke existence
+   proof (Porst 2024).  The general problem was first posed by Pierre
+   Samuel, whose 1948 paper opens by observing that "constructions so
+   apparently different as Kronecker products, ... field of quotients of
+   an integral domain, free groups, free topological groups, completion
+   of a uniform space, Čech compactification enter in the same frame".
+   Samuel worked without functors — his axiomatized "kinds of structure"
+   derive from Bourbaki's theory of structures, cited from unpublished
+   manuscripts and the 1939 Résultats — yet his problem of universal
+   mappings asks exactly for a universal arrow to a forgetful functor,
+   unique up to isomorphism.  Mac Lane's chapter notes credit Samuel with
+   "the bold step of really formulating the general notion", suggest that
+   uniqueness only up to isomorphism is why the notion was slow to
+   develop, and record that Bourbaki then popularized it lavishly; the
+   notes to the adjunctions chapter add that Bourbaki's one-sided
+   formulation "lacks the symmetry of the adjunction problem" and so
+   just missed adjoint functors, whose discovery was left to Kan in
+   1958 (Mac Lane, "Categories for the Working Mathematician", Springer
+   1998, notes to Chapters III and IV).  Products described by the
+   universal property of their projections date from about the same
+   time (Mac Lane, 1948/1950); Functor/Diagonal.v plays out that dual
+   story in-tree.
+
+   The purpose of the notion is codified by Theorem IV.1.2 of the same
+   book: a functor has a left adjoint precisely when every object of its
+   codomain has a universal arrow to it, and those arrows are then the
+   components of the unit.  A universal arrow is thus the local,
+   pointwise form of an adjunction, and this file implements the
+   local-to-global direction: [LeftAdjointFunctorFromUniversalArrows]
+   assembles the functor, and [AdjunctionFromUniversalArrows] the
+   adjunction, from a family of [UniversalArrow] witnesses.  The
+   comma-category packaging does real work here: because [arrow_initial]
+   is an initial object, uniqueness up to unique isomorphism is the
+   generic initial-object argument rather than a lemma re-proved per
+   construction — in Riehl's phrasing, "universal" is "a synonym for
+   either 'initial' or 'terminal'" (Riehl, "Category Theory in Context",
+   Dover 2016).  Structure/UniversalProperty/Universal/Arrow.v keeps the
+   representability face: [UniversalArrowIsUniversalProperty] identifies
+   an [AUniversalArrow] with a hom-set isomorphism via Yoneda.
+
+   The adjoint functor theorems are machines for manufacturing these
+   witnesses.  Samuel's own existence proof — form the product of all
+   mappings into structures of bounded cardinal, then cut down by
+   closure — is the skeleton of Freyd's proof of the General Adjoint
+   Functor Theorem (1960 thesis, printed 1964), which Porst accordingly
+   proposes to rename the Samuel–Freyd theorem.  In-tree the route is
+   Mac Lane's: Adjunction/GAFT.v produces an initial object of each comma
+   category, and its [GAFT_from_initials] concludes with the two
+   constructors of this file; Monad/Lifting.v proves the Dubuc
+   adjoint-triangle theorem the same way, one universal arrow per object;
+   and Construction/Free/Quiver.v instantiates the oldest pattern, a free
+   construction as a universal arrow to a forgetful functor
+   ([UniversalArrowQuiverCat]).
+
+   The rendering throughout is proof-relevant.  [ump_universal_arrows]
+   returns the mediating morphism as data together with its uniqueness
+   certificate, and [LeftAdjointFunctorFromUniversalArrows] computes the
+   action of the induced functor on a morphism f as the unique g with
+   arrow ∘ f ≈ fmap[U] g ∘ arrow: a free functor acts on arrows by
+   factorization rather than by choice.  The setoid discipline surfaces
+   in the direct encoding: uniqueness in [universal_arrow_universal] is
+   uniqueness up to ≈, and [AUniversalArrowEquiv] declares two universal
+   arrows at the same object equivalent precisely when their underlying
+   morphisms are ≈, the uniqueness half carrying no further data.  The
+   method remains in use well outside foundations (Pestov, "Universal
+   arrows to forgetful functors from categories of topological algebra",
+   1992), and Milewski teaches it to programmers as the "universal
+   construction": pick a shape, enumerate its occurrences, rank
+   candidates by unique factorization (Milewski, "Products and
+   Coproducts", 2015). *)
+
 (* Two encodings of this notion are given below. UniversalArrow packages the
    property as an initial object of the comma category =(c) ↓ F, which makes
    the universal mapping property [ump_universal_arrows] an immediate
