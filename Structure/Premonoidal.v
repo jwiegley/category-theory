@@ -67,6 +67,88 @@ Set Transparent Obligations.
     (Structure/Premonoidal/Monoidal.v) and when the tensor is restricted to
     the centre (Structure/Premonoidal/Centre.v). *)
 
+(* Effects, interchange, and the premonoidal programme
+
+   nLab:  https://ncatlab.org/nlab/show/premonoidal+category
+   nLab:  https://ncatlab.org/nlab/show/Freyd+category
+   Paper: Moggi, "Notions of computation and monads", Information and
+          Computation 93(1), 1991
+   Paper: Power, Robinson, "Premonoidal categories and notions of
+          computation", Mathematical Structures in Computer Science 7(5),
+          1997
+
+   Premonoidal categories keep exactly the monoidal structure that
+   survives when morphisms carry computational effects.  A monoidal tensor
+   is jointly functorial: the interchange law
+   (g₁ ⊗ g₂) ∘ (f₁ ⊗ f₂) ≈ (g₁ ∘ f₁) ⊗ (g₂ ∘ f₂) says that the two sides
+   of a tensor proceed independently.  For effectful programs interchange
+   breaks down observably — as an illustration, if f prints one message
+   and g another, the two execution orders differ, yet interchange against
+   identities would equate them.  It follows that a joint tensor of
+   morphisms has no canonical meaning; what remains is one-variable
+   tensoring ⋉ / ⋊, interleaved into two schedules: [composite_ff'] of
+   Structure/Binoidal.v runs the left factor first, and the rival
+   interleaving runs the right factor first.  Yet the plumbing — unit,
+   unitors, associator — stays effect-free and coherent: centrality of
+   the structural maps is what [premon_unit_left_central],
+   [premon_unit_right_central] and [premon_assoc_central] assert,
+   [premon_triangle] and [premon_pentagon] supply the coherence, and
+   together this is exactly enough for a multi-variable context to
+   receive a semantics independent of bracketing.
+
+   Power and Robinson introduced the structure for the denotational
+   semantics of programming languages, as the monad-free residue of
+   Moggi's monadic account of effects (Moggi, "Computational
+   lambda-calculus and monads", LICS 1989): what survives on a Kleisli
+   category when the monad is forgotten.  Their motivating theorem: the
+   Kleisli category of a strong monad on a symmetric monoidal category
+   carries a canonical premonoidal structure — the strength extends the
+   tensor separately in each variable — and that structure is monoidal
+   precisely when the monad is commutative.  Both halves are in-tree:
+   Monad/Kleisli/Premonoidal.v builds the instance, whose two schedules
+   are literally the double strengths [dstr] and [dstr'] — which effectful
+   factor runs first — and Monad/Kleisli/Commutative.v proves the
+   commutative case ([kleisli_all_central], [Kleisli_Monoidal]).
+
+   On this reading centrality is the categorical residue of purity:
+   [central] f says the two schedules agree against every partner on
+   either side, and in the Kleisli instance this is exactly agreement of
+   the two sequencings wherever f is a factor ([kleisli_central_iff]).
+   Führmann's hierarchy pure ⇒ thunkable ⇒ central refines the picture
+   (Monad/Thunkable.v, after Führmann, "Direct models of the computational
+   lambda-calculus", MFPS XV 1999).  The centre Z(C) is a genuine monoidal
+   category ([Centre_Monoidal], Structure/Premonoidal/Centre.v), and per
+   nLab the centre construction provides a right adjoint to the inclusion
+   of monoidal categories into premonoidal ones; a monoidal category is
+   precisely a premonoidal one in which every morphism is central
+   (Structure/Premonoidal/Monoidal.v, [Monoidal_Premonoidal] and
+   [Premonoidal_Monoidal]).  This premonoidal centre is distinct from the
+   Drinfeld centre of Structure/Monoidal/Drinfeld.v, which is built from
+   half-braidings on a monoidal base.
+
+   The downstream uses cluster around call-by-value.  A Freyd category is
+   an identity-on-objects functor from a category of values to a
+   premonoidal category of computations, landing in the centre (Power,
+   Thielecke, "Closed Freyd- and κ-categories", ICALP 1999; per nLab the
+   name honours Peter Freyd's 1989 work on axiomatic domain theory).  When
+   the value inclusion has a right adjoint, the computation category is
+   the Kleisli category of the induced strong monad, so closed Freyd
+   categories and strong monads are interconvertible; yet Freyd categories
+   also make sense for first-order languages with no object of
+   computations.  Structure/Premonoidal/Freyd.v formalizes the effectful
+   weakening ([EffectfulFunctor], [Freyd]).  Further afield: Selinger's
+   control categories pair cartesian-closed with premonoidal structure to
+   interpret the λμ-calculus (Selinger, "Control categories and duality:
+   on the categorical semantics of the lambda-mu calculus", MSCS 11(2),
+   2001); Benton and Hyland generalize traces to symmetric premonoidal
+   categories and Conway operators to Freyd categories, motivated by value
+   recursion (Benton, Hyland, "Traced premonoidal categories", RAIRO-ITA
+   37(4), 2003); Hughes-style arrows correspond to Freyd categories per
+   nLab (Jacobs, Heunen, Hasuo, JFP 19(3–4), 2009); and a strict
+   premonoidal category is a monoid in Cat under the funny tensor product
+   (nLab), the round trip proved over (StrictCat, □) in
+   Instance/StrictCat/Premonoid.v. *)
+
 Section Premonoidal.
 
 Context {C : Category}.

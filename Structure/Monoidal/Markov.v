@@ -50,6 +50,85 @@ Generalizable All Variables.
                string diagrams", MSCS 29(7):938–971, 2019
                (arXiv:1709.00322) *)
 
+(* Where Markov categories come from, and what they are for
+
+   nLab:  https://ncatlab.org/nlab/show/Stoch
+   nLab:  https://ncatlab.org/nlab/show/Giry+monad
+
+   The category that gives the subject its name is Stoch: objects are
+   measurable spaces, morphisms are Markov kernels, identities are Dirac
+   kernels, and composition is Chapman–Kolmogorov integration.  It precedes
+   the axiomatics by decades: Lawvere circulated "The category of
+   probabilistic mappings" as a manuscript in 1962, and Chentsov built the
+   same category independently for statistics (Chentsov, "The categories of
+   mathematical statistics", Dokl. Akad. Nauk SSSR 164, 1965).  Stoch is
+   the Kleisli category of the Giry monad (Giry, 1982, following Lawvere),
+   and Kleisli categories of probability monads remain the standard source
+   of models, alongside FinStoch for discrete probability and Gauss for
+   Gaussian maps.  None of these is formalized in this library; the sole
+   in-tree instance route is [Markov_of_Cartesian], so Stoch stands here as
+   the intended model rather than a constructed one.
+
+   The axiomatics was discovered twice before it was named, for unrelated
+   ends.  Golubtsov axiomatized "categories of information transformers" —
+   monoidal categories containing a deterministic subcategory with finite
+   products — for informativeness comparison and decision problems
+   (Golubtsov, "Axiomatic description of categories of information
+   transformers", Problemy Peredachi Informatsii 35(3):80–98, 1999), while
+   Corradini and Gadducci reached the same copy/discard structure from
+   term-graph rewriting, with no probabilistic intent (the gs-monoidal
+   citation in Structure/Monoidal/CopyDiscard.v).  Cho and Jacobs then made
+   the structure carry probability proper, expressing disintegration and
+   Bayesian inversion as string diagrams (their paper cited above, first
+   posted 2017), and Fritz's paper coined the name and set the program; its
+   abstract presents the framework as following work of Golubtsov as well
+   as Cho and Jacobs.  The boundary theorem predates the field: Fox proved
+   in 1976 that natural coherent copying forces cartesianness (Fox,
+   "Coalgebras and cartesian categories", Comm. Algebra 4(7):665–667, 1976;
+   Structure/Monoidal/Markov/Fox.v), which is why the absent naturality of
+   [copy] noted above is the load-bearing design decision.
+
+   The program the name announces is synthetic probability: a theorem
+   proved once from the axioms holds in every model — discrete,
+   measure-theoretic, Gaussian — with the measure theory quarantined inside
+   the model construction.  Fritz's founding paper derives the
+   Fisher–Neyman factorization theorem and the theorems of Basu and Bahadur
+   on sufficient statistics; later work recovers the Kolmogorov and
+   Hewitt–Savage zero-one laws (Fritz & Rischel, "Infinite products and
+   zero-one laws in categorical probability", Compositionality 2:3, 2020),
+   de Finetti's theorem on exchangeable sequences (Fritz, Gonda & Perrone,
+   "De Finetti's theorem in categorical probability", J. Stochastic
+   Analysis 2(4):6, 2021), and the ergodic decomposition theorem (Moss &
+   Perrone, "A category-theoretic proof of the ergodic decomposition
+   theorem", Ergodic Theory Dynam. Systems 2023).  Beyond probability
+   itself, an abstract form of the d-separation criterion of graphical
+   causal models is proved at this generality, for possibilistic and
+   deterministic networks alongside probabilistic ones (Fritz & Klingler,
+   "The d-separation criterion in categorical probability", JMLR
+   24(46):1–49, 2023); a probabilistic language with exact conditioning
+   takes its denotational semantics in categories built from the Markov
+   categories Gauss and FinStoch (Stein & Staton, "Compositional semantics
+   for probabilistic programs with exact conditioning", LICS 2021); and
+   Shannon and Rényi entropy are characterized as measures of how far a
+   morphism is from being deterministic (Perrone, "Markov categories and
+   entropy", IEEE Trans. Inf. Theory 70(3), 2024).
+
+   Computationally, a morphism is a call to a randomized procedure, and
+   the two halves of the structure say what may be reordered around the
+   call.  The discard half — running a computation and ignoring its result
+   is the same as not running it — holds for every morphism by
+   [discard_natural] and is the discard square of thunkability in
+   Monad/Thunkable.v.  The copy half separates let x = f a in (x, x) from
+   (f a, f a): one sample shared between two uses against two samples
+   drawn independently.  Morphisms for which the two agree are exactly the
+   deterministic ones ([deterministic] in
+   Structure/Monoidal/CopyDiscard/Deterministic.v, with the wide
+   subcategory [Det]), and the [state]/[marginal_left]/[marginal_right]
+   vocabulary below makes the distinction speakable: copying a state
+   yields a perfectly correlated joint, both of whose marginals return the
+   original state ([marginal_left_copy], [marginal_right_copy]), not an
+   independent pair. *)
+
 Section Markov.
 
 Context {C : Category}.
