@@ -90,23 +90,16 @@ Section UniversalArrowUniversalProperty.
       simpl in M; rewrite <- M; clear M;
       assert (K := (@iso_to_from _ _ _ X)); simpl in K; rewrite K;
                now autorewrite with categories).
-    - (* This obligation is discharged in full only on Coq/Rocq >= 8.16, where
-         setoid rewriting handles universe polymorphism well enough for the
-         [try(...)] block below to close the goal.  On those versions the
-         trailing fallback after the block runs against zero remaining goals and
-         is therefore inert, so the development stays axiom-free (verified:
-         [Print Assumptions UniversalArrowIsUniversalProperty] reports "Closed
-         under the global context" on Rocq 9.1).  On Coq < 8.16 the [try(...)]
-         block fails, the goal is left open, and the fallback closes it
-         unsoundly — so on those older versions this single obligation is
-         accepted on faith rather than proven.  FLAG: revisit once 8.16 is the
-         minimum supported version, at which point the [try] wrapper and the
-         fallback should both be removed. *)
-      try(
+    - (* This obligation is discharged directly by the tactic sequence
+         below.  It relies on setoid rewriting that handles universe
+         polymorphism well enough to close the goal, available on Coq/Rocq
+         >= 8.16 (the minimum supported version).  The development stays
+         axiom-free: [Print Assumptions UniversalArrowIsUniversalProperty]
+         reports "Closed under the global context" on Rocq 9.1. *)
       simpl; assert (M := @preyoneda D^op _ d _ (to X));
       simpl in M; intro A; rewrite <- M in A; clear M;
       apply (proper_morphism (from X d)) in A;
-      set (B := (iso_from_to X)); simpl in B; now rewrite B , id_left in A); admit.
+      set (B := (iso_from_to X)); simpl in B; now rewrite B , id_left in A.
     - abstract(simpl; intros; destruct X as [e ?]; simpl in e; apply e).
     - abstract(simpl; intro; assert (M := @preyoneda D^op _ x0 _ (to x));
                simpl in M; now rewrite <- M).
