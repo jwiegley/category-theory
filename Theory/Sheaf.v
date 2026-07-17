@@ -38,6 +38,87 @@ Generalizable All Variables.
    X(fᵢ)(x) ≈ xᵢ for all i (existence is the gluing axiom, uniqueness is the
    separated/locality axiom). A separated presheaf asks only for uniqueness. *)
 
+(* Where sheaves come from, and what they are for
+
+   nLab:      https://ncatlab.org/nlab/show/sheaf
+   nLab:      https://ncatlab.org/nlab/show/Grothendieck+topology
+   Wikipedia: https://en.wikipedia.org/wiki/Sheaf_(mathematics)
+
+   A sheaf is the systematic bookkeeping of the passage from local data
+   to global data.  A presheaf already assigns data to each object and,
+   through the restriction maps that are the contravariant action of a
+   [Presheaf], cuts that data down along morphisms; the sheaf condition
+   adds the discipline that makes the data behave like genuine sections
+   on a space.  Two clauses carry it.  Gluing, the existence clause, asks
+   that local sections on a cover which agree on their overlaps determine
+   an actual global section; locality, or separatedness, the uniqueness
+   clause, asks that a section be fixed by its restrictions to a cover,
+   so that two sections agreeing locally everywhere coincide (Wikipedia,
+   "Sheaf (mathematics)").  Equivalently, the value over a covered object
+   is the limit — an equalizer — of the values on the cover, so the sheaf
+   condition IS a descent condition (nLab, "sheaf").  This is the content
+   a mere presheaf may lack, and [restriction] is what the in-tree
+   [Sheaf] class records over the single [coverage] family that a [Site]
+   supplies; the header above and Theory/Sheaf/Category.v disclose that
+   this per-object, per-leg encoding is a deliberately scoped
+   approximation of the classical predicate.
+
+   The subject has a dated origin.  Jean Leray, held as a prisoner of war
+   in Oflag XVII-A from 1940 to 1945, there developed sheaves, sheaf
+   cohomology, and spectral sequences, coining "faisceau" in his 1946
+   Comptes Rendus notes (Haynes Miller, "Leray in Oflag XVIIA: The
+   origins of sheaf theory, sheaf cohomology, and spectral sequences").
+   Henri Cartan's seminar then reworked the notion through étalé spaces,
+   Serre carried it into algebraic geometry as coherent sheaves (Serre,
+   "Faisceaux Algébriques Cohérents", Annals of Mathematics 1955), and
+   Godement fixed the standard formalism (Godement, "Topologie
+   algébrique et théorie des faisceaux", 1958).  To do cohomology on
+   schemes, where the Zariski topology is too coarse, and to attack the
+   Weil conjectures, Grothendieck replaced open covers by covering
+   families in an abstract category — a Grothendieck topology, hence a
+   site — first as a pretopology in Artin's 1962 Harvard notes and then
+   through sieves in SGA 4 (nLab, "Grothendieck topology").
+
+   The utility runs well past geometry.  For a site the sheaves form a
+   Grothendieck topos: a reflective, left-exact localization of a
+   presheaf topos, carrying a subobject classifier and an internal
+   higher-order intuitionistic logic whose truth values form a Heyting
+   algebra rather than two points (Mac Lane, Moerdijk, "Sheaves in
+   Geometry and Logic: A First Introduction to Topos Theory", Springer
+   1992).  Such a topos is read as the sheaf theory of a generalized
+   space, and for a subcanonical topology the Yoneda map composed with
+   sheafification embeds that space fully faithfully into its own sheaves
+   (nLab, "Grothendieck topology").  Fong and Spivak model a behavior
+   type as a sheaf on a space of time, where a truth value is the open
+   set of times on which a property holds and safety becomes a statement
+   of temporal logic (Fong, Spivak, "Seven Sketches in Compositionality",
+   Cambridge UP 2019, Ch. 7).  Abramsky and Brandenburger recast quantum
+   non-locality and contextuality as the obstruction to a global section
+   of a sheaf of local empirical models, grading the Bell, Hardy, and GHZ
+   arguments in a hierarchy (Abramsky, Brandenburger, "The
+   Sheaf-Theoretic Structure of Non-Locality and Contextuality", New
+   Journal of Physics 2011).
+
+   The split carries a type-theoretic reading.  A presheaf is a family of
+   local states indexed by objects, its restriction a contravariant
+   reindexing; the sheaf condition is then a descent obligation, taking a
+   cover-indexed tuple of locally consistent pieces to a unique whole —
+   the agree-on-overlaps merge discipline of distributed data.  The
+   in-tree [Site] and [Sheaf] classes make that obligation a proof
+   obligation whose covering and matching data carry computational
+   witnesses, which is why the file states them over the Type-valued
+   [ForallT] and [ExistsT] rather than the Prop-valued vector predicates.
+   The other half of the story is sheafification: every presheaf reflects
+   into a sheaf, the inclusion into presheaves having a left-exact left
+   adjoint (Wikipedia, "Sheaf (mathematics)"; nLab, "sheaf").  That
+   reflection is the piece deferred here (ledger 1), though
+   Theory/Sheaf/Category.v already builds Sheaves C as the full
+   subcategory of presheaves cut out by [Sheaf].  Presheaf categories
+   themselves recur across the library: the free cocompletion and target
+   of the Yoneda embedding (Instance/Fun.v, Functor/Hom/Yoneda.v), the
+   subobject presheaf feeding the classifier (Theory/Subobject/Functor.v),
+   and the elementary topos development (Structure/Topos.v). *)
+
 (* A C-valued presheaf on some category U.
   C is often taken to be Sets. *)
 Definition Presheaf (U C : Category) := U^op ⟶ C.

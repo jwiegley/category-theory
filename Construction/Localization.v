@@ -42,6 +42,85 @@ Generalizable All Variables.
    unit at a W-local object is an isomorphism ([unit_at_local_iso]) — the dual,
    for the unit, of the counit-iso lemma [reflective_counit_iso]. *)
 
+(* Where localization comes from, and what it is for
+
+   nLab:  https://ncatlab.org/nlab/show/localization
+          https://ncatlab.org/nlab/show/reflective+localization
+          https://ncatlab.org/nlab/show/orthogonal+subcategory+problem
+   Wikipedia:
+     https://en.wikipedia.org/wiki/Localization_(commutative_algebra)
+
+   Localization universally inverts a chosen class of morphisms.  Given
+   W it is the initial way to pass from C to a category C[W⁻¹] in which
+   every W-map becomes an isomorphism, so that any functor carrying W to
+   isomorphisms factors, essentially uniquely, through it.  It lets a
+   family of maps be turned into isomorphisms — the weak equivalences of
+   spaces, the quasi-isomorphisms of chain complexes, a multiplicative
+   system in a ring — so that work proceeds in the setting where that
+   identification holds, while a universal comparison back to C is kept
+   (nLab, "localization"; Gabriel–Zisman, "Calculus of Fractions and
+   Homotopy Theory", Springer 1967).
+
+   The vocabulary descends from commutative algebra, where the ring of
+   fractions S⁻¹R adjoins formal inverses to a multiplicative set and is
+   universal among ring maps sending it to units.  Øystein Ore gave the
+   corresponding condition for non-commutative rings, and the categorical
+   calculus of fractions is its direct analogue, whence both the names
+   "localization" and "fractions" (Wikipedia; nLab, "calculus of
+   fractions").
+
+   The general categorical construction is due to Gabriel and Zisman,
+   whose 1967 monograph localized a category at an arbitrary class of
+   morphisms and built the category of fractions C[W⁻¹] — its morphisms
+   finite zig-zags modulo relations, or explicit spans under the
+   Ore-style calculus — with the homotopy category, spaces localized at
+   the weak homotopy equivalences, as its headline application.  The
+   motivating case from homological algebra is Verdier's derived
+   category: in his thesis under Grothendieck in the 1960s he built D(A)
+   by formally inverting the quasi-isomorphisms of chain complexes and
+   introduced triangulated categories and the Verdier quotient, the first
+   published account being Hartshorne, "Residues and Duality" (Springer
+   Lecture Notes in Mathematics 20, 1966).
+
+   This file takes the reflective, rather than the syntactic, reading,
+   whose theory is due to Freyd and Kelly.  Rather than the zig-zag
+   category the localization is identified with the full subcategory of
+   W-local objects [C_W], and Freyd and Kelly ("Categories of continuous
+   functors, I", Journal of Pure and Applied Algebra 2, 1972) studied
+   exactly this orthogonal subcategory problem — when such a subcategory
+   is reflective — as the mechanism behind reflective localizations.
+   Passing to W-local objects sidesteps the size questions and the Ore
+   hypotheses the syntactic construction carries, which is why
+   [reflector_inverts_W] needs neither.
+
+   The applications span the mathematics the construction was built for.
+   The homotopy category of spaces is Top[W⁻¹] at the weak homotopy
+   equivalences; the derived category is chain complexes localized at
+   quasi-isomorphisms, pervasive in sheaf cohomology and duality; and the
+   sheaves on a site are the reflective subcategory of presheaves
+   orthogonal to the covering sieves, sheafification being the reflector
+   — the prototypical Freyd–Kelly orthogonality example, whose full
+   subcategory inclusion Theory/Sheaf/Category.v realizes in-tree, with
+   sheafification, the reflector, a named deferral there.  More generally
+   every reflective subcategory is a reflective localization at the class
+   its reflector inverts, so abelianizations, completions and idempotent
+   reflections are all instances, the homotopical form being left
+   Bousfield localization (nLab, "reflective localization").
+
+   Computationally a reflective localization is an idempotent monad.  The
+   round trip [Incl] ∘ [reflector] is a monad on C whose multiplication
+   is invertible, its algebras are exactly the local objects, and to be
+   local is to be a fixed point while to localize is to apply the monad:
+   idempotent normalization into the full subcategory of already
+   saturated objects, where the inverted maps are isomorphisms.  This is
+   the correspondence of Construction/Reflective/Idempotent.v (reflective
+   subcategory if and only if idempotent monad, with the Eilenberg–Moore
+   equivalence), and the same structure homotopy type theory studies as a
+   reflective modality (Rijke, Shulman, Spitters, "Modalities in homotopy
+   type theory", arXiv:1706.07526, 2020).  The universal property that
+   makes the reflector the localization is established separately in
+   Construction/Localization/Universal.v. *)
+
 (* [WLocal W x]: the object x is local with respect to the class W.  The
    morphism [fmap[[Hom ─, x]] w] is the [Sets]-map [Hom b x -> Hom a x] sending
    g to g ∘ w (precomposition by w); W-locality asserts it is invertible in

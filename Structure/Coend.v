@@ -55,6 +55,76 @@ Generalizable All Variables.
    op-reads below are the underlying `End`/`Wedge` data up to one `symmetry`,
    with no coherence obligations of their own. *)
 
+(* The coend calculus, its history, and the existential reading
+
+   nLab:  https://ncatlab.org/nlab/show/coend
+   Book:  Loregian, "(Co)end Calculus", London Math. Soc. Lecture Note
+          Series 468, Cambridge University Press 2021
+   Paper: Yoneda, "On Ext and exact sequences", J. Fac. Sci. Univ. Tokyo
+          Sec. I, 8 (1960) 507–576
+   Book:  Mac Lane, "Categories for the Working Mathematician", Springer
+          1971 (2nd ed. 1998), chapter IX
+   Paper: Day, "On closed categories of functors", Midwest Category
+          Seminar IV, Springer LNM 137 (1970) 1–38
+
+   A coend integrates a functor of mixed variance over its diagonal into
+   a single object of the target, and it does so where an ordinary
+   colimit cannot.  A colimit glues a covariant diagram; [coend_obj] is
+   instead the universal object receiving the injections [coend_inj]
+   that COEQUALIZE the two functorial actions of `F`.  Concretely it is
+   the coequalizer
+
+     ∐_{f : c → c'} F(c', c) ⇉ ∐_c F(c, c) → ∫^c F(c, c)
+
+   forcing the contravariant action `F(f, 1)` and the covariant action
+   `F(1, f)` to agree (nLab, "coend"); this is [coend_cowedge] read as a
+   quotient rather than as a family of equations.  Many canonical
+   constructions are inherently of mixed variance, and it is these, not
+   covariant diagrams, that a coend is built to express.
+
+   The notation and the calculus accumulated in layers.  Yoneda
+   introduced the integral sign for ends and coends in §4 of his 1960
+   dissertation, though under a convention reversed from the modern one:
+   he named the coend "integration" and the end "cointegration" (Yoneda
+   1960; nLab, "end").  Mac Lane gave the textbook account — chapter IX
+   of "Categories for the Working Mathematician" defines dinatural
+   transformations and presents ends and coends as universal (co)wedges,
+   the presentation this file inherits through Structure/Wedge and
+   Structure/End (Mac Lane 1971).  Mac Lane also used a coend to render a
+   construction in algebraic topology as a tensor product of functors,
+   `F ⊗_C G ≅ ∫^c F c ⊗ G c`, with `C` cast in the role of the ring
+   (reported in Loregian's survey).  Loregian later supplied the first
+   book-length treatment and described the technique as a "secret weapon"
+   of working category theorists (Loregian 2021).
+
+   The utility is the calculus itself: a compact algebra of integral
+   manipulations that replaces long diagram chases.  Its basic reduction
+   is the co-Yoneda, or "ninja Yoneda", lemma — every functor is a coend
+   of representables, `∫^{c'} C(c', c) · F c' ≅ F c` — proven in Sets in
+   Theory/Coend/Yoneda.v; its second rule is the Fubini interchange
+   `∫^{(c,d)} H ≅ ∫^c ∫^d H` (Theory/Coend/Fubini.v).  Over these run the
+   applications: Day convolution, which makes a functor category
+   monoidal by `(F * G) c ≅ ∫^{a,b} C(a ⊗ b, c) · F a · G b`
+   (Day 1970; Construction/Day.v); profunctor composition
+   `(Q ∘ P)(c, e) ≅ ∫^d P(c, d) × Q(d, e)` (Theory/Profunctor.v,
+   Construction/Profunctor/Compose.v); the pointwise left Kan extension
+   `∫^c D(K c, d) · F c`, the coend presentation of the extension that
+   Theory/Kan/Extension.v instead builds through an adjunction; and the
+   geometric realization of a simplicial set as a single coend (nLab,
+   "coend").
+
+   Computationally a coend is an existential type.  An element of
+   `∫^c F(c, c)` is a pair `(c, a)` with `a : F(c, c)` — a hidden object
+   together with a value — taken modulo the dinaturality gluing that
+   identifies `(c, F(f, 1) b)` with `(c', F(1, f) b)`; dually an end is
+   a polymorphic `∀ c. …` carrying a naturality side-condition
+   (Milewski, "Category Theory for Programmers", §26).  This is the
+   shape of the concrete coend in Instance/Sets/Coend.v, where an
+   injection at a witness is quotiented by exactly that relation, and it
+   is why existential and parametric encodings stand in for coends in
+   profunctor-optics libraries (Clarke et al., "Profunctor Optics, a
+   Categorical Update", arXiv 2020). *)
+
 Section Coend.
 
 Context {C : Category}.

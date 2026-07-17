@@ -78,6 +78,87 @@ Generalizable All Variables.
    standard laws rearranged for that orientation. A future horizontal-
    bicategory bridge must swap to/from accordingly. *)
 
+(* Where double categories come from, and what they are for
+
+   nLab:  https://ncatlab.org/nlab/show/double+category
+   nLab:  https://ncatlab.org/nlab/show/proarrow+equipment
+   Paper: Ehresmann, "Catégories doubles et catégories structurées",
+          C. R. Acad. Sci. Paris 256 (1963), 1198-1201
+   Paper: Grandis, Paré, "Limits in double categories", Cahiers de
+          Topologie et Géométrie Différentielle Catégoriques 40 (1999)
+   Paper: Shulman, "Framed bicategories and monoidal fibrations", Theory
+          and Applications of Categories 20 (2008), no. 18
+
+   A double category is the two-dimensional structure that keeps two
+   different kinds of 1-cell at once. Shulman states the split: in some
+   bicategories the 1-cells are morphisms BETWEEN the objects, such as
+   functors between categories, while in others they are objects OVER the
+   objects, such as bimodules, spans, distributors, or parametrized spectra
+   (Shulman, "Framed bicategories and monoidal fibrations", TAC 20 (2008)).
+   A bicategory retains only one kind; a double category retains both — the
+   strict "tight" maps as the vertical [Category] [dcat], the weak "loose"
+   bridges as the horizontal 1-cells [dhor], the two glued by squares
+   [dsq].
+
+   The two directions are asymmetric by design. Composing functions is
+   strictly associative, whereas composing bimodules by tensor over a ring,
+   spans by pullback, or profunctors by a coend is associative only up to
+   coherent isomorphism, since each composite is fixed by a universal
+   construction. The structure housing both is therefore the PSEUDO double
+   category — strict one way, weak the other — the shape of the class
+   above: an ordinary [dcat] for the vertical maps against a weakly
+   coherent [dhcomp] whose [dassoc], [dunit_left], and [dunit_right] are
+   invertible globular squares.
+
+   Charles Ehresmann introduced double categories in 1963, alongside the
+   companion memoir "Catégories structurées" (Ann. Sci. École Norm. Sup. 80
+   (1963), 349-426) on internal categories: a double category is precisely
+   a category internal to Cat, the category of small categories. Marco
+   Grandis and Robert Paré founded the modern theory of the pseudo (weak)
+   case, from "Limits in double categories" (Cahiers 40 (1999)) on through
+   adjoints and Kan extensions; nLab reports their strictification theorem,
+   that every pseudo double category is equivalent to a strict one. The
+   SCOPE note of the header names this Grandis–Paré lineage.
+
+   Taming coherence is the recurring motivation. Assembling the plain
+   bicategory of bimodules or spans forces one to corral the associativity
+   and unit coherence of the tensor or pullback, and base change is
+   functorial only up to isomorphism, so the bookkeeping multiplies.
+   Shulman keeps the strict maps as a separate tight direction and treats
+   base change nonalgebraically, through categorical fibrations, so a
+   universal property discharges the coherence in place of hand-tracking. A
+   double category in which every vertical arrow carries a companion and a
+   conjoint is a framed bicategory (Shulman 2008), the recasting of Wood's
+   proarrow equipments ("Abstract pro arrows I", Cahiers 23 (1982));
+   Theory/DoubleCategory/Companion.v realizes that machinery here through
+   the records [Companion] and [Conjoint].
+
+   The utility spreads across fields. The motivating example is Prof —
+   small categories, functors vertical, profunctors horizontal, natural
+   transformations as squares — beside bimodules, spans, and distributors
+   (nLab; Shulman 2008). Formal category theory takes equipments as the
+   correct home for weighted limits, pointwise Kan extensions, and fully
+   faithful maps, notions a bare 2-category does not capture correctly, and
+   Grandis–Paré develop limits, adjoints, and Kan extensions natively at
+   the double-category level. In applied category theory, open systems
+   assemble into symmetric monoidal double categories via structured
+   cospans (Baez, Courser, "Structured cospans", TAC 35 (2020)); the
+   in-tree cospans double category is [Cospan_Double] of
+   Construction/Cospan/Double.v.
+
+   The computational reading is of two kinds. The commuting-squares model
+   renders diagram chasing itself as a structure: in the double category
+   [Sq] of Construction/Sq.v a square [dsq] h u v k is the proposition
+   k ∘ u ≈ v ∘ h, so [Sq] is the ambient home of every naturality or
+   commuting diagram and the [dinterchange] law is the pasting discipline
+   that makes grid-shaped diagrams composable. The applied reading is
+   dataflow and wiring: a structured cospan is an open system, horizontal
+   composition plugs outputs into inputs by pushout, and the symmetric
+   monoidal structure is parallel composition. Companions and conjoints
+   give the two canonical ways to turn a tight map into a loose bridge — in
+   [Sq] every morphism is its own companion ([Sq_companion]) while
+   conjoints exist exactly for the isomorphisms ([Sq_conjoint_iso]). *)
+
 Class DoubleCategory : Type := {
   (* Objects together with their STRICT vertical morphisms. *)
   dcat : Category;

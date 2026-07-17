@@ -59,6 +59,81 @@ Generalizable All Variables.
      ([regular_epi_strong]), and strong epimorphisms lift uniquely
      against monomorphisms. *)
 
+(* Where abelian categories come from, and what they are for
+
+   nLab:      https://ncatlab.org/nlab/show/abelian+category
+   Wikipedia: https://en.wikipedia.org/wiki/Grothendieck%27s_T%C3%B4hoku_paper
+
+   Abelian categories are the axiomatic home of homological algebra: the
+   common structure of the category Ab of abelian groups, the module
+   categories R-Mod, vector spaces, and sheaves of abelian groups, in
+   which one writes exact sequences, chain complexes, and derived functors
+   (Wikipedia, "Abelian category").  The notion accrued in three steps.
+   Mac Lane observed that group-theoretic notions, reformulated purely
+   through homomorphisms and their composition, exhibit a duality, and
+   proposed an axiomatic context to exploit it, with the stated aim of
+   making the proofs of homology exactly dual to those of cohomology (Mac
+   Lane, "Duality for groups", Bull. AMS 56, 1950).  Buchsbaum then gave
+   essentially the modern definition under the name "exact category", so
+   that the Cartan-Eilenberg construction of derived functors carried over
+   verbatim (Buchsbaum, "Exact categories and duality", Trans. AMS 80(1),
+   1955).  Grothendieck named the notion in the Tôhoku paper and organized
+   it by the AB-axiom hierarchy, AB1 through AB5 and their formal duals
+   (Grothendieck, "Sur quelques points d'algèbre homologique", Tôhoku
+   Math. J. 9(2), 1957).
+
+   The axioms are invariant under C ↦ C^op, so every theorem has a dual
+   for free — precisely Mac Lane's original goal, and the reason the
+   normality clauses of [Abelian] come in mirror-image pairs.  The clause
+   this file enforces, that every monomorphism is a kernel and every
+   epimorphism is a cokernel, is what forces the canonical comparison from
+   the coimage to the image of a morphism to be an isomorphism.  It follows
+   that every morphism has an honest image and factors as an epimorphism
+   followed by a monomorphism ([abelian_epi_mono_factorization], with
+   [abelian_image_obj] the image object); that factorization is the engine
+   of exactness.
+
+   The decisive motivation was Grothendieck's.  Sheaf categories generally
+   lack enough projectives, so the classical projective-resolution
+   machinery does not apply there.  They do have injective resolutions,
+   however, and these, in a Grothendieck category, meaning an AB5 category
+   with a generator, put sheaf cohomology and module homology on one
+   footing as derived functors (Wikipedia, "Grothendieck's Tôhoku paper").
+   On this base rest the Grothendieck spectral sequence for a composite of
+   derived functors, the derived and triangulated categories of
+   Grothendieck and Verdier, coherent duality announced at the 1958 ICM,
+   and the Gabriel-Popescu theorem (1964) that every Grothendieck category
+   is a localization of a module category.
+
+   That module categories are the universal examples is itself a theorem.
+   The Freyd-Mitchell embedding (Freyd, "Abelian Categories", Thm 7.34,
+   1964) places every small abelian category, by a full, faithful, exact
+   functor, inside R-Mod for some ring R.  The consequence is a working
+   method: an element-wise diagram chase valid in modules transfers
+   verbatim to any small abelian category, which is the classical warrant
+   for the diagram-chasing style in which the epic mediator
+   [image_mediator_epic] and its neighbours are argued.
+
+   The computational content sits in the additive substrate this file rests
+   on ([abelian_additive], over Structure/Additive.v), not in the exactness
+   clauses.  In any category with biproducts a morphism between direct sums
+   is a matrix whose (k, j) entry is pₖ ∘ f ∘ iⱼ, composition is matrix
+   multiplication over the addition on hom-setoids, and the biproduct
+   relations pₖ ∘ iⱼ ≈ δₖⱼ and Σ iₖ ∘ pₖ ≈ id are the Kronecker-delta and
+   completeness relations of linear algebra (nLab, "Biproduct").  This
+   enrichment is not extra data: by an Eckmann-Hilton argument a
+   bicartesian category whose canonical comparison a ⊔ b ≅ a × b is
+   invertible is already preadditive — one of the two semiadditivity
+   theorems of Structure/Semiadditive.v — and the mere existence of any
+   natural such isomorphism already forces that comparison to be invertible
+   (Lack, 2009), with Instance/CMon.v the concrete matrix-calculus witness.
+   The vanishing tests [monic_iff_kernel_pzero] and
+   [epic_iff_cokernel_pzero] are the exact place where the abelian-group
+   structure on homs — addition [padd] and zero [pzero] from
+   Structure/Preadditive.v, negation [pneg] and difference [psub] from
+   Structure/Additive.v — turns categorical cancellation into an algebraic
+   computation against [zero_mor]. *)
+
 Class Abelian (C : Category) := {
   abelian_additive : @Additive C;
 

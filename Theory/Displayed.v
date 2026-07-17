@@ -65,6 +65,82 @@ Generalizable All Variables.
    [dtransport] the two phrasings are interderivable, and the quantified
    form spares consumers from massaging proof terms. *)
 
+(* Where displayed categories come from, and what they are for
+
+   nLab:  https://ncatlab.org/nlab/show/displayed+category
+   Paper: Benedikt Ahrens, Peter LeFanu Lumsdaine, "Displayed
+          Categories", Logical Methods in Computer Science 15(1), 2019
+          (arXiv:1705.04296)
+
+   The construction is due to Ahrens and Lumsdaine, who introduced it to
+   give a type-theoretic account of a pervasive habit: building a new
+   category by attaching data and properties to one that already exists
+   (Ahrens, Lumsdaine 2019).  A displayed category over [C] carries the
+   same information as a category [D] equipped with a functor into [C],
+   only reorganized — the objects and morphisms of [D] are presented as
+   families indexed over the objects and morphisms of [C], rather than as
+   one collection with a projection down.  The header records the slogan
+   that results, that the total category is assembled without ever
+   comparing objects of [C] for equality; why that clause carries weight
+   is the subject of what follows.
+
+   Equality of objects is the obstruction the notion is designed to route
+   around.  In intensional type theory, and in this setoid library, asking
+   whether two objects of a category are equal is ill-behaved: it violates
+   the principle of equivalence and supports no usable reasoning.  Yet the
+   classical definitions of fibration, isofibration, and creation of limits
+   each quantify over objects lying over a common base object, and phrased
+   naively each such definition conceals an object-equality.  Displayed
+   categories dissolve the difficulty at the level of typing: the fibre
+   over [x] is the type [dobj x], indexed by [x] itself, so "two displayed
+   objects over the same base object" is the statement that both inhabit
+   [dobj x] — a typing fact, not an equation (Ahrens, Lumsdaine 2019;
+   nLab).  The decisive case in the paper is the fibration, which invokes
+   equality on objects when read as a functor with a lifting property but
+   not when read as a displayed category with a cleaving, and almost every
+   fibration arising in practice is of the second form.
+
+   The reorganization repays itself in modularity.  Monoids internal to a
+   category, algebras over their carriers, pointed objects over objects,
+   bundles over a base space — each is an extra layer stacked on a base,
+   and a displayed category is precisely that layer, with the total
+   category recovering base-plus-layer.  One proves the layer a displayed
+   category once, and the total category together with its forgetful
+   projection follows.  The library uses this directly.  Theory/Fibration.v
+   states fibrations in the displayed presentation ([DCartesian],
+   [Cleaving], [ClovenFibration], [SplitCleaving]) beside the classical
+   functorial one and bridges the two; Construction/Grothendieck.v builds
+   [Grothendieck_Displayed] from the reindexing data of
+   Construction/Indexed.v ([IndexedCat]) and sets [Grothendieck := Total
+   Grothendieck_Displayed]; and Construction/Displayed/Codomain.v gives the
+   codomain displayed category, where cartesian lifts coincide with
+   pullbacks ([codomain_cleaving_pullbacks]).  The transport-groupoid
+   discipline worked out here for [dtransport] is reused at the square level
+   of Theory/DoubleCategory.v ([dsq_coerce]) and at the boundary casts of
+   Theory/Multicategory.v ([mcast]).
+
+   Read computationally, a displayed category is dependent data over a
+   base.  An object [dx : dobj x] is a payload attached to each base object,
+   a displayed morphism [dhom dx dy f] is that payload's behaviour along the
+   base map [f], and the total category is the dependent sum: its objects
+   are pairs [(x; dx)], its morphisms pairs [(f; ff)], and the projection to
+   [C] forgets the payload.  Adding a displayed layer is thus adding fields
+   to a record whose base already exists, the categorical form of a Σ-type
+   with its first projection, which is why Ahrens and Lumsdaine frame the
+   notion as how categories are built in practice.  The setoid coherence
+   [dtransport] is the analogue of coercing a dependent value along a proof
+   that two indices agree — here a proof [f ≈ g] of base morphisms — with
+   proof-irrelevance rendering the coercion canonical (nLab).  Abstractly
+   the same data is a normal lax functor from [C] into the bicategory of
+   profunctors (Theory/Profunctor.v), whose factorizations recover discrete
+   and Grothendieck (op)fibrations and Conduché functors (nLab).
+
+   The originating material was itself formalized in Coq over the UniMath
+   library (Ahrens, Lumsdaine 2019), where displayed categories have become
+   the standard instrument for fibrations and univalent constructions, and
+   where later work building on Ahrens and Lumsdaine extended the notion one
+   dimension up, to displayed bicategories. *)
+
 Class Displayed (C : Category) := {
   dobj : C → Type;
 
