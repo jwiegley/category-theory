@@ -39,6 +39,84 @@ Generalizable All Variables.
    over [arrow := N] with a more direct [find]-based composition; it carries
    the polished form of these definitions. *)
 
+(* The first-order theory of categories, and its computable models
+
+   nLab: https://ncatlab.org/nlab/show/metacategory
+   SEP:  https://plato.stanford.edu/entries/category-theory/
+   Paper: Eilenberg, Mac Lane, "General Theory of Natural
+          Equivalences", Trans. AMS 58, 1945
+
+   The word "metacategory" carries the point of the whole construction.
+   Mac Lane reserves "category" for a metacategory whose objects and
+   arrows form sets, and uses "metacategory" for any model of the
+   first-order theory of categories, stated before a set theory is fixed.
+   It follows that the (large) category Cat of small categories stands
+   apart from the metacategory CAT of all categories: the latter is too
+   big to be a category, yet it remains a lawful model of the same axioms
+   (nLab, "metacategory"). The existing header states the arrows-only
+   data and laws; this block records why an objects-free axiomatization
+   was wanted, and what the finite encoding here makes computable.
+
+   The idea is present at the origin. Eilenberg and Mac Lane defined a
+   category as an "aggregate Ob" of objects with mappings under axioms C1
+   through C5, and remarked at once that the objects play a secondary
+   role and could be omitted, since axiom C5 attaches a unique object to
+   each identity mapping (SEP, "Category Theory"). The later text makes
+   this a graded build-up: a metagraph is objects and arrows with domain
+   and codomain; a metacategory adds identity and composition under
+   associativity and unit laws; a category is a metacategory whose data
+   form sets (CWM, I.1). The arrows-only description then sets the object
+   sort aside and keeps only arrows, the composable pairs, and their
+   composite — the presentation this file follows. Others took the
+   set-theoretic route: Grothendieck (1957) and Freyd (1964) defined
+   categories through hom-sets, and the metacategory is the first-order
+   ancestor those accounts specialize (SEP).
+
+   Two purposes are served. The first is foundational: stating the axioms
+   first-order makes "category" meaningful independently of a chosen set
+   theory, so that a category is simply a metacategory interpreted in
+   sets. This is the entry to Lawvere's elementary programme, in which the
+   category of sets and the category of categories are each axiomatized
+   directly (Lawvere, "An Elementary Theory of the Category of Sets",
+   PNAS 52, 1964; "The Category of Categories as a Foundation for
+   Mathematics", 1966). The second purpose is structural: the object sort
+   is inessential, since objects ARE the identity arrows. That reduction
+   is not left as a remark — [FromArrows] is its machine-checked witness,
+   taking the arrow data and the three axioms to a [Category] whose
+   objects are the identities [∃ i, identity M i].
+
+   Setting the objects aside leaves an algebra. Composition is a partial
+   binary operation, defined exactly when a codomain meets a domain, so a
+   category reads as a partial monoid with many units — a partial
+   semigroup carrying source and target — of which a one-object category
+   is the ordinary total monoid ("Relational Semigroups and Object-Free
+   Categories", arXiv:2001.11895, 2020). The file holds this partiality
+   as data: [defined f g] records that the pair [(f, g)] has an entry,
+   [composite f g h] names its value, and [pairs] is the whole partial
+   operation kept as one finite table.
+
+   Because that operation is a single finite datum, small categories are
+   literal data and their laws reduce to computation rather than case
+   analysis. The witnesses [ZeroArrows], [OneArrow], [TwoArrows] and
+   [ThreeArrows] are written as explicit tables of composable pairs;
+   [Three] is [FromArrows ThreeArrows]; [cardinality] counts the identity
+   arrows, the entries [(i, i)] mapping to [i], and [ThreeArrows_card_3]
+   evaluates it to three. The [structure] and [check_structure] tactics
+   discharge the membership obligations for these witnesses.
+   Theory/Metacategory/DecideExample.v presses the point further,
+   settling the associativity coherences over
+   Theory/Metacategory/ArrowsOnly.v through the proof-by-reflection
+   decider of Lib/MapDecide.v ([map_decide], [solve_map]), over the
+   finite-map extension Lib/FMapExt.v ([simplify_maps], [MapsTo_fun]).
+
+   The module stands apart from the working library: nothing in Instance/,
+   Construction/ or Structure/ depends on it. It is a self-contained
+   witness that the arrows-only axiomatization suffices to rebuild
+   [Category], and a place to hold small categories as computable data.
+   The name itself has largely fallen out of general use (nLab,
+   "metacategory"); the size distinctions it once marked are, in this
+   library, carried instead by universe polymorphism. *)
+
 Module PNN := PairUsualDecidableType Nat_as_DT Nat_as_DT.
 
 Module Metacategory (M : WSfun PNN).

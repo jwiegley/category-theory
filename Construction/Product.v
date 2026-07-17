@@ -25,6 +25,73 @@ Generalizable All Variables.
 
    All of the methods are spelled out here to ease simplification. *)
 
+(* Bifunctors, interchange, and the product's place in Cat
+
+   nLab (the rival tensor): https://ncatlab.org/nlab/show/funny+tensor+product
+
+   The product category exists so that a functor of several variables
+   requires no theory of its own.  In the founding paper of the subject
+   (Eilenberg and Mac Lane, "General Theory of Natural Equivalences",
+   Transactions of the AMS 1945), functors in two arguments are axiomatized
+   directly: its §3 posits an object-function and a mapping-function subject
+   to an identity condition and to an interchange condition equating the
+   image of a pair of composites with the interleaved composite of images —
+   stated with no product category in sight, for the paper never constructs
+   one.  The packaging is the textbook consolidation of Mac Lane,
+   Categories for the Working Mathematician, §II.3 (1971), which defines
+   C × D, redefines a bifunctor as an ordinary functor out of it, and
+   characterizes such functors by two families of partial functors agreeing
+   on objects and satisfying interchange.  Riehl introduces the product for
+   the same reason, so that the covariant and contravariant represented
+   functors "assemble into a single bifunctor, which is the name for a
+   functor of two variables" (Riehl, Category Theory in Context, Dover
+   2016, Definition 1.3.12).  Once [Product] is in hand, every general
+   theorem about functors — naturality, composition, adjunctions, limits —
+   applies verbatim to multivariable ones.
+
+   The definition packages the interchange law once and for all.
+   Functoriality of F : C ∏ D ⟶ E at a composable pair of pair-morphisms IS
+   middle-four exchange: Functor/Bifunctor.v reads it off as [bimap_comp],
+   where [bimap] applied to f and g is literally fmap at the pair (f, g)
+   ([bimap_fmap] holds at Leibniz equality), and factoring (f, g) through
+   (f, id) and (id, g) in either order recovers Mac Lane's two partial
+   functors ([bimap_comp_id_left], [bimap_comp_id_right]) together with
+   their commutation ([bimap_id_right_left], [bimap_id_left_right]).
+   Haskell's Data.Bifunctor class is the same content in type-class form,
+   where the default bimap composes the two one-sided actions and is lawful
+   precisely because they commute; separate functoriality does not in
+   general yield joint functoriality, and the categories where the two
+   notions come apart are the premonoidal categories of
+   Structure/Premonoidal.v (Milewski, "Functoriality", 2015).  The
+   companion construction classifying separately-functorial maps with no
+   interchange at all is the funny tensor product of Construction/Funny.v;
+   indeed Cat carries exactly two symmetric closed monoidal structures —
+   this cartesian product and the funny tensor — and no others (Foltz,
+   Lair and Kelly, "Algebraic categories with few monoidal biclosed
+   structures or none", Journal of Pure and Applied Algebra 1980).
+
+   Mixed variance is handled through opposites: contravariance in one slot
+   is covariance from the opposite category in that slot, and
+   [Product_Opposite] makes the bookkeeping free of transport.  The leading
+   example is the hom bifunctor [Hom] : C^op ∏ C ⟶ Sets of Functor/Hom.v,
+   whose curried form [Curried_Hom] underlies the Yoneda development;
+   further consumers include the tensor ⊗ : C ∏ C ⟶ C of
+   Structure/Monoidal.v, horizontal composition [hcompose] in
+   Theory/Bicategory.v, profunctors C ⇸ D as functors C^op ∏ D ⟶ Sets in
+   Theory/Profunctor.v, and the dinatural transformations of
+   Theory/Dinatural.v.  The tensor bifunctor also carries the physical
+   reading of monoidal categories, modelling composite systems in quantum
+   foundations and quantum informatics (Coecke and Paquette, "Categories
+   for the practising physicist", 2009); the ZX-calculus instance
+   Instance/ZX.v imports this file for exactly that tensor.  Double
+   diagrams are functors from a product of index categories, and [Swap] is
+   the symmetry through which limits over them are interchanged (Riehl
+   2016, Theorem 3.8.1).  Within Cat itself, Instance/Cat/Cartesian.v
+   takes this construction as the product object,
+   Functor/Construction/Product.v supplies its action on functors F ∏⟶ G,
+   and Instance/Cat/Cartesian/Closed.v adds the currying isomorphism,
+   exhibiting Cat as cartesian closed. *)
+
 Definition Product (C D : Category) : Category := {|
   obj     := C * D;
   hom     := fun x y => (fst x ~> fst y) * (snd x ~> snd y);
