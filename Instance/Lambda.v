@@ -55,6 +55,80 @@ Generalizable All Variables.
    Category` (confirmed by `About Lambda`).  They are kept here as a record of
    the intended host-language extension point used in the sibling files. *)
 
+(* The Curry-Howard-Lambek correspondence, and what it is for
+
+   nLab:
+   https://ncatlab.org/nlab/show/relation+between+type+theory+and+category+theory
+
+   The correspondence realized here was assembled in three stages.  Church
+   introduced the simply typed calculus to avoid the paradoxical use of
+   the untyped theory (Church, "A formulation of the simple theory of
+   types", Journal of Symbolic Logic 1940).  Curry had observed in 1934
+   that the types of the combinators read as axiom schemes of
+   intuitionistic implicational logic (Curry and Feys, "Combinatory
+   Logic", 1958), and Howard's 1969 manuscript, published as "The
+   formulae-as-types notion of construction" (Academic Press 1980), made
+   the proofs-as-terms analogy explicit.  Lambek supplied the third
+   vertex: intuitionistic proofs, typed terms, and the morphisms of a
+   cartesian closed category share one equational theory, whence the name
+   Curry-Howard-Lambek.  The definitive syntactic statement appears in
+   the same Curry Festschrift as Howard's paper — lambda theories
+   correspond to cartesian closed categories exactly as algebraic
+   theories correspond to Lawvere's finite-product categories (Lambek,
+   "From lambda calculus to cartesian closed categories", Academic Press
+   1980) — and the book form is Part I of Lambek and Scott, "Introduction
+   to Higher Order Categorical Logic" (Cambridge University Press 1986).
+   The earlier "Deductive Systems and Categories" chapter of that history
+   is told in Structure/Closed.v, whose header names this file as the
+   syntactic realization.
+
+   Within the library the theorem is witnessed from both sides.  This
+   file is the syntax-to-category direction: the closed structure is read
+   off the type formers, so that [fork], [exl], [exr], [curry] and
+   [uncurry] below are categorical combinators written as de Bruijn
+   terms.  Instance/Coq.v supplies a semantic cartesian closed category,
+   and the standard model of Instance/Lambda/Sem.v is the interpretation
+   from the one to the other.  One consequence of the semantic equality
+   of [Exp_Setoid] deserves emphasis: with [TyUnit] the only base type,
+   the standard model identifies more terms than βη-conversion does.  It
+   follows that [Lambda Γ] is the image of the syntactic category inside
+   the standard model, not the free cartesian closed category of Lambek's
+   theorem on the nose.
+
+   The representation has its own ancestry.  Rather than pair a raw term
+   with a separate typing derivation, the encoding makes an [Exp] its own
+   derivation — the intrinsically-typed representation of Altenkirch and
+   Reus ("Monadic Presentations of Lambda Terms Using Generalized
+   Inductive Types", CSL 1999).  Its Coq discipline — terms indexed by
+   context and type, substitution bootstrapped from renaming,
+   coercion-free at simple types — is that of Benton, Hur, Kennedy and
+   McBride ("Strongly Typed Term Representations in Coq", Journal of
+   Automated Reasoning 2012), and the Ren.v-before-Sub.v layering of the
+   sibling files repeats it exactly.
+
+   The correspondence is executable, and the applications exploit that.
+   The Categorical Abstract Machine compiles ML-family languages by
+   translating lambda terms into exactly such combinators — the
+   operations of a cartesian closed category as machine instructions —
+   and gave CAML its name (Cousineau, Curien and Mauny, "The categorical
+   abstract machine", Science of Computer Programming 1987).  Elliott
+   runs the same idea inside GHC: because the simply typed calculus is
+   modeled by any cartesian closed category, one program text can be
+   reinterpreted in alternative such categories — hardware circuits,
+   automatic differentiation, interval analysis (Elliott, "Compiling to
+   categories", ICFP 2017).  Downstream, the sibling files make the
+   operational reading concrete: call-by-value small-step reduction
+   (Instance/Lambda/Step.v) is sound for this semantics
+   (Instance/Lambda/Sound.v); β-reduction is strongly normalizing, by the
+   computability method of Tait ("Intensional interpretations of
+   functionals of finite type I", Journal of Symbolic Logic 1967)
+   implemented in Instance/Lambda/Norm.v; and a CEK machine executes
+   closed terms with runs checked by `eq_refl` (Instance/Lambda/Eval.v,
+   Instance/Lambda/Example.v).  End to end, the development proves that
+   well-typed syntax forms a cartesian closed category, that the standard
+   model interprets it, that evaluation is sound for that model, and that
+   every closed term halts. *)
+
 Section Lambda.
 
 Context {A : Type}.

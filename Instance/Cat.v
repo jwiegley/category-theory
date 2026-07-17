@@ -64,6 +64,80 @@ Generalizable All Variables.
    [Forgetful : StrictCat ⟶ Quiv] of issue #138, which does not respect natural
    isomorphism. *)
 
+(* Where Cat comes from, and what it is for
+
+   SEP:   https://plato.stanford.edu/entries/category-theory/
+   nLab:  https://ncatlab.org/nlab/show/2-category
+   nLab:  https://ncatlab.org/nlab/show/ETCC
+
+   Cat is category theory applied to itself.  Every ingredient of the
+   instance below is already implicit in the founding paper of the subject
+   (Eilenberg and Mac Lane, "General theory of natural equivalences",
+   Trans. Amer. Math. Soc. 58, 1945), yet the concept of a category of
+   categories is nowhere mentioned there; the authors regarded categories
+   as scaffolding — "the whole concept of a category is essentially an
+   auxiliary one", the basic concepts being functor and natural
+   transformation, with "the categories are provided as the domains and
+   ranges of functors" (quoted in Marquis, "Category Theory", Stanford
+   Encyclopedia of Philosophy).  The instance below is the structure that
+   finally makes categories themselves the objects, so that the machinery
+   of the theory can be turned on the theory itself.
+
+   The dimension this 1-categorical instance truncates away has its own
+   history.  Vertical and horizontal composition of natural
+   transformations, with whiskering, first appear in the appendix of
+   Godement's "Topologie algébrique et théorie des faisceaux" (1958),
+   invented for the standard resolution of abelian sheaves; the Godement
+   product is this library's [nat_hcompose] in
+   Theory/Natural/Transformation.v.  Strict 2-categories are due to
+   Bénabou ("Catégories relatives", 1965) and Maranda ("Formal
+   categories", 1965) — not to Ehresmann, whose 1963 double categories
+   were the inspiration — and Cat is the archetypical 2-category (nLab,
+   "2-category").  Here the higher cells live in
+   Instance/Cat/Bicategory.v, where the hom-categories are definitionally
+   the functor categories of Instance/Fun.v.
+
+   Lawvere proposed to make the self-application foundational: the
+   category of categories itself, axiomatized in first-order terms, would
+   replace membership-based set theory ("The Category of Categories as a
+   Foundation for Mathematics", La Jolla Proceedings, Springer 1966,
+   following his 1963 dissertation).  J. R. Isbell's review (Mathematical
+   Reviews, 1967) found an error in a core result, no repair achieved
+   consensus, and the programme was largely eclipsed by topos theory,
+   though it has recent successors (Hughes and Miranda, arXiv:2403.03647,
+   2025).  The size question it wrestled with is the one the header above
+   settles by typing: a category of all categories invites a Russell-style
+   paradox, classically avoided by the small/large distinction or by
+   Grothendieck universes.  Rather than adopt either device axiomatically,
+   this library has a [Cat] at every universe level, each strictly above
+   its own objects, so self-membership is a universe inconsistency caught
+   by the elaborator rather than a paradox to be excluded by axiom.
+
+   It follows that categorical algebra now applies to categories
+   themselves.  Binary products in [Cat] are the product categories
+   ([Cat_Cartesian] in Instance/Cat/Cartesian.v), coproducts the
+   disjoint-union categories (Instance/Cat/Cocartesian.v), the terminal
+   and initial objects the one-object and empty categories ([Cat_Terminal]
+   in Instance/One.v, [Cat_Initial] in Instance/Zero.v), and the
+   exponentials the functor categories: [Cat_Closed] in
+   Instance/Cat/Cartesian/Closed.v exhibits cartesian closure (detailed in
+   Awodey, "Category Theory", 2010), with the transposition [exp_iso]
+   currying a bifunctor into a functor-valued functor and evaluation the
+   uncurried identity.  Read computationally, the exponentials are
+   function objects one universe up, the picture behind higher-order
+   manipulation of functors in typed functional programming (Milewski,
+   "Natural Transformations", 2015) — though Cat is not locally cartesian
+   closed (Wikipedia, "Category of small categories").  Within this file
+   the weak convention yields concrete theorems: both legs of an
+   isomorphism in [Cat] are faithful unconditionally
+   ([Cat_Iso_to_Faithful], [Cat_Iso_from_Faithful]) and full under an
+   explicit compatibility hypothesis between the unit and counit
+   components ([Cat_Iso_to_Full], [Cat_Iso_from_Full]), the four
+   assembled into [Isomorphism_FullyFaithful] by [Cat_Iso_FullyFaithful];
+   the definitional bridge to equivalence of categories is
+   [Equivalence_to_Cat_Iso] and [Cat_Iso_to_Equivalence] in
+   Theory/Equivalence.v. *)
+
 #[export]
 Instance Cat : Category := {
   obj     := Category;

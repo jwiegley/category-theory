@@ -34,6 +34,82 @@ Generalizable All Variables.
    the companion files Instance/Sets/Cartesian.v and
    Instance/Sets/Cartesian/Closed.v. *)
 
+(* Bishop sets, the zero-axiom regime, and the universal codomain
+
+   nLab:   https://ncatlab.org/nlab/show/Bishop+set
+   nLab:   https://ncatlab.org/nlab/show/E-category
+   nLab:   https://ncatlab.org/nlab/show/predicative+topos
+   Book:   Bishop, "Foundations of Constructive Analysis", McGraw-Hill 1967
+   Thesis: Hofmann, "Extensional Concepts in Intensional Type Theory",
+           University of Edinburgh, LFCS report ECS-LFCS-95-327, 1995
+
+   The two records below transcribe definitions Bishop set down in 1967.
+   A set, for Bishop, is not an entity with an ideal existence: to define
+   one is to prescribe what must be done to construct an element and what
+   must be done to show two elements equal (Bishop 1967, chapter one, "A
+   constructivist manifesto"); a function is a finite routine on elements
+   that respects the two equalities.  [SetoidObject] and [SetoidMorphism]
+   are those definitions as records — carrier plus equivalence, program
+   plus congruence certificate.  The name "setoid" entered type theory
+   with Hofmann's 1995 thesis (per the nLab), which also supplies the
+   strategy's mathematical warrant: Hofmann built models of intensional
+   type theory out of types with equivalence relations, models in which
+   functional extensionality and quotients hold, so working with setoids
+   is not a stopgap but a model construction.  The design space — total
+   versus partial setoids, four notions of setoid map — is surveyed in
+   (Barthe, Capretta, Pons, "Setoids in type theory", JFP 13(2) 2003);
+   this file sits in the total-setoid column with a Type-valued relation.
+
+   Two problems meet here.  First, Coq's intensional equality identifies
+   only terms with the same definition: quotient types are absent, and
+   pointwise-equal functions need not be provably equal.  Bishop's move
+   is to never separate a carrier from its equality — a quotient is just
+   another choice of `≈` on the same carrier (Construction/Quotient.v is
+   the hom-level version) — and [SetoidMorphism_equiv] makes equality of
+   maps extensional by definition rather than by axiom.  This is the
+   decision Theory/Category.v credits with the library's zero-axiom
+   regime.  Second, category theory needs a Set to land in.  The debt to
+   Theory/Category.v runs both ways: a [Category] there is what the nLab
+   calls an E-category — enriched in setoids, terminology in active use
+   in Palmgren's school (Palmgren, Wilander, "Constructing categories
+   and setoids of setoids in type theory", LMCS 10(3) 2014) — so its
+   hom-functor can only land in a category whose objects are setoids.
+   [Sets] is that category: the codomain of Functor/Hom.v and the Yoneda
+   embedding (Functor/Hom/Yoneda.v), of presheaves, of the ends and
+   coends of Instance/Sets/End.v and Instance/Sets/Coend.v, and of the
+   weights of Structure/Limit/Weighted.v.  Instance/Coq.v is the
+   contrast object: bare types under pointwise Leibniz equality, with no
+   chosen `≈`.
+
+   The cost has a name.  Altenkirch calls it setoid hell (Altenkirch,
+   "From setoid hell to homotopy heaven? The role of extensionality in
+   Type Theory", TYPES 2017): every type-level construction must be
+   lifted to setoids by hand, the lifting is boilerplate, and the
+   implementation is never actually hidden.  The Type-valued [Proper]
+   machinery assembled in Lib/Foundation.v exists to make that
+   discipline bearable; and the same talk concedes the other side of the
+   ledger — most constructions need no higher dimensions, and setoids
+   or groupoids suffice.  The successor programme is (Altenkirch,
+   Boulier, Kaposi, Tabareau, "Setoid Type Theory — A Syntactic
+   Translation", MPC 2019).
+
+   How much of the classical Set survives?  In Martin-Löf type theory
+   the category of setoids is a ΠW-pretopos, a locally cartesian closed
+   pretopos with W-types and a predicative analogue of a topos (van den
+   Berg, "Predicative toposes", arXiv:1207.0959 (2012), after Moerdijk
+   and Palmgren 1999/2000).  Predicativity is visible at the end of
+   this file: the reverse direction of [surjectivity_is_epic] needs a
+   truth-value object one universe up, so that lemma never enters the
+   environment, and the cross-universe classifier theorems live in
+   Instance/Sets/Classifier.v instead — a theorem-shaped fact about
+   size, not a gap in the formalization.  Because `≈` is Type-valued,
+   its proofs carry data: [bijective_is_iso] turns a surjectivity
+   witness into an honest inverse function with no appeal to choice,
+   the choice having been data all along.  The remaining working
+   completeness of [Sets] is built piecewise under Instance/Sets/ —
+   products and exponentials, pushouts, and Cauchy completeness through
+   the splitting of idempotents in Instance/Sets/Karoubi.v. *)
+
 Record SetoidObject@{o p} : Type@{max(o+1,p+1)} := {
   carrier :> Type@{o};               (* the underlying type (Bishop carrier) *)
   is_setoid :> Setoid@{o p} carrier   (* its equivalence relation `≈` *)
