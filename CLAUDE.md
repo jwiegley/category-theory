@@ -229,6 +229,7 @@ When working with specific concepts, reference:
 - **nLab**: https://ncatlab.org/nlab/show/[concept_name]
 - **README.md**: Contains detailed notation guide (the "Notations" section)
 - **Key Files and Concepts** (above): the per-module index of the library's headline developments
+- **In-file background essays**: beyond the definitional header most files carry, the flagship concept files across Theory/, Structure/, Construction/, Instance/, Adjunction/, and the Comonad development open with a background essay — the concept's history, purpose, cross-disciplinary use, and in-tree connections, each substantive claim cited to a primary source (nLab, the named papers, textbooks, or package documentation). Read that block first when approaching an unfamiliar file.
 
 ## Versioning
 
