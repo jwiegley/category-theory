@@ -58,7 +58,7 @@ Generalizable All Variables.
    through Buchsbaum and Grothendieck, that program produced abelian
    categories, whose self-dual axioms hand homological algebra two dual
    results out of one (Goswami and Janelidze, "Duality in non-abelian
-   algebra IV", arXiv:1704.01863 2018).
+   algebra IV", arXiv:1704.01863 2017).
 
    Downstream of this file the library takes dual concepts by definition,
    not by analogy: a comonad is a monad on C^op (Theory/Monad.v), a
