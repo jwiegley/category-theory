@@ -91,6 +91,87 @@ Generalizable All Variables.
     base layer over which the full ZX equational theory can be built
     in successor files. *)
 
+(* Where the ZX-calculus comes from, and what it is for
+
+   Wikipedia: https://en.wikipedia.org/wiki/ZX-calculus
+   Paper:     Abramsky, Coecke, "A categorical semantics of quantum
+              protocols", LICS 2004
+   Paper:     Coecke, Duncan, "Interacting Quantum Observables",
+              ICALP 2008 (LNCS 5126, pp. 298-310); journal version
+              "Interacting Quantum Observables: Categorical Algebra
+              and Diagrammatics", New J. Phys. 13:043016, 2011
+   Survey:    van de Wetering, "ZX-calculus for the working quantum
+              computer scientist", arXiv:2012.13966, 2020
+
+   The ZX-calculus descends from categorical quantum mechanics, the
+   programme that recast finite-dimensional quantum theory inside
+   dagger-compact closed categories and traded matrix bookkeeping for
+   string diagrams (Abramsky, Coecke, "A categorical semantics of
+   quantum protocols", LICS 2004).  That ambient setting sits in the
+   library at Structure/Monoidal/CompactClosed.v, whose header cites the
+   same paper and names the dagger-compact category the calculus
+   inhabits.  Against it Coecke and Duncan singled out a complementary,
+   mutually unbiased pair of observables — the green Z basis and the red
+   X basis — and axiomatised their interaction diagrammatically; the
+   spider colours [zx_z] and [zx_x], with the Hadamard [zx_h] that
+   exchanges them, are those primitives.
+
+   The difficulty it addresses is that quantum computations are written
+   as circuits, yet circuit identities are matrix identities: opaque,
+   basis-dependent, and awkward to search over for optimisations.  ZX
+   supplies instead a rewrite system on diagrams, each denoting a linear
+   map — a Z-spider [zx_z] carrying a [Phase] α to the map on the
+   all-zeros and all-ones basis strings that weights the latter by
+   e^{iα}.  Because the spiders form special commutative Frobenius
+   algebras, a spider depends only on its leg count, the "only
+   connectivity matters" principle that makes rewriting mechanisable (van
+   de Wetering, 2020).  That algebra is the abstract counterpart at
+   Theory/Algebra/SpecialCommutativeFrobenius.v and, phase-free, at
+   Structure/Monoidal/Hypergraph/Spider.v, whose fusion theorem
+   [zx_eq_z_fusion] and [zx_eq_x_fusion] mirror as syntax; the hints of
+   Structure/Monoidal/Hypergraph/Tactics.v discharge such identities over
+   the hypergraph class of Structure/Monoidal/Hypergraph.v.
+
+   Completeness accrued in stages rather than at once.  Backens
+   established it for the stabiliser fragment, angles multiples of π/2
+   (Backens, "The ZX-calculus is complete for stabilizer quantum
+   mechanics", New J. Phys. 16:093021, 2014), the first such result.
+   Jeandel, Perdrix and Vilmart then settled the Clifford+T fragment,
+   angles multiples of π/4, by adding two axioms routed through the
+   ZW-calculus (Jeandel, Perdrix, Vilmart, "A Complete Axiomatisation of
+   the ZX-Calculus for Clifford+T Quantum Mechanics", LICS 2018).
+   Completeness for the universal fragment came the same year by two
+   independent routes — the second JPV paper "Diagrammatic Reasoning
+   beyond Clifford+T Quantum Mechanics" and Hadzihasanovic, Ng, Wang,
+   "Two complete axiomatisations of pure-state qubit quantum
+   computing" (both LICS 2018).  The book-length account is Coecke
+   and Kissinger, Picturing Quantum Processes (Cambridge University
+   Press, 2017).
+
+   The uses are largely computational.  The flagship is circuit
+   optimisation: a circuit is compiled to a diagram, simplified by
+   rewriting, and re-extracted more cheaply.  Kissinger and van de
+   Wetering reduce T-count — the dominant cost of fault-tolerant
+   computation — by "phase teleportation", matching or improving on prior
+   methods across most benchmarks, by as much as half in the ancilla-free
+   case, in the open-source PyZX library (Kissinger, van de Wetering,
+   "Reducing T-count with the ZX-calculus", Phys. Rev. A 102:022406,
+   2020).  The same machinery describes measurement-based quantum
+   computing and graph states (Duncan, Perdrix), models surface-code
+   lattice surgery (de Beaudrap, Horsman, 2017), and beyond physics
+   underlies the DisCoCat compositional semantics of natural language
+   (Coecke, Sadrzadeh, Clark, 2010), likewise recorded at
+   Structure/Monoidal/CompactClosed.v.
+
+   Formally the calculus is a free PROP over the [PROP] machinery of
+   Construction/PROP.v: the [ZX] inductive is its syntax, its denotation
+   is a symmetric-monoidal functor into linear maps, and reasoning
+   proceeds by rewriting [zx_eq] rather than by matrix computation.  The
+   payoff is program transformation — a diagram is normalised and a
+   cheaper circuit re-extracted — the special-Frobenius fact that a
+   spider depends only on its leg count supplying the labelled graph on
+   which that search runs (Kissinger, van de Wetering, 2020). *)
+
 (** ** Phases
 
     Phases parameterise spiders.  In the standard ZX-calculus a phase is

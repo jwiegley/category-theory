@@ -45,6 +45,74 @@ Generalizable All Variables.
    constructors, which are therefore qualified [Datatypes.inl] and
    [Datatypes.inr] throughout this file. *)
 
+(* Why the skeleton, and where it leads
+
+   nLab: https://ncatlab.org/nlab/show/FinSet
+   nLab: https://ncatlab.org/nlab/show/Lawvere+theory
+
+   The skeletal category of finite sets is the founding object of
+   categorical universal algebra.  Lawvere's doctoral dissertation
+   (F. W. Lawvere, "Functorial Semantics of Algebraic Theories", 1963)
+   built algebraic theories on exactly this category: in the modern
+   formulation recorded by nLab, a Lawvere theory is a category equipped
+   with an identity-on-objects, strictly power-preserving functor out of
+   the opposite of the category of natural numbers and functions between
+   them — the opposite of the category defined here — and Lawvere
+   theories so presented correspond to finitary monads on Set.  It
+   follows that [FinSet]^op is the initial Lawvere theory, the theory of
+   no operations that every other theory extends; Instance/FinSet/Lawvere.v
+   realizes it in-tree as [FinSetOp_Lawvere], with the base reachability
+   hypothesis discharged by [eq_refl] in Theory/Lawvere/Sets.v
+   ([FinSetOp_reach]).
+
+   The universal properties run in parallel.  Per nLab, FinSet is the free
+   category with finite coproducts on a single object, and dually
+   FinSet^op is the free category with finite products on one; the
+   commutative-monoid PROP statement of the header traces to Lafont
+   (Y. Lafont, "Towards an algebraic theory of Boolean circuits", Journal
+   of Pure and Applied Algebra 184, 2003).  By generators and relations,
+   FinSet is presented by one multiplication 2 → 1 and one unit 0 → 1
+   under the commutative-monoid equations, and it anchors the
+   network-theory chain in which cospans of finite sets form the prop for
+   special commutative Frobenius monoids and spans the prop for
+   bicommutative bimonoids (results of Lack and of Rosebrugh, Sabadini
+   and Walters, assembled in Baez, Coya, Rebro, "Props in Network
+   Theory", Theory and Applications of Categories 33, 2018) — the
+   interconnection algebra discussed in Theory/Algebra/Frobenius.v.
+
+   The footprint extends well beyond algebra.  FinSet is an elementary
+   topos whose inclusion into Set is a logical morphism, and the functor
+   category from FinSet to Set is the classifying topos for the theory of
+   objects (nLab).  Presheaves on FinSet are the augmented symmetric
+   simplicial sets of Grandis ("Finite sets and symmetric simplicial
+   sets", Theory and Applications of Categories 8, 2001), with the
+   simplex category Δ embedding into FinSet.  Covariant presheaves over
+   this skeleton are likewise the mathematical universe of abstract
+   syntax with variable binding (Fiore, Plotkin, Turi, "Abstract Syntax
+   and Variable Binding", LICS 1999): an object n is a context of n free
+   variables, morphisms are renamings, and binding signatures acquire
+   initial-algebra semantics with a provably correct substitution
+   structure — the underpinning of well-scoped De Bruijn
+   representations.
+
+   Within this library the skeleton earns its keep for a further,
+   concrete reason: it computes.  Objects are literal natural numbers, so
+   object equality is decidable — the content of [FinSet_ObjDecEq] —
+   and UIP on objects then holds axiom-free by Hedberg's argument, while
+   morphisms are honest Coq functions on the standard library's [Fin.t],
+   the canonical n-element type of the dependent-types tradition.
+   Categorical structure can therefore be made to evaluate, and the
+   closed-computation discipline established here by [fin_split] and
+   [fin_join] propagates through every satellite: positional product
+   codecs [fin_pair] and [fin_unpair] in Instance/FinSet/Product.v,
+   enumeration exponential codecs [fin_tabulate] and [fin_apply] in
+   Instance/FinSet/Closed.v, counted pullbacks ([FinSet_Pullbacks]) and
+   the decidable subobject classifier Ω := 2 in
+   Instance/FinSet/Classifier.v, culminating in [FinSet_Topos] of
+   Instance/FinSet/Topos.v, whose sanity Examples — [FinSet_Pow_two]
+   computing the power object of 2 to be 4 among them — hold by
+   [eq_refl]. *)
+
 Program Definition FinSet : Category := {|
   obj := nat;
   hom := fun m n => Fin.t m → Fin.t n;

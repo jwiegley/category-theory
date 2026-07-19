@@ -41,6 +41,84 @@ Generalizable All Variables.
      factorization category Fact f of Instance/Fact.v, connects the two
      factorizations as objects of Fact f. *)
 
+(* The image paradigm, its history, and its reach
+
+   nLab:      https://ncatlab.org/nlab/show/weak+factorization+system
+   Wikipedia: https://en.wikipedia.org/wiki/Lifting_property
+   Blog:      Bartosz Milewski, "(Weak) Factorization Systems", 2025
+
+   A factorization system equips an arbitrary category with a canonical
+   notion of image along its arrows.  The guiding template is elementary
+   set theory: a function f is in general neither injective nor
+   surjective, and inserting its image between source and target
+   separates the two defects, for the map onto the image is surjective
+   and carries all the non-injectivity, while the inclusion of the image
+   is injective and carries all the non-surjectivity (Milewski, "(Weak)
+   Factorization Systems", 2025).  Abstracting "surjection" to a left
+   class E and "injection" to a right class M, and asking that every
+   morphism factor as an M-morphism after an E-morphism ([ofs_factor]),
+   with every E-morphism orthogonal to every M-morphism ([ofs_orth]),
+   yields the (E, M) system of [OFS].  The uniqueness of the diagonal
+   filler is decisive: it forces any two factorizations of a morphism
+   to be joined by a unique isomorphism of middle objects, exactly
+   [factorization_unique].
+
+   Two classical facts sit in the background, neither proved here.  Each
+   class determines the other by orthogonality: E is the class of all
+   morphisms left-orthogonal to M and M the class right-orthogonal to E,
+   a Galois connection on arrow classes whose closed pairs are the
+   prefactorization systems, and the intersection E ∩ M consists of
+   exactly the isomorphisms (nLab, "orthogonal factorization system").
+   In one phrase, an OFS is a weak factorization system whose lifts
+   happen to be unique (nLab, "weak factorization system").
+
+   The structure has been rediscovered under several names.  Mac Lane
+   gave the earliest study, under the now-clashing name "bicategory" and
+   with side conditions since dropped (Mac Lane, "Duality for groups",
+   Bull. Amer. Math. Soc. 56, 1950).  The orthogonal notion in its
+   modern form is due to Freyd and Kelly ("Categories of continuous
+   functors, I", J. Pure Appl. Algebra 2, 1972); the name "factorization
+   system" and the reflective constructions to Bousfield
+   ("Constructions of factorization systems in categories", J. Pure
+   Appl. Algebra 9, 1977); and the tie to reflective subcategories and
+   localization to Cassidy, Hébert and Kelly (J. Austral. Math. Soc. Ser.
+   A 38, 1985).  A later reading presents an OFS as an Eilenberg-Moore
+   algebra, suitably defined, for the monad of the squaring endofunctor
+   K ↦ K² on Cat (Korostenski, Tholen, J. Pure Appl. Algebra 85, 1993);
+   Construction/Arrow.v records the same lineage.
+
+   Instances recur across the classical domains.  In a regular category
+   the (regular epi, mono) system and in an abelian category the (epi,
+   mono) system are image factorizations, the middle object being the
+   categorical image; the library packages these as [Regular_OFS] in
+   Structure/Regular/Factorization.v and [Abelian_OFS] in
+   Structure/Abelian.v, with the setoid archetype
+   [Sets_Image_Factorization] in Instance/Sets/Image.v.  In Cat the
+   (bijective-on-objects, fully-faithful) and comprehensive (final
+   functor, discrete fibration) systems arise, and reflective
+   factorization systems correspond to reflective subcategories and
+   localizations, the reflector inverting the left class (Cassidy,
+   Hébert, Kelly, 1985; see Construction/Localization/Universal.v).  In
+   homotopy theory the weak variant is load-bearing: a Quillen model
+   structure is two interlocking weak factorization systems with a class
+   of weak equivalences (Quillen, "Homotopical Algebra", LNM 43, 1967).
+
+   Computationally, the image factorization splits a function into its
+   surjective and injective parts and names the canonical range that
+   lies between them, the shape a typed program uses to give an arbitrary
+   map an image type.  Whether the lift is unique is the decisive
+   distinction.  The reverse assignment, an injection before a
+   surjection, is only a weak factorization system, and its diagonal
+   fillers rest on the axiom of choice, so they are not canonical
+   (Milewski, 2025).  A lifting problem, the completion of a commuting
+   square by a diagonal, is the abstract shape of many search and
+   synthesis tasks; orthogonality is the case where the completion
+   exists and is forced, so it may be computed as data, not merely
+   asserted.  That is why Theory/Orthogonality.v packages the filler as
+   a Type-valued unique-existence record, and why the proofs here read
+   its witness [unique_obj] out of the orthogonality of [fact_e] against
+   [fact_m] to build the comparison isomorphism. *)
+
 (* An (E, M)-factorization of f : x ~> y: a middle object [fact_mid], a
    left leg [fact_e] belonging to E, and a right leg [fact_m] belonging to
    M, with [fact_m ∘ fact_e ≈ f]. *)

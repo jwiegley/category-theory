@@ -51,6 +51,76 @@ Context {T : B ⟶ C}.
    adjunctions and universal arrows: a universal arrow from S to T is an
    initial object of the appropriate comma category. *)
 
+(* Reification, the adjoint functor theorems, and gluing
+
+   nLab: https://ncatlab.org/nlab/show/comma+object
+   nLab: https://ncatlab.org/nlab/show/adjoint+functor+theorem
+   nLab: https://ncatlab.org/nlab/show/scone
+
+   The construction first appeared as an unnamed auxiliary device in
+   Lawvere's thesis (Lawvere, "Functorial Semantics of Algebraic Theories",
+   Columbia University PhD thesis 1963; summarized in Proc. Nat. Acad. Sci.
+   50 (1963), 869-872; republished with an author's commentary as Reprints
+   in Theory and Applications of Categories 5, 2004), where it serves to
+   characterize adjoint functors.  The original notation (S, T) generalizes
+   the hom-set notation C(x, y), and the nLab records that the name is a
+   holdover from that punctuation.  Wikipedia notes that the device became
+   generally known only many years later; its textbook treatment is
+   section II.6 of Mac Lane, "Categories for the Working Mathematician"
+   (Springer GTM 5; 2nd ed. 1998).
+
+   What the definition provides is reification.  A morphism between an
+   S-image and a T-image becomes an OBJECT of the category [Comma], so that
+   universal properties quantified over morphisms become initial-object
+   properties quantified over objects, where the general machinery of this
+   library applies.  Beyond the special cases named above, the category of
+   cones over a diagram F is the comma Δ ↓ F (Instance/Cones/Comma.v), the
+   product category A ∏ B is the comma of two functors into the terminal
+   category (Construction/Product/Comma.v), and natural transformations
+   S ⟹ T correspond to functors A ⟶ (S ↓ T) sectioning both projections —
+   an observation Wikipedia credits to Huq, an exercise in Mac Lane —
+   formalized in Construction/Comma/Natural/Transformation.v.  Invariance
+   of S ↓ T under natural isomorphism of S and T is
+   Construction/Comma/Isomorphism.v.
+
+   The adjunction story that motivated the definition is carried through
+   in-tree at each of its historical layers.  A universal arrow from d to U
+   is an initial object of =(d) ↓ U, and a family of them assembles into an
+   adjunction (Theory/Universal/Arrow.v, [AdjunctionFromUniversalArrows]).
+   Lawvere's own criterion — F ⊣ G precisely when (F ↓ Id) ≅ (Id ↓ G)
+   compatibly with the projections, which Wikipedia reports as the original
+   motivation for the construction — is packaged as [lawvere_equiv] in
+   Construction/Comma/Adjunction.v.  Freyd's General Adjoint Functor
+   Theorem (Freyd, "Abelian Categories", Harper & Row 1964, exercises of
+   chapter 3; reprinted as TAC Reprints 3, 2003) reduces the existence of a
+   left adjoint to U to an initial object in each =(d) ↓ U; the library
+   executes exactly this route in Adjunction/GAFT.v ([GAFT_from_initials],
+   [GAFT]), with completeness of the comma category supplied by
+   [Comma_Complete] in Construction/Comma/Limit.v, where the projection
+   [comma_proj2] creates the limits.  Creation of limits in comma
+   categories was studied early by Pellegrino (two papers, Riv. Mat. Univ.
+   Parma 3 and Atti Sem. Mat. Fis. Univ. Modena 23, both 1974).
+
+   Two further readings locate the construction in the wider theory.
+   Viewed 2-categorically, [Comma] is the strict comma object of the
+   cospan A ⟶ C ⟵ B in Cat — the instance that gives the general notion
+   its name — and comma objects are PIE-limits, constructible from
+   pullbacks and the power C^2 (nLab, "comma object").  Viewed logically,
+   the Freyd cover, or scone, of a category T is the comma Set ↓ Γ over
+   the global-sections functor Γ := T(1, −); gluing arguments through it
+   prove the disjunction and existence properties of intuitionistic
+   higher-order logic (Lambek and Scott 1980; Freyd and Scedrov,
+   "Categories, Allegories", North-Holland 1990; Johnstone, "Sketches of
+   an Elephant", C3.6), and Artin gluing generalizes this: when a functor
+   f between topoi preserves pullbacks, the comma category Id ↓ f is
+   again a topos (nLab, "comma category").  In programming-language
+   theory the same gluing underlies logical-relations proofs.  Finally,
+   Rydeheard and Burstall ("Computational Category Theory", Prentice Hall
+   1988, section 5.2) read the comma category as a program-construction
+   device: given code once for [Comma], colimit algorithms for derived
+   categories such as graphs are inherited from colimit algorithms for
+   their ingredients. *)
+
 #[local] Set Transparent Obligations.
 #[local] Obligation Tactic := idtac.
 

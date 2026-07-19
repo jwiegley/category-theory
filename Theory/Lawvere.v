@@ -37,6 +37,82 @@ Generalizable All Variables.
    of all objects states it as an explicit hypothesis
    (Theory/Lawvere/Sets.v does). *)
 
+(* Functorial semantics: theory as category, model as functor
+
+   nLab:   https://ncatlab.org/nlab/show/Lawvere+theory
+   Thesis: Lawvere, "Functorial Semantics of Algebraic Theories",
+           Ph.D. thesis, Columbia University, 1963 (reprinted as
+           Reprints in Theory and Applications of Categories No. 5, 2004)
+   Paper:  Linton, "Some Aspects of Equational Categories", Proc. Conf.
+           Categorical Algebra (La Jolla, 1965), Springer 1966
+   Paper:  Plotkin, Power, "Notions of Computation Determine Monads",
+           FoSSaCS 2002, LNCS 2303
+
+   A Lawvere theory is the presentation-free form of a single-sorted
+   finitary algebraic theory: the theory reconstituted as a category so
+   that its models become functors.  Classical universal algebra presents
+   an algebraic structure by a signature — operation symbols with arities
+   — together with equational axioms, so that the theory of groups posits
+   a multiplication, a unit and an inverse subject to the associativity,
+   unit and inverse laws.  Such a presentation is not canonical: one
+   variety arises from many inequivalent signatures, and the syntax
+   obscures what is invariant.  Lawvere's 1963 Columbia thesis, written
+   under Eilenberg and reprinted as TAC No. 5 in 2004, replaced the
+   presentation by a category whose objects are the powers of one generic
+   object — named here by [law_of_nat], with [law_pow] their explicit
+   right-nested form.  A morphism from the n-th power to the generic
+   object IS an n-ary derived operation of the theory, composition is
+   substitution, and the axioms are already quotiented in, so that no
+   chosen presentation survives.
+
+   The finite-product structure is load-bearing rather than incidental.
+   The diagonal furnished by [law_cartesian] copies a variable and the
+   projection to [law_terminal] discards one, which is what lets an
+   operation of one arity generate operations of another, while
+   [law_zero_terminal] and [law_plus_product] keep the powers strictly
+   closed under this product.  A model, or algebra, is then a
+   finite-product-preserving functor into a cartesian base: it fixes an
+   underlying object, sends each abstract operation to an actual map, and
+   respects every equation because it is a functor; homomorphisms of
+   models are the natural transformations.  Theory is a category, model
+   is a functor, homomorphism is a natural transformation — the content
+   of "functorial semantics."  In the library this is [Model] and
+   [Models] of Theory/Lawvere/Model.v, with the underlying-object functor
+   [ev1] and its [ev1_Faithful] of Theory/Lawvere/Sets.v; the generic
+   base FinSet^op, the theory of equality and the initial Lawvere theory,
+   is [FinSetOp_Lawvere] of Instance/FinSet/Lawvere.v.
+
+   The reach of the notion is broad.  Lawvere theories are the
+   categorical counterpart of the finitary equational varieties — groups,
+   rings, modules, Lie algebras, lattices, Boolean and Heyting algebras —
+   and by Birkhoff's HSP theorem exactly the classes closed under
+   homomorphic images, subalgebras and products.  Yet the boundary is as
+   telling as the interior: lacking partial and infinitary operations,
+   the category of fields has no products and is not of this form.
+   Linton (1966) identified the category of Lawvere theories with that of
+   the finitary monads on Set and showed the models monadic over Set; the
+   in-tree face of this is Theory/Lawvere/Monad.v ([Lawvere_Monad],
+   [Lawvere_EM_Comparison], [Lawvere_crude_monadicity]).  Plotkin and
+   Power later presented the operations and equations generating an effect
+   monad as a Lawvere theory — state, exceptions, nondeterminism —
+   recovering most effect monads as free algebras, the continuation monad
+   the exception, and this is the origin of algebraic effects.  The
+   cartesian member also sits within a family: PROPs are the
+   symmetric-monoidal analogue without free copy and discard, joined to
+   this spine by [Lawvere_PROP_interp] of Theory/Lawvere/PROP.v over the
+   free-PROP development in Construction/PROP/.
+
+   Read computationally, a Lawvere theory is a syntax-free calculus of
+   operations.  An arrow from the n-th power to the generic object is a
+   term in n free variables, composition is capture-free substitution,
+   and the cartesian copy and discard are the structural rules —
+   contraction and weakening — of the term language.  A model is an
+   interpreter that fixes a carrier and evaluates every operation.  It
+   follows that functoriality is soundness of the equations, and that the
+   [law_pow] and [law_pow_one] machinery is the bookkeeping that makes the
+   n-th power a concrete object which transports, through its [Defined]
+   equality, to [law_of_nat n]. *)
+
 Class LawvereTheory : Type := {
   law_cat : Category;
 

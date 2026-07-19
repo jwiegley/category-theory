@@ -39,6 +39,82 @@ Reserved Infix "∘∘∘" (at level 40, left associativity).
    whiskering) is the functorial action of `hcompose` on a pair of 2-cells, and
    is what the coherence laws are stated through. *)
 
+(* Why weaken a 2-category: examples, coherence, and the monad slogan
+
+   nLab:      https://ncatlab.org/nlab/show/bicategory
+   Wikipedia: https://en.wikipedia.org/wiki/Bicategory
+   Paper: Bénabou, J., "Introduction to bicategories", Reports of the
+          Midwest Category Seminar, LNM 47, Springer 1967, pp. 1-77
+   Paper: Kelly, G.M., Street, R., "Review of the elements of
+          2-categories", LNM 420, Springer 1974, pp. 75-103
+   Paper: Mac Lane, S., Paré, R., "Coherence for bicategories and indexed
+          categories", J. Pure Appl. Algebra 37, 1985, pp. 59-80
+
+   The notion is due to Bénabou (1967).  A strict 2-category demands that
+   horizontal composition of 1-cells be associative and unital on the
+   nose, and almost none of the naturally occurring 2-dimensional
+   structures meet that demand.  When composition is given by a universal
+   construction — pullback of spans, tensor of bimodules, coend of
+   profunctors — the result is determined only up to canonical
+   isomorphism, so [hcompose] is associative and unital up to a coherent
+   invertible 2-cell rather than on the nose.  A [Bicategory] keeps such
+   examples honest by recording the associator [hassoc] and the unitors
+   [hunit_left], [hunit_right] as data, and constraining them by the two
+   coherence laws [hcoherence_pentagon] and [hcoherence_triangle], so that
+   every reasonable diagram of associators and unitors commutes.  This
+   was, per nLab, the earliest such notion and remains the one in most
+   common use.
+
+   The one-object case is exactly a monoidal category.  Read at a single
+   [bi0cell], with [bi1id] as the unit and [hcompose] as the tensor, the
+   bicategory axioms are the monoidal coherence axioms; this delooping is
+   why the [Bicategory] class was shaped to mirror Structure/Monoidal.v
+   field for field (the dictionary in the header above), and
+   Theory/Bicategory/OneObject.v realizes the correspondence by projecting
+   the monoidal data into a one-object bicategory (nLab; Wikipedia).
+
+   Cat is the archetypal strict example — categories, functors, natural
+   transformations — realized in Instance/Cat/Bicategory.v, where the
+   hom-category [bicat] C D is definitionally the functor category on C
+   and D.  The motivating weak examples lie elsewhere.  Span(C) over a
+   category with pullbacks is, as the header of Construction/Span/Category.v
+   notes, literally a bicategory, and quotienting by apex-iso recovers a
+   strict 1-category (with Span(Set) subsuming Rel); its pushout mirror
+   Cospan(C) is in Construction/Cospan/Category.v; bimodules over rings are
+   what nLab calls the prototype for many similar examples; and profunctors
+   compose by a coend, whose unit and associator laws are developed in
+   Construction/Profunctor/Laws.v.
+
+   The headline payoff, observed in the same 1967 paper, is a slogan: a
+   small category is a monad in the bicategory of spans of sets.  A monad
+   on a set A₀ in Span(Set) is a span A₀ ← A₁ → A₀ (objects, morphisms,
+   source and target) with a multiplication A₁ ×_{A₀} A₁ → A₁
+   (composition) and a unit A₀ → A₁ (identities), and its monad axioms are
+   the category axioms.  Varying the ambient bicategory specializes the
+   slogan: a monad in Prof is a promonad, the categorical content of
+   Hughes's arrows and the setting for profunctor optics (Milewski,
+   "Promonads, Arrows, and Einstein Notation for Profunctors", 2019;
+   Clarke et al., "Profunctor Optics, a Categorical Update", arXiv 2020).
+   More broadly, a bicategory is where composition given by a universal
+   construction is modeled without asserting a strict equality it does not
+   have.
+
+   Adjunctions internal to a bicategory, and the mates correspondence —
+   the bijection of 2-cells they induce — are the 2-categorical toolkit
+   for lifts, transports, and Beck-Chevalley squares (Kelly, Street
+   1974); the in-tree development gives internal adjunctions in
+   Theory/Bicategory/Adjunction.v, the Kelly-Street mates calculus in
+   Theory/Bicategory/Mates.v, pseudofunctors (the weak 2-functors) in
+   Theory/Bicategory/Pseudofunctor.v, and lax transformations and
+   modifications in Theory/Bicategory/Lax.v and
+   Theory/Bicategory/Modification.v, with a bicategorical adjunction in
+   Cat shown to coincide with F ⊣ U in
+   Instance/Cat/Bicategory/Adjunction.v.  The coherence theorem (Mac Lane,
+   Paré 1985) shows every bicategory biequivalent to a strict 2-category,
+   even though the naturally occurring examples are presented weakly;
+   Theory/DoubleCategory.v cross-refers to the [hassoc] orientation used
+   here. *)
+
 (* From https://ncatlab.org/nlab/show/bicategory#detailedDefn :
 
 {In the following text, → matches ~> in this library, and ⇒ matches ~~>}

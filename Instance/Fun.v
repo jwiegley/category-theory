@@ -28,6 +28,83 @@ Context {D : Category}.
    `[C, D]` inherits it pointwise from D; those instances live in their own
    files (e.g. under Structure) rather than here. *)
 
+(* Where the functor category comes from, and what it is for
+
+   nLab:  https://ncatlab.org/nlab/show/category+of+presheaves
+   nLab:  https://ncatlab.org/nlab/show/Yoneda+embedding
+   nLab:  https://ncatlab.org/nlab/show/Godement+product
+   SEP:   https://plato.stanford.edu/entries/category-theory/
+   Paper: Eilenberg, Mac Lane, "General Theory of Natural Equivalences",
+          Transactions of the AMS 58, 1945
+
+   The functor category is as old as category theory itself.  The founding
+   paper of the subject already contains a section II.8 titled "Categories
+   of functors", though a category of categories is nowhere mentioned in
+   it, and its authors regarded everything beneath this level as
+   scaffolding: "the whole concept of a category is essentially an
+   auxiliary one; our basic concepts are essentially those of a functor
+   and of natural transformation" (Eilenberg–Mac Lane 1945, p. 247, as
+   quoted by the Stanford Encyclopedia of Philosophy).  Freyd compressed
+   the genesis into a slogan — categories are what one must define in
+   order to define functors, and functors are what one must define in
+   order to define natural transformations (Freyd, "Abelian Categories",
+   1964, introduction).  [Fun] realizes the construction as a first-class
+   Category, so the ambient machinery of isomorphism, limit, and
+   adjunction applies to functors one level up: "natural isomorphism" is
+   nothing other than isomorphism in `[C, D]`, and
+   [Functor_Setoid_Nat_Iso] (with standalone directions [iso_equiv] and
+   [equiv_iso]) reduces such an isomorphism to a componentwise family, so
+   invertibility of a transformation is checked one object at a time.
+
+   Three canonical uses organize the applications.  Presheaf categories
+   `[C^op, Sets]` are the leading case: their limits, colimits, epis and
+   monos are computed objectwise, they are cartesian closed, and the
+   Yoneda embedding into them is fully faithful — for a small category,
+   its free cocompletion — so every category embeds into a functor
+   category built from itself (nLab, "category of presheaves" and "Yoneda
+   embedding"); in-tree, Functor/Hom/Yoneda.v develops the lemma and the
+   embedding over exactly these hom-setoids, and Theory/Sheaf.v defines
+   `Presheaves` as literally `[U^op, C]`.  Diagram categories are the
+   domain of limit-taking: a J-shaped diagram in C is an object of
+   `[J, C]`, a cone is a morphism out of a constant functor, and
+   completeness is the adjoint sandwich colim ⊣ Δ ⊣ lim around the
+   diagonal Δ : C ⟶ [J, C] of Functor/Diagonal.v.  And `[C, D]` is the
+   exponential witnessing that Cat is cartesian closed
+   (Instance/Cat/Cartesian/Closed.v); equivalently, functor categories
+   are the hom-categories of the 2-category Cat (nLab, "functor
+   category").  Representation theory rides the same construction: a
+   representation is a functor out of a one-object domain, and an
+   intertwiner between representations is a natural transformation
+   (nLab, "representation").
+
+   The 2-categorical reading explains the middle of this file.  The
+   whiskering laws and the coherence isomorphisms [nat_λ], [nat_ρ], and
+   [nat_α] are precisely the unitor and associator data that
+   Instance/Cat/Bicategory.v consumes to make Cat a bicategory with
+   `bicat C D ≡ [C, D]` definitionally, reconciling the reversed naming
+   noted below (`hunit_left := nat_ρ`, `hunit_right := nat_λ`).
+   Horizontal composition of natural transformations is the Godement
+   product, named after Roger Godement, and the agreement of its two
+   defining formulas IS the interchange law (nLab, "Godement product");
+   [whisker_left_right] states its whiskered form here.  One level down,
+   the endofunctor category `[C, C]` is monoidal under composition, and a
+   monad is exactly a monoid in it (Monad/Monoid.v, [Compose_Monoidal]);
+   the classes [Pointed] and [WellPointed] below live at the same
+   address.
+
+   The computational reading rests on parametricity.  In a polymorphic
+   language a natural transformation is a function of type
+   `forall a. F a -> G a`, and parametricity yields the naturality square
+   as a free theorem, so functors and polymorphic functions form a
+   functor category whose vertical composition is componentwise program
+   composition (Milewski, "Natural Transformations", 2015).  Throughout,
+   the governing principle is pointwise inheritance: when D has limits or
+   colimits of a given shape, so does `[C, D]`, computed pointwise (with
+   the caveat that an incomplete D can possess accidental limits that are
+   not pointwise), and when C is small and D is cartesian closed and
+   complete, `[C, D]` is cartesian closed (nLab, "functor category");
+   Instance/Fun/Cartesian.v instantiates the cartesian case. *)
+
 Program Definition Fun : Category := {|
   obj     := C ⟶ D;                 (* objects are functors C ⟶ D *)
   hom     := @Transform C D;        (* morphisms are natural transformations *)

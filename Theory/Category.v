@@ -34,6 +34,80 @@ Reserved Infix "∘" (at level 40, left associativity).
   Categories (as distinct from Category/~) are identified by [homset :=
   Morphism_equality]. *)
 
+(* Where categories come from, and what the definition is for
+
+   SEP:   https://plato.stanford.edu/entries/category-theory/
+   nLab:  https://ncatlab.org/nlab/show/E-category
+   nLab:  https://ncatlab.org/nlab/show/Yoneda+lemma
+   Paper: Eilenberg, Mac Lane, "General theory of natural equivalences",
+          Transactions of the American Mathematical Society 58, 1945
+
+   Categories, functors, and natural transformations entered mathematics
+   together, in Eilenberg and Mac Lane's "General theory of natural
+   equivalences" (1945) — the abstraction, so the Stanford Encyclopedia
+   recounts, of their "Group Extensions and Homology" (Annals of
+   Mathematics 43, 1942), where particular functors and natural
+   transformations were already at work among groups.  The motivation ran
+   backwards through the definitions: the aim was to make "natural"
+   precise, which required functors, which in turn required categories.
+   In their own words, "the whole concept of a category is essentially an
+   auxiliary one; our basic concepts are essentially those of a functor
+   and of a natural transformation".  Even the names are borrowed — per
+   the same Encyclopedia entry, "functor" from Carnap, "category" from
+   Aristotle, Kant, and Peirce.
+
+   What the auxiliary concept isolates is the least structure in which
+   composition makes sense: objects, morphisms, identities, an
+   associative composition, and nothing else.  Milewski's preface to
+   "Category Theory for Programmers" (2014) places composition "at the
+   very root of category theory".  Yet the definition never asks what an
+   object is; every property must be phrased through the morphisms into
+   and out of it, and the Yoneda lemma shows the discipline loses
+   nothing — per the nLab, probes by the other objects of C suffice to
+   distinguish the objects of C.  The reward is altitude: "Category
+   theory takes a bird's eye view of mathematics.  From high in the sky,
+   details become invisible, but we can spot patterns that were
+   impossible to detect from ground level" (Leinster, "Basic Category
+   Theory", CUP 2014).
+
+   The subsequent history reads as a map of this library.  Grothendieck
+   made categories intrinsic to homological algebra ("Sur quelques
+   points d'algèbre homologique", Tôhoku Math. J. 9, 1957); Kan isolated
+   adjoint functors ("Adjoint Functors", TAMS 87, 1958), the subject of
+   Theory/Adjunction.v; Lawvere turned algebraic theories into
+   categories and their models into functors ("Functorial Semantics of
+   Algebraic Theories", PNAS 50, 1963), realized here in
+   Theory/Lawvere.v, and axiomatized the category of sets (PNAS 52,
+   1964); Lambek read categories as deductive systems and cartesian
+   closed categories as typed lambda calculus, the bridge behind
+   Structure/Closed.v and Instance/Lambda/.  Baez and Stay extend the
+   same dictionary to physics and topology, with closed symmetric
+   monoidal categories as the common language ("Physics, Topology,
+   Logic and Computation: A Rosetta Stone", arXiv:0903.0340, 2009).
+
+   The class below is what the nLab calls an E-category: a category
+   enriched in setoids, taking a specified equivalence relation rather
+   than the identity type as the equality of morphisms — each hom
+   carries a chosen equivalence and composition carries the
+   extensionality witness [compose_respects].  Coq's intensional type
+   theory has no quotient types, so a hom cannot be quotiented after
+   the fact; the relation must travel with the hom.  The choice is what
+   lets the library run on zero axioms: Instance/Sets.v identifies two
+   setoid maps whenever they agree pointwise up to the codomain's ≈, so
+   functions are extensional without the functional extensionality
+   axiom, and a quotient category is merely another choice of [homset]
+   over the same homs (compare the hom-congruence quotients of
+   Construction/Quotient.v).  The price is a standing obligation: every
+   operation on morphisms must be shown Proper, and rewriting proceeds
+   through Coq's generalized setoid rewriting.  One further field is
+   deliberate: [comp_assoc_sym] restates associativity in the mirrored
+   orientation so that Construction/Opposite.v can simply exchange the
+   two fields, making C^op^op = C hold by reflexivity;
+   [Build_Category'] then recovers the redundant field for instance
+   authors.  Nearly every file in the library requires this one,
+   directly or through its immediate consumers Theory/Functor.v and
+   Theory/Isomorphism.v. *)
+
 Class Category@{o h p | h <= p} : Type@{max(o+1,h+1,p+1)} := {
   obj : Type@{o};                       (* collection of objects *)
 

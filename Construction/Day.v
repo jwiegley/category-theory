@@ -75,6 +75,70 @@ Proof. exact (@fmap_comp K Sets G x y z g f w). Qed.
    pentagon and triangle coherences — is deferred to a downstream file
    (ledger 5). *)
 
+(* Where the convolution comes from, and what it is for
+
+   nLab:  https://ncatlab.org/nlab/show/promonoidal+category
+   Paper: Day, "On closed categories of functors", Lecture Notes in
+          Mathematics 137, Springer 1970
+   Paper: Im, Kelly, "A universal property of the convolution monoidal
+          structure", Journal of Pure and Applied Algebra 43, 1986
+   Paper: Rivas, Jaskelioff, "Notions of Computation as Monoids",
+          Journal of Functional Programming 27, 2017
+
+   The construction is due to Brian Day, who introduced it in "On closed
+   categories of functors" (Lecture Notes in Mathematics 137, Springer
+   1970) and in his thesis of the same year.  Day worked at the
+   generality of enriched functor categories and read the tensor above
+   as a categorified convolution: the coend sums over the ways the
+   target decomposes through [⨂] as the convolution of two functions
+   sums over the ways an argument splits.  His theorem was that the
+   resulting functor category is not merely monoidal but biclosed, the
+   internal hom being an end, dual to the coend that defines the tensor.
+
+   The construction depends only on the representable profunctor carried
+   by the tensor, and so applies whenever the base bears a promonoidal
+   structure rather than a monoidal one.  Day named such
+   structures premonoidal in 1970 and renamed them promonoidal in 1974
+   (nLab: promonoidal category); the later name is the one to keep,
+   because the premonoidal categories of Structure/Premonoidal.v are the
+   unrelated Power–Robinson notion for effectful computation, and the two
+   are not to be conflated.
+
+   The purpose the tensor serves is fixed by a universal property.  The
+   objectwise product of two functors ignores the tensor of the base
+   entirely; Day convolution is instead its canonical lifting to the
+   functor category, and Im and Kelly showed that the presheaf category
+   so equipped is the free monoidal cocompletion of the base — the
+   universal cocomplete monoidal category receiving it, with the Yoneda
+   embedding strong monoidal (Im, Kelly, 1986).  That theorem is stated
+   for presheaves [C^op, Set]; this file works with the covariant
+   [C, Sets] and assembles the ingredients a monoidal structure needs —
+   the bifunctor [Day_Tensor], the unit [unit_Day], the unitors [lu_iso]
+   and [ru_iso], and the associator [day_assoc_iso] — but does not prove
+   the universal property itself.
+
+   The chief computational use is that monoids for this tensor are the
+   lax monoidal functors, equivalently the applicative functors of
+   functional programming.  A monad is a monoid in the endofunctor
+   category under composition; an applicative functor is a monoid in the
+   same category under Day convolution, which unlike composition is
+   symmetric (Rivas, Jaskelioff, 2017), the correspondence that
+   Structure/Monoid.v records as the intended payoff of this file.
+   Where a monad sequences effects with a data dependency, an
+   applicative combines independent effects, and the symmetry of the Day
+   tensor is that independence; the free monoids for it are the free
+   applicative functors.
+
+   Read as data, an element of the convolution [Day F G] is an
+   existential package quantifying the coend indices: two independently
+   produced values [F a] and [G b] together with a consumer
+   [C(a ⨂ b, c)] for their tensor, the summand
+   ∃ a b. C(a ⨂ b, c) × F a × G b that the integrand [DayI] makes
+   precise.  At the cartesian tensor the consumer curries to [a → b → c],
+   and this is the shape shipped as Data.Functor.Day in the
+   kan-extensions library (Kmett), where the same tensor also gives
+   a symmetric monoidal product on comonads. *)
+
 Section Day.
 
 Context {C : Category}.

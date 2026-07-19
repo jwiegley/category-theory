@@ -23,6 +23,86 @@ Context {G : C ⟶ D}.
    mapped object before or after applying the functorial action introduces no
    change in the effect of such mappings. *)
 
+(* Where natural transformations come from, and why they come first
+
+   nLab:  https://ncatlab.org/nlab/show/natural+transformation
+   nLab:  https://ncatlab.org/nlab/show/Godement+product
+   nLab:  https://ncatlab.org/nlab/show/Roger+Godement
+   SEP:   https://plato.stanford.edu/entries/category-theory/
+   Paper: Eilenberg, Mac Lane, "Natural isomorphisms in group theory",
+          Proc. Natl. Acad. Sci. USA 28(12), 1942
+   Paper: Eilenberg, Mac Lane, "General theory of natural equivalences",
+          Trans. Amer. Math. Soc. 58(2), 1945
+
+   The definition above is the concept category theory was invented to
+   state.  Mathematicians had long called a map "natural" when it was
+   defined uniformly, with no arbitrary choice of basis or of
+   representatives, but the word had no precise content.  The 1942
+   preliminary report proposed a definition confined to group theory;
+   the 1945 paper generalized it, introducing categories, functors, and
+   natural transformations together, and stands as the founding document
+   of the subject.  Its opening example locates the boundary exactly
+   where the naturality square does: a finite-dimensional vector space L
+   is isomorphic to its dual, but no isomorphism can be exhibited until
+   a basis is chosen, and different bases yield different isomorphisms,
+   whereas the isomorphism of L with its double dual is given
+   "simultaneously" for all such spaces, no basis being mentioned.  The
+   pointwise isomorphisms with the dual exist, yet they cannot be
+   assembled into a family commuting with every linear map; the
+   double-dual family can, and the paper draws precisely this file's
+   square on p. 233, calling its commutativity the "naturality" or
+   "simultaneity" condition.
+
+   The library's Category → Functor → Transform spine thus ends at its
+   own point of origin.  The 1945 paper is explicit: "the whole concept
+   of a category is essentially an auxiliary one; our basic concepts are
+   essentially those of a functor and of a natural transformation" (§6,
+   p. 247), and Mac Lane restates the point in "Categories for the
+   Working Mathematician" (Springer 1998, §I.4): the category was
+   defined in order to be able to define the functor, and the functor in
+   order to be able to define the natural transformation.  The same §6
+   already confronts the size problems posed by "the category of all
+   sets" — the concern this library answers with the universe
+   parameters visible in this file's Section.
+
+   Natural transformations are likewise the 2-cells of the category of
+   categories.  Vertical composition [nat_compose], together with the
+   componentwise equivalence [Transform_Setoid], is the composition of
+   the functor category [C, D] built in Instance/Fun.v; horizontal
+   composition [nat_hcompose] is the Godement product, traced to the
+   five rules of functorial calculus in Godement's 1958 sheaf-theory
+   book; and the interchange law between the two makes Cat a strict
+   2-category (nLab, "Godement product"), realized in this library as
+   the motivating bicategory of Instance/Cat/Bicategory.v, with
+   [whisker_left] and [whisker_right] the horizontal composites against
+   an identity.  Everything downstream is phrased in these 2-cells: an
+   adjunction is a unit and a counit subject to the triangle identities
+   (Adjunction/Natural/Transformation.v), a monad is its η and μ
+   (Theory/Monad.v), the Yoneda lemma computes a setoid of
+   transformations out of a representable (Functor/Hom/Yoneda.v), and
+   Kan extension universal properties are stated through whiskering
+   (Theory/Kan/Extension.v).
+
+   The computational reading identifies natural transformations with
+   parametrically polymorphic functions.  Reynolds' abstraction theorem
+   (Reynolds, "Types, Abstraction and Parametric Polymorphism",
+   Information Processing 83, 1983) and the free theorems it yields
+   (Wadler, "Theorems for free!", FPCA 1989) show that every polymorphic
+   function from lists to lists commutes with map f for every f — the
+   naturality square, obtained from the type alone, since such a
+   function can only rearrange, duplicate, or drop elements, never
+   inspect them.  Milewski makes the identification explicit for Haskell
+   (Milewski, "Natural Transformations", 2015): a polymorphic function
+   between functors is automatically natural.  A basis-dependent
+   construction is a non-parametric one; the 1942 uniformity and the
+   1983 uniformity are one idea.  Yet in this setoid setting naturality
+   is not free: no parametricity theorem applies to a bare family
+   ∀ x, F x ~> G x, so [naturality] is carried as genuine proof content
+   — the Haskell reading explains what the law means, and the field is
+   where it is paid for.  At V = Sets, the enriched transformations of
+   Construction/Enriched/Sets.v recover exactly this file's
+   [Transform]. *)
+
 (* The `naturality_sym` field records the symmetric orientation of the
    naturality square. It is logically derivable from `naturality` (see
    `Build_Transform'` below, which proves it from `naturality` alone), but is

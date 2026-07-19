@@ -21,6 +21,82 @@ Generalizable All Variables.
    triangle (zig-zag) identities ε ∘ fmap[F] η ≈ id[F x] (counit_fmap_unit)
    and fmap[U] ε ∘ η ≈ id[U x] (fmap_counit_unit) hold as derived corollaries. *)
 
+(* Origins, ubiquity, and the uses of adjunction
+
+   nLab:  https://ncatlab.org/nlab/show/adjoint+functor
+   Paper: Kan, "Adjoint functors", Transactions of the American
+          Mathematical Society 87(2), 1958
+   Paper: Lawvere, "Adjointness in Foundations", Dialectica 23(3/4), 1969;
+          reprinted as TAC Reprints 16, 2006
+
+   Adjoint functors were introduced by Daniel Kan — a homotopy theorist and
+   doctoral student of Eilenberg — in the 1958 paper cited above.  The
+   concept was suggested by the needs of homological algebra, where natural
+   bijections of the shape Hom(F x, y) ≅ Hom(x, U y) had long been in
+   working use, the paradigm case being the tensor-hom adjunction
+   − ⊗ A ⊣ Hom(A, −) on abelian groups.  The name records an analogy with
+   adjoint linear operators on a Hilbert space, ⟨L x, y⟩ = ⟨x, R y⟩; the
+   nLab describes the categorical notion as a kind of categorification of
+   that older one.  Mac Lane states the standard assessment in the preface
+   of Categories for the Working Mathematician (Springer, 1971): "Adjoint
+   functors arise everywhere", and the middle of that book presents
+   universal constructions, limits, and free objects as so many faces of
+   adjunction.
+
+   Three presentations of the concept are equivalent, and the library
+   formalizes each.  This file takes Kan's hom-set form as primitive: the
+   natural family of setoid isomorphisms [adj].  The unit/counit form —
+   η and ε subject to the two triangle identities, which appear here as the
+   derived corollaries [counit_fmap_unit] and [fmap_counit_unit] — is the
+   class [Adjunction_Transform] of Adjunction/Natural/Transformation.v,
+   with the round trip between the two forms in
+   Adjunction/Natural/Transformation/Universal.v.  The universal-arrow form
+   is Theory/Universal/Arrow.v, whose [AdjunctionFromUniversalArrows]
+   assembles an adjunction from a pointwise family of universal solutions
+   and is the engine behind the adjoint functor theorems of
+   Adjunction/GAFT.v.  An adjunction is weaker than an isomorphism or an
+   equivalence of categories, yet strong enough to transport structure:
+   adjoints are unique up to natural isomorphism ([right_adjoint_iso] and
+   [left_adjoint_iso] below), right adjoints preserve limits and left
+   adjoints colimits (Adjunction/Continuity.v, anticipated by the note
+   ending this file), and every adjunction induces a monad.  The last
+   observation is Huber's ("Homotopy theory in general categories",
+   Mathematische Annalen 144, 1961), realized here as [Adjunction_Monad] in
+   Monad/Adjunction.v; its converse — every monad so arises — was proved
+   twice in 1965, by Kleisli ("Every standard construction is induced by a
+   pair of adjoint functors", Proceedings of the AMS 16(3), 1965) with the
+   initial resolution and by Eilenberg and Moore ("Adjoint functors and
+   triples", 1965) with the terminal one, both in-tree as
+   Monad/Kleisli/Adjunction.v and Monad/Eilenberg/Moore/Adjunction.v.
+
+   Lawvere's "Adjointness in Foundations" argues that adjointness, first
+   isolated and named in category theory, also pervades logic: cartesian
+   closed structure is entirely given by adjunctions — currying is
+   − × a ⊣ (−)^a — and the quantifiers form the adjoint triple
+   ∃ ⊣ substitution ⊣ ∀ over the fibres of a hyperdoctrine, a triple that
+   reappears as dependent sum and product in type theory and as base
+   change in geometry.  Between posets, an adjunction is exactly a Galois
+   connection, whose antitone variant recovers classical Galois theory;
+   on this special case rests abstract interpretation (Cousot and Cousot,
+   "Abstract interpretation: a unified lattice model for static analysis
+   of programs by construction or approximation of fixpoints", POPL 1977),
+   where a connection α ⊣ γ between concrete and abstract domains —
+   c ⊑ γ(a) ⟺ α(c) ≼ a — is the soundness discipline of static
+   analyzers, and such connections compose, so stages of approximation
+   stack.
+
+   For the functional programmer (Milewski, "Adjunctions", 2016), the
+   transposes ⌊-⌋ and ⌈-⌉ are the leftAdjunct and rightAdjunct of
+   Haskell's Adjunction class, while [unit] and [counit] specialize to
+   return and extract.  The product type is right adjoint to the diagonal
+   functor — concretely [Diagonal_Product_Adjunction] in
+   Adjunction/Diagonal/Product.v — and the function type arises from
+   − × a ⊣ (−)^a with eval as counit.  The free/forgetful reading of the
+   next comment block, witnessed in-tree by [FreeForgetfulAdjunction] in
+   Construction/Free/Quiver.v, is the historically central family of
+   examples, though not the whole story: limits and Kan extensions are
+   themselves adjoints, to the diagonal and restriction functors. *)
+
 (* Adjunctions relate two functors that map between the same two categories
   (though in opposite directions), in a manner that is weaker than isomorphism
   or equivalence, but still quite informative. In general, one functor is

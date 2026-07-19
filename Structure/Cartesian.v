@@ -39,6 +39,85 @@ Context `{C : Category}.
    exl ∘ ⟨f, g⟩ ≈ f and exr ∘ ⟨f, g⟩ ≈ g ([exl_fork], [exr_fork]) and the
    eta law ⟨exl, exr⟩ ≈ id ([fork_exl_exr]) are corollaries derived below. *)
 
+(* Where the product comes from, and what it is for
+
+   nLab: https://ncatlab.org/nlab/show/cartesian+monoidal+category
+   nLab: https://ncatlab.org/nlab/show/Fox%27s+theorem
+   nLab: https://ncatlab.org/nlab/show/Markov+category
+
+   The universal mapping property never mentions elements.  Objects of a
+   general category are opaque, so x × y cannot be assembled from
+   coordinates; [ump_products] instead characterizes the product by how
+   every object maps into it — two projections and a unique pairing — and
+   the same three pieces of data make sense in any category whatsoever.
+   Uniqueness comes with the definition rather than after it: every
+   candidate with projections factors uniquely through the true product,
+   so any two witnesses are canonically isomorphic (Milewski, "Products
+   and Coproducts", 2015) — which is why [IsCartesianProduct] witnesses
+   can be compared by the setoid [CartesianProductStructuresEquiv].
+
+   The element-free formulation was hard won.  Eilenberg and Mac Lane's
+   founding paper treats cartesian products only as examples of functors
+   (Eilenberg, Mac Lane, "General theory of natural equivalences", Trans.
+   AMS 58, 1945); the general notion of a universal mapping is due to
+   Samuel — "the bold step of really formulating the general notion of a
+   universal arrow was taken by Samuel in 1948", in Mac Lane's own words
+   (quoted in Porst, "The history of the General Adjoint Functor
+   Theorem", 2024).  Mac Lane's "Duality for groups" (Bull. AMS 56, 1950)
+   is the classic early source recasting the direct product of groups
+   purely in the language of homomorphisms and composition, so that
+   reversing every arrow turns its description into the free product; the
+   library collects that dividend in Structure/Cocartesian.v, where the
+   coproduct is this class instantiated in the opposite category.  After
+   Kan ("Adjoint functors", Trans. AMS 87(2), 1958), the standard reading
+   is adjointness: pairing and unpairing form the hom-set bijection of an
+   adjunction between the diagonal and the product, with the diagonal
+   morphism as unit and the projections as counit — in-tree as
+   [Diagonal_Product_Adjunction] in Adjunction/Diagonal/Product.v, whose
+   obligations discharge by this file's [unfork] and [fork_comp].
+
+   Finite products are moreover a doctrine.  A Lawvere theory is a
+   category with finite products whose objects are the powers of a single
+   generic object, and its models are the product-preserving functors out
+   of it (Lawvere, "Functorial Semantics of Algebraic Theories",
+   dissertation 1963); Theory/Lawvere.v carries this class as its
+   [law_cartesian] field.  The binary product is the limit of a two-object
+   discrete diagram — Structure/Limit/Product.v treats the indexed case —
+   it induces the symmetric monoidal structure [CC_CartesianMonoidal] of
+   Structure/Monoidal/Internal/Product.v, and it is the base on which
+   Structure/Cartesian/Closed.v builds exponentials, extended with
+   coproducts in Structure/BiCCC.v.
+
+   Computationally, [fork], [exl] and [exr] form a point-free calculus of
+   tuples, and the derived combinators are the arrow vocabulary of
+   functional programming: [fork] is the fanout of Hughes' arrow interface
+   and [split] routes the input between two arrows (Hughes, "Generalising
+   Monads to Arrows", Science of Computer Programming 37, 2000), with
+   [first], [second] and [swap] alongside.  Elliott's translation of
+   Haskell into categorical vocabulary turns pattern matching on pairs
+   into projections and pair construction into forks, then simplifies
+   with the equations proved below (Elliott, "Compiling to Categories",
+   Proc. ACM Program. Lang. 1, ICFP 2017); Tools/Abstraction.v performs
+   the same reification for Coq programs, and [Coq_Cartesian] in
+   Instance/Coq.v realizes the interface as fst, snd and pairing.
+
+   Fox's theorem locates the cartesian case among tensor products: a
+   symmetric monoidal category is cartesian precisely when every object
+   carries a unique cocommutative comonoid structure — a copy and a
+   discard morphism — with every morphism a homomorphism for it (Fox,
+   "Coalgebras and cartesian categories", Communications in Algebra 4(7),
+   1976).  Through [CC_CartesianMonoidal], [CD_of_Cartesian] in
+   Structure/Monoidal/CopyDiscard/Proofs.v derives that supply from this
+   class, copy being id △ id and discard the terminal map, and
+   Structure/Monoidal/Markov/Fox.v proves both directions
+   ([all_deterministic_cartesian], [cartesian_all_deterministic]).
+   Relaxing naturality of copy is what allows probability: in the Markov
+   categories of Cho and Jacobs (2019) and Fritz (2020) every object
+   still copies and discards, but a stochastic morphism need not commute
+   with copying — flipping a coin and copying its outcome differs from
+   flipping two coins — and the cartesian categories are exactly the
+   Markov categories whose morphisms are all deterministic. *)
+
 Class Cartesian := {
   product_obj : obj → obj → obj       (* the product object x × y *)
     where "x × y" := (product_obj x y);

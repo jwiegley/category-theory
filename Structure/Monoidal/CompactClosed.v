@@ -51,6 +51,86 @@ Generalizable All Variables.
    [X^* := X], with unit and counit built from the special commutative
    Frobenius (SCFA) structure as [η := δ ∘ η_X] and [ε := ε_X ∘ μ]. *)
 
+(* Duals as internal adjunctions: history, applications, and neighbours
+
+   nLab:  https://ncatlab.org/nlab/show/compact+closed+category
+   Paper: Kelly, "Many-variable functorial calculus. I.", in Coherence
+          in Categories, Springer LNM 281, 1972
+   Paper: Kelly, Laplaza, "Coherence for compact closed categories",
+          Journal of Pure and Applied Algebra 19, 1980
+   Paper: Abramsky, Coecke, "A categorical semantics of quantum
+          protocols", LiCS 2004
+
+   The content of the definition is that every object is an adjoint:
+   [cc_unit] and [cc_counit] are the unit and counit of an adjunction
+   X ⊣ X^* internal to the monoidal structure, and [snake_left] and
+   [snake_right] are its triangle identities.  It follows that the
+   category is closed: maps C ⨂ A ~> B correspond naturally to maps
+   C ~> B ⨂ A^*, so the internal hom of A and B is representable as
+   B ⨂ A^* — the closure the name records (nLab).  The same adjunction
+   yields map–state duality: the name of f : A ~> B is the state
+   ⌜f⌝ := (id ⨂ f) ∘ η_A : I ~> A^* ⨂ B; every morphism of that type
+   is the name of a unique map A ~> B, and duality extends to a
+   contravariant functor with A^{**} naturally isomorphic to A
+   (Abramsky–Coecke 2004).  A compact closed category is thereby the
+   degenerate star-autonomous category whose dualizing object is the
+   tensor unit itself (nLab), the model of multiplicative linear logic
+   in which ⊗ and ⅋ coincide; the general dualizing-object picture is
+   developed in Structure/Monoidal/StarAutonomous.v.
+
+   The notion is due to Kelly (1972, above); its coherence theory is
+   Kelly–Laplaza (1980): a well-formed equation in the language of
+   compact closed categories follows from the axioms precisely when
+   both sides have isomorphic string diagrams.  Selinger's survey ("A
+   survey of graphical languages for monoidal categories", 2009)
+   states this as its Theorem 4.33, and the caveat after it records
+   that Kelly–Laplaza proved the simple-signature case and that the
+   fully general case does not appear in the literature.  Coherence is
+   what licenses the bent-wire calculus: [cc_unit] creates a pair of
+   oppositely oriented wires, [cc_counit] joins such a pair, and the
+   snake identities say a bent wire may be pulled straight — whence
+   "yanking".  Concretely, in Rel every object is its own dual and η_X
+   relates the sole element of the unit to each pair (x, x); in
+   FdVect, η_V sends 1 to Σ ē_i ⊗ e_i against a chosen basis, and
+   names are exactly the passage between matrices and vectors
+   (Abramsky–Coecke 2004).  Dualizability is a finiteness condition:
+   FdVect and FdHilb are compact closed while their
+   infinite-dimensional counterparts are not even autonomous, and the
+   cobordism category under disjoint union is compact closed with
+   duals given by orientation reversal (Selinger 2009).
+
+   Every compact closed category carries a canonical trace, and
+   conversely the Int construction of Joyal, Street and Verity
+   ("Traced monoidal categories", Math. Proc. Camb. Phil. Soc. 119,
+   1996) freely completes a traced monoidal category to a compact
+   closed one, with composition given by tracing — the categorical
+   backbone of Girard's Geometry of Interaction (Abramsky, Haghverdi,
+   Scott, "Geometry of Interaction and Linear Combinatory Algebras",
+   MSCS 12(5), 2002).  The traced interface in this library is
+   Structure/Monoidal/Traced.v; neither bridge is formalized in-tree
+   yet.
+
+   The applications track these readings.  Abramsky and Coecke (2004)
+   express teleportation and entanglement swapping in any compact
+   closed category with biproducts, reading preparation of an
+   entangled state as a name and an observational branch as a coname;
+   adding a compatible dagger yields the dagger-compact setting named
+   by Selinger ("Dagger compact closed categories and completely
+   positive maps", ENTCS 170, 2007).  The DisCoCat model of
+   natural-language meaning (Coecke, Sadrzadeh, Clark, "Mathematical
+   Foundations for a Compositional Distributional Model of Meaning",
+   2010) lifts Lambek pregroup type reductions to morphisms
+   transforming FdVect word vectors into the meaning of the whole
+   sentence.  The structure is also rigid: finite products in a
+   compact closed category are automatically biproducts (Houston,
+   "Finite products are biproducts in a compact closed category",
+   JPAA 212, 2008), and in this library Structure/Monoidal/Collapse.v
+   assumes [CompactClosed] over a relevance monoidal category to prove
+   Abramsky's no-cloning collapse — uniform copying forces the
+   braiding to be the identity.  Downstream of the derivation below,
+   Construction/Cospan/Hypergraph.v points its clients at
+   [Hypergraph_CompactClosed] for their cups and caps. *)
+
 Section CompactClosed.
 
 Context {C : Category}.

@@ -69,6 +69,86 @@ Generalizable All Variables.
    of the conclusion, which remains a full left adjoint [F ⊣ U].  This mirrors
    the identical, documented choice made by [Comma_Complete] itself. *)
 
+(* The converse of continuity: provenance, obstruction, and use
+
+   nLab:  https://ncatlab.org/nlab/show/adjoint+functor+theorem
+   Book:  Freyd, "Abelian Categories: An Introduction to the Theory of
+          Functors", Harper & Row 1964 (TAC Reprints 3, 2003)
+   Paper: Kan, "Adjoint Functors", Trans. AMS 87(2), 1958
+   Paper: Porst, "The history of the General Adjoint Functor Theorem",
+          arXiv:2310.19528, 2023
+   Post:  Milewski, "Freyd's Adjoint Functor Theorem", 2020
+
+   The theorem answers one question: which limit-preserving functors are
+   right adjoints.  That a right adjoint preserves limits is elementary, and
+   is proven in-tree as [rapl_is_alimit] of Adjunction/Continuity.v (RAPL);
+   [GAFT] answers the converse: sufficient conditions under which a
+   continuous [U] is a right adjoint, exhibited here as the left adjoint
+   [F ⊣ U].
+
+   Adjoint functors were a recent notion when the theorem was proved.  Kan
+   introduced them (Kan, "Adjoint Functors", Trans. AMS 87(2), 1958), and
+   Mac Lane records that Bourbaki had just missed the concept in a 1948
+   draft appendix.  Both the general and the special adjoint functor
+   theorems then first appeared in print in Freyd's 1964 book, where — as
+   nLab records — they sit in the exercise section of chapter 3 rather than
+   among the headline results.  Porst has argued that the substance of the
+   result reaches back further still, into the universal-mapping-problem
+   tradition of the late 1940s (Porst, arXiv 2023) — a claim about
+   provenance, not settled consensus.  Freyd and Scedrov later renamed the
+   solution-set condition pre-adjointness (1990).
+
+   The hypotheses repair a genuine size obstruction rather than decorate the
+   statement.  Building the adjoint pointwise as a limit over the comma
+   category breaks down because that category is large, and a large category
+   need not have large limits; indeed a small complete category is a
+   preorder (Freyd), so completeness cannot be exploited naively at large
+   size.  The [SolutionSet] record is the minimal patch — a small family
+   [sol_arr] through which every [d ~> U c] factors, that is, a weakly
+   initial family in the comma [=(d) ↓ U].  Freyd's repair runs in two
+   stages, both carried out by [initial_from_weakly_initial] of
+   Theory/WeaklyInitial.v: take the [iprod] of the family to a weakly
+   initial object, then equalize all of its endomorphisms to sharpen weak
+   initiality into genuine initiality.  In [GAFT] those products and
+   equalizers come from [Comma_Complete], and [wif_of_sols] is the passage
+   from a [SolutionSet] to the [WeaklyInitialFamily] consumed there.
+
+   The special adjoint functor theorem trades the explicit solution set for
+   structural smallness of the domain: Adjunction/SAFT.v manufactures a
+   [SolutionSet] from well-poweredness ([SubobjectIndex]) and a cogenerating
+   family ([Cogenerator]), so [SAFT] never asks the caller to supply one.
+   Continuity by itself does not suffice, and the boundary is sharp: nLab
+   records a counterexample that Joyal attributes to Mac Lane, a product
+   of representables over the simple groups that is continuous yet not
+   representable.  The modern sharpening (Adámek and Rosický) makes it a
+   biconditional between locally presentable categories, where a functor
+   has a left adjoint exactly when it is accessible and preserves small
+   limits.
+
+   The reach is broad.  When [U] forgets structure its left adjoint is the
+   free construction, which Milewski glosses as freely ad-libbing the
+   forgotten information.  A full subcategory is reflective exactly when its
+   inclusion has a left adjoint, so the theorem is the standard tool for
+   producing reflectors (Construction/Reflective.v,
+   Construction/Localization.v).  Limits, colimits and Kan extensions are
+   themselves adjoints, so it yields existence criteria for them; and in the
+   order-theoretic degenerate case it is the adjoint functor theorem for
+   preorders, the Galois-connection setting that Instance/Poset.v cites
+   [SolutionSet] to explain.  Adjunction/GAFT/Examples.v runs
+   [GAFT_from_initials] end to end to recover the diagonal adjoint Δ ⊣ (×),
+   proving the produced functor naturally isomorphic to Δ
+   ([diagonal_product_via_gaft_is_diagonal]).
+
+   The computational reading is the generate-then-constrain recipe familiar
+   from free-algebra constructions.  Milewski reads the solution set as a
+   way to cut a large comma category down to a manageable size, and the
+   construction holographically: gather all information about an object
+   through the morphisms out of it, ship that record back through [U], and
+   reconstruct the best preimage as a limit.  The product-then-equalizer
+   shape tuples the small family and carves it by imposing every self-map;
+   Milewski notes an unexpected connection to defunctionalization, the
+   Reynolds program transformation that motivated the account. *)
+
 (** ** Solution sets *)
 
 (* A solution set at [d : D] for [U : C ⟶ D]: a small [Type] of indices, a

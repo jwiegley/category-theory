@@ -30,6 +30,78 @@ Generalizable All Variables.
    See Structure/Group/Proofs.v for the derived facts (uniqueness of inverses,
    the antihomomorphism law μ ∘ (ι ⨂ ι) ≈ ι ∘ μ ∘ braid, etc.). *)
 
+(* Where group objects come from, and what they are for
+
+   nLab:  https://ncatlab.org/nlab/show/Eckmann-Hilton+argument
+   nLab:  https://ncatlab.org/nlab/show/Hopf+algebra
+   Paper: Eckmann, Hilton, "Group-Like Structures in General Categories I:
+          Multiplications and Comultiplications", Mathematische Annalen
+          145, 1962
+
+   A group object answers the question of what a group is when elements
+   are unavailable.  The definition transcribes the group axioms as
+   commuting diagrams — multiplication, unit, and inversion as morphisms,
+   with no reference to underlying elements — and it follows that the same
+   diagrams, interpreted in different ambient categories, yield
+   topological groups in Top, Lie groups in smooth manifolds, group
+   schemes in schemes over a base, simplicial groups in simplicial sets,
+   and strict 2-groups in Cat (nLab and Wikipedia, as cited in the header
+   above).
+
+   The systematic notion is due to Eckmann and Hilton (1962), who called
+   such structures G-objects and reached them from homotopy theory: the
+   natural group structure of the cohomology H^n(X; G) is explained by a
+   group-like multiplication on the Eilenberg–MacLane space K(G, n) in the
+   homotopy category, with axioms "formulated entirely in terms of the
+   maps of the category".  The same paper contains the functor-of-points
+   reading — a G-object structure on A endows each hom-set H(X, A) with a
+   group structure, naturally in X, and its Theorem 4.3 shows that every
+   natural family of group structures on hom-sets arises this way —
+   together with a footnote, added in proof, connecting the observation
+   to Grothendieck's representable functors.  Algebraic geometry took
+   that reading as primary at the same moment: group schemes as group
+   objects, presented equivalently as representable functors into Grp,
+   are the subject of SGA 3 (Demazure, Grothendieck, "Schémas en
+   groupes", Springer LNM 151–153, 1970, from the 1962–64 séminaire).
+   Mac Lane canonized the notion as "Groups in Categories" (Categories
+   for the Working Mathematician, 2nd ed., 1998, Section III.6), and
+   Awodey opens his chapter on groups and categories with it (Category
+   Theory, 2nd ed., 2010, Chapter 4).
+
+   The notion also sees structure that ordinary group theory cannot.  A
+   group object in Grp itself is an abelian group: the two
+   multiplications satisfy an interchange law, and the Eckmann–Hilton
+   argument (Eckmann, Hilton, Theorem 1.12 in "Structure maps in group
+   theory", Fundamenta Mathematicae 50, 1961) forces them to coincide and
+   to commute — the same argument shows that the homotopy groups π_n are
+   abelian for n ≥ 2.  nLab further records a recognition principle: a
+   monoid object is a group object exactly when its associativity square
+   is a pullback, so once stated through limits, invertibility is a
+   property of a monoid rather than extra structure.
+
+   The [CartesianMonoidal] hypothesis is load-bearing.  Both inverse laws
+   [left_inverse] and [right_inverse] are written in copy/discard
+   vocabulary — ∆ copies the value, [eliminate] discards it — and a
+   general monoidal category supplies neither, which is why
+   [MonoidObject] in Structure/Monoid.v asks for no such hypothesis
+   (Monad/Monoid.v internalizes it in the endofunctor category under
+   composition, a tensor that is not cartesian) while [GroupObject] must.
+   Replacing the missing diagonal by a chosen compatible comonoid
+   structure turns [inverse] into an antipode and the inverse laws into
+   the antipode axioms; the result is a Hopf monoid, in Vect a Hopf
+   algebra (nLab), the structure first observed by Hopf in the homology
+   of Lie groups (Hopf, "Über die Topologie der
+   Gruppen-Mannigfaltigkeiten und ihre Verallgemeinerungen", Annals of
+   Mathematics 42(1), 1941).  A commutative Hopf algebra is in turn the
+   same as a group object in the opposite category of algebras — that is,
+   in affine schemes (nLab) — and every commutative Hopf algebra over a
+   field arises so from an affine group scheme, an antiequivalence of
+   categories (Wikipedia, "Hopf algebra").  The copy/discard vocabulary
+   for monoidal categories with a comonoid supply is developed in
+   Structure/Monoidal/CopyDiscard.v, and the library's concrete contact
+   with the antipode is the Hopf law between Z- and X-spiders in
+   Instance/ZX.v. *)
+
 Section GroupObject.
 
 Context `{@CartesianMonoidal C}.

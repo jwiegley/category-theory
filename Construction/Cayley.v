@@ -44,6 +44,67 @@ Generalizable All Variables.
    a monoid is replaced by its endofunctions to reassociate · into ∘.  See
    Cayley_Right and Cayley_Left below. *)
 
+(* Where the theorem comes from, and what the image is for
+
+   Wikipedia: https://en.wikipedia.org/wiki/Cayley%27s_theorem
+   Wikipedia: https://en.wikipedia.org/wiki/Yoneda_lemma
+
+   The theorem is named for Arthur Cayley, who in 1854 observed that a
+   group of order n can be presented as a subgroup of the symmetric group
+   on n letters (Cayley, "On the theory of groups, as depending on the
+   symbolic equation θⁿ = 1", Philosophical Magazine 1854).  Cayley checked
+   that the assignment of each element to its left multiplication is
+   one-to-one, yet did not separately verify that it respects the group
+   operation; the modern packaging as the left regular representation
+   ℓ_g : x ↦ g x, an injective homomorphism into Sym(G), supplies that step
+   (Wikipedia, "Cayley's theorem").  The name has been disputed — Burnside
+   credited Camille Jordan, and Nummela defended the attribution to Cayley,
+   who had made the result known roughly sixteen years before Jordan.  The
+   statement also reaches past groups: the Wagner–Preston theorem embeds
+   every inverse semigroup into a semigroup of partial bijections of a set
+   (nLab, "Cayley's theorem").
+
+   The many-object form is the Yoneda embedding, which Wikipedia describes
+   as a vast generalisation of Cayley's theorem (Wikipedia, "Yoneda
+   lemma"); at a one-object category it is exactly full faithfulness of the
+   covariant embedding (Riehl, "Category Theory in Context", Dover 2016,
+   Corollary 2.2.11).  That framing, together with the reading that an
+   object is determined by its web of maps, is developed in
+   Functor/Hom/Yoneda.v, whose [Covariant_Yoneda_Embedding] this file
+   consumes and which points back here; Functor/Hom.v carries the abstract
+   [Yoneda_Full] and [Yoneda_Faithful] that [Cayley] realizes as a concrete
+   image.  The distinctive contribution here is that image on its own
+   terms — a standalone category rather than a functor into Sets — with the
+   classical one-object cases living in Structure/Group.v and in the monoid
+   objects of Structure/Monoid.v and Theory/Algebra/Monoid.v.
+
+   Read as programming, the reassociation that [Cayley_Right] and
+   [Cayley_Left] record is the difference list (Hughes, "A novel
+   representation of lists and its application to the function reverse",
+   Information Processing Letters 1986).  A list l is represented by the
+   function λ k, l ++ k, so that append becomes composition and the list is
+   recovered by applying to the empty list; a left-nested chain of appends
+   that would cost O(n²) is thereby run in O(n).  In the image this is the
+   round trip: [To_Cayley] reifies a morphism as its post-composition
+   action, the analogue of consing onto an accumulator, and [From_Cayley]
+   runs the accumulated handler on the identity, the analogue of reading
+   the list out.  Rather than stop at the free monoid, Rivas and Jaskelioff
+   situate the pattern one level up, where monads, applicative functors,
+   and arrows are monoids in monoidal categories and a monoid that is an
+   exponent embeds into its endomorphism monoid; the difference list is the
+   case of the free monoid on a type (Rivas and Jaskelioff, "Notions of
+   Computation as Monoids", Journal of Functional Programming 2017).
+   Structure/Monoid.v cites the same work, and the continuation-transformer
+   reading of the morphism data ∀ r, (y ~> r) → (x ~> r) is drawn out in
+   Functor/Hom/Yoneda.v.
+
+   The construction also transports finite products.  [Cayley_Cartesian]
+   carries a cartesian structure on C (Structure/Cartesian.v) onto [Cayley]
+   by moving fork, exl, and exr across the covariant Yoneda isomorphism on
+   hom-sets, and [To_Cayley_CartesianFunctor] and
+   [From_Cayley_CartesianFunctor], over Functor/Structure/Cartesian.v,
+   record that both the embedding and its retraction preserve it. *)
+
 Section Cayley.
 
 Context {C : Category}.

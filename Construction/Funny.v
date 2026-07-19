@@ -49,6 +49,82 @@ Generalizable All Variables.
     corresponding no-go results about stating the closed structure via
     [Adjunction] or [ClosedMonoidal]. *)
 
+(* Gray's little brother: history, uses, and the computational reading
+
+   nLab: https://ncatlab.org/nlab/show/Gray+tensor+product
+   nLab: https://ncatlab.org/nlab/show/sesquicategory
+   nLab: https://ncatlab.org/nlab/show/premonoidal+category
+
+   The construction descends from dimension two.  John Gray introduced the
+   Gray tensor product of 2-categories in "Formal Category Theory:
+   Adjointness for 2-Categories" (Springer LNM 391, 1974); ignoring the
+   2-cells in its definition leaves a canonical tensor product of plain
+   categories "which has been called the funny tensor product" — the
+   phrasing of Weber, whose abstract styles the result "Gray's little
+   brother" and who attributes the coinage to no one (Weber, "Free products
+   of higher operad algebras", TAC 28:2 (2013)).  The nLab calibrates the
+   three tensors on one picture: in the tensor of the walking arrow with
+   itself, the generating square commutes strictly for the cartesian
+   product, commutes up to a specified isomorphism for the Gray tensor, and
+   does not commute at all for the funny tensor.  Because Gray-categories
+   suffice to model all tricategories (Gordon, Power and Street, Mem. AMS
+   117, 1995), □ is the one-dimensional shadow of the tensor at the base of
+   the semistrictness ladder.
+
+   What the tensor classifies is evaluation order.  A functor out of C □ D
+   is precisely a separately functorial assignment — the content of
+   [SepFunctorial], its eliminator [FunnyUP], and the round trip through
+   [toSep] below — functorial in each variable with no compatibility at all
+   between the two actions, whereas a functor out of C ∏ D must
+   additionally satisfy interchange.  It follows that the cartesian product
+   is the quotient of □ by forgetting order: the comparison functor
+   [FunnyToProduct] of Construction/Funny/Comparison.v is bijective on
+   objects and full but not faithful ([funny_diagonals_distinct]), and the
+   biclosed structure of the Foltz-Lair-Kelly classification is realized
+   in-tree by the unnatural-transformation hom [UFun] of
+   Construction/Funny/Hom.v with the currying and evaluation of
+   Construction/Funny/Closed.v.
+
+   Enrichment turns the missing law into structure.  A category enriched in
+   the funny monoidal structure is precisely a sesquicategory, a notion
+   credited to Ross Street ("Categorical Structures", Handbook of Algebra
+   vol. 1, 1996; "sesqui" is Latin for "one and a half"): 2-cells whisker
+   along 1-cells on either side, yet no horizontal composition is given,
+   exactly because an enriched composition map is merely separately
+   functorial.  Term rewriting supplied an early applied reading — rewrites
+   whisker along contexts, with no interchange identification imposed
+   between independent steps (Stell, "Modelling term rewriting systems by
+   sesqui-categories", 1994).  One level down, a monoid in the funny
+   monoidal structure — equivalently a one-object sesquicategory —
+   is a strict premonoidal category in the sense of Power and Robinson,
+   exactly as a monoid in the cartesian structure is a strict monoidal one
+   (Power, Robinson, "Premonoidal categories and notions of computation",
+   MSCS 7(5) 1997); the library proves the correspondence over
+   [Funny_Monoidal] of Instance/StrictCat/Funny.v as [StrictPremonoidal] in
+   Instance/StrictCat/Premonoid.v.  Premonoidal categories are the
+   semantics of call-by-value effects: the Kleisli category of a strong
+   monad is in general only premonoidal, full monoidal structure requiring
+   a commutative monad, and the two composites around a square are the two
+   orders in which a pair of effectful computations may run (Power-Robinson
+   1997; the library's spine is Structure/Binoidal.v and
+   Structure/Premonoidal.v).
+
+   On one-object categories the tensor is classical algebra: for monoids M
+   and N, M □ N is their coproduct in Mon — the free product, whose
+   elements are the alternating words in nonidentity letters — while M × N
+   is the direct product, and Weber names his operadic generalizations
+   "free products" for this reason (Weber 2013, §2).  The header's I □ I
+   example is the same phenomenon one categorical level up: nothing in the
+   pushout forces the interchange loop to be trivial.  Read
+   computationally, a [FunHom] word is a trace — an explicit interleaving
+   of steps by two independent agents, remembered by [feq] up to per-agent
+   composition and identity but never up to commuting independent steps
+   past one another — and [FunnyToProduct] is the map that forgets the
+   schedule.  The two diagonals of the fundamental square are the two
+   sequencings of one effectful pair, "f then g" against "g then f":
+   premonoidal semantics keeps them distinct, and cartesian semantics
+   identifies them. *)
+
 Section FunnyHom.
 
 Context {C : Category}.

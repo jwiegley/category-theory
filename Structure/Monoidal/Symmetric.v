@@ -24,6 +24,82 @@ Context {C : Category}.
    either one implies the other, so a symmetric monoidal category is fully
    determined by its underlying braided structure together with braid_invol. *)
 
+(* Where symmetric monoidal categories come from, and what they are for
+
+   nLab:
+   https://ncatlab.org/nlab/show/coherence+theorem+for+symmetric+monoidal+categories
+   Paper: Mac Lane, "Natural Associativity and Commutativity", Rice
+          University Studies 49, 1963
+   Paper: Mac Lane, "Categorical Algebra", Bull. Amer. Math. Soc. 71, 1965
+
+   The axioms answer a question Mac Lane posed and settled in 1963: how to
+   say that a tensor product commutes when it commutes only up to
+   isomorphism.  In vector spaces, V ⊗ W and W ⊗ V are isomorphic but not
+   equal, and the chosen isomorphisms must cohere with the associator and
+   unitors (Mac Lane 1963, above; the nLab records contemporaneous
+   treatments by Bénabou, C. R. Acad. Sci. Paris 258, 1964, and by
+   Eilenberg and Kelly, "Closed Categories", in the La Jolla proceedings,
+   1966).  The braided axioms alone do not settle the matter: they allow
+   the double crossing x ⨂ y ~> y ⨂ x ~> x ⨂ y to be a nontrivial
+   automorphism, as it genuinely is in categories of braids and ribbons
+   (Joyal, Street, "Braided tensor categories", Advances in Mathematics
+   102, 1993).  The single law [braid_invol] removes exactly that freedom,
+   and the reward is Mac Lane's coherence theorem for the symmetric case:
+   every diagram built from associators, unitors, and symmetries commutes,
+   provided its two sides induce the same permutation of the tensor
+   factors.  It follows that one may reason as though an iterated tensor
+   were a multiset of factors, and that every symmetric monoidal category
+   is equivalent to a permutative one, strictly associative and strictly
+   unital.  The lemmas [bimap_braid] and [braid_bimap_braid] below are
+   small instances of this collapse, and [hexagon_rotated] shows one
+   hexagon absorbing the other, as the header remarks.
+
+   Read computationally, [braid] swaps two parallel wires, and
+   [braid_invol] says the wires cross with no memory of the crossing —
+   precisely where the symmetric case parts from the braided one, whose
+   over- and under-crossings differ.  Coherence then licenses tracking
+   only the permutation when replumbing a parallel composite, the
+   soundness behind string-diagram calculi such as the signal-flow graphs
+   of Fong and Spivak ("An Invitation to Applied Category Theory", CUP
+   2019, ch. 5).  Cartesian categories supply the everyday examples: Set,
+   Cat, and any category with finite products, where the braiding is the
+   argument swap, realized in-tree as [CC_SymmetricMonoidal] in
+   Structure/Monoidal/Internal/Product.v.
+
+   The definition organizes whole subjects downstream.  Mac Lane's PROPs
+   ("Categorical Algebra", 1965, from joint work with Adams) are strict
+   symmetric monoidal categories whose objects are the natural numbers
+   and whose tensor is addition; their models are symmetric monoidal
+   functors ([SymmetricMonoidalFunctor] in
+   Functor/Structure/Monoidal/Braided.v), and they present structures
+   such as bialgebras that neither operads nor Lawvere theories reach —
+   the library's free-PROP spine (Construction/PROP.v, whose class
+   carries [prop_symmetric]) rests on this file.  In logic, closed
+   symmetric monoidal categories model multiplicative intuitionistic
+   linear logic (Girard 1987): the tensor is conjunction of resources,
+   and the missing contraction rule means a consumed resource is gone;
+   the classical case asks in addition for a dualizing object (Seely,
+   "Linear logic, *-autonomous categories and cofree coalgebras", 1989),
+   which Structure/Monoidal/StarAutonomous.v adds atop its [SymMonClosed]
+   base.  Resource theories in the sense of Coecke, Fritz, and Spekkens
+   ("A mathematical theory of resources", Information and Computation
+   250, 2016) are symmetric monoidal categories outright — objects are
+   resources, morphisms are the free transformations — a reading
+   continued by the copy/discard and Markov developments
+   (Structure/Monoidal/CopyDiscard.v, Structure/Monoidal/Markov.v), while
+   Baez and Stay ("Physics, Topology, Logic and Computation: A Rosetta
+   Stone", 2009) take closed symmetric monoidal categories as the grammar
+   shared by Hilbert spaces, cobordisms, proofs, and programs.  For the
+   semantics of effects, Kock's theorem matches commutative monads with
+   symmetric monoidal monads over a symmetric monoidal closed base (Kock,
+   "Strong functors and monoidal monads", Archiv der Mathematik 23,
+   1972); in-tree, the Kleisli category of a commutative monad is again
+   symmetric monoidal ([Kleisli_Symmetric] in
+   Monad/Kleisli/Commutative.v), so independent effectful computations
+   may be scheduled in either order.  Traced monoidal structure layers
+   feedback on the same symmetric base (Structure/Monoidal/Traced.v, with
+   [traced_is_symmetric] a coercion into this class). *)
+
 Class SymmetricMonoidal := {
   (* The underlying braided monoidal structure (braiding + hexagon laws). *)
   symmetric_is_braided : @BraidedMonoidal C;

@@ -92,6 +92,86 @@ Generalizable All Variables.
    monoidal base — is deferred alongside the work order's own skeleton,
    which states the class as here. *)
 
+(* Where multicategories come from, and what they are for
+
+   nLab:  https://ncatlab.org/nlab/show/multicategory
+   nLab:  https://ncatlab.org/nlab/show/operad
+   Paper: Lambek, "Deductive systems and categories II. Standard
+          constructions and closed categories", Lecture Notes in
+          Mathematics 86, Springer 1969
+   Book:  Leinster, "Higher Operads, Higher Categories", Cambridge
+          University Press 2004
+
+   A category composes UNARY operations, one source and one target.
+   Large tracts of mathematics instead concern operations of several
+   inputs and one output — a multiplication A × A → A, the grafting of
+   trees, a proof drawing on several hypotheses.  A multicategory
+   axiomatizes that directly: a morphism [mhom Γ c] whose source Γ is a
+   finite LIST of objects, composed by substituting multimorphisms into
+   the input slots of another.  The notion is due to Lambek, who coined
+   the word while formalizing deductive systems and closed categories
+   (Lambek, "Deductive systems and categories II", LNM 86, 1969;
+   revisited in "Multicategories revisited", Contemporary Mathematics 92,
+   1989); he read a deduction of a formula c from an ordered context
+   c₁, …, cₙ as a multimorphism into c, so the motivation was logical
+   before it was higher-categorical.
+
+   Taking arities as primitive, rather than encoding several inputs as
+   one tensored input A₁ ⊗ ⋯ ⊗ Aₙ → B, is the substance of the notion: a
+   tensor is extra structure, and a base need not carry one.  A
+   multicategory needs no monoidal product, and when one is present the
+   multimorphisms it represents recover it.  This is representability
+   (Hermida, "Representable multicategories", Advances in Mathematics
+   151(2), 2000): every monoidal category yields the multicategory whose
+   [mhom] from A₁, …, Aₙ to B is the ordinary homset C(A₁ ⊗ ⋯ ⊗ Aₙ, B).
+   The construction, carried once over an object realization, is
+   Theory/Multicategory/Representable.v.
+
+   The single-colour case is the operad, a multicategory whose one object
+   leaves each multimorphism fixed by the ARITY of its source
+   (Theory/Multicategory/Operad.v).  The geometry predates the word:
+   Boardman and Vogt described the little n-cubes operads and a
+   recognition principle for iterated loop spaces (ideas circa 1968,
+   published as "Homotopy Invariant Algebraic Structures on Topological
+   Spaces", LNM 347, 1973), on the PROPs and PACTs of Adams and Mac Lane;
+   the name and the definition are due to May ("The Geometry of Iterated
+   Loop Spaces", LNM 271, 1972), whose recognition theorem relates
+   connected algebras over the little n-cubes operad to n-fold loop
+   spaces.  An algebra for an operad O on X is a map into the
+   endomorphism operad, whose n-ary part is X^n → X; the library builds
+   this [EndOperad] in Theory/Multicategory/Endomorphism.v and takes an
+   [OperadAlgebra] to be a multifunctor into it
+   (Theory/Multicategory/Algebra.v), where the terminal operad's algebras
+   in Sets are exactly the commutative monoids of Instance/CMon.v
+   ([Comm_algebra_CMon]).
+
+   The reach beyond topology is broad.  Multicategories stand to operads
+   as multi-sorted Lawvere theories stand to single-sorted ones, and a
+   finite-product (Lawvere) theory, presented without forcing its product
+   objects, is exactly a Cartesian multicategory (nLab, "Lawvere theory"):
+   the source list tracks arities and its copy/discard structure realizes
+   the structural rules of weakening and contraction, joining the
+   Theory/Lawvere.v and Construction/PROP/ spine.
+   Symmetric multicategories also organize algebraic K-theory (Elmendorf,
+   Mandell, "Permutative categories, multicategories, and algebraic
+   K-theory", Algebraic & Geometric Topology 9(4), 2009), and Leinster's
+   generalized operads recast the language of higher category theory
+   (Leinster 2004), Batanin's globular operads describing weak
+   ∞-categories within it.
+
+   The computational reading returns to Lambek.  A multimorphism into c
+   is a term, or a proof, in a context: Γ is the typing context of free
+   variables and c the conclusion, [mid a] the bare variable, and
+   single-slot composition [mcomp] the substitution of one argument into
+   a chosen slot.  So read, the two associativity laws
+   [mcomp_assoc_nested] and [mcomp_assoc_disjoint] are the associativity
+   of substitution — into a variable itself introduced by a substitution,
+   and of two independent substitutions commuting — and the symmetric
+   action [msym] is exchange, the renaming of free variables.  The ordered
+   case, which has no exchange rule, is resource-sensitive and forms the
+   syntactic core of substructural and linear logic; the symmetric action
+   restores exchange, which is why the class carries it as separate data. *)
+
 (** ** The splice-equation kit
 
     Canonical proofs of the list equations along which the laws cast.

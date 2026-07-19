@@ -20,6 +20,86 @@ Generalizable All Variables.
    morphisms of C, and the functor category [2, C] is the arrow category of
    C (objects = arrows of C, morphisms = commutative squares). *)
 
+(* The smallest non-trivial shape, and the smallest object of truth values
+
+   nLab:      https://ncatlab.org/nlab/show/diagram
+   nLab:      https://ncatlab.org/nlab/show/walking+morphism
+   nLab:      https://ncatlab.org/nlab/show/walking+structure
+   Paper:     Lawvere, "Metric spaces, generalized logic, and closed
+              categories", Rendiconti del Seminario Matematico e Fisico
+              di Milano XLIII, 1973
+   Paper:     Foltz, Lair, Kelly, "Algebraic categories with few
+              monoidal biclosed structures or none", J. Pure Appl.
+              Algebra 17(2), 1980
+
+   Two readings of [_2] run through the library, and the header above
+   states the first of them.  In one it is a SHAPE, the diagram over which
+   a construction is taken; in the other it is an object of TRUTH VALUES,
+   the base over which enrichment produces preorders.  Both readings turn
+   on the same property, that [_2] is thin.
+
+   As a shape, [_2] is the smallest non-trivial one, and the arrow-category
+   identification recorded above is the first entry in a longer list.  A
+   diagram of shape J in a category C is a functor from J to C; the
+   category J is its shape, index, or scheme, and a limit or colimit is a
+   universal cone over such a functor, presented through the diagonal
+   functor of Functor/Diagonal.v (nLab, "diagram"; Mac Lane, Categories
+   for the Working Mathematician, 2nd ed., 1998).  The shape isolates the
+   combinatorial pattern of a construction from the category in which it is
+   instantiated, and the small shapes together account for the finite
+   limits and colimits: the walking parallel pair [Parallel]
+   (Instance/Parallel.v) for equalizers and coequalizers, the walking span
+   [Roof] (Instance/Roof.v) for pushouts and pullbacks, the discrete pair
+   [Two_Discrete] (Instance/Two/Discrete.v) for binary products and
+   coproducts, and the empty shape [_0] (Instance/Zero.v) for terminal and
+   initial objects, with the point [_1] (Instance/One.v) the trivial
+   one-object shape.
+
+   The name "walking arrow" belongs to a settled family of synonyms.  The
+   nLab records walking, free-standing, and free-living for the one idea,
+   attributes "walking" to James Dolan, and traces "free-living" to Foltz,
+   Lair and Kelly (1980); the governing principle is that the walking X
+   coclassifies X, so that functors OUT OF it are exactly the X-structures
+   of the target.  The arrow-category reading above is that principle taken
+   at a single morphism.
+
+   The second reading regards [_2] as the two-element order {TwoX < TwoY}
+   with meet for tensor and the top [TwoY] for unit.  Lawvere, dating the
+   observation to a 1967 lecture of Richard Swan, drew the analogy between
+   the composition of hom-objects and the triangle inequality and read off
+   its consequences by varying the base: over [_2] enrichment produces
+   preorders, over the interval [0, ∞] it produces metric spaces (Lawvere,
+   1973).  The library carries the first case in full.
+   Instance/Two/Monoidal.v places the cartesian monoidal structure
+   [Two_Monoidal] on [_2] (tensor the meet [two_meet], unit the top
+   [TwoY]), and Construction/Enriched/Two.v then proves categories enriched
+   over it to be preorders and enriched functors to be monotone maps
+   ([Enriched_Two_preorder], [EnrichedFunctor_Two_monotone]).  The move is
+   from asking whether an arrow x ⟶ y exists to asking whether x ≤ y holds.
+
+   [_2] carries two further identities.  It is the directed interval: the
+   canonical interval object of Cat, the 1-simplex, the 1-globe, and the
+   first oriental, so that a natural transformation between two functors
+   from C to D is a functor from C ∏ [_2] to D, a directed homotopy (nLab,
+   "walking morphism").  And it underlies a decategorified logic: thin
+   categories are exactly those enriched over the Boolean algebra [_2] as a
+   cartesian monoidal category, a Heyting algebra is a skeletal thin
+   finitely-cocomplete cartesian-closed category, and a Boolean algebra a
+   skeletal thin finitely-cocomplete star-autonomous one (Wikipedia,
+   "Posetal category").
+
+   Computationally, thinness means the hom is proof-irrelevant, a mere
+   proposition, so [_2] is a (0,1)-category.  Instance/Two/Monoidal.v makes
+   this concrete: [two_thin] says any two parallel arrows coincide, which
+   discharges every coherence obligation uniformly and is why the strict
+   [Morphism_equality] setoid recorded above suffices.  Two consequences
+   follow.  A functor out of [_2] materializes one morphism together with
+   its endpoints, as [_2_as_Set] does by carrying [TwoXY] to the empty
+   function from False to True.  And an enrichment over [_2] must compute a
+   truth value, an object of [_2], for each pair of objects, which is why
+   Construction/Enriched/Two.v carries a decidable, Type-valued order: the
+   constructive reading of whether x ≤ y holds. *)
+
 Inductive TwoObj : Set := TwoX | TwoY.
 
 Inductive TwoHom : TwoObj → TwoObj → Set :=
