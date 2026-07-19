@@ -14,12 +14,15 @@ Comonad/Coalgebra.v
 Comonad/Duality.v
 Comonad/Strong.v
 Construction/Cayley.v
+Construction/Chain.v
 Construction/Comma.v
 Construction/Comma/Adjunction.v
 Construction/Comma/Isomorphism.v
 Construction/Comma/Natural/Transformation.v
 Construction/Coproduct.v
 Construction/Enriched.v
+Construction/FAlg.v
+Construction/FCoalg.v
 Construction/Free.v
 Construction/Funny.v
 Construction/Funny/StrictEq.v
@@ -145,6 +148,7 @@ Instance/Cones/Comma.v
 Instance/Cones/Limit.v
 Instance/Coq.v
 Instance/Coq/Applicative.v
+Instance/Coq/Lists.v
 Instance/Coq/Monad.v
 Instance/Coq/Comonad/Env.v
 Instance/Coq/Comonad/Store.v
@@ -172,6 +176,7 @@ Instance/Lambda/Step.v
 Instance/Lambda/Sub.v
 Instance/Lambda/Ty.v
 Instance/Lambda/Value.v
+Instance/Omega.v
 Instance/One.v
 Instance/One/Diagonal.v
 Instance/Parallel.v
@@ -186,6 +191,7 @@ Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cocartesian.v
 Instance/Sets/Par.v
 Instance/Sets/Pushout.v
+Instance/Sets/Streams.v
 Instance/Shapes.v
 Instance/Two.v
 Instance/Two/Discrete.v
@@ -303,6 +309,8 @@ Structure/UniversalProperty/Limit.v
 Structure/UniversalProperty/Universal/Arrow.v
 Structure/Wedge.v
 Theory.v
+Theory/Adamek.v
+Theory/Adamek/Corollaries.v
 Theory/Adjunction.v
 Theory/Algebra.v
 Theory/Algebra/Monoid.v
@@ -350,6 +358,7 @@ Theory/Equivalence/Limit.v
 Theory/Functor.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
+Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
 Theory/Metacategory/DecideExample.v
@@ -357,6 +366,7 @@ Theory/Monad.v
 Theory/Morphisms.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
+Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
 Structure/Monoidal/Hypergraph/Tactics.v
