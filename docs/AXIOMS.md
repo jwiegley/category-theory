@@ -10,10 +10,11 @@ axiom-free.
 The headline definitions checked by the `print-assumptions` make
 target — `Hypergraph`, `PROP`, `Cospan_Hypergraph`,
 `DecoratedCospan_Hypergraph`, `spider_collapse`, `spider_frobenius`,
-`Hypergraph_CompactClosed`, and `ZX_Cat` — are reported as CLOSED
-UNDER THE GLOBAL CONTEXT (with the sole exception of `ZX_Cat`, which
-lists the three `Phase` parameters described below).  This can be
-verified by
+`Hypergraph_CompactClosed`, and `ZX_Cat` — together with the phase
+5-17 flagship theorems added to the target and listed under
+[How to audit](#how-to-audit) — are reported as CLOSED UNDER THE
+GLOBAL CONTEXT (with the sole exception of `ZX_Cat`, which lists the
+three `Phase` parameters described below).  This can be verified by
 
 ```coq
 Require Import Category.Structure.Monoidal.Hypergraph.
@@ -115,6 +116,26 @@ following specific definitions:
 - `spider_frobenius`
 - `Hypergraph_CompactClosed`
 - `ZX_Cat`
+
+The audit target was extended to also cover the phase 5-17 flagship
+theorems, each stated parametrically over abstract structure and
+each reported "Closed under the global context":
+
+- `lambek` (`Theory/Lambek.v`) — Lambek's lemma
+- `GAFT` (`Adjunction/GAFT.v`) — the general adjoint functor theorem
+- `beck_monadicity` and `monadic_creates`
+  (`Monad/Monadicity/Beck.v`) — Beck's precise monadicity theorem
+- `RoundTrip_Equivalence` (`Construction/Grothendieck/RoundTrip.v`) —
+  the fibred/indexed round-trip equivalence
+- `markov_all_deterministic_iff_cartesian`
+  (`Structure/Monoidal/Markov/Fox.v`) — Fox's theorem
+- `classifier_classifies` (`Structure/SubobjectClassifier.v`) — the
+  subobject classification theorem
+- `relations_iso` (`Structure/Topos.v`) — the power-object relations
+  isomorphism
+- `mate_iso` (`Theory/Bicategory/Mates.v`) — the mates bijection
+- `image_mediator_epic` (`Structure/Abelian.v`) — the abelian
+  epi-mono factorization mediator
 
 Expected output: "Closed under the global context" for each, except
 `ZX_Cat`, which lists the 3 `Phase` parameters above.  This is the

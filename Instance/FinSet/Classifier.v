@@ -358,32 +358,6 @@ Qed.
     fin_of_bool (fin_existsb (fun a => fin_eqb (m a) b))
 |}.
 Next Obligation.
-  (* char_respects: an isomorphic subobject has the same image *)
-  intros u u' x m M m' M' [i Hi] b; simpl.
-  f_equal.
-  destruct (fin_existsb (fun a => fin_eqb (m a) b)) eqn:E1;
-    destruct (fin_existsb (fun a' => fin_eqb (m' a') b)) eqn:E2;
-    try reflexivity.
-  - (* the left witness transports along [to i] *)
-    destruct (fin_existsb_sound _ E1) as [a Ha].
-    apply fin_eqb_eq in Ha.
-    assert (Hia := Hi a); simpl in Hia.
-    assert (Ht : fin_eqb (m' (to i a)) b = true)
-      by (rewrite Hia, Ha; apply fin_eqb_refl).
-    rewrite (fin_existsb_complete _ (to i a) Ht) in E2.
-    discriminate E2.
-  - (* the right witness transports back along [from i] *)
-    destruct (fin_existsb_sound _ E2) as [a' Ha'].
-    apply fin_eqb_eq in Ha'.
-    assert (Hia := Hi (from i a')); simpl in Hia.
-    assert (Hii := iso_to_from i a'); simpl in Hii.
-    rewrite Hii in Hia.
-    assert (Ht : fin_eqb (m (from i a')) b = true)
-      by (rewrite <- Hia, Ha'; apply fin_eqb_refl).
-    rewrite (fin_existsb_complete _ (from i a') Ht) in E1.
-    discriminate E1.
-Qed.
-Next Obligation.
   (* char_pullback: u is the preimage of fin_true under char m *)
   intros u x m M.
   unshelve econstructor.

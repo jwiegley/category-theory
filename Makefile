@@ -173,6 +173,15 @@ print-assumptions: category-theory
 	  echo 'Require Import Category.Construction.DecoratedCospan.Hypergraph.'; \
 	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.Spider.'; \
 	  echo 'Require Import Category.Instance.ZX.'; \
+	  echo 'Require Import Category.Theory.Lambek.'; \
+	  echo 'Require Import Category.Adjunction.GAFT.'; \
+	  echo 'Require Import Category.Monad.Monadicity.Beck.'; \
+	  echo 'Require Import Category.Construction.Grothendieck.RoundTrip.'; \
+	  echo 'Require Import Category.Structure.Monoidal.Markov.Fox.'; \
+	  echo 'Require Import Category.Structure.SubobjectClassifier.'; \
+	  echo 'Require Import Category.Structure.Topos.'; \
+	  echo 'Require Import Category.Theory.Bicategory.Mates.'; \
+	  echo 'Require Import Category.Structure.Abelian.'; \
 	  echo 'Print Assumptions Hypergraph.'; \
 	  echo 'Print Assumptions PROP.'; \
 	  echo 'Print Assumptions Cospan_Hypergraph.'; \
@@ -181,6 +190,16 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions spider_frobenius.'; \
 	  echo 'Print Assumptions ZX_Cat.'; \
 	  echo 'Print Assumptions Hypergraph_CompactClosed.'; \
+	  echo 'Print Assumptions lambek.'; \
+	  echo 'Print Assumptions GAFT.'; \
+	  echo 'Print Assumptions beck_monadicity.'; \
+	  echo 'Print Assumptions monadic_creates.'; \
+	  echo 'Print Assumptions RoundTrip_Equivalence.'; \
+	  echo 'Print Assumptions markov_all_deterministic_iff_cartesian.'; \
+	  echo 'Print Assumptions classifier_classifies.'; \
+	  echo 'Print Assumptions relations_iso.'; \
+	  echo 'Print Assumptions mate_iso.'; \
+	  echo 'Print Assumptions image_mediator_epic.'; \
 	} > /tmp/print_assumptions.v
 	@coqc -R . Category /tmp/print_assumptions.v > /tmp/print_assumptions.out 2>&1; rc=$$?; \
 	  grep -vE '^Warning|^\[|^$$' /tmp/print_assumptions.out || true; \
