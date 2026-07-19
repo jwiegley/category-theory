@@ -20,6 +20,7 @@ Construction/Comma/Adjunction.v
 Construction/Comma/Isomorphism.v
 Construction/Comma/Natural/Transformation.v
 Construction/Coproduct.v
+Construction/Day.v
 Construction/Displayed/Codomain.v
 Construction/Displayed/Total.v
 Construction/Enriched.v
@@ -48,6 +49,8 @@ Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
 Construction/Product/Comma.v
+Construction/Profunctor/Compose.v
+Construction/Profunctor/Laws.v
 Construction/Quotient.v
 Construction/Slice.v
 Construction/Slice/Pullback.v
@@ -201,6 +204,8 @@ Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cocartesian.v
+Instance/Sets/Coend.v
+Instance/Sets/End.v
 Instance/Sets/Image.v
 Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
@@ -271,6 +276,7 @@ Structure/Cartesian/Closed/Product.v
 Structure/Cartesian/Product.v
 Structure/Closed.v
 Structure/Cocartesian.v
+Structure/Coend.v
 Structure/Coequalizer.v
 Structure/Coequalizer/Reflexive.v
 Structure/Coequalizer/Split.v
@@ -311,6 +317,7 @@ Structure/Monoidal/Compose.v
 Structure/Monoidal/CopyDiscard.v
 Structure/Monoidal/CopyDiscard/Proofs.v
 Structure/Monoidal/CopyDiscard/Deterministic.v
+Structure/Monoidal/Drinfeld.v
 Structure/Monoidal/Internal/Product.v
 Structure/Monoidal/Markov.v
 Structure/Monoidal/Markov/Fox.v
@@ -322,6 +329,7 @@ Structure/Monoidal/Semicartesian.v
 Structure/Monoidal/Semicartesian/Proofs.v
 Structure/Monoidal/Semicartesian/Terminal.v
 Structure/Monoidal/Semicocartesian.v
+Structure/Monoidal/StarAutonomous.v
 Structure/Monoidal/Symmetric.v
 Structure/Monoidal/Traced.v
 Structure/Monoidal/CompactClosed.v
@@ -362,6 +370,8 @@ Theory/Bicategory.v
 Theory/Category.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
+Theory/Coend/Fubini.v
+Theory/Coend/Yoneda.v
 Theory/Coq.v
 Theory/Coq/Applicative.v
 Theory/Coq/Applicative/Proofs.v
@@ -406,6 +416,8 @@ Theory/Morphisms/Stability.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Orthogonality.v
+Theory/Profunctor.v
+Theory/Profunctor/Adjunction.v
 Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
