@@ -1,5 +1,6 @@
 Require Import Category.Lib.
 Require Import Category.Theory.Category.
+Require Import Category.Theory.Isomorphism.
 Require Import Category.Theory.Functor.
 Require Import Category.Construction.Product.
 
@@ -27,12 +28,16 @@ Reserved Infix "∘∘∘" (at level 40, left associativity).
    and ⇒ is `~~>` (a 2-cell); here `~~~>` is also a 2-cell, `∘∘` is vertical
    2-cell composition and `∘∘∘` is horizontal 1-cell composition.
 
-   STATUS: this development supplies the bicategory data through the hom-
-   categories `bicat x y` and the horizontal-composition functor `hcompose`.
-   The associator, left/right unitors, and the pentagon and triangle coherence
-   laws are not yet formalised; they are described in the TODOs after the
-   `hcompose` field. The class as written is therefore an incomplete (data-
-   only) bicategory, retained as scaffolding. *)
+   STATUS: this development supplies a complete bicategory. Beyond the hom-
+   categories `bicat x y` and the horizontal-composition functor `hcompose`, the
+   class now carries the associator `hassoc`, the left/right unitors
+   `hunit_left`/`hunit_right` (as 2-isomorphisms in the hom-categories), their
+   naturality squares, and the triangle and pentagon coherence laws — exactly
+   the fields mirroring `Structure/Monoidal.v` under the dictionary
+   tensor ↔ hcompose, I ↔ bi1id, λ ↔ hunit_left, ρ ↔ hunit_right,
+   α ↔ hassoc. The derived horizontal 2-cell operation `hcomp2` (Godement
+   whiskering) is the functorial action of `hcompose` on a pair of 2-cells, and
+   is what the coherence laws are stated through. *)
 
 (* From https://ncatlab.org/nlab/show/bicategory#detailedDefn :
 
@@ -173,24 +178,77 @@ Class Bicategory := {
   hcompose {x y z : bi0cell} : bicat y z ∏ bicat x y ⟶ bicat x z
     where "f ∘∘∘ g" := (hcompose (f, g));  (* horizontal composition functor *)
 
-  (* The following coherence data and laws of a bicategory are not yet
-     formalised (cf. the STATUS note in the header); each would be added as a
-     field above. Using the library isomorphism `≅` (in the hom-category
-     `bicat _ _`) for the coherence 2-isomorphisms:
+  (* The horizontal composite of two 2-cells (Godement whiskering), obtained as
+     the functorial action of `hcompose` on the pair. This is a manifest field:
+     it is a definition, not new data, so it computes to the underlying
+     bifunctor's `fmap`. All the coherence laws below are phrased through it. *)
+  hcomp2 {x y z : bi0cell} {g g' : bicat y z} {f f' : bicat x y}
+         (θ : g ~{bicat y z}~> g') (η : f ~{bicat x y}~> f') :
+    (g ∘∘∘ f) ~{bicat x z}~> (g' ∘∘∘ f')
+    := @fmap _ _ (@hcompose x y z) (g, f) (g', f') (θ, η);
 
-       - associator α[h,g,f] : (h ∘∘∘ g) ∘∘∘ f ≅ h ∘∘∘ (g ∘∘∘ f), natural in
-         f, g, h (jww 2018-06-16: associativity holds up to this natural iso);
-       - left  unitor λ[f] : bi1id ∘∘∘ f ≅ f, natural in f;
-       - right unitor ρ[f] : f ∘∘∘ bi1id ≅ f, natural in f;
-       - triangle identity relating ρ, λ and α on a ~> b ~> c;
-       - pentagon identity relating the four reassociations on a ~> .. ~> e.
+  (* The coherence 2-isomorphisms of a bicategory, living in the hom-categories
+     `bicat _ _` and mirroring the unitors and associator of a monoidal
+     category (`Structure/Monoidal.v`), with tensor ↔ hcompose, I ↔ bi1id. *)
 
-     jww (2018-06-16): these coherence axioms, analogous to those of a
-     monoidal category, remain to be added. *)
+  hunit_left  {x y : bi0cell} (f : bicat x y) :   (* left  unitor λ[f] *)
+    (bi1id ∘∘∘ f) ≅[bicat x y] f;
+  hunit_right {x y : bi0cell} (f : bicat x y) :   (* right unitor ρ[f] *)
+    (f ∘∘∘ bi1id) ≅[bicat x y] f;
+  hassoc {w x y z : bi0cell}                      (* associator α[h,g,f] *)
+         (h : bicat y z) (g : bicat x y) (f : bicat w x) :
+    ((h ∘∘∘ g) ∘∘∘ f) ≅[bicat w z] (h ∘∘∘ (g ∘∘∘ f));
 
-  (* hcompose_assoc {x y z w : bi0cell} *)
-  (*                (f : bicat z w) (g : bicat y z) (h : bicat x y) : *)
-  (*   f ∘∘∘ (g ∘∘∘ h) ≅ (f ∘∘∘ g) ∘∘∘ h *)
+  (* The unitors and the associator are natural in their 1-cell arguments; each
+     square is the horizontal-composition analogue of the monoidal naturality
+     of λ, ρ and α (the `to`-direction; the `from`-direction follows since these
+     are isomorphisms). *)
+
+  hunit_left_natural {x y : bi0cell} {f f' : bicat x y}
+                     (η : f ~{bicat x y}~> f') :
+    η ∘∘ to (hunit_left f) ≈ to (hunit_left f') ∘∘ hcomp2 (bi2id (a:=bi1id)) η;
+  hunit_right_natural {x y : bi0cell} {f f' : bicat x y}
+                      (η : f ~{bicat x y}~> f') :
+    η ∘∘ to (hunit_right f) ≈ to (hunit_right f') ∘∘ hcomp2 η (bi2id (a:=bi1id));
+  hassoc_natural {w x y z : bi0cell}
+      {h h' : bicat y z} {g g' : bicat x y} {f f' : bicat w x}
+      (θ : h ~{bicat y z}~> h') (γ : g ~{bicat x y}~> g') (η : f ~{bicat w x}~> f') :
+    hcomp2 θ (hcomp2 γ η) ∘∘ to (hassoc h g f)
+      ≈ to (hassoc h' g' f') ∘∘ hcomp2 (hcomp2 θ γ) η;
+
+  (* The two coherence laws: the triangle relates the unitors to the associator
+     across `bi1id`, and the pentagon makes the two reassociations of a fourfold
+     horizontal composite agree. Endpoints mirror `Monoidal.triangle_identity`
+     and `Monoidal.pentagon_identity` exactly. *)
+
+  hcoherence_triangle {x y z : bi0cell} (g : bicat y z) (f : bicat x y) :
+    hcomp2 (to (hunit_right g)) (bi2id (a:=f))
+      ≈ hcomp2 (bi2id (a:=g)) (to (hunit_left f)) ∘∘ to (hassoc g bi1id f);
+  hcoherence_pentagon {v w x y z : bi0cell}
+      (k : bicat y z) (h : bicat x y) (g : bicat w x) (f : bicat v w) :
+    hcomp2 (bi2id (a:=k)) (to (hassoc h g f))
+      ∘∘ to (hassoc k (h ∘∘∘ g) f)
+      ∘∘ hcomp2 (to (hassoc k h g)) (bi2id (a:=f))
+      ≈ to (hassoc k h (g ∘∘∘ f)) ∘∘ to (hassoc (k ∘∘∘ h) g f)
 }.
 #[export] Existing Instance bi2homset.
 #[export] Existing Instance vcompose_respects.
+
+(* Smart constructor for [Bicategory], mirroring [Build_Category']: it takes
+   every field except `vcompose_assoc_sym` and supplies that symmetric form
+   automatically as `symmetry (vcompose_assoc …)`. This is "what symmetry
+   permits" — the dual orientation of vertical associativity carries no extra
+   content — and keeps duality definitional exactly as in [Category]. Intended
+   for use with `unshelve refine`, leaving the coherence obligations as goals. *)
+Definition Build_Bicategory'
+    bi0cell bi1cell bi2cell bi1id bi2homset bi2id
+    vcompose vcompose_respects bi2id_left bi2id_right vcompose_assoc
+    hcompose hunit_left hunit_right hassoc
+    hunit_left_natural hunit_right_natural hassoc_natural
+    hcoherence_triangle hcoherence_pentagon :=
+  @Build_Bicategory bi0cell bi1cell bi2cell bi1id bi2homset bi2id
+    vcompose vcompose_respects bi2id_left bi2id_right vcompose_assoc
+    (fun x y a b c d f g h => symmetry (vcompose_assoc x y a b c d f g h))
+    hcompose hunit_left hunit_right hassoc
+    hunit_left_natural hunit_right_natural hassoc_natural
+    hcoherence_triangle hcoherence_pentagon.

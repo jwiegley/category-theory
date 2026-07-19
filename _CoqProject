@@ -152,6 +152,8 @@ Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cartesian/Closed.v
 Instance/Cat/Cocartesian.v
+Instance/Cat/Bicategory.v
+Instance/Cat/Bicategory/Adjunction.v
 Instance/StrictCat.v
 Instance/StrictCat/ToCat.v
 Instance/StrictCat/Terminal.v
@@ -367,6 +369,12 @@ Theory/Algebra/Frobenius.v
 Theory/Algebra/CommutativeFrobenius.v
 Theory/Algebra/SpecialCommutativeFrobenius.v
 Theory/Bicategory.v
+Theory/Bicategory/Pseudofunctor.v
+Theory/Bicategory/Lax.v
+Theory/Bicategory/Modification.v
+Theory/Bicategory/Adjunction.v
+Theory/Bicategory/Mates.v
+Theory/Bicategory/OneObject.v
 Theory/Category.v
 Theory/Category/Raw.v
 Theory/Category/Semi.v
