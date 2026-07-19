@@ -34,6 +34,8 @@ Construction/Funny/Associator.v
 Construction/Funny/Hom.v
 Construction/Funny/Closed.v
 Construction/Groupoid.v
+Construction/Karoubi.v
+Construction/Karoubi/Universal.v
 Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
@@ -189,6 +191,8 @@ Instance/Sets.v
 Instance/Sets/Cartesian.v
 Instance/Sets/Cartesian/Closed.v
 Instance/Sets/Cocartesian.v
+Instance/Sets/Image.v
+Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
@@ -247,6 +251,7 @@ Structure/Cartesian/Closed/Product.v
 Structure/Cartesian/Product.v
 Structure/Closed.v
 Structure/Cocartesian.v
+Structure/Coequalizer.v
 Structure/Complete.v
 Structure/Cone.v
 Structure/Cone/Const.v
@@ -256,6 +261,8 @@ Structure/Discrete.v
 Structure/Distributive.v
 Structure/End.v
 Structure/Equalizer.v
+Structure/Factorization.v
+Structure/Factorization/StrongEpi.v
 Structure/Group.v
 Structure/Group/Proofs.v
 Structure/Initial.v
@@ -301,6 +308,8 @@ Structure/Monoidal/Strict.v
 Structure/Pullback.v
 Structure/Pullback/Limit.v
 Structure/Pushout.v
+Structure/Regular.v
+Structure/Regular/Factorization.v
 Structure/Span.v
 Structure/Terminal.v
 Structure/UniversalProperty.v
@@ -364,8 +373,11 @@ Theory/Metacategory/ArrowsOnly.v
 Theory/Metacategory/DecideExample.v
 Theory/Monad.v
 Theory/Morphisms.v
+Theory/Morphisms/Classes.v
+Theory/Morphisms/Stability.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
+Theory/Orthogonality.v
 Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
