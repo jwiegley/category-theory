@@ -215,6 +215,7 @@ Lib/Tactics.v
 Lib/Tactics2.v
 Monad/Adjunction.v
 Monad/Algebra.v
+Monad/Comparison.v
 Monad/Compose.v
 Monad/Distributive.v
 Monad/Eilenberg/Moore.v
@@ -224,6 +225,11 @@ Monad/Kleisli.v
 Monad/Kleisli/Adjunction.v
 Monad/Kleisli/Premonoidal.v
 Monad/Kleisli/Commutative.v
+Monad/Lifting.v
+Monad/Monadicity/Beck.v
+Monad/Monadicity/BeckObjects.v
+Monad/Monadicity/Crude.v
+Monad/Monadicity/Examples.v
 Monad/Monoid.v
 Monad/Strong.v
 Monad/Strong/Symmetric.v
@@ -258,6 +264,8 @@ Structure/Cartesian/Product.v
 Structure/Closed.v
 Structure/Cocartesian.v
 Structure/Coequalizer.v
+Structure/Coequalizer/Reflexive.v
+Structure/Coequalizer/Split.v
 Structure/Complete.v
 Structure/Cone.v
 Structure/Cone/Const.v
