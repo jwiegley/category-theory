@@ -191,6 +191,7 @@ Instance/Coq/ParE.v
 Instance/Ens.v
 Instance/Fact.v
 Instance/FinSet.v
+Instance/FinSet/Lawvere.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Lambda.v
@@ -434,6 +435,17 @@ Theory/Fibration.v
 Theory/Functor.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
+Theory/Lawvere.v
+Theory/Lawvere/Model.v
+Theory/Lawvere/Sets.v
+Theory/Lawvere/Monad.v
+Theory/Lawvere/PROP.v
+Theory/Multicategory.v
+Theory/Multicategory/Functor.v
+Theory/Multicategory/Representable.v
+Theory/Multicategory/Endomorphism.v
+Theory/Multicategory/Operad.v
+Theory/Multicategory/Algebra.v
 Theory/Lambek.v
 Theory/Metacategory.v
 Theory/Metacategory/ArrowsOnly.v
