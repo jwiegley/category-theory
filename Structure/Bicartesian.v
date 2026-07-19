@@ -16,7 +16,9 @@ Section Bicartesian.
    it has finite products (× with terminal unit 1) and finite coproducts (+ with
    initial unit 0), where the two structures need not coincide. (When they do
    coincide as biproducts the category is semiadditive: every semiadditive
-   category is bicartesian, but not conversely.)
+   category is bicartesian, but not conversely.) The two directions of that
+   remark are made precise in Structure/Semiadditive.v ([biproduct_addition],
+   [bicartesian_preadditive]).
 
    This file does not introduce a [Bicartesian] class; the structure is simply
    the conjunction of [Cartesian] and [Cocartesian] in context, declared below.

@@ -20,6 +20,8 @@ Construction/Comma/Adjunction.v
 Construction/Comma/Isomorphism.v
 Construction/Comma/Natural/Transformation.v
 Construction/Coproduct.v
+Construction/Displayed/Codomain.v
+Construction/Displayed/Total.v
 Construction/Enriched.v
 Construction/FAlg.v
 Construction/FCoalg.v
@@ -33,7 +35,13 @@ Construction/Funny/Swap.v
 Construction/Funny/Associator.v
 Construction/Funny/Hom.v
 Construction/Funny/Closed.v
+Construction/Grothendieck.v
+Construction/Grothendieck/Fiber.v
+Construction/Grothendieck/Fibration.v
+Construction/Grothendieck/RoundTrip.v
+Construction/Grothendieck/Strict.v
 Construction/Groupoid.v
+Construction/Indexed.v
 Construction/Karoubi.v
 Construction/Karoubi/Universal.v
 Construction/Opposite.v
@@ -135,6 +143,8 @@ Functor/Traversable/Product.v
 Instance/AST.v
 Instance/Adj.v
 Instance/Adjoints.v
+Instance/CMon.v
+Instance/CMon/Biproduct.v
 Instance/Cat.v
 Instance/Cat/Cartesian.v
 Instance/Cat/Cartesian/Closed.v
@@ -213,6 +223,7 @@ Lib/Tactics.v
 Lib/Tactics2.v
 Monad/Adjunction.v
 Monad/Algebra.v
+Monad/Comparison.v
 Monad/Compose.v
 Monad/Distributive.v
 Monad/Eilenberg/Moore.v
@@ -222,6 +233,11 @@ Monad/Kleisli.v
 Monad/Kleisli/Adjunction.v
 Monad/Kleisli/Premonoidal.v
 Monad/Kleisli/Commutative.v
+Monad/Lifting.v
+Monad/Monadicity/Beck.v
+Monad/Monadicity/BeckObjects.v
+Monad/Monadicity/Crude.v
+Monad/Monadicity/Examples.v
 Monad/Monoid.v
 Monad/Strong.v
 Monad/Strong/Symmetric.v
@@ -237,10 +253,14 @@ Solver/Denote.v
 Solver/Expr.v
 Solver/Normal.v
 Solver/Reify.v
+Structure/Abelian.v
+Structure/Additive.v
 Structure/BiCCC.v
 Structure/Bicartesian.v
 Structure/Binoidal.v
 Structure/Binoidal/Central.v
+Structure/Biproduct.v
+Structure/Preadditive.v
 Structure/Premonoidal.v
 Structure/Premonoidal/Monoidal.v
 Structure/Premonoidal/Centre.v
@@ -252,6 +272,8 @@ Structure/Cartesian/Product.v
 Structure/Closed.v
 Structure/Cocartesian.v
 Structure/Coequalizer.v
+Structure/Coequalizer/Reflexive.v
+Structure/Coequalizer/Split.v
 Structure/Complete.v
 Structure/Cone.v
 Structure/Cone/Const.v
@@ -261,11 +283,13 @@ Structure/Discrete.v
 Structure/Distributive.v
 Structure/End.v
 Structure/Equalizer.v
+Structure/Equalizer/Fork.v
 Structure/Factorization.v
 Structure/Factorization/StrongEpi.v
 Structure/Group.v
 Structure/Group/Proofs.v
 Structure/Initial.v
+Structure/Kernel.v
 Structure/Limit.v
 Structure/Limit/Cartesian.v
 Structure/Limit/Preservation.v
@@ -310,6 +334,7 @@ Structure/Pullback/Limit.v
 Structure/Pushout.v
 Structure/Regular.v
 Structure/Regular/Factorization.v
+Structure/Semiadditive.v
 Structure/Span.v
 Structure/Terminal.v
 Structure/UniversalProperty.v
@@ -317,6 +342,7 @@ Structure/UniversalProperty/Cartesian.v
 Structure/UniversalProperty/Limit.v
 Structure/UniversalProperty/Universal/Arrow.v
 Structure/Wedge.v
+Structure/ZeroObject.v
 Theory.v
 Theory/Adamek.v
 Theory/Adamek/Corollaries.v
@@ -357,6 +383,7 @@ Theory/Coq/Traversable.v
 Theory/Coq/Tuple.v
 Theory/Coq/Tuple/Proofs.v
 Theory/Dinatural.v
+Theory/Displayed.v
 Theory/Equivalence.v
 Theory/Equivalence/FullFaithful.v
 Theory/Equivalence/Adjoint.v
@@ -364,6 +391,7 @@ Theory/Equivalence/Bundled.v
 Theory/Equivalence/Monoidal.v
 Theory/Equivalence/Adjunction.v
 Theory/Equivalence/Limit.v
+Theory/Fibration.v
 Theory/Functor.v
 Theory/Isomorphism.v
 Theory/Kan/Extension.v
