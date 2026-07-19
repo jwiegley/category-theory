@@ -3,6 +3,9 @@ Adjunction/Diagonal/Product.v
 Adjunction/Hom.v
 Adjunction/Compose.v
 Adjunction/Continuity.v
+Adjunction/GAFT.v
+Adjunction/GAFT/Examples.v
+Adjunction/SAFT.v
 Adjunction/Natural/Transformation.v
 Adjunction/Natural/Transformation/Opposite.v
 Adjunction/Natural/Transformation/Universal.v
@@ -19,6 +22,7 @@ Construction/Comma.v
 Construction/Comma/Adjunction.v
 Construction/Comma/Isomorphism.v
 Construction/Comma/Natural/Transformation.v
+Construction/Comma/Limit.v
 Construction/Coproduct.v
 Construction/Day.v
 Construction/Displayed/Codomain.v
@@ -44,7 +48,11 @@ Construction/Grothendieck/Strict.v
 Construction/Groupoid.v
 Construction/Indexed.v
 Construction/Karoubi.v
+Construction/Localization.v
+Construction/Localization/Universal.v
 Construction/Karoubi/Universal.v
+Construction/Reflective.v
+Construction/Reflective/Idempotent.v
 Construction/Opposite.v
 Construction/Opposite/Monoidal.v
 Construction/Product.v
@@ -164,6 +172,7 @@ Instance/Cones.v
 Instance/Cones/Comma.v
 Instance/Cones/Limit.v
 Instance/Coq.v
+Instance/Discrete.v
 Instance/Coq/Applicative.v
 Instance/Coq/Lists.v
 Instance/Coq/Monad.v
@@ -301,6 +310,7 @@ Structure/Kernel.v
 Structure/Limit.v
 Structure/Limit/Cartesian.v
 Structure/Limit/Preservation.v
+Structure/Limit/Product.v
 Structure/Limit/Kan/Extension.v
 Structure/Limit/Terminal.v
 Structure/Monoid.v
@@ -429,6 +439,7 @@ Theory/Profunctor/Adjunction.v
 Theory/Recursion.v
 Theory/Sheaf.v
 Theory/Universal/Arrow.v
+Theory/WeaklyInitial.v
 Structure/Monoidal/Hypergraph/Tactics.v
 Structure/Monoidal/Strict/Tactics.v
 Test/FullIssue118.v
