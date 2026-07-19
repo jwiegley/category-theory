@@ -28,6 +28,11 @@ Construction/Day.v
 Construction/Displayed/Codomain.v
 Construction/Displayed/Total.v
 Construction/Enriched.v
+Construction/Enriched/Natural.v
+Construction/Enriched/Compose.v
+Construction/Enriched/Fun.v
+Construction/Enriched/Sets.v
+Construction/Enriched/Two.v
 Construction/FAlg.v
 Construction/FCoalg.v
 Construction/Free.v
@@ -62,10 +67,12 @@ Construction/Profunctor/Laws.v
 Construction/Quotient.v
 Construction/Slice.v
 Construction/Slice/Pullback.v
+Construction/Sq.v
 Construction/Subcategory.v
 Construction/Free/Quiver.v
 Construction/Span/Category.v
 Construction/Cospan/Category.v
+Construction/Cospan/Double.v
 Construction/Cospan/Bridging.v
 Construction/Cospan/Corelation.v
 Construction/Cospan/Hypergraph.v
@@ -224,6 +231,7 @@ Instance/Sets/Pushout.v
 Instance/Sets/Streams.v
 Instance/Shapes.v
 Instance/Two.v
+Instance/Two/Monoidal.v
 Instance/Two/Discrete.v
 Instance/Zero.v
 Lib.v
@@ -311,6 +319,7 @@ Structure/Limit.v
 Structure/Limit/Cartesian.v
 Structure/Limit/Preservation.v
 Structure/Limit/Product.v
+Structure/Limit/Weighted.v
 Structure/Limit/Kan/Extension.v
 Structure/Limit/Terminal.v
 Structure/Monoid.v
@@ -412,6 +421,8 @@ Theory/Coq/Tuple.v
 Theory/Coq/Tuple/Proofs.v
 Theory/Dinatural.v
 Theory/Displayed.v
+Theory/DoubleCategory.v
+Theory/DoubleCategory/Companion.v
 Theory/Equivalence.v
 Theory/Equivalence/FullFaithful.v
 Theory/Equivalence/Adjoint.v
