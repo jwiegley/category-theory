@@ -192,6 +192,10 @@ Instance/Ens.v
 Instance/Fact.v
 Instance/FinSet.v
 Instance/FinSet/Lawvere.v
+Instance/FinSet/Product.v
+Instance/FinSet/Closed.v
+Instance/FinSet/Classifier.v
+Instance/FinSet/Topos.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v
 Instance/Lambda.v
@@ -226,6 +230,7 @@ Instance/Sets/Cocartesian.v
 Instance/Sets/Coend.v
 Instance/Sets/End.v
 Instance/Sets/Image.v
+Instance/Sets/Classifier.v
 Instance/Sets/Karoubi.v
 Instance/Sets/Par.v
 Instance/Sets/Pushout.v
@@ -360,6 +365,8 @@ Structure/Monoidal/Hypergraph/Spider.v
 Structure/Monoidal/HypergraphFunctor.v
 Structure/Monoidal/Strict.v
 Structure/Pullback.v
+Structure/SubobjectClassifier.v
+Structure/Topos.v
 Structure/Pullback/Limit.v
 Structure/Pushout.v
 Structure/Regular.v
@@ -454,6 +461,8 @@ Theory/Monad.v
 Theory/Morphisms.v
 Theory/Morphisms/Classes.v
 Theory/Morphisms/Stability.v
+Theory/Subobject.v
+Theory/Subobject/Functor.v
 Theory/Natural/Transformation.v
 Theory/Naturality.v
 Theory/Orthogonality.v
@@ -461,6 +470,7 @@ Theory/Profunctor.v
 Theory/Profunctor/Adjunction.v
 Theory/Recursion.v
 Theory/Sheaf.v
+Theory/Sheaf/Category.v
 Theory/Universal/Arrow.v
 Theory/WeaklyInitial.v
 Structure/Monoidal/Hypergraph/Tactics.v
