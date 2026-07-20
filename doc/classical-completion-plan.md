@@ -1,5 +1,13 @@
 # Classical Category Theory Completion Plan (Phases 5-17)
 
+> **Status: COMPLETED (historical record).** Every one of the seventeen
+> developments planned below has since been delivered and merged; this file
+> is retained as a record of the campaign, not as a list of outstanding work.
+> The delivered artefacts are indexed in `CLAUDE.md` (see the "Key Files and
+> Concepts" section) and enumerated in Section 4. Read the present tense
+> throughout this document ("missing", "to add", "will") as describing the
+> plan at the time it was written.
+
 ## 1. Purpose and how to use this document
 
 This document is the complete, self-contained execution plan for adding the seventeen

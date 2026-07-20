@@ -70,23 +70,36 @@ The audit conflates two genuinely different situations, and it is
 important to keep them apart.
 
 1. **Axiom-free AND inhabited by a concrete model.**  Here a "Closed
-   under the global context" report certifies a real mathematical
-   result, because the library actually contains an inhabitant.  The
-   genuine example is `Cospan_Hypergraph`: it is a special commutative
-   Frobenius algebra in a cospan category, and the library provides a
-   concrete pushout model to feed it — `Sets_HasPushouts :
-   HasPushouts Sets` in `Instance/Sets/Pushout.v` — so the
-   construction can be instantiated over `Sets`.
+   under the global context" report certifies a result about something
+   the library actually contains.  The genuine example is
+   `classifier_classifies`: it is proven for any `ElementaryTopos`, and
+   the library exhibits one — `FinSet_Topos : ElementaryTopos FinSet`
+   in `Instance/FinSet/Topos.v` — whose sanity examples compute by
+   `eq_refl` (for instance `Pow 2 = 4`).  A full ledger of which
+   headline results carry an in-tree witness and which are
+   conditional-only is kept in [INHABITATION.md](INHABITATION.md).
+
+   Note that feeding `Cospan_Hypergraph` the `Sets` pushout instance
+   `Sets_HasPushouts`, as earlier editions of this file suggested, does
+   not type-check: a cospan's hom carries an apex object, so `CospanCat`
+   requires objects to sit at or below homs, whereas `Sets` places its
+   objects one universe above its homs, and `CospanCat Sets HP` reports
+   a universe inconsistency for any `HP`.  The route that fits is
+   skeletal `FinSet`, and `FinSet_HasPushouts`
+   (`Instance/FinSet/Pushout.v`) supplies it: over `FinSet` the cospan
+   hypergraph and both spider results are inhabited and axiom-free.  See
+   the cospan note in [INHABITATION.md](INHABITATION.md).
 
 2. **Axiom-free *as written*, but not yet instantiated.**  `Hypergraph`
-   and `PROP` are `Class : Type` declarations, and
-   `DecoratedCospan_Hypergraph` is a `Program Definition` living under
-   a section `Context` `{DCHGC : DecCospan_Hypergraph_Coherent}` whose
-   coherence class is NEVER instantiated anywhere in the library
-   (there is no inhabitant of `DecCospan_Hypergraph_Coherent`, of
-   `PROP`, or of `HypergraphPROP`).  For these, "Closed under the
-   global context" is trivially or vacuously true and certifies no
-   concrete result.
+   is a `Class : Type` declaration, and `DecoratedCospan_Hypergraph`
+   is a `Program Definition` living under a section `Context`
+   `{DCHGC : DecCospan_Hypergraph_Coherent}` whose coherence class is
+   NEVER instantiated anywhere in the library (there is no inhabitant
+   of `DecCospan_Hypergraph_Coherent` or of `HypergraphPROP`).  For
+   these, "Closed under the global context" is trivially or vacuously
+   true and certifies no concrete result.  (`PROP` itself, by contrast,
+   IS inhabited — by `FreePROP`, `PresentedPROP`, `Lawvere_PROP`, and
+   `RepeatPROP` — so it is not in this list.)
 
    Running `Print Assumptions` on a `Class` *type* reports the
    assumptions of the type expression, not of any inhabitant — a type
@@ -169,16 +182,29 @@ the global context".  Known live uses:
 - **`functional_extensionality_dep`** — the cartesian-closed /
   exponential structure on `Instance/Coq` depends on it (verify:
   `Print Assumptions Coq_Closed` lists
-  `FunctionalExtensionality.functional_extensionality_dep`).
+  `FunctionalExtensionality.functional_extensionality_dep`).  The
+  `Instance/Lambda.*` development depends on it as well (verify:
+  `Print Assumptions Category.Instance.Lambda.Lambda`).
   `Instance/Comp.v` also applies `functional_extensionality` /
   `functional_extensionality_dep` directly, and
   `Theory/Coq/Functor/Proofs.v` uses the `extensionality` tactic.
-- **`proof_irrelevance`** — applied directly in `Instance/Rel.v`
-  (several obligations around lines 137–156).
 - **UIP / `Eqdep` (`inj_pair2`, `eq_rect_eq`)** — `Instance/Lambda.v`
   and its tactic support `Instance/Lambda/Ltac.v` rely on UIP for
   index types (injectivity of `existT` via `Coq.Logic.Eqdep`).
-- `Instance/Sets/Par.v` likewise uses the `extensionality` tactic.
+  `Instance/Shapes.v` likewise depends on `eq_rect_eq` (verify:
+  `Print Assumptions Category.Instance.Shapes.Tries_Cartesian`).
+
+Two entries that earlier editions of this table listed are *not* live
+uses, and are corrected here:
+
+- `proof_irrelevance` is invoked **nowhere** in the compiled library.
+  Its only textual occurrences are in `Instance/Rel.v` (around lines
+  137–156), and that whole region sits inside a comment block, so
+  `Print Assumptions Category.Instance.Rel.Rel` reports "Closed under
+  the global context".
+- `Instance/Sets/Par.v` uses the `extensionality` tactic only inside
+  proofs that end in `Abort.`, so those uses never enter the
+  environment; the file introduces no axiom on that account.
 
 So if you `Require Import` and build on these instance layers — or on
 files from `Coq.Logic.*` more generally — those axioms become part of
@@ -199,23 +225,14 @@ add a new `Axiom` or `Parameter` in a contribution:
    `print-assumptions` make target so the addition shows up in audit
    output.
 
-## Note: one version-conditional obligation
+## Note: the former version-conditional obligation
 
-There is a single `admit`-closed obligation in
 `Structure/UniversalProperty/Universal/Arrow.v` (in
-`UniversalArrowIsUniversalProperty`).  Per that file's own comment, the
-preceding `try(...)` tactic block discharges the goal in full on
-Coq/Rocq >= 8.16 — leaving the trailing `admit` running against zero
-remaining goals, so it is inert and the obligation is axiom-free on the
-default Rocq 9.1 toolchain (the file records that `Print Assumptions
-UniversalArrowIsUniversalProperty` reports "Closed under the global
-context" on Rocq 9.1).  On Coq < 8.16 the block does not close the
-goal and the `admit` is reached, so on those older versions this one
-obligation is accepted on faith rather than proven.
-
-This is pre-existing debt (the comment is flagged for revisiting once
-8.16 is the minimum supported version).  The module is an orphan — no
-other file in the library depends on it — so it is outside the audited
-core and does not affect any definition in the
-[How to audit](#how-to-audit) list.  This note acknowledges its
-existence; it does not change any version-support policy.
+`UniversalArrowIsUniversalProperty`) once carried a single obligation
+discharged only by a version-conditional tactic, with a trailing
+`admit` reached on Coq versions below 8.16.  That obligation is now
+proven directly, so the file contains no proof hole on any supported
+version; `Print Assumptions UniversalArrowIsUniversalProperty` reports
+"Closed under the global context".  The module remains an orphan — no
+other file in the library depends on it — so it stands outside the
+audited core in any case.

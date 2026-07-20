@@ -108,7 +108,7 @@ Proof.
   - simpl in *.
     (* Since half of the isomorphism has already been proven in [to_from], it
        is sufficient to show that either [(adj nat) ttt] is monic, or
-       [unique_morphism (ump_limits cone)] is epic. I've chosen the latter due
+       [unique_obj (ump_limits cone)] is epic. I've chosen the latter due
        to Emily Riehl's statement in "Category Theory in Context" (p. 76):
        "... Proposition 3.1.7 implies that the only automorphism of [a limit
        object] l that commutes with the specified limit cone λ is the
@@ -125,7 +125,7 @@ Proof.
       reflexivity.
     }
 
-    (* Apply the consequence that [unique_morphism (ump_limits cone)] is epic
+    (* Apply the consequence that [unique_obj (ump_limits cone)] is epic
       on morphisms commuting with the limit cone, leaving us with the burden
       of showing that the two sides of our equivalence do in fact commute for
       [Lim F]. The right side is trivial (id), while the left side relies on

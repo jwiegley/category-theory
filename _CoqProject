@@ -195,6 +195,7 @@ Instance/FinSet/Lawvere.v
 Instance/FinSet/Product.v
 Instance/FinSet/Closed.v
 Instance/FinSet/Classifier.v
+Instance/FinSet/Pushout.v
 Instance/FinSet/Topos.v
 Instance/Fun.v
 Instance/Fun/Cartesian.v

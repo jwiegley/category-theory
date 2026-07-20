@@ -29,7 +29,7 @@ NOT in `Lib/Tactics.v`. To use `normal` in your own code, write
 | `sapply F`    | term       | Cb-simplified `apply F`.                                       | Lemma application.          | Stable        |
 | `srewrite F`  | term       | Cb-simplified `rewrite F`.                                     | Lemma-driven rewrite.       | Stable        |
 | `srewrite_r F` | term      | Cb-simplified `rewrite <- F`.                                  | Reverse-direction rewrite.  | Stable        |
-| `isomorphism` | no-arg     | Solver for `_ ≅ _` goals (see `Theory/Isomorphism.v:178`).     | Iso construction.           | Stable        |
+| `isomorphism` | no-arg     | Solver for `_ ≅ _` goals (see `Theory/Isomorphism.v:256`).     | Iso construction.           | Stable        |
 
 `*` "Internal" means we keep the API working but downstream code
 should prefer the higher-level wrappers `cat` / `cat_simpl`.
@@ -69,13 +69,15 @@ If you depend on this library and want to add your own automation:
    relevant section variable that any tactic step touches, which in
    typeclass-heavy code is effectively all of them.])
 
-   **Known exception:** the five
+   **Known exception:** seven files use `Set Default Proof Using "All"`
+   today — the five
    `Construction/DecoratedCospan/{Category,Symmetric,Monoidal,
-   Braided,Hypergraph}.v` files use `Set Default Proof Using "All"`
-   today because each carries an 11-variable `Context` block.  The
-   per-proof `Proof using` refactor is a tractable but tedious
-   ~30-edit follow-up; the current memory overhead is ~7 GB per
-   file, which is borderline acceptable for the library's CI budget.
+   Braided,Hypergraph}.v` files, each carrying an 11-variable `Context`
+   block, together with `Construction/Localization/Universal.v` and
+   `Construction/Reflective/Idempotent.v`.  The per-proof `Proof using`
+   refactor is a tractable but tedious follow-up; the current memory
+   overhead is ~7 GB per file, which is borderline acceptable for the
+   library's CI budget.
    New files in similar territory should NOT follow this pattern —
    instead, take the per-proof `Proof using` discipline from the
    outset.

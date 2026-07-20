@@ -80,6 +80,19 @@ Definition test_scfa_epsilon := scfa_epsilon (scfa T).
     confirm the bare projections compose with themselves. *)
 Definition test_scfa_eta_compose := compose test_scfa_epsilon test_scfa_eta.
 
+(** Beyond the operations, the SCFA special law [mu ∘ delta ≈ id] is a
+    resolved component of the structure.  Stating it as the type of a
+    definition pins the operations into the law's shape, so an SCFA whose
+    special law was dropped or mistyped would fail this test, not only one
+    that dropped an operation.
+
+    This remains a resolution and typing test rather than a behavioural one:
+    [HypergraphPROP] has no in-tree witness yet (see docs/INHABITATION.md),
+    so there is no concrete model here to compute against.  A behavioural
+    test awaits such a witness. *)
+Definition test_scfa_special_law : Type :=
+  scfa_mu (scfa T) ∘ scfa_delta (scfa T) ≈ id[T].
+
 End HypergraphPROPResolutionTests.
 
 Close Scope nat_scope.

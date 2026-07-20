@@ -41,7 +41,7 @@ Open Scope morphism_scope.
 | `isomorphism_scope`     | `Theory/Isomorphism.v`     | `x ≅ y`, `x ≅[C] y`                             |
 | `nat_scope`             | Coq stdlib                 | Numerals `0`, `1`, ..., `+`                     |
 
-Note: `f ⊙ g` (iso composition, `Theory/Isomorphism.v:340`) is declared
+Note: `f ⊙ g` (iso composition, `Theory/Isomorphism.v:435`) is declared
 without a `: scope_name` clause, so it lives in whatever scope is open
 at the use site.
 

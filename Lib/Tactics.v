@@ -171,7 +171,8 @@ Ltac cat :=
 
 (* [equivalence]: prove an [Equivalence] goal by splitting into its three laws
    ([constructor]) and discharging each with [cat]/[intuition]. *)
-Ltac equivalence := constructor; repeat intro; simpl; try cat; intuition; auto with *.
+Ltac equivalence := constructor; repeat intro; simpl; try cat; intuition;
+  auto with category_laws.
 (* [proper]: prove a [Proper]/respectful goal -- introduce the related
    arguments, then close with [cat]/[intuition]. *)
 Ltac proper := repeat intro; simpl; try cat; intuition.

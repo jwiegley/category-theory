@@ -1,9 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Clean-room multi-version build check.  Builds the flake packages for the
+# supported Coq versions and runs a docker opam build, then reports failure
+# if any of them fails.
+#
+# WARNING: `git clean -dfx` below removes every untracked file in the tree.
+# Run this only in a throwaway checkout.
+set -uo pipefail
+
+system=$(nix eval --impure --raw --expr builtins.currentSystem)
 
 git clean -dfx
 
-nix build --cores 4 .\#packages.x86_64-darwin.category-theory_8_19 > log_8_19.txt 2>&1 &
-nix build --cores 4 .\#packages.x86_64-darwin.category-theory_8_20 > log_8_20.txt 2>&1 &
+pids=()
+nix build --cores 4 ".#packages.${system}.category-theory_8_19" \
+    > log_8_19.txt 2>&1 &
+pids+=("$!")
+nix build --cores 4 ".#packages.${system}.category-theory_8_20" \
+    > log_8_20.txt 2>&1 &
+pids+=("$!")
+
+rc=0
 
 docker run -t coqorg/coq:dev bash -c '
     git clone https://github.com/jwiegley/category-theory;
@@ -12,6 +28,14 @@ docker run -t coqorg/coq:dev bash -c '
     opam pin add -n -y -k path coq-category-theory .;
     opam install -y -v -j 2 coq-category-theory --deps-only;
     opam install -y -v -j 2 coq-category-theory
-'
+' || rc=1
 
-wait
+for pid in "${pids[@]}"; do
+    wait "$pid" || rc=1
+done
+
+if [ "$rc" -ne 0 ]; then
+    echo "check: one or more builds FAILED (see log_8_19.txt / log_8_20.txt)"
+    exit 1
+fi
+echo "check: all builds passed."

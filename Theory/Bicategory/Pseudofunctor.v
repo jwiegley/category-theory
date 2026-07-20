@@ -397,11 +397,11 @@ Proof.
           (to (@pf_comp _ _ F w y z h (g ∘∘∘ f)))
       ∘∘ fmap[@pf1 _ _ G (pf0 F w) (pf0 F z)]
           (fmap[@pf1 _ _ F w z] (to (hassoc h g f)))).
-  { setoid_rewrite <- (pfmap_comp (@pf1 _ _ G (pf0 F w) (pf0 F z))) at 1.
-    setoid_rewrite <- (pfmap_comp (@pf1 _ _ G (pf0 F w) (pf0 F z))) at 1.
+  { rewrite <- (pfmap_comp (@pf1 _ _ G (pf0 F w) (pf0 F z))).
+    rewrite <- (pfmap_comp (@pf1 _ _ G (pf0 F w) (pf0 F z))).
     rewrite FHEX.
-    setoid_rewrite (pfmap_comp (@pf1 _ _ G (pf0 F w) (pf0 F z))) at 1.
-    setoid_rewrite (pfmap_comp (@pf1 _ _ G (pf0 F w) (pf0 F z))) at 1.
+    rewrite (pfmap_comp (@pf1 _ _ G (pf0 F w) (pf0 F z))).
+    rewrite (pfmap_comp (@pf1 _ _ G (pf0 F w) (pf0 F z))).
     reflexivity. }
   (* Expose the composite compositors/hom-functor action, fully left-associate,
      and combine the four facts through the pure-associativity assembler. *)

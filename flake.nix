@@ -92,7 +92,6 @@
             "COQDOCINSTALL=$(out)/share/coq/${coq.coq-version}/user-contrib"
           ];
 
-          env.env = pkgs.buildEnv { inherit name; paths = buildInputs; };
           passthru = {
             compatibleCoqVersions = v:
             builtins.elem v [ "8.19" "8.20" "9.0" "9.1" ];
@@ -117,9 +116,6 @@
 
           buildInputs = [
             coq coq.ocaml coq.findlib eqns
-          ] ++ pkgs.lib.optionals (coqPackages == "coqPackages_8_14" ||
-                                   coqPackages == "coqPackages_8_15") [
-            dpdgraph
           ] ++ pkgs.lib.optionals (stdlib != null) [
             stdlib
           ];
@@ -134,6 +130,19 @@
 
           configurePhase = "coq_makefile -f _CoqProject -o Makefile.coq";
 
+          # Enforce the axiom audit on the default toolchain, inside the
+          # build environment that already compiles the library.  This wires
+          # the Makefile `print-assumptions` gate into `nix flake check` (the
+          # default package is `checks.build`), so an audited flagship that
+          # acquires an unexpected axiom fails the build rather than merely
+          # printing.  Gated to 9.1 to keep the other package builds lean.
+          doCheck = coqPackages == "coqPackages_9_1";
+          checkPhase = ''
+            runHook preCheck
+            make -s print-assumptions
+            runHook postCheck
+          '';
+
           installFlags = [
             "COQLIB=$(out)/lib/coq/${coq.coq-version}/"
             "COQLIBINSTALL=$(out)/lib/coq/${coq.coq-version}/user-contrib"
@@ -142,7 +151,6 @@
             "COQDOCINSTALL=$(out)/share/coq/${coq.coq-version}/user-contrib"
           ];
 
-          env.env = pkgs.buildEnv { inherit name; paths = buildInputs; };
           passthru = {
             compatibleCoqVersions = v:
             builtins.elem v [ "8.19" "8.20" "9.0" "9.1" ];
@@ -207,17 +215,25 @@
             nativeBuildInputs = [ pkgs.gnugrep pkgs.findutils pkgs.gawk ];
           } ''
             cd ${self}
-            echo "Checking admitted proof count..."
-            current=$(find . -name '*.v' -print0 \
-              | xargs -0 grep -ciE '(Admitted\.|[^_]admit|Abort\.)' 2>/dev/null \
-              | awk -F: '{s+=$2} END {print s+0}')
-            baseline=$(cat .admitted-baseline 2>/dev/null || echo 0)
-            echo "Current: $current, Baseline: $baseline"
-            if [ "$current" -gt "$baseline" ]; then
-              echo "ERROR: Admitted proof count increased ($current > $baseline)"
+            echo "Checking for live Admitted. proof holes..."
+            holes=$(find . -name '*.v' -print0 \
+              | xargs -0 grep -lE '^[[:space:]]*Admitted\.' 2>/dev/null || true)
+            if [ -n "$holes" ]; then
+              echo "ERROR: live Admitted. proof hole(s):"
+              printf '%s\n' "$holes"
               exit 1
             fi
-            echo "Admitted proof count within baseline."
+            echo "No Admitted. proof holes."
+            current=$(find . -name '*.v' -print0 \
+              | xargs -0 grep -ciE '([^_]admit|Abort\.)' 2>/dev/null \
+              | awk -F: '{s+=$2} END {print s+0}')
+            baseline=$(cat .admitted-baseline 2>/dev/null || echo 0)
+            echo "Aborted-sketch count: $current, Baseline: $baseline"
+            if [ "$current" -gt "$baseline" ]; then
+              echo "ERROR: aborted-sketch count rose ($current > $baseline)"
+              exit 1
+            fi
+            echo "Aborted-sketch count within baseline."
             touch $out
           '';
         };

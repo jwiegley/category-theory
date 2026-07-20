@@ -2,6 +2,8 @@
 
 This codebase is a comprehensive formalization of category theory in Coq/Rocq. It contains 484 proof files with over 124,000 lines implementing core categorical concepts with zero axioms in the core theory — spanning the classical canon from categories, functors, and adjunctions through monadicity, the adjoint functor theorems, enriched and higher structures (bicategories, pseudo double categories), Lawvere theories, multicategories and operads, and elementary topos theory.
 
+"Zero axioms in the core theory" is scoped precisely in docs/AXIOMS.md: it holds for every proof-carrying constant of `Theory/` (excluding `Theory/Coq/`), `Structure/`, and `Construction/`; the concrete instance layers (`Instance/`, `Theory/Coq/`) do use stdlib axioms, enumerated there. Separately, many of the advanced flagship theorems are proven *parametrically* — as axiom-free conditionals over an abstract structure — and only some are instantiated by a concrete in-tree model; docs/INHABITATION.md records which.
+
 ## Commands
 
 ### Building the Library
@@ -13,8 +15,9 @@ make
 # Build for specific version (if using Nix)
 nix-shell -p coqPackages_9_1.coq --run make
 
-# Build using Nix flake
-nix build .#category-theory
+# Build using Nix flake (the default package is category-theory_9_1)
+nix build
+# ...or select a version explicitly, e.g. nix build .#category-theory_8_20
 
 # Clean build artifacts
 make clean
@@ -124,7 +127,9 @@ Example: `f ∘[C] g` specifies category C when needed.
 
 ### Structures (Internal Properties)
 - **Structure/Cartesian.v**: Products via universal property
-- **Structure/Closed.v**: Exponentials and internal hom
+- **Structure/Cartesian/Closed.v**: Exponentials and internal hom (the live
+  cartesian-closed development; `Structure/Closed.v` is an incomplete
+  Eilenberg–Kelly stub whose `Class Closed` is not yet in force)
 - **Structure/Monoidal.v**: Tensor products with coherence
 - **Structure/Monoidal/CopyDiscard.v**: Copy/discard (gs-monoidal) categories — comonoid supply with no naturality; deterministic morphisms and the wide subcategory Det in CopyDiscard/Deterministic.v
 - **Structure/Monoidal/Markov.v**: Markov categories (copy/discard + semicartesian); Fox's theorem in Markov/Fox.v (all-deterministic ⟺ cartesian)
@@ -228,13 +233,15 @@ Qed.
 When working with specific concepts, reference:
 - **nLab**: https://ncatlab.org/nlab/show/[concept_name]
 - **README.md**: Contains detailed notation guide (the "Notations" section)
+- **docs/AXIOMS.md**: the axiom audit — what each `Axiom`/`Parameter` is, which definitions are certified "Closed under the global context", and which stdlib axioms the concrete instance layers do use.
+- **docs/INHABITATION.md**: which headline results carry a concrete in-tree witness of their distinctive premise, and which are proven parametrically as axiom-free conditionals awaiting a model. Consult it before citing a flagship theorem (GAFT, SAFT, the Sheaf theory, `image_mediator_epic`, the spider results, …) as demonstrated over a concrete object — several are conditional-only.
 - **Key Files and Concepts** (above): the per-module index of the library's headline developments
 - **In-file background essays**: beyond the definitional header most files carry, the flagship concept files across Theory/, Structure/, Construction/, Instance/, Adjunction/, and the Comonad development open with a background essay — the concept's history, purpose, cross-disciplinary use, and in-tree connections, each substantive claim cited to a primary source (nLab, the named papers, textbooks, or package documentation). Read that block first when approaching an unfamiliar file.
 
 ## Versioning
 
-Default version: Rocq 9.1 (flake.nix line 187)
-Supported: Coq 8.16-8.20, Rocq 9.0-9.1
+Default version: Rocq 9.1 (the `default` package in flake.nix)
+Supported: Coq 8.19-8.20, Rocq 9.0-9.1
 Equations dependency required for some parts (versions matched to Coq)
 
 ## Testing Individual Theorems
