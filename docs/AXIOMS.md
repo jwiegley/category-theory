@@ -70,23 +70,35 @@ The audit conflates two genuinely different situations, and it is
 important to keep them apart.
 
 1. **Axiom-free AND inhabited by a concrete model.**  Here a "Closed
-   under the global context" report certifies a real mathematical
-   result, because the library actually contains an inhabitant.  The
-   genuine example is `Cospan_Hypergraph`: it is a special commutative
-   Frobenius algebra in a cospan category, and the library provides a
-   concrete pushout model to feed it — `Sets_HasPushouts :
-   HasPushouts Sets` in `Instance/Sets/Pushout.v` — so the
-   construction can be instantiated over `Sets`.
+   under the global context" report certifies a result about something
+   the library actually contains.  The genuine example is
+   `classifier_classifies`: it is proven for any `ElementaryTopos`, and
+   the library exhibits one — `FinSet_Topos : ElementaryTopos FinSet`
+   in `Instance/FinSet/Topos.v` — whose sanity examples compute by
+   `eq_refl` (for instance `Pow 2 = 4`).  A full ledger of which
+   headline results carry an in-tree witness and which are
+   conditional-only is kept in [INHABITATION.md](INHABITATION.md).
+
+   Note that `Cospan_Hypergraph` is **not** such an example, despite
+   earlier editions of this file presenting it as one.  Feeding it the
+   only `HasPushouts` instance in the tree, `Sets_HasPushouts`, does
+   not type-check: a cospan's hom carries an apex object, so `CospanCat`
+   requires objects to sit at or below homs, whereas `Sets` places its
+   objects one universe above its homs, and `CospanCat Sets HP` reports
+   a universe inconsistency for any `HP`.  The route that fits is
+   skeletal `FinSet`; see the cospan note in
+   [INHABITATION.md](INHABITATION.md).
 
 2. **Axiom-free *as written*, but not yet instantiated.**  `Hypergraph`
-   and `PROP` are `Class : Type` declarations, and
-   `DecoratedCospan_Hypergraph` is a `Program Definition` living under
-   a section `Context` `{DCHGC : DecCospan_Hypergraph_Coherent}` whose
-   coherence class is NEVER instantiated anywhere in the library
-   (there is no inhabitant of `DecCospan_Hypergraph_Coherent`, of
-   `PROP`, or of `HypergraphPROP`).  For these, "Closed under the
-   global context" is trivially or vacuously true and certifies no
-   concrete result.
+   is a `Class : Type` declaration, and `DecoratedCospan_Hypergraph`
+   is a `Program Definition` living under a section `Context`
+   `{DCHGC : DecCospan_Hypergraph_Coherent}` whose coherence class is
+   NEVER instantiated anywhere in the library (there is no inhabitant
+   of `DecCospan_Hypergraph_Coherent` or of `HypergraphPROP`).  For
+   these, "Closed under the global context" is trivially or vacuously
+   true and certifies no concrete result.  (`PROP` itself, by contrast,
+   IS inhabited — by `FreePROP`, `PresentedPROP`, `Lawvere_PROP`, and
+   `RepeatPROP` — so it is not in this list.)
 
    Running `Print Assumptions` on a `Class` *type* reports the
    assumptions of the type expression, not of any inhabitant — a type

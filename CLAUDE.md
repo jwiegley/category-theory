@@ -2,6 +2,8 @@
 
 This codebase is a comprehensive formalization of category theory in Coq/Rocq. It contains 484 proof files with over 124,000 lines implementing core categorical concepts with zero axioms in the core theory — spanning the classical canon from categories, functors, and adjunctions through monadicity, the adjoint functor theorems, enriched and higher structures (bicategories, pseudo double categories), Lawvere theories, multicategories and operads, and elementary topos theory.
 
+"Zero axioms in the core theory" is scoped precisely in docs/AXIOMS.md: it holds for every proof-carrying constant of `Theory/` (excluding `Theory/Coq/`), `Structure/`, and `Construction/`; the concrete instance layers (`Instance/`, `Theory/Coq/`) do use stdlib axioms, enumerated there. Separately, many of the advanced flagship theorems are proven *parametrically* — as axiom-free conditionals over an abstract structure — and only some are instantiated by a concrete in-tree model; docs/INHABITATION.md records which.
+
 ## Commands
 
 ### Building the Library
@@ -231,6 +233,8 @@ Qed.
 When working with specific concepts, reference:
 - **nLab**: https://ncatlab.org/nlab/show/[concept_name]
 - **README.md**: Contains detailed notation guide (the "Notations" section)
+- **docs/AXIOMS.md**: the axiom audit — what each `Axiom`/`Parameter` is, which definitions are certified "Closed under the global context", and which stdlib axioms the concrete instance layers do use.
+- **docs/INHABITATION.md**: which headline results carry a concrete in-tree witness of their distinctive premise, and which are proven parametrically as axiom-free conditionals awaiting a model. Consult it before citing a flagship theorem (GAFT, SAFT, the Sheaf theory, `image_mediator_epic`, the spider results, …) as demonstrated over a concrete object — several are conditional-only.
 - **Key Files and Concepts** (above): the per-module index of the library's headline developments
 - **In-file background essays**: beyond the definitional header most files carry, the flagship concept files across Theory/, Structure/, Construction/, Instance/, Adjunction/, and the Comonad development open with a background essay — the concept's history, purpose, cross-disciplinary use, and in-tree connections, each substantive claim cited to a primary source (nLab, the named papers, textbooks, or package documentation). Read that block first when approaching an unfamiliar file.
 
