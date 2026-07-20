@@ -55,19 +55,42 @@ format:
 	@find . -name '*.v' -exec perl -pi -e 's/[ \t]+$$//' {} +
 	@echo "Done."
 
+# Count only the harmless aborted-sketch markers ([admit] inside an
+# [Abort.]-terminated proof, and the [Abort.]s themselves).  A live proof
+# hole is caught separately and unconditionally by [admitted-check] below,
+# so it is deliberately excluded from this count.
 admitted-count:
-	@find . -name '*.v' -print0 | xargs -0 grep -ciE '(Admitted\.|[^_]admit\b|Abort\.)' 2>/dev/null \
+	@find . -name '*.v' -print0 | xargs -0 grep -ciE '([^_]admit\b|Abort\.)' 2>/dev/null \
 		| awk -F: '{s+=$$2} END {print s}'
 
+# Two independent gates, kept apart so a safe construct is never scored the
+# same as an unsafe one:
+#   1. Zero tolerance for a live [Admitted.].  In Coq a real proof hole
+#      always closes with [Admitted.] -- both a direct [Admitted.] and an
+#      [admit]/[give_up] tactic require it; only an [Abort.]-terminated
+#      proof carries an [admit] with no [Admitted.].  Failing on any
+#      [Admitted.] therefore catches every hole, including an
+#      [Abort.] -> [Admitted.] swap that leaves the aborted-sketch count
+#      unchanged.
+#   2. A budget on aborted sketches, so their number cannot quietly grow.
 admitted-check:
+	@holes=`find . -name '*.v' -print0 \
+		| xargs -0 grep -lE '^[[:space:]]*Admitted\.' 2>/dev/null`; \
+	if [ -n "$$holes" ]; then \
+		echo "ERROR: live Admitted. proof hole(s) found in:"; \
+		printf '%s\n' "$$holes"; \
+		exit 1; \
+	fi; \
+	echo "No Admitted. proof holes."
 	@current=$$($(MAKE) -s admitted-count); \
 	baseline=$$(cat .admitted-baseline 2>/dev/null || echo 0); \
 	if [ "$$current" -gt "$$baseline" ]; then \
-		echo "ERROR: Admitted proof count increased ($$current > $$baseline)"; \
-		echo "If intentional, update .admitted-baseline"; \
+		echo "ERROR: aborted-sketch count rose ($$current > $$baseline)"; \
+		echo "These are Abort.-terminated and introduce no axiom;"; \
+		echo "if the growth is intentional, update .admitted-baseline."; \
 		exit 1; \
-	fi
-	@echo "Admitted proof count within baseline."
+	fi; \
+	echo "Aborted-sketch count within baseline ($$current <= $$baseline)."
 
 # Guard against reintroducing the build configuration that broke the Coq
 # bench in issue #158 (the dune switch from PR #156). The bench runs
@@ -153,7 +176,7 @@ timing-report: build-timing.log
 build-strict: Makefile.coq
 	$(MAKE) -f Makefile.coq COQEXTRAFLAGS="-w +default"
 
-check: format-check admitted-check bench-config-check category-theory
+check: format-check admitted-check bench-config-check category-theory print-assumptions
 	@echo "All checks passed."
 
 # Print Print-Assumptions output for the library's key definitions.
@@ -164,7 +187,7 @@ print-assumptions: category-theory
 	@echo "============================================================"
 	@echo "Print Assumptions audit"
 	@echo "============================================================"
-	@{ \
+	@d=`mktemp -d`; { \
 	  echo 'Require Import Category.Lib.'; \
 	  echo 'Require Import Category.Structure.Monoidal.Hypergraph.'; \
 	  echo 'Require Import Category.Structure.Monoidal.CompactClosed.'; \
@@ -200,11 +223,23 @@ print-assumptions: category-theory
 	  echo 'Print Assumptions relations_iso.'; \
 	  echo 'Print Assumptions mate_iso.'; \
 	  echo 'Print Assumptions image_mediator_epic.'; \
-	} > /tmp/print_assumptions.v
-	@coqc -R . Category /tmp/print_assumptions.v > /tmp/print_assumptions.out 2>&1; rc=$$?; \
-	  grep -vE '^Warning|^\[|^$$' /tmp/print_assumptions.out || true; \
-	  if [ $$rc -ne 0 ]; then echo "ERROR: print-assumptions failed to compile (axiom audit broken)"; exit 1; fi
-	@rm -f /tmp/print_assumptions.v /tmp/print_assumptions.vo /tmp/print_assumptions.vok /tmp/print_assumptions.vos /tmp/print_assumptions.glob /tmp/print_assumptions.out
+	} > $$d/pa.v; \
+	coqc -R . Category $$d/pa.v > $$d/pa.out 2>&1; rc=$$?; \
+	grep -vE '^Warning|^\[|^$$' $$d/pa.out || true; \
+	if [ $$rc -ne 0 ]; then \
+	  echo "ERROR: print-assumptions failed to compile (axiom audit broken)"; \
+	  rm -rf $$d; exit 1; \
+	fi; \
+	unexpected=`grep -E '^[A-Za-z][A-Za-z0-9_.'"'"']* :' $$d/pa.out \
+	  | grep -vE '(^|\.)(Phase|phase_zero|phase_add) :' || true`; \
+	rm -rf $$d; \
+	if [ -n "$$unexpected" ]; then \
+	  echo "ERROR: unexpected axiom dependency in an audited definition:"; \
+	  printf '%s\n' "$$unexpected"; \
+	  echo "(only the 3 documented ZX Phase parameters are permitted)"; \
+	  exit 1; \
+	fi; \
+	echo "Axiom audit passed: only the documented ZX Phase parameters appear."
 
 force _CoqProject Makefile: ;
 
