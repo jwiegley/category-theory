@@ -75,3 +75,11 @@ Fail Check (@Build_Monoidal StrictCat@{i v j v v} _1 FunnyTensor
     while it is expected to have type "Monoidal@{i v}"
     (universe inconsistency: Cannot enforce Set = v). *)
 Fail Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i v j v v}).
+
+(** ** Positive control: [Funny_Monoidal] is a well-formed [Monoidal] at its
+    own universe level.  This pins the two [Fail]s above to the specific
+    [Set = v] universe conflict rather than to a malformed term or a renamed
+    identifier: the instance exists and type-checks, it simply does not
+    transport up to level [v].  Without this control a [Fail] would pass on
+    any error at all. *)
+Check (Funny_Monoidal@{i} : @Monoidal StrictCat@{i Set j Set Set}).
