@@ -13,8 +13,9 @@ make
 # Build for specific version (if using Nix)
 nix-shell -p coqPackages_9_1.coq --run make
 
-# Build using Nix flake
-nix build .#category-theory
+# Build using Nix flake (the default package is category-theory_9_1)
+nix build
+# ...or select a version explicitly, e.g. nix build .#category-theory_8_20
 
 # Clean build artifacts
 make clean
@@ -124,7 +125,9 @@ Example: `f ∘[C] g` specifies category C when needed.
 
 ### Structures (Internal Properties)
 - **Structure/Cartesian.v**: Products via universal property
-- **Structure/Closed.v**: Exponentials and internal hom
+- **Structure/Cartesian/Closed.v**: Exponentials and internal hom (the live
+  cartesian-closed development; `Structure/Closed.v` is an incomplete
+  Eilenberg–Kelly stub whose `Class Closed` is not yet in force)
 - **Structure/Monoidal.v**: Tensor products with coherence
 - **Structure/Monoidal/CopyDiscard.v**: Copy/discard (gs-monoidal) categories — comonoid supply with no naturality; deterministic morphisms and the wide subcategory Det in CopyDiscard/Deterministic.v
 - **Structure/Monoidal/Markov.v**: Markov categories (copy/discard + semicartesian); Fox's theorem in Markov/Fox.v (all-deterministic ⟺ cartesian)
@@ -233,8 +236,8 @@ When working with specific concepts, reference:
 
 ## Versioning
 
-Default version: Rocq 9.1 (flake.nix line 187)
-Supported: Coq 8.16-8.20, Rocq 9.0-9.1
+Default version: Rocq 9.1 (the `default` package in flake.nix)
+Supported: Coq 8.19-8.20, Rocq 9.0-9.1
 Equations dependency required for some parts (versions matched to Coq)
 
 ## Testing Individual Theorems

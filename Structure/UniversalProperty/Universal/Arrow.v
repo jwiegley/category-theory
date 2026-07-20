@@ -92,10 +92,11 @@ Section UniversalArrowUniversalProperty.
                now autorewrite with categories).
     - (* This obligation is discharged directly by the tactic sequence
          below.  It relies on setoid rewriting that handles universe
-         polymorphism well enough to close the goal, available on Coq/Rocq
-         >= 8.16 (the minimum supported version).  The development stays
-         axiom-free: [Print Assumptions UniversalArrowIsUniversalProperty]
-         reports "Closed under the global context" on Rocq 9.1. *)
+         polymorphism well enough to close the goal, available on every
+         supported version (Coq >= 8.19, Rocq 9.0 and 9.1).  The
+         development stays axiom-free: [Print Assumptions
+         UniversalArrowIsUniversalProperty] reports "Closed under the
+         global context" on Rocq 9.1. *)
       simpl; assert (M := @preyoneda D^op _ d _ (to X));
       simpl in M; intro A; rewrite <- M in A; clear M;
       apply (proper_morphism (from X d)) in A;
