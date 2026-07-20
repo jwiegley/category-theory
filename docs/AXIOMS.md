@@ -79,15 +79,16 @@ important to keep them apart.
    headline results carry an in-tree witness and which are
    conditional-only is kept in [INHABITATION.md](INHABITATION.md).
 
-   Note that `Cospan_Hypergraph` is **not** such an example, despite
-   earlier editions of this file presenting it as one.  Feeding it the
-   only `HasPushouts` instance in the tree, `Sets_HasPushouts`, does
+   Note that feeding `Cospan_Hypergraph` the `Sets` pushout instance
+   `Sets_HasPushouts`, as earlier editions of this file suggested, does
    not type-check: a cospan's hom carries an apex object, so `CospanCat`
    requires objects to sit at or below homs, whereas `Sets` places its
    objects one universe above its homs, and `CospanCat Sets HP` reports
    a universe inconsistency for any `HP`.  The route that fits is
-   skeletal `FinSet`; see the cospan note in
-   [INHABITATION.md](INHABITATION.md).
+   skeletal `FinSet`, and `FinSet_HasPushouts`
+   (`Instance/FinSet/Pushout.v`) supplies it: over `FinSet` the cospan
+   hypergraph and both spider results are inhabited and axiom-free.  See
+   the cospan note in [INHABITATION.md](INHABITATION.md).
 
 2. **Axiom-free *as written*, but not yet instantiated.**  `Hypergraph`
    is a `Class : Type` declaration, and `DecoratedCospan_Hypergraph`

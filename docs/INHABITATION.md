@@ -37,6 +37,7 @@ result about something the library actually contains.
 | `mate_iso` | a `Bicategory` | `Cat` as a bicategory (`Instance/Cat/Bicategory.v`) |
 | `markov_all_deterministic_iff_cartesian` | a `Markov` category | `Markov_of_Cartesian` on any cartesian category (`Structure/Monoidal/Markov.v`) |
 | `GAFT_from_initials` | a family of comma-initial objects | `InternalProductFunctor` (`Adjunction/GAFT/Examples.v`) |
+| `Cospan_Hypergraph`, `spider_collapse`, `spider_frobenius` | `HasPushouts` on a base whose objects fit its homs | `FinSet_HasPushouts` (`Instance/FinSet/Pushout.v`) over `FinSet`; see the cospan note below |
 | `ZX_Cat` | the three `Phase` parameters | supplied by a user; see `docs/AXIOMS.md` |
 | `LawvereTheory`, `CopyDiscard` supplies | — | `FinSet_Lawvere`, the Kleisli comonoid supplies |
 
@@ -56,7 +57,6 @@ and nothing proven elsewhere secretly depends on their being inhabited.
 | `image_mediator_epic` | an `Abelian` category | no `Abelian` instance; `CMon` cannot serve, since `Additive` requires additive inverses |
 | the `Sheaf` development | a `Site` | no `Site` instance; the development is abstract throughout |
 | `StarAutonomous` | a `SymMonClosed` category | doubly uninhabited — even the base `SymMonClosed` has no instance |
-| `Cospan_Hypergraph`, `spider_collapse`, `spider_frobenius` | `HasPushouts` on a base whose objects fit its homs | see the universe note below |
 | `Regular`, `Distributive`, `Additive`, `localization_universal` | the corresponding class | abstract-by-design; no in-tree instance |
 
 ### The cospan universe note
@@ -71,9 +71,11 @@ homs.  The failure is structural, not an annotation defect —
 `CospanCat Sets HP` reports a universe inconsistency for any `HP`.
 
 The category that does fit is skeletal `FinSet`, whose objects are natural
-numbers and therefore sit below its homs.  With a `HasPushouts FinSet`
-instance, `Cospan_Hypergraph` and both spider results instantiate over
-`FinSet` and move to the witnessed table above.
+numbers and therefore sit below its homs.  `FinSet_HasPushouts`
+(`Instance/FinSet/Pushout.v`) supplies the instance, and
+`Cospan_Hypergraph` together with both spider results now instantiate over
+`FinSet` — each reported "Closed under the global context" — which is why
+they appear in the witnessed table above.
 
 ## Maintaining this table
 
