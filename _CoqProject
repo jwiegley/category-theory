@@ -481,6 +481,7 @@ Test/HypergraphPROPResolution.v
 Test/Issue138.v
 Test/Poset.v
 Test/Issue139.v
+Test/Issue213.v
 Test/ProbeFunnyPoly.v
 Tools/Abstraction.v
 Tools/Represented.v
