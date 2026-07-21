@@ -99,10 +99,28 @@ Program Instance adj_morphism_setoid {C : Category} {D : Category} :
               (free_functor f ≅[Fun] free_functor g) *
               (forgetful_functor f ≅[Fun] forgetful_functor g)
 }.
+(* The relation is a pair of natural isomorphisms, so it is an equivalence
+   componentwise, straight from [iso_equivalence] in [Theory.Isomorphism].
+   Spelled out rather than left to [equivalence]: this obligation was proved
+   by that tactic plus two transitivity bullets, and its reflexivity and
+   symmetry components were being closed only because [equivalence] reached
+   [solve_crelation], a pattern-less [Hint Extern] in the standard library's
+   [crelations] database, through a wide [auto with *].  Which pattern-less
+   hints a wide [auto] reaches, and in which order, is a property of the hint
+   database rather than anything this library states; on Rocq master the
+   reflexivity and symmetry components stopped being discharged, the first
+   bullet landed on a symmetry goal instead of the transitivity one it was
+   written for, and [assumption] had nothing to close
+   [free_functor y ≅ free_functor y] with -- issue #213.  Proving the three
+   laws directly removes the dependency.  See [Test/Issue213.v]. *)
 Next Obligation.
-  equivalence.
-  - transitivity (free_functor y); assumption.
-  - transitivity (forgetful_functor y); assumption.
+  constructor.
+  - intros f.
+    split; reflexivity.
+  - intros f g [Hfree Hforget].
+    split; symmetry; assumption.
+  - intros f g h [Hfree Hforget] [Hfree' Hforget'].
+    split; etransitivity; eassumption.
 Qed.
 
 (* The category of Adjoints:
