@@ -1,0 +1,64 @@
+name: Rocq dev (early warning)
+
+# Build the library against Rocq *master*, alongside the released-version jobs
+# in coq-ci.yml (Coq 8.19/8.20) and nix-ci.yml (Rocq 9.1).
+#
+# Why this exists (issue #213): the released toolchains did not catch a break
+# that only manifested on Rocq master -- a proof leaning on which pattern-less
+# stdlib hint a wide `auto` reaches, whose search order differs on master. Only
+# Rocq's own reverse-dependency CI caught it, downstream. This job surfaces that
+# class of break here, at push/PR time, before Rocq's CI does.
+#
+# NON-BLOCKING BY DESIGN. Rocq master and coq-equations `main` are moving
+# targets that can break for reasons wholly outside this repository; a red here
+# is a warning, not a merge gate. The job carries `continue-on-error: true`, so
+# a failure does not fail the workflow run, and it must NOT be added to
+# branch-protection required status checks. To silence per-PR runs, drop the
+# `pull_request` trigger; the daily schedule still covers upstream drift.
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  schedule:
+    # Daily, after the rocq/rocq-prover:dev image's own nightly rebuild
+    # (~14:40 UTC) so a run picks up the freshest master.
+    - cron: '0 16 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rocq-dev-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rocq-dev:
+    runs-on: ubuntu-latest
+    # A failure here must not fail the workflow run or gate a merge.
+    continue-on-error: true
+    env:
+      # The default rocq/rocq-prover:dev image is built without the native
+      # compiler (its only extra opam package is rocq-bignums), so the build
+      # must not attempt native compilation. Mirrors Rocq's own
+      # dev/ci/scripts/ci-category_theory.sh.
+      COQEXTRAFLAGS: '-native-compiler no'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: coq-community/docker-coq-action@v1
+        with:
+          # rocq/rocq-prover:dev tracks Rocq master (nightly). coqorg/coq:dev
+          # no longer exists: after the Coq -> Rocq rebrand, coqorg/coq is
+          # frozen at Coq <= 8.20.1 and the master image moved here.
+          custom_image: 'rocq/rocq-prover:dev'
+          opam_file: 'coq-category-theory.opam'
+          # Forward COQEXTRAFLAGS into the in-container build script.
+          export: 'COQEXTRAFLAGS'
+          # The action's default hooks suffice: `install` runs
+          # `opam install --deps-only` (which pulls coq-equations.dev, itself a
+          # shim onto rocq-equations.dev that builds Equations `main` from
+          # source against the image's Rocq), and `script` runs the opam build
+          # line `make -j%{jobs}%`. The opam file already admits coq {= "dev"}
+          # and coq-equations {= "dev"}.
