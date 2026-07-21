@@ -170,8 +170,26 @@ Ltac cat :=
   end : category_laws.
 
 (* [equivalence]: prove an [Equivalence] goal by splitting into its three laws
-   ([constructor]) and discharging each with [cat]/[intuition]. *)
+   ([constructor]) and discharging each with [cat]/[intuition].
+
+   The explicit reflexivity/symmetry pass is load-bearing rather than
+   decorative.  When the relation is assembled from other equivalences -- a
+   pair of natural isomorphisms, say -- those two laws are closed only if the
+   tactic reaches [solve_crelation], a pattern-less [Hint Extern] in the
+   standard library's [crelations] database, through a wide [auto].  This
+   tactic once ended in [auto with *], which reached it; that fallback was
+   later narrowed to [auto with category_laws] for hygiene, and the proofs
+   kept building only because the [intuition] step above has its own wide
+   [auto with *] leaf that still reached the hint.  On Rocq master that leaf
+   no longer reaches it, so the two laws went undischarged and a downstream
+   bullet script failed several lines later with an unrelated-looking error
+   (issue #213, [Instance/Adjoints.v]).  Closing reflexivity and symmetry from
+   the relation's own [Equivalence] instance makes the step deterministic and
+   independent of any hint search, wide or narrow; the narrow
+   [auto with category_laws] fallback is retained for the remaining goals.
+   [Test/Issue213.v] holds it to that. *)
 Ltac equivalence := constructor; repeat intro; simpl; try cat; intuition;
+  try solve [ reflexivity | (symmetry; eassumption) ];
   auto with category_laws.
 (* [proper]: prove a [Proper]/respectful goal -- introduce the related
    arguments, then close with [cat]/[intuition]. *)
